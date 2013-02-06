@@ -35,6 +35,16 @@
 		AA58FB7716C22B0400C49E02 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6616C22B0400C49E02 /* AppDelegate.m */; };
 		AA58FB7816C22B0400C49E02 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6A16C22B0400C49E02 /* ViewController.m */; };
 		AA58FB7916C22B0400C49E02 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6A16C22B0400C49E02 /* ViewController.m */; };
+		AA58FB8016C230DE00C49E02 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB7C16C230DE00C49E02 /* HockeySDK.framework */; };
+		AA58FB8116C230DE00C49E02 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB7C16C230DE00C49E02 /* HockeySDK.framework */; };
+		AA58FB8216C230DE00C49E02 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB7E16C230DE00C49E02 /* HockeySDK.xcconfig */; };
+		AA58FB8316C230DE00C49E02 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB7E16C230DE00C49E02 /* HockeySDK.xcconfig */; };
+		AA58FB8416C230DE00C49E02 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB7F16C230DE00C49E02 /* HockeySDKResources.bundle */; };
+		AA58FB8516C230DE00C49E02 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB7F16C230DE00C49E02 /* HockeySDKResources.bundle */; };
+		AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB8616C2314500C49E02 /* QuartzCore.framework */; };
+		AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB8816C2315100C49E02 /* SystemConfiguration.framework */; };
+		AA58FB8A16C231A100C49E02 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB8616C2314500C49E02 /* QuartzCore.framework */; };
+		AA58FB8B16C231A900C49E02 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB8816C2315100C49E02 /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +82,11 @@
 		AA58FB6616C22B0400C49E02 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		AA58FB6916C22B0400C49E02 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		AA58FB6A16C22B0400C49E02 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		AA58FB7C16C230DE00C49E02 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
+		AA58FB7E16C230DE00C49E02 /* HockeySDK.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = HockeySDK.xcconfig; sourceTree = "<group>"; };
+		AA58FB7F16C230DE00C49E02 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
+		AA58FB8616C2314500C49E02 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		AA58FB8816C2315100C49E02 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,9 +94,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
 				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
 				AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */,
+				AA58FB8016C230DE00C49E02 /* HockeySDK.framework in Frameworks */,
+				AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */,
+				AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */,
+				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,9 +117,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA58FB5116C2291200C49E02 /* UIKit.framework in Frameworks */,
-				AA58FB5216C2291200C49E02 /* Foundation.framework in Frameworks */,
 				AA58FB5316C2291200C49E02 /* CoreGraphics.framework in Frameworks */,
+				AA58FB5216C2291200C49E02 /* Foundation.framework in Frameworks */,
+				AA58FB8116C230DE00C49E02 /* HockeySDK.framework in Frameworks */,
+				AA58FB8A16C231A100C49E02 /* QuartzCore.framework in Frameworks */,
+				AA58FB8B16C231A900C49E02 /* SystemConfiguration.framework in Frameworks */,
+				AA58FB5116C2291200C49E02 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,10 +152,12 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AA58FAFA16C224E800C49E02 /* UIKit.framework */,
-				AA58FAFC16C224E800C49E02 /* Foundation.framework */,
 				AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */,
+				AA58FAFC16C224E800C49E02 /* Foundation.framework */,
+				AA58FB8616C2314500C49E02 /* QuartzCore.framework */,
 				AA58FB1E16C224E800C49E02 /* SenTestingKit.framework */,
+				AA58FB8816C2315100C49E02 /* SystemConfiguration.framework */,
+				AA58FAFA16C224E800C49E02 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -302,8 +325,35 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				AA58FB7A16C230DE00C49E02 /* HockeySDK */,
 			);
 			path = Vendor;
+			sourceTree = "<group>";
+		};
+		AA58FB7A16C230DE00C49E02 /* HockeySDK */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB7B16C230DE00C49E02 /* HockeySDK.embeddedframework */,
+			);
+			path = HockeySDK;
+			sourceTree = "<group>";
+		};
+		AA58FB7B16C230DE00C49E02 /* HockeySDK.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB7C16C230DE00C49E02 /* HockeySDK.framework */,
+				AA58FB7D16C230DE00C49E02 /* Resources */,
+			);
+			path = HockeySDK.embeddedframework;
+			sourceTree = "<group>";
+		};
+		AA58FB7D16C230DE00C49E02 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB7E16C230DE00C49E02 /* HockeySDK.xcconfig */,
+				AA58FB7F16C230DE00C49E02 /* HockeySDKResources.bundle */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -402,6 +452,8 @@
 				AA58FB0F16C224E800C49E02 /* Default@2x.png in Resources */,
 				AA58FB1116C224E800C49E02 /* Default-568h@2x.png in Resources */,
 				AA58FB1416C224E800C49E02 /* MainStoryboard.storyboard in Resources */,
+				AA58FB8216C230DE00C49E02 /* HockeySDK.xcconfig in Resources */,
+				AA58FB8416C230DE00C49E02 /* HockeySDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +475,8 @@
 				AA58FB5816C2291200C49E02 /* Default-568h@2x.png in Resources */,
 				AA58FB5916C2291200C49E02 /* MainStoryboard.storyboard in Resources */,
 				AA58FB6216C22A8A00C49E02 /* shotvibebeta-Info.plist in Resources */,
+				AA58FB8316C230DE00C49E02 /* HockeySDK.xcconfig in Resources */,
+				AA58FB8516C230DE00C49E02 /* HockeySDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,9 +652,14 @@
 		AA58FB3016C224E800C49E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK/HockeySDK.embeddedframework\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibe;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
@@ -610,9 +669,14 @@
 		AA58FB3116C224E800C49E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK/HockeySDK.embeddedframework\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibe;
 				WRAPPER_EXTENSION = app;
 			};
@@ -687,9 +751,14 @@
 		AA58FB3616C2250A00C49E02 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK/HockeySDK.embeddedframework\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibe;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
@@ -716,9 +785,14 @@
 		AA58FB5C16C2291200C49E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK/HockeySDK.embeddedframework\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibeBeta;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
@@ -728,9 +802,14 @@
 		AA58FB5D16C2291200C49E02 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK/HockeySDK.embeddedframework\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibeBeta;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
@@ -740,9 +819,14 @@
 		AA58FB5E16C2291200C49E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK/HockeySDK.embeddedframework\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibeBeta;
 				WRAPPER_EXTENSION = app;
 			};
