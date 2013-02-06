@@ -1,0 +1,797 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFA16C224E800C49E02 /* UIKit.framework */; };
+		AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFC16C224E800C49E02 /* Foundation.framework */; };
+		AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */; };
+		AA58FB0516C224E800C49E02 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB0316C224E800C49E02 /* InfoPlist.strings */; };
+		AA58FB0716C224E800C49E02 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB0616C224E800C49E02 /* main.m */; };
+		AA58FB0D16C224E800C49E02 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB0C16C224E800C49E02 /* Default.png */; };
+		AA58FB0F16C224E800C49E02 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB0E16C224E800C49E02 /* Default@2x.png */; };
+		AA58FB1116C224E800C49E02 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB1016C224E800C49E02 /* Default-568h@2x.png */; };
+		AA58FB1416C224E800C49E02 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB1216C224E800C49E02 /* MainStoryboard.storyboard */; };
+		AA58FB1F16C224E800C49E02 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB1E16C224E800C49E02 /* SenTestingKit.framework */; };
+		AA58FB2016C224E800C49E02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFA16C224E800C49E02 /* UIKit.framework */; };
+		AA58FB2116C224E800C49E02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFC16C224E800C49E02 /* Foundation.framework */; };
+		AA58FB2916C224E800C49E02 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB2716C224E800C49E02 /* InfoPlist.strings */; };
+		AA58FB2C16C224E800C49E02 /* shotvibeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB2B16C224E800C49E02 /* shotvibeTests.m */; };
+		AA58FB4F16C2291200C49E02 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB0616C224E800C49E02 /* main.m */; };
+		AA58FB5116C2291200C49E02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFA16C224E800C49E02 /* UIKit.framework */; };
+		AA58FB5216C2291200C49E02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFC16C224E800C49E02 /* Foundation.framework */; };
+		AA58FB5316C2291200C49E02 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */; };
+		AA58FB5516C2291200C49E02 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB0316C224E800C49E02 /* InfoPlist.strings */; };
+		AA58FB5616C2291200C49E02 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB0C16C224E800C49E02 /* Default.png */; };
+		AA58FB5716C2291200C49E02 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB0E16C224E800C49E02 /* Default@2x.png */; };
+		AA58FB5816C2291200C49E02 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB1016C224E800C49E02 /* Default-568h@2x.png */; };
+		AA58FB5916C2291200C49E02 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB1216C224E800C49E02 /* MainStoryboard.storyboard */; };
+		AA58FB6216C22A8A00C49E02 /* shotvibebeta-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB6116C22A8A00C49E02 /* shotvibebeta-Info.plist */; };
+		AA58FB7616C22B0400C49E02 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6616C22B0400C49E02 /* AppDelegate.m */; };
+		AA58FB7716C22B0400C49E02 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6616C22B0400C49E02 /* AppDelegate.m */; };
+		AA58FB7816C22B0400C49E02 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6A16C22B0400C49E02 /* ViewController.m */; };
+		AA58FB7916C22B0400C49E02 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6A16C22B0400C49E02 /* ViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AA58FB2216C224E800C49E02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA58FAEF16C224E800C49E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA58FAF616C224E800C49E02;
+			remoteInfo = shotvibe;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AA58FAF716C224E800C49E02 /* ShotVibe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShotVibe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA58FAFA16C224E800C49E02 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		AA58FAFC16C224E800C49E02 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		AA58FB0216C224E800C49E02 /* shotvibe-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "shotvibe-Info.plist"; sourceTree = "<group>"; };
+		AA58FB0416C224E800C49E02 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AA58FB0616C224E800C49E02 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AA58FB0816C224E800C49E02 /* shotvibe-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "shotvibe-Prefix.pch"; sourceTree = "<group>"; };
+		AA58FB0C16C224E800C49E02 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		AA58FB0E16C224E800C49E02 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		AA58FB1016C224E800C49E02 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		AA58FB1316C224E800C49E02 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		AA58FB1D16C224E800C49E02 /* shotvibeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shotvibeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA58FB1E16C224E800C49E02 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		AA58FB2616C224E800C49E02 /* shotvibeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "shotvibeTests-Info.plist"; sourceTree = "<group>"; };
+		AA58FB2816C224E800C49E02 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AA58FB2A16C224E800C49E02 /* shotvibeTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shotvibeTests.h; sourceTree = "<group>"; };
+		AA58FB2B16C224E800C49E02 /* shotvibeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = shotvibeTests.m; sourceTree = "<group>"; };
+		AA58FB5F16C2291200C49E02 /* ShotVibeBeta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShotVibeBeta.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA58FB6116C22A8A00C49E02 /* shotvibebeta-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "shotvibebeta-Info.plist"; sourceTree = "<group>"; };
+		AA58FB6516C22B0400C49E02 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		AA58FB6616C22B0400C49E02 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		AA58FB6916C22B0400C49E02 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		AA58FB6A16C22B0400C49E02 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA58FAF416C224E800C49E02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
+				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
+				AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA58FB1916C224E800C49E02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB1F16C224E800C49E02 /* SenTestingKit.framework in Frameworks */,
+				AA58FB2016C224E800C49E02 /* UIKit.framework in Frameworks */,
+				AA58FB2116C224E800C49E02 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA58FB5016C2291200C49E02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB5116C2291200C49E02 /* UIKit.framework in Frameworks */,
+				AA58FB5216C2291200C49E02 /* Foundation.framework in Frameworks */,
+				AA58FB5316C2291200C49E02 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA58FAEE16C224E800C49E02 = {
+			isa = PBXGroup;
+			children = (
+				AA58FB0016C224E800C49E02 /* shotvibe */,
+				AA58FB2416C224E800C49E02 /* shotvibeTests */,
+				AA58FAF916C224E800C49E02 /* Frameworks */,
+				AA58FAF816C224E800C49E02 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AA58FAF816C224E800C49E02 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FAF716C224E800C49E02 /* ShotVibe.app */,
+				AA58FB1D16C224E800C49E02 /* shotvibeTests.octest */,
+				AA58FB5F16C2291200C49E02 /* ShotVibeBeta.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA58FAF916C224E800C49E02 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FAFA16C224E800C49E02 /* UIKit.framework */,
+				AA58FAFC16C224E800C49E02 /* Foundation.framework */,
+				AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */,
+				AA58FB1E16C224E800C49E02 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA58FB0016C224E800C49E02 /* shotvibe */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB6416C22B0400C49E02 /* AppDelegate */,
+				AA58FB6716C22B0400C49E02 /* Categories */,
+				AA58FB6816C22B0400C49E02 /* Controllers */,
+				AA58FB6B16C22B0400C49E02 /* Custom Controls */,
+				AA58FB6C16C22B0400C49E02 /* Defines */,
+				AA58FB6D16C22B0400C49E02 /* Delegates */,
+				AA58FB6E16C22B0400C49E02 /* Models */,
+				AA58FB6F16C22B0400C49E02 /* Protocols */,
+				AA58FB7016C22B0400C49E02 /* Resources */,
+				AA58FB7416C22B0400C49E02 /* Stores */,
+				AA58FB0116C224E800C49E02 /* Supporting Files */,
+				AA58FB7516C22B0400C49E02 /* Vendor */,
+				AA58FB3816C227F500C49E02 /* Views */,
+			);
+			path = shotvibe;
+			sourceTree = "<group>";
+		};
+		AA58FB0116C224E800C49E02 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB0216C224E800C49E02 /* shotvibe-Info.plist */,
+				AA58FB6116C22A8A00C49E02 /* shotvibebeta-Info.plist */,
+				AA58FB0316C224E800C49E02 /* InfoPlist.strings */,
+				AA58FB0616C224E800C49E02 /* main.m */,
+				AA58FB0816C224E800C49E02 /* shotvibe-Prefix.pch */,
+				AA58FB0C16C224E800C49E02 /* Default.png */,
+				AA58FB0E16C224E800C49E02 /* Default@2x.png */,
+				AA58FB1016C224E800C49E02 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AA58FB2416C224E800C49E02 /* shotvibeTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB2A16C224E800C49E02 /* shotvibeTests.h */,
+				AA58FB2B16C224E800C49E02 /* shotvibeTests.m */,
+				AA58FB2516C224E800C49E02 /* Supporting Files */,
+			);
+			path = shotvibeTests;
+			sourceTree = "<group>";
+		};
+		AA58FB2516C224E800C49E02 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB2616C224E800C49E02 /* shotvibeTests-Info.plist */,
+				AA58FB2716C224E800C49E02 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AA58FB3816C227F500C49E02 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB1216C224E800C49E02 /* MainStoryboard.storyboard */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		AA58FB6416C22B0400C49E02 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB6516C22B0400C49E02 /* AppDelegate.h */,
+				AA58FB6616C22B0400C49E02 /* AppDelegate.m */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		AA58FB6716C22B0400C49E02 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		AA58FB6816C22B0400C49E02 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB6916C22B0400C49E02 /* ViewController.h */,
+				AA58FB6A16C22B0400C49E02 /* ViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		AA58FB6B16C22B0400C49E02 /* Custom Controls */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Custom Controls";
+			sourceTree = "<group>";
+		};
+		AA58FB6C16C22B0400C49E02 /* Defines */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Defines;
+			sourceTree = "<group>";
+		};
+		AA58FB6D16C22B0400C49E02 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		AA58FB6E16C22B0400C49E02 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AA58FB6F16C22B0400C49E02 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		AA58FB7016C22B0400C49E02 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AA58FB7116C22B0400C49E02 /* Application Icons */,
+				AA58FB7216C22B0400C49E02 /* Fonts */,
+				AA58FB7316C22B0400C49E02 /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AA58FB7116C22B0400C49E02 /* Application Icons */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Application Icons";
+			sourceTree = "<group>";
+		};
+		AA58FB7216C22B0400C49E02 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		AA58FB7316C22B0400C49E02 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		AA58FB7416C22B0400C49E02 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Stores;
+			sourceTree = "<group>";
+		};
+		AA58FB7516C22B0400C49E02 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA58FAF616C224E800C49E02 /* shotvibe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA58FB2F16C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibe" */;
+			buildPhases = (
+				AA58FAF316C224E800C49E02 /* Sources */,
+				AA58FAF416C224E800C49E02 /* Frameworks */,
+				AA58FAF516C224E800C49E02 /* Resources */,
+				AA58FB4C16C228D700C49E02 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = shotvibe;
+			productName = shotvibe;
+			productReference = AA58FAF716C224E800C49E02 /* ShotVibe.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA58FB1C16C224E800C49E02 /* shotvibeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA58FB3216C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibeTests" */;
+			buildPhases = (
+				AA58FB1816C224E800C49E02 /* Sources */,
+				AA58FB1916C224E800C49E02 /* Frameworks */,
+				AA58FB1A16C224E800C49E02 /* Resources */,
+				AA58FB1B16C224E800C49E02 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA58FB2316C224E800C49E02 /* PBXTargetDependency */,
+			);
+			name = shotvibeTests;
+			productName = shotvibeTests;
+			productReference = AA58FB1D16C224E800C49E02 /* shotvibeTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		AA58FB4D16C2291200C49E02 /* shotvibebeta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA58FB5B16C2291200C49E02 /* Build configuration list for PBXNativeTarget "shotvibebeta" */;
+			buildPhases = (
+				AA58FB4E16C2291200C49E02 /* Sources */,
+				AA58FB5016C2291200C49E02 /* Frameworks */,
+				AA58FB5416C2291200C49E02 /* Resources */,
+				AA58FB5A16C2291200C49E02 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = shotvibebeta;
+			productName = shotvibe;
+			productReference = AA58FB5F16C2291200C49E02 /* ShotVibeBeta.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA58FAEF16C224E800C49E02 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "PicsOnAir Ltd.";
+			};
+			buildConfigurationList = AA58FAF216C224E800C49E02 /* Build configuration list for PBXProject "shotvibe" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = AA58FAEE16C224E800C49E02;
+			productRefGroup = AA58FAF816C224E800C49E02 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA58FAF616C224E800C49E02 /* shotvibe */,
+				AA58FB4D16C2291200C49E02 /* shotvibebeta */,
+				AA58FB1C16C224E800C49E02 /* shotvibeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA58FAF516C224E800C49E02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB0516C224E800C49E02 /* InfoPlist.strings in Resources */,
+				AA58FB0D16C224E800C49E02 /* Default.png in Resources */,
+				AA58FB0F16C224E800C49E02 /* Default@2x.png in Resources */,
+				AA58FB1116C224E800C49E02 /* Default-568h@2x.png in Resources */,
+				AA58FB1416C224E800C49E02 /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA58FB1A16C224E800C49E02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB2916C224E800C49E02 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA58FB5416C2291200C49E02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB5516C2291200C49E02 /* InfoPlist.strings in Resources */,
+				AA58FB5616C2291200C49E02 /* Default.png in Resources */,
+				AA58FB5716C2291200C49E02 /* Default@2x.png in Resources */,
+				AA58FB5816C2291200C49E02 /* Default-568h@2x.png in Resources */,
+				AA58FB5916C2291200C49E02 /* MainStoryboard.storyboard in Resources */,
+				AA58FB6216C22A8A00C49E02 /* shotvibebeta-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AA58FB1B16C224E800C49E02 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		AA58FB4C16C228D700C49E02 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/ruby;
+			shellScript = "#!/usr/bin/ruby\n# xcode-git-cfbundleversion.rb\n# Update CFBundleVersion in Info.plist file with short Git revision string\n# http://github.com/guicocoa/xcode-git-cfbundleversion/\n#\n# This is based on\n# http://github.com/digdog/xcode-git-cfbundleversion/\n# http://github.com/jsallis/xcode-git-versioner\n# http://github.com/juretta/iphone-project-tools/tree/v1.0.3\n\nrequire 'rubygems'\nbegin\nrequire 'Plist'\nrescue LoadError => e\nputs \"You need to install the 'Plist' gem: [sudo] gem install plist\"\nexit 1\nend\n\nraise \"Must be run from Xcode\" unless ENV['XCODE_VERSION_ACTUAL']\n\nGIT = \"/usr/bin/git\"\nPRODUCT_PLIST = File.join(ENV['BUILT_PRODUCTS_DIR'], ENV['INFOPLIST_PATH'])\nDSYM_PLIST = File.join(ENV['DWARF_DSYM_FOLDER_PATH'], ENV['DWARF_DSYM_FILE_NAME'], \"Contents/Info.plist\")\nREVISION = `#{GIT} log --pretty=format:'' | wc -l`.scan(/\\d/).to_s\nBUNDLE_VERSION = \"CFBundleVersion\"\n\nif File.file?(PRODUCT_PLIST) and REVISION\n\n# update product plist\n`/usr/bin/plutil -convert xml1 \\\"#{PRODUCT_PLIST}\\\"`\ninfo = Plist::parse_xml(PRODUCT_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(PRODUCT_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{PRODUCT_PLIST}\\\"`\n\n# update dSYM plist\n`/usr/bin/plutil -convert xml1 \\\"#{DSYM_PLIST}\\\"`\ninfo = Plist::parse_xml(DSYM_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(DSYM_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{DSYM_PLIST}\\\"`\n\n# log\nputs \"updated #{BUNDLE_VERSION} to #{REVISION}\"\n\nend";
+		};
+		AA58FB5A16C2291200C49E02 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/ruby;
+			shellScript = "#!/usr/bin/ruby\n# xcode-git-cfbundleversion.rb\n# Update CFBundleVersion in Info.plist file with short Git revision string\n# http://github.com/guicocoa/xcode-git-cfbundleversion/\n#\n# This is based on\n# http://github.com/digdog/xcode-git-cfbundleversion/\n# http://github.com/jsallis/xcode-git-versioner\n# http://github.com/juretta/iphone-project-tools/tree/v1.0.3\n\nrequire 'rubygems'\nbegin\nrequire 'Plist'\nrescue LoadError => e\nputs \"You need to install the 'Plist' gem: [sudo] gem install plist\"\nexit 1\nend\n\nraise \"Must be run from Xcode\" unless ENV['XCODE_VERSION_ACTUAL']\n\nGIT = \"/usr/bin/git\"\nPRODUCT_PLIST = File.join(ENV['BUILT_PRODUCTS_DIR'], ENV['INFOPLIST_PATH'])\nDSYM_PLIST = File.join(ENV['DWARF_DSYM_FOLDER_PATH'], ENV['DWARF_DSYM_FILE_NAME'], \"Contents/Info.plist\")\nREVISION = `#{GIT} log --pretty=format:'' | wc -l`.scan(/\\d/).to_s\nBUNDLE_VERSION = \"CFBundleVersion\"\n\nif File.file?(PRODUCT_PLIST) and REVISION\n\n# update product plist\n`/usr/bin/plutil -convert xml1 \\\"#{PRODUCT_PLIST}\\\"`\ninfo = Plist::parse_xml(PRODUCT_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(PRODUCT_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{PRODUCT_PLIST}\\\"`\n\n# update dSYM plist\n`/usr/bin/plutil -convert xml1 \\\"#{DSYM_PLIST}\\\"`\ninfo = Plist::parse_xml(DSYM_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(DSYM_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{DSYM_PLIST}\\\"`\n\n# log\nputs \"updated #{BUNDLE_VERSION} to #{REVISION}\"\n\nend";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA58FAF316C224E800C49E02 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB0716C224E800C49E02 /* main.m in Sources */,
+				AA58FB7616C22B0400C49E02 /* AppDelegate.m in Sources */,
+				AA58FB7816C22B0400C49E02 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA58FB1816C224E800C49E02 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB2C16C224E800C49E02 /* shotvibeTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA58FB4E16C2291200C49E02 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB4F16C2291200C49E02 /* main.m in Sources */,
+				AA58FB7716C22B0400C49E02 /* AppDelegate.m in Sources */,
+				AA58FB7916C22B0400C49E02 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AA58FB2316C224E800C49E02 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA58FAF616C224E800C49E02 /* shotvibe */;
+			targetProxy = AA58FB2216C224E800C49E02 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AA58FB0316C224E800C49E02 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA58FB0416C224E800C49E02 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		AA58FB1216C224E800C49E02 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA58FB1316C224E800C49E02 /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+		AA58FB2716C224E800C49E02 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA58FB2816C224E800C49E02 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AA58FB2D16C224E800C49E02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		AA58FB2E16C224E800C49E02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AA58FB3016C224E800C49E02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				PRODUCT_NAME = ShotVibe;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		AA58FB3116C224E800C49E02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				PRODUCT_NAME = ShotVibe;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		AA58FB3316C224E800C49E02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/shotvibe.app/shotvibe";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "shotvibeTests/shotvibeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		AA58FB3416C224E800C49E02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/shotvibe.app/shotvibe";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "shotvibeTests/shotvibeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		AA58FB3516C2250A00C49E02 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Adhoc;
+		};
+		AA58FB3616C2250A00C49E02 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				PRODUCT_NAME = ShotVibe;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Adhoc;
+		};
+		AA58FB3716C2250A00C49E02 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/shotvibe.app/shotvibe";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "shotvibeTests/shotvibeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Adhoc;
+		};
+		AA58FB5C16C2291200C49E02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
+				PRODUCT_NAME = ShotVibeBeta;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		AA58FB5D16C2291200C49E02 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
+				PRODUCT_NAME = ShotVibeBeta;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Adhoc;
+		};
+		AA58FB5E16C2291200C49E02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
+				PRODUCT_NAME = ShotVibeBeta;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA58FAF216C224E800C49E02 /* Build configuration list for PBXProject "shotvibe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA58FB2D16C224E800C49E02 /* Debug */,
+				AA58FB3516C2250A00C49E02 /* Adhoc */,
+				AA58FB2E16C224E800C49E02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA58FB2F16C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA58FB3016C224E800C49E02 /* Debug */,
+				AA58FB3616C2250A00C49E02 /* Adhoc */,
+				AA58FB3116C224E800C49E02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA58FB3216C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA58FB3316C224E800C49E02 /* Debug */,
+				AA58FB3716C2250A00C49E02 /* Adhoc */,
+				AA58FB3416C224E800C49E02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA58FB5B16C2291200C49E02 /* Build configuration list for PBXNativeTarget "shotvibebeta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA58FB5C16C2291200C49E02 /* Debug */,
+				AA58FB5D16C2291200C49E02 /* Adhoc */,
+				AA58FB5E16C2291200C49E02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AA58FAEF16C224E800C49E02 /* Project object */;
+}
