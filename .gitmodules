@@ -1,0 +1,3 @@
+[submodule "shotvibe/Vendor/RestKit"]
+	path = shotvibe/Vendor/RestKit
+	url = git://github.com/RestKit/RestKit.git
