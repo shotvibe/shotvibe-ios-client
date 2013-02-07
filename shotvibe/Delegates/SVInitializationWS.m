@@ -5,6 +5,8 @@
 //  Created by Fredrick Gabelmann on 1/23/13.
 //
 
+#import <RestKit/RestKit.h>
+#import <RestKit/CoreData.h>
 #import "SVInitializationWS.h"
 
 @implementation SVInitializationWS
@@ -32,5 +34,15 @@
 - (void)initializeLocalSettingsDefaults
 {
     
+}
+
+
+- (void)initializeManagedObjectModel
+{
+    RKObjectManager *objectManager = [[RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"https://api.shotvibe.com"]]];
+    NSURL *modelURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"ShotVibe" ofType:@"momd"]];
+    NSManagedObjectModel *managedObjectModel = [[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL] mutableCopy];
+    RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
+    objectManager.managedObjectStore = managedObjectStore;
 }
 @end

@@ -20,5 +20,6 @@
     [worker configureAppearanceProxies];
     [worker processAnalytics];
     [worker initializeLocalSettingsDefaults];
+    [worker initializeManagedObjectModel];
 }
 @end
