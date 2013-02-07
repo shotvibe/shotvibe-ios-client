@@ -245,6 +245,8 @@
 		AA58FD1216C2390700C49E02 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA58FD1016C2390700C49E02 /* HockeySDKResources.bundle */; };
 		AA58FD1316C23A4D00C49E02 /* CrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FBAE16C235C800C49E02 /* CrashReporter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AA58FD1416C23A5100C49E02 /* CrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FBAE16C235C800C49E02 /* CrashReporter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
+		AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -444,6 +446,8 @@
 		AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		AA58FD0D16C238DB00C49E02 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
 		AA58FD1016C2390700C49E02 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
+		AACB11C916C454A000BAC7E1 /* SVEntityStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEntityStore.h; sourceTree = "<group>"; };
+		AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVEntityStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -538,15 +542,15 @@
 			isa = PBXGroup;
 			children = (
 				AA58FB6416C22B0400C49E02 /* AppDelegate */,
-				AA58FB6716C22B0400C49E02 /* Categories */,
+				AACB11C316C453E600BAC7E1 /* Categories */,
 				AA58FB6816C22B0400C49E02 /* Controllers */,
-				AA58FB6B16C22B0400C49E02 /* Custom Controls */,
-				AA58FB6C16C22B0400C49E02 /* Defines */,
+				AACB11C416C4540B00BAC7E1 /* Custom Controls */,
+				AACB11C516C4541F00BAC7E1 /* Defines */,
 				AA58FB6D16C22B0400C49E02 /* Delegates */,
-				AA58FB6E16C22B0400C49E02 /* Models */,
-				AA58FB6F16C22B0400C49E02 /* Protocols */,
+				AACB11C616C4543700BAC7E1 /* Models */,
+				AACB11C716C4544600BAC7E1 /* Protocols */,
 				AA58FB7016C22B0400C49E02 /* Resources */,
-				AA58FB7416C22B0400C49E02 /* Stores */,
+				AACB11C816C4547B00BAC7E1 /* Stores */,
 				AA58FB0116C224E800C49E02 /* Supporting Files */,
 				AA58FB7516C22B0400C49E02 /* Vendor */,
 				AA58FB3816C227F500C49E02 /* Views */,
@@ -605,13 +609,6 @@
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
-		AA58FB6716C22B0400C49E02 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Categories;
-			sourceTree = "<group>";
-		};
 		AA58FB6816C22B0400C49E02 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -621,20 +618,6 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		AA58FB6B16C22B0400C49E02 /* Custom Controls */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Custom Controls";
-			sourceTree = "<group>";
-		};
-		AA58FB6C16C22B0400C49E02 /* Defines */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Defines;
-			sourceTree = "<group>";
-		};
 		AA58FB6D16C22B0400C49E02 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -642,20 +625,6 @@
 				AA58FB8D16C2340100C49E02 /* Worker Sessions */,
 			);
 			path = Delegates;
-			sourceTree = "<group>";
-		};
-		AA58FB6E16C22B0400C49E02 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		AA58FB6F16C22B0400C49E02 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		AA58FB7016C22B0400C49E02 /* Resources */ = {
@@ -687,13 +656,6 @@
 			children = (
 			);
 			path = Images;
-			sourceTree = "<group>";
-		};
-		AA58FB7416C22B0400C49E02 /* Stores */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Stores;
 			sourceTree = "<group>";
 		};
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
@@ -1023,6 +985,50 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		AACB11C316C453E600BAC7E1 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		AACB11C416C4540B00BAC7E1 /* Custom Controls */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Custom Controls";
+			sourceTree = "<group>";
+		};
+		AACB11C516C4541F00BAC7E1 /* Defines */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Defines;
+			sourceTree = "<group>";
+		};
+		AACB11C616C4543700BAC7E1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AACB11C716C4544600BAC7E1 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		AACB11C816C4547B00BAC7E1 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				AACB11C916C454A000BAC7E1 /* SVEntityStore.h */,
+				AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */,
+			);
+			path = Stores;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1341,6 +1347,7 @@
 				AA58FCA016C235C800C49E02 /* JMCToolbarButton.m in Sources */,
 				AA58FCA216C235C800C49E02 /* UILabel+JMCVerticalAlign.m in Sources */,
 				AA58FCA416C235C800C49E02 /* UIView+JMCAdditions.m in Sources */,
+				AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1408,6 +1415,7 @@
 				AA58FCA116C235C800C49E02 /* JMCToolbarButton.m in Sources */,
 				AA58FCA316C235C800C49E02 /* UILabel+JMCVerticalAlign.m in Sources */,
 				AA58FCA516C235C800C49E02 /* UIView+JMCAdditions.m in Sources */,
+				AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
