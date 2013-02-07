@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <RestKit/RestKit.h>
 #import <UIKit/UIKit.h>
 #import "JMC.h"
 
