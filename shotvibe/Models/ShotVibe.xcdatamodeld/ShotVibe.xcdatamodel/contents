@@ -8,7 +8,7 @@
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="url" attributeType="String" syncable="YES"/>
         <relationship name="members" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="albums" inverseEntity="Member" syncable="YES"/>
-        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="albums" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="albums" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <entity name="Member" representedClassName="Member" syncable="YES">
         <attribute name="default_country" attributeType="String" syncable="YES"/>
@@ -21,11 +21,11 @@
         <attribute name="date_created" attributeType="Date" syncable="YES"/>
         <attribute name="photo_id" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="photo_url" attributeType="String" syncable="YES"/>
-        <relationship name="albums" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="photos" inverseEntity="Album" syncable="YES"/>
+        <relationship name="albums" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="photos" inverseEntity="Album" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Member" positionX="-6480" positionY="-2205" width="128" height="103"/>
         <element name="Album" positionX="-6480" positionY="-2026" width="128" height="163"/>
-        <element name="Photo" positionX="-6291" positionY="-2023" width="128" height="118"/>
+        <element name="Member" positionX="-6707" positionY="-2029" width="128" height="103"/>
+        <element name="Photo" positionX="-6284" positionY="-2023" width="128" height="118"/>
     </elements>
 </model>
