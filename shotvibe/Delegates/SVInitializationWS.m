@@ -45,5 +45,6 @@
     NSManagedObjectModel *managedObjectModel = [[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL] mutableCopy];
     RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
     objectManager.managedObjectStore = managedObjectStore;
+    [RKObjectManager setSharedManager:objectManager];
 }
 @end
