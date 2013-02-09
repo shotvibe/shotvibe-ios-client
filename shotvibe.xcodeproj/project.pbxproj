@@ -255,6 +255,12 @@
 		AACB11E916C4581100BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
 		AACB11ED16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */; };
 		AACB11EE16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */; };
+		AAE6CB5516C59CF100EB1832 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5416C59CF100EB1832 /* Member.m */; };
+		AAE6CB5616C59CF100EB1832 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5416C59CF100EB1832 /* Member.m */; };
+		AAE6CB5916C59CF100EB1832 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5816C59CF100EB1832 /* Album.m */; };
+		AAE6CB5A16C59CF100EB1832 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5816C59CF100EB1832 /* Album.m */; };
+		AAE6CB5D16C59CF200EB1832 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5C16C59CF200EB1832 /* Photo.m */; };
+		AAE6CB5E16C59CF200EB1832 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5C16C59CF200EB1832 /* Photo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -502,6 +508,12 @@
 		AACB11E416C457DC00BAC7E1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AACB11E616C457F000BAC7E1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AACB11EC16C462B500BAC7E1 /* ShotVibe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShotVibe.xcdatamodel; sourceTree = "<group>"; };
+		AAE6CB5316C59CF100EB1832 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
+		AAE6CB5416C59CF100EB1832 /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
+		AAE6CB5716C59CF100EB1832 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
+		AAE6CB5816C59CF100EB1832 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
+		AAE6CB5B16C59CF200EB1832 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		AAE6CB5C16C59CF200EB1832 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1073,6 +1085,12 @@
 			isa = PBXGroup;
 			children = (
 				AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */,
+				AAE6CB5716C59CF100EB1832 /* Album.h */,
+				AAE6CB5816C59CF100EB1832 /* Album.m */,
+				AAE6CB5316C59CF100EB1832 /* Member.h */,
+				AAE6CB5416C59CF100EB1832 /* Member.m */,
+				AAE6CB5B16C59CF200EB1832 /* Photo.h */,
+				AAE6CB5C16C59CF200EB1832 /* Photo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1463,6 +1481,9 @@
 				AA58FCA416C235C800C49E02 /* UIView+JMCAdditions.m in Sources */,
 				AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11ED16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
+				AAE6CB5516C59CF100EB1832 /* Member.m in Sources */,
+				AAE6CB5916C59CF100EB1832 /* Album.m in Sources */,
+				AAE6CB5D16C59CF200EB1832 /* Photo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1532,6 +1553,9 @@
 				AA58FCA516C235C800C49E02 /* UIView+JMCAdditions.m in Sources */,
 				AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11EE16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
+				AAE6CB5616C59CF100EB1832 /* Member.m in Sources */,
+				AAE6CB5A16C59CF100EB1832 /* Album.m in Sources */,
+				AAE6CB5E16C59CF200EB1832 /* Photo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

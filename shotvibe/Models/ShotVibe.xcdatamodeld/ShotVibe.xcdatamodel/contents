@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C3006" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Album" representedClassName="Album" syncable="YES">
-        <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="albumId" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="etag" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="id" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="last_updated" attributeType="Date" syncable="YES"/>
+        <attribute name="lastUpdated" attributeType="Date" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="url" attributeType="String" syncable="YES"/>
         <relationship name="members" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="albums" inverseEntity="Member" syncable="YES"/>
-        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="albums" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="album" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <entity name="Member" representedClassName="Member" syncable="YES">
-        <attribute name="default_country" attributeType="String" syncable="YES"/>
-        <attribute name="phone_number" attributeType="String" syncable="YES"/>
-        <attribute name="user_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="defaultCountry" attributeType="String" syncable="YES"/>
+        <attribute name="phoneNumber" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="members" inverseEntity="Album" syncable="YES"/>
     </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES">
         <attribute name="author" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="date_created" attributeType="Date" syncable="YES"/>
-        <attribute name="photo_id" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="photo_url" attributeType="String" syncable="YES"/>
-        <relationship name="albums" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="photos" inverseEntity="Album" syncable="YES"/>
+        <attribute name="dateCreated" attributeType="Date" syncable="YES"/>
+        <attribute name="photoId" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="photoUrl" attributeType="String" syncable="YES"/>
+        <relationship name="album" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="photos" inverseEntity="Album" syncable="YES"/>
     </entity>
     <elements>
         <element name="Album" positionX="-6480" positionY="-2026" width="128" height="163"/>
