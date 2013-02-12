@@ -11,7 +11,7 @@
 
 @interface SVInitializationWS ()
 
-- (void)setObjectMappingsWithMangedObjectStore:(RKManagedObjectStore *)managedObjectStore;
+- (NSString *)urlForStoreName:(NSString *)storeFileName;
 
 @end
 
@@ -57,6 +57,16 @@
     RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
     objectManager.managedObjectStore = managedObjectStore;
     [managedObjectStore createPersistentStoreCoordinator];
+    
+    // Create the persistent store
+    NSError *error = nil;
+    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:[RKApplicationDataDirectory() stringByAppendingPathComponent:@"ShotVibe.sqlite"] fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
+    if (error) {
+        RKLogError(@"%@", error);
+    }
+    NSAssert(persistentStore, @"Failed to add persistent store with error: %@", error);
+    
+    // Create the managed object contexts
     [managedObjectStore createManagedObjectContexts];
     
     // Configure a managed object cache to ensure we do not create duplicate objects
@@ -71,26 +81,24 @@
 
 #pragma mark - Private Methods
 
-- (void)setObjectMappingsWithMangedObjectStore:(RKManagedObjectStore *)managedObjectStore
+- (NSString *)urlForStoreName:(NSString *)storeFileName
 {
-    // Member mapping
-    RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:managedObjectStore];
-    memberMapping.identificationAttributes = @[@"userId"];
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *applicationStorageDirectory = [[[[NSBundle mainBundle] infoDictionary] valueForKey:(NSString *)kCFBundleNameKey] stringByAppendingPathComponent:[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]];
     
-    // Album mapping
-    RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:managedObjectStore];
-    albumMapping.identificationAttributes = @[@"albumId"];
-    [albumMapping addAttributeMappingsFromDictionary:@{
-     @"id": @"albumId",
-     @"url": @"url",
-     @"name": @"name",
-     @"last_updated": @"lastUpdated",
-     @"etag": @"etag",
-     @"date_created": @"dateCreated"
-     }];
+    NSArray *paths = @[documentsDirectory, applicationStorageDirectory];
+    NSFileManager *fm = [[NSFileManager alloc] init];
     
-    // Photo mapping
-    RKEntityMapping *photoMapper = [RKEntityMapping mappingForEntityForName:@"Photo" inManagedObjectStore:managedObjectStore];
-    photoMapper.identificationAttributes = @[@"photoId"];
+    for (NSString *path in paths)
+    {
+        NSString *filepath = [path stringByAppendingPathComponent:storeFileName];
+        if ([fm fileExistsAtPath:filepath])
+        {
+            return filepath;
+        }
+    }
+    
+    //set default url
+    return [applicationStorageDirectory stringByAppendingPathComponent:storeFileName];
 }
 @end
