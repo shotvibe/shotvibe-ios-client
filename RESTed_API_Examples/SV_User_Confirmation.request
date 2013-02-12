@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>baseURL</key>
-	<string>https://api.shotvibe.com/auth/confirm_sms_code/cec285684cc5c88de71b01694b336de7ab8968e3/</string>
+	<string>https://api.shotvibe.com/auth/confirm_sms_code/71ccfe3e5510588a85c328d1ccc6a7cf73ad7e0e/</string>
 	<key>followRedirect</key>
 	<true/>
 	<key>handleJSONPCallbacks</key>

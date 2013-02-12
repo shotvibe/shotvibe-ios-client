@@ -16,7 +16,15 @@
 			<key>inUse</key>
 			<true/>
 			<key>value</key>
-			<string>Token c51f6921810935eca4adb2cd554acd3d6faee10e</string>
+			<string>Token 6510abed8c9647dc95b3cf175e9376fbd5690bb5</string>
+		</dict>
+		<dict>
+			<key>header</key>
+			<string>If-Modified-Since</string>
+			<key>inUse</key>
+			<true/>
+			<key>value</key>
+			<string>Mon, 4 Feb 2013 20:45:20 GMT</string>
 		</dict>
 	</array>
 	<key>httpMethod</key>
@@ -28,7 +36,7 @@
 	<key>parameters</key>
 	<array/>
 	<key>parametersType</key>
-	<integer>0</integer>
+	<integer>1</integer>
 	<key>presentBeforeChallenge</key>
 	<false/>
 	<key>stringEncoding</key>
