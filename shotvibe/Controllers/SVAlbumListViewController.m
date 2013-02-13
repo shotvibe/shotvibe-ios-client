@@ -9,8 +9,11 @@
 #import <RestKit/RestKit.h>
 #import <RestKit/CoreData.h>
 #import "Album.h"
+#import "NINetworkImageView.h"
 #import "Photo.h"
+#import "SVAlbumListViewCell.h"
 #import "SVAlbumListViewController.h"
+#import "SVDefines.h"
 #import "SVEntityStore.h"
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
@@ -18,7 +21,7 @@
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 - (void)loadData;
-- (UITableViewCell *)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -83,7 +86,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
+    SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
     
     cell = [self configureCell:cell atIndexPath:indexPath];
     
@@ -165,7 +168,7 @@
 }
 
 
-- (UITableViewCell *)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     // TODO: We need to configure our cell's views
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -174,8 +177,19 @@
     Photo *recentPhoto = [anAlbum.photos anyObject];
     
     // Configure thumbnail
+    NSString *thumbnailUrl = [[recentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
+    cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+    cell.networkImageView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
+    cell.networkImageView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.1].CGColor;
+    cell.networkImageView.layer.borderWidth = 1;
+    cell.networkImageView.contentMode = UIViewContentModeScaleAspectFill;
+    cell.networkImageView.sizeForDisplay = YES;
+    cell.networkImageView.scaleOptions = NINetworkImageViewScaleToFitCropsExcess;
+    cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
+    [cell.networkImageView setPathToNetworkImage:thumbnailUrl];
     
-    cell.textLabel.text = anAlbum.name;
+    
+    cell.title.text = anAlbum.name;
     return cell;
 }
 @end
