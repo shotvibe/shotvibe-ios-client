@@ -9,9 +9,9 @@
 #ifndef shotvibe_SVDefines_h
 #define shotvibe_SVDefines_h
 
-#define kPhotoThumbSuffix @"_thumb75.jpg"
-#define kPhotoIphone3 @"_iphone3.jpg"
-#define kPhotoIphone4 @"_iphone4.jpg"
-#define kPhotoIphone5 @"_iphone5.jpg"
+#define kPhotoThumbExtension @"_thumb75.jpg"
+#define kPhotoIphone3Extension @"_iphone3.jpg"
+#define kPhotoIphone4Extension @"_iphone4.jpg"
+#define kPhotoIphone5Extension @"_iphone5.jpg"
 
 #endif
