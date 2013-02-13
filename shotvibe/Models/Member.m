@@ -18,5 +18,5 @@
 @dynamic phoneNumber;
 @dynamic userId;
 @dynamic albums;
-
+@dynamic photoIds;
 @end

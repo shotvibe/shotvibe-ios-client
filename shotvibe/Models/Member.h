@@ -34,6 +34,12 @@
  The albums shared by or with this member
  */
 @property (nonatomic, retain) NSSet *albums;
+
+
+/**
+ This albums photoIds
+ */
+@property (nonatomic, strong) NSArray *photoIds;
 @end
 
 

@@ -10,4 +10,12 @@
 
 @interface SVEntityStore : NSObject
 
+#pragma mark - Class Methods
+
++ (SVEntityStore *)sharedStore;
+
+
+#pragma mark - Instance Methods
+
+- (void)userAlbums;
 @end

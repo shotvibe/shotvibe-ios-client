@@ -3,30 +3,38 @@
 <plist version="1.0">
 <dict>
 	<key>baseURL</key>
-	<string>https://api.shotvibe.com/albums/</string>
+	<string>https://api.shotvibe.com/auth/authorize_phone_number/</string>
 	<key>followRedirect</key>
 	<true/>
 	<key>handleJSONPCallbacks</key>
 	<false/>
 	<key>headers</key>
-	<array>
-		<dict>
-			<key>header</key>
-			<string>Authorization</string>
-			<key>inUse</key>
-			<true/>
-			<key>value</key>
-			<string>Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d</string>
-		</dict>
-	</array>
+	<array/>
 	<key>httpMethod</key>
-	<string>GET</string>
+	<string>POST</string>
 	<key>jsonpScript</key>
 	<string></string>
 	<key>paramBodyUIChoice</key>
 	<integer>0</integer>
 	<key>parameters</key>
-	<array/>
+	<array>
+		<dict>
+			<key>inUse</key>
+			<true/>
+			<key>parameter</key>
+			<string>phone_number</string>
+			<key>value</key>
+			<string>212-718-2002</string>
+		</dict>
+		<dict>
+			<key>inUse</key>
+			<true/>
+			<key>parameter</key>
+			<string>default_country</string>
+			<key>value</key>
+			<string>US</string>
+		</dict>
+	</array>
 	<key>parametersType</key>
 	<integer>1</integer>
 	<key>presentBeforeChallenge</key>

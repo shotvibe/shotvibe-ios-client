@@ -28,7 +28,7 @@
 /**
  This photo's unique ID
  */
-@property (nonatomic, retain) NSNumber * photoId;
+@property (nonatomic, retain) NSString * photoId;
 
 /**
  This photo's resource URI

@@ -9,9 +9,12 @@
 #import <RestKit/CoreData.h>
 #import "SVInitializationWS.h"
 
+#ifdef DEBUG
+static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
+#endif
+
 @interface SVInitializationWS ()
 
-- (NSString *)urlForStoreName:(NSString *)storeFileName;
 
 @end
 
@@ -48,22 +51,21 @@
     // Create the object manager
     NSURL *baseURL = [NSURL URLWithString:@"https://api.shotvibe.com"];
     RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:baseURL];
+    [objectManager.HTTPClient setDefaultHeader:@"Authorization" value:kTestAuthToken];
+    
+    // Enable Activity Indicator Spinner
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
     // Create the managed object model
-    NSURL *modelURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"ShotVibe" ofType:@"momd"]];
-    NSManagedObjectModel *managedObjectModel = [[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL] mutableCopy];
-    
-    // Create the managed object store
+    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
     RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
     objectManager.managedObjectStore = managedObjectStore;
-    [managedObjectStore createPersistentStoreCoordinator];
     
-    // Create the persistent store
+    // Instantiate Core Data Stack
+    [managedObjectStore createPersistentStoreCoordinator];
+    NSString *storePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"ShotVibe.sqlite"];
     NSError *error = nil;
-    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:[RKApplicationDataDirectory() stringByAppendingPathComponent:@"ShotVibe.sqlite"] fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
-    if (error) {
-        RKLogError(@"%@", error);
-    }
+    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:storePath fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
     NSAssert(persistentStore, @"Failed to add persistent store with error: %@", error);
     
     // Create the managed object contexts
@@ -71,34 +73,8 @@
     
     // Configure a managed object cache to ensure we do not create duplicate objects
     managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];
-    
-    [RKObjectManager setSharedManager:objectManager];
-    
-    // Enable Activity Indicator Spinner
-    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 }
 
 
 #pragma mark - Private Methods
-
-- (NSString *)urlForStoreName:(NSString *)storeFileName
-{
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSString *applicationStorageDirectory = [[[[NSBundle mainBundle] infoDictionary] valueForKey:(NSString *)kCFBundleNameKey] stringByAppendingPathComponent:[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]];
-    
-    NSArray *paths = @[documentsDirectory, applicationStorageDirectory];
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    
-    for (NSString *path in paths)
-    {
-        NSString *filepath = [path stringByAppendingPathComponent:storeFileName];
-        if ([fm fileExistsAtPath:filepath])
-        {
-            return filepath;
-        }
-    }
-    
-    //set default url
-    return [applicationStorageDirectory stringByAppendingPathComponent:storeFileName];
-}
 @end
