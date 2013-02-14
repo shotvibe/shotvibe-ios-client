@@ -18,4 +18,5 @@
 #pragma mark - Instance Methods
 
 - (void)userAlbums;
+- (void)photosForAlbumWithID:(NSNumber *)albumID;
 @end

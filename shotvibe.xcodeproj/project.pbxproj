@@ -291,6 +291,8 @@
 		AA58FD1216C2390700C49E02 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA58FD1016C2390700C49E02 /* HockeySDKResources.bundle */; };
 		AA58FD1316C23A4D00C49E02 /* CrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FBAE16C235C800C49E02 /* CrashReporter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AA58FD1416C23A5100C49E02 /* CrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FBAE16C235C800C49E02 /* CrashReporter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AA66828E16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */; };
+		AA66828F16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */; };
 		AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
 		AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
 		AACB11E016C457AE00BAC7E1 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11D516C4567000BAC7E1 /* libRestKit.a */; };
@@ -603,6 +605,8 @@
 		AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		AA58FD0D16C238DB00C49E02 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
 		AA58FD1016C2390700C49E02 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
+		AA66828C16CCA7C80005BFFC /* SVAlbumGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumGridViewController.h; sourceTree = "<group>"; };
+		AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumGridViewController.m; sourceTree = "<group>"; };
 		AACB11C916C454A000BAC7E1 /* SVEntityStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEntityStore.h; sourceTree = "<group>"; };
 		AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVEntityStore.m; sourceTree = "<group>"; };
 		AACB11CD16C4567000BAC7E1 /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
@@ -759,6 +763,8 @@
 				AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */,
 				AAF05CD316CB28DD005BCFD3 /* SVAlbumListViewController.h */,
 				AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */,
+				AA66828C16CCA7C80005BFFC /* SVAlbumGridViewController.h */,
+				AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */,
 			);
 			name = Albums;
 			sourceTree = "<group>";
@@ -1700,6 +1706,7 @@
 				AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */,
 				AA12880D16CB84CC002AC699 /* NINetworkImageView.m in Sources */,
 				AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */,
+				AA66828E16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1796,6 +1803,7 @@
 				AA12880C16CB84CC002AC699 /* NIImageProcessing.m in Sources */,
 				AA12880E16CB84CC002AC699 /* NINetworkImageView.m in Sources */,
 				AA12881216CB876A002AC699 /* SVAlbumListViewCell.m in Sources */,
+				AA66828F16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -37,6 +37,7 @@
                                 <connections>
                                     <outlet property="networkImageView" destination="VIR-SX-0mB" id="Frz-Wl-KUI"/>
                                     <outlet property="title" destination="v1Q-LY-lAL" id="OOJ-FQ-5cc"/>
+                                    <segue destination="blj-nY-Sj7" kind="push" identifier="AlbumGridViewSegue" id="Lhf-yA-Ana"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -47,7 +48,22 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VfW-Mn-wAm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-48" y="47"/>
+            <point key="canvasLocation" x="-576" y="51"/>
+        </scene>
+        <!--Album Grid View Controller-->
+        <scene sceneID="XL3-YY-UGG">
+            <objects>
+                <viewController storyboardIdentifier="SVAlbumGridViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="blj-nY-Sj7" customClass="SVAlbumGridViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8wy-ZG-srn">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="pdu-Tl-D5W"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FaP-w9-IIV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-114" y="51"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E9K-is-pZC">
@@ -62,9 +78,27 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9pc-BT-O9p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-507" y="47"/>
+            <point key="canvasLocation" x="-1035" y="51"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="NINetworkImageView" superclassName="UIImageView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NINetworkImageView.h"/>
+        </class>
+        <class className="SVAlbumGridViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumGridViewController.h"/>
+        </class>
+        <class className="SVAlbumListViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="networkImageView" candidateClass="NINetworkImageView"/>
+                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="SVAlbumListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

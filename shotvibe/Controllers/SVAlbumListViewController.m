@@ -13,6 +13,7 @@
 #import "Photo.h"
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumListViewController.h"
+#import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 
@@ -46,9 +47,9 @@
     [self.fetchedResultsController setDelegate:self];
     if (![self.fetchedResultsController performFetch:&error]) {
         RKLogError(@"There was an error loading the fetched result controller: %@", error);
+    } else {
+        [self loadData];
     }
-    
-    [self loadData];
 }
 
 
@@ -56,7 +57,24 @@
 {
     [super viewWillAppear:animated];
     
-    
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"AlbumGridViewSegue"]) {
+        
+        // Get the selected Album
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        Album *selectedAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        
+        // Get the destination controller
+        SVAlbumGridViewController *destinationController = segue.destinationViewController;
+        
+        // Send the selected ablum to the destination controller
+        destinationController.selectedAlbum = selectedAlbum;
+        
+    }
 }
 
 

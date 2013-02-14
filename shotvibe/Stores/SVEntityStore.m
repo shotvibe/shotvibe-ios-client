@@ -72,4 +72,48 @@
         
     }];
 }
+
+
+- (void)photosForAlbumWithID:(NSNumber *)albumID
+{
+    // Setup Photo Mapping
+    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"Photo" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    [photoMapping addAttributeMappingsFromDictionary:@{
+     @"photo_id": @"photoId",
+     @"photo_url": @"photoUrl",
+     @"date_created": @"dateCreated",
+     @"author": @"author"
+     }];
+    photoMapping.identificationAttributes = @[@"photoId"];
+    
+    // Setup Album Mapping
+    RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    [albumMapping addAttributeMappingsFromDictionary:@{
+     @"id": @"albumId",
+     @"name": @"name",
+     @"date_created": @"dateCreated",
+     @"last_updated": @"lastUpdated"
+     }];
+    albumMapping.identificationAttributes = @[@"albumId"];
+    
+    // Relationship Connections
+    [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
+    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"photos" withMapping:photoMapping]];
+    
+    // Configure the response descriptor
+    RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/:id/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [[RKObjectManager sharedManager] addResponseDescriptor:albumResponseDescriptor];
+    
+    // Get the albums
+    NSString *path = [NSString stringWithFormat:@"/albums/%@/", [albumID stringValue]];
+    [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        
+        //RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
+        
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        
+        RKLogError(@"Load failed with error: %@", error);
+        
+    }];
+}
 @end
