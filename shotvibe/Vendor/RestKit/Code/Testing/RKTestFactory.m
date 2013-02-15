@@ -250,8 +250,6 @@
 
 + (void)tearDown
 {
-    if ([RKTestFactory sharedFactory].tearDownBlock) [RKTestFactory sharedFactory].tearDownBlock();
-    
     // Cancel any network operations and clear the cache
     [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
@@ -273,7 +271,9 @@
     
     [[RKTestFactory sharedFactory].sharedObjectsByFactoryName removeAllObjects];
     [RKObjectManager setSharedManager:nil];
-    [RKManagedObjectStore setDefaultStore:nil];    
+    [RKManagedObjectStore setDefaultStore:nil];
+
+    if ([RKTestFactory sharedFactory].tearDownBlock) [RKTestFactory sharedFactory].tearDownBlock();
 }
 
 @end
