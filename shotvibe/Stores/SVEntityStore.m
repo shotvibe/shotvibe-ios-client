@@ -109,6 +109,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
         //RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SVPhotosLoaded" object:nil];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         

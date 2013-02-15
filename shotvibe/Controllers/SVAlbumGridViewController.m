@@ -16,6 +16,7 @@
 #import "GMGridView.h"
 #import "SVDefines.h"
 #import "NINetworkImageView.h"
+#import "SVAlbumDetailScrollViewController.h"
 
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
@@ -29,6 +30,7 @@
 - (void)loadData;
 - (void)toggleMenu;
 - (void)configureGridview;
+- (void)fetchPhotos;
 
 @end
 
@@ -56,6 +58,9 @@
     // Setup menu button
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menuIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
+    
+    // Listen for our RestKit loads to finish
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchPhotos) name:@"SVPhotosLoaded" object:nil];
 }
 
 
@@ -65,12 +70,15 @@
     
     [self loadData];
     
-    NSError *error = nil;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        RKLogError(@"There was an error loading the fetched result controller: %@", error);
-    }
-    RKLogInfo(@"This album contains %d photos", self.selectedAlbum.photos.count);
-    [self configureGridview];
+    [self fetchPhotos];
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -145,6 +153,11 @@
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position
 {
     NSLog(@"Did tap at index %d", position);
+    
+    SVAlbumDetailScrollViewController *detailController = [[SVAlbumDetailScrollViewController alloc] init];
+    detailController.selectedPhoto = [[self.selectedAlbum.photos allObjects] objectAtIndex:position];
+    
+    [self.navigationController pushViewController:detailController animated:YES];
 }
 
 
@@ -183,5 +196,16 @@
     
     _gmGridView.actionDelegate = self;
     _gmGridView.dataSource = self;
+}
+
+
+- (void)fetchPhotos
+{
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        RKLogError(@"There was an error loading the fetched result controller: %@", error);
+    }
+    RKLogInfo(@"This album contains %d photos", self.selectedAlbum.photos.count);
+    [self configureGridview];
 }
 @end
