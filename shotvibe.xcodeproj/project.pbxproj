@@ -65,6 +65,14 @@
 		AA12880E16CB84CC002AC699 /* NINetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880A16CB84CC002AC699 /* NINetworkImageView.m */; };
 		AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
 		AA12881216CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
+		AA419E9916CEEB5C00136A1A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9516CEEB5C00136A1A /* .gitignore */; };
+		AA419E9A16CEEB5C00136A1A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9516CEEB5C00136A1A /* .gitignore */; };
+		AA419E9B16CEEB5C00136A1A /* .gitmodules in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9616CEEB5C00136A1A /* .gitmodules */; };
+		AA419E9C16CEEB5C00136A1A /* .gitmodules in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9616CEEB5C00136A1A /* .gitmodules */; };
+		AA419E9D16CEEB5C00136A1A /* .rvmrc in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9716CEEB5C00136A1A /* .rvmrc */; };
+		AA419E9E16CEEB5C00136A1A /* .rvmrc in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9716CEEB5C00136A1A /* .rvmrc */; };
+		AA419E9F16CEEB5C00136A1A /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA419E9816CEEB5C00136A1A /* libRestKit.a */; };
+		AA419EA016CEEB5C00136A1A /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA419E9816CEEB5C00136A1A /* libRestKit.a */; };
 		AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFA16C224E800C49E02 /* UIKit.framework */; };
 		AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFC16C224E800C49E02 /* Foundation.framework */; };
 		AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */; };
@@ -395,8 +403,6 @@
 		AAE3DDFE16CED89100539F92 /* NIPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDF616CED89100539F92 /* NIPageView.m */; };
 		AAE3DDFF16CED89100539F92 /* NIPagingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDF816CED89100539F92 /* NIPagingScrollView.m */; };
 		AAE3DE0016CED89100539F92 /* NIPagingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDF816CED89100539F92 /* NIPagingScrollView.m */; };
-		AAE3DE7E16CEDB0E00539F92 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAE3DE7316CEDA8D00539F92 /* libRestKit.a */; };
-		AAE3DE7F16CEDB1400539F92 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAE3DE7316CEDA8D00539F92 /* libRestKit.a */; };
 		AAE3DEE616CEDC8400539F92 /* NetworkPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */; };
 		AAE3DEE716CEDC8400539F92 /* NetworkPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */; };
 		AAE6CB5516C59CF100EB1832 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5416C59CF100EB1832 /* Member.m */; };
@@ -416,48 +422,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = AA58FAF616C224E800C49E02;
 			remoteInfo = shotvibe;
-		};
-		AAE3DE7216CEDA8D00539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 25160D1614564E810060A5C5;
-			remoteInfo = RestKit;
-		};
-		AAE3DE7416CEDA8D00539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 25160D2614564E820060A5C5;
-			remoteInfo = RestKitTests;
-		};
-		AAE3DE7616CEDA8D00539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 25160E62145651060060A5C5;
-			remoteInfo = RestKitFramework;
-		};
-		AAE3DE7816CEDA8D00539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 25160E78145651060060A5C5;
-			remoteInfo = RestKitFrameworkTests;
-		};
-		AAE3DE7A16CEDAF700539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 25160D1514564E810060A5C5;
-			remoteInfo = RestKit;
-		};
-		AAE3DE7C16CEDAFC00539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 25160D1514564E810060A5C5;
-			remoteInfo = RestKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -504,6 +468,10 @@
 		AA12880A16CB84CC002AC699 /* NINetworkImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NINetworkImageView.m; path = Nimbus/src/networkimage/src/NINetworkImageView.m; sourceTree = "<group>"; };
 		AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumListViewCell.h; sourceTree = "<group>"; };
 		AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumListViewCell.m; sourceTree = "<group>"; };
+		AA419E9516CEEB5C00136A1A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		AA419E9616CEEB5C00136A1A /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
+		AA419E9716CEEB5C00136A1A /* .rvmrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .rvmrc; sourceTree = "<group>"; };
+		AA419E9816CEEB5C00136A1A /* libRestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRestKit.a; sourceTree = "<group>"; };
 		AA58FAF716C224E800C49E02 /* ShotVibe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShotVibe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA58FAFA16C224E800C49E02 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AA58FAFC16C224E800C49E02 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -802,7 +770,6 @@
 		AAE3DDFA16CED89100539F92 /* NIPagingScrollViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIPagingScrollViewDataSource.h; path = nimbus/src/pagingscrollview/src/NIPagingScrollViewDataSource.h; sourceTree = "<group>"; };
 		AAE3DDFB16CED89100539F92 /* NIPagingScrollViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIPagingScrollViewDelegate.h; path = nimbus/src/pagingscrollview/src/NIPagingScrollViewDelegate.h; sourceTree = "<group>"; };
 		AAE3DDFC16CED89100539F92 /* NIPagingScrollViewPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIPagingScrollViewPage.h; path = nimbus/src/pagingscrollview/src/NIPagingScrollViewPage.h; sourceTree = "<group>"; };
-		AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
 		AAE3DEE416CEDC8400539F92 /* NetworkPhotoAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkPhotoAlbumViewController.h; path = nimbus/examples/photos/NetworkPhotoAlbums/src/NetworkPhotoAlbumViewController.h; sourceTree = "<group>"; };
 		AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkPhotoAlbumViewController.m; path = nimbus/examples/photos/NetworkPhotoAlbums/src/NetworkPhotoAlbumViewController.m; sourceTree = "<group>"; };
 		AAE6CB5316C59CF100EB1832 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
@@ -821,7 +788,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAE3DE7F16CEDB1400539F92 /* libRestKit.a in Frameworks */,
 				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
 				AA58FD0316C2363D00C49E02 /* AVFoundation.framework in Frameworks */,
 				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
@@ -835,6 +801,7 @@
 				AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */,
 				AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */,
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
+				AA419E9F16CEEB5C00136A1A /* libRestKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -852,7 +819,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAE3DE7E16CEDB0E00539F92 /* libRestKit.a in Frameworks */,
 				AA58FD0C16C236C000C49E02 /* libsqlite3.dylib in Frameworks */,
 				AA58FD0A16C236B000C49E02 /* AVFoundation.framework in Frameworks */,
 				AA58FD0816C2369900C49E02 /* CFNetwork.framework in Frameworks */,
@@ -866,6 +832,7 @@
 				AA58FB8B16C231A900C49E02 /* SystemConfiguration.framework in Frameworks */,
 				AA58FB5116C2291200C49E02 /* UIKit.framework in Frameworks */,
 				AA58FD0F16C238DC00C49E02 /* HockeySDK.framework in Frameworks */,
+				AA419EA016CEEB5C00136A1A /* libRestKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1018,6 +985,17 @@
 			name = Albums;
 			sourceTree = "<group>";
 		};
+		AA419E9416CEEB5C00136A1A /* RestKit */ = {
+			isa = PBXGroup;
+			children = (
+				AA419E9516CEEB5C00136A1A /* .gitignore */,
+				AA419E9616CEEB5C00136A1A /* .gitmodules */,
+				AA419E9716CEEB5C00136A1A /* .rvmrc */,
+				AA419E9816CEEB5C00136A1A /* libRestKit.a */,
+			);
+			path = RestKit;
+			sourceTree = "<group>";
+		};
 		AA58FAEE16C224E800C49E02 = {
 			isa = PBXGroup;
 			children = (
@@ -1141,10 +1119,10 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */,
 				04CD9C6C16CDC6FF00FC72B3 /* GMGridView */,
 				AA58FB7A16C230DE00C49E02 /* HockeySDK */,
 				AA58FB9616C235C800C49E02 /* JMC */,
+				AA419E9416CEEB5C00136A1A /* RestKit */,
 				AA1287A516CB8339002AC699 /* Nimbus */,
 			);
 			path = Vendor;
@@ -1592,17 +1570,6 @@
 			name = "Network Photo Album Controller";
 			sourceTree = "<group>";
 		};
-		AAE3DE6C16CEDA8D00539F92 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AAE3DE7316CEDA8D00539F92 /* libRestKit.a */,
-				AAE3DE7516CEDA8D00539F92 /* RestKitTests.octest */,
-				AAE3DE7716CEDA8D00539F92 /* RestKit.framework */,
-				AAE3DE7916CEDA8D00539F92 /* RestKitFrameworkTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		AAE3DEED16CEDDA800539F92 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1655,7 +1622,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AAE3DE7B16CEDAF700539F92 /* PBXTargetDependency */,
 			);
 			name = shotvibe;
 			productName = shotvibe;
@@ -1693,7 +1659,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AAE3DE7D16CEDAFC00539F92 /* PBXTargetDependency */,
 			);
 			name = shotvibebeta;
 			productName = shotvibe;
@@ -1720,12 +1685,6 @@
 			mainGroup = AA58FAEE16C224E800C49E02;
 			productRefGroup = AA58FAF816C224E800C49E02 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = AAE3DE6C16CEDA8D00539F92 /* Products */;
-					ProjectRef = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				AA58FAF616C224E800C49E02 /* shotvibe */,
@@ -1734,37 +1693,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		AAE3DE7316CEDA8D00539F92 /* libRestKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRestKit.a;
-			remoteRef = AAE3DE7216CEDA8D00539F92 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AAE3DE7516CEDA8D00539F92 /* RestKitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RestKitTests.octest;
-			remoteRef = AAE3DE7416CEDA8D00539F92 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AAE3DE7716CEDA8D00539F92 /* RestKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RestKit.framework;
-			remoteRef = AAE3DE7616CEDA8D00539F92 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AAE3DE7916CEDA8D00539F92 /* RestKitFrameworkTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RestKitFrameworkTests.octest;
-			remoteRef = AAE3DE7816CEDA8D00539F92 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AA58FAF516C224E800C49E02 /* Resources */ = {
@@ -1844,6 +1772,9 @@
 				04DE51BA16CE1955006B17D0 /* navbarButton.png in Resources */,
 				04DE51C216CE19F3006B17D0 /* navbarBackButton@2x.png in Resources */,
 				04DE51C416CE19F3006B17D0 /* navbarBackButton.png in Resources */,
+				AA419E9916CEEB5C00136A1A /* .gitignore in Resources */,
+				AA419E9B16CEEB5C00136A1A /* .gitmodules in Resources */,
+				AA419E9D16CEEB5C00136A1A /* .rvmrc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1933,6 +1864,9 @@
 				04DE51BB16CE1955006B17D0 /* navbarButton.png in Resources */,
 				04DE51C316CE19F3006B17D0 /* navbarBackButton@2x.png in Resources */,
 				04DE51C516CE19F3006B17D0 /* navbarBackButton.png in Resources */,
+				AA419E9A16CEEB5C00136A1A /* .gitignore in Resources */,
+				AA419E9C16CEEB5C00136A1A /* .gitmodules in Resources */,
+				AA419E9E16CEEB5C00136A1A /* .rvmrc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2231,16 +2165,6 @@
 			target = AA58FAF616C224E800C49E02 /* shotvibe */;
 			targetProxy = AA58FB2216C224E800C49E02 /* PBXContainerItemProxy */;
 		};
-		AAE3DE7B16CEDAF700539F92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = RestKit;
-			targetProxy = AAE3DE7A16CEDAF700539F92 /* PBXContainerItemProxy */;
-		};
-		AAE3DE7D16CEDAFC00539F92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = RestKit;
-			targetProxy = AAE3DE7C16CEDAFC00539F92 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -2355,6 +2279,11 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Desktop\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -2379,6 +2308,11 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Desktop\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -2468,6 +2402,11 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Desktop\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -2507,6 +2446,10 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -2529,6 +2472,10 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -2551,6 +2498,10 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
