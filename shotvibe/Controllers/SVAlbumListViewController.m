@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import <RestKit/RestKit.h>
-#import <RestKit/CoreData.h>
 #import "Album.h"
 #import "NINetworkImageView.h"
 #import "Photo.h"

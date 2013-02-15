@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import <RestKit/RestKit.h>
-#import <RestKit/CoreData.h>
+#import <Foundation/Foundation.h>
 
 @class Album;
 

@@ -5,8 +5,6 @@
 //  Created by Fredrick Gabelmann on 1/23/13.
 //
 
-#import <RestKit/RestKit.h>
-#import <RestKit/CoreData.h>
 #import "SVInitializationWS.h"
 #import "SVDefines.h"
 

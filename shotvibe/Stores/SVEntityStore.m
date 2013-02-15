@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import <RestKit/RestKit.h>
-#import <RestKit/CoreData.h>
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 
