@@ -44,6 +44,9 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
         UIImage *resizableImage = nil;
         if (IS_IOS6_OR_GREATER) {
             resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+            
+            // Why on earth is the position different depending on version?
+            [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(2, -2) forBarMetrics:UIBarMetricsDefault];
         }
         else
         {
