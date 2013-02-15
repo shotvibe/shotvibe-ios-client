@@ -17,11 +17,13 @@
 #import "SVDefines.h"
 #import "NINetworkImageView.h"
 #import "SVAlbumDetailScrollViewController.h"
+#import "SVSidebarMenuViewController.h"
 
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
 {
     __gm_weak GMGridView *_gmGridView;
+    UIPanGestureRecognizer *panGestureRecognizer;
 }
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -31,10 +33,16 @@
 - (void)toggleMenu;
 - (void)configureGridview;
 - (void)fetchPhotos;
+- (void)showSidebarMenu;
+- (void)hideSidebarMenu;
+- (void)dragContentView:(UIPanGestureRecognizer *)panGesture;
 
 @end
 
 @implementation SVAlbumGridViewController
+{
+    BOOL isMenuShowing;
+}
 
 #pragma mark - UIViewController Methods
 
@@ -49,6 +57,12 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId = %d", [self.selectedAlbum.albumId stringValue]];
     fetchRequest.sortDescriptors = @[descriptor];
     fetchRequest.predicate = predicate;
+    
+    // Initialize the sidebar menu
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+    self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
+    self.sidebarMenuController.parentController = self;
+    
     
     // Setup fetched results
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
@@ -68,6 +82,15 @@
 {
     [super viewWillAppear:animated];
     
+    // Force the sidebar menu to its modified dimensions since the storyboard won't let us
+    self.sidebarMenuController.view.frame = CGRectMake(320, 20, 260, self.sidebarMenuController.view.frame.size.height);
+    [[[UIApplication sharedApplication] keyWindow] addSubview:self.sidebarMenuController.view];
+    
+    // Setup gesture recognizers for the sidebar menu
+    panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragContentView:)];
+    panGestureRecognizer.cancelsTouchesInView = YES;
+    [self.view addGestureRecognizer:panGestureRecognizer];
+    
     [self loadData];
     
     [self fetchPhotos];
@@ -79,6 +102,10 @@
     [super viewWillDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [self.sidebarMenuController.view removeFromSuperview];
+    
+    [self.view removeGestureRecognizer:panGestureRecognizer];
 }
 
 
@@ -173,7 +200,14 @@
 {
     // TODO: Add logic to trigger the menu show/hide, we have no psd for this?
     
-    NSLog(@"Menu toggled");
+    // Handle logic for showing/hiding the sidebar menu
+    if (!isMenuShowing) {
+        [self showSidebarMenu];
+    }
+    else
+    {
+        [self hideSidebarMenu];
+    }
 }
 
 
@@ -207,5 +241,97 @@
     }
     RKLogInfo(@"This album contains %d photos", self.selectedAlbum.photos.count);
     [self configureGridview];
+}
+
+
+- (void)showSidebarMenu
+{
+    // Grab the frames of the thumbnail container and navigation bar
+    CGRect destinationNavigation = self.navigationController.view.frame;
+    CGRect destinationSidebar = self.sidebarMenuController.view.frame;
+    
+    // Push the thumbnail container and navigation bar to the right to reveal the sidebar menu
+    destinationNavigation.origin.x -= 260;
+    destinationSidebar.origin.x -= 260;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.navigationController.view.frame = destinationNavigation;
+        
+        self.sidebarMenuController.view.frame = destinationSidebar;
+        
+    } completion:^(BOOL finished) {
+        
+        self.gridviewContainer.userInteractionEnabled = NO;
+        
+    }];
+    
+    isMenuShowing = YES;
+}
+
+
+- (void)hideSidebarMenu
+{
+    // Grab the frames of the sidebar and navigation bar
+    CGRect destinationNavigation = self.navigationController.view.frame;
+    CGRect destinationSidebar = self.sidebarMenuController.view.frame;
+    
+    // Return the thumbnail container and navigation bar to their original positions, hiding the sidebar menu
+    destinationNavigation.origin.x = 0;
+    destinationSidebar.origin.x = 320;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.navigationController.view.frame = destinationNavigation;
+        self.sidebarMenuController.view.frame = destinationSidebar;
+        
+    } completion:^(BOOL finished) {
+        
+        self.gridviewContainer.userInteractionEnabled = YES;
+        
+    }];
+    
+    isMenuShowing = NO;
+}
+
+
+- (void)dragContentView:(UIPanGestureRecognizer *)panGesture {
+	CGFloat translation = [panGesture translationInView:self.view].x;
+	if (panGesture.state == UIGestureRecognizerStateChanged) {
+		if (isMenuShowing) {
+			if (translation > 0.0f) {
+				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, -260.0f, 0.0f);
+                self.sidebarMenuController.view.frame = CGRectOffset(self.sidebarMenuController.view.bounds, -260.0f, 0.0f);
+				isMenuShowing = YES;
+			} else if (translation < -260.0f) {
+				self.navigationController.view.frame = self.navigationController.view.bounds;
+                self.sidebarMenuController.view.frame = self.sidebarMenuController.view.bounds;
+				isMenuShowing = NO;
+			} else {
+				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, translation, 0.0f);
+                self.sidebarMenuController.view.frame = CGRectOffset(self.sidebarMenuController.view.frame, translation, 0.0f);
+			}
+		} else {
+			if (translation > 0.0f) {
+				self.navigationController.view.frame = self.navigationController.view.bounds;
+                self.sidebarMenuController.view.frame = self.sidebarMenuController.view.bounds;
+				isMenuShowing = NO;
+			} else if (translation < -260.0) {
+				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, -260.0f, 0.0f);
+                self.sidebarMenuController.view.frame = CGRectOffset(self.sidebarMenuController.view.bounds, -260.0f, 0.0f);
+				isMenuShowing = YES;
+			} else {
+				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, translation, 0.0f);
+                self.sidebarMenuController.view.frame = CGRectOffset(self.sidebarMenuController.view.bounds, translation, 0.0f);
+			}
+		}
+	} else if (panGesture.state == UIGestureRecognizerStateEnded) {
+		CGFloat velocity = [panGesture velocityInView:self.view].x;
+        
+        if (fabs(velocity) > 1000.0f || (velocity == 0 && translation > 130.0f)) {
+            [self toggleMenu];
+        }
+		
+	}
 }
 @end
