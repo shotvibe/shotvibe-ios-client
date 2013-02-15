@@ -39,7 +39,7 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
     // Customize back barbuttonitem for nav bar
     {
         UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(16, 25, 16, 5);
+        UIEdgeInsets insets = UIEdgeInsetsMake(25, 0, 5, 5);
         
         UIImage *resizableImage = nil;
         if (IS_IOS6_OR_GREATER) {
@@ -47,10 +47,11 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
         }
         else
         {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+            resizableImage = [baseImage stretchableImageWithLeftCapWidth:0 topCapHeight:5];
         }
         
         [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(2, -4) forBarMetrics:UIBarMetricsDefault];
     }
     
     // Customize regular barbuttonitem for navbar

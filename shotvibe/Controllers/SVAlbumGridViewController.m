@@ -83,8 +83,9 @@
     [super viewWillAppear:animated];
     
     // Force the sidebar menu to its modified dimensions since the storyboard won't let us
-    self.sidebarMenuController.view.frame = CGRectMake(320, 20, 260, self.sidebarMenuController.view.frame.size.height);
+    self.sidebarMenuController.view.frame = CGRectMake(60, 20, 260, self.sidebarMenuController.view.frame.size.height);
     [[[UIApplication sharedApplication] keyWindow] addSubview:self.sidebarMenuController.view];
+    [[[UIApplication sharedApplication] keyWindow] bringSubviewToFront:self.navigationController.view];
     
     // Setup gesture recognizers for the sidebar menu
     panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragContentView:)];
@@ -248,17 +249,14 @@
 {
     // Grab the frames of the thumbnail container and navigation bar
     CGRect destinationNavigation = self.navigationController.view.frame;
-    CGRect destinationSidebar = self.sidebarMenuController.view.frame;
     
     // Push the thumbnail container and navigation bar to the right to reveal the sidebar menu
-    destinationNavigation.origin.x -= 260;
-    destinationSidebar.origin.x -= 260;
+    destinationNavigation.origin.x = -260;
     
     [UIView animateWithDuration:0.25 animations:^{
         
         self.navigationController.view.frame = destinationNavigation;
         
-        self.sidebarMenuController.view.frame = destinationSidebar;
         
     } completion:^(BOOL finished) {
         
@@ -274,16 +272,13 @@
 {
     // Grab the frames of the sidebar and navigation bar
     CGRect destinationNavigation = self.navigationController.view.frame;
-    CGRect destinationSidebar = self.sidebarMenuController.view.frame;
     
     // Return the thumbnail container and navigation bar to their original positions, hiding the sidebar menu
     destinationNavigation.origin.x = 0;
-    destinationSidebar.origin.x = 320;
     
     [UIView animateWithDuration:0.25 animations:^{
         
         self.navigationController.view.frame = destinationNavigation;
-        self.sidebarMenuController.view.frame = destinationSidebar;
         
     } completion:^(BOOL finished) {
         
@@ -299,39 +294,70 @@
 	CGFloat translation = [panGesture translationInView:self.view].x;
 	if (panGesture.state == UIGestureRecognizerStateChanged) {
 		if (isMenuShowing) {
-			if (translation > 0.0f) {
-				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, -260.0f, 0.0f);
-                self.sidebarMenuController.view.frame = CGRectOffset(self.sidebarMenuController.view.bounds, -260.0f, 0.0f);
+			if (translation < 0.0f) {
+				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, -260, 0.0f);
 				isMenuShowing = YES;
-			} else if (translation < -260.0f) {
+                self.gridviewContainer.userInteractionEnabled = NO;
+			} else if (translation > 260) {
 				self.navigationController.view.frame = self.navigationController.view.bounds;
-                self.sidebarMenuController.view.frame = self.sidebarMenuController.view.bounds;
 				isMenuShowing = NO;
+                self.gridviewContainer.userInteractionEnabled = YES;
 			} else {
-				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, translation, 0.0f);
-                self.sidebarMenuController.view.frame = CGRectOffset(self.sidebarMenuController.view.frame, translation, 0.0f);
+				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, (-260 + translation), 0.0f);
 			}
 		} else {
 			if (translation > 0.0f) {
 				self.navigationController.view.frame = self.navigationController.view.bounds;
-                self.sidebarMenuController.view.frame = self.sidebarMenuController.view.bounds;
 				isMenuShowing = NO;
-			} else if (translation < -260.0) {
-				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, -260.0f, 0.0f);
-                self.sidebarMenuController.view.frame = CGRectOffset(self.sidebarMenuController.view.bounds, -260.0f, 0.0f);
+                self.gridviewContainer.userInteractionEnabled = YES;
+			} else if (translation < -260) {
+				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, -260, 0.0f);
 				isMenuShowing = YES;
+                self.gridviewContainer.userInteractionEnabled = NO;
 			} else {
 				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, translation, 0.0f);
-                self.sidebarMenuController.view.frame = CGRectOffset(self.sidebarMenuController.view.bounds, translation, 0.0f);
 			}
 		}
 	} else if (panGesture.state == UIGestureRecognizerStateEnded) {
 		CGFloat velocity = [panGesture velocityInView:self.view].x;
-        
-        if (fabs(velocity) > 1000.0f || (velocity == 0 && translation > 130.0f)) {
+
+		if (fabs(velocity) > 1000.0 || fabs(translation) > (260 / 2)) {
             [self toggleMenu];
+        }
+        else
+        {
+            if (isMenuShowing) {
+                
+                // Grab the frames of the thumbnail container and navigation bar
+                CGRect destinationNavigation = self.navigationController.view.frame;
+                
+                // Push the thumbnail container and navigation bar to the right to reveal the sidebar menu
+                destinationNavigation.origin.x = -260;
+                
+                [UIView animateWithDuration:0.25 animations:^{
+                    
+                    self.navigationController.view.frame = destinationNavigation;
+                    
+                    
+                }];
+            }
+            else
+            {
+                // Grab the frames of the sidebar and navigation bar
+                CGRect destinationNavigation = self.navigationController.view.frame;
+                
+                // Return the thumbnail container and navigation bar to their original positions, hiding the sidebar menu
+                destinationNavigation.origin.x = 0;
+                
+                [UIView animateWithDuration:0.25 animations:^{
+                    
+                    self.navigationController.view.frame = destinationNavigation;
+                    
+                }];
+            }
         }
 		
 	}
+	
 }
 @end
