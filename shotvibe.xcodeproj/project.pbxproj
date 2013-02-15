@@ -59,6 +59,7 @@
 		04DE51C316CE19F3006B17D0 /* navbarBackButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DE51C016CE19F3006B17D0 /* navbarBackButton@2x.png */; };
 		04DE51C416CE19F3006B17D0 /* navbarBackButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DE51C116CE19F3006B17D0 /* navbarBackButton.png */; };
 		04DE51C516CE19F3006B17D0 /* navbarBackButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DE51C116CE19F3006B17D0 /* navbarBackButton.png */; };
+		AA0B2F7D16CEE91D00095135 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0B2F7C16CEE91D00095135 /* libRestKit.a */; };
 		AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880C16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880D16CB84CC002AC699 /* NINetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880A16CB84CC002AC699 /* NINetworkImageView.m */; };
@@ -395,8 +396,6 @@
 		AAE3DDFE16CED89100539F92 /* NIPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDF616CED89100539F92 /* NIPageView.m */; };
 		AAE3DDFF16CED89100539F92 /* NIPagingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDF816CED89100539F92 /* NIPagingScrollView.m */; };
 		AAE3DE0016CED89100539F92 /* NIPagingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDF816CED89100539F92 /* NIPagingScrollView.m */; };
-		AAE3DE7E16CEDB0E00539F92 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAE3DE7316CEDA8D00539F92 /* libRestKit.a */; };
-		AAE3DE7F16CEDB1400539F92 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAE3DE7316CEDA8D00539F92 /* libRestKit.a */; };
 		AAE3DEE616CEDC8400539F92 /* NetworkPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */; };
 		AAE3DEE716CEDC8400539F92 /* NetworkPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */; };
 		AAE6CB5516C59CF100EB1832 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5416C59CF100EB1832 /* Member.m */; };
@@ -416,48 +415,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = AA58FAF616C224E800C49E02;
 			remoteInfo = shotvibe;
-		};
-		AAE3DE7216CEDA8D00539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 25160D1614564E810060A5C5;
-			remoteInfo = RestKit;
-		};
-		AAE3DE7416CEDA8D00539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 25160D2614564E820060A5C5;
-			remoteInfo = RestKitTests;
-		};
-		AAE3DE7616CEDA8D00539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 25160E62145651060060A5C5;
-			remoteInfo = RestKitFramework;
-		};
-		AAE3DE7816CEDA8D00539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 25160E78145651060060A5C5;
-			remoteInfo = RestKitFrameworkTests;
-		};
-		AAE3DE7A16CEDAF700539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 25160D1514564E810060A5C5;
-			remoteInfo = RestKit;
-		};
-		AAE3DE7C16CEDAFC00539F92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 25160D1514564E810060A5C5;
-			remoteInfo = RestKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -496,6 +453,7 @@
 		04DE51B516CE1955006B17D0 /* navbarButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navbarButton.png; sourceTree = "<group>"; };
 		04DE51C016CE19F3006B17D0 /* navbarBackButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navbarBackButton@2x.png"; sourceTree = "<group>"; };
 		04DE51C116CE19F3006B17D0 /* navbarBackButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navbarBackButton.png; sourceTree = "<group>"; };
+		AA0B2F7C16CEE91D00095135 /* libRestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRestKit.a; path = ../../../../../../../Desktop/libRestKit.a; sourceTree = "<group>"; };
 		AA12880516CB84CC002AC699 /* NIImageProcessing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIImageProcessing.h; path = Nimbus/src/networkimage/src/NIImageProcessing.h; sourceTree = "<group>"; };
 		AA12880616CB84CC002AC699 /* NIImageProcessing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIImageProcessing.m; path = Nimbus/src/networkimage/src/NIImageProcessing.m; sourceTree = "<group>"; };
 		AA12880716CB84CC002AC699 /* NimbusNetworkImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NimbusNetworkImage.h; path = Nimbus/src/networkimage/src/NimbusNetworkImage.h; sourceTree = "<group>"; };
@@ -802,7 +760,6 @@
 		AAE3DDFA16CED89100539F92 /* NIPagingScrollViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIPagingScrollViewDataSource.h; path = nimbus/src/pagingscrollview/src/NIPagingScrollViewDataSource.h; sourceTree = "<group>"; };
 		AAE3DDFB16CED89100539F92 /* NIPagingScrollViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIPagingScrollViewDelegate.h; path = nimbus/src/pagingscrollview/src/NIPagingScrollViewDelegate.h; sourceTree = "<group>"; };
 		AAE3DDFC16CED89100539F92 /* NIPagingScrollViewPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIPagingScrollViewPage.h; path = nimbus/src/pagingscrollview/src/NIPagingScrollViewPage.h; sourceTree = "<group>"; };
-		AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
 		AAE3DEE416CEDC8400539F92 /* NetworkPhotoAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkPhotoAlbumViewController.h; path = nimbus/examples/photos/NetworkPhotoAlbums/src/NetworkPhotoAlbumViewController.h; sourceTree = "<group>"; };
 		AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkPhotoAlbumViewController.m; path = nimbus/examples/photos/NetworkPhotoAlbums/src/NetworkPhotoAlbumViewController.m; sourceTree = "<group>"; };
 		AAE6CB5316C59CF100EB1832 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
@@ -821,7 +778,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAE3DE7F16CEDB1400539F92 /* libRestKit.a in Frameworks */,
+				AA0B2F7D16CEE91D00095135 /* libRestKit.a in Frameworks */,
 				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
 				AA58FD0316C2363D00C49E02 /* AVFoundation.framework in Frameworks */,
 				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
@@ -852,7 +809,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAE3DE7E16CEDB0E00539F92 /* libRestKit.a in Frameworks */,
 				AA58FD0C16C236C000C49E02 /* libsqlite3.dylib in Frameworks */,
 				AA58FD0A16C236B000C49E02 /* AVFoundation.framework in Frameworks */,
 				AA58FD0816C2369900C49E02 /* CFNetwork.framework in Frameworks */,
@@ -1042,6 +998,7 @@
 			isa = PBXGroup;
 			children = (
 				AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */,
+				AA0B2F7C16CEE91D00095135 /* libRestKit.a */,
 				AA58FD0216C2363D00C49E02 /* AVFoundation.framework */,
 				AA58FCFE16C235FD00C49E02 /* CFNetwork.framework */,
 				AACB11E416C457DC00BAC7E1 /* CoreData.framework */,
@@ -1141,7 +1098,6 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */,
 				04CD9C6C16CDC6FF00FC72B3 /* GMGridView */,
 				AA58FB7A16C230DE00C49E02 /* HockeySDK */,
 				AA58FB9616C235C800C49E02 /* JMC */,
@@ -1592,17 +1548,6 @@
 			name = "Network Photo Album Controller";
 			sourceTree = "<group>";
 		};
-		AAE3DE6C16CEDA8D00539F92 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AAE3DE7316CEDA8D00539F92 /* libRestKit.a */,
-				AAE3DE7516CEDA8D00539F92 /* RestKitTests.octest */,
-				AAE3DE7716CEDA8D00539F92 /* RestKit.framework */,
-				AAE3DE7916CEDA8D00539F92 /* RestKitFrameworkTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		AAE3DEED16CEDDA800539F92 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1655,7 +1600,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AAE3DE7B16CEDAF700539F92 /* PBXTargetDependency */,
 			);
 			name = shotvibe;
 			productName = shotvibe;
@@ -1693,7 +1637,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AAE3DE7D16CEDAFC00539F92 /* PBXTargetDependency */,
 			);
 			name = shotvibebeta;
 			productName = shotvibe;
@@ -1720,12 +1663,6 @@
 			mainGroup = AA58FAEE16C224E800C49E02;
 			productRefGroup = AA58FAF816C224E800C49E02 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = AAE3DE6C16CEDA8D00539F92 /* Products */;
-					ProjectRef = AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				AA58FAF616C224E800C49E02 /* shotvibe */,
@@ -1734,37 +1671,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		AAE3DE7316CEDA8D00539F92 /* libRestKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRestKit.a;
-			remoteRef = AAE3DE7216CEDA8D00539F92 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AAE3DE7516CEDA8D00539F92 /* RestKitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RestKitTests.octest;
-			remoteRef = AAE3DE7416CEDA8D00539F92 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AAE3DE7716CEDA8D00539F92 /* RestKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RestKit.framework;
-			remoteRef = AAE3DE7616CEDA8D00539F92 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AAE3DE7916CEDA8D00539F92 /* RestKitFrameworkTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RestKitFrameworkTests.octest;
-			remoteRef = AAE3DE7816CEDA8D00539F92 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AA58FAF516C224E800C49E02 /* Resources */ = {
@@ -2231,16 +2137,6 @@
 			target = AA58FAF616C224E800C49E02 /* shotvibe */;
 			targetProxy = AA58FB2216C224E800C49E02 /* PBXContainerItemProxy */;
 		};
-		AAE3DE7B16CEDAF700539F92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = RestKit;
-			targetProxy = AAE3DE7A16CEDAF700539F92 /* PBXContainerItemProxy */;
-		};
-		AAE3DE7D16CEDAFC00539F92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = RestKit;
-			targetProxy = AAE3DE7C16CEDAFC00539F92 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -2355,6 +2251,10 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Desktop\"",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -2379,6 +2279,10 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Desktop\"",
+				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -2468,6 +2372,10 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Desktop\"",
+				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
