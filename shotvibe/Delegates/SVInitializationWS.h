@@ -15,4 +15,5 @@
 - (void)configureAppearanceProxies;
 - (void)processAnalytics;
 - (void)initializeLocalSettingsDefaults;
+- (void)initializeManagedObjectModel;
 @end
