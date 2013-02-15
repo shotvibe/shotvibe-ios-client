@@ -65,14 +65,8 @@
 		AA12880E16CB84CC002AC699 /* NINetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880A16CB84CC002AC699 /* NINetworkImageView.m */; };
 		AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
 		AA12881216CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
-		AA419E9916CEEB5C00136A1A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9516CEEB5C00136A1A /* .gitignore */; };
-		AA419E9A16CEEB5C00136A1A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9516CEEB5C00136A1A /* .gitignore */; };
-		AA419E9B16CEEB5C00136A1A /* .gitmodules in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9616CEEB5C00136A1A /* .gitmodules */; };
-		AA419E9C16CEEB5C00136A1A /* .gitmodules in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9616CEEB5C00136A1A /* .gitmodules */; };
-		AA419E9D16CEEB5C00136A1A /* .rvmrc in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9716CEEB5C00136A1A /* .rvmrc */; };
-		AA419E9E16CEEB5C00136A1A /* .rvmrc in Resources */ = {isa = PBXBuildFile; fileRef = AA419E9716CEEB5C00136A1A /* .rvmrc */; };
-		AA419E9F16CEEB5C00136A1A /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA419E9816CEEB5C00136A1A /* libRestKit.a */; };
-		AA419EA016CEEB5C00136A1A /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA419E9816CEEB5C00136A1A /* libRestKit.a */; };
+		AA30832D16CEEF6300621970 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA30832416CEEF5200621970 /* libRestKit.a */; };
+		AA30833016CEEF6E00621970 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA30832416CEEF5200621970 /* libRestKit.a */; };
 		AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFA16C224E800C49E02 /* UIKit.framework */; };
 		AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFC16C224E800C49E02 /* Foundation.framework */; };
 		AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */; };
@@ -383,6 +377,15 @@
 		AA972EAD16CEDFDB007D9B35 /* NIOverviewSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = AA972E9D16CEDFDB007D9B35 /* NIOverviewSwizzling.m */; };
 		AA972EAE16CEDFDB007D9B35 /* NIOverviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA972E9F16CEDFDB007D9B35 /* NIOverviewView.m */; };
 		AA972EAF16CEDFDB007D9B35 /* NIOverviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA972E9F16CEDFDB007D9B35 /* NIOverviewView.m */; };
+		AAB7870916CEF057006503C2 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB786F616CEF057006503C2 /* AFHTTPClient.m */; };
+		AAB7870B16CEF057006503C2 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB786F816CEF057006503C2 /* AFHTTPRequestOperation.m */; };
+		AAB7870D16CEF057006503C2 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB786FA16CEF057006503C2 /* AFImageRequestOperation.m */; };
+		AAB7870F16CEF057006503C2 /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB786FC16CEF057006503C2 /* AFJSONRequestOperation.m */; };
+		AAB7871116CEF057006503C2 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB786FE16CEF057006503C2 /* AFNetworkActivityIndicatorManager.m */; };
+		AAB7871316CEF057006503C2 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB7870116CEF057006503C2 /* AFPropertyListRequestOperation.m */; };
+		AAB7871516CEF057006503C2 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB7870316CEF057006503C2 /* AFURLConnectionOperation.m */; };
+		AAB7871716CEF057006503C2 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB7870516CEF057006503C2 /* AFXMLRequestOperation.m */; };
+		AAB7871916CEF057006503C2 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB7870716CEF057006503C2 /* UIImageView+AFNetworking.m */; };
 		AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
 		AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
 		AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
@@ -416,6 +419,48 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AA30832316CEEF5200621970 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA30831C16CEEF5200621970 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160D1614564E810060A5C5;
+			remoteInfo = RestKit;
+		};
+		AA30832516CEEF5200621970 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA30831C16CEEF5200621970 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160D2614564E820060A5C5;
+			remoteInfo = RestKitTests;
+		};
+		AA30832716CEEF5200621970 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA30831C16CEEF5200621970 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160E62145651060060A5C5;
+			remoteInfo = RestKitFramework;
+		};
+		AA30832916CEEF5200621970 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA30831C16CEEF5200621970 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160E78145651060060A5C5;
+			remoteInfo = RestKitFrameworkTests;
+		};
+		AA30832B16CEEF5A00621970 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA30831C16CEEF5200621970 /* RestKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 25160D1514564E810060A5C5;
+			remoteInfo = RestKit;
+		};
+		AA30832E16CEEF6900621970 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA30831C16CEEF5200621970 /* RestKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 25160D1514564E810060A5C5;
+			remoteInfo = RestKit;
+		};
 		AA58FB2216C224E800C49E02 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AA58FAEF16C224E800C49E02 /* Project object */;
@@ -468,10 +513,7 @@
 		AA12880A16CB84CC002AC699 /* NINetworkImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NINetworkImageView.m; path = Nimbus/src/networkimage/src/NINetworkImageView.m; sourceTree = "<group>"; };
 		AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumListViewCell.h; sourceTree = "<group>"; };
 		AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumListViewCell.m; sourceTree = "<group>"; };
-		AA419E9516CEEB5C00136A1A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		AA419E9616CEEB5C00136A1A /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
-		AA419E9716CEEB5C00136A1A /* .rvmrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .rvmrc; sourceTree = "<group>"; };
-		AA419E9816CEEB5C00136A1A /* libRestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRestKit.a; sourceTree = "<group>"; };
+		AA30831C16CEEF5200621970 /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
 		AA58FAF716C224E800C49E02 /* ShotVibe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShotVibe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA58FAFA16C224E800C49E02 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AA58FAFC16C224E800C49E02 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -741,6 +783,25 @@
 		AA972E9D16CEDFDB007D9B35 /* NIOverviewSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIOverviewSwizzling.m; path = nimbus/src/overview/src/NIOverviewSwizzling.m; sourceTree = "<group>"; };
 		AA972E9E16CEDFDB007D9B35 /* NIOverviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIOverviewView.h; path = nimbus/src/overview/src/NIOverviewView.h; sourceTree = "<group>"; };
 		AA972E9F16CEDFDB007D9B35 /* NIOverviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIOverviewView.m; path = nimbus/src/overview/src/NIOverviewView.m; sourceTree = "<group>"; };
+		AAB786F516CEF057006503C2 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
+		AAB786F616CEF057006503C2 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
+		AAB786F716CEF057006503C2 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
+		AAB786F816CEF057006503C2 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
+		AAB786F916CEF057006503C2 /* AFImageRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFImageRequestOperation.h; sourceTree = "<group>"; };
+		AAB786FA16CEF057006503C2 /* AFImageRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFImageRequestOperation.m; sourceTree = "<group>"; };
+		AAB786FB16CEF057006503C2 /* AFJSONRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFJSONRequestOperation.h; sourceTree = "<group>"; };
+		AAB786FC16CEF057006503C2 /* AFJSONRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFJSONRequestOperation.m; sourceTree = "<group>"; };
+		AAB786FD16CEF057006503C2 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
+		AAB786FE16CEF057006503C2 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
+		AAB786FF16CEF057006503C2 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
+		AAB7870016CEF057006503C2 /* AFPropertyListRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPropertyListRequestOperation.h; sourceTree = "<group>"; };
+		AAB7870116CEF057006503C2 /* AFPropertyListRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFPropertyListRequestOperation.m; sourceTree = "<group>"; };
+		AAB7870216CEF057006503C2 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
+		AAB7870316CEF057006503C2 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
+		AAB7870416CEF057006503C2 /* AFXMLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFXMLRequestOperation.h; sourceTree = "<group>"; };
+		AAB7870516CEF057006503C2 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
+		AAB7870616CEF057006503C2 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
+		AAB7870716CEF057006503C2 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		AACB11C916C454A000BAC7E1 /* SVEntityStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEntityStore.h; sourceTree = "<group>"; };
 		AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVEntityStore.m; sourceTree = "<group>"; };
 		AACB11E416C457DC00BAC7E1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -788,6 +849,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA30832D16CEEF6300621970 /* libRestKit.a in Frameworks */,
 				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
 				AA58FD0316C2363D00C49E02 /* AVFoundation.framework in Frameworks */,
 				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
@@ -801,7 +863,6 @@
 				AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */,
 				AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */,
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
-				AA419E9F16CEEB5C00136A1A /* libRestKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -819,6 +880,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA30833016CEEF6E00621970 /* libRestKit.a in Frameworks */,
 				AA58FD0C16C236C000C49E02 /* libsqlite3.dylib in Frameworks */,
 				AA58FD0A16C236B000C49E02 /* AVFoundation.framework in Frameworks */,
 				AA58FD0816C2369900C49E02 /* CFNetwork.framework in Frameworks */,
@@ -832,7 +894,6 @@
 				AA58FB8B16C231A900C49E02 /* SystemConfiguration.framework in Frameworks */,
 				AA58FB5116C2291200C49E02 /* UIKit.framework in Frameworks */,
 				AA58FD0F16C238DC00C49E02 /* HockeySDK.framework in Frameworks */,
-				AA419EA016CEEB5C00136A1A /* libRestKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -985,15 +1046,15 @@
 			name = Albums;
 			sourceTree = "<group>";
 		};
-		AA419E9416CEEB5C00136A1A /* RestKit */ = {
+		AA30831D16CEEF5200621970 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AA419E9516CEEB5C00136A1A /* .gitignore */,
-				AA419E9616CEEB5C00136A1A /* .gitmodules */,
-				AA419E9716CEEB5C00136A1A /* .rvmrc */,
-				AA419E9816CEEB5C00136A1A /* libRestKit.a */,
+				AA30832416CEEF5200621970 /* libRestKit.a */,
+				AA30832616CEEF5200621970 /* RestKitTests.octest */,
+				AA30832816CEEF5200621970 /* RestKit.framework */,
+				AA30832A16CEEF5200621970 /* RestKitFrameworkTests.octest */,
 			);
-			path = RestKit;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		AA58FAEE16C224E800C49E02 = {
@@ -1119,10 +1180,11 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				AA30831C16CEEF5200621970 /* RestKit.xcodeproj */,
+				AAB786F416CEF057006503C2 /* AFNetworking */,
 				04CD9C6C16CDC6FF00FC72B3 /* GMGridView */,
 				AA58FB7A16C230DE00C49E02 /* HockeySDK */,
 				AA58FB9616C235C800C49E02 /* JMC */,
-				AA419E9416CEEB5C00136A1A /* RestKit */,
 				AA1287A516CB8339002AC699 /* Nimbus */,
 			);
 			path = Vendor;
@@ -1471,6 +1533,32 @@
 			name = Overview;
 			sourceTree = "<group>";
 		};
+		AAB786F416CEF057006503C2 /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				AAB786F516CEF057006503C2 /* AFHTTPClient.h */,
+				AAB786F616CEF057006503C2 /* AFHTTPClient.m */,
+				AAB786F716CEF057006503C2 /* AFHTTPRequestOperation.h */,
+				AAB786F816CEF057006503C2 /* AFHTTPRequestOperation.m */,
+				AAB786F916CEF057006503C2 /* AFImageRequestOperation.h */,
+				AAB786FA16CEF057006503C2 /* AFImageRequestOperation.m */,
+				AAB786FB16CEF057006503C2 /* AFJSONRequestOperation.h */,
+				AAB786FC16CEF057006503C2 /* AFJSONRequestOperation.m */,
+				AAB786FD16CEF057006503C2 /* AFNetworkActivityIndicatorManager.h */,
+				AAB786FE16CEF057006503C2 /* AFNetworkActivityIndicatorManager.m */,
+				AAB786FF16CEF057006503C2 /* AFNetworking.h */,
+				AAB7870016CEF057006503C2 /* AFPropertyListRequestOperation.h */,
+				AAB7870116CEF057006503C2 /* AFPropertyListRequestOperation.m */,
+				AAB7870216CEF057006503C2 /* AFURLConnectionOperation.h */,
+				AAB7870316CEF057006503C2 /* AFURLConnectionOperation.m */,
+				AAB7870416CEF057006503C2 /* AFXMLRequestOperation.h */,
+				AAB7870516CEF057006503C2 /* AFXMLRequestOperation.m */,
+				AAB7870616CEF057006503C2 /* UIImageView+AFNetworking.h */,
+				AAB7870716CEF057006503C2 /* UIImageView+AFNetworking.m */,
+			);
+			path = AFNetworking;
+			sourceTree = "<group>";
+		};
 		AACB11C316C453E600BAC7E1 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -1622,6 +1710,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AA30832C16CEEF5A00621970 /* PBXTargetDependency */,
 			);
 			name = shotvibe;
 			productName = shotvibe;
@@ -1659,6 +1748,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AA30832F16CEEF6900621970 /* PBXTargetDependency */,
 			);
 			name = shotvibebeta;
 			productName = shotvibe;
@@ -1685,6 +1775,12 @@
 			mainGroup = AA58FAEE16C224E800C49E02;
 			productRefGroup = AA58FAF816C224E800C49E02 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AA30831D16CEEF5200621970 /* Products */;
+					ProjectRef = AA30831C16CEEF5200621970 /* RestKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				AA58FAF616C224E800C49E02 /* shotvibe */,
@@ -1693,6 +1789,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		AA30832416CEEF5200621970 /* libRestKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRestKit.a;
+			remoteRef = AA30832316CEEF5200621970 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AA30832616CEEF5200621970 /* RestKitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitTests.octest;
+			remoteRef = AA30832516CEEF5200621970 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AA30832816CEEF5200621970 /* RestKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RestKit.framework;
+			remoteRef = AA30832716CEEF5200621970 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AA30832A16CEEF5200621970 /* RestKitFrameworkTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitFrameworkTests.octest;
+			remoteRef = AA30832916CEEF5200621970 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AA58FAF516C224E800C49E02 /* Resources */ = {
@@ -1772,9 +1899,6 @@
 				04DE51BA16CE1955006B17D0 /* navbarButton.png in Resources */,
 				04DE51C216CE19F3006B17D0 /* navbarBackButton@2x.png in Resources */,
 				04DE51C416CE19F3006B17D0 /* navbarBackButton.png in Resources */,
-				AA419E9916CEEB5C00136A1A /* .gitignore in Resources */,
-				AA419E9B16CEEB5C00136A1A /* .gitmodules in Resources */,
-				AA419E9D16CEEB5C00136A1A /* .rvmrc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1864,9 +1988,6 @@
 				04DE51BB16CE1955006B17D0 /* navbarButton.png in Resources */,
 				04DE51C316CE19F3006B17D0 /* navbarBackButton@2x.png in Resources */,
 				04DE51C516CE19F3006B17D0 /* navbarBackButton.png in Resources */,
-				AA419E9A16CEEB5C00136A1A /* .gitignore in Resources */,
-				AA419E9C16CEEB5C00136A1A /* .gitmodules in Resources */,
-				AA419E9E16CEEB5C00136A1A /* .rvmrc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2154,12 +2275,31 @@
 				AA972EAB16CEDFDB007D9B35 /* NIOverviewPageView.m in Sources */,
 				AA972EAD16CEDFDB007D9B35 /* NIOverviewSwizzling.m in Sources */,
 				AA972EAF16CEDFDB007D9B35 /* NIOverviewView.m in Sources */,
+				AAB7870916CEF057006503C2 /* AFHTTPClient.m in Sources */,
+				AAB7870B16CEF057006503C2 /* AFHTTPRequestOperation.m in Sources */,
+				AAB7870D16CEF057006503C2 /* AFImageRequestOperation.m in Sources */,
+				AAB7870F16CEF057006503C2 /* AFJSONRequestOperation.m in Sources */,
+				AAB7871116CEF057006503C2 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				AAB7871316CEF057006503C2 /* AFPropertyListRequestOperation.m in Sources */,
+				AAB7871516CEF057006503C2 /* AFURLConnectionOperation.m in Sources */,
+				AAB7871716CEF057006503C2 /* AFXMLRequestOperation.m in Sources */,
+				AAB7871916CEF057006503C2 /* UIImageView+AFNetworking.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AA30832C16CEEF5A00621970 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RestKit;
+			targetProxy = AA30832B16CEEF5A00621970 /* PBXContainerItemProxy */;
+		};
+		AA30832F16CEEF6900621970 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RestKit;
+			targetProxy = AA30832E16CEEF6900621970 /* PBXContainerItemProxy */;
+		};
 		AA58FB2316C224E800C49E02 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AA58FAF616C224E800C49E02 /* shotvibe */;
@@ -2283,6 +2423,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../../Desktop\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2312,6 +2455,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../../Desktop\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -2406,6 +2552,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../../Desktop\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -2449,6 +2598,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -2475,6 +2627,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -2501,6 +2656,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
