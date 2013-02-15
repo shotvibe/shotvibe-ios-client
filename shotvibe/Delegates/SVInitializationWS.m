@@ -30,7 +30,28 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
 
 - (void)configureAppearanceProxies
 {
+    // Customize appearance of the navigation bar
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarBg.png"] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0], UITextAttributeFont, nil]];
     
+    
+    // Customize back barbuttonitem for nav bar
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(0, 20, 0, 5);
+        UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    }
+    
+    // Customize regular barbuttonitem for navbar
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:0.00 green:0.67 blue:0.93 alpha:1.0], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont, nil] forState:UIControlStateNormal];
+    
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"navbarButton.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(0, 5, 0, 5);
+        UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        [[UIBarButtonItem appearance] setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    }
 }
 
 
