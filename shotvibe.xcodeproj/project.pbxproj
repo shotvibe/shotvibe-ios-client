@@ -1702,9 +1702,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA58FB2F16C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibe" */;
 			buildPhases = (
-				AA58FAF316C224E800C49E02 /* Sources */,
 				AA58FAF416C224E800C49E02 /* Frameworks */,
 				AA58FAF516C224E800C49E02 /* Resources */,
+				AA58FAF316C224E800C49E02 /* Sources */,
 				AA58FB4C16C228D700C49E02 /* ShellScript */,
 			);
 			buildRules = (
@@ -1740,9 +1740,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA58FB5B16C2291200C49E02 /* Build configuration list for PBXNativeTarget "shotvibebeta" */;
 			buildPhases = (
-				AA58FB4E16C2291200C49E02 /* Sources */,
 				AA58FB5016C2291200C49E02 /* Frameworks */,
 				AA58FB5416C2291200C49E02 /* Resources */,
+				AA58FB4E16C2291200C49E02 /* Sources */,
 				AA58FB5A16C2291200C49E02 /* ShellScript */,
 			);
 			buildRules = (
