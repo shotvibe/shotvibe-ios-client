@@ -171,11 +171,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="mainBg.png" width="320" height="432"/>
-        <image name="thumbnailCameraButton.png" width="109" height="22"/>
-        <image name="thumbnailGalleryButton.png" width="106" height="23"/>
-        <image name="thumbnailToolbarSeparator.png" width="2" height="30"/>
-        <image name="thumbnailViewToolbarBg.png" width="320" height="47"/>
+        <image name="mainBg.png" width="16" height="16"/>
+        <image name="thumbnailCameraButton.png" width="16" height="16"/>
+        <image name="thumbnailGalleryButton.png" width="16" height="16"/>
+        <image name="thumbnailToolbarSeparator.png" width="16" height="16"/>
+        <image name="thumbnailViewToolbarBg.png" width="16" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
