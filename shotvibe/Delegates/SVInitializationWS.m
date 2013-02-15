@@ -48,10 +48,12 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
         else
         {
             resizableImage = [baseImage stretchableImageWithLeftCapWidth:0 topCapHeight:5];
+            
+            // iOS5 back buttons are messed up :/
+            [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(2, -4) forBarMetrics:UIBarMetricsDefault];
         }
         
         [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-        [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(2, -4) forBarMetrics:UIBarMetricsDefault];
     }
     
     // Customize regular barbuttonitem for navbar
