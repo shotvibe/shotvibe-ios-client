@@ -8,6 +8,7 @@
 #import <RestKit/RestKit.h>
 #import <RestKit/CoreData.h>
 #import "SVInitializationWS.h"
+#import "SVDefines.h"
 
 #ifdef DEBUG
 static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
@@ -39,7 +40,16 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
     {
         UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(0, 20, 0, 5);
-        UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        }
+        else
+        {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        
         [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     }
     
@@ -49,7 +59,16 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
     {
         UIImage *baseImage = [UIImage imageNamed:@"navbarButton.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(0, 5, 0, 5);
-        UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        }
+        else
+        {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        
         [[UIBarButtonItem appearance] setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     }
 }
