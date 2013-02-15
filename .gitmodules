@@ -1,0 +1,6 @@
+[submodule "shotvibe/Vendor/RestKit"]
+	path = shotvibe/Vendor/RestKit
+	url = git://github.com/RestKit/RestKit.git
+[submodule "shotvibe/Vendor/Nimbus"]
+	path = shotvibe/Vendor/Nimbus
+	url = git@github.com:jverkoey/nimbus.git
