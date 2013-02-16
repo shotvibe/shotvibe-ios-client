@@ -2436,10 +2436,10 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"\"$(BUILT_PRODUCTS_DIR)/../../Headers\"",
-					"\"$(SOURCE_ROOT)/../RestKit/Build\"",
+					"\"$(SOURCE_ROOT)/shotvibe/Vendor/RestKit/build\"/**",
 				);
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "\"$(SOURCE_ROOT)/shotvibe/Vendor/RestKit/build\"/**";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibe;
@@ -2462,10 +2462,10 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"\"$(BUILT_PRODUCTS_DIR)/../../Headers\"",
-					"\"$(SOURCE_ROOT)/../RestKit/Build\"",
+					"\"$(SOURCE_ROOT)/shotvibe/Vendor/RestKit/build\"/**",
 				);
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "\"$(SOURCE_ROOT)/shotvibe/Vendor/RestKit/build\"/**";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibe;
@@ -2555,10 +2555,10 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"\"$(BUILT_PRODUCTS_DIR)/../../Headers\"",
-					"\"$(SOURCE_ROOT)/../RestKit/Build\"",
+					"\"$(SOURCE_ROOT)/shotvibe/Vendor/RestKit/build\"/**",
 				);
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "\"$(SOURCE_ROOT)/shotvibe/Vendor/RestKit/build\"/**";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibe;
