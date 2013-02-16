@@ -6,9 +6,6 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import <QuartzCore/QuartzCore.h>
-#import <RestKit/RestKit.h>
-#import <RestKit/CoreData.h>
 #import "Album.h"
 #import "Photo.h"
 #import "SVAlbumGridViewController.h"

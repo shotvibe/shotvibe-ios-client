@@ -14,5 +14,7 @@
     #import <SystemConfiguration/SystemConfiguration.h>
     #import <MobileCoreServices/MobileCoreServices.h>
     #import <QuartzCore/QuartzCore.h>
+    #import <RestKit/RestKit.h>
+    #import <RestKit/CoreData.h>
     #import "NimbusCore.h"
 #endif
