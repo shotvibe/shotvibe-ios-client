@@ -2392,23 +2392,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
-					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../../../Desktop\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -2424,23 +2415,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
-					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../../../Desktop\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -2522,7 +2504,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
 				);
@@ -2530,14 +2511,7 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../../../Desktop\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -2569,7 +2543,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
 				);
@@ -2577,13 +2550,7 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -2598,7 +2565,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
 				);
@@ -2606,13 +2572,7 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -2627,7 +2587,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
 				);
@@ -2635,13 +2594,7 @@
 				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "$(SRCROOT)/shotvibe/shotvibebeta-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/Products/Debug-iphoneos\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7\"",
-					"\"$(SRCROOT)/shotvibe/Vendor/RestKit/Build/RestKit.build/Debug-iphoneos/RestKit.build/Objects-normal/armv7s\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
