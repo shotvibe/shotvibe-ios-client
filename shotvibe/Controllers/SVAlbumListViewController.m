@@ -76,6 +76,12 @@
 }
 
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+
 #pragma mark - Memory Management
 
 - (void)didReceiveMemoryWarning
