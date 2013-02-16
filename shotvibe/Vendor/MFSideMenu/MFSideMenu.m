@@ -7,6 +7,7 @@
 #import "MFSideMenu.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
+#import "SVDefines.h"
 
 typedef enum {
     MFSideMenuPanDirectionNone,
@@ -18,7 +19,6 @@ typedef enum {
 @interface MFSideMenu()
 @property (nonatomic, assign, readwrite) UINavigationController *navigationController;
 @property (nonatomic, strong) UIViewController *leftSideMenuViewController;
-@property (nonatomic, strong) UIViewController *rightSideMenuViewController;
 @property (nonatomic, strong) UIView *menuContainerView;
 
 @property (nonatomic, assign) CGPoint panGestureOrigin;
@@ -449,10 +449,11 @@ typedef enum {
     }
     
     CGRect newFrame = self.rootViewController.view.window.bounds;
-    newFrame = self.rootViewController.view.window.screen.applicationFrame;
+    //newFrame = self.rootViewController.view.window.screen.applicationFrame;
     CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
     self.menuContainerView.transform = transform;
     self.menuContainerView.frame = newFrame;
+
 }
 
 - (void)statusBarOrientationDidChange:(NSNotification *)notification {

@@ -77,6 +77,8 @@ typedef void (^MFSideMenuStateEventBlock)(MFSideMenuStateEvent);
                       rightSideMenuController:(id)rightMenuController
                                       panMode:(MFSideMenuPanMode)panMode;
 
+// I'm taking this.
+@property (nonatomic, strong) UIViewController *rightSideMenuViewController;
 
 - (void)toggleLeftSideMenu;
 - (void)toggleRightSideMenu;

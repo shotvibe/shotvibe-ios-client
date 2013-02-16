@@ -35,6 +35,7 @@
 - (void)toggleMenu;
 - (void)configureGridview;
 - (void)fetchPhotos;
+- (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
 
 @end
 
@@ -56,15 +57,6 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId = %d", [self.selectedAlbum.albumId stringValue]];
     fetchRequest.sortDescriptors = @[descriptor];
     fetchRequest.predicate = predicate;
-    
-    // Initialize the sidebar menu
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
-    self.sidebarMenuController.parentController = self;
-    
-    MFSideMenu *sideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:nil rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
-    
-    [self.navigationController setSideMenu:sideMenu];
     
     
     // Setup fetched results
@@ -88,6 +80,16 @@
     [self loadData];
     
     [self fetchPhotos];
+    
+    // Initialize the sidebar menu
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+    self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
+    self.sidebarMenuController.parentController = self;
+    
+    MFSideMenu *sideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:nil rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
+    
+    [self.navigationController setSideMenu:sideMenu];
+    [self configureMenuForOrientation:self.interfaceOrientation];
 }
 
 
@@ -105,6 +107,32 @@
     // Then kill the sidebar menu.
     self.navigationController.sideMenu = nil;
     
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        
+        if (IS_IPHONE_5) {
+            
+            [_gmGridView setItemSpacing:11];
+            [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(11, 11, 11, 11)];
+        }
+        else
+        {
+            [_gmGridView setItemSpacing:16];
+            [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(15, 15, 15, 15)];
+        }
+
+    }
+    else
+    {
+        [_gmGridView setItemSpacing:5];
+        [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+    }
+    
+    [self configureMenuForOrientation:self.interfaceOrientation];
 }
 
 
@@ -215,7 +243,27 @@
     gmGridView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     gmGridView.backgroundColor = [UIColor clearColor];
     gmGridView.centerGrid = NO;
-    gmGridView.itemSpacing = 5;
+    
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        
+        if (IS_IPHONE_5) {
+            
+            [gmGridView setItemSpacing:11];
+            [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(11, 11, 11, 11)];
+        }
+        else
+        {
+            [gmGridView setItemSpacing:16];
+            [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(15, 15, 15, 15)];
+        }
+        
+    }
+    else
+    {
+        [gmGridView setItemSpacing:5];
+        [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+    }
+    
     [self.gridviewContainer addSubview:gmGridView];
     _gmGridView = gmGridView;
     
@@ -232,6 +280,63 @@
     }
     RKLogInfo(@"This album contains %d photos", self.selectedAlbum.photos.count);
     [self configureGridview];
+}
+
+
+- (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation
+{
+
+    
+    CGRect rightFrame = self.navigationController.sideMenu.rightSideMenuViewController.view.frame;
+    rightFrame.size.height = 300;
+    rightFrame.origin.x = 320 - kMFSideMenuSidebarWidth;
+    rightFrame.size.width = kMFSideMenuSidebarWidth;
+    rightFrame.origin.y = 20;
+    
+    switch (orientation) {
+        case UIInterfaceOrientationPortrait:
+            
+            if (IS_IPHONE_5) {
+                rightFrame.size.height = 548;
+            }
+            else
+            {
+                rightFrame.size.height = 460;
+            }
+            break;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            if (IS_IPHONE_5) {
+                rightFrame.size.height = 548;
+            }
+            else
+            {
+                rightFrame.size.height = 460;
+            }
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+            if (IS_IPHONE_5) {
+                rightFrame.origin.x = 568 - kMFSideMenuSidebarWidth;
+            }
+            else
+            {
+                rightFrame.origin.x = 480 - kMFSideMenuSidebarWidth;
+                
+            }
+            break;
+        case UIInterfaceOrientationLandscapeRight:
+            if (IS_IPHONE_5) {
+                rightFrame.origin.x = 568 - kMFSideMenuSidebarWidth;
+            }
+            else
+            {
+                rightFrame.origin.x = 480 - kMFSideMenuSidebarWidth;
+                
+            }
+            break;
+    }
+    
+    self.navigationController.sideMenu.rightSideMenuViewController.view.frame = rightFrame;
+
 }
 
 

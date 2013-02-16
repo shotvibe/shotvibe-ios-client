@@ -22,16 +22,4 @@ static char menuKey;
     return (MFSideMenu *)objc_getAssociatedObject(self, &menuKey);
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [self.sideMenu performSelector:@selector(navigationControllerDidAppear)];
-}
-
-- (void) viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    [self.sideMenu performSelector:@selector(navigationControllerDidDisappear)];
-}
-
 @end

@@ -32,9 +32,22 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
 - (void)configureAppearanceProxies
 {
     // Customize appearance of the navigation bar
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarBg.png"] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0], UITextAttributeFont, nil]];
-    
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"navbarBg.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(5, 5, 5, 5);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        }
+        else
+        {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        
+        [[UINavigationBar appearance] setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
+    }
     
     // Customize back barbuttonitem for nav bar
     {

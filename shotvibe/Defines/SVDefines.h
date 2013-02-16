@@ -10,6 +10,7 @@
 #define shotvibe_SVDefines_h
 
 #define IS_IOS6_OR_GREATER ([[UIDevice currentDevice].systemVersion floatValue] >= 6.0)
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
 #define kPhotoThumbExtension @"_thumb75.jpg"
 #define kPhotoIphone3Extension @"_iphone3.jpg"
