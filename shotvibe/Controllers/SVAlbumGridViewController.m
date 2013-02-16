@@ -36,6 +36,7 @@
 - (void)configureGridview;
 - (void)fetchPhotos;
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
+- (void)backButtonPressed;
 
 @end
 
@@ -68,6 +69,12 @@
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menuIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
     
+    // Setup back button for annoying long album names
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed)];
+    
+    self.navigationItem.backBarButtonItem = backButton;
+    
+    
     // Listen for our RestKit loads to finish
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchPhotos) name:@"SVPhotosLoaded" object:nil];
 }
@@ -98,6 +105,9 @@
     [super viewWillDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    // Kill any drag processes here and now
+    [self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
     
     // We have to make sure that all the gesture recognizers are removed from the nav controller before we're done with the grid controller.
     while (self.navigationController.view.gestureRecognizers.count) {
@@ -337,6 +347,12 @@
     
     self.navigationController.sideMenu.rightSideMenuViewController.view.frame = rightFrame;
 
+}
+
+
+- (void)backButtonPressed
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
