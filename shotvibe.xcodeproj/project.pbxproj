@@ -7,22 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04734F1116CEB669003F729B /* GHRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F0716CEB669003F729B /* GHRevealViewController.m */; };
-		04734F1216CEB669003F729B /* GHRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F0716CEB669003F729B /* GHRevealViewController.m */; };
-		04734F1316CEB669003F729B /* GHSidebarSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F0916CEB669003F729B /* GHSidebarSearchViewController.m */; };
-		04734F1416CEB669003F729B /* GHSidebarSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F0916CEB669003F729B /* GHSidebarSearchViewController.m */; };
-		04734F1516CEB669003F729B /* searchBarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 04734F0C16CEB669003F729B /* searchBarBG.png */; };
-		04734F1616CEB669003F729B /* searchBarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 04734F0C16CEB669003F729B /* searchBarBG.png */; };
-		04734F1716CEB669003F729B /* searchBarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04734F0D16CEB669003F729B /* searchBarIcon.png */; };
-		04734F1816CEB669003F729B /* searchBarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04734F0D16CEB669003F729B /* searchBarIcon.png */; };
-		04734F1916CEB669003F729B /* searchBarIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04734F0E16CEB669003F729B /* searchBarIcon@2x.png */; };
-		04734F1A16CEB669003F729B /* searchBarIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04734F0E16CEB669003F729B /* searchBarIcon@2x.png */; };
-		04734F1B16CEB669003F729B /* searchTextBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 04734F0F16CEB669003F729B /* searchTextBG.png */; };
-		04734F1C16CEB669003F729B /* searchTextBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 04734F0F16CEB669003F729B /* searchTextBG.png */; };
-		04734F1D16CEB669003F729B /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 04734F1016CEB669003F729B /* user.png */; };
-		04734F1E16CEB669003F729B /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 04734F1016CEB669003F729B /* user.png */; };
 		04734F2416CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */; };
 		04734F2516CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */; };
+		04734F2F16CF104F003F729B /* MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2C16CF104F003F729B /* MFSideMenu.m */; };
+		04734F3016CF104F003F729B /* MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2C16CF104F003F729B /* MFSideMenu.m */; };
+		04734F3116CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */; };
+		04734F3216CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */; };
 		04CD9C5416CDC6E200FC72B3 /* mainBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CD9C4816CDC6E200FC72B3 /* mainBg.png */; };
 		04CD9C5516CDC6E200FC72B3 /* mainBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CD9C4816CDC6E200FC72B3 /* mainBg.png */; };
 		04CD9C5616CDC6E200FC72B3 /* mainBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CD9C4916CDC6E200FC72B3 /* mainBg@2x.png */; };
@@ -478,18 +468,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		04734F0616CEB669003F729B /* GHRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHRevealViewController.h; sourceTree = "<group>"; };
-		04734F0716CEB669003F729B /* GHRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHRevealViewController.m; sourceTree = "<group>"; };
-		04734F0816CEB669003F729B /* GHSidebarSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHSidebarSearchViewController.h; sourceTree = "<group>"; };
-		04734F0916CEB669003F729B /* GHSidebarSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHSidebarSearchViewController.m; sourceTree = "<group>"; };
-		04734F0A16CEB669003F729B /* GHSidebarSearchViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHSidebarSearchViewControllerDelegate.h; sourceTree = "<group>"; };
-		04734F0C16CEB669003F729B /* searchBarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBarBG.png; sourceTree = "<group>"; };
-		04734F0D16CEB669003F729B /* searchBarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBarIcon.png; sourceTree = "<group>"; };
-		04734F0E16CEB669003F729B /* searchBarIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchBarIcon@2x.png"; sourceTree = "<group>"; };
-		04734F0F16CEB669003F729B /* searchTextBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchTextBG.png; sourceTree = "<group>"; };
-		04734F1016CEB669003F729B /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		04734F2216CEC1B1003F729B /* SVSidebarMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSidebarMenuViewController.h; sourceTree = "<group>"; };
 		04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSidebarMenuViewController.m; sourceTree = "<group>"; };
+		04734F2B16CF104F003F729B /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
+		04734F2C16CF104F003F729B /* MFSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenu.m; sourceTree = "<group>"; };
+		04734F2D16CF104F003F729B /* UINavigationController+MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+MFSideMenu.h"; sourceTree = "<group>"; };
+		04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+MFSideMenu.m"; sourceTree = "<group>"; };
 		04CD9C4816CDC6E200FC72B3 /* mainBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainBg.png; sourceTree = "<group>"; };
 		04CD9C4916CDC6E200FC72B3 /* mainBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mainBg@2x.png"; sourceTree = "<group>"; };
 		04CD9C4A16CDC6E200FC72B3 /* navbarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navbarBg.png; sourceTree = "<group>"; };
@@ -900,29 +884,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04734F0516CEB669003F729B /* GHSidebarNav */ = {
+		04734F2A16CF104F003F729B /* MFSideMenu */ = {
 			isa = PBXGroup;
 			children = (
-				04734F0616CEB669003F729B /* GHRevealViewController.h */,
-				04734F0716CEB669003F729B /* GHRevealViewController.m */,
-				04734F0816CEB669003F729B /* GHSidebarSearchViewController.h */,
-				04734F0916CEB669003F729B /* GHSidebarSearchViewController.m */,
-				04734F0A16CEB669003F729B /* GHSidebarSearchViewControllerDelegate.h */,
-				04734F0B16CEB669003F729B /* Images */,
+				04734F2B16CF104F003F729B /* MFSideMenu.h */,
+				04734F2C16CF104F003F729B /* MFSideMenu.m */,
+				04734F2D16CF104F003F729B /* UINavigationController+MFSideMenu.h */,
+				04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */,
 			);
-			path = GHSidebarNav;
-			sourceTree = "<group>";
-		};
-		04734F0B16CEB669003F729B /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				04734F0C16CEB669003F729B /* searchBarBG.png */,
-				04734F0D16CEB669003F729B /* searchBarIcon.png */,
-				04734F0E16CEB669003F729B /* searchBarIcon@2x.png */,
-				04734F0F16CEB669003F729B /* searchTextBG.png */,
-				04734F1016CEB669003F729B /* user.png */,
-			);
-			path = Images;
+			path = MFSideMenu;
 			sourceTree = "<group>";
 		};
 		04CD9C4616CDC6E200FC72B3 /* Resources */ = {
@@ -1194,11 +1164,11 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				04734F0516CEB669003F729B /* GHSidebarNav */,
 				AAE3DE6B16CEDA8D00539F92 /* RestKit.xcodeproj */,
 				04CD9C6C16CDC6FF00FC72B3 /* GMGridView */,
 				AA58FB7A16C230DE00C49E02 /* HockeySDK */,
 				AA58FB9616C235C800C49E02 /* JMC */,
+				04734F2A16CF104F003F729B /* MFSideMenu */,
 				AA1287A516CB8339002AC699 /* Nimbus */,
 			);
 			path = Vendor;
@@ -1900,11 +1870,6 @@
 				04DE51BA16CE1955006B17D0 /* navbarButton.png in Resources */,
 				04DE51C216CE19F3006B17D0 /* navbarBackButton@2x.png in Resources */,
 				04DE51C416CE19F3006B17D0 /* navbarBackButton.png in Resources */,
-				04734F1516CEB669003F729B /* searchBarBG.png in Resources */,
-				04734F1716CEB669003F729B /* searchBarIcon.png in Resources */,
-				04734F1916CEB669003F729B /* searchBarIcon@2x.png in Resources */,
-				04734F1B16CEB669003F729B /* searchTextBG.png in Resources */,
-				04734F1D16CEB669003F729B /* user.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1994,11 +1959,6 @@
 				04DE51BB16CE1955006B17D0 /* navbarButton.png in Resources */,
 				04DE51C316CE19F3006B17D0 /* navbarBackButton@2x.png in Resources */,
 				04DE51C516CE19F3006B17D0 /* navbarBackButton.png in Resources */,
-				04734F1616CEB669003F729B /* searchBarBG.png in Resources */,
-				04734F1816CEB669003F729B /* searchBarIcon.png in Resources */,
-				04734F1A16CEB669003F729B /* searchBarIcon@2x.png in Resources */,
-				04734F1C16CEB669003F729B /* searchTextBG.png in Resources */,
-				04734F1E16CEB669003F729B /* user.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2118,26 +2078,6 @@
 				04CD9C7F16CDC6FF00FC72B3 /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */,
 				04CD9C8116CDC6FF00FC72B3 /* UIView+GMGridViewAdditions.m in Sources */,
 				04CD9CE216CDF15A00FC72B3 /* SVAlbumDetailScrollViewController.m in Sources */,
-				04CD9CE716CDF76500FC72B3 /* NetworkPhotoAlbumViewController.m in Sources */,
-				04CD9D0616CDF86600FC72B3 /* NIDeviceInfo.m in Sources */,
-				04CD9D0816CDF86600FC72B3 /* NIOverview.m in Sources */,
-				04CD9D0A16CDF86600FC72B3 /* NIOverviewGraphView.m in Sources */,
-				04CD9D0C16CDF86600FC72B3 /* NIOverviewLogger.m in Sources */,
-				04CD9D0E16CDF86600FC72B3 /* NIOverviewMemoryCacheController.m in Sources */,
-				04CD9D1016CDF86600FC72B3 /* NIOverviewPageView.m in Sources */,
-				04CD9D1216CDF86600FC72B3 /* NIOverviewSwizzling.m in Sources */,
-				04CD9D1416CDF86600FC72B3 /* NIOverviewView.m in Sources */,
-				04CD9D3D16CDF88B00FC72B3 /* NICellBackgrounds.m in Sources */,
-				04CD9D3F16CDF88B00FC72B3 /* NICellCatalog.m in Sources */,
-				04CD9D4116CDF88B00FC72B3 /* NICellFactory.m in Sources */,
-				04CD9D4316CDF88B00FC72B3 /* NIFormCellCatalog.m in Sources */,
-				04CD9D4516CDF88B00FC72B3 /* NIMutableTableViewModel.m in Sources */,
-				04CD9D4716CDF88B00FC72B3 /* NIRadioGroup.m in Sources */,
-				04CD9D4916CDF88B00FC72B3 /* NIRadioGroupController.m in Sources */,
-				04CD9D4B16CDF88B00FC72B3 /* NITableViewActions.m in Sources */,
-				04CD9D4D16CDF88B00FC72B3 /* NITableViewModel.m in Sources */,
-				04734F1116CEB669003F729B /* GHRevealViewController.m in Sources */,
-				04734F1316CEB669003F729B /* GHSidebarSearchViewController.m in Sources */,
 				04734F2416CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */,
 				AAE3DDEA16CED80700539F92 /* NIPhotoAlbumScrollView.m in Sources */,
 				AAE3DDEC16CED80700539F92 /* NIPhotoScrollView.m in Sources */,
@@ -2182,6 +2122,8 @@
 				AA972EAA16CEDFDB007D9B35 /* NIOverviewPageView.m in Sources */,
 				AA972EAC16CEDFDB007D9B35 /* NIOverviewSwizzling.m in Sources */,
 				AA972EAE16CEDFDB007D9B35 /* NIOverviewView.m in Sources */,
+				04734F2F16CF104F003F729B /* MFSideMenu.m in Sources */,
+				04734F3116CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2264,26 +2206,6 @@
 				04CD9C8016CDC6FF00FC72B3 /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */,
 				04CD9C8216CDC6FF00FC72B3 /* UIView+GMGridViewAdditions.m in Sources */,
 				04CD9CE316CDF15A00FC72B3 /* SVAlbumDetailScrollViewController.m in Sources */,
-				04CD9CE816CDF76500FC72B3 /* NetworkPhotoAlbumViewController.m in Sources */,
-				04CD9D0716CDF86600FC72B3 /* NIDeviceInfo.m in Sources */,
-				04CD9D0916CDF86600FC72B3 /* NIOverview.m in Sources */,
-				04CD9D0B16CDF86600FC72B3 /* NIOverviewGraphView.m in Sources */,
-				04CD9D0D16CDF86600FC72B3 /* NIOverviewLogger.m in Sources */,
-				04CD9D0F16CDF86600FC72B3 /* NIOverviewMemoryCacheController.m in Sources */,
-				04CD9D1116CDF86600FC72B3 /* NIOverviewPageView.m in Sources */,
-				04CD9D1316CDF86600FC72B3 /* NIOverviewSwizzling.m in Sources */,
-				04CD9D1516CDF86600FC72B3 /* NIOverviewView.m in Sources */,
-				04CD9D3E16CDF88B00FC72B3 /* NICellBackgrounds.m in Sources */,
-				04CD9D4016CDF88B00FC72B3 /* NICellCatalog.m in Sources */,
-				04CD9D4216CDF88B00FC72B3 /* NICellFactory.m in Sources */,
-				04CD9D4416CDF88B00FC72B3 /* NIFormCellCatalog.m in Sources */,
-				04CD9D4616CDF88B00FC72B3 /* NIMutableTableViewModel.m in Sources */,
-				04CD9D4816CDF88B00FC72B3 /* NIRadioGroup.m in Sources */,
-				04CD9D4A16CDF88B00FC72B3 /* NIRadioGroupController.m in Sources */,
-				04CD9D4C16CDF88B00FC72B3 /* NITableViewActions.m in Sources */,
-				04CD9D4E16CDF88B00FC72B3 /* NITableViewModel.m in Sources */,
-				04734F1216CEB669003F729B /* GHRevealViewController.m in Sources */,
-				04734F1416CEB669003F729B /* GHSidebarSearchViewController.m in Sources */,
 				04734F2516CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */,
 				AAE3DDEB16CED80700539F92 /* NIPhotoAlbumScrollView.m in Sources */,
 				AAE3DDED16CED80700539F92 /* NIPhotoScrollView.m in Sources */,
@@ -2328,6 +2250,8 @@
 				AA972EAB16CEDFDB007D9B35 /* NIOverviewPageView.m in Sources */,
 				AA972EAD16CEDFDB007D9B35 /* NIOverviewSwizzling.m in Sources */,
 				AA972EAF16CEDFDB007D9B35 /* NIOverviewView.m in Sources */,
+				04734F3016CF104F003F729B /* MFSideMenu.m in Sources */,
+				04734F3216CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

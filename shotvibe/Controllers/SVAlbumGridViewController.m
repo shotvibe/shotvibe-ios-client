@@ -18,6 +18,8 @@
 #import "NINetworkImageView.h"
 #import "SVAlbumDetailScrollViewController.h"
 #import "SVSidebarMenuViewController.h"
+#import "MFSideMenu.h"
+#import "UINavigationController+MFSideMenu.h"
 
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
@@ -33,9 +35,6 @@
 - (void)toggleMenu;
 - (void)configureGridview;
 - (void)fetchPhotos;
-- (void)showSidebarMenu;
-- (void)hideSidebarMenu;
-- (void)dragContentView:(UIPanGestureRecognizer *)panGesture;
 
 @end
 
@@ -63,6 +62,10 @@
     self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
     self.sidebarMenuController.parentController = self;
     
+    MFSideMenu *sideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:nil rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
+    
+    [self.navigationController setSideMenu:sideMenu];
+    
     
     // Setup fetched results
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
@@ -82,16 +85,6 @@
 {
     [super viewWillAppear:animated];
     
-    // Force the sidebar menu to its modified dimensions since the storyboard won't let us
-    self.sidebarMenuController.view.frame = CGRectMake(60, 20, 260, self.sidebarMenuController.view.frame.size.height);
-    [[[UIApplication sharedApplication] keyWindow] addSubview:self.sidebarMenuController.view];
-    [[[UIApplication sharedApplication] keyWindow] bringSubviewToFront:self.navigationController.view];
-    
-    // Setup gesture recognizers for the sidebar menu
-    panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragContentView:)];
-    panGestureRecognizer.cancelsTouchesInView = YES;
-    [self.view addGestureRecognizer:panGestureRecognizer];
-    
     [self loadData];
     
     [self fetchPhotos];
@@ -104,9 +97,14 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [self.sidebarMenuController.view removeFromSuperview];
+    // We have to make sure that all the gesture recognizers are removed from the nav controller before we're done with the grid controller.
+    while (self.navigationController.view.gestureRecognizers.count) {
+        [self.navigationController.view removeGestureRecognizer:[self.navigationController.view.gestureRecognizers objectAtIndex:0]];
+    }
     
-    [self.view removeGestureRecognizer:panGestureRecognizer];
+    // Then kill the sidebar menu.
+    self.navigationController.sideMenu = nil;
+    
 }
 
 
@@ -199,16 +197,8 @@
 
 - (void)toggleMenu
 {
-    // TODO: Add logic to trigger the menu show/hide, we have no psd for this?
     
-    // Handle logic for showing/hiding the sidebar menu
-    if (!isMenuShowing) {
-        [self showSidebarMenu];
-    }
-    else
-    {
-        [self hideSidebarMenu];
-    }
+    [self.navigationController.sideMenu toggleRightSideMenu];
 }
 
 
@@ -245,119 +235,5 @@
 }
 
 
-- (void)showSidebarMenu
-{
-    // Grab the frames of the thumbnail container and navigation bar
-    CGRect destinationNavigation = self.navigationController.view.frame;
-    
-    // Push the thumbnail container and navigation bar to the right to reveal the sidebar menu
-    destinationNavigation.origin.x = -260;
-    
-    [UIView animateWithDuration:0.25 animations:^{
-        
-        self.navigationController.view.frame = destinationNavigation;
-        
-        
-    } completion:^(BOOL finished) {
-        
-        self.gridviewContainer.userInteractionEnabled = NO;
-        
-    }];
-    
-    isMenuShowing = YES;
-}
 
-
-- (void)hideSidebarMenu
-{
-    // Grab the frames of the sidebar and navigation bar
-    CGRect destinationNavigation = self.navigationController.view.frame;
-    
-    // Return the thumbnail container and navigation bar to their original positions, hiding the sidebar menu
-    destinationNavigation.origin.x = 0;
-    
-    [UIView animateWithDuration:0.25 animations:^{
-        
-        self.navigationController.view.frame = destinationNavigation;
-        
-    } completion:^(BOOL finished) {
-        
-        self.gridviewContainer.userInteractionEnabled = YES;
-        
-    }];
-    
-    isMenuShowing = NO;
-}
-
-
-- (void)dragContentView:(UIPanGestureRecognizer *)panGesture {
-	CGFloat translation = [panGesture translationInView:self.view].x;
-	if (panGesture.state == UIGestureRecognizerStateChanged) {
-		if (isMenuShowing) {
-			if (translation < 0.0f) {
-				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, -260, 0.0f);
-				isMenuShowing = YES;
-                self.gridviewContainer.userInteractionEnabled = NO;
-			} else if (translation > 260) {
-				self.navigationController.view.frame = self.navigationController.view.bounds;
-				isMenuShowing = NO;
-                self.gridviewContainer.userInteractionEnabled = YES;
-			} else {
-				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, (-260 + translation), 0.0f);
-			}
-		} else {
-			if (translation > 0.0f) {
-				self.navigationController.view.frame = self.navigationController.view.bounds;
-				isMenuShowing = NO;
-                self.gridviewContainer.userInteractionEnabled = YES;
-			} else if (translation < -260) {
-				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, -260, 0.0f);
-				isMenuShowing = YES;
-                self.gridviewContainer.userInteractionEnabled = NO;
-			} else {
-				self.navigationController.view.frame = CGRectOffset(self.navigationController.view.bounds, translation, 0.0f);
-			}
-		}
-	} else if (panGesture.state == UIGestureRecognizerStateEnded) {
-		CGFloat velocity = [panGesture velocityInView:self.view].x;
-
-		if (fabs(velocity) > 1000.0 || fabs(translation) > (260 / 2)) {
-            [self toggleMenu];
-        }
-        else
-        {
-            if (isMenuShowing) {
-                
-                // Grab the frames of the thumbnail container and navigation bar
-                CGRect destinationNavigation = self.navigationController.view.frame;
-                
-                // Push the thumbnail container and navigation bar to the right to reveal the sidebar menu
-                destinationNavigation.origin.x = -260;
-                
-                [UIView animateWithDuration:0.25 animations:^{
-                    
-                    self.navigationController.view.frame = destinationNavigation;
-                    
-                    
-                }];
-            }
-            else
-            {
-                // Grab the frames of the sidebar and navigation bar
-                CGRect destinationNavigation = self.navigationController.view.frame;
-                
-                // Return the thumbnail container and navigation bar to their original positions, hiding the sidebar menu
-                destinationNavigation.origin.x = 0;
-                
-                [UIView animateWithDuration:0.25 animations:^{
-                    
-                    self.navigationController.view.frame = destinationNavigation;
-                    
-                }];
-            }
-        }
-		
-	}
-	
-}
 @end
