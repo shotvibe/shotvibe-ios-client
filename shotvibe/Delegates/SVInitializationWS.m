@@ -30,14 +30,10 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
 - (void)configureAppearanceProxies
 {
     // Customize appearance of the navigation bar
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarBg.png"] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0], UITextAttributeFont, nil]];
-    
-    
-    // Customize back barbuttonitem for nav bar
     {
-        UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(0, 20, 0, 5);
+        UIImage *baseImage = [UIImage imageNamed:@"navbarBg.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(5, 5, 5, 5);
         
         UIImage *resizableImage = nil;
         if (IS_IOS6_OR_GREATER) {
@@ -48,6 +44,29 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
             resizableImage = [baseImage resizableImageWithCapInsets:insets];
         }
         
+        [[UINavigationBar appearance] setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
+    }
+    
+    // Customize back barbuttonitem for nav bar
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(25, 0, 5, 5);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+            
+            // Why on earth is the position different depending on version?
+            [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(2, -2) forBarMetrics:UIBarMetricsDefault];
+        }
+        else
+        {
+            resizableImage = [baseImage stretchableImageWithLeftCapWidth:0 topCapHeight:5];
+            
+            // iOS5 back buttons are messed up :/
+            [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(2, -4) forBarMetrics:UIBarMetricsDefault];
+        }
+        
         [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     }
     
@@ -56,7 +75,7 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
     
     {
         UIImage *baseImage = [UIImage imageNamed:@"navbarButton.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(0, 5, 0, 5);
+        UIEdgeInsets insets = UIEdgeInsetsMake(5, 5, 5, 5);
         
         UIImage *resizableImage = nil;
         if (IS_IOS6_OR_GREATER) {
