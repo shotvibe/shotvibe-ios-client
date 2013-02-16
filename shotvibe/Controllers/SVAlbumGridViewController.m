@@ -14,11 +14,15 @@
 #import "SVDefines.h"
 #import "NINetworkImageView.h"
 #import "SVAlbumDetailScrollViewController.h"
+#import "SVSidebarMenuViewController.h"
+#import "MFSideMenu.h"
+#import "UINavigationController+MFSideMenu.h"
 
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
 {
     __gm_weak GMGridView *_gmGridView;
+    UIPanGestureRecognizer *panGestureRecognizer;
 }
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -28,10 +32,15 @@
 - (void)toggleMenu;
 - (void)configureGridview;
 - (void)fetchPhotos;
+- (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
+- (void)backButtonPressed;
 
 @end
 
 @implementation SVAlbumGridViewController
+{
+    BOOL isMenuShowing;
+}
 
 #pragma mark - UIViewController Methods
 
@@ -47,6 +56,7 @@
     fetchRequest.sortDescriptors = @[descriptor];
     fetchRequest.predicate = predicate;
     
+    
     // Setup fetched results
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
     [self.fetchedResultsController setDelegate:self];
@@ -55,6 +65,12 @@
     // Setup menu button
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menuIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
+    
+    // Setup back button for annoying long album names
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed)];
+    
+    self.navigationItem.backBarButtonItem = backButton;
+    
     
     // Listen for our RestKit loads to finish
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchPhotos) name:@"SVPhotosLoaded" object:nil];
@@ -68,6 +84,16 @@
     [self loadData];
     
     [self fetchPhotos];
+    
+    // Initialize the sidebar menu
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+    self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
+    self.sidebarMenuController.parentController = self;
+    
+    MFSideMenu *sideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:nil rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
+    
+    [self.navigationController setSideMenu:sideMenu];
+    [self configureMenuForOrientation:self.interfaceOrientation];
 }
 
 
@@ -76,6 +102,44 @@
     [super viewWillDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    // Kill any drag processes here and now
+    [self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
+    
+    // We have to make sure that all the gesture recognizers are removed from the nav controller before we're done with the grid controller.
+    while (self.navigationController.view.gestureRecognizers.count) {
+        [self.navigationController.view removeGestureRecognizer:[self.navigationController.view.gestureRecognizers objectAtIndex:0]];
+    }
+    
+    // Then kill the sidebar menu.
+    self.navigationController.sideMenu = nil;
+    
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        
+        if (IS_IPHONE_5) {
+            
+            [_gmGridView setItemSpacing:11];
+            [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(11, 11, 11, 11)];
+        }
+        else
+        {
+            [_gmGridView setItemSpacing:16];
+            [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(15, 15, 15, 15)];
+        }
+
+    }
+    else
+    {
+        [_gmGridView setItemSpacing:5];
+        [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+    }
+    
+    [self configureMenuForOrientation:self.interfaceOrientation];
 }
 
 
@@ -168,9 +232,8 @@
 
 - (void)toggleMenu
 {
-    // TODO: Add logic to trigger the menu show/hide, we have no psd for this?
     
-    NSLog(@"Menu toggled");
+    [self.navigationController.sideMenu toggleRightSideMenu];
 }
 
 
@@ -187,7 +250,27 @@
     gmGridView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     gmGridView.backgroundColor = [UIColor clearColor];
     gmGridView.centerGrid = NO;
-    gmGridView.itemSpacing = 5;
+    
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        
+        if (IS_IPHONE_5) {
+            
+            [gmGridView setItemSpacing:11];
+            [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(11, 11, 11, 11)];
+        }
+        else
+        {
+            [gmGridView setItemSpacing:16];
+            [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(15, 15, 15, 15)];
+        }
+        
+    }
+    else
+    {
+        [gmGridView setItemSpacing:5];
+        [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+    }
+    
     [self.gridviewContainer addSubview:gmGridView];
     _gmGridView = gmGridView;
     
@@ -205,4 +288,70 @@
     RKLogInfo(@"This album contains %d photos", self.selectedAlbum.photos.count);
     [self configureGridview];
 }
+
+
+- (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation
+{
+
+    
+    CGRect rightFrame = self.navigationController.sideMenu.rightSideMenuViewController.view.frame;
+    rightFrame.size.height = 300;
+    rightFrame.origin.x = 320 - kMFSideMenuSidebarWidth;
+    rightFrame.size.width = kMFSideMenuSidebarWidth;
+    rightFrame.origin.y = 20;
+    
+    switch (orientation) {
+        case UIInterfaceOrientationPortrait:
+            
+            if (IS_IPHONE_5) {
+                rightFrame.size.height = 548;
+            }
+            else
+            {
+                rightFrame.size.height = 460;
+            }
+            break;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            if (IS_IPHONE_5) {
+                rightFrame.size.height = 548;
+            }
+            else
+            {
+                rightFrame.size.height = 460;
+            }
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+            if (IS_IPHONE_5) {
+                rightFrame.origin.x = 568 - kMFSideMenuSidebarWidth;
+            }
+            else
+            {
+                rightFrame.origin.x = 480 - kMFSideMenuSidebarWidth;
+                
+            }
+            break;
+        case UIInterfaceOrientationLandscapeRight:
+            if (IS_IPHONE_5) {
+                rightFrame.origin.x = 568 - kMFSideMenuSidebarWidth;
+            }
+            else
+            {
+                rightFrame.origin.x = 480 - kMFSideMenuSidebarWidth;
+                
+            }
+            break;
+    }
+    
+    self.navigationController.sideMenu.rightSideMenuViewController.view.frame = rightFrame;
+
+}
+
+
+- (void)backButtonPressed
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+
 @end

@@ -321,9 +321,11 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
 
     if ([targetObject isKindOfClass:[NSManagedObject class]]) {
         if ([[targetObject objectID] isTemporaryID]) {
-            NSError *error = nil;
-            BOOL success = [[targetObject managedObjectContext] obtainPermanentIDsForObjects:@[ targetObject ] error:&error];
-            if (! success) RKLogWarning(@"Failed to obtain permanent objectID for targetObject: %@ (%ld)", [error localizedDescription], (long) error.code);
+            [[targetObject managedObjectContext] performBlockAndWait:^{
+                NSError *error = nil;
+                BOOL success = [[targetObject managedObjectContext] obtainPermanentIDsForObjects:@[ targetObject ] error:&error];
+                if (! success) RKLogWarning(@"Failed to obtain permanent objectID for targetObject: %@ (%ld)", [error localizedDescription], (long) error.code);
+            }];            
         }
         self.targetObjectID = [targetObject objectID];
     } else {
@@ -499,22 +501,55 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
     return YES;
 }
 
+/**
+ NOTE: This is more or less a direct port of the functionality provided by `[NSManagedObjectContext saveToPersistentStore:]` in the `RKAdditions` category. We have duplicated the logic here to add in support for checking if the operation has been cancelled since we began cascading up the MOC chain. Because each `performBlockAndWait:` invocation essentially jumps threads and is subject to the availability of the context, it is very possible for the operation to be cancelled during this part of the operation's lifecycle.
+ */
+- (BOOL)saveContextToPersistentStore:(NSManagedObjectContext *)contextToSave error:(NSError **)error
+{
+    __block NSError *localError = nil;
+    while (contextToSave) {
+        __block BOOL success;
+        [contextToSave performBlockAndWait:^{
+            if (! [self isCancelled]) {
+                success = [contextToSave save:&localError];
+                if (! success && localError == nil) RKLogWarning(@"Saving of managed object context failed, but a `nil` value for the `error` argument was returned. This typically indicates an invalid implementation of a key-value validation method exists within your model. This violation of the API contract may result in the save operation being mis-interpretted by callers that rely on the availability of the error.");
+            } else {
+                // We have been cancelled while the save is in progress -- bail
+                success = NO;
+            }
+        }];
+
+        if (! success) {
+            if (error) *error = localError;
+            return NO;
+        }
+
+        if (! contextToSave.parentContext && contextToSave.persistentStoreCoordinator == nil) {
+            RKLogWarning(@"Reached the end of the chain of nested managed object contexts without encountering a persistent store coordinator. Objects are not fully persisted.");
+            return NO;
+        }
+        contextToSave = contextToSave.parentContext;
+    }
+
+    return YES;
+}
+
 - (BOOL)saveContext:(NSManagedObjectContext *)context error:(NSError **)error
 {
     __block BOOL success = YES;
     __block NSError *localError = nil;
     if (self.savesToPersistentStore) {
-        success = [context saveToPersistentStore:&localError];
+        success = [self saveContextToPersistentStore:context error:&localError];
     } else {
         [context performBlockAndWait:^{
-            success = [context save:&localError];
+            success = ([self isCancelled]) ? NO : [context save:&localError];
         }];
     }
     if (success) {
         if ([self.targetObject isKindOfClass:[NSManagedObject class]]) {
             [self.managedObjectContext performBlock:^{
                 RKLogDebug(@"Refreshing mapped target object %@ in context %@", self.targetObject, self.managedObjectContext);
-                [self.managedObjectContext refreshObject:self.targetObject mergeChanges:YES];
+                if (! [self isCancelled]) [self.managedObjectContext refreshObject:self.targetObject mergeChanges:YES];
             }];
         }
     } else {
@@ -542,44 +577,44 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
 {
     __block BOOL _blockSuccess = YES;
     __block NSError *localError = nil;
-    NSArray *insertedObjects = [self.privateContext.insertedObjects allObjects];
-    if ([insertedObjects count] > 0) {
+    [self.privateContext performBlockAndWait:^{
+        NSArray *insertedObjects = [[self.privateContext insertedObjects] allObjects];
         RKLogDebug(@"Obtaining permanent ID's for %ld managed objects", (unsigned long) [insertedObjects count]);
-        [self.privateContext performBlockAndWait:^{
-            _blockSuccess = [self.privateContext obtainPermanentIDsForObjects:insertedObjects error:&localError];
-        }];
-        if (!_blockSuccess && error) *error = localError;
-    }
+        _blockSuccess = [self.privateContext obtainPermanentIDsForObjects:insertedObjects error:nil];
+    }];
+    if (!_blockSuccess && error) *error = localError;
 
     return _blockSuccess;;
 }
 
 - (void)willFinish
 {
+    if ([self isCancelled]) return;
+    
     BOOL success;
     NSError *error = nil;
 
     // Handle any cleanup
     success = [self deleteTargetObjectIfAppropriate:&error];
-    if (! success) {
+    if (! success || [self isCancelled]) {
         self.error = error;
         return;
     }
 
     success = [self deleteLocalObjectsMissingFromMappingResult:&error];
-    if (! success) {
+    if (! success || [self isCancelled]) {
         self.error = error;
         return;
     }
 
     // Persist our mapped objects
     success = [self obtainPermanentObjectIDsForInsertedObjects:&error];
-    if (! success) {
+    if (! success || [self isCancelled]) {
         self.error = error;
         return;
     }
     success = [self saveContext:&error];
-    if (! success) {
+    if (! success || [self isCancelled]) {
         self.error = error;
         return;
     }
@@ -600,7 +635,7 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
                 [entityMappingEvents addObject:[RKEntityMappingEvent eventWithRootKey:rootKey
                                                                               keyPath:RKKeyPathByDeletingLastComponent(keyPath)
                                                                         entityMapping:(RKEntityMapping *)propertyMapping.objectMapping]];
-            }            
+            }
             if ([propertyMapping isKindOfClass:[RKRelationshipMapping class]]) {
                 if ([[(RKRelationshipMapping *)propertyMapping mapping] isKindOfClass:[RKEntityMapping class]]) {
                     [entityMappingEvents addObject:[RKEntityMappingEvent eventWithRootKey:rootKey keyPath:keyPath entityMapping:(RKEntityMapping *)[(RKRelationshipMapping *)propertyMapping mapping]]];
