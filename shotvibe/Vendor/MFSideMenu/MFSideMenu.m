@@ -457,11 +457,13 @@ typedef enum {
 }
 
 - (void)statusBarOrientationDidChange:(NSNotification *)notification {
-    [self orientSideMenuFromStatusBar];
-    
     if(self.menuState != MFSideMenuStateClosed) {
         [self setMenuState:MFSideMenuStateClosed];
     }
+    
+    
+    [self orientSideMenuFromStatusBar];
+
     
     [self drawRootControllerShadowPath];
 }
