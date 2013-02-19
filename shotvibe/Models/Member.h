@@ -15,30 +15,39 @@
 #pragma mark - Properties
 
 /**
- This member's default country
- */
-@property (nonatomic, retain) NSString * defaultCountry;
-
-/**
- This member's phone number
- */
-@property (nonatomic, retain) NSString * phoneNumber;
-
-/**
  The unique ID for this member
  */
-@property (nonatomic, retain) NSNumber * userId;
+@property (nonatomic, strong) NSNumber *userId;
+
+
+/**
+ The  url for this member
+ */
+@property (nonatomic, strong) NSString *url;
+
+
+/**
+ The nickname for this member
+ */
+@property (nonatomic, strong) NSString *nickname;
+
+
+/**
+ The avatar image url for this member
+ */
+@property (nonatomic, strong) NSString *avatarUrl;
+
+
+/**
+ This member's albumIds
+ */
+@property (nonatomic, strong) NSArray *albumIds;
+
 
 /**
  The albums shared by or with this member
  */
-@property (nonatomic, retain) NSSet *albums;
-
-
-/**
- This albums photoIds
- */
-@property (nonatomic, strong) NSArray *photoIds;
+@property (nonatomic, strong) NSSet *albums;
 @end
 
 

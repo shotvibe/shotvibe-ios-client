@@ -14,9 +14,10 @@
 
 #pragma mark - Properties
 
-@dynamic defaultCountry;
-@dynamic phoneNumber;
 @dynamic userId;
+@dynamic url;
+@dynamic nickname;
+@dynamic avatarUrl;
+@dynamic albumIds;
 @dynamic albums;
-@dynamic photoIds;
 @end

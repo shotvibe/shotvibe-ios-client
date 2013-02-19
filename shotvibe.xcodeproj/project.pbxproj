@@ -381,6 +381,8 @@
 		AA972EAD16CEDFDB007D9B35 /* NIOverviewSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = AA972E9D16CEDFDB007D9B35 /* NIOverviewSwizzling.m */; };
 		AA972EAE16CEDFDB007D9B35 /* NIOverviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA972E9F16CEDFDB007D9B35 /* NIOverviewView.m */; };
 		AA972EAF16CEDFDB007D9B35 /* NIOverviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA972E9F16CEDFDB007D9B35 /* NIOverviewView.m */; };
+		AA9770D216D36B7E009F641E /* NimbusPhotos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA9770D116D36B7E009F641E /* NimbusPhotos.bundle */; };
+		AA9770D316D36B7E009F641E /* NimbusPhotos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA9770D116D36B7E009F641E /* NimbusPhotos.bundle */; };
 		AABFE13D16CF05AF005D0DEA /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABFE13216CF0599005D0DEA /* libRestKit.a */; };
 		AABFE13E16CF05B6005D0DEA /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABFE13216CF0599005D0DEA /* libRestKit.a */; };
 		AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
@@ -785,6 +787,7 @@
 		AA972E9D16CEDFDB007D9B35 /* NIOverviewSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIOverviewSwizzling.m; path = nimbus/src/overview/src/NIOverviewSwizzling.m; sourceTree = "<group>"; };
 		AA972E9E16CEDFDB007D9B35 /* NIOverviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIOverviewView.h; path = nimbus/src/overview/src/NIOverviewView.h; sourceTree = "<group>"; };
 		AA972E9F16CEDFDB007D9B35 /* NIOverviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIOverviewView.m; path = nimbus/src/overview/src/NIOverviewView.m; sourceTree = "<group>"; };
+		AA9770D116D36B7E009F641E /* NimbusPhotos.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NimbusPhotos.bundle; path = nimbus/src/photos/resources/NimbusPhotos.bundle; sourceTree = "<group>"; };
 		AABFE12A16CF0599005D0DEA /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
 		AABFE14016CF05C6005D0DEA /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		AABFE14116CF05C6005D0DEA /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
@@ -1631,6 +1634,7 @@
 		AAE3DDDB16CED7E700539F92 /* Photos */ = {
 			isa = PBXGroup;
 			children = (
+				AA9770D116D36B7E009F641E /* NimbusPhotos.bundle */,
 				AAE3DDDC16CED80700539F92 /* NimbusPhotos.h */,
 				AAE3DDDD16CED80700539F92 /* NimbusPhotos+Namespace.h */,
 				AAE3DDDE16CED80700539F92 /* NIPhotoAlbumScrollView.h */,
@@ -1916,6 +1920,7 @@
 				04A83C0116D16A4F00806EDD /* thumbnailGalleryButton.png in Resources */,
 				04A83C0316D16A4F00806EDD /* thumbnailCameraButton@2x.png in Resources */,
 				04A83C0516D16A4F00806EDD /* thumbnailCameraButton.png in Resources */,
+				AA9770D216D36B7E009F641E /* NimbusPhotos.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2005,6 +2010,7 @@
 				04A83C0216D16A4F00806EDD /* thumbnailGalleryButton.png in Resources */,
 				04A83C0416D16A4F00806EDD /* thumbnailCameraButton@2x.png in Resources */,
 				04A83C0616D16A4F00806EDD /* thumbnailCameraButton.png in Resources */,
+				AA9770D316D36B7E009F641E /* NimbusPhotos.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

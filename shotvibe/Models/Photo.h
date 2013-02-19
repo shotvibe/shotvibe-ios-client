@@ -35,6 +35,11 @@
 @property (nonatomic, retain) NSString * photoUrl;
 
 /**
+ This photo's albumId
+ */
+@property (nonatomic, strong) NSNumber *albumId;
+
+/**
  The album this photo belongs to.
  */
 @property (nonatomic, retain) Album *album;

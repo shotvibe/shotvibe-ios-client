@@ -18,6 +18,7 @@
 @dynamic dateCreated;
 @dynamic photoId;
 @dynamic photoUrl;
+@dynamic albumId;
 @dynamic album;
 
 @end

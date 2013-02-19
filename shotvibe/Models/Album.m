@@ -21,6 +21,8 @@
 @dynamic lastUpdated;
 @dynamic name;
 @dynamic url;
+@dynamic photoIds;
+@dynamic userIds;
 @dynamic members;
 @dynamic photos;
 
