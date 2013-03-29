@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -63,25 +63,27 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="AT7-8R-Xbr" userLabel="Gridview container">
-                                <rect key="frame" x="0.0" y="49" width="320" height="455"/>
+                                <rect key="frame" x="0.0" y="52" width="320" height="452"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="thumbnailViewToolbarBg.png" id="YcS-aB-5Ao">
-                                <rect key="frame" x="0.0" y="5" width="320" height="47"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumMenu.png" id="YcS-aB-5Ao">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="center" image="thumbnailToolbarSeparator.png" id="Vbi-lB-m8q">
-                                <rect key="frame" x="0.0" y="14" width="320" height="30"/>
+                            <imageView userInteractionEnabled="NO" contentMode="center" image="albumDivider.png" id="Vbi-lB-m8q">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="6Xh-QU-6j5" userLabel="Camera Button">
-                                <rect key="frame" x="0.0" y="5" width="160" height="47"/>
+                                <rect key="frame" x="0.0" y="0.0" width="160" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="  Camera" image="thumbnailCameraButton.png">
-                                    <color key="titleColor" red="0.28627450980000002" green="0.36078431370000003" blue="0.37647058820000001" alpha="1" colorSpace="deviceRGB"/>
+                                <inset key="contentEdgeInsets" minX="-4" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="  Camera" image="cameraIcon.png">
+                                    <color key="titleColor" red="0.37647058820000001" green="0.40000000000000002" blue="0.4431372549" alpha="1" colorSpace="deviceRGB"/>
                                     <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -89,12 +91,14 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="U0j-LJ-AMC" userLabel="Camera Button">
-                                <rect key="frame" x="159" y="5" width="161" height="47"/>
+                                <rect key="frame" x="159" y="0.0" width="161" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="  Gallery" image="thumbnailGalleryButton.png">
-                                    <color key="titleColor" red="0.28627450980000002" green="0.36078431370000003" blue="0.37647058820000001" alpha="1" colorSpace="deviceRGB"/>
+                                <inset key="contentEdgeInsets" minX="-4" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="  Camera Roll" image="cameraRollIcon.png">
+                                    <color key="titleColor" red="0.37647058820000001" green="0.40000000000000002" blue="0.4431372549" alpha="1" colorSpace="deviceRGB"/>
                                     <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -177,11 +181,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="mainBg.png" width="320" height="432"/>
-        <image name="thumbnailCameraButton.png" width="42" height="22"/>
-        <image name="thumbnailGalleryButton.png" width="47" height="23"/>
-        <image name="thumbnailToolbarSeparator.png" width="2" height="30"/>
-        <image name="thumbnailViewToolbarBg.png" width="320" height="47"/>
+        <image name="albumDivider.png" width="2" height="48"/>
+        <image name="albumMenu.png" width="320" height="57"/>
+        <image name="cameraIcon.png" width="16" height="15"/>
+        <image name="cameraRollIcon.png" width="16" height="17"/>
+        <image name="mainBg.png" width="320" height="532"/>
     </resources>
     <classes>
         <class className="NINetworkImageView" superclassName="UIImageView">

@@ -63,7 +63,7 @@
     
     
     // Setup menu button
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menuIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
     
     // Setup back button for annoying long album names
@@ -123,19 +123,19 @@
         
         if (IS_IPHONE_5) {
             
-            [_gmGridView setItemSpacing:11];
-            [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(11, 11, 11, 11)];
+            [_gmGridView setItemSpacing:12];
+            [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
         }
         else
         {
-            [_gmGridView setItemSpacing:16];
-            [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(15, 15, 15, 15)];
+            [_gmGridView setItemSpacing:17];
+            [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(16, 16, 16, 16)];
         }
-
+        
     }
     else
     {
-        [_gmGridView setItemSpacing:5];
+        [_gmGridView setItemSpacing:6];
         [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     }
     
@@ -168,7 +168,7 @@
 
 - (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
 {
-    return CGSizeMake(100, 102);
+    return CGSizeMake(99, 98);
 }
 
 
@@ -193,7 +193,7 @@
     
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    UIImageView *cellBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gridCellBackground.png"]];
+    UIImageView *cellBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photoFrame.png"]];
     [cell.contentView addSubview:cellBackground];
     
     // Configure thumbnail
@@ -201,13 +201,14 @@
     
     NSString *thumbnailUrl = [[currentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
     
-    NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(2, 2, 96, 96)];
+    NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
     networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     networkImageView.backgroundColor = [UIColor clearColor];
     networkImageView.contentMode = UIViewContentModeScaleAspectFill;
     networkImageView.sizeForDisplay = YES;
     networkImageView.scaleOptions = NINetworkImageViewScaleToFitCropsExcess;
     networkImageView.interpolationQuality = kCGInterpolationHigh;
+    networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
     [cell.contentView addSubview:networkImageView];
     [networkImageView setPathToNetworkImage:thumbnailUrl];
     
@@ -261,19 +262,19 @@
         
         if (IS_IPHONE_5) {
             
-            [gmGridView setItemSpacing:11];
-            [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(11, 11, 11, 11)];
+            [gmGridView setItemSpacing:12];
+            [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
         }
         else
         {
-            [gmGridView setItemSpacing:16];
-            [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(15, 15, 15, 15)];
+            [gmGridView setItemSpacing:17];
+            [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(16, 16, 16, 16)];
         }
         
     }
     else
     {
-        [gmGridView setItemSpacing:5];
+        [gmGridView setItemSpacing:6];
         [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     }
     
