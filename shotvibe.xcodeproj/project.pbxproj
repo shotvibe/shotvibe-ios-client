@@ -55,6 +55,10 @@
 		043474051706093000CFE564 /* userIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043474021706093000CFE564 /* userIcon@2x.png */; };
 		043474061706093000CFE564 /* userIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 043474031706093000CFE564 /* userIcon.png */; };
 		043474071706093000CFE564 /* userIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 043474031706093000CFE564 /* userIcon.png */; };
+		0434740A1706101600CFE564 /* sidebarMenuBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043474081706101600CFE564 /* sidebarMenuBg@2x.png */; };
+		0434740B1706101600CFE564 /* sidebarMenuBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043474081706101600CFE564 /* sidebarMenuBg@2x.png */; };
+		0434740C1706101600CFE564 /* sidebarMenuBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 043474091706101600CFE564 /* sidebarMenuBg.png */; };
+		0434740D1706101600CFE564 /* sidebarMenuBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 043474091706101600CFE564 /* sidebarMenuBg.png */; };
 		04734F2416CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */; };
 		04734F2516CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */; };
 		04734F2F16CF104F003F729B /* MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2C16CF104F003F729B /* MFSideMenu.m */; };
@@ -502,6 +506,8 @@
 		043473FD1706004100CFE564 /* navbarButtonLandscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navbarButtonLandscape.png; sourceTree = "<group>"; };
 		043474021706093000CFE564 /* userIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "userIcon@2x.png"; sourceTree = "<group>"; };
 		043474031706093000CFE564 /* userIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userIcon.png; sourceTree = "<group>"; };
+		043474081706101600CFE564 /* sidebarMenuBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sidebarMenuBg@2x.png"; sourceTree = "<group>"; };
+		043474091706101600CFE564 /* sidebarMenuBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidebarMenuBg.png; sourceTree = "<group>"; };
 		04734F2216CEC1B1003F729B /* SVSidebarMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSidebarMenuViewController.h; sourceTree = "<group>"; };
 		04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSidebarMenuViewController.m; sourceTree = "<group>"; };
 		04734F2B16CF104F003F729B /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
@@ -929,6 +935,8 @@
 		043473BF1705F48C00CFE564 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				043474081706101600CFE564 /* sidebarMenuBg@2x.png */,
+				043474091706101600CFE564 /* sidebarMenuBg.png */,
 				043474021706093000CFE564 /* userIcon@2x.png */,
 				043474031706093000CFE564 /* userIcon.png */,
 				043473C01705F49600CFE564 /* placeholderImage.png */,
@@ -1941,6 +1949,8 @@
 				043474001706004100CFE564 /* navbarButtonLandscape.png in Resources */,
 				043474041706093000CFE564 /* userIcon@2x.png in Resources */,
 				043474061706093000CFE564 /* userIcon.png in Resources */,
+				0434740A1706101600CFE564 /* sidebarMenuBg@2x.png in Resources */,
+				0434740C1706101600CFE564 /* sidebarMenuBg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2035,6 +2045,8 @@
 				043474011706004100CFE564 /* navbarButtonLandscape.png in Resources */,
 				043474051706093000CFE564 /* userIcon@2x.png in Resources */,
 				043474071706093000CFE564 /* userIcon.png in Resources */,
+				0434740B1706101600CFE564 /* sidebarMenuBg@2x.png in Resources */,
+				0434740D1706101600CFE564 /* sidebarMenuBg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
