@@ -17,6 +17,7 @@
 #import "SVSidebarMenuViewController.h"
 #import "MFSideMenu.h"
 #import "UINavigationController+MFSideMenu.h"
+#import "SVSidebarManagementViewController.h"
 
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
@@ -30,6 +31,7 @@
 
 - (void)loadData;
 - (void)toggleMenu;
+- (void)toggleManagement;
 - (void)configureGridview;
 - (void)fetchPhotos;
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
@@ -66,6 +68,10 @@
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
     
+    // Setup menu button
+    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menuIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleManagement)];
+    self.navigationItem.leftBarButtonItem = managementButton;
+    
     // Setup back button for annoying long album names
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed)];
     
@@ -90,7 +96,11 @@
     self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
     self.sidebarMenuController.parentController = self;
     
-    MFSideMenu *sideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:nil rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
+    self.sidebarManagementController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
+    self.sidebarManagementController.parentController = self;
+    
+    
+    MFSideMenu *sideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:self.sidebarManagementController rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
     
     [self.navigationController setSideMenu:sideMenu];
     [self configureMenuForOrientation:self.interfaceOrientation];
@@ -244,6 +254,12 @@
 }
 
 
+- (void)toggleManagement
+{
+    [self.navigationController.sideMenu toggleLeftSideMenu];
+}
+
+
 - (void)configureGridview
 {
     if (_gmGridView) {
@@ -307,24 +323,36 @@
     rightFrame.size.width = kMFSideMenuSidebarWidth;
     rightFrame.origin.y = 20;
     
+    CGRect leftFrame = self.navigationController.sideMenu.leftSideMenuViewController.view.frame;
+    leftFrame.size.height = 300;
+    leftFrame.origin.x = 0;
+    leftFrame.size.width = kMFSideMenuSidebarWidth;
+    leftFrame.origin.y = 20;
+    
     switch (orientation) {
         case UIInterfaceOrientationPortrait:
             
             if (IS_IPHONE_5) {
                 rightFrame.size.height = 548;
+                leftFrame.size.height = 548;
+
             }
             else
             {
                 rightFrame.size.height = 460;
+                leftFrame.size.height = 460;
+
             }
             break;
         case UIInterfaceOrientationPortraitUpsideDown:
             if (IS_IPHONE_5) {
                 rightFrame.size.height = 548;
+                leftFrame.size.height = 548;
             }
             else
             {
                 rightFrame.size.height = 460;
+                leftFrame.size.height = 460;
             }
             break;
         case UIInterfaceOrientationLandscapeLeft:
@@ -350,6 +378,7 @@
     }
     
     self.navigationController.sideMenu.rightSideMenuViewController.view.frame = rightFrame;
+    self.navigationController.sideMenu.leftSideMenuViewController.view.frame = leftFrame;
 
 }
 

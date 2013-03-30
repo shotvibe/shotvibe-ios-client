@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class SVSidebarMenuViewController;
+@class SVSidebarManagementViewController;
 
 @class Album;
 
@@ -18,5 +19,6 @@
 
 @property (nonatomic, strong) Album *selectedAlbum;
 @property (nonatomic, strong) SVSidebarMenuViewController *sidebarMenuController;
+@property (nonatomic, strong) SVSidebarManagementViewController *sidebarManagementController;
 
 @end

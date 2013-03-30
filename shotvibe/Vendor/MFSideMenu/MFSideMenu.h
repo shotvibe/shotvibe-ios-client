@@ -79,6 +79,7 @@ typedef void (^MFSideMenuStateEventBlock)(MFSideMenuStateEvent);
 
 // I'm taking this.
 @property (nonatomic, strong) UIViewController *rightSideMenuViewController;
+@property (nonatomic, strong) UIViewController *leftSideMenuViewController;
 
 - (void)toggleLeftSideMenu;
 - (void)toggleRightSideMenu;

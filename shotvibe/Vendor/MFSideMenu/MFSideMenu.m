@@ -18,7 +18,6 @@ typedef enum {
 
 @interface MFSideMenu()
 @property (nonatomic, assign, readwrite) UINavigationController *navigationController;
-@property (nonatomic, strong) UIViewController *leftSideMenuViewController;
 @property (nonatomic, strong) UIView *menuContainerView;
 
 @property (nonatomic, assign) CGPoint panGestureOrigin;
@@ -261,7 +260,7 @@ typedef enum {
         [self handleLeftPan:recognizer];
         
         // Our app doesn't want to support Right opening!
-    } else if(self.panDirection == MFSideMenuPanDirectionRight && self.menuState == MFSideMenuStateRightMenuOpen) {
+    } else if(self.panDirection == MFSideMenuPanDirectionRight) {
         [self handleRightPan:recognizer];
     }
 }
