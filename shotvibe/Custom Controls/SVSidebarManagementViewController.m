@@ -16,10 +16,9 @@
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
-@property (nonatomic, strong) IBOutlet UIToolbar *sidebarToolbar;
 
 
+- (IBAction)homePressed:(id)sender;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @end
@@ -27,43 +26,18 @@
 @implementation SVSidebarManagementViewController
 
 
+#pragma mark - Actions
+- (IBAction)homePressed:(id)sender
+{
+    [self.parentController.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    {
-        UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
-        
-        UIImage *resizableImage = nil;
-        if (IS_IOS6_OR_GREATER) {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
-        else
-        {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
-        
-        [self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
-    }
-    
-    {
-        UIImage *baseImage = [UIImage imageNamed:@"sidebarToolbar.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
-        
-        UIImage *resizableImage = nil;
-        if (IS_IOS6_OR_GREATER) {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
-        else
-        {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
-        
-        [self.sidebarToolbar setBackgroundImage:resizableImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-    }
     [self fetchedResultsController];
 }
 
@@ -156,9 +130,9 @@
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId = %d", [self.selectedAlbum.albumId stringValue]];
+    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId = %d", [self.selectedAlbum.albumId stringValue]];
     fetchRequest.sortDescriptors = @[descriptor];
-    fetchRequest.predicate = predicate;
+    //fetchRequest.predicate = predicate;
     
     // Setup fetched results
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];

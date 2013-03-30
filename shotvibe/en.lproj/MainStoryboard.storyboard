@@ -180,33 +180,47 @@
                                 <rect key="frame" x="0.0" y="10" width="320" height="538"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <navigationBar contentMode="scaleToFill" id="RLm-Wt-NLk">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem id="XLc-vi-1Me"/>
-                                </items>
-                            </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="v0A-fx-VGk">
                                 <rect key="frame" x="0.0" y="44" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="60q-lf-aa1">
-                                <rect key="frame" x="0.0" y="504" width="320" height="44"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vAd-El-oTI">
+                                <rect key="frame" x="0.0" y="501" width="320" height="47"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Hkz-Dx-hKL"/>
-                                    <barButtonItem image="settingsIcon.png" style="plain" id="x8S-51-Rbu"/>
-                                    <barButtonItem title="Settings" style="plain" id="lrI-3g-Nzv"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="qrN-Cl-gmd"/>
-                                </items>
-                            </toolbar>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="4" maxX="-3" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="3" maxY="0.0"/>
+                                <state key="normal" title="Settings" image="settingsIcon.png" backgroundImage="sidebarToolbar.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="iF4-mg-JoR">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                <inset key="contentEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="65" minY="2" maxX="0.0" maxY="0.0"/>
+                                <size key="titleShadowOffset" width="0.0" height="1"/>
+                                <state key="normal" title="Home" image="arrowIcon.png" backgroundImage="sidebarMenuNavbar.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="homePressed:" destination="914-kk-d9M" eventType="touchUpInside" id="7uM-aK-CMe"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="sidebarNav" destination="RLm-Wt-NLk" id="W6Y-Ko-qp5"/>
                         <outlet property="tableView" destination="v0A-fx-VGk" id="COq-Pt-EC0"/>
                     </connections>
                 </viewController>
@@ -218,11 +232,14 @@
     <resources>
         <image name="albumDivider.png" width="2" height="48"/>
         <image name="albumMenu.png" width="320" height="57"/>
+        <image name="arrowIcon.png" width="16" height="13"/>
         <image name="cameraIcon.png" width="16" height="15"/>
         <image name="cameraRollIcon.png" width="16" height="17"/>
         <image name="mainBg.png" width="320" height="532"/>
         <image name="settingsIcon.png" width="17" height="18"/>
         <image name="sidebarMenuBg.png" width="320" height="543"/>
+        <image name="sidebarMenuNavbar.png" width="320" height="45"/>
+        <image name="sidebarToolbar.png" width="320" height="47"/>
     </resources>
     <classes>
         <class className="NINetworkImageView" superclassName="UIImageView">
@@ -247,8 +264,7 @@
         <class className="SVSidebarManagementViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarManagementViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="sidebarToolbar" candidateClass="UIToolbar"/>
+                <relationship kind="action" name="homePressed:"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
