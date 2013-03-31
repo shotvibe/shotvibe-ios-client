@@ -18,7 +18,6 @@ typedef enum {
 
 @interface MFSideMenu()
 @property (nonatomic, assign, readwrite) UINavigationController *navigationController;
-@property (nonatomic, strong) UIView *menuContainerView;
 
 @property (nonatomic, assign) CGPoint panGestureOrigin;
 @property (nonatomic, assign) CGFloat panGestureVelocity;
@@ -49,7 +48,8 @@ typedef enum {
     if(self) {
         _shadowEnabled = YES;
         
-        self.menuContainerView = [[UIView alloc] init];
+        CGRect applicationFrame = [[UIApplication sharedApplication].delegate window].screen.applicationFrame;
+        self.menuContainerView = [[UIView alloc] initWithFrame:applicationFrame];
         self.menuState = MFSideMenuStateClosed;
     }
     return self;
@@ -143,6 +143,7 @@ typedef enum {
 #pragma mark - Navigation Controller View Lifecycle
 
 - (void) navigationControllerDidAppear {
+    
     [self setupMenuContainerView];
 }
 

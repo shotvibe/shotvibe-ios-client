@@ -10,15 +10,42 @@
 #import "SVDefines.h"
 #import "Photo.h"
 #import "Album.h"
+#import "UINavigationController+MFSideMenu.h"
+#import "MFSideMenu.h"
 
 @interface SVAlbumDetailScrollViewController ()
 - (void)loadImages;
+- (void)deleteButtonPressed;
+- (void)exportButtonPressed;
+- (void)toggleMenu;
 @end
 
 @implementation SVAlbumDetailScrollViewController
 {
     Album *selectedAlbum;
 }
+
+#pragma mark - Actions
+
+- (void)deleteButtonPressed
+{
+    // Do stuff
+}
+
+
+- (void)exportButtonPressed
+{
+    // Do other stuff
+}
+
+
+- (void)toggleMenu
+{
+    [self.navigationController.sideMenu toggleRightSideMenu];
+}
+
+
+#pragma mark - Initializers
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,10 +56,17 @@
     return self;
 }
 
+
+#pragma mark - View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    // Setup menu button
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
+    self.navigationItem.rightBarButtonItem = menuButton;
     
     selectedAlbum = self.selectedPhoto.album;
     
@@ -61,7 +95,6 @@
 
 
 #pragma mark NIPhotoScrubberViewDataSource
-
 
 - (NSInteger)numberOfPhotosInScrubberView:(NIPhotoScrubberView *)photoScrubberView {
     return [selectedAlbum.photos count];
@@ -150,6 +183,52 @@
                               photoIndex: ix];
         }
     }
+}
+
+
+- (void)updateToolbarItems {
+    UIBarItem* flexibleSpace =
+    [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
+                                                  target: nil
+                                                  action: nil];
+    
+    if (nil == self.nextButton) {
+        UIImage* nextIcon = [UIImage imageNamed:@"exportIcon.png"];
+        
+        // We weren't able to find the next or previous icons in your application's resources.
+        // Ensure that you've dragged the NimbusPhotos.bundle from src/photos/resources into your
+        // application with the "Create Folder References" option selected. You can verify that
+        // you've done this correctly by expanding the NimbusPhotos.bundle file in your project
+        // and verifying that the 'gfx' directory is blue. Also verify that the bundle is being
+        // copied in the Copy Bundle Resources phase.
+        NIDASSERT(nil != nextIcon);
+        
+        self.nextButton = [[UIBarButtonItem alloc] initWithImage: nextIcon
+                                                       style: UIBarButtonItemStylePlain
+                                                      target: self
+                                                      action: @selector(exportButtonPressed)];
+        
+    }
+    
+    if (nil == self.previousButton) {
+        UIImage* previousIcon = [UIImage imageNamed:@"trashIcon.png"];
+        
+        // We weren't able to find the next or previous icons in your application's resources.
+        // Ensure that you've dragged the NimbusPhotos.bundle from src/photos/resources into your
+        // application with the "Create Folder References" option selected. You can verify that
+        // you've done this correctly by expanding the NimbusPhotos.bundle file in your project
+        // and verifying that the 'gfx' directory is blue. Also verify that the bundle is being
+        // copied in the Copy Bundle Resources phase.
+        NIDASSERT(nil != previousIcon);
+        
+        self.previousButton = [[UIBarButtonItem alloc] initWithImage: previousIcon
+                                                           style: UIBarButtonItemStylePlain
+                                                          target: self
+                                                          action: @selector(deleteButtonPressed)];
+    }
+    
+    self.toolbar.items = [NSArray arrayWithObjects:self.previousButton, flexibleSpace, self.nextButton, nil];
+    
 }
 
 

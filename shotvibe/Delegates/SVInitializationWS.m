@@ -51,6 +51,8 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
     }
     
     // Customize back barbuttonitem for nav bar
+    [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];
     {
         UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(25, 0, 5, 5);
@@ -60,17 +62,30 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
             resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
             
             // Why on earth is the position different depending on version?
-            [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(2, -2) forBarMetrics:UIBarMetricsDefault];
         }
         else
         {
             resizableImage = [baseImage stretchableImageWithLeftCapWidth:0 topCapHeight:5];
             
             // iOS5 back buttons are messed up :/
-            [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(2, -4) forBarMetrics:UIBarMetricsDefault];
         }
         
         [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    }
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"navbarBackButtonLandscape.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(25, 0, 5, 5);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        }
+        else
+        {
+            resizableImage = [baseImage stretchableImageWithLeftCapWidth:0 topCapHeight:5];
+        }
+        
+        [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
     }
     
     // Customize regular barbuttonitem for navbar
@@ -108,6 +123,11 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
         
         [[UIBarButtonItem appearance] setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
     }
+    
+    
+    // Customize UIToolbar
+    [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"pictureDetailToolbarBg.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"pictureDetailToolbarBg.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
 }
 
 

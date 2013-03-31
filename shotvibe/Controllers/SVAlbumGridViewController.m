@@ -24,10 +24,12 @@
 {
     __gm_weak GMGridView *_gmGridView;
     UIPanGestureRecognizer *panGestureRecognizer;
+    BOOL isPushingDetail;
 }
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
+@property (nonatomic, strong) MFSideMenu *sauronTheSideMenu;
 
 - (void)loadData;
 - (void)toggleMenu;
@@ -100,9 +102,9 @@
     self.sidebarManagementController.parentController = self;
     
     
-    MFSideMenu *sideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:self.sidebarManagementController rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
+    self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:self.sidebarManagementController rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
     
-    [self.navigationController setSideMenu:sideMenu];
+    [self.navigationController setSideMenu:self.sauronTheSideMenu];
     [self configureMenuForOrientation:self.interfaceOrientation];
 }
 
@@ -121,8 +123,21 @@
         [self.navigationController.view removeGestureRecognizer:[self.navigationController.view.gestureRecognizers objectAtIndex:0]];
     }
     
-    // Then kill the sidebar menu.
-    self.navigationController.sideMenu = nil;
+    // Then kill the sidebar menu. (Only if we're not going to the detail photo view)
+    if (!isPushingDetail) {
+        UIView *windowRootView = self.navigationController.view.window.rootViewController.view;
+        UIView *containerView = windowRootView.superview;
+        
+        for (UIView *aView in containerView.subviews) {
+            if (aView != self.navigationController.view.window.rootViewController.view)
+                [aView removeFromSuperview];
+        }
+        self.sauronTheSideMenu = nil;
+    }
+    else
+    {
+        isPushingDetail = NO;
+    }
     
 }
 
@@ -235,6 +250,7 @@
     SVAlbumDetailScrollViewController *detailController = [[SVAlbumDetailScrollViewController alloc] init];
     detailController.selectedPhoto = [[self.selectedAlbum.photos allObjects] objectAtIndex:position];
     
+    isPushingDetail = YES;
     [self.navigationController pushViewController:detailController animated:YES];
 }
 
