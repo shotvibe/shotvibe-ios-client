@@ -20,7 +20,7 @@
 #import "SVSidebarManagementViewController.h"
 
 
-@interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
+@interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate, NINetworkImageViewDelegate>
 {
     __gm_weak GMGridView *_gmGridView;
     UIPanGestureRecognizer *panGestureRecognizer;
@@ -224,18 +224,19 @@
     // Configure thumbnail
     Photo *currentPhoto = [[self.selectedAlbum.photos allObjects] objectAtIndex:index];
     
-    NSString *thumbnailUrl = [[currentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
     
     NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
+    networkImageView.clipsToBounds = YES;
     networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     networkImageView.backgroundColor = [UIColor clearColor];
     networkImageView.contentMode = UIViewContentModeScaleAspectFill;
-    networkImageView.sizeForDisplay = YES;
-    networkImageView.scaleOptions = NINetworkImageViewScaleToFitCropsExcess;
+    networkImageView.sizeForDisplay = NO;
     networkImageView.interpolationQuality = kCGInterpolationHigh;
     networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
+    networkImageView.delegate = self;
+    networkImageView.tag = index;
     [cell.contentView addSubview:networkImageView];
-    [networkImageView setPathToNetworkImage:thumbnailUrl];
+    [networkImageView setPathToNetworkImage:currentPhoto.photoUrl];
     
     return cell;
 }
@@ -252,6 +253,31 @@
     
     isPushingDetail = YES;
     [self.navigationController pushViewController:detailController animated:YES];
+}
+
+
+#pragma mark - NINetworkImageView Delegate Methods
+
+- (void)networkImageView:(NINetworkImageView *)imageView didLoadImage:(UIImage *)image
+{
+    Photo *loadedPhoto = [[self.selectedAlbum.photos allObjects] objectAtIndex:imageView.tag];
+    
+    NSData *imgData = UIImageJPEGRepresentation(image, 1);
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:self.selectedAlbum.name];
+    NSError *filePathError;
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
+                                   withIntermediateDirectories:YES
+                                                    attributes:nil
+                                                         error:&filePathError])
+    {
+        NSLog(@"Create directory error: %@", [filePathError localizedDescription]);
+    }
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, loadedPhoto.photoId];
+    
+    [imgData writeToFile:filePath atomically:YES];
 }
 
 
