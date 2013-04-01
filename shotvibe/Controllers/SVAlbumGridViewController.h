@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class SVSidebarMenuViewController;
+@class SVSidebarManagementViewController;
+
 @class Album;
 
 @interface SVAlbumGridViewController : UIViewController
@@ -15,5 +18,7 @@
 #pragma mark - Properties
 
 @property (nonatomic, strong) Album *selectedAlbum;
+@property (nonatomic, strong) SVSidebarMenuViewController *sidebarMenuController;
+@property (nonatomic, strong) SVSidebarManagementViewController *sidebarManagementController;
 
 @end

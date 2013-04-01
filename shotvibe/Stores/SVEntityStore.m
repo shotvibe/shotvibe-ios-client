@@ -84,6 +84,16 @@
      }];
     photoMapping.identificationAttributes = @[@"photoId"];
     
+    // Setup Member Mapping
+    RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    [memberMapping addAttributeMappingsFromDictionary:@{
+     @"id": @"userId",
+     @"url": @"url",
+     @"nickname": @"nickname",
+     @"avatar_url": @"avatarUrl"
+     }];
+    memberMapping.identificationAttributes = @[@"userId"];
+    
     // Setup Album Mapping
     RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [albumMapping addAttributeMappingsFromDictionary:@{
@@ -97,6 +107,8 @@
     // Relationship Connections
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
     [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"photos" withMapping:photoMapping]];
+    [memberMapping addRelationshipMappingWithSourceKeyPath:@"albums" mapping:albumMapping];
+    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"members" toKeyPath:@"members" withMapping:memberMapping]];
     
     // Configure the response descriptor
     RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/:id/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];

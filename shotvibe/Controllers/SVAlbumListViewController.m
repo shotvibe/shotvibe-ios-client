@@ -14,23 +14,58 @@
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "SVEntityStore.h"
+#import "NSDate+Formatting.h"
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 - (void)loadData;
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)searchPressed;
+- (void)settingsPressed;
 
 @end
 
 @implementation SVAlbumListViewController
+
+#pragma mark - Actions
+
+- (void)searchPressed
+{
+    
+}
+
+
+- (void)settingsPressed
+{
+    
+}
+
 
 #pragma mark - UIViewController Methods
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    // Setup titleview
+    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shotvibeLogo.png"]];
+    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
+    [titleContainer addSubview:titleView];
+    titleContainer.clipsToBounds = NO;
+    titleContainer.backgroundColor = [UIColor clearColor];
+    titleView.frame = CGRectMake(0, -3, titleView.frame.size.width, titleView.frame.size.height);
+    self.navigationItem.titleView = titleContainer;
+
+    // Setup menu button
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"searchIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(searchPressed)];
+    self.navigationItem.leftBarButtonItem = menuButton;
+    
+    // Setup menu button
+    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
+    self.navigationItem.rightBarButtonItem = managementButton;
 
     // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
     RKLogConfigureByName("ShotVibe/Albums", RKLogLevelDebug);
@@ -73,6 +108,12 @@
         destinationController.selectedAlbum = selectedAlbum;
         
     }
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 
@@ -187,7 +228,7 @@
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     // TODO: We need to configure our cell's views
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
     Photo *recentPhoto = [anAlbum.photos anyObject];
@@ -202,10 +243,14 @@
     cell.networkImageView.sizeForDisplay = YES;
     cell.networkImageView.scaleOptions = NINetworkImageViewScaleToFitCropsExcess;
     cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
+    cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
     [cell.networkImageView setPathToNetworkImage:thumbnailUrl];
     
     
     cell.title.text = anAlbum.name;
+    
+    NSString *distanceOfTimeInWords = [anAlbum.lastUpdated distanceOfTimeInWords];
+    [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
     return cell;
 }
 @end

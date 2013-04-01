@@ -118,8 +118,8 @@
 
 #pragma mark Toolbar Buttons
 
-@property (nonatomic, readonly, NI_STRONG) UIBarButtonItem* nextButton;
-@property (nonatomic, readonly, NI_STRONG) UIBarButtonItem* previousButton;
+@property (nonatomic, strong, NI_STRONG) UIBarButtonItem* nextButton;
+@property (nonatomic, strong, NI_STRONG) UIBarButtonItem* previousButton;
 
 #pragma mark Subclassing
 

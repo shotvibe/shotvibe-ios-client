@@ -29,15 +29,52 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
 
 - (void)configureAppearanceProxies
 {
-    // Customize appearance of the navigation bar
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarBg.png"] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0], UITextAttributeFont, nil]];
+    // Customize appearance of the navigation bar    
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0], UITextAttributeFont, nil]];
+    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:5.0 forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];
     
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"navBarBg.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        else
+        {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        
+        [[UINavigationBar appearance] setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
+    }
     
     // Customize back barbuttonitem for nav bar
+    [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];
     {
         UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(0, 20, 0, 5);
+        UIEdgeInsets insets = UIEdgeInsetsMake(25, 0, 5, 5);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+            
+            // Why on earth is the position different depending on version?
+        }
+        else
+        {
+            resizableImage = [baseImage stretchableImageWithLeftCapWidth:0 topCapHeight:5];
+            
+            // iOS5 back buttons are messed up :/
+        }
+        
+        [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    }
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"navbarBackButtonLandscape.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(25, 0, 5, 5);
         
         UIImage *resizableImage = nil;
         if (IS_IOS6_OR_GREATER) {
@@ -45,22 +82,23 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
         }
         else
         {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+            resizableImage = [baseImage stretchableImageWithLeftCapWidth:0 topCapHeight:5];
         }
         
-        [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
     }
     
     // Customize regular barbuttonitem for navbar
-    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:0.00 green:0.67 blue:0.93 alpha:1.0], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont, nil] forState:UIControlStateNormal];
-    
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Bold" size:12.0], UITextAttributeFont, nil] forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];
     {
         UIImage *baseImage = [UIImage imageNamed:@"navbarButton.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(0, 5, 0, 5);
+        UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 10, 10);
         
         UIImage *resizableImage = nil;
         if (IS_IOS6_OR_GREATER) {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
         }
         else
         {
@@ -69,6 +107,27 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
         
         [[UIBarButtonItem appearance] setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     }
+    
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"navbarButtonLandscape.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(15, 10, 15, 10);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        }
+        else
+        {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        
+        [[UIBarButtonItem appearance] setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+    }
+    
+    
+    // Customize UIToolbar
+    [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"pictureDetailToolbarBg.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"pictureDetailToolbarBg.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
 }
 
 

@@ -45,6 +45,16 @@
 @property (nonatomic, retain) NSString * url;
 
 /**
+ This albums photoIds
+ */
+@property (nonatomic, strong) NSArray *photoIds;
+
+/**
+ This albums photoIds
+ */
+@property (nonatomic, strong) NSArray *userIds;
+
+/**
  The ShotVibe members that this album is shared with
  */
 @property (nonatomic, retain) NSSet *members;
