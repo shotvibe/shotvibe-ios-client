@@ -174,7 +174,6 @@
 		AA58FB5716C2291200C49E02 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB0E16C224E800C49E02 /* Default@2x.png */; };
 		AA58FB5816C2291200C49E02 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB1016C224E800C49E02 /* Default-568h@2x.png */; };
 		AA58FB5916C2291200C49E02 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB1216C224E800C49E02 /* MainStoryboard.storyboard */; };
-		AA58FB6216C22A8A00C49E02 /* shotvibebeta-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB6116C22A8A00C49E02 /* shotvibebeta-Info.plist */; };
 		AA58FB7616C22B0400C49E02 /* ShotVibeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6616C22B0400C49E02 /* ShotVibeAppDelegate.m */; };
 		AA58FB7716C22B0400C49E02 /* ShotVibeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6616C22B0400C49E02 /* ShotVibeAppDelegate.m */; };
 		AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB8616C2314500C49E02 /* QuartzCore.framework */; };
@@ -389,6 +388,24 @@
 		AA58FD1416C23A5100C49E02 /* CrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FBAE16C235C800C49E02 /* CrashReporter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AA66828E16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */; };
 		AA66828F16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */; };
+		AA78D2A917172BA4006E1240 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2A817172BA4006E1240 /* AlbumPhoto.m */; };
+		AA78D2AA17172BA4006E1240 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2A817172BA4006E1240 /* AlbumPhoto.m */; };
+		AA78D2B017172BC0006E1240 /* SVBusinessDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */; };
+		AA78D2B117172BC0006E1240 /* SVBusinessDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */; };
+		AA78D2B417172BCF006E1240 /* SVOfflineStorageWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */; };
+		AA78D2B517172BCF006E1240 /* SVOfflineStorageWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */; };
+		AA78D2BA17172C3D006E1240 /* SVCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2B917172C3D006E1240 /* SVCameraViewController.m */; };
+		AA78D2BB17172C3D006E1240 /* SVCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2B917172C3D006E1240 /* SVCameraViewController.m */; };
+		AA78D2BE17172C48006E1240 /* SVSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2BD17172C48006E1240 /* SVSettingsViewController.m */; };
+		AA78D2BF17172C48006E1240 /* SVSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2BD17172C48006E1240 /* SVSettingsViewController.m */; };
+		AA78D2C417172C67006E1240 /* dropDownButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C017172C67006E1240 /* dropDownButton.png */; };
+		AA78D2C517172C67006E1240 /* dropDownButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C017172C67006E1240 /* dropDownButton.png */; };
+		AA78D2C617172C67006E1240 /* dropDownButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C117172C67006E1240 /* dropDownButton@2x.png */; };
+		AA78D2C717172C67006E1240 /* dropDownButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C117172C67006E1240 /* dropDownButton@2x.png */; };
+		AA78D2C817172C67006E1240 /* dropDownField.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C217172C67006E1240 /* dropDownField.png */; };
+		AA78D2C917172C67006E1240 /* dropDownField.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C217172C67006E1240 /* dropDownField.png */; };
+		AA78D2CA17172C67006E1240 /* dropDownField@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C317172C67006E1240 /* dropDownField@2x.png */; };
+		AA78D2CB17172C67006E1240 /* dropDownField@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C317172C67006E1240 /* dropDownField@2x.png */; };
 		AA7E72C116CEDE5500FC8BC3 /* NICellBackgrounds.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7E72AC16CEDE5500FC8BC3 /* NICellBackgrounds.m */; };
 		AA7E72C216CEDE5500FC8BC3 /* NICellBackgrounds.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7E72AC16CEDE5500FC8BC3 /* NICellBackgrounds.m */; };
 		AA7E72C316CEDE5500FC8BC3 /* NICellCatalog.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7E72AE16CEDE5500FC8BC3 /* NICellCatalog.m */; };
@@ -828,6 +845,20 @@
 		AA58FD1016C2390700C49E02 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
 		AA66828C16CCA7C80005BFFC /* SVAlbumGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumGridViewController.h; sourceTree = "<group>"; };
 		AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumGridViewController.m; sourceTree = "<group>"; };
+		AA78D2A717172BA4006E1240 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
+		AA78D2A817172BA4006E1240 /* AlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhoto.m; sourceTree = "<group>"; };
+		AA78D2AE17172BC0006E1240 /* SVBusinessDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBusinessDelegate.h; sourceTree = "<group>"; };
+		AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVBusinessDelegate.m; sourceTree = "<group>"; };
+		AA78D2B217172BCF006E1240 /* SVOfflineStorageWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOfflineStorageWS.h; sourceTree = "<group>"; };
+		AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVOfflineStorageWS.m; sourceTree = "<group>"; };
+		AA78D2B817172C3D006E1240 /* SVCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCameraViewController.h; sourceTree = "<group>"; };
+		AA78D2B917172C3D006E1240 /* SVCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVCameraViewController.m; sourceTree = "<group>"; };
+		AA78D2BC17172C48006E1240 /* SVSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSettingsViewController.h; sourceTree = "<group>"; };
+		AA78D2BD17172C48006E1240 /* SVSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSettingsViewController.m; sourceTree = "<group>"; };
+		AA78D2C017172C67006E1240 /* dropDownButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropDownButton.png; sourceTree = "<group>"; };
+		AA78D2C117172C67006E1240 /* dropDownButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropDownButton@2x.png"; sourceTree = "<group>"; };
+		AA78D2C217172C67006E1240 /* dropDownField.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropDownField.png; sourceTree = "<group>"; };
+		AA78D2C317172C67006E1240 /* dropDownField@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropDownField@2x.png"; sourceTree = "<group>"; };
 		AA7E72AB16CEDE5500FC8BC3 /* NICellBackgrounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NICellBackgrounds.h; path = nimbus/src/models/src/NICellBackgrounds.h; sourceTree = "<group>"; };
 		AA7E72AC16CEDE5500FC8BC3 /* NICellBackgrounds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NICellBackgrounds.m; path = nimbus/src/models/src/NICellBackgrounds.m; sourceTree = "<group>"; };
 		AA7E72AD16CEDE5500FC8BC3 /* NICellCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NICellCatalog.h; path = nimbus/src/models/src/NICellCatalog.h; sourceTree = "<group>"; };
@@ -1042,6 +1073,10 @@
 		043473BF1705F48C00CFE564 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AA78D2C017172C67006E1240 /* dropDownButton.png */,
+				AA78D2C117172C67006E1240 /* dropDownButton@2x.png */,
+				AA78D2C217172C67006E1240 /* dropDownField.png */,
+				AA78D2C317172C67006E1240 /* dropDownField@2x.png */,
 				04AB0A92170801C300C5300B /* albumIcon@2x.png */,
 				04AB0A93170801C300C5300B /* albumIcon.png */,
 				04AB0A861707F95700C5300B /* shotvibeLogo@2x.png */,
@@ -1373,6 +1408,8 @@
 		AA58FB8C16C233FA00C49E02 /* Business Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				AA78D2AE17172BC0006E1240 /* SVBusinessDelegate.h */,
+				AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */,
 				AA58FB8E16C2341200C49E02 /* SVInitializationBD.h */,
 				AA58FB8F16C2341200C49E02 /* SVInitializationBD.m */,
 			);
@@ -1384,6 +1421,8 @@
 			children = (
 				AA58FB9216C2341C00C49E02 /* SVInitializationWS.h */,
 				AA58FB9316C2341C00C49E02 /* SVInitializationWS.m */,
+				AA78D2B217172BCF006E1240 /* SVOfflineStorageWS.h */,
+				AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */,
 			);
 			name = "Worker Sessions";
 			sourceTree = "<group>";
@@ -1679,6 +1718,24 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		AA78D2B617172C26006E1240 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				AA78D2B817172C3D006E1240 /* SVCameraViewController.h */,
+				AA78D2B917172C3D006E1240 /* SVCameraViewController.m */,
+			);
+			name = Camera;
+			sourceTree = "<group>";
+		};
+		AA78D2B717172C2B006E1240 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AA78D2BC17172C48006E1240 /* SVSettingsViewController.h */,
+				AA78D2BD17172C48006E1240 /* SVSettingsViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		AA972E8D16CEDFC9007D9B35 /* Overview */ = {
 			isa = PBXGroup;
 			children = (
@@ -1775,6 +1832,8 @@
 				AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */,
 				AAE6CB5716C59CF100EB1832 /* Album.h */,
 				AAE6CB5816C59CF100EB1832 /* Album.m */,
+				AA78D2A717172BA4006E1240 /* AlbumPhoto.h */,
+				AA78D2A817172BA4006E1240 /* AlbumPhoto.m */,
 				AAE6CB5316C59CF100EB1832 /* Member.h */,
 				AAE6CB5416C59CF100EB1832 /* Member.m */,
 				AAE6CB5B16C59CF200EB1832 /* Photo.h */,
@@ -1880,6 +1939,8 @@
 			isa = PBXGroup;
 			children = (
 				AA12881316CB8774002AC699 /* Albums */,
+				AA78D2B617172C26006E1240 /* Camera */,
+				AA78D2B717172C2B006E1240 /* Settings */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2128,6 +2189,10 @@
 				04AB0AAC17080A5700C5300B /* albumImageFrame@2x.png in Resources */,
 				04AB0AAE17080A5700C5300B /* albumImageFrame.png in Resources */,
 				AAEB9CDE171648A000439939 /* Config.xcconfig in Resources */,
+				AA78D2C417172C67006E1240 /* dropDownButton.png in Resources */,
+				AA78D2C617172C67006E1240 /* dropDownButton@2x.png in Resources */,
+				AA78D2C817172C67006E1240 /* dropDownField.png in Resources */,
+				AA78D2CA17172C67006E1240 /* dropDownField@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2148,7 +2213,6 @@
 				AA58FB5716C2291200C49E02 /* Default@2x.png in Resources */,
 				AA58FB5816C2291200C49E02 /* Default-568h@2x.png in Resources */,
 				AA58FB5916C2291200C49E02 /* MainStoryboard.storyboard in Resources */,
-				AA58FB6216C22A8A00C49E02 /* shotvibebeta-Info.plist in Resources */,
 				AA58FC4516C235C800C49E02 /* JMCViewController.xib in Resources */,
 				AA58FC4716C235C800C49E02 /* JMCAttachmentsView.xib in Resources */,
 				AA58FC5F16C235C800C49E02 /* JMCIssuePreviewCell.xib in Resources */,
@@ -2257,6 +2321,10 @@
 				04AB0AAD17080A5700C5300B /* albumImageFrame@2x.png in Resources */,
 				04AB0AAF17080A5700C5300B /* albumImageFrame.png in Resources */,
 				AAEB9CDF171648A000439939 /* Config.xcconfig in Resources */,
+				AA78D2C517172C67006E1240 /* dropDownButton.png in Resources */,
+				AA78D2C717172C67006E1240 /* dropDownButton@2x.png in Resources */,
+				AA78D2C917172C67006E1240 /* dropDownField.png in Resources */,
+				AA78D2CB17172C67006E1240 /* dropDownField@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2424,6 +2492,11 @@
 				04734F3116CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */,
 				041A13ED1706882D00E66B78 /* SVSidebarManagementViewController.m in Sources */,
 				04AB0AB21708114800C5300B /* NSDate+Formatting.m in Sources */,
+				AA78D2A917172BA4006E1240 /* AlbumPhoto.m in Sources */,
+				AA78D2B017172BC0006E1240 /* SVBusinessDelegate.m in Sources */,
+				AA78D2B417172BCF006E1240 /* SVOfflineStorageWS.m in Sources */,
+				AA78D2BA17172C3D006E1240 /* SVCameraViewController.m in Sources */,
+				AA78D2BE17172C48006E1240 /* SVSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2554,6 +2627,11 @@
 				04734F3216CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */,
 				041A13EE1706882D00E66B78 /* SVSidebarManagementViewController.m in Sources */,
 				04AB0AB31708114800C5300B /* NSDate+Formatting.m in Sources */,
+				AA78D2AA17172BA4006E1240 /* AlbumPhoto.m in Sources */,
+				AA78D2B117172BC0006E1240 /* SVBusinessDelegate.m in Sources */,
+				AA78D2B517172BCF006E1240 /* SVOfflineStorageWS.m in Sources */,
+				AA78D2BB17172C3D006E1240 /* SVCameraViewController.m in Sources */,
+				AA78D2BF17172C48006E1240 /* SVSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
