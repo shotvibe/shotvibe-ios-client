@@ -31,8 +31,8 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
 {
     // Customize appearance of the navigation bar    
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0], UITextAttributeFont, nil]];
-    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:5.0 forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];
+    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:0.0 forBarMetrics:UIBarMetricsLandscapePhone];
     
     {
         UIImage *baseImage = [UIImage imageNamed:@"navBarBg.png"];
@@ -51,8 +51,8 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
     }
     
     // Customize back barbuttonitem for nav bar
-    [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];
-    [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];
+    /*[[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];*/
     {
         UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(25, 0, 5, 5);
@@ -90,10 +90,10 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
     
     // Customize regular barbuttonitem for navbar
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Bold" size:12.0], UITextAttributeFont, nil] forState:UIControlStateNormal];
-    [[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];
+    /*[[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];
     [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0, 1) forBarMetrics:UIBarMetricsDefault];
-    [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0, 1) forBarMetrics:UIBarMetricsLandscapePhone];
+    [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0, 1) forBarMetrics:UIBarMetricsLandscapePhone];*/
     {
         UIImage *baseImage = [UIImage imageNamed:@"navbarButton.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 10, 10);

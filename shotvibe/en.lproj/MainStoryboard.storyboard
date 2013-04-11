@@ -515,68 +515,6 @@
         <image name="sidebarMenuBg.png" width="320" height="543"/>
         <image name="sidebarToolbar.png" width="320" height="47"/>
     </resources>
-    <classes>
-        <class className="NINetworkImageView" superclassName="UIImageView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NINetworkImageView.h"/>
-        </class>
-        <class className="SVAlbumGridViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumGridViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="homePressed:"/>
-                <relationship kind="outlet" name="gridviewContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumListViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="author" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="networkImageView" candidateClass="NINetworkImageView"/>
-                <relationship kind="outlet" name="numberNotViewedIndicator" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="timestamp" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="newAlbumButtonPressed:"/>
-                <relationship kind="action" name="newAlbumClose:"/>
-                <relationship kind="action" name="newAlbumDone:"/>
-                <relationship kind="outlet" name="albumField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="dropDownBackground" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dropDownContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableOverlayView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SVCameraViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVCameraViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelPressed:"/>
-            </relationships>
-        </class>
-        <class className="SVSettingsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="donePressed:"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarManagementViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarManagementViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="homePressed:"/>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarMenuViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarMenuViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -95,7 +95,7 @@
     [titleContainer addSubview:titleView];
     titleContainer.clipsToBounds = NO;
     titleContainer.backgroundColor = [UIColor clearColor];
-    titleView.frame = CGRectMake(0, -3, titleView.frame.size.width, titleView.frame.size.height);
+    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
     self.navigationItem.titleView = titleContainer;
 
     // Setup menu button
