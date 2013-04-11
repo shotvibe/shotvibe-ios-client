@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
 
 
 - (IBAction)homePressed:(id)sender;
@@ -37,6 +38,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        else
+        {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        
+        [self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
+    }
     
     [self fetchedResultsController];
 }

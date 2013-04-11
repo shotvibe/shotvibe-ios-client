@@ -2,22 +2,25 @@
 //  Member.m
 //  shotvibe
 //
-//  Created by Fredrick Gabelmann on 2/8/13.
+//  Created by John Gabelmann on 4/8/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import "Member.h"
 #import "Album.h"
+#import "AlbumPhoto.h"
+#import "Photo.h"
 
 
 @implementation Member
 
-#pragma mark - Properties
-
-@dynamic userId;
-@dynamic url;
-@dynamic nickname;
-@dynamic avatarUrl;
 @dynamic albumIds;
+@dynamic avatarUrl;
+@dynamic nickname;
+@dynamic url;
+@dynamic userId;
 @dynamic albums;
+@dynamic photos;
+@dynamic albumPhotos;
+
 @end
