@@ -12,12 +12,17 @@
 #import "Album.h"
 #import "UINavigationController+MFSideMenu.h"
 #import "MFSideMenu.h"
+#import "Member.h"
 
 @interface SVAlbumDetailScrollViewController ()
+
+@property (nonatomic, strong) UILabel *detailLabel;
+
 - (void)loadImages;
 - (void)deleteButtonPressed;
 - (void)exportButtonPressed;
 - (void)toggleMenu;
+- (void)configureDetailText;
 @end
 
 @implementation SVAlbumDetailScrollViewController
@@ -67,6 +72,25 @@
     // Setup menu button
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
+    
+    
+    // Setup detail label
+    self.detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -57, self.view.frame.size.width, 57)];
+    self.detailLabel.backgroundColor = [UIColor clearColor];
+    self.detailLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
+    self.detailLabel.numberOfLines = 2;
+    if (IS_IOS6_OR_GREATER) {
+        self.detailLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    else
+    {
+        self.detailLabel.textAlignment = UITextAlignmentCenter;
+    }
+    self.detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16];
+    self.detailLabel.shadowColor = [UIColor blackColor];
+    self.detailLabel.shadowOffset = CGSizeMake(0, 1);
+    self.detailLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
+    [self.toolbar addSubview:self.detailLabel];
     
     selectedAlbum = self.selectedPhoto.album;
     
@@ -186,6 +210,19 @@
 }
 
 
+- (void)configureDetailText
+{
+    Photo *photo = [[selectedAlbum.photos allObjects] objectAtIndex:self.photoAlbumView.centerPageIndex];
+    
+    NSString *updatedBy = NSLocalizedString(@"Updated by ", @"");
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"MM.dd, HH:mm\"";
+    
+    self.detailLabel.text = [NSString stringWithFormat:@"%@%@\n%@", updatedBy, photo.author.nickname, [NSDateFormatter localizedStringFromDate:photo.dateCreated dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]];
+}
+
+
 - (void)updateToolbarItems {
     UIBarItem* flexibleSpace =
     [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
@@ -207,7 +244,6 @@
                                                        style: UIBarButtonItemStylePlain
                                                       target: self
                                                       action: @selector(exportButtonPressed)];
-        
     }
     
     if (nil == self.previousButton) {
@@ -229,6 +265,21 @@
     
     self.toolbar.items = [NSArray arrayWithObjects:self.previousButton, flexibleSpace, self.nextButton, nil];
     
+}
+
+- (void)refreshChromeState {
+    
+    [self setChromeTitle];
+    [self configureDetailText];
+}
+
+
+- (void)setChromeTitle {
+    /*self.title = [NSString stringWithFormat:@"%d of %d",
+                  (self.photoAlbumView.centerPageIndex + 1),
+                  self.photoAlbumView.numberOfPages];*/
+    
+    self.title = selectedAlbum.name;
 }
 
 
