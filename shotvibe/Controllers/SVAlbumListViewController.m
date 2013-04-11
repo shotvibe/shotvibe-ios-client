@@ -340,6 +340,7 @@
     AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
     
     // Configure thumbnail
+    [cell.networkImageView prepareForReuse];
     NSString *thumbnailUrl = [[recentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
     cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     cell.networkImageView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];

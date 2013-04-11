@@ -17,24 +17,24 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="AT7-8R-Xbr" userLabel="Gridview container">
-                                <rect key="frame" x="0.0" y="52" width="320" height="452"/>
+                                <rect key="frame" x="0.0" y="50" width="320" height="454"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumMenu.png" id="YcS-aB-5Ao">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="57"/>
+                                <rect key="frame" x="0.0" y="-1" width="320" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="center" image="albumDivider.png" id="Vbi-lB-m8q">
-                                <rect key="frame" x="0.0" y="0.0" width="213" height="57"/>
+                                <rect key="frame" x="0.0" y="-1" width="213" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="center" image="albumDivider.png" id="PT7-bQ-CdL">
-                                <rect key="frame" x="107" y="0.0" width="213" height="57"/>
+                                <rect key="frame" x="107" y="-1" width="213" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="6Xh-QU-6j5" userLabel="Camera Button">
-                                <rect key="frame" x="107" y="0.0" width="106" height="57"/>
+                                <rect key="frame" x="107" y="-1" width="106" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -52,7 +52,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="rBd-U2-udB" userLabel="Camera Button">
-                                <rect key="frame" x="0.0" y="0.0" width="107" height="57"/>
+                                <rect key="frame" x="0.0" y="-1" width="107" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -70,7 +70,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="U0j-LJ-AMC" userLabel="Camera Button">
-                                <rect key="frame" x="213" y="0.0" width="107" height="57"/>
+                                <rect key="frame" x="213" y="-1" width="107" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -270,7 +270,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="5EW-wR-oyW">
-                                <rect key="frame" x="0.0" y="53" width="320" height="451"/>
+                                <rect key="frame" x="0.0" y="51" width="320" height="453"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -410,15 +410,15 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumMenu.png" id="yHr-v6-wDG">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="57"/>
+                                <rect key="frame" x="0.0" y="-1" width="320" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="center" image="albumDivider.png" id="yML-Mw-56k">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="57"/>
+                                <rect key="frame" x="0.0" y="-1" width="320" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="mwo-5j-Iod" userLabel="Camera Button">
-                                <rect key="frame" x="0.0" y="0.0" width="160" height="57"/>
+                                <rect key="frame" x="0.0" y="-1" width="160" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -436,7 +436,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="jVJ-9b-las" userLabel="Camera Button">
-                                <rect key="frame" x="159" y="0.0" width="161" height="57"/>
+                                <rect key="frame" x="159" y="-1" width="161" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -583,6 +583,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="TlB-Uw-Z2o"/>
+        <segue reference="86A-D3-gba"/>
     </inferredMetricsTieBreakers>
 </document>
