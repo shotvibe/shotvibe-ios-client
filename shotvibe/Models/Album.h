@@ -2,71 +2,29 @@
 //  Album.h
 //  shotvibe
 //
-//  Created by Fredrick Gabelmann on 2/8/13.
+//  Created by John Gabelmann on 4/8/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@class Member, Photo;
+@class AlbumPhoto, Member, Photo;
 
 @interface Album : NSManagedObject
 
-#pragma mark - Properties
-
-/**
- The date this album was created
- */
-@property (nonatomic, retain) NSDate * dateCreated;
-
-/**
- This album's HTTP entity tag
- */
-@property (nonatomic, retain) NSNumber * etag;
-
-/**
- The unique ID for this album
- */
 @property (nonatomic, retain) NSNumber * albumId;
-
-/**
- The date the album was last updated
- */
+@property (nonatomic, retain) NSDate * dateCreated;
+@property (nonatomic, retain) NSNumber * etag;
 @property (nonatomic, retain) NSDate * lastUpdated;
-
-/**
- The album name
- */
+@property (nonatomic, retain) id memberIds;
 @property (nonatomic, retain) NSString * name;
-
-/**
- The album's resource URI
- */
+@property (nonatomic, retain) id photoIds;
 @property (nonatomic, retain) NSString * url;
-
-/**
- This albums photoIds
- */
-@property (nonatomic, strong) NSArray *photoIds;
-
-/**
- This albums photoIds
- */
-@property (nonatomic, strong) NSArray *userIds;
-
-/**
- The ShotVibe members that this album is shared with
- */
 @property (nonatomic, retain) NSSet *members;
-
-/**
- The photos this album contains
- */
 @property (nonatomic, retain) NSSet *photos;
+@property (nonatomic, retain) NSSet *albumPhotos;
 @end
-
-
-#pragma mark - Core Data Generated Accessors
 
 @interface Album (CoreDataGeneratedAccessors)
 
@@ -79,5 +37,10 @@
 - (void)removePhotosObject:(Photo *)value;
 - (void)addPhotos:(NSSet *)values;
 - (void)removePhotos:(NSSet *)values;
+
+- (void)addAlbumPhotosObject:(AlbumPhoto *)value;
+- (void)removeAlbumPhotosObject:(AlbumPhoto *)value;
+- (void)addAlbumPhotos:(NSSet *)values;
+- (void)removeAlbumPhotos:(NSSet *)values;
 
 @end

@@ -18,6 +18,7 @@
 #import "MFSideMenu.h"
 #import "UINavigationController+MFSideMenu.h"
 #import "SVSidebarManagementViewController.h"
+#import "SVBusinessDelegate.h"
 
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate, NINetworkImageViewDelegate>
@@ -38,6 +39,8 @@
 - (void)fetchPhotos;
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
 - (void)backButtonPressed;
+- (IBAction)homePressed:(id)sender;
+
 
 @end
 
@@ -45,6 +48,13 @@
 {
     BOOL isMenuShowing;
 }
+
+
+- (IBAction)homePressed:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 #pragma mark - UIViewController Methods
 
@@ -261,23 +271,21 @@
 - (void)networkImageView:(NINetworkImageView *)imageView didLoadImage:(UIImage *)image
 {
     Photo *loadedPhoto = [[self.selectedAlbum.photos allObjects] objectAtIndex:imageView.tag];
+        
     
-    NSData *imgData = UIImageJPEGRepresentation(image, 1);
+    [SVBusinessDelegate saveImage:image forPhoto:loadedPhoto];
+}
+
+
+- (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
+{
+    Photo *failedPhoto = [[self.selectedAlbum.photos allObjects] objectAtIndex:imageView.tag];
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:self.selectedAlbum.name];
-    NSError *filePathError;
-    if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
-                                   withIntermediateDirectories:YES
-                                                    attributes:nil
-                                                         error:&filePathError])
-    {
-        NSLog(@"Create directory error: %@", [filePathError localizedDescription]);
+    UIImage *offlineImage = [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:failedPhoto.photoUrl];
+    
+    if (offlineImage) {
+        [imageView setImage:offlineImage];
     }
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, loadedPhoto.photoId];
-    
-    [imgData writeToFile:filePath atomically:YES];
 }
 
 
@@ -351,6 +359,7 @@
         RKLogError(@"There was an error loading the fetched result controller: %@", error);
     }
     RKLogInfo(@"This album contains %d photos", self.selectedAlbum.photos.count);
+    [SVBusinessDelegate cleanupOfflineStorageForAlbum:self.selectedAlbum];
     [self configureGridview];
 }
 

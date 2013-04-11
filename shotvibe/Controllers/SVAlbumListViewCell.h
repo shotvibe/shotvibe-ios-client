@@ -16,4 +16,6 @@
 @property (weak, nonatomic) IBOutlet NINetworkImageView *networkImageView;
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIButton *timestamp;
+@property (weak, nonatomic) IBOutlet UILabel *author;
+@property (weak, nonatomic) IBOutlet UIButton *numberNotViewedIndicator;
 @end

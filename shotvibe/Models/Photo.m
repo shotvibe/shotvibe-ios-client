@@ -2,23 +2,43 @@
 //  Photo.m
 //  shotvibe
 //
-//  Created by Fredrick Gabelmann on 2/8/13.
+//  Created by John Gabelmann on 4/8/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import "Photo.h"
 #import "Album.h"
+#import "Member.h"
 
 
 @implementation Photo
 
-#pragma mark - Properties
-
-@dynamic author;
+@dynamic albumId;
 @dynamic dateCreated;
 @dynamic photoId;
 @dynamic photoUrl;
-@dynamic albumId;
+@dynamic hasViewed;
 @dynamic album;
+@dynamic author;
+
+
+- (void)prepareForDeletion
+{
+    [super prepareForDeletion];
+    
+    /*if ([self.hasViewed boolValue]) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:self.album.name];
+        
+        NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, self.photoId];
+        
+        if ([[NSFileManager defaultManager] isDeletableFileAtPath:filePath])
+        {
+            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+        }
+    }*/
+    
+}
 
 @end

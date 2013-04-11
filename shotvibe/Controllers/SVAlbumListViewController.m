@@ -15,18 +15,36 @@
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 #import "NSDate+Formatting.h"
+#import "Member.h"
+#import "AlbumPhoto.h"
+#import "SVBusinessDelegate.h"
+#import "SVCameraViewController.h"
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableDictionary *albumPhotoInfo;
+@property (nonatomic, strong) IBOutlet UIView *tableOverlayView;
+@property (nonatomic, strong) IBOutlet UIView *dropDownContainer;
+@property (nonatomic, strong) IBOutlet UIImageView *dropDownBackground;
+@property (nonatomic, strong) IBOutlet UITextField *albumField;
 
 - (void)loadData;
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)searchPressed;
 - (void)settingsPressed;
+- (void)configureNumberNotViewed:(NSNotification *)notification;
+- (void)fetchAlbumPhotoInfo;
+- (void)showDropDown;
+- (void)hideDropDown;
+- (void)createNewAlbumWithTitle:(NSString *)title;
+- (IBAction)newAlbumButtonPressed:(id)sender;
+- (IBAction)newAlbumClose:(id)sender;
+- (IBAction)newAlbumDone:(id)sender;
 
 @end
+
 
 @implementation SVAlbumListViewController
 
@@ -40,7 +58,26 @@
 
 - (void)settingsPressed
 {
-    
+    [self performSegueWithIdentifier:@"SettingsSegue" sender:nil];
+}
+
+
+- (IBAction)newAlbumButtonPressed:(id)sender
+{
+    [self showDropDown];
+}
+
+
+- (IBAction)newAlbumClose:(id)sender
+{
+    [self hideDropDown];
+}
+
+
+- (IBAction)newAlbumDone:(id)sender
+{
+    [self createNewAlbumWithTitle:self.albumField.text];
+    [self hideDropDown];
 }
 
 
@@ -49,6 +86,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
 
     // Setup titleview
     UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shotvibeLogo.png"]];
@@ -66,9 +105,32 @@
     // Setup menu button
     UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
     self.navigationItem.rightBarButtonItem = managementButton;
+    
+    // Configure the dropdown background image
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"dropDownField.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(0, 50, 0, 50);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        }
+        else
+        {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        
+        [self.dropDownBackground setImage:resizableImage];
+    }
+    
 
     // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
     RKLogConfigureByName("ShotVibe/Albums", RKLogLevelDebug);
+    
+    // Listen for our RestKit loads to finish
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureNumberNotViewed:) name:@"SVPhotosLoadedForIndexPath" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo) name:@"SVAlbumsLoaded" object:nil];
+    
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
@@ -80,8 +142,6 @@
     [self.fetchedResultsController setDelegate:self];
     if (![self.fetchedResultsController performFetch:&error]) {
         RKLogError(@"There was an error loading the fetched result controller: %@", error);
-    } else {
-        [self loadData];
     }
 }
 
@@ -90,6 +150,7 @@
 {
     [super viewWillAppear:animated];
     
+    [self loadData];
 }
 
 
@@ -217,6 +278,43 @@
 }
 
 
+#pragma mark - NINetworkImageViewDelegate
+
+- (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
+{
+    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:imageView.tag inSection:0]];
+
+    NSArray *photos = [anAlbum.albumPhotos allObjects];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:YES];
+    
+    NSArray *sortedPhotos = [photos sortedArrayUsingDescriptors:@[descriptor]];
+    
+    AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
+    
+    UIImage *offlineImage = [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoUrl];
+    
+    if (offlineImage) {
+        [imageView setImage:offlineImage];
+    }
+}
+
+
+#pragma mark - UITextFieldDelegate Methods
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self textFieldDidEndEditing:textField];
+    return YES;
+}
+
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self createNewAlbumWithTitle:textField.text];
+    [self hideDropDown];
+}
+
+
 #pragma mark - Private Methods
 
 - (void)loadData
@@ -231,7 +329,15 @@
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    Photo *recentPhoto = [anAlbum.photos anyObject];
+
+    
+    NSArray *photos = [anAlbum.albumPhotos allObjects];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:YES];
+
+    NSArray *sortedPhotos = [photos sortedArrayUsingDescriptors:@[descriptor]];
+    
+    
+    AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
     
     // Configure thumbnail
     NSString *thumbnailUrl = [[recentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
@@ -244,13 +350,89 @@
     cell.networkImageView.scaleOptions = NINetworkImageViewScaleToFitCropsExcess;
     cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
     cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
+    cell.networkImageView.delegate = self;
+    cell.networkImageView.tag = indexPath.row;
     [cell.networkImageView setPathToNetworkImage:thumbnailUrl];
     
     
     cell.title.text = anAlbum.name;
     
+    NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
+    cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+    
     NSString *distanceOfTimeInWords = [anAlbum.lastUpdated distanceOfTimeInWords];
     [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
+    
+    NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
+    if (numberNew) {
+        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
+    }
+    
     return cell;
+}
+
+
+- (void)configureNumberNotViewed:(NSNotification *)notification
+{
+    NSIndexPath *indexPath = [notification object];
+    
+    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    NSInteger numberViewed = [SVBusinessDelegate numberOfViewedImagesInAlbum:anAlbum];
+    
+    NSInteger numberNew = anAlbum.photos.count - numberViewed;
+    
+    [self.albumPhotoInfo setObject:[NSNumber numberWithInteger:numberNew] forKey:indexPath];
+    [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
+}
+
+
+- (void)fetchAlbumPhotoInfo
+{
+    // Start figuring out how many new photos we have
+    NSArray *fetchedObjects = self.fetchedResultsController.fetchedObjects;
+    
+    for (Album *anAlbum in fetchedObjects) {
+        if (anAlbum) {
+            [[SVEntityStore sharedStore] photosForAlbumWithID:anAlbum.albumId atIndexPath:[NSIndexPath indexPathForRow:[fetchedObjects indexOfObject:anAlbum] inSection:0]];
+        }    }
+}
+
+
+- (void)showDropDown
+{
+    self.tableOverlayView.hidden = NO;
+    self.dropDownContainer.hidden = NO;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tableOverlayView.alpha = 0.3;
+        self.dropDownContainer.frame = CGRectMake(6, 34, self.dropDownContainer.frame.size.width, 134);
+    } completion:^(BOOL finished) {
+        [self.albumField becomeFirstResponder];
+    }];
+    
+}
+
+
+- (void)hideDropDown
+{
+    [self.albumField resignFirstResponder];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tableOverlayView.alpha = 0.0;
+        self.dropDownContainer.frame = CGRectMake(6, -80, self.dropDownContainer.frame.size.width, 134);
+    } completion:^(BOOL finished) {
+        self.tableOverlayView.hidden = YES;
+        self.dropDownContainer.hidden = YES;
+    }];
+}
+
+
+- (void)createNewAlbumWithTitle:(NSString *)title
+{
+    // TODO: Handle creation of a new album with the given title.
+    
 }
 @end

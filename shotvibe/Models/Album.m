@@ -2,28 +2,28 @@
 //  Album.m
 //  shotvibe
 //
-//  Created by Fredrick Gabelmann on 2/8/13.
+//  Created by John Gabelmann on 4/8/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import "Album.h"
+#import "AlbumPhoto.h"
 #import "Member.h"
 #import "Photo.h"
 
 
 @implementation Album
 
-#pragma mark - Properties
-
+@dynamic albumId;
 @dynamic dateCreated;
 @dynamic etag;
-@dynamic albumId;
 @dynamic lastUpdated;
+@dynamic memberIds;
 @dynamic name;
-@dynamic url;
 @dynamic photoIds;
-@dynamic userIds;
+@dynamic url;
 @dynamic members;
 @dynamic photos;
+@dynamic albumPhotos;
 
 @end

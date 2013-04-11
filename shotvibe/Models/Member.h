@@ -2,56 +2,26 @@
 //  Member.h
 //  shotvibe
 //
-//  Created by Fredrick Gabelmann on 2/8/13.
+//  Created by John Gabelmann on 4/8/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@class Album;
+@class Album, AlbumPhoto, Photo;
 
 @interface Member : NSManagedObject
 
-#pragma mark - Properties
-
-/**
- The unique ID for this member
- */
-@property (nonatomic, strong) NSNumber *userId;
-
-
-/**
- The  url for this member
- */
-@property (nonatomic, strong) NSString *url;
-
-
-/**
- The nickname for this member
- */
-@property (nonatomic, strong) NSString *nickname;
-
-
-/**
- The avatar image url for this member
- */
-@property (nonatomic, strong) NSString *avatarUrl;
-
-
-/**
- This member's albumIds
- */
-@property (nonatomic, strong) NSArray *albumIds;
-
-
-/**
- The albums shared by or with this member
- */
-@property (nonatomic, strong) NSSet *albums;
+@property (nonatomic, retain) id albumIds;
+@property (nonatomic, retain) NSString * avatarUrl;
+@property (nonatomic, retain) NSString * nickname;
+@property (nonatomic, retain) NSString * url;
+@property (nonatomic, retain) NSNumber * userId;
+@property (nonatomic, retain) NSSet *albums;
+@property (nonatomic, retain) NSSet *photos;
+@property (nonatomic, retain) NSSet *albumPhotos;
 @end
-
-
-#pragma mark - Core Data Generated Accessors
 
 @interface Member (CoreDataGeneratedAccessors)
 
@@ -59,5 +29,15 @@
 - (void)removeAlbumsObject:(Album *)value;
 - (void)addAlbums:(NSSet *)values;
 - (void)removeAlbums:(NSSet *)values;
+
+- (void)addPhotosObject:(Photo *)value;
+- (void)removePhotosObject:(Photo *)value;
+- (void)addPhotos:(NSSet *)values;
+- (void)removePhotos:(NSSet *)values;
+
+- (void)addAlbumPhotosObject:(AlbumPhoto *)value;
+- (void)removeAlbumPhotosObject:(AlbumPhoto *)value;
+- (void)addAlbumPhotos:(NSSet *)values;
+- (void)removeAlbumPhotos:(NSSet *)values;
 
 @end
