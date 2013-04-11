@@ -493,6 +493,8 @@
 		AAE6CB5A16C59CF100EB1832 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5816C59CF100EB1832 /* Album.m */; };
 		AAE6CB5D16C59CF200EB1832 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5C16C59CF200EB1832 /* Photo.m */; };
 		AAE6CB5E16C59CF200EB1832 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5C16C59CF200EB1832 /* Photo.m */; };
+		AAEB9CDE171648A000439939 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AAEB9CDD171648A000439939 /* Config.xcconfig */; };
+		AAEB9CDF171648A000439939 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AAEB9CDD171648A000439939 /* Config.xcconfig */; };
 		AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */; };
 		AAF05CD616CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */; };
 /* End PBXBuildFile section */
@@ -967,6 +969,7 @@
 		AAE6CB5816C59CF100EB1832 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
 		AAE6CB5B16C59CF200EB1832 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		AAE6CB5C16C59CF200EB1832 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		AAEB9CDD171648A000439939 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		AAF05CD316CB28DD005BCFD3 /* SVAlbumListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumListViewController.h; sourceTree = "<group>"; };
 		AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumListViewController.m; sourceTree = "<group>"; };
 		AAF05CD716CB309A005BCFD3 /* SVDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDefines.h; sourceTree = "<group>"; };
@@ -1294,6 +1297,7 @@
 				AA58FB0C16C224E800C49E02 /* Default.png */,
 				AA58FB0E16C224E800C49E02 /* Default@2x.png */,
 				AA58FB1016C224E800C49E02 /* Default-568h@2x.png */,
+				AAEB9CDD171648A000439939 /* Config.xcconfig */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2123,6 +2127,7 @@
 				04AB0AAA17080A5700C5300B /* cellDivider.png in Resources */,
 				04AB0AAC17080A5700C5300B /* albumImageFrame@2x.png in Resources */,
 				04AB0AAE17080A5700C5300B /* albumImageFrame.png in Resources */,
+				AAEB9CDE171648A000439939 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2251,6 +2256,7 @@
 				04AB0AAB17080A5700C5300B /* cellDivider.png in Resources */,
 				04AB0AAD17080A5700C5300B /* albumImageFrame@2x.png in Resources */,
 				04AB0AAF17080A5700C5300B /* albumImageFrame.png in Resources */,
+				AAEB9CDF171648A000439939 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2863,6 +2869,7 @@
 		};
 		AA58FB5D16C2291200C49E02 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AAEB9CDD171648A000439939 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
