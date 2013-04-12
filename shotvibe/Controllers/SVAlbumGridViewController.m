@@ -232,7 +232,8 @@
     [cell.contentView addSubview:cellBackground];
     
     // Configure thumbnail
-    Photo *currentPhoto = [[self.selectedAlbum.photos allObjects] objectAtIndex:index];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
+    Photo *currentPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:index];
     
     
     NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
@@ -259,7 +260,8 @@
     NSLog(@"Did tap at index %d", position);
     
     SVAlbumDetailScrollViewController *detailController = [[SVAlbumDetailScrollViewController alloc] init];
-    detailController.selectedPhoto = [[self.selectedAlbum.photos allObjects] objectAtIndex:position];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
+    detailController.selectedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:position];
     
     isPushingDetail = YES;
     [self.navigationController pushViewController:detailController animated:YES];
@@ -270,7 +272,8 @@
 
 - (void)networkImageView:(NINetworkImageView *)imageView didLoadImage:(UIImage *)image
 {
-    Photo *loadedPhoto = [[self.selectedAlbum.photos allObjects] objectAtIndex:imageView.tag];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
+    Photo *loadedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:imageView.tag];
         
     
     [SVBusinessDelegate saveImage:image forPhoto:loadedPhoto];
@@ -279,7 +282,8 @@
 
 - (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
 {
-    Photo *failedPhoto = [[self.selectedAlbum.photos allObjects] objectAtIndex:imageView.tag];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
+    Photo *failedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:imageView.tag];
     
     UIImage *offlineImage = [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:failedPhoto.photoUrl];
     

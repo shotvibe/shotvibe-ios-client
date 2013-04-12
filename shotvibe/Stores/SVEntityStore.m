@@ -91,7 +91,6 @@
      @"photo_id": @"photoId",
      @"photo_url": @"photoUrl",
      @"date_created": @"dateCreated",
-     @"author": @"author"
      }];
     photoMapping.identificationAttributes = @[@"photoId"];
     
@@ -116,6 +115,7 @@
     albumMapping.identificationAttributes = @[@"albumId"];
     
     // Relationship Connections
+    [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
     [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"photos" withMapping:photoMapping]];
     [memberMapping addRelationshipMappingWithSourceKeyPath:@"albums" mapping:albumMapping];
@@ -148,7 +148,6 @@
      @"photo_id": @"photoId",
      @"photo_url": @"photoUrl",
      @"date_created": @"dateCreated",
-     @"author": @"author"
      }];
     photoMapping.identificationAttributes = @[@"photoId"];
     
@@ -173,6 +172,7 @@
     albumMapping.identificationAttributes = @[@"albumId"];
     
     // Relationship Connections
+    [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
     [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"photos" withMapping:photoMapping]];
     [memberMapping addRelationshipMappingWithSourceKeyPath:@"albums" mapping:albumMapping];

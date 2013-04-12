@@ -234,8 +234,7 @@
   navBar.barStyle = UIBarStyleBlack;
   navBar.translucent = YES;
 
-  _previousButton.enabled = [self.photoAlbumView hasPrevious];
-  _nextButton.enabled = [self.photoAlbumView hasNext];
+    [self refreshChromeState];
 }
 
 
