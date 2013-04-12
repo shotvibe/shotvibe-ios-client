@@ -93,6 +93,8 @@
                     <navigationItem key="navigationItem" id="pdu-Tl-D5W"/>
                     <connections>
                         <outlet property="gridviewContainer" destination="AT7-8R-Xbr" id="98f-ut-t31"/>
+                        <segue destination="ziD-RB-hWf" kind="modal" identifier="AddFriendsSegue" id="SAN-qU-tPE"/>
+                        <segue destination="hvf-QA-zhN" kind="modal" identifier="AlbumSettingsSegue" id="wGz-Bv-Cvv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FaP-w9-IIV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -187,18 +189,87 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Album Members" id="hQn-i2-azO"/>
+                                    <navigationItem title="Album Members" id="hQn-i2-azO">
+                                        <barButtonItem key="rightBarButtonItem" image="settingsIcon.png" id="Phr-Xp-rhM">
+                                            <connections>
+                                                <action selector="settingsButtonPressed:" destination="k4U-OQ-1vP" id="G2m-Fg-L5M"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="zzl-Ln-e03">
-                                <rect key="frame" x="0.0" y="44" width="320" height="504"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="42" sectionHeaderHeight="22" sectionFooterHeight="22" id="zzl-Ln-e03">
+                                <rect key="frame" x="0.0" y="104" width="320" height="444"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.12941176469999999" green="0.15686274510000001" blue="0.1843137255" alpha="1" colorSpace="deviceRGB"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AlbumMemberCell" id="op5-Xa-UFq" customClass="SVSidebarAlbumMemberCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="41"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumMemberProfileFrame.png" id="ljD-54-Sn0">
+                                                    <rect key="frame" x="9" y="4" width="35" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="Kak-Tk-iE2" customClass="NINetworkImageView">
+                                                    <rect key="frame" x="11" y="5" width="31" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rafael Angeline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NQV-e8-xms">
+                                                    <rect key="frame" x="50" y="0.0" width="250" height="41"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <outlet property="memberLabel" destination="NQV-e8-xms" id="mfl-gx-lgM"/>
+                                            <outlet property="profileImageView" destination="Kak-Tk-iE2" id="Ihy-xb-JAR"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="k4U-OQ-1vP" id="KtJ-AB-5IX"/>
+                                    <outlet property="delegate" destination="k4U-OQ-1vP" id="BVz-6g-XOZ"/>
+                                </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FiF-95-PZF">
+                                <rect key="frame" x="69" y="53" width="247" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                <inset key="contentEdgeInsets" minX="14" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="14" maxY="0.0"/>
+                                <size key="titleShadowOffset" width="0.0" height="1"/>
+                                <state key="normal" title="Add Friends" image="addFriendsIcon.png" backgroundImage="addFriendsButtonBg.png">
+                                    <color key="titleColor" red="0.76862745099999996" green="0.85882352939999995" blue="0.90980392160000001" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="addFriendsButtonPressed:" destination="k4U-OQ-1vP" eventType="touchUpInside" id="BDw-ON-Azn"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" id="btH-23-dyS">
+                                <rect key="frame" x="0.0" y="104" width="320" height="1"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.12941176469999999" green="0.15686274510000001" blue="0.1843137255" alpha="1" colorSpace="deviceRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="settingsButton" destination="Phr-Xp-rhM" id="Nu4-yY-Oh8"/>
                         <outlet property="sidebarNav" destination="xfG-Eg-O7z" id="IzV-ZJ-bR3"/>
                         <outlet property="tableView" destination="zzl-Ln-e03" id="wdd-pK-h6o"/>
                     </connections>
@@ -206,6 +277,63 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z6V-XX-zxm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-114" y="-626"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="y8I-Q9-LPQ">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="hvf-QA-zhN" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9d7-1X-bbm">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="VXh-Eb-gqf" kind="relationship" relationship="rootViewController" id="iDo-Qb-qtX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VQf-cA-Car" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="322" y="-1297"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jHK-nQ-yGy">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="ziD-RB-hWf" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kJb-YN-xnr">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="hue-j9-5bn" kind="relationship" relationship="rootViewController" id="mgm-ee-1Qc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JP1-VX-6BR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="322" y="-626"/>
+        </scene>
+        <!--Add Friends View Controller - Add Friends-->
+        <scene sceneID="8iq-Ap-kcP">
+            <objects>
+                <viewController id="hue-j9-5bn" customClass="SVAddFriendsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JmG-lN-sm5">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="mainBg.png" id="MMK-AV-ptP">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Friends" id="dfg-eK-1ty">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="8t3-bc-lGo">
+                            <connections>
+                                <action selector="cancelPressed:" destination="hue-j9-5bn" id="vgE-xc-yOn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AXe-IM-XjC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="734" y="-626"/>
         </scene>
         <!--Sidebar Management View Controller-->
         <scene sceneID="daf-Rk-BWs">
@@ -497,11 +625,41 @@
             </objects>
             <point key="canvasLocation" x="-573" y="-626"/>
         </scene>
+        <!--Album Info View Controller - Album Settings-->
+        <scene sceneID="HpX-yD-B2o">
+            <objects>
+                <viewController id="VXh-Eb-gqf" customClass="SVAlbumInfoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xn1-IB-LGo">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="mainBg.png" id="hh8-uM-0Bz">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Album Settings" id="hsB-MH-ZXV">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="ndn-g4-IS0">
+                            <connections>
+                                <action selector="donePressed:" destination="VXh-Eb-gqf" id="d1u-1j-nUn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Af-4n-4UZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="734" y="-1297"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="addFriendsButtonBg.png" width="247" height="43"/>
+        <image name="addFriendsIcon.png" width="16" height="17"/>
         <image name="albumDivider.png" width="2" height="48"/>
         <image name="albumIcon.png" width="16" height="18"/>
         <image name="albumImageFrame.png" width="82" height="79"/>
+        <image name="albumMemberProfileFrame.png" width="35" height="34"/>
         <image name="albumMenu.png" width="320" height="57"/>
         <image name="cameraIcon.png" width="16" height="15"/>
         <image name="cameraRollIcon.png" width="16" height="17"/>
@@ -515,12 +673,96 @@
         <image name="sidebarMenuBg.png" width="320" height="543"/>
         <image name="sidebarToolbar.png" width="320" height="47"/>
     </resources>
+    <classes>
+        <class className="NINetworkImageView" superclassName="UIImageView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NINetworkImageView.h"/>
+        </class>
+        <class className="SVAddFriendsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAddFriendsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelPressed:"/>
+            </relationships>
+        </class>
+        <class className="SVAlbumGridViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumGridViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="homePressed:"/>
+                <relationship kind="outlet" name="gridviewContainer" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="SVAlbumInfoViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumInfoViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="donePressed:"/>
+            </relationships>
+        </class>
+        <class className="SVAlbumListViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="author" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="networkImageView" candidateClass="NINetworkImageView"/>
+                <relationship kind="outlet" name="numberNotViewedIndicator" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="timestamp" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="SVAlbumListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="newAlbumButtonPressed:"/>
+                <relationship kind="action" name="newAlbumClose:"/>
+                <relationship kind="action" name="newAlbumDone:"/>
+                <relationship kind="outlet" name="albumField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="dropDownBackground" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="dropDownContainer" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tableOverlayView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SVCameraViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVCameraViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelPressed:"/>
+            </relationships>
+        </class>
+        <class className="SVSettingsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="donePressed:"/>
+            </relationships>
+        </class>
+        <class className="SVSidebarAlbumMemberCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="memberLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="profileImageView" candidateClass="NINetworkImageView"/>
+            </relationships>
+        </class>
+        <class className="SVSidebarManagementViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarManagementViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="homePressed:"/>
+                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SVSidebarMenuViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarMenuViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addFriendsButtonPressed:"/>
+                <relationship kind="action" name="settingsButtonPressed:"/>
+                <relationship kind="outlet" name="settingsButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="86A-D3-gba"/>
+        <segue reference="TlB-Uw-Z2o"/>
     </inferredMetricsTieBreakers>
 </document>

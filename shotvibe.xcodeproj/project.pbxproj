@@ -77,6 +77,28 @@
 		0434740B1706101600CFE564 /* sidebarMenuBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043474081706101600CFE564 /* sidebarMenuBg@2x.png */; };
 		0434740C1706101600CFE564 /* sidebarMenuBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 043474091706101600CFE564 /* sidebarMenuBg.png */; };
 		0434740D1706101600CFE564 /* sidebarMenuBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 043474091706101600CFE564 /* sidebarMenuBg.png */; };
+		0446EEE51718845D00ED0076 /* sidebarNavButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEDD1718845D00ED0076 /* sidebarNavButton@2x.png */; };
+		0446EEE61718845D00ED0076 /* sidebarNavButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEDD1718845D00ED0076 /* sidebarNavButton@2x.png */; };
+		0446EEE71718845D00ED0076 /* sidebarNavButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEDE1718845D00ED0076 /* sidebarNavButton.png */; };
+		0446EEE81718845D00ED0076 /* sidebarNavButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEDE1718845D00ED0076 /* sidebarNavButton.png */; };
+		0446EEE91718845D00ED0076 /* albumMemberProfileFrame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEDF1718845D00ED0076 /* albumMemberProfileFrame@2x.png */; };
+		0446EEEA1718845D00ED0076 /* albumMemberProfileFrame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEDF1718845D00ED0076 /* albumMemberProfileFrame@2x.png */; };
+		0446EEEB1718845D00ED0076 /* albumMemberProfileFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE01718845D00ED0076 /* albumMemberProfileFrame.png */; };
+		0446EEEC1718845D00ED0076 /* albumMemberProfileFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE01718845D00ED0076 /* albumMemberProfileFrame.png */; };
+		0446EEED1718845D00ED0076 /* addFriendsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE11718845D00ED0076 /* addFriendsIcon@2x.png */; };
+		0446EEEE1718845D00ED0076 /* addFriendsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE11718845D00ED0076 /* addFriendsIcon@2x.png */; };
+		0446EEEF1718845D00ED0076 /* addFriendsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE21718845D00ED0076 /* addFriendsIcon.png */; };
+		0446EEF01718845D00ED0076 /* addFriendsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE21718845D00ED0076 /* addFriendsIcon.png */; };
+		0446EEF11718845D00ED0076 /* addFriendsButtonBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE31718845D00ED0076 /* addFriendsButtonBg@2x.png */; };
+		0446EEF21718845D00ED0076 /* addFriendsButtonBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE31718845D00ED0076 /* addFriendsButtonBg@2x.png */; };
+		0446EEF31718845D00ED0076 /* addFriendsButtonBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE41718845D00ED0076 /* addFriendsButtonBg.png */; };
+		0446EEF41718845D00ED0076 /* addFriendsButtonBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE41718845D00ED0076 /* addFriendsButtonBg.png */; };
+		0446EF021718927B00ED0076 /* SVSidebarAlbumMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */; };
+		0446EF031718927B00ED0076 /* SVSidebarAlbumMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */; };
+		0446EF061718A41700ED0076 /* SVAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */; };
+		0446EF071718A41700ED0076 /* SVAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */; };
+		0446EF0A1718A42C00ED0076 /* SVAlbumInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF091718A42C00ED0076 /* SVAlbumInfoViewController.m */; };
+		0446EF0B1718A42C00ED0076 /* SVAlbumInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF091718A42C00ED0076 /* SVAlbumInfoViewController.m */; };
 		04734F2416CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */; };
 		04734F2516CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */; };
 		04734F2F16CF104F003F729B /* MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2C16CF104F003F729B /* MFSideMenu.m */; };
@@ -605,6 +627,20 @@
 		043474031706093000CFE564 /* userIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userIcon.png; sourceTree = "<group>"; };
 		043474081706101600CFE564 /* sidebarMenuBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sidebarMenuBg@2x.png"; sourceTree = "<group>"; };
 		043474091706101600CFE564 /* sidebarMenuBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidebarMenuBg.png; sourceTree = "<group>"; };
+		0446EEDD1718845D00ED0076 /* sidebarNavButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sidebarNavButton@2x.png"; sourceTree = "<group>"; };
+		0446EEDE1718845D00ED0076 /* sidebarNavButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidebarNavButton.png; sourceTree = "<group>"; };
+		0446EEDF1718845D00ED0076 /* albumMemberProfileFrame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumMemberProfileFrame@2x.png"; sourceTree = "<group>"; };
+		0446EEE01718845D00ED0076 /* albumMemberProfileFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumMemberProfileFrame.png; sourceTree = "<group>"; };
+		0446EEE11718845D00ED0076 /* addFriendsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addFriendsIcon@2x.png"; sourceTree = "<group>"; };
+		0446EEE21718845D00ED0076 /* addFriendsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addFriendsIcon.png; sourceTree = "<group>"; };
+		0446EEE31718845D00ED0076 /* addFriendsButtonBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addFriendsButtonBg@2x.png"; sourceTree = "<group>"; };
+		0446EEE41718845D00ED0076 /* addFriendsButtonBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addFriendsButtonBg.png; sourceTree = "<group>"; };
+		0446EF001718927B00ED0076 /* SVSidebarAlbumMemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSidebarAlbumMemberCell.h; sourceTree = "<group>"; };
+		0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSidebarAlbumMemberCell.m; sourceTree = "<group>"; };
+		0446EF041718A41700ED0076 /* SVAddFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAddFriendsViewController.h; sourceTree = "<group>"; };
+		0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAddFriendsViewController.m; sourceTree = "<group>"; };
+		0446EF081718A42C00ED0076 /* SVAlbumInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumInfoViewController.h; sourceTree = "<group>"; };
+		0446EF091718A42C00ED0076 /* SVAlbumInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumInfoViewController.m; sourceTree = "<group>"; };
 		04734F2216CEC1B1003F729B /* SVSidebarMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSidebarMenuViewController.h; sourceTree = "<group>"; };
 		04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSidebarMenuViewController.m; sourceTree = "<group>"; };
 		04734F2B16CF104F003F729B /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
@@ -1073,6 +1109,14 @@
 		043473BF1705F48C00CFE564 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0446EEDD1718845D00ED0076 /* sidebarNavButton@2x.png */,
+				0446EEDE1718845D00ED0076 /* sidebarNavButton.png */,
+				0446EEDF1718845D00ED0076 /* albumMemberProfileFrame@2x.png */,
+				0446EEE01718845D00ED0076 /* albumMemberProfileFrame.png */,
+				0446EEE11718845D00ED0076 /* addFriendsIcon@2x.png */,
+				0446EEE21718845D00ED0076 /* addFriendsIcon.png */,
+				0446EEE31718845D00ED0076 /* addFriendsButtonBg@2x.png */,
+				0446EEE41718845D00ED0076 /* addFriendsButtonBg.png */,
 				AA78D2C017172C67006E1240 /* dropDownButton.png */,
 				AA78D2C117172C67006E1240 /* dropDownButton@2x.png */,
 				AA78D2C217172C67006E1240 /* dropDownField.png */,
@@ -1257,6 +1301,10 @@
 				AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */,
 				04CD9CE016CDF15A00FC72B3 /* SVAlbumDetailScrollViewController.h */,
 				04CD9CE116CDF15A00FC72B3 /* SVAlbumDetailScrollViewController.m */,
+				0446EF041718A41700ED0076 /* SVAddFriendsViewController.h */,
+				0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */,
+				0446EF081718A42C00ED0076 /* SVAlbumInfoViewController.h */,
+				0446EF091718A42C00ED0076 /* SVAlbumInfoViewController.m */,
 			);
 			name = Albums;
 			sourceTree = "<group>";
@@ -1814,6 +1862,8 @@
 				04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */,
 				041A13EB1706882D00E66B78 /* SVSidebarManagementViewController.h */,
 				041A13EC1706882D00E66B78 /* SVSidebarManagementViewController.m */,
+				0446EF001718927B00ED0076 /* SVSidebarAlbumMemberCell.h */,
+				0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */,
 			);
 			path = "Custom Controls";
 			sourceTree = "<group>";
@@ -2193,6 +2243,14 @@
 				AA78D2CA17172C67006E1240 /* dropDownField@2x.png in Resources */,
 				040BACD21717453C00D90C63 /* navBarBg.png in Resources */,
 				040BACD41717453C00D90C63 /* navBarBg@2x.png in Resources */,
+				0446EEE51718845D00ED0076 /* sidebarNavButton@2x.png in Resources */,
+				0446EEE71718845D00ED0076 /* sidebarNavButton.png in Resources */,
+				0446EEE91718845D00ED0076 /* albumMemberProfileFrame@2x.png in Resources */,
+				0446EEEB1718845D00ED0076 /* albumMemberProfileFrame.png in Resources */,
+				0446EEED1718845D00ED0076 /* addFriendsIcon@2x.png in Resources */,
+				0446EEEF1718845D00ED0076 /* addFriendsIcon.png in Resources */,
+				0446EEF11718845D00ED0076 /* addFriendsButtonBg@2x.png in Resources */,
+				0446EEF31718845D00ED0076 /* addFriendsButtonBg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2325,6 +2383,14 @@
 				AA78D2CB17172C67006E1240 /* dropDownField@2x.png in Resources */,
 				040BACD31717453C00D90C63 /* navBarBg.png in Resources */,
 				040BACD51717453C00D90C63 /* navBarBg@2x.png in Resources */,
+				0446EEE61718845D00ED0076 /* sidebarNavButton@2x.png in Resources */,
+				0446EEE81718845D00ED0076 /* sidebarNavButton.png in Resources */,
+				0446EEEA1718845D00ED0076 /* albumMemberProfileFrame@2x.png in Resources */,
+				0446EEEC1718845D00ED0076 /* albumMemberProfileFrame.png in Resources */,
+				0446EEEE1718845D00ED0076 /* addFriendsIcon@2x.png in Resources */,
+				0446EEF01718845D00ED0076 /* addFriendsIcon.png in Resources */,
+				0446EEF21718845D00ED0076 /* addFriendsButtonBg@2x.png in Resources */,
+				0446EEF41718845D00ED0076 /* addFriendsButtonBg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2497,6 +2563,9 @@
 				AA78D2B417172BCF006E1240 /* SVOfflineStorageWS.m in Sources */,
 				AA78D2BA17172C3D006E1240 /* SVCameraViewController.m in Sources */,
 				AA78D2BE17172C48006E1240 /* SVSettingsViewController.m in Sources */,
+				0446EF021718927B00ED0076 /* SVSidebarAlbumMemberCell.m in Sources */,
+				0446EF061718A41700ED0076 /* SVAddFriendsViewController.m in Sources */,
+				0446EF0A1718A42C00ED0076 /* SVAlbumInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2632,6 +2701,9 @@
 				AA78D2B517172BCF006E1240 /* SVOfflineStorageWS.m in Sources */,
 				AA78D2BB17172C3D006E1240 /* SVCameraViewController.m in Sources */,
 				AA78D2BF17172C48006E1240 /* SVSettingsViewController.m in Sources */,
+				0446EF031718927B00ED0076 /* SVSidebarAlbumMemberCell.m in Sources */,
+				0446EF071718A41700ED0076 /* SVAddFriendsViewController.m in Sources */,
+				0446EF0B1718A42C00ED0076 /* SVAlbumInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

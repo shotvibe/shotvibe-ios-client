@@ -84,5 +84,6 @@ typedef void (^MFSideMenuStateEventBlock)(MFSideMenuStateEvent);
 
 - (void)toggleLeftSideMenu;
 - (void)toggleRightSideMenu;
+- (void)setupGestureRecognizers;
 
 @end

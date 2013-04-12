@@ -99,31 +99,37 @@
 {
     [super viewWillAppear:animated];
     
-    [self loadData];
-    
-    [self fetchPhotos];
-    
-    // Initialize the sidebar menu
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
-    self.sidebarMenuController.parentController = self;
-    
-    self.sidebarManagementController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
-    self.sidebarManagementController.parentController = self;
-    
-    
-    self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:self.sidebarManagementController rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
-    
-    [self.navigationController setSideMenu:self.sauronTheSideMenu];
-    [self configureMenuForOrientation:self.interfaceOrientation];
+    // We've returned from pushing detail
+    if (isPushingDetail) {
+        [self.sauronTheSideMenu setupGestureRecognizers];
+        isPushingDetail = NO;
+    }
+    else
+    {
+        [self loadData];
+        [self fetchPhotos];
+        
+        // Initialize the sidebar menu
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+        self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
+        self.sidebarMenuController.parentController = self;
+        self.sidebarMenuController.selectedAlbum = self.selectedAlbum;
+        
+        self.sidebarManagementController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
+        self.sidebarManagementController.parentController = self;
+        
+        
+        self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:self.sidebarManagementController rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
+        
+        [self.navigationController setSideMenu:self.sauronTheSideMenu];
+        [self configureMenuForOrientation:self.interfaceOrientation];
+    }
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     // Kill any drag processes here and now
     [self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
@@ -135,6 +141,9 @@
     
     // Then kill the sidebar menu. (Only if we're not going to the detail photo view)
     if (!isPushingDetail) {
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+
         UIView *windowRootView = self.navigationController.view.window.rootViewController.view;
         UIView *containerView = windowRootView.superview;
         
@@ -143,10 +152,6 @@
                 [aView removeFromSuperview];
         }
         self.sauronTheSideMenu = nil;
-    }
-    else
-    {
-        isPushingDetail = NO;
     }
     
 }
@@ -181,6 +186,12 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    isPushingDetail = YES;
 }
 
 
