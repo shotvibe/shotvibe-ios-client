@@ -189,13 +189,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Album Members" id="hQn-i2-azO">
-                                        <barButtonItem key="rightBarButtonItem" image="settingsIcon.png" id="Phr-Xp-rhM">
-                                            <connections>
-                                                <action selector="settingsButtonPressed:" destination="k4U-OQ-1vP" id="G2m-Fg-L5M"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
+                                    <navigationItem title="Album Members" id="hQn-i2-azO"/>
                                 </items>
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="42" sectionHeaderHeight="22" sectionFooterHeight="22" id="zzl-Ln-e03">
@@ -269,7 +263,6 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="settingsButton" destination="Phr-Xp-rhM" id="Nu4-yY-Oh8"/>
                         <outlet property="sidebarNav" destination="xfG-Eg-O7z" id="IzV-ZJ-bR3"/>
                         <outlet property="tableView" destination="zzl-Ln-e03" id="wdd-pK-h6o"/>
                     </connections>
@@ -694,92 +687,6 @@
         <image name="sidebarMenuBg.png" width="320" height="543"/>
         <image name="sidebarToolbar.png" width="320" height="47"/>
     </resources>
-    <classes>
-        <class className="NINetworkImageView" superclassName="UIImageView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NINetworkImageView.h"/>
-        </class>
-        <class className="SVAddFriendsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAddFriendsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelPressed:"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumGridViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumGridViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="homePressed:"/>
-                <relationship kind="outlet" name="gridviewContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumInfoViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumInfoViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="donePressed:"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumListViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="author" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="networkImageView" candidateClass="NINetworkImageView"/>
-                <relationship kind="outlet" name="numberNotViewedIndicator" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="timestamp" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="newAlbumButtonPressed:"/>
-                <relationship kind="action" name="newAlbumClose:"/>
-                <relationship kind="action" name="newAlbumDone:"/>
-                <relationship kind="outlet" name="albumField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="dropDownBackground" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dropDownContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="searchbar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="tableOverlayView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="viewContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVCameraViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVCameraViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelPressed:"/>
-            </relationships>
-        </class>
-        <class className="SVSettingsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="donePressed:"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarAlbumMemberCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="memberLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="profileImageView" candidateClass="NINetworkImageView"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarManagementViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarManagementViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="homePressed:"/>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarMenuViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarMenuViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addFriendsButtonPressed:"/>
-                <relationship kind="action" name="settingsButtonPressed:"/>
-                <relationship kind="outlet" name="settingsButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
