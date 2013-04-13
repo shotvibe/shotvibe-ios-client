@@ -374,6 +374,10 @@
     if (numberNew) {
         [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
     }
+    else
+    {
+        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", 0] forState:UIControlStateNormal];
+    }
     
     return cell;
 }
@@ -383,16 +387,18 @@
 {
     NSIndexPath *indexPath = [notification object];
     
-    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
-    SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    NSInteger numberViewed = [SVBusinessDelegate numberOfViewedImagesInAlbum:anAlbum];
-    
-    NSInteger numberNew = anAlbum.photos.count - numberViewed;
-    
-    [self.albumPhotoInfo setObject:[NSNumber numberWithInteger:numberNew] forKey:indexPath];
-    [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
+    if ([self.tableView.indexPathsForVisibleRows containsObject:indexPath]) {
+        Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        
+        SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        
+        NSInteger numberViewed = [SVBusinessDelegate numberOfViewedImagesInAlbum:anAlbum];
+        
+        NSInteger numberNew = anAlbum.photos.count - numberViewed;
+        
+        [self.albumPhotoInfo setObject:[NSNumber numberWithInteger:numberNew] forKey:indexPath];
+        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
+    }
 }
 
 
@@ -440,9 +446,12 @@
 - (void)showSearch
 {
     searchShowing = YES;
-
+    self.searchbar.hidden = NO;
+    
     [UIView animateWithDuration:0.15 animations:^{
-        self.viewContainer.frame = CGRectMake(0, 42, self.view.frame.size.width, self.view.frame.size.height -42);
+        self.searchbar.frame = CGRectMake(0, 0, self.searchbar.frame.size.width, self.searchbar.frame.size.height);
+        self.searchbar.alpha = 1.0;
+        self.viewContainer.frame = CGRectMake(0, 40, self.view.frame.size.width, self.view.frame.size.height -40);
     } completion:^(BOOL finished) {
         [self.searchbar becomeFirstResponder];
     }];
@@ -454,9 +463,12 @@
     searchShowing = NO;
 
     [UIView animateWithDuration:0.15 animations:^{
-        self.viewContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        self.searchbar.frame = CGRectMake(0, -44, self.searchbar.frame.size.width, self.searchbar.frame.size.height);
+        self.searchbar.alpha = 0.0;
+        self.viewContainer.frame = CGRectMake(0, -4, self.view.frame.size.width, self.view.frame.size.height+4);
     } completion:^(BOOL finished) {
         [self.searchbar resignFirstResponder];
+        self.searchbar.hidden = YES;
     }];
     
     // Reset to all albums
@@ -473,6 +485,7 @@
     }
     
     [self.tableView reloadData];
+    [self fetchAlbumPhotoInfo];
 }
 
 
@@ -492,6 +505,7 @@
         RKLogError(@"There was an error loading the fetched result controller: %@", error);
     }
     [self.tableView reloadData];
+    [self fetchAlbumPhotoInfo];
 }
 
 

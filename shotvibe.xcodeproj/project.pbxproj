@@ -99,10 +99,10 @@
 		0446EF071718A41700ED0076 /* SVAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */; };
 		0446EF0A1718A42C00ED0076 /* SVAlbumInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF091718A42C00ED0076 /* SVAlbumInfoViewController.m */; };
 		0446EF0B1718A42C00ED0076 /* SVAlbumInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF091718A42C00ED0076 /* SVAlbumInfoViewController.m */; };
-		0446EF101718E56200ED0076 /* searchBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF0E1718E56200ED0076 /* searchBarBg@2x.png */; };
-		0446EF111718E56200ED0076 /* searchBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF0E1718E56200ED0076 /* searchBarBg@2x.png */; };
-		0446EF121718E56200ED0076 /* searchBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF0F1718E56200ED0076 /* searchBarBg.png */; };
-		0446EF131718E56200ED0076 /* searchBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF0F1718E56200ED0076 /* searchBarBg.png */; };
+		0446EF191719035200ED0076 /* searchBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF171719035200ED0076 /* searchBarBg.png */; };
+		0446EF1A1719035200ED0076 /* searchBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF171719035200ED0076 /* searchBarBg.png */; };
+		0446EF1B1719035200ED0076 /* searchBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF181719035200ED0076 /* searchBarBg@2x.png */; };
+		0446EF1C1719035200ED0076 /* searchBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF181719035200ED0076 /* searchBarBg@2x.png */; };
 		04734F2416CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */; };
 		04734F2516CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */; };
 		04734F2F16CF104F003F729B /* MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2C16CF104F003F729B /* MFSideMenu.m */; };
@@ -645,8 +645,8 @@
 		0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAddFriendsViewController.m; sourceTree = "<group>"; };
 		0446EF081718A42C00ED0076 /* SVAlbumInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumInfoViewController.h; sourceTree = "<group>"; };
 		0446EF091718A42C00ED0076 /* SVAlbumInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumInfoViewController.m; sourceTree = "<group>"; };
-		0446EF0E1718E56200ED0076 /* searchBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchBarBg@2x.png"; sourceTree = "<group>"; };
-		0446EF0F1718E56200ED0076 /* searchBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBarBg.png; sourceTree = "<group>"; };
+		0446EF171719035200ED0076 /* searchBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBarBg.png; sourceTree = "<group>"; };
+		0446EF181719035200ED0076 /* searchBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchBarBg@2x.png"; sourceTree = "<group>"; };
 		04734F2216CEC1B1003F729B /* SVSidebarMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSidebarMenuViewController.h; sourceTree = "<group>"; };
 		04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSidebarMenuViewController.m; sourceTree = "<group>"; };
 		04734F2B16CF104F003F729B /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
@@ -1115,8 +1115,8 @@
 		043473BF1705F48C00CFE564 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				0446EF0E1718E56200ED0076 /* searchBarBg@2x.png */,
-				0446EF0F1718E56200ED0076 /* searchBarBg.png */,
+				0446EF171719035200ED0076 /* searchBarBg.png */,
+				0446EF181719035200ED0076 /* searchBarBg@2x.png */,
 				0446EEDD1718845D00ED0076 /* sidebarNavButton@2x.png */,
 				0446EEDE1718845D00ED0076 /* sidebarNavButton.png */,
 				0446EEDF1718845D00ED0076 /* albumMemberProfileFrame@2x.png */,
@@ -2259,8 +2259,8 @@
 				0446EEEF1718845D00ED0076 /* addFriendsIcon.png in Resources */,
 				0446EEF11718845D00ED0076 /* addFriendsButtonBg@2x.png in Resources */,
 				0446EEF31718845D00ED0076 /* addFriendsButtonBg.png in Resources */,
-				0446EF101718E56200ED0076 /* searchBarBg@2x.png in Resources */,
-				0446EF121718E56200ED0076 /* searchBarBg.png in Resources */,
+				0446EF191719035200ED0076 /* searchBarBg.png in Resources */,
+				0446EF1B1719035200ED0076 /* searchBarBg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2401,8 +2401,8 @@
 				0446EEF01718845D00ED0076 /* addFriendsIcon.png in Resources */,
 				0446EEF21718845D00ED0076 /* addFriendsButtonBg@2x.png in Resources */,
 				0446EEF41718845D00ED0076 /* addFriendsButtonBg.png in Resources */,
-				0446EF111718E56200ED0076 /* searchBarBg@2x.png in Resources */,
-				0446EF131718E56200ED0076 /* searchBarBg.png in Resources */,
+				0446EF1A1719035200ED0076 /* searchBarBg.png in Resources */,
+				0446EF1C1719035200ED0076 /* searchBarBg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

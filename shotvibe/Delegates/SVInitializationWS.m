@@ -132,7 +132,21 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
     [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"pictureDetailToolbarBg.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
     
     // Customize UISearchBar
-    [[UISearchBar appearance] setBackgroundImage:[UIImage imageNamed:@"searchBarBg.png"]];
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"searchBarBg.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        else
+        {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        
+        [[UISearchBar appearance] setBackgroundImage:resizableImage];
+    }
 }
 
 
