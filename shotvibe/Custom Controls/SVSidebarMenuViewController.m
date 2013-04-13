@@ -20,10 +20,8 @@
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *settingsButton;
 @property (nonatomic, strong) NSArray *members;
 
-- (IBAction)settingsButtonPressed:(id)sender;
 - (IBAction)addFriendsButtonPressed:(id)sender;
 - (void)configureCell:(SVSidebarAlbumMemberCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
@@ -32,13 +30,6 @@
 @implementation SVSidebarMenuViewController
 
 #pragma mark - Actions
-
-- (IBAction)settingsButtonPressed:(id)sender
-{
-    // Do stuff
-    [self.parentController performSegueWithIdentifier:@"AlbumSettingsSegue" sender:nil];
-}
-
 
 - (IBAction)addFriendsButtonPressed:(id)sender
 {
@@ -67,23 +58,6 @@
         }
         
         [self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
-    }
-    
-    
-    {
-        UIImage *baseImage = [UIImage imageNamed:@"sidebarNavButton.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 10, 10);
-        
-        UIImage *resizableImage = nil;
-        if (IS_IOS6_OR_GREATER) {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
-        else
-        {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
-        
-        [self.settingsButton setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     }
     
     [self refreshMembers];
