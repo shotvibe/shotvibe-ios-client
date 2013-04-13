@@ -17,4 +17,10 @@
 
 @property (strong, nonatomic) SVAlbumGridViewController *parentController;
 @property (strong, nonatomic) Album *selectedAlbum;
+
+
+#pragma mark - Instance Methods
+
+- (void)refreshMembers;
+
 @end

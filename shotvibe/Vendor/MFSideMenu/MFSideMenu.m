@@ -102,6 +102,31 @@ typedef enum {
     return menu;
 }
 
+// Fragile as fuck only use this if you know what you're doing
+- (void)setupGestureRecognizers
+{
+    UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(navigationBarPanned:)];
+	[recognizer setMaximumNumberOfTouches:1];
+    [recognizer setDelegate:self];
+    //[controller.navigationBar addGestureRecognizer:recognizer];
+    
+    recognizer = [[UIPanGestureRecognizer alloc]
+                  initWithTarget:self action:@selector(navigationControllerPanned:)];
+	[recognizer setMaximumNumberOfTouches:1];
+    [recognizer setDelegate:self];
+    [self.navigationController.view addGestureRecognizer:recognizer];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]
+                                             initWithTarget:self action:@selector(navigationControllerTapped:)];
+    [tapRecognizer setDelegate:self];
+    [self.navigationController.view addGestureRecognizer:tapRecognizer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(statusBarOrientationDidChange:)
+                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
+                                               object:nil];
+}
 
 
 - (void)setupMenuContainerView {

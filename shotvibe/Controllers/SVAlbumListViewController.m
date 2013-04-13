@@ -29,7 +29,10 @@
 @property (nonatomic, strong) IBOutlet UIView *dropDownContainer;
 @property (nonatomic, strong) IBOutlet UIImageView *dropDownBackground;
 @property (nonatomic, strong) IBOutlet UITextField *albumField;
+@property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
+@property (nonatomic, strong) IBOutlet UIView *viewContainer;
 
+- (void)configureViews;
 - (void)loadData;
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)searchPressed;
@@ -38,6 +41,9 @@
 - (void)fetchAlbumPhotoInfo;
 - (void)showDropDown;
 - (void)hideDropDown;
+- (void)showSearch;
+- (void)hideSearch;
+- (void)searchForAlbumWithTitle:(NSString *)title;
 - (void)createNewAlbumWithTitle:(NSString *)title;
 - (IBAction)newAlbumButtonPressed:(id)sender;
 - (IBAction)newAlbumClose:(id)sender;
@@ -47,12 +53,21 @@
 
 
 @implementation SVAlbumListViewController
+{
+    BOOL searchShowing;
+}
 
 #pragma mark - Actions
 
 - (void)searchPressed
 {
-    
+    if (searchShowing) {
+        [self hideSearch];
+    }
+    else
+    {
+        [self showSearch];
+    }
 }
 
 
@@ -89,39 +104,7 @@
     
     self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
 
-    // Setup titleview
-    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shotvibeLogo.png"]];
-    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
-    [titleContainer addSubview:titleView];
-    titleContainer.clipsToBounds = NO;
-    titleContainer.backgroundColor = [UIColor clearColor];
-    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
-    self.navigationItem.titleView = titleContainer;
-
-    // Setup menu button
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"searchIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(searchPressed)];
-    self.navigationItem.leftBarButtonItem = menuButton;
-    
-    // Setup menu button
-    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
-    self.navigationItem.rightBarButtonItem = managementButton;
-    
-    // Configure the dropdown background image
-    {
-        UIImage *baseImage = [UIImage imageNamed:@"dropDownField.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(0, 50, 0, 50);
-        
-        UIImage *resizableImage = nil;
-        if (IS_IOS6_OR_GREATER) {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-        }
-        else
-        {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
-        
-        [self.dropDownBackground setImage:resizableImage];
-    }
+    [self configureViews];
     
 
     // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
@@ -151,6 +134,20 @@
     [super viewWillAppear:animated];
     
     [self loadData];
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    if (self.albumField.isFirstResponder) {
+        [self.albumField resignFirstResponder];
+    }
+    else if (self.searchbar.isFirstResponder)
+    {
+        [self.searchbar resignFirstResponder];
+    }
 }
 
 
@@ -189,10 +186,10 @@
 
 #pragma mark - UITableViewDataSource Methods
 
-/*- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
-}*/
+}
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -212,60 +209,10 @@
 }
 
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-
 #pragma mark - UITableViewDelegate Methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -315,7 +262,66 @@
 }
 
 
+#pragma mark - UISearchbarDelegate Methods
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    [self searchForAlbumWithTitle:searchBar.text];
+}
+
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self searchForAlbumWithTitle:searchBar.text];
+}
+
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self searchForAlbumWithTitle:searchBar.text];
+    [searchBar resignFirstResponder];
+}
+
+
 #pragma mark - Private Methods
+
+- (void)configureViews
+{
+    // Setup titleview
+    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shotvibeLogo.png"]];
+    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
+    [titleContainer addSubview:titleView];
+    titleContainer.clipsToBounds = NO;
+    titleContainer.backgroundColor = [UIColor clearColor];
+    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
+    self.navigationItem.titleView = titleContainer;
+    
+    // Setup menu button
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"searchIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(searchPressed)];
+    self.navigationItem.leftBarButtonItem = menuButton;
+    
+    // Setup menu button
+    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
+    self.navigationItem.rightBarButtonItem = managementButton;
+    
+    // Configure the dropdown background image
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"dropDownField.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(0, 50, 0, 50);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        }
+        else
+        {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        }
+        
+        [self.dropDownBackground setImage:resizableImage];
+    }
+}
+
 
 - (void)loadData
 {
@@ -419,7 +425,6 @@
 
 - (void)hideDropDown
 {
-    [self.albumField resignFirstResponder];
     
     [UIView animateWithDuration:0.3 animations:^{
         self.tableOverlayView.alpha = 0.0;
@@ -427,7 +432,66 @@
     } completion:^(BOOL finished) {
         self.tableOverlayView.hidden = YES;
         self.dropDownContainer.hidden = YES;
+        [self.albumField resignFirstResponder];
     }];
+}
+
+
+- (void)showSearch
+{
+    searchShowing = YES;
+
+    [UIView animateWithDuration:0.15 animations:^{
+        self.viewContainer.frame = CGRectMake(0, 42, self.view.frame.size.width, self.view.frame.size.height -42);
+    } completion:^(BOOL finished) {
+        [self.searchbar becomeFirstResponder];
+    }];
+}
+
+
+- (void)hideSearch
+{
+    searchShowing = NO;
+
+    [UIView animateWithDuration:0.15 animations:^{
+        self.viewContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    } completion:^(BOOL finished) {
+        [self.searchbar resignFirstResponder];
+    }];
+    
+    // Reset to all albums
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
+    fetchRequest.sortDescriptors = @[descriptor];
+    NSError *error = nil;
+    
+    // Setup fetched results
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    [self.fetchedResultsController setDelegate:self];
+    if (![self.fetchedResultsController performFetch:&error]) {
+        RKLogError(@"There was an error loading the fetched result controller: %@", error);
+    }
+    
+    [self.tableView reloadData];
+}
+
+
+- (void)searchForAlbumWithTitle:(NSString *)title
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name BEGINSWITH[cd] %@", title];
+    fetchRequest.sortDescriptors = @[descriptor];
+    fetchRequest.predicate = predicate;
+    NSError *error = nil;
+    
+    // Setup fetched results
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    [self.fetchedResultsController setDelegate:self];
+    if (![self.fetchedResultsController performFetch:&error]) {
+        RKLogError(@"There was an error loading the fetched result controller: %@", error);
+    }
+    [self.tableView reloadData];
 }
 
 

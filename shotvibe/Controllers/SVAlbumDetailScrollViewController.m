@@ -109,6 +109,8 @@
     [super viewWillDisappear:animated];
     
     self.navigationController.navigationBar.translucent = NO;
+    // Kill any drag processes here and now
+    [self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
 }
 
 

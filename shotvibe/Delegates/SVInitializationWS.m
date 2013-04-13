@@ -130,6 +130,9 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
     // Customize UIToolbar
     [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"pictureDetailToolbarBg.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
     [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"pictureDetailToolbarBg.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
+    
+    // Customize UISearchBar
+    [[UISearchBar appearance] setBackgroundImage:[UIImage imageNamed:@"searchBarBg.png"]];
 }
 
 

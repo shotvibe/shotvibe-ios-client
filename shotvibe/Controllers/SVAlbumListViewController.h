@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SVAlbumListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, NINetworkImageViewDelegate>
+@interface SVAlbumListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UISearchBarDelegate, NINetworkImageViewDelegate>
 
 @end
