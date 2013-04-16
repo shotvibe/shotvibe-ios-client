@@ -2,30 +2,21 @@
 //  SVSettingsViewController.m
 //  shotvibe
 //
-//  Created by John Gabelmann on 4/10/13.
+//  Created by John Gabelmann on 4/16/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import "SVSettingsViewController.h"
 
 @interface SVSettingsViewController ()
-- (IBAction)donePressed:(id)sender;
 
 @end
 
 @implementation SVSettingsViewController
 
-
-#pragma mark - Actions
-
-- (IBAction)donePressed:(id)sender
+- (id)initWithStyle:(UITableViewStyle)style
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
     }
@@ -35,7 +26,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainBg.png"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,9 +36,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
