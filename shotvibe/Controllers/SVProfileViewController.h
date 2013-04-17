@@ -1,5 +1,5 @@
 //
-//  SVSettingsViewController.h
+//  SVProfileViewController.h
 //  shotvibe
 //
 //  Created by John Gabelmann on 4/16/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SVSettingsViewController : UITableViewController
+@interface SVProfileViewController : UITableViewController <UITextFieldDelegate>
 
 @end
