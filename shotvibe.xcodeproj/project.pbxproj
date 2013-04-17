@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04058B26171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */; };
+		04058B27171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */; };
 		040BACD21717453C00D90C63 /* navBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD01717453C00D90C63 /* navBarBg.png */; };
 		040BACD31717453C00D90C63 /* navBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD01717453C00D90C63 /* navBarBg.png */; };
 		040BACD41717453C00D90C63 /* navBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD11717453C00D90C63 /* navBarBg@2x.png */; };
@@ -653,6 +655,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04058B24171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGeneralNotificationSettingsViewController.h; sourceTree = "<group>"; };
+		04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVGeneralNotificationSettingsViewController.m; sourceTree = "<group>"; };
 		040BACD01717453C00D90C63 /* navBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarBg.png; sourceTree = "<group>"; };
 		040BACD11717453C00D90C63 /* navBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBarBg@2x.png"; sourceTree = "<group>"; };
 		041A13E21706788100E66B78 /* sidebarMenuNavbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sidebarMenuNavbar@2x.png"; sourceTree = "<group>"; };
@@ -1914,6 +1918,8 @@
 				0499B8F5171DECED00050596 /* SVAboutViewController.m */,
 				0499B8FF171E127C00050596 /* SVProfileViewController.h */,
 				0499B900171E127C00050596 /* SVProfileViewController.m */,
+				04058B24171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.h */,
+				04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2755,6 +2761,7 @@
 				0499B8E6171DE87E00050596 /* SVHelpViewController.m in Sources */,
 				0499B8F6171DECED00050596 /* SVAboutViewController.m in Sources */,
 				0499B901171E127C00050596 /* SVProfileViewController.m in Sources */,
+				04058B26171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2896,6 +2903,7 @@
 				0499B8E7171DE87E00050596 /* SVHelpViewController.m in Sources */,
 				0499B8F7171DECED00050596 /* SVAboutViewController.m in Sources */,
 				0499B902171E127C00050596 /* SVProfileViewController.m in Sources */,
+				04058B27171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
