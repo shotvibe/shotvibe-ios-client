@@ -7,7 +7,10 @@
         <attribute name="lastUpdated" attributeType="Date" syncable="YES"/>
         <attribute name="memberIds" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="newPhotoTone" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="notificationsOption" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="photoIds" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="pushNotificationsOption" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="url" attributeType="String" syncable="YES"/>
         <relationship name="albumPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AlbumPhoto" inverseName="album" inverseEntity="AlbumPhoto" syncable="YES"/>
         <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Member" inverseName="albums" inverseEntity="Member" syncable="YES"/>
@@ -42,9 +45,9 @@
         <relationship name="author" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="photos" inverseEntity="Member" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-6480" positionY="-2026" width="128" height="210"/>
+        <element name="Album" positionX="-6480" positionY="-2026" width="128" height="255"/>
+        <element name="AlbumPhoto" positionX="160" positionY="192" width="128" height="150"/>
         <element name="Member" positionX="-6707" positionY="-2029" width="128" height="165"/>
         <element name="Photo" positionX="-6284" positionY="-2023" width="128" height="150"/>
-        <element name="AlbumPhoto" positionX="160" positionY="192" width="128" height="150"/>
     </elements>
 </model>

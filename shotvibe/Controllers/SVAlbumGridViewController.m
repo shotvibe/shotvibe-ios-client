@@ -19,6 +19,7 @@
 #import "UINavigationController+MFSideMenu.h"
 #import "SVSidebarManagementViewController.h"
 #import "SVBusinessDelegate.h"
+#import "SVSettingsViewController.h"
 
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate, NINetworkImageViewDelegate>
@@ -192,6 +193,11 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     isPushingDetail = YES;
+    
+    if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
+        SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
+        destination.currentAlbum = self.selectedAlbum;
+    }
 }
 
 
