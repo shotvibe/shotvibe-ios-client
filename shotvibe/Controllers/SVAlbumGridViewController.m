@@ -285,7 +285,12 @@
 {
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
     Photo *loadedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:imageView.tag];
-        
+    
+    if (![loadedPhoto.hasViewed boolValue]) {
+        Photo *photoObject = (Photo *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:loadedPhoto.objectID];
+        photoObject.hasViewed = [NSNumber numberWithBool:YES];
+        [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext save:nil];
+    }
     
     [SVBusinessDelegate saveImage:image forPhoto:loadedPhoto];
 }

@@ -26,7 +26,7 @@
 {
     [super prepareForDeletion];
     
-    /*if ([self.hasViewed boolValue]) {
+    if ([self.hasViewed boolValue]) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:self.album.name];
@@ -37,7 +37,7 @@
         {
             [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
         }
-    }*/
+    }
     
 }
 
