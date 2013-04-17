@@ -90,4 +90,10 @@
     self.movieController.contentURL = movieURL;
 }
 
+
+- (void)movieFinished
+{
+    self.playButton.hidden = NO;
+}
+
 @end

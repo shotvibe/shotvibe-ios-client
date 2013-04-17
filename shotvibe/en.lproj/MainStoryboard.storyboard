@@ -241,6 +241,9 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="YCy-E4-hqR" kind="push" id="08l-Qt-CIJ"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="ZBG-9d-D6l" imageView="TdS-dV-UqM" style="IBUITableViewCellStyleDefault" id="qA3-PT-EWt">
                                         <rect key="frame" x="0.0" y="143" width="320" height="44"/>
@@ -476,7 +479,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y37-Zm-9hl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="322" y="1494"/>
+            <point key="canvasLocation" x="322" y="723"/>
         </scene>
         <!--Sidebar Menu View Controller-->
         <scene sceneID="4n2-WB-r5S">
@@ -1054,7 +1057,152 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="umL-Oo-NWZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="322" y="2172"/>
+            <point key="canvasLocation" x="322" y="1494"/>
+        </scene>
+        <!--Profile View Controller - Update Your Profile-->
+        <scene sceneID="495-bA-SCm">
+            <objects>
+                <tableViewController id="YCy-E4-hqR" customClass="SVProfileViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hwz-xH-nuL">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="zkp-K2-beA">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="165"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" id="mgc-gZ-yWS">
+                                    <rect key="frame" x="104" y="15" width="112" height="112"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="profileFrame.png" id="yGs-aT-XbE">
+                                            <rect key="frame" x="0.0" y="0.0" width="112" height="112"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="7aN-v7-Fda" customClass="NINetworkImageView">
+                                            <rect key="frame" x="4" y="4" width="104" height="104"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="editProfileImageIcon.png" id="05f-1g-gHW">
+                                            <rect key="frame" x="86" y="86" width="23" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Alex Perez" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t5O-ee-Vg0">
+                                    <rect key="frame" x="0.0" y="124" width="320" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                    <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="NYC" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jxs-MC-y25">
+                                    <rect key="frame" x="0.0" y="142" width="320" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
+                                    <color key="textColor" red="0.47450980390000003" green="0.53333333329999999" blue="0.57254901960000004" alpha="1" colorSpace="deviceRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <sections>
+                            <tableViewSection id="SCU-5S-0fm">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="BdV-Ra-gHW">
+                                        <rect key="frame" x="0.0" y="175" width="320" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nick Name" minimumFontSize="17" clearButtonMode="whileEditing" id="vFh-LO-IyP">
+                                                    <rect key="frame" x="10" y="0.0" width="281" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="YCy-E4-hqR" id="V5V-rD-yqF"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="M1v-2X-RNY">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="2bT-NH-yhp">
+                                        <rect key="frame" x="0.0" y="241" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" minimumFontSize="17" clearButtonMode="whileEditing" id="iEd-Fx-BXh">
+                                                    <rect key="frame" x="10" y="1" width="281" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="YCy-E4-hqR" id="DQE-o7-WcX"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="UDX-fZ-ap8">
+                                        <rect key="frame" x="0.0" y="286" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" id="o19-SQ-QBo">
+                                                    <rect key="frame" x="10" y="1" width="281" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="YCy-E4-hqR" id="EKo-TX-Uy0"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="YCy-E4-hqR" id="2rM-2a-Dqd"/>
+                            <outlet property="delegate" destination="YCy-E4-hqR" id="3W6-SZ-7u7"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Update Your Profile" id="EQs-SB-nWY">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="Vx8-fI-TZV"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="HQG-4q-lQA">
+                            <connections>
+                                <action selector="doneButtonPressed:" destination="YCy-E4-hqR" id="hgR-Ax-3Ej"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="emailAddressField" destination="iEd-Fx-BXh" id="Tex-tU-eO8"/>
+                        <outlet property="nicknameField" destination="vFh-LO-IyP" id="sFb-Ky-EWv"/>
+                        <outlet property="passwordField" destination="o19-SQ-QBo" id="Kfl-ST-MWC"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2wO-Wd-onm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="322" y="2180"/>
         </scene>
     </scenes>
     <resources>
@@ -1073,6 +1221,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <image name="clockIcon.png" width="8" height="8"/>
         <image name="dropDownButton.png" width="52" height="30"/>
         <image name="dropDownField.png" width="309" height="134"/>
+        <image name="editProfileImageIcon.png" width="23" height="23"/>
         <image name="emailIcon.png" width="14" height="11"/>
         <image name="generalNotificationSettingIcon.png" width="14" height="13"/>
         <image name="helpIcon.png" width="14" height="14"/>
@@ -1080,6 +1229,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <image name="newPhotosIndicator.png" width="27" height="19"/>
         <image name="playButton.png" width="59" height="59"/>
         <image name="privacyPolicyIcon.png" width="14" height="18"/>
+        <image name="profileFrame.png" width="112" height="112"/>
         <image name="profileIcon.png" width="14" height="14"/>
         <image name="settingsIcon.png" width="17" height="18"/>
         <image name="sidebarMenuBg.png" width="320" height="543"/>
@@ -1154,6 +1304,15 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVHelpViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="helpTextView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="SVProfileViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVProfileViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonPressed:"/>
+                <relationship kind="outlet" name="emailAddressField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="nicknameField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
             </relationships>
         </class>
         <class className="SVSettingsViewController" superclassName="UITableViewController">

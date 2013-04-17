@@ -157,6 +157,16 @@
 		0499B8F7171DECED00050596 /* SVAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499B8F5171DECED00050596 /* SVAboutViewController.m */; };
 		0499B8F9171DF72600050596 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0499B8F8171DF72600050596 /* MediaPlayer.framework */; };
 		0499B8FA171DF72F00050596 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0499B8F8171DF72600050596 /* MediaPlayer.framework */; };
+		0499B901171E127C00050596 /* SVProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499B900171E127C00050596 /* SVProfileViewController.m */; };
+		0499B902171E127C00050596 /* SVProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499B900171E127C00050596 /* SVProfileViewController.m */; };
+		0499B905171E287400050596 /* profileFrame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B903171E287400050596 /* profileFrame@2x.png */; };
+		0499B906171E287400050596 /* profileFrame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B903171E287400050596 /* profileFrame@2x.png */; };
+		0499B907171E287400050596 /* profileFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B904171E287400050596 /* profileFrame.png */; };
+		0499B908171E287400050596 /* profileFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B904171E287400050596 /* profileFrame.png */; };
+		0499B90B171E293600050596 /* editProfileImageIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B909171E293600050596 /* editProfileImageIcon@2x.png */; };
+		0499B90C171E293600050596 /* editProfileImageIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B909171E293600050596 /* editProfileImageIcon@2x.png */; };
+		0499B90D171E293600050596 /* editProfileImageIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B90A171E293600050596 /* editProfileImageIcon.png */; };
+		0499B90E171E293600050596 /* editProfileImageIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B90A171E293600050596 /* editProfileImageIcon.png */; };
 		04AB0A671707D5B200C5300B /* pictureDetailToolbarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AB0A651707D5B200C5300B /* pictureDetailToolbarBg@2x.png */; };
 		04AB0A681707D5B200C5300B /* pictureDetailToolbarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AB0A651707D5B200C5300B /* pictureDetailToolbarBg@2x.png */; };
 		04AB0A691707D5B200C5300B /* pictureDetailToolbarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AB0A661707D5B200C5300B /* pictureDetailToolbarBg.png */; };
@@ -726,6 +736,12 @@
 		0499B8F4171DECED00050596 /* SVAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAboutViewController.h; sourceTree = "<group>"; };
 		0499B8F5171DECED00050596 /* SVAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAboutViewController.m; sourceTree = "<group>"; };
 		0499B8F8171DF72600050596 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		0499B8FF171E127C00050596 /* SVProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProfileViewController.h; sourceTree = "<group>"; };
+		0499B900171E127C00050596 /* SVProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProfileViewController.m; sourceTree = "<group>"; };
+		0499B903171E287400050596 /* profileFrame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profileFrame@2x.png"; sourceTree = "<group>"; };
+		0499B904171E287400050596 /* profileFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profileFrame.png; sourceTree = "<group>"; };
+		0499B909171E293600050596 /* editProfileImageIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "editProfileImageIcon@2x.png"; sourceTree = "<group>"; };
+		0499B90A171E293600050596 /* editProfileImageIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = editProfileImageIcon.png; sourceTree = "<group>"; };
 		04AB0A651707D5B200C5300B /* pictureDetailToolbarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pictureDetailToolbarBg@2x.png"; sourceTree = "<group>"; };
 		04AB0A661707D5B200C5300B /* pictureDetailToolbarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pictureDetailToolbarBg.png; sourceTree = "<group>"; };
 		04AB0A6E1707D80100C5300B /* exportIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exportIcon.png; sourceTree = "<group>"; };
@@ -1188,6 +1204,10 @@
 		043473BF1705F48C00CFE564 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0499B909171E293600050596 /* editProfileImageIcon@2x.png */,
+				0499B90A171E293600050596 /* editProfileImageIcon.png */,
+				0499B903171E287400050596 /* profileFrame@2x.png */,
+				0499B904171E287400050596 /* profileFrame.png */,
 				0499B8E8171DEC7100050596 /* videoFrame@2x.png */,
 				0499B8E9171DEC7100050596 /* videoFrame.png */,
 				0499B8EA171DEC7100050596 /* playButton@2x.png */,
@@ -1886,6 +1906,8 @@
 				0499B8E5171DE87E00050596 /* SVHelpViewController.m */,
 				0499B8F4171DECED00050596 /* SVAboutViewController.h */,
 				0499B8F5171DECED00050596 /* SVAboutViewController.m */,
+				0499B8FF171E127C00050596 /* SVProfileViewController.h */,
+				0499B900171E127C00050596 /* SVProfileViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2379,6 +2401,10 @@
 				0499B8EE171DEC7100050596 /* videoFrame.png in Resources */,
 				0499B8F0171DEC7100050596 /* playButton@2x.png in Resources */,
 				0499B8F2171DEC7100050596 /* playButton.png in Resources */,
+				0499B905171E287400050596 /* profileFrame@2x.png in Resources */,
+				0499B907171E287400050596 /* profileFrame.png in Resources */,
+				0499B90B171E293600050596 /* editProfileImageIcon@2x.png in Resources */,
+				0499B90D171E293600050596 /* editProfileImageIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2541,6 +2567,10 @@
 				0499B8EF171DEC7100050596 /* videoFrame.png in Resources */,
 				0499B8F1171DEC7100050596 /* playButton@2x.png in Resources */,
 				0499B8F3171DEC7100050596 /* playButton.png in Resources */,
+				0499B906171E287400050596 /* profileFrame@2x.png in Resources */,
+				0499B908171E287400050596 /* profileFrame.png in Resources */,
+				0499B90C171E293600050596 /* editProfileImageIcon@2x.png in Resources */,
+				0499B90E171E293600050596 /* editProfileImageIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2718,6 +2748,7 @@
 				0499B855171DD27B00050596 /* SVSettingsViewController.m in Sources */,
 				0499B8E6171DE87E00050596 /* SVHelpViewController.m in Sources */,
 				0499B8F6171DECED00050596 /* SVAboutViewController.m in Sources */,
+				0499B901171E127C00050596 /* SVProfileViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2858,6 +2889,7 @@
 				0499B856171DD27B00050596 /* SVSettingsViewController.m in Sources */,
 				0499B8E7171DE87E00050596 /* SVHelpViewController.m in Sources */,
 				0499B8F7171DECED00050596 /* SVAboutViewController.m in Sources */,
+				0499B902171E127C00050596 /* SVProfileViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
