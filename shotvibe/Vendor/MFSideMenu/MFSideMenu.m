@@ -305,6 +305,7 @@ typedef enum {
         translatedPoint.x = MIN(translatedPoint.x, 0);
     } else {
         // we are opening the menu
+        [self.menuContainerView bringSubviewToFront:self.leftSideMenuViewController.view];
         translatedPoint.x = MAX(translatedPoint.x, 0);
     }
     
@@ -357,6 +358,7 @@ typedef enum {
         translatedPoint.x = MAX(translatedPoint.x, 0);
     } else {
         // we are opening the menu
+        [self.menuContainerView bringSubviewToFront:self.rightSideMenuViewController.view];
         translatedPoint.x = MIN(translatedPoint.x, 0);
     }
     
