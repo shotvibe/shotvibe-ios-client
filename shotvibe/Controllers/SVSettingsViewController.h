@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <MessageUI/MessageUI.h>
 #import <UIKit/UIKit.h>
 
-@interface SVSettingsViewController : UITableViewController
+@interface SVSettingsViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
 @end
