@@ -20,6 +20,7 @@
 
 
 - (IBAction)homePressed:(id)sender;
+- (IBAction)settingsButtonPressed:(id)sender;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @end
@@ -32,6 +33,12 @@
 {
     [self.parentController.navigationController popViewControllerAnimated:YES];
 }
+
+- (IBAction)settingsButtonPressed:(id)sender
+{
+    [self.parentController performSegueWithIdentifier:@"SettingsSegue" sender:nil];
+}
+
 
 #pragma mark - View Lifecycle
 

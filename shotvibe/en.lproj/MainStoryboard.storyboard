@@ -95,6 +95,7 @@
                         <outlet property="gridviewContainer" destination="AT7-8R-Xbr" id="98f-ut-t31"/>
                         <segue destination="ziD-RB-hWf" kind="modal" identifier="AddFriendsSegue" id="SAN-qU-tPE"/>
                         <segue destination="hvf-QA-zhN" kind="modal" identifier="AlbumSettingsSegue" id="wGz-Bv-Cvv"/>
+                        <segue destination="iaH-KR-Jb7" kind="push" identifier="SettingsSegue" id="GNk-PU-TA4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FaP-w9-IIV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -288,6 +289,9 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="5gc-uD-Evt" kind="push" id="Z4U-Dy-01u"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="wJo-gR-HaB" imageView="Est-eG-jP9" style="IBUITableViewCellStyleDefault" id="gTA-hj-Eil">
                                         <rect key="frame" x="0.0" y="231" width="320" height="44"/>
@@ -310,6 +314,9 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="Ge4-3g-b7a" kind="push" id="0CF-Ln-otc"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="JK1-wf-Qot" imageView="ZYU-Ch-MbR" style="IBUITableViewCellStyleDefault" id="667-fG-0KB">
                                         <rect key="frame" x="0.0" y="275" width="320" height="44"/>
@@ -332,6 +339,9 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="1RL-uy-M7N" kind="push" id="Ygc-CF-CNl"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="VMY-GF-lhp" imageView="UTK-SB-CtV" style="IBUITableViewCellStyleDefault" id="tSv-0F-neP">
                                         <rect key="frame" x="0.0" y="319" width="320" height="44"/>
@@ -666,6 +676,9 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="settingsButtonPressed:" destination="914-kk-d9M" eventType="touchUpInside" id="zSC-dE-by5"/>
+                                </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" id="Rsg-kE-7AI">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1204,6 +1217,552 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             </objects>
             <point key="canvasLocation" x="322" y="2180"/>
         </scene>
+        <!--Help View Controller - Terms of Use-->
+        <scene sceneID="xDV-hu-jvr">
+            <objects>
+                <viewController id="5gc-uD-Evt" customClass="SVHelpViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="L9s-m8-d5Z">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="mainBg.png" id="3HD-af-vya">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <textView multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" id="IjT-Dv-AkQ">
+                                <rect key="frame" x="10" y="0.0" width="300" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <inset key="contentInset" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="-10" maxY="0.0"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Terms of Use
+
+</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Web developers can take several steps to bridge the gap between worlds of printers and LCD screens. Modern print style sheets are typically placed within a media query.
+
+Print continues to be treated somewhat cursorily by most Web designers, who tend to be obsessed with pixels rather than printers. In the real world, a significant portion of people rely on pages printed from websites for reference.
+
+In case you are wondering whether Smashing Conference 2013 will take place or not.</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+After hearing some frank discussions at An Event Apart conference in Boston about the limitations and challenges of responsive Web design, I realized that our solution needed a bit of an adjustment.</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+There are no “common” screen sizes. Another popular tactic is to create a breakpoint wherever the layout breaks.</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Terms of Use" id="jr8-aR-aRo">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="xfM-xr-Lxn"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="helpTextView" destination="IjT-Dv-AkQ" id="3Rf-m8-oOn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D20-PY-npC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="734" y="723"/>
+        </scene>
+        <!--Help View Controller - Privacy Policy-->
+        <scene sceneID="sWS-cC-ihq">
+            <objects>
+                <viewController id="Ge4-3g-b7a" customClass="SVHelpViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Avf-cA-Q0C">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="mainBg.png" id="sYb-Ne-Zg3">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <textView multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" id="WBF-6A-Ijq">
+                                <rect key="frame" x="10" y="0.0" width="300" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <inset key="contentInset" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="-10" maxY="0.0"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Privacy Policy
+
+</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Web developers can take several steps to bridge the gap between worlds of printers and LCD screens. Modern print style sheets are typically placed within a media query.
+
+Print continues to be treated somewhat cursorily by most Web designers, who tend to be obsessed with pixels rather than printers. In the real world, a significant portion of people rely on pages printed from websites for reference.
+
+In case you are wondering whether Smashing Conference 2013 will take place or not.</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+After hearing some frank discussions at An Event Apart conference in Boston about the limitations and challenges of responsive Web design, I realized that our solution needed a bit of an adjustment.</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+There are no “common” screen sizes. Another popular tactic is to create a breakpoint wherever the layout breaks.</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Privacy Policy" id="D6y-ZN-N3u">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="gQe-Hf-aa9"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="helpTextView" destination="WBF-6A-Ijq" id="Ljs-Nd-L8R"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0df-Gp-TWw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="734" y="1494"/>
+        </scene>
+        <!--Help View Controller - Attributes-->
+        <scene sceneID="rIy-NZ-81t">
+            <objects>
+                <viewController id="1RL-uy-M7N" customClass="SVHelpViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lHx-iA-S1W">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="mainBg.png" id="6dH-HR-qaj">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <textView multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" id="Ry1-sf-0iz">
+                                <rect key="frame" x="10" y="0.0" width="300" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <inset key="contentInset" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="-10" maxY="0.0"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Attributes
+
+</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Web developers can take several steps to bridge the gap between worlds of printers and LCD screens. Modern print style sheets are typically placed within a media query.
+
+Print continues to be treated somewhat cursorily by most Web designers, who tend to be obsessed with pixels rather than printers. In the real world, a significant portion of people rely on pages printed from websites for reference.
+
+In case you are wondering whether Smashing Conference 2013 will take place or not.</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+After hearing some frank discussions at An Event Apart conference in Boston about the limitations and challenges of responsive Web design, I realized that our solution needed a bit of an adjustment.</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.19607843137254902" green="0.22352941176470589" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+There are no “common” screen sizes. Another popular tactic is to create a breakpoint wherever the layout breaks.</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="36"/>
+                                            <color key="NSStrokeColor" red="0.3843137254901961" green="0.42352941176470588" blue="0.44705882352941179" alpha="1" colorSpace="calibratedRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Attributes" id="efd-Bm-mOx">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="Rip-yN-WLW"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="helpTextView" destination="Ry1-sf-0iz" id="uLI-r3-2wm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bsa-Lj-dtI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="734" y="2180"/>
+        </scene>
+        <!--Settings View Controller - Settings-->
+        <scene sceneID="7Ql-yE-5dg">
+            <objects>
+                <tableViewController id="iaH-KR-Jb7" customClass="SVSettingsViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="uek-dD-J37">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
+                        <sections>
+                            <tableViewSection id="beN-mU-2z9">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="ydt-Kj-TpG" imageView="wZT-R0-aqx" style="IBUITableViewCellStyleDefault" id="yj8-c4-6HN">
+                                        <rect key="frame" x="0.0" y="10" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ydt-Kj-TpG">
+                                                    <rect key="frame" x="39" y="0.0" width="231" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="helpIcon.png" id="wZT-R0-aqx">
+                                                    <rect key="frame" x="15" y="14" width="14" height="14"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="Uy1-yR-cL7" kind="push" id="AH7-3u-yC2"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="YVJ-0q-Icn" imageView="OCB-PM-Weo" style="IBUITableViewCellStyleDefault" id="05V-hZ-7fe">
+                                        <rect key="frame" x="0.0" y="55" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="About" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YVJ-0q-Icn">
+                                                    <rect key="frame" x="39" y="0.0" width="231" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="aboutIcon.png" id="OCB-PM-Weo">
+                                                    <rect key="frame" x="15" y="15" width="14" height="13"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="Y3e-6A-img" kind="push" id="D04-aM-191"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="N7p-TL-CLH" imageView="0Pf-DA-hO3" style="IBUITableViewCellStyleDefault" id="4HM-2K-Ib0">
+                                        <rect key="frame" x="0.0" y="99" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="N7p-TL-CLH">
+                                                    <rect key="frame" x="39" y="0.0" width="231" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profileIcon.png" id="0Pf-DA-hO3">
+                                                    <rect key="frame" x="15" y="14" width="14" height="14"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="YCy-E4-hqR" kind="push" id="xcX-zf-dIh"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="kNd-ES-0Ps" imageView="cfB-oA-lds" style="IBUITableViewCellStyleDefault" id="9nk-hf-KzF">
+                                        <rect key="frame" x="0.0" y="143" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Album Notification Settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kNd-ES-0Ps">
+                                                    <rect key="frame" x="39" y="0.0" width="231" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="generalNotificationSettingIcon.png" id="cfB-oA-lds">
+                                                    <rect key="frame" x="15" y="15" width="14" height="13"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="f5O-8w-piF" imageView="dKh-n4-Z6v" style="IBUITableViewCellStyleDefault" id="xxr-EX-ySi">
+                                        <rect key="frame" x="0.0" y="187" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Terms of Use" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f5O-8w-piF">
+                                                    <rect key="frame" x="39" y="0.0" width="231" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="termsOfUseIcon.png" id="dKh-n4-Z6v">
+                                                    <rect key="frame" x="15" y="13" width="14" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="5gc-uD-Evt" kind="push" id="62y-Po-7aD"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="2rE-Jx-Ean" imageView="kbt-78-GNW" style="IBUITableViewCellStyleDefault" id="SsM-oG-52n">
+                                        <rect key="frame" x="0.0" y="231" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Privacy Policy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2rE-Jx-Ean">
+                                                    <rect key="frame" x="39" y="0.0" width="231" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="privacyPolicyIcon.png" id="kbt-78-GNW">
+                                                    <rect key="frame" x="15" y="12" width="14" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="Ge4-3g-b7a" kind="push" id="UxR-am-7If"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="0FA-2a-a6c" imageView="0cC-pc-AWP" style="IBUITableViewCellStyleDefault" id="GR7-b1-bm9">
+                                        <rect key="frame" x="0.0" y="275" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Attributes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0FA-2a-a6c">
+                                                    <rect key="frame" x="39" y="0.0" width="231" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="attributesIcon.png" id="0cC-pc-AWP">
+                                                    <rect key="frame" x="15" y="13" width="14" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="1RL-uy-M7N" kind="push" id="Dc6-SZ-EeM"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="jpI-sT-V4Q" imageView="XHE-lg-mUF" style="IBUITableViewCellStyleDefault" id="cl5-Iy-aW6">
+                                        <rect key="frame" x="0.0" y="319" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jpI-sT-V4Q">
+                                                    <rect key="frame" x="39" y="0.0" width="231" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="emailIcon.png" id="XHE-lg-mUF">
+                                                    <rect key="frame" x="15" y="16" width="14" height="11"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="iaH-KR-Jb7" id="bIs-rn-4hZ"/>
+                            <outlet property="delegate" destination="iaH-KR-Jb7" id="cZS-Bz-nlm"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="DAP-z2-ur6">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="pqA-9m-AM0"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iup-jX-gTR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-114" y="1494"/>
+        </scene>
     </scenes>
     <resources>
         <image name="aboutIcon.png" width="14" height="13"/>
@@ -1329,6 +1888,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarManagementViewController.h"/>
             <relationships>
                 <relationship kind="action" name="homePressed:"/>
+                <relationship kind="action" name="settingsButtonPressed:"/>
                 <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
@@ -1348,6 +1908,12 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="4ly-3t-fLu"/>
+        <segue reference="TlB-Uw-Z2o"/>
+        <segue reference="D04-aM-191"/>
+        <segue reference="Dc6-SZ-EeM"/>
+        <segue reference="xcX-zf-dIh"/>
+        <segue reference="AH7-3u-yC2"/>
+        <segue reference="62y-Po-7aD"/>
+        <segue reference="UxR-am-7If"/>
     </inferredMetricsTieBreakers>
 </document>

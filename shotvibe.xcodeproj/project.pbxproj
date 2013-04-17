@@ -167,6 +167,8 @@
 		0499B90C171E293600050596 /* editProfileImageIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B909171E293600050596 /* editProfileImageIcon@2x.png */; };
 		0499B90D171E293600050596 /* editProfileImageIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B90A171E293600050596 /* editProfileImageIcon.png */; };
 		0499B90E171E293600050596 /* editProfileImageIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B90A171E293600050596 /* editProfileImageIcon.png */; };
+		0499B910171E4D1800050596 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0499B90F171E4D1800050596 /* MessageUI.framework */; };
+		0499B911171E4D2900050596 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0499B90F171E4D1800050596 /* MessageUI.framework */; };
 		04AB0A671707D5B200C5300B /* pictureDetailToolbarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AB0A651707D5B200C5300B /* pictureDetailToolbarBg@2x.png */; };
 		04AB0A681707D5B200C5300B /* pictureDetailToolbarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AB0A651707D5B200C5300B /* pictureDetailToolbarBg@2x.png */; };
 		04AB0A691707D5B200C5300B /* pictureDetailToolbarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AB0A661707D5B200C5300B /* pictureDetailToolbarBg.png */; };
@@ -742,6 +744,7 @@
 		0499B904171E287400050596 /* profileFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profileFrame.png; sourceTree = "<group>"; };
 		0499B909171E293600050596 /* editProfileImageIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "editProfileImageIcon@2x.png"; sourceTree = "<group>"; };
 		0499B90A171E293600050596 /* editProfileImageIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = editProfileImageIcon.png; sourceTree = "<group>"; };
+		0499B90F171E4D1800050596 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		04AB0A651707D5B200C5300B /* pictureDetailToolbarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pictureDetailToolbarBg@2x.png"; sourceTree = "<group>"; };
 		04AB0A661707D5B200C5300B /* pictureDetailToolbarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pictureDetailToolbarBg.png; sourceTree = "<group>"; };
 		04AB0A6E1707D80100C5300B /* exportIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exportIcon.png; sourceTree = "<group>"; };
@@ -1140,6 +1143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0499B911171E4D2900050596 /* MessageUI.framework in Frameworks */,
 				0499B8F9171DF72600050596 /* MediaPlayer.framework in Frameworks */,
 				AABFE13E16CF05B6005D0DEA /* libRestKit.a in Frameworks */,
 				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
@@ -1172,6 +1176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0499B910171E4D1800050596 /* MessageUI.framework in Frameworks */,
 				0499B8FA171DF72F00050596 /* MediaPlayer.framework in Frameworks */,
 				AABFE13D16CF05AF005D0DEA /* libRestKit.a in Frameworks */,
 				AA58FD0C16C236C000C49E02 /* libsqlite3.dylib in Frameworks */,
@@ -1454,6 +1459,7 @@
 			isa = PBXGroup;
 			children = (
 				AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */,
+				0499B90F171E4D1800050596 /* MessageUI.framework */,
 				0499B8F8171DF72600050596 /* MediaPlayer.framework */,
 				AA58FD0216C2363D00C49E02 /* AVFoundation.framework */,
 				AA58FCFE16C235FD00C49E02 /* CFNetwork.framework */,
