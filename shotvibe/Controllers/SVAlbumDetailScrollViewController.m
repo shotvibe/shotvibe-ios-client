@@ -137,7 +137,7 @@
         NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
         Photo* photo = [[[selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:thumbnailIndex];
         
-        NSString* thumbnailSource = photo.photoUrl;
+        NSString* thumbnailSource = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
         [self requestImageFromSource: thumbnailSource
                            photoSize: NIPhotoScrollViewPhotoSizeOriginal
                           photoIndex: thumbnailIndex];
@@ -207,9 +207,9 @@
         
         // Don't load the thumbnail if it's already in memory.
         if (![self.highQualityImageCache containsObjectWithName:photoIndexKey]) {
-            NSString* source = photo.photoUrl;
+            NSString* source = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
             [self requestImageFromSource: source
-                               photoSize: NIPhotoScrollViewPhotoSizeOriginal
+                               photoSize: NIPhotoScrollViewPhotoSizeThumbnail
                               photoIndex: ix];
         }
     }
