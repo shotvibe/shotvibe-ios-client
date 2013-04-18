@@ -8,12 +8,16 @@
 
 
 #import "SVSettingsViewController.h"
+#import "Album.h"
+#import "SVAlbumNotificationSettingsViewController.h"
 
 @interface SVSettingsViewController ()
 
 @end
 
 @implementation SVSettingsViewController
+
+#pragma mark - Initializers
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -24,6 +28,9 @@
     return self;
 }
 
+
+#pragma mark - View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -31,11 +38,23 @@
     self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainBg.png"]];
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"AlbumSettingsSegue"]) {
+        SVAlbumNotificationSettingsViewController *destination = (SVAlbumNotificationSettingsViewController *)segue.destinationViewController;
+        
+        destination.currentAlbum = self.currentAlbum;
+    }
+}
+
 
 #pragma mark - Table view delegate
 

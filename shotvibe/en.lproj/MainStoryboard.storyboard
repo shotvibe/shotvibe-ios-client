@@ -267,6 +267,9 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="CPg-IN-zDw" kind="push" id="doV-DA-r5b"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="H4T-Jw-kWJ" imageView="O1W-sl-JFK" style="IBUITableViewCellStyleDefault" id="dbN-ww-TPO">
                                         <rect key="frame" x="0.0" y="187" width="320" height="44"/>
@@ -1325,6 +1328,198 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             </objects>
             <point key="canvasLocation" x="734" y="723"/>
         </scene>
+        <!--General Notification Settings View Controller - General Notification Settings-->
+        <scene sceneID="DRS-hq-iat">
+            <objects>
+                <tableViewController id="CPg-IN-zDw" customClass="SVGeneralNotificationSettingsViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ioI-dR-PLE">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
+                        <sections>
+                            <tableViewSection id="YFM-oy-zeK">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="rRO-YP-oWr">
+                                        <rect key="frame" x="0.0" y="10" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="New Photo Uploaded" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="n3Q-0P-93a">
+                                                    <rect key="frame" x="10" y="0.0" width="165" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Tri-tone" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wl4-Ng-tfP">
+                                                    <rect key="frame" x="183" y="0.0" width="87" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
+                                                    <color key="textColor" red="0.47450980390000003" green="0.53333333329999999" blue="0.57254901960000004" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="kRw-X8-dro">
+                                        <rect key="frame" x="0.0" y="55" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Notification" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XSw-yt-MKB">
+                                                    <rect key="frame" x="10" y="0.0" width="165" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="KQE-eD-pKG">
+                                                    <rect key="frame" x="212" y="8" width="79" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="switchTriggered:" destination="CPg-IN-zDw" eventType="valueChanged" id="RlM-qs-1HJ"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="7Ch-yr-Cc7">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="QAB-Iw-q0Z">
+                                        <rect key="frame" x="0.0" y="119" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Vibration" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BrK-6Q-rYh">
+                                                    <rect key="frame" x="10" y="0.0" width="165" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="0ca-v5-vOt">
+                                                    <rect key="frame" x="212" y="8" width="79" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="switchTriggered:" destination="CPg-IN-zDw" eventType="valueChanged" id="tfA-i0-Odg"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="XOB-w2-7Pl">
+                                        <rect key="frame" x="0.0" y="164" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Sound" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pjR-EU-jeL">
+                                                    <rect key="frame" x="10" y="0.0" width="165" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="1AC-6D-f73">
+                                                    <rect key="frame" x="212" y="8" width="79" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="switchTriggered:" destination="CPg-IN-zDw" eventType="valueChanged" id="3br-uq-su3"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="QRL-5P-ZzY">
+                                        <rect key="frame" x="0.0" y="208" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Preview Mode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SLJ-uT-JiK">
+                                                    <rect key="frame" x="10" y="0.0" width="165" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="kKS-wd-fb5">
+                                                    <rect key="frame" x="212" y="8" width="79" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="switchTriggered:" destination="CPg-IN-zDw" eventType="valueChanged" id="A2Y-Qg-75J"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="8Mh-YD-cZ3">
+                                <cells/>
+                            </tableViewSection>
+                            <tableViewSection id="tth-HW-9Hu">
+                                <cells/>
+                            </tableViewSection>
+                            <tableViewSection id="upL-Ui-3eY">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="NJm-W1-KgH">
+                                        <rect key="frame" x="0.0" y="312" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Restore To Defaults" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Io-r3-AJA">
+                                                    <rect key="frame" x="20" y="0.0" width="260" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="CPg-IN-zDw" id="6h5-th-oSX"/>
+                            <outlet property="delegate" destination="CPg-IN-zDw" id="RIf-mo-Ot2"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="General Notification Settings" id="bDo-Ad-Gon">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="462-Oc-zz9"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="notificationSwitch" destination="KQE-eD-pKG" id="1XO-qY-8sb"/>
+                        <outlet property="photoUploadedToneLabel" destination="Wl4-Ng-tfP" id="3vb-As-xMx"/>
+                        <outlet property="previewSwitch" destination="kKS-wd-fb5" id="wTD-EC-gS7"/>
+                        <outlet property="soundSwitch" destination="1AC-6D-f73" id="cfv-MR-hw2"/>
+                        <outlet property="vibrationSwitch" destination="0ca-v5-vOt" id="e1b-BX-zw0"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CR7-dc-E2E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1124" y="1046"/>
+        </scene>
         <!--Help View Controller - Privacy Policy-->
         <scene sceneID="sWS-cC-ihq">
             <objects>
@@ -1649,6 +1844,9 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="VMi-Ys-1sr" kind="push" identifier="AlbumSettingsSegue" id="Qy9-Oc-kMe"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="f5O-8w-piF" imageView="dKh-n4-Z6v" style="IBUITableViewCellStyleDefault" id="xxr-EX-ySi">
                                         <rect key="frame" x="0.0" y="187" width="320" height="44"/>
@@ -1763,6 +1961,118 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             </objects>
             <point key="canvasLocation" x="-114" y="1494"/>
         </scene>
+        <!--Album Notification Settings View Controller - Album Notification Settings-->
+        <scene sceneID="qob-rp-w4g">
+            <objects>
+                <tableViewController id="VMi-Ys-1sr" customClass="SVAlbumNotificationSettingsViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="m6W-hN-sYJ">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
+                        <sections>
+                            <tableViewSection id="PR1-gE-1Uj">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HGO-5d-dmc">
+                                        <rect key="frame" x="0.0" y="10" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Push Notifications" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ucH-2T-hXM">
+                                                    <rect key="frame" x="10" y="0.0" width="165" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="bq7-PN-84Y">
+                                                    <rect key="frame" x="212" y="8" width="79" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="switchTriggered:" destination="VMi-Ys-1sr" eventType="valueChanged" id="WVk-xo-M4g"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="fUb-1m-gdI">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="axK-FB-rrh">
+                                        <rect key="frame" x="0.0" y="75" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="New Photo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NEj-fX-zdp">
+                                                    <rect key="frame" x="10" y="0.0" width="165" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Tri-tone" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="epx-vg-vFT">
+                                                    <rect key="frame" x="183" y="0.0" width="87" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
+                                                    <color key="textColor" red="0.47450980390000003" green="0.53333333329999999" blue="0.57254901960000004" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="auM-0a-1sV">
+                                        <rect key="frame" x="0.0" y="120" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Notification" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bnA-MB-eAh">
+                                                    <rect key="frame" x="10" y="0.0" width="165" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.25490196079999999" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="pbc-Vz-3bA">
+                                                    <rect key="frame" x="212" y="8" width="79" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="switchTriggered:" destination="VMi-Ys-1sr" eventType="valueChanged" id="nyV-K9-wjC"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="VMi-Ys-1sr" id="4sq-q4-3Je"/>
+                            <outlet property="delegate" destination="VMi-Ys-1sr" id="CcE-hh-ybN"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Album Notification Settings" id="Ubz-zc-svz">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="vR4-p4-C2p"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="notificationSwitch" destination="pbc-Vz-3bA" id="Cxp-SD-lWd"/>
+                        <outlet property="photoUploadedToneLabel" destination="epx-vg-vFT" id="L8d-u5-lJG"/>
+                        <outlet property="pushNotificationsSwitch" destination="bq7-PN-84Y" id="waS-b4-JDI"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k73-rt-ECN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1124" y="1872"/>
+        </scene>
     </scenes>
     <resources>
         <image name="aboutIcon.png" width="14" height="13"/>
@@ -1796,112 +2106,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <image name="termsOfUseIcon.png" width="14" height="16"/>
         <image name="videoFrame.png" width="305" height="166"/>
     </resources>
-    <classes>
-        <class className="NINetworkImageView" superclassName="UIImageView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NINetworkImageView.h"/>
-        </class>
-        <class className="SVAboutViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAboutViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="playButtonPressed:"/>
-                <relationship kind="outlet" name="aboutTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="movieContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="playButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="SVAddFriendsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAddFriendsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelPressed:"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumGridViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumGridViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="homePressed:"/>
-                <relationship kind="outlet" name="gridviewContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumInfoViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumInfoViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="donePressed:"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumListViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="author" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="networkImageView" candidateClass="NINetworkImageView"/>
-                <relationship kind="outlet" name="numberNotViewedIndicator" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="timestamp" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="newAlbumButtonPressed:"/>
-                <relationship kind="action" name="newAlbumClose:"/>
-                <relationship kind="action" name="newAlbumDone:"/>
-                <relationship kind="outlet" name="albumField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="dropDownBackground" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dropDownContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="searchbar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="tableOverlayView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="viewContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVCameraViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVCameraViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelPressed:"/>
-            </relationships>
-        </class>
-        <class className="SVHelpViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVHelpViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="helpTextView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="SVProfileViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVProfileViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneButtonPressed:"/>
-                <relationship kind="outlet" name="emailAddressField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="nicknameField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="SVSettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsViewController.h"/>
-        </class>
-        <class className="SVSidebarAlbumMemberCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="memberLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="profileImageView" candidateClass="NINetworkImageView"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarManagementViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarManagementViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="homePressed:"/>
-                <relationship kind="action" name="settingsButtonPressed:"/>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarMenuViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarMenuViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addFriendsButtonPressed:"/>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
@@ -1909,11 +2113,11 @@ There are no “common” screen sizes. Another popular tactic is to create a br
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="TlB-Uw-Z2o"/>
-        <segue reference="D04-aM-191"/>
         <segue reference="Dc6-SZ-EeM"/>
-        <segue reference="xcX-zf-dIh"/>
+        <segue reference="D04-aM-191"/>
         <segue reference="AH7-3u-yC2"/>
         <segue reference="62y-Po-7aD"/>
+        <segue reference="xcX-zf-dIh"/>
         <segue reference="UxR-am-7If"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -158,7 +158,17 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
 
 - (void)initializeLocalSettingsDefaults
 {
-    
+    // Setup defaults for general notification settings (not for individual albums)
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HAS_SET_NOTIFICATION_DEFAULTS"]) {
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GENERAL_NOTIFICATION"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GENERAL_VIBRATION"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GENERAL_SOUND"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GENERAL_PREVIEW_MODE"];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HAS_SET_NOTIFICATION_DEFAULTS"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 

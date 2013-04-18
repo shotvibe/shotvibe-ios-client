@@ -19,11 +19,12 @@
 #import "UINavigationController+MFSideMenu.h"
 #import "SVSidebarManagementViewController.h"
 #import "SVBusinessDelegate.h"
+#import "SVSettingsViewController.h"
 
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate, NINetworkImageViewDelegate>
 {
-    __gm_weak GMGridView *_gmGridView;
+    GMGridView *_gmGridView;
     UIPanGestureRecognizer *panGestureRecognizer;
     BOOL isPushingDetail;
 }
@@ -192,6 +193,17 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     isPushingDetail = YES;
+    
+    if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
+        SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
+        destination.currentAlbum = self.selectedAlbum;
+    }
+}
+
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
 }
 
 
@@ -229,15 +241,15 @@
     if (!cell)
     {
         cell = [[GMGridViewCell alloc] init];
-        
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        view.backgroundColor = [UIColor clearColor];
-        view.layer.masksToBounds = NO;
-        
-        cell.contentView = view;
     }
     
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    view.backgroundColor = [UIColor clearColor];
+    view.layer.masksToBounds = NO;
+    
+    cell.contentView = view;
     
     UIImageView *cellBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photoFrame.png"]];
     [cell.contentView addSubview:cellBackground];
@@ -256,9 +268,34 @@
     networkImageView.interpolationQuality = kCGInterpolationHigh;
     networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
     networkImageView.delegate = self;
+    networkImageView.imageMemoryCache = nil;
     networkImageView.tag = index;
     [cell.contentView addSubview:networkImageView];
-    [networkImageView setPathToNetworkImage:currentPhoto.photoUrl];
+    
+    UIImage *offlineImage = [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photoId];
+    
+    if (offlineImage) {
+        
+        float oldWidth = offlineImage.size.width;
+        float scaleFactor = networkImageView.frame.size.width / oldWidth;
+        
+        float newHeight = offlineImage.size.height * scaleFactor;
+        float newWidth = oldWidth * scaleFactor;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+        [offlineImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        [networkImageView setImage:newImage];
+    }
+    else
+    {
+        [networkImageView setPathToNetworkImage:currentPhoto.photoUrl];
+    }
+    
+    
+    //
     
     return cell;
 }
@@ -285,9 +322,28 @@
 {
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
     Photo *loadedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:imageView.tag];
-        
     
-    [SVBusinessDelegate saveImage:image forPhoto:loadedPhoto];
+    if (![loadedPhoto.hasViewed boolValue]) {
+                
+        Photo *photoObject = (Photo *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:loadedPhoto.objectID];
+        photoObject.hasViewed = [NSNumber numberWithBool:YES];
+        [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext save:nil];
+        
+        [SVBusinessDelegate saveImage:image forPhoto:loadedPhoto];
+    }
+    
+    float oldWidth = image.size.width;
+    float scaleFactor = imageView.frame.size.width / oldWidth;
+    
+    float newHeight = image.size.height * scaleFactor;
+    float newWidth = oldWidth * scaleFactor;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+    [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [imageView performSelector:@selector(setImage:) withObject:newImage afterDelay:0.1];
 }
 
 
@@ -296,10 +352,22 @@
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
     Photo *failedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:imageView.tag];
     
-    UIImage *offlineImage = [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:failedPhoto.photoUrl];
+    UIImage *offlineImage = [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:failedPhoto.photoId];
     
     if (offlineImage) {
-        [imageView setImage:offlineImage];
+        
+        float oldWidth = offlineImage.size.width;
+        float scaleFactor = imageView.frame.size.width / oldWidth;
+        
+        float newHeight = offlineImage.size.height * scaleFactor;
+        float newWidth = oldWidth * scaleFactor;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+        [offlineImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        [imageView setImage:newImage];
     }
 }
 

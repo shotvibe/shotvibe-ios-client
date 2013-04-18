@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04058B26171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */; };
+		04058B27171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */; };
+		04058B2D171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */; };
+		04058B2E171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */; };
+		04058B31171F33E900035E26 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B30171F33E900035E26 /* Album.m */; };
+		04058B32171F33E900035E26 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B30171F33E900035E26 /* Album.m */; };
 		040BACD21717453C00D90C63 /* navBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD01717453C00D90C63 /* navBarBg.png */; };
 		040BACD31717453C00D90C63 /* navBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD01717453C00D90C63 /* navBarBg.png */; };
 		040BACD41717453C00D90C63 /* navBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD11717453C00D90C63 /* navBarBg@2x.png */; };
@@ -590,8 +596,6 @@
 		AAE3DEE716CEDC8400539F92 /* NetworkPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */; };
 		AAE6CB5516C59CF100EB1832 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5416C59CF100EB1832 /* Member.m */; };
 		AAE6CB5616C59CF100EB1832 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5416C59CF100EB1832 /* Member.m */; };
-		AAE6CB5916C59CF100EB1832 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5816C59CF100EB1832 /* Album.m */; };
-		AAE6CB5A16C59CF100EB1832 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5816C59CF100EB1832 /* Album.m */; };
 		AAE6CB5D16C59CF200EB1832 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5C16C59CF200EB1832 /* Photo.m */; };
 		AAE6CB5E16C59CF200EB1832 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5C16C59CF200EB1832 /* Photo.m */; };
 		AAEB9CDE171648A000439939 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AAEB9CDD171648A000439939 /* Config.xcconfig */; };
@@ -653,6 +657,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04058B24171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGeneralNotificationSettingsViewController.h; sourceTree = "<group>"; };
+		04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVGeneralNotificationSettingsViewController.m; sourceTree = "<group>"; };
+		04058B2B171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumNotificationSettingsViewController.h; sourceTree = "<group>"; };
+		04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumNotificationSettingsViewController.m; sourceTree = "<group>"; };
+		04058B2F171F33E900035E26 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
+		04058B30171F33E900035E26 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
 		040BACD01717453C00D90C63 /* navBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarBg.png; sourceTree = "<group>"; };
 		040BACD11717453C00D90C63 /* navBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBarBg@2x.png"; sourceTree = "<group>"; };
 		041A13E21706788100E66B78 /* sidebarMenuNavbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sidebarMenuNavbar@2x.png"; sourceTree = "<group>"; };
@@ -1128,8 +1138,6 @@
 		AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkPhotoAlbumViewController.m; path = nimbus/examples/photos/NetworkPhotoAlbums/src/NetworkPhotoAlbumViewController.m; sourceTree = "<group>"; };
 		AAE6CB5316C59CF100EB1832 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
 		AAE6CB5416C59CF100EB1832 /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
-		AAE6CB5716C59CF100EB1832 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
-		AAE6CB5816C59CF100EB1832 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
 		AAE6CB5B16C59CF200EB1832 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		AAE6CB5C16C59CF200EB1832 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		AAEB9CDD171648A000439939 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -1914,6 +1922,10 @@
 				0499B8F5171DECED00050596 /* SVAboutViewController.m */,
 				0499B8FF171E127C00050596 /* SVProfileViewController.h */,
 				0499B900171E127C00050596 /* SVProfileViewController.m */,
+				04058B24171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.h */,
+				04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */,
+				04058B2B171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.h */,
+				04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2013,9 +2025,9 @@
 		AACB11C616C4543700BAC7E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				04058B2F171F33E900035E26 /* Album.h */,
+				04058B30171F33E900035E26 /* Album.m */,
 				AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */,
-				AAE6CB5716C59CF100EB1832 /* Album.h */,
-				AAE6CB5816C59CF100EB1832 /* Album.m */,
 				AA78D2A717172BA4006E1240 /* AlbumPhoto.h */,
 				AA78D2A817172BA4006E1240 /* AlbumPhoto.m */,
 				AAE6CB5316C59CF100EB1832 /* Member.h */,
@@ -2683,7 +2695,6 @@
 				AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11ED16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
 				AAE6CB5516C59CF100EB1832 /* Member.m in Sources */,
-				AAE6CB5916C59CF100EB1832 /* Album.m in Sources */,
 				AAE6CB5D16C59CF200EB1832 /* Photo.m in Sources */,
 				AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */,
 				AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */,
@@ -2755,6 +2766,9 @@
 				0499B8E6171DE87E00050596 /* SVHelpViewController.m in Sources */,
 				0499B8F6171DECED00050596 /* SVAboutViewController.m in Sources */,
 				0499B901171E127C00050596 /* SVProfileViewController.m in Sources */,
+				04058B26171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */,
+				04058B2D171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */,
+				04058B31171F33E900035E26 /* Album.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2824,7 +2838,6 @@
 				AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11EE16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
 				AAE6CB5616C59CF100EB1832 /* Member.m in Sources */,
-				AAE6CB5A16C59CF100EB1832 /* Album.m in Sources */,
 				AAE6CB5E16C59CF200EB1832 /* Photo.m in Sources */,
 				AAF05CD616CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */,
 				AA12880C16CB84CC002AC699 /* NIImageProcessing.m in Sources */,
@@ -2896,6 +2909,9 @@
 				0499B8E7171DE87E00050596 /* SVHelpViewController.m in Sources */,
 				0499B8F7171DECED00050596 /* SVAboutViewController.m in Sources */,
 				0499B902171E127C00050596 /* SVProfileViewController.m in Sources */,
+				04058B27171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */,
+				04058B2E171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */,
+				04058B32171F33E900035E26 /* Album.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
