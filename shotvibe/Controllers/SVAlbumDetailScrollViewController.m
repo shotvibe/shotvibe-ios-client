@@ -41,6 +41,10 @@
 - (void)exportButtonPressed
 {
     // Do other stuff
+    
+    UIActionSheet *exportOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Move Picture", @""), NSLocalizedString(@"Share to Facebook", @""), NSLocalizedString(@"Share to Instagram", @""), NSLocalizedString(@"Set as Profile Picture", @""), NSLocalizedString(@"Email photo", @""), NSLocalizedString(@"Get Link", @""), nil];
+    
+    [exportOptions showFromToolbar:self.toolbar];
 }
 
 
@@ -193,6 +197,14 @@
 
 - (id<NIPagingScrollViewPage>)pagingScrollView:(NIPagingScrollView *)pagingScrollView pageViewForIndex:(NSInteger)pageIndex {
     return [self.photoAlbumView pagingScrollView:pagingScrollView pageViewForIndex:pageIndex];
+}
+
+
+#pragma mark - UIActionSheet Delegate Methods
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    // TODO: Handle what selection the user made
 }
 
 

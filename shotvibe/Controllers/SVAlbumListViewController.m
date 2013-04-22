@@ -18,7 +18,8 @@
 #import "Member.h"
 #import "AlbumPhoto.h"
 #import "SVBusinessDelegate.h"
-#import "SVCameraViewController.h"
+#import "CaptureViewfinderController.h"
+#import "CaptureNavigationController.h"
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
@@ -48,6 +49,7 @@
 - (IBAction)newAlbumButtonPressed:(id)sender;
 - (IBAction)newAlbumClose:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
+- (IBAction)takePicturePressed:(id)sender;
 
 @end
 
@@ -93,6 +95,33 @@
 {
     [self createNewAlbumWithTitle:self.albumField.text];
     [self hideDropDown];
+}
+
+
+- (IBAction)takePicturePressed:(id)sender
+{
+    // Max of 9 albums wat
+    NSUInteger albumCount = 0;
+    
+    NSMutableArray *albumsForCapture = [[NSMutableArray alloc] init];
+    
+    for (Album *anAlbum in self.fetchedResultsController.fetchedObjects) {
+        [albumsForCapture addObject:anAlbum];
+        
+        albumCount++;
+        
+        if (albumCount > 9) {
+            break;
+        }
+    }
+    
+    
+    CaptureViewfinderController *cameraController = [[CaptureViewfinderController alloc] initWithNibName:@"CaptureViewfinder" bundle:[NSBundle mainBundle]];
+    cameraController.albums = albumsForCapture;
+    
+    CaptureNavigationController *cameraNavController = [[CaptureNavigationController alloc] initWithRootViewController:cameraController];
+    
+    [self presentViewController:cameraNavController animated:YES completion:nil];
 }
 
 

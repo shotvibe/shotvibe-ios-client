@@ -10,7 +10,7 @@
 #import "NetworkPhotoAlbumViewController.h"
 
 @class Photo;
-@interface SVAlbumDetailScrollViewController : NetworkPhotoAlbumViewController <NIPhotoAlbumScrollViewDataSource, NIPhotoScrubberViewDataSource, NIOperationDelegate>
+@interface SVAlbumDetailScrollViewController : NetworkPhotoAlbumViewController <NIPhotoAlbumScrollViewDataSource, NIPhotoScrubberViewDataSource, NIOperationDelegate, UIActionSheetDelegate>
 
 #pragma mark - Properties
 
