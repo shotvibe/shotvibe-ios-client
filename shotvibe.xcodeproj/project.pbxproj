@@ -167,6 +167,10 @@
 		0446EF1A1719035200ED0076 /* searchBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF171719035200ED0076 /* searchBarBg.png */; };
 		0446EF1B1719035200ED0076 /* searchBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF181719035200ED0076 /* searchBarBg@2x.png */; };
 		0446EF1C1719035200ED0076 /* searchBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EF181719035200ED0076 /* searchBarBg@2x.png */; };
+		046D38441725DF1600A4007B /* 215-subscription.png in Resources */ = {isa = PBXBuildFile; fileRef = 046D38421725DF1600A4007B /* 215-subscription.png */; };
+		046D38451725DF1600A4007B /* 215-subscription.png in Resources */ = {isa = PBXBuildFile; fileRef = 046D38421725DF1600A4007B /* 215-subscription.png */; };
+		046D38461725DF1600A4007B /* 215-subscription@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 046D38431725DF1600A4007B /* 215-subscription@2x.png */; };
+		046D38471725DF1600A4007B /* 215-subscription@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 046D38431725DF1600A4007B /* 215-subscription@2x.png */; };
 		04734F2416CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */; };
 		04734F2516CEC1B1003F729B /* SVSidebarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */; };
 		04734F2F16CF104F003F729B /* MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2C16CF104F003F729B /* MFSideMenu.m */; };
@@ -807,6 +811,8 @@
 		0446EF091718A42C00ED0076 /* SVAlbumInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumInfoViewController.m; sourceTree = "<group>"; };
 		0446EF171719035200ED0076 /* searchBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBarBg.png; sourceTree = "<group>"; };
 		0446EF181719035200ED0076 /* searchBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchBarBg@2x.png"; sourceTree = "<group>"; };
+		046D38421725DF1600A4007B /* 215-subscription.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "215-subscription.png"; sourceTree = "<group>"; };
+		046D38431725DF1600A4007B /* 215-subscription@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "215-subscription@2x.png"; sourceTree = "<group>"; };
 		04734F2216CEC1B1003F729B /* SVSidebarMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSidebarMenuViewController.h; sourceTree = "<group>"; };
 		04734F2316CEC1B1003F729B /* SVSidebarMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSidebarMenuViewController.m; sourceTree = "<group>"; };
 		04734F2B16CF104F003F729B /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
@@ -1328,6 +1334,8 @@
 		043473BF1705F48C00CFE564 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				046D38421725DF1600A4007B /* 215-subscription.png */,
+				046D38431725DF1600A4007B /* 215-subscription@2x.png */,
 				0426B6571724EA41007BAABC /* cameraFlashOn@2x.png */,
 				0426B6581724EA41007BAABC /* cameraFlashOn.png */,
 				0426B6591724EA41007BAABC /* cameraFlashOff@2x.png */,
@@ -2584,6 +2592,8 @@
 				0426B6691724EA41007BAABC /* cameraFlashAuto.png in Resources */,
 				0426B66B1724EA41007BAABC /* flipCameraButton@2x.png in Resources */,
 				0426B66D1724EA41007BAABC /* flipCameraButton.png in Resources */,
+				046D38441725DF1600A4007B /* 215-subscription.png in Resources */,
+				046D38461725DF1600A4007B /* 215-subscription@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2771,6 +2781,8 @@
 				0426B66A1724EA41007BAABC /* cameraFlashAuto.png in Resources */,
 				0426B66C1724EA41007BAABC /* flipCameraButton@2x.png in Resources */,
 				0426B66E1724EA41007BAABC /* flipCameraButton.png in Resources */,
+				046D38451725DF1600A4007B /* 215-subscription.png in Resources */,
+				046D38471725DF1600A4007B /* 215-subscription@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

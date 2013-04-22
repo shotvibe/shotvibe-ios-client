@@ -26,6 +26,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @property (nonatomic, strong) IBOutlet UIImageView *albumPreviewImage;
 @property (nonatomic, strong) IBOutlet UILabel *imagePileCounterLabel;
 @property (nonatomic, strong) IBOutlet UIView *topBarContainer;
+@property (nonatomic, strong) IBOutlet UIButton *saveButton;
+@property (nonatomic, strong) IBOutlet UILabel *saveLabel;
 
 - (IBAction)albumPageControlDidChangeIndex:(id)sender;
 
@@ -635,6 +637,25 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
         [[self stillButton] setEnabled:YES];
     });
+    
+    if (imagePile.count == 0) {
+        self.saveLabel.hidden = NO;
+        self.saveButton.hidden = NO;
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.saveButton.alpha = 1.0;
+            self.saveLabel.alpha = 1.0;
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.3 delay:3.0 options:UIViewAnimationOptionCurveLinear animations:^{
+                self.saveButton.alpha = 0.0;
+                self.saveLabel.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                self.saveLabel.hidden = YES;
+                self.saveButton.hidden = YES;
+            }];
+        }];
+    }
+    
     
     NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", imagePile.count]];
     [data writeToFile:filePath atomically:YES];
