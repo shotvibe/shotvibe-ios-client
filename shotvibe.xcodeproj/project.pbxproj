@@ -35,6 +35,64 @@
 		041A13FE17068BED00E66B78 /* settingsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041A13FB17068BED00E66B78 /* settingsIcon@2x.png */; };
 		041A13FF17068BED00E66B78 /* settingsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 041A13FC17068BED00E66B78 /* settingsIcon.png */; };
 		041A140017068BED00E66B78 /* settingsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 041A13FC17068BED00E66B78 /* settingsIcon.png */; };
+		0426B6351724D7CC007BAABC /* notificationBubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6291724D7CC007BAABC /* notificationBubble@2x.png */; };
+		0426B6361724D7CC007BAABC /* notificationBubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6291724D7CC007BAABC /* notificationBubble@2x.png */; };
+		0426B6371724D7CC007BAABC /* notificationBubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62A1724D7CC007BAABC /* notificationBubble.png */; };
+		0426B6381724D7CC007BAABC /* notificationBubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62A1724D7CC007BAABC /* notificationBubble.png */; };
+		0426B6391724D7CC007BAABC /* cameraTopBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62B1724D7CC007BAABC /* cameraTopBarBg@2x.png */; };
+		0426B63A1724D7CC007BAABC /* cameraTopBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62B1724D7CC007BAABC /* cameraTopBarBg@2x.png */; };
+		0426B63B1724D7CC007BAABC /* cameraTopBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62C1724D7CC007BAABC /* cameraTopBarBg.png */; };
+		0426B63C1724D7CC007BAABC /* cameraTopBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62C1724D7CC007BAABC /* cameraTopBarBg.png */; };
+		0426B63D1724D7CC007BAABC /* imagePile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62D1724D7CC007BAABC /* imagePile@2x.png */; };
+		0426B63E1724D7CC007BAABC /* imagePile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62D1724D7CC007BAABC /* imagePile@2x.png */; };
+		0426B63F1724D7CC007BAABC /* cameraCaptureButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62E1724D7CC007BAABC /* cameraCaptureButton@2x.png */; };
+		0426B6401724D7CC007BAABC /* cameraCaptureButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62E1724D7CC007BAABC /* cameraCaptureButton@2x.png */; };
+		0426B6411724D7CC007BAABC /* cameraCaptureButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62F1724D7CC007BAABC /* cameraCaptureButton.png */; };
+		0426B6421724D7CC007BAABC /* cameraCaptureButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62F1724D7CC007BAABC /* cameraCaptureButton.png */; };
+		0426B6431724D7CC007BAABC /* cameraCancelButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6301724D7CC007BAABC /* cameraCancelButton@2x.png */; };
+		0426B6441724D7CC007BAABC /* cameraCancelButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6301724D7CC007BAABC /* cameraCancelButton@2x.png */; };
+		0426B6451724D7CC007BAABC /* cameraCancelButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6311724D7CC007BAABC /* cameraCancelButton.png */; };
+		0426B6461724D7CC007BAABC /* cameraCancelButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6311724D7CC007BAABC /* cameraCancelButton.png */; };
+		0426B6471724D7CC007BAABC /* cameraBottomBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6321724D7CC007BAABC /* cameraBottomBarBg@2x.png */; };
+		0426B6481724D7CC007BAABC /* cameraBottomBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6321724D7CC007BAABC /* cameraBottomBarBg@2x.png */; };
+		0426B6491724D7CC007BAABC /* cameraBottomBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6331724D7CC007BAABC /* cameraBottomBarBg.png */; };
+		0426B64A1724D7CC007BAABC /* cameraBottomBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6331724D7CC007BAABC /* cameraBottomBarBg.png */; };
+		0426B64B1724D7CC007BAABC /* imagePile.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6341724D7CC007BAABC /* imagePile.png */; };
+		0426B64C1724D7CC007BAABC /* imagePile.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6341724D7CC007BAABC /* imagePile.png */; };
+		0426B6531724E262007BAABC /* CaptureViewfinder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6501724E262007BAABC /* CaptureViewfinder.xib */; };
+		0426B6541724E262007BAABC /* CaptureViewfinder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6501724E262007BAABC /* CaptureViewfinder.xib */; };
+		0426B6551724E262007BAABC /* CaptureViewfinderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6521724E262007BAABC /* CaptureViewfinderController.m */; };
+		0426B6561724E262007BAABC /* CaptureViewfinderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6521724E262007BAABC /* CaptureViewfinderController.m */; };
+		0426B65F1724EA41007BAABC /* cameraFlashOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6571724EA41007BAABC /* cameraFlashOn@2x.png */; };
+		0426B6601724EA41007BAABC /* cameraFlashOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6571724EA41007BAABC /* cameraFlashOn@2x.png */; };
+		0426B6611724EA41007BAABC /* cameraFlashOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6581724EA41007BAABC /* cameraFlashOn.png */; };
+		0426B6621724EA41007BAABC /* cameraFlashOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6581724EA41007BAABC /* cameraFlashOn.png */; };
+		0426B6631724EA41007BAABC /* cameraFlashOff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6591724EA41007BAABC /* cameraFlashOff@2x.png */; };
+		0426B6641724EA41007BAABC /* cameraFlashOff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6591724EA41007BAABC /* cameraFlashOff@2x.png */; };
+		0426B6651724EA41007BAABC /* cameraFlashOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B65A1724EA41007BAABC /* cameraFlashOff.png */; };
+		0426B6661724EA41007BAABC /* cameraFlashOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B65A1724EA41007BAABC /* cameraFlashOff.png */; };
+		0426B6671724EA41007BAABC /* cameraFlashAuto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B65B1724EA41007BAABC /* cameraFlashAuto@2x.png */; };
+		0426B6681724EA41007BAABC /* cameraFlashAuto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B65B1724EA41007BAABC /* cameraFlashAuto@2x.png */; };
+		0426B6691724EA41007BAABC /* cameraFlashAuto.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B65C1724EA41007BAABC /* cameraFlashAuto.png */; };
+		0426B66A1724EA41007BAABC /* cameraFlashAuto.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B65C1724EA41007BAABC /* cameraFlashAuto.png */; };
+		0426B66B1724EA41007BAABC /* flipCameraButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B65D1724EA41007BAABC /* flipCameraButton@2x.png */; };
+		0426B66C1724EA41007BAABC /* flipCameraButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B65D1724EA41007BAABC /* flipCameraButton@2x.png */; };
+		0426B66D1724EA41007BAABC /* flipCameraButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B65E1724EA41007BAABC /* flipCameraButton.png */; };
+		0426B66E1724EA41007BAABC /* flipCameraButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B65E1724EA41007BAABC /* flipCameraButton.png */; };
+		0426B6701724EBC4007BAABC /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B66F1724EBC4007BAABC /* ImageIO.framework */; };
+		0426B6711724EBCD007BAABC /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B66F1724EBC4007BAABC /* ImageIO.framework */; };
+		0426B6731724EBD9007BAABC /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B6721724EBD9007BAABC /* AssetsLibrary.framework */; };
+		0426B6741724EBE2007BAABC /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B6721724EBD9007BAABC /* AssetsLibrary.framework */; };
+		0426B67C1724EC26007BAABC /* AVCamCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6771724EC26007BAABC /* AVCamCaptureManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0426B67D1724EC26007BAABC /* AVCamCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6771724EC26007BAABC /* AVCamCaptureManager.m */; };
+		0426B67E1724EC26007BAABC /* AVCamRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6791724EC26007BAABC /* AVCamRecorder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0426B67F1724EC26007BAABC /* AVCamRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6791724EC26007BAABC /* AVCamRecorder.m */; };
+		0426B6801724EC26007BAABC /* AVCamUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B67B1724EC26007BAABC /* AVCamUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0426B6811724EC26007BAABC /* AVCamUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B67B1724EC26007BAABC /* AVCamUtilities.m */; };
+		0426B6831724F3B5007BAABC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B6821724F3B5007BAABC /* CoreMedia.framework */; };
+		0426B6841724F3BE007BAABC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B6821724F3B5007BAABC /* CoreMedia.framework */; };
+		0426B6871724F574007BAABC /* CaptureNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6861724F574007BAABC /* CaptureNavigationController.m */; };
+		0426B6881724F574007BAABC /* CaptureNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6861724F574007BAABC /* CaptureNavigationController.m */; };
 		043473D41705F49600CFE564 /* placeholderImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 043473C01705F49600CFE564 /* placeholderImage.png */; };
 		043473D51705F49600CFE564 /* placeholderImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 043473C01705F49600CFE564 /* placeholderImage.png */; };
 		043473D61705F49600CFE564 /* photoFrame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043473C11705F49600CFE564 /* photoFrame@2x.png */; };
@@ -675,6 +733,40 @@
 		041A13F617068BE800E66B78 /* sidebarToolbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidebarToolbar.png; sourceTree = "<group>"; };
 		041A13FB17068BED00E66B78 /* settingsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settingsIcon@2x.png"; sourceTree = "<group>"; };
 		041A13FC17068BED00E66B78 /* settingsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsIcon.png; sourceTree = "<group>"; };
+		0426B6291724D7CC007BAABC /* notificationBubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notificationBubble@2x.png"; sourceTree = "<group>"; };
+		0426B62A1724D7CC007BAABC /* notificationBubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationBubble.png; sourceTree = "<group>"; };
+		0426B62B1724D7CC007BAABC /* cameraTopBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraTopBarBg@2x.png"; sourceTree = "<group>"; };
+		0426B62C1724D7CC007BAABC /* cameraTopBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraTopBarBg.png; sourceTree = "<group>"; };
+		0426B62D1724D7CC007BAABC /* imagePile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePile@2x.png"; sourceTree = "<group>"; };
+		0426B62E1724D7CC007BAABC /* cameraCaptureButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCaptureButton@2x.png"; sourceTree = "<group>"; };
+		0426B62F1724D7CC007BAABC /* cameraCaptureButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraCaptureButton.png; sourceTree = "<group>"; };
+		0426B6301724D7CC007BAABC /* cameraCancelButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCancelButton@2x.png"; sourceTree = "<group>"; };
+		0426B6311724D7CC007BAABC /* cameraCancelButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraCancelButton.png; sourceTree = "<group>"; };
+		0426B6321724D7CC007BAABC /* cameraBottomBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraBottomBarBg@2x.png"; sourceTree = "<group>"; };
+		0426B6331724D7CC007BAABC /* cameraBottomBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraBottomBarBg.png; sourceTree = "<group>"; };
+		0426B6341724D7CC007BAABC /* imagePile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imagePile.png; sourceTree = "<group>"; };
+		0426B6501724E262007BAABC /* CaptureViewfinder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptureViewfinder.xib; sourceTree = "<group>"; };
+		0426B6511724E262007BAABC /* CaptureViewfinderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureViewfinderController.h; sourceTree = "<group>"; };
+		0426B6521724E262007BAABC /* CaptureViewfinderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureViewfinderController.m; sourceTree = "<group>"; };
+		0426B6571724EA41007BAABC /* cameraFlashOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraFlashOn@2x.png"; sourceTree = "<group>"; };
+		0426B6581724EA41007BAABC /* cameraFlashOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraFlashOn.png; sourceTree = "<group>"; };
+		0426B6591724EA41007BAABC /* cameraFlashOff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraFlashOff@2x.png"; sourceTree = "<group>"; };
+		0426B65A1724EA41007BAABC /* cameraFlashOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraFlashOff.png; sourceTree = "<group>"; };
+		0426B65B1724EA41007BAABC /* cameraFlashAuto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraFlashAuto@2x.png"; sourceTree = "<group>"; };
+		0426B65C1724EA41007BAABC /* cameraFlashAuto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraFlashAuto.png; sourceTree = "<group>"; };
+		0426B65D1724EA41007BAABC /* flipCameraButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flipCameraButton@2x.png"; sourceTree = "<group>"; };
+		0426B65E1724EA41007BAABC /* flipCameraButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flipCameraButton.png; sourceTree = "<group>"; };
+		0426B66F1724EBC4007BAABC /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		0426B6721724EBD9007BAABC /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		0426B6761724EC26007BAABC /* AVCamCaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamCaptureManager.h; sourceTree = "<group>"; };
+		0426B6771724EC26007BAABC /* AVCamCaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamCaptureManager.m; sourceTree = "<group>"; };
+		0426B6781724EC26007BAABC /* AVCamRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamRecorder.h; sourceTree = "<group>"; };
+		0426B6791724EC26007BAABC /* AVCamRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamRecorder.m; sourceTree = "<group>"; };
+		0426B67A1724EC26007BAABC /* AVCamUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamUtilities.h; sourceTree = "<group>"; };
+		0426B67B1724EC26007BAABC /* AVCamUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamUtilities.m; sourceTree = "<group>"; };
+		0426B6821724F3B5007BAABC /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		0426B6851724F574007BAABC /* CaptureNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureNavigationController.h; sourceTree = "<group>"; };
+		0426B6861724F574007BAABC /* CaptureNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureNavigationController.m; sourceTree = "<group>"; };
 		043473C01705F49600CFE564 /* placeholderImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholderImage.png; sourceTree = "<group>"; };
 		043473C11705F49600CFE564 /* photoFrame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photoFrame@2x.png"; sourceTree = "<group>"; };
 		043473C21705F49600CFE564 /* photoFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photoFrame.png; sourceTree = "<group>"; };
@@ -1151,6 +1243,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0426B6831724F3B5007BAABC /* CoreMedia.framework in Frameworks */,
+				0426B6741724EBE2007BAABC /* AssetsLibrary.framework in Frameworks */,
+				0426B6701724EBC4007BAABC /* ImageIO.framework in Frameworks */,
 				0499B911171E4D2900050596 /* MessageUI.framework in Frameworks */,
 				0499B8F9171DF72600050596 /* MediaPlayer.framework in Frameworks */,
 				AABFE13E16CF05B6005D0DEA /* libRestKit.a in Frameworks */,
@@ -1184,6 +1279,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0426B6841724F3BE007BAABC /* CoreMedia.framework in Frameworks */,
+				0426B6731724EBD9007BAABC /* AssetsLibrary.framework in Frameworks */,
+				0426B6711724EBCD007BAABC /* ImageIO.framework in Frameworks */,
 				0499B910171E4D1800050596 /* MessageUI.framework in Frameworks */,
 				0499B8FA171DF72F00050596 /* MediaPlayer.framework in Frameworks */,
 				AABFE13D16CF05AF005D0DEA /* libRestKit.a in Frameworks */,
@@ -1206,6 +1304,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0426B6751724EC26007BAABC /* AVCam */ = {
+			isa = PBXGroup;
+			children = (
+				0426B6761724EC26007BAABC /* AVCamCaptureManager.h */,
+				0426B6771724EC26007BAABC /* AVCamCaptureManager.m */,
+				0426B6781724EC26007BAABC /* AVCamRecorder.h */,
+				0426B6791724EC26007BAABC /* AVCamRecorder.m */,
+				0426B67A1724EC26007BAABC /* AVCamUtilities.h */,
+				0426B67B1724EC26007BAABC /* AVCamUtilities.m */,
+			);
+			path = AVCam;
+			sourceTree = "<group>";
+		};
 		043473961705F42300CFE564 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1217,6 +1328,26 @@
 		043473BF1705F48C00CFE564 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0426B6571724EA41007BAABC /* cameraFlashOn@2x.png */,
+				0426B6581724EA41007BAABC /* cameraFlashOn.png */,
+				0426B6591724EA41007BAABC /* cameraFlashOff@2x.png */,
+				0426B65A1724EA41007BAABC /* cameraFlashOff.png */,
+				0426B65B1724EA41007BAABC /* cameraFlashAuto@2x.png */,
+				0426B65C1724EA41007BAABC /* cameraFlashAuto.png */,
+				0426B65D1724EA41007BAABC /* flipCameraButton@2x.png */,
+				0426B65E1724EA41007BAABC /* flipCameraButton.png */,
+				0426B6291724D7CC007BAABC /* notificationBubble@2x.png */,
+				0426B62A1724D7CC007BAABC /* notificationBubble.png */,
+				0426B62B1724D7CC007BAABC /* cameraTopBarBg@2x.png */,
+				0426B62C1724D7CC007BAABC /* cameraTopBarBg.png */,
+				0426B62D1724D7CC007BAABC /* imagePile@2x.png */,
+				0426B62E1724D7CC007BAABC /* cameraCaptureButton@2x.png */,
+				0426B62F1724D7CC007BAABC /* cameraCaptureButton.png */,
+				0426B6301724D7CC007BAABC /* cameraCancelButton@2x.png */,
+				0426B6311724D7CC007BAABC /* cameraCancelButton.png */,
+				0426B6321724D7CC007BAABC /* cameraBottomBarBg@2x.png */,
+				0426B6331724D7CC007BAABC /* cameraBottomBarBg.png */,
+				0426B6341724D7CC007BAABC /* imagePile.png */,
 				0499B909171E293600050596 /* editProfileImageIcon@2x.png */,
 				0499B90A171E293600050596 /* editProfileImageIcon.png */,
 				0499B903171E287400050596 /* profileFrame@2x.png */,
@@ -1467,6 +1598,9 @@
 			isa = PBXGroup;
 			children = (
 				AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */,
+				0426B6821724F3B5007BAABC /* CoreMedia.framework */,
+				0426B6721724EBD9007BAABC /* AssetsLibrary.framework */,
+				0426B66F1724EBC4007BAABC /* ImageIO.framework */,
 				0499B90F171E4D1800050596 /* MessageUI.framework */,
 				0499B8F8171DF72600050596 /* MediaPlayer.framework */,
 				AA58FD0216C2363D00C49E02 /* AVFoundation.framework */,
@@ -1571,6 +1705,7 @@
 			children = (
 				AABFE12A16CF0599005D0DEA /* RestKit.xcodeproj */,
 				AABFE13F16CF05C6005D0DEA /* AFNetworking */,
+				0426B6751724EC26007BAABC /* AVCam */,
 				04CD9C6C16CDC6FF00FC72B3 /* GMGridView */,
 				AA58FB7A16C230DE00C49E02 /* HockeySDK */,
 				AA58FB9616C235C800C49E02 /* JMC */,
@@ -1905,8 +2040,13 @@
 		AA78D2B617172C26006E1240 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				0426B6501724E262007BAABC /* CaptureViewfinder.xib */,
+				0426B6511724E262007BAABC /* CaptureViewfinderController.h */,
+				0426B6521724E262007BAABC /* CaptureViewfinderController.m */,
 				AA78D2B817172C3D006E1240 /* SVCameraViewController.h */,
 				AA78D2B917172C3D006E1240 /* SVCameraViewController.m */,
+				0426B6851724F574007BAABC /* CaptureNavigationController.h */,
+				0426B6861724F574007BAABC /* CaptureNavigationController.m */,
 			);
 			name = Camera;
 			sourceTree = "<group>";
@@ -2423,6 +2563,27 @@
 				0499B907171E287400050596 /* profileFrame.png in Resources */,
 				0499B90B171E293600050596 /* editProfileImageIcon@2x.png in Resources */,
 				0499B90D171E293600050596 /* editProfileImageIcon.png in Resources */,
+				0426B6351724D7CC007BAABC /* notificationBubble@2x.png in Resources */,
+				0426B6371724D7CC007BAABC /* notificationBubble.png in Resources */,
+				0426B6391724D7CC007BAABC /* cameraTopBarBg@2x.png in Resources */,
+				0426B63B1724D7CC007BAABC /* cameraTopBarBg.png in Resources */,
+				0426B63D1724D7CC007BAABC /* imagePile@2x.png in Resources */,
+				0426B63F1724D7CC007BAABC /* cameraCaptureButton@2x.png in Resources */,
+				0426B6411724D7CC007BAABC /* cameraCaptureButton.png in Resources */,
+				0426B6431724D7CC007BAABC /* cameraCancelButton@2x.png in Resources */,
+				0426B6451724D7CC007BAABC /* cameraCancelButton.png in Resources */,
+				0426B6471724D7CC007BAABC /* cameraBottomBarBg@2x.png in Resources */,
+				0426B6491724D7CC007BAABC /* cameraBottomBarBg.png in Resources */,
+				0426B64B1724D7CC007BAABC /* imagePile.png in Resources */,
+				0426B6531724E262007BAABC /* CaptureViewfinder.xib in Resources */,
+				0426B65F1724EA41007BAABC /* cameraFlashOn@2x.png in Resources */,
+				0426B6611724EA41007BAABC /* cameraFlashOn.png in Resources */,
+				0426B6631724EA41007BAABC /* cameraFlashOff@2x.png in Resources */,
+				0426B6651724EA41007BAABC /* cameraFlashOff.png in Resources */,
+				0426B6671724EA41007BAABC /* cameraFlashAuto@2x.png in Resources */,
+				0426B6691724EA41007BAABC /* cameraFlashAuto.png in Resources */,
+				0426B66B1724EA41007BAABC /* flipCameraButton@2x.png in Resources */,
+				0426B66D1724EA41007BAABC /* flipCameraButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2589,6 +2750,27 @@
 				0499B908171E287400050596 /* profileFrame.png in Resources */,
 				0499B90C171E293600050596 /* editProfileImageIcon@2x.png in Resources */,
 				0499B90E171E293600050596 /* editProfileImageIcon.png in Resources */,
+				0426B6361724D7CC007BAABC /* notificationBubble@2x.png in Resources */,
+				0426B6381724D7CC007BAABC /* notificationBubble.png in Resources */,
+				0426B63A1724D7CC007BAABC /* cameraTopBarBg@2x.png in Resources */,
+				0426B63C1724D7CC007BAABC /* cameraTopBarBg.png in Resources */,
+				0426B63E1724D7CC007BAABC /* imagePile@2x.png in Resources */,
+				0426B6401724D7CC007BAABC /* cameraCaptureButton@2x.png in Resources */,
+				0426B6421724D7CC007BAABC /* cameraCaptureButton.png in Resources */,
+				0426B6441724D7CC007BAABC /* cameraCancelButton@2x.png in Resources */,
+				0426B6461724D7CC007BAABC /* cameraCancelButton.png in Resources */,
+				0426B6481724D7CC007BAABC /* cameraBottomBarBg@2x.png in Resources */,
+				0426B64A1724D7CC007BAABC /* cameraBottomBarBg.png in Resources */,
+				0426B64C1724D7CC007BAABC /* imagePile.png in Resources */,
+				0426B6541724E262007BAABC /* CaptureViewfinder.xib in Resources */,
+				0426B6601724EA41007BAABC /* cameraFlashOn@2x.png in Resources */,
+				0426B6621724EA41007BAABC /* cameraFlashOn.png in Resources */,
+				0426B6641724EA41007BAABC /* cameraFlashOff@2x.png in Resources */,
+				0426B6661724EA41007BAABC /* cameraFlashOff.png in Resources */,
+				0426B6681724EA41007BAABC /* cameraFlashAuto@2x.png in Resources */,
+				0426B66A1724EA41007BAABC /* cameraFlashAuto.png in Resources */,
+				0426B66C1724EA41007BAABC /* flipCameraButton@2x.png in Resources */,
+				0426B66E1724EA41007BAABC /* flipCameraButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2769,6 +2951,11 @@
 				04058B26171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */,
 				04058B2D171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */,
 				04058B31171F33E900035E26 /* Album.m in Sources */,
+				0426B6551724E262007BAABC /* CaptureViewfinderController.m in Sources */,
+				0426B67C1724EC26007BAABC /* AVCamCaptureManager.m in Sources */,
+				0426B67E1724EC26007BAABC /* AVCamRecorder.m in Sources */,
+				0426B6801724EC26007BAABC /* AVCamUtilities.m in Sources */,
+				0426B6871724F574007BAABC /* CaptureNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2912,6 +3099,11 @@
 				04058B27171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */,
 				04058B2E171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */,
 				04058B32171F33E900035E26 /* Album.m in Sources */,
+				0426B6561724E262007BAABC /* CaptureViewfinderController.m in Sources */,
+				0426B67D1724EC26007BAABC /* AVCamCaptureManager.m in Sources */,
+				0426B67F1724EC26007BAABC /* AVCamRecorder.m in Sources */,
+				0426B6811724EC26007BAABC /* AVCamUtilities.m in Sources */,
+				0426B6881724F574007BAABC /* CaptureNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

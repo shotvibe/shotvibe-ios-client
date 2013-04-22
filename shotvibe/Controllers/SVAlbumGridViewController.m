@@ -20,6 +20,8 @@
 #import "SVSidebarManagementViewController.h"
 #import "SVBusinessDelegate.h"
 #import "SVSettingsViewController.h"
+#import "CaptureNavigationController.h"
+#import "CaptureViewfinderController.h"
 
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate, NINetworkImageViewDelegate>
@@ -41,6 +43,7 @@
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
 - (void)backButtonPressed;
 - (IBAction)homePressed:(id)sender;
+- (IBAction)takePicturePressed:(id)sender;
 
 
 @end
@@ -54,6 +57,17 @@
 - (IBAction)homePressed:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+- (IBAction)takePicturePressed:(id)sender
+{
+    CaptureViewfinderController *cameraController = [[CaptureViewfinderController alloc] initWithNibName:@"CaptureViewfinder" bundle:[NSBundle mainBundle]];
+    cameraController.albums = @[self.selectedAlbum];
+    
+    CaptureNavigationController *cameraNavController = [[CaptureNavigationController alloc] initWithRootViewController:cameraController];
+    
+    [self presentViewController:cameraNavController animated:YES completion:nil];
 }
 
 

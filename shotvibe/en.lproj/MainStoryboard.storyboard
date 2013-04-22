@@ -48,7 +48,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="2p9-UG-jaS" kind="modal" id="TlB-Uw-Z2o"/>
+                                    <action selector="takePicturePressed:" destination="blj-nY-Sj7" eventType="touchUpInside" id="1YM-pk-sYI"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="rBd-U2-udB" userLabel="Camera Button">
@@ -83,9 +83,6 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <segue destination="2p9-UG-jaS" kind="modal" id="TbW-dq-eMl"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -101,48 +98,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FaP-w9-IIV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-114" y="51"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="25b-Kj-gVX">
-            <objects>
-                <navigationController definesPresentationContext="YES" id="2p9-UG-jaS" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EvG-de-azJ">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="JGz-Of-MmM" kind="relationship" relationship="rootViewController" id="zmp-eg-TJG"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uqB-hM-72F" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="322" y="51"/>
-        </scene>
-        <!--Camera View Controller - Camera-->
-        <scene sceneID="Pnb-mx-C1s">
-            <objects>
-                <viewController id="JGz-Of-MmM" customClass="SVCameraViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="mCl-wv-9Ph">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="mainBg.png" id="Ktp-uT-cF9">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Camera" id="PXt-i0-11j">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="1S7-73-Ybe">
-                            <connections>
-                                <action selector="cancelPressed:" destination="JGz-Of-MmM" id="TDP-6s-Uuq"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RXR-Fd-poa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="734" y="51"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E9K-is-pZC">
@@ -881,7 +836,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="2p9-UG-jaS" kind="modal" id="4ly-3t-fLu"/>
+                                            <action selector="takePicturePressed:" destination="zDC-7N-HiV" eventType="touchUpInside" id="nCk-z9-Shf"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="wfo-zJ-OMg" userLabel="Camera Button">
@@ -2112,12 +2067,11 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="TlB-Uw-Z2o"/>
-        <segue reference="Dc6-SZ-EeM"/>
         <segue reference="D04-aM-191"/>
-        <segue reference="AH7-3u-yC2"/>
         <segue reference="62y-Po-7aD"/>
-        <segue reference="xcX-zf-dIh"/>
+        <segue reference="Dc6-SZ-EeM"/>
         <segue reference="UxR-am-7If"/>
+        <segue reference="xcX-zf-dIh"/>
+        <segue reference="AH7-3u-yC2"/>
     </inferredMetricsTieBreakers>
 </document>
