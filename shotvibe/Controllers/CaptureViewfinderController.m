@@ -25,6 +25,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @property (nonatomic, strong) IBOutlet UIPageControl *albumPageControl;
 @property (nonatomic, strong) IBOutlet UIImageView *albumPreviewImage;
 @property (nonatomic, strong) IBOutlet UILabel *imagePileCounterLabel;
+@property (nonatomic, strong) IBOutlet UIView *topBarContainer;
 
 - (IBAction)albumPageControlDidChangeIndex:(id)sender;
 
@@ -35,6 +36,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates;
 - (void)tapToAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
 - (void)tapToContinouslyAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
+- (void)tapToHideUI:(UIGestureRecognizer *)gestureRecognizer;
 - (void)updateButtonStates;
 - (void)configureAlbumScrollView;
 - (void)scrollToAlbumAtIndex:(NSInteger)index;
@@ -50,6 +52,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     NSMutableArray *imagePile;
     
     Album *selectedAlbum;
+    
+    BOOL memwarningDisplayed;
+    BOOL topBarHidden;
 }
 
 #pragma mark - Properties
@@ -156,11 +161,18 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 			[view addGestureRecognizer:singleTap];
 			
             // Add a double tap gesture to reset the focus mode to continuous auto focus
-			UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToContinouslyAutoFocus:)];
+			UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToHideUI:)];
 			[doubleTap setDelegate:self];
 			[doubleTap setNumberOfTapsRequired:2];
 			[singleTap requireGestureRecognizerToFail:doubleTap];
 			[view addGestureRecognizer:doubleTap];
+            
+            UITapGestureRecognizer *tripleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToContinouslyAutoFocus:)];
+            [tripleTap setDelegate:self];
+            [tripleTap setNumberOfTapsRequired:3];
+            [singleTap requireGestureRecognizerToFail:tripleTap];
+            [doubleTap requireGestureRecognizerToFail:tripleTap];
+            [view addGestureRecognizer:tripleTap];
 		}		
 	}
     
@@ -223,6 +235,13 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)didReceiveMemoryWarning
 {
     self.stillButton.enabled = NO;
+    
+    if (!memwarningDisplayed) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Low Memory", @"") message:NSLocalizedString(@"You need to upload some of the pictures you've taken before you can take more!", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        
+        [alertView show];
+    }
+    
 }
 
 
@@ -481,6 +500,26 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 }
 
 
+- (void)tapToHideUI:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (topBarHidden) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.topBarContainer.frame = CGRectMake(0, -78, 320, self.topBarContainer.frame.size.height);
+        } completion:^(BOOL finished) {
+            topBarHidden = !topBarHidden;
+        }];
+    }
+    else
+    {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.topBarContainer.frame = CGRectMake(0, 0, 320, self.topBarContainer.frame.size.height);
+        } completion:^(BOOL finished) {
+            topBarHidden = !topBarHidden;
+        }];
+    }
+}
+
+
 // Update button states based on the number of available cameras and mics
 - (void)updateButtonStates
 {
@@ -597,13 +636,25 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         [[self stillButton] setEnabled:YES];
     });
     
+    NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", imagePile.count]];
+    [data writeToFile:filePath atomically:YES];
+    
     // Grab image data
     UIImage *stillImage = [UIImage imageWithData:data];
+    UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    animatedImageView.image = stillImage;
+    [self.view addSubview:animatedImageView];
     
-    self.albumPreviewImage.image = stillImage;
-    [imagePile addObject:stillImage];
+    [UIView animateWithDuration:0.6 animations:^{
+        animatedImageView.frame = self.albumPreviewImage.frame;
+    } completion:^(BOOL finished) {
+        self.albumPreviewImage.image = stillImage;
+        [imagePile addObject:filePath];
+        self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", imagePile.count];
+        [animatedImageView removeFromSuperview];
+    }];
     
-    self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", imagePile.count];
+    
     
     // we haz image now
     
