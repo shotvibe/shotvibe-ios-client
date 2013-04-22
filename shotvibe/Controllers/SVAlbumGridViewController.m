@@ -67,6 +67,8 @@
     
     CaptureNavigationController *cameraNavController = [[CaptureNavigationController alloc] initWithRootViewController:cameraController];
     
+    
+    isPushingDetail = YES;
     [self presentViewController:cameraNavController animated:YES completion:nil];
 }
 
