@@ -84,11 +84,11 @@
 		0426B6731724EBD9007BAABC /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B6721724EBD9007BAABC /* AssetsLibrary.framework */; };
 		0426B6741724EBE2007BAABC /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B6721724EBD9007BAABC /* AssetsLibrary.framework */; };
 		0426B67C1724EC26007BAABC /* AVCamCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6771724EC26007BAABC /* AVCamCaptureManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		0426B67D1724EC26007BAABC /* AVCamCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6771724EC26007BAABC /* AVCamCaptureManager.m */; };
+		0426B67D1724EC26007BAABC /* AVCamCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6771724EC26007BAABC /* AVCamCaptureManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0426B67E1724EC26007BAABC /* AVCamRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6791724EC26007BAABC /* AVCamRecorder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		0426B67F1724EC26007BAABC /* AVCamRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6791724EC26007BAABC /* AVCamRecorder.m */; };
+		0426B67F1724EC26007BAABC /* AVCamRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6791724EC26007BAABC /* AVCamRecorder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0426B6801724EC26007BAABC /* AVCamUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B67B1724EC26007BAABC /* AVCamUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		0426B6811724EC26007BAABC /* AVCamUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B67B1724EC26007BAABC /* AVCamUtilities.m */; };
+		0426B6811724EC26007BAABC /* AVCamUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B67B1724EC26007BAABC /* AVCamUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0426B6831724F3B5007BAABC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B6821724F3B5007BAABC /* CoreMedia.framework */; };
 		0426B6841724F3BE007BAABC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B6821724F3B5007BAABC /* CoreMedia.framework */; };
 		0426B6871724F574007BAABC /* CaptureNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6861724F574007BAABC /* CaptureNavigationController.m */; };
