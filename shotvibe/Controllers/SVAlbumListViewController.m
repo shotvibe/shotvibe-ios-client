@@ -448,6 +448,9 @@
     self.tableOverlayView.hidden = NO;
     self.dropDownContainer.hidden = NO;
     
+    NSString *currentDateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
+    [self.albumField setText:currentDateString];
+    
     [UIView animateWithDuration:0.3 animations:^{
         self.tableOverlayView.alpha = 0.3;
         self.dropDownContainer.frame = CGRectMake(6, 34, self.dropDownContainer.frame.size.width, 134);
