@@ -773,7 +773,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                 <size key="titleShadowOffset" width="0.0" height="1"/>
-                                                <state key="normal" title="Close" backgroundImage="dropDownButton.png">
+                                                <state key="normal" title="Cancel" backgroundImage="dropDownButton.png">
                                                     <color key="titleColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -2061,6 +2061,128 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <image name="termsOfUseIcon.png" width="14" height="16"/>
         <image name="videoFrame.png" width="305" height="166"/>
     </resources>
+    <classes>
+        <class className="NINetworkImageView" superclassName="UIImageView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NINetworkImageView.h"/>
+        </class>
+        <class className="SVAboutViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAboutViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="playButtonPressed:"/>
+                <relationship kind="outlet" name="aboutTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="movieContainer" candidateClass="UIView"/>
+                <relationship kind="outlet" name="playButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="SVAddFriendsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAddFriendsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelPressed:"/>
+            </relationships>
+        </class>
+        <class className="SVAlbumGridViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumGridViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="homePressed:"/>
+                <relationship kind="action" name="takePicturePressed:"/>
+                <relationship kind="outlet" name="gridviewContainer" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="SVAlbumInfoViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumInfoViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="donePressed:"/>
+            </relationships>
+        </class>
+        <class className="SVAlbumListViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="author" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="networkImageView" candidateClass="NINetworkImageView"/>
+                <relationship kind="outlet" name="numberNotViewedIndicator" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="timestamp" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="SVAlbumListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="newAlbumButtonPressed:"/>
+                <relationship kind="action" name="newAlbumClose:"/>
+                <relationship kind="action" name="newAlbumDone:"/>
+                <relationship kind="action" name="takePicturePressed:"/>
+                <relationship kind="outlet" name="albumField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="dropDownBackground" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="dropDownContainer" candidateClass="UIView"/>
+                <relationship kind="outlet" name="searchbar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="tableOverlayView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="viewContainer" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="SVAlbumNotificationSettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumNotificationSettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="switchTriggered:"/>
+                <relationship kind="outlet" name="notificationSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="photoUploadedToneLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="pushNotificationsSwitch" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+        <class className="SVGeneralNotificationSettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVGeneralNotificationSettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="switchTriggered:"/>
+                <relationship kind="outlet" name="notificationSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="photoUploadedToneLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="previewSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="soundSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="vibrationSwitch" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+        <class className="SVHelpViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVHelpViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="helpTextView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="SVProfileViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVProfileViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonPressed:"/>
+                <relationship kind="outlet" name="emailAddressField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="nicknameField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="SVSettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsViewController.h"/>
+        </class>
+        <class className="SVSidebarAlbumMemberCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="memberLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="profileImageView" candidateClass="NINetworkImageView"/>
+            </relationships>
+        </class>
+        <class className="SVSidebarManagementViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarManagementViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="homePressed:"/>
+                <relationship kind="action" name="settingsButtonPressed:"/>
+                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SVSidebarMenuViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarMenuViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addFriendsButtonPressed:"/>
+                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
