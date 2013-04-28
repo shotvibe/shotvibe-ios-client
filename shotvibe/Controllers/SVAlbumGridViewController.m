@@ -108,7 +108,7 @@
     
     
     // Listen for our RestKit loads to finish
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchPhotos) name:@"SVPhotosLoaded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchPhotos) name:kPhotosLoadedNotification object:nil];
 }
 
 

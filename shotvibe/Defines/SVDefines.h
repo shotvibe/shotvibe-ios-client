@@ -17,4 +17,9 @@
 #define kPhotoIphone4Extension @"_iphone4.jpg"
 #define kPhotoIphone5Extension @"_iphone5.jpg"
 
+#define kUserAlbumsLoadedNotification @"SVAlbumsLoaded"
+#define kPhotosLoadedNotification @"SVPhotosLoaded"
+#define kPhotosLoadedForIndexPathNotification @"SVPhotosLoadedForIndexPath"
+#define kUploadPhotosToAlbumProgressNotification @"UploadPhotosToAlbumProgressNotification"
+
 #endif

@@ -140,8 +140,8 @@
     RKLogConfigureByName("ShotVibe/Albums", RKLogLevelDebug);
     
     // Listen for our RestKit loads to finish
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureNumberNotViewed:) name:@"SVPhotosLoadedForIndexPath" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo) name:@"SVAlbumsLoaded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureNumberNotViewed:) name:kPhotosLoadedForIndexPathNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo) name:kUserAlbumsLoadedNotification object:nil];
     
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];

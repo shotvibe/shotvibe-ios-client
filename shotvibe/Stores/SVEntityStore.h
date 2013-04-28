@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AFHTTPClient.h"
 
-@interface SVEntityStore : NSObject
+@interface SVEntityStore : AFHTTPClient
 
 #pragma mark - Class Methods
 
@@ -17,8 +18,16 @@
 
 #pragma mark - Instance Methods
 
+/**
+ Album Methods
+ */
 - (void)userAlbums;
+
 - (void)photosForAlbumWithID:(NSNumber *)albumID;
+
 - (void)photosForAlbumWithID:(NSNumber *)albumID atIndexPath:(NSIndexPath *)indexPath;
+
 - (void)newAlbumWithName:(NSString *)albumName;
+
+- (void)addPhotos:(NSArray *)photos ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
 @end

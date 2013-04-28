@@ -9,6 +9,12 @@
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 
+static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
+
+#ifdef DEBUG
+static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
+#endif
+
 @implementation SVEntityStore
 
 #pragma mark - Class Methods
@@ -19,7 +25,8 @@
     static dispatch_once_t storeQueue;
     
     dispatch_once(&storeQueue, ^{
-        entityStore = [[SVEntityStore alloc] init];
+        entityStore = [[SVEntityStore alloc] initWithBaseURL:[NSURL URLWithString:kShotVibeAPIBaseURLString]];
+        [entityStore setDefaultHeader:@"Authorization" value:kTestAuthToken];
     });
     
     return entityStore;
@@ -73,7 +80,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:@"/albums/" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
         //RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"SVAlbumsLoaded" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUserAlbumsLoadedNotification object:nil];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         
@@ -130,7 +137,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
         //RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"SVPhotosLoaded" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kPhotosLoadedNotification object:nil];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         
@@ -187,7 +194,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
         //RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"SVPhotosLoadedForIndexPath" object:indexPath];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kPhotosLoadedForIndexPathNotification object:indexPath];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         
@@ -248,5 +255,67 @@
         RKLogError(@"Load failed with error: %@", error);
         
     }];
+}
+
+
+- (void)addPhotos:(NSArray *)photos ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
+{
+    // Generate an upload photos request using: POST /photos/upload_request/?num_photos={n}
+    NSString *path = [NSString stringWithFormat:@"/photos/upload_request/?num_photos=%d", photos.count];
+    [self postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSArray *uploadRequestData = responseObject;
+        NSMutableArray *requestOperationBatch = [NSMutableArray arrayWithCapacity:uploadRequestData.count];
+        NSMutableArray *photoIds = [NSMutableArray arrayWithCapacity:uploadRequestData.count];
+        for (NSInteger index = 0; index < uploadRequestData.count; index++) {
+            
+            // Given API Response, add photos to album using: POST /albums/{aid}/
+            NSDictionary *uploadRequest = [uploadRequestData objectAtIndex:index];
+            NSString *photoId = [uploadRequest objectForKey:@"photo_id"];
+            [photoIds addObject:@{@"photo_id": photoId}];
+            
+            NSData *imageToUpload = [photos objectAtIndex:index];
+            NSString *uploadPath = [NSString stringWithFormat:@"/photos/upload/%@/", photoId];
+            NSMutableURLRequest *request = [self multipartFormRequestWithMethod:@"PUT" path:uploadPath parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+                [formData appendPartWithFileData:imageToUpload name:@"photo" fileName:@"temp.jpeg" mimeType:@"image/jpeg"];
+            }];
+            
+            AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+            [requestOperationBatch addObject:operation];
+            
+        }
+        
+        // Enque the upload batch
+        [self enqueueBatchOfHTTPRequestOperations:requestOperationBatch progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+            
+            //TODO: We need to send some progress notifications
+            CGFloat uploadProgress = numberOfFinishedOperations / totalNumberOfOperations;
+            [[NSNotificationCenter defaultCenter] postNotificationName:kUploadPhotosToAlbumProgressNotification object:[NSNumber numberWithFloat:uploadProgress]];
+            
+        } completionBlock:^(NSArray *operations) {
+            
+            // Add the photos to the album
+            NSString *addToAlbumPath = [NSString stringWithFormat:@"/albums/%@/", [albumID stringValue]];
+            [self postPath:addToAlbumPath parameters:@{@"add_photos": photoIds} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                [[SVEntityStore sharedStore] userAlbums];
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+                block(NO, error);
+                
+            }];
+            
+        }];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        block(NO, error);
+        
+    }];
+    
+    
+    
+    // If successful return the block
 }
 @end
