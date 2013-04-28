@@ -1046,7 +1046,6 @@
 		AA58FC1A16C235C800C49E02 /* button_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_base.png; sourceTree = "<group>"; };
 		AA58FC1B16C235C800C49E02 /* button_base@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_base@2x.png"; sourceTree = "<group>"; };
 		AA58FC1C16C235C800C49E02 /* cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel.png; sourceTree = "<group>"; };
-		AA58FC1E16C235C800C49E02 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/JMCLocalizable.strings; sourceTree = "<group>"; };
 		AA58FC1F16C235C800C49E02 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/JMCLocalizable.strings; sourceTree = "<group>"; };
 		AA58FC2016C235C800C49E02 /* icon_capture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_capture.png; sourceTree = "<group>"; };
 		AA58FC2116C235C800C49E02 /* icon_capture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_capture@2x.png"; sourceTree = "<group>"; };
@@ -3167,7 +3166,6 @@
 		AA58FC1D16C235C800C49E02 /* JMCLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				AA58FC1E16C235C800C49E02 /* de */,
 				AA58FC1F16C235C800C49E02 /* en */,
 			);
 			name = JMCLocalizable.strings;
