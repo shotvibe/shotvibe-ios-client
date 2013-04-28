@@ -199,6 +199,54 @@
 
 - (void)newAlbumWithName:(NSString *)albumName
 {
+    // Setup Member Mapping
+    RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    [memberMapping addAttributeMappingsFromDictionary:@{
+     @"id": @"userId",
+     @"url": @"url",
+     @"nickname": @"nickname",
+     @"avatar_url": @"avatarUrl"
+     }];
+    memberMapping.identificationAttributes = @[@"userId"];
     
+    // Setup Photo Mapping
+    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    [photoMapping addAttributeMappingsFromDictionary:@{
+     @"photo_id": @"photoId",
+     @"photo_url": @"photoUrl",
+     @"date_created": @"dateCreated",
+     }];
+    photoMapping.identificationAttributes = @[@"photoId"];
+    
+    // Setup Album Mapping
+    RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    [albumMapping addAttributeMappingsFromDictionary:@{
+     @"id": @"albumId",
+     @"url": @"url",
+     @"name": @"name",
+     @"last_updated": @"lastUpdated",
+     @"etag": @"etag"
+     }];
+    albumMapping.identificationAttributes = @[@"albumId"];
+    
+    // Relationship Connections
+    [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
+    [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
+    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];
+    
+    // Configure the response descriptor
+    RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [[RKObjectManager sharedManager] addResponseDescriptor:albumResponseDescriptor];
+    
+    // Post the albums
+    [[RKObjectManager sharedManager] postObject:nil path:@"/albums/" parameters:@{@"album_name": albumName, @"photos": [NSNull null], @"members": [NSNull null]} success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        
+        [[SVEntityStore sharedStore] userAlbums];
+        
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+       
+        RKLogError(@"Load failed with error: %@", error);
+        
+    }];
 }
 @end

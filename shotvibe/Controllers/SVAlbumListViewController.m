@@ -286,7 +286,6 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [self createNewAlbumWithTitle:textField.text];
     [self hideDropDown];
 }
 
@@ -543,7 +542,10 @@
 
 - (void)createNewAlbumWithTitle:(NSString *)title
 {
-    // TODO: Handle creation of a new album with the given title.
-    
+    if (title && title.length > 0) {
+        [[SVEntityStore sharedStore] newAlbumWithName:title];
+    } else {
+        //TODO: Alert the user that they can not create an album with no title.
+    }
 }
 @end
