@@ -46,7 +46,7 @@
     </entity>
     <elements>
         <element name="Album" positionX="-6480" positionY="-2026" width="128" height="255"/>
-        <element name="AlbumPhoto" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="AlbumPhoto" positionX="-6086" positionY="-1863" width="128" height="150"/>
         <element name="Member" positionX="-6707" positionY="-2029" width="128" height="165"/>
         <element name="Photo" positionX="-6284" positionY="-2023" width="128" height="150"/>
     </elements>

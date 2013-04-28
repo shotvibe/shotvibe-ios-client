@@ -20,4 +20,5 @@
 - (void)userAlbums;
 - (void)photosForAlbumWithID:(NSNumber *)albumID;
 - (void)photosForAlbumWithID:(NSNumber *)albumID atIndexPath:(NSIndexPath *)indexPath;
+- (void)newAlbumWithName:(NSString *)albumName;
 @end

@@ -195,4 +195,10 @@
         
     }];
 }
+
+
+- (void)newAlbumWithName:(NSString *)albumName
+{
+    
+}
 @end
