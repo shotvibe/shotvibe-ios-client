@@ -490,12 +490,13 @@
     searchShowing = YES;
     self.searchbar.hidden = NO;
     
+    [self.searchbar becomeFirstResponder];
+
     [UIView animateWithDuration:0.15 animations:^{
         self.searchbar.frame = CGRectMake(0, 0, self.searchbar.frame.size.width, self.searchbar.frame.size.height);
         self.searchbar.alpha = 1.0;
         self.viewContainer.frame = CGRectMake(0, 40, self.view.frame.size.width, self.view.frame.size.height -40);
     } completion:^(BOOL finished) {
-        [self.searchbar becomeFirstResponder];
     }];
 }
 
@@ -504,12 +505,12 @@
 {
     searchShowing = NO;
 
+    [self.searchbar resignFirstResponder];
     [UIView animateWithDuration:0.15 animations:^{
         self.searchbar.frame = CGRectMake(0, -44, self.searchbar.frame.size.width, self.searchbar.frame.size.height);
         self.searchbar.alpha = 0.0;
         self.viewContainer.frame = CGRectMake(0, -4, self.view.frame.size.width, self.view.frame.size.height+4);
     } completion:^(BOOL finished) {
-        [self.searchbar resignFirstResponder];
         self.searchbar.hidden = YES;
     }];
     
