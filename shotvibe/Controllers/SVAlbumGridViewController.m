@@ -51,6 +51,7 @@
 @implementation SVAlbumGridViewController
 {
     BOOL isMenuShowing;
+    NSMutableDictionary *photoCache;
 }
 
 
@@ -80,6 +81,8 @@
     [super viewDidLoad];
 	
     self.title = self.selectedAlbum.name;
+    
+    photoCache = [[NSMutableDictionary alloc] init];
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
@@ -229,6 +232,8 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    [photoCache removeAllObjects];
 }
 
 
@@ -272,10 +277,10 @@
     
     // Configure thumbnail
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    Photo *currentPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:index];
+    __block Photo *currentPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:index];
     
     
-    NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
+    __block NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
     networkImageView.clipsToBounds = YES;
     networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     networkImageView.backgroundColor = [UIColor clearColor];
@@ -288,28 +293,58 @@
     networkImageView.tag = index;
     [cell.contentView addSubview:networkImageView];
     
-    UIImage *offlineImage = [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photoId];
+    UIImage *cachedImage = [photoCache objectForKey:currentPhoto.photoId];
     
-    if (offlineImage) {
-        
-        float oldWidth = offlineImage.size.width;
-        float scaleFactor = networkImageView.frame.size.width / oldWidth;
-        
-        float newHeight = offlineImage.size.height * scaleFactor;
-        float newWidth = oldWidth * scaleFactor;
-        
-        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-        [offlineImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        [networkImageView setImage:newImage];
+    if (!cachedImage) {
+        [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
+            if (image) {
+                                
+                float oldWidth = image.size.width;
+                float scaleFactor = networkImageView.frame.size.width / oldWidth;
+                
+                float newHeight = image.size.height * scaleFactor;
+                float newWidth = oldWidth * scaleFactor;
+                
+                UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+                [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+                UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                [photoCache setObject:newImage forKey:currentPhoto.photoId];
+                
+                [networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:newImage waitUntilDone:NO];
+            }
+            else
+            {
+                
+                NSString *photoURL = nil;
+                
+                if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2){
+                    if (IS_IPHONE_5) {
+                        photoURL = [[currentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone5Extension];
+                    }
+                    else
+                    {
+                        photoURL = [[currentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone4Extension];
+                    }
+                }
+                else
+                {
+                    photoURL = [[currentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone3Extension];
+                }
+                
+                //
+                
+                
+                [networkImageView setPathToNetworkImage:photoURL];
+            }
+        }];
     }
     else
     {
-        [networkImageView setPathToNetworkImage:currentPhoto.photoUrl];
+        
+        [networkImageView setImage:cachedImage];
     }
-    
     
     //
     
@@ -344,47 +379,61 @@
         Photo *photoObject = (Photo *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:loadedPhoto.objectID];
         photoObject.hasViewed = [NSNumber numberWithBool:YES];
         [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext save:nil];
-        
-        [SVBusinessDelegate saveImage:image forPhoto:loadedPhoto];
+     
     }
+    [SVBusinessDelegate saveImage:image forPhoto:loadedPhoto];
+
     
-    float oldWidth = image.size.width;
-    float scaleFactor = imageView.frame.size.width / oldWidth;
+    __block UIImage *blockImage = image;
+    __block NINetworkImageView *blockImageView = imageView;
     
-    float newHeight = image.size.height * scaleFactor;
-    float newWidth = oldWidth * scaleFactor;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        float oldWidth = blockImage.size.width;
+        float scaleFactor = blockImageView.frame.size.width / oldWidth;
+        
+        float newHeight = blockImage.size.height * scaleFactor;
+        float newWidth = oldWidth * scaleFactor;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+        [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        [photoCache setObject:newImage forKey:loadedPhoto.photoId];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [imageView performSelector:@selector(setImage:) withObject:newImage afterDelay:0.1];
+
+        });
+    });
     
-    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-    [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    [imageView performSelector:@selector(setImage:) withObject:newImage afterDelay:0.1];
 }
 
 
 - (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
 {
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    Photo *failedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:imageView.tag];
+    __block Photo *failedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:imageView.tag];
     
-    UIImage *offlineImage = [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:failedPhoto.photoId];
+    [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:failedPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
+        if (image) {
+            
+            float oldWidth = image.size.width;
+             float scaleFactor = imageView.frame.size.width / oldWidth;
+             
+             float newHeight = image.size.height * scaleFactor;
+             float newWidth = oldWidth * scaleFactor;
+             
+             UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+             [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+             UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+             UIGraphicsEndImageContext();
+            
+            [imageView performSelectorOnMainThread:@selector(setImage:) withObject:newImage waitUntilDone:NO];
+        }
+    }];
     
-    if (offlineImage) {
-        
-        float oldWidth = offlineImage.size.width;
-        float scaleFactor = imageView.frame.size.width / oldWidth;
-        
-        float newHeight = offlineImage.size.height * scaleFactor;
-        float newWidth = oldWidth * scaleFactor;
-        
-        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-        [offlineImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        [imageView setImage:newImage];
-    }
+    
 }
 
 

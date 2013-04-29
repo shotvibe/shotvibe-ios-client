@@ -13,6 +13,7 @@
 #import "UINavigationController+MFSideMenu.h"
 #import "MFSideMenu.h"
 #import "Member.h"
+#import "SVBusinessDelegate.h"
 
 @interface SVAlbumDetailScrollViewController ()
 
@@ -173,12 +174,32 @@
     
     
     image = [self.highQualityImageCache objectWithName:photoIndexKey];
+    
+    if (!image) {
+        image = [SVBusinessDelegate loadImageFromAlbum:selectedAlbum withPath:photo.photoId];
+    }
     if (nil != image) {
         *photoSize = NIPhotoScrollViewPhotoSizeOriginal;
         
     } else {
-        NSString* source = photo.photoUrl;
-        [self requestImageFromSource: source
+        
+        NSString *photoURL = nil;
+        
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2){
+            if (IS_IPHONE_5) {
+                photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone5Extension];
+            }
+            else
+            {
+                photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone4Extension];
+            }
+        }
+        else
+        {
+            photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone3Extension];
+        }
+        
+        [self requestImageFromSource: photoURL
                            photoSize: NIPhotoScrollViewPhotoSizeOriginal
                           photoIndex: photoIndex];
         

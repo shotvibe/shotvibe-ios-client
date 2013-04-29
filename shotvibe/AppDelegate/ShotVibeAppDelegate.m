@@ -43,7 +43,7 @@
         [[[BITHockeyManager sharedHockeyManager] crashManager] setDelegate:self];
         [[[BITHockeyManager sharedHockeyManager] updateManager] setDelegate:self];
 #if CONFIGURATION_Release
-        [[[BITHockeyManager sharedHockeyManager] disableUpdateManager:YES]];
+        //[[[BITHockeyManager sharedHockeyManager] disableUpdateManager:YES]];
 #endif
         [[BITHockeyManager sharedHockeyManager] startManager];
     }

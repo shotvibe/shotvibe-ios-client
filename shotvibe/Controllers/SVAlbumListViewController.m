@@ -258,20 +258,20 @@
 
 - (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
 {
-    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:imageView.tag inSection:0]];
+    __block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:imageView.tag inSection:0]];
 
     NSArray *photos = [anAlbum.albumPhotos allObjects];
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:YES];
     
     NSArray *sortedPhotos = [photos sortedArrayUsingDescriptors:@[descriptor]];
     
-    AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
+    __block AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
     
-    UIImage *offlineImage = [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoUrl];
-    
-    if (offlineImage) {
-        [imageView setImage:offlineImage];
-    }
+    [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
+        if (image) {
+            [imageView setImage:image];
+        }
+    }];
 }
 
 
@@ -362,7 +362,7 @@
     // TODO: We need to configure our cell's views
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    __block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 
     
     NSArray *photos = [anAlbum.albumPhotos allObjects];
@@ -371,7 +371,7 @@
     NSArray *sortedPhotos = [photos sortedArrayUsingDescriptors:@[descriptor]];
     
     
-    AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
+    __block AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
     
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
@@ -381,6 +381,7 @@
     cell.networkImageView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.1].CGColor;
     cell.networkImageView.layer.borderWidth = 1;
     cell.networkImageView.contentMode = UIViewContentModeScaleAspectFill;
+    cell.networkImageView.clipsToBounds = YES;
     cell.networkImageView.sizeForDisplay = YES;
     cell.networkImageView.scaleOptions = NINetworkImageViewScaleToFitCropsExcess;
     cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
@@ -388,6 +389,15 @@
     cell.networkImageView.delegate = self;
     cell.networkImageView.tag = indexPath.row;
     [cell.networkImageView setPathToNetworkImage:thumbnailUrl];
+    
+    
+    [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
+        if (image)
+        {
+            [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+        }
+    }];
+    
     
     
     cell.title.text = anAlbum.name;
@@ -433,12 +443,13 @@
 - (void)fetchAlbumPhotoInfo
 {
     // Start figuring out how many new photos we have
-    NSArray *fetchedObjects = self.fetchedResultsController.fetchedObjects;
+    /*NSArray *fetchedObjects = self.fetchedResultsController.fetchedObjects;
     
     for (Album *anAlbum in fetchedObjects) {
         if (anAlbum) {
             [[SVEntityStore sharedStore] photosForAlbumWithID:anAlbum.albumId atIndexPath:[NSIndexPath indexPathForRow:[fetchedObjects indexOfObject:anAlbum] inSection:0]];
-        }    }
+        }
+    }*/
 }
 
 

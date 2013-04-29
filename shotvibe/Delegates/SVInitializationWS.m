@@ -9,8 +9,9 @@
 #import "SVDefines.h"
 
 #ifdef DEBUG
-static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
 #endif
+static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
+
 
 @interface SVInitializationWS ()
 
