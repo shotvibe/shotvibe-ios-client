@@ -27,7 +27,6 @@
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate, NINetworkImageViewDelegate>
 {
     GMGridView *_gmGridView;
-    UIPanGestureRecognizer *panGestureRecognizer;
     BOOL isPushingDetail;
 }
 
@@ -437,6 +436,27 @@
 }
 
 
+#pragma mark - UIScrollViewDelegate Methods
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if (self.sauronTheSideMenu.menuState == MFSideMenuStateClosed) {
+        // kill all the recognizers while we're scrolling content
+        while (self.navigationController.view.gestureRecognizers.count) {
+            [self.navigationController.view removeGestureRecognizer:[self.navigationController.view.gestureRecognizers objectAtIndex:0]];
+        }
+    }
+}
+
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if (self.sauronTheSideMenu.menuState == MFSideMenuStateClosed) {
+        [self.sauronTheSideMenu setupGestureRecognizers];
+    }
+}
+
+
 #pragma mark - Private Methods
 
 - (void)loadData
@@ -497,6 +517,7 @@
     
     _gmGridView.actionDelegate = self;
     _gmGridView.dataSource = self;
+    _gmGridView.delegate = self;
 }
 
 
