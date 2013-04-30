@@ -232,13 +232,13 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
     }
     
-    /*if (!isCapable) {
+    if (!isCapable) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"No Camera", @"") message:NSLocalizedString(@"We cannot find a usable camera on this device.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [alert show];
         
-     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
-    }*/
+    }
 }
 
 
