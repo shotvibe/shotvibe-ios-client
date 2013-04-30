@@ -228,14 +228,17 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     // Dismiss the view if we're done working with photos.
     if (isFinishedSelectingPhotoEarly) {
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+
     }
     
-    if (!isCapable) {
+    /*if (!isCapable) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"No Camera", @"") message:NSLocalizedString(@"We cannot find a usable camera on this device.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [alert show];
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    }
+        
+     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+
+    }*/
 }
 
 
@@ -358,8 +361,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 {
     
     [[[self captureManager] session] stopRunning];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 
