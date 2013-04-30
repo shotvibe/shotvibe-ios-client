@@ -12,7 +12,6 @@
 #import "UIImage+JMCResize.h"
 #import "SVDefines.h"
 #import "Album.h"
-#import "SVDefines.h"
 
 #define kFlashModeOff   0
 #define kFlashModeOn    1
@@ -148,9 +147,20 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 CGRect bounds = [view bounds];
                 [newCaptureVideoPreviewLayer setFrame:bounds];
                 
-                if ([newCaptureVideoPreviewLayer connection].supportsVideoOrientation) {
-                    [[newCaptureVideoPreviewLayer connection] setVideoOrientation:AVCaptureVideoOrientationPortrait];
+                if (IS_IOS6_OR_GREATER) {
+                    if ([newCaptureVideoPreviewLayer connection].supportsVideoOrientation) {
+                        [[newCaptureVideoPreviewLayer connection] setVideoOrientation:AVCaptureVideoOrientationPortrait];
+                    }
                 }
+                else
+                {
+                    if ([newCaptureVideoPreviewLayer isOrientationSupported]) {
+                        [newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationPortrait];
+                    }
+                    
+                    [newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+                }
+                
                 
                 [newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
                 
@@ -355,13 +365,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (IBAction)pickFromLibraryButtonPressed:(id)sender
 {
     // This is now used for the picture pile.
-    
-    
-    /*UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    imagePicker.delegate = self;
-    
-    [self presentViewController:imagePicker animated:YES completion:nil];*/
+
 }
 
 
@@ -438,9 +442,18 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     CGPoint pointOfInterest = CGPointMake(.5f, .5f);
     CGSize frameSize = [[self videoPreviewView] frame].size;
     
-    if ([captureVideoPreviewLayer connection].videoMirrored) {
-        viewCoordinates.x = frameSize.width - viewCoordinates.x;
-    }    
+    if (IS_IOS6_OR_GREATER) {
+        if ([captureVideoPreviewLayer connection].videoMirrored) {
+            viewCoordinates.x = frameSize.width - viewCoordinates.x;
+        }
+    }
+    else
+    {
+        if ([captureVideoPreviewLayer isMirrored]) {
+            viewCoordinates.x = frameSize.width - viewCoordinates.x;
+        }
+    }
+
     
     if ( [[captureVideoPreviewLayer videoGravity] isEqualToString:AVLayerVideoGravityResize] ) {
 		// Scale, switch x and y, and reverse x
@@ -696,49 +709,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", imagePile.count];
         [animatedImageView removeFromSuperview];
     }];
-    
-    
-    
-    // we haz image now
-    
-    // Disable overlay
-    /*self.viewfinderOverlay.hidden = YES;
-    
-    // Grab the image
-    
-    UIImage *resizedImage = [stillImage jmc_resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(self.view.bounds.size.width*2, self.view.bounds.size.height*2) interpolationQuality:kCGInterpolationHigh];
-        
-    // Crop the image
-    // location and bounds of the crop area
-    
-    CGRect rect;
-    if (IS_IPHONE_5) {
-        rect = CGRectMake(22, 236, 596, 596);
-    }
-    else
-    {
-        rect = CGRectMake(22, 144, 596, 596);
-    }
-    
-    UIGraphicsBeginImageContextWithOptions(rect.size, YES, 0.0f);
-    
-    CGRect drawRect = CGRectMake(-rect.origin.x, -rect.origin.y, resizedImage.size.width, resizedImage.size.height);
-    [resizedImage drawInRect:drawRect];
-    
-    UIImage *croppedStillImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
 
-    
-    // If we're in an area that does not require tagging of photos, send the photo to the delegate and dismiss the controller
-    if ([delegate respondsToSelector:@selector(didSelectPhoto:)]) {
-        
-        
-        [delegate didSelectPhoto:croppedStillImage];
-        
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-        return;
-    }*/
 }
 
 
