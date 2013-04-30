@@ -57,6 +57,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     BOOL memwarningDisplayed;
     BOOL topBarHidden;
     BOOL isCapable;
+    BOOL topBarDisabled;
 }
 
 #pragma mark - Properties
@@ -539,21 +540,28 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void)tapToHideUI:(UIGestureRecognizer *)gestureRecognizer
 {
-    if (topBarHidden) {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.topBarContainer.frame = CGRectMake(0, -78, 320, self.topBarContainer.frame.size.height);
-        } completion:^(BOOL finished) {
-            topBarHidden = !topBarHidden;
-        }];
+    if (!topBarDisabled) {
+        if (topBarHidden) {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.topBarContainer.frame = CGRectMake(0, 0, 320, self.topBarContainer.frame.size.height);
+            } completion:^(BOOL finished) {
+                topBarHidden = !topBarHidden;
+            }];
+        }
+        else
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.topBarContainer.frame = CGRectMake(0, -78, 320, self.topBarContainer.frame.size.height);
+            } completion:^(BOOL finished) {
+                topBarHidden = !topBarHidden;
+            }];
+        }
+        
+        if (!gestureRecognizer) {
+            topBarDisabled = YES;
+        }
     }
-    else
-    {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.topBarContainer.frame = CGRectMake(0, 0, 320, self.topBarContainer.frame.size.height);
-        } completion:^(BOOL finished) {
-            topBarHidden = !topBarHidden;
-        }];
-    }
+    
 }
 
 
@@ -583,32 +591,39 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)configureAlbumScrollView
 {
     // Create the labels
-    
-    for (NSUInteger index = 0; index < self.albums.count; index++) {
-        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(index*320, 0, 320, 32)];
-        albumLabel.backgroundColor = [UIColor clearColor];
-        
-        if (IS_IOS6_OR_GREATER) {
-            albumLabel.textAlignment = NSTextAlignmentCenter;
+    if (self.albums.count > 1) {
+        for (NSUInteger index = 0; index < self.albums.count; index++) {
+            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(index*320, 0, 320, 32)];
+            albumLabel.backgroundColor = [UIColor clearColor];
+            
+            if (IS_IOS6_OR_GREATER) {
+                albumLabel.textAlignment = NSTextAlignmentCenter;
+            }
+            else
+            {
+                albumLabel.textAlignment = UITextAlignmentCenter;
+            }
+            
+            albumLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
+            albumLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
+            albumLabel.shadowColor = [UIColor blackColor];
+            albumLabel.shadowOffset = CGSizeMake(0, 1);
+            
+            Album *currentAlbum = [self.albums objectAtIndex:index];
+            albumLabel.text = currentAlbum.name;
+            
+            [self.albumScrollView addSubview:albumLabel];
         }
-        else
-        {
-            albumLabel.textAlignment = UITextAlignmentCenter;
-        }
         
-        albumLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
-        albumLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
-        albumLabel.shadowColor = [UIColor blackColor];
-        albumLabel.shadowOffset = CGSizeMake(0, 1);
-        
-        Album *currentAlbum = [self.albums objectAtIndex:index];
-        albumLabel.text = currentAlbum.name;
-        
-        [self.albumScrollView addSubview:albumLabel];
+        [self.albumScrollView setContentSize:CGSizeMake(self.albumScrollView.frame.size.width*self.albums.count, self.albumScrollView.frame.size.height)];
+        [self.albumPageControl setNumberOfPages:self.albums.count];
+    }
+    else
+    {
+        [self tapToHideUI:nil];
     }
     
-    [self.albumScrollView setContentSize:CGSizeMake(self.albumScrollView.frame.size.width*self.albums.count, self.albumScrollView.frame.size.height)];
-    [self.albumPageControl setNumberOfPages:self.albums.count];
+    
     
     if (self.albums.count > 0) {
         selectedAlbum = [self.albums objectAtIndex:0];
