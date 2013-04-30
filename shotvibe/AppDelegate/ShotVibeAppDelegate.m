@@ -37,7 +37,7 @@
     
     // Initialize HockeyKit
     {
-        NSString *betaHockeyIdentifier = @"a37ea7130ec1b026b201b4b142461ab2";
+        NSString *betaHockeyIdentifier = @"eb37555764438faae7f78ae5543429cd";
         NSString *liveHockeyIdentifier = @"5245f5f653966a9634ced97598a82a5a";
         [[BITHockeyManager sharedHockeyManager] configureWithBetaIdentifier:betaHockeyIdentifier liveIdentifier:liveHockeyIdentifier delegate:self];
         [[[BITHockeyManager sharedHockeyManager] crashManager] setDelegate:self];
