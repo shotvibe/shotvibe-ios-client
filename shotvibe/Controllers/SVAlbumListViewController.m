@@ -131,6 +131,10 @@
 {
     [super viewDidLoad];
     
+    // When we get to the album list view we no longer need to worry about rotation blocks from logging in, switch it to allowing rotation.
+    CaptureNavigationController *navController = (CaptureNavigationController *)self.navigationController;
+    navController.allowsRotation = YES;
+    
     self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
 
     [self configureViews];
@@ -201,6 +205,12 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
 }
 
 

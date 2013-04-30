@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NINetworkImageView.h"
 
 @interface SVAlbumListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UISearchBarDelegate, NINetworkImageViewDelegate>
 
