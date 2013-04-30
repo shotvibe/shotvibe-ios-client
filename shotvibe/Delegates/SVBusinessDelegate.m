@@ -36,9 +36,20 @@
 }
 
 
++ (void)loadImageFromAlbum:(Album *)album withPath:(NSString *)path WithCompletion:(void (^)(UIImage *image, NSError *error))block
+{
+    SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
+    
+    [workerSession loadImageFromOfflineWithPath:path inAlbum:album WithCompletion:^(UIImage *image, NSError *error) {
+        block(image, nil);
+    }];
+}
+
+
 + (UIImage *)loadImageFromAlbum:(Album *)album withPath:(NSString *)path
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
+
     
     return [workerSession loadImageFromOfflineWithPath:path inAlbum:album];
 }
