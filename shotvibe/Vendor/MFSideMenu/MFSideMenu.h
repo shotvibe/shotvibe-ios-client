@@ -32,6 +32,7 @@
 
 #import "UINavigationController+MFSideMenu.h"
 
+
 static const CGFloat kMFSideMenuSidebarWidth = 260.0f; // size of the side menu(s)
 static const CGFloat kMFSideMenuShadowRadius = 10.0f; // radius of the shadow
 static const CGFloat kMFSideMenuAnimationDuration = 0.3f; // default duration for the open/close animation

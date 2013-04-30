@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04016101172F242F00DC6D8F /* cameraCaptureButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040160FF172F242F00DC6D8F /* cameraCaptureButton@2x.png */; };
+		04016102172F242F00DC6D8F /* cameraCaptureButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040160FF172F242F00DC6D8F /* cameraCaptureButton@2x.png */; };
+		04016103172F242F00DC6D8F /* cameraCaptureButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 04016100172F242F00DC6D8F /* cameraCaptureButton.png */; };
+		04016104172F242F00DC6D8F /* cameraCaptureButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 04016100172F242F00DC6D8F /* cameraCaptureButton.png */; };
 		04058B26171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */; };
 		04058B27171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */; };
 		04058B2D171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */; };
@@ -45,10 +49,6 @@
 		0426B63C1724D7CC007BAABC /* cameraTopBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62C1724D7CC007BAABC /* cameraTopBarBg.png */; };
 		0426B63D1724D7CC007BAABC /* imagePile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62D1724D7CC007BAABC /* imagePile@2x.png */; };
 		0426B63E1724D7CC007BAABC /* imagePile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62D1724D7CC007BAABC /* imagePile@2x.png */; };
-		0426B63F1724D7CC007BAABC /* cameraCaptureButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62E1724D7CC007BAABC /* cameraCaptureButton@2x.png */; };
-		0426B6401724D7CC007BAABC /* cameraCaptureButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62E1724D7CC007BAABC /* cameraCaptureButton@2x.png */; };
-		0426B6411724D7CC007BAABC /* cameraCaptureButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62F1724D7CC007BAABC /* cameraCaptureButton.png */; };
-		0426B6421724D7CC007BAABC /* cameraCaptureButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62F1724D7CC007BAABC /* cameraCaptureButton.png */; };
 		0426B6431724D7CC007BAABC /* cameraCancelButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6301724D7CC007BAABC /* cameraCancelButton@2x.png */; };
 		0426B6441724D7CC007BAABC /* cameraCancelButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6301724D7CC007BAABC /* cameraCancelButton@2x.png */; };
 		0426B6451724D7CC007BAABC /* cameraCancelButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6311724D7CC007BAABC /* cameraCancelButton.png */; };
@@ -719,6 +719,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		040160FF172F242F00DC6D8F /* cameraCaptureButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCaptureButton@2x.png"; sourceTree = "<group>"; };
+		04016100172F242F00DC6D8F /* cameraCaptureButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraCaptureButton.png; sourceTree = "<group>"; };
 		04058B24171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGeneralNotificationSettingsViewController.h; sourceTree = "<group>"; };
 		04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVGeneralNotificationSettingsViewController.m; sourceTree = "<group>"; };
 		04058B2B171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumNotificationSettingsViewController.h; sourceTree = "<group>"; };
@@ -742,8 +744,6 @@
 		0426B62B1724D7CC007BAABC /* cameraTopBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraTopBarBg@2x.png"; sourceTree = "<group>"; };
 		0426B62C1724D7CC007BAABC /* cameraTopBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraTopBarBg.png; sourceTree = "<group>"; };
 		0426B62D1724D7CC007BAABC /* imagePile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePile@2x.png"; sourceTree = "<group>"; };
-		0426B62E1724D7CC007BAABC /* cameraCaptureButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCaptureButton@2x.png"; sourceTree = "<group>"; };
-		0426B62F1724D7CC007BAABC /* cameraCaptureButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraCaptureButton.png; sourceTree = "<group>"; };
 		0426B6301724D7CC007BAABC /* cameraCancelButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCancelButton@2x.png"; sourceTree = "<group>"; };
 		0426B6311724D7CC007BAABC /* cameraCancelButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraCancelButton.png; sourceTree = "<group>"; };
 		0426B6321724D7CC007BAABC /* cameraBottomBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraBottomBarBg@2x.png"; sourceTree = "<group>"; };
@@ -1334,6 +1334,8 @@
 		043473BF1705F48C00CFE564 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				040160FF172F242F00DC6D8F /* cameraCaptureButton@2x.png */,
+				04016100172F242F00DC6D8F /* cameraCaptureButton.png */,
 				046D38421725DF1600A4007B /* 215-subscription.png */,
 				046D38431725DF1600A4007B /* 215-subscription@2x.png */,
 				0426B6571724EA41007BAABC /* cameraFlashOn@2x.png */,
@@ -1349,8 +1351,6 @@
 				0426B62B1724D7CC007BAABC /* cameraTopBarBg@2x.png */,
 				0426B62C1724D7CC007BAABC /* cameraTopBarBg.png */,
 				0426B62D1724D7CC007BAABC /* imagePile@2x.png */,
-				0426B62E1724D7CC007BAABC /* cameraCaptureButton@2x.png */,
-				0426B62F1724D7CC007BAABC /* cameraCaptureButton.png */,
 				0426B6301724D7CC007BAABC /* cameraCancelButton@2x.png */,
 				0426B6311724D7CC007BAABC /* cameraCancelButton.png */,
 				0426B6321724D7CC007BAABC /* cameraBottomBarBg@2x.png */,
@@ -2576,8 +2576,6 @@
 				0426B6391724D7CC007BAABC /* cameraTopBarBg@2x.png in Resources */,
 				0426B63B1724D7CC007BAABC /* cameraTopBarBg.png in Resources */,
 				0426B63D1724D7CC007BAABC /* imagePile@2x.png in Resources */,
-				0426B63F1724D7CC007BAABC /* cameraCaptureButton@2x.png in Resources */,
-				0426B6411724D7CC007BAABC /* cameraCaptureButton.png in Resources */,
 				0426B6431724D7CC007BAABC /* cameraCancelButton@2x.png in Resources */,
 				0426B6451724D7CC007BAABC /* cameraCancelButton.png in Resources */,
 				0426B6471724D7CC007BAABC /* cameraBottomBarBg@2x.png in Resources */,
@@ -2594,6 +2592,8 @@
 				0426B66D1724EA41007BAABC /* flipCameraButton.png in Resources */,
 				046D38441725DF1600A4007B /* 215-subscription.png in Resources */,
 				046D38461725DF1600A4007B /* 215-subscription@2x.png in Resources */,
+				04016101172F242F00DC6D8F /* cameraCaptureButton@2x.png in Resources */,
+				04016103172F242F00DC6D8F /* cameraCaptureButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2765,8 +2765,6 @@
 				0426B63A1724D7CC007BAABC /* cameraTopBarBg@2x.png in Resources */,
 				0426B63C1724D7CC007BAABC /* cameraTopBarBg.png in Resources */,
 				0426B63E1724D7CC007BAABC /* imagePile@2x.png in Resources */,
-				0426B6401724D7CC007BAABC /* cameraCaptureButton@2x.png in Resources */,
-				0426B6421724D7CC007BAABC /* cameraCaptureButton.png in Resources */,
 				0426B6441724D7CC007BAABC /* cameraCancelButton@2x.png in Resources */,
 				0426B6461724D7CC007BAABC /* cameraCancelButton.png in Resources */,
 				0426B6481724D7CC007BAABC /* cameraBottomBarBg@2x.png in Resources */,
@@ -2783,6 +2781,8 @@
 				0426B66E1724EA41007BAABC /* flipCameraButton.png in Resources */,
 				046D38451725DF1600A4007B /* 215-subscription.png in Resources */,
 				046D38471725DF1600A4007B /* 215-subscription@2x.png in Resources */,
+				04016102172F242F00DC6D8F /* cameraCaptureButton@2x.png in Resources */,
+				04016104172F242F00DC6D8F /* cameraCaptureButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

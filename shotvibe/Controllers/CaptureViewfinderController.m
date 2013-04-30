@@ -57,6 +57,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     BOOL memwarningDisplayed;
     BOOL topBarHidden;
+    BOOL isCapable;
 }
 
 #pragma mark - Properties
@@ -108,75 +109,86 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     flashMode = kFlashModeAuto;
     
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-
-    if ([device hasFlash]) {
-        [device lockForConfiguration:nil];
-        [device setFlashMode:AVCaptureFlashModeAuto];
-        [device unlockForConfiguration];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        // if so, does that camera support video?
+        NSArray *mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
+        isCapable = [mediaTypes containsObject:(NSString *)kUTTypeMovie];
     }
-    else {
-        self.flashButtonAuto.enabled = NO;
-        self.flashButtonAuto.hidden = YES;
+
+    if (isCapable) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        
+        
+        if ([device hasFlash]) {
+            [device lockForConfiguration:nil];
+            [device setFlashMode:AVCaptureFlashModeAuto];
+            [device unlockForConfiguration];
+        }
+        else {
+            self.flashButtonAuto.enabled = NO;
+            self.flashButtonAuto.hidden = YES;
+        }
+        
+        if ([self captureManager] == nil) {
+            AVCamCaptureManager *manager = [[AVCamCaptureManager alloc] init];
+            [self setCaptureManager:manager];
+            
+            [[self captureManager] setDelegate:self];
+            
+            if ([[self captureManager] setupSession]) {
+                // Create video preview layer and add it to the UI
+                AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
+                
+                self.videoPreviewView.frame = self.view.bounds;
+                
+                UIView *view = [self videoPreviewView];
+                CALayer *viewLayer = [view layer];
+                [viewLayer setMasksToBounds:YES];
+                
+                CGRect bounds = [view bounds];
+                [newCaptureVideoPreviewLayer setFrame:bounds];
+                
+                if ([newCaptureVideoPreviewLayer connection].supportsVideoOrientation) {
+                    [[newCaptureVideoPreviewLayer connection] setVideoOrientation:AVCaptureVideoOrientationPortrait];
+                }
+                
+                [newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+                
+                [viewLayer insertSublayer:newCaptureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
+                
+                [self setCaptureVideoPreviewLayer:newCaptureVideoPreviewLayer];
+                
+                // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    [[[self captureManager] session] startRunning];
+                });
+                
+                [self updateButtonStates];
+                
+                // Add a single tap gesture to focus on the point tapped, then lock focus
+                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
+                [singleTap setDelegate:self];
+                [singleTap setNumberOfTapsRequired:1];
+                [view addGestureRecognizer:singleTap];
+                
+                // Add a double tap gesture to reset the focus mode to continuous auto focus
+                UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToHideUI:)];
+                [doubleTap setDelegate:self];
+                [doubleTap setNumberOfTapsRequired:2];
+                [singleTap requireGestureRecognizerToFail:doubleTap];
+                [view addGestureRecognizer:doubleTap];
+                
+                UITapGestureRecognizer *tripleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToContinouslyAutoFocus:)];
+                [tripleTap setDelegate:self];
+                [tripleTap setNumberOfTapsRequired:3];
+                [singleTap requireGestureRecognizerToFail:tripleTap];
+                [doubleTap requireGestureRecognizerToFail:tripleTap];
+                [view addGestureRecognizer:tripleTap];
+            }		
+        }
     }
     
-	if ([self captureManager] == nil) {
-		AVCamCaptureManager *manager = [[AVCamCaptureManager alloc] init];
-		[self setCaptureManager:manager];
-		
-		[[self captureManager] setDelegate:self];
-        
-		if ([[self captureManager] setupSession]) {
-            // Create video preview layer and add it to the UI
-			AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
-            
-            self.videoPreviewView.frame = self.view.bounds;
-            
-			UIView *view = [self videoPreviewView];
-			CALayer *viewLayer = [view layer];
-			[viewLayer setMasksToBounds:YES];
-			
-			CGRect bounds = [view bounds];
-			[newCaptureVideoPreviewLayer setFrame:bounds];
-			
-			if ([newCaptureVideoPreviewLayer connection].supportsVideoOrientation) {
-				[[newCaptureVideoPreviewLayer connection] setVideoOrientation:AVCaptureVideoOrientationPortrait];
-			}
-			
-			[newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-			
-			[viewLayer insertSublayer:newCaptureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
-			
-			[self setCaptureVideoPreviewLayer:newCaptureVideoPreviewLayer];
-			
-            // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
-			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-				[[[self captureManager] session] startRunning];
-			});
-						
-            [self updateButtonStates];
-            
-            // Add a single tap gesture to focus on the point tapped, then lock focus
-			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
-			[singleTap setDelegate:self];
-			[singleTap setNumberOfTapsRequired:1];
-			[view addGestureRecognizer:singleTap];
-			
-            // Add a double tap gesture to reset the focus mode to continuous auto focus
-			UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToHideUI:)];
-			[doubleTap setDelegate:self];
-			[doubleTap setNumberOfTapsRequired:2];
-			[singleTap requireGestureRecognizerToFail:doubleTap];
-			[view addGestureRecognizer:doubleTap];
-            
-            UITapGestureRecognizer *tripleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToContinouslyAutoFocus:)];
-            [tripleTap setDelegate:self];
-            [tripleTap setNumberOfTapsRequired:3];
-            [singleTap requireGestureRecognizerToFail:tripleTap];
-            [doubleTap requireGestureRecognizerToFail:tripleTap];
-            [view addGestureRecognizer:tripleTap];
-		}		
-	}
+    
     
     [super viewDidLoad];
 }
@@ -188,10 +200,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     [self.navigationController setNavigationBarHidden:YES];
     
-    if ([self captureManager] != nil) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[[self captureManager] session] startRunning];
-        });
+    if (isCapable) {
+        if ([self captureManager] != nil) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [[[self captureManager] session] startRunning];
+            });
+        }
     }
 }
 
@@ -205,6 +219,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     if (isFinishedSelectingPhotoEarly) {
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
+    
+    if (!isCapable) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"No Camera", @"") message:NSLocalizedString(@"We cannot find a usable camera on this device.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        [alert show];
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 
@@ -212,7 +232,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 {
     [super viewDidDisappear:animated];
     
-    [[[self captureManager] session] stopRunning];
+    if (isCapable) {
+        [[[self captureManager] session] stopRunning];
+    }
 }
 
 

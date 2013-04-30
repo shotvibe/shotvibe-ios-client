@@ -8,6 +8,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 #import "SVDefines.h"
+#import "SVAlbumGridViewController.h"
 
 typedef enum {
     MFSideMenuPanDirectionNone,
@@ -292,6 +293,7 @@ typedef enum {
 }
 
 - (void) handleRightPan:(UIPanGestureRecognizer *)recognizer {
+    
     UIView *view = self.rootViewController.view;
     
     CGPoint translatedPoint = [recognizer translationInView:view];
@@ -307,9 +309,10 @@ typedef enum {
         // we are opening the menu
         [self.menuContainerView bringSubviewToFront:self.leftSideMenuViewController.view];
         translatedPoint.x = MAX(translatedPoint.x, 0);
+        
     }
     
-    [self setRootControllerOffset:translatedPoint.x];
+    //[self setRootControllerOffset:translatedPoint.x];
     
     if(recognizer.state == UIGestureRecognizerStateEnded) {
         CGPoint velocity = [recognizer velocityInView:view];
@@ -322,21 +325,22 @@ typedef enum {
                 self.panGestureVelocity = velocity.x;
                 [self setMenuState:MFSideMenuStateLeftMenuOpen];
             } else {
-                self.panGestureVelocity = 0;
+                /*self.panGestureVelocity = 0;
                 [UIView beginAnimations:nil context:NULL];
                 [self setRootControllerOffset:0];
-                [UIView commitAnimations];
+                [UIView commitAnimations];*/
             }
         } else {
             BOOL hideMenu = (finalX > adjustedOrigin.x);
             if(hideMenu) {
                 self.panGestureVelocity = velocity.x;
                 [self setMenuState:MFSideMenuStateClosed];
+                
             } else {
-                self.panGestureVelocity = 0;
+                /*self.panGestureVelocity = 0;
                 [UIView beginAnimations:nil context:NULL];
                 [self setRootControllerOffset:adjustedOrigin.x];
-                [UIView commitAnimations];
+                [UIView commitAnimations];*/
             }
         }
         
@@ -345,6 +349,7 @@ typedef enum {
 }
 
 - (void) handleLeftPan:(UIPanGestureRecognizer *)recognizer {
+    
     UIView *view = self.rootViewController.view;
     
     CGPoint translatedPoint = [recognizer translationInView:view];
@@ -362,7 +367,7 @@ typedef enum {
         translatedPoint.x = MIN(translatedPoint.x, 0);
     }
     
-    [self setRootControllerOffset:translatedPoint.x];
+    //[self setRootControllerOffset:translatedPoint.x];
     
 	if(recognizer.state == UIGestureRecognizerStateEnded) {
         CGPoint velocity = [recognizer velocityInView:view];
@@ -375,10 +380,10 @@ typedef enum {
                 self.panGestureVelocity = velocity.x;
                 [self setMenuState:MFSideMenuStateRightMenuOpen];
             } else {
-                self.panGestureVelocity = 0;
+                /*self.panGestureVelocity = 0;
                 [UIView beginAnimations:nil context:NULL];
                 [self setRootControllerOffset:0];
-                [UIView commitAnimations];
+                [UIView commitAnimations];*/
             }
         } else {
             BOOL hideMenu = (finalX < adjustedOrigin.x);
@@ -386,10 +391,10 @@ typedef enum {
                 self.panGestureVelocity = velocity.x;
                 [self setMenuState:MFSideMenuStateClosed];
             } else {
-                self.panGestureVelocity = 0;
+                /*self.panGestureVelocity = 0;
                 [UIView beginAnimations:nil context:NULL];
                 [self setRootControllerOffset:adjustedOrigin.x];
-                [UIView commitAnimations];
+                [UIView commitAnimations];*/
             }
         }
 	}
