@@ -10,4 +10,6 @@
 
 @interface CaptureNavigationController : UINavigationController
 
+@property (nonatomic, assign) BOOL allowsRotation;
+
 @end

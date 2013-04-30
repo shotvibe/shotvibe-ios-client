@@ -801,6 +801,30 @@
 		04C407E2173032B200973BC0 /* continueButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D7173032B200973BC0 /* continueButton@2x.png */; };
 		04C407E3173032B200973BC0 /* continueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D8173032B200973BC0 /* continueButton.png */; };
 		04C407E4173032B200973BC0 /* continueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D8173032B200973BC0 /* continueButton.png */; };
+		04C407E817303EB100973BC0 /* SVRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407E717303EB100973BC0 /* SVRegistrationViewController.m */; };
+		04C407E917303EB100973BC0 /* SVRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407E717303EB100973BC0 /* SVRegistrationViewController.m */; };
+		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
+		04C407ED17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
+		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
+		04C407EF17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
+		04C407FC17305E7C00973BC0 /* NBNumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F217305E7C00973BC0 /* NBNumberFormat.m */; };
+		04C407FD17305E7C00973BC0 /* NBNumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F217305E7C00973BC0 /* NBNumberFormat.m */; };
+		04C407FE17305E7C00973BC0 /* NBPhoneMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F417305E7C00973BC0 /* NBPhoneMetaData.m */; };
+		04C407FF17305E7C00973BC0 /* NBPhoneMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F417305E7C00973BC0 /* NBPhoneMetaData.m */; };
+		04C4080017305E7C00973BC0 /* NBPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F617305E7C00973BC0 /* NBPhoneNumber.m */; };
+		04C4080117305E7C00973BC0 /* NBPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F617305E7C00973BC0 /* NBPhoneNumber.m */; };
+		04C4080217305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F917305E7C00973BC0 /* NBPhoneNumberDesc.m */; };
+		04C4080317305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F917305E7C00973BC0 /* NBPhoneNumberDesc.m */; };
+		04C4080417305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407FB17305E7C00973BC0 /* NBPhoneNumberUtil.m */; };
+		04C4080517305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407FB17305E7C00973BC0 /* NBPhoneNumberUtil.m */; };
+		04C4080817305E9400973BC0 /* NBPhoneNumberMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080617305E9400973BC0 /* NBPhoneNumberMetadata.plist */; };
+		04C4080917305E9400973BC0 /* NBPhoneNumberMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080617305E9400973BC0 /* NBPhoneNumberMetadata.plist */; };
+		04C4080A17305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080717305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist */; };
+		04C4080B17305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080717305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist */; };
+		04C4080E1730619700973BC0 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080C1730619700973BC0 /* LICENSE */; };
+		04C4080F1730619700973BC0 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080C1730619700973BC0 /* LICENSE */; };
+		04C408101730619700973BC0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080D1730619700973BC0 /* README.md */; };
+		04C408111730619700973BC0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080D1730619700973BC0 /* README.md */; };
 		04CD9C7916CDC6FF00FC72B3 /* GMGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD9C6F16CDC6FF00FC72B3 /* GMGridView.m */; };
 		04CD9C7A16CDC6FF00FC72B3 /* GMGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD9C6F16CDC6FF00FC72B3 /* GMGridView.m */; };
 		04CD9C7B16CDC6FF00FC72B3 /* GMGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD9C7216CDC6FF00FC72B3 /* GMGridViewCell.m */; };
@@ -1651,6 +1675,25 @@
 		04C407D6173032B200973BC0 /* phoneNumberContainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoneNumberContainer.png; sourceTree = "<group>"; };
 		04C407D7173032B200973BC0 /* continueButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "continueButton@2x.png"; sourceTree = "<group>"; };
 		04C407D8173032B200973BC0 /* continueButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = continueButton.png; sourceTree = "<group>"; };
+		04C407E617303EB100973BC0 /* SVRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRegistrationViewController.h; sourceTree = "<group>"; };
+		04C407E717303EB100973BC0 /* SVRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRegistrationViewController.m; sourceTree = "<group>"; };
+		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
+		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
+		04C407F117305E7C00973BC0 /* NBNumberFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBNumberFormat.h; sourceTree = "<group>"; };
+		04C407F217305E7C00973BC0 /* NBNumberFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBNumberFormat.m; sourceTree = "<group>"; };
+		04C407F317305E7C00973BC0 /* NBPhoneMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneMetaData.h; sourceTree = "<group>"; };
+		04C407F417305E7C00973BC0 /* NBPhoneMetaData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneMetaData.m; sourceTree = "<group>"; };
+		04C407F517305E7C00973BC0 /* NBPhoneNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumber.h; sourceTree = "<group>"; };
+		04C407F617305E7C00973BC0 /* NBPhoneNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumber.m; sourceTree = "<group>"; };
+		04C407F717305E7C00973BC0 /* NBPhoneNumberDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberDefines.h; sourceTree = "<group>"; };
+		04C407F817305E7C00973BC0 /* NBPhoneNumberDesc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberDesc.h; sourceTree = "<group>"; };
+		04C407F917305E7C00973BC0 /* NBPhoneNumberDesc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumberDesc.m; sourceTree = "<group>"; };
+		04C407FA17305E7C00973BC0 /* NBPhoneNumberUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberUtil.h; sourceTree = "<group>"; };
+		04C407FB17305E7C00973BC0 /* NBPhoneNumberUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumberUtil.m; sourceTree = "<group>"; };
+		04C4080617305E9400973BC0 /* NBPhoneNumberMetadata.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = NBPhoneNumberMetadata.plist; sourceTree = "<group>"; };
+		04C4080717305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = NBPhoneNumberMetadataForTesting.plist; sourceTree = "<group>"; };
+		04C4080C1730619700973BC0 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		04C4080D1730619700973BC0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		04CD9C6D16CDC6FF00FC72B3 /* GMGridView-Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GMGridView-Constants.h"; sourceTree = "<group>"; };
 		04CD9C6E16CDC6FF00FC72B3 /* GMGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMGridView.h; sourceTree = "<group>"; };
 		04CD9C6F16CDC6FF00FC72B3 /* GMGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMGridView.m; sourceTree = "<group>"; };
@@ -2106,6 +2149,8 @@
 			isa = PBXGroup;
 			children = (
 				04C404E71730303500973BC0 /* Flags */,
+				04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */,
+				04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */,
 				04C407D3173032B200973BC0 /* phoneNumberField@2x.png */,
 				04C407D4173032B200973BC0 /* phoneNumberField.png */,
 				04C407D5173032B200973BC0 /* phoneNumberContainer@2x.png */,
@@ -2511,6 +2556,37 @@
 			path = Flags;
 			sourceTree = "<group>";
 		};
+		04C407E517303E9200973BC0 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				04C407E617303EB100973BC0 /* SVRegistrationViewController.h */,
+				04C407E717303EB100973BC0 /* SVRegistrationViewController.m */,
+			);
+			name = Registration;
+			sourceTree = "<group>";
+		};
+		04C407F017305E4C00973BC0 /* libPhoneNumber */ = {
+			isa = PBXGroup;
+			children = (
+				04C4080C1730619700973BC0 /* LICENSE */,
+				04C4080D1730619700973BC0 /* README.md */,
+				04C407F117305E7C00973BC0 /* NBNumberFormat.h */,
+				04C407F217305E7C00973BC0 /* NBNumberFormat.m */,
+				04C407F317305E7C00973BC0 /* NBPhoneMetaData.h */,
+				04C407F417305E7C00973BC0 /* NBPhoneMetaData.m */,
+				04C407F517305E7C00973BC0 /* NBPhoneNumber.h */,
+				04C407F617305E7C00973BC0 /* NBPhoneNumber.m */,
+				04C407F717305E7C00973BC0 /* NBPhoneNumberDefines.h */,
+				04C407F817305E7C00973BC0 /* NBPhoneNumberDesc.h */,
+				04C407F917305E7C00973BC0 /* NBPhoneNumberDesc.m */,
+				04C407FA17305E7C00973BC0 /* NBPhoneNumberUtil.h */,
+				04C407FB17305E7C00973BC0 /* NBPhoneNumberUtil.m */,
+				04C4080617305E9400973BC0 /* NBPhoneNumberMetadata.plist */,
+				04C4080717305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist */,
+			);
+			path = libPhoneNumber;
+			sourceTree = "<group>";
+		};
 		04CD9C6C16CDC6FF00FC72B3 /* GMGridView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2762,6 +2838,7 @@
 				04CD9C6C16CDC6FF00FC72B3 /* GMGridView */,
 				AA58FB7A16C230DE00C49E02 /* HockeySDK */,
 				AA58FB9616C235C800C49E02 /* JMC */,
+				04C407F017305E4C00973BC0 /* libPhoneNumber */,
 				04734F2A16CF104F003F729B /* MFSideMenu */,
 				AA1287A516CB8339002AC699 /* Nimbus */,
 			);
@@ -3327,6 +3404,7 @@
 		AAF05CD216CB287F005BCFD3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				04C407E517303E9200973BC0 /* Registration */,
 				AA12881316CB8774002AC699 /* Albums */,
 				AA78D2B617172C26006E1240 /* Camera */,
 				AA78D2B717172C2B006E1240 /* Settings */,
@@ -3895,6 +3973,12 @@
 				04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */,
 				04C407E1173032B200973BC0 /* continueButton@2x.png in Resources */,
 				04C407E3173032B200973BC0 /* continueButton.png in Resources */,
+				04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */,
+				04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */,
+				04C4080817305E9400973BC0 /* NBPhoneNumberMetadata.plist in Resources */,
+				04C4080A17305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist in Resources */,
+				04C4080E1730619700973BC0 /* LICENSE in Resources */,
+				04C408101730619700973BC0 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4340,6 +4424,12 @@
 				04C407E0173032B200973BC0 /* phoneNumberContainer.png in Resources */,
 				04C407E2173032B200973BC0 /* continueButton@2x.png in Resources */,
 				04C407E4173032B200973BC0 /* continueButton.png in Resources */,
+				04C407ED17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */,
+				04C407EF17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */,
+				04C4080917305E9400973BC0 /* NBPhoneNumberMetadata.plist in Resources */,
+				04C4080B17305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist in Resources */,
+				04C4080F1730619700973BC0 /* LICENSE in Resources */,
+				04C408111730619700973BC0 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4526,6 +4616,12 @@
 				0426B6801724EC26007BAABC /* AVCamUtilities.m in Sources */,
 				0426B6871724F574007BAABC /* CaptureNavigationController.m in Sources */,
 				04C404E21730301500973BC0 /* CountryPicker.m in Sources */,
+				04C407E817303EB100973BC0 /* SVRegistrationViewController.m in Sources */,
+				04C407FC17305E7C00973BC0 /* NBNumberFormat.m in Sources */,
+				04C407FE17305E7C00973BC0 /* NBPhoneMetaData.m in Sources */,
+				04C4080017305E7C00973BC0 /* NBPhoneNumber.m in Sources */,
+				04C4080217305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */,
+				04C4080417305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4675,6 +4771,12 @@
 				0426B6811724EC26007BAABC /* AVCamUtilities.m in Sources */,
 				0426B6881724F574007BAABC /* CaptureNavigationController.m in Sources */,
 				04C404E31730301500973BC0 /* CountryPicker.m in Sources */,
+				04C407E917303EB100973BC0 /* SVRegistrationViewController.m in Sources */,
+				04C407FD17305E7C00973BC0 /* NBNumberFormat.m in Sources */,
+				04C407FF17305E7C00973BC0 /* NBPhoneMetaData.m in Sources */,
+				04C4080117305E7C00973BC0 /* NBPhoneNumber.m in Sources */,
+				04C4080317305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */,
+				04C4080517305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
