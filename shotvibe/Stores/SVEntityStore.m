@@ -266,7 +266,13 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     NSString *path = [NSString stringWithFormat:@"/photos/upload_request/?num_photos=%d", photos.count];
     [self postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSArray *uploadRequestData = responseObject;
+        // You have to serialize the response object first!
+        NSData *responseData = (NSData *)responseObject;
+        
+        id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+        
+        
+        NSArray *uploadRequestData = (NSArray *)json;
         NSMutableArray *requestOperationBatch = [NSMutableArray arrayWithCapacity:uploadRequestData.count];
         NSMutableArray *photoIds = [NSMutableArray arrayWithCapacity:uploadRequestData.count];
         for (NSInteger index = 0; index < uploadRequestData.count; index++) {
@@ -293,6 +299,10 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
             //TODO: We need to send some progress notifications
             CGFloat uploadProgress = numberOfFinishedOperations / totalNumberOfOperations;
             [[NSNotificationCenter defaultCenter] postNotificationName:kUploadPhotosToAlbumProgressNotification object:[NSNumber numberWithFloat:uploadProgress]];
+            
+            if (uploadProgress >= 1.0) {
+                block(YES, nil);
+            }
             
         } completionBlock:^(NSArray *operations) {
             
