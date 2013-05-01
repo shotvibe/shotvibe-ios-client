@@ -12,6 +12,7 @@
 #import "UIImage+JMCResize.h"
 #import "SVDefines.h"
 #import "Album.h"
+#import "CaptureSelectImagesViewController.h"
 
 #define kFlashModeOff   0
 #define kFlashModeOn    1
@@ -101,7 +102,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)viewDidLoad
 {
     
-    self.title = @"BACK";
+    self.title = NSLocalizedString(@"Back", @"");
     
     [self configureAlbumScrollView];
     
@@ -370,7 +371,11 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (IBAction)pickFromLibraryButtonPressed:(id)sender
 {
     // This is now used for the picture pile.
-
+    CaptureSelectImagesViewController *imageSelectorController = [[CaptureSelectImagesViewController alloc] initWithNibName:@"CaptureSelectImagesViewController" bundle:[NSBundle mainBundle]];
+    imageSelectorController.takenPhotos = [[NSArray alloc] initWithArray:imagePile];
+    imageSelectorController.selectedAlbum = selectedAlbum;
+    
+    [self.navigationController pushViewController:imageSelectorController animated:YES];
 }
 
 

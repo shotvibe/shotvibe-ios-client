@@ -89,7 +89,6 @@
                     <connections>
                         <outlet property="gridviewContainer" destination="AT7-8R-Xbr" id="98f-ut-t31"/>
                         <segue destination="ziD-RB-hWf" kind="modal" identifier="AddFriendsSegue" id="SAN-qU-tPE"/>
-                        <segue destination="hvf-QA-zhN" kind="modal" identifier="AlbumSettingsSegue" id="wGz-Bv-Cvv"/>
                         <segue destination="iaH-KR-Jb7" kind="push" identifier="SettingsSegue" id="GNk-PU-TA4"/>
                     </connections>
                 </viewController>
@@ -743,21 +742,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             <point key="canvasLocation" x="-114" y="-626"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="y8I-Q9-LPQ">
-            <objects>
-                <navigationController definesPresentationContext="YES" id="hvf-QA-zhN" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9d7-1X-bbm">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="VXh-Eb-gqf" kind="relationship" relationship="rootViewController" id="iDo-Qb-qtX"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VQf-cA-Car" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="322" y="-1297"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="jHK-nQ-yGy">
             <objects>
                 <navigationController definesPresentationContext="YES" id="ziD-RB-hWf" sceneMemberID="viewController">
@@ -1083,33 +1067,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hct-8H-9rr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-573" y="51"/>
-        </scene>
-        <!--Album Info View Controller - Album Settings-->
-        <scene sceneID="HpX-yD-B2o">
-            <objects>
-                <viewController id="VXh-Eb-gqf" customClass="SVAlbumInfoViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="xn1-IB-LGo">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="mainBg.png" id="hh8-uM-0Bz">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Album Settings" id="hsB-MH-ZXV">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="ndn-g4-IS0">
-                            <connections>
-                                <action selector="donePressed:" destination="VXh-Eb-gqf" id="d1u-1j-nUn"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8Af-4n-4UZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="734" y="-1297"/>
         </scene>
         <!--About View Controller - About-->
         <scene sceneID="F4M-1j-iHW">
@@ -2286,12 +2243,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                 <relationship kind="action" name="homePressed:"/>
                 <relationship kind="action" name="takePicturePressed:"/>
                 <relationship kind="outlet" name="gridviewContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumInfoViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumInfoViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="donePressed:"/>
             </relationships>
         </class>
         <class className="SVAlbumListViewCell" superclassName="UITableViewCell">
