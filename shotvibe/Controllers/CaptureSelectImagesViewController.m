@@ -235,10 +235,10 @@
     GMGridView *gmGridView = [[GMGridView alloc] initWithFrame:self.view.bounds];
     gmGridView.autoresizingMask = UIViewAutoresizingFlexibleDimensions | UIViewAutoresizingFlexibleMargins;
     gmGridView.backgroundColor = [UIColor clearColor];
-    gmGridView.centerGrid = YES;
+    gmGridView.centerGrid = NO;
     
     [gmGridView setItemSpacing:7];
-    [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(7, 0, 7, 0)];
+    [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(7, 7, 7, 7)];
     
     _gmGridView = gmGridView;
     
