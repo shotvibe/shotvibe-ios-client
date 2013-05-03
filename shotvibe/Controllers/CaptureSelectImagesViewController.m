@@ -11,6 +11,7 @@
 #import "GMGridView.h"
 #import "Album.h"
 #import "SVEntityStore.h"
+#import "ALAssetsLibrary+helper.h"
 
 @interface CaptureSelectImagesViewController () <GMGridViewDataSource, GMGridViewActionDelegate>
 {
@@ -23,8 +24,7 @@
 
 - (void)doneButtonPressed;
 - (void)configureGridview;
-- (NSArray *)packageSelectedPhotos;
-
+- (void)packageSelectedPhotos:(void (^)(NSArray *selectedPhotoPaths, NSError *error))block;
 @end
 
 @implementation CaptureSelectImagesViewController
@@ -53,7 +53,13 @@
     
     selectedPhotos = [[NSMutableArray alloc] init];
     
-    self.title = NSLocalizedString(@"Select To Upload", @"");
+    if (self.selectedGroup) {
+        self.title = [self.selectedGroup valueForProperty:ALAssetsGroupPropertyName];
+    }
+    else
+    {
+        self.title = NSLocalizedString(@"Select To Upload", @"");
+    }
     
     self.doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(doneButtonPressed)];
     self.navigationItem.rightBarButtonItem = self.doneButton;
@@ -66,7 +72,12 @@
     [self.navigationController setNavigationBarHidden:NO];
 
     [self configureGridview];
+}
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 
@@ -97,11 +108,12 @@
     
     CGSize size = [self GMGridView:gridView sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
-    GMGridViewCell *cell = [gridView dequeueReusableCell];
+    GMGridViewCell *cell = [gridView dequeueReusableCellWithIdentifier:@"GridCell"]; //[gridView dequeueReusableCell];
     
     if (!cell)
     {
         cell = [[GMGridViewCell alloc] init];
+        cell.reuseIdentifier = @"GridCell";
     }
     
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -112,26 +124,35 @@
     
     cell.contentView = view;
         
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:view.frame];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:view.bounds];
     
+    if (self.selectedGroup) {
+        
+        ALAsset *asset = [self.takenPhotos objectAtIndex:index];
+        imageView.image = [UIImage imageWithCGImage:asset.thumbnail];
 
-    UIImage *image = [UIImage imageWithContentsOfFile:[self.takenPhotos objectAtIndex:index]];
-    
-    float oldWidth = image.size.width;
-    float scaleFactor = imageView.frame.size.width / oldWidth;
-    
-    float newHeight = image.size.height * scaleFactor;
-    float newWidth = oldWidth * scaleFactor;
-    
-    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-    [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    imageView.image = newImage;
+    }
+    else
+    {
+        UIImage *image = [UIImage imageWithContentsOfFile:[self.takenPhotos objectAtIndex:index]];
+        
+        float oldWidth = image.size.width;
+        float scaleFactor = imageView.frame.size.width / oldWidth;
+        
+        float newHeight = image.size.height * scaleFactor;
+        float newWidth = oldWidth * scaleFactor;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+        [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        imageView.image = newImage;
+        
+    }
     
     [cell.contentView addSubview:imageView];
-    
+
     
     // Configure the selection icon
     
@@ -147,7 +168,7 @@
     selectedIcon.frame = CGRectMake(imageView.frame.size.width - selectedIcon.bounds.size.width - 5, imageView.frame.size.height - selectedIcon.bounds.size.height - 5, selectedIcon.frame.size.width, selectedIcon.frame.size.height);
     
     [cell.contentView addSubview:selectedIcon];
-    
+        
     return cell;
 }
 
@@ -179,25 +200,26 @@
 
 - (void)doneButtonPressed
 {
-    // TODO: Handle submitting the photos
     
-    NSArray *selectedPhotoData = [self packageSelectedPhotos];
-    
-    self.doneButton.enabled = NO;
-    
-    [[SVEntityStore sharedStore] addPhotos:selectedPhotoData ToAlbumWithID:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error) {
-        if (!error) {
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-        }
-        else
-        {
-            UIAlertView *uploadErrorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Network Error", @"") message:NSLocalizedString(@"Something went wrong uploading your photos. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-            
-            [uploadErrorAlert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
-            
-            self.doneButton.enabled = YES;
-        }
+    [self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error) {
+        self.doneButton.enabled = NO;
+        
+        [[SVEntityStore sharedStore] addPhotos:selectedPhotoPaths ToAlbumWithID:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error) {
+            if (!error) {
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+            }
+            else
+            {
+                UIAlertView *uploadErrorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Network Error", @"") message:NSLocalizedString(@"Something went wrong uploading your photos. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+                
+                [uploadErrorAlert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+                
+                self.doneButton.enabled = YES;
+            }
+        }];
     }];
+    
+
 }
 
 
@@ -210,37 +232,70 @@
         _gmGridView = nil;
     }
     
-    GMGridView *gmGridView = [[GMGridView alloc] initWithFrame:self.gridviewContainer.bounds];
-    gmGridView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    GMGridView *gmGridView = [[GMGridView alloc] initWithFrame:self.view.bounds];
+    gmGridView.autoresizingMask = UIViewAutoresizingFlexibleDimensions | UIViewAutoresizingFlexibleMargins;
     gmGridView.backgroundColor = [UIColor clearColor];
     gmGridView.centerGrid = NO;
     
     [gmGridView setItemSpacing:7];
     [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(7, 7, 7, 7)];
     
-    [self.gridviewContainer addSubview:gmGridView];
     _gmGridView = gmGridView;
     
-    _gmGridView.actionDelegate = self;
     _gmGridView.dataSource = self;
+    _gmGridView.actionDelegate = self;
 
+    [self.view addSubview:_gmGridView];
+    
+    
     [_gmGridView reloadData];
+    
+    _gmGridView.dataSource = self;
 }
 
 
-- (NSArray *)packageSelectedPhotos
+- (void)packageSelectedPhotos:(void (^)(NSArray *selectedPhotoPaths, NSError *error))block
 {
     NSMutableArray *selectedPhotoPaths = [[NSMutableArray alloc] init];
+    NSUInteger assetCount = 0;
     
-    for (NSString *selectedPhotoPath in selectedPhotos) {
-        NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
+    if (self.selectedGroup) {
         
-        if (photoData) {
-            [selectedPhotoPaths addObject:photoData];
+        for (ALAsset *asset in selectedPhotos) {
+            ALAssetRepresentation *rep = [asset defaultRepresentation];
+            Byte *buffer = (Byte*)malloc(rep.size);
+            NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
+            NSData *data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+            
+            if (data) {
+                [selectedPhotoPaths addObject:data];
+            }
+            
+            assetCount++;
+            
+            if (assetCount >= selectedPhotos.count) {
+                block(selectedPhotoPaths, nil);
+            }
+
+        }
+    }
+    else
+    {
+        for (NSString *selectedPhotoPath in selectedPhotos) {
+            NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
+            
+            if (photoData) {
+                [selectedPhotoPaths addObject:photoData];
+            }
+            
+            assetCount++;
+            
+            if (assetCount >= selectedPhotos.count) {
+                block(selectedPhotoPaths, nil);
+            }
         }
     }
     
-    return selectedPhotoPaths;
 }
 
 @end

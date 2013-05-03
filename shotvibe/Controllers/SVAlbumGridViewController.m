@@ -22,6 +22,7 @@
 #import "SVSettingsViewController.h"
 #import "CaptureNavigationController.h"
 #import "CaptureViewfinderController.h"
+#import "SVImagePickerListViewController.h"
 
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate, NINetworkImageViewDelegate>
@@ -43,7 +44,6 @@
 - (void)backButtonPressed;
 - (IBAction)homePressed:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
-
 
 @end
 
@@ -215,6 +215,13 @@
     if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
         SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
         destination.currentAlbum = self.selectedAlbum;
+    }
+    else if ([segue.identifier isEqualToString:@"ImagePickerSegue"])
+    {
+        UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+        
+        SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+        destination.selectedAlbum = self.selectedAlbum;
     }
 }
 

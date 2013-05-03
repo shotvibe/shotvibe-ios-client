@@ -29,6 +29,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     dispatch_once(&storeQueue, ^{
         entityStore = [[SVEntityStore alloc] initWithBaseURL:[NSURL URLWithString:kShotVibeAPIBaseURLString]];
         [entityStore setDefaultHeader:@"Authorization" value:kTestAuthToken];
+        [entityStore setParameterEncoding:AFJSONParameterEncoding];
     });
     
     return entityStore;
@@ -284,7 +285,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
             
             NSData *imageToUpload = [photos objectAtIndex:index];
             NSString *uploadPath = [NSString stringWithFormat:@"/photos/upload/%@/", photoId];
-            NSMutableURLRequest *request = [self multipartFormRequestWithMethod:@"PUT" path:uploadPath parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+            NSMutableURLRequest *request = [self multipartFormRequestWithMethod:@"POST" path:uploadPath parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
                 [formData appendPartWithFileData:imageToUpload name:@"photo" fileName:@"temp.jpeg" mimeType:@"image/jpeg"];
             }];
             
@@ -308,6 +309,9 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
             
             // Add the photos to the album
             NSString *addToAlbumPath = [NSString stringWithFormat:@"/albums/%@/", [albumID stringValue]];
+            
+            NSLog(@"%@", [@{@"add_photos": photoIds} description]);
+            
             [self postPath:addToAlbumPath parameters:@{@"add_photos": photoIds} success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 
                 [[SVEntityStore sharedStore] userAlbums];

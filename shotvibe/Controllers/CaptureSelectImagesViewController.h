@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <AssetsLibrary/AssetsLibrary.h>
 #import <UIKit/UIKit.h>
 
 @class Album;
@@ -14,4 +15,5 @@
 
 @property (nonatomic, strong) NSArray *takenPhotos;
 @property (nonatomic, strong) Album *selectedAlbum;
+@property (nonatomic, strong) ALAssetsGroup *selectedGroup;
 @end
