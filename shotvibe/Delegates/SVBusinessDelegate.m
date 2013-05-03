@@ -8,6 +8,7 @@
 
 #import "SVBusinessDelegate.h"
 #import "SVOfflineStorageWS.h"
+#import "SVAssetRetrievalWS.h"
 #import "Photo.h"
 
 @implementation SVBusinessDelegate
@@ -53,5 +54,28 @@
     
     return [workerSession loadImageFromOfflineWithPath:path inAlbum:album];
 }
+
+
++ (void)loadAllLocalAlbumsOnDeviceWithCompletion:(void (^)(NSArray *albums, NSError *error))block
+{
+    SVAssetRetrievalWS *workerSession = [[SVAssetRetrievalWS alloc] init];
+    
+    [workerSession loadAllLocalAlbumsOnDeviceWithCompletion:^(NSArray *albums, NSError *error) {
+        // Just using this to forward our results
+        block(albums, error);
+    }];
+}
+
+
++ (void)loadAllAssetsForAlbumGroup:(ALAssetsGroup *)group WithCompletion:(void (^)(NSArray *assets, NSError *error))block
+{
+    SVAssetRetrievalWS *workerSession = [[SVAssetRetrievalWS alloc] init];
+    
+    [workerSession loadAllAssetsForAlbumGroup:group WithCompletion:^(NSArray *assets, NSError *error) {
+        // Just using this to forward our results
+        block(assets, error);
+    }];
+}
+
 
 @end

@@ -81,6 +81,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="4g5-BF-Tej" kind="modal" identifier="ImagePickerSegue" id="oiS-6F-bJN"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -95,6 +98,125 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FaP-w9-IIV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-114" y="51"/>
+        </scene>
+        <!--Capture Navigation Controller-->
+        <scene sceneID="OQw-17-hWL">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="4g5-BF-Tej" customClass="CaptureNavigationController" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="SBv-g1-uJf">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Pcu-I1-edh" kind="relationship" relationship="rootViewController" id="mQI-TQ-joi"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Rd-OX-6YJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="322" y="51"/>
+        </scene>
+        <!--Image Picker List View Controller - Albums-->
+        <scene sceneID="26o-UI-2Ba">
+            <objects>
+                <viewController id="Pcu-I1-edh" customClass="SVImagePickerListViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Oih-xy-7Nt">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="S6h-ZR-0sp">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="mainBg.png" id="xG9-5H-WGj">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" id="zmy-pd-Gnj" userLabel="View Container">
+                                        <rect key="frame" x="0.0" y="-2" width="320" height="552"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="mmw-Rt-9T4">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="552"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <prototypes>
+                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="gKy-nC-Fsg" customClass="SVAlbumListViewCell">
+                                                        <rect key="frame" x="0.0" y="22" width="320" height="101"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="kxs-T0-7Ne">
+                                                                    <rect key="frame" x="9" y="10" width="82" height="79"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                </imageView>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9rg-Er-UUl" customClass="NINetworkImageView">
+                                                                    <rect key="frame" x="19" y="20" width="62" height="60"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                </imageView>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Night Club Party" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mR0-vI-T43">
+                                                                    <rect key="frame" x="99" y="39" width="178" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                                                    <color key="textColor" red="0.2156862745" green="0.23921568630000001" blue="0.27450980390000002" alpha="1" colorSpace="deviceRGB"/>
+                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cD5-HP-z47">
+                                                                    <rect key="frame" x="285" y="40" width="27" height="19"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
+                                                                    <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                                    <state key="normal" title="0" backgroundImage="newPhotosIndicator.png">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <state key="highlighted">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                </button>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="cellDivider.png" id="G6x-FC-Rzt">
+                                                                    <rect key="frame" x="0.0" y="98" width="320" height="2"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                </imageView>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </view>
+                                                        <connections>
+                                                            <outlet property="networkImageView" destination="9rg-Er-UUl" id="bLF-Vz-QL3"/>
+                                                            <outlet property="numberNotViewedIndicator" destination="cD5-HP-z47" id="09X-mZ-Juh"/>
+                                                            <outlet property="title" destination="mR0-vI-T43" id="BAC-rz-Zue"/>
+                                                        </connections>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="Pcu-I1-edh" id="FRW-Fi-4Xh"/>
+                                                    <outlet property="delegate" destination="Pcu-I1-edh" id="x9b-hN-EFh"/>
+                                                </connections>
+                                            </tableView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Albums" id="jBM-0w-UgQ">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="dZ3-OC-BXe">
+                            <connections>
+                                <action selector="cancelButtonPressed:" destination="Pcu-I1-edh" id="BEW-0k-tUP"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="mmw-Rt-9T4" id="pbJ-A9-mOh"/>
+                        <outlet property="viewContainer" destination="zmy-pd-Gnj" id="YQU-wd-BD6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E5K-2B-huO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="734" y="51"/>
         </scene>
         <!--Capture Navigation Controller-->
         <scene sceneID="E9K-is-pZC">
@@ -2295,6 +2417,14 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVHelpViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="helpTextView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="SVImagePickerListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVImagePickerListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelButtonPressed:"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="viewContainer" candidateClass="UIView"/>
             </relationships>
         </class>
         <class className="SVProfileViewController" superclassName="UITableViewController">

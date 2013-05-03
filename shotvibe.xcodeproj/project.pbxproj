@@ -183,6 +183,12 @@
 		04734F3016CF104F003F729B /* MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2C16CF104F003F729B /* MFSideMenu.m */; };
 		04734F3116CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */; };
 		04734F3216CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */; };
+		0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */; };
+		0493ABEF1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */; };
+		0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF11732D7D6005ABCE7 /* ALAssetsLibrary+helper.m */; };
+		0493ABF31732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF11732D7D6005ABCE7 /* ALAssetsLibrary+helper.m */; };
+		0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */; };
+		0493ABF71732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */; };
 		0499B855171DD27B00050596 /* SVSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499B854171DD27B00050596 /* SVSettingsViewController.m */; };
 		0499B856171DD27B00050596 /* SVSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499B854171DD27B00050596 /* SVSettingsViewController.m */; };
 		0499B897171DD6DE00050596 /* termsOfUseIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B887171DD6DE00050596 /* termsOfUseIcon@2x.png */; };
@@ -1367,6 +1373,12 @@
 		04734F2C16CF104F003F729B /* MFSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenu.m; sourceTree = "<group>"; };
 		04734F2D16CF104F003F729B /* UINavigationController+MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+MFSideMenu.h"; sourceTree = "<group>"; };
 		04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+MFSideMenu.m"; sourceTree = "<group>"; };
+		0493ABEC1732D78B005ABCE7 /* SVImagePickerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVImagePickerListViewController.h; sourceTree = "<group>"; };
+		0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVImagePickerListViewController.m; sourceTree = "<group>"; };
+		0493ABF01732D7D6005ABCE7 /* ALAssetsLibrary+helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+helper.h"; sourceTree = "<group>"; };
+		0493ABF11732D7D6005ABCE7 /* ALAssetsLibrary+helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+helper.m"; sourceTree = "<group>"; };
+		0493ABF41732DF14005ABCE7 /* SVAssetRetrievalWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAssetRetrievalWS.h; sourceTree = "<group>"; };
+		0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAssetRetrievalWS.m; sourceTree = "<group>"; };
 		0499B853171DD27B00050596 /* SVSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSettingsViewController.h; sourceTree = "<group>"; };
 		0499B854171DD27B00050596 /* SVSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSettingsViewController.m; sourceTree = "<group>"; };
 		0499B887171DD6DE00050596 /* termsOfUseIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "termsOfUseIcon@2x.png"; sourceTree = "<group>"; };
@@ -2305,6 +2317,15 @@
 			path = MFSideMenu;
 			sourceTree = "<group>";
 		};
+		0493ABE81732D6EC005ABCE7 /* Picker */ = {
+			isa = PBXGroup;
+			children = (
+				0493ABEC1732D78B005ABCE7 /* SVImagePickerListViewController.h */,
+				0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */,
+			);
+			name = Picker;
+			sourceTree = "<group>";
+		};
 		04C404DC1730301500973BC0 /* CountryPicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -2885,6 +2906,8 @@
 				AA58FB9316C2341C00C49E02 /* SVInitializationWS.m */,
 				AA78D2B217172BCF006E1240 /* SVOfflineStorageWS.h */,
 				AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */,
+				0493ABF41732DF14005ABCE7 /* SVAssetRetrievalWS.h */,
+				0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */,
 			);
 			name = "Worker Sessions";
 			sourceTree = "<group>";
@@ -3279,6 +3302,8 @@
 		AACB11C316C453E600BAC7E1 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				0493ABF01732D7D6005ABCE7 /* ALAssetsLibrary+helper.h */,
+				0493ABF11732D7D6005ABCE7 /* ALAssetsLibrary+helper.m */,
 				04AB0AB01708114800C5300B /* NSDate+Formatting.h */,
 				04AB0AB11708114800C5300B /* NSDate+Formatting.m */,
 			);
@@ -3418,6 +3443,7 @@
 		AAF05CD216CB287F005BCFD3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0493ABE81732D6EC005ABCE7 /* Picker */,
 				04C407E517303E9200973BC0 /* Registration */,
 				AA12881316CB8774002AC699 /* Albums */,
 				AA78D2B617172C26006E1240 /* Camera */,
@@ -4645,6 +4671,9 @@
 				04C4080217305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */,
 				04C4080417305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */,
 				04E287F7173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */,
+				0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
+				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
+				0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4799,6 +4828,9 @@
 				04C4080317305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */,
 				04C4080517305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */,
 				04E287F8173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */,
+				0493ABEF1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
+				0493ABF31732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
+				0493ABF71732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
