@@ -146,19 +146,9 @@
     // Listen for our RestKit loads to finish
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureNumberNotViewed:) name:kPhotosLoadedForIndexPathNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo) name:kUserAlbumsLoadedNotification object:nil];
-    
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    fetchRequest.sortDescriptors = @[descriptor];
-    NSError *error = nil;
-    
-    // Setup fetched results
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    [self.fetchedResultsController setDelegate:self];
-    if (![self.fetchedResultsController performFetch:&error]) {
-        RKLogError(@"There was an error loading the fetched result controller: %@", error);
-    }
+
+ // Reset to all albums
+    [self albumSearch:nil];
 }
 
 
@@ -374,7 +364,6 @@
     
     __block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 
-    
     NSArray *photos = [anAlbum.albumPhotos allObjects];
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:YES];
 
@@ -523,43 +512,55 @@
     } completion:^(BOOL finished) {
         self.searchbar.hidden = YES;
     }];
-    
-    // Reset to all albums
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    fetchRequest.sortDescriptors = @[descriptor];
-    NSError *error = nil;
-    
-    // Setup fetched results
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    [self.fetchedResultsController setDelegate:self];
-    if (![self.fetchedResultsController performFetch:&error]) {
-        RKLogError(@"There was an error loading the fetched result controller: %@", error);
-    }
-    
-    [self.tableView reloadData];
-    [self fetchAlbumPhotoInfo];
+
+ 
+ // Reset to all albums
+ [self albumSearch:nil];
+ 
+ [self fetchAlbumPhotoInfo];
 }
+
 
 
 - (void)searchForAlbumWithTitle:(NSString *)title
 {
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name BEGINSWITH[cd] %@", title];
-    fetchRequest.sortDescriptors = @[descriptor];
-    fetchRequest.predicate = predicate;
-    NSError *error = nil;
-    
-    // Setup fetched results
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    [self.fetchedResultsController setDelegate:self];
-    if (![self.fetchedResultsController performFetch:&error]) {
-        RKLogError(@"There was an error loading the fetched result controller: %@", error);
-    }
-    [self.tableView reloadData];
-    [self fetchAlbumPhotoInfo];
+ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name BEGINSWITH[cd] %@", title];
+
+ [self albumSearch:predicate];
+ 
+ [self fetchAlbumPhotoInfo];
 }
+
+
+/*
+ * single method to retrieve album content
+ */
+- (void) albumSearch :(NSPredicate *) predicate
+{
+ NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+ NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastUpdated" ascending:NO];  // dateCreated
+ fetchRequest.sortDescriptors = @[descriptor];
+ 
+ if(predicate != nil)
+ {
+  fetchRequest.predicate = predicate;
+ }
+
+ NSError *error = nil;
+ 
+ // Setup fetched results
+ self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+ [self.fetchedResultsController setDelegate:self];
+ 
+ if (![self.fetchedResultsController performFetch:&error]) {
+  RKLogError(@"There was an error loading the fetched result controller: %@", error);
+ }
+ 
+ [self.tableView reloadData];
+}
+
+
+
 
 
 - (void)createNewAlbumWithTitle:(NSString *)title
