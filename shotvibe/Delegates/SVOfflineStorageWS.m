@@ -71,11 +71,22 @@
     // Delete anything that doesn't match
     for (__block NSString *aPath in directory) {
         if (![photoPaths containsObject:aPath]) {
-            
+         
+//         omer's crash is somewhere in here ... 
+         
             [self.offlineStorageQueue addOperationWithBlock:^{
                 NSString *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectoryPath, aPath];
-                
-                [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+
+             // 20130618 - this is an attempt to catch any problems, possibly the recent crash, that was in this block
+             
+             @try {
+              [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+              NSLog(@"deleting for file:  %@", filePath);
+             }
+             @catch (NSException *exception) {
+              NSLog(@"error - could not delete for file:  %@", filePath);
+             }
+             
             }];
         }
     }
@@ -108,7 +119,7 @@
         NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
         
         UIImage *image = [UIImage imageWithContentsOfFile:filePath];
-        
+     
         block(image, nil);
     }];
 }

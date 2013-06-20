@@ -853,6 +853,7 @@
 		04E287F8173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */; };
 		04E287F9173176F00044C17A /* CaptureSelectImagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */; };
 		04E287FA173176F00044C17A /* CaptureSelectImagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */; };
+		397040A2177115FD0028BF7A /* SyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 397040A1177115FD0028BF7A /* SyncEngine.m */; };
 		AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880C16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880D16CB84CC002AC699 /* NINetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880A16CB84CC002AC699 /* NINetworkImageView.m */; };
@@ -1733,6 +1734,8 @@
 		04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureSelectImagesViewController.h; sourceTree = "<group>"; };
 		04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureSelectImagesViewController.m; sourceTree = "<group>"; };
 		04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptureSelectImagesViewController.xib; sourceTree = "<group>"; };
+		397040A0177115FD0028BF7A /* SyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncEngine.h; sourceTree = "<group>"; };
+		397040A1177115FD0028BF7A /* SyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncEngine.m; sourceTree = "<group>"; };
 		AA12880516CB84CC002AC699 /* NIImageProcessing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIImageProcessing.h; path = Nimbus/src/networkimage/src/NIImageProcessing.h; sourceTree = "<group>"; };
 		AA12880616CB84CC002AC699 /* NIImageProcessing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIImageProcessing.m; path = Nimbus/src/networkimage/src/NIImageProcessing.m; sourceTree = "<group>"; };
 		AA12880716CB84CC002AC699 /* NimbusNetworkImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NimbusNetworkImage.h; path = Nimbus/src/networkimage/src/NimbusNetworkImage.h; sourceTree = "<group>"; };
@@ -3359,6 +3362,8 @@
 			children = (
 				AACB11C916C454A000BAC7E1 /* SVEntityStore.h */,
 				AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */,
+				397040A0177115FD0028BF7A /* SyncEngine.h */,
+				397040A1177115FD0028BF7A /* SyncEngine.m */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -4510,7 +4515,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/ruby;
-			shellScript = "#!/usr/bin/ruby\n# xcode-git-cfbundleversion.rb\n# Update CFBundleVersion in Info.plist file with short Git revision string\n# http://github.com/guicocoa/xcode-git-cfbundleversion/\n#\n# This is based on\n# http://github.com/digdog/xcode-git-cfbundleversion/\n# http://github.com/jsallis/xcode-git-versioner\n# http://github.com/juretta/iphone-project-tools/tree/v1.0.3\n\nrequire 'rubygems'\nbegin\nrequire 'Plist'\nrescue LoadError => e\nputs \"You need to install the 'Plist' gem: [sudo] gem install plist\"\nexit 1\nend\n\nraise \"Must be run from Xcode\" unless ENV['XCODE_VERSION_ACTUAL']\n\nGIT = \"/usr/bin/git\"\nPRODUCT_PLIST = File.join(ENV['BUILT_PRODUCTS_DIR'], ENV['INFOPLIST_PATH'])\nDSYM_PLIST = File.join(ENV['DWARF_DSYM_FOLDER_PATH'], ENV['DWARF_DSYM_FILE_NAME'], \"Contents/Info.plist\")\nREVISION = `#{GIT} log --pretty=format:'' | wc -l`.scan(/\\d/).to_s\nBUNDLE_VERSION = \"CFBundleVersion\"\n\nif File.file?(PRODUCT_PLIST) and REVISION\n\n# update product plist\n`/usr/bin/plutil -convert xml1 \\\"#{PRODUCT_PLIST}\\\"`\ninfo = Plist::parse_xml(PRODUCT_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(PRODUCT_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{PRODUCT_PLIST}\\\"`\n\n# update dSYM plist\n`/usr/bin/plutil -convert xml1 \\\"#{DSYM_PLIST}\\\"`\ninfo = Plist::parse_xml(DSYM_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(DSYM_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{DSYM_PLIST}\\\"`\n\n# log\nputs \"updated #{BUNDLE_VERSION} to #{REVISION}\"\n\nend";
+			shellScript = "#!/usr/bin/ruby\n# xcode-git-cfbundleversion.rb\n# Update CFBundleVersion in Info.plist file with short Git revision string\n# http://github.com/guicocoa/xcode-git-cfbundleversion/\n#\n# This is based on\n# http://github.com/digdog/xcode-git-cfbundleversion/\n# http://github.com/jsallis/xcode-git-versioner\n# http://github.com/juretta/iphone-project-tools/tree/v1.0.3\n\nrequire 'rubygems'\nbegin\nrequire 'Plist'\nrescue LoadError => e\nputs \"You need to install the 'Plist' gem: [sudo] gem install plist\"\nexit 1\nend\n\nraise \"Must be run from Xcode\" unless ENV['XCODE_VERSION_ACTUAL']\n\nGIT = \"/usr/local/git\"\nPRODUCT_PLIST = File.join(ENV['BUILT_PRODUCTS_DIR'], ENV['INFOPLIST_PATH'])\nDSYM_PLIST = File.join(ENV['DWARF_DSYM_FOLDER_PATH'], ENV['DWARF_DSYM_FILE_NAME'], \"Contents/Info.plist\")\nREVISION = `#{GIT} log --pretty=format:'' | wc -l`.scan(/\\d/).to_s\nBUNDLE_VERSION = \"CFBundleVersion\"\n\nif File.file?(PRODUCT_PLIST) and REVISION\n\n# update product plist\n`/usr/bin/plutil -convert xml1 \\\"#{PRODUCT_PLIST}\\\"`\ninfo = Plist::parse_xml(PRODUCT_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(PRODUCT_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{PRODUCT_PLIST}\\\"`\n\n# update dSYM plist\n`/usr/bin/plutil -convert xml1 \\\"#{DSYM_PLIST}\\\"`\ninfo = Plist::parse_xml(DSYM_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(DSYM_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{DSYM_PLIST}\\\"`\n\n# log\nputs \"updated #{BUNDLE_VERSION} to #{REVISION}\"\n\nend";
 		};
 		AA58FB5A16C2291200C49E02 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4674,6 +4679,7 @@
 				0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
+				397040A2177115FD0028BF7A /* SyncEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

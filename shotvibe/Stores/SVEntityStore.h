@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import "Album.h"
 #import <Foundation/Foundation.h>
 
 @interface SVEntityStore : AFHTTPClient
@@ -24,7 +25,8 @@
 
 - (void)photosForAlbumWithID:(NSNumber *)albumID;
 
-- (void)photosForAlbumWithID:(NSNumber *)albumID atIndexPath:(NSIndexPath *)indexPath;
+// - (void)photosForAlbumWithID:(NSNumber *)albumID atIndexPath:(NSIndexPath *)indexPath;
+- (void)photosForAlbumWithID:(Album *) anAlbum atIndexPath:(NSIndexPath *)indexPath;
 
 - (void)newAlbumWithName:(NSString *)albumName;
 

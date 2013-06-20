@@ -88,8 +88,8 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId = %d", [self.selectedAlbum.albumId stringValue]];
     fetchRequest.sortDescriptors = @[descriptor];
     fetchRequest.predicate = predicate;
-    
-    
+ 
+ 
     // Setup fetched results
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
     [self.fetchedResultsController setDelegate:self];
@@ -303,7 +303,7 @@
     
     if (!cachedImage) {
         [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
-            if (image) {
+            if (image) {   
                                 
                 float oldWidth = image.size.width;
                 float scaleFactor = networkImageView.frame.size.width / oldWidth;

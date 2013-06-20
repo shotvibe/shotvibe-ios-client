@@ -153,7 +153,11 @@
     
     [cell.contentView addSubview:imageView];
 
-    
+ /*
+ is this the 'select to upload' screen ?
+ 
+ also, try to locate the batch upload queueing in pictag ...
+ */
     // Configure the selection icon
     
     UIImageView *selectedIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"imageUnselected.png"]];
