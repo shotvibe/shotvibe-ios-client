@@ -20,6 +20,7 @@
 #import "SVBusinessDelegate.h"
 #import "CaptureViewfinderController.h"
 #import "CaptureNavigationController.h"
+#import "SyncEngine.h"
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
@@ -32,6 +33,9 @@
 @property (nonatomic, strong) IBOutlet UITextField *albumField;
 @property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
 @property (nonatomic, strong) IBOutlet UIView *viewContainer;
+@property (nonatomic, strong) IBOutlet NSMutableArray *updatedAlbums;
+@property (nonatomic, strong) IBOutlet NSMutableArray *albumIds;
+
 
 - (void)configureViews;
 - (void)loadData;
@@ -39,7 +43,7 @@
 - (void)searchPressed;
 - (void)settingsPressed;
 - (void)configureNumberNotViewed:(NSNotification *)notification;
-- (void)fetchAlbumPhotoInfo;
+- (void)fetchAlbumPhotoInfo  :(NSNotification *) albumDetail;
 - (void)showDropDown;
 - (void)hideDropDown;
 - (void)showSearch;
@@ -145,10 +149,10 @@
     
     // Listen for our RestKit loads to finish
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureNumberNotViewed:) name:kPhotosLoadedForIndexPathNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo) name:kUserAlbumsLoadedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo:) name:kUserAlbumsLoadedNotification object:nil];
 
- // Reset to all albums
-    [self albumSearch:nil];
+// // Reset to all albums
+//    [self albumSearch:nil];
 }
 
 
@@ -351,9 +355,12 @@
 }
 
 
+/*
+ * load data, via bg sync
+ */
 - (void)loadData
 {
-    [[SVEntityStore sharedStore] userAlbums];
+ [[SyncEngine sharedEngine] startSync];
 }
 
 
@@ -365,16 +372,18 @@
     __block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 
     NSArray *photos = [anAlbum.albumPhotos allObjects];
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:YES];
+
+ NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:YES];
 
     NSArray *sortedPhotos = [photos sortedArrayUsingDescriptors:@[descriptor]];
     
     
     __block AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
-    
+ 
+    NSString *thumbnailUrl = [[recentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
+ 
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
-    NSString *thumbnailUrl = [[recentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
     cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     cell.networkImageView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
     cell.networkImageView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.1].CGColor;
@@ -388,8 +397,9 @@
     cell.networkImageView.delegate = self;
     cell.networkImageView.tag = indexPath.row;
     [cell.networkImageView setPathToNetworkImage:thumbnailUrl];
-    
-    
+ 
+    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
+ 
     [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
         if (image)
         {
@@ -408,7 +418,9 @@
     [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
     
     NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
-    if (numberNew) {
+ 
+    if (numberNew)
+    {
         [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
     }
     else
@@ -420,35 +432,97 @@
 }
 
 
+/*
+ * this is the notification handler for the album list
+ */
 - (void)configureNumberNotViewed:(NSNotification *)notification
 {
-    NSIndexPath *indexPath = [notification object];
+ NSMutableArray *data = [notification object];
+
+ NSIndexPath *indexPath = [data objectAtIndex:0];
+
+ Album *anAlbum = [data objectAtIndex:1];
+
+ NSNumber *albumId = anAlbum.albumId;
+
+ //
+ // 20130519 - download all photos (thumbnails) for an album.  this provides the user with a better UX as the photos
+ //            will be on the device after the initial launch, and any updates.  the initial load will take time depending
+ //            on the number of photos
+ //
+ 
+ BOOL photoDoesNotExist = NO;
+ 
+ for(Photo *photo in anAlbum.photos)
+ {
+  if(photoDoesNotExist)
+  {
+   dispatch_async(dispatch_get_global_queue(0,0), ^{
     
-    if ([self.tableView.indexPathsForVisibleRows containsObject:indexPath]) {
-        Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        
-        SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-        
-        NSInteger numberViewed = [SVBusinessDelegate numberOfViewedImagesInAlbum:anAlbum];
-        
-        NSInteger numberNew = anAlbum.photos.count - numberViewed;
-        
-        [self.albumPhotoInfo setObject:[NSNumber numberWithInteger:numberNew] forKey:indexPath];
-        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
-    }
+    NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: photo.photoUrl]];
+    UIImage *image = [UIImage imageWithData: imageData];
+    
+    if ( image == nil )
+     return;
+    
+    [SVBusinessDelegate saveImage:image forPhoto:photo];
+   });
+  }
+ }
+ 
+ 
+ //
+ // this was initially to determine which photos were new, and only download those, but currently it is used to
+ // flag the 'number not viewed' tag in the cell (assuming the etag is accurate)
+ //
+ for(NSDictionary *albumWork in self.updatedAlbums)
+ {
+  if([albumId intValue] == [[albumWork objectForKey:@"albumId"] intValue])
+  {
+   SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+   
+//   NSLog(@"updated count:  %i", [[albumWork objectForKey:@"count"] intValue]);
+   
+   [self.albumPhotoInfo setObject:[NSNumber numberWithInteger:[[albumWork objectForKey:@"count"] intValue]] forKey:indexPath];
+   [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", [[albumWork objectForKey:@"count"] intValue]] forState:UIControlStateNormal];
+   
+   break;
+  }
+ }
 }
 
 
-- (void)fetchAlbumPhotoInfo
+/*
+ * get all album info
+ */
+- (void)fetchAlbumPhotoInfo :(NSNotification *) albumDetail
 {
-    // Start figuring out how many new photos we have
-    /*NSArray *fetchedObjects = self.fetchedResultsController.fetchedObjects;
-    
-    for (Album *anAlbum in fetchedObjects) {
-        if (anAlbum) {
-            [[SVEntityStore sharedStore] photosForAlbumWithID:anAlbum.albumId atIndexPath:[NSIndexPath indexPathForRow:[fetchedObjects indexOfObject:anAlbum] inSection:0]];
-        }
-    }*/
+  self.updatedAlbums = [albumDetail object];
+ 
+ // search and retrieve all albums
+ [self albumSearch:nil];
+ 
+ self.albumIds = [[NSMutableArray alloc] init];
+ 
+ // Start figuring out how many new photos we have
+ NSArray *fetchedObjects = self.fetchedResultsController.fetchedObjects;
+
+ for (Album *anAlbum in fetchedObjects)
+ {
+  NSLog(@"album:  %@", anAlbum.name);
+  
+  if (anAlbum)
+  {
+   [self.albumIds addObject:anAlbum.albumId];    // cache the name
+   
+   [[SVEntityStore sharedStore] photosForAlbumWithID:anAlbum atIndexPath:[NSIndexPath indexPathForRow:[fetchedObjects indexOfObject:anAlbum] inSection:0]];
+  }
+ }
+
+ 
+ [[SyncEngine sharedEngine] setInitialSyncCompleted];
+ 
+ [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 
@@ -517,7 +591,7 @@
  // Reset to all albums
  [self albumSearch:nil];
  
- [self fetchAlbumPhotoInfo];
+ [self fetchAlbumPhotoInfo:nil];
 }
 
 
@@ -528,7 +602,7 @@
 
  [self albumSearch:predicate];
  
- [self fetchAlbumPhotoInfo];
+ [self fetchAlbumPhotoInfo:nil];
 }
 
 
@@ -550,6 +624,7 @@
  
  // Setup fetched results
  self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+ 
  [self.fetchedResultsController setDelegate:self];
  
  if (![self.fetchedResultsController performFetch:&error]) {

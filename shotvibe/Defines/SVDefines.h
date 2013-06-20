@@ -12,6 +12,8 @@
 #define IS_IOS6_OR_GREATER ([[UIDevice currentDevice].systemVersion floatValue] >= 6.0)
 #define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
+#define kApplicationName @"ShotVibe"
+
 #define kPhotoThumbExtension @"_thumb75.jpg"
 #define kPhotoIphone3Extension @"_iphone3.jpg"
 #define kPhotoIphone4Extension @"_iphone4.jpg"
@@ -21,5 +23,9 @@
 #define kPhotosLoadedNotification @"SVPhotosLoaded"
 #define kPhotosLoadedForIndexPathNotification @"SVPhotosLoadedForIndexPath"
 #define kUploadPhotosToAlbumProgressNotification @"UploadPhotosToAlbumProgressNotification"
+
+#define kSDSyncEngineInitialCompleteKey             @"SyncEngineInitialSyncCompleted"
+#define kSDSyncEngineSyncCompletedNotificationName  @"SyncEngineSyncCompleted"
+#define kCategoryBadgeUpdatedNotification           @"CategoryBadgeUpdatedNotification"
 
 #endif
