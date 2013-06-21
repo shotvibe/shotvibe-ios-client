@@ -19,6 +19,26 @@
 
 @implementation SVOfflineStorageWS
 
+
+/*
+ * check to see if the photo exists
+ */
+- (BOOL) doesPhotoExist :(NSString *) albumName  :(NSString *) photo
+{
+ BOOL exists = NO;
+ 
+ NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+ NSString *documentsDirectory = [paths objectAtIndex:0];
+ NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:albumName];
+
+ NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photo];
+ 
+ exists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+ 
+ return exists;
+}
+
+
 - (void)saveLoadedImage:(UIImage *)image forPhotoObject:(Photo *)photo
 {
     if (!self.offlineStorageQueue) {
@@ -77,6 +97,8 @@
             [self.offlineStorageQueue addOperationWithBlock:^{
                 NSString *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectoryPath, aPath];
 
+             NSLog(@"deleting:  %@", filePath);
+             
              // 20130618 - this is an attempt to catch any problems, possibly the recent crash, that was in this block
              
              @try {

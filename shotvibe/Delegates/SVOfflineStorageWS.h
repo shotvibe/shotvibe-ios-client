@@ -13,6 +13,8 @@
 
 @interface SVOfflineStorageWS : NSObject
 
+- (BOOL) doesPhotoExist :(NSString *) albumName  :(NSString *) photo;
+
 - (void)saveLoadedImage:(UIImage *)image forPhotoObject:(Photo *)photo;
 - (void)cleanupOfflineStorageForAlbum:(Album *)album;
 - (NSUInteger)numberOfImagesSavedInAlbum:(Album *)album;
