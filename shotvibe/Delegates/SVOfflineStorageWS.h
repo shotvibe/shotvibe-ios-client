@@ -10,12 +10,15 @@
 
 @class Photo;
 @class Album;
+@class AlbumPhoto;
 
 @interface SVOfflineStorageWS : NSObject
 
 - (BOOL) doesPhotoExist :(NSString *) albumName  :(NSString *) photo;
 
+- (void)saveLoadedImageAlbumPhoto:(UIImage *)image forPhotoObject:(AlbumPhoto *)photo :(NSString *) albumName;
 - (void)saveLoadedImage:(UIImage *)image forPhotoObject:(Photo *)photo;
+
 - (void)cleanupOfflineStorageForAlbum:(Album *)album;
 - (NSUInteger)numberOfImagesSavedInAlbum:(Album *)album;
 - (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(Album *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block;

@@ -11,12 +11,16 @@
 
 @class Photo;
 @class Album;
+@class AlbumPhoto;
 
 @interface SVBusinessDelegate : NSObject
 
 // Offline Storage Methods
 + (BOOL) doesPhotoExist :(NSString *) albumName  :(NSString *) photo;
+
++ (void)saveImageAlbumPhoto:(UIImage *)image forPhoto:(AlbumPhoto *)photo  :(NSString *) albumName;
 + (void)saveImage:(UIImage *)image forPhoto:(Photo *)photo;
+
 + (void)cleanupOfflineStorageForAlbum:(Album *)album;
 + (NSInteger)numberOfViewedImagesInAlbum:(Album *)album;
 + (UIImage *)loadImageFromAlbum:(Album *)album withPath:(NSString *)path;

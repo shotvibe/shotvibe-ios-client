@@ -36,4 +36,8 @@ typedef enum {
 - (void)startSync;
 - (void)setInitialSyncCompleted;
 - (BOOL)initialSyncComplete;
+
+- (void) syncAlbums;
+- (NSArray *) getAlbums;
+
 @end

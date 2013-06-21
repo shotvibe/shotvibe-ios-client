@@ -31,4 +31,5 @@
 - (void)newAlbumWithName:(NSString *)albumName;
 
 - (void)addPhotos:(NSArray *)photos ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
+
 @end

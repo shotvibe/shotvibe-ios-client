@@ -21,7 +21,8 @@
 #import "SVBusinessDelegate.h"
 #import "CaptureViewfinderController.h"
 #import "CaptureNavigationController.h"
-#import "SyncEngine.h"
+
+#import "SVEntityStore.h"
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
@@ -36,6 +37,8 @@
 @property (nonatomic, strong) IBOutlet UIView *viewContainer;
 @property (nonatomic, strong) IBOutlet NSMutableArray *updatedAlbums;
 @property (nonatomic, strong) IBOutlet NSMutableArray *albumIds;
+
+@property (nonatomic, strong) NSOperationQueue *operationQueue;
 
 
 - (void)configureViews;
@@ -135,7 +138,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+ 
     // When we get to the album list view we no longer need to worry about rotation blocks from logging in, switch it to allowing rotation.
     CaptureNavigationController *navController = (CaptureNavigationController *)self.navigationController;
     navController.allowsRotation = YES;
@@ -153,8 +156,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo:) name:kUserAlbumsLoadedNotification object:nil];
 
  
-// // Reset to all albums
-//    [self albumSearch:nil];
+   // Reset to all albums
+    [self albumSearch:nil];
 }
 
 
@@ -215,6 +218,9 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+ 
+ // need to stop all downloads at this time
+ 
     // Dispose of any resources that can be recreated.
 }
 
@@ -362,7 +368,6 @@
  */
 - (void)loadData
 {
- [[SyncEngine sharedEngine] startSync];
 }
 
 
@@ -447,35 +452,7 @@
 
  NSNumber *albumId = anAlbum.albumId;
 
- //
- // 20130519 - download all photos (thumbnails) for an album.  this provides the user with a better UX as the photos
- //            will be on the device after the initial launch, and any updates.  the initial load will take time depending
- //            on the number of photos
- //
- 
- 
- BOOL photoExists = NO;
- 
- for(Photo *photo in anAlbum.photos)
- {
-  photoExists = [SVBusinessDelegate doesPhotoExist:anAlbum.name :photo.photoId];
 
-  if(!photoExists)
-  {
-   NSLog(@"downloading photo:  %@, %@", anAlbum.name, photo.photoId);
-
-   dispatch_async(dispatch_get_global_queue(0,0), ^{
-    
-    NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: photo.photoUrl]];
-    UIImage *image = [UIImage imageWithData: imageData];
-    
-    if ( image == nil )
-     return;
-    
-    [SVBusinessDelegate saveImage:image forPhoto:photo];
-   });
-  }
- }
  
  
  //
@@ -525,11 +502,7 @@
    [[SVEntityStore sharedStore] photosForAlbumWithID:anAlbum atIndexPath:[NSIndexPath indexPathForRow:[fetchedObjects indexOfObject:anAlbum] inSection:0]];
   }
  }
-
  
- [[SyncEngine sharedEngine] setInitialSyncCompleted];
- 
- [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 

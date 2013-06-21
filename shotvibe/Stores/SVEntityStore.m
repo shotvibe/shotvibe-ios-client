@@ -8,8 +8,11 @@
 
 #import "Album.h"
 #import "AlbumPhoto.h"
+#import "Photo.h"
 #import "SVDefines.h"
 #import "SVEntityStore.h"
+#import "SVBusinessDelegate.h"
+#import "SyncEngine.h"
 
 static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
@@ -19,10 +22,12 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
 static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef27246f6ae6";
 #endif
 
+
+
 @implementation SVEntityStore
 
 
-NSMutableArray *project;
+//NSMutableArray *project;
 
 
 
@@ -47,6 +52,8 @@ NSMutableArray *project;
 
 - (void)userAlbums
 {
+ NSLog(@"userAlbums - start sync from remote");
+ 
     // Setup Member Mapping
     RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [memberMapping addAttributeMappingsFromDictionary:@{
@@ -89,13 +96,17 @@ NSMutableArray *project;
     // Get the albums
     [[RKObjectManager sharedManager] getObjectsAtPath:@"/albums/" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
-       // RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
+//       RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
      
-     [[NSNotificationCenter defaultCenter] postNotificationName:kUserAlbumsLoadedNotification object:[self getUpdatedAlbums]];   // get etags
-        
+     [[NSNotificationCenter defaultCenter] postNotificationName:kUserAlbumsLoadedNotification object:[[SyncEngine sharedEngine] getAlbums]];   // get etags
+     
+     [[SyncEngine sharedEngine] syncAlbums];
+     
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        
-        RKLogError(@"Load failed with error: %@", error);
+
+     NSLog(@"error");
+     
+     RKLogError(@"Load failed with error: %@", error);
         
     }];
 }
@@ -354,150 +365,6 @@ NSMutableArray *project;
     // If successful return the block
 }
 
-
-
-/*
- * get the latest album sync, compare to cached etags per album, use the diff between etags, to determine which albums to pull photos from
- */
-- (NSMutableArray *) getUpdatedAlbums
-{
- NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
- 
- NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
- 
- NSMutableArray *dbAlbums = [[NSMutableArray alloc] init];
- 
- NSError *error;
- NSArray *array;
- 
- @try
- {
-  array = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
- }
- @catch (NSException *e)
- {
-  NSLog(@"error:  %@", e);
- }
- 
- for(Album *album in array)
- {
-  [dbAlbums addObject:album];
- }
- 
- return [self getAlbumETags :dbAlbums];
-}
-
-
-/*
- * get the etags for the albums (stored as a plist)
- */
-- (NSMutableArray *) getAlbumETags :(NSMutableArray *) dbAlbums
-{
- NSMutableArray *albumsUpdated = [[NSMutableArray alloc] init];
- 
- project = [[NSMutableArray alloc] init];
- 
- project = (NSMutableArray *)[project initWithContentsOfFile:[self getProjectFileNameAsPList:kApplicationName]];
- 
- if(project == nil)                         // first time, presumably, just save the tags, and ALL albums need syncd
- {
-  project = [[NSMutableArray alloc] init];
-  
-  for(Album *album in dbAlbums)
-  {
-   NSMutableDictionary *projectContents = [[NSMutableDictionary alloc] init];
-   
-   [projectContents setObject:album.albumId forKey:@"albumId"];
-   [projectContents setObject:album.name forKey:@"albumName"];
-   [projectContents setObject:album.etag forKey:@"etag"];
-   [projectContents setObject:[[NSNumber alloc] initWithInt:[album.albumPhotos count]] forKey:@"count"];
-   
-   
-   [project addObject:projectContents];             // this is saved to file system
-   
-   [albumsUpdated addObject:projectContents];       // this is returned
-  }
- }
- else
- {
-  BOOL albumFound = NO;
-  
-  NSMutableDictionary *albumWork;
-  
-  for(Album *album in dbAlbums)
-  {
-   for(albumWork in project)
-   {
-    albumFound = NO;
-    
-    //    NSLog(@"db -vs- dict:  %@ (%@), %@ (%@)", album.name, album.albumId, [albumWork objectForKey:@"albumName"], [albumWork objectForKey:@"albumId"]);
-    
-    if([album.albumId intValue] == [[albumWork objectForKey:@"albumId"]intValue] )
-    {
-     albumFound = YES;                   // if this is not set, as we have a match here, then this is a new album
-     
-     int albumETag     = [album.etag intValue];
-     int albumWorkETag = [[albumWork objectForKey:@"etag"] intValue];
-     
-     //     NSLog(@"db -vs- dict:  %@ (%@), %@ (%@)", album.name, album.albumId, [albumWork objectForKey:@"albumName"], [albumWork objectForKey:@"albumId"]);
-     //     NSLog(@"db.etag -vs- dict.etag:  %@, %@", album.etag, [albumWork objectForKey:@"etag"]);
-     
-     if(albumETag > albumWorkETag)        // this album has been updated, sync photos within
-     {
-      NSLog(@"etag has changed");
-      
-      [albumWork setObject:album.etag forKey:@"etag"];    // update file, with new etag
-      [albumWork setObject:[[NSNumber alloc] initWithInt:[album.albumPhotos count]] forKey:@"count"];
-      
-      [albumsUpdated addObject:albumWork];            // this is returned to the synchronizer
-      //      [albumsUpdated addObject:album.albumPhotos];    // as this is an existing album, only get the updated photos
-     }
-     
-     break;
-    }
-   }
-   
-   if(!albumFound)                       // new album
-   {
-    NSMutableDictionary *newAlbum = [[NSMutableDictionary alloc] init];
-    
-    NSLog(@"new album:  %@", album.name);
-    
-    [newAlbum setObject:album.albumId forKey:@"albumId"];
-    [newAlbum setObject:album.name forKey:@"albumName"];
-    [newAlbum setObject:album.etag forKey:@"etag"];
-    [newAlbum setObject:[[NSNumber alloc] initWithInt:[album.albumPhotos count]] forKey:@"count"];
-    
-    [albumsUpdated addObject:newAlbum];             // this is returned to the synchronizer, and is a new album, get all pictures
-    //    [albumsUpdated addObject:album.albumPhotos];    // as this is an existing album, only get the updated photos
-   }
-  }
- }
- 
- [project writeToFile:[self getProjectFileNameAsPList:kApplicationName] atomically:YES];
- 
- return albumsUpdated;
-}
-
-
-/*
- * get the project file name, as a PList
- */
-- (NSString *) getProjectFileNameAsPList :(NSString *) projectName
-{
- NSLog(@"project:  %@", [@"" stringByAppendingFormat:@"%@%@.plist", [self getDocumentsDirectory], projectName]);
- 
- return [@"" stringByAppendingFormat:@"%@%@.plist", [self getDocumentsDirectory], projectName];
-}
-
-
-/*
- * get the documents directory for the app / bundle
- */
-- (NSString *) getDocumentsDirectory
-{
- return [@"" stringByAppendingFormat:@"%@/%@/", NSHomeDirectory(), @"Documents"];
-}
 
 
 @end
