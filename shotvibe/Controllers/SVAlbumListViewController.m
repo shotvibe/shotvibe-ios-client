@@ -12,6 +12,7 @@
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumListViewController.h"
 #import "SVAlbumGridViewController.h"
+#import "SVOfflineStorageWS.h"
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 #import "NSDate+Formatting.h"
@@ -35,7 +36,7 @@
 @property (nonatomic, strong) IBOutlet UIView *viewContainer;
 @property (nonatomic, strong) IBOutlet NSMutableArray *updatedAlbums;
 @property (nonatomic, strong) IBOutlet NSMutableArray *albumIds;
-
+@property (nonatomic, strong) SVOfflineStorageWS *workerSession;
 
 - (void)configureViews;
 - (void)loadData;
@@ -151,6 +152,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureNumberNotViewed:) name:kPhotosLoadedForIndexPathNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo:) name:kUserAlbumsLoadedNotification object:nil];
 
+ 
+    if(self.workerSession == nil)
+    {
+     self.workerSession = [[SVOfflineStorageWS alloc] init];
+    }
+ 
 // // Reset to all albums
 //    [self albumSearch:nil];
 }
@@ -398,7 +405,7 @@
     cell.networkImageView.tag = indexPath.row;
     [cell.networkImageView setPathToNetworkImage:thumbnailUrl];
  
-    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
+//    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
  
     [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
         if (image)
@@ -451,12 +458,17 @@
  //            on the number of photos
  //
  
- BOOL photoDoesNotExist = NO;
+ 
+ BOOL photoExists = NO;
  
  for(Photo *photo in anAlbum.photos)
  {
-  if(photoDoesNotExist)
+  photoExists = [self.workerSession doesPhotoExist:anAlbum.name :photo.photoId];
+
+  if(!photoExists)
   {
+   NSLog(@"downloading photo:  %@, %@", anAlbum.name, photo.photoId);
+
    dispatch_async(dispatch_get_global_queue(0,0), ^{
     
     NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: photo.photoUrl]];
