@@ -13,6 +13,15 @@
 
 @implementation SVBusinessDelegate
 
+
++ (BOOL) doesPhotoExist :(NSString *) albumName  :(NSString *) photo
+{
+ SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
+ 
+ return [workerSession doesPhotoExist:albumName :photo];
+}
+
+
 + (void)saveImage:(UIImage *)image forPhoto:(Photo *)photo
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];

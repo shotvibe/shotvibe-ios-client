@@ -15,6 +15,7 @@
 @interface SVBusinessDelegate : NSObject
 
 // Offline Storage Methods
++ (BOOL) doesPhotoExist :(NSString *) albumName  :(NSString *) photo;
 + (void)saveImage:(UIImage *)image forPhoto:(Photo *)photo;
 + (void)cleanupOfflineStorageForAlbum:(Album *)album;
 + (NSInteger)numberOfViewedImagesInAlbum:(Album *)album;

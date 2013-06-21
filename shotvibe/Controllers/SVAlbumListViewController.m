@@ -36,7 +36,7 @@
 @property (nonatomic, strong) IBOutlet UIView *viewContainer;
 @property (nonatomic, strong) IBOutlet NSMutableArray *updatedAlbums;
 @property (nonatomic, strong) IBOutlet NSMutableArray *albumIds;
-@property (nonatomic, strong) SVOfflineStorageWS *workerSession;
+
 
 - (void)configureViews;
 - (void)loadData;
@@ -152,11 +152,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureNumberNotViewed:) name:kPhotosLoadedForIndexPathNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo:) name:kUserAlbumsLoadedNotification object:nil];
 
- 
-    if(self.workerSession == nil)
-    {
-     self.workerSession = [[SVOfflineStorageWS alloc] init];
-    }
  
 // // Reset to all albums
 //    [self albumSearch:nil];
@@ -463,7 +458,7 @@
  
  for(Photo *photo in anAlbum.photos)
  {
-  photoExists = [self.workerSession doesPhotoExist:anAlbum.name :photo.photoId];
+  photoExists = [SVBusinessDelegate doesPhotoExist:anAlbum.name :photo.photoId];
 
   if(!photoExists)
   {
