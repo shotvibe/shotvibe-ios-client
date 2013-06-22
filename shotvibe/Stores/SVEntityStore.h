@@ -21,6 +21,9 @@
 /**
  Album Methods
  */
+- (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate;
+- (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate;
+
 - (void)userAlbums;
 
 - (void)photosForAlbumWithID:(NSNumber *)albumID;
@@ -31,5 +34,7 @@
 - (void)newAlbumWithName:(NSString *)albumName;
 
 - (void)addPhotos:(NSArray *)photos ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
+
+
 
 @end
