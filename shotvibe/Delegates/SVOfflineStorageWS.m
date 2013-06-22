@@ -70,31 +70,53 @@
 }
 
 
+/*
+ * this is used when downloading photos for an album
+ */
 - (void)saveLoadedImageData:(NSData *)imageData forPhotoObject:(AlbumPhoto *)photo inAlbum:(NSString *)albumName
 {
-    if (!self.offlineStorageQueue) {
-        self.offlineStorageQueue = [[NSOperationQueue alloc] init];
-    }
-    
-    
-    [self.offlineStorageQueue addOperationWithBlock:^{
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:albumName];
-        NSError *filePathError;
-        if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
-                                       withIntermediateDirectories:YES
-                                                        attributes:nil
-                                                             error:&filePathError])
-        {
-            NSLog(@"Create directory error: %@", [filePathError localizedDescription]);
-        }
-        NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photo.photoId];
-        
-        [imageData writeToFile:filePath atomically:NO];
-    }];
-    
+ [self saveImageToFileSystem:imageData forPhotoId:photo.photoId inAlbum:albumName];
 }
+
+
+/*
+ * this is the 'immediate store' for the photo that is being requested to upload
+ */
+- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(NSString *)albumName
+{
+ [self saveImageToFileSystem:imageData forPhotoId:photoId inAlbum:albumName];
+}
+
+
+
+/*
+ * consolidated method to handle centric photo saves to file sytem
+ */
+- (void) saveImageToFileSystem:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(NSString *)albumName
+{
+ if (!self.offlineStorageQueue) {
+  self.offlineStorageQueue = [[NSOperationQueue alloc] init];
+ }
+ 
+ 
+ [self.offlineStorageQueue addOperationWithBlock:^{
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+  NSString *documentsDirectory = [paths objectAtIndex:0];
+  NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:albumName];
+  NSError *filePathError;
+  if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
+                                 withIntermediateDirectories:YES
+                                                  attributes:nil
+                                                       error:&filePathError])
+  {
+   NSLog(@"Create directory error: %@", [filePathError localizedDescription]);
+  }
+  NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photoId];
+  
+  [imageData writeToFile:filePath atomically:NO];
+ }];
+}
+
 
 
 - (void)cleanupOfflineStorageForAlbum:(Album *)album

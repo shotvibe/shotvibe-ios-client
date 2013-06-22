@@ -9,6 +9,7 @@
 #import "SVBusinessDelegate.h"
 #import "SVOfflineStorageWS.h"
 #import "SVAssetRetrievalWS.h"
+#import "Album.h"
 #import "AlbumPhoto.h"
 #import "Photo.h"
 
@@ -28,6 +29,14 @@
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
     [workerSession saveLoadedImageData:imageData forPhotoObject:photo inAlbum:albumName];
+}
+
+
++ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(Album *)album
+{
+    SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
+ 
+    [workerSession saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbum:album.name];
 }
 
 

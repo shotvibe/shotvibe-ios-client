@@ -30,6 +30,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 //NSMutableArray *project;
 
 
+int callCount = 0;
+
 
 #pragma mark - Class Methods
 
@@ -53,7 +55,16 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (void)userAlbums
 {
     NSLog(@"userAlbums - start sync from remote");
-    
+ 
+    callCount++;
+ 
+    if(callCount > 1)
+    {
+     NSLog(@"can only call userAlbums once");
+     
+     return;
+    }
+ 
     // Setup Member Mapping
     RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [memberMapping addAttributeMappingsFromDictionary:@{
@@ -108,7 +119,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
-- (void)photosForAlbumWithID:(NSNumber *)albumID
+- (void)photosForAlbumWithID:(NSNumber *)albumId
 {
     // Setup Photo Mapping
     RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"Photo" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
@@ -151,14 +162,19 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     [[RKObjectManager sharedManager] addResponseDescriptor:albumResponseDescriptor];
     
     // Get the albums
-    NSString *path = [NSString stringWithFormat:@"/albums/%@/", [albumID stringValue]];
+    NSString *path = [NSString stringWithFormat:@"/albums/%@/", [albumId stringValue]];
     [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
         //RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
-        [[NSNotificationCenter defaultCenter] postNotificationName:kPhotosLoadedNotification object:nil];
-        
+     
+     NSLog(@"notify for photos, album:  %@", albumId);
+     
+    [[NSNotificationCenter defaultCenter] postNotificationName:kPhotosLoadedNotification object:albumId];
+     
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        
+
+     NSLog(@"error for photos, album:  %@", albumId);
+
         RKLogError(@"Load failed with error: %@", error);
         
     }];
@@ -289,76 +305,122 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)addPhotos:(NSArray *)photos ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
 {
-    // Generate an upload photos request using: POST /photos/upload_request/?num_photos={n}
-    NSString *path = [NSString stringWithFormat:@"/photos/upload_request/?num_photos=%d", photos.count];
-    [self postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        // You have to serialize the response object first!
-        NSData *responseData = (NSData *)responseObject;
-        
-        id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-        
-        
-        NSArray *uploadRequestData = (NSArray *)json;
-        NSMutableArray *requestOperationBatch = [NSMutableArray arrayWithCapacity:uploadRequestData.count];
-        NSMutableArray *photoIds = [NSMutableArray arrayWithCapacity:uploadRequestData.count];
-        for (NSInteger index = 0; index < uploadRequestData.count; index++) {
-            
-            // Given API Response, add photos to album using: POST /albums/{aid}/
-            NSDictionary *uploadRequest = [uploadRequestData objectAtIndex:index];
-            NSString *photoId = [uploadRequest objectForKey:@"photo_id"];
-            [photoIds addObject:@{@"photo_id": photoId}];
-            
-            NSData *imageToUpload = [photos objectAtIndex:index];
-            NSString *uploadPath = [NSString stringWithFormat:@"/photos/upload/%@/", photoId];
-            NSMutableURLRequest *request = [self multipartFormRequestWithMethod:@"POST" path:uploadPath parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-                [formData appendPartWithFileData:imageToUpload name:@"photo" fileName:@"temp.jpeg" mimeType:@"image/jpeg"];
-            }];
-            
-            AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-            [requestOperationBatch addObject:operation];
-            
-        }
-        
-        // Enque the upload batch
-        [self enqueueBatchOfHTTPRequestOperations:requestOperationBatch progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
-            
-            //TODO: We need to send some progress notifications
-            CGFloat uploadProgress = numberOfFinishedOperations / totalNumberOfOperations;
-            [[NSNotificationCenter defaultCenter] postNotificationName:kUploadPhotosToAlbumProgressNotification object:[NSNumber numberWithFloat:uploadProgress]];
-            
-            if (uploadProgress >= 1.0) {
-                block(YES, nil);
-            }
-            
-        } completionBlock:^(NSArray *operations) {
-            
-            // Add the photos to the album
-            NSString *addToAlbumPath = [NSString stringWithFormat:@"/albums/%@/", [albumID stringValue]];
-            
-            NSLog(@"%@", [@{@"add_photos": photoIds} description]);
-            
-            [self postPath:addToAlbumPath parameters:@{@"add_photos": photoIds} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                
-                [[SVEntityStore sharedStore] userAlbums];
-                
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                
-                block(NO, error);
-                
-            }];
-            
-        }];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        block(NO, error);
-        
-    }];
+ // Generate an upload photos request using: POST /photos/upload_request/?num_photos={n}
+ NSString *path = [NSString stringWithFormat:@"/photos/upload_request/?num_photos=%d", photos.count];
+ [self postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+  
+  // You have to serialize the response object first!
+  NSData *responseData = (NSData *)responseObject;
+  
+  id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+  
+  
+  NSArray *uploadRequestData = (NSArray *)json;
+  NSMutableArray *requestOperationBatch = [NSMutableArray arrayWithCapacity:uploadRequestData.count];
+  NSMutableArray *photoIds = [NSMutableArray arrayWithCapacity:uploadRequestData.count];
+  for (NSInteger index = 0; index < uploadRequestData.count; index++) {
+   
+   // Given API Response, add photos to album using: POST /albums/{aid}/
+   NSDictionary *uploadRequest = [uploadRequestData objectAtIndex:index];
+   NSString *photoId = [uploadRequest objectForKey:@"photo_id"];
+   [photoIds addObject:@{@"photo_id": photoId}];
+   
+   NSData *imageToUpload = [photos objectAtIndex:index];
+   NSString *uploadPath = [NSString stringWithFormat:@"/photos/upload/%@/", photoId];
+   NSMutableURLRequest *request = [self multipartFormRequestWithMethod:@"POST" path:uploadPath parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+    [formData appendPartWithFileData:imageToUpload name:@"photo" fileName:@"temp.jpeg" mimeType:@"image/jpeg"];
+   }];
+   
+   AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+   [requestOperationBatch addObject:operation];
+   
+  }
+  
+  // Enque the upload batch
+  [self enqueueBatchOfHTTPRequestOperations:requestOperationBatch progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+   
+   //TODO: We need to send some progress notifications
+   CGFloat uploadProgress = numberOfFinishedOperations / totalNumberOfOperations;
+   [[NSNotificationCenter defaultCenter] postNotificationName:kUploadPhotosToAlbumProgressNotification object:[NSNumber numberWithFloat:uploadProgress]];
+   
+   if (uploadProgress >= 1.0) {
+    block(YES, nil);
+   }
+   
+  } completionBlock:^(NSArray *operations) {
+   
+   // Add the photos to the album
+   NSString *addToAlbumPath = [NSString stringWithFormat:@"/albums/%@/", [albumID stringValue]];
+   
+   NSLog(@"%@", [@{@"add_photos": photoIds} description]);
+   
+   [self postPath:addToAlbumPath parameters:@{@"add_photos": photoIds} success:^(AFHTTPRequestOperation *operation, id responseObject) {
     
+    [[SVEntityStore sharedStore] userAlbums];
     
+   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
     
-    // If successful return the block
+    block(NO, error);
+    
+   }];
+   
+  }];
+  
+ } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+  
+  block(NO, error);
+  
+ }];
+ 
+ 
+ // If successful return the block ... not any more
+}
+
+
+/*
+ * save the photo to DB so it will appear in the album ... this is a temporary store until the actual photo id can be retreived
+ */
+-(void)newUploadedPhotoForAlbum:(Album *) album withPhotoId:(NSString *) photoId
+{
+ Album *albumObject = (Album *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:album.objectID];
+ 
+ NSLog(@"saving temp photo to album: %@, %@", photoId, album.name);
+ 
+// AlbumPhoto *albumPhoto = (AlbumPhoto *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext 
+
+ if(albumObject != nil)
+ {
+  NSMutableSet *newAlbumPhotos = [[NSMutableSet alloc] initWithSet:albumObject.albumPhotos];
+  
+  AlbumPhoto *albumPhoto = [NSEntityDescription insertNewObjectForEntityForName:@"AlbumPhoto" inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
+  
+  albumPhoto.album = albumObject;
+//  albumPhoto.albumId = albumObject.albumId;
+//  albumPhoto.author = [[NSNumber alloc] initWithInt:1];
+//  albumPhoto.hasViewed = [[NSNumber alloc] initWithInt:0];
+  albumPhoto.photoId = photoId;
+  albumPhoto.photoUrl = @"n/a";
+  albumPhoto.dateCreated = [NSDate date];
+  
+  [newAlbumPhotos addObject:albumPhoto];
+  
+  NSError *error;
+  
+  [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext saveToPersistentStore:&error];
+  
+  
+  if(error)
+  {
+   NSLog(@"error saving temp photo:  %@", error);
+  }
+  else
+  {
+   NSLog(@"temp photo saved successfully");
+
+  }
+   
+ }
+ 
 }
 
 

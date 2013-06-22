@@ -17,6 +17,7 @@
 - (BOOL)doesPhoto:(NSString *)photo existForAlbumName:(NSString *)albumName;
 
 - (void)saveLoadedImageData:(NSData *)imageData forPhotoObject:(AlbumPhoto *)photo inAlbum:(NSString *)albumName;
+- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(NSString *)albumName;
 - (void)saveLoadedImage:(UIImage *)image forPhotoObject:(Photo *)photo;
 
 - (void)cleanupOfflineStorageForAlbum:(Album *)album;
