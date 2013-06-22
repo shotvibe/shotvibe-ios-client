@@ -24,15 +24,15 @@
 /*
  * check to see if the photo exists
  */
-- (BOOL)doesPhoto:(NSString *)photo existForAlbumName:(NSString *)albumName
+- (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(NSNumber *)albumId
 {
     BOOL exists = NO;
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:albumName];
+    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[albumId stringValue]];
     
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photo];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photoId];
     
     exists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
     
@@ -70,7 +70,7 @@
 }
 
 
-- (void)saveLoadedImageData:(NSData *)imageData forPhotoObject:(AlbumPhoto *)photo inAlbum:(NSString *)albumName
+- (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(NSNumber *)albumId
 {
     if (!self.offlineStorageQueue) {
         self.offlineStorageQueue = [[NSOperationQueue alloc] init];
@@ -80,7 +80,7 @@
     [self.offlineStorageQueue addOperationWithBlock:^{
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:albumName];
+        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[albumId stringValue]];
         NSError *filePathError;
         if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
                                        withIntermediateDirectories:YES

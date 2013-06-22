@@ -100,6 +100,7 @@
         [self.globalDownloadQueue cancelAllOperations];
     }
     
+    // TODO: We should only update albums that need to be updated rather than all the albums each time.
     NSArray *albums = [self getAlbums];
     
     // make sure that for 1st time, get all, for 2nd time, only get updated or new albums, and then only those with new photos
@@ -115,7 +116,7 @@
         {
             //   NSLog(@"  photo:  %@", photo.photoId);
             
-            photoExists = [SVBusinessDelegate doesPhoto:photo.photoId existForAlbumName:album.name];
+            photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:album.albumId];
             
             if(!photoExists)
             {
@@ -128,7 +129,7 @@
                     if ( imageData != nil ) {
                         NSLog(@"photo downloaded:  %@", photo.photoId);
                         
-                        [SVBusinessDelegate saveImageData:imageData forPhoto:photo inAlbum:album.name];
+                        [SVBusinessDelegate saveImageData:imageData forPhoto:photo inAlbumWithId:album.albumId];
                     }
                     
                 }];
@@ -146,7 +147,6 @@
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
     
     NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
-    
     
     NSError *error;
     NSArray *array;

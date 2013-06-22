@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Album" representedClassName="Album" syncable="YES">
         <attribute name="albumId" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
@@ -45,9 +45,9 @@
         <relationship name="author" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="photos" inverseEntity="Member" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-6480" positionY="-2026" width="128" height="255"/>
-        <element name="AlbumPhoto" positionX="-6086" positionY="-1863" width="128" height="150"/>
+        <element name="Album" positionX="-6518" positionY="-2223" width="128" height="255"/>
+        <element name="AlbumPhoto" positionX="-6201" positionY="-2067" width="128" height="150"/>
         <element name="Member" positionX="-6707" positionY="-2029" width="128" height="165"/>
-        <element name="Photo" positionX="-6284" positionY="-2023" width="128" height="150"/>
+        <element name="Photo" positionX="-6498" positionY="-1836" width="128" height="150"/>
     </elements>
 </model>
