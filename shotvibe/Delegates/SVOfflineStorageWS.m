@@ -75,7 +75,7 @@
  */
 - (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(NSNumber *)albumId
 {
- [self saveImageToFileSystem:imageData forPhotoId:photo.photoId inAlbumWithId:albumId];
+    [self saveImageToFileSystem:imageData forPhotoId:photo.photoId inAlbumWithId:albumId];
 }
 
 
@@ -84,7 +84,7 @@
  */
 - (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSNumber *)albumId
 {
- [self saveImageToFileSystem:imageData forPhotoId:photoId inAlbumWithId:albumId];
+    [self saveImageToFileSystem:imageData forPhotoId:photoId inAlbumWithId:albumId];
 }
 
 
@@ -94,27 +94,27 @@
  */
 - (void) saveImageToFileSystem:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSNumber *)albumId
 {
- if (!self.offlineStorageQueue) {
-  self.offlineStorageQueue = [[NSOperationQueue alloc] init];
- }
- 
- 
- [self.offlineStorageQueue addOperationWithBlock:^{
-  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-  NSString *documentsDirectory = [paths objectAtIndex:0];
-  NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[albumId stringValue]];
-  NSError *filePathError;
-  if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
-                                 withIntermediateDirectories:YES
-                                                  attributes:nil
-                                                       error:&filePathError])
-  {
-   NSLog(@"Create directory error: %@", [filePathError localizedDescription]);
-  }
-  NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photoId];
-  
-  [imageData writeToFile:filePath atomically:NO];
- }];
+    if (!self.offlineStorageQueue) {
+        self.offlineStorageQueue = [[NSOperationQueue alloc] init];
+    }
+    
+    
+    [self.offlineStorageQueue addOperationWithBlock:^{
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[albumId stringValue]];
+        NSError *filePathError;
+        if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
+                                       withIntermediateDirectories:YES
+                                                        attributes:nil
+                                                             error:&filePathError])
+        {
+            NSLog(@"Create directory error: %@", [filePathError localizedDescription]);
+        }
+        NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photoId];
+        
+        [imageData writeToFile:filePath atomically:NO];
+    }];
 }
 
 
