@@ -14,7 +14,7 @@
 
 @interface SVOfflineStorageWS : NSObject
 
-- (BOOL) doesPhotoExist :(NSString *) albumName  :(NSString *) photo;
+- (BOOL)doesPhoto:(NSString *)photo existForAlbumName:(NSString *)albumName;
 
 - (void)saveLoadedImageAlbumPhoto:(UIImage *)image forPhotoObject:(AlbumPhoto *)photo :(NSString *) albumName;
 - (void)saveLoadedImage:(UIImage *)image forPhotoObject:(Photo *)photo;

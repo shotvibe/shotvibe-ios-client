@@ -15,11 +15,11 @@
 @implementation SVBusinessDelegate
 
 
-+ (BOOL) doesPhotoExist :(NSString *) albumName  :(NSString *) photo
++ (BOOL)doesPhoto:(NSString *)photo existForAlbumName:(NSString *)albumName
 {
- SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
- 
- return [workerSession doesPhotoExist:albumName :photo];
+    SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
+    
+    return [workerSession doesPhoto:photo existForAlbumName:albumName];
 }
 
 
@@ -28,16 +28,16 @@
 
 + (void)saveImageAlbumPhoto:(UIImage *)image forPhoto:(AlbumPhoto *)photo  :(NSString *) albumName
 {
- SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
- 
- [workerSession saveLoadedImageAlbumPhoto:image forPhotoObject:photo :albumName];
+    SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
+    
+    [workerSession saveLoadedImageAlbumPhoto:image forPhotoObject:photo :albumName];
 }
 
 
 + (void)saveImage:(UIImage *)image forPhoto:(Photo *)photo
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
- 
+    
     [workerSession saveLoadedImage:image forPhotoObject:photo];
 }
 
@@ -71,7 +71,7 @@
 + (UIImage *)loadImageFromAlbum:(Album *)album withPath:(NSString *)path
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
-
+    
     
     return [workerSession loadImageFromOfflineWithPath:path inAlbum:album];
 }
