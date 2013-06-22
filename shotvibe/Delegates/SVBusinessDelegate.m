@@ -24,7 +24,7 @@
 }
 
 
-+ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbum:(NSNumber *)albumId
++ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(NSNumber *)albumId
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
