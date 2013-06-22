@@ -139,6 +139,9 @@
                         NSLog(@"photo downloaded:  %@", localPhoto.photoId);
                         
                         [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:localAlbum.albumId];
+                        
+                        // This album has finished syncing
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:album];
                     }
                     
                 }];
@@ -457,13 +460,13 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotificationName object:nil];
-        
         [self willChangeValueForKey:@"syncInProgress"];
         _syncInProgress = NO;
         [self didChangeValueForKey:@"syncInProgress"];
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotification object:nil];
         
     });
 }
