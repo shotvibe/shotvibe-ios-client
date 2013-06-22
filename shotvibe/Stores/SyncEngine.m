@@ -90,6 +90,8 @@
     // 20130621 - changed to using NSOperationQueue - allows pausing of all worker threads more easily as well as stopping them
     //            if a memory issue occurs
     
+    NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+    
     // Initialize the operation queue
     if (self.globalDownloadQueue == nil)
     {
@@ -124,12 +126,15 @@
                 
                 [self.globalDownloadQueue addOperationWithBlock:^{
                     
-                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photo.photoUrl]];
+                    AlbumPhoto *localPhoto = (AlbumPhoto *)[managedObjectContext objectWithID:photo.objectID];
+                    Album *localAlbum = (Album *)[managedObjectContext objectWithID:album.objectID];
+                    
+                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:localPhoto.photoUrl]];
                     
                     if ( imageData != nil ) {
-                        NSLog(@"photo downloaded:  %@", photo.photoId);
+                        NSLog(@"photo downloaded:  %@", localPhoto.photoId);
                         
-                        [SVBusinessDelegate saveImageData:imageData forPhoto:photo inAlbumWithId:album.albumId];
+                        [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:localAlbum.albumId];
                     }
                     
                 }];
