@@ -457,13 +457,13 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotificationName object:nil];
-        
         [self willChangeValueForKey:@"syncInProgress"];
         _syncInProgress = NO;
         [self didChangeValueForKey:@"syncInProgress"];
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotification object:nil];
         
     });
 }

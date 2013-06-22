@@ -27,7 +27,7 @@
 #define kUploadPhotosToAlbumProgressNotification @"UploadPhotosToAlbumProgressNotification"
 
 #define kSDSyncEngineInitialCompleteKey             @"SyncEngineInitialSyncCompleted"
-#define kSDSyncEngineSyncCompletedNotificationName  @"SyncEngineSyncCompleted"
+#define kSDSyncEngineSyncCompletedNotification      @"SyncEngineSyncCompleted"
 #define kCategoryBadgeUpdatedNotification           @"CategoryBadgeUpdatedNotification"
 
 #endif
