@@ -32,11 +32,11 @@
 }
 
 
-+ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(Album *)album
++ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(Album *)album
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
  
-    [workerSession saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbum:album.name];
+    [workerSession saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbumWithId:album.albumId];
 }
 
 

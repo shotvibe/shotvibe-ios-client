@@ -17,7 +17,7 @@
 - (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(NSNumber *)albumId;
 
 - (void)saveLoadedImageData:(NSData *)imageData forPhotoObject:(AlbumPhoto *)photo inAlbum:(NSString *)albumName;
-- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(NSString *)albumName;
+- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSNumber *)albumId;
 - (void)saveLoadedImage:(UIImage *)image forPhotoObject:(Photo *)photo;
 - (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(NSNumber *)albumId;
 

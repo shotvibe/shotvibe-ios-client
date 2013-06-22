@@ -203,7 +203,7 @@
   
   NSLog(@"saving requested photo to %@.%@", album.name, photoId);
   
-  [SVBusinessDelegate saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbum:album];
+  [SVBusinessDelegate saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbumWithId:album];
   
   [[SVEntityStore sharedStore] newUploadedPhotoForAlbum:album withPhotoId:photoId];
  }
@@ -283,7 +283,7 @@
      if ( imageData != nil ) {
       NSLog(@"photo downloaded:  %@", photo.photoId);
       
-      [SVBusinessDelegate saveImageData:imageData forPhoto:photo inAlbum:album.name];
+      [SVBusinessDelegate saveImageData:imageData forPhoto:photo inAlbumWithId:album.albumId];
      }
      
     }];
