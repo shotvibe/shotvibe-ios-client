@@ -260,9 +260,57 @@
 
 #pragma mark NSFetchedResultsControllerDelegate methods
 
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    
+    self.fetchedResultsController = [[SVEntityStore sharedStore] allAlbumsForCurrentUserWithDelegate:self];
+
+    return _fetchedResultsController;
+}
+
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    
+    [self.tableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    
+    SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+    
+    switch (type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+        case NSFetchedResultsChangeUpdate:
+            if (cell) {
+                [self configureCell:cell atIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+            }
+            break;
+        case NSFetchedResultsChangeMove:
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        default:
+            break;
+    }
+}
+
+
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    [self.tableView reloadData];
+
+    
+    [self.tableView endUpdates];
 }
 
 
@@ -402,15 +450,17 @@
     cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
     cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
     cell.networkImageView.delegate = self;
-    cell.networkImageView.tag = indexPath.row;
-    [cell.networkImageView setPathToNetworkImage:thumbnailUrl];
- 
+    cell.networkImageView.tag = indexPath.row; 
 //    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
  
     [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
         if (image)
         {
             [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+        }
+        else
+        {
+            [cell.networkImageView setPathToNetworkImage:thumbnailUrl];
         }
     }];
     
@@ -444,7 +494,7 @@
  */
 - (void)configureNumberNotViewed:(NSNotification *)notification
 {
- NSMutableArray *data = [notification object];
+ /*NSMutableArray *data = [notification object];
 
  NSIndexPath *indexPath = [data objectAtIndex:0];
 
@@ -472,7 +522,7 @@
    
    break;
   }
- }
+ }*/
 }
 
 
@@ -481,7 +531,7 @@
  */
 - (void)fetchAlbumPhotoInfo :(NSNotification *) albumDetail
 {
-  self.updatedAlbums = [albumDetail object];
+  /*self.updatedAlbums = [albumDetail object];
  
  // search and retrieve all albums
  [self albumSearch:nil];
@@ -501,7 +551,7 @@
    
    [[SVEntityStore sharedStore] photosForAlbumWithID:anAlbum atIndexPath:[NSIndexPath indexPathForRow:[fetchedObjects indexOfObject:anAlbum] inSection:0]];
   }
- }
+ }*/
  
 }
 

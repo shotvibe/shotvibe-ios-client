@@ -21,6 +21,9 @@
 /**
  Album Methods
  */
+- (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate;
+- (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate;
+
 - (void)userAlbums;
 
 - (void)photosForAlbumWithID:(NSNumber *)albumID;

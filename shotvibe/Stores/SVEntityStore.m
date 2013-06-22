@@ -52,6 +52,31 @@ int callCount = 0;
 
 #pragma mark - Instance Methods
 
+- (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastUpdated" ascending:NO];
+    
+    fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
+    
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    fetchedResultsController.delegate = delegate;
+    
+    NSError *fetchError = nil;
+    if (![fetchedResultsController performFetch:&fetchError]) {
+        NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
+    }
+    
+    return fetchedResultsController;
+}
+
+
+- (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate
+{
+    return nil;
+}
+
+
 - (void)userAlbums
 {
     NSLog(@"userAlbums - start sync from remote");
