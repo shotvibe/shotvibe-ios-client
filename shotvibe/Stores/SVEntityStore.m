@@ -73,7 +73,25 @@ int callCount = 0;
 
 - (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate
 {
-    return nil;
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastUpdated" ascending:NO];
+
+    fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
+    
+    if (![searchTerm isEqualToString:@""]) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchTerm];
+        fetchRequest.predicate = predicate;
+    }
+    
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    fetchedResultsController.delegate = delegate;
+    
+    NSError *fetchError = nil;
+    if (![fetchedResultsController performFetch:&fetchError]) {
+        NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
+    }
+    
+    return fetchedResultsController;
 }
 
 
