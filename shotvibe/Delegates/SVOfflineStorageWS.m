@@ -113,6 +113,7 @@
         }
         NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photoId];
         
+        // TODO: After performance tuning is complete, we can pass YES for atomically:
         [imageData writeToFile:filePath atomically:NO];
     }];
 }

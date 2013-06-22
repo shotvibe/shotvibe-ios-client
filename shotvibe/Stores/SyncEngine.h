@@ -28,10 +28,4 @@ typedef enum {
 #pragma mark - Instance Methods
 
 - (void)startSync;
-
-- (void)syncAlbums;
-- (NSArray *)getAlbums;
-
-- (void)addPhotos:(NSArray *)photos ToAlbum:(Album *) album;
-
 @end

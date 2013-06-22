@@ -26,6 +26,11 @@
 @property (nonatomic, strong) NSMutableArray *project;
 @property (nonatomic, strong) NSMutableArray *uploadQueue;
 
+
+- (void)syncAlbums;
+- (NSArray *)getAlbums;
+- (void)addPhotos:(NSArray *)photos ToAlbum:(Album *) album;
+
 @end
 
 @implementation SyncEngine
@@ -39,7 +44,7 @@
     dispatch_once(&engineToken, ^{
         sharedEngine = [[SyncEngine alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncAlbums) name:kUserAlbumsLoadedNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(uploadPhotosInBatch) name:kStartPhotoUpload object:nil];
+        //[[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(uploadPhotosInBatch) name:kStartPhotoUpload object:nil];
     });
     
     return sharedEngine;
@@ -112,15 +117,10 @@
     
     for(Album *album in albums)           // call to get all photos for the given album
     {
-        //     [[SVEntityStore sharedStore] photosForAlbumWithID:album.albumId];
-        
-        [self syncPhotos:album];
         NSLog(@"album:  %@", album.name);
         
         for(AlbumPhoto *photo in album.albumPhotos)
         {
-            //   NSLog(@"  photo:  %@", photo.photoId);
-            
             photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:album.albumId];
             
             if(!photoExists)
@@ -144,9 +144,6 @@
             }
         }
     }
-    
-    // prevent another call to this method, should only be at startup for now
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -243,54 +240,7 @@
 }
 
 
-/*
- * get all photos for an album
- */
-//-(void) syncPhotos :(NSNotification *) notification
--(void) syncPhotos :(Album *) album
-{
-    // make sure that for 1st time, get all, for 2nd time, only get updated or new albums, and then only those with new photos
-    /// checking the etag
-    
-    // NSNumber *albumId = [notification object];
-    // NSArray *albums = [self getAlbumByAlbumId:albumId];
-    
-    
-    BOOL photoExists = NO;
-    
-    // for(Album *album in albums)
-    {
-        NSLog(@"album:  %@", album.name);
-        
-        for(AlbumPhoto *photo in album.albumPhotos)
-        {
-            //   NSLog(@"  photo:  %@", photo.photoId);
-            
-            photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:album.albumId];
-            
-            if(!photoExists)
-            {
-                NSLog(@"photo DNE, downloading photo:  %@, %@", album.name, photo.photoId);
-                
-                [self.globalDownloadQueue addOperationWithBlock:^{
-                    
-                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photo.photoUrl]];
-                    
-                    if ( imageData != nil ) {
-                        NSLog(@"photo downloaded:  %@", photo.photoId);
-                        
-                        [SVBusinessDelegate saveImageData:imageData forPhoto:photo inAlbumWithId:album.albumId];
-                    }
-                    
-                }];
-            }
-        }
-    }
-}
-
-
 #pragma mark - Album download
-
 
 /*
  * get the latest album sync, compare to cached etags per album, use the diff between etags, to determine which albums to pull photos from
