@@ -13,9 +13,10 @@
 #import "Album.h"
 
 typedef enum {
- SVObjectSynced = 0,
- SVObjectCreated,
- SVObjectDeleted,
+    SVObjectSyncCompleted = 0,
+    SVObjectSyncWaiting,
+    SVObjectSyncActive,
+    SVObjectSyncNeeded,
 } SVObjectSyncStatus;
 
 @interface SyncEngine : NSObject

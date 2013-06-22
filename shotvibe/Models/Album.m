@@ -25,6 +25,8 @@
 @dynamic pushNotificationsOption;
 @dynamic notificationsOption;
 @dynamic newPhotoTone;
+@dynamic objectSyncStatus;
+@dynamic tempAlbumId;
 @dynamic albumPhotos;
 @dynamic members;
 @dynamic photos;

@@ -18,6 +18,8 @@
 @property (nonatomic, retain) NSNumber * hasViewed;
 @property (nonatomic, retain) NSString * photoId;
 @property (nonatomic, retain) NSString * photoUrl;
+@property (nonatomic, retain) NSNumber * objectSyncStatus;
+@property (nonatomic, retain) NSString * tempPhotoId;
 @property (nonatomic, retain) Album *album;
 @property (nonatomic, retain) Member *author;
 

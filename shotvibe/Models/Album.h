@@ -24,6 +24,8 @@
 @property (nonatomic, retain) NSNumber * pushNotificationsOption;
 @property (nonatomic, retain) NSNumber * notificationsOption;
 @property (nonatomic, retain) NSNumber * newPhotoTone;
+@property (nonatomic, retain) NSNumber * objectSyncStatus;
+@property (nonatomic, retain) NSString * tempAlbumId;
 @property (nonatomic, retain) NSSet *albumPhotos;
 @property (nonatomic, retain) NSSet *members;
 @property (nonatomic, retain) NSSet *photos;

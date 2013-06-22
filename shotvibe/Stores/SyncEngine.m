@@ -121,6 +121,7 @@
         
         for(AlbumPhoto *photo in album.albumPhotos)
         {
+            // NOTE: If the photo does not exist, then will not require uploading
             photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:album.albumId];
             
             if(!photoExists)
@@ -141,6 +142,26 @@
                     }
                     
                 }];
+            } else {
+                
+                if ([photo.objectSyncStatus integerValue] == SVObjectSyncNeeded) {
+                    
+                    //TODO: This photo already exists in the file system, AND it is marked as needing to be synced.
+                    
+                    //TODO: First, check to make sure that the album this photo belongs to is already in the queue,
+                    // If so, you need to add this photo to the appropriate batch
+                    
+                    //TODO: If the album this photo belongs to is not already in the queue, you need to create a new
+                    // batch queue, add the photo to the batch, and add this batch queue to the master queue.
+                    
+                    //NOTE: Remember, this master upload queue needs to save it's state such that it resumes where
+                    // it left off when the application is quit and then resumed.
+                    
+                    //NOTE: The upload batches will also need to correctly set the photo.objectSyncStatus property
+                    // to the appropriate status as each upload is completed.
+                    
+                }
+                
             }
         }
     }

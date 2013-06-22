@@ -18,6 +18,8 @@
 @dynamic hasViewed;
 @dynamic photoId;
 @dynamic photoUrl;
+@dynamic objectSyncStatus;
+@dynamic tempPhotoId;
 @dynamic album;
 @dynamic author;
 
