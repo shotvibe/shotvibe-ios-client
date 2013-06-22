@@ -71,7 +71,7 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
-
+    
     [self configureGridview];
 }
 
@@ -124,14 +124,14 @@
     view.layer.masksToBounds = NO;
     
     cell.contentView = view;
-        
+    
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:view.bounds];
     
     if (self.selectedGroup) {
         
         ALAsset *asset = [self.takenPhotos objectAtIndex:index];
         imageView.image = [UIImage imageWithCGImage:asset.thumbnail];
-
+        
     }
     else
     {
@@ -153,8 +153,8 @@
     }
     
     [cell.contentView addSubview:imageView];
-
- 
+    
+    
     // Configure the selection icon
     
     UIImageView *selectedIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"imageUnselected.png"]];
@@ -169,7 +169,7 @@
     selectedIcon.frame = CGRectMake(imageView.frame.size.width - selectedIcon.bounds.size.width - 5, imageView.frame.size.height - selectedIcon.bounds.size.height - 5, selectedIcon.frame.size.width, selectedIcon.frame.size.height);
     
     [cell.contentView addSubview:selectedIcon];
-        
+    
     return cell;
 }
 
@@ -201,42 +201,36 @@
 
 - (void)doneButtonPressed
 {
-  [self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error)
-  {
-    self.doneButton.enabled = NO;
-
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-    
-     [[SyncEngine sharedEngine] addPhotos:selectedPhotoPaths ToAlbum:self.selectedAlbum];
-    
-    });
-  
-     self.doneButton.enabled = YES;
-  
-     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-   
-//
-////     immediately return, and dismiss ...
-//
-//     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-//
-//     
-//        [[SVEntityStore sharedStore] addPhotos:selectedPhotoPaths ToAlbumWithID:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error)
-//         {
-//            if (!error) {
-//                [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-//            }
-//            else
-//            {
-//                UIAlertView *uploadErrorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Network Error", @"") message:NSLocalizedString(@"Something went wrong uploading your photos. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-//                
-//                [uploadErrorAlert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
-//                
-//                self.doneButton.enabled = YES;
-//            }
-//        }];
-    }];
+    [self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error)
+     {
+         self.doneButton.enabled = NO;
+         
+         
+         self.doneButton.enabled = YES;
+         
+         [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+         
+         //
+         ////     immediately return, and dismiss ...
+         //
+         //     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+         //
+         //
+         //        [[SVEntityStore sharedStore] addPhotos:selectedPhotoPaths ToAlbumWithID:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error)
+         //         {
+         //            if (!error) {
+         //                [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+         //            }
+         //            else
+         //            {
+         //                UIAlertView *uploadErrorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Network Error", @"") message:NSLocalizedString(@"Something went wrong uploading your photos. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+         //
+         //                [uploadErrorAlert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+         //
+         //                self.doneButton.enabled = YES;
+         //            }
+         //        }];
+     }];
 }
 
 
@@ -261,7 +255,7 @@
     
     _gmGridView.dataSource = self;
     _gmGridView.actionDelegate = self;
-
+    
     [self.view addSubview:_gmGridView];
     
     
@@ -283,7 +277,7 @@
             Byte *buffer = (Byte*)malloc(rep.size);
             NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
             NSData *data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-
+            
             if (data) {
                 [selectedPhotoPaths addObject:data];
             }
@@ -293,14 +287,14 @@
             if (assetCount >= selectedPhotos.count) {
                 block(selectedPhotoPaths, nil);
             }
-
+            
         }
     }
     else
     {
         for (NSString *selectedPhotoPath in selectedPhotos) {
             NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
-         
+            
             if (photoData) {
                 [selectedPhotoPaths addObject:photoData];
             }
