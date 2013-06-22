@@ -23,6 +23,7 @@
  */
 - (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate;
 - (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate;
+- (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate;
 
 - (void)userAlbums;
 
@@ -35,6 +36,6 @@
 
 - (void)addPhotos:(NSArray *)photos ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
 
--(void)newUploadedPhotoForAlbum:(Album *) album withPhotoId:(NSString *) photoId;
+- (void)newUploadedPhotoForAlbum:(Album *) album withPhotoId:(NSString *) photoId;
 
 @end

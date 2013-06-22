@@ -8,7 +8,7 @@
 
 #import "SVAlbumDetailScrollViewController.h"
 #import "SVDefines.h"
-#import "Photo.h"
+#import "AlbumPhoto.h"
 #import "Album.h"
 #import "UINavigationController+MFSideMenu.h"
 #import "MFSideMenu.h"
@@ -106,7 +106,8 @@
     [self.photoAlbumView reloadData];
     
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    [self.photoAlbumView moveToPageAtIndex:[[[selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] indexOfObject:self.selectedPhoto] animated:NO];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+    [self.photoAlbumView moveToPageAtIndex:[[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] indexOfObject:self.selectedPhoto] animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -129,7 +130,7 @@
 #pragma mark NIPhotoScrubberViewDataSource
 
 - (NSInteger)numberOfPhotosInScrubberView:(NIPhotoScrubberView *)photoScrubberView {
-    return [selectedAlbum.photos count];
+    return [selectedAlbum.albumPhotos count];
 }
 
 
@@ -140,7 +141,8 @@
     UIImage* image = [self.highQualityImageCache objectWithName:photoIndexKey];
     if (nil == image) {
         NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-        Photo* photo = [[[selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:thumbnailIndex];
+        NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+        AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:thumbnailIndex];
         
         NSString* thumbnailSource = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
         [self requestImageFromSource: thumbnailSource
@@ -156,7 +158,7 @@
 
 
 - (NSInteger)numberOfPagesInPagingScrollView:(NIPhotoAlbumScrollView *)photoScrollView {
-    return [selectedAlbum.photos count];
+    return [selectedAlbum.albumPhotos count];
 }
 
 
@@ -170,7 +172,8 @@
     NSString* photoIndexKey = [self cacheKeyForPhotoIndex:photoIndex];
     
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    Photo* photo = [[[selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:photoIndex];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+    AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:photoIndex];
     
     
     image = [self.highQualityImageCache objectWithName:photoIndexKey];
@@ -232,9 +235,10 @@
 #pragma mark - Private Methods
 
 - (void)loadImages {
-    for (NSInteger ix = 0; ix < [selectedAlbum.photos count]; ++ix) {
+    for (NSInteger ix = 0; ix < [selectedAlbum.albumPhotos count]; ++ix) {
         NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-        Photo* photo = [[[selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:ix];
+        NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+        AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:ix];
         
         NSString* photoIndexKey = [self cacheKeyForPhotoIndex:ix];
         
@@ -252,7 +256,8 @@
 - (void)configureDetailText
 {
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    Photo *photo = [[[selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:self.photoAlbumView.centerPageIndex];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+    AlbumPhoto *photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:self.photoAlbumView.centerPageIndex];
     
     NSString *updatedBy = NSLocalizedString(@"Updated by ", @"");
     

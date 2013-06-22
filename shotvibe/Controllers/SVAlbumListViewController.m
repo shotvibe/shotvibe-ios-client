@@ -35,19 +35,14 @@
 @property (nonatomic, strong) IBOutlet UITextField *albumField;
 @property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
 @property (nonatomic, strong) IBOutlet UIView *viewContainer;
-@property (nonatomic, strong) IBOutlet NSMutableArray *updatedAlbums;
-@property (nonatomic, strong) IBOutlet NSMutableArray *albumIds;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 
 
 - (void)configureViews;
-- (void)loadData;
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)searchPressed;
 - (void)settingsPressed;
-- (void)configureNumberNotViewed:(NSNotification *)notification;
-- (void)fetchAlbumPhotoInfo  :(NSNotification *) albumDetail;
 - (void)showDropDown;
 - (void)hideDropDown;
 - (void)showSearch;
@@ -154,18 +149,12 @@
     // Listen for our RestKit loads to finish
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureNumberNotViewed:) name:kPhotosLoadedForIndexPathNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo:) name:kUserAlbumsLoadedNotification object:nil];
-
- 
-   // Reset to all albums
-    [self albumSearch:nil];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self loadData];
 }
 
 
@@ -218,10 +207,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
- 
- // need to stop all downloads at this time
- 
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -309,7 +294,6 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
 
-    
     [self.tableView endUpdates];
 }
 
@@ -411,14 +395,6 @@
 }
 
 
-/*
- * load data, via bg sync
- */
-- (void)loadData
-{
-}
-
-
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     // TODO: We need to configure our cell's views
@@ -489,73 +465,6 @@
 }
 
 
-/*
- * this is the notification handler for the album list
- */
-- (void)configureNumberNotViewed:(NSNotification *)notification
-{
- /*NSMutableArray *data = [notification object];
-
- NSIndexPath *indexPath = [data objectAtIndex:0];
-
- Album *anAlbum = [data objectAtIndex:1];
-
- NSNumber *albumId = anAlbum.albumId;
-
-
- 
- 
- //
- // this was initially to determine which photos were new, and only download those, but currently it is used to
- // flag the 'number not viewed' tag in the cell (assuming the etag is accurate)
- //
- for(NSDictionary *albumWork in self.updatedAlbums)
- {
-  if([albumId intValue] == [[albumWork objectForKey:@"albumId"] intValue])
-  {
-   SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-   
-//   NSLog(@"updated count:  %i", [[albumWork objectForKey:@"count"] intValue]);
-   
-   [self.albumPhotoInfo setObject:[NSNumber numberWithInteger:[[albumWork objectForKey:@"count"] intValue]] forKey:indexPath];
-   [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", [[albumWork objectForKey:@"count"] intValue]] forState:UIControlStateNormal];
-   
-   break;
-  }
- }*/
-}
-
-
-/*
- * get all album info
- */
-- (void)fetchAlbumPhotoInfo :(NSNotification *) albumDetail
-{
-  /*self.updatedAlbums = [albumDetail object];
- 
- // search and retrieve all albums
- [self albumSearch:nil];
- 
- self.albumIds = [[NSMutableArray alloc] init];
- 
- // Start figuring out how many new photos we have
- NSArray *fetchedObjects = self.fetchedResultsController.fetchedObjects;
-
- for (Album *anAlbum in fetchedObjects)
- {
-  NSLog(@"album:  %@", anAlbum.name);
-  
-  if (anAlbum)
-  {
-   [self.albumIds addObject:anAlbum.albumId];    // cache the name
-   
-   [[SVEntityStore sharedStore] photosForAlbumWithID:anAlbum atIndexPath:[NSIndexPath indexPathForRow:[fetchedObjects indexOfObject:anAlbum] inSection:0]];
-  }
- }*/
- 
-}
-
-
 - (void)showDropDown
 {
     self.tableOverlayView.hidden = NO;
@@ -616,56 +525,21 @@
     } completion:^(BOOL finished) {
         self.searchbar.hidden = YES;
     }];
-
- 
- // Reset to all albums
- [self albumSearch:nil];
- 
- [self fetchAlbumPhotoInfo:nil];
+    
+    self.fetchedResultsController = nil;
+    [self fetchedResultsController];
+    [self.tableView reloadData];
 }
 
 
 
 - (void)searchForAlbumWithTitle:(NSString *)title
 {
- NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name BEGINSWITH[cd] %@", title];
 
- [self albumSearch:predicate];
- 
- [self fetchAlbumPhotoInfo:nil];
+    self.fetchedResultsController = nil;
+    self.fetchedResultsController = [[SVEntityStore sharedStore] allAlbumsMatchingSearchTerm:title WithDelegate:self];
+    [self.tableView reloadData];
 }
-
-
-/*
- * single method to retrieve album content
- */
-- (void) albumSearch :(NSPredicate *) predicate
-{
- NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
- NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastUpdated" ascending:NO];  // dateCreated
- fetchRequest.sortDescriptors = @[descriptor];
- 
- if(predicate != nil)
- {
-  fetchRequest.predicate = predicate;
- }
-
- NSError *error = nil;
- 
- // Setup fetched results
- self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
- 
- [self.fetchedResultsController setDelegate:self];
- 
- if (![self.fetchedResultsController performFetch:&error]) {
-  RKLogError(@"There was an error loading the fetched result controller: %@", error);
- }
- 
- [self.tableView reloadData];
-}
-
-
-
 
 
 - (void)createNewAlbumWithTitle:(NSString *)title

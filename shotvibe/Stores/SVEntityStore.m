@@ -73,7 +73,52 @@ int callCount = 0;
 
 - (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate
 {
-    return nil;
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastUpdated" ascending:NO];
+
+    fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
+    
+    if (![searchTerm isEqualToString:@""]) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchTerm];
+        fetchRequest.predicate = predicate;
+    }
+    
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    fetchedResultsController.delegate = delegate;
+    
+    NSError *fetchError = nil;
+    if (![fetchedResultsController performFetch:&fetchError]) {
+        NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
+    }
+    
+    return fetchedResultsController;
+}
+
+
+- (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+    NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+    
+    fetchRequest.sortDescriptors = @[datecreatedDescriptor, idDescriptor];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album == %@", anAlbum];
+    fetchRequest.predicate = predicate;
+    
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    fetchedResultsController.delegate = delegate;
+    
+    NSError *fetchError = nil;
+    if (![fetchedResultsController performFetch:&fetchError]) {
+        NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
+    }
+    else
+    {
+        NSLog(@"Fetched Photos: %@", [fetchedResultsController.fetchedObjects description]);
+    }
+    
+    return fetchedResultsController;
 }
 
 
