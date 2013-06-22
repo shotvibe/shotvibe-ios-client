@@ -23,14 +23,11 @@
 }
 
 
-
-
-
-+ (void)saveImageAlbumPhoto:(UIImage *)image forPhoto:(AlbumPhoto *)photo  :(NSString *) albumName
++ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbum:(NSString *)albumName
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
-    [workerSession saveLoadedImageAlbumPhoto:image forPhotoObject:photo :albumName];
+    [workerSession saveLoadedImageData:imageData forPhotoObject:photo inAlbum:albumName];
 }
 
 

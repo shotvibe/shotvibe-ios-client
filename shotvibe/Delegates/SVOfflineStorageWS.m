@@ -70,7 +70,7 @@
 }
 
 
-- (void)saveLoadedImageAlbumPhoto:(UIImage *)image forPhotoObject:(AlbumPhoto *)photo :(NSString *) albumName
+- (void)saveLoadedImageData:(NSData *)imageData forPhotoObject:(AlbumPhoto *)photo inAlbum:(NSString *)albumName
 {
     if (!self.offlineStorageQueue) {
         self.offlineStorageQueue = [[NSOperationQueue alloc] init];
@@ -78,8 +78,6 @@
     
     
     [self.offlineStorageQueue addOperationWithBlock:^{
-        NSData *imgData = UIImageJPEGRepresentation(image, 1);
-        
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:albumName];
@@ -93,7 +91,7 @@
         }
         NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photo.photoId];
         
-        [imgData writeToFile:filePath atomically:YES];
+        [imageData writeToFile:filePath atomically:NO];
     }];
     
 }

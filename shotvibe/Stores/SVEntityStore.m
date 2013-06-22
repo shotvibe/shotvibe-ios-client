@@ -52,8 +52,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)userAlbums
 {
- NSLog(@"userAlbums - start sync from remote");
- 
+    NSLog(@"userAlbums - start sync from remote");
+    
     // Setup Member Mapping
     RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [memberMapping addAttributeMappingsFromDictionary:@{
@@ -96,17 +96,13 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     // Get the albums
     [[RKObjectManager sharedManager] getObjectsAtPath:@"/albums/" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
-//       RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
-     
-     [[NSNotificationCenter defaultCenter] postNotificationName:kUserAlbumsLoadedNotification object:[[SyncEngine sharedEngine] getAlbums]];   // get etags
-     
-     [[SyncEngine sharedEngine] syncAlbums];
-     
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUserAlbumsLoadedNotification object:nil];   // get etags
+        
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-
-     NSLog(@"error");
-     
-     RKLogError(@"Load failed with error: %@", error);
+        
+        NSLog(@"error");
+        
+        RKLogError(@"Load failed with error: %@", error);
         
     }];
 }
@@ -174,9 +170,9 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 // - (void)photosForAlbumWithID:(NSNumber *)albumID atIndexPath:(NSIndexPath *)indexPath
 - (void)photosForAlbumWithID:(Album *) anAlbum atIndexPath:(NSIndexPath *)indexPath
 {
- 
+    
     NSNumber *albumID = anAlbum.albumId;
- 
+    
     // Setup Photo Mapping
     RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"Photo" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [photoMapping addAttributeMappingsFromDictionary:@{
@@ -220,12 +216,12 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     // Get the albums
     NSString *path = [NSString stringWithFormat:@"/albums/%@/", [albumID stringValue]];
     [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-     
-     NSMutableArray *data = [[NSMutableArray alloc] init];
-     
-     [data addObject:indexPath];
-     [data addObject:anAlbum];
-     
+        
+        NSMutableArray *data = [[NSMutableArray alloc] init];
+        
+        [data addObject:indexPath];
+        [data addObject:anAlbum];
+        
         //RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
         [[NSNotificationCenter defaultCenter] postNotificationName:kPhotosLoadedForIndexPathNotification object:data];
         
@@ -284,7 +280,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         [[SVEntityStore sharedStore] userAlbums];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-       
+        
         RKLogError(@"Load failed with error: %@", error);
         
     }];
@@ -359,7 +355,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         block(NO, error);
         
     }];
- 
+    
     
     
     // If successful return the block

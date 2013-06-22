@@ -13,15 +13,10 @@
 
 
 typedef enum {
- IFObjectSynced = 0,
- IFObjectCreated,
- IFObjectDeleted,
-} IFObjectSyncStatus;
-
-typedef enum {
- IFObjectRelationshipNeeded = 0,
- IFObjectRelationshipSynced,
-} IFObjectRelationshipSyncStatus;
+ SVObjectSynced = 0,
+ SVObjectCreated,
+ SVObjectDeleted,
+} SVObjectSyncStatus;
 
 @interface SyncEngine : NSObject
 
@@ -32,12 +27,8 @@ typedef enum {
 
 #pragma mark - Instance Methods
 
-- (void)registerNSManagedObjectClassToSync:(Class)aClass;
 - (void)startSync;
-- (void)setInitialSyncCompleted;
-- (BOOL)initialSyncComplete;
 
-- (void) syncAlbums;
-- (NSArray *) getAlbums;
-
+- (void)syncAlbums;
+- (NSArray *)getAlbums;
 @end

@@ -19,10 +19,8 @@
 @interface SyncEngine ()
 
 @property (nonatomic, strong) __block NSManagedObjectContext *syncContext;
-@property (nonatomic, strong) NSMutableArray *registeredClassesToSync;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (atomic, readonly) BOOL syncInProgress;
-@property (nonatomic, strong) NSOperationQueue *parseSyncQueue;
 
 @property (nonatomic, strong) NSOperationQueue *globalDownloadQueue;
 @property (nonatomic, strong) NSMutableArray *project;
@@ -39,6 +37,7 @@
     static dispatch_once_t engineToken;
     dispatch_once(&engineToken, ^{
         sharedEngine = [[SyncEngine alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncAlbums) name:kUserAlbumsLoadedNotification object:nil];
     });
     
     return sharedEngine;
@@ -46,24 +45,6 @@
 
 
 #pragma mark - Instance Methods
-
-- (void)registerNSManagedObjectClassToSync:(Class)aClass
-{
-    if (!self.registeredClassesToSync) {
-        self.registeredClassesToSync = [NSMutableArray array];
-    }
-    
-    if ([aClass isSubclassOfClass:[NSManagedObject class]]) {
-        if (![self.registeredClassesToSync containsObject:NSStringFromClass(aClass)]) {
-            [self.registeredClassesToSync addObject:NSStringFromClass(aClass)];
-        } else {
-            NSLog(@"Unable to register %@ as it is already registered", NSStringFromClass(aClass));
-        }
-    } else {
-        NSLog(@"Unable to register %@ as it is not a subclass of NSManagedObject", NSStringFromClass(aClass));
-    }
-}
-
 
 /*
  * sync - retrieve albums and photos
@@ -86,10 +67,6 @@
             
             [[SVEntityStore sharedStore] userAlbums];
             
-            //   [[SyncEngine sharedEngine] setInitialSyncCompleted];
-            
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-            
         });
     }
 }
@@ -101,7 +78,7 @@
 /*
  * sync albums with all/latest photos
  */
-- (void) syncAlbums
+- (void)syncAlbums
 {
     //
     // 20130619 - download all photos (thumbnails) for an album.  this provides the user with a better UX as the photos
@@ -113,13 +90,20 @@
     // 20130621 - changed to using NSOperationQueue - allows pausing of all worker threads more easily as well as stopping them
     //            if a memory issue occurs
     
+    // Initialize the operation queue
+    if (self.globalDownloadQueue == nil)
+    {
+        self.globalDownloadQueue = [[NSOperationQueue alloc] init];
+        [self.globalDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
+        //[self.globalDownloadQueue setMaxConcurrentOperationCount:2];
+    } else {
+        [self.globalDownloadQueue cancelAllOperations];
+    }
     
     NSArray *albums = [self getAlbums];
     
-    
     // make sure that for 1st time, get all, for 2nd time, only get updated or new albums, and then only those with new photos
     /// checking the etag
-    
     
     BOOL photoExists = NO;
     
@@ -137,30 +121,17 @@
             {
                 NSLog(@"photo DNE, downloading photo:  %@, %@", album.name, photo.photoId);
                 
-                if (self.globalDownloadQueue == nil)
-                {
-                    self.globalDownloadQueue = [[NSOperationQueue alloc] init];
-                }
-                
-                
-                // set maximum operations possible
-                //    [globalDownloadQueue setMaxConcurrentOperationCount:2];
-                
-                
-                NSMutableArray *data = [[NSMutableArray alloc] init];
-                
-                [data addObject:album.name];
-                [data addObject:photo];
-                
-                NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(downloadPhoto:) object:data];
-                
-                [operation setCompletionBlock:^
-                 {
-                     NSLog(@"NSOperation has finished downloading:  %@, %@", album.name, photo.photoId);
-                 }];
-                
-                
-                [self.globalDownloadQueue addOperation:operation];
+                [self.globalDownloadQueue addOperationWithBlock:^{
+                    
+                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photo.photoUrl]];
+                    
+                    if ( imageData != nil ) {
+                        NSLog(@"photo downloaded:  %@", photo.photoId);
+                        
+                        [SVBusinessDelegate saveImageData:imageData forPhoto:photo inAlbum:album.name];
+                    }
+                    
+                }];
             }
         }
     }
@@ -168,33 +139,9 @@
 
 
 /*
- * do the actual photo download
- */
-- (void) downloadPhoto :(NSArray *) data
-{
-    NSString *albumName = [data objectAtIndex:0];
-    AlbumPhoto *photo   = [data objectAtIndex:1];
-    
-    dispatch_async(dispatch_get_global_queue(0,0), ^{
-        
-        NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: photo.photoUrl]];
-        UIImage *image = [UIImage imageWithData: imageData];
-        
-        if ( image == nil )
-            return;
-        
-        NSLog(@"photo downloaded:  %@", photo.photoId);
-        
-        [SVBusinessDelegate saveImageAlbumPhoto:image forPhoto:photo :albumName];
-    });
-    
-}
-
-
-/*
  * get the latest album sync, compare to cached etags per album, use the diff between etags, to determine which albums to pull photos from
  */
-- (NSArray *) getAlbums
+- (NSArray *)getAlbums
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
     
@@ -244,7 +191,7 @@
 /*
  * get the etags for the albums (stored as a plist)
  */
-- (NSMutableArray *) getAlbumETags :(NSArray *) dbAlbums
+- (NSMutableArray *)getAlbumETags:(NSArray *)dbAlbums
 {
     NSMutableArray *albumsUpdated = [[NSMutableArray alloc] init];
     
@@ -336,7 +283,7 @@
 /*
  * get the project file name, as a PList
  */
-- (NSString *) getProjectFileNameAsPList :(NSString *) projectName
+- (NSString *)getProjectFileNameAsPList:(NSString *)projectName
 {
     NSLog(@"project:  %@", [@"" stringByAppendingFormat:@"%@%@.plist", [self getDocumentsDirectory], projectName]);
     
@@ -357,32 +304,17 @@
 - (void)executeSyncCompletedOperations
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self setInitialSyncCompleted];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotificationName object:nil];
         
         [self willChangeValueForKey:@"syncInProgress"];
         _syncInProgress = NO;
         [self didChangeValueForKey:@"syncInProgress"];
         
-        //        [[IFSyncPollingBD sharedDelegate] startPolling];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
     });
 }
-
-
-- (BOOL)initialSyncComplete
-{
-    BOOL boolToReturn = [[[NSUserDefaults standardUserDefaults] valueForKey:kSDSyncEngineInitialCompleteKey] boolValue];
-    return boolToReturn;
-}
-
-
-- (void)setInitialSyncCompleted
-{
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:kSDSyncEngineInitialCompleteKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-
 
 
 #pragma mark - Date Handling
@@ -393,6 +325,23 @@
         self.dateFormatter = [[NSDateFormatter alloc] init];
         [self.dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
         [self.dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    }
+}
+
+
+#pragma mark - Key Value Observing
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+                        change:(NSDictionary *)change context:(void *)context
+{
+    if (object == self.globalDownloadQueue && [keyPath isEqualToString:@"operations"]) {
+        if (self.globalDownloadQueue.operationCount == 0) {
+            [self executeSyncCompletedOperations];
+        }
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object
+                               change:change context:context];
     }
 }
 
