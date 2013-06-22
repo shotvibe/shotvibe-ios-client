@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "Album.h"
+#import "AlbumPhoto.h"
 #import "Photo.h"
 #import "SVAlbumGridViewController.h"
 #import "SVEntityStore.h"
@@ -35,11 +35,9 @@
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) MFSideMenu *sauronTheSideMenu;
 
-- (void)loadData;
 - (void)toggleMenu;
 - (void)toggleManagement;
 - (void)configureGridview;
-- (void)fetchPhotos;
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
 - (void)backButtonPressed;
 - (IBAction)homePressed:(id)sender;
@@ -82,18 +80,10 @@
     self.title = self.selectedAlbum.name;
     
     photoCache = [[NSMutableDictionary alloc] init];
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId = %d", [self.selectedAlbum.albumId stringValue]];
-    fetchRequest.sortDescriptors = @[descriptor];
-    fetchRequest.predicate = predicate;
  
- 
+    [self configureGridview];
     // Setup fetched results
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    [self.fetchedResultsController setDelegate:self];
-    
+    [self fetchedResultsController];
     
     // Setup menu button
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
@@ -107,10 +97,6 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed)];
     
     self.navigationItem.backBarButtonItem = backButton;
-    
-    
-    // Listen for our RestKit loads to finish
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchPhotos) name:kPhotosLoadedNotification object:nil];
 }
 
 
@@ -124,10 +110,7 @@
         isPushingDetail = NO;
     }
     else
-    {
-        [self loadData];
-        [self fetchPhotos];
-        
+    {        
         // Initialize the sidebar menu
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
         self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
@@ -247,7 +230,7 @@
 
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
-    return [self.selectedAlbum.photos count];
+    return self.fetchedResultsController.fetchedObjects.count;
 }
 
 
@@ -282,9 +265,7 @@
     [cell.contentView addSubview:cellBackground];
     
     // Configure thumbnail
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    __block Photo *currentPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:index];
-    
+    __block AlbumPhoto *currentPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:index];
     
     __block NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
     networkImageView.clipsToBounds = YES;
@@ -365,8 +346,7 @@
     NSLog(@"Did tap at index %d", position);
     
     SVAlbumDetailScrollViewController *detailController = [[SVAlbumDetailScrollViewController alloc] init];
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    detailController.selectedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:position];
+    detailController.selectedPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:position];
     
     isPushingDetail = YES;
     [self.navigationController pushViewController:detailController animated:YES];
@@ -377,17 +357,16 @@
 
 - (void)networkImageView:(NINetworkImageView *)imageView didLoadImage:(UIImage *)image
 {
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    Photo *loadedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:imageView.tag];
+    AlbumPhoto *loadedPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:imageView.tag];
     
-    if (![loadedPhoto.hasViewed boolValue]) {
+    /*if (![loadedPhoto.hasViewed boolValue]) {
                 
         Photo *photoObject = (Photo *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:loadedPhoto.objectID];
         photoObject.hasViewed = [NSNumber numberWithBool:YES];
         [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext save:nil];
      
     }
-    [SVBusinessDelegate saveImage:image forPhoto:loadedPhoto];
+    [SVBusinessDelegate saveImage:image forPhoto:loadedPhoto];*/
 
     
     __block UIImage *blockImage = image;
@@ -418,8 +397,7 @@
 
 - (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
 {
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    __block Photo *failedPhoto = [[[self.selectedAlbum.photos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:imageView.tag];
+    __block AlbumPhoto *failedPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:imageView.tag];
     
     [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:failedPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
         if (image) {
@@ -464,13 +442,26 @@
 }
 
 
-#pragma mark - Private Methods
+#pragma mark NSFetchedResultsControllerDelegate methods
 
-- (void)loadData
+- (NSFetchedResultsController *)fetchedResultsController
 {
-    [[SVEntityStore sharedStore] photosForAlbumWithID:self.selectedAlbum.albumId];
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    
+    self.fetchedResultsController = [[SVEntityStore sharedStore] allPhotosForAlbum:self.selectedAlbum WithDelegate:self];
+    return _fetchedResultsController;
 }
 
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [_gmGridView reloadData];
+}
+
+
+#pragma mark - Private Methods
 
 - (void)toggleMenu
 {
@@ -525,18 +516,6 @@
     _gmGridView.actionDelegate = self;
     _gmGridView.dataSource = self;
     _gmGridView.delegate = self;
-}
-
-
-- (void)fetchPhotos
-{
-    NSError *error = nil;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        RKLogError(@"There was an error loading the fetched result controller: %@", error);
-    }
-    RKLogInfo(@"This album contains %d photos", self.selectedAlbum.photos.count);
-    [SVBusinessDelegate cleanupOfflineStorageForAlbum:self.selectedAlbum];
-    [self configureGridview];
 }
 
 

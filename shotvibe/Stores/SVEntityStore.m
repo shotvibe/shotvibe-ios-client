@@ -95,6 +95,32 @@ int callCount = 0;
 }
 
 
+- (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+    NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
+    
+    fetchRequest.sortDescriptors = @[datecreatedDescriptor];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album == %@", anAlbum];
+    fetchRequest.predicate = predicate;
+    
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    fetchedResultsController.delegate = delegate;
+    
+    NSError *fetchError = nil;
+    if (![fetchedResultsController performFetch:&fetchError]) {
+        NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
+    }
+    else
+    {
+        NSLog(@"Fetched Photos: %@", [fetchedResultsController.fetchedObjects description]);
+    }
+    
+    return fetchedResultsController;
+}
+
+
 - (void)userAlbums
 {
     NSLog(@"userAlbums - start sync from remote");

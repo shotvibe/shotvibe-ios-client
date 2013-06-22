@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "NetworkPhotoAlbumViewController.h"
 
-@class Photo;
+@class AlbumPhoto;
 @interface SVAlbumDetailScrollViewController : NetworkPhotoAlbumViewController <NIPhotoAlbumScrollViewDataSource, NIPhotoScrubberViewDataSource, NIOperationDelegate, UIActionSheetDelegate>
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) Photo *selectedPhoto;
+@property (nonatomic, strong) AlbumPhoto *selectedPhoto;
 
 @end
