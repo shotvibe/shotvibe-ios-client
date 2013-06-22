@@ -10,7 +10,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "Album.h"
 
 typedef enum {
  SVObjectSynced = 0,
@@ -31,4 +31,7 @@ typedef enum {
 
 - (void)syncAlbums;
 - (NSArray *)getAlbums;
+
+- (void)addPhotos:(NSArray *)photos ToAlbum:(Album *) album;
+
 @end

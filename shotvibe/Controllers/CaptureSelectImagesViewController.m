@@ -12,6 +12,7 @@
 #import "Album.h"
 #import "SVEntityStore.h"
 #import "ALAssetsLibrary+helper.h"
+#import "SyncEngine.h"
 
 @interface CaptureSelectImagesViewController () <GMGridViewDataSource, GMGridViewActionDelegate>
 {
@@ -153,11 +154,7 @@
     
     [cell.contentView addSubview:imageView];
 
- /*
- is this the 'select to upload' screen ?
  
- also, try to locate the batch upload queueing in pictag ...
- */
     // Configure the selection icon
     
     UIImageView *selectedIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"imageUnselected.png"]];
@@ -204,26 +201,42 @@
 
 - (void)doneButtonPressed
 {
-    
-    [self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error) {
-        self.doneButton.enabled = NO;
-        
-        [[SVEntityStore sharedStore] addPhotos:selectedPhotoPaths ToAlbumWithID:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error) {
-            if (!error) {
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-            }
-            else
-            {
-                UIAlertView *uploadErrorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Network Error", @"") message:NSLocalizedString(@"Something went wrong uploading your photos. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-                
-                [uploadErrorAlert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
-                
-                self.doneButton.enabled = YES;
-            }
-        }];
-    }];
-    
+  [self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error)
+  {
+    self.doneButton.enabled = NO;
 
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    
+     [[SyncEngine sharedEngine] addPhotos:selectedPhotoPaths ToAlbum:self.selectedAlbum];
+    
+    });
+  
+     self.doneButton.enabled = YES;
+  
+     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+   
+//
+////     immediately return, and dismiss ...
+//
+//     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+//
+//     
+//        [[SVEntityStore sharedStore] addPhotos:selectedPhotoPaths ToAlbumWithID:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error)
+//         {
+//            if (!error) {
+//                [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+//            }
+//            else
+//            {
+//                UIAlertView *uploadErrorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Network Error", @"") message:NSLocalizedString(@"Something went wrong uploading your photos. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+//                
+//                [uploadErrorAlert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+//                
+//                self.doneButton.enabled = YES;
+//            }
+//        }];
+    }];
 }
 
 
@@ -270,7 +283,7 @@
             Byte *buffer = (Byte*)malloc(rep.size);
             NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
             NSData *data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-            
+
             if (data) {
                 [selectedPhotoPaths addObject:data];
             }
@@ -287,7 +300,7 @@
     {
         for (NSString *selectedPhotoPath in selectedPhotos) {
             NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
-            
+         
             if (photoData) {
                 [selectedPhotoPaths addObject:photoData];
             }

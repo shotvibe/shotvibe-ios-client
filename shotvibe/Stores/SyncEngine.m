@@ -24,6 +24,7 @@
 
 @property (nonatomic, strong) NSOperationQueue *globalDownloadQueue;
 @property (nonatomic, strong) NSMutableArray *project;
+@property (nonatomic, strong) NSMutableArray *uploadQueue;
 
 @end
 
@@ -38,6 +39,10 @@
     dispatch_once(&engineToken, ^{
         sharedEngine = [[SyncEngine alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncAlbums) name:kUserAlbumsLoadedNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncPhotos:) name:kPhotosLoadedNotification object:nil];
+     
+        [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(uploadPhotosInBatch) name:kStartPhotoUpload object:nil];
+
     });
     
     return sharedEngine;
@@ -45,6 +50,7 @@
 
 
 #pragma mark - Instance Methods
+
 
 /*
  * sync - retrieve albums and photos
@@ -64,8 +70,8 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            
-            [[SVEntityStore sharedStore] userAlbums];
+         
+        [[SVEntityStore sharedStore] userAlbums];
             
         });
     }
@@ -90,6 +96,7 @@
     // 20130621 - changed to using NSOperationQueue - allows pausing of all worker threads more easily as well as stopping them
     //            if a memory issue occurs
     
+    // Get a reference to the managed object context
     NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
     
     // Initialize the operation queue
@@ -101,17 +108,17 @@
     } else {
         [self.globalDownloadQueue cancelAllOperations];
     }
-    
-    // TODO: We should only update albums that need to be updated rather than all the albums each time.
+
+ // TODO: We should only update albums that need to be updated rather than all the albums each time.
     NSArray *albums = [self getAlbums];
-    
-    // make sure that for 1st time, get all, for 2nd time, only get updated or new albums, and then only those with new photos
-    /// checking the etag
-    
-    BOOL photoExists = NO;
-    
-    for(Album *album in albums)
+ 
+    BOOL photoExists;
+ 
+    for(Album *album in albums)           // call to get all photos for the given album
     {
+//     [[SVEntityStore sharedStore] photosForAlbumWithID:album.albumId];
+     
+     [self syncPhotos:album];
         NSLog(@"album:  %@", album.name);
         
         for(AlbumPhoto *photo in album.albumPhotos)
@@ -141,7 +148,152 @@
             }
         }
     }
+ 
+ // prevent another call to this method, should only be at startup for now
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+
+#pragma mark - Photo Upload
+
+/*
+ * add photos to a queue and upload
+ */
+- (void)addPhotos:(NSArray *)photos ToAlbum:(Album *)album
+{
+ [self createUploadBatchWithPhotos:photos forAlbum:album];
+ 
+ [[NSNotificationCenter defaultCenter] postNotificationName:kStartPhotoUpload object:nil];
+ 
+ 
+ // chk for error, if encountered, callback to ui for UIAlertView
+ 
+ // If successful return the block
+}
+
+
+/*
+ * store the photos for a given album in the batch, for bg uploading
+ */
+- (void) createUploadBatchWithPhotos :(NSArray *) photos forAlbum:(Album *)album
+{
+
+ self.uploadQueue = [[NSMutableArray alloc] init];
+ 
+ self.uploadQueue = (NSMutableArray *)[self.project initWithContentsOfFile:[self getProjectFileNameAsPList:kApplicationUploadQueueName]];
+ 
+ if(self.uploadQueue == nil)                         // first time, presumably, just save the tags, and ALL albums need syncd
+ {
+  self.uploadQueue = [[NSMutableArray alloc] init];
+ }
+
+ 
+ // get the internal 'queue' batch for the album; if one exists and it is still in progress, append photos, else delete and
+ //    create new queue for that album
+ // if queue does not exist, create for new album
+ 
+ 
+ // save photos immediately to file system in proper album folder, and make available to ui
+ 
+ int index = 0;
+ 
+ for(NSData *imageData in photos)
+ {
+  NSString *photoId = [@"" stringByAppendingFormat:@"temp%i",index++];
+  
+  NSLog(@"saving requested photo to %@.%@", album.name, photoId);
+  
+  [SVBusinessDelegate saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbumWithId:album];
+  
+  [[SVEntityStore sharedStore] newUploadedPhotoForAlbum:album withPhotoId:photoId];
+ }
+ 
+ 
+ 
+ // call notification to BG upload
+ 
+ // kUploadPhotosToAlbumProgressNotification
+}
+
+
+/*
+ * upload photos in batch, in BG
+ */
+- (void) uploadPhotosInBatch
+{
+ NSLog(@"upload photos in batch");
+ 
+ // get current batch (should be inactive batch identifier)
+ //
+ // Photo Upload Process rules
+ //
+ // 1.  save to proper album - create temporary name and flag as in progress
+ // 1a.   copy to album directly, immediately
+ // 2.  set flag to indicate state (pending, uploading, finished)
+ // 3.  when selected, the image should say 'Uploading' instead of current behavior
+ // 4.  upload in 3 steps
+ // 4a.   post num_photos
+ // 4b.   upload each one
+ // 4c.   post album to indicate all done
+ 
+ // 5.  ensure state shows:  wating, uploading, completed, when a photo is selected
+ // 6.  if new album is selected for adding new photos, create new queue
+ // 7.  priority is FIFO for albums and photos, album A takes precedence over album B
+ // 8.  handle app suspend (phone call, suspend, etc)
+ //     chk queue when app resumes and resume upload, find image in progress and restart
+ 
+
+// call entity store to save
+}
+
+
+/*
+ * get all photos for an album
+ */
+//-(void) syncPhotos :(NSNotification *) notification
+-(void) syncPhotos :(Album *) album
+{
+ // make sure that for 1st time, get all, for 2nd time, only get updated or new albums, and then only those with new photos
+ /// checking the etag
+ 
+// NSNumber *albumId = [notification object];
+// NSArray *albums = [self getAlbumByAlbumId:albumId];
+
+ 
+ BOOL photoExists = NO;
+ 
+// for(Album *album in albums)
+ {
+  NSLog(@"album:  %@", album.name);
+  
+  for(AlbumPhoto *photo in album.albumPhotos)
+  {
+   //   NSLog(@"  photo:  %@", photo.photoId);
+   
+   photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:album.albumId];
+   
+   if(!photoExists)
+   {
+    NSLog(@"photo DNE, downloading photo:  %@, %@", album.name, photo.photoId);
+    
+    [self.globalDownloadQueue addOperationWithBlock:^{
+     
+     NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photo.photoUrl]];
+     
+     if ( imageData != nil ) {
+      NSLog(@"photo downloaded:  %@", photo.photoId);
+      
+      [SVBusinessDelegate saveImageData:imageData forPhoto:photo inAlbumWithId:album.albumId];
+     }
+     
+    }];
+   }
+  }
+ }
+}
+
+
+#pragma mark - Album download
 
 
 /*
@@ -150,13 +302,13 @@
 - (NSArray *)getAlbums
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
-    
+ 
     NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
     
     NSError *error;
     NSArray *array;
-    NSMutableArray *updatedArray = [[NSMutableArray alloc] init];
-    
+//    NSMutableArray *updatedArray = [[NSMutableArray alloc] init];
+ 
     @try
     {
         array = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
@@ -190,6 +342,34 @@
     // return updatedArray;
     
     return array;
+}
+
+
+/*
+ * get the album using the albumid
+ */
+- (NSArray *)getAlbumByAlbumId:(NSNumber *) albumId
+{
+ NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+
+ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %d", [albumId stringValue]];
+ fetchRequest.predicate = predicate;
+ 
+ NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+ 
+ NSError *error;
+ NSArray *array;
+ 
+ @try
+ {
+  array = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+ }
+ @catch (NSException *e)
+ {
+  NSLog(@"error:  %@", e);
+ }
+ 
+ return array;
 }
 
 

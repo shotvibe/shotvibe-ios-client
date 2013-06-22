@@ -13,6 +13,7 @@
 #define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
 #define kApplicationName @"ShotVibe"
+#define kApplicationUploadQueueName @"ShotVibeUploadQueue"
 
 #define kPhotoThumbExtension @"_thumb75.jpg"
 #define kPhotoIphone3Extension @"_iphone3.jpg"
@@ -21,6 +22,7 @@
 
 #define kUserAlbumsLoadedNotification @"SVAlbumsLoaded"
 #define kPhotosLoadedNotification @"SVPhotosLoaded"
+#define kStartPhotoUpload @"kStartPhotoUpload"
 #define kPhotosLoadedForIndexPathNotification @"SVPhotosLoadedForIndexPath"
 #define kUploadPhotosToAlbumProgressNotification @"UploadPhotosToAlbumProgressNotification"
 

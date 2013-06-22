@@ -439,7 +439,7 @@ static JMCViewController* _jcViewController;
     if (bundleVersion) [info setObject:bundleVersion forKey:@"appVersion"];
     if (bundleVersionShort) [info setObject:bundleVersionShort forKey:@"appVersionShort"];
     if (bundleName) [info setObject:bundleName forKey:@"appName"];
-    if (bundleDisplayName) [info setObject:bundleName forKey:@"appDisplayName"];
+    if (bundleDisplayName) [info setObject:bundleDisplayName forKey:@"appDisplayName"];
     if (bundleId) [info setObject:bundleId forKey:@"appId"];
     
     return info;
