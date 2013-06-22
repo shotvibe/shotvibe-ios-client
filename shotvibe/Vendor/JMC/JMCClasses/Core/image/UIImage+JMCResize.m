@@ -125,7 +125,7 @@
                                                 CGImageGetBitsPerComponent(imageRef),
                                                 0,
                                                 CGImageGetColorSpace(imageRef),
-                                                kCGImageAlphaNoneSkipLast);
+                                                (CGBitmapInfo)kCGImageAlphaNoneSkipLast);
     
     // Rotate and/or flip the image if required by its orientation
     CGContextConcatCTM(bitmap, transform);
