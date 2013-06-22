@@ -96,6 +96,9 @@
     // 20130621 - changed to using NSOperationQueue - allows pausing of all worker threads more easily as well as stopping them
     //            if a memory issue occurs
     
+    // Get a reference to the managed object context
+    NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+    
     // Initialize the operation queue
     if (self.globalDownloadQueue == nil)
     {
@@ -105,14 +108,45 @@
     } else {
         [self.globalDownloadQueue cancelAllOperations];
     }
- 
+
+ // TODO: We should only update albums that need to be updated rather than all the albums each time.
     NSArray *albums = [self getAlbums];
+ 
+    BOOL photoExists;
  
     for(Album *album in albums)           // call to get all photos for the given album
     {
 //     [[SVEntityStore sharedStore] photosForAlbumWithID:album.albumId];
      
      [self syncPhotos:album];
+        NSLog(@"album:  %@", album.name);
+        
+        for(AlbumPhoto *photo in album.albumPhotos)
+        {
+            //   NSLog(@"  photo:  %@", photo.photoId);
+            
+            photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:album.albumId];
+            
+            if(!photoExists)
+            {
+                NSLog(@"photo DNE, downloading photo:  %@, %@", album.name, photo.photoId);
+                
+                [self.globalDownloadQueue addOperationWithBlock:^{
+                    
+                    AlbumPhoto *localPhoto = (AlbumPhoto *)[managedObjectContext objectWithID:photo.objectID];
+                    Album *localAlbum = (Album *)[managedObjectContext objectWithID:album.objectID];
+                    
+                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:localPhoto.photoUrl]];
+                    
+                    if ( imageData != nil ) {
+                        NSLog(@"photo downloaded:  %@", localPhoto.photoId);
+                        
+                        [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:localAlbum.albumId];
+                    }
+                    
+                }];
+            }
+        }
     }
  
  // prevent another call to this method, should only be at startup for now
@@ -236,7 +270,7 @@
   {
    //   NSLog(@"  photo:  %@", photo.photoId);
    
-   photoExists = [SVBusinessDelegate doesPhoto:photo.photoId existForAlbumName:album.name];
+   photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:album.albumId];
    
    if(!photoExists)
    {

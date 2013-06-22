@@ -14,11 +14,12 @@
 
 @interface SVOfflineStorageWS : NSObject
 
-- (BOOL)doesPhoto:(NSString *)photo existForAlbumName:(NSString *)albumName;
+- (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(NSNumber *)albumId;
 
 - (void)saveLoadedImageData:(NSData *)imageData forPhotoObject:(AlbumPhoto *)photo inAlbum:(NSString *)albumName;
 - (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(NSString *)albumName;
 - (void)saveLoadedImage:(UIImage *)image forPhotoObject:(Photo *)photo;
+- (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(NSNumber *)albumId;
 
 - (void)cleanupOfflineStorageForAlbum:(Album *)album;
 - (NSUInteger)numberOfImagesSavedInAlbum:(Album *)album;

@@ -16,19 +16,19 @@
 @implementation SVBusinessDelegate
 
 
-+ (BOOL)doesPhoto:(NSString *)photo existForAlbumName:(NSString *)albumName
++ (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(NSNumber *)albumId
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
-    return [workerSession doesPhoto:photo existForAlbumName:albumName];
+    return [workerSession doesPhotoWithId:photoId existForAlbumId:albumId];
 }
 
 
-+ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbum:(NSString *)albumName
++ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(NSNumber *)albumId
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
-    [workerSession saveLoadedImageData:imageData forPhotoObject:photo inAlbum:albumName];
+    [workerSession saveImageData:imageData forPhoto:photo inAlbumWithId:albumId];
 }
 
 
