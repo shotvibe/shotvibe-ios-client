@@ -99,8 +99,9 @@ int callCount = 0;
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
     NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
     
-    fetchRequest.sortDescriptors = @[datecreatedDescriptor];
+    fetchRequest.sortDescriptors = @[datecreatedDescriptor, idDescriptor];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album == %@", anAlbum];
     fetchRequest.predicate = predicate;

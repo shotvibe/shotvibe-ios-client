@@ -106,7 +106,8 @@
     [self.photoAlbumView reloadData];
     
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    [self.photoAlbumView moveToPageAtIndex:[[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor]] indexOfObject:self.selectedPhoto] animated:NO];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+    [self.photoAlbumView moveToPageAtIndex:[[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] indexOfObject:self.selectedPhoto] animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -140,7 +141,8 @@
     UIImage* image = [self.highQualityImageCache objectWithName:photoIndexKey];
     if (nil == image) {
         NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-        AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:thumbnailIndex];
+        NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+        AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:thumbnailIndex];
         
         NSString* thumbnailSource = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
         [self requestImageFromSource: thumbnailSource
@@ -170,7 +172,8 @@
     NSString* photoIndexKey = [self cacheKeyForPhotoIndex:photoIndex];
     
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:photoIndex];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+    AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:photoIndex];
     
     
     image = [self.highQualityImageCache objectWithName:photoIndexKey];
@@ -234,7 +237,8 @@
 - (void)loadImages {
     for (NSInteger ix = 0; ix < [selectedAlbum.albumPhotos count]; ++ix) {
         NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-        AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:ix];
+        NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+        AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:ix];
         
         NSString* photoIndexKey = [self cacheKeyForPhotoIndex:ix];
         
@@ -252,7 +256,8 @@
 - (void)configureDetailText
 {
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    AlbumPhoto *photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor]] objectAtIndex:self.photoAlbumView.centerPageIndex];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+    AlbumPhoto *photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:self.photoAlbumView.centerPageIndex];
     
     NSString *updatedBy = NSLocalizedString(@"Updated by ", @"");
     
