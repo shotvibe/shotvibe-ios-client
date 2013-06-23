@@ -22,15 +22,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 #endif
 
 
-
 @implementation SVEntityStore
-
-
-//NSMutableArray *project;
-
-
-int callCount = 0;
-
 
 #pragma mark - Class Methods
 
@@ -124,15 +116,6 @@ int callCount = 0;
 {
     NSLog(@"userAlbums - start sync from remote");
     
-    /*callCount++;
-    
-    if(callCount > 1)
-    {
-        NSLog(@"can only call userAlbums once");
-        
-        return;
-    }*/
-    
     // Setup Member Mapping
     RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [memberMapping addAttributeMappingsFromDictionary:@{
@@ -221,7 +204,7 @@ int callCount = 0;
     // Relationship Connections
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"albumPhotos" toKeyPath:@"photos" withMapping:photoMapping]];
+    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];
     [memberMapping addRelationshipMappingWithSourceKeyPath:@"albums" mapping:albumMapping];
     [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"members" toKeyPath:@"members" withMapping:memberMapping]];
     
@@ -233,7 +216,7 @@ int callCount = 0;
     NSString *path = [NSString stringWithFormat:@"/albums/%@/", [albumId stringValue]];
     [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
-        //RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
+        RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
         
         NSLog(@"notify for photos, album:  %@", albumId);
         
