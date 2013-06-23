@@ -16,7 +16,7 @@
 @implementation SVBusinessDelegate
 
 
-+ (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(NSNumber *)albumId
++ (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(id)albumId
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -24,7 +24,7 @@
 }
 
 
-+ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(NSNumber *)albumId
++ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -32,7 +32,7 @@
 }
 
 
-+ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(Album *)album
++ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(Album *)album
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
  

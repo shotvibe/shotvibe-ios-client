@@ -113,10 +113,6 @@ int callCount = 0;
     if (![fetchedResultsController performFetch:&fetchError]) {
         NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
     }
-    else
-    {
-        NSLog(@"Fetched Photos: %@", [fetchedResultsController.fetchedObjects description]);
-    }
     
     return fetchedResultsController;
 }

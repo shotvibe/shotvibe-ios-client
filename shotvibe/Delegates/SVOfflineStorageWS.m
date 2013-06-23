@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) NSOperationQueue *offlineStorageQueue;
 
-
+- (void) saveImageToFileSystem:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId;
 @end
 
 @implementation SVOfflineStorageWS
@@ -24,13 +24,25 @@
 /*
  * check to see if the photo exists
  */
-- (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(NSNumber *)albumId
+- (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(id)albumId
 {
     BOOL exists = NO;
     
+    NSString *albumIdAsString = nil;
+    if ([albumId isKindOfClass:[NSNumber class]]) {
+        albumIdAsString = [albumId stringValue];
+    } else if ([albumId isKindOfClass:[NSString class]]) {
+        albumIdAsString = albumId;
+    } else {
+        NSException *exception = [NSException exceptionWithName:@"SuppliedArgumentIsWrongTypeException"
+                                                         reason:@"albumId should be either an NSNumber or NSString."
+                                                       userInfo:nil];
+        [exception raise];
+    }
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[albumId stringValue]];
+    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:albumIdAsString];
     
     NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photoId];
     
@@ -73,9 +85,21 @@
 /*
  * this is used when downloading photos for an album
  */
-- (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(NSNumber *)albumId
+- (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId
 {
-    [self saveImageToFileSystem:imageData forPhotoId:photo.photoId inAlbumWithId:albumId];
+    NSString *albumIdAsString = nil;
+    if ([albumId isKindOfClass:[NSNumber class]]) {
+        albumIdAsString = [albumId stringValue];
+    } else if ([albumId isKindOfClass:[NSString class]]) {
+        albumIdAsString = albumId;
+    } else {
+        NSException *exception = [NSException exceptionWithName:@"SuppliedArgumentIsWrongTypeException"
+                                                         reason:@"albumId should be either an NSNumber or NSString."
+                                                       userInfo:nil];
+        [exception raise];
+    }
+    
+    [self saveImageToFileSystem:imageData forPhotoId:photo.photoId inAlbumWithId:albumIdAsString];
 }
 
 
@@ -84,7 +108,7 @@
  */
 - (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSNumber *)albumId
 {
-    [self saveImageToFileSystem:imageData forPhotoId:photoId inAlbumWithId:albumId];
+    [self saveImageToFileSystem:imageData forPhotoId:photoId inAlbumWithId:[albumId stringValue]];
 }
 
 
@@ -92,7 +116,7 @@
 /*
  * consolidated method to handle centric photo saves to file sytem
  */
-- (void) saveImageToFileSystem:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSNumber *)albumId
+- (void) saveImageToFileSystem:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId
 {
     if (!self.offlineStorageQueue) {
         self.offlineStorageQueue = [[NSOperationQueue alloc] init];
@@ -102,7 +126,7 @@
     [self.offlineStorageQueue addOperationWithBlock:^{
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[albumId stringValue]];
+        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:albumId];
         NSError *filePathError;
         if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
                                        withIntermediateDirectories:YES
@@ -181,7 +205,7 @@
     return directory.count;
 }
 
-
+// This is primarily used for loading in the images for the grid cells and album cells
 - (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(Album *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block
 {
     if (!self.offlineStorageQueue) {
@@ -191,11 +215,24 @@
     [self.offlineStorageQueue addOperationWithBlock:^{
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:album.name];
+        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[album.albumId stringValue]];
         
         NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
         
-        UIImage *image = [UIImage imageWithContentsOfFile:filePath];
+        UIImage *originalImage = [UIImage imageWithContentsOfFile:filePath];
+        
+        CGSize newSize = CGSizeMake(100, 100);
+        
+        float oldWidth = originalImage.size.width;
+        float scaleFactor = newSize.width / oldWidth;
+        
+        float newHeight = originalImage.size.height * scaleFactor;
+        float newWidth = oldWidth * scaleFactor;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+        [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
         
         block(image, nil);
     }];
@@ -206,7 +243,7 @@
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:album.name];
+    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[album.albumId stringValue]];
     
     NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
     

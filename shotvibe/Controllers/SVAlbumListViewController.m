@@ -49,6 +49,7 @@
 - (void)hideSearch;
 - (void)searchForAlbumWithTitle:(NSString *)title;
 - (void)createNewAlbumWithTitle:(NSString *)title;
+- (void)albumCellHasCompletedSync:(NSNotification *)notification;
 - (IBAction)newAlbumButtonPressed:(id)sender;
 - (IBAction)newAlbumClose:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
@@ -145,22 +146,22 @@
 
     // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
     RKLogConfigureByName("ShotVibe/Albums", RKLogLevelDebug);
-    
-    // Listen for our RestKit loads to finish
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureNumberNotViewed:) name:kPhotosLoadedForIndexPathNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchAlbumPhotoInfo:) name:kUserAlbumsLoadedNotification object:nil];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumCellHasCompletedSync:) name:kSDSyncEngineSyncAlbumCompletedNotification object:nil];
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     if (self.albumField.isFirstResponder) {
         [self.albumField resignFirstResponder];
@@ -302,20 +303,7 @@
 
 - (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
 {
-    __block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:imageView.tag inSection:0]];
 
-    NSArray *photos = [anAlbum.albumPhotos allObjects];
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:YES];
-    
-    NSArray *sortedPhotos = [photos sortedArrayUsingDescriptors:@[descriptor]];
-    
-    __block AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
-    
-    [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
-        if (image) {
-            [imageView setImage:image];
-        }
-    }];
 }
 
 
@@ -410,9 +398,7 @@
     
     
     __block AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
- 
-    NSString *thumbnailUrl = [[recentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
- 
+  
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
     cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
@@ -428,19 +414,13 @@
     cell.networkImageView.delegate = self;
     cell.networkImageView.tag = indexPath.row; 
 //    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
- 
+
+    
     [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
-        if (image)
-        {
+        if (image) {
             [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
         }
-        else
-        {
-            [cell.networkImageView setPathToNetworkImage:thumbnailUrl];
-        }
     }];
-    
-    
     
     cell.title.text = anAlbum.name;
     
@@ -548,6 +528,18 @@
         [[SVEntityStore sharedStore] newAlbumWithName:title];
     } else {
         //TODO: Alert the user that they can not create an album with no title.
+    }
+}
+
+
+- (void)albumCellHasCompletedSync:(NSNotification *)notification
+{
+    Album *syncedAlbum = (Album *)notification.object;
+    
+    NSIndexPath *albumIndex = [self.fetchedResultsController indexPathForObject:syncedAlbum];
+    
+    if (albumIndex) {
+        [self.tableView reloadRowsAtIndexPaths:@[albumIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
 @end

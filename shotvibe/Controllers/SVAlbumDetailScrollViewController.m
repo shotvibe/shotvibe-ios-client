@@ -184,29 +184,6 @@
     if (nil != image) {
         *photoSize = NIPhotoScrollViewPhotoSizeOriginal;
         
-    } else {
-        
-        NSString *photoURL = nil;
-        
-        if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2){
-            if (IS_IPHONE_5) {
-                photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone5Extension];
-            }
-            else
-            {
-                photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone4Extension];
-            }
-        }
-        else
-        {
-            photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone3Extension];
-        }
-        
-        [self requestImageFromSource: photoURL
-                           photoSize: NIPhotoScrollViewPhotoSizeOriginal
-                          photoIndex: photoIndex];
-        
-        *isLoading = YES;
     }
     
     return image;
@@ -235,7 +212,7 @@
 #pragma mark - Private Methods
 
 - (void)loadImages {
-    for (NSInteger ix = 0; ix < [selectedAlbum.albumPhotos count]; ++ix) {
+    /*for (NSInteger ix = 0; ix < [selectedAlbum.albumPhotos count]; ++ix) {
         NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
         NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
         AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:ix];
@@ -249,7 +226,7 @@
                                photoSize: NIPhotoScrollViewPhotoSizeThumbnail
                               photoIndex: ix];
         }
-    }
+    }*/
 }
 
 
