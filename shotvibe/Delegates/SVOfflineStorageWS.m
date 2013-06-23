@@ -8,7 +8,6 @@
 
 #import "SVDefines.h"
 #import "SVOfflineStorageWS.h"
-#import "Photo.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
 
@@ -50,36 +49,6 @@
     exists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
     
     return exists;
-}
-
-
-- (void)saveLoadedImage:(UIImage *)image forPhotoObject:(Photo *)photo
-{
-    if (!self.offlineStorageQueue) {
-        self.offlineStorageQueue = [[NSOperationQueue alloc] init];
-    }
-    
-    __block Photo *blockPhoto = photo;
-    
-    [self.offlineStorageQueue addOperationWithBlock:^{
-        NSData *imgData = UIImageJPEGRepresentation(image, 1);
-        
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:blockPhoto.album.name];
-        NSError *filePathError;
-        if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
-                                       withIntermediateDirectories:YES
-                                                        attributes:nil
-                                                             error:&filePathError])
-        {
-            NSLog(@"Create directory error: %@", [filePathError localizedDescription]);
-        }
-        NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, blockPhoto.photoId];
-        
-        [imgData writeToFile:filePath atomically:YES];
-    }];
-    
 }
 
 

@@ -9,7 +9,6 @@
 #import "Member.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
-#import "Photo.h"
 
 
 @implementation Member
@@ -20,7 +19,6 @@
 @dynamic url;
 @dynamic userId;
 @dynamic albums;
-@dynamic photos;
 @dynamic albumPhotos;
 
 @end

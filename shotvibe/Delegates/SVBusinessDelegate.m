@@ -11,7 +11,6 @@
 #import "SVAssetRetrievalWS.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
-#import "Photo.h"
 
 @implementation SVBusinessDelegate
 
@@ -37,14 +36,6 @@
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
  
     [workerSession saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbumWithId:album.albumId];
-}
-
-
-+ (void)saveImage:(UIImage *)image forPhoto:(Photo *)photo
-{
-    SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
-    
-    [workerSession saveLoadedImage:image forPhotoObject:photo];
 }
 
 

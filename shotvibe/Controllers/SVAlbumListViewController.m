@@ -8,7 +8,6 @@
 
 #import "Album.h"
 #import "NINetworkImageView.h"
-#import "Photo.h"
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumListViewController.h"
 #import "SVAlbumGridViewController.h"

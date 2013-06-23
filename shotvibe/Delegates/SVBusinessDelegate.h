@@ -9,7 +9,6 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <Foundation/Foundation.h>
 
-@class Photo;
 @class Album;
 @class AlbumPhoto;
 
@@ -20,7 +19,6 @@
 
 + (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId;
 + (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(Album *)album;
-+ (void)saveImage:(UIImage *)image forPhoto:(Photo *)photo;
 
 + (void)cleanupOfflineStorageForAlbum:(Album *)album;
 + (NSInteger)numberOfViewedImagesInAlbum:(Album *)album;

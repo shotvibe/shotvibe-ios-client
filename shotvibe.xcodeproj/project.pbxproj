@@ -1220,8 +1220,6 @@
 		AAE3DEE716CEDC8400539F92 /* NetworkPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */; };
 		AAE6CB5516C59CF100EB1832 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5416C59CF100EB1832 /* Member.m */; };
 		AAE6CB5616C59CF100EB1832 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5416C59CF100EB1832 /* Member.m */; };
-		AAE6CB5D16C59CF200EB1832 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5C16C59CF200EB1832 /* Photo.m */; };
-		AAE6CB5E16C59CF200EB1832 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5C16C59CF200EB1832 /* Photo.m */; };
 		AAEB9CDE171648A000439939 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AAEB9CDD171648A000439939 /* Config.xcconfig */; };
 		AAEB9CDF171648A000439939 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AAEB9CDD171648A000439939 /* Config.xcconfig */; };
 		AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */; };
@@ -2093,8 +2091,6 @@
 		AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkPhotoAlbumViewController.m; path = nimbus/examples/photos/NetworkPhotoAlbums/src/NetworkPhotoAlbumViewController.m; sourceTree = "<group>"; };
 		AAE6CB5316C59CF100EB1832 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
 		AAE6CB5416C59CF100EB1832 /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
-		AAE6CB5B16C59CF200EB1832 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
-		AAE6CB5C16C59CF200EB1832 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		AAEB9CDD171648A000439939 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		AAF05CD316CB28DD005BCFD3 /* SVAlbumListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumListViewController.h; sourceTree = "<group>"; };
 		AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumListViewController.m; sourceTree = "<group>"; };
@@ -3365,8 +3361,6 @@
 				AA78D2A817172BA4006E1240 /* AlbumPhoto.m */,
 				AAE6CB5316C59CF100EB1832 /* Member.h */,
 				AAE6CB5416C59CF100EB1832 /* Member.m */,
-				AAE6CB5B16C59CF200EB1832 /* Photo.h */,
-				AAE6CB5C16C59CF200EB1832 /* Photo.m */,
 				AA9CBC541776AF6D006172C6 /* SVOperation.h */,
 				AA9CBC551776AF6D006172C6 /* SVOperation.m */,
 				AA9CBC561776AF6D006172C6 /* SVOperationQueue.h */,
@@ -4616,7 +4610,6 @@
 				AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11ED16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
 				AAE6CB5516C59CF100EB1832 /* Member.m in Sources */,
-				AAE6CB5D16C59CF200EB1832 /* Photo.m in Sources */,
 				AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */,
 				AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */,
 				AA12880D16CB84CC002AC699 /* NINetworkImageView.m in Sources */,
@@ -4778,7 +4771,6 @@
 				AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11EE16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
 				AAE6CB5616C59CF100EB1832 /* Member.m in Sources */,
-				AAE6CB5E16C59CF200EB1832 /* Photo.m in Sources */,
 				AAF05CD616CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */,
 				AA12880C16CB84CC002AC699 /* NIImageProcessing.m in Sources */,
 				AA12880E16CB84CC002AC699 /* NINetworkImageView.m in Sources */,

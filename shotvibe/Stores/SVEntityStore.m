@@ -8,7 +8,6 @@
 
 #import "Album.h"
 #import "AlbumPhoto.h"
-#import "Photo.h"
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 #import "SVBusinessDelegate.h"

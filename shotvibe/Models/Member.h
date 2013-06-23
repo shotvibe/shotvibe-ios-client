@@ -19,7 +19,6 @@
 @property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSNumber * userId;
 @property (nonatomic, retain) NSSet *albums;
-@property (nonatomic, retain) NSSet *photos;
 @property (nonatomic, retain) NSSet *albumPhotos;
 @end
 
@@ -29,11 +28,6 @@
 - (void)removeAlbumsObject:(Album *)value;
 - (void)addAlbums:(NSSet *)values;
 - (void)removeAlbums:(NSSet *)values;
-
-- (void)addPhotosObject:(Photo *)value;
-- (void)removePhotosObject:(Photo *)value;
-- (void)addPhotos:(NSSet *)values;
-- (void)removePhotos:(NSSet *)values;
 
 - (void)addAlbumPhotosObject:(AlbumPhoto *)value;
 - (void)removeAlbumPhotosObject:(AlbumPhoto *)value;
