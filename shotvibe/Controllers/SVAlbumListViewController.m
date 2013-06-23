@@ -49,7 +49,7 @@
 - (void)hideSearch;
 - (void)searchForAlbumWithTitle:(NSString *)title;
 - (void)createNewAlbumWithTitle:(NSString *)title;
-- (void)albumCellHasCompletedSync:(NSNotification *)notification;
+- (void)albumUpdateReceived:(NSNotification *)notification;
 - (IBAction)newAlbumButtonPressed:(id)sender;
 - (IBAction)newAlbumClose:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
@@ -153,7 +153,7 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumCellHasCompletedSync:) name:kSDSyncEngineSyncAlbumCompletedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSDSyncEngineSyncAlbumCompletedNotification object:nil];
 }
 
 
@@ -162,7 +162,7 @@
     [super viewWillDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    
     if (self.albumField.isFirstResponder) {
         [self.albumField resignFirstResponder];
     }
@@ -389,15 +389,10 @@
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     __block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-
-    NSArray *photos = [anAlbum.albumPhotos allObjects];
-
- NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:YES];
-
-    NSArray *sortedPhotos = [photos sortedArrayUsingDescriptors:@[descriptor]];
     
+    NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
     
-    __block AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
+    __block AlbumPhoto *recentPhoto = [photos lastObject];
   
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
@@ -416,16 +411,19 @@
 //    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
 
     
-    [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
-        if (image) {
-            [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-        }
-    }];
+    if (recentPhoto) {
+        [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
+            if (image) {
+                [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+            }
+        }];
+        
+        NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
+        cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+    }
+
     
     cell.title.text = anAlbum.name;
-    
-    NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
-    cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
     
     NSString *distanceOfTimeInWords = [anAlbum.lastUpdated distanceOfTimeInWords];
     [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
@@ -532,20 +530,8 @@
 }
 
 
-- (void)albumCellHasCompletedSync:(NSNotification *)notification
+- (void)albumUpdateReceived:(NSNotification *)notification
 {
-    NSMutableArray *visibleCellIndexes = [[NSMutableArray alloc] init];
-    
-    for (UITableViewCell *cell in [self.tableView visibleCells]) {
-        
-        SVAlbumListViewCell *albumCell = (SVAlbumListViewCell *)cell;
-        if (albumCell.networkImageView.initialImage == albumCell.networkImageView.image) {
-            [visibleCellIndexes addObject:[self.tableView indexPathForCell:cell]];
-        }
-    }
-    
-    if (visibleCellIndexes.count > 0) {
-        [self.tableView reloadRowsAtIndexPaths:visibleCellIndexes withRowAnimation:UITableViewRowAnimationNone];
-    }
+    [self.fetchedResultsController performFetch:nil];
 }
 @end
