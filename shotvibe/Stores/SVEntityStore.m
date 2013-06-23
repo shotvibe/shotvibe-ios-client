@@ -144,13 +144,13 @@ int callCount = 0;
     memberMapping.identificationAttributes = @[@"userId"];
     
     // Setup Photo Mapping
-    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    /*RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [photoMapping addAttributeMappingsFromDictionary:@{
      @"photo_id": @"photoId",
      @"photo_url": @"photoUrl",
      @"date_created": @"dateCreated",
      }];
-    photoMapping.identificationAttributes = @[@"photoId"];
+    photoMapping.identificationAttributes = @[@"photoId"];*/
     
     // Setup Album Mapping
     RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
@@ -166,7 +166,7 @@ int callCount = 0;
     // Relationship Connections
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];
+    //[albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];
     
     // Configure the response descriptor
     RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
