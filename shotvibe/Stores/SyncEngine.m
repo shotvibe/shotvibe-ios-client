@@ -73,6 +73,16 @@
         
         [self didChangeValueForKey:@"syncInProgress"];
         
+        // Initialize the operation queue
+        if (self.globalDownloadQueue == nil)
+        {
+            self.globalDownloadQueue = [[NSOperationQueue alloc] init];
+            self.globalDownloadQueue.maxConcurrentOperationCount = 4;
+            [self.globalDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
+        } else {
+            [self.globalDownloadQueue cancelAllOperations];
+        }
+        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -101,15 +111,6 @@
     
     // 20130621 - changed to using NSOperationQueue - allows pausing of all worker threads more easily as well as stopping them
     //            if a memory issue occurs
-    
-    // Initialize the operation queue
-    if (self.globalDownloadQueue == nil)
-    {
-        self.globalDownloadQueue = [[NSOperationQueue alloc] init];
-        [self.globalDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
-    } else {
-        [self.globalDownloadQueue cancelAllOperations];
-    }
     
     // TODO: We should only update albums that need to be updated rather than all the albums each time.
     NSArray *albums = [self getAlbums];
