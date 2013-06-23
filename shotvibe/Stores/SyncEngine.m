@@ -29,10 +29,11 @@
 
 - (void)syncAlbums;
 - (NSArray *)getAlbums;
-- (void)addPhotos:(NSArray *)photos ToAlbum:(Album *) album;
+- (void)executeSyncCompletedOperations;
 - (void)photoWasSuccessfullySavedToDiskWithId:(NSNotification *)notification;
 
 @end
+
 
 @implementation SyncEngine
 
@@ -152,8 +153,6 @@
                     
                     //[SVUploaderDelegate addPhoto:photo.photoId withAlbumId:album.albumId];
                     
-                    
-                    
                     //TODO: This photo already exists in the file system, AND it is marked as needing to be synced.
                     
                     //TODO: First, check to make sure that the album this photo belongs to is already in the queue,
@@ -176,308 +175,21 @@
 }
 
 
-
-/*
- * get album queue
- */
-- (NSMutableArray *) getAlbumQueueWithAlbumId :(NSNumber *) albumId
-{
-    NSMutableArray *albumQueue = [self.globalUploadQueue objectForKey:albumId];  // get album queue
-    
-    if(albumQueue == nil)
-    {
-        albumQueue = [[NSMutableArray alloc] init];
-        
-        [self.globalUploadQueue setObject:albumQueue forKey:albumId];               // add album queue to global queue
-    }
-    
-    return albumQueue;
-}
-
-
-#pragma mark - Photo Upload
-
-/*
- * add photos to a queue and upload
- */
-- (void)addPhotos:(NSArray *)photos ToAlbum:(Album *)album
-{
-    [self createUploadBatchWithPhotos:photos forAlbum:album];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kStartPhotoUpload object:nil];
-    
-    
-    // chk for error, if encountered, callback to ui for UIAlertView
-    
-    // If successful return the block
-}
-
-
-/*
- * store the photos for a given album in the batch, for bg uploading
- */
-- (void) createUploadBatchWithPhotos :(NSArray *) photos forAlbum:(Album *)album
-{
-    
-    self.uploadQueue = [[NSMutableArray alloc] init];
-    
-    self.uploadQueue = (NSMutableArray *)[self.project initWithContentsOfFile:[self getProjectFileNameAsPList:kApplicationUploadQueueName]];
-    
-    if(self.uploadQueue == nil)                         // first time, presumably, just save the tags, and ALL albums need syncd
-    {
-        self.uploadQueue = [[NSMutableArray alloc] init];
-    }
-    
-    
-    // get the internal 'queue' batch for the album; if one exists and it is still in progress, append photos, else delete and
-    //    create new queue for that album
-    // if queue does not exist, create for new album
-    
-    
-    // save photos immediately to file system in proper album folder, and make available to ui
-    
-    int index = 0;
-    
-    for(NSData *imageData in photos)
-    {
-        NSString *photoId = [@"" stringByAppendingFormat:@"temp%i",index++];
-        
-        NSLog(@"saving requested photo to %@.%@", album.name, photoId);
-        
-        [SVBusinessDelegate saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbum:album];
-        
-        [[SVEntityStore sharedStore] newUploadedPhotoForAlbum:album withPhotoId:photoId];
-    }
-    
-    
-    
-    // call notification to BG upload
-    
-    // kUploadPhotosToAlbumProgressNotification
-}
-
-
-/*
- * upload photos in batch, in BG
- */
-- (void) uploadPhotosInBatch
-{
-    NSLog(@"upload photos in batch");
-    
-    // get current batch (should be inactive batch identifier)
-    //
-    // Photo Upload Process rules
-    //
-    // 1.  save to proper album - create temporary name and flag as in progress
-    // 1a.   copy to album directly, immediately
-    // 2.  set flag to indicate state (pending, uploading, finished)
-    // 3.  when selected, the image should say 'Uploading' instead of current behavior
-    // 4.  upload in 3 steps
-    // 4a.   post num_photos
-    // 4b.   upload each one
-    // 4c.   post album to indicate all done
-    
-    // 5.  ensure state shows:  wating, uploading, completed, when a photo is selected
-    // 6.  if new album is selected for adding new photos, create new queue
-    // 7.  priority is FIFO for albums and photos, album A takes precedence over album B
-    // 8.  handle app suspend (phone call, suspend, etc)
-    //     chk queue when app resumes and resume upload, find image in progress and restart
-    
-    
-    // call entity store to save
-}
-
-
-#pragma mark - Album download
-
-/*
- * get the latest album sync, compare to cached etags per album, use the diff between etags, to determine which albums to pull photos from
- */
 - (NSArray *)getAlbums
-{
+{    
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
     
     NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
     
-    NSError *error;
-    NSArray *array;
-    //    NSMutableArray *updatedArray = [[NSMutableArray alloc] init];
+    NSError *error = nil;
+    NSArray *array = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    @try
-    {
-        array = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    }
-    @catch (NSException *e)
-    {
-        NSLog(@"error:  %@", e);
-    }
-    
-    
-    // find updates, via the etag changes ... this may not be the best approach, so removing for now
-    // NSMutableArray *etagAlbums = [self getAlbumETags :array];
-    //
-    // for(NSArray *etagUpdates in etagAlbums)
-    // {
-    //  NSMutableDictionary *albumDetails = [etagUpdates objectAtIndex:0];
-    //
-    //  NSString *albumName = [albumDetails objectForKey:@"albumName"];
-    //
-    //  for(Album *album in array)
-    //  {
-    //   if([album.name isEqualToString:albumName])
-    //   {
-    //    [updatedArray addObject:album];
-    //
-    //    break;
-    //   }
-    //  }
-    // }
-    //
-    // return updatedArray;
-    
-    return array;
-}
-
-
-/*
- * get the album using the albumid
- */
-- (NSArray *)getAlbumByAlbumId:(NSNumber *) albumId
-{
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %d", [albumId stringValue]];
-    fetchRequest.predicate = predicate;
-    
-    NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
-    
-    NSError *error;
-    NSArray *array;
-    
-    @try
-    {
-        array = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    }
-    @catch (NSException *e)
-    {
-        NSLog(@"error:  %@", e);
+    if (!error) {
+        NSLog(@"%@", [error userInfo]);
     }
     
     return array;
 }
-
-
-/*
- * get the etags for the albums (stored as a plist)
- */
-- (NSMutableArray *)getAlbumETags:(NSArray *)dbAlbums
-{
-    NSMutableArray *albumsUpdated = [[NSMutableArray alloc] init];
-    
-    self.project = [[NSMutableArray alloc] init];
-    
-    self.project = (NSMutableArray *)[self.project initWithContentsOfFile:[self getProjectFileNameAsPList:kApplicationName]];
-    
-    if(self.project == nil)                         // first time, presumably, just save the tags, and ALL albums need syncd
-    {
-        self.project = [[NSMutableArray alloc] init];
-        
-        for(Album *album in dbAlbums)
-        {
-            NSMutableDictionary *projectContents = [[NSMutableDictionary alloc] init];
-            
-            [projectContents setObject:album.albumId forKey:@"albumId"];
-            [projectContents setObject:album.name forKey:@"albumName"];
-            [projectContents setObject:album.etag forKey:@"etag"];
-            [projectContents setObject:[[NSNumber alloc] initWithInt:[album.albumPhotos count]] forKey:@"count"];
-            
-            
-            [self.project addObject:projectContents];             // this is saved to file system
-            
-            [albumsUpdated addObject:projectContents];       // this is returned
-        }
-    }
-    else
-    {
-        BOOL albumFound = NO;
-        
-        NSMutableDictionary *albumWork;
-        
-        for(Album *album in dbAlbums)
-        {
-            for(albumWork in self.project)
-            {
-                albumFound = NO;
-                
-                //    NSLog(@"db -vs- dict:  %@ (%@), %@ (%@)", album.name, album.albumId, [albumWork objectForKey:@"albumName"], [albumWork objectForKey:@"albumId"]);
-                
-                if([album.albumId intValue] == [[albumWork objectForKey:@"albumId"]intValue] )
-                {
-                    albumFound = YES;                   // if this is not set, as we have a match here, then this is a new album
-                    
-                    int albumETag     = [album.etag intValue];
-                    int albumWorkETag = [[albumWork objectForKey:@"etag"] intValue];
-                    
-                    //     NSLog(@"db -vs- dict:  %@ (%@), %@ (%@)", album.name, album.albumId, [albumWork objectForKey:@"albumName"], [albumWork objectForKey:@"albumId"]);
-                    //     NSLog(@"db.etag -vs- dict.etag:  %@, %@", album.etag, [albumWork objectForKey:@"etag"]);
-                    
-                    if(albumETag > albumWorkETag)        // this album has been updated, sync photos within
-                    {
-                        NSLog(@"etag has changed");
-                        
-                        [albumWork setObject:album.etag forKey:@"etag"];    // update file, with new etag
-                        [albumWork setObject:[[NSNumber alloc] initWithInt:[album.albumPhotos count]] forKey:@"count"];
-                        
-                        [albumsUpdated addObject:albumWork];            // this is returned to the synchronizer
-                        //      [albumsUpdated addObject:album.albumPhotos];    // as this is an existing album, only get the updated photos
-                    }
-                    
-                    break;
-                }
-            }
-            
-            if(!albumFound)                       // new album
-            {
-                NSMutableDictionary *newAlbum = [[NSMutableDictionary alloc] init];
-                
-                NSLog(@"new album:  %@", album.name);
-                
-                [newAlbum setObject:album.albumId forKey:@"albumId"];
-                [newAlbum setObject:album.name forKey:@"albumName"];
-                [newAlbum setObject:album.etag forKey:@"etag"];
-                [newAlbum setObject:[[NSNumber alloc] initWithInt:[album.albumPhotos count]] forKey:@"count"];
-                
-                [albumsUpdated addObject:newAlbum];             // this is returned to the synchronizer, and is a new album, get all pictures
-                //    [albumsUpdated addObject:album.albumPhotos];    // as this is an existing album, only get the updated photos
-            }
-        }
-    }
-    
-    [self.project writeToFile:[self getProjectFileNameAsPList:kApplicationName] atomically:YES];
-    
-    return albumsUpdated;
-}
-
-
-/*
- * get the project file name, as a PList
- */
-- (NSString *)getProjectFileNameAsPList:(NSString *)projectName
-{
-    NSLog(@"project:  %@", [@"" stringByAppendingFormat:@"%@%@.plist", [self getDocumentsDirectory], projectName]);
-    
-    return [@"" stringByAppendingFormat:@"%@%@.plist", [self getDocumentsDirectory], projectName];
-}
-
-
-/*
- * get the documents directory for the app / bundle
- */
-- (NSString *) getDocumentsDirectory
-{
-    return [@"" stringByAppendingFormat:@"%@/%@/", NSHomeDirectory(), @"Documents"];
-}
-
 
 
 - (void)executeSyncCompletedOperations
@@ -495,8 +207,6 @@
     });
 }
 
-
-#pragma mark - Private Methods
 
 - (void)photoWasSuccessfullySavedToDiskWithId:(NSNotification *)notification
 {
