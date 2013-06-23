@@ -59,7 +59,7 @@ int callCount = 0;
     
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
     
-    NSPredicate *downloadedPredicate = [NSPredicate predicateWithFormat:@"ANY albumPhotos.imageWasDownloaded == YES"];
+    NSPredicate *downloadedPredicate = [NSPredicate predicateWithFormat:@"ANY albumPhotos.imageWasDownloaded == YES OR albumPhotos.@count == 0"];
     fetchRequest.predicate = downloadedPredicate;
     
     NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
@@ -82,7 +82,7 @@ int callCount = 0;
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
     
     if (![searchTerm isEqualToString:@""]) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@ AND ANY albumPhotos.imageWasDownloaded == YES", searchTerm];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@ AND (ANY albumPhotos.imageWasDownloaded == YES OR albumPhotos.@count == 0)", searchTerm];
         fetchRequest.predicate = predicate;
     }
     
