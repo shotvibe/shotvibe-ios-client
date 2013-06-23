@@ -48,10 +48,20 @@
         <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="photos" inverseEntity="Album" syncable="YES"/>
         <relationship name="author" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="photos" inverseEntity="Member" syncable="YES"/>
     </entity>
+    <entity name="SVUploaderOperation" representedClassName="SVOperation" syncable="YES">
+        <attribute name="albumId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="photoId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="queue" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="SVUploaderOperationQueue" inverseName="operations" inverseEntity="SVUploaderOperationQueue" syncable="YES"/>
+    </entity>
+    <entity name="SVUploaderOperationQueue" representedClassName="SVOperationQueue" syncable="YES">
+        <relationship name="operations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SVUploaderOperation" inverseName="queue" inverseEntity="SVUploaderOperation" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Album" positionX="-6518" positionY="-2223" width="128" height="283"/>
         <element name="AlbumPhoto" positionX="-6201" positionY="-2067" width="128" height="178"/>
         <element name="Member" positionX="-6707" positionY="-2029" width="128" height="163"/>
         <element name="Photo" positionX="-6498" positionY="-1836" width="128" height="150"/>
+        <element name="SVUploaderOperationQueue" positionX="-6453" positionY="-1971" width="128" height="58"/>
+        <element name="SVUploaderOperation" positionX="-6444" positionY="-1962" width="128" height="88"/>
     </elements>
 </model>
