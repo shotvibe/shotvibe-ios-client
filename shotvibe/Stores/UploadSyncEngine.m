@@ -92,7 +92,7 @@
         _queueIsProcessing = YES;
         [self didChangeValueForKey:@"queueIsProcessing"];
         
-        //TODO: Start processing the each operation in the operationQueue
+        //TODO: Start processing each operation in the operationQueue
     }
 }
 

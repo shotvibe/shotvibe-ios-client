@@ -1190,10 +1190,6 @@
 		AA9CBC4C1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC4A1776AF0F006172C6 /* SVUploaderDelegate.m */; };
 		AA9CBC521776AF48006172C6 /* SVUploaderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC511776AF48006172C6 /* SVUploaderWS.m */; };
 		AA9CBC531776AF48006172C6 /* SVUploaderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC511776AF48006172C6 /* SVUploaderWS.m */; };
-		AA9CBC581776AF6D006172C6 /* SVOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC551776AF6D006172C6 /* SVOperation.m */; };
-		AA9CBC591776AF6D006172C6 /* SVOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC551776AF6D006172C6 /* SVOperation.m */; };
-		AA9CBC5A1776AF6D006172C6 /* SVOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC571776AF6D006172C6 /* SVOperationQueue.m */; };
-		AA9CBC5B1776AF6D006172C6 /* SVOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC571776AF6D006172C6 /* SVOperationQueue.m */; };
 		AABFE13D16CF05AF005D0DEA /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABFE13216CF0599005D0DEA /* libRestKit.a */; };
 		AABFE13E16CF05B6005D0DEA /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABFE13216CF0599005D0DEA /* libRestKit.a */; };
 		AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
@@ -1204,6 +1200,12 @@
 		AACB11E916C4581100BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
 		AACB11ED16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */; };
 		AACB11EE16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */; };
+		AAD22505177781B3005D8A9F /* SVUploaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD22502177781B3005D8A9F /* SVUploaderOperation.m */; };
+		AAD22506177781B3005D8A9F /* SVUploaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD22502177781B3005D8A9F /* SVUploaderOperation.m */; };
+		AAD22507177781B3005D8A9F /* SVUploaderOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD22504177781B3005D8A9F /* SVUploaderOperationQueue.m */; };
+		AAD22508177781B3005D8A9F /* SVUploaderOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD22504177781B3005D8A9F /* SVUploaderOperationQueue.m */; };
+		AAD2250B177781D7005D8A9F /* UploadSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD2250A177781D7005D8A9F /* UploadSyncEngine.m */; };
+		AAD2250C177781D7005D8A9F /* UploadSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD2250A177781D7005D8A9F /* UploadSyncEngine.m */; };
 		AAE3DDEA16CED80700539F92 /* NIPhotoAlbumScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDDF16CED80700539F92 /* NIPhotoAlbumScrollView.m */; };
 		AAE3DDEB16CED80700539F92 /* NIPhotoAlbumScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDDF16CED80700539F92 /* NIPhotoAlbumScrollView.m */; };
 		AAE3DDEC16CED80700539F92 /* NIPhotoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDE316CED80700539F92 /* NIPhotoScrollView.m */; };
@@ -2034,10 +2036,6 @@
 		AA9CBC4A1776AF0F006172C6 /* SVUploaderDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderDelegate.m; sourceTree = "<group>"; };
 		AA9CBC501776AF48006172C6 /* SVUploaderWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploaderWS.h; sourceTree = "<group>"; };
 		AA9CBC511776AF48006172C6 /* SVUploaderWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderWS.m; sourceTree = "<group>"; };
-		AA9CBC541776AF6D006172C6 /* SVOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOperation.h; sourceTree = "<group>"; };
-		AA9CBC551776AF6D006172C6 /* SVOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVOperation.m; sourceTree = "<group>"; };
-		AA9CBC561776AF6D006172C6 /* SVOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOperationQueue.h; sourceTree = "<group>"; };
-		AA9CBC571776AF6D006172C6 /* SVOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVOperationQueue.m; sourceTree = "<group>"; };
 		AABFE12A16CF0599005D0DEA /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
 		AABFE14016CF05C6005D0DEA /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		AABFE14116CF05C6005D0DEA /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
@@ -2063,6 +2061,12 @@
 		AACB11E416C457DC00BAC7E1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AACB11E616C457F000BAC7E1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AACB11EC16C462B500BAC7E1 /* ShotVibe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShotVibe.xcdatamodel; sourceTree = "<group>"; };
+		AAD22501177781B3005D8A9F /* SVUploaderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploaderOperation.h; sourceTree = "<group>"; };
+		AAD22502177781B3005D8A9F /* SVUploaderOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderOperation.m; sourceTree = "<group>"; };
+		AAD22503177781B3005D8A9F /* SVUploaderOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploaderOperationQueue.h; sourceTree = "<group>"; };
+		AAD22504177781B3005D8A9F /* SVUploaderOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderOperationQueue.m; sourceTree = "<group>"; };
+		AAD22509177781D7005D8A9F /* UploadSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadSyncEngine.h; sourceTree = "<group>"; };
+		AAD2250A177781D7005D8A9F /* UploadSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadSyncEngine.m; sourceTree = "<group>"; };
 		AAE3DDDC16CED80700539F92 /* NimbusPhotos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NimbusPhotos.h; path = nimbus/src/photos/src/NimbusPhotos.h; sourceTree = "<group>"; };
 		AAE3DDDD16CED80700539F92 /* NimbusPhotos+Namespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NimbusPhotos+Namespace.h"; path = "nimbus/src/photos/src/NimbusPhotos+Namespace.h"; sourceTree = "<group>"; };
 		AAE3DDDE16CED80700539F92 /* NIPhotoAlbumScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIPhotoAlbumScrollView.h; path = nimbus/src/photos/src/NIPhotoAlbumScrollView.h; sourceTree = "<group>"; };
@@ -3361,10 +3365,10 @@
 				AA78D2A817172BA4006E1240 /* AlbumPhoto.m */,
 				AAE6CB5316C59CF100EB1832 /* Member.h */,
 				AAE6CB5416C59CF100EB1832 /* Member.m */,
-				AA9CBC541776AF6D006172C6 /* SVOperation.h */,
-				AA9CBC551776AF6D006172C6 /* SVOperation.m */,
-				AA9CBC561776AF6D006172C6 /* SVOperationQueue.h */,
-				AA9CBC571776AF6D006172C6 /* SVOperationQueue.m */,
+				AAD22501177781B3005D8A9F /* SVUploaderOperation.h */,
+				AAD22502177781B3005D8A9F /* SVUploaderOperation.m */,
+				AAD22503177781B3005D8A9F /* SVUploaderOperationQueue.h */,
+				AAD22504177781B3005D8A9F /* SVUploaderOperationQueue.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3383,6 +3387,8 @@
 				AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */,
 				397040A0177115FD0028BF7A /* SyncEngine.h */,
 				397040A1177115FD0028BF7A /* SyncEngine.m */,
+				AAD22509177781D7005D8A9F /* UploadSyncEngine.h */,
+				AAD2250A177781D7005D8A9F /* UploadSyncEngine.m */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -4572,6 +4578,7 @@
 				AA58FC5416C235C800C49E02 /* JMCResultSet.m in Sources */,
 				AA58FC5616C235C800C49E02 /* UIImage+JMCAlpha.m in Sources */,
 				AA58FC5816C235C800C49E02 /* UIImage+JMCResize.m in Sources */,
+				AAD22507177781B3005D8A9F /* SVUploaderOperationQueue.m in Sources */,
 				AA58FC5A16C235C800C49E02 /* UIImage+JMCRoundedCorner.m in Sources */,
 				AA58FC5C16C235C800C49E02 /* JMCIssuePreviewCell.m in Sources */,
 				AA58FC6016C235C800C49E02 /* JMCIssueStore.m in Sources */,
@@ -4616,6 +4623,7 @@
 				AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */,
 				AA66828E16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */,
 				04CD9C7916CDC6FF00FC72B3 /* GMGridView.m in Sources */,
+				AAD22505177781B3005D8A9F /* SVUploaderOperation.m in Sources */,
 				04CD9C7B16CDC6FF00FC72B3 /* GMGridViewCell.m in Sources */,
 				04CD9C7D16CDC6FF00FC72B3 /* GMGridViewLayoutStrategies.m in Sources */,
 				04CD9C7F16CDC6FF00FC72B3 /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */,
@@ -4688,6 +4696,7 @@
 				0426B6871724F574007BAABC /* CaptureNavigationController.m in Sources */,
 				04C404E21730301500973BC0 /* CountryPicker.m in Sources */,
 				04C407E817303EB100973BC0 /* SVRegistrationViewController.m in Sources */,
+				AAD2250B177781D7005D8A9F /* UploadSyncEngine.m in Sources */,
 				04C407FC17305E7C00973BC0 /* NBNumberFormat.m in Sources */,
 				04C407FE17305E7C00973BC0 /* NBPhoneMetaData.m in Sources */,
 				04C4080017305E7C00973BC0 /* NBPhoneNumber.m in Sources */,
@@ -4700,8 +4709,6 @@
 				397040A2177115FD0028BF7A /* SyncEngine.m in Sources */,
 				AA9CBC4B1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
 				AA9CBC521776AF48006172C6 /* SVUploaderWS.m in Sources */,
-				AA9CBC581776AF6D006172C6 /* SVOperation.m in Sources */,
-				AA9CBC5A1776AF6D006172C6 /* SVOperationQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4733,6 +4740,7 @@
 				AA58FC5516C235C800C49E02 /* JMCResultSet.m in Sources */,
 				AA58FC5716C235C800C49E02 /* UIImage+JMCAlpha.m in Sources */,
 				AA58FC5916C235C800C49E02 /* UIImage+JMCResize.m in Sources */,
+				AAD22508177781B3005D8A9F /* SVUploaderOperationQueue.m in Sources */,
 				AA58FC5B16C235C800C49E02 /* UIImage+JMCRoundedCorner.m in Sources */,
 				AA58FC5D16C235C800C49E02 /* JMCIssuePreviewCell.m in Sources */,
 				AA58FC6116C235C800C49E02 /* JMCIssueStore.m in Sources */,
@@ -4777,6 +4785,7 @@
 				AA12881216CB876A002AC699 /* SVAlbumListViewCell.m in Sources */,
 				AA66828F16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */,
 				04CD9C7A16CDC6FF00FC72B3 /* GMGridView.m in Sources */,
+				AAD22506177781B3005D8A9F /* SVUploaderOperation.m in Sources */,
 				04CD9C7C16CDC6FF00FC72B3 /* GMGridViewCell.m in Sources */,
 				04CD9C7E16CDC6FF00FC72B3 /* GMGridViewLayoutStrategies.m in Sources */,
 				04CD9C8016CDC6FF00FC72B3 /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */,
@@ -4849,6 +4858,7 @@
 				0426B6881724F574007BAABC /* CaptureNavigationController.m in Sources */,
 				04C404E31730301500973BC0 /* CountryPicker.m in Sources */,
 				04C407E917303EB100973BC0 /* SVRegistrationViewController.m in Sources */,
+				AAD2250C177781D7005D8A9F /* UploadSyncEngine.m in Sources */,
 				04C407FD17305E7C00973BC0 /* NBNumberFormat.m in Sources */,
 				04C407FF17305E7C00973BC0 /* NBPhoneMetaData.m in Sources */,
 				04C4080117305E7C00973BC0 /* NBPhoneNumber.m in Sources */,
@@ -4861,8 +4871,6 @@
 				AA55096D1774F36F008F0090 /* SyncEngine.m in Sources */,
 				AA9CBC4C1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
 				AA9CBC531776AF48006172C6 /* SVUploaderWS.m in Sources */,
-				AA9CBC591776AF6D006172C6 /* SVOperation.m in Sources */,
-				AA9CBC5B1776AF6D006172C6 /* SVOperationQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
