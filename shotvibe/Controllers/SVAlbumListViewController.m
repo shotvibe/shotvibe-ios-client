@@ -387,11 +387,11 @@
     // TODO: We need to configure our cell's views
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    __block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
     
-    __block AlbumPhoto *recentPhoto = [photos lastObject];
+    AlbumPhoto *recentPhoto = [photos lastObject];
   
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
