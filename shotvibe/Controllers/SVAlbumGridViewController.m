@@ -40,6 +40,7 @@
 - (void)configureGridview;
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
 - (void)backButtonPressed;
+- (void)albumRefreshed:(NSNotification *)notification;
 - (IBAction)homePressed:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
 
@@ -101,7 +102,7 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerDidChangeContent:) name:kSDSyncEngineSyncAlbumCompletedNotification object:self.fetchedResultsController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumRefreshed:) name:kSDSyncEngineSyncAlbumCompletedNotification object:nil];
     
     // We've returned from pushing detail
     if (isPushingDetail) {
@@ -491,5 +492,13 @@
 }
 
 
+- (void)albumRefreshed:(NSNotification *)notification
+{
+    Album *refreshedAlbum = (Album *)notification.object;
+    
+    if (self.selectedAlbum == refreshedAlbum) {
+        [_gmGridView reloadData];
+    }
+}
 
 @end

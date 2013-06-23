@@ -534,12 +534,18 @@
 
 - (void)albumCellHasCompletedSync:(NSNotification *)notification
 {
-    Album *syncedAlbum = (Album *)notification.object;
+    NSMutableArray *visibleCellIndexes = [[NSMutableArray alloc] init];
     
-    NSIndexPath *albumIndex = [self.fetchedResultsController indexPathForObject:syncedAlbum];
+    for (UITableViewCell *cell in [self.tableView visibleCells]) {
+        
+        SVAlbumListViewCell *albumCell = (SVAlbumListViewCell *)cell;
+        if (albumCell.networkImageView.initialImage == albumCell.networkImageView.image) {
+            [visibleCellIndexes addObject:[self.tableView indexPathForCell:cell]];
+        }
+    }
     
-    if (albumIndex) {
-        [self.tableView reloadRowsAtIndexPaths:@[albumIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+    if (visibleCellIndexes.count > 0) {
+        [self.tableView reloadRowsAtIndexPaths:visibleCellIndexes withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 @end
