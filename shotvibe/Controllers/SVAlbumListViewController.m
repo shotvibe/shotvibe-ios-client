@@ -152,7 +152,7 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSDSyncEngineSyncAlbumCompletedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSDSyncEngineSyncCompletedNotification object:nil];
 }
 
 
@@ -532,5 +532,6 @@
 - (void)albumUpdateReceived:(NSNotification *)notification
 {
     [self.fetchedResultsController performFetch:nil];
+    [self.tableView reloadData];
 }
 @end
