@@ -9,11 +9,18 @@
 #import "SVUploaderOperationQueue.h"
 #import "UploadSyncEngine.h"
 
+typedef enum {
+    SVObjectSyncCompleted = 0,
+    SVObjectSyncWaiting,
+    SVObjectSyncActive,
+    SVObjectSyncNeeded,
+} SVObjectSyncStatus;
+
 @interface UploadSyncEngine ()
 
+@property (atomic, readonly) BOOL syncInProgress;
+@property (atomic, assign) BOOL queueIsProcessing;
 @property (nonatomic, strong) SVUploaderOperationQueue *operationQueue;
-@property (nonatomic, assign) BOOL syncInProgress;
-@property (nonatomic, assign) BOOL queueIsProcessing;
 
 - (void)processQueue;
 @end

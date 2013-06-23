@@ -10,14 +10,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Album.h"
-
-typedef enum {
-    SVObjectSyncCompleted = 0,
-    SVObjectSyncWaiting,
-    SVObjectSyncActive,
-    SVObjectSyncNeeded,
-} SVObjectSyncStatus;
 
 @interface DownloadSyncEngine : NSObject
 
