@@ -11,7 +11,7 @@
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 #import "SVBusinessDelegate.h"
-#import "SyncEngine.h"
+#import "DownloadSyncEngine.h"
 
 static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 

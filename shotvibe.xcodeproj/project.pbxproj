@@ -853,14 +853,14 @@
 		04E287F8173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */; };
 		04E287F9173176F00044C17A /* CaptureSelectImagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */; };
 		04E287FA173176F00044C17A /* CaptureSelectImagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */; };
-		397040A2177115FD0028BF7A /* SyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 397040A1177115FD0028BF7A /* SyncEngine.m */; };
+		397040A2177115FD0028BF7A /* DownloadSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 397040A1177115FD0028BF7A /* DownloadSyncEngine.m */; };
 		AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880C16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880D16CB84CC002AC699 /* NINetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880A16CB84CC002AC699 /* NINetworkImageView.m */; };
 		AA12880E16CB84CC002AC699 /* NINetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880A16CB84CC002AC699 /* NINetworkImageView.m */; };
 		AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
 		AA12881216CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
-		AA55096D1774F36F008F0090 /* SyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 397040A1177115FD0028BF7A /* SyncEngine.m */; };
+		AA55096D1774F36F008F0090 /* DownloadSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 397040A1177115FD0028BF7A /* DownloadSyncEngine.m */; };
 		AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFA16C224E800C49E02 /* UIKit.framework */; };
 		AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFC16C224E800C49E02 /* Foundation.framework */; };
 		AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */; };
@@ -1743,8 +1743,8 @@
 		04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureSelectImagesViewController.h; sourceTree = "<group>"; };
 		04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureSelectImagesViewController.m; sourceTree = "<group>"; };
 		04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptureSelectImagesViewController.xib; sourceTree = "<group>"; };
-		397040A0177115FD0028BF7A /* SyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncEngine.h; sourceTree = "<group>"; };
-		397040A1177115FD0028BF7A /* SyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncEngine.m; sourceTree = "<group>"; };
+		397040A0177115FD0028BF7A /* DownloadSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadSyncEngine.h; sourceTree = "<group>"; };
+		397040A1177115FD0028BF7A /* DownloadSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadSyncEngine.m; sourceTree = "<group>"; };
 		AA12880516CB84CC002AC699 /* NIImageProcessing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIImageProcessing.h; path = Nimbus/src/networkimage/src/NIImageProcessing.h; sourceTree = "<group>"; };
 		AA12880616CB84CC002AC699 /* NIImageProcessing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIImageProcessing.m; path = Nimbus/src/networkimage/src/NIImageProcessing.m; sourceTree = "<group>"; };
 		AA12880716CB84CC002AC699 /* NimbusNetworkImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NimbusNetworkImage.h; path = Nimbus/src/networkimage/src/NimbusNetworkImage.h; sourceTree = "<group>"; };
@@ -3385,8 +3385,8 @@
 			children = (
 				AACB11C916C454A000BAC7E1 /* SVEntityStore.h */,
 				AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */,
-				397040A0177115FD0028BF7A /* SyncEngine.h */,
-				397040A1177115FD0028BF7A /* SyncEngine.m */,
+				397040A0177115FD0028BF7A /* DownloadSyncEngine.h */,
+				397040A1177115FD0028BF7A /* DownloadSyncEngine.m */,
 				AAD22509177781D7005D8A9F /* UploadSyncEngine.h */,
 				AAD2250A177781D7005D8A9F /* UploadSyncEngine.m */,
 			);
@@ -4706,7 +4706,7 @@
 				0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
-				397040A2177115FD0028BF7A /* SyncEngine.m in Sources */,
+				397040A2177115FD0028BF7A /* DownloadSyncEngine.m in Sources */,
 				AA9CBC4B1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
 				AA9CBC521776AF48006172C6 /* SVUploaderWS.m in Sources */,
 			);
@@ -4868,7 +4868,7 @@
 				0493ABEF1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
 				0493ABF31732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				0493ABF71732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
-				AA55096D1774F36F008F0090 /* SyncEngine.m in Sources */,
+				AA55096D1774F36F008F0090 /* DownloadSyncEngine.m in Sources */,
 				AA9CBC4C1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
 				AA9CBC531776AF48006172C6 /* SVUploaderWS.m in Sources */,
 			);

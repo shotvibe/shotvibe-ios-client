@@ -7,7 +7,7 @@
 
 #import "SVInitializationWS.h"
 #import "SVDefines.h"
-#import "SyncEngine.h"
+#import "DownloadSyncEngine.h"
 #import "UploadSyncEngine.h"
 
 #ifdef CONFIGURATION_Debug
@@ -212,7 +212,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (void)startSyncing
 {
     // start bg sync for albums
-    [[SyncEngine sharedEngine] startSync];
+    [[DownloadSyncEngine sharedEngine] startSync];
     
     // start upload syncing
     [[UploadSyncEngine sharedEngine] startSync];

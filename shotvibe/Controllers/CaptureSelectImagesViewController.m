@@ -12,7 +12,7 @@
 #import "Album.h"
 #import "SVEntityStore.h"
 #import "ALAssetsLibrary+helper.h"
-#import "SyncEngine.h"
+#import "DownloadSyncEngine.h"
 
 @interface CaptureSelectImagesViewController () <GMGridViewDataSource, GMGridViewActionDelegate>
 {

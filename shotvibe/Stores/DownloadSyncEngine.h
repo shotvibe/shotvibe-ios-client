@@ -19,11 +19,11 @@ typedef enum {
     SVObjectSyncNeeded,
 } SVObjectSyncStatus;
 
-@interface SyncEngine : NSObject
+@interface DownloadSyncEngine : NSObject
 
 #pragma mark - Class Methods
 
-+ (SyncEngine *)sharedEngine;
++ (DownloadSyncEngine *)sharedEngine;
 
 
 #pragma mark - Instance Methods

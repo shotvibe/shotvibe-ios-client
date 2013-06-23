@@ -10,14 +10,14 @@
 //
 
 #import "SVDefines.h"
-#import "SyncEngine.h"
+#import "DownloadSyncEngine.h"
 #import "SVEntityStore.h"
 #import "SVBusinessDelegate.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
 #import "SVUploaderDelegate.h"
 
-@interface SyncEngine ()
+@interface DownloadSyncEngine ()
 
 @property (atomic, readonly) BOOL syncInProgress;
 
@@ -36,16 +36,16 @@
 @end
 
 
-@implementation SyncEngine
+@implementation DownloadSyncEngine
 
 #pragma mark - Class Methods
 
-+ (SyncEngine *)sharedEngine
++ (DownloadSyncEngine *)sharedEngine
 {
-    static SyncEngine *sharedEngine = nil;
+    static DownloadSyncEngine *sharedEngine = nil;
     static dispatch_once_t engineToken;
     dispatch_once(&engineToken, ^{
-        sharedEngine = [[SyncEngine alloc] init];
+        sharedEngine = [[DownloadSyncEngine alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncAlbums) name:kUserAlbumsLoadedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncPhotos:) name:kPhotosLoadedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(photoWasSuccessfullySavedToDiskWithId:) name:kSDSyncEnginePhotoSavedToDiskNotification object:nil];
