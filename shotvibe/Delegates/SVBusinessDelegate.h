@@ -16,10 +16,10 @@
 @interface SVBusinessDelegate : NSObject
 
 // Offline Storage Methods
-+ (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(NSNumber *)albumId;
++ (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(id)albumId;
 
-+ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(NSNumber *)albumId;
-+ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(Album *)album;
++ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId;
++ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(Album *)album;
 + (void)saveImage:(UIImage *)image forPhoto:(Photo *)photo;
 
 + (void)cleanupOfflineStorageForAlbum:(Album *)album;
