@@ -199,6 +199,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     // Create the managed object contexts
     [managedObjectStore createManagedObjectContexts];
     [managedObjectStore.persistentStoreManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+    [RKManagedObjectStore setDefaultStore:managedObjectStore];
     
     // Configure a managed object cache to ensure we do not create duplicate objects
     managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];

@@ -28,6 +28,7 @@
 
 #define kSDSyncEngineSyncAlbumCompletedNotification @"SyncEngineSyncAlbumCompleted"
 #define kSDSyncEngineSyncCompletedNotification      @"SyncEngineSyncCompleted"
+#define kSDSyncEnginePhotoSavedToDiskNotification   @"SyncEnginePhotoSavedToDisk"
 #define kCategoryBadgeUpdatedNotification           @"CategoryBadgeUpdatedNotification"
 
 #endif

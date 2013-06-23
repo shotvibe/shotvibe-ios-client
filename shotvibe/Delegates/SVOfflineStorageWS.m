@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import "SVDefines.h"
 #import "SVOfflineStorageWS.h"
 #import "Photo.h"
 #import "Album.h"
@@ -97,7 +98,7 @@
                                                          reason:@"albumId should be either an NSNumber or NSString."
                                                        userInfo:nil];
         [exception raise];
-    }
+    }    
     
     [self saveImageToFileSystem:imageData forPhotoId:photo.photoId inAlbumWithId:albumIdAsString];
 }
@@ -138,7 +139,14 @@
         NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photoId];
         
         // TODO: After performance tuning is complete, we can pass YES for atomically:
-        [imageData writeToFile:filePath atomically:NO];
+        if ([imageData writeToFile:filePath atomically:NO]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSString *photoIdToPost = [NSString stringWithString:photoId];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEnginePhotoSavedToDiskNotification object:photoIdToPost];
+                
+            });
+        }
     }];
 }
 

@@ -30,6 +30,7 @@
 - (void)syncAlbums;
 - (NSArray *)getAlbums;
 - (void)addPhotos:(NSArray *)photos ToAlbum:(Album *) album;
+- (void)photoWasSuccessfullySavedToDiskWithId:(NSNotification *)notification;
 
 @end
 
@@ -44,7 +45,7 @@
     dispatch_once(&engineToken, ^{
         sharedEngine = [[SyncEngine alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncAlbums) name:kUserAlbumsLoadedNotification object:nil];
-        //[[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(uploadPhotosInBatch) name:kStartPhotoUpload object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(photoWasSuccessfullySavedToDiskWithId:) name:kSDSyncEnginePhotoSavedToDiskNotification object:nil];
     });
     
     return sharedEngine;
@@ -492,6 +493,36 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotification object:nil];
         
     });
+}
+
+
+#pragma mark - Private Methods
+
+- (void)photoWasSuccessfullySavedToDiskWithId:(NSNotification *)notification
+{
+    NSString *photoId = [notification object];
+    
+    NSManagedObjectContext *localContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"photoId = %@", photoId];
+    fetchRequest.predicate = predicate;
+    
+    NSError *fetchError = nil;
+    
+    AlbumPhoto *localPhoto = (AlbumPhoto *)[[localContext executeFetchRequest:fetchRequest error:&fetchError] lastObject];
+    
+    if (!fetchError && localPhoto != nil) {
+        
+        [localPhoto setImageWasDownloaded:[NSNumber numberWithBool:YES]];
+        
+        NSError *saveError = nil;
+        [localContext saveToPersistentStore:&saveError];
+        
+    } else {
+        NSLog(@"The image was not saved to disk");
+    }
 }
 
 

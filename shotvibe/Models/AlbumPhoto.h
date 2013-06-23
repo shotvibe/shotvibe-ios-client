@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString * photoUrl;
 @property (nonatomic, retain) NSNumber * objectSyncStatus;
 @property (nonatomic, retain) NSString * tempPhotoId;
+@property (nonatomic, retain) NSNumber * imageWasDownloaded;
 @property (nonatomic, retain) Album *album;
 @property (nonatomic, retain) Member *author;
 

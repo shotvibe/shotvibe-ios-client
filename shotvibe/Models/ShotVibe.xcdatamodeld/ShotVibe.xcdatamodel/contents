@@ -22,6 +22,7 @@
         <attribute name="albumId" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="dateCreated" attributeType="Date" syncable="YES"/>
         <attribute name="hasViewed" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="imageWasDownloaded" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="objectSyncStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="photoId" attributeType="String" syncable="YES"/>
         <attribute name="photoUrl" attributeType="String" syncable="YES"/>
@@ -58,7 +59,7 @@
     </entity>
     <elements>
         <element name="Album" positionX="-6500" positionY="-2223" width="128" height="283"/>
-        <element name="AlbumPhoto" positionX="-6201" positionY="-2067" width="128" height="178"/>
+        <element name="AlbumPhoto" positionX="-6273" positionY="-2061" width="128" height="193"/>
         <element name="Member" positionX="-6707" positionY="-2029" width="128" height="163"/>
         <element name="Photo" positionX="-6698" positionY="-2301" width="128" height="150"/>
         <element name="SVUploaderOperation" positionX="-6327" positionY="-1854" width="128" height="88"/>

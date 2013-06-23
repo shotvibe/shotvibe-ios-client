@@ -20,6 +20,7 @@
 @dynamic photoUrl;
 @dynamic objectSyncStatus;
 @dynamic tempPhotoId;
+@dynamic imageWasDownloaded;
 @dynamic album;
 @dynamic author;
 
