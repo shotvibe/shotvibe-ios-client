@@ -20,16 +20,12 @@
 @interface DownloadSyncEngine ()
 
 @property (atomic, readonly) BOOL syncInProgress;
-
 @property (nonatomic, strong) NSOperationQueue *globalDownloadQueue;
-@property (nonatomic, strong) NSMutableArray *project;
-@property (nonatomic, strong) NSMutableArray *uploadQueue;
-@property (nonatomic, strong) NSMutableDictionary *globalUploadQueue;
-
 
 - (void)syncAlbums;
-- (void)syncPhotos:(NSNotification *)notification;
 - (NSArray *)getAlbums;
+- (void)syncPhotos;
+- (NSArray *)getPhotos;
 - (void)executeSyncCompletedOperations;
 - (void)photoWasSuccessfullySavedToDiskWithId:(NSNotification *)notification;
 
@@ -47,7 +43,6 @@
     dispatch_once(&engineToken, ^{
         sharedEngine = [[DownloadSyncEngine alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncAlbums) name:kUserAlbumsLoadedNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncPhotos:) name:kPhotosLoadedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(photoWasSuccessfullySavedToDiskWithId:) name:kSDSyncEnginePhotoSavedToDiskNotification object:nil];
     });
     
@@ -73,16 +68,6 @@
         
         [self didChangeValueForKey:@"syncInProgress"];
         
-        // Initialize the operation queue
-        if (self.globalDownloadQueue == nil)
-        {
-            self.globalDownloadQueue = [[NSOperationQueue alloc] init];
-            self.globalDownloadQueue.maxConcurrentOperationCount = 4;
-            [self.globalDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
-        } else {
-            [self.globalDownloadQueue cancelAllOperations];
-        }
-        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -102,18 +87,11 @@
  */
 - (void)syncAlbums
 {
-    //
-    // 20130619 - download all photos (thumbnails) for an album.  this provides the user with a better UX as the photos
-    //            will be on the device after the initial launch, and any updates.  the initial load will take time depending
-    //            on the number of photos
-    //
-    
-    
-    // 20130621 - changed to using NSOperationQueue - allows pausing of all worker threads more easily as well as stopping them
-    //            if a memory issue occurs
-    
     // TODO: We should only update albums that need to be updated rather than all the albums each time.
     NSArray *albums = [self getAlbums];
+    
+    // Register to observe the object manager's operation queue.
+    [[RKObjectManager sharedManager].operationQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
     
     for(Album *album in albums)           // call to get all photos for the given album
     {
@@ -141,80 +119,95 @@
 }
 
 
-- (void)syncPhotos:(NSNotification *)notification
+- (void)syncPhotos
 {
-    NSNumber *albumId = notification.object;
+    // Initialize the operation queue
+    if (self.globalDownloadQueue == nil)
+    {
+        self.globalDownloadQueue = [[NSOperationQueue alloc] init];
+        self.globalDownloadQueue.maxConcurrentOperationCount = 4;
+        [self.globalDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
+    } else {
+        [self.globalDownloadQueue cancelAllOperations];
+    }
     
     NSManagedObjectContext *localContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
     
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    NSArray *photos = [self getPhotos];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %d", albumId.integerValue];
-    fetchRequest.predicate = predicate;
-    
-    NSError *fetchError = nil;
-    
-    Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:&fetchError] lastObject];
-    
-    if (!fetchError && localAlbum != nil) {
+    if (photos.count > 0) {
         
-        for(AlbumPhoto *photo in localAlbum.albumPhotos)
+        for(AlbumPhoto *photo in photos)
         {
-            // NOTE: If the photo does not exist, then will not require uploading
-            BOOL photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:localAlbum.albumId];
             
-            if(!photoExists)
-            {
-                NSLog(@"photo DNE, downloading photo:  %@, %@", localAlbum.name, photo.photoId);
+            Album *localAlbum = photo.album;
+            
+            if (localAlbum != nil) {
                 
-                [self.globalDownloadQueue addOperationWithBlock:^{
+                BOOL photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:localAlbum.albumId];
+                
+                if(!photoExists)
+                {
+                    NSLog(@"photo DNE, downloading photo:  %@, %@", localAlbum.name, photo.photoId);
                     
-                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
-                    Album *innerAlbum = (Album *)[localContext objectWithID:localAlbum.objectID];
-                    
-                    NSString *photoURL = nil;
-                    
-                    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2){
-                        if (IS_IPHONE_5) {
-                            photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone5Extension];
+                    [self.globalDownloadQueue addOperationWithBlock:^{
+                        
+                        AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+                        Album *innerAlbum = (Album *)[localContext objectWithID:localAlbum.objectID];
+                        
+                        NSString *photoURL = nil;
+                        
+                        if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2){
+                            if (IS_IPHONE_5) {
+                                photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone5Extension];
+                            }
+                            else
+                            {
+                                photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone4Extension];
+                            }
                         }
                         else
                         {
-                            photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone4Extension];
+                            photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone3Extension];
                         }
-                    }
-                    else
-                    {
-                        photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone3Extension];
-                    }
-                    
-                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoURL]];
-                    
-                    if ( imageData != nil ) {
-                        NSLog(@"photo downloaded:  %@", localPhoto.photoId);
                         
-                        [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:innerAlbum.albumId];
+                        NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoURL]];
                         
-                        // This album has finished syncing
-                        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:innerAlbum];
-                    }
-                    
-                }];
-            } else {
-                
-                if ([photo.objectSyncStatus integerValue] == SVObjectSyncNeeded) {
-                    
-                    NSLog(@"This photo needs to be uploaded.");
-                    //[SVUploaderDelegate addPhoto:photo.photoId withAlbumId:album.albumId];
-                    
+                        if ( imageData != nil ) {
+                            NSLog(@"photo downloaded:  %@", localPhoto.photoId);
+                            
+                            [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:innerAlbum.albumId];
+                        }
+                        
+                    }];
                 }
                 
             }
         }
         
     } else {
-        NSLog(@"The album could not be retrieved fromt he persistent store.");
+        NSLog(@"The photos could not be retrieved fromt he persistent store.");
     }
+}
+
+
+- (NSArray *)getPhotos
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectSyncStatus = %d", SVObjectSyncCompleted];
+    fetchRequest.predicate = predicate;
+    
+    NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+    
+    NSError *error = nil;
+    NSArray *array = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    if (!error) {
+        NSLog(@"%@", [error userInfo]);
+    }
+    
+    return array;
 }
 
 
@@ -222,13 +215,15 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         
+        [self.globalDownloadQueue removeObserver:self forKeyPath:@"operations"];
+        [[RKObjectManager sharedManager].operationQueue removeObserver:self forKeyPath:@"operations"];
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotification object:nil];
+        
         [self willChangeValueForKey:@"syncInProgress"];
         _syncInProgress = NO;
         [self didChangeValueForKey:@"syncInProgress"];
-        
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotification object:nil];
         
     });
 }
@@ -269,12 +264,20 @@
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-    if (object == self.globalDownloadQueue && [keyPath isEqualToString:@"operations"]) {
+    if (object == self.globalDownloadQueue && [keyPath isEqualToString:@"operations"])
+    {
         if (self.globalDownloadQueue.operationCount == 0) {
             [self executeSyncCompletedOperations];
         }
     }
-    else {
+    else if (object == [RKObjectManager sharedManager].operationQueue && [keyPath isEqualToString:@"operations"])
+    {
+        if ([RKObjectManager sharedManager].operationQueue.operationCount == 0) {
+            [self syncPhotos];
+        }
+    }
+    else
+    {
         [super observeValueForKeyPath:keyPath ofObject:object
                                change:change context:context];
     }
