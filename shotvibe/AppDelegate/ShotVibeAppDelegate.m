@@ -9,7 +9,6 @@
 #import <HockeySDK/HockeySDK.h>
 #import "ShotVibeAppDelegate.h"
 #import "SVInitializationBD.h"
-#import "SyncEngine.h"
 
 @interface ShotVibeAppDelegate () <BITHockeyManagerDelegate, BITUpdateManagerDelegate, BITCrashManagerDelegate>
 
@@ -50,9 +49,6 @@
     }
     
     [SVInitializationBD initialize];
-    
-    // start bg sync for albums
-    [[SyncEngine sharedEngine] startSync];
     
     return YES;
 }

@@ -15,33 +15,33 @@
 
 + (void) startSync
 {
- SVUploaderWS *workerSession = [[SVUploaderWS alloc] init];
- 
- return [workerSession startSync];
+    SVUploaderWS *workerSession = [[SVUploaderWS alloc] init];
+    
+    return [workerSession startSync];
 }
 
 
 + (void)addPhoto:(NSString *)photoId withAlbumId:(NSNumber *)albumId
 {
- SVUploaderWS *workerSession = [[SVUploaderWS alloc] init];
- 
- return [workerSession addPhoto:photoId withAlbumId:albumId];
+    SVUploaderWS *workerSession = [[SVUploaderWS alloc] init];
+    
+    return [workerSession addPhoto:photoId withAlbumId:albumId];
 }
 
 
 + (void)changeStatusForPhoto:(NSString *)photoId withAlbumId:(NSNumber *)albumId toStatus:(NSNumber *) syncStatus
 {
- SVUploaderWS *workerSession = [[SVUploaderWS alloc] init];
- 
- return [workerSession changeStatusForPhoto:photoId withAlbumId:albumId toStatus:syncStatus];
+    SVUploaderWS *workerSession = [[SVUploaderWS alloc] init];
+    
+    return [workerSession changeStatusForPhoto:photoId withAlbumId:albumId toStatus:syncStatus];
 }
 
 
 + (void)deletePhoto:(NSString *)photoId withAlbumId:(NSNumber *)albumId
 {
- SVUploaderWS *workerSession = [[SVUploaderWS alloc] init];
- 
- return [workerSession deletePhoto:photoId withAlbumId:albumId];
+    SVUploaderWS *workerSession = [[SVUploaderWS alloc] init];
+    
+    return [workerSession deletePhoto:photoId withAlbumId:albumId];
 }
 
 

@@ -10,8 +10,6 @@
 
 @interface UploadSyncEngine : NSObject
 
-
-
 #pragma mark - Class Methods
 
 + (UploadSyncEngine *)sharedEngine;
@@ -20,6 +18,4 @@
 #pragma mark - Instance Methods
 
 - (void)startSync;
-
-
 @end

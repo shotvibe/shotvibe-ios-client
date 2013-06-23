@@ -7,6 +7,8 @@
 
 #import "SVInitializationWS.h"
 #import "SVDefines.h"
+#import "SyncEngine.h"
+#import "UploadSyncEngine.h"
 
 #ifdef CONFIGURATION_Debug
 static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
@@ -203,6 +205,16 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     // Configure a managed object cache to ensure we do not create duplicate objects
     managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];
+}
+
+
+- (void)startSyncing
+{
+    // start bg sync for albums
+    [[SyncEngine sharedEngine] startSync];
+    
+    // start upload syncing
+    [[UploadSyncEngine sharedEngine] startSync];
 }
 
 

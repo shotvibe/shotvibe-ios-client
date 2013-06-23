@@ -21,5 +21,6 @@
     [worker processAnalytics];
     [worker initializeLocalSettingsDefaults];
     [worker initializeManagedObjectModel];
+    [worker startSyncing];
 }
 @end

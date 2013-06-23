@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "SVOperation.h"
-#import "SVOperationQueue.h"
+#import "SVUploaderOperation.h"
+#import "SVUploaderOperationQueue.h"
 
 
-@implementation SVOperation
+@implementation SVUploaderOperation
 
 @dynamic albumId;
 @dynamic photoId;

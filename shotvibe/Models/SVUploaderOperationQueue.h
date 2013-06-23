@@ -9,17 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class SVOperation;
+@class SVUploaderOperation;
 
-@interface SVOperationQueue : NSManagedObject
+@interface SVUploaderOperationQueue : NSManagedObject
 
 @property (nonatomic, retain) NSSet *operations;
 @end
 
-@interface SVOperationQueue (CoreDataGeneratedAccessors)
+@interface SVUploaderOperationQueue (CoreDataGeneratedAccessors)
 
-- (void)addOperationsObject:(SVOperation *)value;
-- (void)removeOperationsObject:(SVOperation *)value;
+- (void)addOperationsObject:(SVUploaderOperation *)value;
+- (void)removeOperationsObject:(SVUploaderOperation *)value;
 - (void)addOperations:(NSSet *)values;
 - (void)removeOperations:(NSSet *)values;
 

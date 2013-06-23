@@ -16,4 +16,5 @@
 - (void)processAnalytics;
 - (void)initializeLocalSettingsDefaults;
 - (void)initializeManagedObjectModel;
+- (void)startSyncing;
 @end

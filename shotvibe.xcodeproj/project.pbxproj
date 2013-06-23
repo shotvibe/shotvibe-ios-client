@@ -1190,10 +1190,10 @@
 		AA9CBC4C1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC4A1776AF0F006172C6 /* SVUploaderDelegate.m */; };
 		AA9CBC521776AF48006172C6 /* SVUploaderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC511776AF48006172C6 /* SVUploaderWS.m */; };
 		AA9CBC531776AF48006172C6 /* SVUploaderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC511776AF48006172C6 /* SVUploaderWS.m */; };
-		AA9CBC581776AF6D006172C6 /* SVOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC551776AF6D006172C6 /* SVOperation.m */; };
-		AA9CBC591776AF6D006172C6 /* SVOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC551776AF6D006172C6 /* SVOperation.m */; };
-		AA9CBC5A1776AF6D006172C6 /* SVOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC571776AF6D006172C6 /* SVOperationQueue.m */; };
-		AA9CBC5B1776AF6D006172C6 /* SVOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC571776AF6D006172C6 /* SVOperationQueue.m */; };
+		AA9CBC581776AF6D006172C6 /* SVUploaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC551776AF6D006172C6 /* SVUploaderOperation.m */; };
+		AA9CBC591776AF6D006172C6 /* SVUploaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC551776AF6D006172C6 /* SVUploaderOperation.m */; };
+		AA9CBC5A1776AF6D006172C6 /* SVUploaderOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC571776AF6D006172C6 /* SVUploaderOperationQueue.m */; };
+		AA9CBC5B1776AF6D006172C6 /* SVUploaderOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC571776AF6D006172C6 /* SVUploaderOperationQueue.m */; };
 		AABFE13D16CF05AF005D0DEA /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABFE13216CF0599005D0DEA /* libRestKit.a */; };
 		AABFE13E16CF05B6005D0DEA /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABFE13216CF0599005D0DEA /* libRestKit.a */; };
 		AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
@@ -1204,6 +1204,8 @@
 		AACB11E916C4581100BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
 		AACB11ED16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */; };
 		AACB11EE16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */; };
+		AAD2917A1776CB4F007ADE89 /* UploadSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD291791776CB4F007ADE89 /* UploadSyncEngine.m */; };
+		AAD2917B1776CB4F007ADE89 /* UploadSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD291791776CB4F007ADE89 /* UploadSyncEngine.m */; };
 		AAE3DDEA16CED80700539F92 /* NIPhotoAlbumScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDDF16CED80700539F92 /* NIPhotoAlbumScrollView.m */; };
 		AAE3DDEB16CED80700539F92 /* NIPhotoAlbumScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDDF16CED80700539F92 /* NIPhotoAlbumScrollView.m */; };
 		AAE3DDEC16CED80700539F92 /* NIPhotoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDE316CED80700539F92 /* NIPhotoScrollView.m */; };
@@ -2036,10 +2038,10 @@
 		AA9CBC4A1776AF0F006172C6 /* SVUploaderDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderDelegate.m; sourceTree = "<group>"; };
 		AA9CBC501776AF48006172C6 /* SVUploaderWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploaderWS.h; sourceTree = "<group>"; };
 		AA9CBC511776AF48006172C6 /* SVUploaderWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderWS.m; sourceTree = "<group>"; };
-		AA9CBC541776AF6D006172C6 /* SVOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOperation.h; sourceTree = "<group>"; };
-		AA9CBC551776AF6D006172C6 /* SVOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVOperation.m; sourceTree = "<group>"; };
-		AA9CBC561776AF6D006172C6 /* SVOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOperationQueue.h; sourceTree = "<group>"; };
-		AA9CBC571776AF6D006172C6 /* SVOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVOperationQueue.m; sourceTree = "<group>"; };
+		AA9CBC541776AF6D006172C6 /* SVUploaderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploaderOperation.h; sourceTree = "<group>"; };
+		AA9CBC551776AF6D006172C6 /* SVUploaderOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderOperation.m; sourceTree = "<group>"; };
+		AA9CBC561776AF6D006172C6 /* SVUploaderOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploaderOperationQueue.h; sourceTree = "<group>"; };
+		AA9CBC571776AF6D006172C6 /* SVUploaderOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderOperationQueue.m; sourceTree = "<group>"; };
 		AABFE12A16CF0599005D0DEA /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
 		AABFE14016CF05C6005D0DEA /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		AABFE14116CF05C6005D0DEA /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
@@ -2065,6 +2067,8 @@
 		AACB11E416C457DC00BAC7E1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AACB11E616C457F000BAC7E1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AACB11EC16C462B500BAC7E1 /* ShotVibe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShotVibe.xcdatamodel; sourceTree = "<group>"; };
+		AAD291781776CB4F007ADE89 /* UploadSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadSyncEngine.h; sourceTree = "<group>"; };
+		AAD291791776CB4F007ADE89 /* UploadSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadSyncEngine.m; sourceTree = "<group>"; };
 		AAE3DDDC16CED80700539F92 /* NimbusPhotos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NimbusPhotos.h; path = nimbus/src/photos/src/NimbusPhotos.h; sourceTree = "<group>"; };
 		AAE3DDDD16CED80700539F92 /* NimbusPhotos+Namespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NimbusPhotos+Namespace.h"; path = "nimbus/src/photos/src/NimbusPhotos+Namespace.h"; sourceTree = "<group>"; };
 		AAE3DDDE16CED80700539F92 /* NIPhotoAlbumScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIPhotoAlbumScrollView.h; path = nimbus/src/photos/src/NIPhotoAlbumScrollView.h; sourceTree = "<group>"; };
@@ -3367,10 +3371,10 @@
 				AAE6CB5416C59CF100EB1832 /* Member.m */,
 				AAE6CB5B16C59CF200EB1832 /* Photo.h */,
 				AAE6CB5C16C59CF200EB1832 /* Photo.m */,
-				AA9CBC541776AF6D006172C6 /* SVOperation.h */,
-				AA9CBC551776AF6D006172C6 /* SVOperation.m */,
-				AA9CBC561776AF6D006172C6 /* SVOperationQueue.h */,
-				AA9CBC571776AF6D006172C6 /* SVOperationQueue.m */,
+				AA9CBC541776AF6D006172C6 /* SVUploaderOperation.h */,
+				AA9CBC551776AF6D006172C6 /* SVUploaderOperation.m */,
+				AA9CBC561776AF6D006172C6 /* SVUploaderOperationQueue.h */,
+				AA9CBC571776AF6D006172C6 /* SVUploaderOperationQueue.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3389,6 +3393,8 @@
 				AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */,
 				397040A0177115FD0028BF7A /* SyncEngine.h */,
 				397040A1177115FD0028BF7A /* SyncEngine.m */,
+				AAD291781776CB4F007ADE89 /* UploadSyncEngine.h */,
+				AAD291791776CB4F007ADE89 /* UploadSyncEngine.m */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -4659,6 +4665,7 @@
 				AA972E7D16CEDFC2007D9B35 /* NIOperations.m in Sources */,
 				AA972E7F16CEDFC2007D9B35 /* NIPaths.m in Sources */,
 				AA972E8116CEDFC2007D9B35 /* NIRuntimeClassModifications.m in Sources */,
+				AAD2917A1776CB4F007ADE89 /* UploadSyncEngine.m in Sources */,
 				AA972E8316CEDFC2007D9B35 /* NISDKAvailability.m in Sources */,
 				AA972E8516CEDFC2007D9B35 /* NISnapshotRotation.m in Sources */,
 				AA972E8716CEDFC2007D9B35 /* NIState.m in Sources */,
@@ -4707,8 +4714,8 @@
 				397040A2177115FD0028BF7A /* SyncEngine.m in Sources */,
 				AA9CBC4B1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
 				AA9CBC521776AF48006172C6 /* SVUploaderWS.m in Sources */,
-				AA9CBC581776AF6D006172C6 /* SVOperation.m in Sources */,
-				AA9CBC5A1776AF6D006172C6 /* SVOperationQueue.m in Sources */,
+				AA9CBC581776AF6D006172C6 /* SVUploaderOperation.m in Sources */,
+				AA9CBC5A1776AF6D006172C6 /* SVUploaderOperationQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4821,6 +4828,7 @@
 				AA972E7E16CEDFC2007D9B35 /* NIOperations.m in Sources */,
 				AA972E8016CEDFC2007D9B35 /* NIPaths.m in Sources */,
 				AA972E8216CEDFC2007D9B35 /* NIRuntimeClassModifications.m in Sources */,
+				AAD2917B1776CB4F007ADE89 /* UploadSyncEngine.m in Sources */,
 				AA972E8416CEDFC2007D9B35 /* NISDKAvailability.m in Sources */,
 				AA972E8616CEDFC2007D9B35 /* NISnapshotRotation.m in Sources */,
 				AA972E8816CEDFC2007D9B35 /* NIState.m in Sources */,
@@ -4869,8 +4877,8 @@
 				AA55096D1774F36F008F0090 /* SyncEngine.m in Sources */,
 				AA9CBC4C1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
 				AA9CBC531776AF48006172C6 /* SVUploaderWS.m in Sources */,
-				AA9CBC591776AF6D006172C6 /* SVOperation.m in Sources */,
-				AA9CBC5B1776AF6D006172C6 /* SVOperationQueue.m in Sources */,
+				AA9CBC591776AF6D006172C6 /* SVUploaderOperation.m in Sources */,
+				AA9CBC5B1776AF6D006172C6 /* SVUploaderOperationQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

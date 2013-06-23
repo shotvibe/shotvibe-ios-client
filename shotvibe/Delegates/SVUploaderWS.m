@@ -9,8 +9,8 @@
 #import "SVUploaderWS.h"
 
 #import "AlbumPhoto.h"
-#import "SVOperationQueue.h"
-#import "SVOperation.h"
+#import "SVUploaderOperationQueue.h"
+#import "SVUploaderOperation.h"
 #import "SVBusinessDelegate.h"
 #import "SVEntityStore.h"
 
@@ -29,11 +29,11 @@
  
  NSArray *objects = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:fetchRequest error:&error];
  
- SVOperationQueue *operationQueue = [objects objectAtIndex:0];
+ SVUploaderOperationQueue *operationQueue = [objects objectAtIndex:0];
  
  NSSet *operations = operationQueue.operations;
  
- for(SVOperation *operation in operations)
+ for(SVUploaderOperation *operation in operations)
  {
   Album *album;
   
@@ -50,9 +50,9 @@
 {
 // SVOperationQueue *operationQueue = (SVOperationQueue *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:loadedPhoto.objectID];
 
- SVOperationQueue *operationQueue = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperationQueue" inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
+ SVUploaderOperationQueue *operationQueue = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperationQueue" inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
 
- SVOperation *operation = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperation" inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
+ SVUploaderOperation *operation = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperation" inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
 
  operation.albumId = albumId;
  operation.photoId = photoId;
