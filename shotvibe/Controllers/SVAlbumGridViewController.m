@@ -101,6 +101,8 @@
 {
     [super viewWillAppear:animated];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerDidChangeContent:) name:kSDSyncEngineSyncAlbumCompletedNotification object:self.fetchedResultsController];
+    
     // We've returned from pushing detail
     if (isPushingDetail) {
         [self.sauronTheSideMenu setupGestureRecognizers];
