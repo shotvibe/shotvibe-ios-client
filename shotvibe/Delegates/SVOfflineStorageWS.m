@@ -120,6 +120,7 @@
 
 
 
+
 - (void)cleanupOfflineStorageForAlbum:(Album *)album
 {
     if (!self.offlineStorageQueue) {

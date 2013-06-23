@@ -38,4 +38,9 @@
 
 - (void)newUploadedPhotoForAlbum:(Album *) album withPhotoId:(NSString *) photoId;
 
+
+-(void) uploadPhoto :(NSString *) photoId withImageData:(NSData *) imageData;
+
+- (void) uploadPhotoBatchForAlbum :(NSNumber *) albumId withPhotoIds :(NSArray *) photoIds;
+
 @end
