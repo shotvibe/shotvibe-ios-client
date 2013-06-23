@@ -48,7 +48,6 @@
 @implementation SVAlbumGridViewController
 {
     BOOL isMenuShowing;
-    NSMutableDictionary *photoCache;
 }
 
 
@@ -78,9 +77,7 @@
     [super viewDidLoad];
 	
     self.title = self.selectedAlbum.name;
-    
-    photoCache = [[NSMutableDictionary alloc] init];
- 
+     
     [self configureGridview];
     // Setup fetched results
     [self fetchedResultsController];
@@ -221,8 +218,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    
-    [photoCache removeAllObjects];
 }
 
 
@@ -279,59 +274,12 @@
     networkImageView.imageMemoryCache = nil;
     networkImageView.tag = index;
     [cell.contentView addSubview:networkImageView];
-    
-    UIImage *cachedImage = [photoCache objectForKey:currentPhoto.photoId];
-    
-    if (!cachedImage) {
-        [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
-            if (image) {   
-                                
-                float oldWidth = image.size.width;
-                float scaleFactor = networkImageView.frame.size.width / oldWidth;
-                
-                float newHeight = image.size.height * scaleFactor;
-                float newWidth = oldWidth * scaleFactor;
-                
-                UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-                [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-                UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-                
-                [photoCache setObject:newImage forKey:currentPhoto.photoId];
-                
-                [networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:newImage waitUntilDone:NO];
-            }
-            else
-            {
-                
-                NSString *photoURL = nil;
-                
-                if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2){
-                    if (IS_IPHONE_5) {
-                        photoURL = [[currentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone5Extension];
-                    }
-                    else
-                    {
-                        photoURL = [[currentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone4Extension];
-                    }
-                }
-                else
-                {
-                    photoURL = [[currentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone3Extension];
-                }
-                
-                //
-                
-                
-                [networkImageView setPathToNetworkImage:photoURL];
-            }
-        }];
-    }
-    else
-    {
         
-        [networkImageView setImage:cachedImage];
-    }
+    [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
+        if (image) {
+            [networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+        }
+    }];
     
     //
     
@@ -357,66 +305,12 @@
 
 - (void)networkImageView:(NINetworkImageView *)imageView didLoadImage:(UIImage *)image
 {
-    AlbumPhoto *loadedPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:imageView.tag];
-    
-    /*if (![loadedPhoto.hasViewed boolValue]) {
-                
-        Photo *photoObject = (Photo *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:loadedPhoto.objectID];
-        photoObject.hasViewed = [NSNumber numberWithBool:YES];
-        [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext save:nil];
-     
-    }
-    [SVBusinessDelegate saveImage:image forPhoto:loadedPhoto];*/
-
-    
-    __block UIImage *blockImage = image;
-    __block NINetworkImageView *blockImageView = imageView;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        float oldWidth = blockImage.size.width;
-        float scaleFactor = blockImageView.frame.size.width / oldWidth;
-        
-        float newHeight = blockImage.size.height * scaleFactor;
-        float newWidth = oldWidth * scaleFactor;
-        
-        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-        [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        [photoCache setObject:newImage forKey:loadedPhoto.photoId];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [imageView performSelector:@selector(setImage:) withObject:newImage afterDelay:0.1];
-
-        });
-    });
     
 }
 
 
 - (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
 {
-    __block AlbumPhoto *failedPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:imageView.tag];
-    
-    [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:failedPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
-        if (image) {
-            
-            float oldWidth = image.size.width;
-             float scaleFactor = imageView.frame.size.width / oldWidth;
-             
-             float newHeight = image.size.height * scaleFactor;
-             float newWidth = oldWidth * scaleFactor;
-             
-             UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-             [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-             UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-             UIGraphicsEndImageContext();
-            
-            [imageView performSelectorOnMainThread:@selector(setImage:) withObject:newImage waitUntilDone:NO];
-        }
-    }];
-    
     
 }
 

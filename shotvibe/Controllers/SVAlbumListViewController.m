@@ -302,20 +302,7 @@
 
 - (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
 {
-    __block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:imageView.tag inSection:0]];
 
-    NSArray *photos = [anAlbum.albumPhotos allObjects];
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:YES];
-    
-    NSArray *sortedPhotos = [photos sortedArrayUsingDescriptors:@[descriptor]];
-    
-    __block AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
-    
-    [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
-        if (image) {
-            [imageView setImage:image];
-        }
-    }];
 }
 
 
@@ -410,9 +397,7 @@
     
     
     __block AlbumPhoto *recentPhoto = [sortedPhotos lastObject];
- 
-    NSString *thumbnailUrl = [[recentPhoto.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
- 
+  
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
     cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
@@ -428,19 +413,13 @@
     cell.networkImageView.delegate = self;
     cell.networkImageView.tag = indexPath.row; 
 //    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
- 
+
+    
     [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
-        if (image)
-        {
+        if (image) {
             [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
         }
-        else
-        {
-            [cell.networkImageView setPathToNetworkImage:thumbnailUrl];
-        }
     }];
-    
-    
     
     cell.title.text = anAlbum.name;
     
