@@ -164,6 +164,7 @@ static BOOL entityIdentificationInferenceEnabled = YES;
     self = [self initWithClass:objectClass];
     if (self) {
         self.entity = entity;
+        self.discardsInvalidObjectsOnInsert = NO;
         if ([RKEntityMapping isEntityIdentificationInferenceEnabled]) self.identificationAttributes = RKIdentificationAttributesInferredFromEntity(entity);
     }
 
@@ -187,6 +188,7 @@ static BOOL entityIdentificationInferenceEnabled = YES;
     copy.identificationAttributes = self.identificationAttributes;
     copy.identificationPredicate = self.identificationPredicate;
     copy.deletionPredicate = self.deletionPredicate;
+    copy.mutableConnections = [NSMutableArray array];
     
     for (RKConnectionDescription *connection in self.connections) {
         [copy addConnection:[connection copy]];

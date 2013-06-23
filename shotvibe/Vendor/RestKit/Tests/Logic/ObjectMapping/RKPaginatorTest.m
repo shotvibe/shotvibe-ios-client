@@ -36,6 +36,7 @@
 @implementation RKPaginatorTest
 
 static NSString * const RKPaginatorTestResourcePathPattern = @"/paginate?per_page=:perPage&page=:currentPage";
+static NSString * const RKPaginatorTestResourcePathPatternWithOffset = @"/paginate?limit=:perPage&offset=:offset";
 
 - (void)setUp
 {
@@ -61,6 +62,7 @@ static NSString * const RKPaginatorTestResourcePathPattern = @"/paginate?per_pag
     [paginationMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:@"current_page" toKeyPath:@"currentPage"]];
     [paginationMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:@"per_page" toKeyPath:@"perPage"]];
     [paginationMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:@"total_entries" toKeyPath:@"objectCount"]];
+    [paginationMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:@"offset" toKeyPath:@"offset"]];
 
     return paginationMapping;
 }
@@ -68,6 +70,11 @@ static NSString * const RKPaginatorTestResourcePathPattern = @"/paginate?per_pag
 - (NSURL *)paginationURL
 {
     return [NSURL URLWithString:RKPaginatorTestResourcePathPattern relativeToURL:[RKTestFactory baseURL]];
+}
+
+- (NSURL *)paginationOffsetURL
+{
+    return [NSURL URLWithString:RKPaginatorTestResourcePathPatternWithOffset relativeToURL:[RKTestFactory baseURL]];
 }
 
 #pragma mark - Test Cases
@@ -145,13 +152,24 @@ static NSString * const RKPaginatorTestResourcePathPattern = @"/paginate?per_pag
     expect([[mockPaginator URL] query]).to.equal(@"per_page=25&page=1");
 }
 
+- (void)testThatURLReturnedReflectsStateOfPaginatorWithOffset
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:self.paginationOffsetURL];
+    RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
+    id mockPaginator = [OCMockObject partialMockForObject:paginator];
+    NSUInteger currentPage = 1;
+    [[[mockPaginator stub] andReturnValue:OCMOCK_VALUE(currentPage)] currentPage];
+    expect([[mockPaginator URL] query]).to.equal(@"limit=25&offset=0");
+}
+
+
 - (void)testLoadingAPageOfObjects
 {
     NSURLRequest *request = [NSURLRequest requestWithURL:self.paginationURL];
     RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
     [paginator loadPage:1];
     [paginator waitUntilFinished];
-    expect(paginator.isLoaded).to.equal(YES);
+    expect(paginator.isLoaded).will.equal(YES);
 }
 
 - (void)testLoadingAPageOfObjectsWithDocumentedPaginationMapping
@@ -167,7 +185,7 @@ static NSString * const RKPaginatorTestResourcePathPattern = @"/paginate?per_pag
     RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
     [paginator loadPage:1];
     [paginator waitUntilFinished];
-    expect(paginator.isLoaded).to.equal(YES);
+    expect(paginator.isLoaded).will.equal(YES);
 }
 
 - (void)testLoadingPageOfObjectMapsPerPage
@@ -203,7 +221,7 @@ static NSString * const RKPaginatorTestResourcePathPattern = @"/paginate?per_pag
     RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
     [paginator loadPage:1];
     [paginator waitUntilFinished];
-    expect([paginator.mappingResult array]).to.haveCountOf(3);
+    expect([paginator.mappingResult array]).will.haveCountOf(3);
     NSArray *expectedNames = @[ @"Blake", @"Sarah", @"Colin" ];
     expect([[paginator.mappingResult array] valueForKey:@"name"]).to.equal(expectedNames);
 }
@@ -298,7 +316,7 @@ static NSString * const RKPaginatorTestResourcePathPattern = @"/paginate?per_pag
     RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
     [paginator loadPage:3];
     [paginator waitUntilFinished];
-    expect(paginator.error).notTo.beNil();
+    expect(paginator.error).willNot.beNil();
 }
 
 - (void)testKnowledgeOfHasANextPage
@@ -392,6 +410,34 @@ static NSString * const RKPaginatorTestResourcePathPattern = @"/paginate?per_pag
     [paginator setValue:@(10) forKey:@"perPageNumber"];
     expect(paginator.perPage).to.equal(10);
     expect([paginator valueForKey:@"perPageNumber"]).to.equal(10);
+}
+
+- (void)testPaginatorWithPaginationURLThatIncludesTrailingSlash
+{
+    NSURL *paginationURL = [NSURL URLWithString:@"/paginate/?per_page=:perPage&page=:currentPage" relativeToURL:[RKTestFactory baseURL]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:paginationURL];
+    RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
+    __block NSArray *blockObjects = nil;
+    [paginator setCompletionBlockWithSuccess:^(RKPaginator *paginator, NSArray *objects, NSUInteger page) {
+        blockObjects = objects;
+    } failure:nil];
+    [paginator loadPage:1];
+    [paginator waitUntilFinished];
+    expect(blockObjects).willNot.beNil();
+    expect(paginator.pageCount).to.equal(0);
+    expect(paginator.objectCount).to.equal(0);
+}
+
+- (void)testOffsetNumberOfNextPage
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:self.paginationURL];
+    RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
+    [paginator loadPage:1];
+    [paginator waitUntilFinished];
+    expect(paginator.offset).to.equal(0);
+    [paginator loadNextPage];
+    [paginator waitUntilFinished];
+    expect(paginator.offset).to.equal(3);
 }
 
 @end

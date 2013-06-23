@@ -1096,6 +1096,8 @@
 		AA58FD1216C2390700C49E02 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA58FD1016C2390700C49E02 /* HockeySDKResources.bundle */; };
 		AA58FD1316C23A4D00C49E02 /* CrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FBAE16C235C800C49E02 /* CrashReporter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AA58FD1416C23A5100C49E02 /* CrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FBAE16C235C800C49E02 /* CrashReporter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AA6590AA1777A00000DEF61F /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABFE13216CF0599005D0DEA /* libRestKit.a */; };
+		AA6590AB1777A01900DEF61F /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABFE13216CF0599005D0DEA /* libRestKit.a */; };
 		AA66828E16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */; };
 		AA66828F16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */; };
 		AA78D2A917172BA4006E1240 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2A817172BA4006E1240 /* AlbumPhoto.m */; };
@@ -1190,8 +1192,6 @@
 		AA9CBC4C1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC4A1776AF0F006172C6 /* SVUploaderDelegate.m */; };
 		AA9CBC521776AF48006172C6 /* SVUploaderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC511776AF48006172C6 /* SVUploaderWS.m */; };
 		AA9CBC531776AF48006172C6 /* SVUploaderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC511776AF48006172C6 /* SVUploaderWS.m */; };
-		AABFE13D16CF05AF005D0DEA /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABFE13216CF0599005D0DEA /* libRestKit.a */; };
-		AABFE13E16CF05B6005D0DEA /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABFE13216CF0599005D0DEA /* libRestKit.a */; };
 		AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
 		AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
 		AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
@@ -1236,6 +1236,20 @@
 			remoteGlobalIDString = AA58FAF616C224E800C49E02;
 			remoteInfo = shotvibe;
 		};
+		AA6590A617779FC700DEF61F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AABFE12A16CF0599005D0DEA /* RestKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 25160D1514564E810060A5C5;
+			remoteInfo = RestKit;
+		};
+		AA6590A817779FE300DEF61F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AABFE12A16CF0599005D0DEA /* RestKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 25160D1514564E810060A5C5;
+			remoteInfo = RestKit;
+		};
 		AABFE13116CF0599005D0DEA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AABFE12A16CF0599005D0DEA /* RestKit.xcodeproj */;
@@ -1263,20 +1277,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 25160E78145651060060A5C5;
 			remoteInfo = RestKitFrameworkTests;
-		};
-		AABFE13916CF05A4005D0DEA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AABFE12A16CF0599005D0DEA /* RestKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 25160D1514564E810060A5C5;
-			remoteInfo = RestKit;
-		};
-		AABFE13B16CF05A8005D0DEA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AABFE12A16CF0599005D0DEA /* RestKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 25160D1514564E810060A5C5;
-			remoteInfo = RestKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -2106,12 +2106,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA6590AB1777A01900DEF61F /* libRestKit.a in Frameworks */,
 				0426B6831724F3B5007BAABC /* CoreMedia.framework in Frameworks */,
 				0426B6741724EBE2007BAABC /* AssetsLibrary.framework in Frameworks */,
 				0426B6701724EBC4007BAABC /* ImageIO.framework in Frameworks */,
 				0499B911171E4D2900050596 /* MessageUI.framework in Frameworks */,
 				0499B8F9171DF72600050596 /* MediaPlayer.framework in Frameworks */,
-				AABFE13E16CF05B6005D0DEA /* libRestKit.a in Frameworks */,
 				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
 				AA58FD0316C2363D00C49E02 /* AVFoundation.framework in Frameworks */,
 				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
@@ -2142,12 +2142,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA6590AA1777A00000DEF61F /* libRestKit.a in Frameworks */,
 				0426B6841724F3BE007BAABC /* CoreMedia.framework in Frameworks */,
 				0426B6731724EBD9007BAABC /* AssetsLibrary.framework in Frameworks */,
 				0426B6711724EBCD007BAABC /* ImageIO.framework in Frameworks */,
 				0499B910171E4D1800050596 /* MessageUI.framework in Frameworks */,
 				0499B8FA171DF72F00050596 /* MediaPlayer.framework in Frameworks */,
-				AABFE13D16CF05AF005D0DEA /* libRestKit.a in Frameworks */,
 				AA58FD0C16C236C000C49E02 /* libsqlite3.dylib in Frameworks */,
 				AA58FD0A16C236B000C49E02 /* AVFoundation.framework in Frameworks */,
 				AA58FD0816C2369900C49E02 /* CFNetwork.framework in Frameworks */,
@@ -3497,7 +3497,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AABFE13A16CF05A4005D0DEA /* PBXTargetDependency */,
+				AA6590A717779FC700DEF61F /* PBXTargetDependency */,
 			);
 			name = shotvibe;
 			productName = shotvibe;
@@ -3535,7 +3535,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AABFE13C16CF05A8005D0DEA /* PBXTargetDependency */,
+				AA6590A917779FE300DEF61F /* PBXTargetDependency */,
 			);
 			name = shotvibebeta;
 			productName = shotvibe;
@@ -4882,15 +4882,15 @@
 			target = AA58FAF616C224E800C49E02 /* shotvibe */;
 			targetProxy = AA58FB2216C224E800C49E02 /* PBXContainerItemProxy */;
 		};
-		AABFE13A16CF05A4005D0DEA /* PBXTargetDependency */ = {
+		AA6590A717779FC700DEF61F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RestKit;
-			targetProxy = AABFE13916CF05A4005D0DEA /* PBXContainerItemProxy */;
+			targetProxy = AA6590A617779FC700DEF61F /* PBXContainerItemProxy */;
 		};
-		AABFE13C16CF05A8005D0DEA /* PBXTargetDependency */ = {
+		AA6590A917779FE300DEF61F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RestKit;
-			targetProxy = AABFE13B16CF05A8005D0DEA /* PBXContainerItemProxy */;
+			targetProxy = AA6590A817779FE300DEF61F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -5015,7 +5015,10 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LLVM_LTO = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = ShotVibe;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -5040,7 +5043,10 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LLVM_LTO = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = ShotVibe;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
@@ -5136,7 +5142,10 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LLVM_LTO = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = ShotVibe;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
@@ -5179,7 +5188,10 @@
 				INFOPLIST_FILE = "shotvibe/shotvibebeta-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				LLVM_LTO = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = ShotVibeBeta;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -5207,7 +5219,10 @@
 				INFOPLIST_FILE = "shotvibe/shotvibebeta-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				LLVM_LTO = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = ShotVibeBeta;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -5231,7 +5246,10 @@
 				INFOPLIST_FILE = "shotvibe/shotvibebeta-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				LLVM_LTO = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = ShotVibeBeta;
 				WRAPPER_EXTENSION = app;
 			};
