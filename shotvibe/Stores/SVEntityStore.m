@@ -190,7 +190,7 @@ int callCount = 0;
 - (void)photosForAlbumWithID:(NSNumber *)albumId
 {
     // Setup Photo Mapping
-    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"Photo" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [photoMapping addAttributeMappingsFromDictionary:@{
      @"photo_id": @"photoId",
      @"photo_url": @"photoUrl",
@@ -221,7 +221,7 @@ int callCount = 0;
     // Relationship Connections
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"photos" withMapping:photoMapping]];
+    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];
     [memberMapping addRelationshipMappingWithSourceKeyPath:@"albums" mapping:albumMapping];
     [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"members" toKeyPath:@"members" withMapping:memberMapping]];
     
