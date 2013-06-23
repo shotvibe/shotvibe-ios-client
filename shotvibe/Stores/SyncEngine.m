@@ -28,6 +28,7 @@
 
 
 - (void)syncAlbums;
+- (void)syncPhotos:(NSNotification *)notification;
 - (NSArray *)getAlbums;
 - (void)executeSyncCompletedOperations;
 - (void)photoWasSuccessfullySavedToDiskWithId:(NSNotification *)notification;
@@ -46,6 +47,7 @@
     dispatch_once(&engineToken, ^{
         sharedEngine = [[SyncEngine alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncAlbums) name:kUserAlbumsLoadedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncPhotos:) name:kPhotosLoadedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(photoWasSuccessfullySavedToDiskWithId:) name:kSDSyncEnginePhotoSavedToDiskNotification object:nil];
     });
     
@@ -70,6 +72,16 @@
         _syncInProgress = YES;
         
         [self didChangeValueForKey:@"syncInProgress"];
+        
+        // Initialize the operation queue
+        if (self.globalDownloadQueue == nil)
+        {
+            self.globalDownloadQueue = [[NSOperationQueue alloc] init];
+            self.globalDownloadQueue.maxConcurrentOperationCount = 4;
+            [self.globalDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
+        } else {
+            [self.globalDownloadQueue cancelAllOperations];
+        }
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
@@ -100,64 +112,14 @@
     // 20130621 - changed to using NSOperationQueue - allows pausing of all worker threads more easily as well as stopping them
     //            if a memory issue occurs
     
-    // Get a reference to the managed object context
-    NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
-    
-    // Initialize the operation queue
-    if (self.globalDownloadQueue == nil)
-    {
-        self.globalDownloadQueue = [[NSOperationQueue alloc] init];
-        [self.globalDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
-    } else {
-        [self.globalDownloadQueue cancelAllOperations];
-    }
-    
     // TODO: We should only update albums that need to be updated rather than all the albums each time.
     NSArray *albums = [self getAlbums];
-    
-    BOOL photoExists;
     
     for(Album *album in albums)           // call to get all photos for the given album
     {
         NSLog(@"album:  %@", album.name);
         
-        for(AlbumPhoto *photo in album.albumPhotos)
-        {
-            // NOTE: If the photo does not exist, then will not require uploading
-            photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:album.albumId];
-            
-            if(!photoExists)
-            {
-                NSLog(@"photo DNE, downloading photo:  %@, %@", album.name, photo.photoId);
-                
-                [self.globalDownloadQueue addOperationWithBlock:^{
-                    
-                    AlbumPhoto *localPhoto = (AlbumPhoto *)[managedObjectContext objectWithID:photo.objectID];
-                    Album *localAlbum = (Album *)[managedObjectContext objectWithID:album.objectID];
-                    
-                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:localPhoto.photoUrl]];
-                    
-                    if ( imageData != nil ) {
-                        NSLog(@"photo downloaded:  %@", localPhoto.photoId);
-                        
-                        [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:localAlbum.albumId];
-                        
-                        // This album has finished syncing
-                        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:album];
-                    }
-                    
-                }];
-            } else {
-                
-                if ([photo.objectSyncStatus integerValue] == SVObjectSyncNeeded) {
-                    
-                    NSLog(@"This photo needs to be uploaded.");
-                    //[SVUploaderDelegate addPhoto:photo.photoId withAlbumId:album.albumId];
-                    
-                }
-                
-            }
-        }
+        [[SVEntityStore sharedStore] photosForAlbumWithID:album.albumId];
     }
 }
 
@@ -176,6 +138,67 @@
     }
     
     return array;
+}
+
+
+- (void)syncPhotos:(NSNotification *)notification
+{
+    NSNumber *albumId = notification.object;
+    
+    NSManagedObjectContext *localContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %d", albumId.integerValue];
+    fetchRequest.predicate = predicate;
+    
+    NSError *fetchError = nil;
+    
+    Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:&fetchError] lastObject];
+    
+    if (!fetchError && localAlbum != nil) {
+        
+        for(AlbumPhoto *photo in localAlbum.albumPhotos)
+        {
+            // NOTE: If the photo does not exist, then will not require uploading
+            BOOL photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:localAlbum.albumId];
+            
+            if(!photoExists)
+            {
+                NSLog(@"photo DNE, downloading photo:  %@, %@", localAlbum.name, photo.photoId);
+                
+                [self.globalDownloadQueue addOperationWithBlock:^{
+                    
+                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+                    Album *innerAlbum = (Album *)[localContext objectWithID:localAlbum.objectID];
+                    
+                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:localPhoto.photoUrl]];
+                    
+                    if ( imageData != nil ) {
+                        NSLog(@"photo downloaded:  %@", localPhoto.photoId);
+                        
+                        [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:innerAlbum.albumId];
+                        
+                        // This album has finished syncing
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:innerAlbum];
+                    }
+                    
+                }];
+            } else {
+                
+                if ([photo.objectSyncStatus integerValue] == SVObjectSyncNeeded) {
+                    
+                    NSLog(@"This photo needs to be uploaded.");
+                    //[SVUploaderDelegate addPhoto:photo.photoId withAlbumId:album.albumId];
+                    
+                }
+                
+            }
+        }
+        
+    } else {
+        NSLog(@"The album could not be retrieved fromt he persistent store.");
+    }
 }
 
 

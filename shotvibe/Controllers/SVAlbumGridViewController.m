@@ -7,7 +7,6 @@
 //
 
 #import "AlbumPhoto.h"
-#import "Photo.h"
 #import "SVAlbumGridViewController.h"
 #import "SVEntityStore.h"
 #import "GMGridView.h"

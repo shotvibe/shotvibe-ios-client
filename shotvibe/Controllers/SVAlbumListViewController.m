@@ -8,7 +8,6 @@
 
 #import "Album.h"
 #import "NINetworkImageView.h"
-#import "Photo.h"
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumListViewController.h"
 #import "SVAlbumGridViewController.h"
@@ -153,7 +152,7 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSDSyncEngineSyncAlbumCompletedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSDSyncEngineSyncCompletedNotification object:nil];
 }
 
 
@@ -388,11 +387,11 @@
     // TODO: We need to configure our cell's views
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    __block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
     
-    __block AlbumPhoto *recentPhoto = [photos lastObject];
+    AlbumPhoto *recentPhoto = [photos lastObject];
   
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
@@ -533,5 +532,6 @@
 - (void)albumUpdateReceived:(NSNotification *)notification
 {
     [self.fetchedResultsController performFetch:nil];
+    [self.tableView reloadData];
 }
 @end

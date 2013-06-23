@@ -8,7 +8,6 @@
 
 #import "Album.h"
 #import "AlbumPhoto.h"
-#import "Photo.h"
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 #import "SVBusinessDelegate.h"
@@ -23,15 +22,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 #endif
 
 
-
 @implementation SVEntityStore
-
-
-//NSMutableArray *project;
-
-
-int callCount = 0;
-
 
 #pragma mark - Class Methods
 
@@ -125,15 +116,6 @@ int callCount = 0;
 {
     NSLog(@"userAlbums - start sync from remote");
     
-    /*callCount++;
-    
-    if(callCount > 1)
-    {
-        NSLog(@"can only call userAlbums once");
-        
-        return;
-    }*/
-    
     // Setup Member Mapping
     RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [memberMapping addAttributeMappingsFromDictionary:@{
@@ -145,13 +127,13 @@ int callCount = 0;
     memberMapping.identificationAttributes = @[@"userId"];
     
     // Setup Photo Mapping
-    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    /*RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [photoMapping addAttributeMappingsFromDictionary:@{
      @"photo_id": @"photoId",
      @"photo_url": @"photoUrl",
      @"date_created": @"dateCreated",
      }];
-    photoMapping.identificationAttributes = @[@"photoId"];
+    photoMapping.identificationAttributes = @[@"photoId"];*/
     
     // Setup Album Mapping
     RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
@@ -165,9 +147,9 @@ int callCount = 0;
     albumMapping.identificationAttributes = @[@"albumId"];
     
     // Relationship Connections
-    [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
+    /*[photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];
+    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];*/
     
     // Configure the response descriptor
     RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -191,7 +173,7 @@ int callCount = 0;
 - (void)photosForAlbumWithID:(NSNumber *)albumId
 {
     // Setup Photo Mapping
-    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"Photo" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
     [photoMapping addAttributeMappingsFromDictionary:@{
      @"photo_id": @"photoId",
      @"photo_url": @"photoUrl",
@@ -222,7 +204,7 @@ int callCount = 0;
     // Relationship Connections
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
     [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"photos" withMapping:photoMapping]];
+    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];
     [memberMapping addRelationshipMappingWithSourceKeyPath:@"albums" mapping:albumMapping];
     [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"members" toKeyPath:@"members" withMapping:memberMapping]];
     
@@ -234,7 +216,7 @@ int callCount = 0;
     NSString *path = [NSString stringWithFormat:@"/albums/%@/", [albumId stringValue]];
     [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
-        //RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
+        RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
         
         NSLog(@"notify for photos, album:  %@", albumId);
         

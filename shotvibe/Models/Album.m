@@ -9,7 +9,6 @@
 #import "Album.h"
 #import "AlbumPhoto.h"
 #import "Member.h"
-#import "Photo.h"
 
 
 @implementation Album
@@ -29,6 +28,5 @@
 @dynamic tempAlbumId;
 @dynamic albumPhotos;
 @dynamic members;
-@dynamic photos;
 
 @end
