@@ -26,7 +26,7 @@
 #define kPhotosLoadedForIndexPathNotification @"SVPhotosLoadedForIndexPath"
 #define kUploadPhotosToAlbumProgressNotification @"UploadPhotosToAlbumProgressNotification"
 
-#define kSDSyncEngineInitialCompleteKey             @"SyncEngineInitialSyncCompleted"
+#define kSDSyncEngineSyncAlbumCompletedNotification @"SyncEngineSyncAlbumCompleted"
 #define kSDSyncEngineSyncCompletedNotification      @"SyncEngineSyncCompleted"
 #define kCategoryBadgeUpdatedNotification           @"CategoryBadgeUpdatedNotification"
 

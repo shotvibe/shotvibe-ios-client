@@ -149,6 +149,9 @@
                         NSLog(@"photo downloaded:  %@", localPhoto.photoId);
                         
                         [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:localAlbum.albumId];
+                        
+                        // This album has finished syncing
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:album];
                     }
                     
                 }];
