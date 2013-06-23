@@ -172,7 +172,23 @@
                     AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
                     Album *innerAlbum = (Album *)[localContext objectWithID:localAlbum.objectID];
                     
-                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:localPhoto.photoUrl]];
+                    NSString *photoURL = nil;
+                    
+                    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2){
+                        if (IS_IPHONE_5) {
+                            photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone5Extension];
+                        }
+                        else
+                        {
+                            photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone4Extension];
+                        }
+                    }
+                    else
+                    {
+                        photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone3Extension];
+                    }
+                    
+                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoURL]];
                     
                     if ( imageData != nil ) {
                         NSLog(@"photo downloaded:  %@", localPhoto.photoId);
