@@ -57,11 +57,11 @@
         <relationship name="operations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SVUploaderOperation" inverseName="queue" inverseEntity="SVUploaderOperation" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-6518" positionY="-2223" width="128" height="283"/>
+        <element name="Album" positionX="-6500" positionY="-2223" width="128" height="283"/>
         <element name="AlbumPhoto" positionX="-6201" positionY="-2067" width="128" height="178"/>
         <element name="Member" positionX="-6707" positionY="-2029" width="128" height="163"/>
-        <element name="Photo" positionX="-6498" positionY="-1836" width="128" height="150"/>
-        <element name="SVUploaderOperationQueue" positionX="-6453" positionY="-1971" width="128" height="58"/>
-        <element name="SVUploaderOperation" positionX="-6444" positionY="-1962" width="128" height="88"/>
+        <element name="Photo" positionX="-6698" positionY="-2301" width="128" height="150"/>
+        <element name="SVUploaderOperation" positionX="-6327" positionY="-1854" width="128" height="88"/>
+        <element name="SVUploaderOperationQueue" positionX="-6140" positionY="-1768" width="155" height="58"/>
     </elements>
 </model>

@@ -19,8 +19,6 @@
 
 @interface SyncEngine ()
 
-@property (nonatomic, strong) __block NSManagedObjectContext *syncContext;
-@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (atomic, readonly) BOOL syncInProgress;
 
 @property (nonatomic, strong) NSOperationQueue *globalDownloadQueue;
@@ -90,90 +88,90 @@
  */
 - (void)syncAlbums
 {
- //
- // 20130619 - download all photos (thumbnails) for an album.  this provides the user with a better UX as the photos
- //            will be on the device after the initial launch, and any updates.  the initial load will take time depending
- //            on the number of photos
- //
- 
- 
- // 20130621 - changed to using NSOperationQueue - allows pausing of all worker threads more easily as well as stopping them
- //            if a memory issue occurs
- 
- // Get a reference to the managed object context
- NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
- 
- // Initialize the operation queue
- if (self.globalDownloadQueue == nil)
- {
-  self.globalDownloadQueue = [[NSOperationQueue alloc] init];
-  [self.globalDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
- } else {
-  [self.globalDownloadQueue cancelAllOperations];
- }
- 
- // TODO: We should only update albums that need to be updated rather than all the albums each time.
- NSArray *albums = [self getAlbums];
- 
- BOOL photoExists;
- 
- for(Album *album in albums)           // call to get all photos for the given album
- {
-  NSLog(@"album:  %@", album.name);
-  
-  for(AlbumPhoto *photo in album.albumPhotos)
-  {
-   // NOTE: If the photo does not exist, then will not require uploading
-   photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:album.albumId];
-   
-   if(!photoExists)
-   {
-    NSLog(@"photo DNE, downloading photo:  %@, %@", album.name, photo.photoId);
+    //
+    // 20130619 - download all photos (thumbnails) for an album.  this provides the user with a better UX as the photos
+    //            will be on the device after the initial launch, and any updates.  the initial load will take time depending
+    //            on the number of photos
+    //
     
-    [self.globalDownloadQueue addOperationWithBlock:^{
-     
-     AlbumPhoto *localPhoto = (AlbumPhoto *)[managedObjectContext objectWithID:photo.objectID];
-     Album *localAlbum = (Album *)[managedObjectContext objectWithID:album.objectID];
-     
-     NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:localPhoto.photoUrl]];
-     
-     if ( imageData != nil ) {
-      NSLog(@"photo downloaded:  %@", localPhoto.photoId);
-      
-      [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:localAlbum.albumId];
-      
-      // This album has finished syncing
-      [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:album];
-     }
-     
-    }];
-   } else {
     
-    if ([photo.objectSyncStatus integerValue] == SVObjectSyncNeeded) {
-     
-     [SVUploaderDelegate addPhoto:photo.photoId withAlbumId:album.albumId];
-     
-
-     
-     //TODO: This photo already exists in the file system, AND it is marked as needing to be synced.
-     
-     //TODO: First, check to make sure that the album this photo belongs to is already in the queue,
-     // If so, you need to add this photo to the appropriate batch
-     
-     //TODO: If the album this photo belongs to is not already in the queue, you need to create a new
-     // batch queue, add the photo to the batch, and add this batch queue to the master queue.
-     
-     //NOTE: Remember, this master upload queue needs to save it's state such that it resumes where
-     // it left off when the application is quit and then resumed.
-     
-     //NOTE: The upload batches will also need to correctly set the photo.objectSyncStatus property
-     // to the appropriate status as each upload is completed.
-     
+    // 20130621 - changed to using NSOperationQueue - allows pausing of all worker threads more easily as well as stopping them
+    //            if a memory issue occurs
+    
+    // Get a reference to the managed object context
+    NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+    
+    // Initialize the operation queue
+    if (self.globalDownloadQueue == nil)
+    {
+        self.globalDownloadQueue = [[NSOperationQueue alloc] init];
+        [self.globalDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
+    } else {
+        [self.globalDownloadQueue cancelAllOperations];
     }
     
-   }
-  }
- }
+    // TODO: We should only update albums that need to be updated rather than all the albums each time.
+    NSArray *albums = [self getAlbums];
+    
+    BOOL photoExists;
+    
+    for(Album *album in albums)           // call to get all photos for the given album
+    {
+        NSLog(@"album:  %@", album.name);
+        
+        for(AlbumPhoto *photo in album.albumPhotos)
+        {
+            // NOTE: If the photo does not exist, then will not require uploading
+            photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:album.albumId];
+            
+            if(!photoExists)
+            {
+                NSLog(@"photo DNE, downloading photo:  %@, %@", album.name, photo.photoId);
+                
+                [self.globalDownloadQueue addOperationWithBlock:^{
+                    
+                    AlbumPhoto *localPhoto = (AlbumPhoto *)[managedObjectContext objectWithID:photo.objectID];
+                    Album *localAlbum = (Album *)[managedObjectContext objectWithID:album.objectID];
+                    
+                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:localPhoto.photoUrl]];
+                    
+                    if ( imageData != nil ) {
+                        NSLog(@"photo downloaded:  %@", localPhoto.photoId);
+                        
+                        [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:localAlbum.albumId];
+                        
+                        // This album has finished syncing
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:album];
+                    }
+                    
+                }];
+            } else {
+                
+                if ([photo.objectSyncStatus integerValue] == SVObjectSyncNeeded) {
+                    
+                    //[SVUploaderDelegate addPhoto:photo.photoId withAlbumId:album.albumId];
+                    
+                    
+                    
+                    //TODO: This photo already exists in the file system, AND it is marked as needing to be synced.
+                    
+                    //TODO: First, check to make sure that the album this photo belongs to is already in the queue,
+                    // If so, you need to add this photo to the appropriate batch
+                    
+                    //TODO: If the album this photo belongs to is not already in the queue, you need to create a new
+                    // batch queue, add the photo to the batch, and add this batch queue to the master queue.
+                    
+                    //NOTE: Remember, this master upload queue needs to save it's state such that it resumes where
+                    // it left off when the application is quit and then resumed.
+                    
+                    //NOTE: The upload batches will also need to correctly set the photo.objectSyncStatus property
+                    // to the appropriate status as each upload is completed.
+                    
+                }
+                
+            }
+        }
+    }
 }
 
 
@@ -183,16 +181,16 @@
  */
 - (NSMutableArray *) getAlbumQueueWithAlbumId :(NSNumber *) albumId
 {
- NSMutableArray *albumQueue = [self.globalUploadQueue objectForKey:albumId];  // get album queue
- 
- if(albumQueue == nil)
- {
-  albumQueue = [[NSMutableArray alloc] init];
-
-  [self.globalUploadQueue setObject:albumQueue forKey:albumId];               // add album queue to global queue
- }
- 
- return albumQueue;
+    NSMutableArray *albumQueue = [self.globalUploadQueue objectForKey:albumId];  // get album queue
+    
+    if(albumQueue == nil)
+    {
+        albumQueue = [[NSMutableArray alloc] init];
+        
+        [self.globalUploadQueue setObject:albumQueue forKey:albumId];               // add album queue to global queue
+    }
+    
+    return albumQueue;
 }
 
 
@@ -204,10 +202,10 @@
 - (void)addPhotos:(NSArray *)photos ToAlbum:(Album *)album
 {
     [self createUploadBatchWithPhotos:photos forAlbum:album];
- 
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kStartPhotoUpload object:nil];
- 
- 
+    
+    
     // chk for error, if encountered, callback to ui for UIAlertView
     
     // If successful return the block
@@ -245,7 +243,7 @@
         
         NSLog(@"saving requested photo to %@.%@", album.name, photoId);
         
-        [SVBusinessDelegate saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbumWithId:album];
+        [SVBusinessDelegate saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbum:album];
         
         [[SVEntityStore sharedStore] newUploadedPhotoForAlbum:album withPhotoId:photoId];
     }
@@ -494,18 +492,6 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotification object:nil];
         
     });
-}
-
-
-#pragma mark - Date Handling
-
-- (void)initializeDateFormatter
-{
-    if (!self.dateFormatter) {
-        self.dateFormatter = [[NSDateFormatter alloc] init];
-        [self.dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-        [self.dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-    }
 }
 
 
