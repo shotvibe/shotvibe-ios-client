@@ -31,6 +31,7 @@ typedef enum {
 
 - (void)syncAlbums;
 - (NSArray *)getAlbums;
+- (void)photosForAlbumWithID:(NSNumber *)albumId;
 - (void)syncPhotos;
 - (NSArray *)getPhotos;
 - (void)executeSyncCompletedOperations;
@@ -102,9 +103,12 @@ typedef enum {
     
     for(Album *album in albums)           // call to get all photos for the given album
     {
-        NSLog(@"album:  %@", album.name);
-        
-        [[SVEntityStore sharedStore] photosForAlbumWithID:album.albumId];
+        //[[SVEntityStore sharedStore] photosForAlbumWithID:album.albumId];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            
+            [self photosForAlbumWithID:album.albumId];
+            
+        });
     }
 }
 
@@ -123,6 +127,62 @@ typedef enum {
     }
     
     return array;
+}
+
+
+- (void)photosForAlbumWithID:(NSNumber *)albumId
+{
+    // Setup Photo Mapping
+    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    [photoMapping addAttributeMappingsFromDictionary:@{
+     @"photo_id": @"photoId",
+     @"photo_url": @"photoUrl",
+     @"date_created": @"dateCreated",
+     }];
+    photoMapping.identificationAttributes = @[@"photoId"];
+    
+    // Setup Member Mapping
+    RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    [memberMapping addAttributeMappingsFromDictionary:@{
+     @"id": @"userId",
+     @"url": @"url",
+     @"nickname": @"nickname",
+     @"avatar_url": @"avatarUrl"
+     }];
+    memberMapping.identificationAttributes = @[@"userId"];
+    
+    // Setup Album Mapping
+    RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
+    [albumMapping addAttributeMappingsFromDictionary:@{
+     @"id": @"albumId",
+     @"name": @"name",
+     @"date_created": @"dateCreated",
+     @"last_updated": @"lastUpdated"
+     }];
+    albumMapping.identificationAttributes = @[@"albumId"];
+    
+    // Relationship Connections
+    [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
+    [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
+    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];
+    [memberMapping addRelationshipMappingWithSourceKeyPath:@"albums" mapping:albumMapping];
+    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"members" toKeyPath:@"members" withMapping:memberMapping]];
+    
+    // Configure the response descriptor
+    RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/:id/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [[RKObjectManager sharedManager] addResponseDescriptor:albumResponseDescriptor];
+    
+    // Get the albums
+    NSString *path = [NSString stringWithFormat:@"/albums/%@/", [albumId stringValue]];
+    [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        
+        RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
+        
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        
+        RKLogError(@"Load failed with error: %@", error);
+        
+    }];
 }
 
 

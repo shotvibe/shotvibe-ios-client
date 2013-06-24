@@ -182,7 +182,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     NSURL *baseURL = [NSURL URLWithString:@"https://api.shotvibe.com"];
     RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:baseURL];
     [objectManager.HTTPClient setDefaultHeader:@"Authorization" value:kTestAuthToken];
-    //objectManager.operationQueue.maxConcurrentOperationCount = 1;
+    //objectManager.operationQueue.maxConcurrentOperationCount = 2;
     
     // Enable Activity Indicator Spinner
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
