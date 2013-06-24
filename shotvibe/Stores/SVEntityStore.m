@@ -354,77 +354,41 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
-- (void)addPhotos:(NSArray *)photos ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
+- (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
 {
-    // Generate an upload photos request using: POST /photos/upload_request/?num_photos={n}
-    NSString *path = [NSString stringWithFormat:@"/photos/upload_request/?num_photos=%d", photos.count];
-    [self postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        // You have to serialize the response object first!
-        NSData *responseData = (NSData *)responseObject;
-        
-        id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-        
-        
-        NSArray *uploadRequestData = (NSArray *)json;
-        NSMutableArray *requestOperationBatch = [NSMutableArray arrayWithCapacity:uploadRequestData.count];
-        NSMutableArray *photoIds = [NSMutableArray arrayWithCapacity:uploadRequestData.count];
-        for (NSInteger index = 0; index < uploadRequestData.count; index++) {
-            
-            // Given API Response, add photos to album using: POST /albums/{aid}/
-            NSDictionary *uploadRequest = [uploadRequestData objectAtIndex:index];
-            NSString *photoId = [uploadRequest objectForKey:@"photo_id"];
-            [photoIds addObject:@{@"photo_id": photoId}];
-            
-            NSData *imageToUpload = [photos objectAtIndex:index];
-            NSString *uploadPath = [NSString stringWithFormat:@"/photos/upload/%@/", photoId];
-            NSMutableURLRequest *request = [self multipartFormRequestWithMethod:@"POST" path:uploadPath parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-                [formData appendPartWithFileData:imageToUpload name:@"photo" fileName:@"temp.jpeg" mimeType:@"image/jpeg"];
-            }];
-            
-            AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-            [requestOperationBatch addObject:operation];
-            
+    NSManagedObjectContext *localContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+    
+    AlbumPhoto *localPhoto = [NSEntityDescription insertNewObjectForEntityForName:@"AlbumPhoto" inManagedObjectContext:localContext];
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %@", albumID];
+    fetchRequest.predicate = predicate;
+    Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:nil] lastObject];
+    
+    [localPhoto setDateCreated:[NSDate date]];
+    [localPhoto setObjectSyncStatus:[NSNumber numberWithBool:NO]];
+    [localPhoto setTempPhotoId:photoId];
+    [localPhoto setPhotoId:photoId];
+    [localPhoto setImageWasDownloaded:[NSNumber numberWithBool:YES]];
+    [localPhoto setPhotoUrl:@""];
+    
+    [localAlbum addAlbumPhotosObject:localPhoto];
+    
+    NSError *saveError = nil;
+    [localContext saveToPersistentStore:&saveError];
+    
+    if (saveError) {
+        if (block) {
+            block(NO, saveError);
         }
-        
-        // Enque the upload batch
-        [self enqueueBatchOfHTTPRequestOperations:requestOperationBatch progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
-            
-            //TODO: We need to send some progress notifications
-            CGFloat uploadProgress = numberOfFinishedOperations / totalNumberOfOperations;
-            [[NSNotificationCenter defaultCenter] postNotificationName:kUploadPhotosToAlbumProgressNotification object:[NSNumber numberWithFloat:uploadProgress]];
-            
-            if (uploadProgress >= 1.0) {
-                block(YES, nil);
-            }
-            
-        } completionBlock:^(NSArray *operations) {
-            
-            // Add the photos to the album
-            NSString *addToAlbumPath = [NSString stringWithFormat:@"/albums/%@/", [albumID stringValue]];
-            
-            NSLog(@"%@", [@{@"add_photos": photoIds} description]);
-            
-            [self postPath:addToAlbumPath parameters:@{@"add_photos": photoIds} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                
-                [[SVEntityStore sharedStore] userAlbums];
-                
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                
-                block(NO, error);
-                
-            }];
-            
-        }];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        block(NO, error);
-        
-    }];
-    
-    
-    // If successful return the block ... not any more
+    }
+    else
+    {
+        if (block) {
+            block(YES, nil);
+        }
+    }
 }
 
 

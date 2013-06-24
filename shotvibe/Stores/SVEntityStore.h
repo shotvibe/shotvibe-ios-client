@@ -34,7 +34,7 @@
 
 - (void)newAlbumWithName:(NSString *)albumName;
 
-- (void)addPhotos:(NSArray *)photos ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
+- (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
 
 - (void)newUploadedPhotoForAlbum:(Album *) album withPhotoId:(NSString *) photoId;
 

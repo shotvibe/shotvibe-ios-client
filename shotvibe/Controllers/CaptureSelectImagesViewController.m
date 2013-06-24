@@ -13,6 +13,8 @@
 #import "SVEntityStore.h"
 #import "ALAssetsLibrary+helper.h"
 #import "DownloadSyncEngine.h"
+#import "AlbumPhoto.h"
+#import "SVBusinessDelegate.h"
 
 @interface CaptureSelectImagesViewController () <GMGridViewDataSource, GMGridViewActionDelegate>
 {
@@ -203,33 +205,29 @@
 {
     [self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error)
      {
-         self.doneButton.enabled = NO;
-         
-         
          self.doneButton.enabled = YES;
          
-         [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+         for (NSData *photoData in selectedPhotoPaths) {
+             
+             NSString *tempPhotoId = nil;
+             
+             if (IS_IOS6_OR_GREATER) {
+                 tempPhotoId = [[NSUUID UUID] UUIDString];
+             }
+             else
+             {
+                 CFUUIDRef theUUID = CFUUIDCreate(NULL);
+                 CFStringRef string = CFUUIDCreateString(NULL, theUUID);
+                 CFRelease(theUUID);
+                 
+                 tempPhotoId = [NSString stringWithFormat:@"%@",(__bridge NSString *)string];
+                 CFRelease(string);
+            }
+             
+             [SVBusinessDelegate saveUploadedPhotoImageData:photoData forPhotoId:tempPhotoId inAlbum:self.selectedAlbum];
+         }
          
-         //
-         ////     immediately return, and dismiss ...
-         //
-         //     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-         //
-         //
-         //        [[SVEntityStore sharedStore] addPhotos:selectedPhotoPaths ToAlbumWithID:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error)
-         //         {
-         //            if (!error) {
-         //                [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-         //            }
-         //            else
-         //            {
-         //                UIAlertView *uploadErrorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Network Error", @"") message:NSLocalizedString(@"Something went wrong uploading your photos. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-         //
-         //                [uploadErrorAlert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
-         //
-         //                self.doneButton.enabled = YES;
-         //            }
-         //        }];
+         [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
      }];
 }
 

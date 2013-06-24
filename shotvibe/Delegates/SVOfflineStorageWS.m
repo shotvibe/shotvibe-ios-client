@@ -10,6 +10,7 @@
 #import "SVOfflineStorageWS.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
+#import "SVEntityStore.h"
 
 @interface SVOfflineStorageWS ()
 
@@ -78,10 +79,19 @@
  */
 - (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSNumber *)albumId
 {
-    [self saveImageToFileSystem:imageData forPhotoId:photoId inAlbumWithId:[albumId stringValue]];
+    [[SVEntityStore sharedStore] addPhotoWithID:photoId ToAlbumWithID:albumId WithCompletion:^(BOOL success, NSError *error) {
+        
+        if (success) {
+            [self saveImageToFileSystem:imageData forPhotoId:photoId inAlbumWithId:[albumId stringValue]];
+        }
+        else
+        {
+            NSLog(@"There was an error saving the photo locally: %@", [error userInfo]);
+        }
+        
+    }];
+
 }
-
-
 
 /*
  * consolidated method to handle centric photo saves to file sytem
