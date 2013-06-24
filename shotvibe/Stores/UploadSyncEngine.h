@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    SVObjectSyncCompleted = 0,
+    SVObjectSyncWaiting,
+    SVObjectSyncActive,
+    SVObjectSyncNeeded,
+} SVObjectSyncStatus;
+
 @interface UploadSyncEngine : NSObject
 
 #pragma mark - Class Methods

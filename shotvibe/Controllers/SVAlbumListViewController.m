@@ -49,6 +49,7 @@
 - (void)searchForAlbumWithTitle:(NSString *)title;
 - (void)createNewAlbumWithTitle:(NSString *)title;
 - (void)albumUpdateReceived:(NSNotification *)notification;
+- (void)syncCompleted:(NSNotification *)notification;
 - (IBAction)newAlbumButtonPressed:(id)sender;
 - (IBAction)newAlbumClose:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
@@ -152,7 +153,8 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSDSyncEngineSyncCompletedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCompleted:) name:kSDSyncEngineSyncCompletedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSDSyncEngineSyncAlbumCompletedNotification object:nil];
 }
 
 
@@ -530,6 +532,24 @@
 
 
 - (void)albumUpdateReceived:(NSNotification *)notification
+{
+    Album *updatedAlbum = (Album *)notification.object;
+    
+    NSIndexPath *albumIndex = [self.fetchedResultsController indexPathForObject:updatedAlbum];
+    
+    if (albumIndex) {
+        SVAlbumListViewCell *albumCell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:albumIndex];
+        
+        if (albumCell) {
+            if (albumCell.networkImageView.initialImage == albumCell.networkImageView.image) {
+                [self.tableView reloadRowsAtIndexPaths:@[albumIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+        }
+    }
+}
+
+
+- (void)syncCompleted:(NSNotification *)notification
 {
     [self.fetchedResultsController performFetch:nil];
     [self.tableView reloadData];

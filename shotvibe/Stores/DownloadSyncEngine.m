@@ -244,6 +244,10 @@ typedef enum {
                             NSLog(@"photo downloaded:  %@", localPhoto.photoId);
                             
                             [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:innerAlbum.albumId];
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:innerAlbum];
+                            });
                         }
                         
                     }];

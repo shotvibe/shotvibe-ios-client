@@ -12,6 +12,7 @@
 #import "SVEntityStore.h"
 #import "SVBusinessDelegate.h"
 #import "DownloadSyncEngine.h"
+#import "UploadSyncEngine.h"
 
 static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
@@ -369,7 +370,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:nil] lastObject];
     
     [localPhoto setDateCreated:[NSDate date]];
-    [localPhoto setObjectSyncStatus:[NSNumber numberWithBool:NO]];
+    [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncNeeded]];
     [localPhoto setTempPhotoId:photoId];
     [localPhoto setPhotoId:photoId];
     [localPhoto setImageWasDownloaded:[NSNumber numberWithBool:YES]];
