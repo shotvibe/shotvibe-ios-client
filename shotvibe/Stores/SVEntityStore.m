@@ -69,7 +69,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
     NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastUpdated" ascending:NO];
-
+    
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
     
     if (![searchTerm isEqualToString:@""]) {
@@ -128,12 +128,12 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     // Setup Photo Mapping
     /*RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [photoMapping addAttributeMappingsFromDictionary:@{
+     [photoMapping addAttributeMappingsFromDictionary:@{
      @"photo_id": @"photoId",
      @"photo_url": @"photoUrl",
      @"date_created": @"dateCreated",
      }];
-    photoMapping.identificationAttributes = @[@"photoId"];*/
+     photoMapping.identificationAttributes = @[@"photoId"];*/
     
     // Setup Album Mapping
     RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
@@ -148,8 +148,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     // Relationship Connections
     /*[photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
-    [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];*/
+     [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
+     [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];*/
     
     // Configure the response descriptor
     RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -158,7 +158,11 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     // Get the albums
     [[RKObjectManager sharedManager] getObjectsAtPath:@"/albums/" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:kUserAlbumsLoadedNotification object:nil];   // get etags
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:kUserAlbumsLoadedNotification object:nil];   // get etags
+            
+        });
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         
@@ -216,6 +220,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     NSString *path = [NSString stringWithFormat:@"/albums/%@/", [albumId stringValue]];
     [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
+        NSLog(@"%@", [operation class]);
         RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
         
         NSLog(@"notify for photos, album:  %@", albumId);
@@ -232,9 +237,6 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
-// Album *anAlbum
-
-// - (void)photosForAlbumWithID:(NSNumber *)albumID atIndexPath:(NSIndexPath *)indexPath
 - (void)photosForAlbumWithID:(Album *) anAlbum atIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -397,40 +399,40 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
  */
 -(void) uploadPhoto :(NSString *) photoId withImageData:(NSData *) imageData
 {
-  NSMutableArray *requestOperationBatch = [NSMutableArray arrayWithCapacity:1];
-
-  NSString *uploadPath = [NSString stringWithFormat:@"/photos/upload/%@/", photoId];
-  
-  NSMutableURLRequest *request =
+    NSMutableArray *requestOperationBatch = [NSMutableArray arrayWithCapacity:1];
+    
+    NSString *uploadPath = [NSString stringWithFormat:@"/photos/upload/%@/", photoId];
+    
+    NSMutableURLRequest *request =
     [self multipartFormRequestWithMethod:@"POST" path:uploadPath parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData)
-      {
-        [formData appendPartWithFileData:imageData name:@"photo" fileName:@"temp.jpeg" mimeType:@"image/jpeg"];
-      }
-    ];
-  
-  AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-
-  [requestOperationBatch addObject:operation];
-
- 
- // Enque the upload batch
- [self enqueueBatchOfHTTPRequestOperations:requestOperationBatch progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations)
- {
-  
-  //TODO: We need to send some progress notifications
-//  CGFloat uploadProgress = numberOfFinishedOperations / totalNumberOfOperations;
-//  [[NSNotificationCenter defaultCenter] postNotificationName:kUploadPhotosToAlbumProgressNotification object:[NSNumber numberWithFloat:uploadProgress]];
-//  if (uploadProgress >= 1.0)
-//  {
-//   block(YES, nil);
-//  }
-  
- }
-
- completionBlock:^(NSArray *operations)
- {
-  
- }];
+     {
+         [formData appendPartWithFileData:imageData name:@"photo" fileName:@"temp.jpeg" mimeType:@"image/jpeg"];
+     }
+     ];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    
+    [requestOperationBatch addObject:operation];
+    
+    
+    // Enque the upload batch
+    [self enqueueBatchOfHTTPRequestOperations:requestOperationBatch progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations)
+     {
+         
+         //TODO: We need to send some progress notifications
+         //  CGFloat uploadProgress = numberOfFinishedOperations / totalNumberOfOperations;
+         //  [[NSNotificationCenter defaultCenter] postNotificationName:kUploadPhotosToAlbumProgressNotification object:[NSNumber numberWithFloat:uploadProgress]];
+         //  if (uploadProgress >= 1.0)
+         //  {
+         //   block(YES, nil);
+         //  }
+         
+     }
+     
+                              completionBlock:^(NSArray *operations)
+     {
+         
+     }];
 }
 
 
@@ -440,32 +442,32 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
  */
 - (void) uploadPhotoBatchForAlbum :(NSNumber *) albumId withPhotoIds :(NSArray *) photoIds
 {
- NSMutableArray *albumPhotoIds = [[NSMutableArray alloc] init];
- 
- for (NSString *photoId in photoIds)
- {
-  [albumPhotoIds addObject:@{@"photo_id": photoId}];
- }
- 
- 
- // Add the photos to the album
- NSString *addToAlbumPath = [NSString stringWithFormat:@"/albums/%@/", [albumId stringValue]];
- 
-// NSLog(@"%@", [@{@"add_photos": albumPhotoIds}]);
- 
- [self postPath:addToAlbumPath parameters:@{@"add_photos": photoIds}
-
-   success:^(AFHTTPRequestOperation *operation, id responseObject)
-   {
-    [[SVEntityStore sharedStore] userAlbums];                      // refresh the albums
-   }
-  
-   failure:^(AFHTTPRequestOperation *operation, NSError *error)
-   {
-//     block(NO, error);
+    NSMutableArray *albumPhotoIds = [[NSMutableArray alloc] init];
     
-    NSLog(@"photo upload failed");
-   }];
+    for (NSString *photoId in photoIds)
+    {
+        [albumPhotoIds addObject:@{@"photo_id": photoId}];
+    }
+    
+    
+    // Add the photos to the album
+    NSString *addToAlbumPath = [NSString stringWithFormat:@"/albums/%@/", [albumId stringValue]];
+    
+    // NSLog(@"%@", [@{@"add_photos": albumPhotoIds}]);
+    
+    [self postPath:addToAlbumPath parameters:@{@"add_photos": photoIds}
+     
+           success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         [[SVEntityStore sharedStore] userAlbums];                      // refresh the albums
+     }
+     
+           failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         //     block(NO, error);
+         
+         NSLog(@"photo upload failed");
+     }];
 }
 
 
@@ -475,9 +477,9 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 -(void)newUploadedPhotoForAlbum:(Album *) album withPhotoId:(NSString *) photoId
 {
     Album *albumObject = (Album *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:album.objectID];
- 
+    
     NSLog(@"saving temp photo to album: %@, %@", photoId, album.name);
- 
+    
     // AlbumPhoto *albumPhoto = (AlbumPhoto *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
     
     if(albumObject != nil)
@@ -514,7 +516,4 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     }
     
 }
-
-
-
 @end
