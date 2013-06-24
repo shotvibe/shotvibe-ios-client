@@ -5179,10 +5179,7 @@
 				INFOPLIST_FILE = "shotvibe/shotvibebeta-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				LLVM_LTO = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibeBeta;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -5210,10 +5207,7 @@
 				INFOPLIST_FILE = "shotvibe/shotvibebeta-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				LLVM_LTO = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibeBeta;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -5237,10 +5231,7 @@
 				INFOPLIST_FILE = "shotvibe/shotvibebeta-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				LLVM_LTO = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibeBeta;
 				WRAPPER_EXTENSION = app;
 			};
