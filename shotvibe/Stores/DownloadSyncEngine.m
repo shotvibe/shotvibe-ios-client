@@ -17,17 +17,12 @@
 #import "AlbumPhoto.h"
 #import "SVUploaderDelegate.h"
 
-typedef enum {
-    SVObjectSyncCompleted = 0,
-    SVObjectSyncWaiting,
-    SVObjectSyncActive,
-    SVObjectSyncNeeded,
-} SVObjectSyncStatus;
-
 @interface DownloadSyncEngine ()
 
 @property (atomic, readonly) BOOL syncInProgress;
-@property (nonatomic, strong) NSOperationQueue *globalDownloadQueue;
+@property (nonatomic, strong) NSOperationQueue *photoDownloadQueue;
+@property (nonatomic, strong) NSOperationQueue *jsonDownloadQueue;
+@property (nonatomic, strong) NSOperationQueue *photoSaveFinalizerQueue;
 
 - (void)syncAlbums;
 - (NSArray *)getAlbums;
@@ -35,7 +30,8 @@ typedef enum {
 - (void)syncPhotos;
 - (NSArray *)getPhotos;
 - (void)executeSyncCompletedOperations;
-- (void)photoWasSuccessfullySavedToDiskWithId:(NSNotification *)notification;
+- (void)photoWasSuccessfullySavedToDiskWithId:(NSString *)photoId;
+- (void)saveImageToFileSystem:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(Album *)album;
 
 @end
 
@@ -51,7 +47,6 @@ typedef enum {
     dispatch_once(&engineToken, ^{
         sharedEngine = [[DownloadSyncEngine alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(syncAlbums) name:kUserAlbumsLoadedNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:sharedEngine selector:@selector(photoWasSuccessfullySavedToDiskWithId:) name:kSDSyncEnginePhotoSavedToDiskNotification object:nil];
     });
     
     return sharedEngine;
@@ -60,10 +55,6 @@ typedef enum {
 
 #pragma mark - Instance Methods
 
-
-/*
- * sync - retrieve albums and photos
- */
 - (void)startSync
 {
     NSLog(@"start sync");
@@ -90,25 +81,30 @@ typedef enum {
 #pragma mark - Private Methods
 
 
-/*
- * sync albums with all/latest photos
- */
 - (void)syncAlbums
 {
+    // Initialize the json download operation queue
+    if (self.jsonDownloadQueue == nil)
+    {
+        self.jsonDownloadQueue = [[NSOperationQueue alloc] init];
+        self.jsonDownloadQueue.maxConcurrentOperationCount = 1;
+    } else {
+        [self.jsonDownloadQueue cancelAllOperations];
+    }
+    
     // TODO: We should only update albums that need to be updated rather than all the albums each time.
     NSArray *albums = [self getAlbums];
     
     // Register to observe the object manager's operation queue.
-    [[RKObjectManager sharedManager].operationQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
+    [[RKObjectManager sharedManager].operationQueue addObserver:self forKeyPath:@"operations" options:NSKeyValueObservingOptionNew context:NULL];
     
     for(Album *album in albums)           // call to get all photos for the given album
     {
-        //[[SVEntityStore sharedStore] photosForAlbumWithID:album.albumId];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [self.jsonDownloadQueue addOperationWithBlock:^{
             
             [self photosForAlbumWithID:album.albumId];
             
-        });
+        }];
     }
 }
 
@@ -188,14 +184,16 @@ typedef enum {
 
 - (void)syncPhotos
 {
-    // Initialize the operation queue
-    if (self.globalDownloadQueue == nil)
+    // Initialize the photo download operation queue
+    if (self.photoDownloadQueue == nil)
     {
-        self.globalDownloadQueue = [[NSOperationQueue alloc] init];
-        self.globalDownloadQueue.maxConcurrentOperationCount = 4;
-        [self.globalDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
-    } else {
-        [self.globalDownloadQueue cancelAllOperations];
+        self.photoDownloadQueue = [[NSOperationQueue alloc] init];
+        self.photoDownloadQueue.maxConcurrentOperationCount = 2;
+        [self.photoDownloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
+    }
+    else
+    {
+        [self.photoDownloadQueue cancelAllOperations];
     }
     
     NSManagedObjectContext *localContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
@@ -206,54 +204,42 @@ typedef enum {
         
         for(AlbumPhoto *photo in photos)
         {
-            
-            Album *localAlbum = photo.album;
-            
-            if (localAlbum != nil) {
+            [self.photoDownloadQueue addOperationWithBlock:^{
                 
-                BOOL photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:localAlbum.albumId];
+                BOOL photoExists = [SVBusinessDelegate doesPhotoWithId:photo.photoId existForAlbumId:photo.album.albumId];
                 
                 if(!photoExists)
                 {
-                    NSLog(@"photo DNE, downloading photo:  %@, %@", localAlbum.name, photo.photoId);
+                    NSLog(@"photo DNE, downloading photo:  %@, %@", photo.album.name, photo.photoId);
                     
-                    [self.globalDownloadQueue addOperationWithBlock:^{
-                        
-                        AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
-                        Album *innerAlbum = (Album *)[localContext objectWithID:localAlbum.objectID];
-                        
-                        NSString *photoURL = nil;
-                        
-                        if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2){
-                            if (IS_IPHONE_5) {
-                                photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone5Extension];
-                            }
-                            else
-                            {
-                                photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone4Extension];
-                            }
+                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+                    Album *localAlbum = (Album *)[localContext objectWithID:photo.album.objectID];
+                    
+                    NSString *photoURL = nil;
+                    
+                    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2){
+                        if (IS_IPHONE_5) {
+                            photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone5Extension];
                         }
                         else
                         {
-                            photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone3Extension];
+                            photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone4Extension];
                         }
-                        
-                        NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoURL]];
-                        
-                        if ( imageData != nil ) {
-                            NSLog(@"photo downloaded:  %@", localPhoto.photoId);
-                            
-                            [SVBusinessDelegate saveImageData:imageData forPhoto:localPhoto inAlbumWithId:innerAlbum.albumId];
-                            
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:innerAlbum];
-                            });
-                        }
-                        
-                    }];
+                    }
+                    else
+                    {
+                        photoURL = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone3Extension];
+                    }
+                    
+                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoURL]];
+                    
+                    if ( imageData != nil ) {
+                        NSLog(@"photo downloaded:  %@", localPhoto.photoId);
+                        [self saveImageToFileSystem:imageData forPhotoId:localPhoto.photoId inAlbum:localAlbum];
+                    }
                 }
                 
-            }
+            }];
         }
         
     } else {
@@ -286,7 +272,7 @@ typedef enum {
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [self.globalDownloadQueue removeObserver:self forKeyPath:@"operations"];
+        [self.photoDownloadQueue removeObserver:self forKeyPath:@"operations"];
         [[RKObjectManager sharedManager].operationQueue removeObserver:self forKeyPath:@"operations"];
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -300,10 +286,8 @@ typedef enum {
 }
 
 
-- (void)photoWasSuccessfullySavedToDiskWithId:(NSNotification *)notification
-{
-    NSString *photoId = [notification object];
-    
+- (void)photoWasSuccessfullySavedToDiskWithId:(NSString *)photoId
+{    
     NSManagedObjectContext *localContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
@@ -328,6 +312,42 @@ typedef enum {
 }
 
 
+- (void)saveImageToFileSystem:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(Album *)album
+{
+    // Initialize the photo download operation queue
+    if (self.photoSaveFinalizerQueue == nil)
+    {
+        self.photoSaveFinalizerQueue = [[NSOperationQueue alloc] init];
+        self.photoSaveFinalizerQueue.maxConcurrentOperationCount = 1;
+    }
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:album.albumId.stringValue];
+    NSError *filePathError;
+    
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
+                                   withIntermediateDirectories:YES
+                                                    attributes:nil
+                                                         error:&filePathError])
+    {
+        NSLog(@"Create directory error: %@", [filePathError localizedDescription]);
+    }
+    
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photoId];
+    
+    if ([imageData writeToFile:filePath atomically:YES]) {
+        [self.photoSaveFinalizerQueue addOperationWithBlock:^{
+            
+            NSLog(@"The photo was successfully saved!");
+            [self photoWasSuccessfullySavedToDiskWithId:photoId];
+            //[[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:album];
+            
+        }];
+    }
+}
+
+
 #pragma mark - Key Value Observing
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -335,9 +355,9 @@ typedef enum {
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-    if (object == self.globalDownloadQueue && [keyPath isEqualToString:@"operations"])
+    if (object == self.photoDownloadQueue && [keyPath isEqualToString:@"operations"])
     {
-        if (self.globalDownloadQueue.operationCount == 0) {
+        if (self.photoDownloadQueue.operationCount == 0) {
             [self executeSyncCompletedOperations];
         }
     }

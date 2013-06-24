@@ -14,9 +14,8 @@
 
 @interface SVOfflineStorageWS ()
 
-@property (nonatomic, strong) NSOperationQueue *offlineStorageQueue;
-
 - (void) saveImageToFileSystem:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId;
+
 @end
 
 @implementation SVOfflineStorageWS
@@ -96,49 +95,53 @@
 /*
  * consolidated method to handle centric photo saves to file sytem
  */
-- (void) saveImageToFileSystem:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId
+- (void)saveImageToFileSystem:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId
 {
-    if (!self.offlineStorageQueue) {
-        self.offlineStorageQueue = [[NSOperationQueue alloc] init];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:albumId];
+    NSError *filePathError;
+    
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
+                                   withIntermediateDirectories:YES
+                                                    attributes:nil
+                                                         error:&filePathError])
+    {
+        NSLog(@"Create directory error: %@", [filePathError localizedDescription]);
     }
     
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photoId];
     
-    [self.offlineStorageQueue addOperationWithBlock:^{
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:albumId];
-        NSError *filePathError;
-        if (![[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectoryPath
-                                       withIntermediateDirectories:YES
-                                                        attributes:nil
-                                                             error:&filePathError])
-        {
-            NSLog(@"Create directory error: %@", [filePathError localizedDescription]);
-        }
+    // TODO: After performance tuning is complete, we can pass YES for atomically:
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
-        NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, photoId];
-        
-        // TODO: After performance tuning is complete, we can pass YES for atomically:
-        if ([imageData writeToFile:filePath atomically:NO]) {
+        if ([imageData writeToFile:filePath atomically:YES]) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSManagedObjectContext *localContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+                
+                NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+                
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %@", albumId];
+                fetchRequest.predicate = predicate;
+                
+                NSError *fetchError = nil;
+                
+                Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:&fetchError] lastObject];
                 
                 NSString *photoIdToPost = [NSString stringWithString:photoId];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEnginePhotoSavedToDiskNotification object:photoIdToPost];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:localAlbum];
                 
             });
         }
-    }];
+        
+    });
 }
-
-
 
 
 - (void)cleanupOfflineStorageForAlbum:(Album *)album
 {
-    if (!self.offlineStorageQueue) {
-        self.offlineStorageQueue = [[NSOperationQueue alloc] init];
-    }
-    
     //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     //    NSString *documentsDirectory = [paths objectAtIndex:0];
     //    __block NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:album.name];
@@ -196,34 +199,28 @@
 // This is primarily used for loading in the images for the grid cells and album cells
 - (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(Album *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block
 {
-    if (!self.offlineStorageQueue) {
-        self.offlineStorageQueue = [[NSOperationQueue alloc] init];
-    }
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[album.albumId stringValue]];
     
-    [self.offlineStorageQueue addOperationWithBlock:^{
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[album.albumId stringValue]];
-        
-        NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
-        
-        UIImage *originalImage = [UIImage imageWithContentsOfFile:filePath];
-        
-        CGSize newSize = CGSizeMake(100, 100);
-        
-        float oldWidth = originalImage.size.width;
-        float scaleFactor = newSize.width / oldWidth;
-        
-        float newHeight = originalImage.size.height * scaleFactor;
-        float newWidth = oldWidth * scaleFactor;
-        
-        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-        [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        block(image, nil);
-    }];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
+    
+    UIImage *originalImage = [UIImage imageWithContentsOfFile:filePath];
+    
+    CGSize newSize = CGSizeMake(100, 100);
+    
+    float oldWidth = originalImage.size.width;
+    float scaleFactor = newSize.width / oldWidth;
+    
+    float newHeight = originalImage.size.height * scaleFactor;
+    float newWidth = oldWidth * scaleFactor;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+    [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    block(image, nil);
 }
 
 

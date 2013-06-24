@@ -31,4 +31,11 @@
 #define kSDSyncEnginePhotoSavedToDiskNotification   @"SyncEnginePhotoSavedToDisk"
 #define kCategoryBadgeUpdatedNotification           @"CategoryBadgeUpdatedNotification"
 
+typedef enum {
+    SVObjectSyncCompleted = 0,
+    SVObjectSyncWaiting,
+    SVObjectSyncActive,
+    SVObjectSyncNeeded,
+} SVObjectSyncStatus;
+
 #endif
