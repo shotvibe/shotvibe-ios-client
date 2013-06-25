@@ -411,10 +411,12 @@
     cell.networkImageView.tag = indexPath.row; 
 //    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
 
-    
+
     if (recentPhoto) {
+        // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel 
+        __block NSIndexPath *tagIndex = indexPath;
         [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
-            if (image) {
+            if (image && cell.networkImageView.tag == tagIndex.row) {
                 [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
             }
         }];
