@@ -199,28 +199,30 @@
 // This is primarily used for loading in the images for the grid cells and album cells
 - (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(Album *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[album.albumId stringValue]];
-    
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
-    
-    UIImage *originalImage = [UIImage imageWithContentsOfFile:filePath];
-    
-    CGSize newSize = CGSizeMake(100, 100);
-    
-    float oldWidth = originalImage.size.width;
-    float scaleFactor = newSize.width / oldWidth;
-    
-    float newHeight = originalImage.size.height * scaleFactor;
-    float newWidth = oldWidth * scaleFactor;
-    
-    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-    [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    block(image, nil);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[album.albumId stringValue]];
+        
+        NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
+        
+        UIImage *originalImage = [UIImage imageWithContentsOfFile:filePath];
+        
+        CGSize newSize = CGSizeMake(100, 100);
+        
+        float oldWidth = originalImage.size.width;
+        float scaleFactor = newSize.width / oldWidth;
+        
+        float newHeight = originalImage.size.height * scaleFactor;
+        float newWidth = oldWidth * scaleFactor;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+        [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        block(image, nil);
+    });
 }
 
 

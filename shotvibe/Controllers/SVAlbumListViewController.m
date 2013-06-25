@@ -542,7 +542,7 @@
         
         if (albumCell) {
             if (albumCell.networkImageView.initialImage == albumCell.networkImageView.image) {
-                [self.tableView reloadRowsAtIndexPaths:@[albumIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView reloadRowsAtIndexPaths:@[albumIndex] withRowAnimation:UITableViewRowAnimationNone];
             }
         }
     }
