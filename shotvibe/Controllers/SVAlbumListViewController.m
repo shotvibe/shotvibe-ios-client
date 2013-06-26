@@ -149,8 +149,8 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCompleted:) name:kSVSyncEngineSyncCompletedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSVSyncEngineSyncAlbumCompletedNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCompleted:) name:kSVSyncEngineSyncCompletedNotification object:nil];
+   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSVSyncEngineSyncAlbumCompletedNotification object:nil];
 }
 
 
@@ -280,8 +280,8 @@
             }
             break;
         case NSFetchedResultsChangeMove:
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
         default:
             break;
@@ -387,9 +387,9 @@
     
     Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
+    //NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
     
-    AlbumPhoto *recentPhoto = [photos lastObject];
+    AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album == %@", anAlbum] sortedBy:@"date_created" ascending:NO];
   
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
@@ -407,15 +407,18 @@
     cell.networkImageView.tag = indexPath.row; 
 //    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
 
-
+    
     if (recentPhoto) {
         // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel 
-        __block NSIndexPath *tagIndex = indexPath;
+        /*__block NSIndexPath *tagIndex = indexPath;
         [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
             if (image && cell.networkImageView.tag == tagIndex.row) {
                 [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
             }
-        }];
+        }];*/
+        
+        UIImage *photo = [UIImage imageWithData:recentPhoto.photoData];
+        [cell.networkImageView setImage:photo];
         
         NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
         cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];

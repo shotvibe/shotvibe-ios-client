@@ -262,9 +262,9 @@
     [cell.contentView addSubview:cellBackground];
     
     // Configure thumbnail
-    __block AlbumPhoto *currentPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:index];
+    AlbumPhoto *currentPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:index];
     
-    __block NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
+    NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
     networkImageView.clipsToBounds = YES;
     networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     networkImageView.backgroundColor = [UIColor clearColor];
@@ -277,11 +277,14 @@
     networkImageView.tag = index;
     [cell.contentView addSubview:networkImageView];
         
-    [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
+    /*[SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
         if (image) {
             [networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
         }
-    }];
+    }];*/
+    
+    UIImage *photo = [UIImage imageWithData:currentPhoto.photoData];
+    [networkImageView setImage:photo];
     
     //
     
