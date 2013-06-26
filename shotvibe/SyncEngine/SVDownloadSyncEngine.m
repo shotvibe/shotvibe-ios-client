@@ -16,7 +16,6 @@
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSMutableArray *registeredClassesToSync;
-@property (nonatomic, strong) NSManagedObjectContext *syncContext;
 @property (atomic, readonly) BOOL syncInProgress;
 
 - (NSURL *)applicationCacheDirectory;
@@ -48,6 +47,10 @@
     static dispatch_once_t downloadEngineToken;
     dispatch_once(&downloadEngineToken, ^{
         sharedEngine = [[SVDownloadSyncEngine alloc] init];
+        if (sharedEngine.downloadQueue == nil) {
+            sharedEngine.downloadQueue = [[NSOperationQueue alloc] init];
+            sharedEngine.downloadQueue.maxConcurrentOperationCount = 1;
+        }
     });
     
     return sharedEngine;
@@ -123,8 +126,8 @@
         NSMutableURLRequest *theRequest = [[SVAPIClient sharedClient] GETRequestForAllRecordsAtPath:path withParameters:parameters andHeaders:headers];
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
             
-            NSLog(@"JSON Object Type: %@", [JSON class]);
-            NSLog(@"Response for %@: %@", className, JSON);
+            //NSLog(@"JSON Object Type: %@", [JSON class]);
+            //NSLog(@"Response for %@: %@", className, JSON);
             
             if ([className isEqualToString:@"Album"]) {
                 
@@ -205,8 +208,8 @@
         NSMutableURLRequest *theRequest = [[SVAPIClient sharedClient] GETRequestForAllRecordsAtPath:path withParameters:nil andHeaders:headers];
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
             
-            NSLog(@"JSON Object Type: %@", [JSON class]);
-            NSLog(@"Response for AlbumPhoto: %@", JSON);
+            //NSLog(@"JSON Object Type: %@", [JSON class]);
+            //NSLog(@"Response for AlbumPhoto: %@", JSON);
             
             if ([JSON isKindOfClass:[NSDictionary class]] || [JSON isKindOfClass:[NSArray class]]) {
                 [self writeJSONResponse:JSON toDiskForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
@@ -272,12 +275,20 @@
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     });
     
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:self.syncContext];
-    
-    [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [self setValue:obj forKey:key forManagedObject:newManagedObject];
+    [self.downloadQueue addOperationWithBlock:^{
+        
+        [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+            
+            NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:localContext];
+            
+            [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                [self setValue:obj forKey:key forManagedObject:newManagedObject];
+            }];
+            [record setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
+            
+        }];
+        
     }];
-    [record setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
 }
 
 
@@ -287,11 +298,19 @@
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     });
     
-    [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSString *aKey = (NSString *)key;
-        if (![aKey isEqualToString:@"albumPhotos"] && ![aKey isEqualToString:@"albums"] && ![aKey isEqualToString:@"members"] && ![aKey isEqualToString:@"album"] && ![aKey isEqualToString:@"author"]) {
-            [self setValue:obj forKey:key forManagedObject:managedObject];
-        }
+    [self.downloadQueue addOperationWithBlock:^{
+        
+        [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+            
+            [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                NSString *aKey = (NSString *)key;
+                if (![aKey isEqualToString:@"albumPhotos"] && ![aKey isEqualToString:@"albums"] && ![aKey isEqualToString:@"members"] && ![aKey isEqualToString:@"album"] && ![aKey isEqualToString:@"author"]) {
+                    [self setValue:obj forKey:key forManagedObject:managedObject];
+                }
+            }];
+            
+        }];
+        
     }];
 }
 
@@ -347,9 +366,9 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectSyncStatus = %d", syncStatus];
     [fetchRequest setPredicate:predicate];
     
-    [self.syncContext performBlockAndWait:^{
+    [[NSManagedObjectContext contextForCurrentThread] performBlockAndWait:^{
         NSError *error = nil;
-        results = [self.syncContext executeFetchRequest:fetchRequest error:&error];
+        results = [[NSManagedObjectContext contextForCurrentThread] executeFetchRequest:fetchRequest error:&error];
     }];
     
     return results;
@@ -380,9 +399,9 @@
     [fetchRequest setPredicate:predicate];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:idString ascending:YES]]];
     
-    [self.syncContext performBlockAndWait:^{
+    [[NSManagedObjectContext contextForCurrentThread] performBlockAndWait:^{
         NSError *error = nil;
-        results = [self.syncContext executeFetchRequest:fetchRequest error:&error];
+        results = [[NSManagedObjectContext contextForCurrentThread] executeFetchRequest:fetchRequest error:&error];
     }];
     
     return results;
@@ -391,95 +410,89 @@
 
 - (void)insertDataIntoCoreDataForClassName:(NSString *)className
 {
-    [MagicalRecord saveUsingCurrentThreadContextWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+    if (![self initialSyncComplete]) // import all downloaded data to Core Data for initial sync
+    {
+        //
+        // If this is the initial sync then the logic is pretty simple, you will fetch the JSON data from disk
+        // for the class of the current iteration and create new NSManagedObjects for each record
+        //
+        id records = [self JSONDataForClassWithName:className];
+        if ([records isKindOfClass:[NSArray class]]) {
+            for (NSDictionary *record in records) {
+                [self newManagedObjectWithClassName:className forRecord:record];
+            }
+        } else {
+            NSDictionary *record = records;
+            NSArray *members = [record objectForKey:@"members"];
+            for (NSDictionary *aRecord in members) {
+                [self newManagedObjectWithClassName:@"Member" forRecord:aRecord];
+                //TODO: Set the Album relationship
+            }
+            NSArray *photos = [record objectForKey:@"photos"];
+            for (NSDictionary *aRecord in photos) {
+                [self newManagedObjectWithClassName:@"AlbumPhoto" forRecord:aRecord];
+                //TODO: Set the Album relationship
+                //TODO: Set the Author relationship
+            }
+        }
         
-        self.syncContext = localContext;
-        
-        if (![self initialSyncComplete]) // import all downloaded data to Core Data for initial sync
+    }
+    else
+    {
+        //
+        // Otherwise you need to do some more logic to determine if the record is new or has been updated.
+        // First get the downloaded records from the JSON response, verify there is at least one object in
+        // the data, and then fetch all records stored in Core Data whose objectId matches those from the JSON response.
+        //
+        NSString *objectIdKey = nil;
+        if ([className isEqualToString:@"Album"]) {
+            objectIdKey = @"albumId";
+        } else if ([className isEqualToString:@"AlbumPhoto"]) {
+            objectIdKey = @"photo_id";
+        } else if ([className isEqualToString:@"Member"]) {
+            objectIdKey = @"userId";
+        }
+        NSArray *downloadedRecords = [self JSONDataRecordsForClass:className sortedByKey:objectIdKey];
+        if ([downloadedRecords lastObject])
         {
             //
-            // If this is the initial sync then the logic is pretty simple, you will fetch the JSON data from disk
-            // for the class of the current iteration and create new NSManagedObjects for each record
+            // Now you have a set of objects from the remote service and all of the matching objects
+            // (based on objectId) from your Core Data store. Iterate over all of the downloaded records
+            // from the remote service.
             //
-            id records = [self JSONDataForClassWithName:className];
-            if ([records isKindOfClass:[NSArray class]]) {
-                for (NSDictionary *record in records) {
+            NSArray *storedRecords = [self managedObjectsForClass:className sortedByKey:objectIdKey usingArrayOfIds:[downloadedRecords valueForKey:objectIdKey] inArrayOfIds:YES];
+            int currentIndex = 0;
+            //
+            // If the number of records in your Core Data store is less than the currentIndex, you know that
+            // you have a potential match between the downloaded records and stored records because you sorted
+            // both lists by objectId, this means that an update has come in from the remote service
+            //
+            for (NSDictionary *record in downloadedRecords) {
+                NSManagedObject *storedManagedObject = nil;
+                
+                // Make sure we don't access an index that is out of bounds as we are iterating over both collections together.
+                if ([storedRecords count] > currentIndex) {
+                    storedManagedObject = [storedRecords objectAtIndex:currentIndex];
+                }
+                
+                if ([[storedManagedObject valueForKey:objectIdKey] isEqualToString:[record valueForKey:objectIdKey]]) {
+                    //
+                    // Do a quick spot check to validate the objectIds in fact do match, if they do update the stored
+                    // object with the values received from the remote service
+                    //
+                    [self updateManagedObject:[storedRecords objectAtIndex:currentIndex] withRecord:record];
+                } else {
+                    // Otherwise you have a new object coming in from your remote service so create a new
+                    // NSManagedObject to represent this remote object locally
                     [self newManagedObjectWithClassName:className forRecord:record];
                 }
-            } else {
-                NSDictionary *record = records;
-                NSArray *members = [record objectForKey:@"members"];
-                for (NSDictionary *aRecord in members) {
-                    [self newManagedObjectWithClassName:@"Member" forRecord:aRecord];
-                    //TODO: Set the Album relationship
-                }
-                NSArray *photos = [record objectForKey:@"photos"];
-                for (NSDictionary *aRecord in photos) {
-                    [self newManagedObjectWithClassName:@"AlbumPhoto" forRecord:aRecord];
-                    //TODO: Set the Album relationship
-                    //TODO: Set the Author relationship
-                }
-            }
-            
-        }
-        else
-        {
-            //
-            // Otherwise you need to do some more logic to determine if the record is new or has been updated.
-            // First get the downloaded records from the JSON response, verify there is at least one object in
-            // the data, and then fetch all records stored in Core Data whose objectId matches those from the JSON response.
-            //
-            NSString *objectIdKey = nil;
-            if ([className isEqualToString:@"Album"]) {
-                objectIdKey = @"albumId";
-            } else if ([className isEqualToString:@"AlbumPhoto"]) {
-                objectIdKey = @"photo_id";
-            } else if ([className isEqualToString:@"Member"]) {
-                objectIdKey = @"userId";
-            }
-            NSArray *downloadedRecords = [self JSONDataRecordsForClass:className sortedByKey:objectIdKey];
-            if ([downloadedRecords lastObject])
-            {
-                //
-                // Now you have a set of objects from the remote service and all of the matching objects
-                // (based on objectId) from your Core Data store. Iterate over all of the downloaded records
-                // from the remote service.
-                //
-                NSArray *storedRecords = [self managedObjectsForClass:className sortedByKey:objectIdKey usingArrayOfIds:[downloadedRecords valueForKey:objectIdKey] inArrayOfIds:YES];
-                int currentIndex = 0;
-                //
-                // If the number of records in your Core Data store is less than the currentIndex, you know that
-                // you have a potential match between the downloaded records and stored records because you sorted
-                // both lists by objectId, this means that an update has come in from the remote service
-                //
-                for (NSDictionary *record in downloadedRecords) {
-                    NSManagedObject *storedManagedObject = nil;
-                    
-                    // Make sure we don't access an index that is out of bounds as we are iterating over both collections together.
-                    if ([storedRecords count] > currentIndex) {
-                        storedManagedObject = [storedRecords objectAtIndex:currentIndex];
-                    }
-                    
-                    if ([[storedManagedObject valueForKey:objectIdKey] isEqualToString:[record valueForKey:objectIdKey]]) {
-                        //
-                        // Do a quick spot check to validate the objectIds in fact do match, if they do update the stored
-                        // object with the values received from the remote service
-                        //
-                        [self updateManagedObject:[storedRecords objectAtIndex:currentIndex] withRecord:record];
-                    } else {
-                        // Otherwise you have a new object coming in from your remote service so create a new
-                        // NSManagedObject to represent this remote object locally
-                        [self newManagedObjectWithClassName:className forRecord:record];
-                    }
-                    currentIndex++;
-                    
-                }
+                currentIndex++;
+                
             }
         }
-        
-        [self deleteJSONDataRecordsForClassWithName:className];
-        
-    }];
+    }
+    
+    [self deleteJSONDataRecordsForClassWithName:className];
 }
 
 
@@ -487,7 +500,12 @@
 {
     if ([className isEqualToString:@"Album"]) {
         [self insertDataIntoCoreDataForClassName:className];
-        [self retrievePhotoObjects];
+        NSLog(@"%d", self.downloadQueue.operationCount);
+        [self.downloadQueue addOperationWithBlock:^{
+            
+            [self retrievePhotoObjects];
+            
+        }];
     } else {
         NSArray *albums = [Album findAll];
         for (Album *anAlbum in albums) {

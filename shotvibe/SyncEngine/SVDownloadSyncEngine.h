@@ -10,6 +10,11 @@
 
 @interface SVDownloadSyncEngine : NSObject
 
+#pragma mark - Properties
+
+@property (nonatomic, strong) NSOperationQueue *downloadQueue;
+
+
 #pragma mark - Class Methods
 
 + (SVDownloadSyncEngine *)sharedEngine;
