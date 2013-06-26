@@ -23,7 +23,7 @@
  */
 - (void) startSync
 {
- NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"SVOperationQueue"];
+ /*NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"SVOperationQueue"];
  
  NSError *error;
  
@@ -41,7 +41,7 @@
   // TODO - get album from Album entity to start upload ...
   
   [self uploadPhoto:operation.photoId withAlbum:album];
- }
+ }*/
  
 }
 
@@ -50,16 +50,16 @@
 {
 // SVOperationQueue *operationQueue = (SVOperationQueue *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:loadedPhoto.objectID];
 
- SVUploaderOperationQueue *operationQueue = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperationQueue" inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
+ SVUploaderOperationQueue *operationQueue = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperationQueue" inManagedObjectContext:[NSManagedObjectContext defaultContext]];
 
- SVUploaderOperation *operation = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperation" inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
+ SVUploaderOperation *operation = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperation" inManagedObjectContext:[NSManagedObjectContext defaultContext]];
 
  operation.albumId = albumId;
  operation.photoId = photoId;
  
  operation.queue = operationQueue;
 
- [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext save:nil];
+ [[NSManagedObjectContext defaultContext] save:nil];
 }
 
 
@@ -75,12 +75,12 @@
  
  NSError *error;
  
- NSArray *objects = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:fetchRequest error:&error];
+ NSArray *objects = [[NSManagedObjectContext defaultContext] executeFetchRequest:fetchRequest error:&error];
  
  AlbumPhoto *albumPhoto = [objects objectAtIndex:0];
  albumPhoto.objectSyncStatus = syncStatus;
  
- [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext save:nil];
+ [[NSManagedObjectContext defaultContext] save:nil];
 }
 
 

@@ -13,11 +13,12 @@
 
 @interface Member : NSManagedObject
 
-@property (nonatomic, retain) id albumIds;
-@property (nonatomic, retain) NSString * avatarUrl;
+@property (nonatomic, retain) NSString * avatar_url;
+@property (nonatomic, retain) NSData *avatarData;
 @property (nonatomic, retain) NSString * nickname;
 @property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSNumber * userId;
+@property (nonatomic, retain) NSNumber * objectSyncStatus;
 @property (nonatomic, retain) NSSet *albums;
 @property (nonatomic, retain) NSSet *albumPhotos;
 @end

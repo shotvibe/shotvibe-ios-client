@@ -69,7 +69,7 @@
         [exception raise];
     }    
     
-    [self saveImageToFileSystem:imageData forPhotoId:photo.photoId inAlbumWithId:albumIdAsString];
+    [self saveImageToFileSystem:imageData forPhotoId:photo.photo_id inAlbumWithId:albumIdAsString];
 }
 
 
@@ -118,7 +118,7 @@
         if ([imageData writeToFile:filePath atomically:YES]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                NSManagedObjectContext *localContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+                NSManagedObjectContext *localContext = nil;
                 
                 NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
                 
@@ -130,8 +130,8 @@
                 Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:&fetchError] lastObject];
                 
                 NSString *photoIdToPost = [NSString stringWithString:photoId];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEnginePhotoSavedToDiskNotification object:photoIdToPost];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncAlbumCompletedNotification object:localAlbum];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEnginePhotoSavedToDiskNotification object:photoIdToPost];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineSyncAlbumCompletedNotification object:localAlbum];
                 
             });
         }

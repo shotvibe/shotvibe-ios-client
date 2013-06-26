@@ -14,12 +14,10 @@
 @implementation Album
 
 @dynamic albumId;
-@dynamic dateCreated;
+@dynamic date_created;
 @dynamic etag;
-@dynamic lastUpdated;
-@dynamic memberIds;
+@dynamic last_updated;
 @dynamic name;
-@dynamic photoIds;
 @dynamic url;
 @dynamic pushNotificationsOption;
 @dynamic notificationsOption;

@@ -8,11 +8,10 @@
 
 #import "Album.h"
 #import "AlbumPhoto.h"
+#import "AFHTTPRequestOperation.h"
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 #import "SVBusinessDelegate.h"
-#import "DownloadSyncEngine.h"
-#import "UploadSyncEngine.h"
 
 static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
@@ -47,14 +46,14 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
-    NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastUpdated" ascending:NO];
+    NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
     
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
     
     NSPredicate *downloadedPredicate = [NSPredicate predicateWithFormat:@"ANY albumPhotos.imageWasDownloaded == YES OR albumPhotos.@count == 0"];
     fetchRequest.predicate = downloadedPredicate;
     
-    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext defaultContext] sectionNameKeyPath:nil cacheName:nil];
     fetchedResultsController.delegate = delegate;
     
     NSError *fetchError = nil;
@@ -69,7 +68,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
-    NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastUpdated" ascending:NO];
+    NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
     
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
     
@@ -78,7 +77,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         fetchRequest.predicate = predicate;
     }
     
-    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext defaultContext] sectionNameKeyPath:nil cacheName:nil];
     fetchedResultsController.delegate = delegate;
     
     NSError *fetchError = nil;
@@ -93,15 +92,15 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
-    NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
+    NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:NO];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
     
     fetchRequest.sortDescriptors = @[datecreatedDescriptor, idDescriptor];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album == %@ AND imageWasDownloaded == YES", anAlbum];
     fetchRequest.predicate = predicate;
     
-    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext defaultContext] sectionNameKeyPath:nil cacheName:nil];
     fetchedResultsController.delegate = delegate;
     
     NSError *fetchError = nil;
@@ -113,253 +112,21 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
-- (void)userAlbums
-{
-    NSLog(@"userAlbums - start sync from remote");
-    
-    // Setup Member Mapping
-    RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [memberMapping addAttributeMappingsFromDictionary:@{
-     @"id": @"userId",
-     @"url": @"url",
-     @"nickname": @"nickname",
-     @"avatar_url": @"avatarUrl"
-     }];
-    memberMapping.identificationAttributes = @[@"userId"];
-    
-    // Setup Photo Mapping
-    /*RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-     [photoMapping addAttributeMappingsFromDictionary:@{
-     @"photo_id": @"photoId",
-     @"photo_url": @"photoUrl",
-     @"date_created": @"dateCreated",
-     }];
-     photoMapping.identificationAttributes = @[@"photoId"];*/
-    
-    // Setup Album Mapping
-    RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [albumMapping addAttributeMappingsFromDictionary:@{
-     @"id": @"albumId",
-     @"url": @"url",
-     @"name": @"name",
-     @"last_updated": @"lastUpdated",
-     @"etag": @"etag"
-     }];
-    albumMapping.identificationAttributes = @[@"albumId"];
-    
-    // Relationship Connections
-    /*[photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
-     [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
-     [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];*/
-    
-    // Configure the response descriptor
-    RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [[RKObjectManager sharedManager] addResponseDescriptor:albumResponseDescriptor];
-    
-    // Get the albums
-    [[RKObjectManager sharedManager] getObjectsAtPath:@"/albums/" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:kUserAlbumsLoadedNotification object:nil];   // get etags
-            
-        });
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        
-        NSLog(@"error");
-        
-        RKLogError(@"Load failed with error: %@", error);
-        
-    }];
-}
-
-
 - (void)photosForAlbumWithID:(NSNumber *)albumId
 {
-    // Setup Photo Mapping
-    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [photoMapping addAttributeMappingsFromDictionary:@{
-     @"photo_id": @"photoId",
-     @"photo_url": @"photoUrl",
-     @"date_created": @"dateCreated",
-     }];
-    photoMapping.identificationAttributes = @[@"photoId"];
-    
-    // Setup Member Mapping
-    RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [memberMapping addAttributeMappingsFromDictionary:@{
-     @"id": @"userId",
-     @"url": @"url",
-     @"nickname": @"nickname",
-     @"avatar_url": @"avatarUrl"
-     }];
-    memberMapping.identificationAttributes = @[@"userId"];
-    
-    // Setup Album Mapping
-    RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [albumMapping addAttributeMappingsFromDictionary:@{
-     @"id": @"albumId",
-     @"name": @"name",
-     @"date_created": @"dateCreated",
-     @"last_updated": @"lastUpdated"
-     }];
-    albumMapping.identificationAttributes = @[@"albumId"];
-    
-    // Relationship Connections
-    [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
-    [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];
-    [memberMapping addRelationshipMappingWithSourceKeyPath:@"albums" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"members" toKeyPath:@"members" withMapping:memberMapping]];
-    
-    // Configure the response descriptor
-    RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/:id/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [[RKObjectManager sharedManager] addResponseDescriptor:albumResponseDescriptor];
-    
-    // Get the albums
-    NSString *path = [NSString stringWithFormat:@"/albums/%@/", [albumId stringValue]];
-    [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        
-        NSLog(@"%@", [operation class]);
-        RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
-        
-        NSLog(@"notify for photos, album:  %@", albumId);
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:kPhotosLoadedNotification object:albumId];
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        
-        NSLog(@"error for photos, album:  %@", albumId);
-        
-        RKLogError(@"Load failed with error: %@", error);
-        
-    }];
-}
-
-
-- (void)photosForAlbumWithID:(Album *) anAlbum atIndexPath:(NSIndexPath *)indexPath
-{
-    
-    NSNumber *albumID = anAlbum.albumId;
-    
-    // Setup Photo Mapping
-    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"Photo" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [photoMapping addAttributeMappingsFromDictionary:@{
-     @"photo_id": @"photoId",
-     @"photo_url": @"photoUrl",
-     @"date_created": @"dateCreated",
-     }];
-    photoMapping.identificationAttributes = @[@"photoId"];
-    
-    // Setup Member Mapping
-    RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [memberMapping addAttributeMappingsFromDictionary:@{
-     @"id": @"userId",
-     @"url": @"url",
-     @"nickname": @"nickname",
-     @"avatar_url": @"avatarUrl"
-     }];
-    memberMapping.identificationAttributes = @[@"userId"];
-    
-    // Setup Album Mapping
-    RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [albumMapping addAttributeMappingsFromDictionary:@{
-     @"id": @"albumId",
-     @"name": @"name",
-     @"date_created": @"dateCreated",
-     @"last_updated": @"lastUpdated"
-     }];
-    albumMapping.identificationAttributes = @[@"albumId"];
-    
-    // Relationship Connections
-    [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
-    [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"photos" toKeyPath:@"photos" withMapping:photoMapping]];
-    [memberMapping addRelationshipMappingWithSourceKeyPath:@"albums" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"members" toKeyPath:@"members" withMapping:memberMapping]];
-    
-    // Configure the response descriptor
-    RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/:id/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [[RKObjectManager sharedManager] addResponseDescriptor:albumResponseDescriptor];
-    
-    // Get the albums
-    NSString *path = [NSString stringWithFormat:@"/albums/%@/", [albumID stringValue]];
-    [[RKObjectManager sharedManager] getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        
-        NSMutableArray *data = [[NSMutableArray alloc] init];
-        
-        [data addObject:indexPath];
-        [data addObject:anAlbum];
-        
-        //RKLogInfo(@"Load complete: Table should refresh with: %@", mappingResult.array);
-        [[NSNotificationCenter defaultCenter] postNotificationName:kPhotosLoadedForIndexPathNotification object:data];
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        
-        RKLogError(@"Load failed with error: %@", error);
-        
-    }];
+    // TODO: Return all photos for the album with the supplied ID
 }
 
 
 - (void)newAlbumWithName:(NSString *)albumName
 {
-    // Setup Member Mapping
-    RKEntityMapping *memberMapping = [RKEntityMapping mappingForEntityForName:@"Member" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [memberMapping addAttributeMappingsFromDictionary:@{
-     @"id": @"userId",
-     @"url": @"url",
-     @"nickname": @"nickname",
-     @"avatar_url": @"avatarUrl"
-     }];
-    memberMapping.identificationAttributes = @[@"userId"];
-    
-    // Setup Photo Mapping
-    RKEntityMapping *photoMapping = [RKEntityMapping mappingForEntityForName:@"AlbumPhoto" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [photoMapping addAttributeMappingsFromDictionary:@{
-     @"photo_id": @"photoId",
-     @"photo_url": @"photoUrl",
-     @"date_created": @"dateCreated",
-     }];
-    photoMapping.identificationAttributes = @[@"photoId"];
-    
-    // Setup Album Mapping
-    RKEntityMapping *albumMapping = [RKEntityMapping mappingForEntityForName:@"Album" inManagedObjectStore:[RKObjectManager sharedManager].managedObjectStore];
-    [albumMapping addAttributeMappingsFromDictionary:@{
-     @"id": @"albumId",
-     @"url": @"url",
-     @"name": @"name",
-     @"last_updated": @"lastUpdated",
-     @"etag": @"etag"
-     }];
-    albumMapping.identificationAttributes = @[@"albumId"];
-    
-    // Relationship Connections
-    [photoMapping addRelationshipMappingWithSourceKeyPath:@"author" mapping:memberMapping];
-    [photoMapping addRelationshipMappingWithSourceKeyPath:@"album" mapping:albumMapping];
-    [albumMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_photos" toKeyPath:@"albumPhotos" withMapping:photoMapping]];
-    
-    // Configure the response descriptor
-    RKResponseDescriptor *albumResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:albumMapping pathPattern:@"/albums/" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [[RKObjectManager sharedManager] addResponseDescriptor:albumResponseDescriptor];
-    
-    // Post the albums
-    [[RKObjectManager sharedManager] postObject:nil path:@"/albums/" parameters:@{@"album_name": albumName, @"photos": [NSNull null], @"members": [NSNull null]} success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        
-        [[SVEntityStore sharedStore] userAlbums];
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        
-        RKLogError(@"Load failed with error: %@", error);
-        
-    }];
+    // TODO: Add a new album with the supplied name
 }
 
 
 - (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
 {
-    NSManagedObjectContext *localContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+    NSManagedObjectContext *localContext = [NSManagedObjectContext defaultContext]; //TODO
     
     AlbumPhoto *localPhoto = [NSEntityDescription insertNewObjectForEntityForName:@"AlbumPhoto" inManagedObjectContext:localContext];
     
@@ -369,17 +136,17 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     fetchRequest.predicate = predicate;
     Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:nil] lastObject];
     
-    [localPhoto setDateCreated:[NSDate date]];
+    [localPhoto setDate_created:[NSDate date]];
     [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncNeeded]];
     [localPhoto setTempPhotoId:photoId];
-    [localPhoto setPhotoId:photoId];
+    [localPhoto setPhoto_id:photoId];
     [localPhoto setImageWasDownloaded:[NSNumber numberWithBool:YES]];
-    [localPhoto setPhotoUrl:@""];
+    [localPhoto setPhoto_url:@""];
     
     [localAlbum addAlbumPhotosObject:localPhoto];
     
     NSError *saveError = nil;
-    [localContext saveToPersistentStore:&saveError];
+    [localContext save:&saveError];
     
     if (saveError) {
         if (block) {
@@ -434,87 +201,5 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
      {
          
      }];
-}
-
-
-
-/*
- * save the photos associated with the album
- */
-- (void) uploadPhotoBatchForAlbum :(NSNumber *) albumId withPhotoIds :(NSArray *) photoIds
-{
-    NSMutableArray *albumPhotoIds = [[NSMutableArray alloc] init];
-    
-    for (NSString *photoId in photoIds)
-    {
-        [albumPhotoIds addObject:@{@"photo_id": photoId}];
-    }
-    
-    
-    // Add the photos to the album
-    NSString *addToAlbumPath = [NSString stringWithFormat:@"/albums/%@/", [albumId stringValue]];
-    
-    // NSLog(@"%@", [@{@"add_photos": albumPhotoIds}]);
-    
-    [self postPath:addToAlbumPath parameters:@{@"add_photos": photoIds}
-     
-           success:^(AFHTTPRequestOperation *operation, id responseObject)
-     {
-         [[SVEntityStore sharedStore] userAlbums];                      // refresh the albums
-     }
-     
-           failure:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         //     block(NO, error);
-         
-         NSLog(@"photo upload failed");
-     }];
-}
-
-
-/*
- * save the photo to DB so it will appear in the album ... this is a temporary store until the actual photo id can be retreived
- */
--(void)newUploadedPhotoForAlbum:(Album *) album withPhotoId:(NSString *) photoId
-{
-    Album *albumObject = (Album *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:album.objectID];
-    
-    NSLog(@"saving temp photo to album: %@, %@", photoId, album.name);
-    
-    // AlbumPhoto *albumPhoto = (AlbumPhoto *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
-    
-    if(albumObject != nil)
-    {
-        NSMutableSet *newAlbumPhotos = [[NSMutableSet alloc] initWithSet:albumObject.albumPhotos];
-        
-        AlbumPhoto *albumPhoto = [NSEntityDescription insertNewObjectForEntityForName:@"AlbumPhoto" inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
-        
-        albumPhoto.album = albumObject;
-        //  albumPhoto.albumId = albumObject.albumId;
-        //  albumPhoto.author = [[NSNumber alloc] initWithInt:1];
-        //  albumPhoto.hasViewed = [[NSNumber alloc] initWithInt:0];
-        albumPhoto.photoId = photoId;
-        albumPhoto.photoUrl = @"n/a";
-        albumPhoto.dateCreated = [NSDate date];
-        
-        [newAlbumPhotos addObject:albumPhoto];
-        
-        NSError *error;
-        
-        [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext saveToPersistentStore:&error];
-        
-        
-        if(error)
-        {
-            NSLog(@"error saving temp photo:  %@", error);
-        }
-        else
-        {
-            NSLog(@"temp photo saved successfully");
-            
-        }
-        
-    }
-    
 }
 @end

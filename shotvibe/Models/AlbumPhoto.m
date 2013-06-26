@@ -13,11 +13,11 @@
 
 @implementation AlbumPhoto
 
-@dynamic albumId;
-@dynamic dateCreated;
+@dynamic date_created;
 @dynamic hasViewed;
-@dynamic photoId;
-@dynamic photoUrl;
+@dynamic photo_id;
+@dynamic photo_url;
+@dynamic photoData;
 @dynamic objectSyncStatus;
 @dynamic tempPhotoId;
 @dynamic imageWasDownloaded;

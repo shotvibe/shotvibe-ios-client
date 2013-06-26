@@ -101,7 +101,7 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumRefreshed:) name:kSDSyncEngineSyncAlbumCompletedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumRefreshed:) name:kSVSyncEngineSyncAlbumCompletedNotification object:nil];
     
     // We've returned from pushing detail
     if (isPushingDetail) {
@@ -277,7 +277,7 @@
     networkImageView.tag = index;
     [cell.contentView addSubview:networkImageView];
         
-    [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
+    [SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
         if (image) {
             [networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
         }

@@ -5,12 +5,11 @@
 //  Created by John Gabelmann on 3/29/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
-#import <RestKit/RestKit.h>
-#import <RestKit/CoreData.h>
-#import "SVSidebarManagementViewController.h"
-#import "SVAlbumGridViewController.h"
+
 #import "Album.h"
+#import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
+#import "SVSidebarManagementViewController.h"
 
 @interface SVSidebarManagementViewController () <NSFetchedResultsControllerDelegate>
 
@@ -159,7 +158,7 @@
     //fetchRequest.predicate = predicate;
     
     // Setup fetched results
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext defaultContext] sectionNameKeyPath:nil cacheName:nil];
     [self.fetchedResultsController setDelegate:self];
     
     return _fetchedResultsController;

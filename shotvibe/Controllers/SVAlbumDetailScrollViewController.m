@@ -144,7 +144,7 @@
         NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
         AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:thumbnailIndex];
         
-        NSString* thumbnailSource = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
+        NSString* thumbnailSource = [[photo.photo_url stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
         [self requestImageFromSource: thumbnailSource
                            photoSize: NIPhotoScrollViewPhotoSizeOriginal
                           photoIndex: thumbnailIndex];
@@ -179,7 +179,7 @@
     image = [self.highQualityImageCache objectWithName:photoIndexKey];
     
     if (!image) {
-        image = [SVBusinessDelegate loadImageFromAlbum:selectedAlbum withPath:photo.photoId];
+        image = [SVBusinessDelegate loadImageFromAlbum:selectedAlbum withPath:photo.photo_id];
     }
     if (nil != image) {
         *photoSize = NIPhotoScrollViewPhotoSizeOriginal;
@@ -241,7 +241,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"MM.dd, HH:mm\"";
     
-    self.detailLabel.text = [NSString stringWithFormat:@"%@%@\n%@", updatedBy, photo.author.nickname, [NSDateFormatter localizedStringFromDate:photo.dateCreated dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]];
+    self.detailLabel.text = [NSString stringWithFormat:@"%@%@\n%@", updatedBy, photo.author.nickname, [NSDateFormatter localizedStringFromDate:photo.date_created dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]];
 }
 
 

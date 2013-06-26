@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>baseURL</key>
-	<string>https://api.shotvibe.com/albums/</string>
+	<string>https://api.shotvibe.com/albums/1/</string>
 	<key>followRedirect</key>
 	<true/>
 	<key>handleJSONPCallbacks</key>
@@ -17,6 +17,14 @@
 			<true/>
 			<key>value</key>
 			<string>Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d</string>
+		</dict>
+		<dict>
+			<key>header</key>
+			<string>If-None-Match</string>
+			<key>inUse</key>
+			<true/>
+			<key>value</key>
+			<string>70</string>
 		</dict>
 	</array>
 	<key>httpMethod</key>

@@ -5,10 +5,10 @@
 //  Created by Fredrick Gabelmann on 1/23/13.
 //
 
+#import "Album.h"
 #import "SVInitializationWS.h"
 #import "SVDefines.h"
-#import "DownloadSyncEngine.h"
-#import "UploadSyncEngine.h"
+#import "SVDownloadSyncEngine.h"
 
 #ifdef CONFIGURATION_Debug
 static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
@@ -178,43 +178,19 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)initializeManagedObjectModel
 {
-    // Create the object manager
-    NSURL *baseURL = [NSURL URLWithString:@"https://api.shotvibe.com"];
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:baseURL];
-    [objectManager.HTTPClient setDefaultHeader:@"Authorization" value:kTestAuthToken];
-    
-    // Enable Activity Indicator Spinner
-    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
-    
-    // Create the managed object model
-    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
-    RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
-    objectManager.managedObjectStore = managedObjectStore;
-    
-    // Instantiate Core Data Stack
-    [managedObjectStore createPersistentStoreCoordinator];
-    NSString *storePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"ShotVibe.sqlite"];
-    NSError *error = nil;
-    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:storePath fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
-    NSAssert(persistentStore, @"Failed to add persistent store with error: %@", error);
-    
-    // Create the managed object contexts
-    [managedObjectStore createManagedObjectContexts];
-    [managedObjectStore.persistentStoreManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
-    [RKManagedObjectStore setDefaultStore:managedObjectStore];
-    
-    // Configure a managed object cache to ensure we do not create duplicate objects
-    managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];
+    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"ShotVibe.sqlite"];
 }
 
 
 - (void)startSyncing
 {
-    // start bg sync for albums
+    /*// start bg sync for albums
     [[DownloadSyncEngine sharedEngine] startSync];
     
     // start upload syncing
-    [[UploadSyncEngine sharedEngine] startSync];
+    [[UploadSyncEngine sharedEngine] startSync];*/
+    
+    [[SVDownloadSyncEngine sharedEngine] registerNSManagedObjectClassToSync:[Album class]];
 }
 
 

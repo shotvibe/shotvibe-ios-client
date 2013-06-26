@@ -20,22 +20,25 @@
 #define kPhotoIphone4Extension @"_iphone4.jpg"
 #define kPhotoIphone5Extension @"_iphone5.jpg"
 
+#define kUserAlbumsLastRequestedDate @"SVAlbumsLastRequestedDate"
 #define kUserAlbumsLoadedNotification @"SVAlbumsLoaded"
 #define kPhotosLoadedNotification @"SVPhotosLoaded"
 #define kStartPhotoUpload @"kStartPhotoUpload"
 #define kPhotosLoadedForIndexPathNotification @"SVPhotosLoadedForIndexPath"
 #define kUploadPhotosToAlbumProgressNotification @"UploadPhotosToAlbumProgressNotification"
 
-#define kSDSyncEngineSyncAlbumCompletedNotification @"SyncEngineSyncAlbumCompleted"
-#define kSDSyncEngineSyncCompletedNotification      @"SyncEngineSyncCompleted"
-#define kSDSyncEnginePhotoSavedToDiskNotification   @"SyncEnginePhotoSavedToDisk"
-#define kCategoryBadgeUpdatedNotification           @"CategoryBadgeUpdatedNotification"
+#define kSVSyncEngineInitialSyncCompletedKey        @"SyncEngineInitialSyncCompleted"
+#define kSVSyncEngineSyncAlbumCompletedNotification @"SyncEngineSyncAlbumCompleted"
+#define kSVSyncEngineSyncCompletedNotification      @"SyncEngineSyncCompleted"
+#define kSVSyncEnginePhotoSavedToDiskNotification   @"SyncEnginePhotoSavedToDisk"
 
 typedef enum {
     SVObjectSyncCompleted = 0,
     SVObjectSyncWaiting,
     SVObjectSyncActive,
     SVObjectSyncNeeded,
+    SVObjectCreated,
+    SVObjectDeleted,
 } SVObjectSyncStatus;
 
 #endif

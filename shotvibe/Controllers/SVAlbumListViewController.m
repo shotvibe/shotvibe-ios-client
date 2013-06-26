@@ -142,10 +142,6 @@
     self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
 
     [self configureViews];
-    
-
-    // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
-    RKLogConfigureByName("ShotVibe/Albums", RKLogLevelDebug);
 }
 
 
@@ -153,8 +149,8 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCompleted:) name:kSDSyncEngineSyncCompletedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSDSyncEngineSyncAlbumCompletedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCompleted:) name:kSVSyncEngineSyncCompletedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSVSyncEngineSyncAlbumCompletedNotification object:nil];
 }
 
 
@@ -415,7 +411,7 @@
     if (recentPhoto) {
         // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel 
         __block NSIndexPath *tagIndex = indexPath;
-        [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photoId WithCompletion:^(UIImage *image, NSError *error) {
+        [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
             if (image && cell.networkImageView.tag == tagIndex.row) {
                 [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
             }
@@ -428,7 +424,7 @@
     
     cell.title.text = anAlbum.name;
     
-    NSString *distanceOfTimeInWords = [anAlbum.lastUpdated distanceOfTimeInWords];
+    NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
     [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
     
     NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];

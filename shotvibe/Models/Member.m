@@ -13,11 +13,12 @@
 
 @implementation Member
 
-@dynamic albumIds;
-@dynamic avatarUrl;
+@dynamic avatar_url;
+@dynamic avatarData;
 @dynamic nickname;
 @dynamic url;
 @dynamic userId;
+@dynamic objectSyncStatus;
 @dynamic albums;
 @dynamic albumPhotos;
 

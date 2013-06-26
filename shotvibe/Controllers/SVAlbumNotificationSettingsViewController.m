@@ -26,7 +26,7 @@
 {
     UISwitch *triggeredSwitch = (UISwitch *)sender;
     
-    Album *albumObject = (Album *)[[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext objectWithID:self.currentAlbum.objectID];
+    Album *albumObject = (Album *)[[NSManagedObjectContext defaultContext] objectWithID:self.currentAlbum.objectID];
     
     if (triggeredSwitch == self.pushNotificationsSwitch) {        
         albumObject.pushNotificationsOption = [NSNumber numberWithBool:triggeredSwitch.isOn];
@@ -36,7 +36,7 @@
         albumObject.notificationsOption = [NSNumber numberWithBool:triggeredSwitch.isOn];
     }
     
-    [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext save:nil];
+    [[NSManagedObjectContext defaultContext] save:nil];
     
     self.currentAlbum = albumObject;
 }

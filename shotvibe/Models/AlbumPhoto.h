@@ -13,11 +13,11 @@
 
 @interface AlbumPhoto : NSManagedObject
 
-@property (nonatomic, retain) id albumId;
-@property (nonatomic, retain) NSDate * dateCreated;
+@property (nonatomic, retain) NSString * photo_id;
+@property (nonatomic, retain) NSString * photo_url;
+@property (nonatomic, retain) NSDate * date_created;
 @property (nonatomic, retain) NSNumber * hasViewed;
-@property (nonatomic, retain) NSString * photoId;
-@property (nonatomic, retain) NSString * photoUrl;
+@property (nonatomic, retain) NSData *photoData;
 @property (nonatomic, retain) NSNumber * objectSyncStatus;
 @property (nonatomic, retain) NSString * tempPhotoId;
 @property (nonatomic, retain) NSNumber * imageWasDownloaded;

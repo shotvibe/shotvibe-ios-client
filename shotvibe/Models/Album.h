@@ -14,13 +14,11 @@
 @interface Album : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * albumId;
-@property (nonatomic, retain) NSDate * dateCreated;
-@property (nonatomic, retain) NSNumber * etag;
-@property (nonatomic, retain) NSDate * lastUpdated;
-@property (nonatomic, retain) id memberIds;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) id photoIds;
+@property (nonatomic, retain) NSDate * date_created;
+@property (nonatomic, retain) NSDate * last_updated;
 @property (nonatomic, retain) NSString * url;
+@property (nonatomic, retain) NSString * etag;
 @property (nonatomic, retain) NSNumber * pushNotificationsOption;
 @property (nonatomic, retain) NSNumber * notificationsOption;
 @property (nonatomic, retain) NSNumber * newPhotoTone;

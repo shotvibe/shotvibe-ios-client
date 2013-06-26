@@ -6,15 +6,14 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "CaptureSelectImagesViewController.h"
-#import "SVDefines.h"
-#import "GMGridView.h"
-#import "Album.h"
-#import "SVEntityStore.h"
 #import "ALAssetsLibrary+helper.h"
-#import "DownloadSyncEngine.h"
+#import "Album.h"
 #import "AlbumPhoto.h"
+#import "CaptureSelectImagesViewController.h"
+#import "GMGridView.h"
 #import "SVBusinessDelegate.h"
+#import "SVDefines.h"
+#import "SVEntityStore.h"
 
 @interface CaptureSelectImagesViewController () <GMGridViewDataSource, GMGridViewActionDelegate>
 {

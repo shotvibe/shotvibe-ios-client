@@ -6,14 +6,11 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import <RestKit/RestKit.h>
-#import <RestKit/CoreData.h>
-#import <QuartzCore/QuartzCore.h>
-#import "SVSidebarMenuViewController.h"
-#import "SVAlbumGridViewController.h"
 #import "Album.h"
+#import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "SVSidebarAlbumMemberCell.h"
+#import "SVSidebarMenuViewController.h"
 #import "Member.h"
 
 @interface SVSidebarMenuViewController () <NSFetchedResultsControllerDelegate>
@@ -109,7 +106,7 @@
     cell.profileImageView.layer.cornerRadius = 2;
     
     Member *currentMember = [self.members objectAtIndex:indexPath.row];
-    [cell.profileImageView setPathToNetworkImage:currentMember.avatarUrl contentMode:UIViewContentModeScaleAspectFill];
+    [cell.profileImageView setPathToNetworkImage:currentMember.avatar_url contentMode:UIViewContentModeScaleAspectFill];
     
     cell.memberLabel.text = currentMember.nickname;
 }
