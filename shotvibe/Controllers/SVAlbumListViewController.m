@@ -40,6 +40,7 @@
 
 - (void)configureViews;
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)updateCell:(SVAlbumListViewCell *)cell AtIndexPath:(NSIndexPath *)indexPath;
 - (void)searchPressed;
 - (void)settingsPressed;
 - (void)showDropDown;
@@ -276,7 +277,7 @@
             break;
         case NSFetchedResultsChangeUpdate:
             if (cell) {
-                [self configureCell:cell atIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+                [self updateCell:cell AtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0] ];
             }
             break;
         case NSFetchedResultsChangeMove:
@@ -442,6 +443,51 @@
     }
     
     return cell;
+}
+
+
+- (void)updateCell:(SVAlbumListViewCell *)cell AtIndexPath:(NSIndexPath *)indexPath
+{
+    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    //NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
+    
+    AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album == %@", anAlbum] sortedBy:@"date_created" ascending:NO];
+    
+    if (recentPhoto) {
+        // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
+        /*__block NSIndexPath *tagIndex = indexPath;
+         [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
+         if (image && cell.networkImageView.tag == tagIndex.row) {
+         [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+         }
+         }];*/
+        
+        if (cell.networkImageView.initialImage == cell.networkImageView.image) {
+            UIImage *photo = [UIImage imageWithData:recentPhoto.photoData];
+            [cell.networkImageView setImage:photo];
+        }
+        
+        NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
+        cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+    }
+    
+    
+    cell.title.text = anAlbum.name;
+    
+    NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
+    [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
+    
+    NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
+    
+    if (numberNew)
+    {
+        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", 0] forState:UIControlStateNormal];
+    }
 }
 
 
