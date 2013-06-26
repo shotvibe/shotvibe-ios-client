@@ -179,7 +179,7 @@
     image = [self.highQualityImageCache objectWithName:photoIndexKey];
     
     if (!image) {
-        image = [SVBusinessDelegate loadImageFromAlbum:selectedAlbum withPath:photo.photo_id];
+        image = [UIImage imageWithData:photo.photoData];
     }
     if (nil != image) {
         *photoSize = NIPhotoScrollViewPhotoSizeOriginal;

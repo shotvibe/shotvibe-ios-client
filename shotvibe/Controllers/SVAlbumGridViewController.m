@@ -80,7 +80,6 @@
      
     [self configureGridview];
     // Setup fetched results
-    [self fetchedResultsController];
     
     // Setup menu button
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
@@ -100,6 +99,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self fetchedResultsController];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumRefreshed:) name:kSVSyncEngineSyncAlbumCompletedNotification object:nil];
     
@@ -155,6 +156,29 @@
         self.sauronTheSideMenu = nil;
     }
     
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    self.fetchedResultsController.delegate = nil;
+    
+    NSInteger numberOfCells = [self numberOfItemsInGMGridView:_gmGridView];
+    for (NSInteger index = 0; index < numberOfCells; index++) {
+        GMGridViewCell *cell = [_gmGridView cellForItemAtIndex:index];
+        
+        [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+        cell = nil;
+    }
+    
+    for (NSInteger index = 0; index < numberOfCells; index++) {
+        [_gmGridView removeObjectAtIndex:0 withAnimation:GMGridViewItemAnimationNone];
+    }
+    
+    _gmGridView = nil;
 }
 
 
