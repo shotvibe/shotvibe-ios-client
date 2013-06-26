@@ -8,6 +8,8 @@
 
 #import "AFJSONRequestOperation.h"
 #import "Album.h"
+#import "AlbumPhoto.h"
+#import "Member.h"
 #import "SVAPIClient.h"
 #import "SVDefines.h"
 #import "SVDownloadSyncEngine.h"
@@ -17,6 +19,7 @@
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSMutableArray *registeredClassesToSync;
 @property (atomic, readonly) BOOL syncInProgress;
+@property (atomic, strong) NSManagedObjectContext *saveContext;
 
 - (NSURL *)applicationCacheDirectory;
 - (NSDate *)dateUsingStringFromAPI:(NSString *)dateString;
@@ -142,6 +145,8 @@
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
             
+            //TODO: we should still check the caches folder and process anything that is in there
+            // in case the app quite before it could finish.
             NSLog(@"Request for class %@ failed with error: %@", className, error);
             
         }];
@@ -279,6 +284,8 @@
         
         [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
             
+            self.saveContext = localContext;
+            
             NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:localContext];
             
             [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -301,6 +308,8 @@
     [self.downloadQueue addOperationWithBlock:^{
         
         [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+            
+            self.saveContext = localContext;
             
             [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 NSString *aKey = (NSString *)key;
@@ -423,16 +432,53 @@
             }
         } else {
             NSDictionary *record = records;
+            
+            // Process each member object
             NSArray *members = [record objectForKey:@"members"];
-            for (NSDictionary *aRecord in members) {
-                [self newManagedObjectWithClassName:@"Member" forRecord:aRecord];
-                //TODO: Set the Album relationship
+            for (NSDictionary *aMember in members) {
+                [self newManagedObjectWithClassName:@"Member" forRecord:aMember];
+                
+                [self.downloadQueue addOperationWithBlock:^{
+                    
+                    Album *theAlbum = [Album findFirstByAttribute:@"albumId" withValue:[record objectForKey:@"id"] inContext:self.saveContext];
+                    Member *theMember = [Member findFirstByAttribute:@"userId" withValue:[aMember objectForKey:@"id"] inContext:self.saveContext];
+                    
+                    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+                        
+                        Album *localAlbum = (Album *)[localContext objectWithID:theAlbum.objectID];
+                        Member *localMember = (Member *)[localContext objectWithID:theMember.objectID];
+                        [localAlbum addMembersObject:localMember];
+                        
+                    }];
+                    
+                }];
             }
+            
+            // Process each photo object
             NSArray *photos = [record objectForKey:@"photos"];
-            for (NSDictionary *aRecord in photos) {
-                [self newManagedObjectWithClassName:@"AlbumPhoto" forRecord:aRecord];
-                //TODO: Set the Album relationship
-                //TODO: Set the Author relationship
+            for (NSDictionary *aPhoto in photos) {
+                [self newManagedObjectWithClassName:@"AlbumPhoto" forRecord:aPhoto];
+                
+                [self.downloadQueue addOperationWithBlock:^{
+                    
+                    Album *theAlbum = [Album findFirstByAttribute:@"albumId" withValue:[record objectForKey:@"id"] inContext:self.saveContext];
+                    AlbumPhoto *thePhoto = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[aPhoto objectForKey:@"photo_id"] inContext:self.saveContext];
+                    Member *theAuthor = [Member findFirstByAttribute:@"userId" withValue:[[aPhoto objectForKey:@"author"] objectForKey:@"id"] inContext:self.saveContext];
+                    
+                    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+                        
+                        Album *localAlbum = (Album *)[localContext objectWithID:theAlbum.objectID];
+                        AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:thePhoto.objectID];
+                        [localAlbum addAlbumPhotosObject:localPhoto];
+                        
+                        if (theAuthor) {
+                            Member *localAuthor = (Member *)[localContext objectWithID:theAuthor.objectID];
+                            [localPhoto setValue:localAuthor forKey:@"author"];
+                        }
+                        
+                    }];
+                    
+                }];
             }
         }
         

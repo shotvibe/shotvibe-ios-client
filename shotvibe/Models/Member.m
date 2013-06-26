@@ -2,7 +2,7 @@
 //  Member.m
 //  shotvibe
 //
-//  Created by John Gabelmann on 4/8/13.
+//  Created by Fredrick Gabelmann on 6/26/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
@@ -19,7 +19,7 @@
 @dynamic url;
 @dynamic userId;
 @dynamic objectSyncStatus;
-@dynamic albums;
 @dynamic albumPhotos;
+@dynamic albums;
 
 @end

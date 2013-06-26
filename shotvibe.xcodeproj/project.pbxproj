@@ -15,8 +15,6 @@
 		04058B27171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */; };
 		04058B2D171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */; };
 		04058B2E171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */; };
-		04058B31171F33E900035E26 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B30171F33E900035E26 /* Album.m */; };
-		04058B32171F33E900035E26 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B30171F33E900035E26 /* Album.m */; };
 		040BACD21717453C00D90C63 /* navBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD01717453C00D90C63 /* navBarBg.png */; };
 		040BACD31717453C00D90C63 /* navBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD01717453C00D90C63 /* navBarBg.png */; };
 		040BACD41717453C00D90C63 /* navBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD11717453C00D90C63 /* navBarBg@2x.png */; };
@@ -933,6 +931,12 @@
 		AA234933177B6F1A00D55918 /* MagicalRecord+ShorthandSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2348FD177B6F1A00D55918 /* MagicalRecord+ShorthandSupport.m */; };
 		AA234934177B6F1A00D55918 /* MagicalRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2348FF177B6F1A00D55918 /* MagicalRecord.m */; };
 		AA234935177B6F1A00D55918 /* MagicalRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2348FF177B6F1A00D55918 /* MagicalRecord.m */; };
+		AA234941177B7F0500D55918 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234940177B7F0500D55918 /* AlbumPhoto.m */; };
+		AA234942177B7F0500D55918 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234940177B7F0500D55918 /* AlbumPhoto.m */; };
+		AA234945177B7F0600D55918 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234944177B7F0600D55918 /* Member.m */; };
+		AA234946177B7F0600D55918 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234944177B7F0600D55918 /* Member.m */; };
+		AA234949177B7F0600D55918 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234948177B7F0600D55918 /* Album.m */; };
+		AA23494A177B7F0600D55918 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234948177B7F0600D55918 /* Album.m */; };
 		AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFA16C224E800C49E02 /* UIKit.framework */; };
 		AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFC16C224E800C49E02 /* Foundation.framework */; };
 		AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */; };
@@ -1170,8 +1174,6 @@
 		AA58FD1416C23A5100C49E02 /* CrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FBAE16C235C800C49E02 /* CrashReporter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AA66828E16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */; };
 		AA66828F16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */; };
-		AA78D2A917172BA4006E1240 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2A817172BA4006E1240 /* AlbumPhoto.m */; };
-		AA78D2AA17172BA4006E1240 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2A817172BA4006E1240 /* AlbumPhoto.m */; };
 		AA78D2B017172BC0006E1240 /* SVBusinessDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */; };
 		AA78D2B117172BC0006E1240 /* SVBusinessDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */; };
 		AA78D2B417172BCF006E1240 /* SVOfflineStorageWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */; };
@@ -1288,8 +1290,6 @@
 		AAE3DE0016CED89100539F92 /* NIPagingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDF816CED89100539F92 /* NIPagingScrollView.m */; };
 		AAE3DEE616CEDC8400539F92 /* NetworkPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */; };
 		AAE3DEE716CEDC8400539F92 /* NetworkPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */; };
-		AAE6CB5516C59CF100EB1832 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5416C59CF100EB1832 /* Member.m */; };
-		AAE6CB5616C59CF100EB1832 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6CB5416C59CF100EB1832 /* Member.m */; };
 		AAEB9CDE171648A000439939 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AAEB9CDD171648A000439939 /* Config.xcconfig */; };
 		AAEB9CDF171648A000439939 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AAEB9CDD171648A000439939 /* Config.xcconfig */; };
 		AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */; };
@@ -1313,8 +1313,6 @@
 		04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVGeneralNotificationSettingsViewController.m; sourceTree = "<group>"; };
 		04058B2B171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumNotificationSettingsViewController.h; sourceTree = "<group>"; };
 		04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumNotificationSettingsViewController.m; sourceTree = "<group>"; };
-		04058B2F171F33E900035E26 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
-		04058B30171F33E900035E26 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
 		040BACD01717453C00D90C63 /* navBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarBg.png; sourceTree = "<group>"; };
 		040BACD11717453C00D90C63 /* navBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBarBg@2x.png"; sourceTree = "<group>"; };
 		041A13E21706788100E66B78 /* sidebarMenuNavbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sidebarMenuNavbar@2x.png"; sourceTree = "<group>"; };
@@ -1854,6 +1852,12 @@
 		AA2348FF177B6F1A00D55918 /* MagicalRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MagicalRecord.m; sourceTree = "<group>"; };
 		AA234900177B6F1A00D55918 /* MagicalRecordShorthand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MagicalRecordShorthand.h; sourceTree = "<group>"; };
 		AA234901177B6F1A00D55918 /* CoreData+MagicalRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoreData+MagicalRecord.h"; sourceTree = "<group>"; };
+		AA23493F177B7F0500D55918 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
+		AA234940177B7F0500D55918 /* AlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhoto.m; sourceTree = "<group>"; };
+		AA234943177B7F0600D55918 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
+		AA234944177B7F0600D55918 /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
+		AA234947177B7F0600D55918 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
+		AA234948177B7F0600D55918 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
 		AA58FAF716C224E800C49E02 /* ShotVibe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShotVibe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA58FAFA16C224E800C49E02 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AA58FAFC16C224E800C49E02 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -2039,8 +2043,6 @@
 		AA58FD1016C2390700C49E02 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
 		AA66828C16CCA7C80005BFFC /* SVAlbumGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumGridViewController.h; sourceTree = "<group>"; };
 		AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumGridViewController.m; sourceTree = "<group>"; };
-		AA78D2A717172BA4006E1240 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
-		AA78D2A817172BA4006E1240 /* AlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhoto.m; sourceTree = "<group>"; };
 		AA78D2AE17172BC0006E1240 /* SVBusinessDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBusinessDelegate.h; sourceTree = "<group>"; };
 		AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVBusinessDelegate.m; sourceTree = "<group>"; };
 		AA78D2B217172BCF006E1240 /* SVOfflineStorageWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOfflineStorageWS.h; sourceTree = "<group>"; };
@@ -2172,8 +2174,6 @@
 		AAE3DDFC16CED89100539F92 /* NIPagingScrollViewPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIPagingScrollViewPage.h; path = nimbus/src/pagingscrollview/src/NIPagingScrollViewPage.h; sourceTree = "<group>"; };
 		AAE3DEE416CEDC8400539F92 /* NetworkPhotoAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkPhotoAlbumViewController.h; path = nimbus/examples/photos/NetworkPhotoAlbums/src/NetworkPhotoAlbumViewController.h; sourceTree = "<group>"; };
 		AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkPhotoAlbumViewController.m; path = nimbus/examples/photos/NetworkPhotoAlbums/src/NetworkPhotoAlbumViewController.m; sourceTree = "<group>"; };
-		AAE6CB5316C59CF100EB1832 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
-		AAE6CB5416C59CF100EB1832 /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
 		AAEB9CDD171648A000439939 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		AAF05CD316CB28DD005BCFD3 /* SVAlbumListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumListViewController.h; sourceTree = "<group>"; };
 		AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumListViewController.m; sourceTree = "<group>"; };
@@ -3537,13 +3537,13 @@
 		AACB11C616C4543700BAC7E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				04058B2F171F33E900035E26 /* Album.h */,
-				04058B30171F33E900035E26 /* Album.m */,
+				AA234947177B7F0600D55918 /* Album.h */,
+				AA234948177B7F0600D55918 /* Album.m */,
+				AA234943177B7F0600D55918 /* Member.h */,
+				AA234944177B7F0600D55918 /* Member.m */,
+				AA23493F177B7F0500D55918 /* AlbumPhoto.h */,
+				AA234940177B7F0500D55918 /* AlbumPhoto.m */,
 				AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */,
-				AA78D2A717172BA4006E1240 /* AlbumPhoto.h */,
-				AA78D2A817172BA4006E1240 /* AlbumPhoto.m */,
-				AAE6CB5316C59CF100EB1832 /* Member.h */,
-				AAE6CB5416C59CF100EB1832 /* Member.m */,
 				AAD22501177781B3005D8A9F /* SVUploaderOperation.h */,
 				AAD22502177781B3005D8A9F /* SVUploaderOperation.m */,
 				AAD22503177781B3005D8A9F /* SVUploaderOperationQueue.h */,
@@ -4759,11 +4759,12 @@
 				AA58FC9E16C235C800C49E02 /* JMCScrollViewContainer.m in Sources */,
 				AA58FCA016C235C800C49E02 /* JMCToolbarButton.m in Sources */,
 				AA58FCA216C235C800C49E02 /* UILabel+JMCVerticalAlign.m in Sources */,
+				AA234949177B7F0600D55918 /* Album.m in Sources */,
 				AA23491A177B6F1A00D55918 /* NSManagedObjectContext+MagicalObserving.m in Sources */,
+				AA234941177B7F0500D55918 /* AlbumPhoto.m in Sources */,
 				AA58FCA416C235C800C49E02 /* UIView+JMCAdditions.m in Sources */,
 				AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11ED16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
-				AAE6CB5516C59CF100EB1832 /* Member.m in Sources */,
 				AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */,
 				AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */,
 				AA12880D16CB84CC002AC699 /* NINetworkImageView.m in Sources */,
@@ -4845,7 +4846,6 @@
 				04734F3116CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */,
 				041A13ED1706882D00E66B78 /* SVSidebarManagementViewController.m in Sources */,
 				04AB0AB21708114800C5300B /* NSDate+Formatting.m in Sources */,
-				AA78D2A917172BA4006E1240 /* AlbumPhoto.m in Sources */,
 				AA78D2B017172BC0006E1240 /* SVBusinessDelegate.m in Sources */,
 				AA78D2B417172BCF006E1240 /* SVOfflineStorageWS.m in Sources */,
 				0446EF021718927B00ED0076 /* SVSidebarAlbumMemberCell.m in Sources */,
@@ -4858,7 +4858,6 @@
 				04058B26171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */,
 				AA23492E177B6F1A00D55918 /* MagicalRecord+Options.m in Sources */,
 				04058B2D171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */,
-				04058B31171F33E900035E26 /* Album.m in Sources */,
 				0426B6551724E262007BAABC /* CaptureViewfinderController.m in Sources */,
 				0426B67C1724EC26007BAABC /* AVCamCaptureManager.m in Sources */,
 				0426B67E1724EC26007BAABC /* AVCamRecorder.m in Sources */,
@@ -4873,6 +4872,7 @@
 				04C4080217305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */,
 				04C4080417305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */,
 				AA23484D177AA3F600D55918 /* AFImageRequestOperation.m in Sources */,
+				AA234945177B7F0600D55918 /* Member.m in Sources */,
 				AA234924177B6F1A00D55918 /* NSPersistentStore+MagicalRecord.m in Sources */,
 				04E287F7173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */,
 				0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
@@ -4956,11 +4956,12 @@
 				AA58FC9F16C235C800C49E02 /* JMCScrollViewContainer.m in Sources */,
 				AA58FCA116C235C800C49E02 /* JMCToolbarButton.m in Sources */,
 				AA58FCA316C235C800C49E02 /* UILabel+JMCVerticalAlign.m in Sources */,
+				AA23494A177B7F0600D55918 /* Album.m in Sources */,
 				AA23491B177B6F1A00D55918 /* NSManagedObjectContext+MagicalObserving.m in Sources */,
+				AA234942177B7F0500D55918 /* AlbumPhoto.m in Sources */,
 				AA58FCA516C235C800C49E02 /* UIView+JMCAdditions.m in Sources */,
 				AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11EE16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
-				AAE6CB5616C59CF100EB1832 /* Member.m in Sources */,
 				AAF05CD616CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */,
 				AA12880C16CB84CC002AC699 /* NIImageProcessing.m in Sources */,
 				AA12880E16CB84CC002AC699 /* NINetworkImageView.m in Sources */,
@@ -5042,7 +5043,6 @@
 				04734F3216CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */,
 				041A13EE1706882D00E66B78 /* SVSidebarManagementViewController.m in Sources */,
 				04AB0AB31708114800C5300B /* NSDate+Formatting.m in Sources */,
-				AA78D2AA17172BA4006E1240 /* AlbumPhoto.m in Sources */,
 				AA78D2B117172BC0006E1240 /* SVBusinessDelegate.m in Sources */,
 				AA78D2B517172BCF006E1240 /* SVOfflineStorageWS.m in Sources */,
 				0446EF031718927B00ED0076 /* SVSidebarAlbumMemberCell.m in Sources */,
@@ -5055,7 +5055,6 @@
 				04058B27171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */,
 				AA23492F177B6F1A00D55918 /* MagicalRecord+Options.m in Sources */,
 				04058B2E171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */,
-				04058B32171F33E900035E26 /* Album.m in Sources */,
 				0426B6561724E262007BAABC /* CaptureViewfinderController.m in Sources */,
 				0426B67D1724EC26007BAABC /* AVCamCaptureManager.m in Sources */,
 				0426B67F1724EC26007BAABC /* AVCamRecorder.m in Sources */,
@@ -5070,6 +5069,7 @@
 				04C4080317305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */,
 				04C4080517305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */,
 				AA23484E177AA3F600D55918 /* AFImageRequestOperation.m in Sources */,
+				AA234946177B7F0600D55918 /* Member.m in Sources */,
 				AA234925177B6F1A00D55918 /* NSPersistentStore+MagicalRecord.m in Sources */,
 				04E287F8173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */,
 				0493ABEF1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,

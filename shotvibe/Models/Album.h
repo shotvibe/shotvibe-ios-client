@@ -2,7 +2,7 @@
 //  Album.h
 //  shotvibe
 //
-//  Created by John Gabelmann on 4/17/13.
+//  Created by Fredrick Gabelmann on 6/26/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
@@ -14,16 +14,16 @@
 @interface Album : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * albumId;
-@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSDate * date_created;
-@property (nonatomic, retain) NSDate * last_updated;
-@property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSString * etag;
-@property (nonatomic, retain) NSNumber * pushNotificationsOption;
-@property (nonatomic, retain) NSNumber * notificationsOption;
+@property (nonatomic, retain) NSDate * last_updated;
+@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * newPhotoTone;
+@property (nonatomic, retain) NSNumber * notificationsOption;
 @property (nonatomic, retain) NSNumber * objectSyncStatus;
+@property (nonatomic, retain) NSNumber * pushNotificationsOption;
 @property (nonatomic, retain) NSString * tempAlbumId;
+@property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSSet *albumPhotos;
 @property (nonatomic, retain) NSSet *members;
 @end
