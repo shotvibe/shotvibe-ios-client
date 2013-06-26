@@ -50,9 +50,6 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
     
-    NSPredicate *downloadedPredicate = [NSPredicate predicateWithFormat:@"ANY albumPhotos.imageWasDownloaded == YES OR albumPhotos.@count == 0"];
-    fetchRequest.predicate = downloadedPredicate;
-    
     NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext defaultContext] sectionNameKeyPath:nil cacheName:nil];
     fetchedResultsController.delegate = delegate;
     
@@ -73,7 +70,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
     
     if (![searchTerm isEqualToString:@""]) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@ AND (ANY albumPhotos.imageWasDownloaded == YES OR albumPhotos.@count == 0)", searchTerm];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchTerm];
         fetchRequest.predicate = predicate;
     }
     
@@ -97,7 +94,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     fetchRequest.sortDescriptors = @[datecreatedDescriptor, idDescriptor];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album == %@ AND imageWasDownloaded == YES", anAlbum];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album == %@", anAlbum];
     fetchRequest.predicate = predicate;
     
     NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext defaultContext] sectionNameKeyPath:nil cacheName:nil];
