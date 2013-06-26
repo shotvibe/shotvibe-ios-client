@@ -286,6 +286,15 @@
             
             self.saveContext = localContext;
             
+            if ([className isEqualToString:@"Member"]) {
+                
+                Member *theMember = [Member findFirstByAttribute:@"userId" withValue:[record objectForKey:@"id"] inContext:self.saveContext];
+                if (theMember) {
+                    return;
+                }
+                
+            }
+            
             NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:localContext];
             
             [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -436,6 +445,7 @@
             // Process each member object
             NSArray *members = [record objectForKey:@"members"];
             for (NSDictionary *aMember in members) {
+                
                 [self newManagedObjectWithClassName:@"Member" forRecord:aMember];
                 
                 [self.downloadQueue addOperationWithBlock:^{
