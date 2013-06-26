@@ -508,44 +508,48 @@
         } else if ([className isEqualToString:@"Member"]) {
             objectIdKey = @"userId";
         }
-        NSArray *downloadedRecords = [self JSONDataRecordsForClass:className sortedByKey:objectIdKey];
-        if ([downloadedRecords lastObject])
-        {
-            //
-            // Now you have a set of objects from the remote service and all of the matching objects
-            // (based on objectId) from your Core Data store. Iterate over all of the downloaded records
-            // from the remote service.
-            //
-            NSArray *storedRecords = [self managedObjectsForClass:className sortedByKey:objectIdKey usingArrayOfIds:[downloadedRecords valueForKey:objectIdKey] inArrayOfIds:YES];
-            int currentIndex = 0;
-            //
-            // If the number of records in your Core Data store is less than the currentIndex, you know that
-            // you have a potential match between the downloaded records and stored records because you sorted
-            // both lists by objectId, this means that an update has come in from the remote service
-            //
-            for (NSDictionary *record in downloadedRecords) {
-                NSManagedObject *storedManagedObject = nil;
-                
-                // Make sure we don't access an index that is out of bounds as we are iterating over both collections together.
-                if ([storedRecords count] > currentIndex) {
-                    storedManagedObject = [storedRecords objectAtIndex:currentIndex];
+        
+        if (objectIdKey != nil) {
+            NSArray *downloadedRecords = [self JSONDataRecordsForClass:className sortedByKey:objectIdKey];
+            if ([downloadedRecords lastObject])
+            {
+                //
+                // Now you have a set of objects from the remote service and all of the matching objects
+                // (based on objectId) from your Core Data store. Iterate over all of the downloaded records
+                // from the remote service.
+                //
+                NSArray *storedRecords = [self managedObjectsForClass:className sortedByKey:objectIdKey usingArrayOfIds:[downloadedRecords valueForKey:objectIdKey] inArrayOfIds:YES];
+                int currentIndex = 0;
+                //
+                // If the number of records in your Core Data store is less than the currentIndex, you know that
+                // you have a potential match between the downloaded records and stored records because you sorted
+                // both lists by objectId, this means that an update has come in from the remote service
+                //
+                for (NSDictionary *record in downloadedRecords) {
+                    NSManagedObject *storedManagedObject = nil;
+                    
+                    // Make sure we don't access an index that is out of bounds as we are iterating over both collections together.
+                    if ([storedRecords count] > currentIndex) {
+                        storedManagedObject = [storedRecords objectAtIndex:currentIndex];
+                    }
+                    
+                    if ([[storedManagedObject valueForKey:objectIdKey] isEqualToString:[record valueForKey:objectIdKey]]) {
+                        //
+                        // Do a quick spot check to validate the objectIds in fact do match, if they do update the stored
+                        // object with the values received from the remote service
+                        //
+                        [self updateManagedObject:[storedRecords objectAtIndex:currentIndex] withRecord:record];
+                    } else {
+                        // Otherwise you have a new object coming in from your remote service so create a new
+                        // NSManagedObject to represent this remote object locally
+                        [self newManagedObjectWithClassName:className forRecord:record];
+                    }
+                    currentIndex++;
+                    
                 }
-                
-                if ([[storedManagedObject valueForKey:objectIdKey] isEqualToString:[record valueForKey:objectIdKey]]) {
-                    //
-                    // Do a quick spot check to validate the objectIds in fact do match, if they do update the stored
-                    // object with the values received from the remote service
-                    //
-                    [self updateManagedObject:[storedRecords objectAtIndex:currentIndex] withRecord:record];
-                } else {
-                    // Otherwise you have a new object coming in from your remote service so create a new
-                    // NSManagedObject to represent this remote object locally
-                    [self newManagedObjectWithClassName:className forRecord:record];
-                }
-                currentIndex++;
-                
             }
         }
+        
     }
     
     [self deleteJSONDataRecordsForClassWithName:className];
