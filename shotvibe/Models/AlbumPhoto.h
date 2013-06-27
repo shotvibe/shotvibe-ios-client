@@ -2,7 +2,7 @@
 //  AlbumPhoto.h
 //  shotvibe
 //
-//  Created by Fredrick Gabelmann on 6/26/13.
+//  Created by John Gabelmann on 6/26/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSString * photo_url;
 @property (nonatomic, retain) NSData * photoData;
 @property (nonatomic, retain) NSString * tempPhotoId;
+@property (nonatomic, retain) NSData * thumbnailPhotoData;
 @property (nonatomic, retain) Album *album;
 @property (nonatomic, retain) Member *author;
 

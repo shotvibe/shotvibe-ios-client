@@ -359,11 +359,34 @@
                 NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
                 
                 NSString *newKey = nil;
+                NSString *thumbnailKey = nil;
                 if ([key isEqualToString:@"avatar_url"]) {
                     newKey = @"avatarData";
                 } else if ([key isEqualToString:@"photo_url"]) {
                     newKey = @"photoData";
+                    thumbnailKey = @"thumbnailPhotoData";
                 }
+                
+                if (thumbnailKey) {
+                    UIImage *originalImage = [UIImage imageWithData:dataResponse];
+                    
+                    CGSize newSize = CGSizeMake(100, 100);
+                    
+                    float oldWidth = originalImage.size.width;
+                    float scaleFactor = newSize.width / oldWidth;
+                    
+                    float newHeight = originalImage.size.height * scaleFactor;
+                    float newWidth = oldWidth * scaleFactor;
+                    
+                    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+                    [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+                    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+                    UIGraphicsEndImageContext();
+                    
+                    NSData *thumbnailData = UIImageJPEGRepresentation(image, 1.0);
+                    [managedObject setValue:thumbnailData forKey:thumbnailKey];
+                }
+                
                 [managedObject setValue:dataResponse forKey:newKey];
                 [managedObject setValue:value forKey:key];
             }

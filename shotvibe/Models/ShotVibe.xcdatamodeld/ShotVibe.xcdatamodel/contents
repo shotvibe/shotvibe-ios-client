@@ -24,6 +24,7 @@
         <attribute name="photo_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="photoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="tempPhotoId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnailPhotoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="albumPhotos" inverseEntity="Album" syncable="YES"/>
         <relationship name="author" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="albumPhotos" inverseEntity="Member" syncable="YES"/>
     </entity>
@@ -46,10 +47,10 @@
         <relationship name="operations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SVUploaderOperation" inverseName="queue" inverseEntity="SVUploaderOperation" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-20" positionY="-81" width="128" height="238"/>
-        <element name="AlbumPhoto" positionX="142" positionY="192" width="128" height="193"/>
-        <element name="Member" positionX="-254" positionY="84" width="128" height="163"/>
-        <element name="SVUploaderOperation" positionX="304" positionY="162" width="128" height="90"/>
-        <element name="SVUploaderOperationQueue" positionX="286" positionY="12" width="128" height="60"/>
+        <element name="Album" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AlbumPhoto" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Member" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SVUploaderOperation" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SVUploaderOperationQueue" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

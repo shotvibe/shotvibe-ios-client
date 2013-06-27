@@ -181,6 +181,8 @@
 		04734F3016CF104F003F729B /* MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2C16CF104F003F729B /* MFSideMenu.m */; };
 		04734F3116CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */; };
 		04734F3216CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */; };
+		047BFDA4177BE39F0066AA58 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 047BFDA3177BE39F0066AA58 /* AlbumPhoto.m */; };
+		047BFDA5177BE39F0066AA58 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 047BFDA3177BE39F0066AA58 /* AlbumPhoto.m */; };
 		0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */; };
 		0493ABEF1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */; };
 		0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF11732D7D6005ABCE7 /* ALAssetsLibrary+helper.m */; };
@@ -931,8 +933,6 @@
 		AA234933177B6F1A00D55918 /* MagicalRecord+ShorthandSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2348FD177B6F1A00D55918 /* MagicalRecord+ShorthandSupport.m */; };
 		AA234934177B6F1A00D55918 /* MagicalRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2348FF177B6F1A00D55918 /* MagicalRecord.m */; };
 		AA234935177B6F1A00D55918 /* MagicalRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2348FF177B6F1A00D55918 /* MagicalRecord.m */; };
-		AA234941177B7F0500D55918 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234940177B7F0500D55918 /* AlbumPhoto.m */; };
-		AA234942177B7F0500D55918 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234940177B7F0500D55918 /* AlbumPhoto.m */; };
 		AA234945177B7F0600D55918 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234944177B7F0600D55918 /* Member.m */; };
 		AA234946177B7F0600D55918 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234944177B7F0600D55918 /* Member.m */; };
 		AA234949177B7F0600D55918 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234948177B7F0600D55918 /* Album.m */; };
@@ -1407,6 +1407,8 @@
 		04734F2C16CF104F003F729B /* MFSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenu.m; sourceTree = "<group>"; };
 		04734F2D16CF104F003F729B /* UINavigationController+MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+MFSideMenu.h"; sourceTree = "<group>"; };
 		04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+MFSideMenu.m"; sourceTree = "<group>"; };
+		047BFDA2177BE39F0066AA58 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
+		047BFDA3177BE39F0066AA58 /* AlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhoto.m; sourceTree = "<group>"; };
 		0493ABEC1732D78B005ABCE7 /* SVImagePickerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVImagePickerListViewController.h; sourceTree = "<group>"; };
 		0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVImagePickerListViewController.m; sourceTree = "<group>"; };
 		0493ABF01732D7D6005ABCE7 /* ALAssetsLibrary+helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+helper.h"; sourceTree = "<group>"; };
@@ -1852,8 +1854,6 @@
 		AA2348FF177B6F1A00D55918 /* MagicalRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MagicalRecord.m; sourceTree = "<group>"; };
 		AA234900177B6F1A00D55918 /* MagicalRecordShorthand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MagicalRecordShorthand.h; sourceTree = "<group>"; };
 		AA234901177B6F1A00D55918 /* CoreData+MagicalRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoreData+MagicalRecord.h"; sourceTree = "<group>"; };
-		AA23493F177B7F0500D55918 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
-		AA234940177B7F0500D55918 /* AlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhoto.m; sourceTree = "<group>"; };
 		AA234943177B7F0600D55918 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
 		AA234944177B7F0600D55918 /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
 		AA234947177B7F0600D55918 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
@@ -3541,9 +3541,9 @@
 				AA234948177B7F0600D55918 /* Album.m */,
 				AA234943177B7F0600D55918 /* Member.h */,
 				AA234944177B7F0600D55918 /* Member.m */,
-				AA23493F177B7F0500D55918 /* AlbumPhoto.h */,
-				AA234940177B7F0500D55918 /* AlbumPhoto.m */,
 				AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */,
+				047BFDA2177BE39F0066AA58 /* AlbumPhoto.h */,
+				047BFDA3177BE39F0066AA58 /* AlbumPhoto.m */,
 				AAD22501177781B3005D8A9F /* SVUploaderOperation.h */,
 				AAD22502177781B3005D8A9F /* SVUploaderOperation.m */,
 				AAD22503177781B3005D8A9F /* SVUploaderOperationQueue.h */,
@@ -4761,7 +4761,6 @@
 				AA58FCA216C235C800C49E02 /* UILabel+JMCVerticalAlign.m in Sources */,
 				AA234949177B7F0600D55918 /* Album.m in Sources */,
 				AA23491A177B6F1A00D55918 /* NSManagedObjectContext+MagicalObserving.m in Sources */,
-				AA234941177B7F0500D55918 /* AlbumPhoto.m in Sources */,
 				AA58FCA416C235C800C49E02 /* UIView+JMCAdditions.m in Sources */,
 				AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11ED16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
@@ -4803,6 +4802,7 @@
 				AA234857177AA3F600D55918 /* AFXMLRequestOperation.m in Sources */,
 				AA7E72CB16CEDE5500FC8BC3 /* NIRadioGroup.m in Sources */,
 				AA7E72CD16CEDE5500FC8BC3 /* NIRadioGroupController.m in Sources */,
+				047BFDA4177BE39F0066AA58 /* AlbumPhoto.m in Sources */,
 				AA7E72CF16CEDE5500FC8BC3 /* NITableViewActions.m in Sources */,
 				AA7E72D116CEDE5500FC8BC3 /* NITableViewModel.m in Sources */,
 				AA972E6716CEDFC2007D9B35 /* NICommonMetrics.m in Sources */,
@@ -4958,7 +4958,6 @@
 				AA58FCA316C235C800C49E02 /* UILabel+JMCVerticalAlign.m in Sources */,
 				AA23494A177B7F0600D55918 /* Album.m in Sources */,
 				AA23491B177B6F1A00D55918 /* NSManagedObjectContext+MagicalObserving.m in Sources */,
-				AA234942177B7F0500D55918 /* AlbumPhoto.m in Sources */,
 				AA58FCA516C235C800C49E02 /* UIView+JMCAdditions.m in Sources */,
 				AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11EE16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
@@ -5000,6 +4999,7 @@
 				AA234858177AA3F600D55918 /* AFXMLRequestOperation.m in Sources */,
 				AA7E72CC16CEDE5500FC8BC3 /* NIRadioGroup.m in Sources */,
 				AA7E72CE16CEDE5500FC8BC3 /* NIRadioGroupController.m in Sources */,
+				047BFDA5177BE39F0066AA58 /* AlbumPhoto.m in Sources */,
 				AA7E72D016CEDE5500FC8BC3 /* NITableViewActions.m in Sources */,
 				AA7E72D216CEDE5500FC8BC3 /* NITableViewModel.m in Sources */,
 				AA972E6816CEDFC2007D9B35 /* NICommonMetrics.m in Sources */,

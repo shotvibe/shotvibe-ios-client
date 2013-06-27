@@ -35,8 +35,6 @@
 @property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
 @property (nonatomic, strong) IBOutlet UIView *viewContainer;
 
-@property (nonatomic, strong) NSOperationQueue *operationQueue;
-
 
 - (void)configureViews;
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -418,7 +416,7 @@
             }
         }];*/
         
-        UIImage *photo = [UIImage imageWithData:recentPhoto.photoData];
+        UIImage *photo = [UIImage imageWithData:recentPhoto.thumbnailPhotoData];
         [cell.networkImageView setImage:photo];
         
         NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
@@ -464,7 +462,7 @@
          }];*/
         
         if (cell.networkImageView.initialImage == cell.networkImageView.image) {
-            UIImage *photo = [UIImage imageWithData:recentPhoto.photoData];
+            UIImage *photo = [UIImage imageWithData:recentPhoto.thumbnailPhotoData];
             [cell.networkImageView setImage:photo];
         }
         

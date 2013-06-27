@@ -288,7 +288,7 @@
     // Configure thumbnail
     AlbumPhoto *currentPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:index];
     
-    NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
+    __block NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
     networkImageView.clipsToBounds = YES;
     networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     networkImageView.backgroundColor = [UIColor clearColor];
@@ -307,8 +307,9 @@
         }
     }];*/
     
-    UIImage *photo = [UIImage imageWithData:currentPhoto.photoData];
+    UIImage *photo = [UIImage imageWithData:currentPhoto.thumbnailPhotoData];
     [networkImageView setImage:photo];
+    
     
     //
     

@@ -2,7 +2,7 @@
 //  AlbumPhoto.m
 //  shotvibe
 //
-//  Created by Fredrick Gabelmann on 6/26/13.
+//  Created by John Gabelmann on 6/26/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
@@ -21,6 +21,7 @@
 @dynamic photo_url;
 @dynamic photoData;
 @dynamic tempPhotoId;
+@dynamic thumbnailPhotoData;
 @dynamic album;
 @dynamic author;
 
