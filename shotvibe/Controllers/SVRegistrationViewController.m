@@ -10,6 +10,8 @@
 #import "SVAlbumListViewController.h"
 #import "NBPhoneNumberUtil.h"
 #import "NBPhoneNumber.h"
+#import "SVBusinessDelegate.h"
+#import "SVDefines.h"
 
 @interface SVRegistrationViewController ()
 
@@ -24,6 +26,9 @@
 @property (nonatomic, strong) IBOutlet UITextField *codeField2;
 @property (nonatomic, strong) IBOutlet UITextField *codeField3;
 @property (nonatomic, strong) IBOutlet UITextField *codeField4;
+
+@property (nonatomic, strong) NSString *confirmationCode;
+
 
 - (IBAction)continueButtonPressed:(id)sender;
 - (IBAction)countrySelectButtonPressed:(id)sender;
@@ -110,7 +115,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
+ 
+    if([self hasUserBeenAuthenticated])
+    {
+     [self handleSuccessfulLogin];
+    }
+ 
     
     self.countryPicker = [[CountryPicker alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 216)];
     self.countryPicker.delegate = self;
@@ -190,30 +200,92 @@
         
         return NO;
     }
-    
+ 
     return YES;
 }
 
 
 #pragma mark - Private Methods
 
+
+- (BOOL) hasUserBeenAuthenticated
+{
+ BOOL userIsAuthenticated = NO;
+ 
+ NSString *userId        = [[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId];
+ NSString *userAuthToken = [[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserAuthToken];
+ 
+ NSLog(@"userId:  %@, token:  %@", userId, userAuthToken);
+ 
+ if(userId != nil && userAuthToken != nil)
+ {
+  userIsAuthenticated = YES;
+  
+  NSLog(@"hasUserBeenAuthenticated:  YES");
+ }
+ else
+ {
+  NSLog(@"hasUserBeenAuthenticated:  NO");
+ }
+ 
+ return userIsAuthenticated;
+}
+
+
+
 - (void)submitPhoneNumberRegistration:(NSString *)phoneNumber
 {
-    // TODO: Handle sending the phone number registration to the server
-    
-    // if successful, this will take user to next part of registration, if not show warning or something to resend a valid phone number
-    // Move this to completion handler once implemented
+ [SVBusinessDelegate registerPhoneNumber:phoneNumber withCountryCode:self.countryPicker.selectedCountryCode WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {
+
+  if(success)
+  {
+     // if successful, this will take user to next part of registration, if not show warning or something to resend a valid phone number
+     // Move this to completion handler once implemented
+
+    self.confirmationCode = confirmationCode;
+   
     [self switchToRegistrationContainer];
-    
+  }
+  else
+  {
+     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to register", @"") message:NSLocalizedString(@"Failed to register phone number.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+     [alert show];
+
+  }
+  
+ }];
+ 
 }
+
 
 
 - (void)validateRegistrationCode:(NSString *)registrationCode
 {
-    // TODO: Handle validating that the reg code is correct? If it is, send to main screen, if not ??? alert+re-enter? option to resend? wat? not even mentioned
-    
-    // Move this to successful completion handler once implemented
-    [self handleSuccessfulLogin];
+ NSLog(@"validateRegistrationCode - code:  %@", registrationCode);
+ 
+ [SVBusinessDelegate validateRegistrationCode:registrationCode withConfirmationCode:self.confirmationCode WithCompletion:^(BOOL success, NSString *authToken, NSString *userId, NSError *error) {
+  
+  if(success)
+  {
+   // Move this to successful completion handler once implemented
+
+   NSLog(@"authToken:  %@, userId:  %@", authToken, userId);
+   
+   [[NSUserDefaults standardUserDefaults] setObject:userId forKey:kApplicationUserId];
+   [[NSUserDefaults standardUserDefaults] setObject:authToken forKey:kApplicationUserAuthToken];
+   
+   [[NSUserDefaults standardUserDefaults] synchronize];
+   
+   [self handleSuccessfulLogin];
+  }
+  else
+  {
+   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to validate", @"") message:NSLocalizedString(@"Failed to validate sms code", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+   [alert show];
+   
+  }
+  
+ }];
 }
 
 
