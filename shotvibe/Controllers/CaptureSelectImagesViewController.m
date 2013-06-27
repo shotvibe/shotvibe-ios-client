@@ -10,14 +10,13 @@
 #import "Album.h"
 #import "AlbumPhoto.h"
 #import "CaptureSelectImagesViewController.h"
-#import "GMGridView.h"
 #import "SVBusinessDelegate.h"
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 
-@interface CaptureSelectImagesViewController () <GMGridViewDataSource, GMGridViewActionDelegate>
+@interface CaptureSelectImagesViewController ()
 {
-    GMGridView *_gmGridView;
+    //GMGridView *_gmGridView;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
@@ -92,7 +91,7 @@
 
 #pragma mark - GMGridViewDataSource
 
-- (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
+/*- (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
     return [self.takenPhotos count];
 }
@@ -195,7 +194,7 @@
             }
         }
     }
-}
+}*/
 
 
 #pragma mark - Private Methods
@@ -231,7 +230,7 @@
 }
 
 
-- (void)configureGridview
+/*- (void)configureGridview
 {
     if (_gmGridView) {
         [_gmGridView removeFromSuperview];
@@ -259,7 +258,7 @@
     [_gmGridView reloadData];
     
     _gmGridView.dataSource = self;
-}
+}*/
 
 
 - (void)packageSelectedPhotos:(void (^)(NSArray *selectedPhotoPaths, NSError *error))block
