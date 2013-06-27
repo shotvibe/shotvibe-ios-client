@@ -120,7 +120,6 @@
         self.sidebarManagementController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
         self.sidebarManagementController.parentController = self;
         
-        
         self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:self.sidebarManagementController rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
         
         [self.navigationController setSideMenu:self.sauronTheSideMenu];
@@ -163,22 +162,25 @@
 {
     [super viewDidDisappear:animated];
     
-    self.fetchedResultsController.delegate = nil;
-    
-    NSInteger numberOfCells = [self numberOfItemsInGMGridView:_gmGridView];
-    for (NSInteger index = 0; index < numberOfCells; index++) {
-        GMGridViewCell *cell = [_gmGridView cellForItemAtIndex:index];
+    if (!isPushingDetail) {
+        self.fetchedResultsController = nil;
         
-        [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        NSInteger numberOfCells = [self numberOfItemsInGMGridView:_gmGridView];
+        for (NSInteger index = 0; index < numberOfCells; index++) {
+            GMGridViewCell *cell = [_gmGridView cellForItemAtIndex:index];
+            
+            [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+            
+            cell = nil;
+        }
+        
+        for (NSInteger index = 0; index < numberOfCells; index++) {
+            [_gmGridView removeObjectAtIndex:0 withAnimation:GMGridViewItemAnimationNone];
+        }
+        
+        _gmGridView = nil;
+    }
 
-        cell = nil;
-    }
-    
-    for (NSInteger index = 0; index < numberOfCells; index++) {
-        [_gmGridView removeObjectAtIndex:0 withAnimation:GMGridViewItemAnimationNone];
-    }
-    
-    _gmGridView = nil;
 }
 
 
@@ -375,6 +377,7 @@
     }
     
     self.fetchedResultsController = [[SVEntityStore sharedStore] allPhotosForAlbum:self.selectedAlbum WithDelegate:self];
+    [_gmGridView reloadData];
     return _fetchedResultsController;
 }
 
