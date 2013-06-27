@@ -9,7 +9,6 @@
 #import "AlbumPhoto.h"
 #import "SVAlbumGridViewController.h"
 #import "SVEntityStore.h"
-#import "GMGridView.h"
 #import "SVDefines.h"
 #import "NINetworkImageView.h"
 #import "SVAlbumDetailScrollViewController.h"
@@ -22,24 +21,23 @@
 #import "CaptureNavigationController.h"
 #import "CaptureViewfinderController.h"
 #import "SVImagePickerListViewController.h"
+#import "SVAlbumGridViewCell.h"
 
-
-@interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate, NINetworkImageViewDelegate>
+@interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, NINetworkImageViewDelegate>
 {
-    GMGridView *_gmGridView;
     BOOL isPushingDetail;
 }
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) MFSideMenu *sauronTheSideMenu;
+@property (nonatomic, strong) IBOutlet UICollectionView *gridView;
 
 - (void)toggleMenu;
 - (void)toggleManagement;
-- (void)configureGridview;
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
 - (void)backButtonPressed;
-- (void)albumRefreshed:(NSNotification *)notification;
+- (void)configureCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (IBAction)homePressed:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
 
@@ -48,6 +46,8 @@
 @implementation SVAlbumGridViewController
 {
     BOOL isMenuShowing;
+    NSMutableArray *_objectChanges;
+    NSMutableArray *_sectionChanges;
 }
 
 
@@ -77,8 +77,10 @@
     [super viewDidLoad];
 	
     self.title = self.selectedAlbum.name;
+        
+    _objectChanges = [NSMutableArray array];
+    _sectionChanges = [NSMutableArray array];
      
-    [self configureGridview];
     // Setup fetched results
     
     // Setup menu button
@@ -101,9 +103,7 @@
     [super viewWillAppear:animated];
     
     [self fetchedResultsController];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumRefreshed:) name:kSVSyncEngineSyncAlbumCompletedNotification object:nil];
-    
+        
     // We've returned from pushing detail
     if (isPushingDetail) {
         [self.sauronTheSideMenu setupGestureRecognizers];
@@ -143,8 +143,6 @@
     // Then kill the sidebar menu. (Only if we're not going to the detail photo view)
     if (!isPushingDetail) {
         
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-
         UIView *windowRootView = self.navigationController.view.window.rootViewController.view;
         UIView *containerView = windowRootView.superview;
         
@@ -161,51 +159,12 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    
-    if (!isPushingDetail) {
-        self.fetchedResultsController = nil;
-        
-        NSInteger numberOfCells = [self numberOfItemsInGMGridView:_gmGridView];
-        for (NSInteger index = 0; index < numberOfCells; index++) {
-            GMGridViewCell *cell = [_gmGridView cellForItemAtIndex:index];
-            
-            [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-            
-            cell = nil;
-        }
-        
-        for (NSInteger index = 0; index < numberOfCells; index++) {
-            [_gmGridView removeObjectAtIndex:0 withAnimation:GMGridViewItemAnimationNone];
-        }
-        
-        _gmGridView = nil;
-    }
 
 }
 
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        
-        if (IS_IPHONE_5) {
-            
-            [_gmGridView setItemSpacing:12];
-            [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
-        }
-        else
-        {
-            [_gmGridView setItemSpacing:17];
-            [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(16, 16, 16, 16)];
-        }
-        
-    }
-    else
-    {
-        [_gmGridView setItemSpacing:6];
-        [_gmGridView setMinEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
-    }
-    
+{    
     [self configureMenuForOrientation:self.interfaceOrientation];
 }
 
@@ -249,101 +208,42 @@
 }
 
 
-#pragma mark - GMGridViewDataSource
+#pragma mark - UICollectionViewDataSource Methods
 
-- (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.fetchedResultsController.fetchedObjects.count;
+    id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
 }
 
 
-- (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return CGSizeMake(99, 98);
+    return 1;
 }
 
 
-- (GMGridViewCell *)GMGridView:(GMGridView *)gridView cellForItemAtIndex:(NSInteger)index
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    //NSLog(@"Creating view indx %d", index);
+    SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVAlbumGridViewCell" forIndexPath:indexPath];
     
-    CGSize size = [self GMGridView:gridView sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
-    
-    GMGridViewCell *cell = [gridView dequeueReusableCell];
-    
-    if (!cell)
-    {
-        cell = [[GMGridViewCell alloc] init];
-    }
-    
-    [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-    view.backgroundColor = [UIColor clearColor];
-    view.layer.masksToBounds = NO;
-    
-    cell.contentView = view;
-    
-    UIImageView *cellBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photoFrame.png"]];
-    [cell.contentView addSubview:cellBackground];
-    
-    // Configure thumbnail
-    AlbumPhoto *currentPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:index];
-    
-    __block NINetworkImageView *networkImageView = [[NINetworkImageView alloc] initWithFrame:CGRectMake(4, 3, 91, 91)];
-    networkImageView.clipsToBounds = YES;
-    networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
-    networkImageView.backgroundColor = [UIColor clearColor];
-    networkImageView.contentMode = UIViewContentModeScaleAspectFill;
-    networkImageView.sizeForDisplay = NO;
-    networkImageView.interpolationQuality = kCGInterpolationHigh;
-    networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
-    networkImageView.delegate = self;
-    networkImageView.imageMemoryCache = nil;
-    networkImageView.tag = index;
-    [cell.contentView addSubview:networkImageView];
-        
-    /*[SVBusinessDelegate loadImageFromAlbum:self.selectedAlbum withPath:currentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
-        if (image) {
-            [networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-        }
-    }];*/
-    
-    UIImage *photo = [UIImage imageWithData:currentPhoto.thumbnailPhotoData];
-    [networkImageView setImage:photo];
-    
-    
-    //
+    [self configureCell:cell atIndexPath:indexPath];
     
     return cell;
 }
 
 
-#pragma mark - GMGridViewActionDelegate
+#pragma mark - UICollectionViewDelegate Methods
 
-- (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Did tap at index %d", position);
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
     SVAlbumDetailScrollViewController *detailController = [[SVAlbumDetailScrollViewController alloc] init];
-    detailController.selectedPhoto = [self.fetchedResultsController.fetchedObjects objectAtIndex:position];
+    detailController.selectedPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     isPushingDetail = YES;
     [self.navigationController pushViewController:detailController animated:YES];
-}
-
-
-#pragma mark - NINetworkImageView Delegate Methods
-
-- (void)networkImageView:(NINetworkImageView *)imageView didLoadImage:(UIImage *)image
-{
-    
-}
-
-
-- (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
-{
-    
 }
 
 
@@ -377,14 +277,158 @@
     }
     
     self.fetchedResultsController = [[SVEntityStore sharedStore] allPhotosForAlbum:self.selectedAlbum WithDelegate:self];
-    [_gmGridView reloadData];
+    [self.gridView reloadData];
     return _fetchedResultsController;
 }
 
 
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    
+    NSMutableDictionary *change = [NSMutableDictionary new];
+    
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            change[@(type)] = @(sectionIndex);
+            break;
+        case NSFetchedResultsChangeDelete:
+            change[@(type)] = @(sectionIndex);
+            break;
+    }
+    
+    [_sectionChanges addObject:change];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
+    
+    NSMutableDictionary *change = [NSMutableDictionary new];
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            change[@(type)] = newIndexPath;
+            break;
+        case NSFetchedResultsChangeDelete:
+            change[@(type)] = indexPath;
+            break;
+        case NSFetchedResultsChangeUpdate:
+            change[@(type)] = indexPath;
+            break;
+        case NSFetchedResultsChangeMove:
+            change[@(type)] = @[indexPath, newIndexPath];
+            break;
+    }
+    [_objectChanges addObject:change];
+}
+
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    [_gmGridView reloadData];
+    if ([_sectionChanges count] > 0)
+    {
+        [self.gridView performBatchUpdates:^{
+            
+            for (NSDictionary *change in _sectionChanges)
+            {
+                [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                    
+                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                    switch (type)
+                    {
+                        case NSFetchedResultsChangeInsert:
+                            [self.gridView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                        case NSFetchedResultsChangeDelete:
+                            [self.gridView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                        case NSFetchedResultsChangeUpdate:
+                            [self.gridView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                    }
+                }];
+            }
+        } completion:nil];
+    }
+    
+    if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
+    {
+        
+        if ([self shouldReloadCollectionViewToPreventKnownIssue] || self.gridView.window == nil) {
+            // This is to prevent a bug in UICollectionView from occurring.
+            // The bug presents itself when inserting the first object or deleting the last object in a collection view.
+            // http://stackoverflow.com/questions/12611292/uicollectionview-assertion-failure
+            // This code should be removed once the bug has been fixed, it is tracked in OpenRadar
+            // http://openradar.appspot.com/12954582
+            [self.gridView reloadData];
+            
+        } else {
+            
+            [self.gridView performBatchUpdates:^{
+                
+                for (NSDictionary *change in _objectChanges)
+                {
+                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                        
+                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        switch (type)
+                        {
+                            case NSFetchedResultsChangeInsert:
+                                [self.gridView insertItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeDelete:
+                                [self.gridView deleteItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeUpdate:
+                                [self.gridView reloadItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeMove:
+                                [self.gridView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                                break;
+                        }
+                    }];
+                }
+            } completion:nil];
+        }
+    }
+    
+    [_sectionChanges removeAllObjects];
+    [_objectChanges removeAllObjects];
+}
+
+- (BOOL)shouldReloadCollectionViewToPreventKnownIssue {
+    __block BOOL shouldReload = NO;
+    for (NSDictionary *change in _objectChanges) {
+        [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+            NSIndexPath *indexPath = obj;
+            switch (type) {
+                case NSFetchedResultsChangeInsert:
+                    if ([self.gridView numberOfItemsInSection:indexPath.section] == 0) {
+                        shouldReload = YES;
+                    } else {
+                        shouldReload = NO;
+                    }
+                    break;
+                case NSFetchedResultsChangeDelete:
+                    if ([self.gridView numberOfItemsInSection:indexPath.section] == 1) {
+                        shouldReload = YES;
+                    } else {
+                        shouldReload = NO;
+                    }
+                    break;
+                case NSFetchedResultsChangeUpdate:
+                    shouldReload = NO;
+                    break;
+                case NSFetchedResultsChangeMove:
+                    shouldReload = NO;
+                    break;
+            }
+        }];
+    }
+    
+    return shouldReload;
 }
 
 
@@ -400,49 +444,6 @@
 - (void)toggleManagement
 {
     [self.navigationController.sideMenu toggleLeftSideMenu];
-}
-
-
-- (void)configureGridview
-{
-    if (_gmGridView) {
-        [_gmGridView removeFromSuperview];
-        _gmGridView.actionDelegate = nil;
-        _gmGridView.dataSource = nil;
-        _gmGridView = nil;
-    }
-    
-    GMGridView *gmGridView = [[GMGridView alloc] initWithFrame:self.gridviewContainer.bounds];
-    gmGridView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    gmGridView.backgroundColor = [UIColor clearColor];
-    gmGridView.centerGrid = NO;
-    
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        
-        if (IS_IPHONE_5) {
-            
-            [gmGridView setItemSpacing:12];
-            [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
-        }
-        else
-        {
-            [gmGridView setItemSpacing:17];
-            [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(16, 16, 16, 16)];
-        }
-        
-    }
-    else
-    {
-        [gmGridView setItemSpacing:6];
-        [gmGridView setMinEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
-    }
-    
-    [self.gridviewContainer addSubview:gmGridView];
-    _gmGridView = gmGridView;
-    
-    _gmGridView.actionDelegate = self;
-    _gmGridView.dataSource = self;
-    _gmGridView.delegate = self;
 }
 
 
@@ -522,13 +523,18 @@
 }
 
 
-- (void)albumRefreshed:(NSNotification *)notification
+- (void)configureCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    Album *refreshedAlbum = (Album *)notification.object;
+    [cell.networkImageView prepareForReuse];
+    cell.networkImageView.sizeForDisplay = NO;
+    cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
+    cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
+    cell.networkImageView.tag = indexPath.row;
     
-    if (self.selectedAlbum == refreshedAlbum) {
-        [_gmGridView reloadData];
-    }
+    AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    UIImage *photo = [UIImage imageWithData:currentPhoto.thumbnailPhotoData];
+    [cell.networkImageView setImage:photo];
 }
 
 @end
