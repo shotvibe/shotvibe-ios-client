@@ -89,7 +89,7 @@
     }
     else
     {
-        self.detailLabel.textAlignment = UITextAlignmentCenter;
+        self.detailLabel.textAlignment = NSTextAlignmentCenter;
     }
     self.detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16];
     self.detailLabel.shadowColor = [UIColor blackColor];

@@ -47,6 +47,7 @@ static NSRecursiveLock *writeLock;
         [db retain];
         if (![db open]) {
             JMCALog(@"Error opening database for JMC. Issue Inbox will be unavailable.");
+            self = nil;
             return nil;
         }
         // create schema, preserving existing

@@ -149,20 +149,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 CGRect bounds = [view bounds];
                 [newCaptureVideoPreviewLayer setFrame:bounds];
                 
-                if (IS_IOS6_OR_GREATER) {
-                    if ([newCaptureVideoPreviewLayer connection].supportsVideoOrientation) {
-                        [[newCaptureVideoPreviewLayer connection] setVideoOrientation:AVCaptureVideoOrientationPortrait];
-                    }
+                if ([newCaptureVideoPreviewLayer connection].supportsVideoOrientation) {
+                    [[newCaptureVideoPreviewLayer connection] setVideoOrientation:AVCaptureVideoOrientationPortrait];
                 }
-                else
-                {
-                    if ([newCaptureVideoPreviewLayer isOrientationSupported]) {
-                        [newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationPortrait];
-                    }
-                    
-                    [newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-                }
-                
                 
                 [newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
                 
@@ -452,16 +441,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     CGPoint pointOfInterest = CGPointMake(.5f, .5f);
     CGSize frameSize = [[self videoPreviewView] frame].size;
     
-    if (IS_IOS6_OR_GREATER) {
-        if ([captureVideoPreviewLayer connection].videoMirrored) {
-            viewCoordinates.x = frameSize.width - viewCoordinates.x;
-        }
-    }
-    else
-    {
-        if ([captureVideoPreviewLayer isMirrored]) {
-            viewCoordinates.x = frameSize.width - viewCoordinates.x;
-        }
+    if ([captureVideoPreviewLayer connection].videoMirrored) {
+        viewCoordinates.x = frameSize.width - viewCoordinates.x;
     }
 
     
@@ -610,7 +591,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             }
             else
             {
-                albumLabel.textAlignment = UITextAlignmentCenter;
+                albumLabel.textAlignment = NSTextAlignmentCenter;
             }
             
             albumLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];

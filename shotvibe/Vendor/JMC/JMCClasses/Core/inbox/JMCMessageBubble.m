@@ -56,13 +56,13 @@
         detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, detailSize.width, detailLabelHeight)];
         detailLabel.tag = 3;
         detailLabel.numberOfLines = 1;
-        detailLabel.lineBreakMode = UILineBreakModeClip;
+        detailLabel.lineBreakMode = NSLineBreakByClipping;
         detailLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:11];
         detailLabel.textColor = [UIColor darkGrayColor];
         detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
         detailLabel.backgroundColor = [UIColor clearColor];
-        detailLabel.textAlignment = UITextAlignmentCenter;
+        detailLabel.textAlignment = NSTextAlignmentCenter;
 
         UIView *message = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         [message addSubview:detailLabel];
@@ -112,7 +112,7 @@
 
     CGSize size = [string sizeWithFont:font 
                      constrainedToSize:CGSizeMake(constSize.width * 0.75, constSize.height)
-                         lineBreakMode:UILineBreakModeWordWrap];
+                         lineBreakMode:NSLineBreakByWordWrapping];
     
     UIImage * balloon;
     float balloonY = 2.0f + detailLabelHeight;

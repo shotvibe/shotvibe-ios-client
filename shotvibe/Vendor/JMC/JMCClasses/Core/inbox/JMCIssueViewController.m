@@ -149,14 +149,14 @@ static float detailLabelHeight = 21.0f;
     // the text is constrained to 3/4 of the width of the bubble. see JMCMessageBubble setText...
     CGSize constrainTo = CGSizeMake(bubbleSize.width * 0.75f, bubbleSize.height);
 
-    return [comment.body sizeWithFont:commentFont constrainedToSize:constrainTo lineBreakMode:UILineBreakModeWordWrap];
+    return [comment.body sizeWithFont:commentFont constrainedToSize:constrainTo lineBreakMode:NSLineBreakByWordWrapping];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
         CGRect screenFrame = [UIScreen mainScreen].applicationFrame;
-        CGSize size = [self.issue.summary sizeWithFont:titleFont constrainedToSize:CGSizeMake(screenFrame.size.width - 20.0f, 18.0f) lineBreakMode:UILineBreakModeClip];
+        CGSize size = [self.issue.summary sizeWithFont:titleFont constrainedToSize:CGSizeMake(screenFrame.size.width - 20.0f, 18.0f) lineBreakMode:NSLineBreakByClipping];
         return size.height + 20;
 
     } else {
@@ -218,7 +218,7 @@ static BOOL isPad(void) {
             issueCell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             CGRect screenFrame = [UIScreen mainScreen].applicationFrame;
-            CGSize size = [self.issue.summary sizeWithFont:titleFont constrainedToSize:CGSizeMake(screenFrame.size.width - 40.0f, 18.0f) lineBreakMode:UILineBreakModeTailTruncation];
+            CGSize size = [self.issue.summary sizeWithFont:titleFont constrainedToSize:CGSizeMake(screenFrame.size.width - 40.0f, 18.0f) lineBreakMode:NSLineBreakByTruncatingTail];
             
             issueCell.title = [[[UILabel alloc] initWithFrame:CGRectMake(screenFrame.size.width * 0.1f, 10, size.width, size.height)] autorelease];
             issueCell.title.font = titleFont;
@@ -255,7 +255,7 @@ static BOOL isPad(void) {
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.feedbackController];
         navController.navigationBar.barStyle = [[JMC sharedInstance] getBarStyle];
         navController.navigationBar.tintColor = [JMC sharedInstance].options.barTintColor;
-        [self presentModalViewController:navController animated:YES];
+        [self presentViewController:navController animated:YES completion:NULL];
         [navController release];
     }
 }
