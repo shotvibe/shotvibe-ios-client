@@ -10,6 +10,7 @@
 #import "Album.h"
 #import "AlbumPhoto.h"
 #import "Member.h"
+#import "NSFileManager+Helper.h"
 #import "SVAPIClient.h"
 #import "SVDefines.h"
 #import "SVDownloadSyncEngine.h"
@@ -194,8 +195,6 @@
 
 - (void)retrievePhotoObjects
 {
-    //TODO: check the cache directory and delete any AlbumPhoto records
-    
     NSArray *albums = [Album findAll];
     NSMutableArray *operations = [NSMutableArray array];
     
@@ -237,7 +236,10 @@
         
         NSLog(@"All operations completed.");
         
-        [self processJSONDataRecordsIntoCoreDataForClassName:@"AlbumPhoto"];
+        //TODO: check the cache directory and delete any AlbumPhoto records
+        if (![[NSFileManager defaultManager] isEmptyDirectoryAtURL:[self JSONDataRecordsDirectory]]) {
+            [self processJSONDataRecordsIntoCoreDataForClassName:@"AlbumPhoto"];
+        }
         
     }];
 }
@@ -290,6 +292,13 @@
                 
                 Member *theMember = [Member findFirstByAttribute:@"userId" withValue:[record objectForKey:@"id"] inContext:self.saveContext];
                 if (theMember) {
+                    return;
+                }
+                
+            } else if ([className isEqualToString:@"Album"]) {
+                
+                Album *theAlbum = [Album findFirstByAttribute:@"albumId" withValue:[record objectForKey:@"id"] inContext:self.saveContext];
+                if (theAlbum) {
                     return;
                 }
                 
@@ -359,11 +368,34 @@
                 NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
                 
                 NSString *newKey = nil;
+                NSString *thumbnailKey = nil;
                 if ([key isEqualToString:@"avatar_url"]) {
                     newKey = @"avatarData";
                 } else if ([key isEqualToString:@"photo_url"]) {
                     newKey = @"photoData";
+                    thumbnailKey = @"thumbnailPhotoData";
                 }
+                
+                if (thumbnailKey) {
+                    UIImage *originalImage = [UIImage imageWithData:dataResponse];
+                    
+                    CGSize newSize = CGSizeMake(100, 100);
+                    
+                    float oldWidth = originalImage.size.width;
+                    float scaleFactor = newSize.width / oldWidth;
+                    
+                    float newHeight = originalImage.size.height * scaleFactor;
+                    float newWidth = oldWidth * scaleFactor;
+                    
+                    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+                    [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+                    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+                    UIGraphicsEndImageContext();
+                    
+                    NSData *thumbnailData = UIImageJPEGRepresentation(image, 1.0);
+                    [managedObject setValue:thumbnailData forKey:thumbnailKey];
+                }
+                
                 [managedObject setValue:dataResponse forKey:newKey];
                 [managedObject setValue:value forKey:key];
             }

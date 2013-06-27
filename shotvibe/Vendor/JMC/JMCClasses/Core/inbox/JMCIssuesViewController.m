@@ -50,7 +50,7 @@ static NSString *cellId = @"CommentCell";
         [self.navigationController pushViewController:[[JMC sharedInstance] feedbackViewControllerWithMode:JMCViewControllerModeCustom] animated:YES];
     }
     else {
-        [self presentModalViewController:[[JMC sharedInstance] feedbackViewControllerWithMode:JMCViewControllerModeDefault] animated:YES];
+        [self presentViewController:[[JMC sharedInstance] feedbackViewControllerWithMode:JMCViewControllerModeDefault] animated:YES completion:NULL];
     }
 }
 
@@ -65,7 +65,7 @@ static NSString *cellId = @"CommentCell";
     }
     
     if (presentingViewController) {
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:NULL];
     } else {
         CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
         CGSize screenSize = [[UIScreen mainScreen] applicationFrame].size;

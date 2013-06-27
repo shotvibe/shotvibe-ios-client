@@ -269,7 +269,7 @@ static const CGFloat kDatePickerTextFieldRightMargin = 5;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self.textLabel setAdjustsFontSizeToFitWidth:YES];
-        [self.textLabel setMinimumFontSize:10.0f];
+        [self.textLabel setMinimumScaleFactor:10.0f];
     }
     return self;
 }

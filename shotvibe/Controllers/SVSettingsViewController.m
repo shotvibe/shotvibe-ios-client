@@ -70,7 +70,7 @@
             [mailController setToRecipients:@[@"Apple-support@shotvibe.com"]];
             mailController.mailComposeDelegate = self;
             
-            [self presentModalViewController:mailController animated:YES];
+            [self presentViewController:mailController animated:YES completion:NULL];
         }
     }
 }

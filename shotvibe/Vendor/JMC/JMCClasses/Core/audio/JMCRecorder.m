@@ -34,7 +34,7 @@ NSString *_recorderFilePath;
 
 + (BOOL)audioRecordingIsAvailable {
     AVAudioSession *session = [AVAudioSession sharedInstance];
-    return session.inputIsAvailable;
+    return session.isInputAvailable;
 }
 
 - (id)init {
@@ -51,12 +51,14 @@ NSString *_recorderFilePath;
         [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
         if (err) {
             JMCALog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+            self = nil;
             return nil;
         }
         [audioSession setActive:YES error:&err];
         err = nil;
         if (err) {
             JMCALog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+            self = nil;
             return nil;
         }
 

@@ -87,7 +87,7 @@
         }
         else
         {
-            headerLabel.textAlignment = UITextAlignmentCenter;
+            headerLabel.textAlignment = NSTextAlignmentCenter;
         }
         
         headerLabel.text = NSLocalizedString(@"You can insert your email\n address and password, to log in our web site.", @"");

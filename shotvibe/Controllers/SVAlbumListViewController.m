@@ -35,8 +35,6 @@
 @property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
 @property (nonatomic, strong) IBOutlet UIView *viewContainer;
 
-@property (nonatomic, strong) NSOperationQueue *operationQueue;
-
 
 - (void)configureViews;
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -55,6 +53,7 @@
 - (IBAction)newAlbumClose:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
+- (AlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos;
 
 @end
 
@@ -385,13 +384,7 @@
 {
     // TODO: We need to configure our cell's views
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
-    //NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
-    
-    AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album == %@", anAlbum] sortedBy:@"date_created" ascending:NO];
-  
+      
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
     cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
@@ -408,39 +401,49 @@
     cell.networkImageView.tag = indexPath.row; 
 //    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
 
+    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    if (recentPhoto) {
-        // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel 
-        /*__block NSIndexPath *tagIndex = indexPath;
-        [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
-            if (image && cell.networkImageView.tag == tagIndex.row) {
-                [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-            }
-        }];*/
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId];
+    NSDate *maxDate  = (NSDate *)[AlbumPhoto aggregateOperation:@"max:" onAttribute:@"date_created" withPredicate:predicate];
+    
+    AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND date_created == %@", anAlbum.albumId, maxDate]];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
         
-        UIImage *photo = [UIImage imageWithData:recentPhoto.photoData];
-        [cell.networkImageView setImage:photo];
+        if (recentPhoto) {
+            // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
+            /*__block NSIndexPath *tagIndex = indexPath;
+             [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
+             if (image && cell.networkImageView.tag == tagIndex.row) {
+             [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+             }
+             }];*/
+            
+            UIImage *photo = [UIImage imageWithData:recentPhoto.thumbnailPhotoData];
+            [cell.networkImageView setImage:photo];
+            
+            NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
+            cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+        }
         
-        NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
-        cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
-    }
-
-    
-    cell.title.text = anAlbum.name;
-    
-    NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
-    [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
-    
-    NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
- 
-    if (numberNew)
-    {
-        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
-    }
-    else
-    {
-        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", 0] forState:UIControlStateNormal];
-    }
+        
+        cell.title.text = anAlbum.name;
+        
+        NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
+        [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
+        
+        NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
+        
+        if (numberNew)
+        {
+            [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
+        }
+        else
+        {
+            [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", 0] forState:UIControlStateNormal];
+        }
+        
+    });
     
     return cell;
 }
@@ -452,7 +455,11 @@
     
     //NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
     
-    AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album == %@", anAlbum] sortedBy:@"date_created" ascending:NO];
+    NSArray *allPhotos = [anAlbum.albumPhotos allObjects];
+    AlbumPhoto *recentPhoto = nil;
+    if (allPhotos) {
+        recentPhoto = [[allPhotos sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES]]] lastObject];
+    }
     
     if (recentPhoto) {
         // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
@@ -464,7 +471,7 @@
          }];*/
         
         if (cell.networkImageView.initialImage == cell.networkImageView.image) {
-            UIImage *photo = [UIImage imageWithData:recentPhoto.photoData];
+            UIImage *photo = [UIImage imageWithData:recentPhoto.thumbnailPhotoData];
             [cell.networkImageView setImage:photo];
         }
         
@@ -600,5 +607,27 @@
 {
     [self.fetchedResultsController performFetch:nil];
     [self.tableView reloadData];
+}
+
+
+- (AlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos
+{
+    AlbumPhoto *lastPhoto = [photos lastObject];
+    
+    if (lastPhoto) {
+        NSArray *nextSet = [photos filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"date_created > %@", lastPhoto.date_created]];
+        
+        if (nextSet.count > 0) {
+            return [self findMostRecentPhotoInPhotoSet:nextSet];
+        }
+        else
+        {
+            return lastPhoto;
+        }
+    }
+    else
+    {
+        return nil;
+    }
 }
 @end
