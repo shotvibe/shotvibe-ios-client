@@ -937,6 +937,8 @@
 		AA234946177B7F0600D55918 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234944177B7F0600D55918 /* Member.m */; };
 		AA234949177B7F0600D55918 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234948177B7F0600D55918 /* Album.m */; };
 		AA23494A177B7F0600D55918 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234948177B7F0600D55918 /* Album.m */; };
+		AA4115BE177C0451009F400F /* NSFileManager+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4115BD177C0451009F400F /* NSFileManager+Helper.m */; };
+		AA4115BF177C0451009F400F /* NSFileManager+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4115BD177C0451009F400F /* NSFileManager+Helper.m */; };
 		AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFA16C224E800C49E02 /* UIKit.framework */; };
 		AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFC16C224E800C49E02 /* Foundation.framework */; };
 		AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */; };
@@ -1858,6 +1860,8 @@
 		AA234944177B7F0600D55918 /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
 		AA234947177B7F0600D55918 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
 		AA234948177B7F0600D55918 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
+		AA4115BC177C0451009F400F /* NSFileManager+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Helper.h"; sourceTree = "<group>"; };
+		AA4115BD177C0451009F400F /* NSFileManager+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Helper.m"; sourceTree = "<group>"; };
 		AA58FAF716C224E800C49E02 /* ShotVibe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShotVibe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA58FAFA16C224E800C49E02 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AA58FAFC16C224E800C49E02 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -3509,6 +3513,8 @@
 				0493ABF11732D7D6005ABCE7 /* ALAssetsLibrary+helper.m */,
 				04AB0AB01708114800C5300B /* NSDate+Formatting.h */,
 				04AB0AB11708114800C5300B /* NSDate+Formatting.m */,
+				AA4115BC177C0451009F400F /* NSFileManager+Helper.h */,
+				AA4115BD177C0451009F400F /* NSFileManager+Helper.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -4878,6 +4884,7 @@
 				0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
+				AA4115BE177C0451009F400F /* NSFileManager+Helper.m in Sources */,
 				AA9CBC4B1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
 				AA9CBC521776AF48006172C6 /* SVUploaderWS.m in Sources */,
 			);
@@ -5075,6 +5082,7 @@
 				0493ABEF1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
 				0493ABF31732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				0493ABF71732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
+				AA4115BF177C0451009F400F /* NSFileManager+Helper.m in Sources */,
 				AA9CBC4C1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
 				AA9CBC531776AF48006172C6 /* SVUploaderWS.m in Sources */,
 			);

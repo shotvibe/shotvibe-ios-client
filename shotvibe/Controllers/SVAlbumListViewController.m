@@ -387,17 +387,10 @@
     
     Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    //NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId];
+    NSDate *maxDate  = (NSDate *)[AlbumPhoto aggregateOperation:@"max:" onAttribute:@"date_created" withPredicate:predicate];
     
-    //AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album == %@", anAlbum] sortedBy:@"date_created" ascending:NO];
-    
-    NSArray *allPhotos = [anAlbum.albumPhotos allObjects];
-    AlbumPhoto *recentPhoto = nil;
-    if (allPhotos) {
-        //recentPhoto = [[allPhotos sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES]]] lastObject];
-        
-        recentPhoto = [self findMostRecentPhotoInPhotoSet:allPhotos];
-    }
+    AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND date_created == %@", anAlbum.albumId, maxDate]];
       
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
