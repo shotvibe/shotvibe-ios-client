@@ -10,6 +10,7 @@
 #import "Album.h"
 #import "AlbumPhoto.h"
 #import "Member.h"
+#import "NSFileManager+Helper.h"
 #import "SVAPIClient.h"
 #import "SVDefines.h"
 #import "SVDownloadSyncEngine.h"
@@ -194,8 +195,6 @@
 
 - (void)retrievePhotoObjects
 {
-    //TODO: check the cache directory and delete any AlbumPhoto records
-    
     NSArray *albums = [Album findAll];
     NSMutableArray *operations = [NSMutableArray array];
     
@@ -237,7 +236,10 @@
         
         NSLog(@"All operations completed.");
         
-        [self processJSONDataRecordsIntoCoreDataForClassName:@"AlbumPhoto"];
+        //TODO: check the cache directory and delete any AlbumPhoto records
+        if (![[NSFileManager defaultManager] isEmptyDirectoryAtURL:[self JSONDataRecordsDirectory]]) {
+            [self processJSONDataRecordsIntoCoreDataForClassName:@"AlbumPhoto"];
+        }
         
     }];
 }
