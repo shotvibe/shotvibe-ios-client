@@ -1649,7 +1649,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="KQE-eD-pKG">
-                                                    <rect key="frame" x="212" y="8" width="23" height="35"/>
+                                                    <rect key="frame" x="251" y="4" width="23" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="switchTriggered:" destination="CPg-IN-zDw" eventType="valueChanged" id="RlM-qs-1HJ"/>
@@ -1678,7 +1678,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="0ca-v5-vOt">
-                                                    <rect key="frame" x="212" y="8" width="23" height="35"/>
+                                                    <rect key="frame" x="251" y="4" width="23" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="switchTriggered:" destination="CPg-IN-zDw" eventType="valueChanged" id="tfA-i0-Odg"/>
@@ -1703,7 +1703,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="1AC-6D-f73">
-                                                    <rect key="frame" x="212" y="8" width="23" height="35"/>
+                                                    <rect key="frame" x="251" y="4" width="23" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="switchTriggered:" destination="CPg-IN-zDw" eventType="valueChanged" id="3br-uq-su3"/>
@@ -1728,7 +1728,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="kKS-wd-fb5">
-                                                    <rect key="frame" x="212" y="8" width="23" height="35"/>
+                                                    <rect key="frame" x="251" y="4" width="23" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="switchTriggered:" destination="CPg-IN-zDw" eventType="valueChanged" id="A2Y-Qg-75J"/>
@@ -2257,7 +2257,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="bq7-PN-84Y">
-                                                    <rect key="frame" x="212" y="8" width="23" height="35"/>
+                                                    <rect key="frame" x="251" y="4" width="23" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="switchTriggered:" destination="VMi-Ys-1sr" eventType="valueChanged" id="WVk-xo-M4g"/>
@@ -2311,7 +2311,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="pbc-Vz-3bA">
-                                                    <rect key="frame" x="212" y="8" width="23" height="35"/>
+                                                    <rect key="frame" x="251" y="4" width="23" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="switchTriggered:" destination="VMi-Ys-1sr" eventType="valueChanged" id="nyV-K9-wjC"/>
@@ -2538,9 +2538,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

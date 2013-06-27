@@ -23,7 +23,7 @@
 #import "SVImagePickerListViewController.h"
 #import "SVAlbumGridViewCell.h"
 
-@interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, NINetworkImageViewDelegate>
+@interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, NINetworkImageViewDelegate>
 {
     BOOL isPushingDetail;
 }
@@ -166,6 +166,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {    
     [self configureMenuForOrientation:self.interfaceOrientation];
+    [self.gridView reloadData];
 }
 
 
@@ -244,6 +245,22 @@
     
     isPushingDetail = YES;
     [self.navigationController pushViewController:detailController animated:YES];
+}
+
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        return UIEdgeInsetsMake(5, 5, 5, 5);
+    }
+    
+    if (IS_IPHONE_5) {
+        return UIEdgeInsetsMake(5, 12, 5, 12);
+    }
+    else
+    {
+        return UIEdgeInsetsMake(5, 17, 5, 17);
+    }
 }
 
 
