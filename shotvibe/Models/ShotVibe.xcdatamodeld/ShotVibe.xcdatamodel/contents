@@ -17,7 +17,7 @@
     </entity>
     <entity name="AlbumPhoto" representedClassName="AlbumPhoto" syncable="YES">
         <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="hasViewed" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="hasViewed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="imageWasDownloaded" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="objectSyncStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="photo_id" attributeType="String" syncable="YES"/>

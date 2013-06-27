@@ -116,7 +116,7 @@
         JMCSketchViewController* controller = 
             [JMCSketchViewControllerFactory makeSketchViewControllerFor:attachment.data withId:indexPath.row];
         controller.delegate = self;
-        [self presentModalViewController:controller animated:YES];
+        [self presentViewController:controller animated:YES completion:NULL];
         currentAttachmentItemIndex = indexPath.row;
     }
 }
@@ -136,17 +136,17 @@
     if ([self.delegate respondsToSelector:@selector(attachmentsViewController:didChangeAttachment:)]) {
         [self.delegate attachmentsViewController:self didChangeAttachment:attachment];
     }
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)sketchControllerDidCancel:(UIViewController *)controller
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)sketchController:(UIViewController *)controller didDeleteImageWithId:(NSNumber *)imageId
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
     [self removeAttachmentAtIndex:[imageId unsignedIntegerValue]];
 }
 

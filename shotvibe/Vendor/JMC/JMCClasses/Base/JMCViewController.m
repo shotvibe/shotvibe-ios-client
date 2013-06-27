@@ -282,7 +282,7 @@ static NSInteger kJMCTag = 10133;
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:NULL];
     }
 }
 
@@ -309,7 +309,7 @@ static NSInteger kJMCTag = 10133;
         else 
         {
             _ignoreKeyboardHide = YES;
-            [self presentModalViewController:imagePicker animated:YES];
+            [self presentViewController:imagePicker animated:YES completion:NULL];
         }
         [imagePicker release];
     }
@@ -366,7 +366,7 @@ static NSInteger kJMCTag = 10133;
             JMCSketchViewController* sketchController = 
             [JMCSketchViewControllerFactory makeSketchViewControllerFor:attachment.data withId:0];
             sketchController.delegate = self;
-            [self presentModalViewController:sketchController animated:YES];
+            [self presentViewController:sketchController animated:YES completion:NULL];
             return;
         }
     }
@@ -469,7 +469,7 @@ static NSInteger kJMCTag = 10133;
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:NULL];
     }
     
     self.descriptionField.text = @"";
@@ -506,7 +506,7 @@ static NSInteger kJMCTag = 10133;
     if ([self.popover isPopoverVisible]) {
         [self.popover dismissPopoverAnimated:YES];
     } else {
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:NULL];
     }
 
     UIImage *origImg = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -526,7 +526,7 @@ static NSInteger kJMCTag = 10133;
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - JMCAttachmentsViewControllerDelegate
@@ -548,17 +548,17 @@ static NSInteger kJMCTag = 10133;
     attachment.data = UIImagePNGRepresentation(image);
     attachment.thumbnail = [JMCSketchViewControllerFactory makeSketchThumbnailFor:image];
     [self reloadAttachmentsButton];
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)sketchControllerDidCancel:(UIViewController *)controller
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)sketchController:(UIViewController *)controller didDeleteImageWithId:(NSNumber *)imageId
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
     [self.attachments removeObjectAtIndex:[imageId unsignedIntegerValue]];
     [self reloadAttachmentsButton];
 }

@@ -293,6 +293,13 @@
                     return;
                 }
                 
+            } else if ([className isEqualToString:@"Album"]) {
+                
+                Album *theAlbum = [Album findFirstByAttribute:@"albumId" withValue:[record objectForKey:@"id"] inContext:self.saveContext];
+                if (theAlbum) {
+                    return;
+                }
+                
             }
             
             NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:localContext];
