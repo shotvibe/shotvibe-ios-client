@@ -14,21 +14,22 @@
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 
-@interface CaptureSelectImagesViewController ()
+@interface CaptureSelectImagesViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
     //GMGridView *_gmGridView;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
-
+@property (nonatomic, strong) IBOutlet UICollectionView *gridView;
 
 - (void)doneButtonPressed;
 - (void)configureGridview;
 - (void)packageSelectedPhotos:(void (^)(NSArray *selectedPhotoPaths, NSError *error))block;
 @end
 
-@implementation CaptureSelectImagesViewController
+
+@implementation CaptureSelectImagesViewController 
 {
     NSMutableArray *selectedPhotos;
 }
@@ -53,6 +54,8 @@
     [super viewDidLoad];
     
     selectedPhotos = [[NSMutableArray alloc] init];
+    
+    [self.gridView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"SVSelectionCell"];
     
     if (self.selectedGroup) {
         self.title = [self.selectedGroup valueForProperty:ALAssetsGroupPropertyName];
@@ -88,6 +91,97 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+#pragma mark - UICollectionViewDataSource Methods
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.takenPhotos.count;
+}
+
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionCell" forIndexPath:indexPath];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
+    
+    if (self.selectedGroup) {
+        
+        ALAsset *asset = [self.takenPhotos objectAtIndex:indexPath.row];
+        imageView.image = [UIImage imageWithCGImage:asset.thumbnail];
+        
+    }
+    else
+    {
+        UIImage *image = [UIImage imageWithContentsOfFile:[self.takenPhotos objectAtIndex:indexPath.row]];
+        
+        float oldWidth = image.size.width;
+        float scaleFactor = imageView.frame.size.width / oldWidth;
+        
+        float newHeight = image.size.height * scaleFactor;
+        float newWidth = oldWidth * scaleFactor;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+        [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        imageView.image = newImage;
+        
+    }
+    
+    [cell addSubview:imageView];
+    
+    
+    // Configure the selection icon
+    
+    UIImageView *selectedIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"imageUnselected.png"]];
+    selectedIcon.userInteractionEnabled = NO;
+    selectedIcon.tag = 9001;
+    
+    if ([selectedPhotos containsObject:[self.takenPhotos objectAtIndex:indexPath.row]]) {
+        
+        selectedIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+    }
+    
+    selectedIcon.frame = CGRectMake(imageView.frame.size.width - selectedIcon.bounds.size.width - 5, imageView.frame.size.height - selectedIcon.bounds.size.height - 5, selectedIcon.frame.size.width, selectedIcon.frame.size.height);
+    
+    [cell addSubview:selectedIcon];
+    
+    return cell;
+}
+
+
+#pragma mark - UICollectionViewDelegate Methods
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    
+    UICollectionViewCell *selectedCell = [self.gridView cellForItemAtIndexPath:indexPath];
+    
+    for (UIImageView *imageView in selectedCell.subviews) {
+        if (imageView.tag == 9001) {
+            
+            if (![selectedPhotos containsObject:[self.takenPhotos objectAtIndex:indexPath.row]]) {
+                [selectedPhotos addObject:[self.takenPhotos objectAtIndex:indexPath.row]];
+                imageView.image = [UIImage imageNamed:@"imageSelected.png"];
+            }
+            else
+            {
+                [selectedPhotos removeObject:[self.takenPhotos objectAtIndex:indexPath.row]];
+                imageView.image = [UIImage imageNamed:@"imageUnselected.png"];
+            }
+        }
+    }
+}
 
 #pragma mark - GMGridViewDataSource
 
@@ -230,9 +324,9 @@
 }
 
 
-/*- (void)configureGridview
+- (void)configureGridview
 {
-    if (_gmGridView) {
+    /*if (_gmGridView) {
         [_gmGridView removeFromSuperview];
         _gmGridView.actionDelegate = nil;
         _gmGridView.dataSource = nil;
@@ -257,8 +351,8 @@
     
     [_gmGridView reloadData];
     
-    _gmGridView.dataSource = self;
-}*/
+    _gmGridView.dataSource = self;*/
+}
 
 
 - (void)packageSelectedPhotos:(void (^)(NSArray *selectedPhotoPaths, NSError *error))block
