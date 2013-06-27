@@ -53,6 +53,7 @@
 - (IBAction)newAlbumClose:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
+- (AlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos;
 
 @end
 
@@ -393,7 +394,9 @@
     NSArray *allPhotos = [anAlbum.albumPhotos allObjects];
     AlbumPhoto *recentPhoto = nil;
     if (allPhotos) {
-        recentPhoto = [[allPhotos sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES]]] lastObject];
+        //recentPhoto = [[allPhotos sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES]]] lastObject];
+        
+        recentPhoto = [self findMostRecentPhotoInPhotoSet:allPhotos];
     }
       
     // Configure thumbnail
@@ -608,5 +611,27 @@
 {
     [self.fetchedResultsController performFetch:nil];
     [self.tableView reloadData];
+}
+
+
+- (AlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos
+{
+    AlbumPhoto *lastPhoto = [photos lastObject];
+    
+    if (lastPhoto) {
+        NSArray *nextSet = [photos filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"date_created > %@", lastPhoto.date_created]];
+        
+        if (nextSet.count > 0) {
+            return [self findMostRecentPhotoInPhotoSet:nextSet];
+        }
+        else
+        {
+            return lastPhoto;
+        }
+    }
+    else
+    {
+        return nil;
+    }
 }
 @end
