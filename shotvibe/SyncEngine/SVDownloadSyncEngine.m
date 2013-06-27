@@ -55,6 +55,10 @@
             sharedEngine.downloadQueue = [[NSOperationQueue alloc] init];
             sharedEngine.downloadQueue.maxConcurrentOperationCount = 1;
         }
+        if (sharedEngine.photoSaveQueue == nil) {
+            sharedEngine.photoSaveQueue = [[NSOperationQueue alloc] init];
+            sharedEngine.photoSaveQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
+        }
     });
     
     return sharedEngine;
@@ -467,11 +471,14 @@
         // for the class of the current iteration and create new NSManagedObjects for each record
         //
         id records = [self JSONDataForClassWithName:className];
-        if ([records isKindOfClass:[NSArray class]]) {
+        if ([records isKindOfClass:[NSArray class]])
+        {
             for (NSDictionary *record in records) {
                 [self newManagedObjectWithClassName:className forRecord:record];
             }
-        } else {
+        }
+        else
+        {
             NSDictionary *record = records;
             
             // Process each member object
@@ -496,26 +503,32 @@
                 }];
             }
             
+            [self.downloadQueue waitUntilAllOperationsAreFinished];
+            
             // Process each photo object
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+            });
             NSArray *photos = [record objectForKey:@"photos"];
             for (NSDictionary *aPhoto in photos) {
-                [self newManagedObjectWithClassName:@"AlbumPhoto" forRecord:aPhoto];
-                
-                [self.downloadQueue addOperationWithBlock:^{
+                [self.photoSaveQueue addOperationWithBlock:^{
                     
-                    Album *theAlbum = [Album findFirstByAttribute:@"albumId" withValue:[record objectForKey:@"id"] inContext:self.saveContext];
-                    AlbumPhoto *thePhoto = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[aPhoto objectForKey:@"photo_id"] inContext:self.saveContext];
-                    Member *theAuthor = [Member findFirstByAttribute:@"userId" withValue:[[aPhoto objectForKey:@"author"] objectForKey:@"id"] inContext:self.saveContext];
-                    
-                    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                         
-                        Album *localAlbum = (Album *)[localContext objectWithID:theAlbum.objectID];
-                        AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:thePhoto.objectID];
-                        [localAlbum addAlbumPhotosObject:localPhoto];
+                        AlbumPhoto *thePhoto = [AlbumPhoto createInContext:localContext];
+                        
+                        [aPhoto enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                            [self setValue:obj forKey:key forManagedObject:thePhoto];
+                        }];
+                        [thePhoto setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
+                        
+                        Album *theAlbum = [Album findFirstByAttribute:@"albumId" withValue:[record objectForKey:@"id"] inContext:localContext];
+                        Member *theAuthor = [Member findFirstByAttribute:@"userId" withValue:[[aPhoto objectForKey:@"author"] objectForKey:@"id"] inContext:localContext];
+                        
+                        [theAlbum addAlbumPhotosObject:thePhoto];
                         
                         if (theAuthor) {
-                            Member *localAuthor = (Member *)[localContext objectWithID:theAuthor.objectID];
-                            [localPhoto setValue:localAuthor forKey:@"author"];
+                            [thePhoto setValue:theAuthor forKey:@"author"];
                         }
                         
                     }];
