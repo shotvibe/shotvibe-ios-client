@@ -388,7 +388,8 @@
     
     //NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
     
-    AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album == %@", anAlbum] sortedBy:@"date_created" ascending:NO];
+    //AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album == %@", anAlbum] sortedBy:@"date_created" ascending:NO];
+    AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album == %@", anAlbum]];
   
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
@@ -416,11 +417,15 @@
             }
         }];*/
         
-        UIImage *photo = [UIImage imageWithData:recentPhoto.thumbnailPhotoData];
-        [cell.networkImageView setImage:photo];
-        
-        NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
-        cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            UIImage *photo = [UIImage imageWithData:recentPhoto.thumbnailPhotoData];
+            [cell.networkImageView setImage:photo];
+            
+            NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
+            cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+            
+        });
     }
 
     
@@ -461,13 +466,17 @@
          }
          }];*/
         
-        if (cell.networkImageView.initialImage == cell.networkImageView.image) {
-            UIImage *photo = [UIImage imageWithData:recentPhoto.thumbnailPhotoData];
-            [cell.networkImageView setImage:photo];
-        }
-        
-        NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
-        cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (cell.networkImageView.initialImage == cell.networkImageView.image) {
+                UIImage *photo = [UIImage imageWithData:recentPhoto.thumbnailPhotoData];
+                [cell.networkImageView setImage:photo];
+            }
+            
+            NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
+            cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+            
+        });
     }
     
     
