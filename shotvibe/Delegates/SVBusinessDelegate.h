@@ -33,4 +33,8 @@
 // URL Fetching methods
 + (NSURL *)getURLForPhoto:(AlbumPhoto *)aPhoto;
 
+// user registration
++ (void) registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block;
++ (void) validateRegistrationCode:(NSString *) confirmationCode withConfirmationCode:(NSString *) confirmationCode WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId,  NSError *error))block;
+
 @end

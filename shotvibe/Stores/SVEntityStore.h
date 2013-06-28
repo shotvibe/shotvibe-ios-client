@@ -30,6 +30,10 @@
 
 - (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
 
+- (void) registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block;
+
+- (void) validateRegistrationCode:(NSString *) registrationCode withConfirmationCode:(NSString *) confirmationCode  WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId,  NSError *error))block;
+
 - (void)uploadPhoto:(NSString *)photoId withImageData:(NSData *)imageData;
 
 - (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
