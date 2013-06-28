@@ -301,6 +301,8 @@
 		04AB0AB31708114800C5300B /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AB0AB11708114800C5300B /* NSDate+Formatting.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		04AFA7B8177CBEA700E32C6E /* SVAlbumGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */; };
 		04AFA7B9177CBEA700E32C6E /* SVAlbumGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */; };
+		04C36BC5177D047500EB97E0 /* SVURLBuilderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C36BC4177D047500EB97E0 /* SVURLBuilderWS.m */; };
+		04C36BC6177D047500EB97E0 /* SVURLBuilderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C36BC4177D047500EB97E0 /* SVURLBuilderWS.m */; };
 		04C404E01730301500973BC0 /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C404DD1730301500973BC0 /* Countries.plist */; };
 		04C404E11730301500973BC0 /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C404DD1730301500973BC0 /* Countries.plist */; };
 		04C404E21730301500973BC0 /* CountryPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C404DF1730301500973BC0 /* CountryPicker.m */; };
@@ -1471,6 +1473,8 @@
 		04AB0AB11708114800C5300B /* NSDate+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatting.m"; sourceTree = "<group>"; };
 		04AFA7B6177CBEA700E32C6E /* SVAlbumGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumGridViewCell.h; sourceTree = "<group>"; };
 		04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumGridViewCell.m; sourceTree = "<group>"; };
+		04C36BC3177D047500EB97E0 /* SVURLBuilderWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVURLBuilderWS.h; sourceTree = "<group>"; };
+		04C36BC4177D047500EB97E0 /* SVURLBuilderWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVURLBuilderWS.m; sourceTree = "<group>"; };
 		04C404DD1730301500973BC0 /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		04C404DE1730301500973BC0 /* CountryPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryPicker.h; sourceTree = "<group>"; };
 		04C404DF1730301500973BC0 /* CountryPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryPicker.m; sourceTree = "<group>"; };
@@ -3015,6 +3019,8 @@
 				AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */,
 				AA9CBC501776AF48006172C6 /* SVUploaderWS.h */,
 				AA9CBC511776AF48006172C6 /* SVUploaderWS.m */,
+				04C36BC3177D047500EB97E0 /* SVURLBuilderWS.h */,
+				04C36BC4177D047500EB97E0 /* SVURLBuilderWS.m */,
 			);
 			name = "Worker Sessions";
 			sourceTree = "<group>";
@@ -4847,6 +4853,7 @@
 				AA9CBC4B1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
 				AA9CBC521776AF48006172C6 /* SVUploaderWS.m in Sources */,
 				04AFA7B8177CBEA700E32C6E /* SVAlbumGridViewCell.m in Sources */,
+				04C36BC5177D047500EB97E0 /* SVURLBuilderWS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5041,6 +5048,7 @@
 				AA9CBC4C1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
 				AA9CBC531776AF48006172C6 /* SVUploaderWS.m in Sources */,
 				04AFA7B9177CBEA700E32C6E /* SVAlbumGridViewCell.m in Sources */,
+				04C36BC6177D047500EB97E0 /* SVURLBuilderWS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

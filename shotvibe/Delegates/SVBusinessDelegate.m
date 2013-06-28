@@ -9,8 +9,10 @@
 #import "SVBusinessDelegate.h"
 #import "SVOfflineStorageWS.h"
 #import "SVAssetRetrievalWS.h"
+#import "SVEntityStore.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
+#import "SVURLBuilderWS.h"
 
 @implementation SVBusinessDelegate
 
@@ -85,17 +87,43 @@
 }
 
 
-+ (void)loadAllAssetsForAlbumGroup:(ALAssetsGroup *)group WithCompletion:(void (^)(NSArray *assets, NSError *error))block
++ (void) registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block
 {
-    SVAssetRetrievalWS *workerSession = [[SVAssetRetrievalWS alloc] init];
-    
-    [workerSession loadAllAssetsForAlbumGroup:group WithCompletion:^(NSArray *assets, NSError *error) {
-        // Just using this to forward our results
-        block(assets, error);
-    }];
+ [[SVEntityStore sharedStore] registerPhoneNumber:phoneNumber withCountryCode:countryCode WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {
+  
+  NSLog(@"registerPhoneNumber - success/error:  %i, %@", success, confirmationCode);
+  
+  block(success, confirmationCode, error);
+  
+ }];
 }
 
 
++ (NSURL *)getURLForPhoto:(AlbumPhoto *)aPhoto
+{
+    SVURLBuilderWS *workerSession = [[SVURLBuilderWS alloc] init];
+    
+    if (aPhoto.photo_url) {
+        return [workerSession photoUrlWithString:aPhoto.photo_url];
+    }
+    else
+    {
+        return nil;
+    }
+}
+
+
++ (void) validateRegistrationCode:(NSString *) registrationCode withConfirmationCode:(NSString *) confirmationCode WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId,  NSError *error))block
+{
+ [[SVEntityStore sharedStore] validateRegistrationCode:registrationCode withConfirmationCode:(NSString *) confirmationCode  WithCompletion:^(BOOL success, NSString *authToken, NSString *userId, NSError *error) {
+  
+  NSLog(@"sendSMSConfirmationCode - success/error:  %i", success);
+  
+  block(success, authToken, userId, error);
+  
+ }];
+}
 
 
 @end
+

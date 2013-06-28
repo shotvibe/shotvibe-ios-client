@@ -16,7 +16,6 @@
 
 @interface CaptureSelectImagesViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
-    //GMGridView *_gmGridView;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
@@ -74,7 +73,6 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
     
-    //[self configureGridview];
 }
 
 
