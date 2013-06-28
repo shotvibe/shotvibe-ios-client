@@ -7,6 +7,7 @@
 //
 
 #import "AFJSONRequestOperation.h"
+#import "AFImageRequestOperation.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
 #import "Member.h"
@@ -18,24 +19,32 @@
 @interface SVDownloadSyncEngine ()
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
-@property (nonatomic, strong) NSMutableArray *registeredClassesToSync;
 @property (atomic, readonly) BOOL syncInProgress;
-@property (atomic, strong) NSManagedObjectContext *saveContext;
+
+@property (atomic, strong) NSOperationQueue *internalQueue;
+
+@property (atomic, strong) NSManagedObjectContext *savingContext;
 
 - (NSURL *)applicationCacheDirectory;
 - (NSDate *)dateUsingStringFromAPI:(NSString *)dateString;
 - (NSString *)dateStringForAPIUsingDate:(NSDate *)date;
 - (void)deleteJSONDataRecordsForClassWithName:(NSString *)className;
-- (void)downloadDataForRegisteredObjects:(BOOL)useLastRequestDate;
+- (void)deleteJSONDataRecordsForPhotos;
+- (void)downloadAlbums:(BOOL)useLastRequestDate;
+- (void)downloadPhotos;
+- (void)downloadImages;
+- (void)downloadAvatars;
 - (void)executeSyncCompletedOperations;
 - (void)initializeDateFormatter;
 - (BOOL)initialSyncComplete;
 - (void)insertDataIntoCoreDataForClassName:(NSString *)className;
 - (id)JSONDataForClassWithName:(NSString *)className;
 - (NSURL *)JSONDataRecordsDirectory;
-- (void)newManagedObjectWithClassName:(NSString *)className forRecord:(NSDictionary *)record;
 - (NSURL *)photoUrlWithString:(NSString *)aString;
-- (void)retrievePhotoObjects;
+- (void)processAlbumsJSON;
+- (void)processPhotosJSON;
+- (void)processMembersData:(NSDictionary *)data withAlbum:(Album *)anAlbum;
+- (void)processPhotosData:(NSDictionary *)data withAlbum:(Album *)anAlbum;
 - (void)setInitialSyncCompleted;
 - (void)setValue:(id)value forKey:(NSString *)key forManagedObject:(NSManagedObject *)managedObject;
 - (void)writeJSONResponse:(id)response toDiskForClassWithName:(NSString *)className;
@@ -51,13 +60,10 @@
     static dispatch_once_t downloadEngineToken;
     dispatch_once(&downloadEngineToken, ^{
         sharedEngine = [[SVDownloadSyncEngine alloc] init];
-        if (sharedEngine.downloadQueue == nil) {
-            sharedEngine.downloadQueue = [[NSOperationQueue alloc] init];
-            sharedEngine.downloadQueue.maxConcurrentOperationCount = 1;
-        }
-        if (sharedEngine.photoSaveQueue == nil) {
-            sharedEngine.photoSaveQueue = [[NSOperationQueue alloc] init];
-            sharedEngine.photoSaveQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
+        if (sharedEngine.internalQueue == nil) {
+            sharedEngine.internalQueue = [[NSOperationQueue alloc] init];
+            sharedEngine.internalQueue.maxConcurrentOperationCount = 1;
+            [sharedEngine.internalQueue addObserver:sharedEngine forKeyPath:@"operations" options:NSKeyValueObservingOptionNew context:NULL];
         }
     });
     
@@ -67,24 +73,6 @@
 
 #pragma mark - Instance Methods
 
-- (void)registerNSManagedObjectClassToSync:(Class)aClass
-{
-    if (!self.registeredClassesToSync) {
-        self.registeredClassesToSync = [NSMutableArray array];
-    }
-    
-    if ([aClass isSubclassOfClass:[NSManagedObject class]]) {
-        if (![self.registeredClassesToSync containsObject:NSStringFromClass(aClass)]) {
-            [self.registeredClassesToSync addObject:NSStringFromClass(aClass)];
-        } else {
-            NSLog(@"Unable to register %@ as it is already registered", NSStringFromClass(aClass));
-        }
-    } else {
-        NSLog(@"Unable to register %@ as it is not a subclass of NSManagedObject", NSStringFromClass(aClass));
-    }
-}
-
-
 - (void)startSync
 {
     if (!self.syncInProgress) {
@@ -92,11 +80,7 @@
         _syncInProgress = YES;
         [self didChangeValueForKey:@"syncInProgress"];
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            
-            [self downloadDataForRegisteredObjects:YES];
-            
-        });
+        [self downloadAlbums:NO];
     }
 }
 
@@ -104,61 +88,43 @@
 #pragma mark - Private Methods
 
 
-- (void)downloadDataForRegisteredObjects:(BOOL)useLastRequestDate
+- (void)downloadAlbums:(BOOL)useLastRequestDate
 {
     NSMutableArray *operations = [NSMutableArray array];
     
-    for (NSString *className in self.registeredClassesToSync) {
-        
-        NSDate *lastRequestDate = nil;
-        NSString *path = nil;
-        NSDictionary *parameters = nil;
-        NSDictionary *headers = nil;
+    NSDate *lastRequestDate = nil;
+    
+    // Setup the Album request
+    NSString *path = @"albums/";
+    NSDictionary *parameters = nil;
+    NSDictionary *headers = nil;
+    
+    if (lastRequestDate) {
+        headers = @{@"If-Modified-Since": lastRequestDate};
+    }
+    
+    NSMutableURLRequest *theRequest = [[SVAPIClient sharedClient] GETRequestForAllRecordsAtPath:path withParameters:parameters andHeaders:headers];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         
         if (useLastRequestDate) {
-            lastRequestDate = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAlbumsLastRequestedDate];
+            [[NSUserDefaults standardUserDefaults] setObject:[[response allHeaderFields] objectForKey:@"Date"] forKey:kUserAlbumsLastRequestedDate];
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }
         
-        if ([className isEqualToString:@"Album"])
-        {
-            
-            // Setup the Album request
-            path = @"albums/";
-            headers = nil;
-            if (lastRequestDate) {
-                headers = @{@"If-Modified-Since": lastRequestDate};
-            }
-            
+        if ([JSON isKindOfClass:[NSDictionary class]] || [JSON isKindOfClass:[NSArray class]]) {
+            [self writeJSONResponse:JSON toDiskForClassWithName:@"Album"];
         }
         
-        NSMutableURLRequest *theRequest = [[SVAPIClient sharedClient] GETRequestForAllRecordsAtPath:path withParameters:parameters andHeaders:headers];
-        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-            
-            //NSLog(@"JSON Object Type: %@", [JSON class]);
-            //NSLog(@"Response for %@: %@", className, JSON);
-            
-            if ([className isEqualToString:@"Album"]) {
-                
-                [[NSUserDefaults standardUserDefaults] setObject:[[response allHeaderFields] objectForKey:@"Date"] forKey:kUserAlbumsLastRequestedDate];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                
-            }
-            
-            if ([JSON isKindOfClass:[NSDictionary class]] || [JSON isKindOfClass:[NSArray class]]) {
-                [self writeJSONResponse:JSON toDiskForClassWithName:className];
-            }
-            
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-            
-            //TODO: we should still check the caches folder and process anything that is in there
-            // in case the app quite before it could finish.
-            NSLog(@"Request for class %@ failed with error: %@", className, error);
-            
-        }];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         
-        [operations addObject:operation];
+        //TODO: we should still check the caches folder and process anything that is in there
+        // in case the app quite before it could finish.
+        NSLog(@"Request for class %@ failed with error: %@", @"Album", error);
         
-    }
+    }];
+    
+    [operations addObject:operation];
     
     [[SVAPIClient sharedClient] enqueueBatchOfHTTPRequestOperations:operations progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
         
@@ -166,38 +132,13 @@
         
     } completionBlock:^(NSArray *operations) {
         
-        NSLog(@"All operations completed.");
-        
-        [self processJSONDataRecordsIntoCoreDataForClassName:@"Album"];
+        [self processAlbumsJSON];
         
     }];
 }
 
 
-- (void)executeSyncCompletedOperations
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [self setInitialSyncCompleted];
-        [self willChangeValueForKey:@"syncInProgress"];
-        _syncInProgress = NO;
-        [self didChangeValueForKey:@"syncInProgress"];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        });
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineSyncCompletedNotification object:nil];
-        
-    });
-}
-
-
-- (BOOL)initialSyncComplete
-{
-    return [[[NSUserDefaults standardUserDefaults] valueForKey:kSVSyncEngineInitialSyncCompletedKey] boolValue];
-}
-
-
-- (void)retrievePhotoObjects
+- (void)downloadPhotos
 {
     NSArray *albums = [Album findAll];
     NSMutableArray *operations = [NSMutableArray array];
@@ -215,9 +156,6 @@
         
         NSMutableURLRequest *theRequest = [[SVAPIClient sharedClient] GETRequestForAllRecordsAtPath:path withParameters:nil andHeaders:headers];
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-            
-            //NSLog(@"JSON Object Type: %@", [JSON class]);
-            //NSLog(@"Response for AlbumPhoto: %@", JSON);
             
             if ([JSON isKindOfClass:[NSDictionary class]] || [JSON isKindOfClass:[NSArray class]]) {
                 [self writeJSONResponse:JSON toDiskForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
@@ -238,14 +176,148 @@
         
     } completionBlock:^(NSArray *operations) {
         
-        NSLog(@"All operations completed.");
-        
         //TODO: check the cache directory and delete any AlbumPhoto records
         if (![[NSFileManager defaultManager] isEmptyDirectoryAtURL:[self JSONDataRecordsDirectory]]) {
-            [self processJSONDataRecordsIntoCoreDataForClassName:@"AlbumPhoto"];
+            [self processPhotosJSON];
         }
         
     }];
+}
+
+
+- (void)downloadAvatars
+{
+    NSArray *members = [Member findAll];
+    
+    NSMutableArray *operations = [NSMutableArray arrayWithCapacity:members.count];
+    
+    for (Member *member in members) {
+        
+        NSURL *imageUrl = [self photoUrlWithString:member.avatar_url];
+        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:imageUrl];
+        
+        AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:imageRequest success:^(UIImage *image) {
+            
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                
+                Member *localMember = (Member *)[localContext objectWithID:member.objectID];
+                localMember.avatarData = UIImageJPEGRepresentation(image, 1);
+                
+            }];
+            
+        }];
+        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            NSLog(@"The operation was a success!");
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+            NSLog(@"The operation was a failure: %@", error);
+            
+        }];
+        [operations addObject:operation];
+        
+    }
+    
+    [[SVAPIClient sharedClient] enqueueBatchOfHTTPRequestOperations:operations progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+        
+        //TODO: Post a progress notification for interested observers
+        
+    } completionBlock:^(NSArray *operations) {
+        
+        [self downloadImages];
+        
+    }];
+}
+
+
+- (void)downloadImages
+{
+    NSArray *photos = [AlbumPhoto findAll];
+    
+    NSMutableArray *operations = [NSMutableArray arrayWithCapacity:photos.count];
+    
+    for (AlbumPhoto *photo in photos) {
+        
+        // Image
+        NSURL *imageUrl = [self photoUrlWithString:photo.photo_url];
+        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:imageUrl];
+        
+        AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:imageRequest success:^(UIImage *image) {
+            
+            NSLog(@"We have an image.");
+            
+        }];
+        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            NSLog(@"The object we got back was a %@", [responseObject class]);
+            NSLog(@"The operation was a success!");
+            
+            UIImage *image = (UIImage *)responseObject;
+            
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                
+                AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+                localPhoto.photoData = UIImageJPEGRepresentation(image, 1);
+                
+                CGSize newSize = CGSizeMake(100, 100);
+                float oldWidth = image.size.width;
+                float scaleFactor = newSize.width / oldWidth;
+                float newHeight = image.size.height * scaleFactor;
+                float newWidth = oldWidth * scaleFactor;
+                
+                UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+                [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+                UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                NSData *thumbnailData = UIImageJPEGRepresentation(thumbImage, 1.0);
+                localPhoto.thumbnailPhotoData = thumbnailData;
+                
+            }];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+            NSLog(@"The operation was a failure: %@", error);
+            
+        }];
+        [operations addObject:operation];
+        
+    }
+    
+    [[SVAPIClient sharedClient] enqueueBatchOfHTTPRequestOperations:operations progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+        
+        //TODO: Post a progress notification for interested observers
+        
+    } completionBlock:^(NSArray *operations) {
+        
+        [self executeSyncCompletedOperations];
+        
+    }];
+}
+
+
+- (void)executeSyncCompletedOperations
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self setInitialSyncCompleted];
+        [self willChangeValueForKey:@"syncInProgress"];
+        _syncInProgress = NO;
+        [self didChangeValueForKey:@"syncInProgress"];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        });
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineSyncCompletedNotification object:nil];
+        
+    });
+}
+
+
+- (BOOL)initialSyncComplete
+{
+    return [[[NSUserDefaults standardUserDefaults] valueForKey:kSVSyncEngineInitialSyncCompletedKey] boolValue];
 }
 
 
@@ -280,69 +352,139 @@
 
 #pragma mark - NSManagedObject Methods
 
-- (void)newManagedObjectWithClassName:(NSString *)className forRecord:(NSDictionary *)record
+- (void)processAlbumsJSON
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     });
     
-    [self.downloadQueue addOperationWithBlock:^{
-        
-        [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+    id albums = [self JSONDataForClassWithName:@"Album"];
+    
+    if ([albums isKindOfClass:[NSArray class]])
+    {
+        [MagicalRecord saveUsingCurrentThreadContextWithBlock:^(NSManagedObjectContext *localContext) {
             
-            self.saveContext = localContext;
-            
-            if ([className isEqualToString:@"Member"]) {
+            for (NSDictionary *anAlbum in albums) {
                 
-                Member *theMember = [Member findFirstByAttribute:@"userId" withValue:[record objectForKey:@"id"] inContext:self.saveContext];
-                if (theMember) {
-                    return;
-                }
-                
-            } else if ([className isEqualToString:@"Album"]) {
-                
-                Album *theAlbum = [Album findFirstByAttribute:@"albumId" withValue:[record objectForKey:@"id"] inContext:self.saveContext];
-                if (theAlbum) {
-                    return;
-                }
-                
+                Album *newAlbum = [Album createInContext:localContext];
+                [anAlbum enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                    [self setValue:obj forKey:key forManagedObject:newAlbum];
+                }];
+                [newAlbum setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
             }
             
-            NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:localContext];
+        } completion:^(BOOL success, NSError *error) {
             
-            [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                [self setValue:obj forKey:key forManagedObject:newManagedObject];
-            }];
-            [record setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
+            
+            [self deleteJSONDataRecordsForClassWithName:@"Album"];
+            [self downloadPhotos];
             
         }];
-        
-    }];
+    }
 }
 
 
-- (void)updateManagedObject:(NSManagedObject *)managedObject withRecord:(NSDictionary *)record
+- (void)processPhotosJSON
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    });
-    
-    [self.downloadQueue addOperationWithBlock:^{
+    NSArray *albums = [Album findAll];
+    for (Album *anAlbum in albums) {
         
-        [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+        NSDictionary *data = [self JSONDataForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
+        
+        // Process each member object
+        [self processMembersData:data withAlbum:anAlbum];
+        
+    }
+}
+
+
+- (void)processMembersData:(NSDictionary *)data withAlbum:(Album *)anAlbum
+{
+    NSArray *members = [data objectForKey:@"members"];
+    
+    for (NSDictionary *member in members) {
+        
+        [self.internalQueue addOperationWithBlock:^{
             
-            self.saveContext = localContext;
-            
-            [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                NSString *aKey = (NSString *)key;
-                if (![aKey isEqualToString:@"albumPhotos"] && ![aKey isEqualToString:@"albums"] && ![aKey isEqualToString:@"members"] && ![aKey isEqualToString:@"album"] && ![aKey isEqualToString:@"author"]) {
-                    [self setValue:obj forKey:key forManagedObject:managedObject];
+            [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+                
+                Member *existingMember = [Member findFirstByAttribute:@"userId" withValue:[member objectForKey:@"id"] inContext:localContext];
+                
+                if (!existingMember) {
+                    
+                    Member *newMember = [Member createInContext:localContext];
+                    [member enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                        [self setValue:obj forKey:key forManagedObject:newMember];
+                    }];
+                    
+                    Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
+                    [localAlbum addMembersObject:newMember];
+                    
+                } else {
+                    
+                    Member *localMember = (Member *)[localContext objectWithID:existingMember.objectID];
+                    Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
+                    [localAlbum addMembersObject:localMember];
+                    
                 }
+                
             }];
             
         }];
         
-    }];
+    }
+    
+    // Process each photo object
+    [self processPhotosData:data withAlbum:anAlbum];
+}
+
+
+- (void)processPhotosData:(NSDictionary *)data withAlbum:(Album *)anAlbum
+{
+    //self.internalQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
+    NSArray *photosArray = [data objectForKey:@"photos"];
+    
+    for (NSDictionary *photo in photosArray) {
+        
+        [self.internalQueue addOperationWithBlock:^{
+            
+            [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+                
+                AlbumPhoto *existingPhoto = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[photo objectForKey:@"photo_id"] inContext:localContext];
+                
+                if (!existingPhoto) {
+                    
+                    AlbumPhoto *newPhoto = [AlbumPhoto createInContext:localContext];
+                    
+                    [photo enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                        [self setValue:obj forKey:key forManagedObject:newPhoto];
+                    }];
+                    [newPhoto setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
+                    
+                    Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
+                    Member *localAuthor = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:localContext];
+                    
+                    [localAlbum addAlbumPhotosObject:newPhoto];
+                    
+                    if (localAuthor) {
+                        [newPhoto setValue:localAuthor forKey:@"author"];
+                    }
+                    
+                } else {
+                    
+                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:existingPhoto.objectID];
+                    Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
+                    [localAlbum addAlbumPhotosObject:localPhoto];
+                    
+                }
+                
+            }];
+            
+        }];
+        
+    }
+    
+    [self deleteJSONDataRecordsForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
 }
 
 
@@ -364,45 +506,7 @@
         }
         else if ([key isEqualToString:@"avatar_url"] || [key isEqualToString:@"photo_url"])
         {
-            @autoreleasepool {
-                NSURL *url = [self photoUrlWithString:value];
-                NSURLRequest *request = [NSURLRequest requestWithURL:url];
-                NSURLResponse *response = nil;
-                NSError *error = nil;
-                NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                
-                NSString *newKey = nil;
-                NSString *thumbnailKey = nil;
-                if ([key isEqualToString:@"avatar_url"]) {
-                    newKey = @"avatarData";
-                } else if ([key isEqualToString:@"photo_url"]) {
-                    newKey = @"photoData";
-                    thumbnailKey = @"thumbnailPhotoData";
-                }
-                
-                if (thumbnailKey) {
-                    UIImage *originalImage = [UIImage imageWithData:dataResponse];
-                    
-                    CGSize newSize = CGSizeMake(100, 100);
-                    
-                    float oldWidth = originalImage.size.width;
-                    float scaleFactor = newSize.width / oldWidth;
-                    
-                    float newHeight = originalImage.size.height * scaleFactor;
-                    float newWidth = oldWidth * scaleFactor;
-                    
-                    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-                    [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-                    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-                    UIGraphicsEndImageContext();
-                    
-                    NSData *thumbnailData = UIImageJPEGRepresentation(image, 1.0);
-                    [managedObject setValue:thumbnailData forKey:thumbnailKey];
-                }
-                
-                [managedObject setValue:dataResponse forKey:newKey];
-                [managedObject setValue:value forKey:key];
-            }
+            [managedObject setValue:value forKey:key];
         }
         else
         {
@@ -470,72 +574,7 @@
         // If this is the initial sync then the logic is pretty simple, you will fetch the JSON data from disk
         // for the class of the current iteration and create new NSManagedObjects for each record
         //
-        id records = [self JSONDataForClassWithName:className];
-        if ([records isKindOfClass:[NSArray class]])
-        {
-            for (NSDictionary *record in records) {
-                [self newManagedObjectWithClassName:className forRecord:record];
-            }
-        }
-        else
-        {
-            NSDictionary *record = records;
-            
-            // Process each member object
-            NSArray *members = [record objectForKey:@"members"];
-            for (NSDictionary *aMember in members) {
-                
-                [self newManagedObjectWithClassName:@"Member" forRecord:aMember];
-                
-                [self.downloadQueue addOperationWithBlock:^{
-                    
-                    Album *theAlbum = [Album findFirstByAttribute:@"albumId" withValue:[record objectForKey:@"id"] inContext:self.saveContext];
-                    Member *theMember = [Member findFirstByAttribute:@"userId" withValue:[aMember objectForKey:@"id"] inContext:self.saveContext];
-                    
-                    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
-                        
-                        Album *localAlbum = (Album *)[localContext objectWithID:theAlbum.objectID];
-                        Member *localMember = (Member *)[localContext objectWithID:theMember.objectID];
-                        [localAlbum addMembersObject:localMember];
-                        
-                    }];
-                    
-                }];
-            }
-            
-            [self.downloadQueue waitUntilAllOperationsAreFinished];
-            
-            // Process each photo object
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-            });
-            NSArray *photos = [record objectForKey:@"photos"];
-            for (NSDictionary *aPhoto in photos) {
-                [self.photoSaveQueue addOperationWithBlock:^{
-                    
-                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                        
-                        AlbumPhoto *thePhoto = [AlbumPhoto createInContext:localContext];
-                        
-                        [aPhoto enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                            [self setValue:obj forKey:key forManagedObject:thePhoto];
-                        }];
-                        [thePhoto setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
-                        
-                        Album *theAlbum = [Album findFirstByAttribute:@"albumId" withValue:[record objectForKey:@"id"] inContext:localContext];
-                        Member *theAuthor = [Member findFirstByAttribute:@"userId" withValue:[[aPhoto objectForKey:@"author"] objectForKey:@"id"] inContext:localContext];
-                        
-                        [theAlbum addAlbumPhotosObject:thePhoto];
-                        
-                        if (theAuthor) {
-                            [thePhoto setValue:theAuthor forKey:@"author"];
-                        }
-                        
-                    }];
-                    
-                }];
-            }
-        }
+        
         
     }
     else
@@ -583,11 +622,10 @@
                         // Do a quick spot check to validate the objectIds in fact do match, if they do update the stored
                         // object with the values received from the remote service
                         //
-                        [self updateManagedObject:[storedRecords objectAtIndex:currentIndex] withRecord:record];
+                        
                     } else {
                         // Otherwise you have a new object coming in from your remote service so create a new
                         // NSManagedObject to represent this remote object locally
-                        [self newManagedObjectWithClassName:className forRecord:record];
                     }
                     currentIndex++;
                     
@@ -595,30 +633,6 @@
             }
         }
         
-    }
-    
-    [self deleteJSONDataRecordsForClassWithName:className];
-}
-
-
-- (void)processJSONDataRecordsIntoCoreDataForClassName:(NSString *)className
-{
-    if ([className isEqualToString:@"Album"]) {
-        [self insertDataIntoCoreDataForClassName:className];
-        NSLog(@"%d", self.downloadQueue.operationCount);
-        [self.downloadQueue addOperationWithBlock:^{
-            
-            [self retrievePhotoObjects];
-            
-        }];
-    } else {
-        NSArray *albums = [Album findAll];
-        for (Album *anAlbum in albums) {
-            
-            [self insertDataIntoCoreDataForClassName:[NSString stringWithFormat:@"%@-%@", className, anAlbum.albumId.stringValue]];
-            
-        }
-        [self executeSyncCompletedOperations];
     }
 }
 
@@ -707,6 +721,20 @@
 }
 
 
+- (void)deleteJSONDataRecordsForPhotos
+{
+    NSArray *albums = [Album findAll];
+    for (Album *album in albums) {
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"AlbumPhoto-%@", album.albumId.stringValue] relativeToURL:[self JSONDataRecordsDirectory]];
+        NSError *error = nil;
+        BOOL deleted = [[NSFileManager defaultManager] removeItemAtURL:url error:&error];
+        if (!deleted) {
+            NSLog(@"Unable to delete JSON Records at %@, reason: %@", url, error);
+        }
+    }
+}
+
+
 - (void)writeJSONResponse:(id)response toDiskForClassWithName:(NSString *)className
 {
     NSURL *fileURL = [NSURL URLWithString:className relativeToURL:[self JSONDataRecordsDirectory]];
@@ -732,6 +760,32 @@
         if (![nullFreeDictionary writeToFile:[fileURL path] atomically:YES]) {
             NSLog(@"Failed all attempts to save response to disk: %@", response);
         }
+    }
+}
+
+
+#pragma mark - Key Value Observing
+
+- (void) observeValueForKeyPath:(NSString *)keyPath
+                       ofObject:(id)object
+                         change:(NSDictionary *)change
+                        context:(void *)context
+{
+    if (object == self.downloadQueue && [keyPath isEqualToString:@"operations"]) {
+        if ([self.downloadQueue.operations count] == 0) {
+            // Do something here when your queue has completed
+            NSLog(@"queue has completed");
+        }
+    }
+    else if (object == self.internalQueue && [keyPath isEqualToString:@"operations"]) {
+        if ([self.internalQueue.operations count] == 0) {
+            NSLog(@"We should be done writing to disk now!");
+            [self downloadAvatars];
+        }
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object
+                               change:change context:context];
     }
 }
 

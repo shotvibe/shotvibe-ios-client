@@ -13,7 +13,6 @@
 #pragma mark - Properties
 
 @property (nonatomic, strong) NSOperationQueue *downloadQueue;
-@property (nonatomic, strong) NSOperationQueue *photoSaveQueue;
 
 
 #pragma mark - Class Methods
@@ -23,6 +22,5 @@
 
 #pragma mark - Instance Methods
 
-- (void)registerNSManagedObjectClassToSync:(Class)aClass;
 - (void)startSync;
 @end

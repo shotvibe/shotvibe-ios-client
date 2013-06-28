@@ -74,7 +74,7 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
     
-    [self configureGridview];
+    //[self configureGridview];
 }
 
 
