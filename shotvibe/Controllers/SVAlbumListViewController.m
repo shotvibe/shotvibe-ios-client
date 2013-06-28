@@ -433,7 +433,7 @@
         [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
         
         NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
-        
+        [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
         if (numberNew)
         {
             [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
@@ -486,7 +486,7 @@
     [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
     
     NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
-    
+    [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
     if (numberNew)
     {
         [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
