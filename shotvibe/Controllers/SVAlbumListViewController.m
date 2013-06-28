@@ -412,15 +412,12 @@
         
         if (recentPhoto) {
             // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-            /*__block NSIndexPath *tagIndex = indexPath;
-             [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
-             if (image && cell.networkImageView.tag == tagIndex.row) {
-             [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-             }
-             }];*/
-            
-            UIImage *photo = [UIImage imageWithData:recentPhoto.thumbnailPhotoData];
-            [cell.networkImageView setImage:photo];
+            __block NSIndexPath *tagIndex = indexPath;
+            [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
+                if (image && cell.networkImageView.tag == tagIndex.row) {
+                    [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+                }
+            }];
             
             NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
             cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
@@ -463,16 +460,15 @@
     
     if (recentPhoto) {
         // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-        /*__block NSIndexPath *tagIndex = indexPath;
-         [SVBusinessDelegate loadImageFromAlbum:anAlbum withPath:recentPhoto.photo_id WithCompletion:^(UIImage *image, NSError *error) {
-         if (image && cell.networkImageView.tag == tagIndex.row) {
-         [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-         }
-         }];*/
         
         if (cell.networkImageView.initialImage == cell.networkImageView.image) {
-            UIImage *photo = [UIImage imageWithData:recentPhoto.thumbnailPhotoData];
-            [cell.networkImageView setImage:photo];
+            
+            __block NSIndexPath *tagIndex = indexPath;
+            [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
+                if (image && cell.networkImageView.tag == tagIndex.row) {
+                    [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+                }
+            }];
         }
         
         NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");

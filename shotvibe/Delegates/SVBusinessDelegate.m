@@ -11,6 +11,7 @@
 #import "SVAssetRetrievalWS.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
+#import "SVURLBuilderWS.h"
 
 @implementation SVBusinessDelegate
 
@@ -96,6 +97,18 @@
 }
 
 
++ (NSURL *)getURLForPhoto:(AlbumPhoto *)aPhoto
+{
+    SVURLBuilderWS *workerSession = [[SVURLBuilderWS alloc] init];
+    
+    if (aPhoto.photo_url) {
+        return [workerSession photoUrlWithString:aPhoto.photo_url];
+    }
+    else
+    {
+        return nil;
+    }
+}
 
 
 @end

@@ -31,4 +31,6 @@
 - (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
 
 - (void)uploadPhoto:(NSString *)photoId withImageData:(NSData *)imageData;
+
+- (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
 @end

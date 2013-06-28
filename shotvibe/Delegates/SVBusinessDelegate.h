@@ -29,4 +29,8 @@
 + (void)loadAllLocalAlbumsOnDeviceWithCompletion:(void (^)(NSArray *albums, NSError *error))block;
 + (void)loadAllAssetsForAlbumGroup:(ALAssetsGroup *)group WithCompletion:(void (^)(NSArray *assets, NSError *error))block;
 
+
+// URL Fetching methods
++ (NSURL *)getURLForPhoto:(AlbumPhoto *)aPhoto;
+
 @end

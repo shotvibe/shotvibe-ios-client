@@ -364,7 +364,7 @@
         }
         else if ([key isEqualToString:@"avatar_url"] || [key isEqualToString:@"photo_url"])
         {
-            @autoreleasepool {
+            /*@autoreleasepool {
                 NSURL *url = [self photoUrlWithString:value];
                 NSURLRequest *request = [NSURLRequest requestWithURL:url];
                 NSURLResponse *response = nil;
@@ -401,8 +401,9 @@
                 }
                 
                 [managedObject setValue:dataResponse forKey:newKey];
-                [managedObject setValue:value forKey:key];
-            }
+            }*/
+            [managedObject setValue:value forKey:key];
+
         }
         else
         {
