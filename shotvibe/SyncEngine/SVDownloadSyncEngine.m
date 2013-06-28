@@ -300,6 +300,7 @@
         
     } completionBlock:^(NSArray *operations) {
         
+        [[SVAPIClient sharedClient].operationQueue setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
         [self executeSyncCompletedOperations];
         
     }];
@@ -789,6 +790,7 @@
     else if (object == self.internalQueue && [keyPath isEqualToString:@"operations"]) {
         if ([self.internalQueue.operations count] == 0) {
             NSLog(@"We should be done writing to disk now!");
+            [[SVAPIClient sharedClient].operationQueue setMaxConcurrentOperationCount:4];
             [self downloadAvatars];
         }
     }

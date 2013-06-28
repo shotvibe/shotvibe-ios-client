@@ -210,7 +210,7 @@
 
 - (BOOL) hasUserBeenAuthenticated
 {
- BOOL userIsAuthenticated = NO;
+ BOOL userIsAuthenticated = YES;
  
  NSString *userId        = [[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId];
  NSString *userAuthToken = [[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserAuthToken];
