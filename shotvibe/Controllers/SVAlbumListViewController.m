@@ -413,11 +413,13 @@
         if (recentPhoto) {
             // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
             __block NSIndexPath *tagIndex = indexPath;
-            [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
-                if (image && cell.networkImageView.tag == tagIndex.row) {
-                    [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-                }
-            }];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
+                    if (image && cell.networkImageView.tag == tagIndex.row) {
+                        [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+                    }
+                }];
+            });
             
             NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
             cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
