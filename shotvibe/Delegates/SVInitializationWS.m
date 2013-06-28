@@ -190,11 +190,11 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     // start upload syncing
     [[UploadSyncEngine sharedEngine] startSync];*/
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    /*dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         [[SVDownloadSyncEngine sharedEngine] startSync];
         
-    });
+    });*/
 }
 
 

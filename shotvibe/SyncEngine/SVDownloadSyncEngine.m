@@ -376,15 +376,47 @@
             
             for (NSDictionary *anAlbum in albums) {
                 
+                // Process the album
                 Album *newAlbum = [Album createInContext:localContext];
                 [anAlbum enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                     [self setValue:obj forKey:key forManagedObject:newAlbum];
                 }];
                 [newAlbum setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
+                
+                // Process recent Photos
+                NSArray *recentPhotos = [anAlbum objectForKey:@"latest_photos"];
+                for (NSDictionary *photo in recentPhotos) {
+                    
+                    AlbumPhoto *photoToSave = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[photo objectForKey:@"photo_id"] inContext:localContext];
+                    
+                    if (!photoToSave) {
+                        
+                        photoToSave = [AlbumPhoto createInContext:localContext];
+                        
+                    }
+                    
+                    [photo enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                        [self setValue:obj forKey:key forManagedObject:photoToSave];
+                    }];
+                    [photoToSave setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
+                    [newAlbum addAlbumPhotosObject:photoToSave];
+                    
+                    Member *authorToSave = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:localContext];
+                    if (!authorToSave) {
+                        
+                        authorToSave = [Member createInContext:localContext];
+                        
+                    }
+                    [[photo objectForKey:@"author"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                        [self setValue:obj forKey:key forManagedObject:authorToSave];
+                    }];
+                    [photoToSave setValue:authorToSave forKey:@"author"];
+                    [newAlbum addMembersObject:authorToSave];
+                    
+                }
             }
             
         } completion:^(BOOL success, NSError *error) {
-            
             
             [self deleteJSONDataRecordsForClassWithName:@"Album"];
             [self downloadPhotos];
@@ -396,6 +428,63 @@
 
 - (void)processPhotosJSON
 {
+    dispatch_group_t jsonGroup = dispatch_group_create();
+    dispatch_queue_t jsonQueue = dispatch_queue_create("com.picsonair.jsonprocessor", DISPATCH_QUEUE_CONCURRENT);
+    
+    NSArray *albums = [Album findAll];
+    for (Album *anAlbum in albums) {
+        
+        NSDictionary *data = [self JSONDataForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
+        
+        // Process each member object
+        //[self processMembersData:data withAlbum:anAlbum];
+        dispatch_group_async(jsonGroup, jsonQueue, ^{
+            
+            NSArray *members = [data objectForKey:@"members"];
+            
+            for (NSDictionary *member in members) {
+                
+                [MagicalRecord saveUsingCurrentThreadContextWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+                    
+                    Member *memberToSave = [Member findFirstByAttribute:@"userId" withValue:[member objectForKey:@"id"] inContext:localContext];
+                    
+                    if (!memberToSave) {
+                        
+                        memberToSave = [Member createInContext:localContext];
+                        
+                    }
+                    
+                    [member enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                        [self setValue:obj forKey:key forManagedObject:memberToSave];
+                    }];
+                    
+                    Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
+                    [localAlbum addMembersObject:memberToSave];
+                    
+                }];
+                
+                NSLog(@"%@", member);
+                
+            }
+            
+        });
+        
+        // Process each photo object
+        
+        
+    }
+    
+    dispatch_group_wait(jsonGroup, DISPATCH_TIME_FOREVER);
+    dispatch_group_notify(jsonGroup, jsonQueue, ^{
+        
+        NSLog(@"JSON PROCESSOR FINISHED");
+        
+    });
+}
+
+
+/*- (void)processPhotosJSON
+{
     NSArray *albums = [Album findAll];
     for (Album *anAlbum in albums) {
         
@@ -405,7 +494,7 @@
         [self processMembersData:data withAlbum:anAlbum];
         
     }
-}
+}*/
 
 
 - (void)processMembersData:(NSDictionary *)data withAlbum:(Album *)anAlbum
