@@ -198,17 +198,24 @@
         
         AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:imageRequest success:^(UIImage *image) {
             
-            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                
-                Member *localMember = (Member *)[localContext objectWithID:member.objectID];
-                localMember.avatarData = UIImageJPEGRepresentation(image, 1);
-                
-            }];
+            NSLog(@"We have an image.");
             
         }];
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             
+            NSLog(@"The object we got back was a %@", [responseObject class]);
             NSLog(@"The operation was a success!");
+            
+            @autoreleasepool {
+                UIImage *image = (UIImage *)responseObject;
+                
+                [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                    
+                    Member *localMember = (Member *)[localContext objectWithID:member.objectID];
+                    localMember.avatarData = UIImageJPEGRepresentation(image, 1);
+                    
+                }];
+            }
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
@@ -257,22 +264,24 @@
             
             [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                 
-                AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
-                localPhoto.photoData = UIImageJPEGRepresentation(image, 1);
-                
-                CGSize newSize = CGSizeMake(100, 100);
-                float oldWidth = image.size.width;
-                float scaleFactor = newSize.width / oldWidth;
-                float newHeight = image.size.height * scaleFactor;
-                float newWidth = oldWidth * scaleFactor;
-                
-                UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-                [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-                UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-                
-                NSData *thumbnailData = UIImageJPEGRepresentation(thumbImage, 1.0);
-                localPhoto.thumbnailPhotoData = thumbnailData;
+                @autoreleasepool {
+                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+                    localPhoto.photoData = UIImageJPEGRepresentation(image, 1);
+                    
+                    CGSize newSize = CGSizeMake(100, 100);
+                    float oldWidth = image.size.width;
+                    float scaleFactor = newSize.width / oldWidth;
+                    float newHeight = image.size.height * scaleFactor;
+                    float newWidth = oldWidth * scaleFactor;
+                    
+                    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+                    [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+                    UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+                    UIGraphicsEndImageContext();
+                    
+                    NSData *thumbnailData = UIImageJPEGRepresentation(thumbImage, 1.0);
+                    localPhoto.thumbnailPhotoData = thumbnailData;
+                }
                 
             }];
             
