@@ -15,6 +15,9 @@
 #define kApplicationName @"ShotVibe"
 #define kApplicationUploadQueueName @"ShotVibeUploadQueue"
 
+#define kApplicationUserId @"userId"
+#define kApplicationUserAuthToken @"userAuthToken"
+
 #define kPhotoThumbExtension @"_thumb75.jpg"
 #define kPhotoIphone3Extension @"_iphone3.jpg"
 #define kPhotoIphone4Extension @"_iphone4.jpg"
