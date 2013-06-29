@@ -251,43 +251,28 @@
     for (AlbumPhoto *photo in photos) {
         
         // Image
-        NSLog(@"Added photo %@ to operation queue", photo.photo_id);
+        /*NSLog(@"Added photo %@ to operation queue", photo.photo_id);
         __block AlbumPhoto *blockPhoto = photo;
         
         [self.downloadQueue addOperationWithBlock:^{
             @autoreleasepool {
-                NSLog(@"Downloading photo %@", blockPhoto.photo_id);
-                NSURL *imageUrl = [self photoUrlWithString:blockPhoto.photo_url];
+                            }
+        }];*/
+        
+        NSLog(@"Downloading photo %@", photo.photo_id);
+        NSURL *imageUrl = [self photoUrlWithString:photo.photo_url];
+        
+        NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl];
+
+        
+        [NSURLConnection sendAsynchronousRequest:request queue:self.downloadQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            if (data) {
+                AlbumPhoto *localPhoto = (AlbumPhoto *)[[NSManagedObjectContext defaultContext] objectWithID:photo.objectID];
                 
-                NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl];
-                
-                NSURLResponse *response = nil;
-                NSError *error = nil;
-                NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                
-                if (error) {
-                    NSLog(@"Error downloading image: %@", [error localizedDescription]);
-                }
-                
-                if (dataResponse) {
-                    
-                    AlbumPhoto *localPhoto = (AlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:blockPhoto.objectID];
-                    
-                    [localPhoto setPhotoData:dataResponse];
-                    
-                    /*[[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
-                        if (success) {
-                            NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
-                            
-                        }
-                        else
-                        {
-                            NSLog(@"We no can haz save right now");
-                        }
-                    }];*/
-                }
+                [localPhoto setPhotoData:data];
             }
         }];
+
         
     }
 }
