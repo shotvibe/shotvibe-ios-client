@@ -242,12 +242,11 @@
 {
     if (!self.downloadQueue) {
         self.downloadQueue = [[NSOperationQueue alloc] init];
-        self.downloadQueue.maxConcurrentOperationCount = 2;
+        [self.downloadQueue addObserver:self forKeyPath:@"operations" options:NSKeyValueObservingOptionNew context:NULL];
+        //self.downloadQueue.maxConcurrentOperationCount = 2;
     }
     
     NSArray *photos = [AlbumPhoto findAll];
-    
-    NSMutableArray *operations = [NSMutableArray arrayWithCapacity:photos.count];
     
     for (AlbumPhoto *photo in photos) {
         
@@ -336,17 +335,6 @@
         [operations addObject:operation];*/
         
     }
-    
-    [[SVAPIClient sharedClient] enqueueBatchOfHTTPRequestOperations:operations progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
-        
-        //TODO: Post a progress notification for interested observers
-        
-    } completionBlock:^(NSArray *operations) {
-        
-        [[SVAPIClient sharedClient].operationQueue setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
-        [self executeSyncCompletedOperations];
-        
-    }];
 }
 
 
@@ -859,6 +847,7 @@
         if ([self.downloadQueue.operations count] == 0) {
             // Do something here when your queue has completed
             NSLog(@"queue has completed");
+            [self executeSyncCompletedOperations];
         }
     }
     else {
