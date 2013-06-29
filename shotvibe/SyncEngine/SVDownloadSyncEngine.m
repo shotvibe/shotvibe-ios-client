@@ -90,7 +90,9 @@
     
     if (useLastRequestDate) {
         lastRequestDate = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAlbumsLastRequestedDate];
-        headers = @{@"If-Modified-Since": lastRequestDate};
+        if (lastRequestDate) {
+            headers = @{@"If-Modified-Since": lastRequestDate};
+        }
     }
     
     NSMutableURLRequest *theRequest = [[SVAPIClient sharedClient] GETRequestForAllRecordsAtPath:path withParameters:parameters andHeaders:headers];
@@ -98,7 +100,6 @@
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         
         if (useLastRequestDate) {
-            NSLog(@"Last request date was: %@", [[response allHeaderFields] objectForKey:@"Date"]);
             [[NSUserDefaults standardUserDefaults] setObject:[[response allHeaderFields] objectForKey:@"Date"] forKey:kUserAlbumsLastRequestedDate];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
