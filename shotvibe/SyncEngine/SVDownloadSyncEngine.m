@@ -243,7 +243,7 @@
     if (!self.downloadQueue) {
         self.downloadQueue = [[NSOperationQueue alloc] init];
         [self.downloadQueue addObserver:self forKeyPath:@"operations" options:NSKeyValueObservingOptionNew context:NULL];
-        //self.downloadQueue.maxConcurrentOperationCount = 2;
+        self.downloadQueue.maxConcurrentOperationCount = 2;
     }
     
     NSArray *photos = [AlbumPhoto findAll];
@@ -275,7 +275,7 @@
                     
                     [localPhoto setPhotoData:dataResponse];
                     
-                    [[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+                    /*[[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
                         if (success) {
                             NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
                             
@@ -284,55 +284,10 @@
                         {
                             NSLog(@"We no can haz save right now");
                         }
-                    }];
+                    }];*/
                 }
             }
         }];
-        
-        
-        //NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        
-        
-
-        
-        /*AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:imageRequest success:^(UIImage *image) {
-            
-            NSLog(@"We have an image.");
-            
-        }];
-        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
-            UIImage *image = (UIImage *)responseObject;
-            
-            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                
-                @autoreleasepool {
-                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
-                    localPhoto.photoData = UIImageJPEGRepresentation(image, 1);
-                    
-                    CGSize newSize = CGSizeMake(100, 100);
-                    float oldWidth = image.size.width;
-                    float scaleFactor = newSize.width / oldWidth;
-                    float newHeight = image.size.height * scaleFactor;
-                    float newWidth = oldWidth * scaleFactor;
-                    
-                    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-                    [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-                    UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
-                    UIGraphicsEndImageContext();
-                    
-                    NSData *thumbnailData = UIImageJPEGRepresentation(thumbImage, 1.0);
-                    localPhoto.thumbnailPhotoData = thumbnailData;
-                }
-                
-            }];
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            
-            NSLog(@"The operation was a failure: %@", error);
-            
-        }];
-        [operations addObject:operation];*/
         
     }
 }
@@ -342,6 +297,17 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         
+        [[NSManagedObjectContext defaultContext] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+            if (success) {
+                NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
+                
+            }
+            else
+            {
+                NSLog(@"We no can haz save right now");
+            }
+        }];
+        
         [self setInitialSyncCompleted];
         [self willChangeValueForKey:@"syncInProgress"];
         _syncInProgress = NO;
@@ -349,6 +315,10 @@
         
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineSyncCompletedNotification object:nil];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        });
         
     });
 }
@@ -498,6 +468,8 @@
                     [member enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                         [self setValue:obj forKey:key forManagedObject:memberToSave];
                     }];
+                    Album *localAlbum = (Album *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:anAlbum.objectID];
+                    [localAlbum addMembersObject:memberToSave];
                     
                     //[[NSManagedObjectContext contextForCurrentThread] save:nil];
                     [[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
@@ -565,21 +537,16 @@
                     }
                     
                     //[[NSManagedObjectContext contextForCurrentThread] save:nil];
-                    [[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
-                        if (success) {
-                            NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
-                            
-                        }
-                        else
-                        {
-                            NSLog(@"We no can haz save right now");
-                        }
-                    }];
                     
                     if (!self.imagesToFetch) {
                         self.imagesToFetch = [[NSMutableArray alloc] init];
                     }
                     [self.imagesToFetch addObject:photoToSave];
+                    
+                    if (!self.imagesToFetch) {
+                        self.imagesToFetch = [[NSMutableArray alloc] init];
+                    }
+                    [self.imagesToFetch addObject:photoToSave.photo_id];
 
                     
                     /*[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
@@ -623,6 +590,17 @@
     }
     
     dispatch_group_notify(photoGroup, photoQueue, ^{
+        
+        [[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+            if (success) {
+                NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
+                
+            }
+            else
+            {
+                NSLog(@"We no can haz save right now");
+            }
+        }];
         
         // Download images
         [self downloadAvatars];
