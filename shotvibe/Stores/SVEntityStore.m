@@ -282,60 +282,52 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 {
     __block AlbumPhoto *blockPhoto = aPhoto;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        if (blockPhoto.photoData) {
-            UIImage *image = [UIImage imageWithData:aPhoto.photoData];
-            
-            block(image);
+        NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
+        
+        if (photoURL) {
+            @autoreleasepool {
+                NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
+                NSURLResponse *response = nil;
+                NSError *error = nil;
+                NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                
+                UIImage *originalImage = [UIImage imageWithData:dataResponse];
+                
+                CGSize newSize = CGSizeMake(100, 100);
+                
+                float oldWidth = originalImage.size.width;
+                float scaleFactor = newSize.width / oldWidth;
+                
+                float newHeight = originalImage.size.height * scaleFactor;
+                float newWidth = oldWidth * scaleFactor;
+                
+                UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+                [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+                UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                NSData *thumbnailData = UIImageJPEGRepresentation(image, 1.0);
+                
+                if (dataResponse) {
+                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                        
+                        AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:blockPhoto.objectID];
+                        
+                        [localPhoto setPhotoData:dataResponse];
+                        [localPhoto setThumbnailPhotoData:thumbnailData];
+                        
+                    } completion:^(BOOL success, NSError *error) {
+                        UIImage *image = [UIImage imageWithData:thumbnailData];
+                        block(image);
+                    }];
+                }
+            }
         }
         else
         {
-            NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
-            
-            if (photoURL) {
-                @autoreleasepool {
-                    NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
-                    NSURLResponse *response = nil;
-                    NSError *error = nil;
-                    NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                    
-                    UIImage *originalImage = [UIImage imageWithData:dataResponse];
-                    
-                    CGSize newSize = CGSizeMake(100, 100);
-                    
-                    float oldWidth = originalImage.size.width;
-                    float scaleFactor = newSize.width / oldWidth;
-                    
-                    float newHeight = originalImage.size.height * scaleFactor;
-                    float newWidth = oldWidth * scaleFactor;
-                    
-                    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-                    [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-                    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-                    UIGraphicsEndImageContext();
-                    
-                    NSData *thumbnailData = UIImageJPEGRepresentation(image, 1.0);
-                    
-                    if (dataResponse) {
-                        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                            
-                            AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:blockPhoto.objectID];
-                            
-                            [localPhoto setPhotoData:dataResponse];
-                            [localPhoto setThumbnailPhotoData:thumbnailData];
-                            
-                        } completion:^(BOOL success, NSError *error) {
-                            UIImage *image = [UIImage imageWithData:thumbnailData];
-                            block(image);
-                        }];
-                    }
-                }
-            }
-            else
-            {
-                block(nil);
-            }
-            
+            block(nil);
         }
+
 
     });
 }
