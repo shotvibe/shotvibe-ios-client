@@ -425,7 +425,7 @@
             }
             else
             {
-                [cell.networkImageView setImage:[UIImage imageWithData:recentPhoto.thumbnailPhotoData]];
+                [cell.networkImageView setImage:[UIImage imageWithData:recentPhoto.photoData scale:0.25]];
             }
            
             

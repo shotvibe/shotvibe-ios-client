@@ -245,6 +245,9 @@
         
         // Image
         NSURL *imageUrl = [self photoUrlWithString:photo.photo_url];
+        
+        
+        
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:imageUrl];
         
         AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:imageRequest success:^(UIImage *image) {
@@ -262,7 +265,7 @@
                     AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
                     localPhoto.photoData = UIImageJPEGRepresentation(image, 1);
                     
-                    CGSize newSize = CGSizeMake(100, 100);
+                    /*CGSize newSize = CGSizeMake(100, 100);
                     float oldWidth = image.size.width;
                     float scaleFactor = newSize.width / oldWidth;
                     float newHeight = image.size.height * scaleFactor;
@@ -274,7 +277,7 @@
                     UIGraphicsEndImageContext();
                     
                     NSData *thumbnailData = UIImageJPEGRepresentation(thumbImage, 1.0);
-                    localPhoto.thumbnailPhotoData = thumbnailData;
+                    localPhoto.thumbnailPhotoData = thumbnailData;*/
                 }
                 
             }];
