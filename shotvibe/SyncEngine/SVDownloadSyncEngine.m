@@ -242,7 +242,7 @@
 {
     if (!self.downloadQueue) {
         self.downloadQueue = [[NSOperationQueue alloc] init];
-        self.downloadQueue.maxConcurrentOperationCount = 1;
+        self.downloadQueue.maxConcurrentOperationCount = 2;
     }
     
     NSArray *photos = [AlbumPhoto findAll];
@@ -486,9 +486,34 @@
                 NSArray *members = [data objectForKey:@"members"];
                 for (NSDictionary *member in members) {
                     
-                    Member *outerMember = [Member findFirstByAttribute:@"userId" withValue:[member objectForKey:@"id"] inContext:[NSManagedObjectContext defaultContext]];
+                    Member *outerMember = [Member findFirstByAttribute:@"userId" withValue:[member objectForKey:@"id"] inContext:[NSManagedObjectContext contextForCurrentThread]];
                     
-                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                    Member *memberToSave = nil;
+                    if (outerMember) {
+                        memberToSave = outerMember;
+                    }
+                    else
+                    {
+                        memberToSave = [Member createInContext:[NSManagedObjectContext contextForCurrentThread]];
+                    }
+                    
+                    [member enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                        [self setValue:obj forKey:key forManagedObject:memberToSave];
+                    }];
+                    
+                    //[[NSManagedObjectContext contextForCurrentThread] save:nil];
+                    [[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+                        if (success) {
+                            NSLog(@"Wheeeeeeee ahaHAH");
+
+                        }
+                        else
+                        {
+                            NSLog(@"FUCK");
+                        }
+                    }];
+                    
+                    /*[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                         
                         Member *memberToSave = nil;
                         if (outerMember) {
@@ -504,7 +529,7 @@
                         Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
                         [localAlbum addMembersObject:memberToSave];
                         
-                    }];
+                    }];*/
                 }
             }
             
@@ -517,9 +542,49 @@
                 NSArray *photosArray = [data objectForKey:@"photos"];
                 for (NSDictionary *photo in photosArray) {
                     
-                    AlbumPhoto *outerPhoto = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[photo objectForKey:@"photo_id"] inContext:[NSManagedObjectContext defaultContext]];
+                    AlbumPhoto *outerPhoto = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[photo objectForKey:@"photo_id"] inContext:[NSManagedObjectContext contextForCurrentThread]];
                     
-                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                    AlbumPhoto *photoToSave = nil;
+                    
+                    if (outerPhoto) {
+                        photoToSave = outerPhoto;
+                    } else {
+                        photoToSave = [AlbumPhoto createInContext:[NSManagedObjectContext contextForCurrentThread]];
+                    }
+                    
+                    [photo enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                        [self setValue:obj forKey:key forManagedObject:photoToSave];
+                    }];
+                    [photoToSave setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
+                    
+                    Album *localAlbum = (Album *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:anAlbum.objectID];
+                    Member *localAuthor = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:[NSManagedObjectContext contextForCurrentThread]];
+                    
+                    [localAlbum addAlbumPhotosObject:photoToSave];
+                    
+                    if (localAuthor) {
+                        [photoToSave setValue:localAuthor forKey:@"author"];
+                    }
+                    
+                    //[[NSManagedObjectContext contextForCurrentThread] save:nil];
+                    [[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+                        if (success) {
+                            NSLog(@"Wheeeeeeee ahaHAH");
+                            
+                        }
+                        else
+                        {
+                            NSLog(@"FUCK");
+                        }
+                    }];
+                    
+                    if (!self.imagesToFetch) {
+                        self.imagesToFetch = [[NSMutableArray alloc] init];
+                    }
+                    [self.imagesToFetch addObject:photoToSave];
+
+                    
+                    /*[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                         
                         AlbumPhoto *photoToSave = nil;
                         
@@ -548,7 +613,7 @@
                         }
                         [self.imagesToFetch addObject:photoToSave];
                         
-                    }];
+                    }];*/
                     
                 }
                 
