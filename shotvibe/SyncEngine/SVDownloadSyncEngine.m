@@ -19,6 +19,7 @@
 @interface SVDownloadSyncEngine ()
 
 @property (nonatomic, strong) NSMutableArray *albumsWithUpdates;
+@property (nonatomic, strong) NSMutableArray *imagesToFetch;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (atomic, readonly) BOOL syncInProgress;
 
@@ -68,7 +69,9 @@
         [self willChangeValueForKey:@"syncInProgress"];
         _syncInProgress = YES;
         [self didChangeValueForKey:@"syncInProgress"];
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        });
         [self downloadAlbums:YES];
     }
 }
@@ -79,8 +82,6 @@
 
 - (void)downloadAlbums:(BOOL)useLastRequestDate
 {
-    NSMutableArray *operations = [NSMutableArray array];
-    
     NSString *lastRequestDate = nil;
     
     // Setup the Album request
@@ -99,32 +100,42 @@
     
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         
-        if (useLastRequestDate) {
-            [[NSUserDefaults standardUserDefaults] setObject:[[response allHeaderFields] objectForKey:@"Date"] forKey:kUserAlbumsLastRequestedDate];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
         
-        if ([JSON isKindOfClass:[NSDictionary class]] || [JSON isKindOfClass:[NSArray class]]) {
-            [self writeJSONResponse:JSON toDiskForClassWithName:@"Album"];
-        }
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         
-        //TODO: we should still check the caches folder and process anything that is in there
-        // in case the app quite before it could finish.
-        NSLog(@"Request for class %@ failed with error: %@", @"Album", error);
+        
         
     }];
     
-    [operations addObject:operation];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (useLastRequestDate) {
+            [[NSUserDefaults standardUserDefaults] setObject:[[operation.response allHeaderFields] objectForKey:@"Date"] forKey:kUserAlbumsLastRequestedDate];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        
+        if ([responseObject isKindOfClass:[NSDictionary class]] || [responseObject isKindOfClass:[NSArray class]]) {
+            [self writeJSONResponse:responseObject toDiskForClassWithName:@"Album"];
+            [self processAlbumsJSON];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       
+        //TODO: we should still check the caches folder and process anything that is in there
+        // in case the app quite before it could finish.
+        //NSLog(@"Request for class %@ failed with error: %@", @"Album", error);
+        [self executeSyncCompletedOperations];
+        
+    }];
     
-    [[SVAPIClient sharedClient] enqueueBatchOfHTTPRequestOperations:operations progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+    [[SVAPIClient sharedClient] enqueueBatchOfHTTPRequestOperations:@[operation] progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
         
         //TODO: Post a progress notification for interested observers
         
     } completionBlock:^(NSArray *operations) {
         
-        [self processAlbumsJSON];
+        
         
     }];
 }
@@ -208,7 +219,7 @@
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
-            NSLog(@"The operation was a failure: %@", error);
+            //NSLog(@"The operation was a failure: %@", error);
             
         }];
         [operations addObject:operation];
@@ -337,9 +348,7 @@
         _syncInProgress = NO;
         [self didChangeValueForKey:@"syncInProgress"];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        });
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineSyncCompletedNotification object:nil];
         
     });
@@ -385,10 +394,6 @@
 
 - (void)processAlbumsJSON
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    });
-    
     id albums = [self JSONDataForClassWithName:@"Album"];
     
     if ([albums isKindOfClass:[NSArray class]])
@@ -537,6 +542,11 @@
                             [photoToSave setValue:localAuthor forKey:@"author"];
                         }
                         
+                        if (!self.imagesToFetch) {
+                            self.imagesToFetch = [[NSMutableArray alloc] init];
+                        }
+                        [self.imagesToFetch addObject:photoToSave];
+                        
                     }];
                     
                 }
@@ -551,7 +561,7 @@
     dispatch_group_notify(photoGroup, photoQueue, ^{
         
         // Download images
-        [self downloadImages];
+        [self downloadAvatars];
         
     });
 }
