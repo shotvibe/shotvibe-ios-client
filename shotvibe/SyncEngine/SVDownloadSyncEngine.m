@@ -240,19 +240,34 @@
     for (AlbumPhoto *photo in photos) {
         
         // Image
-        NSURL *imageUrl = [self photoUrlWithString:photo.photo_url];
+        NSLog(@"Added photo %@ to operation queue", photo.photo_id);
+        __block AlbumPhoto *blockPhoto = photo;
         
-        NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl];
-        
-        [NSURLConnection sendAsynchronousRequest:request queue:self.downloadQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        [self.downloadQueue addOperationWithBlock:^{
             
-            if (!connectionError) {
-                [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
-                    localPhoto.photoData = data;
+            NSLog(@"Downloading photo %@", blockPhoto.photo_id);
+            NSURL *imageUrl = [self photoUrlWithString:blockPhoto.photo_url];
+            
+            NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl];
+            
+            NSURLResponse *response = nil;
+            NSError *error = nil;
+            NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            
+            if (error) {
+                NSLog(@"Error downloading image: %@", [error localizedDescription]);
+            }
+            
+            if (dataResponse) {
+                
+                [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:blockPhoto.objectID];
+                    
+                    [localPhoto setPhotoData:dataResponse];
                 }];
             }
         }];
+        
         
         //NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         
@@ -350,16 +365,16 @@
     
     if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2){
         if (IS_IPHONE_5) {
-            photoURL = [[aString stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone5Extension];
+            photoURL = [aString stringByReplacingOccurrencesOfString:@".jpg" withString:kPhotoIphone5Extension];
         }
         else
         {
-            photoURL = [[aString stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone4Extension];
+            photoURL = [aString stringByReplacingOccurrencesOfString:@".jpg" withString:kPhotoIphone4Extension];
         }
     }
     else
     {
-        photoURL = [[aString stringByDeletingPathExtension] stringByAppendingString:kPhotoIphone3Extension];
+        photoURL = [aString stringByReplacingOccurrencesOfString:@".jpg" withString:kPhotoIphone3Extension];
     }
     
     return [NSURL URLWithString:photoURL];
@@ -536,7 +551,7 @@
     dispatch_group_notify(photoGroup, photoQueue, ^{
         
         // Download images
-        //[self downloadAvatars];
+        [self downloadImages];
         
     });
 }
