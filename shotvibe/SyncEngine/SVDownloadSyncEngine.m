@@ -242,6 +242,7 @@
 {
     if (!self.downloadQueue) {
         self.downloadQueue = [[NSOperationQueue alloc] init];
+        self.downloadQueue.maxConcurrentOperationCount = 1;
     }
     
     NSArray *photos = [AlbumPhoto findAll];
