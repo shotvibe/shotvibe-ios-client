@@ -256,27 +256,37 @@
         __block AlbumPhoto *blockPhoto = photo;
         
         [self.downloadQueue addOperationWithBlock:^{
-            
-            NSLog(@"Downloading photo %@", blockPhoto.photo_id);
-            NSURL *imageUrl = [self photoUrlWithString:blockPhoto.photo_url];
-            
-            NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl];
-            
-            NSURLResponse *response = nil;
-            NSError *error = nil;
-            NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-            
-            if (error) {
-                NSLog(@"Error downloading image: %@", [error localizedDescription]);
-            }
-            
-            if (dataResponse) {
+            @autoreleasepool {
+                NSLog(@"Downloading photo %@", blockPhoto.photo_id);
+                NSURL *imageUrl = [self photoUrlWithString:blockPhoto.photo_url];
                 
-                [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
-                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:blockPhoto.objectID];
+                NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl];
+                
+                NSURLResponse *response = nil;
+                NSError *error = nil;
+                NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                
+                if (error) {
+                    NSLog(@"Error downloading image: %@", [error localizedDescription]);
+                }
+                
+                if (dataResponse) {
+                    
+                    AlbumPhoto *localPhoto = (AlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:blockPhoto.objectID];
                     
                     [localPhoto setPhotoData:dataResponse];
-                }];
+                    
+                    [[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+                        if (success) {
+                            NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
+                            
+                        }
+                        else
+                        {
+                            NSLog(@"We no can haz save right now");
+                        }
+                    }];
+                }
             }
         }];
         
@@ -504,12 +514,12 @@
                     //[[NSManagedObjectContext contextForCurrentThread] save:nil];
                     [[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
                         if (success) {
-                            NSLog(@"Wheeeeeeee ahaHAH");
-
+                            NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
+                            
                         }
                         else
                         {
-                            NSLog(@"FUCK");
+                            NSLog(@"We no can haz save right now");
                         }
                     }];
                     
@@ -569,12 +579,12 @@
                     //[[NSManagedObjectContext contextForCurrentThread] save:nil];
                     [[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
                         if (success) {
-                            NSLog(@"Wheeeeeeee ahaHAH");
+                            NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
                             
                         }
                         else
                         {
-                            NSLog(@"FUCK");
+                            NSLog(@"We no can haz save right now");
                         }
                     }];
                     
