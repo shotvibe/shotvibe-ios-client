@@ -232,7 +232,11 @@
         
     } completionBlock:^(NSArray *operations) {
         
-        [self downloadImages];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            [self downloadImages];
+            
+        });
         
     }];
 }
@@ -240,58 +244,49 @@
 
 - (void)downloadImages
 {
-    if (!self.downloadQueue) {
-        self.downloadQueue = [[NSOperationQueue alloc] init];
-        [self.downloadQueue addObserver:self forKeyPath:@"operations" options:NSKeyValueObservingOptionNew context:NULL];
-        self.downloadQueue.maxConcurrentOperationCount = 2;
-    }
-    
     NSArray *photos = [AlbumPhoto findAll];
     
     for (AlbumPhoto *photo in photos) {
         
-        // Image
-        /*NSLog(@"Added photo %@ to operation queue", photo.photo_id);
-        __block AlbumPhoto *blockPhoto = photo;
-        
-        [self.downloadQueue addOperationWithBlock:^{
-            @autoreleasepool {
-                            }
-        }];*/
-        
         NSLog(@"Downloading photo %@", photo.photo_id);
         NSURL *imageUrl = [self photoUrlWithString:photo.photo_url];
         
-        NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl];
-
-        
-        [NSURLConnection sendAsynchronousRequest:request queue:self.downloadQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            if (data) {
-                AlbumPhoto *localPhoto = (AlbumPhoto *)[[NSManagedObjectContext defaultContext] objectWithID:photo.objectID];
+        NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20];
+        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            [MagicalRecord saveUsingCurrentThreadContextWithBlockAndWait:^(NSManagedObjectContext *localContext) {
                 
-                [localPhoto setPhotoData:data];
-            }
+                AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+                
+                [localPhoto setPhotoData:operation.responseData];
+                
+            }];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+            NSLog(@"Request failed: %@", error);
+            
         }];
-
-        
+        [operation start];
     }
 }
 
 
 - (void)executeSyncCompletedOperations
 {
+    [[NSManagedObjectContext contextForCurrentThread] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+        if (success) {
+            NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
+            
+        }
+        else
+        {
+            NSLog(@"We no can haz save right now");
+        }
+    }];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [[NSManagedObjectContext defaultContext] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
-            if (success) {
-                NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
-                
-            }
-            else
-            {
-                NSLog(@"We no can haz save right now");
-            }
-        }];
         
         [self setInitialSyncCompleted];
         [self willChangeValueForKey:@"syncInProgress"];
@@ -302,7 +297,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineSyncCompletedNotification object:nil];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         });
         
     });
