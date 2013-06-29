@@ -228,6 +228,10 @@
 
 - (void)downloadImages
 {
+    if (!self.downloadQueue) {
+        self.downloadQueue = [[NSOperationQueue alloc] init];
+    }
+    
     NSArray *photos = [AlbumPhoto findAll];
     
     NSMutableArray *operations = [NSMutableArray arrayWithCapacity:photos.count];
@@ -237,11 +241,24 @@
         // Image
         NSURL *imageUrl = [self photoUrlWithString:photo.photo_url];
         
+        NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl];
+        
+        [NSURLConnection sendAsynchronousRequest:request queue:self.downloadQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            
+            if (!connectionError) {
+                [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+                    localPhoto.photoData = data;
+                }];
+            }
+        }];
+        
+        //NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         
         
-        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:imageUrl];
+
         
-        AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:imageRequest success:^(UIImage *image) {
+        /*AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:imageRequest success:^(UIImage *image) {
             
             NSLog(@"We have an image.");
             
@@ -256,7 +273,7 @@
                     AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
                     localPhoto.photoData = UIImageJPEGRepresentation(image, 1);
                     
-                    /*CGSize newSize = CGSizeMake(100, 100);
+                    CGSize newSize = CGSizeMake(100, 100);
                     float oldWidth = image.size.width;
                     float scaleFactor = newSize.width / oldWidth;
                     float newHeight = image.size.height * scaleFactor;
@@ -268,7 +285,7 @@
                     UIGraphicsEndImageContext();
                     
                     NSData *thumbnailData = UIImageJPEGRepresentation(thumbImage, 1.0);
-                    localPhoto.thumbnailPhotoData = thumbnailData;*/
+                    localPhoto.thumbnailPhotoData = thumbnailData;
                 }
                 
             }];
@@ -278,7 +295,7 @@
             NSLog(@"The operation was a failure: %@", error);
             
         }];
-        [operations addObject:operation];
+        [operations addObject:operation];*/
         
     }
     
