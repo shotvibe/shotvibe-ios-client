@@ -270,6 +270,9 @@
         }];
         [operation start];
     }
+    //TODO: We MUST figure out how to add all these operations into a queue so that we can
+    // know when to call executeSyncCompletedOperations.
+    [self executeSyncCompletedOperations];
 }
 
 
@@ -293,7 +296,6 @@
         _syncInProgress = NO;
         [self didChangeValueForKey:@"syncInProgress"];
         
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineSyncCompletedNotification object:nil];
         
         dispatch_async(dispatch_get_main_queue(), ^{
