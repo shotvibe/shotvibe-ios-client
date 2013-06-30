@@ -271,17 +271,25 @@
 
 - (void)executeSyncCompletedOperations
 {
-    [self.syncContext MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
-        if (success) {
-            NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
-            [NSManagedObjectContext resetContextForCurrentThread];
-            [NSManagedObjectContext resetDefaultContext];
-        }
-        else
-        {
-            NSLog(@"We no can haz save right now");
-        }
-    }];
+    dispatch_queue_t saveQueue = dispatch_queue_create("com.picsonair.shotvibe.savequeue", DISPATCH_QUEUE_CONCURRENT);
+    
+    dispatch_async(saveQueue, ^{
+        
+        [self.syncContext saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+            
+            if (success) {
+                NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
+                [NSManagedObjectContext resetContextForCurrentThread];
+                [NSManagedObjectContext resetDefaultContext];
+            }
+            else
+            {
+                NSLog(@"We no can haz save right now");
+            }
+            
+        }];
+        
+    });
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -339,6 +347,7 @@
 {
     if (!self.syncContext) {
         self.syncContext = [NSManagedObjectContext contextForCurrentThread];
+        [self.syncContext.userInfo setValue:@"DownloadSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
         self.syncContext.undoManager = nil;
     }
     
