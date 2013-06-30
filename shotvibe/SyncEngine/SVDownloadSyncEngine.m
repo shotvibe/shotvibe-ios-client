@@ -56,6 +56,7 @@
     static dispatch_once_t downloadEngineToken;
     dispatch_once(&downloadEngineToken, ^{
         sharedEngine = [[SVDownloadSyncEngine alloc] init];
+        sharedEngine.downloadQueue = [SVAPIClient sharedClient].operationQueue;
     });
     
     return sharedEngine;
@@ -273,8 +274,6 @@
     [self.syncContext MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
         if (success) {
             NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
-            [self.syncContext reset];
-            self.syncContext = nil;
             [NSManagedObjectContext resetContextForCurrentThread];
             [NSManagedObjectContext resetDefaultContext];
         }
