@@ -202,19 +202,11 @@
         NSURL *imageUrl = [self photoUrlWithString:member.avatar_url];
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:imageUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20.0];
         
-        AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:imageRequest success:^(UIImage *image) {
-            
-            
-            
-        }];
+        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:imageRequest];
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             
-            @autoreleasepool {
-                UIImage *image = (UIImage *)responseObject;
-                
-                Member *localMember = (Member *)[self.syncContext objectWithID:member.objectID];
-                localMember.avatarData = UIImageJPEGRepresentation(image, 1);
-            }
+            Member *localMember = (Member *)[self.syncContext objectWithID:member.objectID];
+            localMember.avatarData = operation.responseData;
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
@@ -239,27 +231,19 @@
 
 - (void)downloadImages
 {
-    NSArray *photos = [AlbumPhoto findAllInContext:self.syncContext];
+    NSMutableArray *operations = [NSMutableArray arrayWithCapacity:self.imagesToFetch.count];
     
-    NSMutableArray *operations = [NSMutableArray arrayWithCapacity:photos.count];
-    
-    for (AlbumPhoto *photo in photos) {
+    for (AlbumPhoto *photo in self.imagesToFetch) {
         
         NSURL *imageUrl = [self photoUrlWithString:photo.photo_url];
         
         NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20];
         
-        AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:request success:^(UIImage *image) {
-            
-            
-            
-        }];
+        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             
-            @autoreleasepool {
-                AlbumPhoto *localPhoto = (AlbumPhoto *)[self.syncContext objectWithID:photo.objectID];
-                [localPhoto setPhotoData:operation.responseData];
-            }
+            AlbumPhoto *localPhoto = (AlbumPhoto *)[self.syncContext objectWithID:photo.objectID];
+            [localPhoto setPhotoData:operation.responseData];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
@@ -268,20 +252,6 @@
         }];
         [operations addObject:operation];
         
-        
-        /*AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
-            AlbumPhoto *localPhoto = (AlbumPhoto *)[self.syncContext objectWithID:photo.objectID];
-            
-            [localPhoto setPhotoData:operation.responseData];
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            
-            NSLog(@"Request failed: %@", error);
-            
-        }];
-        [operation start];*/
     }
     //TODO: We MUST figure out how to add all these operations into a queue so that we can
     // know when to call executeSyncCompletedOperations.
@@ -291,6 +261,7 @@
         
     } completionBlock:^(NSArray *operations) {
         
+        self.imagesToFetch = nil;
         [self executeSyncCompletedOperations];
         
     }];
@@ -302,7 +273,10 @@
     [self.syncContext MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
         if (success) {
             NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
-            
+            [self.syncContext reset];
+            self.syncContext = nil;
+            [NSManagedObjectContext resetContextForCurrentThread];
+            [NSManagedObjectContext resetDefaultContext];
         }
         else
         {
@@ -366,6 +340,7 @@
 {
     if (!self.syncContext) {
         self.syncContext = [NSManagedObjectContext contextForCurrentThread];
+        self.syncContext.undoManager = nil;
     }
     
     id albums = [self JSONDataForClassWithName:@"Album"];
@@ -494,11 +469,6 @@
                 self.imagesToFetch = [[NSMutableArray alloc] init];
             }
             [self.imagesToFetch addObject:photoToSave];
-            
-            if (!self.imagesToFetch) {
-                self.imagesToFetch = [[NSMutableArray alloc] init];
-            }
-            [self.imagesToFetch addObject:photoToSave.photo_id];
             
         }
         
