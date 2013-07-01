@@ -24,13 +24,38 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 @interface SVEntityStore ()
 
 @property (nonatomic, strong) NSOperationQueue *imageQueue;
+@property (nonatomic, strong) NSURL *imageDataDirectory;
 
 - (NSURL *)applicationDocumentsDirectory;
-- (NSURL *)imageDataDirectory;
 
 @end
 
 @implementation SVEntityStore
+
+#pragma mark - Getters
+
+- (NSURL *)imageDataDirectory
+{
+    if (!_imageDataDirectory) {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        
+        _imageDataDirectory = [NSURL URLWithString:@"SVImages/" relativeToURL:[self applicationDocumentsDirectory]];
+        
+        NSError *error = nil;
+        if (![fileManager fileExistsAtPath:[_imageDataDirectory path]]) {
+            [fileManager createDirectoryAtPath:[_imageDataDirectory path] withIntermediateDirectories:YES attributes:nil error:&error];
+        }
+        
+        NSError *attributeError = nil;
+        BOOL success = [_imageDataDirectory setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
+        if(!success){
+            NSLog(@"Error excluding %@ from backup %@", [_imageDataDirectory lastPathComponent], attributeError);
+        }
+    }
+    
+    return _imageDataDirectory;
+}
+
 
 #pragma mark - Class Methods
 
@@ -324,7 +349,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block
 {
-    NSURL *url = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
+    NSURL *url = [NSURL URLWithString:imageID relativeToURL:self.imageDataDirectory];
     NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
     NSError *readingError = nil;
     
@@ -348,7 +373,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (void)writeImageData:(NSData *)imageData toDiskForImageID:(NSString *)imageID WithCompletion:(void (^)(BOOL success, NSURL *fileURL, NSError *error))block
 {
     if (imageID) {
-        NSURL *url = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
+        NSURL *url = [NSURL URLWithString:imageID relativeToURL:self.imageDataDirectory];
         NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
         
         if (![imageData writeToFile:[fileURL path] atomically:YES]) {
@@ -369,27 +394,5 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-
-
-- (NSURL *)imageDataDirectory
-{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    NSURL *url = [NSURL URLWithString:@"SVImages/" relativeToURL:[self applicationDocumentsDirectory]];
-    NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:YES];
-    
-    NSError *error = nil;
-    if (![fileManager fileExistsAtPath:[fileURL path]]) {
-        [fileManager createDirectoryAtPath:[fileURL path] withIntermediateDirectories:YES attributes:nil error:&error];
-    }
-    
-    NSError *attributeError = nil;
-    BOOL success = [fileURL setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
-    if(!success){
-        NSLog(@"Error excluding %@ from backup %@", [fileURL lastPathComponent], attributeError);
-    }
-    
-    return fileURL;
 }
 @end
