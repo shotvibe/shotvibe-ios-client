@@ -9,9 +9,8 @@
 #import <CoreData/CoreData.h>
 
 typedef NS_OPTIONS(NSUInteger, MRSaveContextOptions) {
-    MRSaveNoOptions      = 0, // /< No options — used for cleanliness only
-    MRSaveParentContexts = 1, // /< When saving, continue saving parent contexts until the changes are present in the persistent store
-    MRSaveSynchronously  = 2  // /< Peform saves synchronously, blocking execution on the current thread until the save is complete
+    MRSaveParentContexts = 1,   ///< When saving, continue saving parent contexts until the changes are present in the persistent store
+    MRSaveSynchronously = 2     ///< Peform saves synchronously, blocking execution on the current thread until the save is complete
 };
 
 typedef void (^MRSaveCompletionHandler)(BOOL success, NSError *error);
@@ -42,6 +41,22 @@ typedef void (^MRSaveCompletionHandler)(BOOL success, NSError *error);
 /// \discussion  All other save methods are conveniences to this method.
 - (void) MR_saveWithOptions:(MRSaveContextOptions)mask completion:(MRSaveCompletionHandler)completion;
 
+/// \brief       Save the current context with options and perform sync saves on specified queue
+/// \param       mask        bitmasked options for the save process
+/// \param       queue       dispatch queue which will wait for completion sync saves
+/// \param       completion  Completion block that is called after the save has completed. The block is passed a success state as a `BOOL` and an `NSError` instance if an error occurs. Always called on the main queue.
+/// \discussion  All other save methods are conveniences to this method.
+
+
+/* Next 6 methods works exaclty like methods above, but uses specified queue to run async saving.
+ * That useful to not block main thread while saving root context from default context */
+
+- (void) MR_saveOnlySelfOnQueue:(dispatch_queue_t)queue withCompletion:(MRSaveCompletionHandler)completion;
+- (void) MR_saveOnlySelfAndWaitOnQueue:(dispatch_queue_t)queue;
+- (void) MR_saveToPersistentStoreOnQueue:(dispatch_queue_t)queue withCompletion:(MRSaveCompletionHandler)completion;
+- (void) MR_saveToPersistentStoreAndWaitOnQueue:(dispatch_queue_t)queue;
+- (void) MR_saveWithOptions:(MRSaveContextOptions)mask onQueue:(dispatch_queue_t) queue completion:(MRSaveCompletionHandler)completion;
+- (void) MR_saveWithOptions:(MRSaveContextOptions)mask onGroup:(dispatch_group_t) group andQueue:(dispatch_queue_t) queue completion:(MRSaveCompletionHandler)completion;
 
 /* DEPRECATION NOTICE:
  * The following methods are deprecated, but remain in place for backwards compatibility until the next major version (3.x)

@@ -133,6 +133,11 @@
 @end
 #import "NSManagedObjectContext+MagicalSaves.h"
 @interface NSManagedObjectContext (MagicalSavesShortHand)
+- (void) saveOnlySelfOnQueue:(dispatch_queue_t)queue withCompletion:(MRSaveCompletionHandler)completion;
+- (void) saveOnlySelfAndWaitOnQueue:(dispatch_queue_t)queue;
+- (void) saveToPersistentStoreOnQueue:(dispatch_queue_t)queue withCompletion:(MRSaveCompletionHandler)completion;
+- (void) saveToPersistentStoreAndWaitOnQueue:(dispatch_queue_t)queue;
+- (void) saveWithOptions:(MRSaveContextOptions)mask onQueue:(dispatch_queue_t) queue completion:(MRSaveCompletionHandler)completion;
 - (void) saveOnlySelfWithCompletion:(MRSaveCompletionHandler)completion;
 - (void) saveToPersistentStoreWithCompletion:(MRSaveCompletionHandler)completion;
 - (void) saveOnlySelfAndWait;
@@ -191,4 +196,3 @@
 
 
 #endif
-

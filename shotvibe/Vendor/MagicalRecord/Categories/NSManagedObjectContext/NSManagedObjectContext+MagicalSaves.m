@@ -15,7 +15,7 @@
 
 - (void)MR_saveOnlySelfWithCompletion:(MRSaveCompletionHandler)completion;
 {
-    [self MR_saveWithOptions:MRSaveNoOptions completion:completion];
+    [self MR_saveWithOptions:0 completion:completion];
 }
 
 - (void)MR_saveOnlySelfAndWait;
@@ -33,11 +33,45 @@
     [self MR_saveWithOptions:MRSaveParentContexts | MRSaveSynchronously completion:nil];
 }
 
-- (void)MR_saveWithOptions:(MRSaveContextOptions)mask completion:(MRSaveCompletionHandler)completion;
+- (void)MR_saveOnlySelfOnQueue:(dispatch_queue_t)queue withCompletion:(MRSaveCompletionHandler)completion;
 {
-    BOOL syncSave           = ((mask & MRSaveSynchronously) == MRSaveSynchronously);
-    BOOL saveParentContexts = ((mask & MRSaveParentContexts) == MRSaveParentContexts);
+    [self MR_saveWithOptions:0 onQueue:queue completion:completion];
+}
+
+- (void)MR_saveOnlySelfAndWaitOnQueue:(dispatch_queue_t)queue;
+{
+    [self MR_saveWithOptions:MRSaveSynchronously onQueue:queue completion:nil];
+}
+
+- (void) MR_saveToPersistentStoreOnQueue:(dispatch_queue_t)queue withCompletion:(MRSaveCompletionHandler)completion;
+{
+    [self MR_saveWithOptions:MRSaveParentContexts onQueue:queue completion:completion];
+}
+
+- (void) MR_saveToPersistentStoreAndWaitOnQueue:(dispatch_queue_t)queue;
+{
+    [self MR_saveWithOptions:MRSaveParentContexts | MRSaveSynchronously onQueue:queue completion:nil];
+}
+
+- (void)MR_saveWithOptions:(MRSaveContextOptions)mask onQueue:(dispatch_queue_t) queue completion:(MRSaveCompletionHandler)completion{
     
+    
+    dispatch_group_t group = dispatch_group_create();
+    
+    [self MR_saveWithOptions:mask onGroup:group andQueue:queue completion:completion];
+    
+    /* Freeze caller thread while saving tasks running */
+    if ((mask & MRSaveSynchronously) == MRSaveSynchronously){
+        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    }
+    
+}
+
+- (void)MR_saveWithOptions:(MRSaveContextOptions)mask onGroup:(dispatch_group_t) group andQueue:(dispatch_queue_t) queue completion:(MRSaveCompletionHandler)completion
+{
+    BOOL syncSave             = ((mask & MRSaveSynchronously) == MRSaveSynchronously);
+    BOOL saveParentContexts   = ((mask & MRSaveParentContexts) == MRSaveParentContexts);
+    BOOL saveOnSpecifiedQueue = queue && group;
     if (![self hasChanges]) {
         MRLog(@"NO CHANGES IN ** %@ ** CONTEXT - NOT SAVING", [self MR_workingName]);
         
@@ -53,7 +87,9 @@
     
     MRLog(@"→ Saving %@", [self MR_description]);
     MRLog(@"→ Save Parents? %@", @(saveParentContexts));
-    MRLog(@"→ Save Synchronously? %@", @(syncSave));
+    MRLog(@"→ Save on specified queue? %@", @(saveOnSpecifiedQueue));
+    MRLog(@"→ Save Synchronously? %@", @(!saveOnSpecifiedQueue & syncSave));
+    
     
     id saveBlock = ^{
         NSError *error = nil;
@@ -81,11 +117,11 @@
             } else {
                 // If we're the default context, save to disk too (the user expects it to persist)
                 if (self == [[self class] MR_defaultContext]) {
-                    [[[self class] MR_rootSavingContext] MR_saveWithOptions:syncSave ? MRSaveSynchronously : MRSaveNoOptions completion:completion];
+                    [[[self class] MR_rootSavingContext] MR_saveWithOptions:MRSaveSynchronously onGroup:group andQueue:queue completion:completion];
                 }
                 // If we're saving parent contexts, do so
                 else if ((YES == saveParentContexts) && [self parentContext]) {
-                    [[self parentContext] MR_saveWithOptions:MRSaveParentContexts completion:completion];
+                    [[self parentContext] MR_saveWithOptions:MRSaveSynchronously | MRSaveParentContexts onGroup:group andQueue:queue completion:completion];
                 }
                 // If we are not the default context (And therefore need to save the root context, do the completion action if one was specified
                 else {
@@ -101,11 +137,26 @@
         }
     };
     
-    if (YES == syncSave) {
-        [self performBlockAndWait:saveBlock];
-    } else {
-        [self performBlock:saveBlock];
+    /* If queue and group specified - use new async logic */
+    if (saveOnSpecifiedQueue){
+        /* Perform async saving on specified queue and group*/
+        dispatch_group_async(group, queue, ^{
+            [self performBlockAndWait:saveBlock];
+        });
+    }else{
+        /* Save with old logic, which can block main thread  */
+        if (YES == syncSave) {
+            [self performBlockAndWait:saveBlock];
+        } else {
+            [self performBlock:saveBlock];
+        }
     }
+    
+}
+
+- (void)MR_saveWithOptions:(MRSaveContextOptions)mask completion:(MRSaveCompletionHandler)completion;
+{
+    [self MR_saveWithOptions:mask onGroup:nil andQueue:nil completion:completion];
 }
 
 #pragma mark - Deprecated methods
