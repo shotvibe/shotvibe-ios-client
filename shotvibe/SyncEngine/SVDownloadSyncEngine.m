@@ -465,7 +465,7 @@
 {
     imageQueue = dispatch_queue_create("com.picsonair.shotvibe.imagequeue", DISPATCH_QUEUE_CONCURRENT);
     
-    [self.syncImagesContext MR_saveWithOptions:MRSaveSynchronously onQueue:imageQueue completion:^(BOOL success, NSError *error) {
+    [self.syncImagesContext MR_saveWithOptions:MRSaveParentContexts onQueue:imageQueue completion:^(BOOL success, NSError *error) {
         
         if (success) {
             NSLog(@"Wheeeeeeee ahaHAH, we've saved IMAGES successfully");
