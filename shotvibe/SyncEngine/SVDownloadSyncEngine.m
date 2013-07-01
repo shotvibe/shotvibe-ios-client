@@ -21,7 +21,7 @@
     dispatch_queue_t saveQueue;
 }
 
-@property (atomic, strong) NSManagedObjectContext *syncContext;
+@property (nonatomic, strong) NSManagedObjectContext *syncContext;
 @property (nonatomic, strong) NSMutableArray *albumsWithUpdates;
 @property (nonatomic, strong) NSMutableArray *imagesToFetch;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
@@ -154,6 +154,7 @@
 - (void)downloadPhotos
 {
     NSMutableArray *operations = [NSMutableArray array];
+    NSLog(@"We need to update %d Albums", self.albumsWithUpdates.count);
     
     for (Album *anAlbum in self.albumsWithUpdates) {
         
@@ -168,11 +169,20 @@
         NSMutableURLRequest *theRequest = [[SVAPIClient sharedClient] GETRequestForAllRecordsAtPath:path withParameters:nil andHeaders:headers];
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
             
-            if ([JSON isKindOfClass:[NSDictionary class]] || [JSON isKindOfClass:[NSArray class]]) {
-                [self writeJSONResponse:JSON toDiskForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
-            }
+            
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+            
+            
+            
+        }];
+        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            if ([responseObject isKindOfClass:[NSDictionary class]] || [responseObject isKindOfClass:[NSArray class]]) {
+                [self writeJSONResponse:responseObject toDiskForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
             NSLog(@"Request for class AlbumPhoto failed with error: %@", error);
             
@@ -334,6 +344,7 @@
                 NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
                 [NSManagedObjectContext resetContextForCurrentThread];
                 [NSManagedObjectContext resetDefaultContext];
+                self.syncContext = nil;
             }
             else
             {
@@ -361,7 +372,7 @@
     
     if (!self.syncContext) {
         self.syncContext = [NSManagedObjectContext context];
-        [self.syncContext.userInfo setValue:@"DownloadSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
+        [self.syncContext.userInfo setValue:@"AlbumSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
         self.syncContext.undoManager = nil;
     }
     
@@ -425,6 +436,7 @@
         }
         
         [self deleteJSONDataRecordsForClassWithName:@"Album"];
+        [self saveContext];
         [self downloadPhotos];
     }
 }
@@ -433,6 +445,12 @@
 - (void)processPhotosJSON
 {
     NSLog(@"PROCESSING PHOTOS JSON");
+    
+    if (!self.syncContext) {
+        self.syncContext = [NSManagedObjectContext context];
+        [self.syncContext.userInfo setValue:@"PhotoSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
+        self.syncContext.undoManager = nil;
+    }
     
     for (Album *anAlbum in self.albumsWithUpdates) {
         
@@ -468,7 +486,6 @@
             AlbumPhoto *outerPhoto = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[photo objectForKey:@"photo_id"] inContext:self.syncContext];
             
             AlbumPhoto *photoToSave = nil;
-            
             if (outerPhoto) {
                 photoToSave = outerPhoto;
             } else {
@@ -500,9 +517,11 @@
         
     }
     
+    [self saveContext];
+    
     // Download images
     //[self downloadAvatars];
-    [self executeSyncCompletedOperations];
+    //[self executeSyncCompletedOperations];
 }
 
 
