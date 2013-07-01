@@ -21,10 +21,15 @@
     dispatch_queue_t saveQueue;
 }
 
-@property (nonatomic, strong) NSManagedObjectContext *syncContext;
+@property (nonatomic, strong) NSManagedObjectContext *syncAlbumsContext;
+@property (nonatomic, strong) NSManagedObjectContext *syncPhotosContext;
+@property (nonatomic, strong) NSManagedObjectContext *syncAvatarsContext;
+@property (nonatomic, strong) NSManagedObjectContext *syncImagesContext;
+
 @property (nonatomic, strong) NSMutableArray *albumsWithUpdates;
 @property (nonatomic, strong) NSMutableArray *imagesToFetch;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+
 @property (atomic, readonly) BOOL syncInProgress;
 
 - (NSURL *)applicationCacheDirectory;
@@ -44,7 +49,10 @@
 - (NSURL *)photoUrlWithString:(NSString *)aString;
 - (void)processAlbumsJSON;
 - (void)processPhotosJSON;
-- (void)saveContext;
+- (void)saveAlbumsContext;
+- (void)savePhotosContext;
+- (void)saveAvatarsContext;
+- (void)saveImagesContext;
 - (void)setInitialSyncCompleted;
 - (void)setValue:(id)value forKey:(NSString *)key forManagedObject:(NSManagedObject *)managedObject;
 - (void)writeJSONResponse:(id)response toDiskForClassWithName:(NSString *)className;
@@ -153,12 +161,19 @@
 
 - (void)downloadPhotos
 {
+    if (!self.syncPhotosContext) {
+        self.syncPhotosContext = [NSManagedObjectContext context];
+        [self.syncPhotosContext.userInfo setValue:@"PhotoSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
+        self.syncPhotosContext.undoManager = nil;
+    }
+
     NSMutableArray *operations = [NSMutableArray array];
     NSLog(@"We need to update %d Albums", self.albumsWithUpdates.count);
     
-    for (Album *anAlbum in self.albumsWithUpdates) {
+    for (NSNumber *anAlbumID in self.albumsWithUpdates) {
         
-        NSUInteger albumId = anAlbum.albumId.integerValue;
+        Album *anAlbum = [Album findFirstByAttribute:@"albumId" withValue:anAlbumID inContext:self.syncPhotosContext];
+        __block NSUInteger albumId = anAlbum.albumId.integerValue;
         NSString *path = [NSString stringWithFormat:@"albums/%d/", albumId];
         
         NSDictionary *headers = nil;
@@ -179,7 +194,7 @@
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]] || [responseObject isKindOfClass:[NSArray class]]) {
-                [self writeJSONResponse:responseObject toDiskForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
+                [self writeJSONResponse:responseObject toDiskForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%d", albumId]];
             }
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -191,6 +206,7 @@
         [operations addObject:operation];
     }
     
+    NSLog(@"We have %d operations to enqueue.", operations.count);
     [[SVAPIClient sharedClient] enqueueBatchOfHTTPRequestOperations:operations progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
         
         //TODO: Post a progress notification for interested observers
@@ -199,7 +215,11 @@
         
         //TODO: check the cache directory and delete any AlbumPhoto records
         if (![[NSFileManager defaultManager] isEmptyDirectoryAtURL:[self JSONDataRecordsDirectory]]) {
-            [self processPhotosJSON];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                
+                [self processPhotosJSON];
+                
+            });
         }
         
     }];
@@ -208,7 +228,15 @@
 
 - (void)downloadAvatars
 {
-    NSArray *members = [Member findAllInContext:self.syncContext];
+    NSLog(@"PROCESSING AVATARS");
+    
+    if (!self.syncAvatarsContext) {
+        self.syncAvatarsContext = [NSManagedObjectContext context];
+        [self.syncAvatarsContext.userInfo setValue:@"AvatarsSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
+        self.syncAvatarsContext.undoManager = nil;
+    }
+    
+    NSArray *members = [Member findAllInContext:[NSManagedObjectContext defaultContext]];
     
     NSMutableArray *operations = [NSMutableArray arrayWithCapacity:members.count];
     
@@ -220,7 +248,7 @@
         AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:imageRequest];
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             
-            Member *localMember = (Member *)[self.syncContext objectWithID:member.objectID];
+            Member *localMember = (Member *)[self.syncAvatarsContext objectWithID:member.objectID];
             localMember.avatarData = operation.responseData;
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -238,7 +266,7 @@
         
     } completionBlock:^(NSArray *operations) {
         
-        [self downloadImages];
+        [self saveAvatarsContext];
         
     }];
 }
@@ -246,10 +274,19 @@
 
 - (void)downloadImages
 {
+    NSLog(@"PROCESSING IMAGES");
+    
+    if (!self.syncImagesContext) {
+        self.syncImagesContext = [NSManagedObjectContext context];
+        [self.syncImagesContext.userInfo setValue:@"ImagesSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
+        self.syncImagesContext.undoManager = nil;
+    }
+    
     NSMutableArray *operations = [NSMutableArray arrayWithCapacity:self.imagesToFetch.count];
     
-    for (AlbumPhoto *photo in self.imagesToFetch) {
+    for (NSNumber *photoId in self.imagesToFetch) {
         
+        AlbumPhoto *photo = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:photoId inContext:self.syncImagesContext];
         NSURL *imageUrl = [self photoUrlWithString:photo.photo_url];
         
         NSURLRequest *request = [NSURLRequest requestWithURL:imageUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20];
@@ -257,7 +294,7 @@
         AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             
-            AlbumPhoto *localPhoto = (AlbumPhoto *)[self.syncContext objectWithID:photo.objectID];
+            AlbumPhoto *localPhoto = (AlbumPhoto *)[self.syncImagesContext objectWithID:photo.objectID];
             [localPhoto setPhotoData:operation.responseData];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -277,7 +314,7 @@
     } completionBlock:^(NSArray *operations) {
         
         self.imagesToFetch = nil;
-        [self executeSyncCompletedOperations];
+        [self saveImagesContext];
         
     }];
 }
@@ -285,8 +322,6 @@
 
 - (void)executeSyncCompletedOperations
 {
-    [self saveContext];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self setInitialSyncCompleted];
@@ -330,7 +365,7 @@
 }
 
 
-- (void)saveContext
+- (void)saveAlbumsContext
 {
     if (!saveQueue) {
         saveQueue = dispatch_queue_create("com.picsonair.shotvibe.savequeue", DISPATCH_QUEUE_CONCURRENT);
@@ -338,13 +373,107 @@
     
     dispatch_async(saveQueue, ^{
         
-        [self.syncContext saveWithOptions:MRSaveParentContexts completion:^(BOOL success, NSError *error) {
+        [self.syncAlbumsContext saveWithOptions:MRSaveParentContexts completion:^(BOOL success, NSError *error) {
             
             if (success) {
-                NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
+                NSLog(@"Wheeeeeeee ahaHAH, we've saved ALBUMS successfully");
                 [NSManagedObjectContext resetContextForCurrentThread];
                 [NSManagedObjectContext resetDefaultContext];
-                self.syncContext = nil;
+                [self.syncAlbumsContext reset];
+                self.syncAlbumsContext = nil;
+                [self downloadPhotos];
+            }
+            else
+            {
+                NSLog(@"We no can haz save right now");
+            }
+            
+        }];
+        
+    });
+}
+
+
+- (void)savePhotosContext
+{
+    if (!saveQueue) {
+        saveQueue = dispatch_queue_create("com.picsonair.shotvibe.savequeue", DISPATCH_QUEUE_CONCURRENT);
+    }
+    
+    dispatch_async(saveQueue, ^{
+        
+        [self.syncPhotosContext saveWithOptions:MRSaveParentContexts completion:^(BOOL success, NSError *error) {
+            
+            if (success) {
+                NSLog(@"Wheeeeeeee ahaHAH, we've saved PHOTOS successfully");
+                [NSManagedObjectContext resetContextForCurrentThread];
+                [NSManagedObjectContext resetDefaultContext];
+                [self.syncPhotosContext reset];
+                self.syncPhotosContext = nil;
+                
+                // Download images
+                [self downloadAvatars];
+            }
+            else
+            {
+                NSLog(@"We no can haz save right now");
+            }
+            
+        }];
+        
+    });
+}
+
+
+- (void)saveAvatarsContext
+{
+    if (!saveQueue) {
+        saveQueue = dispatch_queue_create("com.picsonair.shotvibe.savequeue", DISPATCH_QUEUE_CONCURRENT);
+    }
+    
+    dispatch_async(saveQueue, ^{
+        
+        [self.syncAvatarsContext saveWithOptions:MRSaveParentContexts completion:^(BOOL success, NSError *error) {
+            
+            if (success) {
+                NSLog(@"Wheeeeeeee ahaHAH, we've saved AVATARS successfully");
+                [NSManagedObjectContext resetContextForCurrentThread];
+                [NSManagedObjectContext resetDefaultContext];
+                [self.syncAvatarsContext reset];
+                self.syncAvatarsContext = nil;
+                
+                // Download images
+                [self downloadImages];
+            }
+            else
+            {
+                NSLog(@"We no can haz save right now");
+            }
+            
+        }];
+        
+    });
+}
+
+
+- (void)saveImagesContext
+{
+    if (!saveQueue) {
+        saveQueue = dispatch_queue_create("com.picsonair.shotvibe.savequeue", DISPATCH_QUEUE_CONCURRENT);
+    }
+    
+    dispatch_async(saveQueue, ^{
+        
+        [self.syncImagesContext saveWithOptions:MRSaveParentContexts completion:^(BOOL success, NSError *error) {
+            
+            if (success) {
+                NSLog(@"Wheeeeeeee ahaHAH, we've saved IMAGES successfully");
+                [NSManagedObjectContext resetContextForCurrentThread];
+                [NSManagedObjectContext resetDefaultContext];
+                [self.syncImagesContext reset];
+                self.syncImagesContext = nil;
+                
+                [self executeSyncCompletedOperations];
             }
             else
             {
@@ -370,10 +499,10 @@
 {
     NSLog(@"PROCESSING ALBUMS JSON");
     
-    if (!self.syncContext) {
-        self.syncContext = [NSManagedObjectContext context];
-        [self.syncContext.userInfo setValue:@"AlbumSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
-        self.syncContext.undoManager = nil;
+    if (!self.syncAlbumsContext) {
+        self.syncAlbumsContext = [NSManagedObjectContext context];
+        [self.syncAlbumsContext.userInfo setValue:@"AlbumSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
+        self.syncAlbumsContext.undoManager = nil;
     }
     
     id albums = [self JSONDataForClassWithName:@"Album"];
@@ -382,11 +511,11 @@
     {
         for (NSDictionary *anAlbum in albums) {
             
-            Album *newAlbum = [Album findFirstByAttribute:@"albumId" withValue:[anAlbum objectForKey:@"id"] inContext:self.syncContext];
+            Album *newAlbum = [Album findFirstByAttribute:@"albumId" withValue:[anAlbum objectForKey:@"id"] inContext:self.syncAlbumsContext];
             
             if (!newAlbum) {
                 
-                newAlbum = [Album createInContext:self.syncContext];
+                newAlbum = [Album createInContext:self.syncAlbumsContext];
                 
             }
             
@@ -400,11 +529,11 @@
             NSArray *recentPhotos = [anAlbum objectForKey:@"latest_photos"];
             for (NSDictionary *photo in recentPhotos) {
                 
-                AlbumPhoto *photoToSave = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[photo objectForKey:@"photo_id"] inContext:self.syncContext];
+                AlbumPhoto *photoToSave = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[photo objectForKey:@"photo_id"] inContext:self.syncAlbumsContext];
                 
                 if (!photoToSave) {
                     
-                    photoToSave = [AlbumPhoto createInContext:self.syncContext];
+                    photoToSave = [AlbumPhoto createInContext:self.syncAlbumsContext];
                     
                 }
                 
@@ -414,10 +543,10 @@
                 [photoToSave setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
                 [newAlbum addAlbumPhotosObject:photoToSave];
                 
-                Member *authorToSave = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:self.syncContext];
+                Member *authorToSave = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:self.syncAlbumsContext];
                 if (!authorToSave) {
                     
-                    authorToSave = [Member createInContext:self.syncContext];
+                    authorToSave = [Member createInContext:self.syncAlbumsContext];
                     
                 }
                 [[photo objectForKey:@"author"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -431,13 +560,12 @@
             if (!self.albumsWithUpdates) {
                 self.albumsWithUpdates = [[NSMutableArray alloc] initWithCapacity:[albums count]];
             }
-            [self.albumsWithUpdates addObject:newAlbum];
+            [self.albumsWithUpdates addObject:newAlbum.albumId];
             
         }
         
         [self deleteJSONDataRecordsForClassWithName:@"Album"];
-        [self saveContext];
-        [self downloadPhotos];
+        [self saveAlbumsContext];
     }
 }
 
@@ -446,21 +574,17 @@
 {
     NSLog(@"PROCESSING PHOTOS JSON");
     
-    if (!self.syncContext) {
-        self.syncContext = [NSManagedObjectContext context];
-        [self.syncContext.userInfo setValue:@"PhotoSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
-        self.syncContext.undoManager = nil;
-    }
-    
-    for (Album *anAlbum in self.albumsWithUpdates) {
+    for (NSNumber *anAlbumId in self.albumsWithUpdates) {
         
-        NSDictionary *data = [self JSONDataForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
+        Album *localAlbum = [Album findFirstByAttribute:@"albumId" withValue:anAlbumId inContext:self.syncPhotosContext];
+        NSUInteger albumId = localAlbum.albumId.integerValue;
+        NSDictionary *data = [self JSONDataForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%d", albumId]];
         
         // Process each member object
         NSArray *members = [data objectForKey:@"members"];
         for (NSDictionary *member in members) {
             
-            Member *outerMember = [Member findFirstByAttribute:@"userId" withValue:[member objectForKey:@"id"] inContext:self.syncContext];
+            Member *outerMember = [Member findFirstByAttribute:@"userId" withValue:[member objectForKey:@"id"] inContext:self.syncPhotosContext];
             
             Member *memberToSave = nil;
             if (outerMember) {
@@ -468,13 +592,12 @@
             }
             else
             {
-                memberToSave = [Member createInContext:self.syncContext];
+                memberToSave = [Member createInContext:self.syncPhotosContext];
             }
             
             [member enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 [self setValue:obj forKey:key forManagedObject:memberToSave];
             }];
-            Album *localAlbum = (Album *)[self.syncContext objectWithID:anAlbum.objectID];
             [localAlbum addMembersObject:memberToSave];
             
         }
@@ -483,13 +606,13 @@
         NSArray *photosArray = [data objectForKey:@"photos"];
         for (NSDictionary *photo in photosArray) {
             
-            AlbumPhoto *outerPhoto = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[photo objectForKey:@"photo_id"] inContext:self.syncContext];
+            AlbumPhoto *outerPhoto = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:[photo objectForKey:@"photo_id"] inContext:self.syncPhotosContext];
             
             AlbumPhoto *photoToSave = nil;
             if (outerPhoto) {
                 photoToSave = outerPhoto;
             } else {
-                photoToSave = [AlbumPhoto createInContext:self.syncContext];
+                photoToSave = [AlbumPhoto createInContext:self.syncPhotosContext];
             }
             
             [photo enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -497,8 +620,7 @@
             }];
             [photoToSave setValue:[NSNumber numberWithInt:SVObjectSyncCompleted] forKey:@"objectSyncStatus"];
             
-            Album *localAlbum = (Album *)[self.syncContext objectWithID:anAlbum.objectID];
-            Member *localAuthor = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:self.syncContext];
+            Member *localAuthor = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:self.syncPhotosContext];
             
             [localAlbum addAlbumPhotosObject:photoToSave];
             
@@ -509,19 +631,15 @@
             if (!self.imagesToFetch) {
                 self.imagesToFetch = [[NSMutableArray alloc] init];
             }
-            [self.imagesToFetch addObject:photoToSave];
+            [self.imagesToFetch addObject:photoToSave.photo_id];
             
         }
         
-        [self deleteJSONDataRecordsForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
+        [self deleteJSONDataRecordsForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%d", albumId]];
         
     }
     
-    [self saveContext];
-    
-    // Download images
-    //[self downloadAvatars];
-    //[self executeSyncCompletedOperations];
+    [self savePhotosContext];
 }
 
 
