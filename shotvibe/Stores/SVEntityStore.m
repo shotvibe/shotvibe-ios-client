@@ -292,7 +292,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
             
             if (dataResponse) {
                 
-                /*[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                     
                     AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:blockPhoto.objectID];
                     
@@ -301,10 +301,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
                 } completion:^(BOOL success, NSError *error) {
                     UIImage *image = [UIImage imageWithData:dataResponse scale:0.25];
                     block(image);
-                }];*/
-                
-                UIImage *image = [UIImage imageWithData:dataResponse scale:0.25];
-                block(image);
+                }];
             }
         }
         else
