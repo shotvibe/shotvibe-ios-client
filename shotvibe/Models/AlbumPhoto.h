@@ -20,9 +20,7 @@
 @property (nonatomic, retain) NSString * photo_id;
 @property (nonatomic, retain) NSString * photo_url;
 @property (nonatomic, retain) NSString * local_url;
-@property (nonatomic, retain) NSData * photoData;
 @property (nonatomic, retain) NSString * tempPhotoId;
-@property (nonatomic, retain) NSData * thumbnailPhotoData;
 @property (nonatomic, retain) Album *album;
 @property (nonatomic, retain) Member *author;
 

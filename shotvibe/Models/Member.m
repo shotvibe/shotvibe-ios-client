@@ -14,7 +14,6 @@
 @implementation Member
 
 @dynamic avatar_url;
-@dynamic avatarData;
 @dynamic nickname;
 @dynamic url;
 @dynamic local_url;

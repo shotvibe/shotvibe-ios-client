@@ -14,7 +14,6 @@
 @interface Member : NSManagedObject
 
 @property (nonatomic, retain) NSString * avatar_url;
-@property (nonatomic, retain) NSData * avatarData;
 @property (nonatomic, retain) NSString * nickname;
 @property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSString * local_url;

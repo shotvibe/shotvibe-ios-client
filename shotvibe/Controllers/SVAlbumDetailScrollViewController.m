@@ -179,7 +179,7 @@
     image = [self.highQualityImageCache objectWithName:photoIndexKey];
     
     if (!image) {
-        image = [UIImage imageWithData:photo.photoData];
+        //image = [UIImage imageWithData:photo.photoData];
     }
     if (nil != image) {
         *photoSize = NIPhotoScrollViewPhotoSizeOriginal;

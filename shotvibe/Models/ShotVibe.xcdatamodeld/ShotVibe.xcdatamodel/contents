@@ -23,15 +23,12 @@
         <attribute name="objectSyncStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="photo_id" attributeType="String" syncable="YES"/>
         <attribute name="photo_url" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="photoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="tempPhotoId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="thumbnailPhotoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="albumPhotos" inverseEntity="Album" syncable="YES"/>
         <relationship name="author" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="albumPhotos" inverseEntity="Member" syncable="YES"/>
     </entity>
     <entity name="Member" representedClassName="Member" syncable="YES">
         <attribute name="avatar_url" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="avatarData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="local_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nickname" attributeType="String" syncable="YES"/>
         <attribute name="objectSyncStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -50,8 +47,8 @@
     </entity>
     <elements>
         <element name="Album" positionX="0" positionY="0" width="128" height="240"/>
-        <element name="AlbumPhoto" positionX="160" positionY="-9" width="128" height="223"/>
-        <element name="Member" positionX="-162" positionY="6" width="128" height="178"/>
+        <element name="AlbumPhoto" positionX="160" positionY="-9" width="128" height="193"/>
+        <element name="Member" positionX="-162" positionY="6" width="128" height="163"/>
         <element name="SVUploaderOperation" positionX="358" positionY="90" width="128" height="90"/>
         <element name="SVUploaderOperationQueue" positionX="360" positionY="-9" width="128" height="60"/>
     </elements>
