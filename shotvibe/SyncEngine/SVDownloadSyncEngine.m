@@ -442,8 +442,11 @@
                 [self.syncAvatarsContext reset];
                 self.syncAvatarsContext = nil;
                 
-                // Download images
-                [self downloadImages];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                    
+                    [self downloadImages];
+                    
+                });
             }
             else
             {
@@ -458,11 +461,9 @@
 
 - (void)saveImagesContext
 {
-    if (!saveQueue) {
-        saveQueue = dispatch_queue_create("com.picsonair.shotvibe.savequeue", DISPATCH_QUEUE_CONCURRENT);
-    }
+    dispatch_queue_t imageQueue = dispatch_queue_create("com.picsonair.shotvibe.imagequeue", DISPATCH_QUEUE_CONCURRENT);
     
-    dispatch_async(saveQueue, ^{
+    dispatch_async(imageQueue, ^{
         
         [self.syncImagesContext saveWithOptions:MRSaveParentContexts completion:^(BOOL success, NSError *error) {
             
