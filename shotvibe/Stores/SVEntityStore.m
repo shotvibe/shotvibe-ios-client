@@ -21,6 +21,12 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
 static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef27246f6ae6";
 #endif
 
+@interface SVEntityStore ()
+
+- (NSURL *)applicationDocumentsDirectory;
+- (NSURL *)imageDataDirectory;
+
+@end
 
 @implementation SVEntityStore
 
@@ -311,5 +317,58 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 
     });
+}
+
+
+- (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block
+{
+    NSURL *fileURL = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
+    NSData *dataToReturn = [NSData dataWithContentsOfURL:fileURL];
+    
+    if (dataToReturn) {
+        block(dataToReturn);
+    } else {
+        block(nil);
+    }
+}
+
+
+- (void)writeImageData:(NSData *)imageData toDiskForImageID:(NSString *)imageID WithCompletion:(void (^)(BOOL success, NSURL *fileURL, NSError *error))block
+{
+    NSURL *fileURL = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
+        
+    if (![imageData writeToFile:[fileURL path] atomically:YES]) {
+        NSError *error = [NSError errorWithDomain:@"SVImageSaveError" code:000 userInfo:nil];
+        block(NO, nil, error);
+    } else {
+        block(YES, fileURL, nil);
+    }
+}
+
+
+#pragma mark - Private Methods
+
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+
+- (NSURL *)imageDataDirectory
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *url = [NSURL URLWithString:@"SVImages/" relativeToURL:[self applicationDocumentsDirectory]];
+    NSError *error = nil;
+    if (![fileManager fileExistsAtPath:[url path]]) {
+        [fileManager createDirectoryAtPath:[url path] withIntermediateDirectories:YES attributes:nil error:&error];
+    }
+    
+    NSError *attributeError = nil;
+    BOOL success = [url setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
+    if(!success){
+        NSLog(@"Error excluding %@ from backup %@", [url lastPathComponent], attributeError);
+    }
+    
+    return url;
 }
 @end
