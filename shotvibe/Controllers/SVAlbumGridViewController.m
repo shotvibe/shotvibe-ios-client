@@ -33,6 +33,8 @@
 @property (nonatomic, strong) MFSideMenu *sauronTheSideMenu;
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
 
+@property (nonatomic, strong) NSOperationQueue *imageLoadingQueue;
+
 - (void)toggleMenu;
 - (void)toggleManagement;
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
@@ -80,6 +82,8 @@
         
     _objectChanges = [NSMutableArray array];
     _sectionChanges = [NSMutableArray array];
+    
+    self.imageLoadingQueue = [[NSOperationQueue alloc] init];
      
     // Setup fetched results
     
@@ -548,15 +552,16 @@
     cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
     cell.networkImageView.tag = indexPath.row;
     
-    AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    __block AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     __block NSIndexPath *tagIndex = indexPath;
-    [[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
-        if (image && cell.networkImageView.tag == tagIndex.row) {
-            [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-        }
+    [self.imageLoadingQueue addOperationWithBlock:^{
+        [[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
+            if (image && cell.networkImageView.tag == tagIndex.row) {
+                [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+            }
+        }];
     }];
-
 }
 
 @end

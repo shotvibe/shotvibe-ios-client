@@ -293,7 +293,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         self.imageQueue = [[NSOperationQueue alloc] init];
     }
     
-    __block AlbumPhoto *blockPhoto = aPhoto;
+    __block AlbumPhoto *blockPhoto = (AlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
     
     [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
         if (imageData) {
@@ -317,37 +317,6 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
             }];
         }
     }];
-    /*__block AlbumPhoto *blockPhoto = aPhoto;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
-        
-        if (photoURL) {
-            NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
-            NSURLResponse *response = nil;
-            NSError *error = nil;
-            NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-            
-            if (dataResponse) {
-                
-                [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                    
-                    AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:blockPhoto.objectID];
-                    
-                    [localPhoto setPhotoData:dataResponse];
-                    
-                } completion:^(BOOL success, NSError *error) {
-                    UIImage *image = [UIImage imageWithData:dataResponse scale:0.25];
-                    block(image);
-                }];
-            }
-        }
-        else
-        {
-            block(nil);
-        }
-
-
-    });*/
 }
 
 
