@@ -357,8 +357,10 @@
 
 - (void)processAlbumsJSON
 {
+    NSLog(@"PROCESSING ALBUMS JSON");
+    
     if (!self.syncContext) {
-        self.syncContext = [NSManagedObjectContext contextForCurrentThread];
+        self.syncContext = [NSManagedObjectContext context];
         [self.syncContext.userInfo setValue:@"DownloadSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
         self.syncContext.undoManager = nil;
     }
@@ -430,6 +432,8 @@
 
 - (void)processPhotosJSON
 {
+    NSLog(@"PROCESSING PHOTOS JSON");
+    
     for (Album *anAlbum in self.albumsWithUpdates) {
         
         NSDictionary *data = [self JSONDataForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%@", anAlbum.albumId.stringValue]];
@@ -497,7 +501,8 @@
     }
     
     // Download images
-    [self downloadAvatars];
+    //[self downloadAvatars];
+    [self executeSyncCompletedOperations];
 }
 
 
