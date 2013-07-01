@@ -355,11 +355,15 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 {
     NSURL *url = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
     NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
-    NSData *dataToReturn = [NSData dataWithContentsOfURL:fileURL];
+    NSError *readingError = nil;
+    NSData *dataToReturn = [[NSData alloc] initWithContentsOfFile:[fileURL path] options:NSDataReadingMappedIfSafe error:&readingError];
     
     if (dataToReturn) {
         block(dataToReturn);
     } else {
+        if (readingError) {
+            NSLog(@"%@", readingError);
+        }
         block(nil);
     }
 }
