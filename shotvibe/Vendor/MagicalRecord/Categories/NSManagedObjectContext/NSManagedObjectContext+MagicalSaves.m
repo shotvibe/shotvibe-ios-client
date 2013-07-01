@@ -117,11 +117,17 @@
             } else {
                 // If we're the default context, save to disk too (the user expects it to persist)
                 if (self == [[self class] MR_defaultContext]) {
+                    
                     [[[self class] MR_rootSavingContext] MR_saveWithOptions:MRSaveSynchronously onGroup:group andQueue:queue completion:completion];
+
+                    
                 }
                 // If we're saving parent contexts, do so
                 else if ((YES == saveParentContexts) && [self parentContext]) {
+                    
                     [[self parentContext] MR_saveWithOptions:MRSaveSynchronously | MRSaveParentContexts onGroup:group andQueue:queue completion:completion];
+
+                    
                 }
                 // If we are not the default context (And therefore need to save the root context, do the completion action if one was specified
                 else {
@@ -141,7 +147,7 @@
     if (saveOnSpecifiedQueue){
         /* Perform async saving on specified queue and group*/
         dispatch_group_async(group, queue, ^{
-            [self performBlockAndWait:saveBlock];
+            [self performBlock:saveBlock];
         });
     }else{
         /* Save with old logic, which can block main thread  */

@@ -19,6 +19,8 @@
 @interface SVDownloadSyncEngine ()
 {
     dispatch_queue_t saveQueue;
+    
+    dispatch_queue_t imageQueue;
 }
 
 @property (nonatomic, strong) NSManagedObjectContext *syncAlbumsContext;
@@ -461,29 +463,25 @@
 
 - (void)saveImagesContext
 {
-    dispatch_queue_t imageQueue = dispatch_queue_create("com.picsonair.shotvibe.imagequeue", DISPATCH_QUEUE_CONCURRENT);
+    imageQueue = dispatch_queue_create("com.picsonair.shotvibe.imagequeue", DISPATCH_QUEUE_CONCURRENT);
     
-    dispatch_async(imageQueue, ^{
+    [self.syncImagesContext MR_saveWithOptions:MRSaveSynchronously onQueue:imageQueue completion:^(BOOL success, NSError *error) {
         
-        [self.syncImagesContext saveWithOptions:MRSaveParentContexts completion:^(BOOL success, NSError *error) {
+        if (success) {
+            NSLog(@"Wheeeeeeee ahaHAH, we've saved IMAGES successfully");
+            [NSManagedObjectContext resetContextForCurrentThread];
+            [NSManagedObjectContext resetDefaultContext];
+            [self.syncImagesContext reset];
+            self.syncImagesContext = nil;
             
-            if (success) {
-                NSLog(@"Wheeeeeeee ahaHAH, we've saved IMAGES successfully");
-                [NSManagedObjectContext resetContextForCurrentThread];
-                [NSManagedObjectContext resetDefaultContext];
-                [self.syncImagesContext reset];
-                self.syncImagesContext = nil;
-                
-                [self executeSyncCompletedOperations];
-            }
-            else
-            {
-                NSLog(@"We no can haz save right now");
-            }
-            
-        }];
+            [self executeSyncCompletedOperations];
+        }
+        else
+        {
+            NSLog(@"We no can haz save right now");
+        }
         
-    });
+    }];
 }
 
 
