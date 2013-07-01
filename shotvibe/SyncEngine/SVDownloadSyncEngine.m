@@ -414,7 +414,7 @@
                 self.syncPhotosContext = nil;
                 
                 // Download images
-                [self downloadAvatars];
+                [self executeSyncCompletedOperations];
             }
             else
             {
