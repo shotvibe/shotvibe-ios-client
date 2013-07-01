@@ -15,7 +15,7 @@
 
 - (void)MR_saveOnlySelfWithCompletion:(MRSaveCompletionHandler)completion;
 {
-    [self MR_saveWithOptions:0 completion:completion];
+    [self MR_saveWithOptions:MRSaveNoOptions completion:completion];
 }
 
 - (void)MR_saveOnlySelfAndWait;
@@ -37,10 +37,10 @@
 {
     BOOL syncSave           = ((mask & MRSaveSynchronously) == MRSaveSynchronously);
     BOOL saveParentContexts = ((mask & MRSaveParentContexts) == MRSaveParentContexts);
-
+    
     if (![self hasChanges]) {
         MRLog(@"NO CHANGES IN ** %@ ** CONTEXT - NOT SAVING", [self MR_workingName]);
-
+        
         if (completion)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -50,15 +50,15 @@
         
         return;
     }
-
+    
     MRLog(@"→ Saving %@", [self MR_description]);
     MRLog(@"→ Save Parents? %@", @(saveParentContexts));
     MRLog(@"→ Save Synchronously? %@", @(syncSave));
-
+    
     id saveBlock = ^{
         NSError *error = nil;
         BOOL     saved = NO;
-
+        
         @try
         {
             saved = [self save:&error];
@@ -67,12 +67,12 @@
         {
             MRLog(@"Unable to perform save: %@", (id)[exception userInfo] ? : (id)[exception reason]);
         }
-
+        
         @finally
         {
             if (!saved) {
                 [MagicalRecord handleErrors:error];
-
+                
                 if (completion) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         completion(saved, error);
@@ -80,13 +80,14 @@
                 }
             } else {
                 // If we're the default context, save to disk too (the user expects it to persist)
-                BOOL isDefaultContext = (self == [[self class] MR_defaultContext]);
-                BOOL shouldSaveParentContext = ((YES == saveParentContexts) || isDefaultContext);
-                
-                if (shouldSaveParentContext && [self parentContext]) {
-                    [[self parentContext] MR_saveWithOptions:mask completion:completion];
+                if (self == [[self class] MR_defaultContext]) {
+                    [[[self class] MR_rootSavingContext] MR_saveWithOptions:syncSave ? MRSaveSynchronously : MRSaveNoOptions completion:completion];
                 }
-                // If we should not save the parent context, or there is not a parent context to save (root context), call the completion block
+                // If we're saving parent contexts, do so
+                else if ((YES == saveParentContexts) && [self parentContext]) {
+                    [[self parentContext] MR_saveWithOptions:MRSaveParentContexts completion:completion];
+                }
+                // If we are not the default context (And therefore need to save the root context, do the completion action if one was specified
                 else {
                     MRLog(@"→ Finished saving: %@", [self MR_description]);
                     
@@ -99,7 +100,7 @@
             }
         }
     };
-
+    
     if (YES == syncSave) {
         [self performBlockAndWait:saveBlock];
     } else {

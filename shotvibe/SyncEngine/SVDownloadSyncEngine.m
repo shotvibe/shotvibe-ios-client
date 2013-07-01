@@ -17,6 +17,9 @@
 #import "SVDownloadSyncEngine.h"
 
 @interface SVDownloadSyncEngine ()
+{
+    dispatch_queue_t saveQueue;
+}
 
 @property (atomic, strong) NSManagedObjectContext *syncContext;
 @property (nonatomic, strong) NSMutableArray *albumsWithUpdates;
@@ -41,6 +44,7 @@
 - (NSURL *)photoUrlWithString:(NSString *)aString;
 - (void)processAlbumsJSON;
 - (void)processPhotosJSON;
+- (void)saveContext;
 - (void)setInitialSyncCompleted;
 - (void)setValue:(id)value forKey:(NSString *)key forManagedObject:(NSManagedObject *)managedObject;
 - (void)writeJSONResponse:(id)response toDiskForClassWithName:(NSString *)className;
@@ -271,25 +275,7 @@
 
 - (void)executeSyncCompletedOperations
 {
-    dispatch_queue_t saveQueue = dispatch_queue_create("com.picsonair.shotvibe.savequeue", DISPATCH_QUEUE_CONCURRENT);
-    
-    dispatch_async(saveQueue, ^{
-        
-        [self.syncContext saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
-            
-            if (success) {
-                NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
-                [NSManagedObjectContext resetContextForCurrentThread];
-                [NSManagedObjectContext resetDefaultContext];
-            }
-            else
-            {
-                NSLog(@"We no can haz save right now");
-            }
-            
-        }];
-        
-    });
+    [self saveContext];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -312,13 +298,6 @@
 }
 
 
-- (void)setInitialSyncCompleted
-{
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:kSVSyncEngineInitialSyncCompletedKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-
 - (NSURL *)photoUrlWithString:(NSString *)aString
 {
     NSString *photoURL = nil;
@@ -338,6 +317,39 @@
     }
     
     return [NSURL URLWithString:photoURL];
+}
+
+
+- (void)saveContext
+{
+    if (!saveQueue) {
+        saveQueue = dispatch_queue_create("com.picsonair.shotvibe.savequeue", DISPATCH_QUEUE_CONCURRENT);
+    }
+    
+    dispatch_async(saveQueue, ^{
+        
+        [self.syncContext saveWithOptions:MRSaveParentContexts completion:^(BOOL success, NSError *error) {
+            
+            if (success) {
+                NSLog(@"Wheeeeeeee ahaHAH, we've saved successfully");
+                [NSManagedObjectContext resetContextForCurrentThread];
+                [NSManagedObjectContext resetDefaultContext];
+            }
+            else
+            {
+                NSLog(@"We no can haz save right now");
+            }
+            
+        }];
+        
+    });
+}
+
+
+- (void)setInitialSyncCompleted
+{
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:kSVSyncEngineInitialSyncCompletedKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 
@@ -407,6 +419,7 @@
                 self.albumsWithUpdates = [[NSMutableArray alloc] initWithCapacity:[albums count]];
             }
             [self.albumsWithUpdates addObject:newAlbum];
+            
         }
         
         [self deleteJSONDataRecordsForClassWithName:@"Album"];
@@ -441,10 +454,9 @@
             }];
             Album *localAlbum = (Album *)[self.syncContext objectWithID:anAlbum.objectID];
             [localAlbum addMembersObject:memberToSave];
+            
         }
 
-
-        
         // Process each photo object
         NSArray *photosArray = [data objectForKey:@"photos"];
         for (NSDictionary *photo in photosArray) {
