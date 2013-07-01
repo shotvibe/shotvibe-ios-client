@@ -116,7 +116,7 @@
     else
     {        
         // Initialize the sidebar menu
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+        /*UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
         self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
         self.sidebarMenuController.parentController = self;
         self.sidebarMenuController.selectedAlbum = self.selectedAlbum;
@@ -127,7 +127,7 @@
         self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:self.sidebarManagementController rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
         
         [self.navigationController setSideMenu:self.sauronTheSideMenu];
-        [self configureMenuForOrientation:self.interfaceOrientation];
+        [self configureMenuForOrientation:self.interfaceOrientation];*/
     }
 }
 
@@ -137,7 +137,7 @@
     [super viewWillDisappear:animated];
     
     // Kill any drag processes here and now
-    [self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
+    //[self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
     
     // We have to make sure that all the gesture recognizers are removed from the nav controller before we're done with the grid controller.
     while (self.navigationController.view.gestureRecognizers.count) {
@@ -272,20 +272,20 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    if (self.sauronTheSideMenu.menuState == MFSideMenuStateClosed) {
+    /*if (self.sauronTheSideMenu.menuState == MFSideMenuStateClosed) {
         // kill all the recognizers while we're scrolling content
         while (self.navigationController.view.gestureRecognizers.count) {
             [self.navigationController.view removeGestureRecognizer:[self.navigationController.view.gestureRecognizers objectAtIndex:0]];
         }
-    }
+    }*/
 }
 
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if (self.sauronTheSideMenu.menuState == MFSideMenuStateClosed) {
+    /*if (self.sauronTheSideMenu.menuState == MFSideMenuStateClosed) {
         [self.sauronTheSideMenu setupGestureRecognizers];
-    }
+    }*/
 }
 
 
@@ -549,7 +549,10 @@
     [cell.networkImageView prepareForReuse];
     cell.networkImageView.sizeForDisplay = NO;
     cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
-    cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
+    
+    if (!cell.networkImageView.initialImage) {
+        cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
+    }
     cell.networkImageView.tag = indexPath.row;
     
     __block AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
