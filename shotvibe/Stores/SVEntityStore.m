@@ -23,6 +23,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 @interface SVEntityStore ()
 
+@property (nonatomic, strong) NSOperationQueue *imageQueue;
+
 - (NSURL *)applicationDocumentsDirectory;
 - (NSURL *)imageDataDirectory;
 
@@ -286,7 +288,36 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *))block
 {
+    
+    if (!self.imageQueue) {
+        self.imageQueue = [[NSOperationQueue alloc] init];
+    }
+    
     __block AlbumPhoto *blockPhoto = aPhoto;
+    
+    [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
+        if (imageData) {
+            UIImage *image = [UIImage imageWithData:imageData scale:0.25];
+            block(image);
+        }
+        else
+        {
+            NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
+            
+            NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
+            [NSURLConnection sendAsynchronousRequest:request queue:self.imageQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                if (data) {
+                    [self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
+                        // don't care >:O
+                    }];
+                    
+                    UIImage *image = [UIImage imageWithData:data scale:0.25];
+                    block(image);
+                }
+            }];
+        }
+    }];
+    /*__block AlbumPhoto *blockPhoto = aPhoto;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
         
@@ -316,7 +347,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         }
 
 
-    });
+    });*/
 }
 
 

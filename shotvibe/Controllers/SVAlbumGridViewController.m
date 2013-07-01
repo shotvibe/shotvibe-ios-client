@@ -551,27 +551,11 @@
     AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     __block NSIndexPath *tagIndex = indexPath;
-    if (!currentPhoto.photoData) {
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            [[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
-                if (image && cell.networkImageView.tag == tagIndex.row) {
-                    [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-                }
-            }];
-        });
-    }
-    else
-    {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            UIImage *image = [UIImage imageWithData:currentPhoto.photoData scale:0.25];
-            
-            if (image && cell.networkImageView.tag == tagIndex.row) {
-                [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-            }
-        });
-        
-    }
+    [[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
+        if (image && cell.networkImageView.tag == tagIndex.row) {
+            [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+        }
+    }];
 
 }
 

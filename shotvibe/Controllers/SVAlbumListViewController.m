@@ -408,49 +408,36 @@
     
     AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND date_created == %@", anAlbum.albumId, maxDate]];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if (recentPhoto) {
-            // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-            
-            if (!recentPhoto.photoData) {
-                __block NSIndexPath *tagIndex = indexPath;
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                    [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
-                        if (image && cell.networkImageView.tag == tagIndex.row) {
-                            [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-                        }
-                    }];
-                });
+    if (recentPhoto) {
+        // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
+        __block NSIndexPath *tagIndex = indexPath;
+        [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
+            if (image && cell.networkImageView.tag == tagIndex.row) {
+                [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
             }
-            else
-            {
-                [cell.networkImageView setImage:[UIImage imageWithData:recentPhoto.photoData scale:0.25]];
-            }
-           
-            
-            NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
-            cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
-        }
+        }];
         
         
-        cell.title.text = anAlbum.name;
-        
-        NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
-        [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
-        
-        NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
-        [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
-        if (numberNew)
-        {
-            [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
-        }
-        else
-        {
-            [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", 0] forState:UIControlStateNormal];
-        }
-        
-    });
+        NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
+        cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+    }
+    
+    
+    cell.title.text = anAlbum.name;
+    
+    NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
+    [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
+    
+    NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
+    [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
+    if (numberNew)
+    {
+        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", 0] forState:UIControlStateNormal];
+    }
     
     return cell;
 }
