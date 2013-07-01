@@ -7,7 +7,7 @@
 //
 
 #import "AFJSONRequestOperation.h"
-#import "SVAPIClient.h"
+#import "SVJSONAPIClient.h"
 #import "SVDefines.h"
 
 #ifdef CONFIGURATION_Debug
@@ -18,11 +18,11 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 static NSString * const kAPIBaseURLString = @"https://api.shotvibe.com/";
 
-@interface SVAPIClient ()
+@interface SVJSONAPIClient ()
 - (NSMutableURLRequest *)GETRequestForPath:(NSString *)path parameters:(NSDictionary *)parameters;
 @end
 
-@implementation SVAPIClient
+@implementation SVJSONAPIClient
 
 #pragma mark - Initialization
 
@@ -51,12 +51,12 @@ static NSString * const kAPIBaseURLString = @"https://api.shotvibe.com/";
 
 #pragma mark - Class Methods
 
-+ (SVAPIClient *)sharedClient
++ (SVJSONAPIClient *)sharedClient
 {
-    static SVAPIClient *sharedClient = nil;
+    static SVJSONAPIClient *sharedClient = nil;
     static dispatch_once_t apiClientToken;
     dispatch_once(&apiClientToken, ^{
-        sharedClient = [[SVAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAPIBaseURLString]];
+        sharedClient = [[SVJSONAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAPIBaseURLString]];
     });
     
     return sharedClient;

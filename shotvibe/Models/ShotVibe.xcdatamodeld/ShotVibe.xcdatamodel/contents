@@ -19,6 +19,7 @@
         <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="hasViewed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="imageWasDownloaded" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="local_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="objectSyncStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="photo_id" attributeType="String" syncable="YES"/>
         <attribute name="photo_url" optional="YES" attributeType="String" syncable="YES"/>
@@ -31,6 +32,7 @@
     <entity name="Member" representedClassName="Member" syncable="YES">
         <attribute name="avatar_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="avatarData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="local_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nickname" attributeType="String" syncable="YES"/>
         <attribute name="objectSyncStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="url" attributeType="String" syncable="YES"/>
@@ -47,10 +49,10 @@
         <relationship name="operations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SVUploaderOperation" inverseName="queue" inverseEntity="SVUploaderOperation" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="AlbumPhoto" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Member" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SVUploaderOperation" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SVUploaderOperationQueue" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Album" positionX="0" positionY="0" width="128" height="240"/>
+        <element name="AlbumPhoto" positionX="160" positionY="-9" width="128" height="223"/>
+        <element name="Member" positionX="-162" positionY="6" width="128" height="178"/>
+        <element name="SVUploaderOperation" positionX="358" positionY="90" width="128" height="90"/>
+        <element name="SVUploaderOperationQueue" positionX="360" positionY="-9" width="128" height="60"/>
     </elements>
 </model>

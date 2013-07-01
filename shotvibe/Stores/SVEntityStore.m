@@ -353,7 +353,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block
 {
-    NSURL *fileURL = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
+    NSURL *url = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
+    NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
     NSData *dataToReturn = [NSData dataWithContentsOfURL:fileURL];
     
     if (dataToReturn) {
@@ -366,7 +367,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)writeImageData:(NSData *)imageData toDiskForImageID:(NSString *)imageID WithCompletion:(void (^)(BOOL success, NSURL *fileURL, NSError *error))block
 {
-    NSURL *fileURL = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
+    NSURL *url = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
+    NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
         
     if (![imageData writeToFile:[fileURL path] atomically:YES]) {
         NSError *error = [NSError errorWithDomain:@"SVImageSaveError" code:000 userInfo:nil];
@@ -388,18 +390,21 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (NSURL *)imageDataDirectory
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    
     NSURL *url = [NSURL URLWithString:@"SVImages/" relativeToURL:[self applicationDocumentsDirectory]];
+    NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:YES];
+    
     NSError *error = nil;
-    if (![fileManager fileExistsAtPath:[url path]]) {
-        [fileManager createDirectoryAtPath:[url path] withIntermediateDirectories:YES attributes:nil error:&error];
+    if (![fileManager fileExistsAtPath:[fileURL path]]) {
+        [fileManager createDirectoryAtPath:[fileURL path] withIntermediateDirectories:YES attributes:nil error:&error];
     }
     
     NSError *attributeError = nil;
-    BOOL success = [url setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
+    BOOL success = [fileURL setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
     if(!success){
-        NSLog(@"Error excluding %@ from backup %@", [url lastPathComponent], attributeError);
+        NSLog(@"Error excluding %@ from backup %@", [fileURL lastPathComponent], attributeError);
     }
     
-    return url;
+    return fileURL;
 }
 @end

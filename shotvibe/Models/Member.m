@@ -17,6 +17,7 @@
 @dynamic avatarData;
 @dynamic nickname;
 @dynamic url;
+@dynamic local_url;
 @dynamic userId;
 @dynamic objectSyncStatus;
 @dynamic albumPhotos;

@@ -36,6 +36,8 @@
 
 - (void)uploadPhoto:(NSString *)photoId withImageData:(NSData *)imageData;
 
+
+#pragma mark - Image Method
 - (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
 
 - (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block;

@@ -19,6 +19,7 @@
 @dynamic objectSyncStatus;
 @dynamic photo_id;
 @dynamic photo_url;
+@dynamic local_url;
 @dynamic photoData;
 @dynamic tempPhotoId;
 @dynamic thumbnailPhotoData;

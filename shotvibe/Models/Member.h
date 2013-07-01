@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSData * avatarData;
 @property (nonatomic, retain) NSString * nickname;
 @property (nonatomic, retain) NSString * url;
+@property (nonatomic, retain) NSString * local_url;
 @property (nonatomic, retain) NSNumber * userId;
 @property (nonatomic, retain) NSNumber * objectSyncStatus;
 @property (nonatomic, retain) NSSet *albumPhotos;

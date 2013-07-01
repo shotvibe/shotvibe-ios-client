@@ -8,11 +8,11 @@
 
 #import "AFHTTPClient.h"
 
-@interface SVAPIClient : AFHTTPClient
+@interface SVJSONAPIClient : AFHTTPClient
 
 #pragma mark - Class Methods
 
-+ (SVAPIClient *)sharedClient;
++ (SVJSONAPIClient *)sharedClient;
 
 
 #pragma mark - Instance Methods
