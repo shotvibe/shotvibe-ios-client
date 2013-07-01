@@ -592,19 +592,22 @@
 - (NSURL *)imageDataDirectory
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    
     NSURL *url = [NSURL URLWithString:@"SVImages/" relativeToURL:[self applicationDocumentsDirectory]];
+    NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:YES];
+    
     NSError *error = nil;
-    if (![fileManager fileExistsAtPath:[url path]]) {
-        [fileManager createDirectoryAtPath:[url path] withIntermediateDirectories:YES attributes:nil error:&error];
+    if (![fileManager fileExistsAtPath:[fileURL path]]) {
+        [fileManager createDirectoryAtPath:[fileURL path] withIntermediateDirectories:YES attributes:nil error:&error];
     }
     
     NSError *attributeError = nil;
-    BOOL success = [url setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
+    BOOL success = [fileURL setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
     if(!success){
-        NSLog(@"Error excluding %@ from backup %@", [url lastPathComponent], attributeError);
+        NSLog(@"Error excluding %@ from backup %@", [fileURL lastPathComponent], attributeError);
     }
     
-    return url;
+    return fileURL;
 }
 
 

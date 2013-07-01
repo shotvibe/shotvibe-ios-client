@@ -367,14 +367,19 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)writeImageData:(NSData *)imageData toDiskForImageID:(NSString *)imageID WithCompletion:(void (^)(BOOL success, NSURL *fileURL, NSError *error))block
 {
-    NSURL *url = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
-    NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
+    if (imageID) {
+        NSURL *url = [NSURL URLWithString:imageID relativeToURL:[self imageDataDirectory]];
+        NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
         
-    if (![imageData writeToFile:[fileURL path] atomically:YES]) {
+        if (![imageData writeToFile:[fileURL path] atomically:YES]) {
+            NSError *error = [NSError errorWithDomain:@"SVImageSaveError" code:000 userInfo:nil];
+            block(NO, nil, error);
+        } else {
+            block(YES, fileURL, nil);
+        }
+    } else {
         NSError *error = [NSError errorWithDomain:@"SVImageSaveError" code:000 userInfo:nil];
         block(NO, nil, error);
-    } else {
-        block(YES, fileURL, nil);
     }
 }
 
