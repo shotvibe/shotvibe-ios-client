@@ -138,6 +138,22 @@
         
     }];
     
+    
+    
+    __weak AFJSONRequestOperation *weakOperation = operation;
+    [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^{
+        
+        if (weakOperation.isFinished) {
+            NSLog(@"The album operation is finished, cleanup.");
+            [[SVJSONAPIClient sharedClient].operationQueue cancelAllOperations];
+        } else {
+            NSLog(@"The operation did not finish.");
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kUserAlbumsLastRequestedDate];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        
+    }];
+    
     [[SVJSONAPIClient sharedClient] enqueueBatchOfHTTPRequestOperations:@[operation] progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
         
         //TODO: Post a progress notification for interested observers
@@ -191,6 +207,18 @@
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
             NSLog(@"Request for class AlbumPhoto failed with error: %@", error);
+            
+        }];
+        
+        __weak AFJSONRequestOperation *weakOperation = operation;
+        [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^{
+            
+            if (weakOperation.isFinished) {
+                NSLog(@"The photo json operation finished, cleanup and save the remaining operations so they can be resumed.");
+                
+            } else {
+                NSLog(@"The operation did not finished, clean up and requeue this operation with the remaining operations so they can be resumed later.");
+            }
             
         }];
         

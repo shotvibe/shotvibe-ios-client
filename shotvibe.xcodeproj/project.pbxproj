@@ -1268,6 +1268,8 @@
 		AACB11E916C4581100BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
 		AACB11ED16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */; };
 		AACB11EE16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */; };
+		AAD0D95A178270E50066033D /* SVDownloadAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD0D959178270E50066033D /* SVDownloadAPIClient.m */; };
+		AAD0D95B178270E50066033D /* SVDownloadAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD0D959178270E50066033D /* SVDownloadAPIClient.m */; };
 		AAD22505177781B3005D8A9F /* SVUploaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD22502177781B3005D8A9F /* SVUploaderOperation.m */; };
 		AAD22506177781B3005D8A9F /* SVUploaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD22502177781B3005D8A9F /* SVUploaderOperation.m */; };
 		AAD22507177781B3005D8A9F /* SVUploaderOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD22504177781B3005D8A9F /* SVUploaderOperationQueue.m */; };
@@ -2134,6 +2136,8 @@
 		AACB11E416C457DC00BAC7E1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AACB11E616C457F000BAC7E1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AACB11EC16C462B500BAC7E1 /* ShotVibe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShotVibe.xcdatamodel; sourceTree = "<group>"; };
+		AAD0D958178270E50066033D /* SVDownloadAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDownloadAPIClient.h; sourceTree = "<group>"; };
+		AAD0D959178270E50066033D /* SVDownloadAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVDownloadAPIClient.m; sourceTree = "<group>"; };
 		AAD22501177781B3005D8A9F /* SVUploaderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploaderOperation.h; sourceTree = "<group>"; };
 		AAD22502177781B3005D8A9F /* SVUploaderOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderOperation.m; sourceTree = "<group>"; };
 		AAD22503177781B3005D8A9F /* SVUploaderOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploaderOperationQueue.h; sourceTree = "<group>"; };
@@ -2813,6 +2817,8 @@
 				AA2347BE177A783100D55918 /* SVJSONAPIClient.m */,
 				AA2347C1177A848300D55918 /* SVDownloadSyncEngine.h */,
 				AA2347C2177A848300D55918 /* SVDownloadSyncEngine.m */,
+				AAD0D958178270E50066033D /* SVDownloadAPIClient.h */,
+				AAD0D959178270E50066033D /* SVDownloadAPIClient.m */,
 			);
 			path = SyncEngine;
 			sourceTree = "<group>";
@@ -4690,6 +4696,7 @@
 				AA89F540177D49E600B782A1 /* MagicalRecord+Actions.m in Sources */,
 				AA58FC4A16C235C800C49E02 /* JMCConsoleLogReader.m in Sources */,
 				AA58FC4C16C235C800C49E02 /* JMCRecorder.m in Sources */,
+				AAD0D95A178270E50066033D /* SVDownloadAPIClient.m in Sources */,
 				AA58FC5016C235C800C49E02 /* JMCDatabase+JMCDatabaseAdditions.m in Sources */,
 				AA58FC5216C235C800C49E02 /* JMCDatabase.m in Sources */,
 				AA89F530177D49E600B782A1 /* NSManagedObject+MagicalRequests.m in Sources */,
@@ -4885,6 +4892,7 @@
 				AA89F541177D49E600B782A1 /* MagicalRecord+Actions.m in Sources */,
 				AA58FC4B16C235C800C49E02 /* JMCConsoleLogReader.m in Sources */,
 				AA58FC4D16C235C800C49E02 /* JMCRecorder.m in Sources */,
+				AAD0D95B178270E50066033D /* SVDownloadAPIClient.m in Sources */,
 				AA58FC5116C235C800C49E02 /* JMCDatabase+JMCDatabaseAdditions.m in Sources */,
 				AA58FC5316C235C800C49E02 /* JMCDatabase.m in Sources */,
 				AA89F531177D49E600B782A1 /* NSManagedObject+MagicalRequests.m in Sources */,

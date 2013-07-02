@@ -82,7 +82,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
     
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
-        
+    
     NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext defaultContext] sectionNameKeyPath:nil cacheName:nil];
     fetchedResultsController.delegate = delegate;
     
@@ -197,31 +197,31 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
  */
 - (void) registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block
 {
- NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:2];
- [parameters setValue:phoneNumber forKey:@"phone_number"];
- [parameters setValue:countryCode forKey:@"default_country"];
- 
- // send a phone number registration request using: POST /auth/authorize_phone_number/
- NSString *path = [NSString stringWithFormat:@"/auth/authorize_phone_number/"];
- 
- [self postPath:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-  
-  NSData *responseData = (NSData *)responseObject;
-  
-  id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-  
-  NSMutableDictionary *confirmationCode = (NSMutableDictionary *)json;
-
-  NSLog(@"confirmation code:  %@", [confirmationCode objectForKey:@"confirmation_key"]);
-
-  block(YES, [confirmationCode objectForKey:@"confirmation_key"], nil);
- }
-  
-  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
-   block(NO, nil, nil);
-   
-  }];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [parameters setValue:phoneNumber forKey:@"phone_number"];
+    [parameters setValue:countryCode forKey:@"default_country"];
+    
+    // send a phone number registration request using: POST /auth/authorize_phone_number/
+    NSString *path = [NSString stringWithFormat:@"/auth/authorize_phone_number/"];
+    
+    [self postPath:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSData *responseData = (NSData *)responseObject;
+        
+        id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+        
+        NSMutableDictionary *confirmationCode = (NSMutableDictionary *)json;
+        
+        NSLog(@"confirmation code:  %@", [confirmationCode objectForKey:@"confirmation_key"]);
+        
+        block(YES, [confirmationCode objectForKey:@"confirmation_key"], nil);
+    }
+     
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               
+               block(NO, nil, nil);
+               
+           }];
 }
 
 
@@ -230,42 +230,42 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
  */
 - (void) validateRegistrationCode:(NSString *) registrationCode withConfirmationCode:(NSString *) confirmationCode WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId, NSError *error))block
 {
- NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:2];
- [parameters setValue:registrationCode forKey:@"confirmation_code"];
- [parameters setValue:@"testing"       forKey:@"device_description"];
- 
- 
- // send a confirmation code request using: POST /auth/confirm_sms_code/{confirmation_key}/
- NSString *path = [NSString stringWithFormat:@"/auth/confirm_sms_code/%@/", confirmationCode];
- 
- NSLog(@"confirmation url:  %@", path);
- 
- [self postPath:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-  
-  NSData *responseData = (NSData *)responseObject;
-  
-  id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-  
-  NSMutableDictionary *confirmationCode = (NSMutableDictionary *)json;
-
-//  "auth_token": "de7415aabe33cea5d85ac87562c92a18530b0847",
-//  "user_id": 613008887
-  
-  NSString *authToken = [confirmationCode objectForKey:@"auth_token"];
-  NSString *userId    = [confirmationCode objectForKey:@"user_id"];
-  
-//  NSLog(@"authToken:  %@, userId:  %@", authToken, userId);
-
-  block(YES, authToken, userId, nil);
- }
-  
- failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
-  NSLog(@"failed to register");
-  
-  block(NO, nil, nil, nil);
-         
- }];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [parameters setValue:registrationCode forKey:@"confirmation_code"];
+    [parameters setValue:@"testing"       forKey:@"device_description"];
+    
+    
+    // send a confirmation code request using: POST /auth/confirm_sms_code/{confirmation_key}/
+    NSString *path = [NSString stringWithFormat:@"/auth/confirm_sms_code/%@/", confirmationCode];
+    
+    NSLog(@"confirmation url:  %@", path);
+    
+    [self postPath:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSData *responseData = (NSData *)responseObject;
+        
+        id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+        
+        NSMutableDictionary *confirmationCode = (NSMutableDictionary *)json;
+        
+        //  "auth_token": "de7415aabe33cea5d85ac87562c92a18530b0847",
+        //  "user_id": 613008887
+        
+        NSString *authToken = [confirmationCode objectForKey:@"auth_token"];
+        NSString *userId    = [confirmationCode objectForKey:@"user_id"];
+        
+        //  NSLog(@"authToken:  %@, userId:  %@", authToken, userId);
+        
+        block(YES, authToken, userId, nil);
+    }
+     
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               
+               NSLog(@"failed to register");
+               
+               block(NO, nil, nil, nil);
+               
+           }];
 }
 
 
@@ -275,7 +275,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 -(void) uploadPhoto :(NSString *) photoId withImageData:(NSData *) imageData
 {
     NSMutableArray *requestOperationBatch = [NSMutableArray arrayWithCapacity:1];
- 
+    
     NSString *uploadPath = [NSString stringWithFormat:@"/photos/upload/%@/", photoId];
     
     NSMutableURLRequest *request =
