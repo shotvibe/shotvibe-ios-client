@@ -455,6 +455,7 @@
                 photoToSave = outerPhoto;
             } else {
                 photoToSave = [AlbumPhoto createInContext:self.syncPhotosContext];
+                photoToSave.hasViewed = [NSNumber numberWithBool:NO];
             }
             
             [photo enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
