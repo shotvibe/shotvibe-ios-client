@@ -483,16 +483,10 @@
     NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
     [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
     
-    NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
+    NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
     [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
-    if (numberNew)
-    {
-        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
-    }
-    else
-    {
-        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", 0] forState:UIControlStateNormal];
-    }
+    
+    [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
 }
 
 
