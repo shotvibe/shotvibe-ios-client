@@ -84,6 +84,7 @@
     _sectionChanges = [NSMutableArray array];
     
     self.imageLoadingQueue = [[NSOperationQueue alloc] init];
+    self.imageLoadingQueue.maxConcurrentOperationCount = 1;
      
     // Setup fetched results
     

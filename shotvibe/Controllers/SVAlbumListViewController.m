@@ -143,6 +143,7 @@
     
     self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
     self.imageLoadingQueue = [[NSOperationQueue alloc] init];
+    self.imageLoadingQueue.maxConcurrentOperationCount = 1;
 
     [self configureViews];
 }
