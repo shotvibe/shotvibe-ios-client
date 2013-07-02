@@ -1,19 +1,18 @@
 //
-//  SVOperation.h
+//  SVDownloadOperation.h
 //  shotvibe
 //
-//  Created by Peter Kasson on 6/22/13.
+//  Created by Fredrick Gabelmann on 7/1/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class SVUploaderOperationQueue;
 
-@interface SVUploaderOperation : NSManagedObject
+@interface SVDownloadOperation : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * albumId;
 @property (nonatomic, retain) NSString * photoId;
-@property (nonatomic, retain) SVUploaderOperationQueue *queue;
+
 @end

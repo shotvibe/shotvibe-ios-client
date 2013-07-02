@@ -12,6 +12,8 @@
 #define IS_IOS6_OR_GREATER ([[UIDevice currentDevice].systemVersion floatValue] >= 6.0)
 #define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
+static NSString * const kAPIBaseURLString = @"https://api.shotvibe.com/";
+
 #define kApplicationName @"ShotVibe"
 #define kApplicationUploadQueueName @"ShotVibeUploadQueue"
 
@@ -39,7 +41,7 @@ typedef enum {
     SVObjectSyncCompleted = 0,
     SVObjectSyncWaiting,
     SVObjectSyncActive,
-    SVObjectSyncNeeded,
+    SVObjectSyncDownloadNeeded,
     SVObjectCreated,
     SVObjectDeleted,
 } SVObjectSyncStatus;

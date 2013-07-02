@@ -37,19 +37,19 @@
         <relationship name="albumPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AlbumPhoto" inverseName="author" inverseEntity="AlbumPhoto" syncable="YES"/>
         <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="members" inverseEntity="Album" syncable="YES"/>
     </entity>
-    <entity name="SVUploaderOperation" representedClassName="SVOperation" syncable="YES">
-        <attribute name="albumId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="photoId" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="queue" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="SVUploaderOperationQueue" inverseName="operations" inverseEntity="SVUploaderOperationQueue" syncable="YES"/>
+    <entity name="SVDownloadOperation" representedClassName="SVDownloadOperation" syncable="YES">
+        <attribute name="albumId" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="photoId" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="SVUploaderOperationQueue" representedClassName="SVOperationQueue" syncable="YES">
-        <relationship name="operations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SVUploaderOperation" inverseName="queue" inverseEntity="SVUploaderOperation" syncable="YES"/>
+    <entity name="SVUploadOperation" representedClassName="SVUploadOperation" syncable="YES">
+        <attribute name="albumId" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="photoId" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="Album" positionX="0" positionY="0" width="128" height="240"/>
-        <element name="AlbumPhoto" positionX="160" positionY="-9" width="128" height="193"/>
-        <element name="Member" positionX="-162" positionY="6" width="128" height="163"/>
-        <element name="SVUploaderOperation" positionX="358" positionY="90" width="128" height="90"/>
-        <element name="SVUploaderOperationQueue" positionX="360" positionY="-9" width="128" height="60"/>
+        <element name="AlbumPhoto" positionX="171" positionY="180" width="128" height="195"/>
+        <element name="Member" positionX="-243" positionY="213" width="128" height="165"/>
+        <element name="SVDownloadOperation" positionX="243" positionY="81" width="128" height="73"/>
+        <element name="SVUploadOperation" positionX="243" positionY="-12" width="128" height="73"/>
     </elements>
 </model>

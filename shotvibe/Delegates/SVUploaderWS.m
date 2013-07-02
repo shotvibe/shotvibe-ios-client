@@ -10,7 +10,7 @@
 
 #import "AlbumPhoto.h"
 #import "SVUploaderOperationQueue.h"
-#import "SVUploaderOperation.h"
+#import "SVUploadOperation.h"
 #import "SVBusinessDelegate.h"
 #import "SVEntityStore.h"
 
@@ -52,7 +52,7 @@
 
  SVUploaderOperationQueue *operationQueue = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperationQueue" inManagedObjectContext:[NSManagedObjectContext defaultContext]];
 
- SVUploaderOperation *operation = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperation" inManagedObjectContext:[NSManagedObjectContext defaultContext]];
+ SVUploadOperation *operation = [NSEntityDescription insertNewObjectForEntityForName:@"SVOperation" inManagedObjectContext:[NSManagedObjectContext defaultContext]];
 
  operation.albumId = albumId;
  operation.photoId = photoId;
