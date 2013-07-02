@@ -9,11 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class SVUploaderOperationQueue;
+@interface SVUploadOperation : NSManagedObject
 
-@interface SVUploaderOperation : NSManagedObject
-
-@property (nonatomic, retain) NSNumber * albumId;
+@property (nonatomic, retain) NSString * albumId;
 @property (nonatomic, retain) NSString * photoId;
-@property (nonatomic, retain) SVUploaderOperationQueue *queue;
 @end

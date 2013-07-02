@@ -16,8 +16,6 @@ static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113
 static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef27246f6ae6";
 #endif
 
-static NSString * const kAPIBaseURLString = @"https://api.shotvibe.com/";
-
 @interface SVJSONAPIClient ()
 - (NSMutableURLRequest *)GETRequestForPath:(NSString *)path parameters:(NSDictionary *)parameters;
 @end

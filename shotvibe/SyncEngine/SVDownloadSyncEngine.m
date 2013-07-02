@@ -370,7 +370,7 @@
                     [self setValue:obj forKey:key forManagedObject:newAlbum];
                 }
             }];
-            [newAlbum setValue:[NSNumber numberWithInt:SVObjectSyncNeeded] forKey:@"objectSyncStatus"];
+            [newAlbum setValue:[NSNumber numberWithInt:SVObjectSyncDownloadNeeded] forKey:@"objectSyncStatus"];
             
             // Process recent Photos
             NSArray *recentPhotos = [anAlbum objectForKey:@"latest_photos"];
@@ -387,7 +387,7 @@
                 [photo enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                     [self setValue:obj forKey:key forManagedObject:photoToSave];
                 }];
-                [photoToSave setValue:[NSNumber numberWithInt:SVObjectSyncNeeded] forKey:@"objectSyncStatus"];
+                [photoToSave setValue:[NSNumber numberWithInt:SVObjectSyncDownloadNeeded] forKey:@"objectSyncStatus"];
                 [newAlbum addAlbumPhotosObject:photoToSave];
                 
                 Member *authorToSave = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:self.syncAlbumsContext];
@@ -399,7 +399,7 @@
                 [[photo objectForKey:@"author"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                     [self setValue:obj forKey:key forManagedObject:authorToSave];
                 }];
-                [authorToSave setValue:[NSNumber numberWithInt:SVObjectSyncNeeded] forKey:@"objectSyncStatus"];
+                [authorToSave setValue:[NSNumber numberWithInt:SVObjectSyncDownloadNeeded] forKey:@"objectSyncStatus"];
                 [photoToSave setValue:authorToSave forKey:@"author"];
                 [newAlbum addMembersObject:authorToSave];
                 
@@ -446,7 +446,7 @@
             [member enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 [self setValue:obj forKey:key forManagedObject:memberToSave];
             }];
-            [memberToSave setValue:[NSNumber numberWithInt:SVObjectSyncNeeded] forKey:@"objectSyncStatus"];
+            [memberToSave setValue:[NSNumber numberWithInt:SVObjectSyncDownloadNeeded] forKey:@"objectSyncStatus"];
             [localAlbum addMembersObject:memberToSave];
             
         }
@@ -470,7 +470,7 @@
             }];
             NSURL *imageURL = [NSURL URLWithString:[photo objectForKey:@"photo_id"] relativeToURL:[self imageDataDirectory]];
             [photoToSave setValue:[imageURL absoluteString] forKey:@"local_url"];
-            [photoToSave setValue:[NSNumber numberWithInt:SVObjectSyncNeeded] forKey:@"objectSyncStatus"];
+            [photoToSave setValue:[NSNumber numberWithInt:SVObjectSyncDownloadNeeded] forKey:@"objectSyncStatus"];
             
             Member *localAuthor = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:self.syncPhotosContext];
             
