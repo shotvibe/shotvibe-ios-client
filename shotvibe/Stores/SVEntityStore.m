@@ -167,7 +167,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:nil] lastObject];
     
     [localPhoto setDate_created:[NSDate date]];
-    [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncNeeded]];
+    [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
     [localPhoto setTempPhotoId:photoId];
     [localPhoto setPhoto_id:photoId];
     [localPhoto setImageWasDownloaded:[NSNumber numberWithBool:YES]];

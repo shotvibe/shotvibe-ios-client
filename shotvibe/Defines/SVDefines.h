@@ -40,6 +40,7 @@ typedef enum {
     SVObjectSyncWaiting,
     SVObjectSyncActive,
     SVObjectSyncNeeded,
+    SVObjectSyncUploadNeeded,
     SVObjectCreated,
     SVObjectDeleted,
 } SVObjectSyncStatus;
