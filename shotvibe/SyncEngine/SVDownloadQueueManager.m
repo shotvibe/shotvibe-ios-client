@@ -21,6 +21,9 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 #endif
 
 @interface SVDownloadQueueManager ()
+{
+    dispatch_queue_t saveQueue;
+}
 
 @property (nonatomic, strong) NSManagedObjectContext *syncContext;
 
@@ -28,6 +31,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)prepareQueue:(NSTimer *)timer;
 - (void)processQueue;
+
+- (void)saveAlbumsContext;
 @end
 
 @implementation SVDownloadQueueManager
@@ -159,7 +164,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         AlbumPhoto *photo = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:downloadOperation.photoId inContext:self.syncContext];
         
         // Get the album
-        //Album *album = photo.album;
+        Album *album = photo.album;
         
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:photo.photo_url] cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:20];
         AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
@@ -177,6 +182,12 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
                 if (success) {
                     NSLog(@"We successfully saved the image");
                     [MagicalRecord saveUsingCurrentThreadContextWithBlock:^(NSManagedObjectContext *localContext) {
+                        
+                        Album *localAlbum = (Album *)[localContext objectWithID:album.objectID];
+                        AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+                        
+                        localAlbum.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
+                        localPhoto.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
                         
                         [downloadOperation deleteInContext:localContext];
                         
@@ -219,8 +230,11 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         
     }
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-       
+    if (!saveQueue) {
+        saveQueue = dispatch_queue_create("com.picsonair.shotvibe.downloadqueue", DISPATCH_QUEUE_CONCURRENT);
+    }
+    dispatch_async(saveQueue, ^{
+        
         [self enqueueBatchOfHTTPRequestOperations:operations progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
             
             
@@ -230,5 +244,33 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         }];
         
     });
+}
+
+
+- (void)saveAlbumsContext
+{
+    if (!saveQueue) {
+        saveQueue = dispatch_queue_create("com.picsonair.shotvibe.savequeue", DISPATCH_QUEUE_CONCURRENT);
+    }
+    
+    [self.syncAlbumsContext saveWithOptions:MRSaveParentContexts onQueue:saveQueue completion:^(BOOL success, NSError *error) {
+        
+        if (success) {
+            NSLog(@"Wheeeeeeee ahaHAH, we've saved ALBUMS successfully");
+            [NSManagedObjectContext resetContextForCurrentThread];
+            [NSManagedObjectContext resetDefaultContext];
+            [self.syncAlbumsContext reset];
+            self.syncAlbumsContext = nil;
+            [self downloadPhotos];
+        }
+        else
+        {
+            if (error) {
+                NSLog(@"%@", error);
+            }
+            NSLog(@"We no can haz save right now");
+        }
+        
+    }];
 }
 @end
