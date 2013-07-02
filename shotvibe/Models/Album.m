@@ -2,7 +2,7 @@
 //  Album.m
 //  shotvibe
 //
-//  Created by Fredrick Gabelmann on 6/26/13.
+//  Created by John Gabelmann on 7/2/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 

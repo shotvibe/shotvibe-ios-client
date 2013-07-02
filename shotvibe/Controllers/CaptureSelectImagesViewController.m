@@ -192,20 +192,7 @@
          
          for (NSData *photoData in selectedPhotoPaths) {
              
-             NSString *tempPhotoId = nil;
-             
-             if (IS_IOS6_OR_GREATER) {
-                 tempPhotoId = [[NSUUID UUID] UUIDString];
-             }
-             else
-             {
-                 CFUUIDRef theUUID = CFUUIDCreate(NULL);
-                 CFStringRef string = CFUUIDCreateString(NULL, theUUID);
-                 CFRelease(theUUID);
-                 
-                 tempPhotoId = [NSString stringWithFormat:@"%@",(__bridge NSString *)string];
-                 CFRelease(string);
-            }
+             NSString *tempPhotoId = [[NSUUID UUID] UUIDString];
              
              [SVBusinessDelegate saveUploadedPhotoImageData:photoData forPhotoId:tempPhotoId inAlbum:self.selectedAlbum];
          }

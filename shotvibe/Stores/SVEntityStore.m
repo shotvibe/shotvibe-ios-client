@@ -151,6 +151,21 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (void)newAlbumWithName:(NSString *)albumName
 {
     // TODO: Add a new album with the supplied name
+    NSManagedObjectContext *localContext = [NSManagedObjectContext defaultContext];
+    
+    Album *localAlbum = [NSEntityDescription insertNewObjectForEntityForName:@"Album" inManagedObjectContext:localContext];
+    
+    NSString *tempAlbumId = [[NSUUID UUID] UUIDString];
+
+    [localAlbum setAlbumId:tempAlbumId];
+    [localAlbum setDate_created:[NSDate date]];
+    [localAlbum setLast_updated:[NSDate date]];
+    [localAlbum setName:albumName];
+    [localAlbum setUrl:@""];
+    [localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
+    
+    NSError *saveError = nil;
+    [localContext save:&saveError];
 }
 
 

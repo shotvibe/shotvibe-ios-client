@@ -2,7 +2,7 @@
 //  Album.h
 //  shotvibe
 //
-//  Created by Fredrick Gabelmann on 6/26/13.
+//  Created by John Gabelmann on 7/2/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
@@ -13,7 +13,7 @@
 
 @interface Album : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * albumId;
+@property (nonatomic, retain) NSString * albumId;
 @property (nonatomic, retain) NSDate * date_created;
 @property (nonatomic, retain) NSString * etag;
 @property (nonatomic, retain) NSDate * last_updated;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3381.3" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Album" representedClassName="Album" syncable="YES">
-        <attribute name="albumId" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="albumId" attributeType="String" syncable="YES"/>
         <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="etag" attributeType="String" syncable="YES"/>
+        <attribute name="etag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="last_updated" attributeType="Date" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="newPhotoTone" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -46,10 +46,10 @@
         <relationship name="operations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SVUploaderOperation" inverseName="queue" inverseEntity="SVUploaderOperation" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="0" positionY="0" width="128" height="240"/>
-        <element name="AlbumPhoto" positionX="160" positionY="-9" width="128" height="193"/>
-        <element name="Member" positionX="-162" positionY="6" width="128" height="163"/>
-        <element name="SVUploaderOperation" positionX="358" positionY="90" width="128" height="90"/>
-        <element name="SVUploaderOperationQueue" positionX="360" positionY="-9" width="128" height="60"/>
+        <element name="Album" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AlbumPhoto" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Member" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SVUploaderOperation" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SVUploaderOperationQueue" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
