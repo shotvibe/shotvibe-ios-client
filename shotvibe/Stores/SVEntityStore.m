@@ -347,6 +347,30 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
+- (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto
+{
+    NSURL *url = [NSURL URLWithString:aPhoto.photo_id relativeToURL:self.imageDataDirectory];
+    NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
+    NSError *readingError = nil;
+    
+    @autoreleasepool {
+        NSData *dataToReturn = [[NSData alloc] initWithContentsOfFile:[fileURL path] options:NSDataReadingMappedIfSafe error:&readingError];
+        
+        if (dataToReturn) {
+            UIImage *image = [UIImage imageWithData:dataToReturn];
+            return image;
+        } else {
+            if (readingError) {
+                NSLog(@"%@", readingError);
+            }
+            return nil;
+        }
+        
+        dataToReturn = nil;
+    }
+}
+
+
 - (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block
 {
     NSURL *url = [NSURL URLWithString:imageID relativeToURL:self.imageDataDirectory];

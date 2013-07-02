@@ -14,6 +14,7 @@
 #import "MFSideMenu.h"
 #import "Member.h"
 #import "SVBusinessDelegate.h"
+#import "SVEntityStore.h"
 
 @interface SVAlbumDetailScrollViewController ()
 
@@ -179,7 +180,7 @@
     image = [self.highQualityImageCache objectWithName:photoIndexKey];
     
     if (!image) {
-        //image = [UIImage imageWithData:photo.photoData];
+        image = [[SVEntityStore sharedStore] getImageForPhoto:photo];
     }
     if (nil != image) {
         *photoSize = NIPhotoScrollViewPhotoSizeOriginal;

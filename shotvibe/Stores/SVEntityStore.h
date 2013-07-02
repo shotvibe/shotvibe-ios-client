@@ -39,6 +39,8 @@
 
 #pragma mark - Image Method
 - (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
+// Need to be able to just do a hard pull on the image without blocks for the detail view. This is OK because the photo detail view manages its own loading and cache
+- (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto;
 
 - (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block;
 
