@@ -65,6 +65,9 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     // Create a timer to process the queue
     if (!self.queueTimer) {
         self.queueTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(prepareQueue:) userInfo:nil repeats:YES];
+        
+        [[NSRunLoop mainRunLoop] addTimer:self.queueTimer forMode:NSDefaultRunLoopMode];
+        [self.queueTimer fire];
     }
 }
 
