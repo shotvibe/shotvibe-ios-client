@@ -16,7 +16,7 @@
 - (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(id)albumId;
 
 - (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId;
-- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(id)albumId;
+- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId;
 
 - (void)cleanupOfflineStorageForAlbum:(Album *)album;
 - (NSUInteger)numberOfImagesSavedInAlbum:(Album *)album;

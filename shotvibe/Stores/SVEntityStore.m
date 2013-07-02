@@ -166,8 +166,9 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
-- (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
-{    
+- (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
+{
+    
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         AlbumPhoto *localPhoto = [AlbumPhoto createInContext:localContext];
         Album *localAlbum = [Album findFirstWithPredicate:[NSPredicate predicateWithFormat:@"albumId = %@", albumID] inContext:localContext];
@@ -180,6 +181,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         [localPhoto setPhoto_url:@""];
         
         [localAlbum addAlbumPhotosObject:localPhoto];
+    } completion:^(BOOL success, NSError *error) {
+        block(success, error);
     }];
 }
 

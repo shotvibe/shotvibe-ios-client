@@ -76,7 +76,7 @@
 /*
  * this is the 'immediate store' for the photo that is being requested to upload
  */
-- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSNumber *)albumId
+- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId
 {
     [[SVEntityStore sharedStore] addPhotoWithID:photoId ToAlbumWithID:albumId WithCompletion:^(BOOL success, NSError *error) {
         
