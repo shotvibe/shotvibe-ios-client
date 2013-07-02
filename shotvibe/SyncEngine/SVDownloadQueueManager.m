@@ -133,7 +133,11 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         
     }
     
-    [self processQueue];    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self processQueue];
+        
+    });
 }
 
 
@@ -143,6 +147,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     // For each SVDownloaderOperation entity create an AFHTTPRequestOperation and add it to the operation queue
     NSArray *downloadOperations = [SVDownloadOperation findAll];
+    NSMutableArray *operations = [NSMutableArray arrayWithCapacity:downloadOperations.count];
     for (SVDownloadOperation *downloadOperation in downloadOperations) {
         
         // Get the photo
@@ -176,9 +181,18 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
             
         }];
         
-        [self enqueueHTTPRequestOperation:operation];
+        [operations addObject:operation];
         
     }
     
+    [self enqueueBatchOfHTTPRequestOperationsWithRequests:operations progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+        
+        
+        
+    } completionBlock:^(NSArray *operations) {
+        
+        
+        
+    }];
 }
 @end
