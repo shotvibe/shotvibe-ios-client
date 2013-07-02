@@ -22,6 +22,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 @interface SVDownloadQueueManager ()
 
+@property (nonatomic, strong) NSManagedObjectContext *syncContext;
+
 @property (nonatomic, strong) NSTimer *queueTimer;
 
 - (void)prepareQueue:(NSTimer *)timer;
@@ -65,7 +67,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     // Create a timer to process the queue
     if (!self.queueTimer) {
-        self.queueTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(prepareQueue:) userInfo:nil repeats:YES];
+        self.queueTimer = [NSTimer scheduledTimerWithTimeInterval:45.0 target:self selector:@selector(prepareQueue:) userInfo:nil repeats:YES];
         
         [[NSRunLoop mainRunLoop] addTimer:self.queueTimer forMode:NSDefaultRunLoopMode];
         [self.queueTimer fire];
@@ -95,8 +97,14 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 {
     NSLog(@"PREPARING QUEUE");
     
+    if (!self.syncContext) {
+        self.syncContext = [NSManagedObjectContext context];
+        [self.syncContext.userInfo setValue:@"DownloadSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
+        self.syncContext.undoManager = nil;
+    }
+    
     // Get all Albums who are marked with needing sync
-    NSArray *albumsToSync = [Album findByAttribute:@"objectSyncStatus" withValue:[NSNumber numberWithInteger:SVObjectSyncDownloadNeeded]];
+    NSArray *albumsToSync = [Album findByAttribute:@"objectSyncStatus" withValue:[NSNumber numberWithInteger:SVObjectSyncDownloadNeeded] inContext:self.syncContext];
     NSMutableArray *photosToSync = [NSMutableArray array];
     
     // For each album needing sync, get it's photos marked as needing sync
@@ -115,7 +123,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     for (AlbumPhoto *photo in photosToSync) {
         
         // First check to see if there is already an operation in the queue for this photo.
-        SVDownloadOperation *existingOperation = [SVDownloadOperation findFirstWithPredicate:[NSPredicate predicateWithFormat:@"albumId = %@ AND photoId = %@", photo.album.albumId, photo.photo_id]];
+        SVDownloadOperation *existingOperation = [SVDownloadOperation findFirstWithPredicate:[NSPredicate predicateWithFormat:@"albumId = %@ AND photoId = %@", photo.album.albumId, photo.photo_id] inContext:self.syncContext];
         if (!existingOperation) {
             
             [MagicalRecord saveUsingCurrentThreadContextWithBlock:^(NSManagedObjectContext *localContext) {
@@ -148,7 +156,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     for (SVDownloadOperation *downloadOperation in downloadOperations) {
         
         // Get the photo
-        AlbumPhoto *photo = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:downloadOperation.photoId];
+        AlbumPhoto *photo = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:downloadOperation.photoId inContext:self.syncContext];
         
         // Get the album
         //Album *album = photo.album;
@@ -168,7 +176,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
                 
                 if (success) {
                     NSLog(@"We successfully saved the image");
-                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                    [MagicalRecord saveUsingCurrentThreadContextWithBlock:^(NSManagedObjectContext *localContext) {
                         
                         [downloadOperation deleteInContext:localContext];
                         
