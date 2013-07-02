@@ -70,7 +70,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)start
 {   
-    self.operationQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
+    self.operationQueue.maxConcurrentOperationCount = 1;
     
     // Create a timer to process the queue
     if (!self.queueTimer) {
@@ -116,7 +116,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         }
         
         // Get all Albums who are marked with needing sync
-        NSArray *albumsToSync = [Album findByAttribute:@"objectSyncStatus" withValue:[NSNumber numberWithInteger:SVObjectSyncDownloadNeeded] inContext:self.syncContext];
+        /*NSArray *albumsToSync = [Album findByAttribute:@"objectSyncStatus" withValue:[NSNumber numberWithInteger:SVObjectSyncDownloadNeeded] inContext:self.syncContext];
         NSMutableArray *photosToSync = [NSMutableArray array];
         
         // For each album needing sync, get it's photos marked as needing sync
@@ -152,7 +152,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
                 
             }
             
-        }
+        }*/
         
         [self processQueue];
     }
@@ -163,8 +163,20 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 {
     NSLog(@"PROCESSING QUEUE");
     
+    NSArray *photosToDownload = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %i", SVObjectSyncDownloadNeeded]];
+    
+    NSLog(@"WE HAZ %i PHOTOZ TO DOWNLOAD", photosToDownload.count);
+    
+    for (AlbumPhoto *aPhoto in photosToDownload) {
+        [self.operationQueue addOperationWithBlock:^{
+            [[SVEntityStore sharedStore] getImageForPhoto:aPhoto WithCompletion:^(UIImage *image) {
+                //no u
+            }];
+        }];
+    }
+    
     // For each SVDownloaderOperation entity create an AFHTTPRequestOperation and add it to the operation queue
-    NSArray *downloadOperations = [SVDownloadOperation findAll];
+    /*NSArray *downloadOperations = [SVDownloadOperation findAll];
     //NSMutableArray *operations = [NSMutableArray arrayWithCapacity:downloadOperations.count];
     for (SVDownloadOperation *downloadOperation in downloadOperations) {
         
@@ -189,7 +201,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
                 
             }
             
-        }];
+        }];*/
         
         /*// Get the album
         Album *album = photo.album;
@@ -258,9 +270,9 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         [operation start];
         //[self.operationQueue addOperation:operation];
         
-        //[operations addObject:operation];*/
+        //[operations addObject:operation];
         
-    }
+    }*/
     
     [self willChangeValueForKey:@"syncInProgress"];
     _syncInProgress = NO;

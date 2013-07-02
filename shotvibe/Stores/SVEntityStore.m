@@ -365,9 +365,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
                 if (data) {
                     [self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
                         // don't care >:O
+                        block(data, success);
                     }];
-                    
-                    block(data, YES);
                 } else {
                     block(nil, NO);
                 }
