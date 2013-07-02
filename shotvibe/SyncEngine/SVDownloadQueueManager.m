@@ -133,11 +133,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         
     }
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [self processQueue];
-        
-    });
+    [self processQueue];
 }
 
 
@@ -156,7 +152,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         // Get the album
         Album *album = photo.album;
         
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:photo.photo_url]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:photo.photo_url] cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:20];
         AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
         
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -185,14 +181,16 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         
     }
     
-    [self enqueueBatchOfHTTPRequestOperationsWithRequests:operations progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+       
+        [self enqueueBatchOfHTTPRequestOperations:operations progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+            
+            
+        } completionBlock:^(NSArray *operations) {
+            
+            
+        }];
         
-        
-        
-    } completionBlock:^(NSArray *operations) {
-        
-        
-        
-    }];
+    });
 }
 @end
