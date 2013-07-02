@@ -12,6 +12,7 @@
 #import "SVDefines.h"
 #import "SVDownloadOperation.h"
 #import "SVDownloadQueueManager.h"
+#import "SVEntityStore.h"
 
 #ifdef CONFIGURATION_Debug
 static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
@@ -150,14 +151,43 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         AlbumPhoto *photo = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:downloadOperation.photoId];
         
         // Get the album
-        Album *album = photo.album;
+        //Album *album = photo.album;
         
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:photo.photo_url] cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:20];
         AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
         
+        [operation setCacheResponseBlock:^NSCachedURLResponse *(NSURLConnection *connection, NSCachedURLResponse *cachedResponse) {
+           
+            return nil;
+            
+        }];
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             
             NSLog(@"We got an image back, now we need to write it to disk!");
+            [[SVEntityStore sharedStore] writeImageData:responseObject toDiskForImageID:photo.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
+                
+                if (success) {
+                    NSLog(@"We successfully saved the image");
+                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                        
+                        [downloadOperation deleteInContext:localContext];
+                        
+                    } completion:^(BOOL success, NSError *error) {
+                        
+                        if (success) {
+                            NSLog(@"We successfully deleted the download operation.");
+                        } else {
+                            NSLog(@"There was an error deleting the download operation: %@", error);
+                        }
+                        
+                    }];
+                } else {
+                    if (error) {
+                        NSLog(@"There was an error saving the image: %@", error);
+                    }
+                }
+                
+            }];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
