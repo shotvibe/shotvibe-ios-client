@@ -131,10 +131,17 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         SVDownloadOperation *existingOperation = [SVDownloadOperation findFirstWithPredicate:[NSPredicate predicateWithFormat:@"albumId = %@ AND photoId = %@", photo.album.albumId, photo.photo_id] inContext:self.syncContext];
         if (!existingOperation) {
             
-            SVDownloadOperation *localOperation = [SVDownloadOperation createInContext:self.syncContext];
-            localOperation.albumId = photo.album.albumId;
-            localOperation.photoId = photo.photo_id;
-            [self saveSyncContext];
+            [MagicalRecord saveUsingCurrentThreadContextWithBlock:^(NSManagedObjectContext *localContext) {
+                
+                SVDownloadOperation *localOperation = [SVDownloadOperation createInContext:localContext];
+                localOperation.albumId = photo.album.albumId;
+                localOperation.photoId = photo.photo_id;
+                
+            } completion:^(BOOL success, NSError *error) {
+               
+                NSLog(@"We should have an operation saved.");
+                
+            }];
             
         }
         
@@ -174,16 +181,25 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
                 
                 if (success) {
                     NSLog(@"We successfully saved the image");
-                    
-                    Album *localAlbum = (Album *)[self.syncContext objectWithID:album.objectID];
-                    AlbumPhoto *localPhoto = (AlbumPhoto *)[self.syncContext objectWithID:photo.objectID];
-                    
-                    localAlbum.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
-                    localPhoto.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
-                    
-                    [downloadOperation deleteInContext:self.syncContext];
-                    [self saveSyncContext];
-                    
+                    [MagicalRecord saveUsingCurrentThreadContextWithBlock:^(NSManagedObjectContext *localContext) {
+                        
+                        Album *localAlbum = (Album *)[localContext objectWithID:album.objectID];
+                        AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+                        
+                        localAlbum.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
+                        localPhoto.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
+                        
+                        [downloadOperation deleteInContext:localContext];
+                        
+                    } completion:^(BOOL success, NSError *error) {
+                        
+                        if (success) {
+                            NSLog(@"We successfully deleted the download operation.");
+                        } else {
+                            NSLog(@"There was an error deleting the download operation: %@", error);
+                        }
+                        
+                    }];
                 } else {
                     if (error) {
                         NSLog(@"There was an error saving the image: %@", error);
