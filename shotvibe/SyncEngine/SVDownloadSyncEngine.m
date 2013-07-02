@@ -16,6 +16,7 @@
 #import "SVDefines.h"
 #import "SVDownloadSyncEngine.h"
 #import "SVEntityStore.h"
+#import "SVDownloadQueueManager.h"
 
 @interface SVDownloadSyncEngine ()
 {
@@ -249,6 +250,8 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         
+        [[SVDownloadQueueManager sharedManager] start];
+
         [self setInitialSyncCompleted];
         [self willChangeValueForKey:@"syncInProgress"];
         _syncInProgress = NO;

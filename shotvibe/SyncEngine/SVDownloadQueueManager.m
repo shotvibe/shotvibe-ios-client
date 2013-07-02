@@ -31,7 +31,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 @property (atomic, readonly) BOOL syncInProgress;
 
-- (void)prepareQueue:(NSTimer *)timer;
+- (void)prepareQueue;
 - (void)processQueue;
 
 - (void)saveSyncContext;
@@ -73,13 +73,15 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 {   
     self.operationQueue.maxConcurrentOperationCount = 1;
     
+    [self prepareQueue];
+    
     // Create a timer to process the queue
-    if (!self.queueTimer) {
-        self.queueTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(prepareQueue:) userInfo:nil repeats:YES];
+    /*if (!self.queueTimer) {
+        self.queueTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(prepareQueue:) userInfo:nil repeats:YES];
         
         [[NSRunLoop mainRunLoop] addTimer:self.queueTimer forMode:NSDefaultRunLoopMode];
         [self.queueTimer fire];
-    }
+    }*/
 }
 
 
@@ -94,31 +96,25 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     self.operationQueue.maxConcurrentOperationCount = 0;
     
     // Kill the timer
-    [self.queueTimer invalidate];
-    self.queueTimer = nil;
+    /*[self.queueTimer invalidate];
+    self.queueTimer = nil;*/
 }
 
 
 #pragma mark - Private Methods
 
-- (void)prepareQueue:(NSTimer *)timer
+- (void)prepareQueue
 {
     NSLog(@"PREPARING QUEUE");
     
-    if (!self.syncInProgress) {
-        [self willChangeValueForKey:@"syncInProgress"];
-        _syncInProgress = YES;
-        [self didChangeValueForKey:@"syncInProgress"];
-        
-        if (!self.syncContext) {
-            self.syncContext = [NSManagedObjectContext context];
-            [self.syncContext.userInfo setValue:@"DownloadSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
-            self.syncContext.undoManager = nil;
-        }
-        
-        
-        [self processQueue];
+    if (!self.syncContext) {
+        self.syncContext = [NSManagedObjectContext context];
+        [self.syncContext.userInfo setValue:@"DownloadSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];
+        self.syncContext.undoManager = nil;
     }
+    
+    
+    [self processQueue];
 }
 
 
@@ -140,10 +136,6 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
             }];
         }];
     }
-        
-    [self willChangeValueForKey:@"syncInProgress"];
-    _syncInProgress = NO;
-    [self didChangeValueForKey:@"syncInProgress"];
 }
 
 
@@ -157,9 +149,9 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         
         if (success) {
             NSLog(@"Wheeeeeeee ahaHAH, we've saved ALBUMS successfully");
-            [NSManagedObjectContext resetContextForCurrentThread];
-            [NSManagedObjectContext resetDefaultContext];
-            [self.syncContext reset];
+            //[NSManagedObjectContext resetContextForCurrentThread];
+            //[NSManagedObjectContext resetDefaultContext];
+            //[self.syncContext reset];
             //self.syncContext = nil;
         }
         else
