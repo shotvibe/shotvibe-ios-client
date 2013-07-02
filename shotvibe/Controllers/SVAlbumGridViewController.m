@@ -165,6 +165,14 @@
 }
 
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [[SVEntityStore sharedStore] setAllPhotosToHasViewedInAlbum:self.selectedAlbum];
+}
+
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];

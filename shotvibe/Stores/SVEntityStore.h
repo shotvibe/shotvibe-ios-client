@@ -22,9 +22,7 @@
 /**
  Album Methods
  */
-- (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate;
-- (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate;
-- (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate;
+
 
 - (void)newAlbumWithName:(NSString *)albumName;
 
@@ -35,6 +33,18 @@
 - (void) validateRegistrationCode:(NSString *) registrationCode withConfirmationCode:(NSString *) confirmationCode  WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId,  NSError *error))block;
 
 - (void)uploadPhoto:(NSString *)photoId withImageData:(NSData *)imageData;
+
+
+#pragma mark - FRC Methods
+
+- (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate;
+- (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate;
+- (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate;
+
+
+#pragma mark - Album Methods
+
+- (void)setAllPhotosToHasViewedInAlbum:(Album *)anAlbum;
 
 
 #pragma mark - Image Method

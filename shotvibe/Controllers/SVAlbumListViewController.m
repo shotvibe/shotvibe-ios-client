@@ -153,6 +153,12 @@
 {
     [super viewWillAppear:animated];
     
+    
+    for (UITableViewCell *cell in self.tableView.visibleCells) {
+        SVAlbumListViewCell *listCell = (SVAlbumListViewCell *)cell;
+        
+        [self updateCell:listCell AtIndexPath:[self.tableView indexPathForCell:cell]];
+    }
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCompleted:) name:kSVSyncEngineSyncCompletedNotification object:nil];
    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSVSyncEngineSyncAlbumCompletedNotification object:nil];
 }
@@ -433,16 +439,10 @@
     NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
     [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
     
-    NSNumber *numberNew = [self.albumPhotoInfo objectForKey:indexPath];
+    NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
     [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
-    if (numberNew)
-    {
-        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%@", numberNew] forState:UIControlStateNormal];
-    }
-    else
-    {
-        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", 0] forState:UIControlStateNormal];
-    }
+    
+    [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
     
     return cell;
 }

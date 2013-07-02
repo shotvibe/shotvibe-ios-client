@@ -413,6 +413,20 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
+- (void)setAllPhotosToHasViewedInAlbum:(Album *)anAlbum
+{
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
+                
+        NSArray *photos = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@", localAlbum.albumId] inContext:localContext];
+
+        for (AlbumPhoto *photo in photos) {
+            [photo setHasViewed:[NSNumber numberWithBool:YES]];
+        }
+    }];
+}
+
+
 #pragma mark - Private Methods
 
 - (NSURL *)applicationDocumentsDirectory
