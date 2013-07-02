@@ -1256,10 +1256,6 @@
 		AA972EAF16CEDFDB007D9B35 /* NIOverviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA972E9F16CEDFDB007D9B35 /* NIOverviewView.m */; };
 		AA9770D216D36B7E009F641E /* NimbusPhotos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA9770D116D36B7E009F641E /* NimbusPhotos.bundle */; };
 		AA9770D316D36B7E009F641E /* NimbusPhotos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA9770D116D36B7E009F641E /* NimbusPhotos.bundle */; };
-		AA9CBC4B1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC4A1776AF0F006172C6 /* SVUploaderDelegate.m */; };
-		AA9CBC4C1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC4A1776AF0F006172C6 /* SVUploaderDelegate.m */; };
-		AA9CBC521776AF48006172C6 /* SVUploaderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC511776AF48006172C6 /* SVUploaderWS.m */; };
-		AA9CBC531776AF48006172C6 /* SVUploaderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9CBC511776AF48006172C6 /* SVUploaderWS.m */; };
 		AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
 		AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
 		AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
@@ -2127,10 +2123,6 @@
 		AA972E9E16CEDFDB007D9B35 /* NIOverviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIOverviewView.h; path = nimbus/src/overview/src/NIOverviewView.h; sourceTree = "<group>"; };
 		AA972E9F16CEDFDB007D9B35 /* NIOverviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIOverviewView.m; path = nimbus/src/overview/src/NIOverviewView.m; sourceTree = "<group>"; };
 		AA9770D116D36B7E009F641E /* NimbusPhotos.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NimbusPhotos.bundle; path = nimbus/src/photos/resources/NimbusPhotos.bundle; sourceTree = "<group>"; };
-		AA9CBC491776AF0F006172C6 /* SVUploaderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploaderDelegate.h; sourceTree = "<group>"; };
-		AA9CBC4A1776AF0F006172C6 /* SVUploaderDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderDelegate.m; sourceTree = "<group>"; };
-		AA9CBC501776AF48006172C6 /* SVUploaderWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploaderWS.h; sourceTree = "<group>"; };
-		AA9CBC511776AF48006172C6 /* SVUploaderWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploaderWS.m; sourceTree = "<group>"; };
 		AACB11C916C454A000BAC7E1 /* SVEntityStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEntityStore.h; sourceTree = "<group>"; };
 		AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVEntityStore.m; sourceTree = "<group>"; };
 		AACB11E416C457DC00BAC7E1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -3008,8 +3000,6 @@
 				AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */,
 				AA58FB8E16C2341200C49E02 /* SVInitializationBD.h */,
 				AA58FB8F16C2341200C49E02 /* SVInitializationBD.m */,
-				AA9CBC491776AF0F006172C6 /* SVUploaderDelegate.h */,
-				AA9CBC4A1776AF0F006172C6 /* SVUploaderDelegate.m */,
 			);
 			name = "Business Delegates";
 			sourceTree = "<group>";
@@ -3023,8 +3013,6 @@
 				AA58FB9316C2341C00C49E02 /* SVInitializationWS.m */,
 				AA78D2B217172BCF006E1240 /* SVOfflineStorageWS.h */,
 				AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */,
-				AA9CBC501776AF48006172C6 /* SVUploaderWS.h */,
-				AA9CBC511776AF48006172C6 /* SVUploaderWS.m */,
 				04C36BC3177D047500EB97E0 /* SVURLBuilderWS.h */,
 				04C36BC4177D047500EB97E0 /* SVURLBuilderWS.m */,
 			);
@@ -4857,8 +4845,6 @@
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
 				AA4115BE177C0451009F400F /* NSFileManager+Helper.m in Sources */,
-				AA9CBC4B1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
-				AA9CBC521776AF48006172C6 /* SVUploaderWS.m in Sources */,
 				04AFA7B8177CBEA700E32C6E /* SVAlbumGridViewCell.m in Sources */,
 				04C36BC5177D047500EB97E0 /* SVURLBuilderWS.m in Sources */,
 			);
@@ -5053,8 +5039,6 @@
 				0493ABF31732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				0493ABF71732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
 				AA4115BF177C0451009F400F /* NSFileManager+Helper.m in Sources */,
-				AA9CBC4C1776AF0F006172C6 /* SVUploaderDelegate.m in Sources */,
-				AA9CBC531776AF48006172C6 /* SVUploaderWS.m in Sources */,
 				04AFA7B9177CBEA700E32C6E /* SVAlbumGridViewCell.m in Sources */,
 				04C36BC6177D047500EB97E0 /* SVURLBuilderWS.m in Sources */,
 			);

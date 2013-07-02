@@ -7,7 +7,6 @@
 //
 
 #import "SVUploadOperation.h"
-#import "SVUploaderOperationQueue.h"
 
 
 @implementation SVUploadOperation

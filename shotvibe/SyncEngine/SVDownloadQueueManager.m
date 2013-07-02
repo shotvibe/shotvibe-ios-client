@@ -24,7 +24,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 @property (nonatomic, strong) NSTimer *queueTimer;
 
 - (void)prepareQueue;
-- (void)processQueue;
+- (void)processQueue:(NSTimer *)timer;
 @end
 
 @implementation SVDownloadQueueManager
@@ -44,7 +44,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 #pragma mark - Class Methods
 
-- (SVDownloadQueueManager *)sharedManager
++ (SVDownloadQueueManager *)sharedManager
 {
     static SVDownloadQueueManager *sharedManager = nil;
     static dispatch_once_t downloadQueueManagerToken;
@@ -66,9 +66,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     // Create a timer to process the queue
     if (!self.queueTimer) {
-        self.queueTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(processQueue) userInfo:nil repeats:YES];
+        self.queueTimer = [NSTimer scheduledTimerWithTimeInterval:45.0 target:self selector:@selector(processQueue:) userInfo:nil repeats:YES];
     }
-    [self.queueTimer fire];
 }
 
 
@@ -94,12 +93,13 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 {
     // Get all Albums who are marked with needing sync
     NSArray *albumsToSync = [Album findByAttribute:@"objectSyncStatus" withValue:[NSNumber numberWithInteger:SVObjectSyncDownloadNeeded]];
-    NSMutableSet *photosToSync = [NSMutableSet set];
+    NSMutableArray *photosToSync = [NSMutableArray array];
     
     // For each album needing sync, get it's photos marked as needing sync
     for (Album *album in albumsToSync) {
         
-        for (AlbumPhoto *photo in album.albumPhotos) {
+        NSArray *photos = [album.albumPhotos allObjects];
+        for (AlbumPhoto *photo in photos) {
             if ([photo.objectSyncStatus integerValue] == SVObjectSyncDownloadNeeded) {
                 [photosToSync addObject:photo];
             }
@@ -114,11 +114,15 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         SVDownloadOperation *existingOperation = [SVDownloadOperation findFirstWithPredicate:[NSPredicate predicateWithFormat:@"albumId = %@ AND photoId = %@", photo.album.albumId, photo.photo_id]];
         if (!existingOperation) {
             
-            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            [MagicalRecord saveUsingCurrentThreadContextWithBlock:^(NSManagedObjectContext *localContext) {
                 
                 SVDownloadOperation *localOperation = [SVDownloadOperation createInContext:localContext];
                 localOperation.albumId = photo.album.albumId;
                 localOperation.photoId = photo.photo_id;
+                
+            } completion:^(BOOL success, NSError *error) {
+               
+                NSLog(@"We should have an operation saved.");
                 
             }];
             
@@ -129,7 +133,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
-- (void)processQueue
+- (void)processQueue:(NSTimer *)timer;
 {
     // For each SVDownloaderOperation entity create an AFHTTPRequestOperation and add it to the operation queue
     NSArray *downloadOperations = [SVDownloadOperation findAll];

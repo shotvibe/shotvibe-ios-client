@@ -12,7 +12,7 @@
 
 #pragma mark - Class Methods
 
-- (SVDownloadQueueManager *)sharedManager;
++ (SVDownloadQueueManager *)sharedManager;
 
 
 #pragma mark - Instance Methods
