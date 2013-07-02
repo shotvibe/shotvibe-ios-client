@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3381.3" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Album" representedClassName="Album" syncable="YES">
-        <attribute name="albumId" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="albumId" attributeType="String" syncable="YES"/>
         <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="etag" attributeType="String" syncable="YES"/>
+        <attribute name="etag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="last_updated" attributeType="Date" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="newPhotoTone" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -38,18 +38,18 @@
         <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="members" inverseEntity="Album" syncable="YES"/>
     </entity>
     <entity name="SVDownloadOperation" representedClassName="SVDownloadOperation" syncable="YES">
-        <attribute name="albumId" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="albumId" attributeType="String" syncable="YES"/>
         <attribute name="photoId" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="SVUploadOperation" representedClassName="SVUploadOperation" syncable="YES">
-        <attribute name="albumId" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="albumId" attributeType="String" syncable="YES"/>
         <attribute name="photoId" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="0" positionY="0" width="128" height="240"/>
-        <element name="AlbumPhoto" positionX="171" positionY="180" width="128" height="195"/>
-        <element name="Member" positionX="-243" positionY="213" width="128" height="165"/>
-        <element name="SVDownloadOperation" positionX="243" positionY="81" width="128" height="73"/>
-        <element name="SVUploadOperation" positionX="243" positionY="-12" width="128" height="73"/>
+        <element name="Album" positionX="-198" positionY="-126" width="128" height="73"/>
+        <element name="AlbumPhoto" positionX="-369" positionY="0" width="128" height="195"/>
+        <element name="Member" positionX="27" positionY="-153" width="128" height="163"/>
+        <element name="SVUploadOperation" positionX="34" positionY="78" width="128" height="73"/>
+        <element name="SVDownloadOperation" positionX="34" positionY="162" width="128" height="73"/>
     </elements>
 </model>

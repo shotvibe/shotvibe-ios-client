@@ -11,6 +11,6 @@
 
 @interface SVUploadOperation : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * albumId;
+@property (nonatomic, retain) NSString * albumId;
 @property (nonatomic, retain) NSString * photoId;
 @end

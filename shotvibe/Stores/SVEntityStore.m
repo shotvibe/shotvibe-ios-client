@@ -149,46 +149,38 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 
 - (void)newAlbumWithName:(NSString *)albumName
-{
-    // TODO: Add a new album with the supplied name
+{    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Album *localAlbum = [Album createInContext:localContext];
+        
+        NSString *tempAlbumId = [[NSUUID UUID] UUIDString];
+        
+        [localAlbum setAlbumId:tempAlbumId];
+        [localAlbum setDate_created:[NSDate date]];
+        [localAlbum setLast_updated:[NSDate date]];
+        [localAlbum setName:albumName];
+        [localAlbum setUrl:@""];
+        [localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
+
+    }];
 }
 
 
 - (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSNumber *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
-{
-    NSManagedObjectContext *localContext = [NSManagedObjectContext defaultContext]; //TODO
-    
-    AlbumPhoto *localPhoto = [NSEntityDescription insertNewObjectForEntityForName:@"AlbumPhoto" inManagedObjectContext:localContext];
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %@", albumID];
-    fetchRequest.predicate = predicate;
-    Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:nil] lastObject];
-    
-    [localPhoto setDate_created:[NSDate date]];
-    [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
-    [localPhoto setTempPhotoId:photoId];
-    [localPhoto setPhoto_id:photoId];
-    [localPhoto setImageWasDownloaded:[NSNumber numberWithBool:YES]];
-    [localPhoto setPhoto_url:@""];
-    
-    [localAlbum addAlbumPhotosObject:localPhoto];
-    
-    NSError *saveError = nil;
-    [localContext save:&saveError];
-    
-    if (saveError) {
-        if (block) {
-            block(NO, saveError);
-        }
-    }
-    else
-    {
-        if (block) {
-            block(YES, nil);
-        }
-    }
+{    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        AlbumPhoto *localPhoto = [AlbumPhoto createInContext:localContext];
+        Album *localAlbum = [Album findFirstWithPredicate:[NSPredicate predicateWithFormat:@"albumId = %@", albumID] inContext:localContext];
+        
+        [localPhoto setDate_created:[NSDate date]];
+        [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
+        [localPhoto setTempPhotoId:photoId];
+        [localPhoto setPhoto_id:photoId];
+        [localPhoto setImageWasDownloaded:[NSNumber numberWithBool:YES]];
+        [localPhoto setPhoto_url:@""];
+        
+        [localAlbum addAlbumPhotosObject:localPhoto];
+    }];
 }
 
 

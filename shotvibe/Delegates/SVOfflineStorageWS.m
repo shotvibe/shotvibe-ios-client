@@ -204,7 +204,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[album.albumId stringValue]];
+        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:album.albumId];
         
         NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
         
@@ -232,7 +232,7 @@
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:[album.albumId stringValue]];
+    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:album.albumId];
     
     NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
     

@@ -843,6 +843,8 @@
 		04C408111730619700973BC0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080D1730619700973BC0 /* README.md */; };
 		04CD9CE216CDF15A00FC72B3 /* SVAlbumDetailScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD9CE116CDF15A00FC72B3 /* SVAlbumDetailScrollViewController.m */; };
 		04CD9CE316CDF15A00FC72B3 /* SVAlbumDetailScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD9CE116CDF15A00FC72B3 /* SVAlbumDetailScrollViewController.m */; };
+		04DEFD3717828B9E0069710E /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DEFD3617828B9E0069710E /* Album.m */; };
+		04DEFD3817828B9E0069710E /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DEFD3617828B9E0069710E /* Album.m */; };
 		04E287F7173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */; };
 		04E287F8173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */; };
 		04E287F9173176F00044C17A /* CaptureSelectImagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */; };
@@ -877,8 +879,6 @@
 		AA23485A177AA3F600D55918 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234848177AA3F600D55918 /* UIImageView+AFNetworking.m */; };
 		AA234945177B7F0600D55918 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234944177B7F0600D55918 /* Member.m */; };
 		AA234946177B7F0600D55918 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234944177B7F0600D55918 /* Member.m */; };
-		AA234949177B7F0600D55918 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234948177B7F0600D55918 /* Album.m */; };
-		AA23494A177B7F0600D55918 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234948177B7F0600D55918 /* Album.m */; };
 		AA4115BE177C0451009F400F /* NSFileManager+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4115BD177C0451009F400F /* NSFileManager+Helper.m */; };
 		AA4115BF177C0451009F400F /* NSFileManager+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4115BD177C0451009F400F /* NSFileManager+Helper.m */; };
 		AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFA16C224E800C49E02 /* UIKit.framework */; };
@@ -1752,6 +1752,8 @@
 		04C4080D1730619700973BC0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		04CD9CE016CDF15A00FC72B3 /* SVAlbumDetailScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumDetailScrollViewController.h; sourceTree = "<group>"; };
 		04CD9CE116CDF15A00FC72B3 /* SVAlbumDetailScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumDetailScrollViewController.m; sourceTree = "<group>"; };
+		04DEFD3517828B9E0069710E /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
+		04DEFD3617828B9E0069710E /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
 		04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureSelectImagesViewController.h; sourceTree = "<group>"; };
 		04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureSelectImagesViewController.m; sourceTree = "<group>"; };
 		04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptureSelectImagesViewController.xib; sourceTree = "<group>"; };
@@ -1788,8 +1790,6 @@
 		AA234848177AA3F600D55918 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		AA234943177B7F0600D55918 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
 		AA234944177B7F0600D55918 /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
-		AA234947177B7F0600D55918 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
-		AA234948177B7F0600D55918 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
 		AA4115BC177C0451009F400F /* NSFileManager+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Helper.h"; sourceTree = "<group>"; };
 		AA4115BD177C0451009F400F /* NSFileManager+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Helper.m"; sourceTree = "<group>"; };
 		AA58FAF716C224E800C49E02 /* ShotVibe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShotVibe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3507,11 +3507,11 @@
 		AACB11C616C4543700BAC7E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AA234947177B7F0600D55918 /* Album.h */,
-				AA234948177B7F0600D55918 /* Album.m */,
 				AA234943177B7F0600D55918 /* Member.h */,
 				AA234944177B7F0600D55918 /* Member.m */,
 				AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */,
+				04DEFD3517828B9E0069710E /* Album.h */,
+				04DEFD3617828B9E0069710E /* Album.m */,
 				047BFDA2177BE39F0066AA58 /* AlbumPhoto.h */,
 				047BFDA3177BE39F0066AA58 /* AlbumPhoto.m */,
 				AAD0D95C17827FC00066033D /* SVDownloadOperation.h */,
@@ -4675,6 +4675,7 @@
 				AA234855177AA3F600D55918 /* AFURLConnectionOperation.m in Sources */,
 				AA58FB9016C2341200C49E02 /* SVInitializationBD.m in Sources */,
 				AA58FB9416C2341C00C49E02 /* SVInitializationWS.m in Sources */,
+				04DEFD3717828B9E0069710E /* Album.m in Sources */,
 				AA58FC3E16C235C800C49E02 /* JMC.m in Sources */,
 				AA58FC4016C235C800C49E02 /* JMCAttachmentItem.m in Sources */,
 				AA89F548177D49E600B782A1 /* MagicalRecord+Setup.m in Sources */,
@@ -4732,7 +4733,6 @@
 				AA58FC9E16C235C800C49E02 /* JMCScrollViewContainer.m in Sources */,
 				AA58FCA016C235C800C49E02 /* JMCToolbarButton.m in Sources */,
 				AA58FCA216C235C800C49E02 /* UILabel+JMCVerticalAlign.m in Sources */,
-				AA234949177B7F0600D55918 /* Album.m in Sources */,
 				AA58FCA416C235C800C49E02 /* UIView+JMCAdditions.m in Sources */,
 				AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11ED16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,
@@ -4869,6 +4869,7 @@
 				AA234856177AA3F600D55918 /* AFURLConnectionOperation.m in Sources */,
 				AA58FB9116C2341200C49E02 /* SVInitializationBD.m in Sources */,
 				AA58FB9516C2341C00C49E02 /* SVInitializationWS.m in Sources */,
+				04DEFD3817828B9E0069710E /* Album.m in Sources */,
 				AA58FC3F16C235C800C49E02 /* JMC.m in Sources */,
 				AA58FC4116C235C800C49E02 /* JMCAttachmentItem.m in Sources */,
 				AA89F549177D49E600B782A1 /* MagicalRecord+Setup.m in Sources */,
@@ -4926,7 +4927,6 @@
 				AA58FC9F16C235C800C49E02 /* JMCScrollViewContainer.m in Sources */,
 				AA58FCA116C235C800C49E02 /* JMCToolbarButton.m in Sources */,
 				AA58FCA316C235C800C49E02 /* UILabel+JMCVerticalAlign.m in Sources */,
-				AA23494A177B7F0600D55918 /* Album.m in Sources */,
 				AA58FCA516C235C800C49E02 /* UIView+JMCAdditions.m in Sources */,
 				AACB11CC16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AACB11EE16C462B500BAC7E1 /* ShotVibe.xcdatamodeld in Sources */,

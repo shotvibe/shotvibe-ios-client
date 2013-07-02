@@ -361,7 +361,14 @@
             
             // Process the album
             [anAlbum enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                [self setValue:obj forKey:key forManagedObject:newAlbum];
+                
+                if ([key isEqualToString:@"id"]) {
+                    [self setValue:[NSString stringWithFormat:@"%@", obj] forKey:key forManagedObject:newAlbum];
+                }
+                else
+                {
+                    [self setValue:obj forKey:key forManagedObject:newAlbum];
+                }
             }];
             [newAlbum setValue:[NSNumber numberWithInt:SVObjectSyncDownloadNeeded] forKey:@"objectSyncStatus"];
             
