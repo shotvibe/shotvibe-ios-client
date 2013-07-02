@@ -87,6 +87,17 @@
 }
 
 
++ (void)loadAllAssetsForAlbumGroup:(ALAssetsGroup *)group WithCompletion:(void (^)(NSArray *assets, NSError *error))block
+{
+    SVAssetRetrievalWS *workerSession = [[SVAssetRetrievalWS alloc] init];
+    
+    [workerSession loadAllAssetsForAlbumGroup:group WithCompletion:^(NSArray *assets, NSError *error) {
+        // Just using this to forward our results
+        block(assets, error);
+    }];
+}
+
+
 + (void) registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block
 {
  [[SVEntityStore sharedStore] registerPhoneNumber:phoneNumber withCountryCode:countryCode WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {

@@ -81,7 +81,9 @@
     [[SVEntityStore sharedStore] addPhotoWithID:photoId ToAlbumWithID:albumId WithCompletion:^(BOOL success, NSError *error) {
         
         if (success) {
-            [self saveImageToFileSystem:imageData forPhotoId:photoId inAlbumWithId:[albumId stringValue]];
+            [[SVEntityStore sharedStore] writeImageData:imageData toDiskForImageID:photoId WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
+                //NO U
+            }];
         }
         else
         {
