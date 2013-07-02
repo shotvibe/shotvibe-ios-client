@@ -342,6 +342,41 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
+- (void)getImageForPhotoData:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block
+{
+    if (!self.imageQueue) {
+        self.imageQueue = [[NSOperationQueue alloc] init];
+    }
+    
+    __block AlbumPhoto *blockPhoto = (AlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
+    
+    [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
+        if (imageData) {
+            block(imageData, YES);
+            
+            imageData = nil;
+        }
+        else
+        {
+            NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
+            
+            NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
+            [NSURLConnection sendAsynchronousRequest:request queue:self.imageQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                if (data) {
+                    [self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
+                        // don't care >:O
+                    }];
+                    
+                    block(data, YES);
+                } else {
+                    block(nil, NO);
+                }
+            }];
+        }
+    }];
+}
+
+
 - (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto
 {
     NSURL *url = [NSURL URLWithString:aPhoto.photo_id relativeToURL:self.imageDataDirectory];
@@ -379,7 +414,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
             block(dataToReturn);
         } else {
             if (readingError) {
-                NSLog(@"%@", readingError);
+                //NSLog(@"%@", readingError);
             }
             block(nil);
         }
