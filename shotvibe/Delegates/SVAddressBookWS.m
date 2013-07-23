@@ -28,13 +28,13 @@
             
             // Grab everyone and do an initial sort based on the user's preferences
             CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
-            CFMutableArrayRef peopleMutable = CFArrayCreateMutableCopy(kCFAllocatorDefault, CFArrayGetCount(people), people);
+            //CFMutableArrayRef peopleMutable = CFArrayCreateMutableCopy(kCFAllocatorDefault, CFArrayGetCount(people), people);
             
-            CFArraySortValues(peopleMutable, CFRangeMake(0, CFArrayGetCount(peopleMutable)), (CFComparatorFunction)ABPersonComparePeopleByName, (void *)ABPersonGetSortOrdering());
+            //CFArraySortValues(peopleMutable, CFRangeMake(0, CFArrayGetCount(peopleMutable)), (CFComparatorFunction)ABPersonComparePeopleByName, (void *)ABPersonGetSortOrdering());
             
-            NSArray *allContacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(peopleMutable)];
+            NSArray *allContacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(people)];
             
-            CFRelease(peopleMutable);
+            //CFRelease(peopleMutable);
             CFRelease(people);
             
             if (string.length > 0) {
@@ -96,6 +96,7 @@
 - (NSArray *)convertContactsToMembers:(NSArray *)contacts
 {
     NSMutableArray *members = [[NSMutableArray alloc] init];
+	int k = 0;
     
     for (id aPerson in contacts) {
         NSMutableDictionary *aMember = [[NSMutableDictionary alloc] init];
@@ -103,9 +104,14 @@
         NSString* firstName = (__bridge_transfer NSString*) ABRecordCopyValue((__bridge ABRecordRef)aPerson, kABPersonFirstNameProperty);
         NSString* lastName = (__bridge_transfer NSString*) ABRecordCopyValue((__bridge ABRecordRef)aPerson, kABPersonLastNameProperty);
         
+		if (firstName == nil) firstName = @"";
+		if (lastName == nil) lastName = @"";
+		
         [aMember setObject:[NSString stringWithFormat:@"%@ %@", firstName, lastName] forKey:kMemberNickname];
         [aMember setObject:[NSString stringWithFormat:@"%@", firstName] forKey:kMemberFirstName];
         [aMember setObject:[NSString stringWithFormat:@"%@", lastName] forKey:kMemberLastName];
+		[aMember setObject:[NSNumber numberWithInt:k] forKey:@"tag"];
+		k++;
         
         ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)aPerson, kABPersonPhoneProperty);
         for (CFIndex i = 0; i < ABMultiValueGetCount(phoneNumbers); i++) {

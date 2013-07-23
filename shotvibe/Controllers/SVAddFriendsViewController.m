@@ -18,8 +18,9 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 
-@property (nonatomic, strong) NSArray *records;
-@property (nonatomic, strong) NSMutableArray *contactsToAdd;
+@property (nonatomic, strong) NSMutableDictionary *records;// array of array of dictionaries
+@property (nonatomic, strong) NSMutableArray *selectedIndexPaths;
+@property (nonatomic, strong) NSMutableArray *contactsButtons;
 
 - (IBAction)cancelPressed:(id)sender;
 - (NSArray *)filterNonAlphabetContacts:(NSArray *)contacts;
@@ -36,7 +37,7 @@
 - (IBAction)donePressed:(id)sender {
     // add members to album
     //TODO if already shotvibe member just add to album else sent notification to user to join?
-    NSLog(@"contacts to add >> %@", self.contactsToAdd);
+    NSLog(@"contacts to add >> %@", self.selectedIndexPaths);
     
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -60,23 +61,33 @@
 }
 
 
+- (id) init {
+	self = [super init];
+	if (self) {
+	
+	}
+	return self;
+}
+
+
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+	
+	self.selectedIndexPaths = [[NSMutableArray alloc] init];
+	self.contactsButtons = [[NSMutableArray alloc] init];
+	alphabet = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", @"#"];
+	self.records = [[NSMutableDictionary alloc] init];
     
     CGRect segmentFrame = self.segmentControl.frame;
     segmentFrame.origin.y -= 1.5;
     self.segmentControl.frame = segmentFrame;
     
-    self.contactsToAdd = [[NSMutableArray alloc] init];
-    self.records = nil;
-    
-    alphabet = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", @"#"];
-    
-    [self loadShotVibeContacts];
+    //[self loadShotVibeContacts];
+	[self loadAddressbookContacts];
 }
 
 
@@ -91,18 +102,30 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == alphabet.count - 1) {
-        return [[self filterNonAlphabetContacts:self.records] count];
-    }
-    
-    return [[self.records filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:section]]] count];
+	NSArray *arr = [self.records objectForKey:[alphabet objectAtIndex:section]];
+	return [arr count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
-    [self configureCell:cell atIndexPath:indexPath];
+    
+	NSArray *filteredRecords = [self.records objectForKey:[alphabet objectAtIndex:indexPath.section]];
+	
+    cell.textLabel.text = [[filteredRecords objectAtIndex:indexPath.row] objectForKey:kMemberNickname];
+    cell.detailTextLabel.text = [[filteredRecords objectAtIndex:indexPath.row] objectForKey:kMemberPhone];
+    
+	BOOL contains = NO;
+	for (NSIndexPath *idx in self.selectedIndexPaths) {
+		if (idx.row == indexPath.row && idx.section == indexPath.section) {
+			contains = YES;
+			break;
+		}
+	}
+	
+	cell.imageView.image = [UIImage imageNamed:contains?@"contactCellCheckmark_active":@"contactCellCheckmark_inactive"];
+    
     return cell;
 }
 
@@ -115,15 +138,12 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
- 
-    if ([[self filterNonAlphabetContacts:self.records] count] > 0 && section == alphabet.count - 1) {
+	NSArray *arr = [self.records objectForKey:[alphabet objectAtIndex:section]];
+	
+    if ([arr count] > 0) {
         return [alphabet objectAtIndex:section];
     }
-    
-    if ([[self.records filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:section]]] count] > 0) {
-        return [alphabet objectAtIndex:section];
-    }
-    
+	
     return nil;
 }
 
@@ -133,19 +153,33 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.searchBar resignFirstResponder];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    UITableViewCell *tappedCell = [tableView cellForRowAtIndexPath:indexPath];
-    if ([tappedCell.imageView isEqual:[UIImage imageNamed:@"contactCellCheckmark_active"]]) {
-        return;
-    }
-    if (![self.contactsToAdd containsObject:[self.records objectAtIndex:indexPath.row]]) {
+	[self.searchBar resignFirstResponder];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	UITableViewCell *tappedCell = [tableView cellForRowAtIndexPath:indexPath];
+	
+	BOOL contains = NO;
+	int i = 0;
+	for (NSIndexPath *idx in self.selectedIndexPaths) {
+		if (idx.row == indexPath.row && idx.section == indexPath.section) {
+			contains = YES;
+			break;
+		}
+		i++;
+	}
+	
+	if (contains) {
+		[tappedCell.imageView setImage:[UIImage imageNamed:@"contactCellCheckmark_inactive"]];
+        [self.selectedIndexPaths removeObjectAtIndex:i];
+        //[self removeContact:[self.contactsButtons objectAtIndex:i]];
+	}
+	else {
         [tappedCell.imageView setImage:[UIImage imageNamed:@"contactCellCheckmark_active"]];
-        //add tapped contact to contact holder
-        [self.contactsToAdd addObject:[self.records objectAtIndex:indexPath.row]];
-        
-        [self updateToField];
-    }
+        [self.selectedIndexPaths addObject:[indexPath copy]];
+        NSLog(@"self.contactsToAdd %i %@", indexPath.row, self.selectedIndexPaths);
+		
+		NSArray *arr = [self.records objectForKey:[alphabet objectAtIndex:indexPath.section]];
+        [self addToContactsList:[arr objectAtIndex:indexPath.row]];
+	}
 }
 
 
@@ -154,11 +188,12 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    [SVAddressBookBD searchContactsWithString:searchText WithCompletion:^(NSArray *albums, NSError *error) {
-        self.records = albums;
-        dispatch_async(dispatch_get_main_queue(), ^{
+    [SVAddressBookBD searchContactsWithString:searchText WithCompletion:^(NSArray *contacts, NSError *error) {
+        //self.records = contacts;
+		NSLog(@"records %@", self.records);
+        //dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
-        });
+        //});
     }];
 }
 
@@ -171,76 +206,71 @@
 
 #pragma mark - Private Methods
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+-(void)addToContactsList:(NSDictionary*)contact
 {
-    NSArray *filteredRecords = nil;
-    
-    if (indexPath.section == alphabet.count - 1) {
-        filteredRecords = [self filterNonAlphabetContacts:self.records];
-    }
-    else
-    {
-        filteredRecords = [self.records filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:indexPath.section]]];
-    }
-    
-    cell.textLabel.text = [[filteredRecords objectAtIndex:indexPath.row] objectForKey:kMemberNickname];
-    cell.detailTextLabel.text = [[filteredRecords objectAtIndex:indexPath.row] objectForKey:kMemberPhone];
-    
-    if ([self.contactsToAdd containsObject:[self.records objectAtIndex:indexPath.row]]) {
-        cell.imageView.image = [UIImage imageNamed:@"contactCellCheckmark_active"];
-    }else{
-        cell.imageView.image = [UIImage imageNamed:@"contactCellCheckmark_inactive"];
-    }
-    
-}
-
-
--(void)updateToField
-{
-    //remove any current buttons
-    for (UIView *v in self.addedContactsScrollView.subviews) {
-        if (![v isKindOfClass:[UIImageView class]]) {
-            [v removeFromSuperview];
-        }
-    }
-    
-    int x = 5;
+	NSString *firstName = [contact objectForKey:kMemberFirstName];
+	NSString *lastName = [contact objectForKey:kMemberLastName];
+	int tag = [[contact objectForKey:@"tag"] intValue];
+	
     //create a new dynamic button
-    for ( int j = 0; j<[self.contactsToAdd count]; j++)
-    {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        
-        NSDictionary *contactDic = [self.contactsToAdd objectAtIndex:j];
-        [button setTitle:[contactDic objectForKey:kMemberFirstName] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
-        [button setTag:j];
-        [button sizeToFit];
-        
-        [button setBackgroundImage:[[UIImage imageNamed:@"contactsStreachableButton_normal"] stretchableImageWithLeftCapWidth:45.0 topCapHeight:0.0] forState:UIControlStateNormal];
-
-        [button setBackgroundImage:[[UIImage imageNamed:@"contactsStreachableButton_down"] stretchableImageWithLeftCapWidth:45.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
-        
-        [button addTarget:self action:@selector(removeContactFromList:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.addedContactsScrollView addSubview:button];
-        
-        CGRect frame = CGRectMake(x, 10, button.frame.size.width, 30);
-        button.frame = frame;
-        
-        x = x + button.frame.size.width + 5;
-        
-        [self.addedContactsScrollView setContentSize:(CGSizeMake(x, self.addedContactsScrollView.frame.size.height))];
-    }
+	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+	[button setTitle:([firstName isEqualToString:@""] ? lastName : firstName) forState:UIControlStateNormal];
+	[button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+	[button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+	[button setTag:tag];
+	[button sizeToFit];
+	[button setBackgroundImage:[[UIImage imageNamed:@"contactsStreachableButton_normal"] stretchableImageWithLeftCapWidth:45.0 topCapHeight:0.0] forState:UIControlStateNormal];
+	[button setBackgroundImage:[[UIImage imageNamed:@"contactsStreachableButton_down"] stretchableImageWithLeftCapWidth:45.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
+	[button addTarget:self action:@selector(removeContactFromList:) forControlEvents:UIControlEventTouchUpInside];
+	[self.addedContactsScrollView addSubview:button];
+	[self.contactsButtons insertObject:button atIndex:0];
+	button.alpha = 0;
+	
+    [self updateContacts];
+	
+	[UIView animateWithDuration:0.6 animations:^{
+		button.alpha = 1;
+	}];
+}
+-(void)removeContact:(NSDictionary*)contact
+{
+//	[self.addedContactsScrollView addSubview:button];
+//	
+//	CGRect frame = CGRectMake(x, 10, button.frame.size.width, 30);
+//	button.frame = frame;
+//	
+//	x = x + button.frame.size.width + 5;
+//	
+//	[self.addedContactsScrollView setContentSize:(CGSizeMake(x, self.addedContactsScrollView.frame.size.height))];
 }
 
 -(void)removeContactFromList:(UIButton *)sender
 {
-    [self.contactsToAdd removeObjectAtIndex:sender.tag];
+	[sender removeFromSuperview];
+	[self.contactsButtons removeObject:sender];
+	[self updateContacts];
+	
+    //[self.selectedIndexPaths removeObjectAtIndex:sender.tag];
     
-    [self updateToField];
+    //[self updateToField];
     
-    [self.tableView reloadData];
+    //[self.tableView reloadData];
+}
+- (void)updateContacts {
+	
+	int x = 5;
+	for (UIButton *but in self.contactsButtons) {
+		
+		CGRect frame = CGRectMake(x, 10, but.frame.size.width, 30);
+		
+		[UIView animateWithDuration:0.3 animations:^{
+			but.frame = frame;
+		}];
+		
+		x = x + but.frame.size.width + 5;
+	}
+	
+	[self.addedContactsScrollView setContentSize:(CGSizeMake(x, self.addedContactsScrollView.frame.size.height))];
 }
 
 
@@ -252,18 +282,26 @@
 
 -(void)loadAddressbookContacts
 {
-    [SVAddressBookBD searchContactsWithString:nil WithCompletion:^(NSArray *albums, NSError *error) {
-        self.records = albums;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-    }];
+    [SVAddressBookBD searchContactsWithString:nil WithCompletion:^(NSArray *contacts, NSError *error) {
+		
+		for (int i=0; i<alphabet.count-1; i++) {
+			NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i]];
+			NSArray *arr = [contacts filteredArrayUsingPredicate:predicate];
+			[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
+		}
+		[self.records setObject:[self filterNonAlphabetContacts:contacts] forKey:@"#"];
+		
+		NSLog(@"records %@", self.records);
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.tableView reloadData];
+		});
+	}];
 }
 
 
 - (NSArray *)filterNonAlphabetContacts:(NSArray *)contacts
 {
-    return [contacts filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSDictionary * evaluatedObject, NSDictionary *bindings) {
+    return [contacts filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
         
         BOOL result = YES;
         NSString * firstName = [evaluatedObject objectForKey:kMemberFirstName];
