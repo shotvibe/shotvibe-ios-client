@@ -151,6 +151,24 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         
         [[UISearchBar appearance] setBackgroundImage:resizableImage];
     }
+    
+    
+    
+    //Customize Segment Control
+    {
+        UIImage *baseImage = [UIImage imageNamed:@"navbarButton.png"];
+        UIImage *selectedImage = [UIImage imageNamed:@"SegmentSelectedButton.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 10, 10);
+        UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        UIImage *resizableSelectedImage = [selectedImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+        
+        [[UISegmentedControl appearance] setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [[UISegmentedControl appearance] setBackgroundImage:resizableSelectedImage forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+        
+    }
+    
+    
+    
 }
 
 

@@ -37,14 +37,22 @@ static NSString * const kAPIBaseURLString = @"https://api.shotvibe.com/";
 #define kSVSyncEngineSyncCompletedNotification      @"SyncEngineSyncCompleted"
 #define kSVSyncEnginePhotoSavedToDiskNotification   @"SyncEnginePhotoSavedToDisk"
 
+#define kMemberNickname     @"nickname"
+#define kMemberPhone        @"phone"
+#define kMemberFirstName    @"firstName"
+#define kMemberLastName     @"lastname"
+
 typedef enum {
     SVObjectSyncCompleted = 0,
     SVObjectSyncWaiting,
-    SVObjectSyncActive,
     SVObjectSyncDownloadNeeded,
     SVObjectSyncUploadNeeded,
-    SVObjectCreated,
-    SVObjectDeleted,
 } SVObjectSyncStatus;
+
+typedef enum {
+    SVPhotoUploadCompleted = 0,
+    SVPhotoUploadWaiting,
+    SVPhotoUploadActive,
+} SVPhotoUploadStatus;
 
 #endif

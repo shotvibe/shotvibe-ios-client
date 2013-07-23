@@ -60,6 +60,11 @@
     [self refreshMembers];
 }
 
+- (void)settingsPressed
+{
+    //
+}
+
 
 - (void)didReceiveMemoryWarning
 {

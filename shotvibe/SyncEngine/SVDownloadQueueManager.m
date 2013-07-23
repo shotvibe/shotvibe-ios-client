@@ -13,12 +13,7 @@
 #import "SVDownloadOperation.h"
 #import "SVDownloadQueueManager.h"
 #import "SVEntityStore.h"
-
-#ifdef CONFIGURATION_Debug
-static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
-#elif CONFIGURATION_Adhoc
-static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef27246f6ae6";
-#endif
+#import "SVUploadQueueManager.h"
 
 @interface SVDownloadQueueManager ()
 {
@@ -26,14 +21,10 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 @property (nonatomic, strong) NSManagedObjectContext *syncContext;
-
-@property (nonatomic, strong) NSTimer *queueTimer;
-
 @property (atomic, readonly) BOOL syncInProgress;
 
 - (void)prepareQueue;
 - (void)processQueue;
-
 - (void)saveSyncContext;
 @end
 
@@ -70,34 +61,27 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 #pragma mark - Instance Methods
 
 - (void)start
-{   
-    self.operationQueue.maxConcurrentOperationCount = 1;
-    
-    [self prepareQueue];
-    
-    // Create a timer to process the queue
-    /*if (!self.queueTimer) {
-        self.queueTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(prepareQueue:) userInfo:nil repeats:YES];
+{
+    if (![[SVUploadQueueManager sharedManager] syncInProgress]) {
+        self.operationQueue.maxConcurrentOperationCount = 1;
         
-        [[NSRunLoop mainRunLoop] addTimer:self.queueTimer forMode:NSDefaultRunLoopMode];
-        [self.queueTimer fire];
-    }*/
+        [self prepareQueue];
+    } else {
+        NSLog(@"The upload queue manager is busy, please wait!");
+    }
 }
 
 
 - (void)stop
 {
-    
+    self.operationQueue.maxConcurrentOperationCount = 0;
+    [self.operationQueue cancelAllOperations];
 }
 
 
 - (void)pause
 {
     self.operationQueue.maxConcurrentOperationCount = 0;
-    
-    // Kill the timer
-    /*[self.queueTimer invalidate];
-    self.queueTimer = nil;*/
 }
 
 
@@ -124,7 +108,13 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     NSArray *photosToDownload = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %i", SVObjectSyncDownloadNeeded] inContext:self.syncContext];
     
-    NSLog(@"WE HAZ %i PHOTOZ TO DOWNLOAD", photosToDownload.count);
+    if (photosToDownload.count > 0) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        });
+    } else {
+        [self saveSyncContext];
+    }
     
     for (AlbumPhoto *aPhoto in photosToDownload) {
         [self.operationQueue addOperationWithBlock:^{
@@ -133,6 +123,8 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
                 
                 AlbumPhoto *localPhoto = (AlbumPhoto *)[self.syncContext objectWithID:aPhoto.objectID];
                 [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncCompleted]];
+                
+                localPhoto.album.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
             }];
         }];
     }
@@ -148,30 +140,35 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     [self.syncContext saveWithOptions:MRSaveParentContexts onQueue:saveQueue completion:^(BOOL success, NSError *error) {
         
         if (success) {
-            NSLog(@"Wheeeeeeee ahaHAH, we've saved ALBUMS successfully");
-            //[NSManagedObjectContext resetContextForCurrentThread];
-            //[NSManagedObjectContext resetDefaultContext];
-            //[self.syncContext reset];
-            //self.syncContext = nil;
+            NSLog(@"All photos have downloaded successfully.");
         }
         else
         {
             if (error) {
                 NSLog(@"%@", error);
             }
-            NSLog(@"We no can haz save right now");
+            NSLog(@"There is nothing to save at this time.");
         }
+        
+        [[SVUploadQueueManager sharedManager] start];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineSyncCompletedNotification object:nil];
         
     }];
 }
 
 
+#pragma mark - Key Value Observing
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (object == self.operationQueue && [keyPath isEqualToString:@"operations"]) {
         if ([self.operationQueue.operations count] == 0) {
-            // Do something here when your queue has completed
             NSLog(@"queue has completed");
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            });
+            
             [self saveSyncContext];
         }
     }

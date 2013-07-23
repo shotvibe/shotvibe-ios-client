@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSNumber * hasViewed;
 @property (nonatomic, retain) NSNumber * imageWasDownloaded;
 @property (nonatomic, retain) NSNumber * objectSyncStatus;
+@property (nonatomic, retain) NSNumber * photoUploadStatus;
 @property (nonatomic, retain) NSString * photo_id;
 @property (nonatomic, retain) NSString * photo_url;
 @property (nonatomic, retain) NSString * local_url;

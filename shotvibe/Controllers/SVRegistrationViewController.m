@@ -12,6 +12,8 @@
 #import "NBPhoneNumber.h"
 #import "SVBusinessDelegate.h"
 #import "SVDefines.h"
+#import "SVDownloadSyncEngine.h"
+#import "SVUploadQueueManager.h"
 
 @interface SVRegistrationViewController ()
 
@@ -116,7 +118,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
  
-    if([self hasUserBeenAuthenticated])
+    if([SVBusinessDelegate hasUserBeenAuthenticated])
     {
      [self handleSuccessfulLogin];
     }
@@ -208,30 +210,6 @@
 #pragma mark - Private Methods
 
 
-- (BOOL) hasUserBeenAuthenticated
-{
- BOOL userIsAuthenticated = YES;
- 
- NSString *userId        = [[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId];
- NSString *userAuthToken = [[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserAuthToken];
- 
- NSLog(@"userId:  %@, token:  %@", userId, userAuthToken);
- 
- if(userId != nil && userAuthToken != nil)
- {
-  userIsAuthenticated = YES;
-  
-  NSLog(@"hasUserBeenAuthenticated:  YES");
- }
- else
- {
-  NSLog(@"hasUserBeenAuthenticated:  NO");
- }
- 
- return userIsAuthenticated;
-}
-
-
 
 - (void)submitPhoneNumberRegistration:(NSString *)phoneNumber
 {
@@ -263,29 +241,31 @@
 {
  NSLog(@"validateRegistrationCode - code:  %@", registrationCode);
  
- [SVBusinessDelegate validateRegistrationCode:registrationCode withConfirmationCode:self.confirmationCode WithCompletion:^(BOOL success, NSString *authToken, NSString *userId, NSError *error) {
-  
-  if(success)
-  {
-   // Move this to successful completion handler once implemented
-
-   NSLog(@"authToken:  %@, userId:  %@", authToken, userId);
-   
-   [[NSUserDefaults standardUserDefaults] setObject:userId forKey:kApplicationUserId];
-   [[NSUserDefaults standardUserDefaults] setObject:authToken forKey:kApplicationUserAuthToken];
-   
-   [[NSUserDefaults standardUserDefaults] synchronize];
-   
-   [self handleSuccessfulLogin];
-  }
-  else
-  {
-   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to validate", @"") message:NSLocalizedString(@"Failed to validate sms code", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-   [alert show];
-   
-  }
-  
- }];
+    [SVBusinessDelegate validateRegistrationCode:registrationCode withConfirmationCode:self.confirmationCode WithCompletion:^(BOOL success, NSString *authToken, NSString *userId, NSError *error) {
+        
+        if(success)
+        {
+            // Move this to successful completion handler once implemented
+            
+            NSLog(@"authToken:  %@, userId:  %@", authToken, userId);
+            
+            [[NSUserDefaults standardUserDefaults] setObject:userId forKey:kApplicationUserId];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Token %@", authToken] forKey:kApplicationUserAuthToken];
+            
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [[SVDownloadSyncEngine sharedEngine] start];
+            
+            [self handleSuccessfulLogin];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to validate", @"") message:NSLocalizedString(@"Failed to validate sms code", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+            [alert show];
+            
+        }
+        
+    }];
 }
 
 
@@ -337,6 +317,8 @@
 
 - (void)handleSuccessfulLogin
 {
+    [[SVDownloadSyncEngine sharedEngine] startSync];
+    
     // Grab the storyboard
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
     

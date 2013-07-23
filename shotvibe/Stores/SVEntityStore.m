@@ -9,9 +9,11 @@
 #import "Album.h"
 #import "AlbumPhoto.h"
 #import "AFHTTPRequestOperation.h"
+#import "AFJSONRequestOperation.h"
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 #import "SVBusinessDelegate.h"
+#import "Member.h"
 
 static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
@@ -57,6 +59,24 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
+#pragma mark - Initialization
+
+#pragma mark - Initialization
+
+- (id)initWithBaseURL:(NSURL *)url
+{
+    self = [super initWithBaseURL:url];
+    if (self) {
+        [self registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
+        [self setParameterEncoding:AFJSONParameterEncoding];
+        [self setDefaultHeader:@"Authorization" value:[[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserAuthToken]];
+    }
+    
+    return self;
+}
+
+
 #pragma mark - Class Methods
 
 + (SVEntityStore *)sharedStore
@@ -66,15 +86,21 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     dispatch_once(&storeQueue, ^{
         entityStore = [[SVEntityStore alloc] initWithBaseURL:[NSURL URLWithString:kShotVibeAPIBaseURLString]];
-        [entityStore setDefaultHeader:@"Authorization" value:kTestAuthToken];
-        [entityStore setParameterEncoding:AFJSONParameterEncoding];
     });
     
     return entityStore;
 }
 
 
-#pragma mark - Instance Methods
+#pragma mark - Private Methods
+
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+
+#pragma mark - FRC Methods
 
 - (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate
 {
@@ -142,25 +168,42 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
-- (void)photosForAlbumWithID:(NSNumber *)albumId
+#pragma mark - Album Methods
+
+- (void)setAllPhotosToHasViewedInAlbum:(Album *)anAlbum
 {
-    // TODO: Return all photos for the album with the supplied ID
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
+        
+        NSArray *photos = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@", localAlbum.albumId] inContext:localContext];
+        
+        for (AlbumPhoto *photo in photos) {
+            [photo setHasViewed:[NSNumber numberWithBool:YES]];
+        }
+    }];
 }
 
 
-- (void)newAlbumWithName:(NSString *)albumName
+- (void)newAlbumWithName:(NSString *)albumName andUserID:(NSNumber *)userID
 {    
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         Album *localAlbum = [Album createInContext:localContext];
         
+        // Create the first member too...
+        Member *localMember = [Member createInContext:localContext];
+        [localMember setUserId:userID];
+        
         NSString *tempAlbumId = [[NSUUID UUID] UUIDString];
         
         [localAlbum setAlbumId:tempAlbumId];
+        [localAlbum setTempAlbumId:tempAlbumId];
         [localAlbum setDate_created:[NSDate date]];
         [localAlbum setLast_updated:[NSDate date]];
         [localAlbum setName:albumName];
         [localAlbum setUrl:@""];
-        [localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
+        [localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncWaiting]];
+        [localAlbum setEtag:@"0"];
+        [localAlbum addMembersObject:localMember];
 
     }];
 }
@@ -168,29 +211,33 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
 {
-    
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        AlbumPhoto *localPhoto = [AlbumPhoto createInContext:localContext];
-        Album *localAlbum = [Album findFirstWithPredicate:[NSPredicate predicateWithFormat:@"albumId = %@", albumID] inContext:localContext];
-        
-        [localPhoto setDate_created:[NSDate date]];
-        [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
-        [localPhoto setTempPhotoId:photoId];
-        [localPhoto setPhoto_id:photoId];
-        [localPhoto setImageWasDownloaded:[NSNumber numberWithBool:YES]];
-        [localPhoto setPhoto_url:@""];
-        
-        [localAlbum addAlbumPhotosObject:localPhoto];
-    } completion:^(BOOL success, NSError *error) {
-        block(success, error);
-    }];
+    Album *albumToAddPhotosTo = [Album findFirstByAttribute:@"albumId" withValue:albumID inContext:[NSManagedObjectContext defaultContext]];
+    NSLog(@"The passed id is: %@", albumID);
+    if (photoId && albumID) {
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            AlbumPhoto *localPhoto = [AlbumPhoto createInContext:localContext];
+            Album *localAlbum = (Album *)[localContext objectWithID:albumToAddPhotosTo.objectID];
+            
+            [localPhoto setDate_created:[NSDate date]];
+            [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
+            [localPhoto setTempPhotoId:photoId];
+            [localPhoto setPhoto_id:photoId];
+            [localPhoto setImageWasDownloaded:[NSNumber numberWithBool:YES]];
+            [localPhoto setPhoto_url:@""];
+            
+            [localAlbum addAlbumPhotosObject:localPhoto];
+        } completion:^(BOOL success, NSError *error) {
+            block(success, error);
+        }];
+    } else {
+        NSLog(@"WE'VE LOST INTELLIGENCE SIR!! SO WE WON'T ADD ZOMBIE PHOTOS OK?");
+    }
 }
 
 
-/*
- * register the users phone number (and they will get a confirmation code)
- */
-- (void) registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block
+#pragma mark - Registration Methods
+
+- (void)registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block
 {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:2];
     [parameters setValue:phoneNumber forKey:@"phone_number"];
@@ -220,10 +267,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
-/*
- * register the users phone number (and they will get a confirmation code)
- */
-- (void) validateRegistrationCode:(NSString *) registrationCode withConfirmationCode:(NSString *) confirmationCode WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId, NSError *error))block
+- (void)validateRegistrationCode:(NSString *) registrationCode withConfirmationCode:(NSString *) confirmationCode WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId, NSError *error))block
 {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:2];
     [parameters setValue:registrationCode forKey:@"confirmation_code"];
@@ -264,47 +308,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
-/*
- * upload a photo
- */
--(void) uploadPhoto :(NSString *) photoId withImageData:(NSData *) imageData
-{
-    NSMutableArray *requestOperationBatch = [NSMutableArray arrayWithCapacity:1];
-    
-    NSString *uploadPath = [NSString stringWithFormat:@"/photos/upload/%@/", photoId];
-    
-    NSMutableURLRequest *request =
-    [self multipartFormRequestWithMethod:@"POST" path:uploadPath parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData)
-     {
-         [formData appendPartWithFileData:imageData name:@"photo" fileName:@"temp.jpeg" mimeType:@"image/jpeg"];
-     }
-     ];
-    
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    
-    [requestOperationBatch addObject:operation];
-    
-    
-    // Enque the upload batch
-    [self enqueueBatchOfHTTPRequestOperations:requestOperationBatch progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations)
-     {
-         
-         //TODO: We need to send some progress notifications
-         //  CGFloat uploadProgress = numberOfFinishedOperations / totalNumberOfOperations;
-         //  [[NSNotificationCenter defaultCenter] postNotificationName:kUploadPhotosToAlbumProgressNotification object:[NSNumber numberWithFloat:uploadProgress]];
-         //  if (uploadProgress >= 1.0)
-         //  {
-         //   block(YES, nil);
-         //  }
-         
-     }
-     
-                              completionBlock:^(NSArray *operations)
-     {
-         
-     }];
-}
-
+#pragma mark - Image Methods
 
 - (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *))block
 {
@@ -317,7 +321,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
         if (imageData) {
-            UIImage *image = [UIImage imageWithData:imageData scale:0.25];
+            UIImage *image = [UIImage imageWithData:imageData];
             block(image);
             
             imageData = nil;
@@ -379,46 +383,95 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto
 {
     NSURL *url = [NSURL URLWithString:aPhoto.photo_id relativeToURL:self.imageDataDirectory];
-    NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
-    NSError *readingError = nil;
+    NSString *path = [url path];
     
-    @autoreleasepool {
-        NSData *dataToReturn = [[NSData alloc] initWithContentsOfFile:[fileURL path] options:NSDataReadingMappedIfSafe error:&readingError];
+    if (path) {
+        NSURL *fileURL = [NSURL fileURLWithPath:path isDirectory:NO];
+        NSError *readingError = nil;
         
-        if (dataToReturn) {
-            UIImage *image = [UIImage imageWithData:dataToReturn];
-            return image;
-        } else {
-            if (readingError) {
-                NSLog(@"%@", readingError);
+        @autoreleasepool {
+            NSData *dataToReturn = [[NSData alloc] initWithContentsOfFile:[fileURL path] options:NSDataReadingMappedIfSafe error:&readingError];
+            
+            if (dataToReturn) {
+                UIImage *image = [UIImage imageWithData:dataToReturn];
+                return image;
+            } else {
+                if (readingError) {
+                    NSLog(@"%@", readingError);
+                }
+                return nil;
             }
-            return nil;
+            
+            dataToReturn = nil;
         }
-        
-        dataToReturn = nil;
     }
+    else
+    {
+        return nil;
+    }
+    
 }
 
 
 - (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block
 {
     NSURL *url = [NSURL URLWithString:imageID relativeToURL:self.imageDataDirectory];
-    NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
-    NSError *readingError = nil;
+    NSString *path = [url path];
     
-    @autoreleasepool {
-        NSData *dataToReturn = [[NSData alloc] initWithContentsOfFile:[fileURL path] options:NSDataReadingMappedIfSafe error:&readingError];
+    if (path) {
+        NSURL *fileURL = [NSURL fileURLWithPath:[path stringByAppendingString:@"_thumbnail"] isDirectory:NO];
+        NSError *readingError = nil;
         
-        if (dataToReturn) {
-            block(dataToReturn);
-        } else {
-            if (readingError) {
-                //NSLog(@"%@", readingError);
+        @autoreleasepool {
+            NSData *dataToReturn = [[NSData alloc] initWithContentsOfFile:[fileURL path] options:NSDataReadingMappedIfSafe error:&readingError];
+            
+            if (dataToReturn) {
+                block(dataToReturn);
+            } else {
+                if (readingError) {
+                    //NSLog(@"%@", readingError);
+                }
+                block(nil);
             }
-            block(nil);
+            
+            dataToReturn = nil;
         }
+    }
+    else
+    {
+        block(nil);
+    }
+    
+}
+
+
+- (void)getFullsizeImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block
+{
+    NSURL *url = [NSURL URLWithString:imageID relativeToURL:self.imageDataDirectory];
+    NSString *path = [url path];
+    
+    if (path) {
+        NSURL *fileURL = [NSURL fileURLWithPath:path isDirectory:NO];
+        NSError *readingError = nil;
         
-        dataToReturn = nil;
+        @autoreleasepool {
+            NSData *dataToReturn = [[NSData alloc] initWithContentsOfFile:[fileURL path] options:NSDataReadingMappedIfSafe error:&readingError];
+            
+            if (dataToReturn) {
+                block(dataToReturn);
+            } else {
+                if (readingError) {
+                    //NSLog(@"%@", readingError);
+                }
+                block(nil);
+            }
+            
+            dataToReturn = nil;
+        }
+    }
+    else
+    {
+        block(nil);
     }
 }
 
@@ -427,39 +480,45 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 {
     if (imageID) {
         NSURL *url = [NSURL URLWithString:imageID relativeToURL:self.imageDataDirectory];
-        NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:NO];
+        NSString *path = [url path];
         
-        if (![imageData writeToFile:[fileURL path] atomically:YES]) {
+        if (path) {
+            NSURL *fileURL = [NSURL fileURLWithPath:path isDirectory:NO];
+            
+            if (![imageData writeToFile:[fileURL path] atomically:YES]) {
+                NSError *error = [NSError errorWithDomain:@"SVImageSaveError" code:000 userInfo:nil];
+                block(NO, nil, error);
+            } else {
+                
+                UIImage *originalImage = [UIImage imageWithContentsOfFile:[fileURL path]];
+                
+                CGSize newSize = CGSizeMake(100, 100);
+                
+                float oldWidth = originalImage.size.width;
+                float scaleFactor = newSize.width / oldWidth;
+                
+                float newHeight = originalImage.size.height * scaleFactor;
+                float newWidth = oldWidth * scaleFactor;
+                
+                UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+                [originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+                UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                [UIImageJPEGRepresentation(image, 0.5) writeToFile:[[fileURL path] stringByAppendingString:@"_thumbnail"] atomically:YES];
+                
+                block(YES, fileURL, nil);
+            }
+        }
+        else
+        {
             NSError *error = [NSError errorWithDomain:@"SVImageSaveError" code:000 userInfo:nil];
             block(NO, nil, error);
-        } else {
-            block(YES, fileURL, nil);
         }
+
     } else {
         NSError *error = [NSError errorWithDomain:@"SVImageSaveError" code:000 userInfo:nil];
         block(NO, nil, error);
     }
-}
-
-
-- (void)setAllPhotosToHasViewedInAlbum:(Album *)anAlbum
-{
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
-                
-        NSArray *photos = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@", localAlbum.albumId] inContext:localContext];
-
-        for (AlbumPhoto *photo in photos) {
-            [photo setHasViewed:[NSNumber numberWithBool:YES]];
-        }
-    }];
-}
-
-
-#pragma mark - Private Methods
-
-- (NSURL *)applicationDocumentsDirectory
-{
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 @end

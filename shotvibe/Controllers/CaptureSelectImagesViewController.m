@@ -13,6 +13,8 @@
 #import "SVBusinessDelegate.h"
 #import "SVDefines.h"
 #import "SVEntityStore.h"
+#import "SVUploadQueueManager.h"
+#import "SVSelectionGridCell.h"
 
 @interface CaptureSelectImagesViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
@@ -53,7 +55,7 @@
     
     selectedPhotos = [[NSMutableArray alloc] init];
     
-    [self.gridView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"SVSelectionCell"];
+    [self.gridView registerClass:[SVSelectionGridCell class] forCellWithReuseIdentifier:@"SVSelectionCell"];
     
     if (self.selectedGroup) {
         self.title = [self.selectedGroup valueForProperty:ALAssetsGroupPropertyName];
@@ -105,14 +107,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionCell" forIndexPath:indexPath];
+    SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionCell" forIndexPath:indexPath];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
+    cell.imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
     
     if (self.selectedGroup) {
         
         ALAsset *asset = [self.takenPhotos objectAtIndex:indexPath.row];
-        imageView.image = [UIImage imageWithCGImage:asset.thumbnail];
+        cell.imageView.image = [UIImage imageWithCGImage:asset.thumbnail];
         
     }
     else
@@ -120,7 +122,7 @@
         UIImage *image = [UIImage imageWithContentsOfFile:[self.takenPhotos objectAtIndex:indexPath.row]];
         
         float oldWidth = image.size.width;
-        float scaleFactor = imageView.frame.size.width / oldWidth;
+        float scaleFactor = cell.imageView.frame.size.width / oldWidth;
         
         float newHeight = image.size.height * scaleFactor;
         float newWidth = oldWidth * scaleFactor;
@@ -130,27 +132,27 @@
         UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
-        imageView.image = newImage;
+        cell.imageView.image = newImage;
         
     }
     
-    [cell addSubview:imageView];
+    [cell.contentView addSubview:cell.imageView];
     
     
     // Configure the selection icon
     
-    UIImageView *selectedIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"imageUnselected.png"]];
-    selectedIcon.userInteractionEnabled = NO;
-    selectedIcon.tag = 9001;
+    cell.selectionIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"imageUnselected.png"]];
+    cell.selectionIcon.userInteractionEnabled = NO;
+    cell.selectionIcon.tag = 9001;
     
     if ([selectedPhotos containsObject:[self.takenPhotos objectAtIndex:indexPath.row]]) {
         
-        selectedIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+        cell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
     }
     
-    selectedIcon.frame = CGRectMake(imageView.frame.size.width - selectedIcon.bounds.size.width - 5, imageView.frame.size.height - selectedIcon.bounds.size.height - 5, selectedIcon.frame.size.width, selectedIcon.frame.size.height);
+    cell.selectionIcon.frame = CGRectMake(cell.imageView.frame.size.width - cell.selectionIcon.bounds.size.width - 5, cell.imageView.frame.size.height - cell.selectionIcon.bounds.size.height - 5, cell.selectionIcon.frame.size.width, cell.selectionIcon.frame.size.height);
     
-    [cell addSubview:selectedIcon];
+    [cell.contentView addSubview:cell.selectionIcon];
     
     return cell;
 }
@@ -162,22 +164,18 @@
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
-    UICollectionViewCell *selectedCell = [self.gridView cellForItemAtIndexPath:indexPath];
+    SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
     
-    for (UIImageView *imageView in selectedCell.subviews) {
-        if (imageView.tag == 9001) {
-            
-            if (![selectedPhotos containsObject:[self.takenPhotos objectAtIndex:indexPath.row]]) {
-                [selectedPhotos addObject:[self.takenPhotos objectAtIndex:indexPath.row]];
-                imageView.image = [UIImage imageNamed:@"imageSelected.png"];
-            }
-            else
-            {
-                [selectedPhotos removeObject:[self.takenPhotos objectAtIndex:indexPath.row]];
-                imageView.image = [UIImage imageNamed:@"imageUnselected.png"];
-            }
-        }
+    if (![selectedPhotos containsObject:[self.takenPhotos objectAtIndex:indexPath.row]]) {
+        [selectedPhotos addObject:[self.takenPhotos objectAtIndex:indexPath.row]];
+        selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
     }
+    else
+    {
+        [selectedPhotos removeObject:[self.takenPhotos objectAtIndex:indexPath.row]];
+        selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+    }
+
 }
 
 
@@ -192,12 +190,34 @@
          
          for (NSData *photoData in selectedPhotoPaths) {
              
-             NSString *tempPhotoId = [[NSUUID UUID] UUIDString];
+             __block NSString *tempPhotoId = [[NSUUID UUID] UUIDString];
+             __block NSData *blockData = photoData;
+             __block NSString *albumId = self.selectedAlbum.albumId;
              
-             [SVBusinessDelegate saveUploadedPhotoImageData:photoData forPhotoId:tempPhotoId inAlbum:self.selectedAlbum];
+             if (!albumId) {
+                 Album *selectedAlbum = (Album *)[[NSManagedObjectContext defaultContext] objectWithID:self.selectedAlbum.objectID];
+                 albumId = selectedAlbum.albumId;
+             }
+             
+             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                 
+                 [SVBusinessDelegate saveUploadedPhotoImageData:blockData forPhotoId:tempPhotoId withAlbumId:albumId];
+                 
+             });
          }
          
-         [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+         [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+             Album *localAlbum = (Album *)[localContext objectWithID:self.selectedAlbum.objectID];
+             [localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
+             
+         }];
+         //[[SVUploadQueueManager sharedManager] start];
+         
+         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+             
+
+             
+         }];
      }];
 }
 

@@ -42,6 +42,7 @@
 - (void)configureCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (IBAction)homePressed:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
+- (void)forceLoadPhotoForCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -50,6 +51,7 @@
     BOOL isMenuShowing;
     NSMutableArray *_objectChanges;
     NSMutableArray *_sectionChanges;
+    NSMutableDictionary *thumbnailCache;
 }
 
 
@@ -82,6 +84,7 @@
         
     _objectChanges = [NSMutableArray array];
     _sectionChanges = [NSMutableArray array];
+    thumbnailCache = [[NSMutableDictionary alloc] init];
     
     self.imageLoadingQueue = [[NSOperationQueue alloc] init];
     self.imageLoadingQueue.maxConcurrentOperationCount = 1;
@@ -108,6 +111,7 @@
     [super viewWillAppear:animated];
     
     [self fetchedResultsController];
+
         
     // We've returned from pushing detail
     if (isPushingDetail) {
@@ -136,6 +140,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    [thumbnailCache removeAllObjects];
     
     // Kill any drag processes here and now
     [self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
@@ -169,7 +175,9 @@
 {
     [super viewDidAppear:animated];
     
-    [[SVEntityStore sharedStore] setAllPhotosToHasViewedInAlbum:self.selectedAlbum];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [[SVEntityStore sharedStore] setAllPhotosToHasViewedInAlbum:self.selectedAlbum];
+    });
 }
 
 
@@ -223,6 +231,7 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [thumbnailCache removeAllObjects];
 }
 
 
@@ -568,15 +577,36 @@
     }
     cell.networkImageView.tag = indexPath.row;
     
-    __block AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+
+    UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
     
+    if (!image) {
+        [self forceLoadPhotoForCell:cell atIndexPath:indexPath];
+    }
+    else
+    {
+        [cell.networkImageView setImage:image];
+    }
+}
+
+
+- (void)forceLoadPhotoForCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
+    __block AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
     __block NSIndexPath *tagIndex = indexPath;
-    [self.imageLoadingQueue addOperationWithBlock:^{
-        [[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
-            if (image && cell.networkImageView.tag == tagIndex.row) {
-                [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-            }
-        }];
+    __block NSString *photoId = currentPhoto.photo_id;
+    [[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
+        if (image && cell.networkImageView.tag == tagIndex.row) {
+            [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+            
+            [thumbnailCache setObject:image forKey:photoId];
+        }
+        else if (cell.networkImageView.tag == tagIndex.row)
+        {
+            [self forceLoadPhotoForCell:cell atIndexPath:indexPath];
+        }
     }];
 }
 

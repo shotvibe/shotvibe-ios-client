@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <stdlib.h>
 #import "SVDefines.h"
 #import "SVOfflineStorageWS.h"
 #import "Album.h"
@@ -88,6 +89,13 @@
         else
         {
             NSLog(@"There was an error saving the photo locally: %@", [error userInfo]);
+            /*AlbumPhoto *photoToDelete = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:photoId inContext:[NSManagedObjectContext defaultContext]];
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                
+                AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photoToDelete.objectID];
+                [localPhoto deleteInContext:localContext];
+                
+            }];*/
         }
         
     }];
@@ -239,5 +247,29 @@
     UIImage *image = [UIImage imageWithContentsOfFile:filePath];
     
     return image;
+}
+
+
+- (UIImage *)defaultThumbnailImage
+{
+    NSInteger thumbnailChoice = arc4random_uniform(3);
+    
+    UIImage *thumbnail = nil;
+    
+    switch (thumbnailChoice) {
+        case 0:
+            thumbnail = [UIImage imageNamed:@"defaultThumbnail1.png"];
+            break;
+        case 1:
+            thumbnail = [UIImage imageNamed:@"defaultThumbnail2.png"];
+            break;
+        case 2:
+            thumbnail = [UIImage imageNamed:@"defaultThumbnail3.png"];
+            break;
+        default:
+            break;
+    }
+    
+    return thumbnail;
 }
 @end

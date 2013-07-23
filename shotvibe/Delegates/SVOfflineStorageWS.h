@@ -22,4 +22,6 @@
 - (NSUInteger)numberOfImagesSavedInAlbum:(Album *)album;
 - (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(Album *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block;
 - (UIImage *)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(Album *)album;
+
+- (UIImage *)defaultThumbnailImage;
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SVAddFriendsViewController : UIViewController
+@interface SVAddFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @end

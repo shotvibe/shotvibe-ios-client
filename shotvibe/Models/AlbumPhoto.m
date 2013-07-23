@@ -17,6 +17,7 @@
 @dynamic hasViewed;
 @dynamic imageWasDownloaded;
 @dynamic objectSyncStatus;
+@dynamic photoUploadStatus;
 @dynamic photo_id;
 @dynamic photo_url;
 @dynamic local_url;

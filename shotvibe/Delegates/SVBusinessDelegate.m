@@ -13,6 +13,7 @@
 #import "Album.h"
 #import "AlbumPhoto.h"
 #import "SVURLBuilderWS.h"
+#import "SVDefines.h"
 
 @implementation SVBusinessDelegate
 
@@ -33,11 +34,11 @@
 }
 
 
-+ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(Album *)album
++ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId withAlbumId:(NSString *)albumId
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
  
-    [workerSession saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbumWithId:album.albumId];
+    [workerSession saveUploadedPhotoImageData:imageData forPhotoId:photoId inAlbumWithId:albumId];
 }
 
 
@@ -73,6 +74,14 @@
     
     
     return [workerSession loadImageFromOfflineWithPath:path inAlbum:album];
+}
+
+
++ (UIImage *)getRandomThumbnailPlaceholder
+{
+    SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
+    
+    return [workerSession defaultThumbnailImage];
 }
 
 
@@ -133,6 +142,30 @@
   block(success, authToken, userId, error);
   
  }];
+}
+
+
++ (BOOL) hasUserBeenAuthenticated
+{
+    BOOL userIsAuthenticated = NO;
+    
+    NSString *userId        = [[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId];
+    NSString *userAuthToken = [[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserAuthToken];
+    
+    NSLog(@"userId:  %@, token:  %@", userId, userAuthToken);
+    
+    if(userId != nil && userAuthToken != nil)
+    {
+        userIsAuthenticated = YES;
+        
+        NSLog(@"hasUserBeenAuthenticated:  YES");
+    }
+    else
+    {
+        NSLog(@"hasUserBeenAuthenticated:  NO");
+    }
+    
+    return userIsAuthenticated;
 }
 
 

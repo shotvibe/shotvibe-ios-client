@@ -63,6 +63,7 @@
 @implementation SVAlbumListViewController
 {
     BOOL searchShowing;
+    NSMutableDictionary *thumbnailCache;
 }
 
 #pragma mark - Actions
@@ -144,6 +145,8 @@
     self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
     self.imageLoadingQueue = [[NSOperationQueue alloc] init];
     self.imageLoadingQueue.maxConcurrentOperationCount = 1;
+    
+    thumbnailCache = [[NSMutableDictionary alloc] init];
 
     [self configureViews];
 }
@@ -167,6 +170,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    [thumbnailCache removeAllObjects];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -215,6 +220,8 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    
+    [thumbnailCache removeAllObjects];
 }
 
 
@@ -318,6 +325,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    [self createNewAlbumWithTitle:textField.text];
     [self textFieldDidEndEditing:textField];
     return YES;
 }
@@ -392,8 +400,7 @@
 
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO: We need to configure our cell's views
-    //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
       
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
@@ -409,7 +416,6 @@
     cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
     cell.networkImageView.delegate = self;
     cell.networkImageView.tag = indexPath.row; 
-//    NSLog(@"album, album id, photo id, image, path: %@, %@, %@, %@, %@", anAlbum.name, anAlbum.albumId,  recentPhoto.photoId, recentPhoto.photoUrl, thumbnailUrl);
 
     Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
@@ -419,18 +425,34 @@
     __block AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND date_created == %@", anAlbum.albumId, maxDate]];
     
     if (recentPhoto) {
-        // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-        __block NSIndexPath *tagIndex = indexPath;
-        [self.imageLoadingQueue addOperationWithBlock:^{
+        
+        UIImage *image = [thumbnailCache objectForKey:recentPhoto.photo_id];
+        
+        if (!image) {
+            // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
+            __block NSIndexPath *tagIndex = indexPath;
+            __block NSString *photoId = recentPhoto.photo_id;
             [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
                 if (image && cell.networkImageView.tag == tagIndex.row) {
                     [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+                    
+                    [thumbnailCache setObject:image forKey:photoId];
                 }
             }];
-        }];
+        }
+        else
+        {
+            [cell.networkImageView setImage:image];
+        }
+        
         
         NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
         cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+    }
+    else
+    {
+        UIImage *thumbnail = [SVBusinessDelegate getRandomThumbnailPlaceholder];
+        [cell.networkImageView setImage:thumbnail];
     }
     
     
@@ -441,8 +463,13 @@
     
     NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
     [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
+    if (numberNew > 0 ) {
+        [cell.numberNotViewedIndicator setHidden:NO];
+        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
+    }else{
+        [cell.numberNotViewedIndicator setHidden:YES];
+    }
     
-    [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
     
     return cell;
 }
@@ -462,19 +489,31 @@
     
     if (recentPhoto) {
         // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
+        UIImage *image = [thumbnailCache objectForKey:recentPhoto.photo_id];
         
-        if (cell.networkImageView.initialImage == cell.networkImageView.image) {
-            
+        if (!image) {
+            // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
             __block NSIndexPath *tagIndex = indexPath;
+            __block NSString *photoId = recentPhoto.photo_id;
             [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
                 if (image && cell.networkImageView.tag == tagIndex.row) {
                     [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+                    
+                    [thumbnailCache setObject:image forKey:photoId];
                 }
             }];
+        }
+        else
+        {
+            [cell.networkImageView setImage:image];
         }
         
         NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
         cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+    }
+    else
+    {
+        [cell.networkImageView setImage:[SVBusinessDelegate getRandomThumbnailPlaceholder]];
     }
     
     
@@ -485,8 +524,13 @@
     
     NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
     [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
+    if (numberNew > 0) {
+        [cell.numberNotViewedIndicator setHidden:NO];
+        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
+    }else{
+        [cell.numberNotViewedIndicator setHidden:YES];
+    }
     
-    [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
 }
 
 
@@ -569,8 +613,8 @@
 
 - (void)createNewAlbumWithTitle:(NSString *)title
 {
-    if (title && title.length > 0) {
-        [[SVEntityStore sharedStore] newAlbumWithName:title];
+    if (title && title.length > 0) {        
+        [[SVEntityStore sharedStore] newAlbumWithName:title andUserID:[[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId]];
     } else {
         //TODO: Alert the user that they can not create an album with no title.
     }

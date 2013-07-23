@@ -18,12 +18,14 @@
 + (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(id)albumId;
 
 + (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId;
-+ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbum:(Album *)album;
++ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId withAlbumId:(NSString *)albumId;
 
 + (void)cleanupOfflineStorageForAlbum:(Album *)album;
 + (NSInteger)numberOfViewedImagesInAlbum:(Album *)album;
 + (UIImage *)loadImageFromAlbum:(Album *)album withPath:(NSString *)path;
 + (void)loadImageFromAlbum:(Album *)album withPath:(NSString *)path WithCompletion:(void (^)(UIImage *image, NSError *error))block;
+
++ (UIImage *)getRandomThumbnailPlaceholder;
 
 // ALAssset Storage Methods
 + (void)loadAllLocalAlbumsOnDeviceWithCompletion:(void (^)(NSArray *albums, NSError *error))block;
@@ -37,4 +39,5 @@
 + (void) registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block;
 + (void) validateRegistrationCode:(NSString *) confirmationCode withConfirmationCode:(NSString *) confirmationCode WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId,  NSError *error))block;
 
++ (BOOL) hasUserBeenAuthenticated;
 @end

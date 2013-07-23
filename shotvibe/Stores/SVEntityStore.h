@@ -17,22 +17,10 @@
 + (SVEntityStore *)sharedStore;
 
 
-#pragma mark - Instance Methods
+#pragma mark - Registration Methods
 
-/**
- Album Methods
- */
-
-
-- (void)newAlbumWithName:(NSString *)albumName;
-
-- (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
-
-- (void) registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block;
-
-- (void) validateRegistrationCode:(NSString *) registrationCode withConfirmationCode:(NSString *) confirmationCode  WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId,  NSError *error))block;
-
-- (void)uploadPhoto:(NSString *)photoId withImageData:(NSData *)imageData;
+- (void)registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block;
+- (void)validateRegistrationCode:(NSString *) registrationCode withConfirmationCode:(NSString *) confirmationCode  WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId,  NSError *error))block;
 
 
 #pragma mark - FRC Methods
@@ -45,15 +33,17 @@
 #pragma mark - Album Methods
 
 - (void)setAllPhotosToHasViewedInAlbum:(Album *)anAlbum;
+- (void)newAlbumWithName:(NSString *)albumName andUserID:(NSNumber *)userID;
+- (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
 
 
-#pragma mark - Image Method
+#pragma mark - Image Methods
+
 - (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
 - (void)getImageForPhotoData:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block;
 // Need to be able to just do a hard pull on the image without blocks for the detail view. This is OK because the photo detail view manages its own loading and cache
 - (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto;
-
 - (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block;
-
+- (void)getFullsizeImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block;
 - (void)writeImageData:(NSData *)imageData toDiskForImageID:(NSString *)imageID WithCompletion:(void (^)(BOOL success, NSURL *fileURL, NSError *error))block;
 @end
