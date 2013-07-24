@@ -9,6 +9,7 @@
 #import "SVAddFriendsViewController.h"
 #import "SVAddressBookBD.h"
 #import "SVDefines.h"
+#import "SVJSONAPIClient.h"
 
 
 @interface SVAddFriendsViewController ()<UISearchBarDelegate>
@@ -18,13 +19,13 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 
-@property (nonatomic, strong) NSArray *abContacts;
-@property (nonatomic, strong) NSMutableDictionary *records;// array of array of dictionaries
+@property (nonatomic, strong) NSArray *allContacts;
+@property (nonatomic, strong) NSMutableDictionary *records;// dictionary of arrays
 @property (nonatomic, strong) NSMutableArray *selectedIndexPaths;
 @property (nonatomic, strong) NSMutableArray *contactsButtons;
 
 - (IBAction)cancelPressed:(id)sender;
-- (NSArray *)filterNonAlphabetContacts:(NSArray *)contacts;
+- (IBAction)donePressed:(id)sender;
 
 @end
 
@@ -39,7 +40,33 @@
     // add members to album
     //TODO if already shotvibe member just add to album else sent notification to user to join?
     NSLog(@"contacts to add >> %@", self.selectedIndexPaths);
+	
+	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
+	
+	for (UIButton *but in self.contactsButtons) {
+		int tag = but.tag;
+		NSDictionary *dict = [self.allContacts objectAtIndex:tag];
+		NSLog(@"%i %@", tag, dict);
+	}
+	
+	NSString *path = [NSString stringWithFormat:@"/albums/%@/", @"My Instagrams"];
+	NSArray *members = @[@{@"phone_number": @"0722905582", @"default_country":@"ro", @"contact_nickname":@"Cristi"}];
+	NSDictionary *params = @{@"add_members": members};
+	NSDictionary *headers = [[NSDictionary alloc] init];
+	NSMutableURLRequest *req = [[SVJSONAPIClient sharedClient] GETRequestForAllRecordsAtPath:path withParameters:params andHeaders:headers];
     
+	//get response
+	NSHTTPURLResponse* urlResponse = nil;
+	NSError *error = [[NSError alloc] init];
+	NSData *responseData = [NSURLConnection sendSynchronousRequest:req returningResponse:&urlResponse error:&error];
+	NSString *result = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+	NSLog(@"Response Code: %d", [urlResponse statusCode]);
+	
+	if ([urlResponse statusCode] >= 200 && [urlResponse statusCode] < 300)
+	{
+		NSLog(@"Response: %@", result);
+	}
+	
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -65,7 +92,7 @@
 - (id) init {
 	self = [super init];
 	if (self) {
-	
+		
 	}
 	return self;
 }
@@ -87,8 +114,9 @@
     segmentFrame.origin.y -= 1.5;
     self.segmentControl.frame = segmentFrame;
     
-    [self loadShotVibeContacts];
-	//[self loadAddressbookContacts];
+    //[self loadShotVibeContacts];
+	[self loadAddressbookContacts];
+	self.segmentControl.selectedSegmentIndex = 1;
 }
 
 
@@ -158,6 +186,7 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	UITableViewCell *tappedCell = [tableView cellForRowAtIndexPath:indexPath];
 	
+	// Check if the tapped contact is already used
 	BOOL contains = NO;
 	int i = 0;
 	for (NSIndexPath *idx in self.selectedIndexPaths) {
@@ -179,7 +208,9 @@
         NSLog(@"self.contactsToAdd %i %@", indexPath.row, self.selectedIndexPaths);
 		
 		NSArray *arr = [self.records objectForKey:[alphabet objectAtIndex:indexPath.section]];
-        [self addToContactsList:[arr objectAtIndex:indexPath.row]];
+		NSDictionary *contact = [arr objectAtIndex:indexPath.row];
+		NSLog(@"contact %@", contact);
+        [self addToContactsList:contact];
 	}
 }
 
@@ -287,7 +318,7 @@
 -(void)loadAddressbookContacts
 {
     [SVAddressBookBD searchContactsWithString:nil WithCompletion:^(NSArray *contacts, NSError *error) {
-		self.abContacts = contacts;
+		self.allContacts = contacts;
 		[self handleSearchForText:nil];
 		NSLog(@"search finished %i", [contacts count]);
 		
@@ -300,26 +331,30 @@
 
 - (void) handleSearchForText:(NSString*)str {
 	
-	self.records = [[NSMutableDictionary alloc] init];
+	self.records = nil;
 	
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		
-	for (int i=0; i<alphabet.count-1; i++) {
-		NSPredicate *predicate;
-		if (str == nil) {
-			predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i]];
+		self.records = [[NSMutableDictionary alloc] init];
+		for (int i=0; i<alphabet.count-1; i++) {
+			NSPredicate *predicate;
+			if (str == nil) {
+				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i]];
+			}
+			else {
+				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@ && %K CONTAINS[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i], kMemberFirstName, str];
+			}
+			NSArray *arr = [self.allContacts filteredArrayUsingPredicate:predicate];
+			NSLog(@"arr count %@ %i", [alphabet objectAtIndex:i], [arr count]);
+			[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
 		}
-		else {
-			predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@ && %K CONTAINS[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i], kMemberFirstName, str];
+		[self.records setObject:[self filterNonAlphabetContacts:self.allContacts] forKey:@"#"];
+		
+		if (self.records != nil) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self.tableView reloadData];
+			});
 		}
-		NSArray *arr = [self.abContacts filteredArrayUsingPredicate:predicate];
-		NSLog(@"arr count %@ %i", [alphabet objectAtIndex:i], [arr count]);
-		[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
-	}
-	[self.records setObject:[self filterNonAlphabetContacts:self.abContacts] forKey:@"#"];
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self.tableView reloadData];
-	});
 	});
 }
 
