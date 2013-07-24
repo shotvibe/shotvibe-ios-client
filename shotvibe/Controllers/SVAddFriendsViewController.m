@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 
+@property (nonatomic, strong) NSArray *abContacts;
 @property (nonatomic, strong) NSMutableDictionary *records;// array of array of dictionaries
 @property (nonatomic, strong) NSMutableArray *selectedIndexPaths;
 @property (nonatomic, strong) NSMutableArray *contactsButtons;
@@ -86,8 +87,8 @@
     segmentFrame.origin.y -= 1.5;
     self.segmentControl.frame = segmentFrame;
     
-    //[self loadShotVibeContacts];
-	[self loadAddressbookContacts];
+    [self loadShotVibeContacts];
+	//[self loadAddressbookContacts];
 }
 
 
@@ -186,21 +187,25 @@
 #pragma mark -
 #pragma mark Search
 
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    [SVAddressBookBD searchContactsWithString:searchText WithCompletion:^(NSArray *contacts, NSError *error) {
-        //self.records = contacts;
-		NSLog(@"records %@", self.records);
-        //dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        //});
-    }];
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+	
+	if ([searchText length] == 0) {
+        //[self resetSearch];
+        [self.tableView reloadData];
+    }
+//	else if ([searchTerm length] > 1) {
+//		isSearching = YES;
+		[self handleSearchForText:searchText];
+//	}
 }
-
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
+}
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    searchBar.text = @"";
+//    [self resetSearch];
+    [self.tableView reloadData];
+//    [self dismissKeyboard:nil];
 }
 
 
@@ -252,8 +257,6 @@
 	
     //[self.selectedIndexPaths removeObjectAtIndex:sender.tag];
     
-    //[self updateToField];
-    
     //[self.tableView reloadData];
 }
 - (void)updateContacts {
@@ -276,6 +279,7 @@
 
 -(void)loadShotVibeContacts
 {
+	NSLog(@"loadShotVibeContacts");
     self.records = nil;
     [self.tableView reloadData];
 }
@@ -283,21 +287,41 @@
 -(void)loadAddressbookContacts
 {
     [SVAddressBookBD searchContactsWithString:nil WithCompletion:^(NSArray *contacts, NSError *error) {
+		self.abContacts = contacts;
+		[self handleSearchForText:nil];
+		NSLog(@"search finished %i", [contacts count]);
 		
-		for (int i=0; i<alphabet.count-1; i++) {
-			NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i]];
-			NSArray *arr = [contacts filteredArrayUsingPredicate:predicate];
-			[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
-		}
-		[self.records setObject:[self filterNonAlphabetContacts:contacts] forKey:@"#"];
-		
-		NSLog(@"records %@", self.records);
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.tableView reloadData];
+			
 		});
 	}];
 }
 
+
+- (void) handleSearchForText:(NSString*)str {
+	
+	self.records = [[NSMutableDictionary alloc] init];
+	
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		
+	for (int i=0; i<alphabet.count-1; i++) {
+		NSPredicate *predicate;
+		if (str == nil) {
+			predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i]];
+		}
+		else {
+			predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@ && %K CONTAINS[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i], kMemberFirstName, str];
+		}
+		NSArray *arr = [self.abContacts filteredArrayUsingPredicate:predicate];
+		NSLog(@"arr count %@ %i", [alphabet objectAtIndex:i], [arr count]);
+		[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
+	}
+	[self.records setObject:[self filterNonAlphabetContacts:self.abContacts] forKey:@"#"];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.tableView reloadData];
+	});
+	});
+}
 
 - (NSArray *)filterNonAlphabetContacts:(NSArray *)contacts
 {

@@ -125,6 +125,7 @@
         CFRelease(phoneNumbers);
         
         [members addObject:aMember];
+		[members addObjectsFromArray:@[aMember, aMember, aMember, aMember, aMember, aMember, aMember, aMember]];
     }
     
     NSSortDescriptor *firstNameDescriptor = [[NSSortDescriptor alloc] initWithKey:kMemberFirstName ascending:YES];
