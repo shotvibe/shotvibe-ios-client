@@ -127,12 +127,13 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	countryCode_ = [countryCodes objectAtIndex:indexPath.row];
 	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
-	NSLog(@"1 %@", self.delegate);
+	
 	[self.delegate didSelectCountryWithName:[countryNames objectAtIndex:indexPath.row] code:[countryCodes objectAtIndex:indexPath.row]];
-	NSLog(@"1");
-	[self dismissViewControllerAnimated:YES completion:nil];
-	NSLog(@"1");
+	
+	//[self dismissViewControllerAnimated:YES completion:nil];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 

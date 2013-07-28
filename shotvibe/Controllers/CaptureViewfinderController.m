@@ -594,7 +594,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 albumLabel.textAlignment = NSTextAlignmentCenter;
             }
             
-            albumLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
+            albumLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
             albumLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
             albumLabel.shadowColor = [UIColor blackColor];
             albumLabel.shadowOffset = CGSizeMake(0, 1);
