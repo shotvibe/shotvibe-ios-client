@@ -164,7 +164,7 @@
 	
     cell.textLabel.text = [[filteredRecords objectAtIndex:indexPath.row] objectForKey:kMemberNickname];
     cell.detailTextLabel.text = [[filteredRecords objectAtIndex:indexPath.row] objectForKey:kMemberPhone];
-    
+	
 	BOOL contains = NO;
 	for (NSIndexPath *idx in self.selectedIndexPaths) {
 		if (idx.row == indexPath.row && idx.section == indexPath.section) {
@@ -173,7 +173,7 @@
 		}
 	}
 	
-	cell.imageView.image = [UIImage imageNamed:contains?@"contactCellCheckmark_active":@"contactCellCheckmark_inactive"];
+	cell.imageView.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
     
     return cell;
 }
@@ -218,12 +218,12 @@
 	}
 	
 	if (contains) {
-		[tappedCell.imageView setImage:[UIImage imageNamed:@"contactCellCheckmark_inactive"]];
+		[tappedCell.imageView setImage:[UIImage imageNamed:@"imageUnselected"]];
         [self.selectedIndexPaths removeObjectAtIndex:i];
         //[self removeContact:[self.contactsButtons objectAtIndex:i]];
 	}
 	else {
-        [tappedCell.imageView setImage:[UIImage imageNamed:@"contactCellCheckmark_active"]];
+        [tappedCell.imageView setImage:[UIImage imageNamed:@"imageSelected"]];
         [self.selectedIndexPaths addObject:[indexPath copy]];
         NSLog(@"self.contactsToAdd %i %@", indexPath.row, self.selectedIndexPaths);
 		
@@ -271,12 +271,17 @@
     //create a new dynamic button
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	[button setTitle:([firstName isEqualToString:@""] ? lastName : firstName) forState:UIControlStateNormal];
-	[button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-	[button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	//button setImage:<#(UIImage *)#> forState:<#(UIControlState)#>
 	[button setTag:tag];
 	[button sizeToFit];
-	[button setBackgroundImage:[[UIImage imageNamed:@"contactsStreachableButton_normal"] stretchableImageWithLeftCapWidth:45.0 topCapHeight:0.0] forState:UIControlStateNormal];
-	[button setBackgroundImage:[[UIImage imageNamed:@"contactsStreachableButton_down"] stretchableImageWithLeftCapWidth:45.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
+	
+	UIImage *baseImage = [UIImage imageNamed:@"contactsStreachableButton_normal"];
+	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
+	
+	UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+	
+	[button setBackgroundImage:resizableImage forState:UIControlStateNormal];
 	[button addTarget:self action:@selector(removeContactFromList:) forControlEvents:UIControlEventTouchUpInside];
 	[self.addedContactsScrollView addSubview:button];
 	[self.contactsButtons insertObject:button atIndex:0];
