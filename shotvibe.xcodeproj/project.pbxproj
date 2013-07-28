@@ -836,6 +836,7 @@
 		28CFCCA317A50829001511EF /* SVCountriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28CFCCA217A50828001511EF /* SVCountriesViewController.m */; };
 		28CFCCA617A50C7D001511EF /* SVCountryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28CFCCA517A50C7C001511EF /* SVCountryViewCell.m */; };
 		28CFCCA817A53F5A001511EF /* leftPanel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCCA717A53F55001511EF /* leftPanel@2x.png */; };
+		28CFCCAA17A54753001511EF /* leftPanel.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCCA917A54750001511EF /* leftPanel.png */; };
 		AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880C16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880D16CB84CC002AC699 /* NINetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880A16CB84CC002AC699 /* NINetworkImageView.m */; };
@@ -1766,6 +1767,7 @@
 		28CFCCA417A50C7B001511EF /* SVCountryViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVCountryViewCell.h; path = Controllers/SVCountryViewCell.h; sourceTree = "<group>"; };
 		28CFCCA517A50C7C001511EF /* SVCountryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVCountryViewCell.m; path = Controllers/SVCountryViewCell.m; sourceTree = "<group>"; };
 		28CFCCA717A53F55001511EF /* leftPanel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftPanel@2x.png"; sourceTree = "<group>"; };
+		28CFCCA917A54750001511EF /* leftPanel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftPanel.png; sourceTree = "<group>"; };
 		AA12880516CB84CC002AC699 /* NIImageProcessing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIImageProcessing.h; path = Nimbus/src/networkimage/src/NIImageProcessing.h; sourceTree = "<group>"; };
 		AA12880616CB84CC002AC699 /* NIImageProcessing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIImageProcessing.m; path = Nimbus/src/networkimage/src/NIImageProcessing.m; sourceTree = "<group>"; };
 		AA12880716CB84CC002AC699 /* NimbusNetworkImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NimbusNetworkImage.h; path = Nimbus/src/networkimage/src/NimbusNetworkImage.h; sourceTree = "<group>"; };
@@ -2292,6 +2294,7 @@
 				28CFCC7717A2B83F001511EF /* searchFieldIcon.png */,
 				28CFCC7817A2B83F001511EF /* searchFieldIcon@2x.png */,
 				28CFCCA717A53F55001511EF /* leftPanel@2x.png */,
+				28CFCCA917A54750001511EF /* leftPanel.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -4244,6 +4247,7 @@
 				28CFCC9F17A4ACD3001511EF /* butTransparent.png in Resources */,
 				28CFCCA017A4ACD3001511EF /* butTransparent@2x.png in Resources */,
 				28CFCCA817A53F5A001511EF /* leftPanel@2x.png in Resources */,
+				28CFCCAA17A54753001511EF /* leftPanel.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

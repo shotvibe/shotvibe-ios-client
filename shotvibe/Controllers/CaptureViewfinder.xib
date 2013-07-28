@@ -382,7 +382,7 @@
 								<reference key="IBUINormalTitleShadowColor" ref="1052816817"/>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">flipCameraButton.png</string>
+									<string key="NSResourceName">cameraFlip.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="1055256224"/>
 								<reference key="IBUIFont" ref="775159381"/>
@@ -913,7 +913,7 @@
 			<string key="cameraFlashAuto.png">{69, 35}</string>
 			<string key="cameraFlashOff.png">{69, 35}</string>
 			<string key="cameraFlashOn.png">{69, 35}</string>
-			<string key="flipCameraButton.png">{70, 35}</string>
+			<string key="cameraFlip.png">{70, 35}</string>
 			<string key="imagePile.png">{45, 45}</string>
 			<string key="notificationBubble.png">{19, 19}</string>
 		</dictionary>
