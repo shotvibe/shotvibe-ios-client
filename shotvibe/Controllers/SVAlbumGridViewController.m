@@ -32,6 +32,7 @@
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) MFSideMenu *sauronTheSideMenu;
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
+@property (nonatomic, strong) IBOutlet UIView *noPhotosView;
 
 @property (nonatomic, strong) NSOperationQueue *imageLoadingQueue;
 
@@ -40,7 +41,7 @@
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
 - (void)backButtonPressed;
 - (void)configureCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
-- (IBAction)homePressed:(id)sender;
+- (IBAction)takeVideoPressed:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
 - (void)forceLoadPhotoForCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
@@ -55,9 +56,9 @@
 }
 
 
-- (IBAction)homePressed:(id)sender
+- (IBAction)takeVideoPressed:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self takePicturePressed:sender];
 }
 
 
@@ -72,6 +73,12 @@
     isPushingDetail = YES;
     [self presentViewController:cameraNavController animated:YES completion:nil];
 }
+
+- (void)backButtonPressed
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 
 #pragma mark - UIViewController Methods
@@ -91,18 +98,20 @@
      
     // Setup fetched results
     
-    // Setup menu button
+    // Setup tabbar right button
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
     
-    // Setup menu button
-    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menuIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleManagement)];
-    self.navigationItem.leftBarButtonItem = managementButton;
-    
-    // Setup back button for annoying long album names
+    // Setup back button
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed)];
-    
-    self.navigationItem.backBarButtonItem = backButton;
+    //NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
+	//[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
+	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
+	self.navigationItem.backBarButtonItem = backButton;
+	
+	NSInteger nrOfPhotos = [self collectionView:nil numberOfItemsInSection:0];
+	
+	self.noPhotosView.hidden = (nrOfPhotos > 0);
 }
 
 
@@ -479,21 +488,16 @@
 
 - (void)toggleMenu
 {
-    
     [self.navigationController.sideMenu toggleRightSideMenu];
 }
-
 
 - (void)toggleManagement
 {
     [self.navigationController.sideMenu toggleLeftSideMenu];
 }
 
-
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation
 {
-
-    
     CGRect rightFrame = self.navigationController.sideMenu.rightSideMenuViewController.view.frame;
     rightFrame.size.height = 300;
     rightFrame.origin.x = 320 - kMFSideMenuSidebarWidth;
@@ -557,12 +561,6 @@
     self.navigationController.sideMenu.rightSideMenuViewController.view.frame = rightFrame;
     self.navigationController.sideMenu.leftSideMenuViewController.view.frame = leftFrame;
 
-}
-
-
-- (void)backButtonPressed
-{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

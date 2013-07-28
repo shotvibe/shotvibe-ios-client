@@ -21,7 +21,6 @@
 @property (nonatomic, strong) IBOutlet UIImageView *countryFlagView;
 @property (nonatomic, strong) IBOutlet UITextField *phoneNumberField;
 @property (nonatomic, strong) IBOutlet UILabel *countryCodeLabel;
-@property (nonatomic, strong) CountryPicker *countryPicker;
 
 @property (nonatomic, strong) IBOutlet UIView *registrationCodePhaseContainer;
 @property (nonatomic, strong) IBOutlet UITextField *codeField1;
@@ -36,8 +35,6 @@
 - (IBAction)countrySelectButtonPressed:(id)sender;
 - (void)submitPhoneNumberRegistration:(NSString *)phoneNumber;
 - (void)validateRegistrationCode:(NSString *)registrationCode;
-- (void)showCountryPicker;
-- (void)hideCountryPicker;
 - (void)switchToRegistrationContainer;
 - (void)switchToPhoneNumberContainer;
 - (void)handleSuccessfulLogin;
@@ -47,6 +44,7 @@
 @implementation SVRegistrationViewController
 {
     BOOL isRegistrationCodePhase;
+	SVCountriesViewController *countries;
 }
 
 #pragma mark - Actions
@@ -55,7 +53,6 @@
 {
     if (!isRegistrationCodePhase) {
         
-        [self hideCountryPicker];
         [self.phoneNumberField resignFirstResponder];
         
         // Construct our phone number
@@ -94,8 +91,8 @@
 
 
 - (IBAction)countrySelectButtonPressed:(id)sender
-{    
-    [self showCountryPicker];
+{
+	[self showCountryPicker];
 }
 
 
@@ -122,21 +119,24 @@
     {
      [self handleSuccessfulLogin];
     }
- 
+	
+	countries = [[SVCountriesViewController alloc] init];
+	countries.delegate = self;
+	[countries setWithLocale:[NSLocale currentLocale]];
     
-    self.countryPicker = [[CountryPicker alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 216)];
-    self.countryPicker.delegate = self;
-    self.countryPicker.showsSelectionIndicator = YES;
-    
-    
-    [self.countryPicker setWithLocale:[NSLocale currentLocale]];
-    
-    [self.phoneNumberPhaseContainer addSubview:self.countryPicker];
-    
-    self.countryFlagView.image = [UIImage imageNamed:self.countryPicker.selectedCountryCode];
-    NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:self.countryPicker.selectedCountryCode];
+    self.countryFlagView.image = [UIImage imageNamed:countries.selectedCountryCode];
+    NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:countries.selectedCountryCode];
     
     self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
+		NSLog(@"performing segue");
+		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
+        destination.delegate = self;
+    }
 }
 
 
@@ -154,8 +154,9 @@
 
 #pragma mark - CountryPickerDelegate Methods
 
-- (void)countryPicker:(CountryPicker *)picker didSelectCountryWithName:(NSString *)name code:(NSString *)code
+- (void)didSelectCountryWithName:(NSString *)name code:(NSString *)code
 {
+	NSLog(@"didselectcountry %@", name);
     // TODO: Handle setting the appropriate country phone code
     
     self.countryFlagView.image = [UIImage imageNamed:code];
@@ -163,6 +164,8 @@
     NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:code];
     
     self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
+	
+	[self hideCountryPicker];
 }
 
 
@@ -213,7 +216,7 @@
 
 - (void)submitPhoneNumberRegistration:(NSString *)phoneNumber
 {
- [SVBusinessDelegate registerPhoneNumber:phoneNumber withCountryCode:self.countryPicker.selectedCountryCode WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {
+ [SVBusinessDelegate registerPhoneNumber:phoneNumber withCountryCode:countries.selectedCountryCode WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {
 
   if(success)
   {
@@ -272,18 +275,13 @@
 - (void)showCountryPicker
 {
     [self.phoneNumberField resignFirstResponder];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.countryPicker.frame = CGRectMake(0, self.view.frame.size.height - self.countryPicker.frame.size.height, self.view.frame.size.width, self.countryPicker.frame.size.height);
-    }];
+    [self performSegueWithIdentifier:@"ChoseCountrySegue" sender:nil];
 }
 
 
 - (void)hideCountryPicker
 {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.countryPicker.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.countryPicker.frame.size.height);
-    }];
+	//[self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -311,6 +309,7 @@
     } completion:^(BOOL finished) {
         self.phoneNumberPhaseContainer.hidden = YES;
         isRegistrationCodePhase = YES;
+		[self.codeField1 becomeFirstResponder];
     }];
 }
 

@@ -76,7 +76,6 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
-
 - (IBAction)segmentChanged:(UISegmentedControl *)sender
 {
     if (sender.selectedSegmentIndex == 0) {
@@ -116,7 +115,28 @@
     
     //[self loadShotVibeContacts];
 	[self loadAddressbookContacts];
+	
+//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
 	self.segmentControl.selectedSegmentIndex = 1;
+	
+	self.searchBar.backgroundImage = [UIImage imageNamed:@"searchFieldBg.png"];
+	[self.searchBar setSearchFieldBackgroundImage:[UIImage imageNamed:@"butTransparent.png"] forState:UIControlStateNormal];
+	[self.searchBar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+	
+	// Setup back button
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
+	UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
+	UIEdgeInsets insets = UIEdgeInsetsMake(5, 35, 5, 5);
+	UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+	
+    //NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
+	//[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
+	[backButton setTitlePositionAdjustment:UIOffsetMake(-10,0) forBarMetrics:UIBarMetricsDefault];
+	[backButton setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+	
+	self.navigationItem.leftBarButtonItem = backButton;
 }
 
 

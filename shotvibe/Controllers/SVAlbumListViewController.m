@@ -363,7 +363,7 @@
 - (void)configureViews
 {
     // Setup titleview
-    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shotvibeLogo.png"]];
+    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
     UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
     [titleContainer addSubview:titleView];
     titleContainer.clipsToBounds = NO;
@@ -372,13 +372,17 @@
     self.navigationItem.titleView = titleContainer;
     
     // Setup menu button
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"searchIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(searchPressed)];
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"contactsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(searchPressed)];
     self.navigationItem.leftBarButtonItem = menuButton;
     
     // Setup menu button
     UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
     self.navigationItem.rightBarButtonItem = managementButton;
     
+	self.searchbar.backgroundImage = [UIImage imageNamed:@"searchFieldBg.png"];
+	[self.searchbar setSearchFieldBackgroundImage:[UIImage imageNamed:@"butTransparent.png"] forState:UIControlStateNormal];
+	[self.searchbar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+	
     // Configure the dropdown background image
     {
         UIImage *baseImage = [UIImage imageNamed:@"dropDownField.png"];

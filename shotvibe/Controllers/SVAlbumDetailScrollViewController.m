@@ -85,15 +85,8 @@
     self.detailLabel.backgroundColor = [UIColor clearColor];
     self.detailLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
     self.detailLabel.numberOfLines = 2;
-    if (IS_IOS6_OR_GREATER) {
-        self.detailLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    else
-    {
-        self.detailLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    self.detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16];
-    self.detailLabel.shadowColor = [UIColor blackColor];
+    self.detailLabel.textAlignment = NSTextAlignmentCenter;
+    self.detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
     self.detailLabel.shadowOffset = CGSizeMake(0, 1);
     self.detailLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
     [self.toolbar addSubview:self.detailLabel];
@@ -137,6 +130,7 @@
 
 - (UIImage *)photoScrubberView: (NIPhotoScrubberView *)photoScrubberView
               thumbnailAtIndex: (NSInteger)thumbnailIndex {
+	
     NSString* photoIndexKey = [self cacheKeyForPhotoIndex:thumbnailIndex];
     
     UIImage* image = [self.highQualityImageCache objectWithName:photoIndexKey];

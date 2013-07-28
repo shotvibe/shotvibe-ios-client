@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CountryPicker.h"
+#import "SVCountriesViewController.h"
 
 
-@interface SVRegistrationViewController : UIViewController <UITextFieldDelegate, CountryPickerDelegate>
+@interface SVRegistrationViewController : UIViewController <UITextFieldDelegate, SVCountriesDelegate>
 
 @end

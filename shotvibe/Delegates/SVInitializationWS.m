@@ -34,7 +34,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (void)configureAppearanceProxies
 {
     // Customize appearance of the navigation bar    
-    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0], UITextAttributeFont, nil]];
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont, nil]];
     [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:0.0 forBarMetrics:UIBarMetricsLandscapePhone];
     
@@ -59,7 +59,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];*/
     {
         UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(25, 0, 5, 5);
+        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 5);
         
         UIImage *resizableImage = nil;
         if (IS_IOS6_OR_GREATER) {
@@ -75,31 +75,25 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         }
         
         [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    }
-    {
-        UIImage *baseImage = [UIImage imageNamed:@"navbarBackButtonLandscape.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(25, 0, 5, 5);
-        
-        UIImage *resizableImage = nil;
-        if (IS_IOS6_OR_GREATER) {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-        }
-        else
-        {
-            resizableImage = [baseImage stretchableImageWithLeftCapWidth:0 topCapHeight:5];
-        }
-        
         [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+		
+		[[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(-10,0) forBarMetrics:UIBarMetricsDefault];
     }
-    
+	
     // Customize regular barbuttonitem for navbar
-    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Bold" size:12.0], UITextAttributeFont, nil] forState:UIControlStateNormal];
-    /*[[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];
-    [[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];
-    [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0, 1) forBarMetrics:UIBarMetricsDefault];
-    [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0, 1) forBarMetrics:UIBarMetricsLandscapePhone];*/
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+														  UITextAttributeTextColor,
+														  [UIColor clearColor],
+														  UITextAttributeTextShadowColor,
+														  [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0],
+														  UITextAttributeFont, nil]
+												forState:UIControlStateNormal];
+    //[[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];
+    //[[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];
+    //[[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
+    //[[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(5,0) forBarMetrics:UIBarMetricsLandscapePhone];
     {
-        UIImage *baseImage = [UIImage imageNamed:@"navbarButton.png"];
+        UIImage *baseImage = [UIImage imageNamed:@"butTransparent.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 10, 10);
         
         UIImage *resizableImage = nil;
@@ -115,7 +109,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     }
     
     {
-        UIImage *baseImage = [UIImage imageNamed:@"navbarButtonLandscape.png"];
+        UIImage *baseImage = [UIImage imageNamed:@"butTransparent.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(15, 10, 15, 10);
         
         UIImage *resizableImage = nil;
@@ -156,15 +150,33 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     
     //Customize Segment Control
     {
-        UIImage *baseImage = [UIImage imageNamed:@"navbarButton.png"];
-        UIImage *selectedImage = [UIImage imageNamed:@"SegmentSelectedButton.png"];
+        UIImage *baseImage = [UIImage imageNamed:@"SegmentButtonOutline.png"];
+        UIImage *selectedImage = [UIImage imageNamed:@"SegmentButton.png"];
+        UIImage *dividerImage = [UIImage imageNamed:@"SegmentSeparator.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 10, 10);
         UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
         UIImage *resizableSelectedImage = [selectedImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
         
         [[UISegmentedControl appearance] setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
         [[UISegmentedControl appearance] setBackgroundImage:resizableSelectedImage forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-        
+        [[UISegmentedControl appearance] setDividerImage:dividerImage forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+		[[UISegmentedControl appearance] setDividerImage:dividerImage forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+		[[UISegmentedControl appearance] setDividerImage:dividerImage forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+		
+		[[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+															  UITextAttributeTextColor,
+															  [UIColor clearColor],
+															  UITextAttributeTextShadowColor,
+															  [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0],
+															  UITextAttributeFont, nil]
+													   forState:UIControlStateNormal];
+		[[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:0.15 green:0.4 blue:0.6 alpha:1],
+																 UITextAttributeTextColor,
+																 [UIColor clearColor],
+																 UITextAttributeTextShadowColor,
+																 [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0],
+																 UITextAttributeFont, nil]
+													   forState:UIControlStateSelected];
     }
     
     
