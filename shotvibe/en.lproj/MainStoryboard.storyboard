@@ -1045,7 +1045,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -2406,6 +2406,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             <relationships>
                 <relationship kind="action" name="cancelPressed:"/>
                 <relationship kind="action" name="donePressed:"/>
+                <relationship kind="action" name="segmentChanged:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="addedContactsScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="segmentControl" candidateClass="UISegmentedControl"/>
@@ -2570,6 +2571,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="qJa-KB-6Vd"/>
+        <segue reference="YZf-v8-Yxg"/>
     </inferredMetricsTieBreakers>
 </document>

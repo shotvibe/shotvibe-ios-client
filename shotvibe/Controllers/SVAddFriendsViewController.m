@@ -133,8 +133,8 @@
 	
     //NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
 	//[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
-	[backButton setTitlePositionAdjustment:UIOffsetMake(-10,0) forBarMetrics:UIBarMetricsDefault];
-	[backButton setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+	//[backButton setTitlePositionAdjustment:UIOffsetMake(0,0) forBarMetrics:UIBarMetricsDefault];
+	//[backButton setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 	
 	self.navigationItem.leftBarButtonItem = backButton;
 }
@@ -177,6 +177,9 @@
     
     return cell;
 }
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
+}
 
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
@@ -185,16 +188,40 @@
 }
 
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	
+	return 26;
+}
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	
+	UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 26)];
+	v.backgroundColor = [UIColor colorWithRed:0.92 green:0.93 blue:0.94 alpha:1];
+	
+	UILabel *l = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 310, 26)];
+	[v addSubview:l];
+	l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
+	l.textColor = [UIColor grayColor];
+	l.backgroundColor = [UIColor clearColor];
+	
 	NSArray *arr = [self.records objectForKey:[alphabet objectAtIndex:section]];
 	
     if ([arr count] > 0) {
-        return [alphabet objectAtIndex:section];
+        l.text = [alphabet objectAtIndex:section];
     }
 	
-    return nil;
+	return v;
 }
+
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//	NSArray *arr = [self.records objectForKey:[alphabet objectAtIndex:section]];
+//	
+//    if ([arr count] > 0) {
+//        return [alphabet objectAtIndex:section];
+//    }
+//	
+//    return nil;
+//}
 
 
 #pragma mark - TableviewDelegate Methods
@@ -270,9 +297,12 @@
 	
     //create a new dynamic button
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
+	button.titleLabel.shadowColor = [UIColor clearColor];
 	[button setTitle:([firstName isEqualToString:@""] ? lastName : firstName) forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	//button setImage:<#(UIImage *)#> forState:<#(UIControlState)#>
+	[button setImage:[UIImage imageNamed:@"contactsX.png"] forState:UIControlStateNormal];
+	[button setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
 	[button setTag:tag];
 	[button sizeToFit];
 	
@@ -370,7 +400,7 @@
 				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@ && %K CONTAINS[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i], kMemberFirstName, str];
 			}
 			NSArray *arr = [self.allContacts filteredArrayUsingPredicate:predicate];
-			NSLog(@"arr count %@ %i", [alphabet objectAtIndex:i], [arr count]);
+			
 			[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
 		}
 		[self.records setObject:[self filterNonAlphabetContacts:self.allContacts] forKey:@"#"];
