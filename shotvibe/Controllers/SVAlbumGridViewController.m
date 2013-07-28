@@ -334,8 +334,10 @@
 }
 
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+- (void)controller:(NSFetchedResultsController *)controller
+  didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex
+	 forChangeType:(NSFetchedResultsChangeType)type
 {
     
     NSMutableDictionary *change = [NSMutableDictionary new];
@@ -352,8 +354,10 @@
     [_sectionChanges addObject:change];
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
-       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+- (void)controller:(NSFetchedResultsController *)controller
+   didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath
+	 forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath
 {
     
@@ -447,6 +451,9 @@
     
     [_sectionChanges removeAllObjects];
     [_objectChanges removeAllObjects];
+	
+	NSInteger nrOfPhotos = [self collectionView:nil numberOfItemsInSection:0];
+	self.noPhotosView.hidden = (nrOfPhotos > 0);
 }
 
 - (BOOL)shouldReloadCollectionViewToPreventKnownIssue {
