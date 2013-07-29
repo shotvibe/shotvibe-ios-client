@@ -308,6 +308,38 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 }
 
 
+#pragma mark - Invite friends
+
+- (void)invitePhoneNumbers:(NSDictionary*)phoneNumbers toAlbumId:(NSString *)albumId WithCompletion:(void (^)(BOOL success, NSError *error))block
+{
+	
+    // send invites to phone numbers using: POST /albums/id/
+    NSString *path = [NSString stringWithFormat:@"/albums/%@/", albumId];
+	NSLog(@"path:  %@", path);
+    
+    [self postPath:path parameters:phoneNumbers success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSData *responseData = (NSData *)responseObject;
+        
+        id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+        
+        NSMutableDictionary *confirmationCode = (NSMutableDictionary *)json;
+        
+        NSLog(@"invitePhoneNumbers album content response:  %@", json);
+        
+        block(YES, nil);
+    }
+     
+	failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		NSLog(@"invite failed %@", error);
+		block(NO, nil);
+	
+	}];
+}
+
+
+
+
 #pragma mark - Image Methods
 
 - (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *))block

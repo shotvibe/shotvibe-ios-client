@@ -15,4 +15,7 @@
 
 @property (nonatomic, strong) Album *currentAlbum;
 
+- (IBAction)doUsage:(id)sender;
+- (IBAction)doLogout:(id)sender;
+
 @end

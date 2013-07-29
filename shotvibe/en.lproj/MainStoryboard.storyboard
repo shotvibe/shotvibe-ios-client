@@ -561,6 +561,9 @@ to register this device</string>
                                     <state key="highlighted">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="doUsage:" destination="N4E-mX-u47" eventType="touchUpInside" id="hR9-XN-qb2"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dGi-df-srC">
                                     <rect key="frame" x="17" y="78" width="287" height="39"/>
@@ -573,6 +576,9 @@ to register this device</string>
                                     <state key="highlighted">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="doLogout:" destination="N4E-mX-u47" eventType="touchUpInside" id="i9d-rs-vxZ"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1186,10 +1192,11 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="552"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="ggL-OC-6VI">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="ggL-OC-6VI">
                                         <rect key="frame" x="0.0" y="45" width="320" height="504"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="separatorColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="edh-6O-Fr3" customClass="SVAlbumListViewCell">
                                                 <rect key="frame" x="0.0" y="22" width="320" height="101"/>
@@ -1198,11 +1205,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" id="YVP-vX-gx4">
-                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                        </view>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="zYP-bO-fDZ">
                                                             <rect key="frame" x="9" y="10" width="82" height="79"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1251,10 +1253,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="cellDivider.png" id="W2K-d1-7nu">
-                                                            <rect key="frame" x="0.0" y="100" width="320" height="1"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
@@ -2406,7 +2404,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             <relationships>
                 <relationship kind="action" name="cancelPressed:"/>
                 <relationship kind="action" name="donePressed:"/>
-                <relationship kind="action" name="segmentChanged:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="addedContactsScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="segmentControl" candidateClass="UISegmentedControl"/>
@@ -2530,6 +2527,10 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         </class>
         <class className="SVSettingsViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doLogout:"/>
+                <relationship kind="action" name="doUsage:"/>
+            </relationships>
         </class>
         <class className="SVSidebarAlbumMemberCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberCell.h"/>
@@ -2571,6 +2572,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="YZf-v8-Yxg"/>
+        <segue reference="qJa-KB-6Vd"/>
     </inferredMetricsTieBreakers>
 </document>

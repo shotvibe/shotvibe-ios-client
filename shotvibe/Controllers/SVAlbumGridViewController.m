@@ -22,6 +22,7 @@
 #import "CaptureViewfinderController.h"
 #import "SVImagePickerListViewController.h"
 #import "SVAlbumGridViewCell.h"
+#import "SVAddFriendsViewController.h"
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, NINetworkImageViewDelegate>
 {
@@ -223,6 +224,13 @@
         UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
         
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+        destination.selectedAlbum = self.selectedAlbum;
+    }
+	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
+		NSLog(@"prepareForSegue %@", segue.identifier);
+		UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+        
+        SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.selectedAlbum = self.selectedAlbum;
     }
 }

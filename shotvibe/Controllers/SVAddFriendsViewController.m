@@ -46,28 +46,19 @@
 	for (UIButton *but in self.contactsButtons) {
 		int tag = but.tag;
 		NSDictionary *dict = [self.allContacts objectAtIndex:tag];
-		NSLog(@"%i %@", tag, dict);
+		NSLog(@"%i %@ %@", tag, dict, self.selectedAlbum.albumId);
 	}
 	
-	NSString *path = [NSString stringWithFormat:@"/albums/%@/", @"My Instagrams"];
-	NSArray *members = @[@{@"phone_number": @"0722905582", @"default_country":@"ro", @"contact_nickname":@"Cristi"}];
-	NSDictionary *params = @{@"add_members": members};
-	NSDictionary *headers = [[NSDictionary alloc] init];
-	NSMutableURLRequest *req = [[SVJSONAPIClient sharedClient] GETRequestForAllRecordsAtPath:path withParameters:params andHeaders:headers];
-    
-	//get response
-	NSHTTPURLResponse* urlResponse = nil;
-	NSError *error = [[NSError alloc] init];
-	NSData *responseData = [NSURLConnection sendSynchronousRequest:req returningResponse:&urlResponse error:&error];
-	NSString *result = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-	NSLog(@"Response Code: %d", [urlResponse statusCode]);
+	NSArray *members = @[@{@"phone_number": @"40722905582", @"default_country":@"ro", @"contact_nickname":@"Cristi"}];
+	NSDictionary *phoneNumbers = @{@"add_members": members};
 	
-	if ([urlResponse statusCode] >= 200 && [urlResponse statusCode] < 300)
-	{
-		NSLog(@"Response: %@", result);
-	}
+	// send request
 	
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+	[[SVEntityStore sharedStore] invitePhoneNumbers:phoneNumbers toAlbumId:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error) {
+		
+		NSLog(@"invite sent - success/error:  %i %@", success, error);
+		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+	}];
 }
 
 

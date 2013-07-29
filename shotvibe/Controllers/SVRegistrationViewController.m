@@ -208,7 +208,6 @@
 
 - (void)submitPhoneNumberRegistration:(NSString *)phoneNumber
 {
-	NSLog(@"submitPhoneNumberRegistration %@ %@", phoneNumber, [countries selectedCountryCode]);
 	
 	[SVBusinessDelegate registerPhoneNumber:phoneNumber withCountryCode:[countries selectedCountryCode] WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {
 		

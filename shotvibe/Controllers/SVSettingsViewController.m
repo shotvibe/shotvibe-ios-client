@@ -10,6 +10,7 @@
 #import "SVSettingsViewController.h"
 #import "Album.h"
 #import "SVAlbumNotificationSettingsViewController.h"
+#import "SVDefines.h"
 
 @interface SVSettingsViewController ()
 
@@ -81,6 +82,20 @@
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+- (IBAction)doUsage:(id)sender {
+	
+}
+
+- (IBAction)doLogout:(id)sender {
+	
+	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserId];
+	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserAuthToken];
+	
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

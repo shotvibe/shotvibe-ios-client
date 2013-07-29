@@ -192,7 +192,7 @@
         // Get the selected Album
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         Album *selectedAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        
+        NSLog(@"selectedAlbum %@", selectedAlbum);
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
         
@@ -247,6 +247,10 @@
     cell = [self configureCell:cell atIndexPath:indexPath];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
 }
 
 
