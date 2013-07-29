@@ -226,7 +226,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"No Camera", @"") message:NSLocalizedString(@"We cannot find a usable camera on this device.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [alert show];
         
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        //[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
     }
 }
@@ -542,6 +542,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         {
             [UIView animateWithDuration:0.3 animations:^{
                 self.topBarContainer.frame = CGRectMake(0, -78, 320, self.topBarContainer.frame.size.height);
+				self.flashButtonAuto.frame = CGRectMake(10, 85-78, 69, 35);
+				self.flashButtonOff.frame = CGRectMake(10, 85-78, 69, 35);
+				self.flashButtonOn.frame = CGRectMake(10, 85-78, 69, 35);
+				self.cameraToggleButton.frame = CGRectMake(240, 85-78, 70, 35);
             } completion:^(BOOL finished) {
                 topBarHidden = !topBarHidden;
             }];
@@ -707,7 +711,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [self.view addSubview:animatedImageView];
     
     [UIView animateWithDuration:0.6 animations:^{
-        animatedImageView.frame = self.albumPreviewImage.frame;
+		CGRect f = self.albumPreviewImage.frame;
+		f.origin.y += self.view.frame.size.height - 55;
+        animatedImageView.frame = f;
     } completion:^(BOOL finished) {
         self.albumPreviewImage.image = stillImage;
         [imagePile addObject:filePath];

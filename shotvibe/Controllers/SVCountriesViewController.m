@@ -48,6 +48,7 @@
 	
 	countryCode_ = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
 }
+
 - (void)viewDidAppear:(BOOL)animated{
 	
 	for (int i=0; i<countryCodes.count; i++) {
@@ -59,11 +60,9 @@
 }
 
 
-- (void)setWithLocale:(NSLocale *)locale
-{
-    self.selectedCountryCode = [locale objectForKey:NSLocaleCountryCode];
+- (NSString*) selectedCountryCode {
+	return countryCode_;
 }
-
 
 
 
@@ -130,9 +129,8 @@
 	countryCode_ = [countryCodes objectAtIndex:indexPath.row];
 	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
 	
-	[self.delegate didSelectCountryWithName:[countryNames objectAtIndex:indexPath.row] code:[countryCodes objectAtIndex:indexPath.row]];
+	[self.delegate didSelectCountryWithName:[countryNames objectAtIndex:indexPath.row] code:[countryCode_ copy]];
 	
-	//[self dismissViewControllerAnimated:YES completion:nil];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 

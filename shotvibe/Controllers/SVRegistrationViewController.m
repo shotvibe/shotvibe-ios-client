@@ -92,7 +92,9 @@
 
 - (IBAction)countrySelectButtonPressed:(id)sender
 {
-	[self showCountryPicker];
+	// showCountryPicker
+	[self.phoneNumberField resignFirstResponder];
+    [self performSegueWithIdentifier:@"ChoseCountrySegue" sender:nil];
 }
 
 
@@ -117,15 +119,13 @@
  
     if([SVBusinessDelegate hasUserBeenAuthenticated])
     {
-     [self handleSuccessfulLogin];
+		[self handleSuccessfulLogin];
     }
 	
-	countries = [[SVCountriesViewController alloc] init];
-	countries.delegate = self;
-	[countries setWithLocale:[NSLocale currentLocale]];
+	NSString *cc = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
     
-    self.countryFlagView.image = [UIImage imageNamed:countries.selectedCountryCode];
-    NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:countries.selectedCountryCode];
+    self.countryFlagView.image = [UIImage imageNamed:cc];
+    NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
     
     self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
 }
@@ -133,18 +133,12 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
-		NSLog(@"performing segue");
 		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
         destination.delegate = self;
+		countries = destination;
     }
 }
 
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 
 -(NSUInteger)supportedInterfaceOrientations{
@@ -164,8 +158,6 @@
     NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:code];
     
     self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
-	
-	[self hideCountryPicker];
 }
 
 
@@ -174,7 +166,7 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     if (!isRegistrationCodePhase) {
-        [self hideCountryPicker];
+        //[self hideCountryPicker];
     }
 }
 
@@ -216,26 +208,33 @@
 
 - (void)submitPhoneNumberRegistration:(NSString *)phoneNumber
 {
- [SVBusinessDelegate registerPhoneNumber:phoneNumber withCountryCode:countries.selectedCountryCode WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {
-
-  if(success)
-  {
-     // if successful, this will take user to next part of registration, if not show warning or something to resend a valid phone number
-     // Move this to completion handler once implemented
-
-    self.confirmationCode = confirmationCode;
-   
-    [self switchToRegistrationContainer];
-  }
-  else
-  {
-     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to register", @"") message:NSLocalizedString(@"Failed to register phone number.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-     [alert show];
-
-  }
-  
- }];
- 
+	NSLog(@"submitPhoneNumberRegistration %@ %@", phoneNumber, [countries selectedCountryCode]);
+	
+	[SVBusinessDelegate registerPhoneNumber:phoneNumber withCountryCode:[countries selectedCountryCode] WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {
+		
+		NSLog(@"received confirmationCode %@", confirmationCode);
+		
+		if(success)
+		{
+			// if successful, this will take user to next part of registration, if not show warning or something to resend a valid phone number
+			// Move this to completion handler once implemented
+			
+			self.confirmationCode = confirmationCode;
+			
+			[self switchToRegistrationContainer];
+		}
+		else
+		{
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to register", @"")
+															message:NSLocalizedString(@"Failed to register phone number.", @"")
+														   delegate:nil
+												  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+												  otherButtonTitles: nil];
+			[alert show];
+			
+		}
+		
+	}];
 }
 
 
@@ -269,19 +268,6 @@
         }
         
     }];
-}
-
-
-- (void)showCountryPicker
-{
-    [self.phoneNumberField resignFirstResponder];
-    [self performSegueWithIdentifier:@"ChoseCountrySegue" sender:nil];
-}
-
-
-- (void)hideCountryPicker
-{
-	//[self.navigationController popViewControllerAnimated:YES];
 }
 
 
