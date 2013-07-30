@@ -21,7 +21,7 @@
 }
 
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
+@property (nonatomic, strong) UIBarButtonItem *doneButton;
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
 
 - (void)doneButtonPressed;
@@ -46,6 +46,12 @@
     return self;
 }
 
+- (void) setTakenPhotos:(NSArray *)takenPhotos {
+	
+	selectedPhotos = [[NSMutableArray alloc] initWithArray:takenPhotos];
+	_takenPhotos = takenPhotos;
+}
+
 
 #pragma mark - View Lifecycle
 
@@ -53,7 +59,9 @@
 {
     [super viewDidLoad];
     
-    selectedPhotos = [[NSMutableArray alloc] init];
+	if (selectedPhotos == nil) {
+		selectedPhotos = [[NSMutableArray alloc] init];
+	}
     
     [self.gridView registerClass:[SVSelectionGridCell class] forCellWithReuseIdentifier:@"SVSelectionCell"];
     

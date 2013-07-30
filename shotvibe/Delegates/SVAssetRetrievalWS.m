@@ -17,9 +17,18 @@
     
     [[ALAssetsLibrary sharedLibrary] enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
         if (group) {
-            NSLog(@"Fetched Album: %@ - %i photos", [group valueForProperty:ALAssetsGroupPropertyName], group.numberOfAssets);
+            NSLog(@"Fetched Album: %@ - %i photos type %@", [group valueForProperty:ALAssetsGroupPropertyName], group.numberOfAssets, [group valueForProperty:ALAssetsGroupPropertyType]);
             
-            [assetGroups addObject:group];
+			// Camera roll type
+			if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {
+				[assetGroups insertObject:group atIndex:0];
+			}
+			if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupPhotoStream) {
+				[assetGroups insertObject:group atIndex:1];
+			}
+			else {
+				[assetGroups addObject:group];
+			}
         }
         else
         {

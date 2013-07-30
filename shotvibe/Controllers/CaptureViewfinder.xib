@@ -49,7 +49,7 @@
 								<string key="NSFrame">{{240, 85}, {70, 35}}</string>
 								<reference key="NSSuperview" ref="686349813"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
+								<reference key="NSNextKeyView" ref="840431852"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -75,7 +75,7 @@
 									<int key="type">2</int>
 									<double key="pointSize">15</double>
 								</object>
-								<object class="NSFont" key="IBUIFont" id="28579631">
+								<object class="NSFont" key="IBUIFont" id="575125855">
 									<string key="NSName">Helvetica-Bold</string>
 									<double key="NSSize">15</double>
 									<int key="NSfFlags">16</int>
@@ -87,7 +87,7 @@
 								<string key="NSFrame">{{10, 85}, {69, 35}}</string>
 								<reference key="NSSuperview" ref="686349813"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="169644829"/>
+								<reference key="NSNextKeyView" ref="510653610"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -104,7 +104,7 @@
 									<string key="NSResourceName">cameraFlashAuto.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="1055256224"/>
-								<reference key="IBUIFont" ref="28579631"/>
+								<reference key="IBUIFont" ref="575125855"/>
 							</object>
 							<object class="IBUIButton" id="510653610">
 								<reference key="NSNextResponder" ref="686349813"/>
@@ -112,7 +112,7 @@
 								<string key="NSFrame">{{10, 85}, {69, 35}}</string>
 								<reference key="NSSuperview" ref="686349813"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="528563831"/>
+								<reference key="NSNextKeyView" ref="761305706"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -130,7 +130,7 @@
 									<string key="NSResourceName">cameraFlashOff.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="1055256224"/>
-								<reference key="IBUIFont" ref="28579631"/>
+								<reference key="IBUIFont" ref="575125855"/>
 							</object>
 							<object class="IBUIButton" id="761305706">
 								<reference key="NSNextResponder" ref="686349813"/>
@@ -138,7 +138,7 @@
 								<string key="NSFrame">{{10, 85}, {69, 35}}</string>
 								<reference key="NSSuperview" ref="686349813"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="510653610"/>
+								<reference key="NSNextKeyView" ref="169644829"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -156,13 +156,13 @@
 									<string key="NSResourceName">cameraFlashOn.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="1055256224"/>
-								<reference key="IBUIFont" ref="28579631"/>
+								<reference key="IBUIFont" ref="575125855"/>
 							</object>
 						</array>
 						<string key="NSFrameSize">{320, 460}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="840431852"/>
+						<reference key="NSNextKeyView" ref="528563831"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
@@ -174,7 +174,7 @@
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">290</int>
 						<array class="NSMutableArray" key="NSSubviews">
-							<object class="IBUIView" id="33827999">
+							<object class="IBUIView" id="57232527">
 								<reference key="NSNextResponder" ref="840431852"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{320, 75}</string>
@@ -260,7 +260,7 @@
 						<string key="NSFrameSize">{320, 75}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="33827999"/>
+						<reference key="NSNextKeyView" ref="57232527"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
@@ -295,7 +295,7 @@
 									<string key="NSResourceName">cameraCaptureButton.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="1055256224"/>
-								<reference key="IBUIFont" ref="28579631"/>
+								<reference key="IBUIFont" ref="575125855"/>
 							</object>
 							<object class="IBUIButton" id="548941732">
 								<reference key="NSNextResponder" ref="148834389"/>
@@ -320,7 +320,7 @@
 									<string key="NSResourceName">cameraCancelButton.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="1055256224"/>
-								<reference key="IBUIFont" ref="28579631"/>
+								<reference key="IBUIFont" ref="575125855"/>
 							</object>
 							<object class="IBUIButton" id="571915394">
 								<reference key="NSNextResponder" ref="148834389"/>
@@ -345,7 +345,7 @@
 									<string key="NSResourceName">imagePile.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="1055256224"/>
-								<reference key="IBUIFont" ref="28579631"/>
+								<reference key="IBUIFont" ref="575125855"/>
 							</object>
 							<object class="IBUIImageView" id="1000714326">
 								<reference key="NSNextResponder" ref="148834389"/>
@@ -379,7 +379,6 @@
 								<string key="NSFrame">{{290, 3}, {15, 25}}</string>
 								<reference key="NSSuperview" ref="148834389"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="761305706"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -701,7 +700,7 @@
 						<int key="objectID">74</int>
 						<reference key="object" ref="840431852"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="33827999"/>
+							<reference ref="57232527"/>
 							<reference ref="85794847"/>
 							<reference ref="1053413248"/>
 							<reference ref="570930570"/>
@@ -710,7 +709,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">82</int>
-						<reference key="object" ref="33827999"/>
+						<reference key="object" ref="57232527"/>
 						<reference key="parent" ref="840431852"/>
 					</object>
 					<object class="IBObjectRecord">

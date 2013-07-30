@@ -27,6 +27,7 @@
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UIView *sectionHeader;
 @property (nonatomic, strong) NSMutableDictionary *albumPhotoInfo;
 @property (nonatomic, strong) IBOutlet UIView *tableOverlayView;
 @property (nonatomic, strong) IBOutlet UIView *dropDownContainer;
@@ -68,15 +69,9 @@
 
 #pragma mark - Actions
 
-- (void)searchPressed
+- (void)profilePressed
 {
-    if (searchShowing) {
-        [self hideSearch];
-    }
-    else
-    {
-        [self showSearch];
-    }
+	[self performSegueWithIdentifier:@"ProfileSegue" sender:nil];
 }
 
 
@@ -149,6 +144,8 @@
     thumbnailCache = [[NSMutableDictionary alloc] init];
 
     [self configureViews];
+	
+	[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
 
@@ -200,6 +197,10 @@
         destinationController.selectedAlbum = selectedAlbum;
         
     }
+	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
+		
+		
+	}
 }
 
 
@@ -230,6 +231,12 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
+}
+- (UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	return self.sectionHeader;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	return 45;
 }
 
 
@@ -338,6 +345,7 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [self hideDropDown];
+	
 }
 
 
@@ -346,6 +354,9 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     [self searchForAlbumWithTitle:searchBar.text];
+	self.tableOverlayView.hidden = NO;
+	self.tableOverlayView.alpha = 0.5;
+	searchShowing = YES;
 }
 
 
@@ -359,6 +370,9 @@
 {
     [self searchForAlbumWithTitle:searchBar.text];
     [searchBar resignFirstResponder];
+	self.tableOverlayView.hidden = YES;
+	self.tableOverlayView.alpha = 0;
+	searchShowing = NO;
 }
 
 
@@ -376,8 +390,8 @@
     self.navigationItem.titleView = titleContainer;
     
     // Setup menu button
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"contactsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(searchPressed)];
-    self.navigationItem.leftBarButtonItem = menuButton;
+    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"contactsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(profilePressed)];
+    self.navigationItem.leftBarButtonItem = butProfile;
     
     // Setup menu button
     UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
@@ -403,6 +417,23 @@
         
         [self.dropDownBackground setImage:resizableImage];
     }
+	
+	UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];
+	
+	// Set required taps and number of touches
+	[touchOnView setNumberOfTapsRequired:1];
+	[touchOnView setNumberOfTouchesRequired:1];
+	
+	// Add the gesture to the view
+	[self.tableOverlayView addGestureRecognizer:touchOnView];
+}
+- (void) releaseOverlay {
+	
+	if (searchShowing) {
+		[self.searchbar resignFirstResponder];
+		self.tableOverlayView.hidden = YES;
+		self.tableOverlayView.alpha = 0;
+	}
 }
 
 
@@ -454,7 +485,7 @@
         }
         
         
-        NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
+        NSString *lastAddedBy = NSLocalizedString(@"Last added by", @"");
         cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
     }
     else
@@ -516,7 +547,7 @@
             [cell.networkImageView setImage:image];
         }
         
-        NSString *lastAddedBy = NSLocalizedString(@"Last Added By", @"");
+        NSString *lastAddedBy = NSLocalizedString(@"Last added by", @"");
         cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
     }
     else
@@ -552,7 +583,7 @@
     
     [UIView animateWithDuration:0.3 animations:^{
         self.tableOverlayView.alpha = 0.3;
-        self.dropDownContainer.frame = CGRectMake(6, 34, self.dropDownContainer.frame.size.width, 134);
+        self.dropDownContainer.frame = CGRectMake(6, -4, self.dropDownContainer.frame.size.width, 134);
     } completion:^(BOOL finished) {
         [self.albumField becomeFirstResponder];
     }];
@@ -563,49 +594,14 @@
 - (void)hideDropDown
 {
     
-    [UIView animateWithDuration:0.3 animations:^{
+	[UIView animateWithDuration:0.3 animations:^{
         self.tableOverlayView.alpha = 0.0;
-        self.dropDownContainer.frame = CGRectMake(6, -80, self.dropDownContainer.frame.size.width, 134);
+        self.dropDownContainer.frame = CGRectMake(6, -134, self.dropDownContainer.frame.size.width, 134);
     } completion:^(BOOL finished) {
         self.tableOverlayView.hidden = YES;
         self.dropDownContainer.hidden = YES;
-        [self.albumField resignFirstResponder];
+		[self.albumField resignFirstResponder];
     }];
-}
-
-
-- (void)showSearch
-{
-    searchShowing = YES;
-    self.searchbar.hidden = NO;
-    
-    [self.searchbar becomeFirstResponder];
-
-    [UIView animateWithDuration:0.15 animations:^{
-        self.searchbar.frame = CGRectMake(0, 0, self.searchbar.frame.size.width, self.searchbar.frame.size.height);
-        self.searchbar.alpha = 1.0;
-        self.viewContainer.frame = CGRectMake(0, 40, self.view.frame.size.width, self.view.frame.size.height -40);
-    } completion:^(BOOL finished) {
-    }];
-}
-
-
-- (void)hideSearch
-{
-    searchShowing = NO;
-
-    [self.searchbar resignFirstResponder];
-    [UIView animateWithDuration:0.15 animations:^{
-        self.searchbar.frame = CGRectMake(0, -44, self.searchbar.frame.size.width, self.searchbar.frame.size.height);
-        self.searchbar.alpha = 0.0;
-        self.viewContainer.frame = CGRectMake(0, -4, self.view.frame.size.width, self.view.frame.size.height+4);
-    } completion:^(BOOL finished) {
-        self.searchbar.hidden = YES;
-    }];
-    
-    self.fetchedResultsController = nil;
-    [self fetchedResultsController];
-    [self.tableView reloadData];
 }
 
 

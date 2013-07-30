@@ -20,8 +20,10 @@
 
 @interface SVCountriesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
 
-	NSArray *countryNames;
-	NSArray *countryCodes;
+	NSArray *allCountryNames;
+	NSArray *allCountryCodes;
+	NSMutableArray *countryNames;
+	NSMutableArray *countryCodes;
 	NSDictionary *countryNamesByCode;
 	NSDictionary *countryCodesByName;
 	NSString *countryCode_;
@@ -31,6 +33,7 @@
 @property (nonatomic, retain) NSString *selectedCountryName;
 @property (nonatomic, retain) NSString *selectedCountryCode;
 @property (nonatomic, retain) IBOutlet UITableView *countriesTable;
+@property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
 
 - (void)setWithLocale:(NSLocale *)locale;
 

@@ -140,7 +140,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 // Create video preview layer and add it to the UI
                 AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
                 
-                self.videoPreviewView.frame = self.view.bounds;
+                //self.videoPreviewView.frame = self.view.bounds;
+				self.videoPreviewView.backgroundColor = [UIColor redColor];
                 
                 UIView *view = [self videoPreviewView];
                 CALayer *viewLayer = [view layer];
@@ -148,6 +149,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 
                 CGRect bounds = [view bounds];
                 [newCaptureVideoPreviewLayer setFrame:bounds];
+				
+				NSLog(@"camera bounds %@", NSStringFromCGRect(bounds));
                 
                 if ([newCaptureVideoPreviewLayer connection].supportsVideoOrientation) {
                     [[newCaptureVideoPreviewLayer connection] setVideoOrientation:AVCaptureVideoOrientationPortrait];

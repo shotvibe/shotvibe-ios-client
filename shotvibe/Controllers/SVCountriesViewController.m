@@ -38,22 +38,30 @@
     
     NSArray *names = [countryNamesByCode allValues];
     countryNames = [names sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+	allCountryNames = [[NSArray alloc] initWithArray:countryNames];
     
-    NSMutableArray *codes = [NSMutableArray arrayWithCapacity:[names count]];
+	countryCodes = [NSMutableArray arrayWithCapacity:[names count]];
     for (NSString *name in countryNames)
     {
-        [codes addObject:[countryCodesByName objectForKey:name]];
+        [countryCodes addObject:[countryCodesByName objectForKey:name]];
     }
-    countryCodes = [codes copy];
+	allCountryCodes = [[NSArray alloc] initWithArray:countryCodes];
 	
 	countryCode_ = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+	
+	// Configure views
+	
+	self.searchbar.backgroundImage = [UIImage imageNamed:@"searchFieldBg.png"];
+	[self.searchbar setSearchFieldBackgroundImage:[UIImage imageNamed:@"butTransparent.png"] forState:UIControlStateNormal];
+	[self.searchbar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+	
 }
 
 - (void)viewDidAppear:(BOOL)animated{
 	
 	for (int i=0; i<countryCodes.count; i++) {
 		if ([[countryCodes objectAtIndex:i] isEqualToString:countryCode_]) {
-			[self.countriesTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+			[self.countriesTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
 			break;
 		}
 	}
@@ -132,6 +140,57 @@
 	[self.delegate didSelectCountryWithName:[countryNames objectAtIndex:indexPath.row] code:[countryCode_ copy]];
 	
 	[self.navigationController popViewControllerAnimated:YES];
+}
+
+
+
+
+
+#pragma mark - UISearchbarDelegate Methods
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+	[self filterCountriesBy:searchBar.text];
+	self.countriesTable.frame = CGRectMake(0, 0, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-216-45-20);
+}
+
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self filterCountriesBy:searchBar.text];
+}
+
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self filterCountriesBy:searchBar.text];
+    [searchBar resignFirstResponder];
+	self.countriesTable.frame = CGRectMake(0, 0, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-45-20);
+}
+
+- (void) filterCountriesBy:(NSString*)term {
+	
+	if (term == nil || [term isEqualToString:@""]) {
+		
+		countryNames = [NSMutableArray arrayWithArray:allCountryNames];
+		countryCodes = [NSMutableArray arrayWithArray:allCountryCodes];
+	}
+	else {
+		
+		countryNames = [NSMutableArray array];
+		countryCodes = [NSMutableArray array];
+		
+		for (int i = 0; i<allCountryNames.count; i++) {
+			
+			if ([[[allCountryNames objectAtIndex:i] lowercaseString] rangeOfString:[term lowercaseString]].location != NSNotFound) {
+				
+				[countryNames addObject:[allCountryNames objectAtIndex:i]];
+				[countryCodes addObject:[allCountryCodes objectAtIndex:i]];
+			}
+		}
+	}
+	
+	[self.countriesTable reloadData];
 }
 
 

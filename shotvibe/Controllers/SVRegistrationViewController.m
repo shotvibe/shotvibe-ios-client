@@ -17,6 +17,8 @@
 
 @interface SVRegistrationViewController ()
 
+@property (nonatomic, strong) IBOutlet UIButton *butContinue;
+@property (nonatomic, strong) IBOutlet UIButton *butSubmit;
 @property (nonatomic, strong) IBOutlet UIView *phoneNumberPhaseContainer;
 @property (nonatomic, strong) IBOutlet UIImageView *countryFlagView;
 @property (nonatomic, strong) IBOutlet UITextField *phoneNumberField;
@@ -128,6 +130,8 @@
     NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
     
     self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
+	
+	[self.phoneNumberField becomeFirstResponder];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -173,6 +177,9 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+	if (textField == self.phoneNumberField) {
+		self.butContinue.enabled = (self.phoneNumberField.text.length > 0);
+	}
     if (isRegistrationCodePhase)
     {
         if (self.codeField1.isFirstResponder) {
@@ -193,6 +200,7 @@
         {
             self.codeField4.text = string;
             [self.codeField4 resignFirstResponder];
+			self.butSubmit.enabled = YES;
         }
         
         return NO;
