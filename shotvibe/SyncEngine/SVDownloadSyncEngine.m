@@ -18,6 +18,8 @@
 #import "SVEntityStore.h"
 #import "SVDownloadQueueManager.h"
 #import "SVUploadQueueManager.h"
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord+Actions.h"
 
 @interface SVDownloadSyncEngine ()
 {
@@ -91,6 +93,7 @@
                 [self willChangeValueForKey:@"syncInProgress"];
                 _syncInProgress = YES;
                 [self didChangeValueForKey:@"syncInProgress"];
+				
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
                 });
@@ -159,6 +162,7 @@
 
 - (void)downloadPhotos
 {
+	NSLog(@"download photos");
     if (!self.syncPhotosContext) {
         self.syncPhotosContext = [NSManagedObjectContext context];
         [self.syncPhotosContext.userInfo setValue:@"PhotoSaveContext" forKey:@"kNSManagedObjectContextWorkingName"];

@@ -37,8 +37,8 @@
     countryCodesByName = [codesByName copy];
     
     NSArray *names = [countryNamesByCode allValues];
-    countryNames = [names sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-	allCountryNames = [[NSArray alloc] initWithArray:countryNames];
+    allCountryNames = [names sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+	countryNames = [[NSMutableArray alloc] initWithArray:allCountryNames];
     
 	countryCodes = [NSMutableArray arrayWithCapacity:[names count]];
     for (NSString *name in countryNames)

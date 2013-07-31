@@ -15,6 +15,9 @@
 #import "SVEntityStore.h"
 #import "SVUploadQueueManager.h"
 #import "SVSelectionGridCell.h"
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord.h"
+#import "MagicalRecord+Actions.h"
 
 @interface CaptureSelectImagesViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {

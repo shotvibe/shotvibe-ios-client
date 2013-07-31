@@ -9,6 +9,8 @@
 #import "SVInitializationWS.h"
 #import "SVDefines.h"
 #import "SVDownloadSyncEngine.h"
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord+Setup.h"
 
 #ifdef CONFIGURATION_Debug
 static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
@@ -208,6 +210,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)initializeManagedObjectModel
 {
+	NSLog(@"initializeManagedObjectModel");
     [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"ShotVibe.sqlite"];
 }
 

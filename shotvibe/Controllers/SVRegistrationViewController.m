@@ -119,6 +119,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
  
+	NSLog(@"1111111111111111");
     if([SVBusinessDelegate hasUserBeenAuthenticated])
     {
 		[self handleSuccessfulLogin];
@@ -248,7 +249,7 @@
 
 - (void)validateRegistrationCode:(NSString *)registrationCode
 {
- NSLog(@"validateRegistrationCode - code:  %@", registrationCode);
+	NSLog(@"validateRegistrationCode - code:  %@", registrationCode);
  
     [SVBusinessDelegate validateRegistrationCode:registrationCode withConfirmationCode:self.confirmationCode WithCompletion:^(BOOL success, NSString *authToken, NSString *userId, NSError *error) {
         
@@ -309,6 +310,7 @@
 
 - (void)handleSuccessfulLogin
 {
+	NSLog(@"handleSuccessfulLogin");
     [[SVDownloadSyncEngine sharedEngine] startSync];
     
     // Grab the storyboard
@@ -318,6 +320,7 @@
     SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
     
     [self.navigationController setViewControllers:@[rootView] animated:YES];
+	
 }
 
 @end

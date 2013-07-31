@@ -13,6 +13,8 @@
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 #import "SVUploadQueueManager.h"
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord+Actions.h"
 
 static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
@@ -150,7 +152,9 @@ static NSUInteger const kTestUserId = 1;
     NSLog(@"PREPARING UPLOAD QUEUE");
     
     // Get all of the albums that need to be uploaded
-    self.albumsToUpload = [NSMutableArray arrayWithArray:[Album findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %i AND SUBQUERY(albumPhotos, $albumPhoto, $albumPhoto.objectSyncStatus == %i).@count > 0", SVObjectSyncUploadNeeded, SVObjectSyncUploadNeeded] inContext:[NSManagedObjectContext defaultContext]]];
+	NSArray *arr = [Album findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %i AND SUBQUERY(albumPhotos, $albumPhoto, $albumPhoto.objectSyncStatus == %i).@count > 0", SVObjectSyncUploadNeeded, SVObjectSyncUploadNeeded]
+									 inContext:[NSManagedObjectContext defaultContext]];
+    self.albumsToUpload = [NSMutableArray arrayWithArray:arr];
     
     if (self.albumsToUpload.count > 0) {
         [self willChangeValueForKey:@"syncInProgress"];

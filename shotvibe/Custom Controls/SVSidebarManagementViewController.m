@@ -10,6 +10,8 @@
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "SVSidebarManagementViewController.h"
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord+Actions.h"
 
 @interface SVSidebarManagementViewController () <NSFetchedResultsControllerDelegate>
 
@@ -83,6 +85,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+	NSLog(@" nrOfRowsInSection %i", section);
     // Return the number of rows in the section.
     id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
     return 0;

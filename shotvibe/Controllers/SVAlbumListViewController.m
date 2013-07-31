@@ -20,7 +20,9 @@
 #import "SVBusinessDelegate.h"
 #import "CaptureViewfinderController.h"
 #import "CaptureNavigationController.h"
-
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord+Actions.h"
+#import "NSManagedObjectContext+MagicalRecord.h"
 #import "SVEntityStore.h"
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
@@ -42,12 +44,10 @@
 - (void)configureViews;
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)updateCell:(SVAlbumListViewCell *)cell AtIndexPath:(NSIndexPath *)indexPath;
-- (void)searchPressed;
+- (void)profilePressed;
 - (void)settingsPressed;
 - (void)showDropDown;
 - (void)hideDropDown;
-- (void)showSearch;
-- (void)hideSearch;
 - (void)searchForAlbumWithTitle:(NSString *)title;
 - (void)createNewAlbumWithTitle:(NSString *)title;
 - (void)albumUpdateReceived:(NSNotification *)notification;
@@ -145,7 +145,7 @@
 
     [self configureViews];
 	
-	[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+	//[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
 
@@ -273,19 +273,20 @@
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
+	NSLog(@"- (NSFetchedResultsController *)fetchedResultsController %@", _fetchedResultsController);
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
     
-    self.fetchedResultsController = [[SVEntityStore sharedStore] allAlbumsForCurrentUserWithDelegate:self];
-
-    return _fetchedResultsController;
+	_fetchedResultsController = [[SVEntityStore sharedStore] allAlbumsForCurrentUserWithDelegate:self];
+	NSLog(@"- (NSFetchedResultsController *)fetchedResultsController %@", _fetchedResultsController);
+    
+	return _fetchedResultsController;
 }
 
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-    
     [self.tableView beginUpdates];
 }
 

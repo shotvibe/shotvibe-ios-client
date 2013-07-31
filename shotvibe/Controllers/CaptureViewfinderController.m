@@ -141,13 +141,13 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
                 
                 //self.videoPreviewView.frame = self.view.bounds;
-				self.videoPreviewView.backgroundColor = [UIColor redColor];
-                
+				
                 UIView *view = [self videoPreviewView];
                 CALayer *viewLayer = [view layer];
                 [viewLayer setMasksToBounds:YES];
                 
-                CGRect bounds = [view bounds];
+                CGRect bounds = [UIScreen mainScreen].bounds;
+				bounds.size.height -= (53 + 20);
                 [newCaptureVideoPreviewLayer setFrame:bounds];
 				
 				NSLog(@"camera bounds %@", NSStringFromCGRect(bounds));
@@ -164,7 +164,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 
                 // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[[self captureManager] session] startRunning];
+					[[[self captureManager] session] startRunning];
                 });
                 
                 [self updateButtonStates];

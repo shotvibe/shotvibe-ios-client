@@ -14,6 +14,8 @@
 #import "SVDownloadQueueManager.h"
 #import "SVEntityStore.h"
 #import "SVUploadQueueManager.h"
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord+Actions.h"
 
 @interface SVDownloadQueueManager ()
 {

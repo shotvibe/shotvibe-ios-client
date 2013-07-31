@@ -118,9 +118,9 @@
 	
 	// Setup back button
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
-	UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
-	UIEdgeInsets insets = UIEdgeInsetsMake(5, 35, 5, 5);
-	UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+	//UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
+	//UIEdgeInsets insets = UIEdgeInsetsMake(5, 35, 5, 5);
+	//UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
 	
     //NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
 	//[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
@@ -202,17 +202,6 @@
 	
 	return v;
 }
-
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//	NSArray *arr = [self.records objectForKey:[alphabet objectAtIndex:section]];
-//	
-//    if ([arr count] > 0) {
-//        return [alphabet objectAtIndex:section];
-//    }
-//	
-//    return nil;
-//}
 
 
 #pragma mark - TableviewDelegate Methods

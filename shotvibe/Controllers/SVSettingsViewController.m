@@ -96,6 +96,14 @@
 	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserAuthToken];
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
+	
+	// Grab the storyboard
+	//UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+    
+    // Grab the deal and make it our root view controller from the storyboard for this navigation controller
+    //SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
+    
+    //[self.navigationController setViewControllers:@[rootView] animated:YES];
 }
 
 @end

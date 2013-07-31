@@ -8,6 +8,8 @@
 
 #import "SVAlbumNotificationSettingsViewController.h"
 #import "Album.h"
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord+Actions.h"
 
 @interface SVAlbumNotificationSettingsViewController ()
 @property (nonatomic, strong) IBOutlet UILabel *photoUploadedToneLabel;

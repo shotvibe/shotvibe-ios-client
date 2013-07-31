@@ -14,6 +14,9 @@
 #import "SVEntityStore.h"
 #import "SVBusinessDelegate.h"
 #import "Member.h"
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord+Actions.h"
+#import "NSManagedObjectContext+MagicalRecord.h"
 
 static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
@@ -105,13 +108,15 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
-    NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
-    
+	NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
-    
-    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext defaultContext] sectionNameKeyPath:nil cacheName:nil];
+	NSManagedObjectContext *dc = [NSManagedObjectContext MR_defaultContext];
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+																							   managedObjectContext:dc
+																								 sectionNameKeyPath:nil
+																										  cacheName:nil];
     fetchedResultsController.delegate = delegate;
-    
+	
     NSError *fetchError = nil;
     if (![fetchedResultsController performFetch:&fetchError]) {
         NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);

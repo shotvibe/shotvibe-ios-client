@@ -8,7 +8,8 @@
 
 #import "MagicalRecord+ShorthandSupport.h"
 #import <objc/runtime.h>
-
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord+Actions.h"
 
 static NSString * const kMagicalRecordCategoryPrefix = @"MR_";
 #ifdef MR_SHORTHAND
