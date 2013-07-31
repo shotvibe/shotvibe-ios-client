@@ -38,6 +38,8 @@
 @property (nonatomic, strong) IBOutlet UITextField *albumField;
 @property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
 @property (nonatomic, strong) IBOutlet UIView *viewContainer;
+@property (nonatomic, strong) IBOutlet UIButton *albumButton;
+@property (nonatomic, strong) IBOutlet UIButton *takePictureButton;
 
 @property (nonatomic, strong) NSOperationQueue *imageLoadingQueue;
 
@@ -143,7 +145,7 @@
     self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
     self.imageLoadingQueue = [[NSOperationQueue alloc] init];
     self.imageLoadingQueue.maxConcurrentOperationCount = 1;
-    
+	
     thumbnailCache = [[NSMutableDictionary alloc] init];
 
     [self configureViews];
@@ -582,20 +584,22 @@
 {
 	
 	//[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-	[self.tableView setContentOffset:CGPointMake(0,44)];
+	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 	
 	//[self.sectionHeader insertSubview:self.dropDownContainer atIndex:0];
 	
     self.tableOverlayView.hidden = NO;
     self.dropDownContainer.hidden = NO;
+	self.albumButton.enabled = NO;
+	self.takePictureButton.enabled = NO;
     
     NSString *currentDateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle];
     self.albumField.text = @"";
 	self.albumField.placeholder = currentDateString;
     
-    [UIView animateWithDuration:0.3 animations:^{
-        self.tableOverlayView.alpha = 0.3;
-        self.dropDownContainer.frame = CGRectMake(8, 44, self.dropDownContainer.frame.size.width, 134);
+    [UIView animateWithDuration:0.4 animations:^{
+        self.tableOverlayView.alpha = 1;
+        self.dropDownContainer.frame = CGRectMake(8, -4, self.dropDownContainer.frame.size.width, 134);
     } completion:^(BOOL finished) {
         [self.albumField becomeFirstResponder];
     }];
@@ -605,13 +609,15 @@
 - (void)hideDropDown
 {
     
+	[self.albumField resignFirstResponder];
 	[UIView animateWithDuration:0.3 animations:^{
         self.tableOverlayView.alpha = 0.0;
-        self.dropDownContainer.frame = CGRectMake(6, -134, self.dropDownContainer.frame.size.width, 134);
+        self.dropDownContainer.frame = CGRectMake(8, -134, self.dropDownContainer.frame.size.width, 134);
     } completion:^(BOOL finished) {
         self.tableOverlayView.hidden = YES;
         self.dropDownContainer.hidden = YES;
-		[self.albumField resignFirstResponder];
+		self.albumButton.enabled = YES;
+		self.takePictureButton.enabled = YES;
     }];
 }
 

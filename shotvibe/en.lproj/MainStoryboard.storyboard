@@ -1237,65 +1237,67 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                             <outlet property="delegate" destination="zDC-7N-HiV" id="aQs-ph-ZZT"/>
                                         </connections>
                                     </tableView>
-                                    <view alpha="0.0" contentMode="scaleToFill" id="8E7-qs-lmJ" userLabel="Overlay">
-                                        <rect key="frame" x="0.0" y="44" width="320" height="505"/>
+                                    <view clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" id="8E7-qs-lmJ" userLabel="Overlay">
+                                        <rect key="frame" x="0.0" y="45" width="320" height="504"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view hidden="YES" contentMode="scaleToFill" id="2e3-Z6-ypa" userLabel="Drop Down Container">
-                                        <rect key="frame" x="8" y="-100" width="305" height="130"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="dropDownField.png" id="Hd4-U9-hWy">
-                                                <rect key="frame" x="0.0" y="0.0" width="305" height="130"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Phb-vI-im3">
-                                                <rect key="frame" x="0.0" y="84" width="153" height="42"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
-                                                <size key="titleShadowOffset" width="0.0" height="1"/>
-                                                <state key="normal" title="Cancel">
-                                                    <color key="titleColor" red="0.4823529412" green="0.49803921569999998" blue="0.54901960780000003" alpha="1" colorSpace="deviceRGB"/>
-                                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" red="0.090196078430000007" green="0.43529411759999997" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
-                                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="newAlbumClose:" destination="zDC-7N-HiV" eventType="touchUpInside" id="xsv-fb-Cgc"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bDc-Px-yfr">
-                                                <rect key="frame" x="151" y="84" width="154" height="42"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
-                                                <size key="titleShadowOffset" width="0.0" height="1"/>
-                                                <state key="normal" title="Done">
-                                                    <color key="titleColor" red="0.090196078430000007" green="0.43529411759999997" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
-                                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" red="0.090196078430000007" green="0.43529411759999997" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
-                                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="newAlbumDone:" destination="zDC-7N-HiV" eventType="touchUpInside" id="Bdt-n8-ZmN"/>
-                                                </connections>
-                                            </button>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Album Name" minimumFontSize="17" clearButtonMode="whileEditing" id="C8v-iQ-bO4">
-                                                <rect key="frame" x="20" y="36" width="265" height="37"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="deviceRGB"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
-                                                <connections>
-                                                    <outlet property="delegate" destination="zDC-7N-HiV" id="ruJ-J9-JPm"/>
-                                                </connections>
-                                            </textField>
+                                            <view contentMode="scaleToFill" id="2e3-Z6-ypa" userLabel="Drop Down Container">
+                                                <rect key="frame" x="7" y="-135" width="305" height="130"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="dropDownField.png" id="Hd4-U9-hWy">
+                                                        <rect key="frame" x="0.0" y="0.0" width="305" height="130"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Phb-vI-im3">
+                                                        <rect key="frame" x="0.0" y="84" width="153" height="42"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                                        <size key="titleShadowOffset" width="0.0" height="1"/>
+                                                        <state key="normal" title="Cancel">
+                                                            <color key="titleColor" red="0.4823529412" green="0.49803921569999998" blue="0.54901960780000003" alpha="1" colorSpace="deviceRGB"/>
+                                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <state key="highlighted">
+                                                            <color key="titleColor" red="0.090196078430000007" green="0.43529411759999997" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
+                                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="newAlbumClose:" destination="zDC-7N-HiV" eventType="touchUpInside" id="xsv-fb-Cgc"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bDc-Px-yfr">
+                                                        <rect key="frame" x="151" y="84" width="154" height="42"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                                        <size key="titleShadowOffset" width="0.0" height="1"/>
+                                                        <state key="normal" title="Done">
+                                                            <color key="titleColor" red="0.090196078430000007" green="0.43529411759999997" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
+                                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <state key="highlighted">
+                                                            <color key="titleColor" red="0.090196078430000007" green="0.43529411759999997" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
+                                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="newAlbumDone:" destination="zDC-7N-HiV" eventType="touchUpInside" id="Bdt-n8-ZmN"/>
+                                                        </connections>
+                                                    </button>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Album Name" minimumFontSize="17" clearButtonMode="whileEditing" id="C8v-iQ-bO4">
+                                                        <rect key="frame" x="20" y="36" width="265" height="37"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                        <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="deviceRGB"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="zDC-7N-HiV" id="ruJ-J9-JPm"/>
+                                                        </connections>
+                                                    </textField>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1305,6 +1307,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                     </view>
                     <navigationItem key="navigationItem" id="jtt-vE-TQ3"/>
                     <connections>
+                        <outlet property="albumButton" destination="wfo-zJ-OMg" id="yxc-8E-3ZH"/>
                         <outlet property="albumField" destination="C8v-iQ-bO4" id="j3v-aa-ky3"/>
                         <outlet property="dropDownBackground" destination="Hd4-U9-hWy" id="YGg-7B-Th0"/>
                         <outlet property="dropDownContainer" destination="2e3-Z6-ypa" id="Wab-Jc-kQS"/>
@@ -1312,6 +1315,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                         <outlet property="sectionHeader" destination="LLg-R4-7y6" id="Ynt-YM-0XY"/>
                         <outlet property="tableOverlayView" destination="8E7-qs-lmJ" id="jSl-mM-3A3"/>
                         <outlet property="tableView" destination="ggL-OC-6VI" id="7jO-m1-dQP"/>
+                        <outlet property="takePictureButton" destination="nzH-WG-CKT" id="1ha-bn-TrX"/>
                         <outlet property="viewContainer" destination="mjy-E8-U4N" id="Ca0-qr-eWh"/>
                         <segue destination="N4E-mX-u47" kind="push" identifier="SettingsSegue" id="qJa-KB-6Vd"/>
                         <segue destination="YCy-E4-hqR" kind="push" identifier="ProfileSegue" id="DTJ-0y-Ox6"/>
@@ -2615,6 +2619,7 @@ activation code just sent to you</string>
                 <relationship kind="action" name="newAlbumClose:"/>
                 <relationship kind="action" name="newAlbumDone:"/>
                 <relationship kind="action" name="takePicturePressed:"/>
+                <relationship kind="outlet" name="albumButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="albumField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="dropDownBackground" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="dropDownContainer" candidateClass="UIView"/>
@@ -2622,6 +2627,7 @@ activation code just sent to you</string>
                 <relationship kind="outlet" name="sectionHeader" candidateClass="UIView"/>
                 <relationship kind="outlet" name="tableOverlayView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="takePictureButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="viewContainer" candidateClass="UIView"/>
             </relationships>
         </class>
