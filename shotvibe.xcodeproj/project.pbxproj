@@ -808,6 +808,8 @@
 		2897384517A2422F003B18D3 /* albumNewIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2897384117A2422F003B18D3 /* albumNewIcon.png */; };
 		2897384617A2422F003B18D3 /* albumNewIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2897384217A2422F003B18D3 /* albumNewIcon@2x.png */; };
 		2897384717A2422F003B18D3 /* albumTakePicture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2897384317A2422F003B18D3 /* albumTakePicture@2x.png */; };
+		28A02C1017A8F1ED0005823C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A02C0F17A8F1ED0005823C /* Crashlytics.framework */; };
+		28A02C1117A8F1ED0005823C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A02C0F17A8F1ED0005823C /* Crashlytics.framework */; };
 		28CFCC6F17A253F0001511EF /* contactsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC6D17A253F0001511EF /* contactsIcon.png */; };
 		28CFCC7017A253F0001511EF /* contactsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC6E17A253F0001511EF /* contactsIcon@2x.png */; };
 		28CFCC7917A2B83F001511EF /* searchFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC7517A2B83F001511EF /* searchFieldBg.png */; };
@@ -1791,6 +1793,7 @@
 		2897384117A2422F003B18D3 /* albumNewIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumNewIcon.png; sourceTree = "<group>"; };
 		2897384217A2422F003B18D3 /* albumNewIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumNewIcon@2x.png"; sourceTree = "<group>"; };
 		2897384317A2422F003B18D3 /* albumTakePicture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumTakePicture@2x.png"; sourceTree = "<group>"; };
+		28A02C0F17A8F1ED0005823C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		28CFCC6D17A253F0001511EF /* contactsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contactsIcon.png; sourceTree = "<group>"; };
 		28CFCC6E17A253F0001511EF /* contactsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "contactsIcon@2x.png"; sourceTree = "<group>"; };
 		28CFCC7517A2B83F001511EF /* searchFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchFieldBg.png; sourceTree = "<group>"; };
@@ -2253,6 +2256,7 @@
 				AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */,
 				AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */,
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
+				28A02C1017A8F1ED0005823C /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2289,6 +2293,7 @@
 				AA58FB8B16C231A900C49E02 /* SystemConfiguration.framework in Frameworks */,
 				AA58FB5116C2291200C49E02 /* UIKit.framework in Frameworks */,
 				AA58FD0F16C238DC00C49E02 /* HockeySDK.framework in Frameworks */,
+				28A02C1117A8F1ED0005823C /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2979,6 +2984,7 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				28A02C0F17A8F1ED0005823C /* Crashlytics.framework */,
 				04204EFA178B45D9001FE127 /* AddressBook.framework */,
 				AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */,
 				0426B6821724F3B5007BAABC /* CoreMedia.framework */,
@@ -3768,6 +3774,7 @@
 				AA58FAF416C224E800C49E02 /* Frameworks */,
 				AA58FAF516C224E800C49E02 /* Resources */,
 				AA58FB4C16C228D700C49E02 /* ShellScript */,
+				28A02C1217A8F2030005823C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3805,6 +3812,7 @@
 				AA58FB5416C2291200C49E02 /* Resources */,
 				AA58FB4E16C2291200C49E02 /* Sources */,
 				AA58FB5A16C2291200C49E02 /* ShellScript */,
+				28A02C0B17A8F1560005823C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -4776,6 +4784,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		28A02C0B17A8F1560005823C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run c4170fec79440acb2bb1a20216a764d3ed65e42b";
+		};
+		28A02C1217A8F2030005823C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run c4170fec79440acb2bb1a20216a764d3ed65e42b";
+		};
 		AA58FB1B16C224E800C49E02 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -5329,6 +5363,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -5357,6 +5392,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -5450,6 +5486,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -5494,6 +5531,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -5522,6 +5560,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -5549,6 +5588,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/shotvibe/Vendor/JMC/JMCClasses/Libraries\"",
 					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";

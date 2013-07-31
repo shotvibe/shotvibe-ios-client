@@ -333,7 +333,7 @@
         <!--Registration View Controller - Registration-->
         <scene sceneID="vun-vc-kNk">
             <objects>
-                <viewController id="3rg-2I-Dzz" customClass="SVRegistrationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SVRegistrationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3rg-2I-Dzz" customClass="SVRegistrationViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FhI-zr-HcS">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2606,7 +2606,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="YZf-v8-Yxg"/>
+        <segue reference="qJa-KB-6Vd"/>
         <segue reference="DTJ-0y-Ox6"/>
     </inferredMetricsTieBreakers>
 </document>

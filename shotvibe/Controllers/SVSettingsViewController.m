@@ -11,6 +11,7 @@
 #import "Album.h"
 #import "SVAlbumNotificationSettingsViewController.h"
 #import "SVDefines.h"
+#import "SVRegistrationViewController.h"
 
 @interface SVSettingsViewController ()
 
@@ -95,15 +96,15 @@
 	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserId];
 	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserAuthToken];
 	
-	[self.navigationController popToRootViewControllerAnimated:YES];
+	//[self.navigationController popToRootViewControllerAnimated:YES];
 	
 	// Grab the storyboard
-	//UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
     
     // Grab the deal and make it our root view controller from the storyboard for this navigation controller
-    //SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
+    SVRegistrationViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVRegistrationViewController"];
     
-    //[self.navigationController setViewControllers:@[rootView] animated:YES];
+    [self.navigationController setViewControllers:@[rootView] animated:YES];
 }
 
 @end

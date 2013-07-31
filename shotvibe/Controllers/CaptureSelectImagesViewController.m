@@ -54,6 +54,11 @@
 	selectedPhotos = [[NSMutableArray alloc] initWithArray:takenPhotos];
 	_takenPhotos = takenPhotos;
 }
+- (void) setLibraryPhotos:(NSArray *)libraryPhotos {
+	
+	selectedPhotos = [[NSMutableArray alloc] init];
+	_takenPhotos = libraryPhotos;
+}
 
 
 #pragma mark - View Lifecycle

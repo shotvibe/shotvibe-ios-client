@@ -13,7 +13,8 @@
 
 @interface CaptureSelectImagesViewController : UIViewController
 
-@property (nonatomic, strong) NSArray *takenPhotos;
+@property (nonatomic, strong) NSArray *takenPhotos;// Set only one of this options
+@property (nonatomic, strong) NSArray *libraryPhotos;
 @property (nonatomic, strong) Album *selectedAlbum;
 @property (nonatomic, strong) ALAssetsGroup *selectedGroup;
 @end

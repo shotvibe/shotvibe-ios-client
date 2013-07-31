@@ -24,6 +24,7 @@
 #import "MagicalRecord+Actions.h"
 #import "NSManagedObjectContext+MagicalRecord.h"
 #import "SVEntityStore.h"
+#import <Crashlytics/Crashlytics.h>
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
@@ -588,7 +589,6 @@
     } completion:^(BOOL finished) {
         [self.albumField becomeFirstResponder];
     }];
-    
 }
 
 
