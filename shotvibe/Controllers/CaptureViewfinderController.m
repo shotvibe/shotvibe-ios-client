@@ -140,8 +140,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 // Create video preview layer and add it to the UI
                 AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
                 
-                //self.videoPreviewView.frame = self.view.bounds;
-				
                 UIView *view = [self videoPreviewView];
                 CALayer *viewLayer = [view layer];
                 [viewLayer setMasksToBounds:YES];
@@ -150,8 +148,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 				bounds.size.height -= (53 + 20);
                 [newCaptureVideoPreviewLayer setFrame:bounds];
 				
-				NSLog(@"camera bounds %@", NSStringFromCGRect(bounds));
-                
                 if ([newCaptureVideoPreviewLayer connection].supportsVideoOrientation) {
                     [[newCaptureVideoPreviewLayer connection] setVideoOrientation:AVCaptureVideoOrientationPortrait];
                 }
@@ -254,13 +250,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     }
 }
 
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
 
 
 - (void)didReceiveMemoryWarning
@@ -416,10 +405,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 #pragma mark - ImagePickerController Delegate Methods
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{    
-    
-}
+//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+//{    
+//    NSLog(@"imagePickerController %@", info);
+//}
 
 
 #pragma mark - Memory Management
@@ -537,6 +526,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         if (topBarHidden) {
             [UIView animateWithDuration:0.3 animations:^{
                 self.topBarContainer.frame = CGRectMake(0, 0, 320, self.topBarContainer.frame.size.height);
+				self.flashButtonAuto.frame = CGRectMake(10, 85, 69, 35);
+				self.flashButtonOff.frame = CGRectMake(10, 85, 69, 35);
+				self.flashButtonOn.frame = CGRectMake(10, 85, 69, 35);
+				self.cameraToggleButton.frame = CGRectMake(240, 85, 70, 35);
             } completion:^(BOOL finished) {
                 topBarHidden = !topBarHidden;
             }];
@@ -681,31 +674,32 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager withImageData:(NSData *)data
 {
+	
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
         [[self stillButton] setEnabled:YES];
     });
     
-    if (imagePile.count == 0) {
-        self.saveLabel.hidden = NO;
-        self.saveButton.hidden = NO;
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            self.saveButton.alpha = 1.0;
-            self.saveLabel.alpha = 1.0;
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.3 delay:3.0 options:UIViewAnimationOptionCurveLinear animations:^{
-                self.saveButton.alpha = 0.0;
-                self.saveLabel.alpha = 0.0;
-            } completion:^(BOOL finished) {
-                self.saveLabel.hidden = YES;
-                self.saveButton.hidden = YES;
-            }];
-        }];
-    }
+//    if (imagePile.count == 0) {
+//        self.saveLabel.hidden = NO;
+//        self.saveButton.hidden = NO;
+//        
+//        [UIView animateWithDuration:0.3 animations:^{
+//            self.saveButton.alpha = 1.0;
+//            self.saveLabel.alpha = 1.0;
+//        } completion:^(BOOL finished) {
+//            [UIView animateWithDuration:0.3 delay:3.0 options:UIViewAnimationOptionCurveLinear animations:^{
+//                self.saveButton.alpha = 0.0;
+//                self.saveLabel.alpha = 0.0;
+//            } completion:^(BOOL finished) {
+//                self.saveLabel.hidden = YES;
+//                self.saveButton.hidden = YES;
+//            }];
+//        }];
+//    }
     
     
     NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", imagePile.count]];
-    [data writeToFile:filePath atomically:YES];
+	[data writeToFile:filePath atomically:YES];
     
     // Grab image data
     UIImage *stillImage = [UIImage imageWithData:data];

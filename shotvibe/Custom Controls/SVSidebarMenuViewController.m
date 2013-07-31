@@ -20,7 +20,6 @@
 @property (nonatomic, strong) NSArray *members;
 
 - (IBAction)addFriendsButtonPressed:(id)sender;
-- (void)configureCell:(SVSidebarAlbumMemberCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -46,32 +45,12 @@
     {
         UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
-        
-        UIImage *resizableImage = nil;
-        if (IS_IOS6_OR_GREATER) {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
-        else
-        {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
+        UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
         
         [self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
     }
     
     [self refreshMembers];
-}
-
-- (void)settingsPressed
-{
-    //
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -94,17 +73,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
-    [self configureCell:cell atIndexPath:indexPath];
-    return cell;
-}
-
-
-
-#pragma mark - Private Methods
-
-- (void)configureCell:(SVSidebarAlbumMemberCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
-    [cell.profileImageView prepareForReuse];
+    
+	[cell.profileImageView prepareForReuse];
     cell.profileImageView.sizeForDisplay = YES;
     cell.profileImageView.scaleOptions = NINetworkImageViewScaleToFillLeavesExcess;
     cell.profileImageView.interpolationQuality = kCGInterpolationHigh;
@@ -114,8 +84,11 @@
     
     Member *currentMember = [self.members objectAtIndex:indexPath.row];
     [cell.profileImageView setPathToNetworkImage:currentMember.avatar_url contentMode:UIViewContentModeScaleAspectFill];
-    
+    NSLog(@"currentMember.avatar_url %@", currentMember.avatar_url);
+	
     cell.memberLabel.text = currentMember.nickname;
+	
+    return cell;
 }
 
 

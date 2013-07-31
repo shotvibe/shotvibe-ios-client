@@ -338,96 +338,6 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view hidden="YES" alpha="0.0" contentMode="scaleToFill" id="6cL-i1-oAY" userLabel="Reg Code Container">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tkN-md-g5e">
-                                        <rect key="frame" x="86" y="208" width="148" height="41"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <size key="titleShadowOffset" width="0.0" height="-1"/>
-                                        <state key="normal" title="Continue" backgroundImage="butResend.png">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="continueButtonPressed:" destination="3rg-2I-Dzz" eventType="touchUpInside" id="hKm-Nv-0JS"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cFq-7z-dlg">
-                                        <rect key="frame" x="0.0" y="29" width="320" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <string key="text">Check your mobile phone for the
-activation code just sent to you</string>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                        <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="To confirm your ID" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zud-6h-A1t">
-                                        <rect key="frame" x="0.0" y="113" width="320" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
-                                        <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Insert Activation Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PRa-Bp-dC7">
-                                        <rect key="frame" x="0.0" y="77" width="320" height="34"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <color key="textColor" red="0.2156862745" green="0.52156862749999999" blue="0.77647058820000003" alpha="1" colorSpace="deviceRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="registrationCodeFieldBg.png" id="ioH-hb-c8h">
-                                        <rect key="frame" x="54" y="144" width="213" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="wJk-qy-bid">
-                                        <rect key="frame" x="54" y="144" width="48" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="3rg-2I-Dzz" id="PKK-oR-9Uq"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="w3X-yG-ZK3">
-                                        <rect key="frame" x="109" y="144" width="48" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="3rg-2I-Dzz" id="deQ-rr-Dj9"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="x28-gT-Ts0">
-                                        <rect key="frame" x="164" y="144" width="48" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="3rg-2I-Dzz" id="1jW-Im-LFq"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="aZr-rz-OFn">
-                                        <rect key="frame" x="219" y="144" width="48" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="3rg-2I-Dzz" id="d8g-I6-CeT"/>
-                                        </connections>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                             <view contentMode="scaleToFill" id="yJt-yu-Smt" userLabel="Phone Number Container">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -449,7 +359,7 @@ activation code just sent to you</string>
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="continueButtonPressed:" destination="3rg-2I-Dzz" eventType="touchUpInside" id="31R-RC-DNc"/>
+                                            <action selector="registerButtonPressed:" destination="3rg-2I-Dzz" eventType="touchUpInside" id="xvF-ZD-dXD"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lk6-Ug-PNm">
@@ -520,22 +430,17 @@ to register this device</string>
                     <navigationItem key="navigationItem" title="Registration" id="CMi-vA-eun"/>
                     <connections>
                         <outlet property="butContinue" destination="MWj-Gf-2pl" id="DRl-gS-Q8K"/>
-                        <outlet property="butSubmit" destination="tkN-md-g5e" id="od4-9I-5Fp"/>
-                        <outlet property="codeField1" destination="wJk-qy-bid" id="sUy-GJ-Fed"/>
-                        <outlet property="codeField2" destination="w3X-yG-ZK3" id="LgP-WP-v0m"/>
-                        <outlet property="codeField3" destination="x28-gT-Ts0" id="uew-uW-Pld"/>
-                        <outlet property="codeField4" destination="aZr-rz-OFn" id="nF3-QM-ifD"/>
                         <outlet property="countryCodeLabel" destination="0w9-kf-26l" id="S5E-mf-wfB"/>
                         <outlet property="countryFlagView" destination="vZa-qx-MCh" id="spo-8r-Xuv"/>
                         <outlet property="phoneNumberField" destination="Md0-iZ-whQ" id="jIx-Cr-2Zc"/>
                         <outlet property="phoneNumberPhaseContainer" destination="yJt-yu-Smt" id="2pb-b1-DtS"/>
-                        <outlet property="registrationCodePhaseContainer" destination="6cL-i1-oAY" id="loT-Wi-Kl0"/>
                         <segue destination="jY5-rW-NAc" kind="push" identifier="ChoseCountrySegue" id="v3l-bV-OEi"/>
+                        <segue destination="Dlz-oj-oY1" kind="push" identifier="ConfirmationCodeSegue" id="y3d-GS-BXL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RD7-5N-WRc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1100" y="51"/>
+            <point key="canvasLocation" x="-1098" y="51"/>
         </scene>
         <!--Settings View Controller - Settings-->
         <scene sceneID="pHl-BF-BqW">
@@ -2369,6 +2274,243 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             </objects>
             <point key="canvasLocation" x="-643" y="-773"/>
         </scene>
+        <!--Confirmation Code View Controller - Activation-->
+        <scene sceneID="fAx-Zj-SBp">
+            <objects>
+                <viewController storyboardIdentifier="SVConfirmationCodeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Dlz-oj-oY1" customClass="SVConfirmationCodeViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RSE-IF-p6a">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="Pv8-Kb-CHB" userLabel="Reg Code Container">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NPU-6a-aVT">
+                                        <rect key="frame" x="86" y="208" width="148" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                        <size key="titleShadowOffset" width="0.0" height="-1"/>
+                                        <state key="normal" title="Continue" backgroundImage="butResend.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="confirmButtonPressed:" destination="Dlz-oj-oY1" eventType="touchUpInside" id="XbB-RI-8mr"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pg0-vg-4KX">
+                                        <rect key="frame" x="0.0" y="29" width="320" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <string key="text">Check your mobile phone for the
+activation code just sent to you</string>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                        <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="To confirm your ID" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KT0-ae-yfJ">
+                                        <rect key="frame" x="0.0" y="113" width="320" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                                        <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Insert Activation Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jou-Ld-LO8">
+                                        <rect key="frame" x="0.0" y="77" width="320" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                        <color key="textColor" red="0.2156862745" green="0.52156862749999999" blue="0.77647058820000003" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="registrationCodeFieldBg.png" id="Ni2-3h-aT6">
+                                        <rect key="frame" x="54" y="144" width="213" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="vVH-zc-omB">
+                                        <rect key="frame" x="54" y="144" width="48" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="Dlz-oj-oY1" id="nog-Ss-YQk"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="l0m-jo-UKY">
+                                        <rect key="frame" x="109" y="144" width="48" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="Dlz-oj-oY1" id="Gvf-vh-r9W"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="BAd-iE-ZCV">
+                                        <rect key="frame" x="164" y="144" width="48" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="Dlz-oj-oY1" id="Kqz-WJ-ewe"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="oB8-rA-i0T">
+                                        <rect key="frame" x="219" y="144" width="48" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="Dlz-oj-oY1" id="HkX-IM-QMp"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="deviceRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Activation" id="36f-IO-DBg">
+                        <barButtonItem key="rightBarButtonItem" title="No Code?" id="Bc0-zr-dSn">
+                            <connections>
+                                <segue destination="1tW-Ft-5Bj" kind="push" identifier="NoCodeSegue" id="IoI-KS-amZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="butSubmit" destination="NPU-6a-aVT" id="72v-k5-i63"/>
+                        <outlet property="codeField1" destination="vVH-zc-omB" id="83f-rr-mVy"/>
+                        <outlet property="codeField2" destination="l0m-jo-UKY" id="o4M-hG-vp1"/>
+                        <outlet property="codeField3" destination="BAd-iE-ZCV" id="d02-yL-d5h"/>
+                        <outlet property="codeField4" destination="oB8-rA-i0T" id="MHK-be-5RM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="crO-sZ-Y63" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1153" y="-773"/>
+        </scene>
+        <!--No Code View Controller - No Code?-->
+        <scene sceneID="MpU-73-Ga6">
+            <objects>
+                <viewController storyboardIdentifier="SVNoCodeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1tW-Ft-5Bj" customClass="SVNoCodeViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fSc-45-f54">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="Trt-7t-YrH" userLabel="Phone Number Container">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="phoneNumberContainer.png" id="C0c-qk-Hlo">
+                                        <rect key="frame" x="25" y="86" width="270" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NwO-Tx-c4d">
+                                        <rect key="frame" x="86" y="147" width="148" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                        <size key="titleShadowOffset" width="0.0" height="-1"/>
+                                        <state key="normal" title="Re-Send" backgroundImage="butResend.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="registerButtonPressed:" destination="1tW-Ft-5Bj" eventType="touchUpInside" id="FNG-Bj-C6V"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Pg6-aX-Y2m">
+                                        <rect key="frame" x="86" y="388" width="148" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                        <size key="titleShadowOffset" width="0.0" height="-1"/>
+                                        <state key="normal" title="Call Me" backgroundImage="addFriendsButtonBg.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="callmeButtonPressed:" destination="1tW-Ft-5Bj" eventType="touchUpInside" id="JKJ-bq-QOi"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="We'll call you instead with the activation code!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uJg-ah-qxW">
+                                        <rect key="frame" x="46" y="334" width="229" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                        <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="+972" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gh1-R6-eQB">
+                                        <rect key="frame" x="72" y="86" width="50" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Re-check your phone number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0fp-jc-jlZ">
+                                        <rect key="frame" x="0.0" y="40" width="320" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                        <color key="textColor" red="0.2156862745" green="0.52156862749999999" blue="0.77647058820000003" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="xQI-N4-qiD">
+                                        <rect key="frame" x="127" y="86" width="168" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="1tW-Ft-5Bj" id="1mW-vE-hlo"/>
+                                        </connections>
+                                    </textField>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="IL.png" id="jBl-tD-fdT">
+                                        <rect key="frame" x="29" y="91" width="37" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="czZ-wZ-shT">
+                                        <rect key="frame" x="26" y="86" width="99" height="46"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="countrySelectButtonPressed:" destination="1tW-Ft-5Bj" eventType="touchUpInside" id="LLY-KK-yhn"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="deviceRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="No Code?" id="AAl-Hr-12P"/>
+                    <connections>
+                        <outlet property="butContinue" destination="NwO-Tx-c4d" id="gTh-gi-c9L"/>
+                        <outlet property="countryCodeLabel" destination="gh1-R6-eQB" id="J27-2s-gD3"/>
+                        <outlet property="countryFlagView" destination="jBl-tD-fdT" id="5EZ-BR-ETY"/>
+                        <outlet property="phoneNumberField" destination="xQI-N4-qiD" id="LBO-eJ-2jI"/>
+                        <outlet property="phoneNumberPhaseContainer" destination="Trt-7t-YrH" id="Kou-D9-Tn9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pXH-cp-njf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1153" y="-1477"/>
+        </scene>
     </scenes>
     <resources>
         <image name="IL.png" width="48" height="48"/>
@@ -2492,6 +2634,17 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                 <relationship kind="outlet" name="pushNotificationsSwitch" candidateClass="UISwitch"/>
             </relationships>
         </class>
+        <class className="SVConfirmationCodeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVConfirmationCodeViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="butSubmit" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="codeField1" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="codeField2" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="codeField3" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="codeField4" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="registrationCodePhaseContainer" candidateClass="UIView"/>
+            </relationships>
+        </class>
         <class className="SVCountriesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVCountriesViewController.h"/>
             <relationships>
@@ -2532,6 +2685,19 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                 <relationship kind="outlet" name="viewContainer" candidateClass="UIView"/>
             </relationships>
         </class>
+        <class className="SVNoCodeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVNoCodeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="callmeButtonPressed:"/>
+                <relationship kind="action" name="countrySelectButtonPressed:"/>
+                <relationship kind="action" name="registerButtonPressed:"/>
+                <relationship kind="outlet" name="butContinue" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="countryCodeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="countryFlagView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="phoneNumberField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="phoneNumberPhaseContainer" candidateClass="UIView"/>
+            </relationships>
+        </class>
         <class className="SVProfileViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVProfileViewController.h"/>
             <relationships>
@@ -2544,19 +2710,13 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <class className="SVRegistrationViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVRegistrationViewController.h"/>
             <relationships>
-                <relationship kind="action" name="continueButtonPressed:"/>
                 <relationship kind="action" name="countrySelectButtonPressed:"/>
+                <relationship kind="action" name="registerButtonPressed:"/>
                 <relationship kind="outlet" name="butContinue" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="butSubmit" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="codeField1" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="codeField2" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="codeField3" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="codeField4" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="countryCodeLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="countryFlagView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="phoneNumberField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="phoneNumberPhaseContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="registrationCodePhaseContainer" candidateClass="UIView"/>
             </relationships>
         </class>
         <class className="SVSettingsViewController" superclassName="UITableViewController">
@@ -2606,7 +2766,7 @@ There are no “common” screen sizes. Another popular tactic is to create a br
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="qJa-KB-6Vd"/>
+        <segue reference="YZf-v8-Yxg"/>
         <segue reference="DTJ-0y-Ox6"/>
     </inferredMetricsTieBreakers>
 </document>

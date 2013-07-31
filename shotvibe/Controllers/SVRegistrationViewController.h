@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SVCountriesViewController.h"
-
+#import "SVConfirmationCodeViewController.h"
 
 @interface SVRegistrationViewController : UIViewController <UITextFieldDelegate, SVCountriesDelegate>
 

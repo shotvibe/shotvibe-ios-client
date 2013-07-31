@@ -292,16 +292,17 @@
 															 
 															 if (imageDataSampleBuffer != NULL) {
 																 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-																 ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+																 //ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
 																 
                                                                  UIImage *image = [[UIImage alloc] initWithData:imageData];
                                                                  self.stillImageData = [NSData dataWithData:imageData];
-																 [library writeImageToSavedPhotosAlbum:[image CGImage]
-																						   orientation:(ALAssetOrientation)[image imageOrientation]
-																					   completionBlock:completionBlock];
+																 // Do not save the image to library
+//																 [library writeImageToSavedPhotosAlbum:[image CGImage]
+//																						   orientation:(ALAssetOrientation)[image imageOrientation]
+//																					   completionBlock:completionBlock];
 																 [image release];
 																 
-																 [library release];
+																 //[library release];
 															 }
 															 else
 																 completionBlock(nil, error);

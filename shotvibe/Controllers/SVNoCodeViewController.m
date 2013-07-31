@@ -1,41 +1,18 @@
 //
-//  SVRegistrationViewController.m
+//  SVNoCodeViewController.m
 //  shotvibe
 //
-//  Created by John Gabelmann on 4/30/13.
+//  Created by Baluta Cristian on 31/07/2013.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "SVRegistrationViewController.h"
-#import "SVAlbumListViewController.h"
-#import "NBPhoneNumberUtil.h"
-#import "NBPhoneNumber.h"
-#import "SVBusinessDelegate.h"
-#import "SVDefines.h"
-#import "SVDownloadSyncEngine.h"
-#import "SVUploadQueueManager.h"
+#import "SVNoCodeViewController.h"
 
-@interface SVRegistrationViewController ()
-
-@property (nonatomic, strong) IBOutlet UIButton *butContinue;
-@property (nonatomic, strong) IBOutlet UIView *phoneNumberPhaseContainer;
-@property (nonatomic, strong) IBOutlet UIImageView *countryFlagView;
-@property (nonatomic, strong) IBOutlet UITextField *phoneNumberField;
-@property (nonatomic, strong) IBOutlet UILabel *countryCodeLabel;
-
-@property (nonatomic, strong) NSString *confirmationCode;
-
-
-- (IBAction)registerButtonPressed:(id)sender;
-- (IBAction)countrySelectButtonPressed:(id)sender;
-- (void)submitPhoneNumberRegistration:(NSString *)phoneNumber;
+@interface SVNoCodeViewController ()
 
 @end
 
-@implementation SVRegistrationViewController
-{
-	SVCountriesViewController *countries;
-}
+@implementation SVNoCodeViewController
 
 #pragma mark - Actions
 
@@ -72,6 +49,11 @@
 }
 
 
+- (IBAction)callmeButtonPressed:(id)sender {
+	
+	
+}
+
 
 
 #pragma mark - View Lifecycle
@@ -85,30 +67,12 @@
     {
 		[self handleSuccessfulLogin];
     }
-	
-	NSString *cc = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-    
-    self.countryFlagView.image = [UIImage imageNamed:cc];
-    NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
-    
-    self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
-	
-	[self.phoneNumberField becomeFirstResponder];
 }
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
-		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
-        destination.delegate = self;
-		countries = destination;
-    }
-	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
-		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
-        destination.confirmationCode = self.confirmationCode;
-		destination.countryCode = self.countryCodeLabel.text;
-		destination.phoneNumber = self.phoneNumberField.text;
-	}
+- (void)viewWillAppear:(BOOL)animated {
+	
+	self.countryCodeLabel.text = self.countryCode;
+	self.phoneNumberField.text = self.phoneNumber;
+	
 }
 
 
@@ -182,7 +146,7 @@
 			
 			self.confirmationCode = confirmationCode;
 			
-			[self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
+			[self.navigationController popViewControllerAnimated:YES];
 		}
 		else
 		{

@@ -785,6 +785,10 @@
 		04F11576178FA5D200B26C85 /* SVSelectionGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */; };
 		2045764A178CB57C00E2CDBB /* contactsStreachableButton_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20457649178CB57C00E2CDBB /* contactsStreachableButton_normal@2x.png */; };
 		20457651178CCDA400E2CDBB /* contactsStreachableButton_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2045764F178CCDA400E2CDBB /* contactsStreachableButton_normal.png */; };
+		2836B78517A934FE008AAB68 /* SVConfirmationCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B78317A934FE008AAB68 /* SVConfirmationCodeViewController.m */; };
+		2836B78617A934FE008AAB68 /* SVConfirmationCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B78317A934FE008AAB68 /* SVConfirmationCodeViewController.m */; };
+		2836B78B17A955B7008AAB68 /* SVNoCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B78A17A955B7008AAB68 /* SVNoCodeViewController.m */; };
+		2836B78C17A955B7008AAB68 /* SVNoCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B78A17A955B7008AAB68 /* SVNoCodeViewController.m */; };
 		2884E86117A24CFE00B382D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E85F17A24CFE00B382D9 /* Icon.png */; };
 		2884E86217A24CFE00B382D9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86017A24CFE00B382D9 /* Icon@2x.png */; };
 		2884E86617A24E7F00B382D9 /* SegmentButtonOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */; };
@@ -1770,6 +1774,10 @@
 		04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSelectionGridCell.m; path = Controllers/SVSelectionGridCell.m; sourceTree = "<group>"; };
 		20457649178CB57C00E2CDBB /* contactsStreachableButton_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "contactsStreachableButton_normal@2x.png"; sourceTree = "<group>"; };
 		2045764F178CCDA400E2CDBB /* contactsStreachableButton_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contactsStreachableButton_normal.png; sourceTree = "<group>"; };
+		2836B78217A934FE008AAB68 /* SVConfirmationCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVConfirmationCodeViewController.h; sourceTree = "<group>"; };
+		2836B78317A934FE008AAB68 /* SVConfirmationCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVConfirmationCodeViewController.m; sourceTree = "<group>"; };
+		2836B78917A955B7008AAB68 /* SVNoCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVNoCodeViewController.h; sourceTree = "<group>"; };
+		2836B78A17A955B7008AAB68 /* SVNoCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVNoCodeViewController.m; sourceTree = "<group>"; };
 		2884E85F17A24CFE00B382D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2884E86017A24CFE00B382D9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentButtonOutline.png; sourceTree = "<group>"; };
@@ -2651,6 +2659,10 @@
 				04C407E717303EB100973BC0 /* SVRegistrationViewController.m */,
 				28CFCCA117A50828001511EF /* SVCountriesViewController.h */,
 				28CFCCA217A50828001511EF /* SVCountriesViewController.m */,
+				2836B78217A934FE008AAB68 /* SVConfirmationCodeViewController.h */,
+				2836B78317A934FE008AAB68 /* SVConfirmationCodeViewController.m */,
+				2836B78917A955B7008AAB68 /* SVNoCodeViewController.h */,
+				2836B78A17A955B7008AAB68 /* SVNoCodeViewController.m */,
 			);
 			name = Registration;
 			sourceTree = "<group>";
@@ -5041,6 +5053,8 @@
 				04204F07178B5915001FE127 /* Member.m in Sources */,
 				28CFCCA317A50829001511EF /* SVCountriesViewController.m in Sources */,
 				28CFCCA617A50C7D001511EF /* SVCountryViewCell.m in Sources */,
+				2836B78517A934FE008AAB68 /* SVConfirmationCodeViewController.m in Sources */,
+				2836B78B17A955B7008AAB68 /* SVNoCodeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5241,6 +5255,8 @@
 				04204F08178B5915001FE127 /* Member.m in Sources */,
 				28CFCCAB17A553B6001511EF /* SVCountriesViewController.m in Sources */,
 				28CFCCAC17A553CF001511EF /* SVCountryViewCell.m in Sources */,
+				2836B78617A934FE008AAB68 /* SVConfirmationCodeViewController.m in Sources */,
+				2836B78C17A955B7008AAB68 /* SVNoCodeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
