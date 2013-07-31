@@ -66,6 +66,7 @@
 {
     BOOL searchShowing;
     NSMutableDictionary *thumbnailCache;
+	UIView *sectionView;
 }
 
 #pragma mark - Actions
@@ -96,7 +97,8 @@
 
 - (IBAction)newAlbumDone:(id)sender
 {
-    [self createNewAlbumWithTitle:self.albumField.text];
+	NSString *name = self.albumField.text.length == 0 ? self.albumField.placeholder : self.albumField.text;
+    [self createNewAlbumWithTitle:name];
     [self hideDropDown];
 }
 
@@ -147,6 +149,7 @@
     [self configureViews];
 	
 	//[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+	[self.tableView setContentOffset:CGPointMake(0,44)];
 }
 
 
@@ -577,15 +580,22 @@
 
 - (void)showDropDown
 {
+	
+	//[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	[self.tableView setContentOffset:CGPointMake(0,44)];
+	
+	//[self.sectionHeader insertSubview:self.dropDownContainer atIndex:0];
+	
     self.tableOverlayView.hidden = NO;
     self.dropDownContainer.hidden = NO;
     
-    NSString *currentDateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
-    [self.albumField setText:currentDateString];
+    NSString *currentDateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle];
+    self.albumField.text = @"";
+	self.albumField.placeholder = currentDateString;
     
     [UIView animateWithDuration:0.3 animations:^{
         self.tableOverlayView.alpha = 0.3;
-        self.dropDownContainer.frame = CGRectMake(6, -4, self.dropDownContainer.frame.size.width, 134);
+        self.dropDownContainer.frame = CGRectMake(8, 44, self.dropDownContainer.frame.size.width, 134);
     } completion:^(BOOL finished) {
         [self.albumField becomeFirstResponder];
     }];
