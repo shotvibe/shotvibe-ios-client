@@ -48,6 +48,7 @@
 								<int key="NSvFlags">289</int>
 								<string key="NSFrame">{{240, 85}, {70, 35}}</string>
 								<reference key="NSSuperview" ref="686349813"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="840431852"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -85,6 +86,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{10, 85}, {69, 35}}</string>
 								<reference key="NSSuperview" ref="686349813"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="510653610"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -109,6 +111,7 @@
 								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{10, 85}, {69, 35}}</string>
 								<reference key="NSSuperview" ref="686349813"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="761305706"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -134,6 +137,7 @@
 								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{10, 85}, {69, 35}}</string>
 								<reference key="NSSuperview" ref="686349813"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="169644829"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -157,11 +161,12 @@
 						</array>
 						<string key="NSFrameSize">{320, 460}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="528563831"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">2</int>
-							<bytes key="NSRGB">MC45NDUwOTgwMzkyIDAuOTQ5MDE5NjA3OCAwLjk1Njg2Mjc0NTEAA</bytes>
+						<object class="NSColor" key="IBUIBackgroundColor" id="778321296">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MAA</bytes>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
@@ -174,12 +179,10 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{320, 75}</string>
 								<reference key="NSSuperview" ref="840431852"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="570930570"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<object class="NSColor" key="IBUIBackgroundColor">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MAA</bytes>
-								</object>
+								<reference key="IBUIBackgroundColor" ref="778321296"/>
 								<float key="IBUIAlpha">0.5</float>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -189,6 +192,7 @@
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
 								<string key="NSFrame">{{0, 43}, {320, 36}}</string>
 								<reference key="NSSuperview" ref="840431852"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="148834389"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -202,6 +206,7 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrameSize">{320, 75}</string>
 								<reference key="NSSuperview" ref="840431852"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1053413248"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="606188120">
@@ -220,6 +225,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{0, 20}, {320, 21}}</string>
 								<reference key="NSSuperview" ref="840431852"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="85794847"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -250,6 +256,7 @@
 						</array>
 						<string key="NSFrameSize">{320, 75}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="578500580"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -267,6 +274,7 @@
 								<int key="NSvFlags">269</int>
 								<string key="NSFrame">{{109, 9}, {102, 37}}</string>
 								<reference key="NSSuperview" ref="148834389"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="571915394"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -291,6 +299,7 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrameSize">{42, 55}</string>
 								<reference key="NSSuperview" ref="148834389"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="274304132"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -315,6 +324,7 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{258, 8}, {45, 45}}</string>
 								<reference key="NSSuperview" ref="148834389"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1000714326"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -339,6 +349,7 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{265, 14}, {31, 31}}</string>
 								<reference key="NSSuperview" ref="148834389"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="200772226"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -349,6 +360,7 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{285, 3}, {25, 25}}</string>
 								<reference key="NSSuperview" ref="148834389"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="152230703"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -363,6 +375,7 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{290, 3}, {15, 25}}</string>
 								<reference key="NSSuperview" ref="148834389"/>
+								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -388,6 +401,7 @@
 						</array>
 						<string key="NSFrame">{{0, 406}, {320, 55}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="548941732"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -399,6 +413,7 @@
 				</array>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="686349813"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -765,7 +780,126 @@
 			<nil key="sourceID"/>
 			<int key="maxID">82</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">CaptureViewfinderController</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="albumPageControlDidChangeIndex:">id</string>
+						<string key="captureStillImage:">id</string>
+						<string key="changeFlashModeButtonPressed:">id</string>
+						<string key="exitButtonPressed:">id</string>
+						<string key="pickFromLibraryButtonPressed:">id</string>
+						<string key="toggleCamera:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="albumPageControlDidChangeIndex:">
+							<string key="name">albumPageControlDidChangeIndex:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="captureStillImage:">
+							<string key="name">captureStillImage:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="changeFlashModeButtonPressed:">
+							<string key="name">changeFlashModeButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="exitButtonPressed:">
+							<string key="name">exitButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="pickFromLibraryButtonPressed:">
+							<string key="name">pickFromLibraryButtonPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleCamera:">
+							<string key="name">toggleCamera:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="albumPageControl">UIPageControl</string>
+						<string key="albumPreviewImage">UIImageView</string>
+						<string key="albumScrollView">UIScrollView</string>
+						<string key="cameraToggleButton">UIButton</string>
+						<string key="flashButtonAuto">UIButton</string>
+						<string key="flashButtonOff">UIButton</string>
+						<string key="flashButtonOn">UIButton</string>
+						<string key="imagePileCounterLabel">UILabel</string>
+						<string key="saveButton">UIButton</string>
+						<string key="saveLabel">UILabel</string>
+						<string key="stillButton">UIButton</string>
+						<string key="topBarContainer">UIView</string>
+						<string key="videoPreviewView">UIView</string>
+						<string key="vignetteView">UIImageView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="albumPageControl">
+							<string key="name">albumPageControl</string>
+							<string key="candidateClassName">UIPageControl</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="albumPreviewImage">
+							<string key="name">albumPreviewImage</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="albumScrollView">
+							<string key="name">albumScrollView</string>
+							<string key="candidateClassName">UIScrollView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="cameraToggleButton">
+							<string key="name">cameraToggleButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="flashButtonAuto">
+							<string key="name">flashButtonAuto</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="flashButtonOff">
+							<string key="name">flashButtonOff</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="flashButtonOn">
+							<string key="name">flashButtonOn</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="imagePileCounterLabel">
+							<string key="name">imagePileCounterLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="saveButton">
+							<string key="name">saveButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="saveLabel">
+							<string key="name">saveLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="stillButton">
+							<string key="name">stillButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="topBarContainer">
+							<string key="name">topBarContainer</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="videoPreviewView">
+							<string key="name">videoPreviewView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="vignetteView">
+							<string key="name">vignetteView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CaptureViewfinderController.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
