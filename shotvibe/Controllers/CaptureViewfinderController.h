@@ -42,6 +42,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *flashButtonAuto;
 @property (nonatomic, weak) IBOutlet UIButton *flashButtonOn;
 @property (nonatomic, weak) IBOutlet UIButton *flashButtonOff;
+@property (nonatomic, weak) IBOutlet UIImageView *takeAnotherImage;
 @property (nonatomic, strong) NSArray *albums;
 @property (nonatomic, strong) Album *selectedAlbum;
 

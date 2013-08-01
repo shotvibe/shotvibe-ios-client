@@ -49,7 +49,7 @@
 								<string key="NSFrame">{{240, 85}, {70, 35}}</string>
 								<reference key="NSSuperview" ref="686349813"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="840431852"/>
+								<reference key="NSNextKeyView" ref="256763483"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -158,13 +158,28 @@
 								<reference key="IBUIFontDescription" ref="1055256224"/>
 								<reference key="IBUIFont" ref="516410355"/>
 							</object>
+							<object class="IBUIImageView" id="256763483">
+								<reference key="NSNextResponder" ref="686349813"/>
+								<int key="NSvFlags">-2147483356</int>
+								<string key="NSFrame">{{0, 326}, {320, 80}}</string>
+								<reference key="NSSuperview" ref="686349813"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="840431852"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">CameraTakeAnotherPicture.png</string>
+								</object>
+							</object>
 						</array>
 						<string key="NSFrameSize">{320, 460}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="528563831"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<object class="NSColor" key="IBUIBackgroundColor" id="778321296">
+						<object class="NSColor" key="IBUIBackgroundColor" id="783139125">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MAA</bytes>
 						</object>
@@ -182,7 +197,7 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="570930570"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<reference key="IBUIBackgroundColor" ref="778321296"/>
+								<reference key="IBUIBackgroundColor" ref="783139125"/>
 								<float key="IBUIAlpha">0.5</float>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -527,6 +542,14 @@
 					<int key="connectionID">55</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">takeAnotherImage</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="256763483"/>
+					</object>
+					<int key="connectionID">84</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">captureStillImage:</string>
 						<reference key="source" ref="274304132"/>
@@ -644,6 +667,7 @@
 							<reference ref="528563831"/>
 							<reference ref="510653610"/>
 							<reference ref="761305706"/>
+							<reference ref="256763483"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -748,6 +772,11 @@
 						<reference key="parent" ref="686349813"/>
 						<string key="objectName">On Flash Button</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">83</int>
+						<reference key="object" ref="256763483"/>
+						<reference key="parent" ref="686349813"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -773,12 +802,13 @@
 				<string key="74.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="81.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="83.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">82</int>
+			<int key="maxID">84</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -831,6 +861,7 @@
 						<string key="saveButton">UIButton</string>
 						<string key="saveLabel">UILabel</string>
 						<string key="stillButton">UIButton</string>
+						<string key="takeAnotherImage">UIImageView</string>
 						<string key="topBarContainer">UIView</string>
 						<string key="videoPreviewView">UIView</string>
 						<string key="vignetteView">UIImageView</string>
@@ -880,6 +911,10 @@
 							<string key="name">stillButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="takeAnotherImage">
+							<string key="name">takeAnotherImage</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="topBarContainer">
 							<string key="name">topBarContainer</string>
 							<string key="candidateClassName">UIView</string>
@@ -909,6 +944,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="CameraTakeAnotherPicture.png">{320, 80}</string>
 			<string key="cameraCancelButton.png">{20, 20}</string>
 			<string key="cameraCaptureButton.png">{102, 37}</string>
 			<string key="cameraFlashAuto.png">{69, 35}</string>

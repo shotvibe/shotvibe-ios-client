@@ -320,6 +320,13 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [[self stillButton] setEnabled:NO];
     
     [[self captureManager] captureStillImage];
+	
+	if (self.takeAnotherImage.hidden) {
+		self.takeAnotherImage.hidden = NO;
+	}
+	else if (self.takeAnotherImage.alpha > 0) {
+		self.takeAnotherImage.alpha = 0;
+	}
 }
 
 

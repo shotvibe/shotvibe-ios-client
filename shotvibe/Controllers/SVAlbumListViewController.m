@@ -115,7 +115,7 @@
         
         albumCount++;
         
-        if (albumCount > 9) {
+        if (albumCount > 20) {
             break;
         }
     }
@@ -319,7 +319,11 @@
 }
 
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+- (void)controller:(NSFetchedResultsController *)controller
+   didChangeObject:(id)anObject
+	   atIndexPath:(NSIndexPath *)indexPath
+	 forChangeType:(NSFetchedResultsChangeType)type
+	  newIndexPath:(NSIndexPath *)newIndexPath
 {
     
     SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
@@ -348,7 +352,6 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-
     [self.tableView endUpdates];
 }
 
@@ -383,8 +386,16 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     [self searchForAlbumWithTitle:searchBar.text];
-	self.tableOverlayView.hidden = NO;
-	self.tableOverlayView.alpha = 0.5;
+	
+	CGRect r = self.tableOverlayView.frame;
+	r.origin.y = 44;
+	
+	[UIView animateWithDuration:0.3 animations:^{
+		
+		self.tableOverlayView.frame = r;
+		self.tableOverlayView.alpha = 1;
+		self.tableOverlayView.hidden = NO;
+	}];
 	searchShowing = YES;
 }
 
@@ -399,8 +410,13 @@
 {
     [self searchForAlbumWithTitle:searchBar.text];
     [searchBar resignFirstResponder];
-	self.tableOverlayView.hidden = YES;
-	self.tableOverlayView.alpha = 0;
+	
+	[UIView animateWithDuration:0.3 animations:^{
+		
+		self.tableOverlayView.alpha = 0;
+		self.tableOverlayView.hidden = YES;
+	}];
+	
 	searchShowing = NO;
 }
 
@@ -469,7 +485,6 @@
 - (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
 
-      
     // Configure thumbnail
     [cell.networkImageView prepareForReuse];
     cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
@@ -486,6 +501,7 @@
     cell.networkImageView.tag = indexPath.row; 
 
     Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	NSLog(@"%i %@ %@", indexPath.row, anAlbum.date_created, anAlbum.last_updated);
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId];
     NSDate *maxDate  = (NSDate *)[AlbumPhoto aggregateOperation:@"max:" onAttribute:@"date_created" withPredicate:predicate];
@@ -610,6 +626,10 @@
 	
 	//[self.sectionHeader insertSubview:self.dropDownContainer atIndex:0];
 	
+	CGRect r = self.tableOverlayView.frame;
+	r.origin.y = 45;
+	self.tableOverlayView.frame = r;
+	self.tableOverlayView.alpha = 0;
     self.tableOverlayView.hidden = NO;
     self.dropDownContainer.hidden = NO;
 	self.albumButton.enabled = NO;
