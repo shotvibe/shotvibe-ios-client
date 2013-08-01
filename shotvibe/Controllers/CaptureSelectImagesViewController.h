@@ -8,6 +8,7 @@
 
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <UIKit/UIKit.h>
+#import "CaptureViewfinderController.h"
 
 @class Album;
 
@@ -17,4 +18,7 @@
 @property (nonatomic, strong) NSArray *libraryPhotos;
 @property (nonatomic, strong) Album *selectedAlbum;
 @property (nonatomic, strong) ALAssetsGroup *selectedGroup;
+
+@property (nonatomic) id <CaptureViewfinderDelegate> delegate;
+
 @end

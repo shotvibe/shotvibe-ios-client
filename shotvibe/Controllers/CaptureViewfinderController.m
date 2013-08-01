@@ -11,7 +11,6 @@
 #import "AVCamRecorder.h"
 #import "UIImage+JMCResize.h"
 #import "SVDefines.h"
-#import "Album.h"
 #import "CaptureSelectImagesViewController.h"
 
 #define kFlashModeOff   0
@@ -53,8 +52,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     UIImage *selectedImage;
     NSMutableArray *imagePile;
     
-    Album *selectedAlbum;
-    
     BOOL memwarningDisplayed;
     BOOL topBarHidden;
     BOOL isCapable;
@@ -80,20 +77,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (IBAction)albumPageControlDidChangeIndex:(id)sender
 {
-    
     [self scrollToAlbumAtIndex:self.albumPageControl.currentPage];
-}
-
-
-#pragma mark - Initializers
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
 }
 
 
@@ -344,8 +328,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     [[[self captureManager] session] stopRunning];
     
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+		
+//		if ([delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
+//			[delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
+//		}
+	}];
 }
 
 
@@ -354,7 +342,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     // This is now used for the picture pile.
     CaptureSelectImagesViewController *imageSelectorController = [[CaptureSelectImagesViewController alloc] initWithNibName:@"CaptureSelectImagesViewController" bundle:[NSBundle mainBundle]];
     imageSelectorController.takenPhotos = [[NSArray alloc] initWithArray:imagePile];
-    imageSelectorController.selectedAlbum = selectedAlbum;
+    imageSelectorController.selectedAlbum = self.selectedAlbum;
+	imageSelectorController.delegate = self.delegate;
     
     [self.navigationController pushViewController:imageSelectorController animated:YES];
 }
@@ -585,15 +574,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         for (NSUInteger index = 0; index < self.albums.count; index++) {
             UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(index*320, 0, 320, 32)];
             albumLabel.backgroundColor = [UIColor clearColor];
-            
-            if (IS_IOS6_OR_GREATER) {
-                albumLabel.textAlignment = NSTextAlignmentCenter;
-            }
-            else
-            {
-                albumLabel.textAlignment = NSTextAlignmentCenter;
-            }
-            
+			albumLabel.textAlignment = NSTextAlignmentCenter;
             albumLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
             albumLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
             albumLabel.shadowColor = [UIColor blackColor];
@@ -616,7 +597,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     
     if (self.albums.count > 0) {
-        selectedAlbum = [self.albums objectAtIndex:0];
+        self.selectedAlbum = [self.albums objectAtIndex:0];
     }
 }
 
@@ -625,7 +606,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 {
     [self.albumScrollView scrollRectToVisible:CGRectMake(index*self.albumScrollView.frame.size.width, 0, self.albumScrollView.frame.size.width, self.albumScrollView.frame.size.height) animated:YES];
     
-    selectedAlbum = [self.albums objectAtIndex:index];
+    self.selectedAlbum = [self.albums objectAtIndex:index];
 }
 
 
@@ -637,7 +618,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     [self.albumPageControl setCurrentPage:pageIndex];
     
-    selectedAlbum = [self.albums objectAtIndex:pageIndex];
+    self.selectedAlbum = [self.albums objectAtIndex:pageIndex];
 }
 
 @end

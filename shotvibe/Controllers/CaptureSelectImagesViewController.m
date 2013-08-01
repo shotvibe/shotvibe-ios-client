@@ -200,8 +200,8 @@
 
 - (void)doneButtonPressed
 {
-    [self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error)
-     {
+    [self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error){
+		
          self.doneButton.enabled = YES;
          
          for (NSData *photoData in selectedPhotoPaths) {
@@ -231,8 +231,9 @@
          
          [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
              
-
-             
+			 if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
+				 [self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
+			 }
          }];
      }];
 }

@@ -3461,11 +3461,11 @@
 		AA78D2B617172C26006E1240 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
-				0426B6501724E262007BAABC /* CaptureViewfinder.xib */,
-				0426B6511724E262007BAABC /* CaptureViewfinderController.h */,
-				0426B6521724E262007BAABC /* CaptureViewfinderController.m */,
 				0426B6851724F574007BAABC /* CaptureNavigationController.h */,
 				0426B6861724F574007BAABC /* CaptureNavigationController.m */,
+				0426B6511724E262007BAABC /* CaptureViewfinderController.h */,
+				0426B6521724E262007BAABC /* CaptureViewfinderController.m */,
+				0426B6501724E262007BAABC /* CaptureViewfinder.xib */,
 				04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */,
 				04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */,
 				04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */,

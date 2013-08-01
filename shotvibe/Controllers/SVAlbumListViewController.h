@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "NINetworkImageView.h"
+#import "CaptureViewfinderController.h"
+#import "CaptureNavigationController.h"
 
-@interface SVAlbumListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UISearchBarDelegate, NINetworkImageViewDelegate>
+@interface SVAlbumListViewController : UIViewController <UITableViewDataSource,
+UITableViewDelegate,
+UITextFieldDelegate,
+UISearchBarDelegate,
+NINetworkImageViewDelegate,
+CaptureViewfinderDelegate>
 
 @end

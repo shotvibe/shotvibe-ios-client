@@ -15,20 +15,21 @@
 #import <ImageIO/ImageIO.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "Album.h"
 
 @class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer;
 
 @protocol CaptureViewfinderDelegate <NSObject>
 
+@required
+- (void)cameraWasDismissedWithAlbum:(Album*)selectedAlbum;
 @optional
 - (void)didSelectPhoto:(UIImage *)thePhoto;
 
 @end
 
 @interface CaptureViewfinderController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate>
-{
-    id <CaptureViewfinderDelegate> delegate;
-}
+
 
 #pragma mark - Properties
 
@@ -42,6 +43,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *flashButtonOn;
 @property (nonatomic, weak) IBOutlet UIButton *flashButtonOff;
 @property (nonatomic, strong) NSArray *albums;
+@property (nonatomic, strong) Album *selectedAlbum;
 
 @property (nonatomic) id <CaptureViewfinderDelegate> delegate;
 @property (nonatomic) BOOL isFinishedSelectingPhotoEarly;

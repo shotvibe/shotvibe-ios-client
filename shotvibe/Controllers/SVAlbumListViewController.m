@@ -18,13 +18,10 @@
 #import "Member.h"
 #import "AlbumPhoto.h"
 #import "SVBusinessDelegate.h"
-#import "CaptureViewfinderController.h"
-#import "CaptureNavigationController.h"
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
 #import "NSManagedObjectContext+MagicalRecord.h"
 #import "SVEntityStore.h"
-#import <Crashlytics/Crashlytics.h>
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
@@ -69,6 +66,7 @@
     BOOL searchShowing;
     NSMutableDictionary *thumbnailCache;
 	UIView *sectionView;
+	CaptureViewfinderController *cameraController;
 }
 
 #pragma mark - Actions
@@ -123,14 +121,41 @@
     }
     
     
-    CaptureViewfinderController *cameraController = [[CaptureViewfinderController alloc] initWithNibName:@"CaptureViewfinder" bundle:[NSBundle mainBundle]];
-    cameraController.albums = albumsForCapture;
+	cameraController = [[CaptureViewfinderController alloc] initWithNibName:@"CaptureViewfinder" bundle:[NSBundle mainBundle]];
+	cameraController.albums = albumsForCapture;
+	cameraController.delegate = self;
     
     CaptureNavigationController *cameraNavController = [[CaptureNavigationController alloc] initWithRootViewController:cameraController];
     
     [self presentViewController:cameraNavController animated:YES completion:nil];
 }
 
+
+#pragma mark camera delegate
+
+- (void) cameraWasDismissedWithAlbum:(Album*)selectedAlbum {
+	
+	NSLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
+	
+	if (self.navigationController.visibleViewController == self) {
+		NSLog(@"navigate to gridview");
+		
+		int i = 0;
+		NSIndexPath *indexPath;
+		id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:0];
+		for (Album *a in [sectionInfo objects]) {
+			
+			if ([a.albumId isEqualToString:selectedAlbum.albumId]) {
+				indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+				NSLog(@"found at indexPath %@", indexPath);
+				[self performSegueWithIdentifier:@"AlbumGridViewSegue" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+				
+				break;
+			}
+			i ++;
+		}
+	}
+}
 
 #pragma mark - UIViewController Methods
 
@@ -150,8 +175,7 @@
 
     [self configureViews];
 	
-	//[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-	[self.tableView setContentOffset:CGPointMake(0,44)];
+	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 }
 
 
@@ -195,11 +219,11 @@
         // Get the selected Album
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         Album *selectedAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        NSLog(@"selectedAlbum %@", selectedAlbum);
+		
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
         
-        // Send the selected ablum to the destination controller
+        // Send the selected album to the destination controller
         destinationController.selectedAlbum = selectedAlbum;
         
     }
@@ -279,14 +303,12 @@
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
-	NSLog(@"- (NSFetchedResultsController *)fetchedResultsController %@", _fetchedResultsController);
-    if (_fetchedResultsController != nil) {
+	if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
     
 	_fetchedResultsController = [[SVEntityStore sharedStore] allAlbumsForCurrentUserWithDelegate:self];
-	NSLog(@"- (NSFetchedResultsController *)fetchedResultsController %@", _fetchedResultsController);
-    
+	
 	return _fetchedResultsController;
 }
 
@@ -634,11 +656,7 @@
 
 - (void)createNewAlbumWithTitle:(NSString *)title
 {
-    if (title && title.length > 0) {        
-        [[SVEntityStore sharedStore] newAlbumWithName:title andUserID:[[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId]];
-    } else {
-        //TODO: Alert the user that they can not create an album with no title.
-    }
+	[[SVEntityStore sharedStore] newAlbumWithName:title andUserID:[[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId]];
 }
 
 
