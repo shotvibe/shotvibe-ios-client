@@ -453,6 +453,7 @@
 		28CFCCA817A53F5A001511EF /* leftPanel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCCA717A53F55001511EF /* leftPanel@2x.png */; };
 		28CFCCAA17A54753001511EF /* leftPanel.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCCA917A54750001511EF /* leftPanel.png */; };
 		28CFCD0317A7D7E5001511EF /* albumTakePicture.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCD0217A7D7E2001511EF /* albumTakePicture.png */; };
+		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880D16CB84CC002AC699 /* NINetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880A16CB84CC002AC699 /* NINetworkImageView.m */; };
 		AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
@@ -1175,6 +1176,7 @@
 		28CFCCA717A53F55001511EF /* leftPanel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftPanel@2x.png"; sourceTree = "<group>"; };
 		28CFCCA917A54750001511EF /* leftPanel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftPanel.png; sourceTree = "<group>"; };
 		28CFCD0217A7D7E2001511EF /* albumTakePicture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumTakePicture.png; sourceTree = "<group>"; };
+		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		AA12880516CB84CC002AC699 /* NIImageProcessing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIImageProcessing.h; path = Nimbus/src/networkimage/src/NIImageProcessing.h; sourceTree = "<group>"; };
 		AA12880616CB84CC002AC699 /* NIImageProcessing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIImageProcessing.m; path = Nimbus/src/networkimage/src/NIImageProcessing.m; sourceTree = "<group>"; };
 		AA12880716CB84CC002AC699 /* NimbusNetworkImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NimbusNetworkImage.h; path = Nimbus/src/networkimage/src/NimbusNetworkImage.h; sourceTree = "<group>"; };
@@ -1605,6 +1607,7 @@
 				AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */,
 				AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */,
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
+				3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2310,6 +2313,7 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */,
 				04204EFA178B45D9001FE127 /* AddressBook.framework */,
 				AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */,
 				0426B6821724F3B5007BAABC /* CoreMedia.framework */,
@@ -3099,6 +3103,7 @@
 				AA58FAF416C224E800C49E02 /* Frameworks */,
 				AA58FAF516C224E800C49E02 /* Resources */,
 				AA58FB4C16C228D700C49E02 /* ShellScript */,
+				3B1E4D2A17AD6C8800CACE80 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3630,6 +3635,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3B1E4D2A17AD6C8800CACE80 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    ./Crashlytics.framework/run 7f25f8f82f6578b40464674ed500ef0c60435027\nfi";
+		};
 		AA58FB1B16C224E800C49E02 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <Crashlytics/Crashlytics.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "SVAboutViewController.h"
 #import "SVDefines.h"
@@ -29,7 +30,10 @@
 - (IBAction)playButtonPressed:(id)sender
 {
     self.playButton.hidden = YES;
-    
+
+    // Simulate a crash, for testing crash reporting
+    [[Crashlytics sharedInstance] crash];
+
     if (self.movieController) {
         [self.movieController play];
     }
