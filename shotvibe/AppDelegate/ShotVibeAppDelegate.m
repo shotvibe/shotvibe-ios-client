@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <Crashlytics/Crashlytics.h>
 #import <HockeySDK/HockeySDK.h>
 #import "ShotVibeAppDelegate.h"
 #import "SVDownloadSyncEngine.h"
@@ -52,6 +53,12 @@
 #endif
         [[BITHockeyManager sharedHockeyManager] startManager];
     }
+
+
+#if !CONFIGURATION_Debug
+    // Initialize Crashlytics
+    [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
+#endif
 	
     [SVInitializationBD initialize];
     
