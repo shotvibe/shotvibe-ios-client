@@ -14,7 +14,6 @@
 #import "SVBusinessDelegate.h"
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
-#import <Crashlytics/Crashlytics.h>
 
 @interface ShotVibeAppDelegate () <BITHockeyManagerDelegate, BITUpdateManagerDelegate, BITCrashManagerDelegate>
 
@@ -54,11 +53,6 @@
         [[BITHockeyManager sharedHockeyManager] startManager];
     }
 	
-	// Initialize crashalytics
-	
-	[Crashlytics startWithAPIKey:@"c4170fec79440acb2bb1a20216a764d3ed65e42b"];
-	
-    
     [SVInitializationBD initialize];
     
     return YES;
