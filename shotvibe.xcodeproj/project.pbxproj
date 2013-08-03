@@ -494,8 +494,6 @@
 		AA58FD0316C2363D00C49E02 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FD0216C2363D00C49E02 /* AVFoundation.framework */; };
 		AA58FD0516C2364B00C49E02 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FD0416C2364B00C49E02 /* CoreLocation.framework */; };
 		AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */; };
-		AA58FD0E16C238DB00C49E02 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FD0D16C238DB00C49E02 /* HockeySDK.framework */; };
-		AA58FD1116C2390700C49E02 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA58FD1016C2390700C49E02 /* HockeySDKResources.bundle */; };
 		AA66828E16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */; };
 		AA78D2B017172BC0006E1240 /* SVBusinessDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */; };
 		AA78D2B417172BCF006E1240 /* SVOfflineStorageWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */; };
@@ -1150,8 +1148,6 @@
 		AA58FD0216C2363D00C49E02 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AA58FD0416C2364B00C49E02 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		AA58FD0D16C238DB00C49E02 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
-		AA58FD1016C2390700C49E02 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
 		AA66828C16CCA7C80005BFFC /* SVAlbumGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumGridViewController.h; sourceTree = "<group>"; };
 		AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumGridViewController.m; sourceTree = "<group>"; };
 		AA78D2AE17172BC0006E1240 /* SVBusinessDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBusinessDelegate.h; sourceTree = "<group>"; };
@@ -1359,7 +1355,6 @@
 				AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */,
 				AA58FD0516C2364B00C49E02 /* CoreLocation.framework in Frameworks */,
 				AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */,
-				AA58FD0E16C238DB00C49E02 /* HockeySDK.framework in Frameworks */,
 				AA58FD0116C2361300C49E02 /* MobileCoreServices.framework in Frameworks */,
 				AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */,
 				AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */,
@@ -2193,22 +2188,12 @@
 				AA234835177AA3F600D55918 /* AFNetworking */,
 				0426B6751724EC26007BAABC /* AVCam */,
 				04C404DC1730301500973BC0 /* CountryPicker */,
-				AA58FB7A16C230DE00C49E02 /* HockeySDK */,
 				04C407F017305E4C00973BC0 /* libPhoneNumber */,
 				AA89F4DE177D49E600B782A1 /* MagicalRecord */,
 				04734F2A16CF104F003F729B /* MFSideMenu */,
 				AA1287A516CB8339002AC699 /* Nimbus */,
 			);
 			path = Vendor;
-			sourceTree = "<group>";
-		};
-		AA58FB7A16C230DE00C49E02 /* HockeySDK */ = {
-			isa = PBXGroup;
-			children = (
-				AA58FD1016C2390700C49E02 /* HockeySDKResources.bundle */,
-				AA58FD0D16C238DB00C49E02 /* HockeySDK.framework */,
-			);
-			path = HockeySDK;
 			sourceTree = "<group>";
 		};
 		AA58FB8C16C233FA00C49E02 /* Business Delegates */ = {
@@ -2637,7 +2622,6 @@
 				AA58FB0F16C224E800C49E02 /* Default@2x.png in Resources */,
 				AA58FB1116C224E800C49E02 /* Default-568h@2x.png in Resources */,
 				AA58FB1416C224E800C49E02 /* MainStoryboard.storyboard in Resources */,
-				AA58FD1116C2390700C49E02 /* HockeySDKResources.bundle in Resources */,
 				AA9770D216D36B7E009F641E /* NimbusPhotos.bundle in Resources */,
 				043473D41705F49600CFE564 /* placeholderImage.png in Resources */,
 				043473D61705F49600CFE564 /* photoFrame@2x.png in Resources */,
@@ -3326,10 +3310,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
-					"\"$(SRCROOT)\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "CONFIGURATION_$(CONFIGURATION)";
@@ -3436,10 +3417,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
-					"\"$(SRCROOT)\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3449,7 +3427,7 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
-				LLVM_LTO = YES;
+				LLVM_LTO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ShotVibe;
@@ -3464,10 +3442,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/shotvibe/Vendor/HockeySDK\"",
-					"\"$(SRCROOT)\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "CONFIGURATION_$(CONFIGURATION)";

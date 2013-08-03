@@ -7,7 +7,6 @@
 //
 
 #import <Crashlytics/Crashlytics.h>
-#import <HockeySDK/HockeySDK.h>
 #import "ShotVibeAppDelegate.h"
 #import "SVDownloadSyncEngine.h"
 #import "SVUploadQueueManager.h"
@@ -16,7 +15,7 @@
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
 
-@interface ShotVibeAppDelegate () <BITHockeyManagerDelegate, BITUpdateManagerDelegate, BITCrashManagerDelegate>
+@interface ShotVibeAppDelegate ()
 
 @end
 
@@ -26,20 +25,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Initialize HockeyKit
-    {
-        NSString *betaHockeyIdentifier = @"eb37555764438faae7f78ae5543429cd";
-        NSString *liveHockeyIdentifier = @"5245f5f653966a9634ced97598a82a5a";
-        [[BITHockeyManager sharedHockeyManager] configureWithBetaIdentifier:betaHockeyIdentifier liveIdentifier:liveHockeyIdentifier delegate:self];
-        [[[BITHockeyManager sharedHockeyManager] crashManager] setDelegate:self];
-        [[[BITHockeyManager sharedHockeyManager] updateManager] setDelegate:self];
-#if CONFIGURATION_Release
-        //[[[BITHockeyManager sharedHockeyManager] disableUpdateManager:YES]];
-#endif
-        [[BITHockeyManager sharedHockeyManager] startManager];
-    }
-
-
 #if !CONFIGURATION_Debug
     // Initialize Crashlytics
     [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
@@ -87,50 +72,6 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [MagicalRecord cleanUp];
-}
-
-
-#pragma mark - BITCrashManagerDelegate
-- (void)crashManagerWillSendCrashReport:(BITCrashManager *)crashManager
-{
-    
-}
-
-
-- (void)crashManager:(BITCrashManager *)crashManager didFailWithError:(NSError *)error
-{
-    NSLog(@"%@\n%@\n%@\n\%@", [error localizedDescription], [error localizedFailureReason], [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
-}
-
-
-- (void)crashManagerDidFinishSendingCrashReport:(BITCrashManager *)crashManager
-{
-    
-}
-
-
-- (NSString *)userNameForCrashManager:(BITCrashManager *)crashManager
-{
-#ifndef CONFIGURATION_Release
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(uniqueIdentifier)])
-    {
-        return [[UIDevice currentDevice] performSelector:@selector(uniqueIdentifier)];
-    }
-#endif
-    return nil;
-}
-
-
-#pragma mark - BITUpdateManagerDelegate
-- (NSString *)customDeviceIdentifierForUpdateManager:(BITUpdateManager *)updateManager
-{
-#ifndef CONFIGURATION_Release
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(uniqueIdentifier)])
-    {
-        return [[UIDevice currentDevice] performSelector:@selector(uniqueIdentifier)];
-    }
-#endif
-    return nil;
 }
 
 
