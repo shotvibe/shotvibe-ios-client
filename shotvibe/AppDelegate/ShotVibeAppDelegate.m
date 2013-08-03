@@ -26,21 +26,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Initialize JIRA Mobile Connect
-    {
-        JMCOptions *options = [JMCOptions optionsWithUrl:@"http://devops.reticentmedia.com/jira/"
-                                              projectKey:@"SHOT"
-                                                  apiKey:@"d0158455-347b-447c-9dca-c92109555871"
-                                                  photos:YES
-                                                   voice:YES
-                                                location:YES
-                                          crashReporting:NO
-                                           notifications:YES
-                                            customFields:nil];
-        [[JMC sharedInstance] configureWithOptions:options];
-        [JMC sharedInstance].customDataSource = self;
-    }
-    
     // Initialize HockeyKit
     {
         NSString *betaHockeyIdentifier = @"eb37555764438faae7f78ae5543429cd";
