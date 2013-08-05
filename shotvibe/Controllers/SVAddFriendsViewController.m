@@ -41,7 +41,7 @@
     //TODO if already shotvibe member just add to album else sent notification to user to join?
     NSLog(@"contacts to add >> %@", self.selectedIndexPaths);
 	
-	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
+	//NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
 	
 	for (UIButton *but in self.contactsButtons) {
 		int tag = but.tag;
