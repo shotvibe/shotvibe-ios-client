@@ -9,7 +9,6 @@
 #import "CaptureViewfinderController.h"
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
-#import "UIImage+JMCResize.h"
 #import "SVDefines.h"
 #import "CaptureSelectImagesViewController.h"
 

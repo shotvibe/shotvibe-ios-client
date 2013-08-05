@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JMC.h"
 
-@interface ShotVibeAppDelegate : UIResponder <JMCCustomDataSource, UIApplicationDelegate>
+@interface ShotVibeAppDelegate : UIResponder <UIApplicationDelegate>
 
 #pragma mark - Properties
 

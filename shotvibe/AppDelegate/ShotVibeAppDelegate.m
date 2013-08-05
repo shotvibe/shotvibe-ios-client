@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import <HockeySDK/HockeySDK.h>
+#import <Crashlytics/Crashlytics.h>
 #import "ShotVibeAppDelegate.h"
 #import "SVDownloadSyncEngine.h"
 #import "SVUploadQueueManager.h"
@@ -14,9 +14,8 @@
 #import "SVBusinessDelegate.h"
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
-#import <Crashlytics/Crashlytics.h>
 
-@interface ShotVibeAppDelegate () <BITHockeyManagerDelegate, BITUpdateManagerDelegate, BITCrashManagerDelegate>
+@interface ShotVibeAppDelegate ()
 
 @end
 
@@ -26,39 +25,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Initialize JIRA Mobile Connect
-    {
-        JMCOptions *options = [JMCOptions optionsWithUrl:@"http://devops.reticentmedia.com/jira/"
-                                              projectKey:@"SHOT"
-                                                  apiKey:@"d0158455-347b-447c-9dca-c92109555871"
-                                                  photos:YES
-                                                   voice:YES
-                                                location:YES
-                                          crashReporting:NO
-                                           notifications:YES
-                                            customFields:nil];
-        [[JMC sharedInstance] configureWithOptions:options];
-        [JMC sharedInstance].customDataSource = self;
-    }
-    
-    // Initialize HockeyKit
-    {
-        NSString *betaHockeyIdentifier = @"eb37555764438faae7f78ae5543429cd";
-        NSString *liveHockeyIdentifier = @"5245f5f653966a9634ced97598a82a5a";
-        [[BITHockeyManager sharedHockeyManager] configureWithBetaIdentifier:betaHockeyIdentifier liveIdentifier:liveHockeyIdentifier delegate:self];
-        [[[BITHockeyManager sharedHockeyManager] crashManager] setDelegate:self];
-        [[[BITHockeyManager sharedHockeyManager] updateManager] setDelegate:self];
-#if CONFIGURATION_Release
-        //[[[BITHockeyManager sharedHockeyManager] disableUpdateManager:YES]];
+#if !CONFIGURATION_Debug
+    // Initialize Crashlytics
+    [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
 #endif
-        [[BITHockeyManager sharedHockeyManager] startManager];
-    }
 	
-	// Initialize crashalytics
-	
-	[Crashlytics startWithAPIKey:@"c4170fec79440acb2bb1a20216a764d3ed65e42b"];
-	
-    
     [SVInitializationBD initialize];
     
     return YES;
@@ -101,50 +72,6 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [MagicalRecord cleanUp];
-}
-
-
-#pragma mark - BITCrashManagerDelegate
-- (void)crashManagerWillSendCrashReport:(BITCrashManager *)crashManager
-{
-    
-}
-
-
-- (void)crashManager:(BITCrashManager *)crashManager didFailWithError:(NSError *)error
-{
-    NSLog(@"%@\n%@\n%@\n\%@", [error localizedDescription], [error localizedFailureReason], [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
-}
-
-
-- (void)crashManagerDidFinishSendingCrashReport:(BITCrashManager *)crashManager
-{
-    
-}
-
-
-- (NSString *)userNameForCrashManager:(BITCrashManager *)crashManager
-{
-#ifndef CONFIGURATION_Release
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(uniqueIdentifier)])
-    {
-        return [[UIDevice currentDevice] performSelector:@selector(uniqueIdentifier)];
-    }
-#endif
-    return nil;
-}
-
-
-#pragma mark - BITUpdateManagerDelegate
-- (NSString *)customDeviceIdentifierForUpdateManager:(BITUpdateManager *)updateManager
-{
-#ifndef CONFIGURATION_Release
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(uniqueIdentifier)])
-    {
-        return [[UIDevice currentDevice] performSelector:@selector(uniqueIdentifier)];
-    }
-#endif
-    return nil;
 }
 
 
