@@ -38,7 +38,7 @@
 - (NSURL *)applicationDocumentsDirectory;
 - (NSDate *)dateUsingStringFromAPI:(NSString *)dateString;
 - (void)deleteJSONDataRecordsForClassWithName:(NSString *)className;
-- (void)downloadAlbums:(BOOL)useLastRequestDate;
+- (void)downloadAlbums;
 - (void)downloadPhotos;
 - (void)executeSyncCompletedOperations;
 - (void)initializeDateFormatter;
@@ -76,7 +76,18 @@
 - (void)startSync
 {
     if (!self.syncTimer) {
-        self.syncTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(start) userInfo:nil repeats:YES];
+        self.syncTimer = [NSTimer scheduledTimerWithTimeInterval:30.0
+														  target:self
+														selector:@selector(start)
+														userInfo:nil
+														 repeats:NO];
+    }
+}
+- (void)stopSync
+{
+    if (self.syncTimer) {
+        [self.syncTimer invalidate];
+		self.syncTimer = nil;
     }
 }
 
@@ -86,7 +97,7 @@
 - (void)start
 {
     if (![[SVUploadQueueManager sharedManager] syncInProgress]) {
-        NSLog(@"Timer Fire");
+		NSLog(@"Timer Fire when !syncInProgress");
         if (!self.syncInProgress) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 
@@ -97,7 +108,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
                 });
-                [self downloadAlbums:YES];
+                [self downloadAlbums];
                 
             });
         }
@@ -107,36 +118,34 @@
 }
 
 
-- (void)downloadAlbums:(BOOL)useLastRequestDate
+- (void)downloadAlbums
 {
-    NSString *lastRequestDate = nil;
-    
+	
     // Setup the Album request
     NSString *path = @"albums/";
     NSDictionary *parameters = nil;
     
     NSMutableURLRequest *theRequest = [[SVJSONAPIClient sharedClient] requestWithMethod:@"GET" path:path parameters:parameters];
     
-    if (useLastRequestDate) {
-        lastRequestDate = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAlbumsLastRequestedDate];
-        if (lastRequestDate) {
-            [theRequest setValue:lastRequestDate forHTTPHeaderField:@"If-Modified-Since"];
-        }
-    }
+	NSString *lastRequestDate = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAlbumsLastRequestedDate];
+	
+	NSLog(@"Request albums with lastRequestDate %@", lastRequestDate);
+	
+	if (lastRequestDate) {
+		[theRequest setValue:lastRequestDate forHTTPHeaderField:@"If-Modified-Since"];
+	}
     
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         
-        NSLog(@"Got response code: %d", response.statusCode);
-        
-        if (useLastRequestDate) {
-            [[NSUserDefaults standardUserDefaults] setObject:[[response allHeaderFields] objectForKey:@"Date"] forKey:kUserAlbumsLastRequestedDate];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-        
-        if ([JSON isKindOfClass:[NSDictionary class]] || [JSON isKindOfClass:[NSArray class]]) {
-            [self writeJSONResponse:JSON toDiskForClassWithName:@"Album"];
-            [self processAlbumsJSON];
-        }
+        NSLog(@"Got response code: %d Date: %@", response.statusCode, [response allHeaderFields]);
+		
+		[[NSUserDefaults standardUserDefaults] setObject:[[response allHeaderFields] objectForKey:@"Date"] forKey:kUserAlbumsLastRequestedDate];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		
+		if ([JSON isKindOfClass:[NSDictionary class]] || [JSON isKindOfClass:[NSArray class]]) {
+			[self writeJSONResponse:JSON toDiskForClassWithName:@"Album"];
+			[self processAlbumsJSON];
+		}
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         
@@ -186,8 +195,8 @@
         
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
             
-            NSLog(@"%@", [request.allHTTPHeaderFields objectForKey:@"If-None-Match"]);
-            NSLog(@"%@", request.allHTTPHeaderFields);
+            NSLog(@"Photos downloaded with: %@", request.allHTTPHeaderFields);
+			NSLog(@"Photos %@", JSON);
             if ([JSON isKindOfClass:[NSDictionary class]] || [JSON isKindOfClass:[NSArray class]]) {
                 [self writeJSONResponse:JSON toDiskForClassWithName:[NSString stringWithFormat:@"AlbumPhoto-%d", albumId]];
             }
@@ -195,7 +204,7 @@
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
             
             if (response.statusCode == 304) {
-                NSLog(@"This album has no updates.");
+                NSLog(@"-----------> This album has no updates.");
             }
             
         }];
@@ -336,6 +345,7 @@
     }
     
     id albums = [self JSONDataForClassWithName:@"Album"];
+	NSLog(@"albums %@", albums);
     
     if ([albums isKindOfClass:[NSArray class]])
     {

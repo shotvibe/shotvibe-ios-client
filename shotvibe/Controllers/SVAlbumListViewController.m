@@ -67,6 +67,7 @@
     NSMutableDictionary *thumbnailCache;
 	UIView *sectionView;
 	CaptureViewfinderController *cameraController;
+	NSIndexPath *tappedCell;
 }
 
 #pragma mark - Actions
@@ -183,12 +184,10 @@
 {
     [super viewWillAppear:animated];
     
-    
-    for (UITableViewCell *cell in self.tableView.visibleCells) {
-        SVAlbumListViewCell *listCell = (SVAlbumListViewCell *)cell;
-        
-        [self updateCell:listCell AtIndexPath:[self.tableView indexPathForCell:cell]];
-    }
+    if (tappedCell != nil) {
+		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
+	}
+	
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCompleted:) name:kSVSyncEngineSyncCompletedNotification object:nil];
    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSVSyncEngineSyncAlbumCompletedNotification object:nil];
 }
@@ -273,6 +272,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:section];
+	NSLog(@"fetch albums %@", sectionInfo);
     return [sectionInfo numberOfObjects];
 }
 
@@ -280,8 +280,84 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
+    NSLog(@"++++++++++++++++++++++++++++ config table cell at row %i", indexPath.row);
+	
+	// Configure thumbnail
+	
+    [cell.networkImageView prepareForReuse];
+    cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+    //cell.networkImageView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
+    cell.networkImageView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.1].CGColor;
+    cell.networkImageView.layer.borderWidth = 1;
+    cell.networkImageView.contentMode = UIViewContentModeScaleAspectFill;
+    cell.networkImageView.clipsToBounds = YES;
+    cell.networkImageView.sizeForDisplay = YES;
+    cell.networkImageView.scaleOptions = NINetworkImageViewScaleToFitCropsExcess;
+    cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
+    cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
+    cell.networkImageView.delegate = self;
+    cell.networkImageView.tag = indexPath.row;
+	
+	// Get the album latest image
+	
+	Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	NSArray *allPhotos = [anAlbum.albumPhotos allObjects];
+	__block AlbumPhoto *recentPhoto = [[allPhotos sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES]]] lastObject];
+	
+    NSLog(@"%@", anAlbum);
     
-    cell = [self configureCell:cell atIndexPath:indexPath];
+    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId];
+    //NSDate *maxDate = (NSDate *)[AlbumPhoto aggregateOperation:@"max:" onAttribute:@"date_created" withPredicate:predicate];
+    
+    //__block AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND date_created == %@", anAlbum.albumId, maxDate]];
+    
+	//NSLog(@"[anAlbum.albumPhotos allObjects] %@", [anAlbum.albumPhotos allObjects]);
+    
+	if (recentPhoto) {
+        
+        UIImage *image = [thumbnailCache objectForKey:recentPhoto.photo_id];
+        
+        if (!image) {
+            // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
+            __block NSIndexPath *tagIndex = indexPath;
+            __block NSString *photoId = recentPhoto.photo_id;
+            [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
+                if (image && cell.networkImageView.tag == tagIndex.row) {
+                    [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+                    
+                    [thumbnailCache setObject:image forKey:photoId];
+                }
+            }];
+        }
+        else
+        {
+            [cell.networkImageView setImage:image];
+        }
+        
+        
+        NSString *lastAddedBy = NSLocalizedString(@"Last added by", @"");
+        cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+    }
+    else
+    {
+        UIImage *thumbnail = [UIImage imageNamed:@"placeholderImage"];//[SVBusinessDelegate getRandomThumbnailPlaceholder];
+        [cell.networkImageView setImage:thumbnail];
+    }
+    
+    
+    cell.title.text = anAlbum.name;
+    
+    NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
+    [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
+    
+    NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
+    [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
+    if (numberNew > 0 ) {
+        [cell.numberNotViewedIndicator setHidden:NO];
+        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
+    }else{
+        [cell.numberNotViewedIndicator setHidden:YES];
+    }
     
     return cell;
 }
@@ -296,6 +372,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	tappedCell = [indexPath copy];
 }
 
 
@@ -482,86 +559,10 @@
 }
 
 
-- (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
-
-    // Configure thumbnail
-    [cell.networkImageView prepareForReuse];
-    cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
-    cell.networkImageView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
-    cell.networkImageView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.1].CGColor;
-    cell.networkImageView.layer.borderWidth = 1;
-    cell.networkImageView.contentMode = UIViewContentModeScaleAspectFill;
-    cell.networkImageView.clipsToBounds = YES;
-    cell.networkImageView.sizeForDisplay = YES;
-    cell.networkImageView.scaleOptions = NINetworkImageViewScaleToFitCropsExcess;
-    cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
-    cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
-    cell.networkImageView.delegate = self;
-    cell.networkImageView.tag = indexPath.row; 
-
-    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	NSLog(@"%i %@ %@", indexPath.row, anAlbum.date_created, anAlbum.last_updated);
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId];
-    NSDate *maxDate  = (NSDate *)[AlbumPhoto aggregateOperation:@"max:" onAttribute:@"date_created" withPredicate:predicate];
-    
-    __block AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND date_created == %@", anAlbum.albumId, maxDate]];
-    
-    if (recentPhoto) {
-        
-        UIImage *image = [thumbnailCache objectForKey:recentPhoto.photo_id];
-        
-        if (!image) {
-            // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-            __block NSIndexPath *tagIndex = indexPath;
-            __block NSString *photoId = recentPhoto.photo_id;
-            [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
-                if (image && cell.networkImageView.tag == tagIndex.row) {
-                    [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-                    
-                    [thumbnailCache setObject:image forKey:photoId];
-                }
-            }];
-        }
-        else
-        {
-            [cell.networkImageView setImage:image];
-        }
-        
-        
-        NSString *lastAddedBy = NSLocalizedString(@"Last added by", @"");
-        cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
-    }
-    else
-    {
-        UIImage *thumbnail = [SVBusinessDelegate getRandomThumbnailPlaceholder];
-        [cell.networkImageView setImage:thumbnail];
-    }
-    
-    
-    cell.title.text = anAlbum.name;
-    
-    NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
-    [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
-    
-    NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
-    [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
-    if (numberNew > 0 ) {
-        [cell.numberNotViewedIndicator setHidden:NO];
-        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
-    }else{
-        [cell.numberNotViewedIndicator setHidden:YES];
-    }
-    
-    
-    return cell;
-}
-
 
 - (void)updateCell:(SVAlbumListViewCell *)cell AtIndexPath:(NSIndexPath *)indexPath
 {
-    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+/*    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     //NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
     
@@ -613,7 +614,7 @@
         [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
     }else{
         [cell.numberNotViewedIndicator setHidden:YES];
-    }
+    }*/
     
 }
 
@@ -705,24 +706,25 @@
 }
 
 
-- (AlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos
-{
-    AlbumPhoto *lastPhoto = [photos lastObject];
-    
-    if (lastPhoto) {
-        NSArray *nextSet = [photos filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"date_created > %@", lastPhoto.date_created]];
-        
-        if (nextSet.count > 0) {
-            return [self findMostRecentPhotoInPhotoSet:nextSet];
-        }
-        else
-        {
-            return lastPhoto;
-        }
-    }
-    else
-    {
-        return nil;
-    }
-}
+//- (AlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos
+//{
+//    AlbumPhoto *lastPhoto = [photos lastObject];
+//    
+//    if (lastPhoto) {
+//        NSArray *nextSet = [photos filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"date_created > %@", lastPhoto.date_created]];
+//        
+//        if (nextSet.count > 0) {
+//            return [self findMostRecentPhotoInPhotoSet:nextSet];
+//        }
+//        else
+//        {
+//            return lastPhoto;
+//        }
+//    }
+//    else
+//    {
+//        return nil;
+//    }
+//}
+
 @end

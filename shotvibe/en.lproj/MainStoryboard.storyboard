@@ -815,10 +815,10 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             </objects>
             <point key="canvasLocation" x="930" y="1443"/>
         </scene>
-        <!--Sidebar Menu View Controller-->
+        <!--Sidebar Album Member View Controller-->
         <scene sceneID="4n2-WB-r5S">
             <objects>
-                <viewController storyboardIdentifier="SidebarMenuView" id="k4U-OQ-1vP" customClass="SVSidebarMenuViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SidebarMenuView" id="k4U-OQ-1vP" customClass="SVSidebarAlbumMemberViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VtU-kk-MMa">
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -878,7 +878,6 @@ There are no “common” screen sizes. Another popular tactic is to create a br
                                 <rect key="frame" x="69" y="54" width="240" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                <inset key="contentEdgeInsets" minX="14" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="14" maxY="0.0"/>
                                 <size key="titleShadowOffset" width="0.0" height="1"/>
                                 <state key="normal" title="Add Friends" image="addFriendsIcon.png" backgroundImage="addFriendsButtonBg.png">
@@ -1036,29 +1035,130 @@ There are no “common” screen sizes. Another popular tactic is to create a br
             </objects>
             <point key="canvasLocation" x="1134" y="-634"/>
         </scene>
-        <!--Sidebar Management View Controller-->
+        <!--Sidebar Album Management View Controller-->
         <scene sceneID="daf-Rk-BWs">
             <objects>
-                <viewController storyboardIdentifier="SidebarManagementView" id="914-kk-d9M" customClass="SVSidebarManagementViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SidebarManagementView" id="914-kk-d9M" customClass="SVSidebarAlbumManagementViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fw3-11-mN9">
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="v0A-fx-VGk">
-                                <rect key="frame" x="0.0" y="44" width="320" height="396"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="v0A-fx-VGk">
+                                <rect key="frame" x="0.0" y="44" width="320" height="437"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <imageView key="tableFooterView" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="leftPanel@2x.png" id="Grd-Jq-BlU">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="396"/>
+                                <color key="separatorColor" red="0.13333333333333333" green="0.15686274509803921" blue="0.1764705882352941" alpha="0.73999999999999999" colorSpace="calibratedRGB"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="8ZJ-QK-cgw">
+                                    <rect key="frame" x="0.0" y="66" width="320" height="206"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </imageView>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8jO-tE-e3j">
+                                            <rect key="frame" x="20" y="20" width="280" height="41"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                            <inset key="contentEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="3" maxY="0.0"/>
+                                            <state key="normal" title=" Share Album" image="AlbumInfoShareIcon.png" backgroundImage="AlbumInfoButton.png">
+                                                <color key="titleColor" red="0.78823529410000004" green="0.85490196080000003" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="settingsButtonPressed:" destination="914-kk-d9M" eventType="touchUpInside" id="lX7-ya-jGd"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="m0e-Ch-amL">
+                                            <rect key="frame" x="20" y="73" width="280" height="41"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                            <inset key="contentEdgeInsets" minX="12" minY="0.0" maxX="-3" maxY="0.0"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="3" maxY="0.0"/>
+                                            <state key="normal" title=" Album Notification Settings" image="AlbumInfoNotificationIcon.png" backgroundImage="AlbumInfoButton.png">
+                                                <color key="titleColor" red="0.78823529410000004" green="0.85490196080000003" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="settingsButtonPressed:" destination="914-kk-d9M" eventType="touchUpInside" id="GtX-uI-yuY"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9ff-GS-Ayc">
+                                            <rect key="frame" x="20" y="127" width="280" height="41"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                            <inset key="contentEdgeInsets" minX="12" minY="0.0" maxX="-3" maxY="0.0"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="3" maxY="0.0"/>
+                                            <state key="normal" title=" Leave This Album" image="AlbumInfoLeaveIcon.png" backgroundImage="AlbumInfoButton.png">
+                                                <color key="titleColor" red="0.78823529410000004" green="0.85490196080000003" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="settingsButtonPressed:" destination="914-kk-d9M" eventType="touchUpInside" id="9u8-I3-Gpn"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AlbumManagementActivityCell" id="v2h-Pk-IGF" customClass="SVSidebarAlbumManagementActivityCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumMemberProfileFrame.png" id="4sm-LH-dCg">
+                                                    <rect key="frame" x="9" y="4" width="35" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="n7R-xn-INC" customClass="NINetworkImageView">
+                                                    <rect key="frame" x="11" y="5" width="31" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rafael Angeline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LIp-f1-aLO">
+                                                    <rect key="frame" x="50" y="0.0" width="250" height="41"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" id="BKH-WG-3X0">
+                                                    <rect key="frame" x="220" y="6" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <outlet property="icon" destination="BKH-WG-3X0" id="sEk-a5-w8G"/>
+                                            <outlet property="memberLabel" destination="LIp-f1-aLO" id="ps3-YR-Zf5"/>
+                                            <outlet property="profileImageView" destination="n7R-xn-INC" id="Daa-12-2Z0"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="914-kk-d9M" id="g7q-hM-b4Y"/>
+                                    <outlet property="delegate" destination="914-kk-d9M" id="DJa-jh-QOp"/>
+                                </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vAd-El-oTI">
                                 <rect key="frame" x="20" y="489" width="280" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                <inset key="contentEdgeInsets" minX="0.0" minY="4" maxX="-3" maxY="0.0"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="-3" maxY="0.0"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="3" maxY="0.0"/>
                                 <state key="normal" title="Settings" image="settingsIcon.png" backgroundImage="addFriendsButtonBg.png">
                                     <color key="titleColor" red="0.78823529411764703" green="0.85490196078431369" blue="0.9137254901960784" alpha="1" colorSpace="calibratedRGB"/>
@@ -2522,6 +2622,10 @@ activation code just sent to you</string>
         </scene>
     </scenes>
     <resources>
+        <image name="AlbumInfoButton.png" width="245" height="41"/>
+        <image name="AlbumInfoLeaveIcon.png" width="16" height="16"/>
+        <image name="AlbumInfoNotificationIcon.png" width="16" height="18"/>
+        <image name="AlbumInfoShareIcon.png" width="16" height="14"/>
         <image name="IL.png" width="48" height="48"/>
         <image name="aboutIcon.png" width="14" height="13"/>
         <image name="addFriendsButtonBg.png" width="245" height="41"/>
@@ -2548,7 +2652,6 @@ activation code just sent to you</string>
         <image name="emailIcon.png" width="14" height="11"/>
         <image name="generalNotificationSettingIcon.png" width="14" height="13"/>
         <image name="helpIcon.png" width="14" height="14"/>
-        <image name="leftPanel@2x.png" width="640" height="792"/>
         <image name="newPhotosIndicator.png" width="27" height="18"/>
         <image name="phoneNumberContainer.png" width="270" height="44"/>
         <image name="photoFrame.png" width="97" height="96"/>
@@ -2737,15 +2840,16 @@ activation code just sent to you</string>
                 <relationship kind="action" name="doUsage:"/>
             </relationships>
         </class>
-        <class className="SVSidebarAlbumMemberCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberCell.h"/>
+        <class className="SVSidebarAlbumManagementActivityCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumManagementActivityCell.h"/>
             <relationships>
+                <relationship kind="outlet" name="icon" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="memberLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="profileImageView" candidateClass="NINetworkImageView"/>
             </relationships>
         </class>
-        <class className="SVSidebarManagementViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarManagementViewController.h"/>
+        <class className="SVSidebarAlbumManagementViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumManagementViewController.h"/>
             <relationships>
                 <relationship kind="action" name="homePressed:"/>
                 <relationship kind="action" name="settingsButtonPressed:"/>
@@ -2753,8 +2857,15 @@ activation code just sent to you</string>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
-        <class className="SVSidebarMenuViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarMenuViewController.h"/>
+        <class className="SVSidebarAlbumMemberCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="memberLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="profileImageView" candidateClass="NINetworkImageView"/>
+            </relationships>
+        </class>
+        <class className="SVSidebarAlbumMemberViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberViewController.h"/>
             <relationships>
                 <relationship kind="action" name="addFriendsButtonPressed:"/>
                 <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>

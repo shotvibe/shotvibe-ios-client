@@ -11,7 +11,7 @@
 @class SVAlbumGridViewController;
 @class Album;
 
-@interface SVSidebarMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SVSidebarAlbumMemberViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 #pragma mark - Properties
 

@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SVSidebarAlbumManagementActivityCell.h"
+#import "SVSidebarAlbumManagementSection.h"
 
 @class SVAlbumGridViewController;
 
-@interface SVSidebarManagementViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SVSidebarAlbumManagementViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SVSidebarAlbumManagementSectionDelegate>
 
 #pragma mark - Properties
 

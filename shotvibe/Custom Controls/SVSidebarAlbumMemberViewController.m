@@ -10,10 +10,10 @@
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "SVSidebarAlbumMemberCell.h"
-#import "SVSidebarMenuViewController.h"
+#import "SVSidebarAlbumMemberViewController.h"
 #import "Member.h"
 
-@interface SVSidebarMenuViewController () <NSFetchedResultsControllerDelegate>
+@interface SVSidebarAlbumMemberViewController () <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation SVSidebarMenuViewController
+@implementation SVSidebarAlbumMemberViewController
 
 #pragma mark - Actions
 

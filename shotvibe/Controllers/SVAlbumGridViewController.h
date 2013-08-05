@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class SVSidebarMenuViewController;
-@class SVSidebarManagementViewController;
+@class SVSidebarAlbumMemberViewController;
+@class SVSidebarAlbumManagementViewController;
 
 @class Album;
 
@@ -18,8 +18,8 @@
 #pragma mark - Properties
 
 @property (nonatomic, strong) Album *selectedAlbum;
-@property (nonatomic, strong) SVSidebarMenuViewController *sidebarMenuController;
-@property (nonatomic, strong) SVSidebarManagementViewController *sidebarManagementController;
+@property (nonatomic, strong) SVSidebarAlbumMemberViewController *sidebarMenuController;
+@property (nonatomic, strong) SVSidebarAlbumManagementViewController *sidebarManagementController;
 
 
 @end

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3383" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="11G63b" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Album" representedClassName="Album" syncable="YES">
         <attribute name="albumId" attributeType="String" syncable="YES"/>
         <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
@@ -47,9 +47,9 @@
         <attribute name="photoId" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-191" positionY="-153" width="128" height="238"/>
-        <element name="AlbumPhoto" positionX="-380" positionY="3" width="128" height="208"/>
-        <element name="Member" positionX="27" positionY="-153" width="128" height="165"/>
+        <element name="Album" positionX="-369" positionY="-153" width="128" height="238"/>
+        <element name="AlbumPhoto" positionX="-551" positionY="36" width="128" height="208"/>
+        <element name="Member" positionX="34" positionY="-153" width="128" height="165"/>
         <element name="SVDownloadOperation" positionX="34" positionY="162" width="128" height="73"/>
         <element name="SVUploadOperation" positionX="34" positionY="78" width="128" height="73"/>
     </elements>

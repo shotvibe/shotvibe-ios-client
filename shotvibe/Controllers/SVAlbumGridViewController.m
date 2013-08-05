@@ -12,10 +12,10 @@
 #import "SVDefines.h"
 #import "NINetworkImageView.h"
 #import "SVAlbumDetailScrollViewController.h"
-#import "SVSidebarMenuViewController.h"
+#import "SVSidebarAlbumMemberViewController.h"
 #import "MFSideMenu.h"
 #import "UINavigationController+MFSideMenu.h"
-#import "SVSidebarManagementViewController.h"
+#import "SVSidebarAlbumManagementViewController.h"
 #import "SVBusinessDelegate.h"
 #import "SVSettingsViewController.h"
 #import "CaptureNavigationController.h"
@@ -271,7 +271,27 @@
 {
     SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVAlbumGridViewCell" forIndexPath:indexPath];
     
-    [self configureCell:cell atIndexPath:indexPath];
+	[cell.networkImageView prepareForReuse];
+    cell.networkImageView.sizeForDisplay = NO;
+    cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
+    
+    if (!cell.networkImageView.initialImage) {
+        cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
+    }
+    cell.networkImageView.tag = indexPath.row;
+    
+    AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	NSLog(@"photo: %i %@", indexPath.item, currentPhoto);
+	
+    UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
+    
+    if (!image) {
+        [self forceLoadPhotoForCell:cell atIndexPath:indexPath];
+    }
+    else
+    {
+        [cell.networkImageView setImage:image];
+    }
     
     return cell;
 }
@@ -465,6 +485,7 @@
 }
 
 - (BOOL)shouldReloadCollectionViewToPreventKnownIssue {
+	return NO;
     __block BOOL shouldReload = NO;
     for (NSDictionary *change in _objectChanges) {
         [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -578,39 +599,15 @@
 
 }
 
-
-- (void)configureCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
-    [cell.networkImageView prepareForReuse];
-    cell.networkImageView.sizeForDisplay = NO;
-    cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
-    
-    if (!cell.networkImageView.initialImage) {
-        cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
-    }
-    cell.networkImageView.tag = indexPath.row;
-    
-    AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
-
-    UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
-    
-    if (!image) {
-        [self forceLoadPhotoForCell:cell atIndexPath:indexPath];
-    }
-    else
-    {
-        [cell.networkImageView setImage:image];
-    }
-}
-
-
 - (void)forceLoadPhotoForCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
     __block AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
     __block NSIndexPath *tagIndex = indexPath;
     __block NSString *photoId = currentPhoto.photo_id;
+	
     [[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
+		
         if (image && cell.networkImageView.tag == tagIndex.row) {
             [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
             

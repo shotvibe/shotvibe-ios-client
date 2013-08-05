@@ -95,6 +95,8 @@
 	
 	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserId];
 	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserAuthToken];
+	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kUserAlbumsLastRequestedDate];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 	
 	//[self.navigationController popToRootViewControllerAnimated:YES];
 	

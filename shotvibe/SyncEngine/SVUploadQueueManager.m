@@ -16,15 +16,6 @@
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
 
-static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
-
-#ifdef CONFIGURATION_Debug
-static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
-static NSUInteger const kTestUserId = 1;
-#elif CONFIGURATION_Adhoc
-static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef27246f6ae6";
-static NSUInteger const kTestUserId = 1;
-#endif
 
 @interface SVUploadQueueManager ()
 

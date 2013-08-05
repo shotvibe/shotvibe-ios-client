@@ -23,6 +23,7 @@
 #pragma mark - Instance Methods
 
 - (void)startSync;
+- (void)stopSync;
 - (void)start;
 
 @end
