@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SVSidebarAlbumManagementActivityCell.h"
 #import "SVSidebarAlbumManagementSection.h"
+#import "SVSidebarAlbumSection.h"
 
 @class SVAlbumGridViewController;
 
@@ -17,5 +18,7 @@
 #pragma mark - Properties
 
 @property (strong, nonatomic) SVAlbumGridViewController *parentController;
+@property (nonatomic) NSMutableArray *sectionInfoArray;
+@property (nonatomic) NSInteger openSectionIndex;
 
 @end

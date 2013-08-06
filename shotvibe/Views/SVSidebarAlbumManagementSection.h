@@ -11,7 +11,9 @@
 @protocol SVSidebarAlbumManagementSectionDelegate;
 
 
-@interface SVSidebarAlbumManagementSection : UITableViewHeaderFooterView
+@interface SVSidebarAlbumManagementSection : UITableViewHeaderFooterView {
+	
+}
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UIButton *disclosureButton;
@@ -19,6 +21,7 @@
 @property (nonatomic, weak) IBOutlet id <SVSidebarAlbumManagementSectionDelegate> delegate;
 
 @property (nonatomic) NSInteger section;
+@property (nonatomic) BOOL selected;
 
 -(void)toggleOpenWithUserAction:(BOOL)userAction;
 

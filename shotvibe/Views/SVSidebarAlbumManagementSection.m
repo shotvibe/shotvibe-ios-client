@@ -10,22 +10,44 @@
 
 @implementation SVSidebarAlbumManagementSection
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+-(void)awakeFromNib {
+	
+    // Set up the tap gesture recognizer.
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleOpen:)];
+    [self addGestureRecognizer:tapGesture];
+	
+	self.selected = NO;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+
+-(IBAction)toggleOpen:(id)sender {
+    
+    [self toggleOpenWithUserAction:YES];
 }
-*/
+
+
+-(void)toggleOpenWithUserAction:(BOOL)userAction {
+    
+    // Toggle the disclosure button state.
+	self.selected = !self.selected;
+	
+    
+    // If this was a user action, send the delegate the appropriate message.
+	
+	if (self.selected) {
+		CGAffineTransform t = CGAffineTransformIdentity;
+		self.disclosureButton.transform = CGAffineTransformRotate(t, 90 * M_PI / 180);
+		if ([self.delegate respondsToSelector:@selector(sectionHeaderView:sectionOpened:)]) {
+			[self.delegate sectionHeaderView:self sectionOpened:self.section];
+		}
+	}
+	else {
+		CGAffineTransform t = CGAffineTransformIdentity;
+		self.disclosureButton.transform = t;
+		if ([self.delegate respondsToSelector:@selector(sectionHeaderView:sectionClosed:)]) {
+			[self.delegate sectionHeaderView:self sectionClosed:self.section];
+		}
+	}
+}
 
 @end

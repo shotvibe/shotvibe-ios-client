@@ -32,6 +32,8 @@
 @implementation SVAddFriendsViewController
 {
     NSArray *alphabet;
+    NSArray *keys;
+	BOOL stopCurrentSearch;
 }
 
 #pragma mark - Actions
@@ -98,7 +100,9 @@
 	self.selectedIndexPaths = [[NSMutableArray alloc] init];
 	self.contactsButtons = [[NSMutableArray alloc] init];
 	alphabet = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", @"#"];
+	keys = [NSArray arrayWithArray:alphabet];
 	self.records = [[NSMutableDictionary alloc] init];
+	stopCurrentSearch = NO;
     
     CGRect segmentFrame = self.segmentControl.frame;
     segmentFrame.origin.y -= 1.5;
@@ -136,13 +140,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return alphabet.count;
+    return [keys count];
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSArray *arr = [self.records objectForKey:[alphabet objectAtIndex:section]];
+	NSArray *arr = [self.records objectForKey:[keys objectAtIndex:section]];
 	return [arr count];
 }
 
@@ -151,7 +155,7 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
     
-	NSArray *filteredRecords = [self.records objectForKey:[alphabet objectAtIndex:indexPath.section]];
+	NSArray *filteredRecords = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
 	
     cell.textLabel.text = [[filteredRecords objectAtIndex:indexPath.row] objectForKey:kMemberNickname];
     cell.detailTextLabel.text = [[filteredRecords objectAtIndex:indexPath.row] objectForKey:kMemberPhone];
@@ -175,7 +179,7 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    return alphabet;
+    return keys;
 }
 
 
@@ -194,10 +198,10 @@
 	l.textColor = [UIColor grayColor];
 	l.backgroundColor = [UIColor clearColor];
 	
-	NSArray *arr = [self.records objectForKey:[alphabet objectAtIndex:section]];
+	NSArray *arr = [self.records objectForKey:[keys objectAtIndex:section]];
 	
     if ([arr count] > 0) {
-        l.text = [alphabet objectAtIndex:section];
+        l.text = [keys objectAtIndex:section];
     }
 	
 	return v;
@@ -234,7 +238,7 @@
         [self.selectedIndexPaths addObject:[indexPath copy]];
         NSLog(@"self.contactsToAdd %i %@", indexPath.row, self.selectedIndexPaths);
 		
-		NSArray *arr = [self.records objectForKey:[alphabet objectAtIndex:indexPath.section]];
+		NSArray *arr = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
 		NSDictionary *contact = [arr objectAtIndex:indexPath.row];
 		NSLog(@"contact %@", contact);
         [self addToContactsList:contact];
@@ -247,23 +251,56 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 	
-	if ([searchText length] == 0) {
-        //[self resetSearch];
-        [self.tableView reloadData];
-    }
-//	else if ([searchTerm length] > 1) {
-//		isSearching = YES;
-		[self handleSearchForText:searchText];
-//	}
+	stopCurrentSearch = YES;
+	[self handleSearchForText: searchText.length == 0 ? nil : searchText];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    searchBar.text = @"";
-//    [self resetSearch];
-    [self.tableView reloadData];
-//    [self dismissKeyboard:nil];
+	searchBar.text = @"";
+	[self handleSearchForText:nil];
+	[searchBar resignFirstResponder];
+}
+- (void) handleSearchForText:(NSString*)str {
+	
+	self.records = nil;
+	NSMutableArray *keys_ = [[NSMutableArray alloc] init];
+	
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		
+		self.records = [[NSMutableDictionary alloc] init];
+		for (int i=0; i<alphabet.count-1; i++) {
+			NSPredicate *predicate;
+			if (str == nil) {
+				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i]];
+			}
+			else {
+				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@ && %K CONTAINS[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i], kMemberFirstName, str];
+			}
+			NSArray *arr = [self.allContacts filteredArrayUsingPredicate:predicate];
+			
+			if (arr.count > 0) {
+				[keys_ addObject:[alphabet objectAtIndex:i]];
+				[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
+			}
+		}
+		
+		// Non alphabetic names
+		NSArray *arr2 = [self filterNonAlphabetContacts:self.allContacts];
+		if (arr2.count > 0) {
+			[keys_ addObject:@"#"];
+			[self.records setObject:arr2 forKey:@"#"];
+		}
+		
+		keys = [NSArray arrayWithArray:keys_];
+		
+		if (self.records != nil) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self.tableView reloadData];
+			});
+		}
+	});
 }
 
 
@@ -364,34 +401,7 @@
 }
 
 
-- (void) handleSearchForText:(NSString*)str {
-	
-	self.records = nil;
-	
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		
-		self.records = [[NSMutableDictionary alloc] init];
-		for (int i=0; i<alphabet.count-1; i++) {
-			NSPredicate *predicate;
-			if (str == nil) {
-				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i]];
-			}
-			else {
-				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@ && %K CONTAINS[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i], kMemberFirstName, str];
-			}
-			NSArray *arr = [self.allContacts filteredArrayUsingPredicate:predicate];
-			
-			[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
-		}
-		[self.records setObject:[self filterNonAlphabetContacts:self.allContacts] forKey:@"#"];
-		
-		if (self.records != nil) {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[self.tableView reloadData];
-			});
-		}
-	});
-}
+
 
 - (NSArray *)filterNonAlphabetContacts:(NSArray *)contacts
 {
@@ -414,12 +424,5 @@
     }]];
 }
 
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

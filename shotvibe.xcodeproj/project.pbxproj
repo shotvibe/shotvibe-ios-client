@@ -476,6 +476,7 @@
 		28D4761317AFB77A00C189AB /* ClosureIndicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28D475AC17AC267200C189AB /* ClosureIndicator@2x.png */; };
 		28D4761417AFB79E00C189AB /* SVSidebarAlbumManagementActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D475DA17AC375400C189AB /* SVSidebarAlbumManagementActivityCell.m */; };
 		28D4761517AFC5CB00C189AB /* SVSidebarAlbumManagementSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */; };
+		28D4761817B0F09E00C189AB /* SVSidebarAlbumSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880D16CB84CC002AC699 /* NINetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880A16CB84CC002AC699 /* NINetworkImageView.m */; };
@@ -1128,6 +1129,8 @@
 		28D475DD17AC45FE00C189AB /* SVSidebarAlbumManagementSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarAlbumManagementSection.h; path = Views/SVSidebarAlbumManagementSection.h; sourceTree = "<group>"; };
 		28D475DE17AC45FE00C189AB /* SVSidebarAlbumManagementSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarAlbumManagementSection.m; path = Views/SVSidebarAlbumManagementSection.m; sourceTree = "<group>"; };
 		28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVSidebarAlbumManagementSection.xib; path = Views/SVSidebarAlbumManagementSection.xib; sourceTree = "<group>"; };
+		28D4761617B0F09C00C189AB /* SVSidebarAlbumSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSidebarAlbumSection.h; sourceTree = "<group>"; };
+		28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSidebarAlbumSection.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		AA12880516CB84CC002AC699 /* NIImageProcessing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIImageProcessing.h; path = Nimbus/src/networkimage/src/NIImageProcessing.h; sourceTree = "<group>"; };
 		AA12880616CB84CC002AC699 /* NIImageProcessing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIImageProcessing.m; path = Nimbus/src/networkimage/src/NIImageProcessing.m; sourceTree = "<group>"; };
@@ -2076,6 +2079,8 @@
 				04734F2316CEC1B1003F729B /* SVSidebarAlbumMemberViewController.m */,
 				041A13EB1706882D00E66B78 /* SVSidebarAlbumManagementViewController.h */,
 				041A13EC1706882D00E66B78 /* SVSidebarAlbumManagementViewController.m */,
+				28D4761617B0F09C00C189AB /* SVSidebarAlbumSection.h */,
+				28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */,
 				0446EF041718A41700ED0076 /* SVAddFriendsViewController.h */,
 				0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */,
 			);
@@ -3302,6 +3307,7 @@
 				2836B78B17A955B7008AAB68 /* SVNoCodeViewController.m in Sources */,
 				28D475FD17AFB55F00C189AB /* SVSidebarAlbumManagementSection.m in Sources */,
 				28D4761417AFB79E00C189AB /* SVSidebarAlbumManagementActivityCell.m in Sources */,
+				28D4761817B0F09E00C189AB /* SVSidebarAlbumSection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
