@@ -12,5 +12,6 @@
 @interface SVAlbumGridViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) IBOutlet NINetworkImageView *networkImageView;
+@property (nonatomic, strong) IBOutlet UIImageView *unviewedLabel;
 
 @end

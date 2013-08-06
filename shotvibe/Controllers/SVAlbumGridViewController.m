@@ -292,6 +292,7 @@
     {
         [cell.networkImageView setImage:image];
     }
+	cell.unviewedLabel.hidden = [currentPhoto.hasViewed boolValue];
     
     return cell;
 }
