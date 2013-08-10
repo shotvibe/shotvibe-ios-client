@@ -12,6 +12,7 @@
 #import "SVUploadQueueManager.h"
 #import "SVInitializationBD.h"
 #import "SVBusinessDelegate.h"
+#import "SVPushNotificationsManager.h"
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
 
@@ -31,7 +32,11 @@
 #endif
 	
     [SVInitializationBD initialize];
-    
+
+    if ([SVBusinessDelegate hasUserBeenAuthenticated]) {
+        [SVPushNotificationsManager setup];
+    }
+
     return YES;
 }
 
@@ -60,7 +65,7 @@
 {
     NSLog(@"0000000000000000");
 	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
+
 	if ([SVBusinessDelegate hasUserBeenAuthenticated]) {
         //TODO: This should be set on a timer
         [[SVDownloadSyncEngine sharedEngine] startSync];
@@ -74,6 +79,21 @@
     [MagicalRecord cleanUp];
 }
 
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [SVPushNotificationsManager setAPNSDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    UIAlertView* failureAlert = [[UIAlertView alloc] initWithTitle:@"Error Registering for Push Notifications"
+                                                           message:[error localizedDescription]
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"OK"
+                                                 otherButtonTitles:nil];
+    [failureAlert show];
+}
 
 #pragma mark - Class Methods
 

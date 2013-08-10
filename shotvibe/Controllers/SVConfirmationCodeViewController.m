@@ -7,6 +7,7 @@
 //
 
 #import "SVConfirmationCodeViewController.h"
+#import "SVPushNotificationsManager.h"
 
 @interface SVConfirmationCodeViewController ()
 
@@ -129,7 +130,8 @@
     SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
     
     [self.navigationController setViewControllers:@[rootView] animated:YES];
-	
+
+    [SVPushNotificationsManager setup];
 }
 
 @end
