@@ -37,6 +37,20 @@
 	SVCountriesViewController *countries;
 }
 
+
+- (void)selectCountry:(NSString *)countryCode
+{
+    NSLog(@"Selecting country: %@", countryCode);
+
+    [self didSelectCountryWithName:countryCode code:countryCode];
+}
+
+
+- (void)skipRegistration
+{
+    [self handleSuccessfulLogin];
+}
+
 #pragma mark - Actions
 
 - (IBAction)registerButtonPressed:(id)sender

@@ -12,4 +12,7 @@
 
 @interface SVRegistrationViewController : UIViewController <UITextFieldDelegate, SVCountriesDelegate>
 
+- (void)selectCountry:(NSString *)countryCode;
+- (void)skipRegistration;
+
 @end
