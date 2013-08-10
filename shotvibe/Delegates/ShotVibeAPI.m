@@ -78,9 +78,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
 
-    if (jsonError != nil) {
-        NSLog(@"Error: %@", [jsonError description]);
-    }
+    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
 
     NSError *responseError;
     Response *response = [self getResponse:@"/register_device_push/" method:@"POST" body:jsonData error:&responseError];
@@ -117,8 +115,6 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     [request setHTTPMethod:method];
 
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
-    NSLog(@"AUTHTOKEN: %@", self.authData.authToken);
 
     if (self.authData != nil) {
         [request setValue:[@"Token " stringByAppendingString:self.authData.authToken] forHTTPHeaderField:@"Authorization"];
