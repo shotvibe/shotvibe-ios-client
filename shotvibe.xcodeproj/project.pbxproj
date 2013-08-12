@@ -603,7 +603,6 @@
 		AAE3DDFD16CED89100539F92 /* NIPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDF616CED89100539F92 /* NIPageView.m */; };
 		AAE3DDFF16CED89100539F92 /* NIPagingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DDF816CED89100539F92 /* NIPagingScrollView.m */; };
 		AAE3DEE616CEDC8400539F92 /* NetworkPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE3DEE516CEDC8400539F92 /* NetworkPhotoAlbumViewController.m */; };
-		AAEB9CDE171648A000439939 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AAEB9CDD171648A000439939 /* Config.xcconfig */; };
 		AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -2730,7 +2729,6 @@
 				04AB0AAA17080A5700C5300B /* cellDivider.png in Resources */,
 				04AB0AAC17080A5700C5300B /* albumImageFrame@2x.png in Resources */,
 				04AB0AAE17080A5700C5300B /* albumImageFrame.png in Resources */,
-				AAEB9CDE171648A000439939 /* Config.xcconfig in Resources */,
 				AA78D2C817172C67006E1240 /* dropDownField.png in Resources */,
 				AA78D2CA17172C67006E1240 /* dropDownField@2x.png in Resources */,
 				040BACD21717453C00D90C63 /* navBarBg.png in Resources */,
