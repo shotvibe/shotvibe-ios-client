@@ -483,6 +483,9 @@
 		28D4761F17B1210100C189AB /* SVUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4761E17B1210000C189AB /* SVUploadManager.m */; };
 		28D4762217B1344800C189AB /* SVDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4762117B1344700C189AB /* SVDownloadManager.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
+		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
+		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
+		3B58318517B5C4C10059C1CA /* AuthData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318417B5C4C10059C1CA /* AuthData.m */; };
 		AA12880B16CB84CC002AC699 /* NIImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880616CB84CC002AC699 /* NIImageProcessing.m */; };
 		AA12880D16CB84CC002AC699 /* NINetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12880A16CB84CC002AC699 /* NINetworkImageView.m */; };
 		AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
@@ -1140,6 +1143,12 @@
 		28D4762017B1344700C189AB /* SVDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDownloadManager.h; sourceTree = "<group>"; };
 		28D4762117B1344700C189AB /* SVDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVDownloadManager.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPushNotificationsManager.h; sourceTree = "<group>"; };
+		3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPushNotificationsManager.m; sourceTree = "<group>"; };
+		3B58318017B5C4560059C1CA /* ShotVibeAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShotVibeAPI.h; sourceTree = "<group>"; };
+		3B58318117B5C4560059C1CA /* ShotVibeAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShotVibeAPI.m; sourceTree = "<group>"; };
+		3B58318317B5C4C00059C1CA /* AuthData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthData.h; sourceTree = "<group>"; };
+		3B58318417B5C4C10059C1CA /* AuthData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthData.m; sourceTree = "<group>"; };
 		AA12880516CB84CC002AC699 /* NIImageProcessing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIImageProcessing.h; path = Nimbus/src/networkimage/src/NIImageProcessing.h; sourceTree = "<group>"; };
 		AA12880616CB84CC002AC699 /* NIImageProcessing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIImageProcessing.m; path = Nimbus/src/networkimage/src/NIImageProcessing.m; sourceTree = "<group>"; };
 		AA12880716CB84CC002AC699 /* NimbusNetworkImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NimbusNetworkImage.h; path = Nimbus/src/networkimage/src/NimbusNetworkImage.h; sourceTree = "<group>"; };
@@ -2293,6 +2302,12 @@
 				AA58FB8F16C2341200C49E02 /* SVInitializationBD.m */,
 				04204EFD178B48CB001FE127 /* SVAddressBookBD.h */,
 				04204EFE178B48CB001FE127 /* SVAddressBookBD.m */,
+				3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */,
+				3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */,
+				3B58318017B5C4560059C1CA /* ShotVibeAPI.h */,
+				3B58318117B5C4560059C1CA /* ShotVibeAPI.m */,
+				3B58318317B5C4C00059C1CA /* AuthData.h */,
+				3B58318417B5C4C10059C1CA /* AuthData.m */,
 			);
 			name = "Business Delegates";
 			sourceTree = "<group>";
@@ -3304,6 +3319,9 @@
 				28D4761F17B1210100C189AB /* SVUploadManager.m in Sources */,
 				28D4762217B1344800C189AB /* SVDownloadManager.m in Sources */,
 				2854C26E17B5AD130090BD3E /* SVSyncEngine.m in Sources */,
+				3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */,
+				3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */,
+				3B58318517B5C4C10059C1CA /* AuthData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

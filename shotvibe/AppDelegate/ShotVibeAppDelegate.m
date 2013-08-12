@@ -10,13 +10,102 @@
 #import "ShotVibeAppDelegate.h"
 #import "SVInitializationBD.h"
 #import "SVBusinessDelegate.h"
+#import "SVPushNotificationsManager.h"
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
 #import "SVEntityStore.h"
+#import "SVDefines.h"
+#import "SVAlbumListViewController.h"
+#import "SVRegistrationViewController.h"
 
 @interface ShotVibeAppDelegate ()
 
 @end
+
+
+@interface RegistrationInfo : NSObject
+
++ (RegistrationInfo *)RegistrationInfoFromURL:(NSURL *)url;
+
+@property (nonatomic) BOOL startWithAuth;
+@property (nonatomic, copy) NSString *countryCode;
+@property (nonatomic, copy) NSString *authToken;
+@property (nonatomic, copy) NSString *userId;
+
+@end
+
+@implementation RegistrationInfo
+
++ (RegistrationInfo *)RegistrationInfoFromURL:(NSURL *)url
+{
+    RegistrationInfo *result = [[RegistrationInfo alloc] init];
+
+    NSDictionary* queryParameters = parseQueryParameters([url query]);
+
+    result.countryCode = [queryParameters objectForKey:@"country_code"];
+    if(result.countryCode == nil) {
+        NSLog(@"Error: No country_code query parameter found in %@", [url description]);
+        return nil;
+    }
+
+    for (NSString *seg in [url pathComponents]) {
+        if([seg isEqualToString:@"start_with_auth"]) {
+            result.startWithAuth = YES;
+
+            result.authToken = [queryParameters objectForKey:@"auth_token"];
+            if(result.authToken == nil) {
+                NSLog(@"Error: No auth_token query parameter found in %@", [url description]);
+                return nil;
+            }
+
+            result.userId = [queryParameters objectForKey:@"user_id"];
+            if(result.userId == nil) {
+                NSLog(@"Error: No user_id query parameter found  in %@", [url description]);
+                return nil;
+            }
+
+            return result;
+        }
+        else if([seg isEqualToString:@"start_unregistered"]) {
+            result.startWithAuth = NO;
+
+            return result;
+        }
+    }
+
+    return nil;
+}
+
+
+NSDictionary * parseQueryParameters(NSString * query)
+{
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+
+    NSArray *components = [query componentsSeparatedByString:@"&"];
+    for (NSString *component in components) {
+        NSArray *subcomponents = [component componentsSeparatedByString:@"="];
+        if ([subcomponents count] >= 1) {
+            NSString *key = [subcomponents objectAtIndex:0];
+            NSString *value;
+            if([subcomponents count] >= 2) {
+                value = [subcomponents objectAtIndex:1];
+            }
+            else {
+                value = @"";
+            }
+
+            NSString *decodedKey = [key stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSString *decodedValue = [value stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+            [parameters setObject:decodedValue forKey:decodedKey];
+        }
+    }
+
+    return parameters;
+}
+
+@end
+
 
 @implementation ShotVibeAppDelegate
 
@@ -28,9 +117,99 @@
     // Initialize Crashlytics
     [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
 #endif
-	
-    [SVInitializationBD initialize];
-    
+
+    if ([SVBusinessDelegate hasUserBeenAuthenticated]) {
+        [SVInitializationBD initialize];
+
+        [SVPushNotificationsManager setup];
+    }
+    else {
+        // TODO Verify that there is an internet connection
+
+        NSString* shotvibeAppInitUrl = @"https://www.shotvibe.com/app_init/?";
+
+        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"app", @"iphone");
+        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"device_description", getDeviceDescription());
+
+        double currentTime = [[NSDate date] timeIntervalSince1970];
+        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"cache_buster", [[NSNumber numberWithDouble:currentTime] stringValue]);
+
+        NSURL* url = [NSURL URLWithString:shotvibeAppInitUrl];
+        NSAssert(url != nil, @"Error construction NSURL from string %@", shotvibeAppInitUrl);
+
+        BOOL success = [application openURL:url];
+        NSAssert(success, @"Error opening url: %@", [url description]);
+    }
+
+    return YES;
+}
+
+
+NSString * appendQueryParameter(NSString *url, NSString *key, NSString *value)
+{
+    NSString *escapedKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *escapedValue = [value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    NSString *result = [url stringByAppendingString:@"&"];
+    result = [result stringByAppendingString:escapedKey];
+    result = [result stringByAppendingString:@"="];
+    result = [result stringByAppendingString:escapedValue];
+
+    return result;
+}
+
+
+NSString * getDeviceDescription()
+{
+    UIDevice *currentDevice = [UIDevice currentDevice];
+    NSString *result = [currentDevice model];
+    result = [result stringByAppendingString:@" ("];
+    result = [result stringByAppendingString:[currentDevice systemName]];
+    result = [result stringByAppendingString:@" "];
+    result = [result stringByAppendingString:[currentDevice systemVersion]];
+    result = [result stringByAppendingString:@")"];
+    return result;
+}
+
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    NSLog(@"openURL: %@", [url description]);
+
+    RegistrationInfo *registrationInfo = [RegistrationInfo RegistrationInfoFromURL:url];
+
+    if(registrationInfo == nil) {
+        NSLog(@"Error reading RegistrationInfo from url");
+    }
+    else {
+        // The following casts will work because of the way the MainStoryboard is set up.
+
+        NSAssert([self.window.rootViewController isKindOfClass:[UINavigationController class]], @"Error");
+        UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+
+        NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
+        SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
+
+        if (registrationInfo.startWithAuth) {
+
+            // Store the registration data using the legacy system:
+
+            [[NSUserDefaults standardUserDefaults] setObject:registrationInfo.userId forKey:kApplicationUserId];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Token %@", registrationInfo.authToken] forKey:kApplicationUserAuthToken];
+
+            [[NSUserDefaults standardUserDefaults] synchronize];
+
+            [SVInitializationBD initialize];
+
+            [SVPushNotificationsManager setup];
+
+            [registrationViewController skipRegistration];
+        }
+        else {
+            [registrationViewController selectCountry:registrationInfo.countryCode];
+        }
+    }
+
     return YES;
 }
 
@@ -62,7 +241,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
 	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
+
 	if ([SVBusinessDelegate hasUserBeenAuthenticated]) {
         //TODO: This should be set on a timer
         //[[SVDownloadSyncEngine sharedEngine] startSync];
@@ -76,6 +255,21 @@
     [MagicalRecord cleanUp];
 }
 
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [SVPushNotificationsManager setAPNSDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    UIAlertView* failureAlert = [[UIAlertView alloc] initWithTitle:@"Error Registering for Push Notifications"
+                                                           message:[error localizedDescription]
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"OK"
+                                                 otherButtonTitles:nil];
+    [failureAlert show];
+}
 
 #pragma mark - Class Methods
 
