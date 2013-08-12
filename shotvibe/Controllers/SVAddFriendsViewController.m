@@ -9,7 +9,7 @@
 #import "SVAddFriendsViewController.h"
 #import "SVAddressBookBD.h"
 #import "SVDefines.h"
-#import "SVJSONAPIClient.h"
+#import "SVHttpClient.h"
 
 
 @interface SVAddFriendsViewController ()<UISearchBarDelegate>
@@ -325,7 +325,6 @@
 	
 	UIImage *baseImage = [UIImage imageNamed:@"contactsStreachableButton_normal"];
 	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
-	
 	UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
 	
 	[button setBackgroundImage:resizableImage forState:UIControlStateNormal];

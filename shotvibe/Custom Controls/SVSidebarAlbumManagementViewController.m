@@ -20,6 +20,9 @@
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
 
 - (IBAction)settingsButtonPressed:(id)sender;
+- (IBAction)sharePressed:(id)sender;
+- (IBAction)natificationsPressed:(id)sender;
+- (IBAction)leavePressed:(id)sender;
 
 @end
 
@@ -27,15 +30,49 @@
 
 
 #pragma mark - Actions
-- (IBAction)homePressed:(id)sender
-{
-    [self.parentController.navigationController popViewControllerAnimated:YES];
-}
 
 - (IBAction)settingsButtonPressed:(id)sender
 {
+	[self.parentController.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
     [self.parentController performSegueWithIdentifier:@"SettingsSegue" sender:nil];
 }
+- (IBAction)sharePressed:(id)sender {
+	
+}
+- (IBAction)natificationsPressed:(id)sender {
+	
+}
+- (IBAction)leavePressed:(id)sender {
+	
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Leave album", @"")
+													message:NSLocalizedString(@"Are you sure you want to leave this album?", @"")
+												   delegate:nil
+										  cancelButtonTitle:NSLocalizedString(@"No", @"")
+										  otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
+	alert.delegate = self;
+	[alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	
+	if (buttonIndex == 1) {
+		NSLog(@"Leave album");
+		[SVBusinessDelegate leaveAlbum:self.parentController.selectedAlbum completion:^(BOOL success) {
+			
+			//[self.activityIndicator stopAnimating];
+			
+			if(success) {
+				
+			}
+			else {
+				
+				
+			}
+			
+		}];
+	}
+}
+
 
 
 #pragma mark - View Lifecycle
@@ -94,10 +131,10 @@
 		// Section 2
 		
 		NSMutableArray *arr2 = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"Name: %@", self.parentController.selectedAlbum.name],
-						[NSString stringWithFormat:@"Date Created: %@", self.parentController.selectedAlbum.date_created],
+						[NSString stringWithFormat:@"Date Created: %@", [NSDateFormatter localizedStringFromDate:self.parentController.selectedAlbum.date_created dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle]],
 						[NSString stringWithFormat:@"Created by: %@", self.parentController.selectedAlbum.name],
-						[NSString stringWithFormat:@"Total Members %i", [self.parentController.selectedAlbum.members count]],
-						[NSString stringWithFormat:@"Total Pictures %i", [self.parentController.selectedAlbum.albumPhotos count]], nil];
+						[NSString stringWithFormat:@"Total Members: %i", [self.parentController.selectedAlbum.members count]],
+						[NSString stringWithFormat:@"Total Pictures: %i", [self.parentController.selectedAlbum.albumPhotos count]], nil];
 		
 		SVSidebarAlbumSection *sectionInfo2 = [[SVSidebarAlbumSection alloc] init];
 		sectionInfo2.open = NO;
@@ -134,7 +171,7 @@
     
 	//SVSidebarAlbumManagementSection *sectionHeaderView = (SVSidebarAlbumManagementSection*)[[[NSBundle mainBundle] loadNibNamed:@"SVSidebarAlbumManagementSection" owner:self options:nil] objectAtIndex:0];
 	SVSidebarAlbumManagementSection *sectionHeaderView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SVSidebarAlbumManagementSection"];
-	SVSidebarAlbumSection *info = self.sectionInfoArray[section];
+	//SVSidebarAlbumSection *info = self.sectionInfoArray[section];
 	
 	switch (section) {
 		case 0: {
@@ -265,13 +302,13 @@
      Create an array of the index paths of the rows in the section that was closed, then delete those rows from the table view.
      */
 	SVSidebarAlbumSection *sectionInfo = (self.sectionInfoArray)[sectionClosed];
-	
     sectionInfo.open = NO;
-    NSInteger countOfRowsToDelete = [self.tableView numberOfRowsInSection:sectionClosed];
 	
-    if (countOfRowsToDelete > 0) {
+    NSInteger countOfRowsToDelete = [sectionInfo.rows count];
+	
+    if (countOfRowsToDelete > 3) {
         NSMutableArray *indexPathsToDelete = [[NSMutableArray alloc] init];
-        for (NSInteger i = 0; i < countOfRowsToDelete; i++) {
+        for (NSInteger i = 3; i < countOfRowsToDelete; i++) {
             [indexPathsToDelete addObject:[NSIndexPath indexPathForRow:i inSection:sectionClosed]];
         }
         [self.tableView deleteRowsAtIndexPaths:indexPathsToDelete withRowAnimation:UITableViewRowAnimationTop];

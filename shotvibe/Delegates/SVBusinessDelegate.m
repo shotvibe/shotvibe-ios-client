@@ -169,5 +169,17 @@
 }
 
 
+
++ (void) leaveAlbum:(Album*)album completion:(void (^)(BOOL success))block {
+	
+	[[SVEntityStore sharedStore] leaveAlbum:album completion:^(BOOL success, NSError *error) {
+		
+		NSLog(@"leaveAlbum - success/error:  %i", success);
+		
+		block(success);
+		
+	}];
+}
+
 @end
 

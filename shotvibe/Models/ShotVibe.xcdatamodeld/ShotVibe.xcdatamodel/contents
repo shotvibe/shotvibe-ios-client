@@ -6,7 +6,6 @@
         <attribute name="etag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="last_updated" attributeType="Date" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <attribute name="newPhotoTone" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="notificationsOption" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="objectSyncStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="pushNotificationsOption" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
@@ -18,8 +17,7 @@
     <entity name="AlbumPhoto" representedClassName="AlbumPhoto" syncable="YES">
         <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="hasViewed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="imageWasDownloaded" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="local_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isNew" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="objectSyncStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="photo_id" attributeType="String" syncable="YES"/>
         <attribute name="photo_url" optional="YES" attributeType="String" syncable="YES"/>
@@ -30,7 +28,6 @@
     </entity>
     <entity name="Member" representedClassName="Member" syncable="YES">
         <attribute name="avatar_url" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="local_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nickname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="objectSyncStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
@@ -38,19 +35,9 @@
         <relationship name="albumPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AlbumPhoto" inverseName="author" inverseEntity="AlbumPhoto" syncable="YES"/>
         <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="members" inverseEntity="Album" syncable="YES"/>
     </entity>
-    <entity name="SVDownloadOperation" representedClassName="SVDownloadOperation" syncable="YES">
-        <attribute name="albumId" attributeType="String" syncable="YES"/>
-        <attribute name="photoId" attributeType="String" syncable="YES"/>
-    </entity>
-    <entity name="SVUploadOperation" representedClassName="SVUploadOperation" syncable="YES">
-        <attribute name="albumId" attributeType="String" syncable="YES"/>
-        <attribute name="photoId" attributeType="String" syncable="YES"/>
-    </entity>
     <elements>
-        <element name="Album" positionX="-369" positionY="-153" width="128" height="238"/>
-        <element name="AlbumPhoto" positionX="-551" positionY="36" width="128" height="208"/>
-        <element name="Member" positionX="34" positionY="-153" width="128" height="165"/>
-        <element name="SVDownloadOperation" positionX="34" positionY="162" width="128" height="73"/>
-        <element name="SVUploadOperation" positionX="34" positionY="78" width="128" height="73"/>
+        <element name="Album" positionX="-369" positionY="-153" width="128" height="225"/>
+        <element name="AlbumPhoto" positionX="-551" positionY="36" width="128" height="195"/>
+        <element name="Member" positionX="-101" positionY="54" width="128" height="150"/>
     </elements>
 </model>

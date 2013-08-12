@@ -14,8 +14,6 @@
 #import "NBPhoneNumber.h"
 #import "SVBusinessDelegate.h"
 #import "SVDefines.h"
-#import "SVDownloadSyncEngine.h"
-#import "SVUploadQueueManager.h"
 
 @interface SVNoCodeViewController : UIViewController <UITextFieldDelegate, SVCountriesDelegate> {
 	

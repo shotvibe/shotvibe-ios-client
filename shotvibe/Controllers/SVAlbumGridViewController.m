@@ -11,7 +11,7 @@
 #import "SVEntityStore.h"
 #import "SVDefines.h"
 #import "NINetworkImageView.h"
-#import "SVAlbumDetailScrollViewController.h"
+#import "SVPhotoViewerController.h"
 #import "SVSidebarAlbumMemberViewController.h"
 #import "MFSideMenu.h"
 #import "UINavigationController+MFSideMenu.h"
@@ -23,15 +23,13 @@
 #import "SVImagePickerListViewController.h"
 #import "SVAlbumGridViewCell.h"
 #import "SVAddFriendsViewController.h"
+#import "SVUploadManager.h"
 
 @interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, NINetworkImageViewDelegate>
-{
-    BOOL isPushingDetail;
-}
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) MFSideMenu *sauronTheSideMenu;
+@property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
 @property (nonatomic, strong) IBOutlet UIView *noPhotosView;
 
@@ -40,11 +38,8 @@
 - (void)toggleMenu;
 - (void)toggleManagement;
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
-- (void)backButtonPressed;
-- (void)configureCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (IBAction)takeVideoPressed:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
-- (void)forceLoadPhotoForCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -54,6 +49,7 @@
     NSMutableArray *_objectChanges;
     NSMutableArray *_sectionChanges;
     NSMutableDictionary *thumbnailCache;
+	NSOperationQueue *_queue;
 }
 
 
@@ -67,16 +63,17 @@
 {
     CaptureViewfinderController *cameraController = [[CaptureViewfinderController alloc] initWithNibName:@"CaptureViewfinder" bundle:[NSBundle mainBundle]];
     cameraController.albums = @[self.selectedAlbum];
-    
     CaptureNavigationController *cameraNavController = [[CaptureNavigationController alloc] initWithRootViewController:cameraController];
     
-    
-    isPushingDetail = YES;
     [self presentViewController:cameraNavController animated:YES completion:nil];
 }
 
-- (void)backButtonPressed
+- (void)backButtonPressed:(id)sender
 {
+	NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!BACKKKKKK FROM PHOTOS");
+	// When we leave the album set all the photos as viewed
+	
+	
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -88,12 +85,14 @@
 {
     [super viewDidLoad];
 	
+	_queue = [[NSOperationQueue alloc] init];
+	
     self.title = self.selectedAlbum.name;
-        
+	
     _objectChanges = [NSMutableArray array];
     _sectionChanges = [NSMutableArray array];
     thumbnailCache = [[NSMutableDictionary alloc] init];
-    
+	
     self.imageLoadingQueue = [[NSOperationQueue alloc] init];
     self.imageLoadingQueue.maxConcurrentOperationCount = 1;
      
@@ -104,104 +103,66 @@
     self.navigationItem.rightBarButtonItem = menuButton;
     
     // Setup back button
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed)];
-    //NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
-	//[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
+    NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
+	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
 	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
 	self.navigationItem.backBarButtonItem = backButton;
 	
 	NSInteger nrOfPhotos = [self collectionView:nil numberOfItemsInSection:0];
 	
 	self.noPhotosView.hidden = (nrOfPhotos > 0);
+	
+	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+		
+		// Initialize the sidebar menu
+		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+		self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
+		self.sidebarRight.parentController = self;
+		self.sidebarRight.selectedAlbum = self.selectedAlbum;
+		
+		self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
+		self.sidebarLeft.parentController = self;
+		
+		self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController
+												   leftSideMenuController:self.sidebarLeft
+												  rightSideMenuController:self.sidebarRight
+																  panMode:MFSideMenuPanModeNavigationController];
+		
+		[self.navigationController setSideMenu:self.sauronTheSideMenu];
+		[self configureMenuForOrientation:self.interfaceOrientation];
+		
+		[self fetchedResultsController];
+	}];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self fetchedResultsController];
-
-        
-    // We've returned from pushing detail
-    if (isPushingDetail) {
-        [self.sauronTheSideMenu setupGestureRecognizers];
-        isPushingDetail = NO;
-    }
-    else
-    {        
-        // Initialize the sidebar menu
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-        self.sidebarMenuController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
-        self.sidebarMenuController.parentController = self;
-        self.sidebarMenuController.selectedAlbum = self.selectedAlbum;
-        
-        self.sidebarManagementController = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
-        self.sidebarManagementController.parentController = self;
-        
-        self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController leftSideMenuController:self.sidebarManagementController rightSideMenuController:self.sidebarMenuController panMode:MFSideMenuPanModeNavigationController];
-        
-        [self.navigationController setSideMenu:self.sauronTheSideMenu];
-        [self configureMenuForOrientation:self.interfaceOrientation];
-    }
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+	//[self.gridView reloadData];
+	
+	// Restore the sidemenu state, when is hide it loses x position
+	NSLog(@"viewWillappear %i", self.navigationController.sideMenu.menuState);
+	if (self.navigationController.sideMenu.menuState != MFSideMenuStateClosed) {
+		[self.navigationController.sideMenu setMenuState:self.navigationController.sideMenu.menuState];
+	}
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    [thumbnailCache removeAllObjects];
-    
-    // Kill any drag processes here and now
-    [self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
-    
-    // We have to make sure that all the gesture recognizers are removed from the nav controller before we're done with the grid controller.
-    while (self.navigationController.view.gestureRecognizers.count) {
-        [self.navigationController.view removeGestureRecognizer:[self.navigationController.view.gestureRecognizers objectAtIndex:0]];
-    }
-    
-    // Then kill the sidebar menu. (Only if we're not going to the detail photo view)
-    if (!isPushingDetail) {
-        
-        UIView *windowRootView = self.navigationController.view.window.rootViewController.view;
-        UIView *containerView = windowRootView.superview;
-        
-        for (UIView *aView in containerView.subviews) {
-            if (aView != self.navigationController.view.window.rootViewController.view)
-                [aView removeFromSuperview];
-        }
-        self.sauronTheSideMenu = nil;
-        self.sidebarMenuController.view = nil;
-        self.sidebarManagementController.view = nil;
-        self.sidebarManagementController = nil;
-        self.sidebarMenuController = nil;
-    }
-    
-}
-
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [[SVEntityStore sharedStore] setAllPhotosToHasViewedInAlbum:self.selectedAlbum];
-    });
-}
-
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-
 }
 
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {    
     [self configureMenuForOrientation:self.interfaceOrientation];
-    [self.gridView reloadData];
 }
 
 
@@ -213,33 +174,30 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    isPushingDetail = YES;
-    
+	NSLog(@"prepareForSegue %@", segue.identifier);
     if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
+		
         SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
         destination.currentAlbum = self.selectedAlbum;
     }
-    else if ([segue.identifier isEqualToString:@"ImagePickerSegue"])
-    {
+    else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
+		
         UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
         
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.selectedAlbum = self.selectedAlbum;
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
-		NSLog(@"prepareForSegue %@", segue.identifier);
+		
 		UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
         
         SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.selectedAlbum = self.selectedAlbum;
+		
+		//[self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
     }
 }
 
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
 
 
 #pragma mark - Memory Management
@@ -274,25 +232,63 @@
 	[cell.networkImageView prepareForReuse];
     cell.networkImageView.sizeForDisplay = NO;
     cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
-    
-    if (!cell.networkImageView.initialImage) {
-        cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
-    }
     cell.networkImageView.tag = indexPath.row;
     
-    AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	NSLog(@"photo: %i %@", indexPath.item, currentPhoto);
-	
-    UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
-    
-    if (!image) {
-        [self forceLoadPhotoForCell:cell atIndexPath:indexPath];
-    }
-    else
-    {
-        [cell.networkImageView setImage:image];
-    }
-	cell.unviewedLabel.hidden = [currentPhoto.hasViewed boolValue];
+	[_queue addOperationWithBlock:^{
+		
+		AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		NSLog(@"---------> photo cell: %i %@", indexPath.item, currentPhoto.date_created);
+		
+		UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
+		
+		if (!image) {
+			// Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
+			__block NSIndexPath *tagIndex = indexPath;
+			__block NSString *photoId = currentPhoto.photo_id;
+			
+			[[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
+				
+				if (image && cell.networkImageView.tag == tagIndex.row) {
+					
+					[thumbnailCache setObject:image forKey:photoId];
+					
+					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+						
+						[cell.networkImageView setImage:image];
+					}];
+					
+				}
+			}];
+		}
+		else
+		{
+			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+				
+				[cell.networkImageView setImage:image];
+			}];
+		}
+		
+		[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+			
+			if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
+				cell.networkImageView.alpha = 0.2;
+			}
+			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadProgress) {
+				[cell.activityView startAnimating];
+				cell.networkImageView.alpha = 0.2;
+			}
+			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadComplete) {
+				[cell.activityView stopAnimating];
+				cell.networkImageView.alpha = 1.0;
+			}
+			else {
+				cell.networkImageView.alpha = 1.0;
+			}
+			
+			cell.labelNewView.hidden = [currentPhoto.hasViewed boolValue];
+			
+		}];
+	}];
     
     return cell;
 }
@@ -304,10 +300,11 @@
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
-    SVAlbumDetailScrollViewController *detailController = [[SVAlbumDetailScrollViewController alloc] init];
+    SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.selectedPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	detailController.index = indexPath.item;
+	NSLog(@"selectedPhoto %@", detailController.selectedPhoto);
     
-    isPushingDetail = YES;
     [self.navigationController pushViewController:detailController animated:YES];
 }
 
@@ -334,9 +331,9 @@
 {
     if (self.sauronTheSideMenu.menuState == MFSideMenuStateClosed) {
         // kill all the recognizers while we're scrolling content
-        while (self.navigationController.view.gestureRecognizers.count) {
-            [self.navigationController.view removeGestureRecognizer:[self.navigationController.view.gestureRecognizers objectAtIndex:0]];
-        }
+//        while (self.navigationController.view.gestureRecognizers.count) {
+//            [self.navigationController.view removeGestureRecognizer:[self.navigationController.view.gestureRecognizers objectAtIndex:0]];
+//        }
     }
 }
 
@@ -344,7 +341,7 @@
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     if (self.sauronTheSideMenu.menuState == MFSideMenuStateClosed) {
-        [self.sauronTheSideMenu setupGestureRecognizers];
+        //[self.sauronTheSideMenu setupGestureRecognizers];
     }
 }
 
@@ -358,7 +355,7 @@
     }
     
     self.fetchedResultsController = [[SVEntityStore sharedStore] allPhotosForAlbum:self.selectedAlbum WithDelegate:self];
-    [self.gridView reloadData];
+    
     return _fetchedResultsController;
 }
 
@@ -411,44 +408,47 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    if ([_sectionChanges count] > 0)
-    {
-        [self.gridView performBatchUpdates:^{
-            
-            for (NSDictionary *change in _sectionChanges)
-            {
-                [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
-                    
-                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                    switch (type)
-                    {
-                        case NSFetchedResultsChangeInsert:
-                            [self.gridView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
-                        case NSFetchedResultsChangeDelete:
-                            [self.gridView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
-                        case NSFetchedResultsChangeUpdate:
-                            [self.gridView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
-                    }
-                }];
-            }
-        } completion:nil];
-    }
+	NSLog(@"SVAlbumGrid controllerDidChangeContent");
+//	[self.gridView reloadData];
+//	return;
+//    if ([_sectionChanges count] > 0)
+//    {
+//        [self.gridView performBatchUpdates:^{
+//            
+//            for (NSDictionary *change in _sectionChanges)
+//            {
+//                [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+//                    
+//                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+//                    switch (type)
+//                    {
+//                        case NSFetchedResultsChangeInsert:
+//                            [self.gridView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+//                            break;
+//                        case NSFetchedResultsChangeDelete:
+//                            [self.gridView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+//                            break;
+//                        case NSFetchedResultsChangeUpdate:
+//                            [self.gridView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+//                            break;
+//                    }
+//                }];
+//            }
+//        } completion:nil];
+//    }
     
-    if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
+    if ([_objectChanges count] > 0)
     {
-        
-        if ([self shouldReloadCollectionViewToPreventKnownIssue] || self.gridView.window == nil) {
-            // This is to prevent a bug in UICollectionView from occurring.
-            // The bug presents itself when inserting the first object or deleting the last object in a collection view.
-            // http://stackoverflow.com/questions/12611292/uicollectionview-assertion-failure
-            // This code should be removed once the bug has been fixed, it is tracked in OpenRadar
-            // http://openradar.appspot.com/12954582
-            [self.gridView reloadData];
-            
-        } else {
+//        if ([self shouldReloadCollectionViewToPreventKnownIssue] || self.gridView.window == nil) {
+//            // This is to prevent a bug in UICollectionView from occurring.
+//            // The bug presents itself when inserting the first object or deleting the last object in a collection view.
+//            // http://stackoverflow.com/questions/12611292/uicollectionview-assertion-failure
+//            // This code should be removed once the bug has been fixed, it is tracked in OpenRadar
+//            // http://openradar.appspot.com/12954582
+//            [self.gridView reloadData];
+//            
+//        } else
+		{
             
             [self.gridView performBatchUpdates:^{
                 
@@ -461,9 +461,11 @@
                         {
                             case NSFetchedResultsChangeInsert:
                                 [self.gridView insertItemsAtIndexPaths:@[obj]];
+								[[SVUploadManager sharedManager] uploadPhotos];
                                 break;
                             case NSFetchedResultsChangeDelete:
                                 [self.gridView deleteItemsAtIndexPaths:@[obj]];
+								[[SVUploadManager sharedManager] deletePhotos];
                                 break;
                             case NSFetchedResultsChangeUpdate:
                                 [self.gridView reloadItemsAtIndexPaths:@[obj]];
@@ -483,42 +485,10 @@
 	
 	NSInteger nrOfPhotos = [self collectionView:nil numberOfItemsInSection:0];
 	self.noPhotosView.hidden = (nrOfPhotos > 0);
+	
+	
 }
 
-- (BOOL)shouldReloadCollectionViewToPreventKnownIssue {
-	return NO;
-    __block BOOL shouldReload = NO;
-    for (NSDictionary *change in _objectChanges) {
-        [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-            NSIndexPath *indexPath = obj;
-            switch (type) {
-                case NSFetchedResultsChangeInsert:
-                    if ([self.gridView numberOfItemsInSection:indexPath.section] == 0) {
-                        shouldReload = YES;
-                    } else {
-                        shouldReload = NO;
-                    }
-                    break;
-                case NSFetchedResultsChangeDelete:
-                    if ([self.gridView numberOfItemsInSection:indexPath.section] == 1) {
-                        shouldReload = YES;
-                    } else {
-                        shouldReload = NO;
-                    }
-                    break;
-                case NSFetchedResultsChangeUpdate:
-                    shouldReload = NO;
-                    break;
-                case NSFetchedResultsChangeMove:
-                    shouldReload = NO;
-                    break;
-            }
-        }];
-    }
-    
-    return shouldReload;
-}
 
 
 #pragma mark - Private Methods
@@ -535,6 +505,8 @@
 
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation
 {
+	NSLog(@"configureMenuForOrientation");
+	//return;
     CGRect rightFrame = self.navigationController.sideMenu.rightSideMenuViewController.view.frame;
     rightFrame.size.height = 300;
     rightFrame.origin.x = 320 - kMFSideMenuSidebarWidth;
@@ -553,44 +525,34 @@
             if (IS_IPHONE_5) {
                 rightFrame.size.height = 548;
                 leftFrame.size.height = 548;
-
-            }
-            else
-            {
+            } else {
                 rightFrame.size.height = 460;
                 leftFrame.size.height = 460;
-
             }
             break;
+			
         case UIInterfaceOrientationPortraitUpsideDown:
             if (IS_IPHONE_5) {
                 rightFrame.size.height = 548;
                 leftFrame.size.height = 548;
-            }
-            else
-            {
+            } else {
                 rightFrame.size.height = 460;
                 leftFrame.size.height = 460;
             }
             break;
+			
         case UIInterfaceOrientationLandscapeLeft:
             if (IS_IPHONE_5) {
                 rightFrame.origin.x = 568 - kMFSideMenuSidebarWidth;
-            }
-            else
-            {
+            } else {
                 rightFrame.origin.x = 480 - kMFSideMenuSidebarWidth;
-                
             }
             break;
         case UIInterfaceOrientationLandscapeRight:
             if (IS_IPHONE_5) {
                 rightFrame.origin.x = 568 - kMFSideMenuSidebarWidth;
-            }
-            else
-            {
+            } else {
                 rightFrame.origin.x = 480 - kMFSideMenuSidebarWidth;
-                
             }
             break;
     }
@@ -600,25 +562,5 @@
 
 }
 
-- (void)forceLoadPhotoForCell:(SVAlbumGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
-    // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-    __block AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    __block NSIndexPath *tagIndex = indexPath;
-    __block NSString *photoId = currentPhoto.photo_id;
-	
-    [[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
-		
-        if (image && cell.networkImageView.tag == tagIndex.row) {
-            [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-            
-            [thumbnailCache setObject:image forKey:photoId];
-        }
-        else if (cell.networkImageView.tag == tagIndex.row)
-        {
-            [self forceLoadPhotoForCell:cell atIndexPath:indexPath];
-        }
-    }];
-}
 
 @end

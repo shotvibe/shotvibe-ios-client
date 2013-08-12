@@ -18,8 +18,8 @@
 #pragma mark - Properties
 
 @property (nonatomic, strong) Album *selectedAlbum;
-@property (nonatomic, strong) SVSidebarAlbumMemberViewController *sidebarMenuController;
-@property (nonatomic, strong) SVSidebarAlbumManagementViewController *sidebarManagementController;
+@property (nonatomic, strong) SVSidebarAlbumMemberViewController *sidebarRight;
+@property (nonatomic, strong) SVSidebarAlbumManagementViewController *sidebarLeft;
 
 
 @end

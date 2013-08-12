@@ -67,10 +67,7 @@
             
             [[NSUserDefaults standardUserDefaults] setObject:userId forKey:kApplicationUserId];
             [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Token %@", authToken] forKey:kApplicationUserAuthToken];
-            
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [[SVDownloadSyncEngine sharedEngine] start];
             
             [self handleSuccessfulLogin];
         }

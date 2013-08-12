@@ -8,7 +8,7 @@
 #import "Album.h"
 #import "SVInitializationWS.h"
 #import "SVDefines.h"
-#import "SVDownloadSyncEngine.h"
+//#import "SVDownloadSyncEngine.h"
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Setup.h"
 

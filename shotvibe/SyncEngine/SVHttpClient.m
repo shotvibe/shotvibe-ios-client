@@ -7,15 +7,15 @@
 //
 
 #import "AFJSONRequestOperation.h"
-#import "SVJSONAPIClient.h"
+#import "SVHttpClient.h"
 #import "SVDefines.h"
 
 
-@interface SVJSONAPIClient ()
+@interface SVHttpClient ()
 - (NSMutableURLRequest *)GETRequestForPath:(NSString *)path parameters:(NSDictionary *)parameters;
 @end
 
-@implementation SVJSONAPIClient
+@implementation SVHttpClient
 
 #pragma mark - Initialization
 
@@ -44,12 +44,12 @@
 
 #pragma mark - Class Methods
 
-+ (SVJSONAPIClient *)sharedClient
++ (SVHttpClient *)sharedClient
 {
-    static SVJSONAPIClient *sharedClient = nil;
+    static SVHttpClient *sharedClient = nil;
     static dispatch_once_t apiClientToken;
     dispatch_once(&apiClientToken, ^{
-        sharedClient = [[SVJSONAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAPIBaseURLString]];
+        sharedClient = [[SVHttpClient alloc] initWithBaseURL:[NSURL URLWithString:kAPIBaseURLString]];
     });
     
     return sharedClient;

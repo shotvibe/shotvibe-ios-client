@@ -18,7 +18,6 @@
 @dynamic etag;
 @dynamic last_updated;
 @dynamic name;
-@dynamic newPhotoTone;
 @dynamic notificationsOption;
 @dynamic objectSyncStatus;
 @dynamic pushNotificationsOption;

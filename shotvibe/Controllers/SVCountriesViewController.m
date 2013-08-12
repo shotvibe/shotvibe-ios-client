@@ -47,7 +47,9 @@
     }
 	allCountryCodes = [[NSArray alloc] initWithArray:countryCodes];
 	
-	countryCode_ = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+	countryCode_ = [[NSUserDefaults standardUserDefaults] stringForKey:kUserCountryCode];
+	if (countryCode_ == nil)
+		countryCode_ = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
 	
 	// Configure views
 	
@@ -151,7 +153,7 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
 	[self filterCountriesBy:searchBar.text];
-	self.countriesTable.frame = CGRectMake(0, 0, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-216-45-20);
+	self.countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-216-45-44-20);
 }
 
 
@@ -165,7 +167,7 @@
 {
     [self filterCountriesBy:searchBar.text];
     [searchBar resignFirstResponder];
-	self.countriesTable.frame = CGRectMake(0, 0, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-45-20);
+	self.countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-45-44-20);
 }
 
 - (void) filterCountriesBy:(NSString*)term {

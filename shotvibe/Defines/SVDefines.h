@@ -32,27 +32,25 @@ static NSString * const kAPIBaseURLString = @"https://api.shotvibe.com/";
 #define kPhotosLoadedForIndexPathNotification @"SVPhotosLoadedForIndexPath"
 #define kUploadPhotosToAlbumProgressNotification @"UploadPhotosToAlbumProgressNotification"
 
-#define kSVSyncEngineInitialSyncCompletedKey        @"SyncEngineInitialSyncCompleted"
-#define kSVSyncEngineSyncAlbumCompletedNotification @"SyncEngineSyncAlbumCompleted"
-#define kSVSyncEngineSyncCompletedNotification      @"SyncEngineSyncCompleted"
-#define kSVSyncEnginePhotoSavedToDiskNotification   @"SyncEnginePhotoSavedToDisk"
+#define kSVSyncEngineDownloadCompletedNotification	@"SyncEngineDownloadCompletedNotification"
+#define kSVSyncEngineDownloadIndividualCompletedNotification      @"SyncEngineDownloadIndividualCompletedNotification"
+#define kSVSyncEngineAlbumProcessedNotification   @"kSVSyncEngineAlbumProcessedNotification"
 
 #define kMemberNickname     @"nickname"
 #define kMemberPhone        @"phone"
 #define kMemberFirstName    @"firstName"
 #define kMemberLastName     @"lastname"
 
-typedef enum {
-    SVObjectSyncCompleted = 0,
-    SVObjectSyncWaiting,
-    SVObjectSyncDownloadNeeded,
-    SVObjectSyncUploadNeeded,
-} SVObjectSyncStatus;
+#define kUserCountryCode	@"country_code"
 
 typedef enum {
-    SVPhotoUploadCompleted = 0,
-    SVPhotoUploadWaiting,
-    SVPhotoUploadActive,
-} SVPhotoUploadStatus;
+    SVObjectSyncCompleted = 0,
+    SVObjectSyncDownloadNeeded,
+    SVObjectSyncUploadNeeded,
+    SVObjectSyncUploadProgress,
+    SVObjectSyncUploadComplete,
+    SVObjectSyncDeleteNeeded,
+} SVObjectSyncStatus;
+
 
 #endif

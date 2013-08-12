@@ -63,16 +63,34 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-    if([SVBusinessDelegate hasUserBeenAuthenticated])
-    {
-		[self handleSuccessfulLogin];
-    }
+	NSString *cc = [[NSUserDefaults standardUserDefaults] stringForKey:kUserCountryCode];
+	if (cc == nil) {
+		cc = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+	}
+    
+    self.countryFlagView.image = [UIImage imageNamed:cc];
+    NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
+    
+    self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
+	
+	//[self.phoneNumberField becomeFirstResponder];
 }
+
 - (void)viewWillAppear:(BOOL)animated {
 	
-	self.countryCodeLabel.text = self.countryCode;
-	self.phoneNumberField.text = self.phoneNumber;
+//	self.countryCodeLabel.text = self.countryCode;
+//	self.phoneNumberField.text = self.phoneNumber;
 	
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
+		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
+        destination.delegate = self;
+		countries = destination;
+    }
 }
 
 
@@ -86,14 +104,18 @@
 
 - (void)didSelectCountryWithName:(NSString *)name code:(NSString *)code
 {
-	NSLog(@"didselectcountry %@", name);
     // TODO: Handle setting the appropriate country phone code
+	
+	[[NSUserDefaults standardUserDefaults] setObject:code forKey:kUserCountryCode];
+	[[NSUserDefaults standardUserDefaults] synchronize];
     
     self.countryFlagView.image = [UIImage imageNamed:code];
+	self.countryCode = code;
     
     NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:code];
     
     self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
+	NSLog(@"didselectcountry %@ %@ %i", name, code, countryCode);
 }
 
 
@@ -132,6 +154,8 @@
 {
 	NSString *cc = [countries selectedCountryCode];
 	if (cc == nil)
+		cc = [[NSUserDefaults standardUserDefaults] stringForKey:kUserCountryCode];
+	if (cc == nil)
 		cc = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
 	
 	NSLog(@"submit %@ %@", cc, phoneNumber);
@@ -167,7 +191,7 @@
 - (void)handleSuccessfulLogin
 {
 	NSLog(@"handleSuccessfulLogin");
-    [[SVDownloadSyncEngine sharedEngine] startSync];
+    //[[SVDownloadSyncEngine sharedEngine] startSync];
     
     // Grab the storyboard
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];

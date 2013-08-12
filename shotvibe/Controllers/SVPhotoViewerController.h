@@ -8,12 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "NetworkPhotoAlbumViewController.h"
+#import "SVEntityStore.h"
 
 @class AlbumPhoto;
-@interface SVAlbumDetailScrollViewController : NetworkPhotoAlbumViewController <NIPhotoAlbumScrollViewDataSource, NIPhotoScrubberViewDataSource, NIOperationDelegate, UIActionSheetDelegate>
+@interface SVPhotoViewerController : NetworkPhotoAlbumViewController <NIPhotoAlbumScrollViewDataSource, NIPhotoScrubberViewDataSource, NIOperationDelegate, UIActionSheetDelegate>
 
 #pragma mark - Properties
 
+@property (nonatomic, strong) NSArray *sortedPhotos;
 @property (nonatomic, strong) AlbumPhoto *selectedPhoto;
+@property (nonatomic) int index;
+
+- (void)showImageAtIndex:(int)index;
 
 @end

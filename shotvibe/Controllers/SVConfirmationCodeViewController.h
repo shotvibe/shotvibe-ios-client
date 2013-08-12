@@ -10,7 +10,6 @@
 #import "SVAlbumListViewController.h"
 #import "SVBusinessDelegate.h"
 #import "SVDefines.h"
-#import "SVDownloadSyncEngine.h"
 #import "SVNoCodeViewController.h"
 
 @interface SVConfirmationCodeViewController : UIViewController <UITextFieldDelegate>

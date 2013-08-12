@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SVCountryViewCell.h"
+#import "SVDefines.h"
 
 @class SVCountriesViewController;
 

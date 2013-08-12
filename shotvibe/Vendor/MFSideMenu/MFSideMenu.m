@@ -402,7 +402,7 @@ typedef enum {
 
 - (void) navigationControllerTapped:(id)sender {
     if(self.menuState != MFSideMenuStateClosed) {
-        [self setMenuState:MFSideMenuStateClosed];
+        //[self setMenuState:MFSideMenuStateClosed];
     }
 }
 
@@ -490,7 +490,7 @@ typedef enum {
 
 - (void)statusBarOrientationDidChange:(NSNotification *)notification {
     if(self.menuState != MFSideMenuStateClosed) {
-        [self setMenuState:MFSideMenuStateClosed];
+        //[self setMenuState:MFSideMenuStateClosed];
     }
     
     
@@ -521,6 +521,7 @@ typedef enum {
 }
 
 - (void)setMenuState:(MFSideMenuState)menuState {
+	NSLog(@"MFMenu setMenuState: %i", menuState);
     switch (menuState) {
         case MFSideMenuStateClosed:
             [self closeSideMenu];
@@ -552,6 +553,7 @@ typedef enum {
 }
 
 - (void)openSideMenu:(BOOL)leftSideMenu {
+	
     // notify that the menu state event is starting
     [self sendMenuStateEventNotification:MFSideMenuStateEventMenuWillOpen];
     
@@ -572,7 +574,7 @@ typedef enum {
     }
     
     if(duration > kMFSideMenuAnimationMaxDuration) duration = kMFSideMenuAnimationMaxDuration;
-    
+    NSLog(@"open side menu %i x:%f", leftSideMenu, navigationControllerXPosition);
     [UIView animateWithDuration:duration animations:^{
         [self setRootControllerOffset:navigationControllerXPosition];
     } completion:^(BOOL finished) {
@@ -587,6 +589,7 @@ typedef enum {
 }
 
 - (void)closeSideMenu {
+	NSLog(@"closeSideMenu");
     // notify that the menu state event is starting
     [self sendMenuStateEventNotification:MFSideMenuStateEventMenuWillClose];
     

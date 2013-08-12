@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "SVAlbumDetailScrollViewController.h"
+#import "SVPhotoViewerController.h"
 #import "SVDefines.h"
 #import "AlbumPhoto.h"
 #import "Album.h"
@@ -14,9 +14,8 @@
 #import "MFSideMenu.h"
 #import "Member.h"
 #import "SVBusinessDelegate.h"
-#import "SVEntityStore.h"
 
-@interface SVAlbumDetailScrollViewController ()
+@interface SVPhotoViewerController ()
 
 @property (nonatomic, strong) UILabel *detailLabel;
 
@@ -27,34 +26,10 @@
 - (void)configureDetailText;
 @end
 
-@implementation SVAlbumDetailScrollViewController
+@implementation SVPhotoViewerController
 {
-    Album *selectedAlbum;
+	
 }
-
-#pragma mark - Actions
-
-- (void)deleteButtonPressed
-{
-    // Do stuff
-}
-
-
-- (void)exportButtonPressed
-{
-    // Do other stuff
-    
-    UIActionSheet *exportOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Move Picture", @""), NSLocalizedString(@"Share to Facebook", @""), NSLocalizedString(@"Share to Instagram", @""), NSLocalizedString(@"Set as Profile Picture", @""), NSLocalizedString(@"Email photo", @""), NSLocalizedString(@"Get Link", @""), nil];
-    
-    [exportOptions showFromToolbar:self.toolbar];
-}
-
-
-- (void)toggleMenu
-{
-    [self.navigationController.sideMenu toggleRightSideMenu];
-}
-
 
 #pragma mark - Initializers
 
@@ -91,17 +66,21 @@
     self.detailLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
     [self.toolbar addSubview:self.detailLabel];
     
-    selectedAlbum = self.selectedPhoto.album;
-    
     self.photoAlbumView.dataSource = self;
     self.photoScrubberView.dataSource = self;
-    [self loadImages];
-    [self.photoScrubberView reloadData];
+    
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
+	self.sortedPhotos = [[self.selectedPhoto.album.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]];
+	
+	[self.photoScrubberView reloadData];
     [self.photoAlbumView reloadData];
     
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:NO];
-    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
-    [self.photoAlbumView moveToPageAtIndex:[[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] indexOfObject:self.selectedPhoto] animated:NO];
+	[self showImageAtIndex:self.index];
+}
+
+- (void)showImageAtIndex:(int)index {
+	[self.photoAlbumView moveToPageAtIndex:index animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -110,7 +89,7 @@
     
     self.navigationController.navigationBar.translucent = NO;
     // Kill any drag processes here and now
-    [self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
+    //[self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
 }
 
 
@@ -124,20 +103,20 @@
 #pragma mark NIPhotoScrubberViewDataSource
 
 - (NSInteger)numberOfPhotosInScrubberView:(NIPhotoScrubberView *)photoScrubberView {
-    return [selectedAlbum.albumPhotos count];
+    return [self.sortedPhotos count];
 }
 
 
 - (UIImage *)photoScrubberView: (NIPhotoScrubberView *)photoScrubberView
               thumbnailAtIndex: (NSInteger)thumbnailIndex {
-	
+	return nil;
     NSString* photoIndexKey = [self cacheKeyForPhotoIndex:thumbnailIndex];
     
     UIImage* image = [self.highQualityImageCache objectWithName:photoIndexKey];
-    if (nil == image) {
-        NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:NO];
-        NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
-        AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:thumbnailIndex];
+    
+	if (nil == image) {
+		
+        AlbumPhoto* photo = [self.sortedPhotos objectAtIndex:thumbnailIndex];
         
         NSString* thumbnailSource = [[photo.photo_url stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
         [self requestImageFromSource: thumbnailSource
@@ -153,7 +132,7 @@
 
 
 - (NSInteger)numberOfPagesInPagingScrollView:(NIPhotoAlbumScrollView *)photoScrollView {
-    return [selectedAlbum.albumPhotos count];
+    return [self.sortedPhotos count];
 }
 
 
@@ -162,17 +141,15 @@
                         photoSize: (NIPhotoScrollViewPhotoSize *)photoSize
                         isLoading: (BOOL *)isLoading
           originalPhotoDimensions: (CGSize *)originalPhotoDimensions {
-    UIImage* image = nil;
-    
+	
     NSString* photoIndexKey = [self cacheKeyForPhotoIndex:photoIndex];
     
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:NO];
-    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
-    AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:photoIndex];
+    AlbumPhoto* photo = [self.sortedPhotos objectAtIndex:photoIndex];
+    self.selectedPhoto = photo;
+	self.index = photoIndex;
     
-    
-    image = [self.highQualityImageCache objectWithName:photoIndexKey];
-    
+    UIImage* image = image = [self.highQualityImageCache objectWithName:photoIndexKey];
+    NSLog(@"requesting image %@", photoIndexKey);
     if (!image) {
         image = [[SVEntityStore sharedStore] getImageForPhoto:photo];
     }
@@ -191,7 +168,8 @@
 }
 
 
-- (id<NIPagingScrollViewPage>)pagingScrollView:(NIPagingScrollView *)pagingScrollView pageViewForIndex:(NSInteger)pageIndex {
+- (id<NIPagingScrollViewPage>)pagingScrollView:(NIPagingScrollView *)pagingScrollView
+							  pageViewForIndex:(NSInteger)pageIndex {
     return [self.photoAlbumView pagingScrollView:pagingScrollView pageViewForIndex:pageIndex];
 }
 
@@ -204,32 +182,10 @@
 }
 
 
-#pragma mark - Private Methods
-
-- (void)loadImages {
-    /*for (NSInteger ix = 0; ix < [selectedAlbum.albumPhotos count]; ++ix) {
-        NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
-        NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photoId" ascending:YES];
-        AlbumPhoto* photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:ix];
-        
-        NSString* photoIndexKey = [self cacheKeyForPhotoIndex:ix];
-        
-        // Don't load the thumbnail if it's already in memory.
-        if (![self.highQualityImageCache containsObjectWithName:photoIndexKey]) {
-            NSString* source = [[photo.photoUrl stringByDeletingPathExtension] stringByAppendingString:kPhotoThumbExtension];
-            [self requestImageFromSource: source
-                               photoSize: NIPhotoScrollViewPhotoSizeThumbnail
-                              photoIndex: ix];
-        }
-    }*/
-}
-
 
 - (void)configureDetailText
 {
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:NO];
-    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
-    AlbumPhoto *photo = [[[selectedAlbum.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]] objectAtIndex:self.photoAlbumView.centerPageIndex];
+    AlbumPhoto *photo = [self.sortedPhotos objectAtIndex:self.photoAlbumView.centerPageIndex];
     
     NSString *updatedBy = NSLocalizedString(@"Updated by ", @"");
     
@@ -237,6 +193,12 @@
     formatter.dateFormat = @"MM.dd, HH:mm\"";
     
     self.detailLabel.text = [NSString stringWithFormat:@"%@%@\n%@", updatedBy, photo.author.nickname, [NSDateFormatter localizedStringFromDate:photo.date_created dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]];
+	
+	if (photo.hasViewed.intValue == 0) {
+		//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+			[[SVEntityStore sharedStore] setPhotoAsViewed:photo.photo_id];
+		//});
+	}
 }
 
 
@@ -296,7 +258,43 @@
                   (self.photoAlbumView.centerPageIndex + 1),
                   self.photoAlbumView.numberOfPages];*/
     
-    self.title = selectedAlbum.name;
+    self.title = self.selectedPhoto.album.name;
+}
+
+#pragma mark - Actions
+
+- (void)deleteButtonPressed
+{
+    // Do stuff
+	[[SVEntityStore sharedStore] deletePhoto:self.selectedPhoto];
+	
+	NSMutableArray *arr = [NSMutableArray arrayWithArray:self.sortedPhotos];
+	[arr removeObject:self.selectedPhoto];
+	
+	NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:NO];
+    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
+	self.sortedPhotos = [arr sortedArrayUsingDescriptors:@[descriptor, idDescriptor]];
+	
+	[self.photoScrubberView reloadData];
+    [self.photoAlbumView reloadData];
+    
+	[self showImageAtIndex:self.index];
+}
+
+
+- (void)exportButtonPressed
+{
+    // Do other stuff
+    
+    UIActionSheet *exportOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Move Picture", @""), NSLocalizedString(@"Share to Facebook", @""), NSLocalizedString(@"Share to Instagram", @""), NSLocalizedString(@"Set as Profile Picture", @""), NSLocalizedString(@"Email photo", @""), NSLocalizedString(@"Get Link", @""), nil];
+    
+    [exportOptions showFromToolbar:self.toolbar];
+}
+
+
+- (void)toggleMenu
+{
+    [self.navigationController.sideMenu toggleRightSideMenu];
 }
 
 

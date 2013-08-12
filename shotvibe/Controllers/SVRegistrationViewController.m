@@ -12,8 +12,6 @@
 #import "NBPhoneNumber.h"
 #import "SVBusinessDelegate.h"
 #import "SVDefines.h"
-#import "SVDownloadSyncEngine.h"
-#import "SVUploadQueueManager.h"
 
 @interface SVRegistrationViewController ()
 
@@ -22,6 +20,7 @@
 @property (nonatomic, strong) IBOutlet UIImageView *countryFlagView;
 @property (nonatomic, strong) IBOutlet UITextField *phoneNumberField;
 @property (nonatomic, strong) IBOutlet UILabel *countryCodeLabel;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (nonatomic, strong) NSString *confirmationCode;
 
@@ -85,15 +84,21 @@
     {
 		[self handleSuccessfulLogin];
     }
+	else {
+		
+		NSString *cc = [[NSUserDefaults standardUserDefaults] stringForKey:kUserCountryCode];
+		if (cc == nil) {
+			cc = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+		}
+		
+		self.countryFlagView.image = [UIImage imageNamed:cc];
+		NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
+		
+		self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
+		
+		[self.phoneNumberField becomeFirstResponder];
+	}
 	
-	NSString *cc = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-    
-    self.countryFlagView.image = [UIImage imageNamed:cc];
-    NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
-    
-    self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
-	
-	[self.phoneNumberField becomeFirstResponder];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -123,6 +128,9 @@
 - (void)didSelectCountryWithName:(NSString *)name code:(NSString *)code
 {
 	NSLog(@"didselectcountry %@", name);
+	[[NSUserDefaults standardUserDefaults] setObject:code forKey:kUserCountryCode];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	
     // TODO: Handle setting the appropriate country phone code
     
     self.countryFlagView.image = [UIImage imageNamed:code];
@@ -166,12 +174,18 @@
 
 - (void)submitPhoneNumberRegistration:(NSString *)phoneNumber
 {
+	[self.activityIndicator startAnimating];
+	
 	NSString *cc = [countries selectedCountryCode];
+	if (cc == nil)
+		cc = [[NSUserDefaults standardUserDefaults] stringForKey:kUserCountryCode];
 	if (cc == nil)
 		cc = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
 	
 	NSLog(@"submit %@ %@", cc, phoneNumber);
 	[SVBusinessDelegate registerPhoneNumber:phoneNumber withCountryCode:cc WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {
+		
+		[self.activityIndicator stopAnimating];
 		
 		NSLog(@"received confirmationCode %@", confirmationCode);
 		
@@ -203,7 +217,7 @@
 - (void)handleSuccessfulLogin
 {
 	NSLog(@"handleSuccessfulLogin");
-    [[SVDownloadSyncEngine sharedEngine] startSync];
+    //[[SVDownloadSyncEngine sharedEngine] startSync];
     
     // Grab the storyboard
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];

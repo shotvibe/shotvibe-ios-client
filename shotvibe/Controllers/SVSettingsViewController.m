@@ -9,9 +9,12 @@
 
 #import "SVSettingsViewController.h"
 #import "Album.h"
+#import "AlbumPhoto.h"
+#import "Member.h"
 #import "SVAlbumNotificationSettingsViewController.h"
 #import "SVDefines.h"
 #import "SVRegistrationViewController.h"
+#import "SVEntityStore.h"
 
 @interface SVSettingsViewController ()
 
@@ -89,24 +92,70 @@
 
 - (IBAction)doUsage:(id)sender {
 	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *applicationDocumentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *url = [NSURL URLWithString:@"SVImages/" relativeToURL:applicationDocumentsDirectory];
+	
+	NSArray *contents = [fileManager contentsOfDirectoryAtPath:[url path] error:nil];
+    NSEnumerator *contentsEnumurator = [contents objectEnumerator];
+	
+    NSString *file;
+    unsigned long long int folderSize = 0;
+	int fnr = 0;
+	
+    while (file = [contentsEnumurator nextObject]) {
+        NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:[[url path] stringByAppendingPathComponent:file] error:nil];
+        folderSize += [[fileAttributes objectForKey:NSFileSize] intValue];
+		fnr++;
+    }
+	
+    //This line will give you formatted size from bytes ....
+    NSString *folderSizeStr = [NSByteCountFormatter stringFromByteCount:folderSize countStyle:NSByteCountFormatterCountStyleFile];
+    
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Usage", @"")
+													message:[NSString stringWithFormat:@"You are using %@ and %i photos", folderSizeStr, fnr/2]
+												   delegate:nil
+										  cancelButtonTitle:NSLocalizedString(@"Ok", @"")
+										  otherButtonTitles:nil];
+	[alert show];
 }
 
 - (IBAction)doLogout:(id)sender {
 	
-	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserId];
-	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserAuthToken];
-	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kUserAlbumsLastRequestedDate];
-	[[NSUserDefaults standardUserDefaults] synchronize];
-	
-	//[self.navigationController popToRootViewControllerAnimated:YES];
-	
-	// Grab the storyboard
-	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    
-    // Grab the deal and make it our root view controller from the storyboard for this navigation controller
-    SVRegistrationViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVRegistrationViewController"];
-    
-    [self.navigationController setViewControllers:@[rootView] animated:YES];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Log Out", @"")
+													message:NSLocalizedString(@"Logging out will delete all the data from the app, are you sure you want to continue?", @"")
+												   delegate:self
+										  cancelButtonTitle:NSLocalizedString(@"No", @"")
+										  otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
+	[alert show];
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	
+	if (buttonIndex == 1) {
+		
+		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserId];
+		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserAuthToken];
+		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kUserAlbumsLastRequestedDate];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		
+		NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
+		[Member MR_truncateAllInContext:localContext];
+		[Album MR_truncateAllInContext:localContext];
+		[AlbumPhoto MR_truncateAllInContext:localContext];
+		[localContext MR_saveToPersistentStoreAndWait];
+		
+		[[SVEntityStore sharedStore] wipe];
+		
+		// Grab the storyboard
+		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+		
+		// Grab the deal and make it our root view controller from the storyboard for this navigation controller
+		SVRegistrationViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVRegistrationViewController"];
+		
+		[self.navigationController setViewControllers:@[rootView] animated:YES];
+	}
+}
+
 
 @end

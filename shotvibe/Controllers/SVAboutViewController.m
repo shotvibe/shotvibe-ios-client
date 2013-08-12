@@ -30,10 +30,7 @@
 - (IBAction)playButtonPressed:(id)sender
 {
     self.playButton.hidden = YES;
-
-    // Simulate a crash, for testing crash reporting
-    [[Crashlytics sharedInstance] crash];
-
+	
     if (self.movieController) {
         [self.movieController play];
     }

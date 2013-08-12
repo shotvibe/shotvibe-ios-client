@@ -40,4 +40,9 @@
 + (void) validateRegistrationCode:(NSString *) confirmationCode withConfirmationCode:(NSString *) confirmationCode WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId,  NSError *error))block;
 
 + (BOOL) hasUserBeenAuthenticated;
+
+// Album management options
++ (void) leaveAlbum:(Album*)album completion:(void (^)(BOOL success))block;
+
+
 @end

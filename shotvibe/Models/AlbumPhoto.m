@@ -15,12 +15,11 @@
 
 @dynamic date_created;
 @dynamic hasViewed;
-@dynamic imageWasDownloaded;
+@dynamic isNew;
 @dynamic objectSyncStatus;
 @dynamic photoUploadStatus;
 @dynamic photo_id;
 @dynamic photo_url;
-@dynamic local_url;
 @dynamic tempPhotoId;
 @dynamic album;
 @dynamic author;

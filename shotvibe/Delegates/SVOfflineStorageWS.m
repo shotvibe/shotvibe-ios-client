@@ -128,20 +128,20 @@
         if ([imageData writeToFile:filePath atomically:YES]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                NSManagedObjectContext *localContext = nil;
+                //NSManagedObjectContext *localContext = nil;
                 
                 NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
                 
                 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %@", albumId];
                 fetchRequest.predicate = predicate;
                 
-                NSError *fetchError = nil;
+                //NSError *fetchError = nil;
                 
-                Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:&fetchError] lastObject];
+                //Album *localAlbum = (Album *)[[localContext executeFetchRequest:fetchRequest error:&fetchError] lastObject];
                 
-                NSString *photoIdToPost = [NSString stringWithString:photoId];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEnginePhotoSavedToDiskNotification object:photoIdToPost];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineSyncAlbumCompletedNotification object:localAlbum];
+                //NSString *photoIdToPost = [NSString stringWithString:photoId];
+                //[[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEnginePhotoSavedToDiskNotification object:photoIdToPost];
+                //[[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineSyncAlbumCompletedNotification object:localAlbum];
                 
             });
         }

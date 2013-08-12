@@ -20,18 +20,10 @@
 
 static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
-#ifdef CONFIGURATION_Debug
-static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
-#elif CONFIGURATION_Adhoc
-static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef27246f6ae6";
-#endif
 
 @interface SVEntityStore ()
 
 @property (nonatomic, strong) NSOperationQueue *imageQueue;
-@property (nonatomic, strong) NSURL *imageDataDirectory;
-
-- (NSURL *)applicationDocumentsDirectory;
 
 @end
 
@@ -42,27 +34,34 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (NSURL *)imageDataDirectory
 {
     if (!_imageDataDirectory) {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
         
         _imageDataDirectory = [NSURL URLWithString:@"SVImages/" relativeToURL:[self applicationDocumentsDirectory]];
-        
-        NSError *error = nil;
-        if (![fileManager fileExistsAtPath:[_imageDataDirectory path]]) {
-            [fileManager createDirectoryAtPath:[_imageDataDirectory path] withIntermediateDirectories:YES attributes:nil error:&error];
-        }
-        
-        NSError *attributeError = nil;
-        BOOL success = [_imageDataDirectory setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
-        if(!success){
-            NSLog(@"Error excluding %@ from backup %@", [_imageDataDirectory lastPathComponent], attributeError);
-        }
+		
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSError *error = nil;
+		if (![fileManager fileExistsAtPath:[_imageDataDirectory path]]) {
+			[fileManager createDirectoryAtPath:[_imageDataDirectory path] withIntermediateDirectories:YES attributes:nil error:&error];
+		}
+		
+		NSError *attributeError = nil;
+		BOOL success = [_imageDataDirectory setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
+		if(!success){
+			NSLog(@"Error excluding %@ from backup %@", [_imageDataDirectory lastPathComponent], attributeError);
+		}
     }
     
     return _imageDataDirectory;
 }
 
+- (void)wipe {
+	
+	NSError *error = nil;
+	[[NSFileManager defaultManager] removeItemAtURL:_imageDataDirectory error:&error];
+	_imageDataDirectory = nil;
+	
+	[self imageDataDirectory];
+}
 
-#pragma mark - Initialization
 
 #pragma mark - Initialization
 
@@ -121,7 +120,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     if (![fetchedResultsController performFetch:&fetchError]) {
         NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
     }
-    
+    NSLog(@"get the allAlbumsForCurrentUserWithDelegate");
     return fetchedResultsController;
 }
 
@@ -153,20 +152,23 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
-    NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:NO];
+    NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
     NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
     
     fetchRequest.sortDescriptors = @[datecreatedDescriptor, idDescriptor];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album == %@", anAlbum];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album == %@ AND objectSyncStatus != %i", anAlbum, SVObjectSyncDeleteNeeded];
     fetchRequest.predicate = predicate;
     
-    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext defaultContext] sectionNameKeyPath:nil cacheName:nil];
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+																							   managedObjectContext:[NSManagedObjectContext defaultContext]
+																								 sectionNameKeyPath:nil
+																										  cacheName:nil];
     fetchedResultsController.delegate = delegate;
     
     NSError *fetchError = nil;
     if (![fetchedResultsController performFetch:&fetchError]) {
-        NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
+        NSLog(@"There was an error fetching the album photos: %@", fetchError.userInfo);
     }
     
     return fetchedResultsController;
@@ -175,16 +177,41 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 #pragma mark - Album Methods
 
-- (void)setAllPhotosToHasViewedInAlbum:(Album *)anAlbum
+- (void)setAllPhotosToNotNew
 {
+	NSLog(@"setAllPhotosToNotNew");
+	
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
-        
-        NSArray *photos = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@", localAlbum.albumId] inContext:localContext];
-        
-        for (AlbumPhoto *photo in photos) {
-            [photo setHasViewed:[NSNumber numberWithBool:YES]];
-        }
+		
+		NSArray *ar = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"isNew == YES"]
+											 inContext:localContext];
+		NSLog(@"setAllPhotosToNotNew new ar : %i", ar.count);
+		for (AlbumPhoto *p in ar) {
+			p.isNew = [NSNumber numberWithBool:NO];
+		}
+    }];
+}
+- (void)setPhotosInAlbumToNotNew:(Album*)album {
+	
+	[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+		
+		NSArray *ar = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"isNew == YES AND album.albumId == %@", album.albumId]
+											 inContext:localContext];
+		for (AlbumPhoto *p in ar) {
+			p.isNew = [NSNumber numberWithBool:NO];
+		}
+    }];
+}
+
+- (void)setPhotoAsViewed:(NSString *)photoId
+{
+	NSLog(@"setPhotoIdAsViewed %@", photoId);
+	
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+		
+		AlbumPhoto *p = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"photo_id == %@", photoId]
+												 inContext:localContext];
+		[p setHasViewed:[NSNumber numberWithBool:YES]];
     }];
 }
 
@@ -192,21 +219,22 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 - (void)newAlbumWithName:(NSString *)albumName andUserID:(NSNumber *)userID
 {    
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+		
         Album *localAlbum = [Album createInContext:localContext];
         
         // Create the first member too...
         Member *localMember = [Member createInContext:localContext];
+		localMember.nickname = @"Me";
         [localMember setUserId:userID];
         
         NSString *tempAlbumId = [[NSUUID UUID] UUIDString];
         
         [localAlbum setAlbumId:tempAlbumId];
-        [localAlbum setTempAlbumId:tempAlbumId];
         [localAlbum setDate_created:[NSDate date]];
         [localAlbum setLast_updated:[NSDate date]];
         [localAlbum setName:albumName];
         [localAlbum setUrl:@""];
-        [localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncWaiting]];
+        [localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
         [localAlbum setEtag:@"0"];
         [localAlbum addMembersObject:localMember];
 
@@ -227,7 +255,6 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
             [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
             [localPhoto setTempPhotoId:photoId];
             [localPhoto setPhoto_id:photoId];
-            [localPhoto setImageWasDownloaded:[NSNumber numberWithBool:YES]];
             [localPhoto setPhoto_url:@""];
             
             [localAlbum addAlbumPhotosObject:localPhoto];
@@ -237,6 +264,28 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     } else {
         NSLog(@"WE'VE LOST INTELLIGENCE SIR!! SO WE WON'T ADD ZOMBIE PHOTOS OK?");
     }
+}
+- (void)leaveAlbum:(Album*)album completion:(void (^)(BOOL success, NSError *error))block {
+	
+	NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:0];
+    NSString *path = [NSString stringWithFormat:@"/albums/%@/leave/", album.albumId];
+    
+    [self postPath:path
+		parameters:parameters
+		   success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+			   //NSData *responseData = (NSData *)responseObject;
+        
+			   //id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+			   NSLog(@"response ok %@", responseObject);
+			   
+			   block (YES, nil);
+    }
+		   failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               NSLog(@"response error %@", error);
+			   block (NO, error);
+               
+	}];
 }
 
 
@@ -328,7 +377,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         
         id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
         
-        NSMutableDictionary *confirmationCode = (NSMutableDictionary *)json;
+        //NSMutableDictionary *confirmationCode = (NSMutableDictionary *)json;
         
         NSLog(@"invitePhoneNumbers album content response:  %@", json);
         
@@ -354,32 +403,44 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         self.imageQueue = [[NSOperationQueue alloc] init];
     }
     
-    __block AlbumPhoto *blockPhoto = (AlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
-    
-    [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
-        if (imageData) {
-            UIImage *image = [UIImage imageWithData:imageData];
-            block(image);
-            
-            imageData = nil;
-        }
-        else
-        {
-            NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
-            
-            NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
-            [NSURLConnection sendAsynchronousRequest:request queue:self.imageQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                if (data) {
-                    [self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
-                        // don't care >:O
-                    }];
-                    
-                    UIImage *image = [UIImage imageWithData:data scale:0.25];
-                    block(image);
-                }
-            }];
-        }
-    }];
+	[self.imageQueue addOperationWithBlock:^{
+		
+		__block AlbumPhoto *blockPhoto = (AlbumPhoto *)aPhoto;
+		
+		[self getImageDataForImageID:aPhoto.photo_id WithCompletion:^(NSData *imageData) {
+			
+			if (imageData) {
+				UIImage *image = [UIImage imageWithData:imageData];
+				[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+					
+					block(image);
+				}];
+				
+				imageData = nil;
+			}
+			else
+			{
+				NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
+				NSURLResponse *response = nil;
+				NSError *err = nil;
+				NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
+				
+				NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+				if (data) {
+					[self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
+						// don't care >:O
+					}];
+					
+					UIImage *image = [UIImage imageWithData:data scale:0.25];
+					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+						block(image);
+					}];
+				}
+			}
+		}];
+		
+	}];
+	
 }
 
 
@@ -392,6 +453,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     __block AlbumPhoto *blockPhoto = (AlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
     
     [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
+		
         if (imageData) {
             block(imageData, YES);
             
@@ -527,9 +589,10 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
                 block(NO, nil, error);
             } else {
                 
+				// Now that the image is saved create a thumb
                 UIImage *originalImage = [UIImage imageWithContentsOfFile:[fileURL path]];
                 
-                CGSize newSize = CGSizeMake(100, 100);
+                CGSize newSize = CGSizeMake(200, 200);
                 
                 float oldWidth = originalImage.size.width;
                 float scaleFactor = newSize.width / oldWidth;
@@ -558,4 +621,22 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
         block(NO, nil, error);
     }
 }
+
+- (void)deletePhoto:(AlbumPhoto *)aPhoto {
+	
+	// Remove photo from disk first
+	NSError *error = nil;
+	NSURL *url = [_imageDataDirectory URLByAppendingPathComponent:aPhoto.photo_id];
+	NSURL *url_thumb = [_imageDataDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@_thumbnail", aPhoto.photo_id]];
+	[[NSFileManager defaultManager] removeItemAtURL:url error:&error];
+	[[NSFileManager defaultManager] removeItemAtURL:url_thumb error:&error];
+	
+	__block AlbumPhoto *p = aPhoto;
+	
+	[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+		
+		[p setObjectSyncStatus:[NSNumber numberWithInt:SVObjectSyncDeleteNeeded]];
+    }];
+}
+
 @end

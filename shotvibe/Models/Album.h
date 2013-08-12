@@ -18,7 +18,6 @@
 @property (nonatomic, retain) NSString * etag;
 @property (nonatomic, retain) NSDate * last_updated;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * newPhotoTone;
 @property (nonatomic, retain) NSNumber * notificationsOption;
 @property (nonatomic, retain) NSNumber * objectSyncStatus;
 @property (nonatomic, retain) NSNumber * pushNotificationsOption;

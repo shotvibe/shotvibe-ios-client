@@ -102,6 +102,7 @@
     
     // Grab relevant album asset urls
     [SVBusinessDelegate loadAllAssetsForAlbumGroup:selectedGroup WithCompletion:^(NSArray *assets, NSError *error) {
+		
         CaptureSelectImagesViewController *selectImagesViewController = [[CaptureSelectImagesViewController alloc] initWithNibName:@"CaptureSelectImagesViewController" bundle:[NSBundle mainBundle]];
         
         selectImagesViewController.libraryPhotos = [[NSArray alloc] initWithArray:assets];

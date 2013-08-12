@@ -6,22 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "Album.h"
-#import "NINetworkImageView.h"
-#import "SVAlbumListViewCell.h"
 #import "SVAlbumListViewController.h"
-#import "SVAlbumGridViewController.h"
-#import "SVOfflineStorageWS.h"
-#import "SVDefines.h"
-#import "SVEntityStore.h"
-#import "NSDate+Formatting.h"
-#import "Member.h"
-#import "AlbumPhoto.h"
-#import "SVBusinessDelegate.h"
-#import "MagicalRecordShorthand.h"
-#import "MagicalRecord+Actions.h"
-#import "NSManagedObjectContext+MagicalRecord.h"
-#import "SVEntityStore.h"
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
@@ -42,8 +27,8 @@
 
 
 - (void)configureViews;
-- (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
-- (void)updateCell:(SVAlbumListViewCell *)cell AtIndexPath:(NSIndexPath *)indexPath;
+//- (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+//- (void)updateCell:(SVAlbumListViewCell *)cell AtIndexPath:(NSIndexPath *)indexPath;
 - (void)profilePressed;
 - (void)settingsPressed;
 - (void)showDropDown;
@@ -68,44 +53,29 @@
 	UIView *sectionView;
 	CaptureViewfinderController *cameraController;
 	NSIndexPath *tappedCell;
+	NSOperationQueue *_queue;
 }
 
 #pragma mark - Actions
 
-- (void)profilePressed
-{
+- (void)profilePressed {
 	[self performSegueWithIdentifier:@"ProfileSegue" sender:nil];
 }
-
-
-- (void)settingsPressed
-{
+- (void)settingsPressed {
     [self performSegueWithIdentifier:@"SettingsSegue" sender:nil];
 }
-
-
-- (IBAction)newAlbumButtonPressed:(id)sender
-{
+- (IBAction)newAlbumButtonPressed:(id)sender {
     [self showDropDown];
 }
-
-
-- (IBAction)newAlbumClose:(id)sender
-{
+- (IBAction)newAlbumClose:(id)sender {
     [self hideDropDown];
 }
-
-
-- (IBAction)newAlbumDone:(id)sender
-{
+- (IBAction)newAlbumDone:(id)sender {
 	NSString *name = self.albumField.text.length == 0 ? self.albumField.placeholder : self.albumField.text;
     [self createNewAlbumWithTitle:name];
     [self hideDropDown];
 }
-
-
-- (IBAction)takePicturePressed:(id)sender
-{
+- (IBAction)takePicturePressed:(id)sender {
     // Max of 9 albums wat
     NSUInteger albumCount = 0;
     
@@ -163,6 +133,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	_queue = [[NSOperationQueue alloc] init];
  
     // When we get to the album list view we no longer need to worry about rotation blocks from logging in, switch it to allowing rotation.
     CaptureNavigationController *navController = (CaptureNavigationController *)self.navigationController;
@@ -177,6 +149,15 @@
     [self configureViews];
 	
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
+	
+	UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	[refresh addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+	[self.tableView addSubview:refresh];
+	
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadCompleted:) name:kSVSyncEngineDownloadCompletedNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSVSyncEngineAlbumProcessedNotification object:nil];
 }
 
 
@@ -187,9 +168,8 @@
     if (tappedCell != nil) {
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 	}
-	
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCompleted:) name:kSVSyncEngineSyncCompletedNotification object:nil];
-   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSVSyncEngineSyncAlbumCompletedNotification object:nil];
+
+	[[SVDownloadManager sharedManager] downloadAlbums];
 }
 
 
@@ -300,70 +280,91 @@
 	
 	// Get the album latest image
 	
-	Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	NSArray *allPhotos = [anAlbum.albumPhotos allObjects];
-	__block AlbumPhoto *recentPhoto = [[allPhotos sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES]]] lastObject];
+	[_queue addOperationWithBlock:^{
+		
+		Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		NSArray *allPhotos = [anAlbum.albumPhotos allObjects];
+		__block AlbumPhoto *recentPhoto = [[allPhotos sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES]]] lastObject];
+		
+		//NSLog(@"-------> album cell objectSyncStatus %@", anAlbum.objectSyncStatus);
+		//NSLog(@"anAlbum %@ %@", anAlbum.albumId, anAlbum.last_updated);
+		
+		//NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId];
+		//NSDate *maxDate = (NSDate *)[AlbumPhoto aggregateOperation:@"max:" onAttribute:@"date_created" withPredicate:predicate];
+		
+		//__block AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND date_created == %@", anAlbum.albumId, maxDate]];
+		
+		//NSLog(@"[anAlbum.albumPhotos allObjects] %@", [anAlbum.albumPhotos allObjects]);
+		
+		if (recentPhoto) {
+			
+			UIImage *image = [thumbnailCache objectForKey:recentPhoto.photo_id];
+			
+			if (!image) {
+				// Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
+				__block NSIndexPath *tagIndex = indexPath;
+				__block NSString *photoId = recentPhoto.photo_id;
+				[[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *network_image) {
+					
+					if (network_image && cell.networkImageView.tag == tagIndex.row) {
+						
+						[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+							
+							cell.networkImageView.image = network_image;
+							[thumbnailCache setObject:network_image forKey:photoId];
+						}];
+					}
+				}];
+			}
+			else
+			{
+				[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+					
+					[cell.networkImageView setImage:image];
+				}];
+			}
+			
+			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+				
+				NSString *lastAddedBy = NSLocalizedString(@"Last added by", @"");
+				cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+			}];
+			
+		}
+		else
+		{
+			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+				
+				UIImage *thumbnail = [UIImage imageNamed:@"placeholderImage"];//[SVBusinessDelegate getRandomThumbnailPlaceholder];
+				[cell.networkImageView setImage:thumbnail];
+			}];
+			
+		}
+		
+		NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
+		NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND isNew == YES", anAlbum.albumId]];
+		
+		[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+			
+			cell.title.text = anAlbum.name;
+			[cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
+			
+			if (numberNew > 0 ) {
+				[cell.numberNotViewedIndicator setHidden:NO];
+				[cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
+			}else{
+				[cell.numberNotViewedIndicator setHidden:YES];
+			}
+		}];
+		
+		
+	}];
 	
-    NSLog(@"%@", anAlbum);
-    
-    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId];
-    //NSDate *maxDate = (NSDate *)[AlbumPhoto aggregateOperation:@"max:" onAttribute:@"date_created" withPredicate:predicate];
-    
-    //__block AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND date_created == %@", anAlbum.albumId, maxDate]];
-    
-	//NSLog(@"[anAlbum.albumPhotos allObjects] %@", [anAlbum.albumPhotos allObjects]);
-    
-	if (recentPhoto) {
-        
-        UIImage *image = [thumbnailCache objectForKey:recentPhoto.photo_id];
-        
-        if (!image) {
-            // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-            __block NSIndexPath *tagIndex = indexPath;
-            __block NSString *photoId = recentPhoto.photo_id;
-            [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
-                if (image && cell.networkImageView.tag == tagIndex.row) {
-                    [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-                    
-                    [thumbnailCache setObject:image forKey:photoId];
-                }
-            }];
-        }
-        else
-        {
-            [cell.networkImageView setImage:image];
-        }
-        
-        
-        NSString *lastAddedBy = NSLocalizedString(@"Last added by", @"");
-        cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
-    }
-    else
-    {
-        UIImage *thumbnail = [UIImage imageNamed:@"placeholderImage"];//[SVBusinessDelegate getRandomThumbnailPlaceholder];
-        [cell.networkImageView setImage:thumbnail];
-    }
-    
-    
-    cell.title.text = anAlbum.name;
-    
-    NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
-    [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
-    
-    NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
-    [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
-    if (numberNew > 0 ) {
-        [cell.numberNotViewedIndicator setHidden:NO];
-        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
-    }else{
-        [cell.numberNotViewedIndicator setHidden:YES];
-    }
-    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+	cell.backgroundColor = [UIColor whiteColor];
 }
 
 
@@ -373,6 +374,12 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	tappedCell = [indexPath copy];
+	
+	[_queue addOperationWithBlock:^{
+		
+		Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		[[SVEntityStore sharedStore] setPhotosInAlbumToNotNew:anAlbum];
+	}];
 }
 
 
@@ -402,7 +409,7 @@
 	 forChangeType:(NSFetchedResultsChangeType)type
 	  newIndexPath:(NSIndexPath *)newIndexPath
 {
-    
+    NSLog(@"didChangeObject type:%i %@", type, indexPath);
     SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
     
     switch (type) {
@@ -414,7 +421,7 @@
             break;
         case NSFetchedResultsChangeUpdate:
             if (cell) {
-                [self updateCell:cell AtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0] ];
+                //[self updateCell:cell AtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0] ];
             }
             break;
         case NSFetchedResultsChangeMove:
@@ -437,7 +444,7 @@
 
 - (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
 {
-
+	NSLog(@"networkImageView didFailWithError %@", error);
 }
 
 
@@ -519,7 +526,11 @@
     UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
     self.navigationItem.rightBarButtonItem = managementButton;
     
-	self.searchbar.backgroundImage = [UIImage imageNamed:@"searchFieldBg.png"];
+	UIImage *search_bg = [UIImage imageNamed:@"searchFieldBg.png"];
+	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
+	UIImage *resizableImage = [search_bg resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+	
+	self.searchbar.backgroundImage = resizableImage;
 	[self.searchbar setSearchFieldBackgroundImage:[UIImage imageNamed:@"butTransparent.png"] forState:UIControlStateNormal];
 	[self.searchbar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
 	
@@ -559,73 +570,11 @@
 }
 
 
-
-- (void)updateCell:(SVAlbumListViewCell *)cell AtIndexPath:(NSIndexPath *)indexPath
-{
-/*    Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
-    //NSArray *photos = [[NSArray alloc] initWithArray:[[SVEntityStore sharedStore] allPhotosForAlbum:anAlbum WithDelegate:nil].fetchedObjects];
-    
-    NSArray *allPhotos = [anAlbum.albumPhotos allObjects];
-    AlbumPhoto *recentPhoto = nil;
-    if (allPhotos) {
-        recentPhoto = [[allPhotos sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES]]] lastObject];
-    }
-    
-    if (recentPhoto) {
-        // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-        UIImage *image = [thumbnailCache objectForKey:recentPhoto.photo_id];
-        
-        if (!image) {
-            // Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-            __block NSIndexPath *tagIndex = indexPath;
-            __block NSString *photoId = recentPhoto.photo_id;
-            [[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *image) {
-                if (image && cell.networkImageView.tag == tagIndex.row) {
-                    [cell.networkImageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-                    
-                    [thumbnailCache setObject:image forKey:photoId];
-                }
-            }];
-        }
-        else
-        {
-            [cell.networkImageView setImage:image];
-        }
-        
-        NSString *lastAddedBy = NSLocalizedString(@"Last added by", @"");
-        cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
-    }
-    else
-    {
-        [cell.networkImageView setImage:[SVBusinessDelegate getRandomThumbnailPlaceholder]];
-    }
-    
-    
-    cell.title.text = anAlbum.name;
-    
-    NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
-    [cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
-    
-    NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
-    [cell.numberNotViewedIndicator setUserInteractionEnabled:NO];
-    if (numberNew > 0) {
-        [cell.numberNotViewedIndicator setHidden:NO];
-        [cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
-    }else{
-        [cell.numberNotViewedIndicator setHidden:YES];
-    }*/
-    
-}
-
+// drop down
 
 - (void)showDropDown
 {
-	
-	//[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
-	
-	//[self.sectionHeader insertSubview:self.dropDownContainer atIndex:0];
 	
 	CGRect r = self.tableOverlayView.frame;
 	r.origin.y = 45;
@@ -681,6 +630,9 @@
 }
 
 
+
+#pragma mark DownloadManager Ntifications
+
 - (void)albumUpdateReceived:(NSNotification *)notification
 {
     Album *updatedAlbum = (Album *)notification.object;
@@ -691,40 +643,33 @@
         SVAlbumListViewCell *albumCell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:albumIndex];
         
         if (albumCell) {
-            if (albumCell.networkImageView.initialImage == albumCell.networkImageView.image) {
-                [self.tableView reloadRowsAtIndexPaths:@[albumIndex] withRowAnimation:UITableViewRowAnimationNone];
-            }
+            //if (albumCell.networkImageView.initialImage == albumCell.networkImageView.image) {
+			[self.tableView reloadRowsAtIndexPaths:@[albumIndex] withRowAnimation:UITableViewRowAnimationNone];
+            //}
         }
     }
 }
 
 
-- (void)syncCompleted:(NSNotification *)notification
+- (void)downloadCompleted:(NSNotification *)notification
 {
+	NSLog(@"DOWNLOAD COMPLETE, reload albums cells and start the upload process");
     [self.fetchedResultsController performFetch:nil];
     [self.tableView reloadData];
+	
+	[[SVUploadManager sharedManager] uploadPhotos];
 }
 
 
-//- (AlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos
-//{
-//    AlbumPhoto *lastPhoto = [photos lastObject];
-//    
-//    if (lastPhoto) {
-//        NSArray *nextSet = [photos filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"date_created > %@", lastPhoto.date_created]];
-//        
-//        if (nextSet.count > 0) {
-//            return [self findMostRecentPhotoInPhotoSet:nextSet];
-//        }
-//        else
-//        {
-//            return lastPhoto;
-//        }
-//    }
-//    else
-//    {
-//        return nil;
-//    }
-//}
+
+-(void)refreshView:(UIRefreshControl *)refresh {
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateFormat:@"MMM d, h:mm a"];
+	NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
+	[refresh endRefreshing];
+	[[SVDownloadManager sharedManager] downloadAlbums];
+}
 
 @end
