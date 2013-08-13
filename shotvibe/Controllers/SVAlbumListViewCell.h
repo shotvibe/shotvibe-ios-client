@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NINetworkImageView.h"
+#import "RCImageView.h"
 
 @interface SVAlbumListViewCell : UITableViewCell
 
 #pragma mark - Properties
 
-@property (weak, nonatomic) IBOutlet NINetworkImageView *networkImageView;
+@property (weak, nonatomic) IBOutlet RCImageView *networkImageView;
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIButton *timestamp;
 @property (weak, nonatomic) IBOutlet UILabel *author;

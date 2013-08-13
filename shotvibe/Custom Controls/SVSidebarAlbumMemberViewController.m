@@ -74,16 +74,8 @@
 {
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
     
-	[cell.profileImageView prepareForReuse];
-    cell.profileImageView.sizeForDisplay = YES;
-    cell.profileImageView.scaleOptions = NINetworkImageViewScaleToFillLeavesExcess;
-    cell.profileImageView.interpolationQuality = kCGInterpolationHigh;
-    cell.profileImageView.initialImage = nil;
-    cell.profileImageView.layer.masksToBounds = YES;
-    cell.profileImageView.layer.cornerRadius = 2;
-    
     Member *currentMember = [self.members objectAtIndex:indexPath.row];
-    [cell.profileImageView setPathToNetworkImage:currentMember.avatar_url contentMode:UIViewContentModeScaleAspectFill];
+	//[cell.profileImageView loadN setPathToNetworkImage:currentMember.avatar_url contentMode:UIViewContentModeScaleAspectFill];
     NSLog(@"currentMember.avatar_url %@", currentMember.avatar_url);
 	
     cell.memberLabel.text = currentMember.nickname;

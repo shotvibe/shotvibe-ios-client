@@ -1,8 +1,0 @@
-core
-
-[NIOverviewImageCacheController]
-models
-
-[Frameworks]
-Foundation.framework
-UIKit.framework

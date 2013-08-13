@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NINetworkImageView.h"
+#import "RCImageView.h"
 #import "CaptureViewfinderController.h"
 #import "CaptureNavigationController.h"
 #import "SVDownloadManager.h"
@@ -30,8 +30,8 @@
 UITableViewDelegate,
 UITextFieldDelegate,
 UISearchBarDelegate,
-NINetworkImageViewDelegate,
-CaptureViewfinderDelegate> {
+CaptureViewfinderDelegate,
+RCImageViewDelegate> {
 	
 }
 

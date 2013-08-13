@@ -215,7 +215,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 
@@ -264,18 +264,15 @@
 	
 	// Configure thumbnail
 	
-    [cell.networkImageView prepareForReuse];
+    [cell.networkImageView cancel];
     cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     //cell.networkImageView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
     cell.networkImageView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.1].CGColor;
     cell.networkImageView.layer.borderWidth = 1;
     cell.networkImageView.contentMode = UIViewContentModeScaleAspectFill;
     cell.networkImageView.clipsToBounds = YES;
-    cell.networkImageView.sizeForDisplay = YES;
-    cell.networkImageView.scaleOptions = NINetworkImageViewScaleToFitCropsExcess;
-    cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
-    cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
-    cell.networkImageView.delegate = self;
+    //cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
+    //cell.networkImageView.delegate = self;
     cell.networkImageView.tag = indexPath.row;
 	
 	// Get the album latest image
@@ -409,8 +406,8 @@
 	 forChangeType:(NSFetchedResultsChangeType)type
 	  newIndexPath:(NSIndexPath *)newIndexPath
 {
-    NSLog(@"didChangeObject type:%i %@", type, indexPath);
-    SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+    //NSLog(@"didChangeObject type:%i %@", type, indexPath);
+    //SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
     
     switch (type) {
         case NSFetchedResultsChangeInsert:
@@ -420,9 +417,7 @@
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
         case NSFetchedResultsChangeUpdate:
-            if (cell) {
-                //[self updateCell:cell AtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0] ];
-            }
+			[self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
         case NSFetchedResultsChangeMove:
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -440,9 +435,9 @@
 }
 
 
-#pragma mark - NINetworkImageViewDelegate
+#pragma mark - RCImageViewDelegate
 
-- (void)networkImageView:(NINetworkImageView *)imageView didFailWithError:(NSError *)error
+- (void)imageView:(RCImageView*)imageView didFailWithError:(NSError *)error
 {
 	NSLog(@"networkImageView didFailWithError %@", error);
 }

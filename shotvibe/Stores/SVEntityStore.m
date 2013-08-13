@@ -151,13 +151,14 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 - (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate
 {
+	NSLog(@"NSFetchedResultsController *)allPhotosForAlbum %@", anAlbum.name);
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
     NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
     NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
     
     fetchRequest.sortDescriptors = @[datecreatedDescriptor, idDescriptor];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album == %@ AND objectSyncStatus != %i", anAlbum, SVObjectSyncDeleteNeeded];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", anAlbum.albumId, SVObjectSyncDeleteNeeded];
     fetchRequest.predicate = predicate;
     
     NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
@@ -165,11 +166,13 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 																								 sectionNameKeyPath:nil
 																										  cacheName:nil];
     fetchedResultsController.delegate = delegate;
+	
     
     NSError *fetchError = nil;
     if (![fetchedResultsController performFetch:&fetchError]) {
         NSLog(@"There was an error fetching the album photos: %@", fetchError.userInfo);
     }
+	NSLog(@"fetched objects count: %i", [[fetchedResultsController fetchedObjects] count]);
     
     return fetchedResultsController;
 }
@@ -623,20 +626,45 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 }
 
 - (void)deletePhoto:(AlbumPhoto *)aPhoto {
-	
+	NSLog(@"Delete photo %@", aPhoto.photo_id);
 	// Remove photo from disk first
 	NSError *error = nil;
 	NSURL *url = [_imageDataDirectory URLByAppendingPathComponent:aPhoto.photo_id];
 	NSURL *url_thumb = [_imageDataDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@_thumbnail", aPhoto.photo_id]];
+	
 	[[NSFileManager defaultManager] removeItemAtURL:url error:&error];
 	[[NSFileManager defaultManager] removeItemAtURL:url_thumb error:&error];
 	
-	__block AlbumPhoto *p = aPhoto;
+	NSManagedObjectContext *localContext = [NSManagedObjectContext defaultContext];
+	AlbumPhoto *pp = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
+	NSLog(@"objectSyncStatus before: %@", pp.objectSyncStatus);
+	[pp willChangeValueForKey:@"objectSyncStatus"];
+	pp.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDeleteNeeded];
+	[pp didChangeValueForKey:@"objectSyncStatus"];
 	
-	[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-		
-		[p setObjectSyncStatus:[NSNumber numberWithInt:SVObjectSyncDeleteNeeded]];
-    }];
+	error = nil;
+	[localContext save:&error];
+	
+	if (error) {
+		NSLog(@"error marking photo for deletion %@", error);
+	}
+	
+	AlbumPhoto *ppp = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
+	NSLog(@"objectSyncStatus after: %@", ppp.objectSyncStatus);
+	
+//	return;
+//	__block AlbumPhoto *p = aPhoto;
+//	
+//	[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+//		
+//		AlbumPhoto *pp = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:p.photo_id inContext:localContext];
+//		
+//		[pp willChangeValueForKey:@"objectSyncStatus"];
+//		pp.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDeleteNeeded];
+//		[pp didChangeValueForKey:@"objectSyncStatus"];
+//		
+//		[localContext save:nil];
+//    }];
 }
 
 @end

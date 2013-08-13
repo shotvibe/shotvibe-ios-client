@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NINetworkImageView.h"
 
 @interface SVSidebarAlbumMemberCell : UITableViewCell
 
 @property (nonatomic, strong) IBOutlet UILabel *memberLabel;
-@property (nonatomic, strong) IBOutlet NINetworkImageView *profileImageView;
+@property (nonatomic, strong) IBOutlet UIImageView *profileImageView;
 
 @end

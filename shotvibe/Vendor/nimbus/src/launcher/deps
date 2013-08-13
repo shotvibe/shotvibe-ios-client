@@ -1,7 +1,0 @@
-core
-pagingscrollview
-
-[Frameworks]
-Foundation.framework
-UIKit.framework
-QuartzCore.framework

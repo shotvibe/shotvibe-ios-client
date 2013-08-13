@@ -1,9 +1,0 @@
-.DS_Store
-*.pyc
-build/
-docs/output/
-docs/output-docset/
-xcuserdata
-*.xcworkspace
-node_modules
-coverage/

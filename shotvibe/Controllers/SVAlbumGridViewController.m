@@ -10,7 +10,7 @@
 #import "SVAlbumGridViewController.h"
 #import "SVEntityStore.h"
 #import "SVDefines.h"
-#import "NINetworkImageView.h"
+#import "RCImageView.h"
 #import "SVPhotoViewerController.h"
 #import "SVSidebarAlbumMemberViewController.h"
 #import "MFSideMenu.h"
@@ -25,7 +25,7 @@
 #import "SVAddFriendsViewController.h"
 #import "SVUploadManager.h"
 
-@interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, NINetworkImageViewDelegate>
+@interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) MFSideMenu *sauronTheSideMenu;
@@ -115,6 +115,8 @@
 	
 	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
 		
+		[self fetchedResultsController];
+		
 		// Initialize the sidebar menu
 		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
 		self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
@@ -132,15 +134,10 @@
 		[self.navigationController setSideMenu:self.sauronTheSideMenu];
 		[self configureMenuForOrientation:self.interfaceOrientation];
 		
-		[self fetchedResultsController];
 	}];
 }
 
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -151,12 +148,6 @@
 	if (self.navigationController.sideMenu.menuState != MFSideMenuStateClosed) {
 		[self.navigationController.sideMenu setMenuState:self.navigationController.sideMenu.menuState];
 	}
-}
-
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
 }
 
 
@@ -229,18 +220,17 @@
 {
     SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVAlbumGridViewCell" forIndexPath:indexPath];
     
-	[cell.networkImageView prepareForReuse];
-    cell.networkImageView.sizeForDisplay = NO;
-    cell.networkImageView.interpolationQuality = kCGInterpolationHigh;
+	[cell.networkImageView cancel];
     cell.networkImageView.tag = indexPath.row;
+	cell.networkImageView.alpha = 0;
     
 	[_queue addOperationWithBlock:^{
 		
 		AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
-		NSLog(@"---------> photo cell: %i %@", indexPath.item, currentPhoto.date_created);
+		NSLog(@"---------> photo cell: %i %@ objectSyncStatus: %@", indexPath.item, currentPhoto.date_created, currentPhoto.objectSyncStatus);
 		
 		UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
-		
+		NSLog(@"image is cached to %@", image);
 		if (!image) {
 			// Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
 			__block NSIndexPath *tagIndex = indexPath;
@@ -251,42 +241,48 @@
 				if (image && cell.networkImageView.tag == tagIndex.row) {
 					
 					[thumbnailCache setObject:image forKey:photoId];
+					[cell.networkImageView setImage:image];
 					
-					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+					//[[NSOperationQueue mainQueue] addOperationWithBlock:^{
 						
-						[cell.networkImageView setImage:image];
-					}];
+						
+					//}];
 					
 				}
 			}];
 		}
 		else
 		{
-			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+			//[[NSOperationQueue mainQueue] addOperationWithBlock:^{
 				
 				[cell.networkImageView setImage:image];
-			}];
+			//}];
 		}
 		
 		[[NSOperationQueue mainQueue] addOperationWithBlock:^{
 			
+			float a = 0;
+			
 			if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
-				cell.networkImageView.alpha = 0.2;
+				a = 0.2;
 			}
 			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadProgress) {
 				[cell.activityView startAnimating];
-				cell.networkImageView.alpha = 0.2;
+				a = 0.2;
 			}
 			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadComplete) {
 				[cell.activityView stopAnimating];
-				cell.networkImageView.alpha = 1.0;
+				a = 1.0;
 			}
 			else {
-				cell.networkImageView.alpha = 1.0;
+				a = 1.0;
 			}
 			
 			cell.labelNewView.hidden = [currentPhoto.hasViewed boolValue];
 			
+			[UIView animateWithDuration:0.3 animations:^{
+				cell.networkImageView.alpha = a;
+			}];
 		}];
 	}];
     
@@ -303,7 +299,7 @@
     SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.selectedPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	detailController.index = indexPath.item;
-	NSLog(@"selectedPhoto %@", detailController.selectedPhoto);
+	NSLog(@"didSelectItemAtIndexPath %@ %@", indexPath, detailController.selectedPhoto);
     
     [self.navigationController pushViewController:detailController animated:YES];
 }
@@ -409,75 +405,40 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
 	NSLog(@"SVAlbumGrid controllerDidChangeContent");
-//	[self.gridView reloadData];
-//	return;
-//    if ([_sectionChanges count] > 0)
-//    {
-//        [self.gridView performBatchUpdates:^{
-//            
-//            for (NSDictionary *change in _sectionChanges)
-//            {
-//                [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
-//                    
-//                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-//                    switch (type)
-//                    {
-//                        case NSFetchedResultsChangeInsert:
-//                            [self.gridView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-//                            break;
-//                        case NSFetchedResultsChangeDelete:
-//                            [self.gridView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-//                            break;
-//                        case NSFetchedResultsChangeUpdate:
-//                            [self.gridView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-//                            break;
-//                    }
-//                }];
-//            }
-//        } completion:nil];
-//    }
     
     if ([_objectChanges count] > 0)
     {
-//        if ([self shouldReloadCollectionViewToPreventKnownIssue] || self.gridView.window == nil) {
-//            // This is to prevent a bug in UICollectionView from occurring.
-//            // The bug presents itself when inserting the first object or deleting the last object in a collection view.
-//            // http://stackoverflow.com/questions/12611292/uicollectionview-assertion-failure
-//            // This code should be removed once the bug has been fixed, it is tracked in OpenRadar
-//            // http://openradar.appspot.com/12954582
-//            [self.gridView reloadData];
-//            
-//        } else
-		{
-            
-            [self.gridView performBatchUpdates:^{
-                
-                for (NSDictionary *change in _objectChanges)
-                {
-                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
-                        
-                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                        switch (type)
-                        {
-                            case NSFetchedResultsChangeInsert:
-                                [self.gridView insertItemsAtIndexPaths:@[obj]];
-								[[SVUploadManager sharedManager] uploadPhotos];
-                                break;
-                            case NSFetchedResultsChangeDelete:
-                                [self.gridView deleteItemsAtIndexPaths:@[obj]];
-								[[SVUploadManager sharedManager] deletePhotos];
-                                break;
-                            case NSFetchedResultsChangeUpdate:
-                                [self.gridView reloadItemsAtIndexPaths:@[obj]];
-                                break;
-                            case NSFetchedResultsChangeMove:
-                                [self.gridView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
-                                break;
-                        }
-                    }];
-                }
-            } completion:nil];
-        }
+		[self.gridView performBatchUpdates:^{
+			
+			for (NSDictionary *change in _objectChanges)
+			{
+				[change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+					
+					NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+					switch (type)
+					{
+						case NSFetchedResultsChangeInsert:
+							NSLog(@"insert");
+							[self.gridView insertItemsAtIndexPaths:@[obj]];
+							[[SVUploadManager sharedManager] uploadPhotos];
+							break;
+						case NSFetchedResultsChangeDelete:
+							NSLog(@"delete");
+							[self.gridView deleteItemsAtIndexPaths:@[obj]];
+							[[SVUploadManager sharedManager] deletePhotos];
+							break;
+						case NSFetchedResultsChangeUpdate:
+							NSLog(@"update");
+							[self.gridView reloadItemsAtIndexPaths:@[obj]];
+							break;
+						case NSFetchedResultsChangeMove:
+							NSLog(@"move");
+							[self.gridView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+							break;
+					}
+				}];
+			}
+		} completion:nil];
     }
     
     [_sectionChanges removeAllObjects];
@@ -485,8 +446,6 @@
 	
 	NSInteger nrOfPhotos = [self collectionView:nil numberOfItemsInSection:0];
 	self.noPhotosView.hidden = (nrOfPhotos > 0);
-	
-	
 }
 
 

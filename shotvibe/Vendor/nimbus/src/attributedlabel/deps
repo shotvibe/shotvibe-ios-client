@@ -1,7 +1,0 @@
-core
-
-[Frameworks]
-Foundation.framework
-UIKit.framework
-CoreText.framework
-QuartzCore.framework
