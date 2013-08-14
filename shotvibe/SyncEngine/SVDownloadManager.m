@@ -335,7 +335,7 @@
 			if (!outerPhoto) {
 				outerPhoto = [AlbumPhoto createInContext:ctxPhotos];
 				outerPhoto.hasViewed = [NSNumber numberWithBool:NO];
-				outerPhoto.isNew = [NSNumber numberWithBool:YES];
+				//outerPhoto.isNew = [NSNumber numberWithBool:YES];
 			}
 			
 			[photo enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {

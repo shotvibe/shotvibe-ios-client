@@ -339,7 +339,8 @@
 		}
 		
 		NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
-		NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND isNew == YES", anAlbum.albumId]];
+		//NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND isNew == YES", anAlbum.albumId]];
+		NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId]];
 		
 		[[NSOperationQueue mainQueue] addOperationWithBlock:^{
 			

@@ -196,14 +196,14 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 }
 - (void)setPhotosInAlbumToNotNew:(Album*)album {
 	
-	[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-		
-		NSArray *ar = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"isNew == YES AND album.albumId == %@", album.albumId]
-											 inContext:localContext];
-		for (AlbumPhoto *p in ar) {
-			p.isNew = [NSNumber numberWithBool:NO];
-		}
-    }];
+//	[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+//		
+//		NSArray *ar = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"isNew == YES AND album.albumId == %@", album.albumId]
+//											 inContext:localContext];
+//		for (AlbumPhoto *p in ar) {
+//			p.isNew = [NSNumber numberWithBool:NO];
+//		}
+//    }];
 }
 
 - (void)setPhotoAsViewed:(NSString *)photoId
