@@ -376,6 +376,7 @@
 		
 		Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		[[SVEntityStore sharedStore] setPhotosInAlbumToNotNew:anAlbum];
+		//[[SVEntityStore sharedStore] setAllPhotosToNotNew];
 	}];
 }
 

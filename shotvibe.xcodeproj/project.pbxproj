@@ -2272,8 +2272,8 @@
 		AAF05CD216CB287F005BCFD3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				0493ABE81732D6EC005ABCE7 /* Picker */,
 				04C407E517303E9200973BC0 /* Registration */,
+				0493ABE81732D6EC005ABCE7 /* Picker */,
 				AA12881316CB8774002AC699 /* Albums */,
 				AA78D2B617172C26006E1240 /* Camera */,
 				AA78D2B717172C2B006E1240 /* Settings */,

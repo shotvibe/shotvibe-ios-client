@@ -210,7 +210,7 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
 
 - (void)initializeManagedObjectModel
 {
-	NSLog(@"initializeManagedObjectModel");
+	NSLog(@"================== initializeManagedObjectModel ===================");
     [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"ShotVibe.sqlite"];
 }
 

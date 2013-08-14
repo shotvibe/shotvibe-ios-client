@@ -118,10 +118,10 @@ NSDictionary * parseQueryParameters(NSString * query)
     [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
 #endif
 
+	[SVInitializationBD initialize];
+	
     if ([SVBusinessDelegate hasUserBeenAuthenticated]) {
-        [SVInitializationBD initialize];
-
-        [SVPushNotificationsManager setup];
+		[SVPushNotificationsManager setup];
     }
     else {
         // TODO Verify that there is an internet connection
@@ -129,7 +129,7 @@ NSDictionary * parseQueryParameters(NSString * query)
         NSString* shotvibeAppInitUrl = @"https://www.shotvibe.com/app_init/?";
 
         shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"app", @"iphone");
-        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"device_description", getDeviceDescription());
+        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"device_description", deviceDescription());
 
         double currentTime = [[NSDate date] timeIntervalSince1970];
         shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"cache_buster", [[NSNumber numberWithDouble:currentTime] stringValue]);
@@ -159,16 +159,10 @@ NSString * appendQueryParameter(NSString *url, NSString *key, NSString *value)
 }
 
 
-NSString * getDeviceDescription()
+NSString * deviceDescription()
 {
     UIDevice *currentDevice = [UIDevice currentDevice];
-    NSString *result = [currentDevice model];
-    result = [result stringByAppendingString:@" ("];
-    result = [result stringByAppendingString:[currentDevice systemName]];
-    result = [result stringByAppendingString:@" "];
-    result = [result stringByAppendingString:[currentDevice systemVersion]];
-    result = [result stringByAppendingString:@")"];
-    return result;
+	return [NSString stringWithFormat:@"%@ (%@ %@)", [currentDevice model], [currentDevice systemName], [currentDevice systemVersion]];
 }
 
 
@@ -196,10 +190,7 @@ NSString * getDeviceDescription()
 
             [[NSUserDefaults standardUserDefaults] setObject:registrationInfo.userId forKey:kApplicationUserId];
             [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Token %@", registrationInfo.authToken] forKey:kApplicationUserAuthToken];
-
             [[NSUserDefaults standardUserDefaults] synchronize];
-
-            [SVInitializationBD initialize];
 
             [SVPushNotificationsManager setup];
 
@@ -219,7 +210,10 @@ NSString * getDeviceDescription()
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 	
-	//[[SVEntityStore sharedStore] setAllPhotosToNotNew];
+	if ([SVBusinessDelegate hasUserBeenAuthenticated]) {
+		[[SVEntityStore sharedStore] setAllPhotosToNotNew];
+    }
+	
 	NSLog(@"applicationWillResignActive fin");
 }
 
@@ -268,7 +262,9 @@ NSString * getDeviceDescription()
                                                           delegate:nil
                                                  cancelButtonTitle:@"OK"
                                                  otherButtonTitles:nil];
+#if !CONFIGURATION_Debug
     [failureAlert show];
+#endif
 }
 
 #pragma mark - Class Methods
