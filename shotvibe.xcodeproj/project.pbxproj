@@ -404,6 +404,8 @@
 		2854C26E17B5AD130090BD3E /* SVSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2854C26D17B5AD120090BD3E /* SVSyncEngine.m */; };
 		2854C28617BA10E60090BD3E /* RCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2854C28517BA10E60090BD3E /* RCImageView.m */; };
 		2854C28917BA178D0090BD3E /* RCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2854C28817BA178D0090BD3E /* RCScrollView.m */; };
+		2854C28C17BB85100090BD3E /* butInvitedContacts.png in Resources */ = {isa = PBXBuildFile; fileRef = 2854C28A17BB85100090BD3E /* butInvitedContacts.png */; };
+		2854C28D17BB85100090BD3E /* butInvitedContacts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2854C28B17BB85100090BD3E /* butInvitedContacts@2x.png */; };
 		2884E86117A24CFE00B382D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E85F17A24CFE00B382D9 /* Icon.png */; };
 		2884E86217A24CFE00B382D9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86017A24CFE00B382D9 /* Icon@2x.png */; };
 		2884E86617A24E7F00B382D9 /* SegmentButtonOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */; };
@@ -1014,6 +1016,8 @@
 		2854C28517BA10E60090BD3E /* RCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCImageView.m; sourceTree = "<group>"; };
 		2854C28717BA178D0090BD3E /* RCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCScrollView.h; sourceTree = "<group>"; };
 		2854C28817BA178D0090BD3E /* RCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCScrollView.m; sourceTree = "<group>"; };
+		2854C28A17BB85100090BD3E /* butInvitedContacts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = butInvitedContacts.png; sourceTree = "<group>"; };
+		2854C28B17BB85100090BD3E /* butInvitedContacts@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butInvitedContacts@2x.png"; sourceTree = "<group>"; };
 		2884E85F17A24CFE00B382D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2884E86017A24CFE00B382D9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentButtonOutline.png; sourceTree = "<group>"; };
@@ -1713,6 +1717,8 @@
 		2897383117A1C068003B18D3 /* buttons */ = {
 			isa = PBXGroup;
 			children = (
+				2854C28A17BB85100090BD3E /* butInvitedContacts.png */,
+				2854C28B17BB85100090BD3E /* butInvitedContacts@2x.png */,
 				0499B8EA171DEC7100050596 /* playButton@2x.png */,
 				0499B8EB171DEC7100050596 /* playButton.png */,
 				28CFCC8917A32D05001511EF /* butLogout.png */,
@@ -2783,6 +2789,8 @@
 				28D4761517AFC5CB00C189AB /* SVSidebarAlbumManagementSection.xib in Resources */,
 				28D4761B17B10BF000C189AB /* LabelNewPhoto.png in Resources */,
 				28D4761C17B10BF000C189AB /* LabelNewPhoto@2x.png in Resources */,
+				2854C28C17BB85100090BD3E /* butInvitedContacts.png in Resources */,
+				2854C28D17BB85100090BD3E /* butInvitedContacts@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

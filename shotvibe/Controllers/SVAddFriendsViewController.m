@@ -121,15 +121,16 @@
 	[self.searchBar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
 	
 	// Setup back button
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
+	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
+    NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
+	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
+	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
+	//self.navigationItem.backBarButtonItem = backButton;
+	
+    //UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
 	//UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
 	//UIEdgeInsets insets = UIEdgeInsetsMake(5, 35, 5, 5);
 	//UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-	
-    //NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
-	//[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
-	//[backButton setTitlePositionAdjustment:UIOffsetMake(0,0) forBarMetrics:UIBarMetricsDefault];
-	//[backButton setBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 	
 	self.navigationItem.leftBarButtonItem = backButton;
 }
@@ -314,7 +315,7 @@
 	
     //create a new dynamic button
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
+	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0];
 	button.titleLabel.shadowColor = [UIColor clearColor];
 	[button setTitle:([firstName isEqualToString:@""] ? lastName : firstName) forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -323,17 +324,24 @@
 	[button setTag:tag];
 	[button sizeToFit];
 	
-	UIImage *baseImage = [UIImage imageNamed:@"contactsStreachableButton_normal"];
+	UIImage *baseImage = [UIImage imageNamed:@"butInvitedContacts.png"];
 	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
 	UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
 	
 	[button setBackgroundImage:resizableImage forState:UIControlStateNormal];
 	[button addTarget:self action:@selector(removeContactFromList:) forControlEvents:UIControlEventTouchUpInside];
 	[self.addedContactsScrollView addSubview:button];
-	[self.contactsButtons insertObject:button atIndex:0];
+	[self.contactsButtons addObject:button];
 	button.alpha = 0;
 	
     [self updateContacts];
+	
+	// Scroll to right only after we add a new contact not on removal
+	if (self.addedContactsScrollView.contentSize.width > self.addedContactsScrollView.frame.size.width) {
+		[UIView animateWithDuration:0.3 animations:^{
+			[self.addedContactsScrollView setContentOffset:CGPointMake(self.addedContactsScrollView.contentSize.width-self.addedContactsScrollView.frame.size.width, 0)];
+		}];
+	}
 	
 	[UIView animateWithDuration:0.6 animations:^{
 		button.alpha = 1;
@@ -363,19 +371,30 @@
 }
 - (void)updateContacts {
 	
-	int x = 5;
+	int i = 0;
+	int x_1 = 5;
+	int x_2 = 5;
+	
 	for (UIButton *but in self.contactsButtons) {
 		
-		CGRect frame = CGRectMake(x, 10, but.frame.size.width, 30);
+		CGRect frame;
+		
+		if (i % 2 == 0) {
+			frame = CGRectMake (x_1, 3, but.frame.size.width, 22);
+			x_1 = x_1 + but.frame.size.width + 5;
+		}
+		else {
+			frame = CGRectMake (x_2, 28, but.frame.size.width, 22);
+			x_2 = x_2 + but.frame.size.width + 5;
+		}
+		i++;
 		
 		[UIView animateWithDuration:0.3 animations:^{
 			but.frame = frame;
 		}];
-		
-		x = x + but.frame.size.width + 5;
 	}
 	
-	[self.addedContactsScrollView setContentSize:(CGSizeMake(x, self.addedContactsScrollView.frame.size.height))];
+	[self.addedContactsScrollView setContentSize:(CGSizeMake(x_1 > x_2 ? x_1 : x_2, self.addedContactsScrollView.frame.size.height))];
 }
 
 
