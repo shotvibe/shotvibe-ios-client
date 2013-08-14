@@ -75,9 +75,9 @@
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
     
     Member *currentMember = [self.members objectAtIndex:indexPath.row];
-	//[cell.profileImageView loadN setPathToNetworkImage:currentMember.avatar_url contentMode:UIViewContentModeScaleAspectFill];
-    NSLog(@"currentMember.avatar_url %@", currentMember.avatar_url);
 	
+	[cell.profileImageView setImage:nil];
+	[cell.profileImageView loadNetworkImage:currentMember.avatar_url];
     cell.memberLabel.text = currentMember.nickname;
 	
     return cell;
@@ -86,7 +86,7 @@
 
 - (void)refreshMembers
 {
-    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"nickname" ascending:NO];
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"nickname" ascending:YES];
     self.members = [[self.selectedAlbum.members allObjects] sortedArrayUsingDescriptors:@[descriptor]];
     [self.tableView reloadData];
 }

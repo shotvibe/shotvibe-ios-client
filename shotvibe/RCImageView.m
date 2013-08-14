@@ -35,7 +35,9 @@
 #pragma mark Load photo
 
 - (void)loadNetworkImage:(NSString *)path {
+	
 	imageData = [NSMutableData data];
+	
 	NSURL *url = [NSURL URLWithString:path];
 	//NSURLRequest *request = [NSURLRequest requestWithURL:url];
 	//NSLog(@"RCImageView %@", path);
