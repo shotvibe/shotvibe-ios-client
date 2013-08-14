@@ -211,7 +211,7 @@ NSString * deviceDescription()
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 	
 	if ([SVBusinessDelegate hasUserBeenAuthenticated]) {
-		[[SVEntityStore sharedStore] setAllPhotosToNotNew];
+		//[[SVEntityStore sharedStore] setAllPhotosToNotNew];
     }
 	
 	NSLog(@"applicationWillResignActive fin");
