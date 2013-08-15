@@ -25,6 +25,4 @@
 @property (nonatomic, strong) AlbumPhoto *selectedPhoto;
 @property (nonatomic) int index;
 
-- (void)showImageAtIndex:(int)index;
-
 @end

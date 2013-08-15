@@ -22,7 +22,7 @@
 - (void)deleteButtonPressed;
 - (void)exportButtonPressed;
 - (void)toggleMenu;
-- (void)configureDetailText;
+- (void)updateInfoOnScreen;
 @end
 
 @implementation SVPhotoViewerController
@@ -75,17 +75,8 @@
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
     
-    
-    // Setup detail label
-    self.detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -57, self.view.frame.size.width, 57)];
-    self.detailLabel.backgroundColor = [UIColor clearColor];
-    self.detailLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
-    self.detailLabel.numberOfLines = 2;
-    self.detailLabel.textAlignment = NSTextAlignmentCenter;
-    self.detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
-    self.detailLabel.shadowOffset = CGSizeMake(0, 1);
-    self.detailLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-    [self.navigationController.toolbar addSubview:self.detailLabel];
+	[self.navigationItem.backBarButtonItem setAction:@selector(performBack:)];
+	[self.navigationItem.backBarButtonItem setTarget:self];
 	
 	UIBarItem* flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
                                                   target: nil
@@ -108,12 +99,12 @@
     self.toolbarItems = [NSArray arrayWithObjects:previousButton, flexibleSpace, nextButton, nil];
     self.navigationController.toolbarHidden = NO;
     
-	[self loadPhoto:self.index];
+	[self loadPhoto:self.index andPreloadNext:YES];
 	
 	photosScrollView.contentSize = CGSizeMake((w+60)*[self.sortedPhotos count], h);
 	photosScrollView.contentOffset = CGPointMake((w+60)*self.index, 0);
 	
-	[self configureDetailText];
+	[self updateInfoOnScreen];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -132,14 +123,33 @@
 	[self.navigationController.toolbar setHidden:YES];
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 }
+- (void)viewDidDisappear:(BOOL)animated {
+	
+	[super viewDidDisappear:animated];
+	[self.detailLabel removeFromSuperview];
+	self.detailLabel = nil;
+}
+
+-(void) performBack:(id)sender {
+	
+	//do your saving and such here
+	NSLog(@"cleanup gallery");
+	
+	[self.navigationController popViewControllerAnimated:NO];
+}
 
 
 
 
 #pragma mark load/unload photos
-- (void)loadPhoto:(int)i {
+
+- (void)loadPhoto:(int)i andPreloadNext:(BOOL)preload {
 	
+	// Preload only one photo in advance
 	if (i > self.index + 1 || i >= self.sortedPhotos.count) {
+		return;
+	}
+	if (i < self.index - 1 || i < 0) {
 		return;
 	}
 	
@@ -148,6 +158,7 @@
 	
 	AlbumPhoto *photo = [self.sortedPhotos objectAtIndex:i];
 	RCImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
+	cachedImage.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 	
 	NSLog(@"loadPhoto %i %@", i, photo.photo_id);
 	//NSLog(@"acche keys %@", [self.cache allKeys]);
@@ -175,7 +186,11 @@
 		[self.cache setObject:rcphoto forKey:photo.photo_id];
 	}
 	
-	[self loadPhoto:i+1];
+	if (preload) {
+		[self loadPhoto:i+1 andPreloadNext:YES];
+		[self loadPhoto:i-1 andPreloadNext:NO];
+	}
+	
 }
 - (void)unloadPhoto:(int)i {
 	
@@ -218,10 +233,10 @@
     //pageControlUsed = NO;
 	CGFloat pageWidth = photosScrollView.frame.size.width;
 	self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-	[self configureDetailText];
+	[self updateInfoOnScreen];
 	
 	NSLog(@"scrollViewDidEndDecelerating with currentPhotoNr = %i", self.index);
-	[self loadPhoto:self.index];
+	[self loadPhoto:self.index andPreloadNext:YES];
 }
 
 
@@ -248,12 +263,47 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+	
     // Dispose of any resources that can be recreated.
+	
+	NSArray *keys = [self.cache allKeys];
+	
+	for (NSString *key in keys) {
+		if (![key isEqualToString:self.selectedPhoto.photo_id]) {
+			RCImageView *img = [self.cache objectForKey:key];
+			[img removeFromSuperview];
+			[self.cache removeObjectForKey:key];
+		}
+	}
+}
+- (void)dealloc {
+	
+	NSLog(@"dealloc SVPhotosViewwerController");
+	
+	for (NSString *key in [self.cache allKeys]) {
+		RCImageView *img = [self.cache objectForKey:key];
+		[img removeFromSuperview];
+	}
+	[self.cache removeAllObjects];
 }
 
 
-- (void)configureDetailText
+- (void)updateInfoOnScreen
 {
+	if (self.detailLabel == nil) {
+		
+		// Setup detail label
+		self.detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -57, self.view.frame.size.width, 57)];
+		self.detailLabel.backgroundColor = [UIColor clearColor];
+		self.detailLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
+		self.detailLabel.numberOfLines = 2;
+		self.detailLabel.textAlignment = NSTextAlignmentCenter;
+		self.detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+		self.detailLabel.shadowOffset = CGSizeMake(0, 1);
+		self.detailLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
+		[self.navigationController.toolbar addSubview:self.detailLabel];
+	}
+	
     AlbumPhoto *photo = [self.sortedPhotos objectAtIndex:self.index];
 	
 	if (photo.objectSyncStatus.intValue == SVObjectSyncUploadProgress) {
@@ -340,7 +390,10 @@
 {
     // Do other stuff
     
-    //UIActionSheet *exportOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Move Picture", @""), NSLocalizedString(@"Share to Facebook", @""), NSLocalizedString(@"Share to Instagram", @""), NSLocalizedString(@"Set as Profile Picture", @""), NSLocalizedString(@"Email photo", @""), NSLocalizedString(@"Get Link", @""), nil];
+    //UIActionSheet *exportOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+//destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Move Picture", @""), NSLocalizedString(@"Share to Facebook", @""),
+	//NSLocalizedString(@"Share to Instagram", @""), NSLocalizedString(@"Set as Profile Picture", @""), NSLocalizedString(@"Email photo", @""),
+	//NSLocalizedString(@"Get Link", @""), nil];
     
     //[exportOptions showFromToolbar:self.toolbar];
 }
