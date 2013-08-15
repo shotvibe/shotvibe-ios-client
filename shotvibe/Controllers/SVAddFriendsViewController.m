@@ -21,7 +21,7 @@
 
 @property (nonatomic, strong) NSArray *allContacts;
 @property (nonatomic, strong) NSMutableDictionary *records;// dictionary of arrays
-@property (nonatomic, strong) NSMutableArray *selectedIndexPaths;
+//@property (nonatomic, strong) NSMutableArray *selectedIndexPaths;
 @property (nonatomic, strong) NSMutableArray *contactsButtons;
 
 - (IBAction)cancelPressed:(id)sender;
@@ -41,18 +41,20 @@
 - (IBAction)donePressed:(id)sender {
     // add members to album
     //TODO if already shotvibe member just add to album else sent notification to user to join?
-    NSLog(@"contacts to add >> %@", self.selectedIndexPaths);
+    //NSLog(@"contacts to add >> %@", self.selectedIndexPaths);
 	
-	//NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
+	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
 	
-	for (UIButton *but in self.contactsButtons) {
-		int tag = but.tag;
-		NSDictionary *dict = [self.allContacts objectAtIndex:tag];
-		NSLog(@"%i %@ %@", tag, dict, self.selectedAlbum.albumId);
+	for (NSMutableDictionary *member in self.allContacts) {
+		if ([member[@"selected"] boolValue] == YES) {
+			NSLog(@"selected %@", member);
+			[contactsToInvite addObject:@{@"phone_number":member[@"phone"], @"default_country":@"ro", @"contact_nickname":member[@"nickname"]}];
+		}
 	}
 	
-	NSArray *members = @[@{@"phone_number": @"40722905582", @"default_country":@"ro", @"contact_nickname":@"Cristi"}];
-	NSDictionary *phoneNumbers = @{@"add_members": members};
+	[contactsToInvite addObject:@{@"phone_number": @"0040722905582", @"default_country":@"ro", @"contact_nickname":@"Cristi"}];
+	NSDictionary *phoneNumbers = @{@"add_members": contactsToInvite};
+	NSLog(@"contactsToInvite %@", phoneNumbers);
 	
 	// send request
 	
@@ -97,7 +99,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	self.selectedIndexPaths = [[NSMutableArray alloc] init];
+	//self.selectedIndexPaths = [[NSMutableArray alloc] init];
 	self.contactsButtons = [[NSMutableArray alloc] init];
 	alphabet = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", @"#"];
 	keys = [NSArray arrayWithArray:alphabet];
@@ -122,7 +124,7 @@
 	[self.searchBar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
 	
 	// Setup back button
-	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
+	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
     NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
 	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
 	[backButton setTitlePositionAdjustment:UIOffsetMake(-5,2) forBarMetrics:UIBarMetricsDefault];
@@ -157,18 +159,16 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
     
-	NSArray *filteredRecords = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
+	NSArray *sectionRecords = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
 	
-    cell.textLabel.text = [[filteredRecords objectAtIndex:indexPath.row] objectForKey:kMemberNickname];
-    cell.detailTextLabel.text = [[filteredRecords objectAtIndex:indexPath.row] objectForKey:kMemberPhone];
+    cell.textLabel.text = [sectionRecords[indexPath.row] objectForKey:kMemberNickname];
+    cell.detailTextLabel.text = [sectionRecords[indexPath.row] objectForKey:kMemberPhone];
 	
-	BOOL contains = NO;
-	for (NSIndexPath *idx in self.selectedIndexPaths) {
-		if (idx.row == indexPath.row && idx.section == indexPath.section) {
-			contains = YES;
-			break;
-		}
-	}
+	NSMutableDictionary *member = [sectionRecords objectAtIndex:indexPath.row];
+	int s = [member[@"selected"] boolValue];
+	NSLog(@"member %i", s);
+	
+	BOOL contains = [member[@"selected"] boolValue];
 	
 	cell.imageView.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
     
@@ -219,31 +219,24 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	UITableViewCell *tappedCell = [tableView cellForRowAtIndexPath:indexPath];
 	
-	// Check if the tapped contact is already used
-	BOOL contains = NO;
-	int i = 0;
-	for (NSIndexPath *idx in self.selectedIndexPaths) {
-		if (idx.row == indexPath.row && idx.section == indexPath.section) {
-			contains = YES;
-			break;
-		}
-		i++;
-	}
+	NSArray *sectionRecords = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
+	
+	// Check if the tapped contact is already used.
+	// If yes, remove it
+	
+	NSMutableDictionary *member = [sectionRecords objectAtIndex:indexPath.row];
+	BOOL contains = [member[@"selected"] boolValue];
+	tappedCell.imageView.image = [UIImage imageNamed:contains?@"imageUnselected":@"imageSelected"];
 	
 	if (contains) {
-		[tappedCell.imageView setImage:[UIImage imageNamed:@"imageUnselected"]];
-        [self.selectedIndexPaths removeObjectAtIndex:i];
-        //[self removeContact:[self.contactsButtons objectAtIndex:i]];
+		NSLog(@"remove contact %@", member);
+		[member setObject:[NSNumber numberWithBool:NO] forKey:@"selected"];
+		[self removeContactFromTable:member];
 	}
 	else {
-        [tappedCell.imageView setImage:[UIImage imageNamed:@"imageSelected"]];
-        [self.selectedIndexPaths addObject:[indexPath copy]];
-        NSLog(@"self.contactsToAdd %i %@", indexPath.row, self.selectedIndexPaths);
-		
-		NSArray *arr = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
-		NSDictionary *contact = [arr objectAtIndex:indexPath.row];
-		NSLog(@"contact %@", contact);
-        [self addToContactsList:contact];
+		NSLog(@"add contact %@", member);
+		[member setObject:[NSNumber numberWithBool:YES] forKey:@"selected"];
+        [self addToContactsList:member];
 	}
 }
 
@@ -253,10 +246,10 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 	
-	if(![searchBar isFirstResponder]) {
+	if(searchText.length == 0) {
 		NSLog(@"not first responder");
         // user tapped the 'clear' button
-        shouldBeginEditing = NO;
+        //shouldBeginEditing = NO;
         // do whatever I want to happen when the user clears the search...
 		[searchBar resignFirstResponder];
     }
@@ -267,12 +260,12 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
 }
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-	NSLog(@"cancel clicked");
-	[searchBar resignFirstResponder];
-	searchBar.text = @"";
-	[self handleSearchForText:nil];
-}
+//- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+//	NSLog(@"cancel clicked");
+//	[searchBar resignFirstResponder];
+//	searchBar.text = @"";
+//	[self handleSearchForText:nil];
+//}
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)bar {
     // reset the shouldBeginEditing BOOL ivar to YES, but first take its value and use it to return it from the method call
     BOOL boolToReturn = shouldBeginEditing;
@@ -356,8 +349,10 @@
 
 #pragma mark - Private Methods
 
--(void)addToContactsList:(NSDictionary*)contact
+-(void)addToContactsList:(NSMutableDictionary*)contact
 {
+	//[contact setObject:[NSNumber numberWithBool:YES] forKey:@"selected"];
+	
 	NSString *firstName = [contact objectForKey:kMemberFirstName];
 	NSString *lastName = [contact objectForKey:kMemberLastName];
 	int tag = [[contact objectForKey:@"tag"] intValue];
@@ -396,25 +391,34 @@
 		button.alpha = 1;
 	}];
 }
--(void)removeContact:(NSDictionary*)contact
+-(void)removeContactFromTable:(NSMutableDictionary*)contact
 {
-//	[self.addedContactsScrollView addSubview:button];
-//	
-//	CGRect frame = CGRectMake(x, 10, button.frame.size.width, 30);
-//	button.frame = frame;
-//	
-//	x = x + button.frame.size.width + 5;
-//	
-//	[self.addedContactsScrollView setContentSize:(CGSizeMake(x, self.addedContactsScrollView.frame.size.height))];
+	NSMutableArray *arr = self.contactsButtons;
+	for (UIButton *but in arr) {
+		if (but.tag == [[contact objectForKey:@"tag"] intValue]) {
+			[self.contactsButtons removeObject:but];
+			[but removeFromSuperview];
+			[self updateContacts];
+			break;
+		}
+	}
 }
 
 -(void)removeContactFromList:(UIButton *)sender
 {
 	[sender removeFromSuperview];
 	[self.contactsButtons removeObject:sender];
+	
+	for (NSMutableDictionary *member in self.allContacts) {
+		if ([member[@"tag"] intValue] == sender.tag) {
+			[member setObject:[NSNumber numberWithBool:NO] forKey:@"selected"];
+			break;
+		}
+	}
+	
 	[self updateContacts];
 	
-    //[self.selectedIndexPaths removeObjectAtIndex:sender.tag];
+    [self.tableView reloadData];
     
     //[self.tableView reloadData];
 }
