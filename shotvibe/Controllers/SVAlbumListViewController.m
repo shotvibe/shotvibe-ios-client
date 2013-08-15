@@ -271,20 +271,30 @@
     cell.networkImageView.layer.borderWidth = 1;
     cell.networkImageView.contentMode = UIViewContentModeScaleAspectFill;
     cell.networkImageView.clipsToBounds = YES;
-    //cell.networkImageView.initialImage = [UIImage imageNamed:@"placeholderImage.png"];
-    //cell.networkImageView.delegate = self;
+    [cell.networkImageView setImage:nil];
     cell.networkImageView.tag = indexPath.row;
 	
 	// Get the album latest image
+	Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	
 	[_queue addOperationWithBlock:^{
 		
-		Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		NSArray *allPhotos = [anAlbum.albumPhotos allObjects];
-		__block AlbumPhoto *recentPhoto = [[allPhotos sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES]]] lastObject];
+		NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
+		//NSArray *workingArray = [allPhotos sortedArrayUsingDescriptors:@[datecreatedDescriptor]];
 		
-		//NSLog(@"-------> album cell objectSyncStatus %@", anAlbum.objectSyncStatus);
-		//NSLog(@"anAlbum %@ %@", anAlbum.albumId, anAlbum.last_updated);
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", anAlbum.albumId, SVObjectSyncDeleteNeeded];
+		NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+		fetchRequest.sortDescriptors = @[datecreatedDescriptor];
+		fetchRequest.predicate = predicate;
+		
+		NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+																								   managedObjectContext:[NSManagedObjectContext defaultContext]
+																									 sectionNameKeyPath:nil
+																											  cacheName:nil];
+		[fetchedResultsController performFetch:nil];
+		NSArray *workingArray = [fetchedResultsController fetchedObjects];
+		
 		
 		//NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId];
 		//NSDate *maxDate = (NSDate *)[AlbumPhoto aggregateOperation:@"max:" onAttribute:@"date_created" withPredicate:predicate];
@@ -293,15 +303,16 @@
 		
 		//NSLog(@"[anAlbum.albumPhotos allObjects] %@", [anAlbum.albumPhotos allObjects]);
 		
-		if (recentPhoto) {
+		if (workingArray.count > 0) {
 			
-			UIImage *image = [thumbnailCache objectForKey:recentPhoto.photo_id];
+			__block AlbumPhoto *firstPhoto = [workingArray objectAtIndex:0];
+			UIImage *image = [thumbnailCache objectForKey:firstPhoto.photo_id];
 			
 			if (!image) {
 				// Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
 				__block NSIndexPath *tagIndex = indexPath;
-				__block NSString *photoId = recentPhoto.photo_id;
-				[[SVEntityStore sharedStore] getImageForPhoto:recentPhoto WithCompletion:^(UIImage *network_image) {
+				__block NSString *photoId = firstPhoto.photo_id;
+				[[SVEntityStore sharedStore] getImageForPhoto:firstPhoto WithCompletion:^(UIImage *network_image) {
 					
 					if (network_image && cell.networkImageView.tag == tagIndex.row) {
 						
@@ -324,7 +335,7 @@
 			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
 				
 				NSString *lastAddedBy = NSLocalizedString(@"Last added by", @"");
-				cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, recentPhoto.author.nickname];
+				cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, firstPhoto.author.nickname];
 			}];
 			
 		}
@@ -338,14 +349,10 @@
 			
 		}
 		
-		NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
 		//NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND isNew == YES", anAlbum.albumId]];
 		NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId]];
 		
 		[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-			
-			cell.title.text = anAlbum.name;
-			[cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
 			
 			if (numberNew > 0 ) {
 				[cell.numberNotViewedIndicator setHidden:NO];
@@ -357,6 +364,12 @@
 		
 		
 	}];
+	
+	NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
+	
+	cell.title.text = anAlbum.name;
+	[cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
+	
 	
     return cell;
 }

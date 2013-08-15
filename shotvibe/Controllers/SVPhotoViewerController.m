@@ -44,9 +44,22 @@
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
-    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
-	self.sortedPhotos = [NSMutableArray arrayWithArray: [[self.selectedPhoto.album.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor, idDescriptor]]];
+    NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
+    //NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
+	//self.sortedPhotos = [NSMutableArray arrayWithArray: [[self.selectedPhoto.album.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor]]];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", self.selectedPhoto.album.albumId, SVObjectSyncDeleteNeeded];
+	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+	fetchRequest.sortDescriptors = @[datecreatedDescriptor];
+	fetchRequest.predicate = predicate;
+	
+	NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+																							   managedObjectContext:[NSManagedObjectContext defaultContext]
+																								 sectionNameKeyPath:nil
+																										  cacheName:nil];
+	[fetchedResultsController performFetch:nil];
+	self.sortedPhotos = [NSMutableArray arrayWithArray: [fetchedResultsController fetchedObjects]];
+	
 	
 	photosScrollView = [[RCScrollView alloc] initWithFrame:CGRectMake(0, 0, w+60, h)];
 	photosScrollView.contentSize = CGSizeMake((w+60)*[self.sortedPhotos count], h);
@@ -250,10 +263,13 @@
 	else {
 		NSString *updatedBy = NSLocalizedString(@"Updated by ", @"");
 		
-		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-		formatter.dateFormat = @"MM.dd, HH:mm\"";
+//		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//		formatter.dateFormat = @"MM.dd, HH:mm\"";
+		NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.date_created dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterShortStyle];
 		
-		self.detailLabel.text = [NSString stringWithFormat:@"%@%@\n%@", updatedBy, photo.author.nickname, [NSDateFormatter localizedStringFromDate:photo.date_created dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle]];
+		NSString *str = [NSString stringWithFormat:@"%@%@\n%@", updatedBy, photo.author.nickname, dateFormated];
+		NSLog(@"%@", str);
+		self.detailLabel.text = str;
 	}
 	
 	if (photo.hasViewed.intValue == NO) {

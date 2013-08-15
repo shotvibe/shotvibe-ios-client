@@ -137,7 +137,10 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
         fetchRequest.predicate = predicate;
     }
     
-    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext defaultContext] sectionNameKeyPath:nil cacheName:nil];
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+																							   managedObjectContext:[NSManagedObjectContext defaultContext]
+																								 sectionNameKeyPath:nil
+																										  cacheName:nil];
     fetchedResultsController.delegate = delegate;
     
     NSError *fetchError = nil;
@@ -154,9 +157,9 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 	NSLog(@"NSFetchedResultsController *)allPhotosForAlbum %@", anAlbum.name);
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
     NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
-    NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
+    //NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
     
-    fetchRequest.sortDescriptors = @[datecreatedDescriptor, idDescriptor];
+    fetchRequest.sortDescriptors = @[datecreatedDescriptor];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", anAlbum.albumId, SVObjectSyncDeleteNeeded];
     fetchRequest.predicate = predicate;
@@ -166,7 +169,6 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 																								 sectionNameKeyPath:nil
 																										  cacheName:nil];
     fetchedResultsController.delegate = delegate;
-	
     
     NSError *fetchError = nil;
     if (![fetchedResultsController performFetch:&fetchError]) {
