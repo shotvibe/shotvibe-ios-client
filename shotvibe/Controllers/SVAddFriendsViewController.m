@@ -103,6 +103,7 @@
 	keys = [NSArray arrayWithArray:alphabet];
 	self.records = [[NSMutableDictionary alloc] init];
 	stopCurrentSearch = NO;
+	shouldBeginEditing = YES;
     
     CGRect segmentFrame = self.segmentControl.frame;
     segmentFrame.origin.y -= 1.5;
@@ -121,10 +122,10 @@
 	[self.searchBar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
 	
 	// Setup back button
-	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
+	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
     NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
 	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
-	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
+	[backButton setTitlePositionAdjustment:UIOffsetMake(-5,2) forBarMetrics:UIBarMetricsDefault];
 	//self.navigationItem.backBarButtonItem = backButton;
 	
     //UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
@@ -252,6 +253,14 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 	
+	if(![searchBar isFirstResponder]) {
+		NSLog(@"not first responder");
+        // user tapped the 'clear' button
+        shouldBeginEditing = NO;
+        // do whatever I want to happen when the user clears the search...
+		[searchBar resignFirstResponder];
+    }
+	
 	stopCurrentSearch = YES;
 	[self handleSearchForText: searchText.length == 0 ? nil : searchText];
 }
@@ -259,10 +268,18 @@
     [searchBar resignFirstResponder];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+	NSLog(@"cancel clicked");
+	[searchBar resignFirstResponder];
 	searchBar.text = @"";
 	[self handleSearchForText:nil];
-	[searchBar resignFirstResponder];
 }
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)bar {
+    // reset the shouldBeginEditing BOOL ivar to YES, but first take its value and use it to return it from the method call
+    BOOL boolToReturn = shouldBeginEditing;
+    shouldBeginEditing = YES;
+    return boolToReturn;
+}
+
 - (void) handleSearchForText:(NSString*)str {
 	
 	self.records = nil;
@@ -271,21 +288,53 @@
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		
 		self.records = [[NSMutableDictionary alloc] init];
+		NSLog(@"handle search %@", str);
 		for (int i=0; i<alphabet.count-1; i++) {
-			NSPredicate *predicate;
-			if (str == nil) {
-				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i]];
+			NSMutableArray *letterContacts = [NSMutableArray array];
+			for (NSMutableDictionary *member in self.allContacts) {
+				if (str == nil) {
+					if ([[[member objectForKey:kMemberFirstName] lowercaseString] hasPrefix:[alphabet[i] lowercaseString]]) {
+						[letterContacts addObject:member];
+					}
+				}
+				else {
+					//NSLog(@"search %@ in %@", );
+					if ([[[member objectForKey:kMemberFirstName] lowercaseString] hasPrefix:[alphabet[i] lowercaseString]] &&
+						[[[member objectForKey:kMemberNickname] lowercaseString] rangeOfString:[str lowercaseString]].location != NSNotFound) {
+						[letterContacts addObject:member];
+					}
+				}
 			}
-			else {
-				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@ && %K CONTAINS[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i], kMemberFirstName, str];
-			}
-			NSArray *arr = [self.allContacts filteredArrayUsingPredicate:predicate];
-			
-			if (arr.count > 0) {
+			//NSLog(@"%@ %i", [alphabet objectAtIndex:i], letterContacts.count);
+			if (letterContacts.count > 0) {
 				[keys_ addObject:[alphabet objectAtIndex:i]];
-				[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
+				[self.records setObject:letterContacts forKey:[alphabet objectAtIndex:i]];
 			}
 		}
+		
+			
+			
+//		for (int i=0; i<alphabet.count-1; i++) {
+////			NSPredicate *predicate;
+////			if (str == nil) {
+////				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i]];
+////			}
+////			else {
+////				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@ && %K CONTAINS[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i], kMemberFirstName, str];
+////			}
+////			NSArray *arr = [self.allContacts filteredArrayUsingPredicate:predicate];
+//			
+//			if (str == nil) {
+//				if (self.allContacts objectAtIndex:<#(NSUInteger)#>) {
+//					<#statements#>
+//				}
+//			}
+//			
+//			if (arr.count > 0) {
+//				[keys_ addObject:[alphabet objectAtIndex:i]];
+//				[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
+//			}
+//		}
 		
 		// Non alphabetic names
 		NSArray *arr2 = [self filterNonAlphabetContacts:self.allContacts];

@@ -10,7 +10,10 @@
 #import "SVEntityStore.h"
 #import "Album.h"
 
-@interface SVAddFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface SVAddFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+{
+	BOOL shouldBeginEditing;
+}
 
 @property (nonatomic, strong) NSString *albumId;
 @property (strong, nonatomic) Album *selectedAlbum;

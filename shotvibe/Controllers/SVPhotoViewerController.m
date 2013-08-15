@@ -74,9 +74,6 @@
     // Setup menu button
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
-    
-	[self.navigationItem.backBarButtonItem setAction:@selector(performBack:)];
-	[self.navigationItem.backBarButtonItem setTarget:self];
 	
 	UIBarItem* flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
                                                   target: nil
@@ -130,14 +127,12 @@
 	self.detailLabel = nil;
 }
 
--(void) performBack:(id)sender {
+-(void)willMoveToParentViewController:(UIViewController *)parent {
+	NSLog(@"This VC has has been pushed popped OR covered");
 	
-	//do your saving and such here
-	NSLog(@"cleanup gallery");
-	
-	[self.navigationController popViewControllerAnimated:NO];
+    if (!parent)
+        NSLog(@"This happens ONLY when it's popped");
 }
-
 
 
 
