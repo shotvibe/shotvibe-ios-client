@@ -220,72 +220,70 @@
 {
     SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVAlbumGridViewCell" forIndexPath:indexPath];
     
-	[cell.networkImageView cancel];
-    cell.networkImageView.tag = indexPath.row;
-	cell.networkImageView.alpha = 0;
+	[cell.networkImageView setImage:nil];
+    cell.tag = indexPath.row;
+	__block NSIndexPath *tagIndex = indexPath;
     
-	[_queue addOperationWithBlock:^{
+	dispatch_async(dispatch_get_global_queue(0,0),^{
+		
+	if (cell.tag == tagIndex.row) {
 		
 		AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
-		NSLog(@"---------> photo cell: %i %@ objectSyncStatus: %@", indexPath.item, currentPhoto.date_created, currentPhoto.objectSyncStatus);
-		
 		UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
-		NSLog(@"image is cached to %@", image);
+		
+		//NSLog(@"---------> photo cell: %i %@ objectSyncStatus: %@", indexPath.item, currentPhoto.date_created, currentPhoto.objectSyncStatus);
+		//NSLog(@"image is cached to %@", image);
+		
 		if (!image) {
 			// Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-			__block NSIndexPath *tagIndex = indexPath;
 			__block NSString *photoId = currentPhoto.photo_id;
 			
 			[[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
 				
-				if (image && cell.networkImageView.tag == tagIndex.row) {
+				if (image && cell.tag == tagIndex.row) {
 					
 					[thumbnailCache setObject:image forKey:photoId];
-					[cell.networkImageView setImage:image];
 					
-					//[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-						
-						
-					//}];
-					
+					dispatch_async(dispatch_get_main_queue(),^{
+						[cell.networkImageView setImage:image];
+					});
 				}
 			}];
 		}
-		else
-		{
-			//[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-				
+		else {
+			dispatch_async(dispatch_get_main_queue(),^{
 				[cell.networkImageView setImage:image];
-			//}];
+			});
 		}
 		
-		[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+		dispatch_async(dispatch_get_main_queue(),^{
 			
-			float a = 0;
+			//float a = 0;
 			
 			if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
 				[cell.activityView startAnimating];
-				a = 0.3;
+				cell.networkImageView.alpha = 0.3;
 			}
 			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadProgress) {
 				[cell.activityView startAnimating];
-				a = 0.3;
+				cell.networkImageView.alpha = 0.3;
 			}
 			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadComplete) {
 				[cell.activityView stopAnimating];
-				a = 1.0;
+				cell.networkImageView.alpha = 1.0;
 			}
 			else {
-				a = 1.0;
+				cell.networkImageView.alpha = 1.0;
 			}
 			
 			cell.labelNewView.hidden = [currentPhoto.hasViewed boolValue];
 			
-			[UIView animateWithDuration:0.3 animations:^{
-				cell.networkImageView.alpha = a;
-			}];
-		}];
-	}];
+			//[UIView animateWithDuration:0.3 animations:^{
+			//	cell.networkImageView.alpha = a;
+			//}];
+		});
+	}
+	});
     
     return cell;
 }

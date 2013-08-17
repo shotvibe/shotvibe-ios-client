@@ -260,22 +260,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
-    NSLog(@"++++++++++++++++++++++++++++ config table cell at row %i", indexPath.row);
+    //NSLog(@"++++++++++++++++++++++++++++ config table cell at row %i", indexPath.row);
 	
 	// Configure thumbnail
 	
-    [cell.networkImageView cancel];
-    cell.networkImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
-    //cell.networkImageView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
-    cell.networkImageView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.1].CGColor;
-    cell.networkImageView.layer.borderWidth = 1;
-    cell.networkImageView.contentMode = UIViewContentModeScaleAspectFill;
-    cell.networkImageView.clipsToBounds = YES;
     [cell.networkImageView setImage:nil];
+	//cell.networkImageView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.1].CGColor;
+	//cell.networkImageView.layer.borderWidth = 1;
+	
     cell.tag = indexPath.row;
 	__block NSIndexPath *tagIndex = indexPath;
-	
-	// Get the album latest image
 	__block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	
 	NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
@@ -286,8 +280,7 @@
 	
 	dispatch_async(dispatch_get_global_queue(0,0),^{
 		
-		NSLog(@"++++++++++++++++++++++++++++ tags %i %i", tagIndex.row, cell.networkImageView.tag);
-		if (cell.tag == tagIndex.row) {
+	if (cell.tag == tagIndex.row) {
 			
 		NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", anAlbum.albumId, SVObjectSyncDeleteNeeded];
@@ -340,8 +333,6 @@
 			
 		//NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND isNew == YES", anAlbum.albumId]];
 		NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
-		//NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId]];
-		NSLog(@"++++++++++++++++++++++++++++ numberNew %i", numberNew);
 		
 		dispatch_async(dispatch_get_main_queue(),^{
 			if (numberNew > 0 ) {
@@ -352,7 +343,7 @@
 			}
 		});
 		
-		}
+	}
 	});
 	
     return cell;
