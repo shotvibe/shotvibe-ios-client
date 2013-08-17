@@ -200,43 +200,36 @@
 
 - (void)doneButtonPressed
 {
-    [self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error){
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		
-		self.doneButton.enabled = YES;
-		
-//		if (!albumId) {
-//			Album *selectedAlbum = (Album *)[[NSManagedObjectContext defaultContext] objectWithID:self.selectedAlbum.objectID];
-//			albumId = selectedAlbum.albumId;
-//		}
-		
-		for (NSData *photoData in selectedPhotoPaths) {
-             
-			__block NSData *blockData = photoData;
-			__block NSString *tempPhotoId = [[NSUUID UUID] UUIDString];
-			__block NSString *albumId = self.selectedAlbum.albumId;
-             
-			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                 
-				[SVBusinessDelegate saveUploadedPhotoImageData:blockData forPhotoId:tempPhotoId withAlbumId:albumId];
-                 
-			});
-		}
-         
-//         [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
-//             Album *localAlbum = (Album *)[localContext objectWithID:self.selectedAlbum.objectID];
-//             [localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
-//             
-//         }];
-         //[[SVUploadQueueManager sharedManager] start];
-         
-		[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+		[self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error){
 			
-			if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
-				[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
+			// Save the images inside the app with a random id
+			for (NSData *photoData in selectedPhotoPaths) {
+				
+				NSString *tempPhotoId = [[NSUUID UUID] UUIDString];
+				
+				[SVBusinessDelegate saveUploadedPhotoImageData:photoData
+													forPhotoId:tempPhotoId
+												   withAlbumId:self.selectedAlbum.albumId];
 			}
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				
+				
+			});
+			
 		}];
+	});
+	
+	//self.doneButton.enabled = YES;
+	
+	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
 		
-     }];
+		if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
+			[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
+		}
+	}];
 }
 
 

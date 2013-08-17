@@ -272,17 +272,24 @@
     cell.networkImageView.contentMode = UIViewContentModeScaleAspectFill;
     cell.networkImageView.clipsToBounds = YES;
     [cell.networkImageView setImage:nil];
-    cell.networkImageView.tag = indexPath.row;
+    cell.tag = indexPath.row;
+	__block NSIndexPath *tagIndex = indexPath;
 	
 	// Get the album latest image
-	Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	__block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	
-	[_queue addOperationWithBlock:^{
+	NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
+	
+	cell.title.text = anAlbum.name;
+	[cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
+	
+	
+	dispatch_async(dispatch_get_global_queue(0,0),^{
 		
-		NSArray *allPhotos = [anAlbum.albumPhotos allObjects];
+		NSLog(@"++++++++++++++++++++++++++++ tags %i %i", tagIndex.row, cell.networkImageView.tag);
+		if (cell.tag == tagIndex.row) {
+			
 		NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
-		//NSArray *workingArray = [allPhotos sortedArrayUsingDescriptors:@[datecreatedDescriptor]];
-		
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", anAlbum.albumId, SVObjectSyncDeleteNeeded];
 		NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
 		fetchRequest.sortDescriptors = @[datecreatedDescriptor];
@@ -293,83 +300,60 @@
 																									 sectionNameKeyPath:nil
 																											  cacheName:nil];
 		[fetchedResultsController performFetch:nil];
-		NSArray *workingArray = [fetchedResultsController fetchedObjects];
-		
-		
-		//NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId];
-		//NSDate *maxDate = (NSDate *)[AlbumPhoto aggregateOperation:@"max:" onAttribute:@"date_created" withPredicate:predicate];
-		
-		//__block AlbumPhoto *recentPhoto = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND date_created == %@", anAlbum.albumId, maxDate]];
-		
-		//NSLog(@"[anAlbum.albumPhotos allObjects] %@", [anAlbum.albumPhotos allObjects]);
-		
-		if (workingArray.count > 0) {
+		NSArray *photos = [fetchedResultsController fetchedObjects];
 			
-			__block AlbumPhoto *firstPhoto = [workingArray objectAtIndex:0];
+		if (photos.count > 0) {
+			
+			__block AlbumPhoto *firstPhoto = [photos objectAtIndex:0];
 			UIImage *image = [thumbnailCache objectForKey:firstPhoto.photo_id];
 			
 			if (!image) {
-				// Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-				__block NSIndexPath *tagIndex = indexPath;
 				__block NSString *photoId = firstPhoto.photo_id;
 				[[SVEntityStore sharedStore] getImageForPhoto:firstPhoto WithCompletion:^(UIImage *network_image) {
 					
-					if (network_image && cell.networkImageView.tag == tagIndex.row) {
+					if (network_image) {
 						
-						[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-							
+						dispatch_async(dispatch_get_main_queue(),^{
 							cell.networkImageView.image = network_image;
 							[thumbnailCache setObject:network_image forKey:photoId];
-						}];
+						});
 					}
 				}];
 			}
-			else
-			{
-				[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-					
+			else {
+				dispatch_async(dispatch_get_main_queue(),^{
 					[cell.networkImageView setImage:image];
-				}];
+				});
 			}
 			
-			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-				
-				NSString *lastAddedBy = NSLocalizedString(@"Last added by", @"");
-				cell.author.text = [NSString stringWithFormat:@"%@ %@", lastAddedBy, firstPhoto.author.nickname];
-			}];
-			
+			dispatch_async(dispatch_get_main_queue(),^{
+				cell.author.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Last added by", @""), firstPhoto.author.nickname];
+			});
 		}
-		else
-		{
-			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-				
-				UIImage *thumbnail = [UIImage imageNamed:@"placeholderImage"];//[SVBusinessDelegate getRandomThumbnailPlaceholder];
-				[cell.networkImageView setImage:thumbnail];
-			}];
-			
+		else {
+			dispatch_async(dispatch_get_main_queue(),^{
+				[cell.networkImageView setImage:[UIImage imageNamed:@"placeholderImage"]];
+			});
 		}
 		
+		// Set the number of unviewed photos
+			
 		//NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND isNew == YES", anAlbum.albumId]];
-		NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId]];
+		NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
+		//NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@", anAlbum.albumId]];
+		NSLog(@"++++++++++++++++++++++++++++ numberNew %i", numberNew);
 		
-		[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-			
+		dispatch_async(dispatch_get_main_queue(),^{
 			if (numberNew > 0 ) {
 				[cell.numberNotViewedIndicator setHidden:NO];
 				[cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
 			}else{
 				[cell.numberNotViewedIndicator setHidden:YES];
 			}
-		}];
+		});
 		
-		
-	}];
-	
-	NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
-	
-	cell.title.text = anAlbum.name;
-	[cell.timestamp setTitle:NSLocalizedString(distanceOfTimeInWords, @"") forState:UIControlStateNormal];
-	
+		}
+	});
 	
     return cell;
 }
@@ -580,7 +564,7 @@
 }
 
 
-// drop down
+#pragma mark drop down stuffs
 
 - (void)showDropDown
 {
@@ -622,6 +606,10 @@
 		self.takePictureButton.enabled = YES;
     }];
 }
+- (void)createNewAlbumWithTitle:(NSString *)title
+{
+	[[SVEntityStore sharedStore] newAlbumWithName:title andUserID:[[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId]];
+}
 
 
 
@@ -634,10 +622,6 @@
 }
 
 
-- (void)createNewAlbumWithTitle:(NSString *)title
-{
-	[[SVEntityStore sharedStore] newAlbumWithName:title andUserID:[[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId]];
-}
 
 
 
@@ -664,8 +648,8 @@
 - (void)downloadCompleted:(NSNotification *)notification
 {
 	NSLog(@"DOWNLOAD COMPLETE, reload albums cells and start the upload process");
-    [self.fetchedResultsController performFetch:nil];
-    [self.tableView reloadData];
+    //[self.fetchedResultsController performFetch:nil];
+    //[self.tableView reloadData];
 	
 	[[SVUploadManager sharedManager] uploadPhotos];
 }
@@ -673,6 +657,7 @@
 
 
 -(void)refreshView:(UIRefreshControl *)refresh {
+	
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 	[formatter setDateFormat:@"MMM d, h:mm a"];

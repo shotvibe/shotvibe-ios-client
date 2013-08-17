@@ -425,22 +425,38 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 			}
 			else
 			{
-				NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
-				NSURLResponse *response = nil;
-				NSError *err = nil;
-				NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
 				
-				NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-				if (data) {
-					[self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
-						// don't care >:O
-					}];
-					
-					UIImage *image = [UIImage imageWithData:data scale:0.25];
-					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-						block(image);
-					}];
-				}
+				[self getImageDataForImageID:aPhoto.tempPhotoId WithCompletion:^(NSData *imageData) {
+					NSLog(@"photo_id %@ was not found, try the temp id: %@", aPhoto.photo_id, aPhoto.tempPhotoId);
+					if (imageData) {
+						UIImage *image = [UIImage imageWithData:imageData];
+						[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+							
+							block(image);
+						}];
+						
+						imageData = nil;
+					}
+					else
+					{
+						NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
+						NSURLResponse *response = nil;
+						NSError *err = nil;
+						NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
+						
+						NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+						if (data) {
+							[self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
+								// don't care >:O
+							}];
+							
+							UIImage *image = [UIImage imageWithData:data scale:0.25];
+							[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+								block(image);
+							}];
+						}
+					}
+				}];
 			}
 		}];
 		

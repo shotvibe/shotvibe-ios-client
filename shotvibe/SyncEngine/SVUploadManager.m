@@ -72,7 +72,7 @@
 	}
 	busy = YES;
 	
-	// Get all of the albums that need to be uploaded
+	// Get all of the albums that have photos to upload
 	NSArray *arr = [Album findAllWithPredicate:[NSPredicate predicateWithFormat:@"SUBQUERY(albumPhotos, $albumPhoto, $albumPhoto.objectSyncStatus == %i).@count > 0", SVObjectSyncUploadNeeded]
 									 inContext:[NSManagedObjectContext defaultContext]];
 	albumsToUpload = [NSMutableArray arrayWithArray:arr];

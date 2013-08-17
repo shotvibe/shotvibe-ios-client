@@ -264,11 +264,12 @@
 			float a = 0;
 			
 			if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
-				a = 0.2;
+				[cell.activityView startAnimating];
+				a = 0.3;
 			}
 			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadProgress) {
 				[cell.activityView startAnimating];
-				a = 0.2;
+				a = 0.3;
 			}
 			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadComplete) {
 				[cell.activityView stopAnimating];

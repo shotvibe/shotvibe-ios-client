@@ -21,7 +21,6 @@
 
 @property (nonatomic, strong) NSArray *allContacts;
 @property (nonatomic, strong) NSMutableDictionary *records;// dictionary of arrays
-//@property (nonatomic, strong) NSMutableArray *selectedIndexPaths;
 @property (nonatomic, strong) NSMutableArray *contactsButtons;
 
 - (IBAction)cancelPressed:(id)sender;
@@ -52,17 +51,20 @@
 		}
 	}
 	
-	[contactsToInvite addObject:@{@"phone_number": @"0040722905582", @"default_country":@"ro", @"contact_nickname":@"Cristi"}];
-	NSDictionary *phoneNumbers = @{@"add_members": contactsToInvite};
-	NSLog(@"contactsToInvite %@", phoneNumbers);
-	
-	// send request
-	
-	[[SVEntityStore sharedStore] invitePhoneNumbers:phoneNumbers toAlbumId:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error) {
+	if (contactsToInvite.count > 0) {
 		
-		NSLog(@"invite sent - success/error:  %i %@", success, error);
-		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-	}];
+		[contactsToInvite addObject:@{@"phone_number": @"40722905582", @"default_country":@"ro", @"contact_nickname":@"Cristi"}];
+		NSDictionary *phoneNumbers = @{@"add_members": contactsToInvite};
+		NSLog(@"contactsToInvite %@", phoneNumbers);
+		
+		// send request
+		
+		[[SVEntityStore sharedStore] invitePhoneNumbers:phoneNumbers toAlbumId:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error) {
+			
+			NSLog(@"invite sent - success/error:  %i %@", success, error);
+			[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+		}];
+	}
 }
 
 
@@ -83,15 +85,6 @@
 }
 
 
-- (id) init {
-	self = [super init];
-	if (self) {
-		
-	}
-	return self;
-}
-
-
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
@@ -99,7 +92,6 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	//self.selectedIndexPaths = [[NSMutableArray alloc] init];
 	self.contactsButtons = [[NSMutableArray alloc] init];
 	alphabet = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", @"#"];
 	keys = [NSArray arrayWithArray:alphabet];
@@ -128,14 +120,13 @@
     NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
 	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
 	[backButton setTitlePositionAdjustment:UIOffsetMake(-5,2) forBarMetrics:UIBarMetricsDefault];
-	//self.navigationItem.backBarButtonItem = backButton;
 	
-    //UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
-	//UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
-	//UIEdgeInsets insets = UIEdgeInsetsMake(5, 35, 5, 5);
-	//UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(donePressed:)];
+	[doneButton setTitleTextAttributes:att forState:UIControlStateNormal];
+	[doneButton setTitlePositionAdjustment:UIOffsetMake(0,2) forBarMetrics:UIBarMetricsDefault];
 	
 	self.navigationItem.leftBarButtonItem = backButton;
+	self.navigationItem.rightBarButtonItem = doneButton;
 }
 
 
