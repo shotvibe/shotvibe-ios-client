@@ -13,7 +13,7 @@
 #import "SVDownloadManager.h"
 #import "SVUploadManager.h"
 #import "SVDefines.h"
-#import "Album.h"
+#import "OldAlbum.h"
 #import "OldMember.h"
 #import "OldAlbumPhoto.h"
 #import "SVAlbumListViewCell.h"

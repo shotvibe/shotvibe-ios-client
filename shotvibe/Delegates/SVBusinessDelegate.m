@@ -10,7 +10,7 @@
 #import "SVOfflineStorageWS.h"
 #import "SVAssetRetrievalWS.h"
 #import "SVEntityStore.h"
-#import "Album.h"
+#import "OldAlbum.h"
 #import "OldAlbumPhoto.h"
 #import "SVURLBuilderWS.h"
 #import "SVDefines.h"
@@ -42,7 +42,7 @@
 }
 
 
-+ (void)cleanupOfflineStorageForAlbum:(Album *)album
++ (void)cleanupOfflineStorageForAlbum:(OldAlbum *)album
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -50,7 +50,7 @@
 }
 
 
-+ (NSInteger)numberOfViewedImagesInAlbum:(Album *)album
++ (NSInteger)numberOfViewedImagesInAlbum:(OldAlbum *)album
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -58,7 +58,7 @@
 }
 
 
-+ (void)loadImageFromAlbum:(Album *)album withPath:(NSString *)path WithCompletion:(void (^)(UIImage *image, NSError *error))block
++ (void)loadImageFromAlbum:(OldAlbum *)album withPath:(NSString *)path WithCompletion:(void (^)(UIImage *image, NSError *error))block
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -68,7 +68,7 @@
 }
 
 
-+ (UIImage *)loadImageFromAlbum:(Album *)album withPath:(NSString *)path
++ (UIImage *)loadImageFromAlbum:(OldAlbum *)album withPath:(NSString *)path
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -170,7 +170,7 @@
 
 
 
-+ (void) leaveAlbum:(Album*)album completion:(void (^)(BOOL success))block {
++ (void) leaveAlbum:(OldAlbum*)album completion:(void (^)(BOOL success))block {
 	
 	[[SVEntityStore sharedStore] leaveAlbum:album completion:^(BOOL success, NSError *error) {
 		

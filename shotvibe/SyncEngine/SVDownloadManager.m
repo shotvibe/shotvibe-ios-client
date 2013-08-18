@@ -104,10 +104,10 @@
 		for (NSDictionary *anAlbum in albums) {
 			
 			// Create an Album from NSDictionary
-			Album *album = [Album findFirstByAttribute:@"albumId" withValue:anAlbum[@"id"] inContext:ctxAlbums];
+			OldAlbum *album = [OldAlbum findFirstByAttribute:@"albumId" withValue:anAlbum[@"id"] inContext:ctxAlbums];
 			
 			if (!album) {
-				album = [Album createInContext:ctxAlbums];
+				album = [OldAlbum createInContext:ctxAlbums];
 				album.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDownloadNeeded];
 			}
 			else if (album.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
@@ -143,7 +143,7 @@
 	
 	NSError *error;
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Album" inManagedObjectContext:ctxAlbums];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"OldAlbum" inManagedObjectContext:ctxAlbums];
 	[fetchRequest setEntity:entity];
 	NSArray *localAlbums = [ctxAlbums executeFetchRequest:fetchRequest error:&error];
 	NSMutableArray *albumsToDelete = [NSMutableArray arrayWithArray:localAlbums];
@@ -151,7 +151,7 @@
 	NSLog(@"SVDownloadManager count locally: %i = %i", localAlbums.count, albums.count);
 	
 	for (NSDictionary *serverAlbum in albums) {
-		for (Album *localAlbum in albumsToDelete) {
+		for (OldAlbum *localAlbum in albumsToDelete) {
 			//NSLog(@"xxxxxxxxxxxxxxxxx   propose for deletion: %@ %@", [serverAlbum objectForKey:@"id"], localAlbum.albumId);
 			if ([[NSString stringWithFormat:@"%@", [serverAlbum objectForKey:@"id"]] isEqualToString:localAlbum.albumId]) {
 				[albumsToDelete removeObject:localAlbum];
@@ -161,7 +161,7 @@
 	}
 	
 	NSLog(@"albumsToDelete: %@", albumsToDelete);
-	for (Album *localAlbum in albumsToDelete) {
+	for (OldAlbum *localAlbum in albumsToDelete) {
 		NSLog(@"delete %@", localAlbum.albumId);
 		[localAlbum deleteInContext:ctxAlbums];
 	}
@@ -227,7 +227,7 @@
 
 - (void) downloadAlbumDetails:(NSString*)albumId {
 	
-    Album *album = [Album findFirstByAttribute:@"albumId" withValue:albumId inContext:ctxPhotos];
+    OldAlbum *album = [OldAlbum findFirstByAttribute:@"albumId" withValue:albumId inContext:ctxPhotos];
 	
 	NSString *path = [NSString stringWithFormat:@"albums/%@/", albumId];
 	NSMutableURLRequest *theRequest = [[SVHttpClient sharedClient] requestWithMethod:@"GET" path:path parameters:nil];
@@ -297,7 +297,7 @@
 {
     NSLog(@">>>>>>>>>>>>>>>>>>>>>>> PROCESSING PHOTOS for Album: %@", albumData[@"name"]);
     
-    Album *localAlbum = [Album findFirstByAttribute:@"albumId" withValue:albumData[@"id"] inContext:ctxPhotos];
+    OldAlbum *localAlbum = [OldAlbum findFirstByAttribute:@"albumId" withValue:albumData[@"id"] inContext:ctxPhotos];
 	
 	[self setValue:[albumData objectForKey:@"date_created"] forKey:@"date_created" forManagedObject:localAlbum];
 	
@@ -478,7 +478,7 @@
 	
     if ([key isEqualToString:@"latest_photos"] || [key isEqualToString:@"author"]) return;
 	
-	if ([[[managedObject entity] name] isEqualToString:@"Album"] && [key isEqualToString:@"id"])
+	if ([[[managedObject entity] name] isEqualToString:@"OldAlbum"] && [key isEqualToString:@"id"])
 	{
 		[managedObject setValue:value forKey:@"albumId"];
 	}

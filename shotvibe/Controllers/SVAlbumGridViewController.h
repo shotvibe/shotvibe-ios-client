@@ -11,13 +11,13 @@
 @class SVSidebarAlbumMemberViewController;
 @class SVSidebarAlbumManagementViewController;
 
-@class Album;
+@class OldAlbum;
 
 @interface SVAlbumGridViewController : UIViewController <UIScrollViewDelegate>
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) Album *selectedAlbum;
+@property (nonatomic, strong) OldAlbum *selectedAlbum;
 @property (nonatomic, strong) SVSidebarAlbumMemberViewController *sidebarRight;
 @property (nonatomic, strong) SVSidebarAlbumManagementViewController *sidebarLeft;
 

@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class Album;
+@class OldAlbum;
 
 @interface SVAlbumNotificationSettingsViewController : UITableViewController
 
-@property (nonatomic, strong) Album *currentAlbum;
+@property (nonatomic, strong) OldAlbum *currentAlbum;
 
 @end

@@ -9,11 +9,11 @@
 #import <MessageUI/MessageUI.h>
 #import <UIKit/UIKit.h>
 
-@class Album;
+@class OldAlbum;
 
 @interface SVSettingsViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
-@property (nonatomic, strong) Album *currentAlbum;
+@property (nonatomic, strong) OldAlbum *currentAlbum;
 
 - (IBAction)doUsage:(id)sender;
 - (IBAction)doLogout:(id)sender;

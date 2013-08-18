@@ -10,13 +10,13 @@
 #import <UIKit/UIKit.h>
 #import "CaptureViewfinderController.h"
 
-@class Album;
+@class OldAlbum;
 
 @interface CaptureSelectImagesViewController : UIViewController
 
 @property (nonatomic, strong) NSArray *takenPhotos;// Set only one of this options
 @property (nonatomic, strong) NSArray *libraryPhotos;
-@property (nonatomic, strong) Album *selectedAlbum;
+@property (nonatomic, strong) OldAlbum *selectedAlbum;
 @property (nonatomic, strong) ALAssetsGroup *selectedGroup;
 
 @property (nonatomic) id <CaptureViewfinderDelegate> delegate;

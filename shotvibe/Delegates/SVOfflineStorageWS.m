@@ -9,7 +9,7 @@
 #import <stdlib.h>
 #import "SVDefines.h"
 #import "SVOfflineStorageWS.h"
-#import "Album.h"
+#import "OldAlbum.h"
 #import "OldAlbumPhoto.h"
 #import "SVEntityStore.h"
 
@@ -132,7 +132,7 @@
                 
                 //NSManagedObjectContext *localContext = nil;
                 
-                NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+                NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbum"];
                 
                 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %@", albumId];
                 fetchRequest.predicate = predicate;
@@ -152,7 +152,7 @@
 }
 
 
-- (void)cleanupOfflineStorageForAlbum:(Album *)album
+- (void)cleanupOfflineStorageForAlbum:(OldAlbum *)album
 {
     //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     //    NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -197,7 +197,7 @@
 }
 
 
-- (NSUInteger)numberOfImagesSavedInAlbum:(Album *)album
+- (NSUInteger)numberOfImagesSavedInAlbum:(OldAlbum *)album
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -209,7 +209,7 @@
 }
 
 // This is primarily used for loading in the images for the grid cells and album cells
-- (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(Album *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block
+- (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(OldAlbum *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -238,7 +238,7 @@
 }
 
 
-- (UIImage *)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(Album *)album
+- (UIImage *)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(OldAlbum *)album
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];

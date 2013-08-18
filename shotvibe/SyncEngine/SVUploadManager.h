@@ -12,7 +12,7 @@
 #import "SVEntityStore.h"
 #import "AFJSONRequestOperation.h"
 #import "AFImageRequestOperation.h"
-#import "Album.h"
+#import "OldAlbum.h"
 #import "OldAlbumPhoto.h"
 #import "OldMember.h"
 #import "SVDownloadManager.h"
@@ -27,7 +27,7 @@
 	AFHTTPClient *uploader;
 	NSOperationQueue *_queue;
 	BOOL busy;
-	Album *activeAlbum;
+	OldAlbum *activeAlbum;
 }
 
 + (SVUploadManager *)sharedManager;

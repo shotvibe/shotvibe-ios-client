@@ -12,7 +12,7 @@
 #import "SVEntityStore.h"
 #import "AFJSONRequestOperation.h"
 #import "AFImageRequestOperation.h"
-#import "Album.h"
+#import "OldAlbum.h"
 #import "OldAlbumPhoto.h"
 #import "OldMember.h"
 

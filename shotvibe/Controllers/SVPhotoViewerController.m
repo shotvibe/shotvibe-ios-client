@@ -9,7 +9,7 @@
 #import "SVPhotoViewerController.h"
 #import "SVDefines.h"
 #import "OldAlbumPhoto.h"
-#import "Album.h"
+#import "OldAlbum.h"
 #import "UINavigationController+MFSideMenu.h"
 #import "MFSideMenu.h"
 #import "OldMember.h"

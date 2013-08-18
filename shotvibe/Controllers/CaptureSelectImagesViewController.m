@@ -7,7 +7,7 @@
 //
 
 #import "ALAssetsLibrary+helper.h"
-#import "Album.h"
+#import "OldAlbum.h"
 #import "OldAlbumPhoto.h"
 #import "CaptureSelectImagesViewController.h"
 #import "SVBusinessDelegate.h"

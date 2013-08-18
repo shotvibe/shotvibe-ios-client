@@ -586,7 +586,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             albumLabel.shadowColor = [UIColor blackColor];
             albumLabel.shadowOffset = CGSizeMake(0, 1);
             
-            Album *currentAlbum = [self.albums objectAtIndex:index];
+            OldAlbum *currentAlbum = [self.albums objectAtIndex:index];
             albumLabel.text = currentAlbum.name;
             
             [self.albumScrollView addSubview:albumLabel];

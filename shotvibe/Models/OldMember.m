@@ -7,7 +7,7 @@
 //
 
 #import "OldMember.h"
-#import "Album.h"
+#import "OldAlbum.h"
 #import "OldAlbumPhoto.h"
 
 

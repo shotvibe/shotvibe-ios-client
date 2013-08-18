@@ -81,7 +81,7 @@
     
     NSMutableArray *albumsForCapture = [[NSMutableArray alloc] init];
     
-    for (Album *anAlbum in self.fetchedResultsController.fetchedObjects) {
+    for (OldAlbum *anAlbum in self.fetchedResultsController.fetchedObjects) {
         [albumsForCapture addObject:anAlbum];
         
         albumCount++;
@@ -104,7 +104,7 @@
 
 #pragma mark camera delegate
 
-- (void) cameraWasDismissedWithAlbum:(Album*)selectedAlbum {
+- (void) cameraWasDismissedWithAlbum:(OldAlbum*)selectedAlbum {
 	
 	NSLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
 	
@@ -114,7 +114,7 @@
 		int i = 0;
 		NSIndexPath *indexPath;
 		id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:0];
-		for (Album *a in [sectionInfo objects]) {
+		for (OldAlbum *a in [sectionInfo objects]) {
 			
 			if ([a.albumId isEqualToString:selectedAlbum.albumId]) {
 				indexPath = [NSIndexPath indexPathForRow:i inSection:0];
@@ -197,7 +197,7 @@
         
         // Get the selected Album
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        Album *selectedAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        OldAlbum *selectedAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
@@ -270,7 +270,7 @@
 	
     cell.tag = indexPath.row;
 	__block NSIndexPath *tagIndex = indexPath;
-	__block Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	__block OldAlbum *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	
 	NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
 	
@@ -363,7 +363,7 @@
 	
 	[_queue addOperationWithBlock:^{
 		
-		Album *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		OldAlbum *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		[[SVEntityStore sharedStore] setPhotosInAlbumToNotNew:anAlbum];
 		//[[SVEntityStore sharedStore] setAllPhotosToNotNew];
 	}];
@@ -620,7 +620,7 @@
 
 - (void)albumUpdateReceived:(NSNotification *)notification
 {
-    Album *updatedAlbum = (Album *)notification.object;
+    OldAlbum *updatedAlbum = (OldAlbum *)notification.object;
     
     NSIndexPath *albumIndex = [self.fetchedResultsController indexPathForObject:updatedAlbum];
     

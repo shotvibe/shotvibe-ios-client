@@ -9,7 +9,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <Foundation/Foundation.h>
 
-@class Album;
+@class OldAlbum;
 @class OldAlbumPhoto;
 
 @interface SVBusinessDelegate : NSObject
@@ -20,10 +20,10 @@
 + (void)saveImageData:(NSData *)imageData forPhoto:(OldAlbumPhoto *)photo inAlbumWithId:(id)albumId;
 + (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId withAlbumId:(NSString *)albumId;
 
-+ (void)cleanupOfflineStorageForAlbum:(Album *)album;
-+ (NSInteger)numberOfViewedImagesInAlbum:(Album *)album;
-+ (UIImage *)loadImageFromAlbum:(Album *)album withPath:(NSString *)path;
-+ (void)loadImageFromAlbum:(Album *)album withPath:(NSString *)path WithCompletion:(void (^)(UIImage *image, NSError *error))block;
++ (void)cleanupOfflineStorageForAlbum:(OldAlbum *)album;
++ (NSInteger)numberOfViewedImagesInAlbum:(OldAlbum *)album;
++ (UIImage *)loadImageFromAlbum:(OldAlbum *)album withPath:(NSString *)path;
++ (void)loadImageFromAlbum:(OldAlbum *)album withPath:(NSString *)path WithCompletion:(void (^)(UIImage *image, NSError *error))block;
 
 + (UIImage *)getRandomThumbnailPlaceholder;
 
@@ -42,7 +42,7 @@
 + (BOOL) hasUserBeenAuthenticated;
 
 // Album management options
-+ (void) leaveAlbum:(Album*)album completion:(void (^)(BOOL success))block;
++ (void) leaveAlbum:(OldAlbum*)album completion:(void (^)(BOOL success))block;
 
 
 @end

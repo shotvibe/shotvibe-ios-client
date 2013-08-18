@@ -11,7 +11,7 @@
 
 @class OldAlbumPhoto, OldMember;
 
-@interface Album : NSManagedObject
+@interface OldAlbum : NSManagedObject
 
 @property (nonatomic, retain) NSString * albumId;
 @property (nonatomic, retain) NSDate * date_created;
@@ -27,7 +27,7 @@
 @property (nonatomic, retain) NSSet *members;
 @end
 
-@interface Album (CoreDataGeneratedAccessors)
+@interface OldAlbum (CoreDataGeneratedAccessors)
 
 - (void)addAlbumPhotosObject:(OldAlbumPhoto *)value;
 - (void)removeAlbumPhotosObject:(OldAlbumPhoto *)value;

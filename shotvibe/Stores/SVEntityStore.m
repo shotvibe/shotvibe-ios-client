@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "Album.h"
+#import "OldAlbum.h"
 #import "OldAlbumPhoto.h"
 #import "AFHTTPRequestOperation.h"
 #import "AFJSONRequestOperation.h"
@@ -106,7 +106,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 - (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate
 {
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbum"];
 	NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
 	NSManagedObjectContext *dc = [NSManagedObjectContext MR_defaultContext];
@@ -127,7 +127,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 - (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate
 {
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbum"];
     NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
     
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
@@ -152,7 +152,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 }
 
 
-- (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate
+- (NSFetchedResultsController *)allPhotosForAlbum:(OldAlbum *)anAlbum WithDelegate:(id)delegate
 {
 	NSLog(@"NSFetchedResultsController *)allPhotosForAlbum %@", anAlbum.name);
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbumPhoto"];
@@ -196,7 +196,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 //		}
 //    }];
 }
-- (void)setPhotosInAlbumToNotNew:(Album*)album {
+- (void)setPhotosInAlbumToNotNew:(OldAlbum*)album {
 	
 //	[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
 //		
@@ -225,7 +225,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 {    
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
 		
-        Album *localAlbum = [Album createInContext:localContext];
+        OldAlbum *localAlbum = [OldAlbum createInContext:localContext];
         
         // Create the first member too...
         OldMember *localMember = [OldMember createInContext:localContext];
@@ -249,12 +249,12 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 - (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
 {
-    Album *albumToAddPhotosTo = [Album findFirstByAttribute:@"albumId" withValue:albumID inContext:[NSManagedObjectContext defaultContext]];
+    OldAlbum *albumToAddPhotosTo = [OldAlbum findFirstByAttribute:@"albumId" withValue:albumID inContext:[NSManagedObjectContext defaultContext]];
     NSLog(@"The passed id is: %@", albumID);
     if (photoId && albumID) {
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
             OldAlbumPhoto *localPhoto = [OldAlbumPhoto createInContext:localContext];
-            Album *localAlbum = (Album *)[localContext objectWithID:albumToAddPhotosTo.objectID];
+            OldAlbum *localAlbum = (OldAlbum *)[localContext objectWithID:albumToAddPhotosTo.objectID];
             
             [localPhoto setDate_created:[NSDate date]];
             [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
@@ -270,7 +270,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
         NSLog(@"WE'VE LOST INTELLIGENCE SIR!! SO WE WON'T ADD ZOMBIE PHOTOS OK?");
     }
 }
-- (void)leaveAlbum:(Album*)album completion:(void (^)(BOOL success, NSError *error))block {
+- (void)leaveAlbum:(OldAlbum*)album completion:(void (^)(BOOL success, NSError *error))block {
 	
 	NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:0];
     NSString *path = [NSString stringWithFormat:@"/albums/%@/leave/", album.albumId];

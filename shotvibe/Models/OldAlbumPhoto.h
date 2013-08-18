@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Album, OldMember;
+@class OldAlbum, OldMember;
 
 @interface OldAlbumPhoto : NSManagedObject
 
@@ -21,7 +21,7 @@
 @property (nonatomic, retain) NSString * photo_id;
 @property (nonatomic, retain) NSString * photo_url;
 @property (nonatomic, retain) NSString * tempPhotoId;
-@property (nonatomic, retain) Album *album;
+@property (nonatomic, retain) OldAlbum *album;
 @property (nonatomic, retain) OldMember *author;
 
 @end

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class Album;
+@class OldAlbum;
 @class OldAlbumPhoto;
 
 @interface SVOfflineStorageWS : NSObject
@@ -18,10 +18,10 @@
 - (void)saveImageData:(NSData *)imageData forPhoto:(OldAlbumPhoto *)photo inAlbumWithId:(id)albumId;
 - (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId;
 
-- (void)cleanupOfflineStorageForAlbum:(Album *)album;
-- (NSUInteger)numberOfImagesSavedInAlbum:(Album *)album;
-- (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(Album *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block;
-- (UIImage *)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(Album *)album;
+- (void)cleanupOfflineStorageForAlbum:(OldAlbum *)album;
+- (NSUInteger)numberOfImagesSavedInAlbum:(OldAlbum *)album;
+- (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(OldAlbum *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block;
+- (UIImage *)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(OldAlbum *)album;
 
 - (UIImage *)defaultThumbnailImage;
 @end

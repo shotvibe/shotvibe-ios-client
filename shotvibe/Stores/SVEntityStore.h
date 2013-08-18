@@ -7,7 +7,7 @@
 //
 
 #import "AFHTTPClient.h"
-#import "Album.h"
+#import "OldAlbum.h"
 #import <Foundation/Foundation.h>
 
 @interface SVEntityStore : AFHTTPClient
@@ -28,15 +28,15 @@
 
 - (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate;
 - (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate;
-- (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate;
+- (NSFetchedResultsController *)allPhotosForAlbum:(OldAlbum *)anAlbum WithDelegate:(id)delegate;
 
 
 #pragma mark - Album Methods
 
 - (void)newAlbumWithName:(NSString *)albumName andUserID:(NSNumber *)userID;
 - (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
-- (void)leaveAlbum:(Album*)album completion:(void (^)(BOOL success, NSError *error))block;
-- (void)deleteAlbum:(Album*)album;
+- (void)leaveAlbum:(OldAlbum*)album completion:(void (^)(BOOL success, NSError *error))block;
+- (void)deleteAlbum:(OldAlbum*)album;
 
 #pragma mark - Image Methods
 
@@ -44,7 +44,7 @@
 - (void)wipe;
 
 - (void)setAllPhotosToNotNew;
-- (void)setPhotosInAlbumToNotNew:(Album*)album;
+- (void)setPhotosInAlbumToNotNew:(OldAlbum*)album;
 - (void)setPhotoAsViewed:(NSString *)photoId;
 - (void)getImageForPhoto:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
 - (void)getImageForPhotoData:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block;

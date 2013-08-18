@@ -73,7 +73,7 @@
 	busy = YES;
 	
 	// Get all of the albums that have photos to upload
-	NSArray *arr = [Album findAllWithPredicate:[NSPredicate predicateWithFormat:@"SUBQUERY(albumPhotos, $albumPhoto, $albumPhoto.objectSyncStatus == %i).@count > 0", SVObjectSyncUploadNeeded]
+	NSArray *arr = [OldAlbum findAllWithPredicate:[NSPredicate predicateWithFormat:@"SUBQUERY(albumPhotos, $albumPhoto, $albumPhoto.objectSyncStatus == %i).@count > 0", SVObjectSyncUploadNeeded]
 									 inContext:[NSManagedObjectContext defaultContext]];
 	albumsToUpload = [NSMutableArray arrayWithArray:arr];
     
@@ -110,7 +110,7 @@
 	}
 }
 
-- (void) requestIdsForAlbum:(Album*)album {
+- (void) requestIdsForAlbum:(OldAlbum*)album {
 	
 	photosToUpload = [NSMutableDictionary dictionary];// Dictionary of AlbumPhoto
 	NSArray *arr = [OldAlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %i AND album.albumId == %@", SVObjectSyncUploadNeeded, album.albumId]
@@ -234,7 +234,7 @@
 
 // 3. When all photos are finished uploading, add them all to the album by calling: POST /albums/{aid}/
 
-- (void)addPhotosToAlbum:(Album *)anAlbum
+- (void)addPhotosToAlbum:(OldAlbum *)anAlbum
 {
     NSString *albumUploadPath = [NSString stringWithFormat:@"/albums/%@/", anAlbum.albumId];
 	NSLog(@">>>>>>>>>>>>>>>>>>> addPhotosToAlbum albumUploadPath %@", albumUploadPath);
@@ -259,7 +259,7 @@
             
             [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
                 
-                Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
+                OldAlbum *localAlbum = (OldAlbum *)[localContext objectWithID:anAlbum.objectID];
                 localAlbum.etag = [[album objectForKey:@"etag"] stringValue];
                 localAlbum.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
                 
