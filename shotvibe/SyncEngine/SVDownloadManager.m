@@ -309,10 +309,10 @@
 		
 		for (NSDictionary *member in members) {
 			
-			Member *outerMember = [Member findFirstByAttribute:@"userId" withValue:[member objectForKey:@"id"] inContext:ctxPhotos];
+			OldMember *outerMember = [OldMember findFirstByAttribute:@"userId" withValue:[member objectForKey:@"id"] inContext:ctxPhotos];
 			
 			if (!outerMember) {
-				outerMember = [Member createInContext:ctxPhotos];
+				outerMember = [OldMember createInContext:ctxPhotos];
 			}
 			
 			[member enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -346,7 +346,7 @@
 			
 			// Add members to database
 			
-			Member *localAuthor = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:ctxPhotos];
+			OldMember *localAuthor = [OldMember findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:ctxPhotos];
 			
 			[localAlbum addAlbumPhotosObject:outerPhoto];
 			
@@ -482,7 +482,7 @@
 	{
 		[managedObject setValue:value forKey:@"albumId"];
 	}
-	else if ([[[managedObject entity] name] isEqualToString:@"Member"] && [key isEqualToString:@"id"])
+	else if ([[[managedObject entity] name] isEqualToString:@"OldMember"] && [key isEqualToString:@"id"])
 	{
 		[managedObject setValue:value forKey:@"userId"];
 	}

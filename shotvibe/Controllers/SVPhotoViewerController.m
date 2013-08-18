@@ -12,7 +12,7 @@
 #import "Album.h"
 #import "UINavigationController+MFSideMenu.h"
 #import "MFSideMenu.h"
-#import "Member.h"
+#import "OldMember.h"
 #import "SVBusinessDelegate.h"
 
 @interface SVPhotoViewerController ()

@@ -10,7 +10,7 @@
 #import "SVSettingsViewController.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
-#import "Member.h"
+#import "OldMember.h"
 #import "SVAlbumNotificationSettingsViewController.h"
 #import "SVDefines.h"
 #import "SVRegistrationViewController.h"
@@ -140,7 +140,7 @@
 		[[NSUserDefaults standardUserDefaults] synchronize];
 		
 		NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
-		[Member MR_truncateAllInContext:localContext];
+		[OldMember MR_truncateAllInContext:localContext];
 		[Album MR_truncateAllInContext:localContext];
 		[AlbumPhoto MR_truncateAllInContext:localContext];
 		[localContext MR_saveToPersistentStoreAndWait];

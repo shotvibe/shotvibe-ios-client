@@ -11,7 +11,7 @@
 #import "SVDefines.h"
 #import "SVSidebarAlbumMemberCell.h"
 #import "SVSidebarAlbumMemberViewController.h"
-#import "Member.h"
+#import "OldMember.h"
 
 @interface SVSidebarAlbumMemberViewController () <NSFetchedResultsControllerDelegate>
 
@@ -74,7 +74,7 @@
 {
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
     
-    Member *currentMember = [self.members objectAtIndex:indexPath.row];
+    OldMember *currentMember = [self.members objectAtIndex:indexPath.row];
 	
 	[cell.profileImageView setImage:nil];
 	[cell.profileImageView loadNetworkImage:currentMember.avatar_url];

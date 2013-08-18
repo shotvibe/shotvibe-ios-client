@@ -21,7 +21,7 @@
 		04204EFB178B45D9001FE127 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04204EFA178B45D9001FE127 /* AddressBook.framework */; };
 		04204EFF178B48CB001FE127 /* SVAddressBookBD.m in Sources */ = {isa = PBXBuildFile; fileRef = 04204EFE178B48CB001FE127 /* SVAddressBookBD.m */; };
 		04204F03178B48ED001FE127 /* SVAddressBookWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 04204F02178B48ED001FE127 /* SVAddressBookWS.m */; };
-		04204F07178B5915001FE127 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 04204F06178B5915001FE127 /* Member.m */; };
+		04204F07178B5915001FE127 /* OldMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 04204F06178B5915001FE127 /* OldMember.m */; };
 		0426B6351724D7CC007BAABC /* notificationBubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6291724D7CC007BAABC /* notificationBubble@2x.png */; };
 		0426B6371724D7CC007BAABC /* notificationBubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62A1724D7CC007BAABC /* notificationBubble.png */; };
 		0426B6391724D7CC007BAABC /* cameraTopBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62B1724D7CC007BAABC /* cameraTopBarBg@2x.png */; };
@@ -593,8 +593,8 @@
 		04204EFE178B48CB001FE127 /* SVAddressBookBD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAddressBookBD.m; sourceTree = "<group>"; };
 		04204F01178B48ED001FE127 /* SVAddressBookWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAddressBookWS.h; sourceTree = "<group>"; };
 		04204F02178B48ED001FE127 /* SVAddressBookWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAddressBookWS.m; sourceTree = "<group>"; };
-		04204F05178B5915001FE127 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
-		04204F06178B5915001FE127 /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
+		04204F05178B5915001FE127 /* OldMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldMember.h; sourceTree = "<group>"; };
+		04204F06178B5915001FE127 /* OldMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldMember.m; sourceTree = "<group>"; };
 		0426B6291724D7CC007BAABC /* notificationBubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notificationBubble@2x.png"; sourceTree = "<group>"; };
 		0426B62A1724D7CC007BAABC /* notificationBubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationBubble.png; sourceTree = "<group>"; };
 		0426B62B1724D7CC007BAABC /* cameraTopBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraTopBarBg@2x.png"; sourceTree = "<group>"; };
@@ -2251,8 +2251,8 @@
 			isa = PBXGroup;
 			children = (
 				AACB11EB16C462B500BAC7E1 /* ShotVibe.xcdatamodeld */,
-				04204F05178B5915001FE127 /* Member.h */,
-				04204F06178B5915001FE127 /* Member.m */,
+				04204F05178B5915001FE127 /* OldMember.h */,
+				04204F06178B5915001FE127 /* OldMember.m */,
 				04DEFD3517828B9E0069710E /* Album.h */,
 				04DEFD3617828B9E0069710E /* Album.m */,
 				047BFDA2177BE39F0066AA58 /* AlbumPhoto.h */,
@@ -2931,7 +2931,7 @@
 				04C36BC5177D047500EB97E0 /* SVURLBuilderWS.m in Sources */,
 				04204EFF178B48CB001FE127 /* SVAddressBookBD.m in Sources */,
 				04204F03178B48ED001FE127 /* SVAddressBookWS.m in Sources */,
-				04204F07178B5915001FE127 /* Member.m in Sources */,
+				04204F07178B5915001FE127 /* OldMember.m in Sources */,
 				28CFCCA317A50829001511EF /* SVCountriesViewController.m in Sources */,
 				28CFCCA617A50C7D001511EF /* SVCountryViewCell.m in Sources */,
 				2836B78517A934FE008AAB68 /* SVConfirmationCodeViewController.m in Sources */,

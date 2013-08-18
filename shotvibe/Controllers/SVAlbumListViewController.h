@@ -14,7 +14,7 @@
 #import "SVUploadManager.h"
 #import "SVDefines.h"
 #import "Album.h"
-#import "Member.h"
+#import "OldMember.h"
 #import "AlbumPhoto.h"
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumGridViewController.h"

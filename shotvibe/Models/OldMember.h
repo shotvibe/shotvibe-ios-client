@@ -11,7 +11,7 @@
 
 @class Album, AlbumPhoto;
 
-@interface Member : NSManagedObject
+@interface OldMember : NSManagedObject
 
 @property (nonatomic, retain) NSString * avatar_url;
 @property (nonatomic, retain) NSString * nickname;
@@ -22,7 +22,7 @@
 @property (nonatomic, retain) NSSet *albums;
 @end
 
-@interface Member (CoreDataGeneratedAccessors)
+@interface OldMember (CoreDataGeneratedAccessors)
 
 - (void)addAlbumPhotosObject:(AlbumPhoto *)value;
 - (void)removeAlbumPhotosObject:(AlbumPhoto *)value;

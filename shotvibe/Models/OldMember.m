@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "Member.h"
+#import "OldMember.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
 
 
-@implementation Member
+@implementation OldMember
 
 @dynamic avatar_url;
 @dynamic nickname;

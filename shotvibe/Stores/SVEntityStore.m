@@ -13,7 +13,7 @@
 #import "SVDefines.h"
 #import "SVEntityStore.h"
 #import "SVBusinessDelegate.h"
-#import "Member.h"
+#import "OldMember.h"
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
 #import "NSManagedObjectContext+MagicalRecord.h"
@@ -228,7 +228,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
         Album *localAlbum = [Album createInContext:localContext];
         
         // Create the first member too...
-        Member *localMember = [Member createInContext:localContext];
+        OldMember *localMember = [OldMember createInContext:localContext];
 		localMember.nickname = @"Me";
         [localMember setUserId:userID];
         

@@ -14,7 +14,7 @@
 #import "AFImageRequestOperation.h"
 #import "Album.h"
 #import "AlbumPhoto.h"
-#import "Member.h"
+#import "OldMember.h"
 
 @interface SVDownloadManager : NSObject {
 	
