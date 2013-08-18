@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @class Album;
-@class AlbumPhoto;
+@class OldAlbumPhoto;
 
 @interface SVOfflineStorageWS : NSObject
 
 - (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(id)albumId;
 
-- (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId;
+- (void)saveImageData:(NSData *)imageData forPhoto:(OldAlbumPhoto *)photo inAlbumWithId:(id)albumId;
 - (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId;
 
 - (void)cleanupOfflineStorageForAlbum:(Album *)album;

@@ -7,7 +7,7 @@
 //
 
 #import "Album.h"
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 #import "AFHTTPRequestOperation.h"
 #import "AFJSONRequestOperation.h"
 #import "SVDefines.h"
@@ -155,7 +155,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 - (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate
 {
 	NSLog(@"NSFetchedResultsController *)allPhotosForAlbum %@", anAlbum.name);
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbumPhoto"];
     NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
     //NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
     
@@ -214,7 +214,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 	
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
 		
-		AlbumPhoto *p = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"photo_id == %@", photoId]
+		OldAlbumPhoto *p = [OldAlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"photo_id == %@", photoId]
 												 inContext:localContext];
 		[p setHasViewed:[NSNumber numberWithBool:YES]];
     }];
@@ -253,7 +253,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
     NSLog(@"The passed id is: %@", albumID);
     if (photoId && albumID) {
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-            AlbumPhoto *localPhoto = [AlbumPhoto createInContext:localContext];
+            OldAlbumPhoto *localPhoto = [OldAlbumPhoto createInContext:localContext];
             Album *localAlbum = (Album *)[localContext objectWithID:albumToAddPhotosTo.objectID];
             
             [localPhoto setDate_created:[NSDate date]];
@@ -401,7 +401,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 #pragma mark - Image Methods
 
-- (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *))block
+- (void)getImageForPhoto:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *))block
 {
     
     if (!self.imageQueue) {
@@ -410,7 +410,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
     
 	[self.imageQueue addOperationWithBlock:^{
 		
-		__block AlbumPhoto *blockPhoto = (AlbumPhoto *)aPhoto;
+		__block OldAlbumPhoto *blockPhoto = (OldAlbumPhoto *)aPhoto;
 		
 		[self getImageDataForImageID:aPhoto.photo_id WithCompletion:^(NSData *imageData) {
 			
@@ -465,13 +465,13 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 }
 
 
-- (void)getImageForPhotoData:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block
+- (void)getImageForPhotoData:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block
 {
     if (!self.imageQueue) {
         self.imageQueue = [[NSOperationQueue alloc] init];
     }
     
-    __block AlbumPhoto *blockPhoto = (AlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
+    __block OldAlbumPhoto *blockPhoto = (OldAlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
     
     [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
 		
@@ -500,7 +500,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 }
 
 
-- (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto
+- (UIImage *)getImageForPhoto:(OldAlbumPhoto *)aPhoto
 {
     NSURL *url = [NSURL URLWithString:aPhoto.photo_id relativeToURL:self.imageDataDirectory];
     NSString *path = [url path];
@@ -643,7 +643,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
     }
 }
 
-- (void)deletePhoto:(AlbumPhoto *)aPhoto {
+- (void)deletePhoto:(OldAlbumPhoto *)aPhoto {
 	NSLog(@"Delete photo %@", aPhoto.photo_id);
 	// Remove photo from disk first
 	NSError *error = nil;
@@ -654,7 +654,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 	[[NSFileManager defaultManager] removeItemAtURL:url_thumb error:&error];
 	
 	NSManagedObjectContext *localContext = [NSManagedObjectContext defaultContext];
-	AlbumPhoto *pp = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
+	OldAlbumPhoto *pp = [OldAlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
 	NSLog(@"objectSyncStatus before: %@", pp.objectSyncStatus);
 	[pp willChangeValueForKey:@"objectSyncStatus"];
 	pp.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDeleteNeeded];
@@ -667,7 +667,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 		NSLog(@"error marking photo for deletion %@", error);
 	}
 	
-	AlbumPhoto *ppp = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
+	OldAlbumPhoto *ppp = [OldAlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
 	NSLog(@"objectSyncStatus after: %@", ppp.objectSyncStatus);
 	
 //	return;

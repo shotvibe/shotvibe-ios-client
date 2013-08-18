@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 #import "Album.h"
 #import "OldMember.h"
 
 
-@implementation AlbumPhoto
+@implementation OldAlbumPhoto
 
 @dynamic date_created;
 @dynamic hasViewed;

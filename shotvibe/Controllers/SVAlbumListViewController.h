@@ -15,7 +15,7 @@
 #import "SVDefines.h"
 #import "Album.h"
 #import "OldMember.h"
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumGridViewController.h"
 #import "SVOfflineStorageWS.h"

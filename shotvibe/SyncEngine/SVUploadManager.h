@@ -13,7 +13,7 @@
 #import "AFJSONRequestOperation.h"
 #import "AFImageRequestOperation.h"
 #import "Album.h"
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 #import "OldMember.h"
 #import "SVDownloadManager.h"
 

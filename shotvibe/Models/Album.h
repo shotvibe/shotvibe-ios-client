@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class AlbumPhoto, OldMember;
+@class OldAlbumPhoto, OldMember;
 
 @interface Album : NSManagedObject
 
@@ -29,8 +29,8 @@
 
 @interface Album (CoreDataGeneratedAccessors)
 
-- (void)addAlbumPhotosObject:(AlbumPhoto *)value;
-- (void)removeAlbumPhotosObject:(AlbumPhoto *)value;
+- (void)addAlbumPhotosObject:(OldAlbumPhoto *)value;
+- (void)removeAlbumPhotosObject:(OldAlbumPhoto *)value;
 - (void)addAlbumPhotos:(NSSet *)values;
 - (void)removeAlbumPhotos:(NSSet *)values;
 

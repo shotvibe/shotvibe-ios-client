@@ -72,7 +72,7 @@
 		04734F2416CEC1B1003F729B /* SVSidebarAlbumMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarAlbumMemberViewController.m */; };
 		04734F2F16CF104F003F729B /* MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2C16CF104F003F729B /* MFSideMenu.m */; };
 		04734F3116CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */; };
-		047BFDA4177BE39F0066AA58 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 047BFDA3177BE39F0066AA58 /* AlbumPhoto.m */; };
+		047BFDA4177BE39F0066AA58 /* OldAlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 047BFDA3177BE39F0066AA58 /* OldAlbumPhoto.m */; };
 		0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */; };
 		0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF11732D7D6005ABCE7 /* ALAssetsLibrary+helper.m */; };
 		0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */; };
@@ -655,8 +655,8 @@
 		04734F2C16CF104F003F729B /* MFSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenu.m; sourceTree = "<group>"; };
 		04734F2D16CF104F003F729B /* UINavigationController+MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+MFSideMenu.h"; sourceTree = "<group>"; };
 		04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+MFSideMenu.m"; sourceTree = "<group>"; };
-		047BFDA2177BE39F0066AA58 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
-		047BFDA3177BE39F0066AA58 /* AlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhoto.m; sourceTree = "<group>"; };
+		047BFDA2177BE39F0066AA58 /* OldAlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldAlbumPhoto.h; sourceTree = "<group>"; };
+		047BFDA3177BE39F0066AA58 /* OldAlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldAlbumPhoto.m; sourceTree = "<group>"; };
 		0493ABEC1732D78B005ABCE7 /* SVImagePickerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVImagePickerListViewController.h; sourceTree = "<group>"; };
 		0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVImagePickerListViewController.m; sourceTree = "<group>"; };
 		0493ABF01732D7D6005ABCE7 /* ALAssetsLibrary+helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+helper.h"; sourceTree = "<group>"; };
@@ -2255,8 +2255,8 @@
 				04204F06178B5915001FE127 /* OldMember.m */,
 				04DEFD3517828B9E0069710E /* Album.h */,
 				04DEFD3617828B9E0069710E /* Album.m */,
-				047BFDA2177BE39F0066AA58 /* AlbumPhoto.h */,
-				047BFDA3177BE39F0066AA58 /* AlbumPhoto.m */,
+				047BFDA2177BE39F0066AA58 /* OldAlbumPhoto.h */,
+				047BFDA3177BE39F0066AA58 /* OldAlbumPhoto.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2883,7 +2883,7 @@
 				AA23484B177AA3F600D55918 /* AFHTTPRequestOperation.m in Sources */,
 				AA234857177AA3F600D55918 /* AFXMLRequestOperation.m in Sources */,
 				AA89F52A177D49E600B782A1 /* NSManagedObject+MagicalDataImport.m in Sources */,
-				047BFDA4177BE39F0066AA58 /* AlbumPhoto.m in Sources */,
+				047BFDA4177BE39F0066AA58 /* OldAlbumPhoto.m in Sources */,
 				AA89F51C177D49E600B782A1 /* NSAttributeDescription+MagicalDataImport.m in Sources */,
 				AA89F52C177D49E600B782A1 /* NSManagedObject+MagicalFinders.m in Sources */,
 				AA234859177AA3F600D55918 /* UIImageView+AFNetworking.m in Sources */,

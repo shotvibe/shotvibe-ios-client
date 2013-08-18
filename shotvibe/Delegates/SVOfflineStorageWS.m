@@ -10,7 +10,7 @@
 #import "SVDefines.h"
 #import "SVOfflineStorageWS.h"
 #import "Album.h"
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 #import "SVEntityStore.h"
 
 @interface SVOfflineStorageWS ()
@@ -56,7 +56,7 @@
 /*
  * this is used when downloading photos for an album
  */
-- (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId
+- (void)saveImageData:(NSData *)imageData forPhoto:(OldAlbumPhoto *)photo inAlbumWithId:(id)albumId
 {
     NSString *albumIdAsString = nil;
     if ([albumId isKindOfClass:[NSNumber class]]) {

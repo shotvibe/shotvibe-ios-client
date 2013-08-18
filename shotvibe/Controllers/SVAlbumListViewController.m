@@ -41,7 +41,7 @@
 - (IBAction)newAlbumClose:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
-- (AlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos;
+- (OldAlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos;
 
 @end
 
@@ -284,7 +284,7 @@
 			
 		NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", anAlbum.albumId, SVObjectSyncDeleteNeeded];
-		NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+		NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbumPhoto"];
 		fetchRequest.sortDescriptors = @[datecreatedDescriptor];
 		fetchRequest.predicate = predicate;
 		
@@ -297,7 +297,7 @@
 			
 		if (photos.count > 0) {
 			
-			__block AlbumPhoto *firstPhoto = [photos objectAtIndex:0];
+			__block OldAlbumPhoto *firstPhoto = [photos objectAtIndex:0];
 			UIImage *image = [thumbnailCache objectForKey:firstPhoto.photo_id];
 			
 			if (!image) {
@@ -332,7 +332,7 @@
 		// Set the number of unviewed photos
 			
 		//NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND isNew == YES", anAlbum.albumId]];
-		NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
+		NSInteger numberNew = [OldAlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
 		
 		dispatch_async(dispatch_get_main_queue(),^{
 			if (numberNew > 0 ) {

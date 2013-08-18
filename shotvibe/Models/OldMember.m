@@ -8,7 +8,7 @@
 
 #import "OldMember.h"
 #import "Album.h"
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 
 
 @implementation OldMember

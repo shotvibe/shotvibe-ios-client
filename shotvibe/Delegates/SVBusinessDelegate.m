@@ -11,7 +11,7 @@
 #import "SVAssetRetrievalWS.h"
 #import "SVEntityStore.h"
 #import "Album.h"
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 #import "SVURLBuilderWS.h"
 #import "SVDefines.h"
 
@@ -26,7 +26,7 @@
 }
 
 
-+ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId
++ (void)saveImageData:(NSData *)imageData forPhoto:(OldAlbumPhoto *)photo inAlbumWithId:(id)albumId
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -119,7 +119,7 @@
 }
 
 
-+ (NSURL *)getURLForPhoto:(AlbumPhoto *)aPhoto
++ (NSURL *)getURLForPhoto:(OldAlbumPhoto *)aPhoto
 {
     SVURLBuilderWS *workerSession = [[SVURLBuilderWS alloc] init];
     

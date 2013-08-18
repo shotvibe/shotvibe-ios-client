@@ -46,13 +46,13 @@
 - (void)setAllPhotosToNotNew;
 - (void)setPhotosInAlbumToNotNew:(Album*)album;
 - (void)setPhotoAsViewed:(NSString *)photoId;
-- (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
-- (void)getImageForPhotoData:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block;
+- (void)getImageForPhoto:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
+- (void)getImageForPhotoData:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block;
 // Need to be able to just do a hard pull on the image without blocks for the detail view. This is OK because the photo detail view manages its own loading and cache
-- (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto;
+- (UIImage *)getImageForPhoto:(OldAlbumPhoto *)aPhoto;
 - (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block;
 - (void)getFullsizeImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block;
 - (void)writeImageData:(NSData *)imageData toDiskForImageID:(NSString *)imageID WithCompletion:(void (^)(BOOL success, NSURL *fileURL, NSError *error))block;
-- (void)deletePhoto:(AlbumPhoto *)aPhoto;
+- (void)deletePhoto:(OldAlbumPhoto *)aPhoto;
 
 @end

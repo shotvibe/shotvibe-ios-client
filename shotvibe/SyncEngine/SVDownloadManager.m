@@ -330,10 +330,10 @@
 		
 		for (NSDictionary *photo in photosArray) {
 			
-			AlbumPhoto *outerPhoto = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:photo[@"photo_id"] inContext:ctxPhotos];
+			OldAlbumPhoto *outerPhoto = [OldAlbumPhoto findFirstByAttribute:@"photo_id" withValue:photo[@"photo_id"] inContext:ctxPhotos];
 			
 			if (!outerPhoto) {
-				outerPhoto = [AlbumPhoto createInContext:ctxPhotos];
+				outerPhoto = [OldAlbumPhoto createInContext:ctxPhotos];
 				outerPhoto.hasViewed = [NSNumber numberWithBool:NO];
 				//outerPhoto.isNew = [NSNumber numberWithBool:YES];
 			}
@@ -412,7 +412,7 @@
 - (void)downloadNextPhoto {
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectSyncStatus == %i", SVObjectSyncDownloadNeeded];
-	AlbumPhoto *photo = [AlbumPhoto findFirstWithPredicate:predicate inContext:ctxDownload];
+	OldAlbumPhoto *photo = [OldAlbumPhoto findFirstWithPredicate:predicate inContext:ctxDownload];
 	
 	if (photo == nil) {
 		[self saveDownloadContext];
@@ -426,13 +426,13 @@
 	}
 }
 
-- (void)downloadPhoto:(AlbumPhoto*)aPhoto {
+- (void)downloadPhoto:(OldAlbumPhoto*)aPhoto {
 	
     NSLog(@"***********************  downloading photo %@ ", aPhoto.photo_id);
 	
 	[[SVEntityStore sharedStore] getImageForPhoto:aPhoto WithCompletion:^(UIImage *image) {
 		
-		AlbumPhoto *localPhoto = (AlbumPhoto *)[ctxDownload objectWithID:aPhoto.objectID];
+		OldAlbumPhoto *localPhoto = (OldAlbumPhoto *)[ctxDownload objectWithID:aPhoto.objectID];
 		[localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncCompleted]];
 		
 		//localPhoto.album.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];

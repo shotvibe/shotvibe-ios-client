@@ -8,7 +8,7 @@
 
 #import "SVPhotoViewerController.h"
 #import "SVDefines.h"
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 #import "Album.h"
 #import "UINavigationController+MFSideMenu.h"
 #import "MFSideMenu.h"
@@ -49,7 +49,7 @@
 	//self.sortedPhotos = [NSMutableArray arrayWithArray: [[self.selectedPhoto.album.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor]]];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", self.selectedPhoto.album.albumId, SVObjectSyncDeleteNeeded];
-	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbumPhoto"];
 	fetchRequest.sortDescriptors = @[datecreatedDescriptor];
 	fetchRequest.predicate = predicate;
 	
@@ -151,7 +151,7 @@
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	
-	AlbumPhoto *photo = [self.sortedPhotos objectAtIndex:i];
+	OldAlbumPhoto *photo = [self.sortedPhotos objectAtIndex:i];
 	RCImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
 	cachedImage.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 	
@@ -299,7 +299,7 @@
 		[self.navigationController.toolbar addSubview:self.detailLabel];
 	}
 	
-    AlbumPhoto *photo = [self.sortedPhotos objectAtIndex:self.index];
+    OldAlbumPhoto *photo = [self.sortedPhotos objectAtIndex:self.index];
 	
 	if (photo.objectSyncStatus.intValue == SVObjectSyncUploadProgress) {
 		
@@ -333,7 +333,7 @@
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	
-    AlbumPhoto *photoToDelete = [self.sortedPhotos objectAtIndex:self.index];
+    OldAlbumPhoto *photoToDelete = [self.sortedPhotos objectAtIndex:self.index];
 	
 	// Remove physical file and mark for deletion from server
 	[[SVEntityStore sharedStore] deletePhoto:photoToDelete];
@@ -365,7 +365,7 @@
 					 animations:^{
 		
 		int i = 0;
-		for (AlbumPhoto *photo in self.sortedPhotos) {
+		for (OldAlbumPhoto *photo in self.sortedPhotos) {
 			RCImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
 			if (cachedImage) {
 				cachedImage.i = i;

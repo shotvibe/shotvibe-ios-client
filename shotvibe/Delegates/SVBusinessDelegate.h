@@ -10,14 +10,14 @@
 #import <Foundation/Foundation.h>
 
 @class Album;
-@class AlbumPhoto;
+@class OldAlbumPhoto;
 
 @interface SVBusinessDelegate : NSObject
 
 // Offline Storage Methods
 + (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(id)albumId;
 
-+ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId;
++ (void)saveImageData:(NSData *)imageData forPhoto:(OldAlbumPhoto *)photo inAlbumWithId:(id)albumId;
 + (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId withAlbumId:(NSString *)albumId;
 
 + (void)cleanupOfflineStorageForAlbum:(Album *)album;
@@ -33,7 +33,7 @@
 
 
 // URL Fetching methods
-+ (NSURL *)getURLForPhoto:(AlbumPhoto *)aPhoto;
++ (NSURL *)getURLForPhoto:(OldAlbumPhoto *)aPhoto;
 
 // user registration
 + (void) registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block;

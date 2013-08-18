@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 #import "SVAlbumGridViewController.h"
 #import "SVEntityStore.h"
 #import "SVDefines.h"
@@ -228,7 +228,7 @@
 		
 	if (cell.tag == tagIndex.row) {
 		
-		AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		OldAlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
 		
 		//NSLog(@"---------> photo cell: %i %@ objectSyncStatus: %@", indexPath.item, currentPhoto.date_created, currentPhoto.objectSyncStatus);

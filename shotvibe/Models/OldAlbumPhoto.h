@@ -11,7 +11,7 @@
 
 @class Album, OldMember;
 
-@interface AlbumPhoto : NSManagedObject
+@interface OldAlbumPhoto : NSManagedObject
 
 @property (nonatomic, retain) NSDate * date_created;
 @property (nonatomic, retain) NSNumber * hasViewed;

@@ -113,7 +113,7 @@
 - (void) requestIdsForAlbum:(Album*)album {
 	
 	photosToUpload = [NSMutableDictionary dictionary];// Dictionary of AlbumPhoto
-	NSArray *arr = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %i AND album.albumId == %@", SVObjectSyncUploadNeeded, album.albumId]
+	NSArray *arr = [OldAlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %i AND album.albumId == %@", SVObjectSyncUploadNeeded, album.albumId]
 										  inContext:[NSManagedObjectContext defaultContext]];
 	NSLog(@"need to upload %i photos in album %@", arr.count, album.name);
 	
@@ -158,7 +158,7 @@
 		[_queue addOperationWithBlock:^{
 			
 			NSString *key = [[photosToUpload allKeys] lastObject];
-			AlbumPhoto *photo = [photosToUpload objectForKey:key];
+			OldAlbumPhoto *photo = [photosToUpload objectForKey:key];
 			[photosToUpload removeObjectForKey:key];
 			
 			[self uploadPhoto:photo withId:key];
@@ -169,13 +169,13 @@
 	}
 }
 
-- (void) uploadPhoto:(AlbumPhoto*)photo withId:(NSString*)photoID {
+- (void) uploadPhoto:(OldAlbumPhoto*)photo withId:(NSString*)photoID {
 	
 	NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>> uploading photo with id %@", photoID);
 	
 	[MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
 		
-		AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+		OldAlbumPhoto *localPhoto = (OldAlbumPhoto *)[localContext objectWithID:photo.objectID];
 		
 		[localPhoto willChangeValueForKey:@"objectSyncStatus"];
 		localPhoto.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncUploadProgress];
@@ -206,7 +206,7 @@
 				
 				[MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
 					
-					AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+					OldAlbumPhoto *localPhoto = (OldAlbumPhoto *)[localContext objectWithID:photo.objectID];
 					localPhoto.photo_id = photoID;
 					
 					[localPhoto willChangeValueForKey:@"objectSyncStatus"];
@@ -242,7 +242,7 @@
 	
     [anAlbum.albumPhotos enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         
-        AlbumPhoto *aPhoto = (AlbumPhoto *)obj;
+        OldAlbumPhoto *aPhoto = (OldAlbumPhoto *)obj;
         if (![aPhoto.photo_id isEqualToString:aPhoto.tempPhotoId]) {
             
             [addPhotosArray addObject:@{@"photo_id": aPhoto.photo_id}];
@@ -292,7 +292,7 @@
 
 
 
-- (void)renameImageForPhoto:(AlbumPhoto *)aPhoto UsingID:(NSString *)imageId
+- (void)renameImageForPhoto:(OldAlbumPhoto *)aPhoto UsingID:(NSString *)imageId
 {
     if (aPhoto && imageId) {
         

@@ -9,7 +9,7 @@
 
 #import "SVSettingsViewController.h"
 #import "Album.h"
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 #import "OldMember.h"
 #import "SVAlbumNotificationSettingsViewController.h"
 #import "SVDefines.h"
@@ -142,7 +142,7 @@
 		NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
 		[OldMember MR_truncateAllInContext:localContext];
 		[Album MR_truncateAllInContext:localContext];
-		[AlbumPhoto MR_truncateAllInContext:localContext];
+		[OldAlbumPhoto MR_truncateAllInContext:localContext];
 		[localContext MR_saveToPersistentStoreAndWait];
 		
 		[[SVEntityStore sharedStore] wipe];
