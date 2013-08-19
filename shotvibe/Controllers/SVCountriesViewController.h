@@ -14,7 +14,7 @@
 
 @protocol SVCountriesDelegate
 
-- (void)didSelectCountryWithName:(NSString *)name code:(NSString *)code;
+- (void)didSelectCountryWithName:(NSString *)name regionCode:(NSString *)regionCode;
 
 @end
 
@@ -27,7 +27,7 @@
 	NSMutableArray *countryCodes;
 	NSDictionary *countryNamesByCode;
 	NSDictionary *countryCodesByName;
-	NSString *countryCode_;
+	NSString *regionCode;
 }
 
 @property (nonatomic) id<SVCountriesDelegate> delegate;

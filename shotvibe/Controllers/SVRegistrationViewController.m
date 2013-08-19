@@ -19,7 +19,6 @@
 @property (nonatomic, strong) IBOutlet UIView *phoneNumberPhaseContainer;
 @property (nonatomic, strong) IBOutlet UIImageView *countryFlagView;
 @property (nonatomic, strong) IBOutlet UITextField *phoneNumberField;
-@property (nonatomic, strong) IBOutlet UILabel *countryCodeLabel;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (nonatomic, strong) NSString *confirmationCode;
@@ -34,14 +33,15 @@
 @implementation SVRegistrationViewController
 {
 	SVCountriesViewController *countries;
+	int countryCode;
 }
 
 
-- (void)selectCountry:(NSString *)countryCode
+- (void)selectCountry:(NSString *)regionCode
 {
-    NSLog(@"Selecting country: %@", countryCode);
+    NSLog(@"Selecting country: %@", regionCode);
 
-    [self didSelectCountryWithName:countryCode code:countryCode];
+    [self didSelectCountryWithName:regionCode regionCode:regionCode];
 }
 
 
@@ -57,21 +57,23 @@
 	[self.phoneNumberField resignFirstResponder];
 	
 	// Construct our phone number
-	NSString *countryCode = [self.countryCodeLabel.text stringByReplacingOccurrencesOfString:@"+" withString:@""];
-	NSString *phoneNumber = [countryCode stringByAppendingString:self.phoneNumberField.text];
-	NSLog(@"countryCode  %@", countryCode);
+	NSString *phoneNumber = [NSString stringWithFormat:@"%i%@", countryCode, self.phoneNumberField.text];
+	
 	NBPhoneNumber *nbPhoneNumber = [[NBPhoneNumber alloc] init];
-	nbPhoneNumber.countryCode = [countryCode integerValue];
+	nbPhoneNumber.countryCode = countryCode;
 	nbPhoneNumber.nationalNumber = [self.phoneNumberField.text integerValue];
 	
 	if ([[NBPhoneNumberUtil sharedInstance] isValidNumber:nbPhoneNumber]) {
 		[self submitPhoneNumberRegistration:phoneNumber];
 	}
-	else
-	{
+	else {
 		self.phoneNumberField.text = @"";
 		
-		UIAlertView *invalidNumberAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Number", @"") message:NSLocalizedString(@"Please enter a valid phone number.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+		UIAlertView *invalidNumberAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Number", @"")
+																	 message:NSLocalizedString(@"Please enter a valid phone number.", @"")
+																	delegate:nil
+														   cancelButtonTitle:NSLocalizedString(@"OK", @"")
+														   otherButtonTitles:nil];
 		[invalidNumberAlert show];
 	}
 }
@@ -106,9 +108,7 @@
 		}
 		
 		self.countryFlagView.image = [UIImage imageNamed:cc];
-		NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
-		
-		self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
+		countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
 		
 		[self.phoneNumberField becomeFirstResponder];
 	}
@@ -125,7 +125,7 @@
 	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
 		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
         destination.confirmationCode = self.confirmationCode;
-		destination.countryCode = self.countryCodeLabel.text;
+		destination.countryCode = countryCode;
 		destination.phoneNumber = self.phoneNumberField.text;
 	}
 }
@@ -139,19 +139,16 @@
 
 #pragma mark - CountryPickerDelegate Methods
 
-- (void)didSelectCountryWithName:(NSString *)name code:(NSString *)code
+- (void)didSelectCountryWithName:(NSString *)name regionCode:(NSString *)regionCode
 {
 	NSLog(@"didselectcountry %@", name);
-	[[NSUserDefaults standardUserDefaults] setObject:code forKey:kUserCountryCode];
+	[[NSUserDefaults standardUserDefaults] setObject:regionCode forKey:kUserCountryCode];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	
     // TODO: Handle setting the appropriate country phone code
     
-    self.countryFlagView.image = [UIImage imageNamed:code];
-    
-    NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:code];
-    
-    self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
+    self.countryFlagView.image = [UIImage imageNamed:regionCode];
+    countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:regionCode];
 }
 
 
@@ -220,7 +217,6 @@
 												  cancelButtonTitle:NSLocalizedString(@"OK", @"")
 												  otherButtonTitles: nil];
 			[alert show];
-			
 		}
 		
 	}];

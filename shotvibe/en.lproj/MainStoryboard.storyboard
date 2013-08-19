@@ -400,13 +400,6 @@ to register this device</string>
                                         <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="+972" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0w9-kf-26l">
-                                        <rect key="frame" x="72" y="123" width="50" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A validation code will be sent to you via SMS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aF0-pJ-yZt">
                                         <rect key="frame" x="0.0" y="233" width="320" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -422,7 +415,7 @@ to register this device</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="Md0-iZ-whQ">
-                                        <rect key="frame" x="127" y="123" width="168" height="45"/>
+                                        <rect key="frame" x="86" y="123" width="191" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
@@ -436,7 +429,7 @@ to register this device</string>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GDf-Lq-8B3">
-                                        <rect key="frame" x="26" y="123" width="99" height="46"/>
+                                        <rect key="frame" x="20" y="118" width="58" height="56"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal">
@@ -464,7 +457,6 @@ to register this device</string>
                     <connections>
                         <outlet property="activityIndicator" destination="qUE-7J-Ebk" id="Wt0-va-cQM"/>
                         <outlet property="butContinue" destination="MWj-Gf-2pl" id="DRl-gS-Q8K"/>
-                        <outlet property="countryCodeLabel" destination="0w9-kf-26l" id="S5E-mf-wfB"/>
                         <outlet property="countryFlagView" destination="vZa-qx-MCh" id="spo-8r-Xuv"/>
                         <outlet property="phoneNumberField" destination="Md0-iZ-whQ" id="jIx-Cr-2Zc"/>
                         <outlet property="phoneNumberPhaseContainer" destination="yJt-yu-Smt" id="2pb-b1-DtS"/>
@@ -1780,13 +1772,6 @@ activation code just sent to you</string>
                                         <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="+972" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gh1-R6-eQB">
-                                        <rect key="frame" x="72" y="86" width="50" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Re-check your phone number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0fp-jc-jlZ">
                                         <rect key="frame" x="0.0" y="40" width="320" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1795,7 +1780,7 @@ activation code just sent to you</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="xQI-N4-qiD">
-                                        <rect key="frame" x="127" y="86" width="168" height="45"/>
+                                        <rect key="frame" x="87" y="86" width="194" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
@@ -1809,7 +1794,7 @@ activation code just sent to you</string>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="czZ-wZ-shT">
-                                        <rect key="frame" x="26" y="86" width="99" height="46"/>
+                                        <rect key="frame" x="20" y="76" width="59" height="68"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal">
@@ -1832,7 +1817,6 @@ activation code just sent to you</string>
                     <navigationItem key="navigationItem" title="No Code?" id="AAl-Hr-12P"/>
                     <connections>
                         <outlet property="butContinue" destination="NwO-Tx-c4d" id="gTh-gi-c9L"/>
-                        <outlet property="countryCodeLabel" destination="gh1-R6-eQB" id="J27-2s-gD3"/>
                         <outlet property="countryFlagView" destination="jBl-tD-fdT" id="5EZ-BR-ETY"/>
                         <outlet property="phoneNumberField" destination="xQI-N4-qiD" id="LBO-eJ-2jI"/>
                         <outlet property="phoneNumberPhaseContainer" destination="Trt-7t-YrH" id="Kou-D9-Tn9"/>
@@ -1882,207 +1866,13 @@ activation code just sent to you</string>
         <image name="settingsIcon.png" width="16" height="16"/>
         <image name="videoIcon.png" width="27" height="17"/>
     </resources>
-    <classes>
-        <class className="CaptureNavigationController" superclassName="UINavigationController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CaptureNavigationController.h"/>
-        </class>
-        <class className="RCImageView" superclassName="UIImageView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RCImageView.h"/>
-        </class>
-        <class className="SVAddFriendsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAddFriendsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelPressed:"/>
-                <relationship kind="action" name="donePressed:"/>
-                <relationship kind="outlet" name="addedContactsScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="segmentControl" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumGridViewCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumGridViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="activityView" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="labelNewLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="labelNewView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="networkImageView" candidateClass="RCImageView"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumGridViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumGridViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="takePicturePressed:"/>
-                <relationship kind="action" name="takeVideoPressed:"/>
-                <relationship kind="outlet" name="gridView" candidateClass="UICollectionView"/>
-                <relationship kind="outlet" name="gridviewContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="noPhotosView" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumListViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="author" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="networkImageView" candidateClass="RCImageView"/>
-                <relationship kind="outlet" name="numberNotViewedIndicator" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="timestamp" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="newAlbumButtonPressed:"/>
-                <relationship kind="action" name="newAlbumClose:"/>
-                <relationship kind="action" name="newAlbumDone:"/>
-                <relationship kind="action" name="takePicturePressed:"/>
-                <relationship kind="outlet" name="albumButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="albumField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="dropDownBackground" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dropDownContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="searchbar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="sectionHeader" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableOverlayView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="takePictureButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="viewContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVConfirmationCodeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVConfirmationCodeViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="butSubmit" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="codeField1" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="codeField2" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="codeField3" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="codeField4" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="registrationCodePhaseContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVCountriesViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVCountriesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="countriesTable" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="searchbar" candidateClass="UISearchBar"/>
-            </relationships>
-        </class>
-        <class className="SVCountryViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVCountryViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="code" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="countryImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SVImagePickerListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVImagePickerListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelButtonPressed:"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="viewContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVNoCodeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVNoCodeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="callmeButtonPressed:"/>
-                <relationship kind="action" name="countrySelectButtonPressed:"/>
-                <relationship kind="action" name="registerButtonPressed:"/>
-                <relationship kind="outlet" name="butContinue" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="countryCodeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="countryFlagView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="phoneNumberField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="phoneNumberPhaseContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVProfileViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVProfileViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneButtonPressed:"/>
-                <relationship kind="outlet" name="emailAddressField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="nicknameField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="SVRegistrationViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVRegistrationViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="countrySelectButtonPressed:"/>
-                <relationship kind="action" name="registerButtonPressed:"/>
-                <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="butContinue" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="countryCodeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="countryFlagView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="phoneNumberField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="phoneNumberPhaseContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVSettingsAboutViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsAboutViewController.h"/>
-        </class>
-        <class className="SVSettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doLogout:"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarAlbumManagementActivityCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumManagementActivityCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="icon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="memberLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="profileImageView" candidateClass="RCImageView"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarAlbumManagementViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumManagementViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="leavePressed:"/>
-                <relationship kind="action" name="natificationsPressed:"/>
-                <relationship kind="action" name="settingsButtonPressed:"/>
-                <relationship kind="action" name="sharePressed:"/>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarAlbumMemberCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="memberLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="profileImageView" candidateClass="RCImageView"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarAlbumMemberViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addFriendsButtonPressed:"/>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SVWebViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVWebViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="UICollectionReusableView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
-        </class>
-        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="v3l-bV-OEi"/>
+        <segue reference="sNb-fh-mhv"/>
         <segue reference="itz-1F-TDT"/>
         <segue reference="YZf-v8-Yxg"/>
         <segue reference="08l-Qt-CIJ"/>

@@ -21,11 +21,10 @@
 	[self.phoneNumberField resignFirstResponder];
 	
 	// Construct our phone number
-	NSString *countryCode = [self.countryCodeLabel.text stringByReplacingOccurrencesOfString:@"+" withString:@""];
-	NSString *phoneNumber = [countryCode stringByAppendingString:self.phoneNumberField.text];
-	NSLog(@"countryCode  %@", countryCode);
+	NSString *phoneNumber = [NSString stringWithFormat:@"%i%@", self.countryCode, self.phoneNumberField.text];
+	
 	NBPhoneNumber *nbPhoneNumber = [[NBPhoneNumber alloc] init];
-	nbPhoneNumber.countryCode = [countryCode integerValue];
+	nbPhoneNumber.countryCode = self.countryCode;
 	nbPhoneNumber.nationalNumber = [self.phoneNumberField.text integerValue];
 	
 	if ([[NBPhoneNumberUtil sharedInstance] isValidNumber:nbPhoneNumber]) {
@@ -69,11 +68,7 @@
 	}
     
     self.countryFlagView.image = [UIImage imageNamed:cc];
-    NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
-    
-    self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
-	
-	//[self.phoneNumberField becomeFirstResponder];
+	self.countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -102,20 +97,17 @@
 
 #pragma mark - CountryPickerDelegate Methods
 
-- (void)didSelectCountryWithName:(NSString *)name code:(NSString *)code
+- (void)didSelectCountryWithName:(NSString *)name regionCode:(NSString *)regionCode
 {
     // TODO: Handle setting the appropriate country phone code
 	
-	[[NSUserDefaults standardUserDefaults] setObject:code forKey:kUserCountryCode];
+	[[NSUserDefaults standardUserDefaults] setObject:regionCode forKey:kUserCountryCode];
 	[[NSUserDefaults standardUserDefaults] synchronize];
     
-    self.countryFlagView.image = [UIImage imageNamed:code];
-	self.countryCode = code;
+    self.countryFlagView.image = [UIImage imageNamed:regionCode];
+	self.countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:regionCode];
     
-    NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:code];
-    
-    self.countryCodeLabel.text = [NSString stringWithFormat:@"+%i", countryCode];
-	NSLog(@"didselectcountry %@ %@ %i", name, code, countryCode);
+	NSLog(@"didselectcountry %@ %@ %i", name, regionCode, self.countryCode);
 }
 
 
