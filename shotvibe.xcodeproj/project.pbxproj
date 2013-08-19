@@ -483,6 +483,16 @@
 		28D4761F17B1210100C189AB /* SVUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4761E17B1210000C189AB /* SVUploadManager.m */; };
 		28D4762217B1344800C189AB /* SVDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4762117B1344700C189AB /* SVDownloadManager.m */; };
 		28E94C1F17C25EC500874BDE /* SVSettingsAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C1E17C25EC500874BDE /* SVSettingsAboutViewController.m */; };
+		28E94C2517C2BA6600874BDE /* SVLinkActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C2217C2BA6600874BDE /* SVLinkActivity.m */; };
+		28E94C2617C2BA6600874BDE /* SVLinkEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C2417C2BA6600874BDE /* SVLinkEvent.m */; };
+		28E94C2F17C2C4AE00874BDE /* IconCopy.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2817C2C4AE00874BDE /* IconCopy.png */; };
+		28E94C3017C2C4AE00874BDE /* IconCopy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2917C2C4AE00874BDE /* IconCopy@2x.png */; };
+		28E94C3117C2C4AE00874BDE /* IconLink.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2A17C2C4AE00874BDE /* IconLink.png */; };
+		28E94C3217C2C4AE00874BDE /* IconLink@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2B17C2C4AE00874BDE /* IconLink@2x.png */; };
+		28E94C3317C2C4AE00874BDE /* IconMail.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2C17C2C4AE00874BDE /* IconMail.png */; };
+		28E94C3417C2C4AE00874BDE /* IconMail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2D17C2C4AE00874BDE /* IconMail@2x.png */; };
+		28E94C3517C2C4AE00874BDE /* IconMove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2E17C2C4AE00874BDE /* IconMove@2x.png */; };
+		28E94C3717C2C9E800874BDE /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28E94C3617C2C9E700874BDE /* EventKit.framework */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
 		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
@@ -1096,6 +1106,18 @@
 		28D4762117B1344700C189AB /* SVDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVDownloadManager.m; sourceTree = "<group>"; };
 		28E94C1D17C25EC400874BDE /* SVSettingsAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSettingsAboutViewController.h; sourceTree = "<group>"; };
 		28E94C1E17C25EC500874BDE /* SVSettingsAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSettingsAboutViewController.m; sourceTree = "<group>"; };
+		28E94C2117C2BA6600874BDE /* SVLinkActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVLinkActivity.h; sourceTree = "<group>"; };
+		28E94C2217C2BA6600874BDE /* SVLinkActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVLinkActivity.m; sourceTree = "<group>"; };
+		28E94C2317C2BA6600874BDE /* SVLinkEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVLinkEvent.h; sourceTree = "<group>"; };
+		28E94C2417C2BA6600874BDE /* SVLinkEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVLinkEvent.m; sourceTree = "<group>"; };
+		28E94C2817C2C4AE00874BDE /* IconCopy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IconCopy.png; path = Activity/IconCopy.png; sourceTree = "<group>"; };
+		28E94C2917C2C4AE00874BDE /* IconCopy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IconCopy@2x.png"; path = "Activity/IconCopy@2x.png"; sourceTree = "<group>"; };
+		28E94C2A17C2C4AE00874BDE /* IconLink.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IconLink.png; path = Activity/IconLink.png; sourceTree = "<group>"; };
+		28E94C2B17C2C4AE00874BDE /* IconLink@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IconLink@2x.png"; path = "Activity/IconLink@2x.png"; sourceTree = "<group>"; };
+		28E94C2C17C2C4AE00874BDE /* IconMail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IconMail.png; path = Activity/IconMail.png; sourceTree = "<group>"; };
+		28E94C2D17C2C4AE00874BDE /* IconMail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IconMail@2x.png"; path = "Activity/IconMail@2x.png"; sourceTree = "<group>"; };
+		28E94C2E17C2C4AE00874BDE /* IconMove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IconMove@2x.png"; path = "Activity/IconMove@2x.png"; sourceTree = "<group>"; };
+		28E94C3617C2C9E700874BDE /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPushNotificationsManager.h; sourceTree = "<group>"; };
 		3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPushNotificationsManager.m; sourceTree = "<group>"; };
@@ -1237,6 +1259,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28E94C3717C2C9E800874BDE /* EventKit.framework in Frameworks */,
 				04204EFB178B45D9001FE127 /* AddressBook.framework in Frameworks */,
 				0426B6831724F3B5007BAABC /* CoreMedia.framework in Frameworks */,
 				0426B6741724EBE2007BAABC /* AssetsLibrary.framework in Frameworks */,
@@ -1296,6 +1319,7 @@
 		043473BF1705F48C00CFE564 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				28E94C2717C2C49500874BDE /* CustomActivity */,
 				2897383217A1C08D003B18D3 /* cells related */,
 				2897383117A1C068003B18D3 /* buttons */,
 				04C404E71730303500973BC0 /* Flags */,
@@ -1838,6 +1862,31 @@
 			name = AlbumManagement;
 			sourceTree = "<group>";
 		};
+		28E94C2017C2BA3B00874BDE /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				28E94C2117C2BA6600874BDE /* SVLinkActivity.h */,
+				28E94C2217C2BA6600874BDE /* SVLinkActivity.m */,
+				28E94C2317C2BA6600874BDE /* SVLinkEvent.h */,
+				28E94C2417C2BA6600874BDE /* SVLinkEvent.m */,
+			);
+			name = Social;
+			sourceTree = "<group>";
+		};
+		28E94C2717C2C49500874BDE /* CustomActivity */ = {
+			isa = PBXGroup;
+			children = (
+				28E94C2817C2C4AE00874BDE /* IconCopy.png */,
+				28E94C2917C2C4AE00874BDE /* IconCopy@2x.png */,
+				28E94C2A17C2C4AE00874BDE /* IconLink.png */,
+				28E94C2B17C2C4AE00874BDE /* IconLink@2x.png */,
+				28E94C2C17C2C4AE00874BDE /* IconMail.png */,
+				28E94C2D17C2C4AE00874BDE /* IconMail@2x.png */,
+				28E94C2E17C2C4AE00874BDE /* IconMove@2x.png */,
+			);
+			name = CustomActivity;
+			sourceTree = "<group>";
+		};
 		AA12881316CB8774002AC699 /* Albums */ = {
 			isa = PBXGroup;
 			children = (
@@ -1901,6 +1950,7 @@
 		AA58FAEE16C224E800C49E02 = {
 			isa = PBXGroup;
 			children = (
+				28E94C3617C2C9E700874BDE /* EventKit.framework */,
 				AA58FB0016C224E800C49E02 /* shotvibe */,
 				AA58FB2416C224E800C49E02 /* shotvibeTests */,
 				AA58FAF916C224E800C49E02 /* Frameworks */,
@@ -2263,6 +2313,7 @@
 		AAF05CD216CB287F005BCFD3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				28E94C2017C2BA3B00874BDE /* Social */,
 				04C407E517303E9200973BC0 /* Registration */,
 				0493ABE81732D6EC005ABCE7 /* Picker */,
 				AA12881316CB8774002AC699 /* Albums */,
@@ -2776,6 +2827,13 @@
 				28D4761C17B10BF000C189AB /* LabelNewPhoto@2x.png in Resources */,
 				2854C28C17BB85100090BD3E /* butInvitedContacts.png in Resources */,
 				2854C28D17BB85100090BD3E /* butInvitedContacts@2x.png in Resources */,
+				28E94C2F17C2C4AE00874BDE /* IconCopy.png in Resources */,
+				28E94C3017C2C4AE00874BDE /* IconCopy@2x.png in Resources */,
+				28E94C3117C2C4AE00874BDE /* IconLink.png in Resources */,
+				28E94C3217C2C4AE00874BDE /* IconLink@2x.png in Resources */,
+				28E94C3317C2C4AE00874BDE /* IconMail.png in Resources */,
+				28E94C3417C2C4AE00874BDE /* IconMail@2x.png in Resources */,
+				28E94C3517C2C4AE00874BDE /* IconMove@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2934,6 +2992,8 @@
 				2854C28617BA10E60090BD3E /* RCImageView.m in Sources */,
 				2854C28917BA178D0090BD3E /* RCScrollView.m in Sources */,
 				28E94C1F17C25EC500874BDE /* SVSettingsAboutViewController.m in Sources */,
+				28E94C2517C2BA6600874BDE /* SVLinkActivity.m in Sources */,
+				28E94C2617C2BA6600874BDE /* SVLinkEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

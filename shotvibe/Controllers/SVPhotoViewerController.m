@@ -28,10 +28,6 @@
 @implementation SVPhotoViewerController
 
 
-//- (void) loadView {
-//	
-//}
-
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
@@ -380,23 +376,52 @@
 	}];
 }
 
-
-- (void)exportButtonPressed
-{
-    // Do other stuff
-    
-    //UIActionSheet *exportOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-//destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Move Picture", @""), NSLocalizedString(@"Share to Facebook", @""),
-	//NSLocalizedString(@"Share to Instagram", @""), NSLocalizedString(@"Set as Profile Picture", @""), NSLocalizedString(@"Email photo", @""),
-	//NSLocalizedString(@"Get Link", @""), nil];
-    
-    //[exportOptions showFromToolbar:self.toolbar];
-}
-
-
 - (void)toggleMenu
 {
     [self.navigationController.sideMenu toggleRightSideMenu];
+}
+
+
+
+
+
+#pragma mark Custom Activity
+
+- (void)exportButtonPressed
+{
+    NSString *msg = NSLocalizedString(@"Share ShotVibe with friends!", nil);
+    NSURL* url = [NSURL URLWithString:@"http://shotvibe"];
+    SVLinkEvent *linkEvent = [self createLinkEvent];
+    
+    SVLinkActivity *linkActivity = [[SVLinkActivity alloc] init];
+    linkActivity.delegate = self;
+    
+    NSArray *activities = @[linkActivity];
+    
+    UIActivityViewController* activity = [[UIActivityViewController alloc] initWithActivityItems:@[msg, url, linkEvent]
+                                                                           applicationActivities:activities];
+    activity.excludedActivityTypes = @[UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll, UIActivityTypeAssignToContact];
+    
+    [self presentViewController:activity animated:YES completion:NULL];
+}
+
+-(SVLinkEvent *)createLinkEvent
+{
+    SVLinkEvent *linkEvent = [[SVLinkEvent alloc] init];
+    linkEvent.URL = [NSURL URLWithString:@"http://shotvibe.com"];
+    return linkEvent;
+}
+
+#pragma mark - NHCalendarActivityDelegate
+
+-(void)calendarActivityDidFinish:(SVLinkEvent *)event
+{
+    NSLog(@"Event: %@", event.URL);
+}
+
+-(void)calendarActivityDidFail:(SVLinkEvent *)event withError:(NSError *)error
+{
+    NSLog(@"Ops!");
 }
 
 
