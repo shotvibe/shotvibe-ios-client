@@ -23,7 +23,7 @@
 			if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {
 				[assetGroups insertObject:group atIndex:0];
 			}
-			if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupPhotoStream) {
+			else if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupPhotoStream) {
 				[assetGroups insertObject:group atIndex:1];
 			}
 			else {

@@ -8,6 +8,7 @@
 
 #import <MessageUI/MessageUI.h>
 #import <UIKit/UIKit.h>
+#import "SVWebViewController.h"
 
 @class Album;
 
@@ -15,7 +16,6 @@
 
 @property (nonatomic, strong) Album *currentAlbum;
 
-- (IBAction)doUsage:(id)sender;
 - (IBAction)doLogout:(id)sender;
 
 @end

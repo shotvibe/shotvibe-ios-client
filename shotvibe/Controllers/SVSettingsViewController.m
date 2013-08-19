@@ -8,12 +8,12 @@
 
 
 #import "SVSettingsViewController.h"
-#import "Album.h"
-#import "AlbumPhoto.h"
-#import "Member.h"
-#import "SVAlbumNotificationSettingsViewController.h"
-#import "SVDefines.h"
+#import "SVSettingsAboutViewController.h"
 #import "SVRegistrationViewController.h"
+#import "SVDefines.h"
+//#import "Album.h"
+//#import "AlbumPhoto.h"
+//#import "Member.h"
 #import "SVEntityStore.h"
 
 @interface SVSettingsViewController ()
@@ -40,23 +40,15 @@
 {
     [super viewDidLoad];
     
-    //self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainBg.png"]];
 }
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"AlbumSettingsSegue"]) {
-        SVAlbumNotificationSettingsViewController *destination = (SVAlbumNotificationSettingsViewController *)segue.destinationViewController;
+    if ([segue.identifier isEqualToString:@"SettingsHelpSegue"]) {
+        SVWebViewController *destination = (SVWebViewController *)segue.destinationViewController;
         
-        destination.currentAlbum = self.currentAlbum;
+        destination.title = @"Help";
+		destination.url = @"http://random.org";
     }
 }
 
@@ -67,7 +59,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.row == 7) {
+    if (indexPath.row == 3) {
         // We've selected the email item
         if ([MFMailComposeViewController canSendMail]) {
             MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
@@ -137,6 +129,7 @@
 		// Delete the login data
 		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserId];
 		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserAuthToken];
+		// Delete the last sync date
 		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kUserAlbumsLastRequestedDate];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 		

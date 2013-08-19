@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SVAboutViewController : UIViewController
+@interface SVWebViewController : UIViewController <UIWebViewDelegate>
+
+@property (nonatomic, retain) IBOutlet UIWebView *webView;
+@property (nonatomic, retain) NSString *url;
 
 @end

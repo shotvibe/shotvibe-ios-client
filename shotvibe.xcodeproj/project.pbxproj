@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		04016101172F242F00DC6D8F /* cameraCaptureButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040160FF172F242F00DC6D8F /* cameraCaptureButton@2x.png */; };
 		04016103172F242F00DC6D8F /* cameraCaptureButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 04016100172F242F00DC6D8F /* cameraCaptureButton.png */; };
-		04058B26171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */; };
-		04058B2D171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */; };
 		040BACD21717453C00D90C63 /* navBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD01717453C00D90C63 /* navBarBg.png */; };
 		040BACD41717453C00D90C63 /* navBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD11717453C00D90C63 /* navBarBg@2x.png */; };
 		041A13E41706788100E66B78 /* sidebarMenuNavbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041A13E21706788100E66B78 /* sidebarMenuNavbar@2x.png */; };
@@ -93,10 +91,9 @@
 		0499B8B5171DD6DE00050596 /* aboutIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B896171DD6DE00050596 /* aboutIcon.png */; };
 		0499B8B9171DD78200050596 /* attributesIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B8B7171DD78100050596 /* attributesIcon@2x.png */; };
 		0499B8BB171DD78200050596 /* attributesIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B8B8171DD78200050596 /* attributesIcon.png */; };
-		0499B8E6171DE87E00050596 /* SVHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499B8E5171DE87E00050596 /* SVHelpViewController.m */; };
 		0499B8F0171DEC7100050596 /* playButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B8EA171DEC7100050596 /* playButton@2x.png */; };
 		0499B8F2171DEC7100050596 /* playButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B8EB171DEC7100050596 /* playButton.png */; };
-		0499B8F6171DECED00050596 /* SVAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499B8F5171DECED00050596 /* SVAboutViewController.m */; };
+		0499B8F6171DECED00050596 /* SVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499B8F5171DECED00050596 /* SVWebViewController.m */; };
 		0499B8F9171DF72600050596 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0499B8F8171DF72600050596 /* MediaPlayer.framework */; };
 		0499B901171E127C00050596 /* SVProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499B900171E127C00050596 /* SVProfileViewController.m */; };
 		0499B90B171E293600050596 /* editProfileImageIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B909171E293600050596 /* editProfileImageIcon@2x.png */; };
@@ -485,6 +482,7 @@
 		28D4761C17B10BF000C189AB /* LabelNewPhoto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28D4761A17B10BF000C189AB /* LabelNewPhoto@2x.png */; };
 		28D4761F17B1210100C189AB /* SVUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4761E17B1210000C189AB /* SVUploadManager.m */; };
 		28D4762217B1344800C189AB /* SVDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4762117B1344700C189AB /* SVDownloadManager.m */; };
+		28E94C1F17C25EC500874BDE /* SVSettingsAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C1E17C25EC500874BDE /* SVSettingsAboutViewController.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
 		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
@@ -576,10 +574,6 @@
 /* Begin PBXFileReference section */
 		040160FF172F242F00DC6D8F /* cameraCaptureButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCaptureButton@2x.png"; sourceTree = "<group>"; };
 		04016100172F242F00DC6D8F /* cameraCaptureButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraCaptureButton.png; sourceTree = "<group>"; };
-		04058B24171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGeneralNotificationSettingsViewController.h; sourceTree = "<group>"; };
-		04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVGeneralNotificationSettingsViewController.m; sourceTree = "<group>"; };
-		04058B2B171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumNotificationSettingsViewController.h; sourceTree = "<group>"; };
-		04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumNotificationSettingsViewController.m; sourceTree = "<group>"; };
 		040BACD01717453C00D90C63 /* navBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarBg.png; sourceTree = "<group>"; };
 		040BACD11717453C00D90C63 /* navBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBarBg@2x.png"; sourceTree = "<group>"; };
 		041A13E21706788100E66B78 /* sidebarMenuNavbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sidebarMenuNavbar@2x.png"; sourceTree = "<group>"; };
@@ -681,12 +675,10 @@
 		0499B896171DD6DE00050596 /* aboutIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutIcon.png; sourceTree = "<group>"; };
 		0499B8B7171DD78100050596 /* attributesIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attributesIcon@2x.png"; sourceTree = "<group>"; };
 		0499B8B8171DD78200050596 /* attributesIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attributesIcon.png; sourceTree = "<group>"; };
-		0499B8E4171DE87E00050596 /* SVHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVHelpViewController.h; sourceTree = "<group>"; };
-		0499B8E5171DE87E00050596 /* SVHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVHelpViewController.m; sourceTree = "<group>"; };
 		0499B8EA171DEC7100050596 /* playButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "playButton@2x.png"; sourceTree = "<group>"; };
 		0499B8EB171DEC7100050596 /* playButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playButton.png; sourceTree = "<group>"; };
-		0499B8F4171DECED00050596 /* SVAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAboutViewController.h; sourceTree = "<group>"; };
-		0499B8F5171DECED00050596 /* SVAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAboutViewController.m; sourceTree = "<group>"; };
+		0499B8F4171DECED00050596 /* SVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewController.h; sourceTree = "<group>"; };
+		0499B8F5171DECED00050596 /* SVWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVWebViewController.m; sourceTree = "<group>"; };
 		0499B8F8171DF72600050596 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		0499B8FF171E127C00050596 /* SVProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProfileViewController.h; sourceTree = "<group>"; };
 		0499B900171E127C00050596 /* SVProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProfileViewController.m; sourceTree = "<group>"; };
@@ -1102,6 +1094,8 @@
 		28D4761E17B1210000C189AB /* SVUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploadManager.m; sourceTree = "<group>"; };
 		28D4762017B1344700C189AB /* SVDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDownloadManager.h; sourceTree = "<group>"; };
 		28D4762117B1344700C189AB /* SVDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVDownloadManager.m; sourceTree = "<group>"; };
+		28E94C1D17C25EC400874BDE /* SVSettingsAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSettingsAboutViewController.h; sourceTree = "<group>"; };
+		28E94C1E17C25EC500874BDE /* SVSettingsAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSettingsAboutViewController.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPushNotificationsManager.h; sourceTree = "<group>"; };
 		3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPushNotificationsManager.m; sourceTree = "<group>"; };
@@ -2119,16 +2113,12 @@
 			children = (
 				0499B853171DD27B00050596 /* SVSettingsViewController.h */,
 				0499B854171DD27B00050596 /* SVSettingsViewController.m */,
-				0499B8E4171DE87E00050596 /* SVHelpViewController.h */,
-				0499B8E5171DE87E00050596 /* SVHelpViewController.m */,
-				0499B8F4171DECED00050596 /* SVAboutViewController.h */,
-				0499B8F5171DECED00050596 /* SVAboutViewController.m */,
+				28E94C1D17C25EC400874BDE /* SVSettingsAboutViewController.h */,
+				28E94C1E17C25EC500874BDE /* SVSettingsAboutViewController.m */,
+				0499B8F4171DECED00050596 /* SVWebViewController.h */,
+				0499B8F5171DECED00050596 /* SVWebViewController.m */,
 				0499B8FF171E127C00050596 /* SVProfileViewController.h */,
 				0499B900171E127C00050596 /* SVProfileViewController.m */,
-				04058B24171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.h */,
-				04058B25171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m */,
-				04058B2B171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.h */,
-				04058B2C171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2901,12 +2891,9 @@
 				0446EF021718927B00ED0076 /* SVSidebarAlbumMemberCell.m in Sources */,
 				0446EF061718A41700ED0076 /* SVAddFriendsViewController.m in Sources */,
 				0499B855171DD27B00050596 /* SVSettingsViewController.m in Sources */,
-				0499B8E6171DE87E00050596 /* SVHelpViewController.m in Sources */,
-				0499B8F6171DECED00050596 /* SVAboutViewController.m in Sources */,
+				0499B8F6171DECED00050596 /* SVWebViewController.m in Sources */,
 				AA89F528177D49E600B782A1 /* NSManagedObject+MagicalAggregation.m in Sources */,
 				0499B901171E127C00050596 /* SVProfileViewController.m in Sources */,
-				04058B26171F1ACD00035E26 /* SVGeneralNotificationSettingsViewController.m in Sources */,
-				04058B2D171F2D6A00035E26 /* SVAlbumNotificationSettingsViewController.m in Sources */,
 				0426B6551724E262007BAABC /* CaptureViewfinderController.m in Sources */,
 				0426B67C1724EC26007BAABC /* AVCamCaptureManager.m in Sources */,
 				0426B67E1724EC26007BAABC /* AVCamRecorder.m in Sources */,
@@ -2946,6 +2933,7 @@
 				3B58318517B5C4C10059C1CA /* AuthData.m in Sources */,
 				2854C28617BA10E60090BD3E /* RCImageView.m in Sources */,
 				2854C28917BA178D0090BD3E /* RCScrollView.m in Sources */,
+				28E94C1F17C25EC500874BDE /* SVSettingsAboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
