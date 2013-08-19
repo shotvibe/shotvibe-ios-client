@@ -169,7 +169,7 @@
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 	}
 
-	[[SVDownloadManager sharedManager] downloadAlbums];
+	[[SVDownloadManager sharedManager] download];
 }
 
 
@@ -278,7 +278,7 @@
 	[cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
 	
 	
-	dispatch_async(dispatch_get_global_queue(0,0),^{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0),^{
 		
 	if (cell.tag == tagIndex.row) {
 			
@@ -320,7 +320,12 @@
 			}
 			
 			dispatch_async(dispatch_get_main_queue(),^{
+				@try {
 				cell.author.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Last added by", @""), firstPhoto.author.nickname];
+				}
+				@catch (NSException *exc) {
+					NSLog(@"%@", exc);
+				}
 			});
 		}
 		else {
@@ -600,6 +605,7 @@
 - (void)createNewAlbumWithTitle:(NSString *)title
 {
 	[[SVEntityStore sharedStore] newAlbumWithName:title andUserID:[[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId]];
+	[[SVUploadManager sharedManager] upload];
 }
 
 
@@ -638,11 +644,11 @@
 
 - (void)downloadCompleted:(NSNotification *)notification
 {
-	NSLog(@"DOWNLOAD COMPLETE, reload albums cells and start the upload process");
+	NSLog(@"DOWNLOAD COMPLETE, start the upload process");
     //[self.fetchedResultsController performFetch:nil];
     //[self.tableView reloadData];
 	
-	[[SVUploadManager sharedManager] uploadPhotos];
+	[[SVUploadManager sharedManager] upload];
 }
 
 
@@ -655,7 +661,7 @@
 	NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
 	[refresh endRefreshing];
-	[[SVDownloadManager sharedManager] downloadAlbums];
+	[[SVDownloadManager sharedManager] download];
 }
 
 @end

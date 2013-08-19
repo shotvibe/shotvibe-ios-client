@@ -999,8 +999,8 @@
 		04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureSelectImagesViewController.h; sourceTree = "<group>"; };
 		04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureSelectImagesViewController.m; sourceTree = "<group>"; };
 		04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptureSelectImagesViewController.xib; sourceTree = "<group>"; };
-		04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSelectionGridCell.h; path = Controllers/SVSelectionGridCell.h; sourceTree = "<group>"; };
-		04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSelectionGridCell.m; path = Controllers/SVSelectionGridCell.m; sourceTree = "<group>"; };
+		04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSelectionGridCell.h; sourceTree = "<group>"; };
+		04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSelectionGridCell.m; sourceTree = "<group>"; };
 		20457649178CB57C00E2CDBB /* contactsStreachableButton_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "contactsStreachableButton_normal@2x.png"; sourceTree = "<group>"; };
 		2045764F178CCDA400E2CDBB /* contactsStreachableButton_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contactsStreachableButton_normal.png; sourceTree = "<group>"; };
 		280A807417AA9350006ECD5C /* CameraTakeAnotherPicture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CameraTakeAnotherPicture.png; sourceTree = "<group>"; };
@@ -2018,8 +2018,6 @@
 				AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */,
 				04AFA7B6177CBEA700E32C6E /* SVAlbumGridViewCell.h */,
 				04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */,
-				04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */,
-				04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */,
 				0446EF001718927B00ED0076 /* SVSidebarAlbumMemberCell.h */,
 				0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */,
 				28D475D917AC375400C189AB /* SVSidebarAlbumManagementActivityCell.h */,
@@ -2110,6 +2108,8 @@
 				04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */,
 				04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */,
 				04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */,
+				04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */,
+				04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */,
 			);
 			name = Camera;
 			sourceTree = "<group>";

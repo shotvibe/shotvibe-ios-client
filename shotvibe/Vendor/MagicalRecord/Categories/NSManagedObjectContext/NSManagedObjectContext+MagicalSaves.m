@@ -85,10 +85,10 @@
         return;
     }
     
-    MRLog(@"→ Saving %@", [self MR_description]);
-    MRLog(@"→ Save Parents? %@", @(saveParentContexts));
-    MRLog(@"→ Save on specified queue? %@", @(saveOnSpecifiedQueue));
-    MRLog(@"→ Save Synchronously? %@", @(!saveOnSpecifiedQueue & syncSave));
+//    MRLog(@"→ Saving %@", [self MR_description]);
+//    MRLog(@"→ Save Parents? %@", @(saveParentContexts));
+//    MRLog(@"→ Save on specified queue? %@", @(saveOnSpecifiedQueue));
+//    MRLog(@"→ Save Synchronously? %@", @(!saveOnSpecifiedQueue & syncSave));
     
     
     id saveBlock = ^{
@@ -145,6 +145,7 @@
     
     /* If queue and group specified - use new async logic */
     if (saveOnSpecifiedQueue){
+		NSLog(@"MagicalSaves - SAVE ON SPECIFIED QUEUE");
         /* Perform async saving on specified queue and group*/
         dispatch_group_async(group, queue, ^{
             [self performBlock:saveBlock];

@@ -9,6 +9,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <UIKit/UIKit.h>
 #import "CaptureViewfinderController.h"
+#import "SVSelectionGridCell.h"
 
 @class Album;
 

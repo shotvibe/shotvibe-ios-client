@@ -33,7 +33,7 @@
 
 
 @protocol RCImageViewDelegate <NSObject>
-
+@optional
 - (void)onPhotoProgress:(NSNumber*)percent nr:(NSNumber*)index;
 - (void)onPhotoComplete:(NSNumber*)index;
 - (void)onPhotoError:(NSNumber*)index;

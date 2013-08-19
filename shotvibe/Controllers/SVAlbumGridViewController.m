@@ -138,13 +138,15 @@
 }
 
 
-- (void)viewDidAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self.gridView reloadData];
+}
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-	//[self.gridView reloadData];
 	
 	// Restore the sidemenu state, when is hide it loses x position
-	NSLog(@"viewWillappear %i", self.navigationController.sideMenu.menuState);
+	NSLog(@"viewDidappear %i", self.navigationController.sideMenu.menuState);
 	if (self.navigationController.sideMenu.menuState != MFSideMenuStateClosed) {
 		[self.navigationController.sideMenu setMenuState:self.navigationController.sideMenu.menuState];
 	}
@@ -159,7 +161,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+    return UIInterfaceOrientationMaskPortrait;// UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 
@@ -224,9 +226,7 @@
     cell.tag = indexPath.row;
 	__block NSIndexPath *tagIndex = indexPath;
     
-	dispatch_async(dispatch_get_global_queue(0,0),^{
-		
-	if (cell.tag == tagIndex.row) {
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0),^{
 		
 		AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
@@ -252,37 +252,29 @@
 		}
 		else {
 			dispatch_async(dispatch_get_main_queue(),^{
-				[cell.networkImageView setImage:image];
+				if (cell.tag == tagIndex.row) [cell.networkImageView setImage:image];
 			});
 		}
 		
 		dispatch_async(dispatch_get_main_queue(),^{
 			
-			//float a = 0;
-			
-			if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
-				[cell.activityView startAnimating];
-				cell.networkImageView.alpha = 0.3;
+			if (cell.tag == tagIndex.row) {
+				if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
+					[cell.activityView startAnimating];
+					cell.networkImageView.alpha = 0.3;
+				}
+				else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadProgress) {
+					[cell.activityView startAnimating];
+					cell.networkImageView.alpha = 0.3;
+				}
+				else {
+					[cell.activityView stopAnimating];
+					cell.networkImageView.alpha = 1.0;
+				}
+				
+				cell.labelNewView.hidden = [currentPhoto.hasViewed boolValue];
 			}
-			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadProgress) {
-				[cell.activityView startAnimating];
-				cell.networkImageView.alpha = 0.3;
-			}
-			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadComplete) {
-				[cell.activityView stopAnimating];
-				cell.networkImageView.alpha = 1.0;
-			}
-			else {
-				cell.networkImageView.alpha = 1.0;
-			}
-			
-			cell.labelNewView.hidden = [currentPhoto.hasViewed boolValue];
-			
-			//[UIView animateWithDuration:0.3 animations:^{
-			//	cell.networkImageView.alpha = a;
-			//}];
 		});
-	}
 	});
     
     return cell;
@@ -404,6 +396,10 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
 	NSLog(@"SVAlbumGrid controllerDidChangeContent");
+	if (self.isViewLoaded && self.view.window){
+		// viewController is visible
+	}
+	else return;
     
     if ([_objectChanges count] > 0)
     {
@@ -419,7 +415,7 @@
 						case NSFetchedResultsChangeInsert:
 							NSLog(@"insert");
 							[self.gridView insertItemsAtIndexPaths:@[obj]];
-							[[SVUploadManager sharedManager] uploadPhotos];
+							[[SVUploadManager sharedManager] upload];
 							break;
 						case NSFetchedResultsChangeDelete:
 							NSLog(@"delete");

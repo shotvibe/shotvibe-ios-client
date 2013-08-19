@@ -79,29 +79,21 @@
  */
 - (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId
 {
-	// Save to database the new image
-    [[SVEntityStore sharedStore] addPhotoWithID:photoId ToAlbumWithID:albumId WithCompletion:^(BOOL success, NSError *error) {
-        
-        if (success) {
-			// Save to disk the image data
-            [[SVEntityStore sharedStore] writeImageData:imageData toDiskForImageID:photoId WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
-                //NO U
-            }];
-        }
-        else
-        {
-            NSLog(@"There was an error saving the photo locally, delete it from the databse as well: %@", [error userInfo]);
-            /*AlbumPhoto *photoToDelete = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:photoId inContext:[NSManagedObjectContext defaultContext]];
-            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                
-                AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photoToDelete.objectID];
-                [localPhoto deleteInContext:localContext];
-                
-            }];*/
-        }
-        
-    }];
-
+	// This is already called in a different thread
+	NSLog(@"====================== 2.Save image to disk %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
+	// Save to disk the image data
+	[[SVEntityStore sharedStore] writeImageData:imageData toDiskForImageID:photoId WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
+		if (success) {
+			// Save to database the new image
+			[[SVEntityStore sharedStore] addPhotoWithID:photoId ToAlbumWithID:albumId WithCompletion:^(BOOL success, NSError *error) {
+				// This is main thread
+				NSLog(@"====================== 1.Image saved in db %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
+				if (success) {
+					
+				}
+			}];
+		}
+	}];
 }
 
 /*

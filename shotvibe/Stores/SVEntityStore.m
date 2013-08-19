@@ -6,17 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "Album.h"
-#import "AlbumPhoto.h"
-#import "AFHTTPRequestOperation.h"
-#import "AFJSONRequestOperation.h"
-#import "SVDefines.h"
 #import "SVEntityStore.h"
-#import "SVBusinessDelegate.h"
-#import "Member.h"
-#import "MagicalRecordShorthand.h"
-#import "MagicalRecord+Actions.h"
-#import "NSManagedObjectContext+MagicalRecord.h"
 
 static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
@@ -31,8 +21,8 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 #pragma mark - Getters
 
-- (NSURL *)imageDataDirectory
-{
+- (NSURL *)imageDataDirectory {
+	
     if (!_imageDataDirectory) {
         
         _imageDataDirectory = [NSURL URLWithString:@"SVImages/" relativeToURL:[self applicationDocumentsDirectory]];
@@ -52,14 +42,25 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
     
     return _imageDataDirectory;
 }
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
 
 - (void)wipe {
 	
-	NSError *error = nil;
-	[[NSFileManager defaultManager] removeItemAtURL:_imageDataDirectory error:&error];
-	_imageDataDirectory = nil;
+	dispatch_async(dispatch_get_global_queue(0,0),^{
+		NSError *error = nil;
+		[[NSFileManager defaultManager] removeItemAtURL:_imageDataDirectory error:&error];
+		_imageDataDirectory = nil;
+	});
 	
-	[self imageDataDirectory];
+	//[NSManagedObject truncateAll];
+	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
+	[Member MR_truncateAllInContext:localContext];
+	[Album MR_truncateAllInContext:localContext];
+	[AlbumPhoto MR_truncateAllInContext:localContext];
+	[localContext MR_saveToPersistentStoreAndWait];
 }
 
 
@@ -91,14 +92,6 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
     });
     
     return entityStore;
-}
-
-
-#pragma mark - Private Methods
-
-- (NSURL *)applicationDocumentsDirectory
-{
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 
@@ -250,7 +243,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 - (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
 {
     Album *albumToAddPhotosTo = [Album findFirstByAttribute:@"albumId" withValue:albumID inContext:[NSManagedObjectContext defaultContext]];
-    NSLog(@"The passed id is: %@", albumID);
+    NSLog(@"addPhotoWithID to database: albumId %@, photoId: %@", albumID, photoId);
     if (photoId && albumID) {
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
             AlbumPhoto *localPhoto = [AlbumPhoto createInContext:localContext];
@@ -263,11 +256,12 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
             [localPhoto setPhoto_url:@""];
             
             [localAlbum addAlbumPhotosObject:localPhoto];
+			
         } completion:^(BOOL success, NSError *error) {
             block(success, error);
         }];
     } else {
-        NSLog(@"WE'VE LOST INTELLIGENCE SIR!! SO WE WON'T ADD ZOMBIE PHOTOS OK?");
+        NSLog(@"WE'VE LOST INTELLIGENCE SIR!! photoId or albumId missing");
     }
 }
 - (void)leaveAlbum:(Album*)album completion:(void (^)(BOOL success, NSError *error))block {
@@ -403,74 +397,45 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 - (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *))block
 {
-    
-    if (!self.imageQueue) {
-        self.imageQueue = [[NSOperationQueue alloc] init];
-    }
-    
-	[self.imageQueue addOperationWithBlock:^{
-		
-		__block AlbumPhoto *blockPhoto = (AlbumPhoto *)aPhoto;
+	__block AlbumPhoto *blockPhoto = (AlbumPhoto *)aPhoto;
+	
+    dispatch_async(dispatch_get_global_queue(0,0),^{
 		
 		[self getImageDataForImageID:aPhoto.photo_id WithCompletion:^(NSData *imageData) {
-			
+			NSLog(@"get photo with id %@", aPhoto.photo_id);
 			if (imageData) {
-				UIImage *image = [UIImage imageWithData:imageData];
-				[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-					
-					block(image);
-				}];
-				
-				imageData = nil;
+				block ( [UIImage imageWithData:imageData] );
 			}
-			else
-			{
-				
+			else {
 				[self getImageDataForImageID:aPhoto.tempPhotoId WithCompletion:^(NSData *imageData) {
-					NSLog(@"photo_id %@ was not found, try the temp id: %@", aPhoto.photo_id, aPhoto.tempPhotoId);
+					NSLog(@"photo not found, get photo with temp id %@", aPhoto.tempPhotoId);
 					if (imageData) {
-						UIImage *image = [UIImage imageWithData:imageData];
-						[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-							
-							block(image);
-						}];
-						
-						imageData = nil;
+						block ( [UIImage imageWithData:imageData] );
 					}
-					else
-					{
+					else {
 						NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
 						NSURLResponse *response = nil;
 						NSError *err = nil;
 						NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
+						NSLog(@"temp photo not found, get photo from server %@", photoURL);
 						
 						NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
 						if (data) {
 							[self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
 								// don't care >:O
 							}];
-							
-							UIImage *image = [UIImage imageWithData:data scale:0.25];
-							[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-								block(image);
-							}];
+							block ( [UIImage imageWithData:data scale:0.25] );
 						}
 					}
 				}];
 			}
 		}];
-		
-	}];
-	
+	});
 }
 
 
 - (void)getImageForPhotoData:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block
 {
-    if (!self.imageQueue) {
-        self.imageQueue = [[NSOperationQueue alloc] init];
-    }
-    
     __block AlbumPhoto *blockPhoto = (AlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
     
     [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
@@ -529,7 +494,6 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
     {
         return nil;
     }
-    
 }
 
 

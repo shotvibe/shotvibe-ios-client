@@ -134,23 +134,19 @@
 	
 	if (buttonIndex == 1) {
 		
+		// Delete the login data
 		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserId];
 		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserAuthToken];
 		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kUserAlbumsLastRequestedDate];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 		
-		NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
-		[Member MR_truncateAllInContext:localContext];
-		[Album MR_truncateAllInContext:localContext];
-		[AlbumPhoto MR_truncateAllInContext:localContext];
-		[localContext MR_saveToPersistentStoreAndWait];
-		
+		// Delete the database and the photos
 		[[SVEntityStore sharedStore] wipe];
 		
 		// Grab the storyboard
 		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
 		
-		// Grab the deal and make it our root view controller from the storyboard for this navigation controller
+		// Grab the registration screen and make it our root view controller from the storyboard for this navigation controller
 		SVRegistrationViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVRegistrationViewController"];
 		
 		[self.navigationController setViewControllers:@[rootView] animated:YES];
