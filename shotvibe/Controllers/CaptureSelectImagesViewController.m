@@ -159,6 +159,8 @@
         [selectedPhotos removeObject:[self.takenPhotos objectAtIndex:indexPath.row]];
         selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
     }
+	
+	self.title = [NSString stringWithFormat:@"%i Photos Selected", [selectedPhotos count]];
 }
 
 
