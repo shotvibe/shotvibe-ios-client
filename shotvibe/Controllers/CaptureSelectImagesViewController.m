@@ -160,7 +160,7 @@
         selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
     }
 	
-	self.title = [NSString stringWithFormat:@"%i Photos Selected", [selectedPhotos count]];
+	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
 }
 
 

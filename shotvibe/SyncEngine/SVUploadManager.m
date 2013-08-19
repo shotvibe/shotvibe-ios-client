@@ -60,8 +60,9 @@
     }
 	
 	// Get all of the albums that have photos to upload
-	NSArray *arr = [Album findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %i", SVObjectSyncUploadNeeded]
+	NSArray *arr = [Album findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %@", [NSNumber numberWithInteger:SVObjectSyncUploadNeeded]]
 									 inContext:ctxAlbums];
+	NSLog(@"arr %@", arr);
 	albumsToUpload = [NSMutableArray arrayWithArray:arr];
 	
 	[self uploadAlbums];
@@ -81,6 +82,26 @@
 		AFJSONRequestOperation *albumUploadOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:albumUploadRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
 			
 			NSLog(@"upload complete: %@", JSON);
+			NSLog(@"update the local object with the new data");
+//			NSManagedObjectContext *mainContext  = [NSManagedObjectContext MR_rootSavingContext];
+//			NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextWithParent:mainContext];
+			NSDictionary *a = JSON;
+			Album *album = anAlbum;//[Album findFirstByAttribute:@"albumId" withValue:a[@"id"] inContext:ctxAlbums];
+			NSLog(@"update the local album %@ with the one from server %@", album, a);
+			
+			if (album) {
+				[a enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+					
+					if ([key isEqualToString:@"id"]) {
+						[self setValue:[NSString stringWithFormat:@"%@", obj] forKey:key forManagedObject:album];
+					} else {
+						[self setValue:obj forKey:key forManagedObject:album];
+					}
+				}];
+				album.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
+				[ctxAlbums saveToPersistentStoreAndWait];
+			}
+			
 			
 		} failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
 			
@@ -384,5 +405,42 @@
 - (void) deletePhotos {
 	
 }
+
+
+
+
+- (void)setValue:(id)value forKey:(NSString *)key forManagedObject:(NSManagedObject *)managedObject {
+	
+    if ([key isEqualToString:@"latest_photos"] || [key isEqualToString:@"author"]) return;
+	
+	if ([[[managedObject entity] name] isEqualToString:@"Album"] && [key isEqualToString:@"id"])
+	{
+		[managedObject setValue:value forKey:@"albumId"];
+	}
+	else if ([[[managedObject entity] name] isEqualToString:@"Member"] && [key isEqualToString:@"id"])
+	{
+		[managedObject setValue:value forKey:@"userId"];
+	}
+	else if ([key isEqualToString:@"last_updated"] || [key isEqualToString:@"date_created"])
+	{
+		NSDate *date = [self dateUsingStringFromAPI:value];
+		[managedObject setValue:date forKey:key];
+	}
+	else if (![key isEqualToString:@"photos"] && ![key isEqualToString:@"members"])
+	{
+		[managedObject setValue:value forKey:key];
+	}
+}
+
+- (NSDate *)dateUsingStringFromAPI:(NSString *)dateString
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+	
+    dateString = [dateString substringWithRange:NSMakeRange(0, [dateString length]-5)];
+    return [dateFormatter dateFromString:dateString];
+}
+
 
 @end

@@ -33,8 +33,6 @@
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
 @property (nonatomic, strong) IBOutlet UIView *noPhotosView;
 
-@property (nonatomic, strong) NSOperationQueue *imageLoadingQueue;
-
 - (void)toggleMenu;
 - (void)toggleManagement;
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
@@ -49,7 +47,6 @@
     NSMutableArray *_objectChanges;
     NSMutableArray *_sectionChanges;
     NSMutableDictionary *thumbnailCache;
-	NSOperationQueue *_queue;
 }
 
 
@@ -85,17 +82,12 @@
 {
     [super viewDidLoad];
 	
-	_queue = [[NSOperationQueue alloc] init];
-	
     self.title = self.selectedAlbum.name;
 	
     _objectChanges = [NSMutableArray array];
     _sectionChanges = [NSMutableArray array];
     thumbnailCache = [[NSMutableDictionary alloc] init];
 	
-    self.imageLoadingQueue = [[NSOperationQueue alloc] init];
-    self.imageLoadingQueue.maxConcurrentOperationCount = 1;
-     
     // Setup fetched results
     
     // Setup tabbar right button
@@ -113,28 +105,24 @@
 	
 	self.noPhotosView.hidden = (nrOfPhotos > 0);
 	
-	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-		
-		[self fetchedResultsController];
-		
-		// Initialize the sidebar menu
-		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-		self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
-		self.sidebarRight.parentController = self;
-		self.sidebarRight.selectedAlbum = self.selectedAlbum;
-		
-		self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
-		self.sidebarLeft.parentController = self;
-		
-		self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController
-												   leftSideMenuController:self.sidebarLeft
-												  rightSideMenuController:self.sidebarRight
-																  panMode:MFSideMenuPanModeNavigationController];
-		
-		[self.navigationController setSideMenu:self.sauronTheSideMenu];
-		[self configureMenuForOrientation:self.interfaceOrientation];
-		
-	}];
+	[self fetchedResultsController];
+	
+	// Initialize the sidebar menu
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
+	self.sidebarRight.parentController = self;
+	self.sidebarRight.selectedAlbum = self.selectedAlbum;
+	
+	self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
+	self.sidebarLeft.parentController = self;
+	
+	self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController
+											   leftSideMenuController:self.sidebarLeft
+											  rightSideMenuController:self.sidebarRight
+															  panMode:MFSideMenuPanModeNavigationController];
+	
+	[self.navigationController setSideMenu:self.sauronTheSideMenu];
+	[self configureMenuForOrientation:self.interfaceOrientation];
 }
 
 
@@ -460,7 +448,7 @@
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation
 {
 	NSLog(@"configureMenuForOrientation");
-	//return;
+	return;
     CGRect rightFrame = self.navigationController.sideMenu.rightSideMenuViewController.view.frame;
     rightFrame.size.height = 300;
     rightFrame.origin.x = 320 - kMFSideMenuSidebarWidth;

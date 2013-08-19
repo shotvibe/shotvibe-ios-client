@@ -135,11 +135,7 @@
     [super viewDidLoad];
 	
 	_queue = [[NSOperationQueue alloc] init];
- 
-    // When we get to the album list view we no longer need to worry about rotation blocks from logging in, switch it to allowing rotation.
-    CaptureNavigationController *navController = (CaptureNavigationController *)self.navigationController;
-    navController.allowsRotation = YES;
-    
+	
     self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
     self.imageLoadingQueue = [[NSOperationQueue alloc] init];
     self.imageLoadingQueue.maxConcurrentOperationCount = 1;

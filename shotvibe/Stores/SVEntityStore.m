@@ -215,28 +215,23 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 
 - (void)newAlbumWithName:(NSString *)albumName andUserID:(NSNumber *)userID
-{    
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-		
-        Album *localAlbum = [Album createInContext:localContext];
-        
-        // Create the first member too...
-        Member *localMember = [Member createInContext:localContext];
-		localMember.nickname = @"Me";
-        [localMember setUserId:userID];
-        
-        NSString *tempAlbumId = [[NSUUID UUID] UUIDString];
-        
-        [localAlbum setAlbumId:tempAlbumId];
-        [localAlbum setDate_created:[NSDate date]];
-        [localAlbum setLast_updated:[NSDate date]];
-        [localAlbum setName:albumName];
-        [localAlbum setUrl:@""];
-        [localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
-        [localAlbum setEtag:@"0"];
-        [localAlbum addMembersObject:localMember];
-
-    }];
+{
+	// Get the local context
+	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
+	
+	Album *localAlbum = [Album createInContext:localContext];
+	
+	[localAlbum setTempAlbumId:[[NSUUID UUID] UUIDString]];
+	[localAlbum setDate_created:[NSDate date]];
+	[localAlbum setLast_updated:[NSDate date]];
+	[localAlbum setName:albumName];
+	[localAlbum setUrl:@""];
+	[localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
+	[localAlbum setEtag:@"0"];
+	[localAlbum addAlbumPhotos:[[NSSet alloc] init]];
+	[localAlbum addMembers:[[NSSet alloc] init]];
+	
+	[localContext MR_saveToPersistentStoreAndWait];
 }
 
 
@@ -617,36 +612,17 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 	[[NSFileManager defaultManager] removeItemAtURL:url error:&error];
 	[[NSFileManager defaultManager] removeItemAtURL:url_thumb error:&error];
 	
-	NSManagedObjectContext *localContext = [NSManagedObjectContext defaultContext];
-	AlbumPhoto *pp = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
-	NSLog(@"objectSyncStatus before: %@", pp.objectSyncStatus);
-	[pp willChangeValueForKey:@"objectSyncStatus"];
-	pp.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDeleteNeeded];
-	[pp didChangeValueForKey:@"objectSyncStatus"];
+	// Remove from database
 	
-	error = nil;
-	[localContext save:&error];
+	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
 	
-	if (error) {
-		NSLog(@"error marking photo for deletion %@", error);
-	}
+	AlbumPhoto *photo = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
 	
-	AlbumPhoto *ppp = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
-	NSLog(@"objectSyncStatus after: %@", ppp.objectSyncStatus);
+	[photo willChangeValueForKey:@"objectSyncStatus"];
+	photo.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDeleteNeeded];
+	[photo didChangeValueForKey:@"objectSyncStatus"];
 	
-//	return;
-//	__block AlbumPhoto *p = aPhoto;
-//	
-//	[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-//		
-//		AlbumPhoto *pp = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:p.photo_id inContext:localContext];
-//		
-//		[pp willChangeValueForKey:@"objectSyncStatus"];
-//		pp.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDeleteNeeded];
-//		[pp didChangeValueForKey:@"objectSyncStatus"];
-//		
-//		[localContext save:nil];
-//    }];
+	[localContext MR_saveToPersistentStoreAndWait];
 }
 
 @end

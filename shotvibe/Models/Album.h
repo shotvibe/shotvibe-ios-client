@@ -14,6 +14,7 @@
 @interface Album : NSManagedObject
 
 @property (nonatomic, retain) NSString * albumId;
+@property (nonatomic, retain) NSString * tempAlbumId;
 @property (nonatomic, retain) NSDate * date_created;
 @property (nonatomic, retain) NSString * etag;
 @property (nonatomic, retain) NSDate * last_updated;
@@ -21,7 +22,6 @@
 @property (nonatomic, retain) NSNumber * notificationsOption;
 @property (nonatomic, retain) NSNumber * objectSyncStatus;
 @property (nonatomic, retain) NSNumber * pushNotificationsOption;
-@property (nonatomic, retain) NSString * tempAlbumId;
 @property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSSet *albumPhotos;
 @property (nonatomic, retain) NSSet *members;
