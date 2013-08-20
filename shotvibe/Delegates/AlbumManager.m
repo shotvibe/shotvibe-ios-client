@@ -37,6 +37,9 @@ enum RefreshStatus
 - (NSArray *)addAlbumListListener:(id<AlbumListListener>)listener
 {
     NSArray *cachedAlbums = [shotvibeDB getAlbumList];
+    if (!cachedAlbums) {
+        NSLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
+    }
 
     [albumListListeners addObject:listener];
 
@@ -54,6 +57,8 @@ enum RefreshStatus
 
 - (void)refreshAlbumList
 {
+    NSLog(@"##### REFRESHING ALBUM LIST");
+
     if (refreshStatus == IDLE) {
         refreshStatus = REFRESHING;
     }
@@ -82,6 +87,7 @@ enum RefreshStatus
                     }
                 });
 
+                NSLog(@"##### Error!");
                 // TODO Schedule to retry soon
                 return;
             }
@@ -92,9 +98,13 @@ enum RefreshStatus
                 return [lhs.dateUpdated compare:rhs.dateUpdated];
             }];
 
+            NSLog(@"##### LATEST ALBUM LIST: %d", [latestAlbumsList count]);
+
             dispatch_sync(dispatch_get_main_queue(), ^{
                 if (refreshStatus == REFRESHING) {
-                    [shotvibeDB setAlbumListWithAlbums:latestAlbumsList];
+                    if (![shotvibeDB setAlbumListWithAlbums:latestAlbumsList]) {
+                        NSLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
+                    }
 
                     for(id<AlbumListListener> listener in albumListListeners) {
                         [listener onAlbumListRefreshComplete:latestAlbumsList];
