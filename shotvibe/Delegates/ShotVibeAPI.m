@@ -7,6 +7,8 @@
 //
 
 #import "ShotVibeAPI.h"
+#import "JSON.h"
+#import "AlbumSummary.h"
 
 @interface Response : NSObject
 
@@ -96,6 +98,72 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return YES;
 }
 
+- (NSArray *)getAlbumsWithError:(NSError **)error
+{
+    NSError *responseError;
+    Response *response = [self getResponse:@"/albums/" method:@"GET" body:nil error:&responseError];
+
+    if (!response) {
+        *error = responseError;
+        return nil;
+    }
+
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return nil;
+    }
+
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+
+    @try {
+        JSONArray *albumsArray = [[JSONArray alloc] initWithData:response.body];
+        for (int i = 0; i < [albumsArray count]; ++i) {
+            JSONObject *albumObj = [albumsArray getJSONObject:i];
+
+            NSString *etag = [albumObj getString:@"etag"];
+            NSNumber *albumId = [albumObj getNumber:@"id"];
+            NSString *name = [albumObj getString:@"name"];
+            NSDate *dateUpdated = [albumObj getDate:@"last_updated"];
+
+            NSArray *latestPhotos = [ShotVibeAPI parsePhotoList:[albumObj getJSONArray:@"latest_photos"]];
+
+            AlbumSummary *albumSummary = [[AlbumSummary alloc] initWithAlbumId:[albumId longLongValue]
+                                                                          etag:etag
+                                                                          name:name
+                                                                   dateCreated:nil
+                                                                   dateUpdated:dateUpdated
+                                                                  latestPhotos:latestPhotos];
+            [results addObject:albumSummary];
+        }
+    }
+    @catch (JSONException *exception) {
+        *error = [ShotVibeAPI createErrorFromJSONException:exception];
+        return nil;
+    }
+
+    return results;
+}
+
++ (NSArray *)parsePhotoList:(JSONArray *)photosArray
+{
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    return results;
+
+    // TODO ...
+    /*
+    for (int i = 0; i < [photosArray count]; ++i) {
+        JSONObject *photoObj = [photosArray getJSONObject:i];
+        NSString *photoId = [photoObj getString:@"photo_id"];
+        NSString *photoUrl = [photoObj getString:@"photo_url"];
+        NSDate *photoDateCreated = [photoObj getDate:@"date_created"];
+
+        JSONObject *authorObj = [photoObj getJSONObject:@"author"];
+
+        // TODO ...
+    }
+    */
+}
+
 + (NSError *)createErrorFromResponse:(Response *)response
 {
     // TODO better errorCode:
@@ -103,6 +171,18 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                               NSLocalizedDescriptionKey, [NSString stringWithFormat:@"HTTP Status Code: %d", [response responseCode]],
+                              nil];
+
+    return [[NSError alloc] initWithDomain:SHOTVIBE_API_ERROR_DOMAIN code:errorCode userInfo:userInfo];
+}
+
++ (NSError *)createErrorFromJSONException:(JSONException *)exception
+{
+    // TODO better errorCode:
+    NSInteger errorCode = 43;
+
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                              NSLocalizedDescriptionKey, [NSString stringWithFormat:@"Invalid JSON Response: %@", [exception reason]],
                               nil];
 
     return [[NSError alloc] initWithDomain:SHOTVIBE_API_ERROR_DOMAIN code:errorCode userInfo:userInfo];

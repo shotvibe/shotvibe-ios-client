@@ -494,6 +494,7 @@
 		3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */; };
 		3BE0B11717C2C5530058CAAD /* AlbumBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11617C2C5520058CAAD /* AlbumBase.m */; };
 		3BE0B11A17C2C71D0058CAAD /* AlbumSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */; };
+		3BE0B11D17C2F6B60058CAAD /* JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11C17C2F6B60058CAAD /* JSON.m */; };
 		AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
 		AA2347BF177A783100D55918 /* SVHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2347BE177A783100D55918 /* SVHttpClient.m */; };
 		AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234837177AA3F600D55918 /* AFHTTPClient.m */; };
@@ -1124,6 +1125,8 @@
 		3BE0B11617C2C5520058CAAD /* AlbumBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumBase.m; sourceTree = "<group>"; };
 		3BE0B11817C2C71D0058CAAD /* AlbumSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumSummary.h; sourceTree = "<group>"; };
 		3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumSummary.m; sourceTree = "<group>"; };
+		3BE0B11B17C2F6B60058CAAD /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		3BE0B11C17C2F6B60058CAAD /* JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON.m; sourceTree = "<group>"; };
 		AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumListViewCell.h; path = Controllers/SVAlbumListViewCell.h; sourceTree = "<group>"; };
 		AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumListViewCell.m; path = Controllers/SVAlbumListViewCell.m; sourceTree = "<group>"; };
 		AA2347BD177A783100D55918 /* SVHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVHttpClient.h; sourceTree = "<group>"; };
@@ -2107,6 +2110,8 @@
 				3B58318117B5C4560059C1CA /* ShotVibeAPI.m */,
 				3B58318317B5C4C00059C1CA /* AuthData.h */,
 				3B58318417B5C4C10059C1CA /* AuthData.m */,
+				3BE0B11B17C2F6B60058CAAD /* JSON.h */,
+				3BE0B11C17C2F6B60058CAAD /* JSON.m */,
 			);
 			name = "Business Delegates";
 			sourceTree = "<group>";
@@ -2984,6 +2989,7 @@
 				3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */,
 				3BE0B11717C2C5530058CAAD /* AlbumBase.m in Sources */,
 				3BE0B11A17C2C71D0058CAAD /* AlbumSummary.m in Sources */,
+				3BE0B11D17C2F6B60058CAAD /* JSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

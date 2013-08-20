@@ -20,4 +20,7 @@
 
 - (BOOL)registerDevicePushWithDeviceToken:(NSString *)deviceToken error:(NSError**)error;
 
+// Returns an array of `AlbumSummary` objects
+- (NSArray *)getAlbumsWithError:(NSError **)error;
+
 @end
