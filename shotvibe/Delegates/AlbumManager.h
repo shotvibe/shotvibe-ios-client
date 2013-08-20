@@ -22,6 +22,8 @@
 
 - (id)initWithShotvibeAPI:(ShotVibeAPI *)api shotvibeDB:(ShotVibeDB *)db;
 
+- (ShotVibeAPI *)getShotVibeAPI;
+
 // Returns an array of `AlbumSummary` objects, which is the current cached AlbumList
 - (NSArray *)addAlbumListListener:(id<AlbumListListener>)listener;
 

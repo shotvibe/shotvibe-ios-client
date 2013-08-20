@@ -636,12 +636,29 @@
 		self.takePictureButton.enabled = YES;
     }];
 }
+
+
 - (void)createNewAlbumWithTitle:(NSString *)title
 {
-	[[SVEntityStore sharedStore] newAlbumWithName:title andUserID:[[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId]];
-	[[SVUploadManager sharedManager] upload];
-}
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSError *error;
+        AlbumContents *albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title withError:&error];
 
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!albumContents) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Creating Album"
+                                                                message:[error description]
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            else {
+                [self.albumManager refreshAlbumList];
+            }
+        });
+    });
+}
 
 
 - (void)searchForAlbumWithTitle:(NSString *)title

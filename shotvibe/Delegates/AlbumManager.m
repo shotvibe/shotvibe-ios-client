@@ -34,6 +34,11 @@ enum RefreshStatus
     return self;
 }
 
+- (ShotVibeAPI *)getShotVibeAPI
+{
+    return shotvibeAPI;
+}
+
 - (NSArray *)addAlbumListListener:(id<AlbumListListener>)listener
 {
     NSArray *cachedAlbums = [shotvibeDB getAlbumList];

@@ -26,4 +26,6 @@
 
 - (AlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error;
 
+- (AlbumContents *)createNewBlankAlbum:(NSString *)albumName withError:(NSError **)error;
+
 @end
