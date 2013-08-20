@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SVActivityViewController.h"
 
 @interface SVInitializationWS : NSObject
 

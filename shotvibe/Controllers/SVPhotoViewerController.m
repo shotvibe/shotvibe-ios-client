@@ -254,6 +254,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+	NSLog(@"PhotoViewer did receive memory warning");
 	
     // Dispose of any resources that can be recreated.
 	
@@ -389,18 +390,25 @@
 
 - (void)exportButtonPressed
 {
-    NSString *msg = NSLocalizedString(@"Share ShotVibe with friends!", nil);
-    NSURL* url = [NSURL URLWithString:@"http://shotvibe"];
+	// Activity items
+	NSMutableArray *activityItems = [NSMutableArray array];
+	[activityItems addObject:NSLocalizedString(@"This is the text that goes with the sharing!", nil)];
+	[activityItems addObject:[NSURL URLWithString:@"http://shotvibe.com"]];
+	
+	AlbumPhoto *photo = [self.sortedPhotos objectAtIndex:self.index];
+	UIImage *currentImage = [[SVEntityStore sharedStore] getImageForPhoto:photo];
+	if (currentImage != nil) {
+		[activityItems addObject:currentImage];
+	}
     SVLinkEvent *linkEvent = [self createLinkEvent];
     
+	// Application activities
     SVLinkActivity *linkActivity = [[SVLinkActivity alloc] init];
     linkActivity.delegate = self;
     
-    NSArray *activities = @[linkActivity];
-    
-    UIActivityViewController* activity = [[UIActivityViewController alloc] initWithActivityItems:@[msg, url, linkEvent]
-                                                                           applicationActivities:activities];
-    activity.excludedActivityTypes = @[UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll, UIActivityTypeAssignToContact];
+    SVActivityViewController* activity = [[SVActivityViewController alloc] initWithActivityItems:[NSArray arrayWithArray:activityItems]
+                                                                           applicationActivities:@[linkActivity]];
+    //activity.excludedActivityTypes = @[UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll, UIActivityTypeAssignToContact];
     
     [self presentViewController:activity animated:YES completion:NULL];
 }

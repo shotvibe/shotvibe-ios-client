@@ -98,6 +98,7 @@
 	[albumsWithUpdates removeAllObjects];
     
 	NSLog(@"processAlbumsJSON albums count %i ", albums.count);
+	NSLog(@"processAlbumsJSON albums: %@ ", albums);
 	
 	[_queue addOperationWithBlock:^{
 		
@@ -235,8 +236,10 @@
 	NSLog(@"-----------> Album with creation date. %@", album.date_created);
 	
 	// The album has no date if it's the first sync
-	if ((album.date_created != nil && album.etag != nil) || !FORCE_RELOAD) {
-		[theRequest setValue:album.etag forHTTPHeaderField:[NSString stringWithUTF8String:"If-None-Match"]];
+	if (!FORCE_RELOAD) {
+		if (album.date_created != nil && album.etag != nil) {
+			[theRequest setValue:album.etag forHTTPHeaderField:[NSString stringWithUTF8String:"If-None-Match"]];
+		}
 	}
 	
 	AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {

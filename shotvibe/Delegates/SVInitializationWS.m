@@ -8,15 +8,8 @@
 #import "Album.h"
 #import "SVInitializationWS.h"
 #import "SVDefines.h"
-//#import "SVDownloadSyncEngine.h"
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Setup.h"
-
-#ifdef CONFIGURATION_Debug
-static NSString * const kTestAuthToken = @"Token 8d437481bdf626a9e9cd6fa2236d113eb1c9786d";
-#elif CONFIGURATION_Adhoc
-static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef27246f6ae6";
-#endif
 
 @interface SVInitializationWS ()
 
@@ -182,7 +175,9 @@ static NSString * const kTestAuthToken = @"Token 1d591bfa90ed6aee747a5009ccf6ef2
     }
     
     
-    
+    // Customize the UIActivityController
+	
+	//[[SVActivityViewController appearance] setBackgroundColor:[UIColor whiteColor]];
 }
 
 
