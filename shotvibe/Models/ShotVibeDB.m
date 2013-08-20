@@ -100,7 +100,7 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
 
 - (NSArray *)getAlbumList
 {
-    FMResultSet* s = [db executeQuery:@"SELECT (album_id, name, last_updated) FROM album SORT BY last_updated ASC"];
+    FMResultSet* s = [db executeQuery:@"SELECT album_id, name, last_updated FROM album ORDER BY last_updated ASC"];
     if (!s) {
         return nil;
     }
@@ -146,11 +146,11 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
         [albumIds addObject:[NSNumber numberWithLongLong:album.albumId]];
 
         // First try updating an existing row, in order to not erase an existing etag value
-        if(![db executeUpdate:@"UPDATE album SET (album_id, name, last_updated) VALUES (?, ?, ?) WHERE album_id=?",
-             album.albumId,
+        if(![db executeUpdate:@"UPDATE album SET album_id=?, name=?, last_updated=? WHERE album_id=?",
+             [NSNumber numberWithLongLong:album.albumId],
              album.name,
              album.dateUpdated,
-             album.albumId]) {
+             [NSNumber numberWithLongLong:album.albumId]]) {
             ABORT_TRANSACTION;
         }
 
@@ -162,7 +162,7 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
             // with a null value, but that won't cause much harm, it will
             // just cause the album to be unnecessary refreshed one more time)
             if(![db executeUpdate:@"INSERT OR REPLACE INTO album (album_id, name, last_updated) VALUES (?, ?, ?)",
-                 album.albumId,
+                 [NSNumber numberWithLongLong:album.albumId],
                  album.name,
                  album.dateUpdated]) {
                 ABORT_TRANSACTION;
