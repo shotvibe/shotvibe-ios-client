@@ -7,6 +7,7 @@
 //
 
 #import "AlbumManager.h"
+#import "AlbumSummary.h"
 
 enum RefreshStatus
 {
@@ -84,6 +85,12 @@ enum RefreshStatus
                 // TODO Schedule to retry soon
                 return;
             }
+
+            latestAlbumsList = [latestAlbumsList sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+                AlbumSummary *lhs = a;
+                AlbumSummary *rhs = b;
+                return [lhs.dateUpdated compare:rhs.dateUpdated];
+            }];
 
             dispatch_sync(dispatch_get_main_queue(), ^{
                 if (refreshStatus == REFRESHING) {
