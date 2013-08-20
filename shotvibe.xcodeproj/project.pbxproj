@@ -489,6 +489,9 @@
 		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
 		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
 		3B58318517B5C4C10059C1CA /* AuthData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318417B5C4C10059C1CA /* AuthData.m */; };
+		3BE0B10E17C2BA3E0058CAAD /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */; };
+		3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11017C2BFA20058CAAD /* FMResultSet.m */; };
+		3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */; };
 		AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
 		AA2347BF177A783100D55918 /* SVHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2347BE177A783100D55918 /* SVHttpClient.m */; };
 		AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234837177AA3F600D55918 /* AFHTTPClient.m */; };
@@ -1109,6 +1112,12 @@
 		3B58318117B5C4560059C1CA /* ShotVibeAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShotVibeAPI.m; sourceTree = "<group>"; };
 		3B58318317B5C4C00059C1CA /* AuthData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthData.h; sourceTree = "<group>"; };
 		3B58318417B5C4C10059C1CA /* AuthData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthData.m; sourceTree = "<group>"; };
+		3BE0B10C17C2BA3E0058CAAD /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = FMDB/FMDatabase.h; sourceTree = "<group>"; };
+		3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = FMDB/FMDatabase.m; sourceTree = "<group>"; };
+		3BE0B10F17C2BFA20058CAAD /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = FMDB/FMResultSet.h; sourceTree = "<group>"; };
+		3BE0B11017C2BFA20058CAAD /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = FMDB/FMResultSet.m; sourceTree = "<group>"; };
+		3BE0B11217C2BFE60058CAAD /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = FMDB/FMDatabasePool.h; sourceTree = "<group>"; };
+		3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = FMDB/FMDatabasePool.m; sourceTree = "<group>"; };
 		AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumListViewCell.h; path = Controllers/SVAlbumListViewCell.h; sourceTree = "<group>"; };
 		AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumListViewCell.m; path = Controllers/SVAlbumListViewCell.m; sourceTree = "<group>"; };
 		AA2347BD177A783100D55918 /* SVHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVHttpClient.h; sourceTree = "<group>"; };
@@ -1844,6 +1853,19 @@
 			name = AlbumManagement;
 			sourceTree = "<group>";
 		};
+		3BE0B10B17C2B9E70058CAAD /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				3BE0B10C17C2BA3E0058CAAD /* FMDatabase.h */,
+				3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */,
+				3BE0B11217C2BFE60058CAAD /* FMDatabasePool.h */,
+				3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */,
+				3BE0B10F17C2BFA20058CAAD /* FMResultSet.h */,
+				3BE0B11017C2BFA20058CAAD /* FMResultSet.m */,
+			);
+			name = FMDB;
+			sourceTree = "<group>";
+		};
 		AA12881316CB8774002AC699 /* Albums */ = {
 			isa = PBXGroup;
 			children = (
@@ -2056,6 +2078,7 @@
 				AA234835177AA3F600D55918 /* AFNetworking */,
 				0426B6751724EC26007BAABC /* AVCam */,
 				04C404DC1730301500973BC0 /* CountryPicker */,
+				3BE0B10B17C2B9E70058CAAD /* FMDB */,
 				04C407F017305E4C00973BC0 /* libPhoneNumber */,
 				AA89F4DE177D49E600B782A1 /* MagicalRecord */,
 				04734F2A16CF104F003F729B /* MFSideMenu */,
@@ -2946,6 +2969,9 @@
 				3B58318517B5C4C10059C1CA /* AuthData.m in Sources */,
 				2854C28617BA10E60090BD3E /* RCImageView.m in Sources */,
 				2854C28917BA178D0090BD3E /* RCScrollView.m in Sources */,
+				3BE0B10E17C2BA3E0058CAAD /* FMDatabase.m in Sources */,
+				3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */,
+				3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
