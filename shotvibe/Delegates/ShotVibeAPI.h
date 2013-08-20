@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "AuthData.h"
+#import "AlbumContents.h"
 
 @interface ShotVibeAPI : NSObject
 
@@ -22,5 +23,7 @@
 
 // Returns an array of `AlbumSummary` objects
 - (NSArray *)getAlbumsWithError:(NSError **)error;
+
+- (AlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error;
 
 @end

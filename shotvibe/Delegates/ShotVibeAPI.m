@@ -11,6 +11,7 @@
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
+#import "AlbumMember.h"
 
 @interface Response : NSObject
 
@@ -146,6 +147,70 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return results;
 }
 
+- (AlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error
+{
+    NSError *responseError;
+    Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/", albumId] method:@"GET" body:nil error:&responseError];
+
+    if (!response) {
+        *error = responseError;
+        return nil;
+    }
+
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return nil;
+    }
+
+    @try {
+        return [ShotVibeAPI parseAlbumContents:[[JSONObject alloc] initWithData:response.body]
+                                          etag:[ShotVibeAPI responseGetEtag:response]];
+    }
+    @catch (JSONException *exception) {
+        *error = [ShotVibeAPI createErrorFromJSONException:exception];
+        return nil;
+    }
+}
+
+// May throw a JSONException!
++ (AlbumContents *)parseAlbumContents:(JSONObject *)obj etag:(NSString *)etag
+{
+    NSNumber *albumId = [obj getNumber:@"id"];
+
+    NSString *name = [obj getString:@"name"];
+    NSDate *dateCreated = [obj getDate:@"date_created"];
+    NSDate *dateUpdated = [obj getDate:@"last_updated"];
+
+    JSONArray *membersArray = [obj getJSONArray:@"members"];
+
+    NSArray *photos = [ShotVibeAPI parsePhotoList:[obj getJSONArray:@"photos"]];
+
+    NSMutableArray *members = [[NSMutableArray alloc] init];
+    for (int i = 0; i < membersArray.count; ++i) {
+        JSONObject *memberObj = [membersArray getJSONObject:i];
+        NSNumber *memberId = [memberObj getNumber:@"id"];
+        NSString *memberNickname = [memberObj getString:@"nickname"];
+        NSString *memberAvatarUrl = [memberObj getString:@"avatar_url"];
+
+        AlbumMember *albumMember = [[AlbumMember alloc] initWithMemberId:[memberId longLongValue]
+                                                                nickname:memberNickname
+                                                               avatarUrl:memberAvatarUrl];
+
+        [members addObject:albumMember];
+    }
+
+    AlbumContents *albumContents = [[AlbumContents alloc] initWithAlbumId:[albumId longLongValue]
+                                                                     etag:etag
+                                                                     name:name
+                                                              dateCreated:dateCreated
+                                                              dateUpdated:dateUpdated
+                                                                   photos:photos
+                                                                  members:members];
+
+    return albumContents;
+}
+
+// May throw a JSONException!
 + (NSArray *)parsePhotoList:(JSONArray *)photosArray
 {
     NSMutableArray *results = [[NSMutableArray alloc] init];
@@ -231,5 +296,28 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return response;
 }
 
++ (NSString *)responseGetEtag:(Response *)response
+{
+    for (NSString *key in response.headers) {
+        if ([[key lowercaseString] isEqualToString:@"etag"]) {
+            NSString *value = [response.headers objectForKey:key];
+
+            if ([value length] < 2 ||
+                [value characterAtIndex:0] != '"' ||
+                [value characterAtIndex:[value length] - 1] != '"') {
+                // Malformed ETag header
+                // TODO Might want to log this
+                return nil;
+            }
+
+            // Remove the quote('"') characters from the beginning and end of the string.
+            // TODO To be really correct, should properly unescape the string
+            return [[value substringToIndex:[value length] - 1] substringFromIndex:1];
+        }
+    }
+
+    // "etag" header not found
+    return nil;
+}
 
 @end
