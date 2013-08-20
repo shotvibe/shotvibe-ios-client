@@ -9,6 +9,8 @@
 #import "ShotVibeAPI.h"
 #import "JSON.h"
 #import "AlbumSummary.h"
+#import "AlbumPhoto.h"
+#import "AlbumServerPhoto.h"
 
 @interface Response : NSObject
 
@@ -147,10 +149,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 + (NSArray *)parsePhotoList:(JSONArray *)photosArray
 {
     NSMutableArray *results = [[NSMutableArray alloc] init];
-    return results;
 
-    // TODO ...
-    /*
     for (int i = 0; i < [photosArray count]; ++i) {
         JSONObject *photoObj = [photosArray getJSONObject:i];
         NSString *photoId = [photoObj getString:@"photo_id"];
@@ -158,10 +157,19 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSDate *photoDateCreated = [photoObj getDate:@"date_created"];
 
         JSONObject *authorObj = [photoObj getJSONObject:@"author"];
+        NSNumber *authorId = [authorObj getNumber:@"id"];
+        NSString *authorNickname = [authorObj getString:@"nickname"];
 
-        // TODO ...
+        AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
+                                                                                   url:photoUrl
+                                                                          authorUserId:[authorId longLongValue]
+                                                                        authorNickname:authorNickname
+                                                                             dateAdded:photoDateCreated];
+        AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
+        [results addObject:albumPhoto];
     }
-    */
+
+    return results;
 }
 
 + (NSError *)createErrorFromResponse:(Response *)response
