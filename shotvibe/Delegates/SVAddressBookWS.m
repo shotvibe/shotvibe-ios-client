@@ -108,9 +108,16 @@
 		if (lastName == nil) lastName = @"";
 		
         [aMember setObject:[NSString stringWithFormat:@"%@ %@", firstName, lastName] forKey:kMemberNickname];
-        [aMember setObject:[NSString stringWithFormat:@"%@", firstName] forKey:kMemberFirstName];
-        [aMember setObject:[NSString stringWithFormat:@"%@", lastName] forKey:kMemberLastName];
+        [aMember setObject:firstName forKey:kMemberFirstName];
+		[aMember setObject:lastName forKey:kMemberLastName];
 		[aMember setObject:[NSNumber numberWithInt:k] forKey:@"tag"];
+		
+		if(ABPersonHasImageData((__bridge ABRecordRef)aPerson)) {
+			NSData *contactImageData = (__bridge_transfer NSData*) ABPersonCopyImageDataWithFormat((__bridge ABRecordRef)aPerson, kABPersonImageFormatThumbnail);
+			UIImage *img = [[UIImage alloc] initWithData:contactImageData];
+			[aMember setObject:img forKey:kMemberIcon];
+		}
+		
 		k++;
         
         ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)aPerson, kABPersonPhoneProperty);

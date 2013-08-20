@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SVEntityStore.h"
 #import "Album.h"
+#import "SVContactCell.h"
 
 @interface SVAddFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 {

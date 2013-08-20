@@ -476,8 +476,6 @@
 		28D4761417AFB79E00C189AB /* SVSidebarAlbumManagementActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D475DA17AC375400C189AB /* SVSidebarAlbumManagementActivityCell.m */; };
 		28D4761517AFC5CB00C189AB /* SVSidebarAlbumManagementSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */; };
 		28D4761817B0F09E00C189AB /* SVSidebarAlbumSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */; };
-		28D4761B17B10BF000C189AB /* LabelNewPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 28D4761917B10BF000C189AB /* LabelNewPhoto.png */; };
-		28D4761C17B10BF000C189AB /* LabelNewPhoto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28D4761A17B10BF000C189AB /* LabelNewPhoto@2x.png */; };
 		28D4761F17B1210100C189AB /* SVUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4761E17B1210000C189AB /* SVUploadManager.m */; };
 		28D4762217B1344800C189AB /* SVDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4762117B1344700C189AB /* SVDownloadManager.m */; };
 		28E94C1F17C25EC500874BDE /* SVSettingsAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C1E17C25EC500874BDE /* SVSettingsAboutViewController.m */; };
@@ -492,6 +490,13 @@
 		28E94C3517C2C4AE00874BDE /* IconMove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2E17C2C4AE00874BDE /* IconMove@2x.png */; };
 		28E94C3717C2C9E800874BDE /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28E94C3617C2C9E700874BDE /* EventKit.framework */; };
 		28E94C3A17C3507D00874BDE /* SVActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C3917C3507D00874BDE /* SVActivityViewController.m */; };
+		28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C9217C3B06900874BDE /* SVContactCell.m */; };
+		28E94C9B17C3FB6300874BDE /* ContactIsMember.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9517C3FB6300874BDE /* ContactIsMember.png */; };
+		28E94C9C17C3FB6300874BDE /* ContactIsMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9617C3FB6300874BDE /* ContactIsMember@2x.png */; };
+		28E94C9D17C3FB6300874BDE /* MemberInvited.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9717C3FB6300874BDE /* MemberInvited.png */; };
+		28E94C9E17C3FB6300874BDE /* MemberInvited@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9817C3FB6300874BDE /* MemberInvited@2x.png */; };
+		28E94C9F17C3FB6300874BDE /* MemberJoined.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9917C3FB6300874BDE /* MemberJoined.png */; };
+		28E94CA017C3FB6300874BDE /* MemberJoined@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
 		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
@@ -1095,8 +1100,6 @@
 		28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVSidebarAlbumManagementSection.xib; path = Views/SVSidebarAlbumManagementSection.xib; sourceTree = "<group>"; };
 		28D4761617B0F09C00C189AB /* SVSidebarAlbumSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSidebarAlbumSection.h; sourceTree = "<group>"; };
 		28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSidebarAlbumSection.m; sourceTree = "<group>"; };
-		28D4761917B10BF000C189AB /* LabelNewPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LabelNewPhoto.png; sourceTree = "<group>"; };
-		28D4761A17B10BF000C189AB /* LabelNewPhoto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LabelNewPhoto@2x.png"; sourceTree = "<group>"; };
 		28D4761D17B1210000C189AB /* SVUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploadManager.h; sourceTree = "<group>"; };
 		28D4761E17B1210000C189AB /* SVUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploadManager.m; sourceTree = "<group>"; };
 		28D4762017B1344700C189AB /* SVDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDownloadManager.h; sourceTree = "<group>"; };
@@ -1117,6 +1120,14 @@
 		28E94C3617C2C9E700874BDE /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		28E94C3817C3507D00874BDE /* SVActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActivityViewController.h; sourceTree = "<group>"; };
 		28E94C3917C3507D00874BDE /* SVActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVActivityViewController.m; sourceTree = "<group>"; };
+		28E94C9117C3B06800874BDE /* SVContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVContactCell.h; path = Views/SVContactCell.h; sourceTree = "<group>"; };
+		28E94C9217C3B06900874BDE /* SVContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVContactCell.m; path = Views/SVContactCell.m; sourceTree = "<group>"; };
+		28E94C9517C3FB6300874BDE /* ContactIsMember.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ContactIsMember.png; path = Contacts/ContactIsMember.png; sourceTree = "<group>"; };
+		28E94C9617C3FB6300874BDE /* ContactIsMember@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ContactIsMember@2x.png"; path = "Contacts/ContactIsMember@2x.png"; sourceTree = "<group>"; };
+		28E94C9717C3FB6300874BDE /* MemberInvited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MemberInvited.png; path = Contacts/MemberInvited.png; sourceTree = "<group>"; };
+		28E94C9817C3FB6300874BDE /* MemberInvited@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MemberInvited@2x.png"; path = "Contacts/MemberInvited@2x.png"; sourceTree = "<group>"; };
+		28E94C9917C3FB6300874BDE /* MemberJoined.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MemberJoined.png; path = Contacts/MemberJoined.png; sourceTree = "<group>"; };
+		28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MemberJoined@2x.png"; path = "Contacts/MemberJoined@2x.png"; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPushNotificationsManager.h; sourceTree = "<group>"; };
 		3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPushNotificationsManager.m; sourceTree = "<group>"; };
@@ -1768,8 +1779,6 @@
 		2897383217A1C08D003B18D3 /* cells related */ = {
 			isa = PBXGroup;
 			children = (
-				28D4761917B10BF000C189AB /* LabelNewPhoto.png */,
-				28D4761A17B10BF000C189AB /* LabelNewPhoto@2x.png */,
 				042E285517309857003BA9CF /* imageUnselected@2x.png */,
 				042E285617309857003BA9CF /* imageUnselected.png */,
 				042E285717309857003BA9CF /* imageSelected@2x.png */,
@@ -1833,6 +1842,12 @@
 		28D4759617AC264B00C189AB /* AlbumManagement */ = {
 			isa = PBXGroup;
 			children = (
+				28E94C9517C3FB6300874BDE /* ContactIsMember.png */,
+				28E94C9617C3FB6300874BDE /* ContactIsMember@2x.png */,
+				28E94C9717C3FB6300874BDE /* MemberInvited.png */,
+				28E94C9817C3FB6300874BDE /* MemberInvited@2x.png */,
+				28E94C9917C3FB6300874BDE /* MemberJoined.png */,
+				28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */,
 				28D4759717AC267200C189AB /* AlbumActivityDeleteIcon.png */,
 				28D4759817AC267200C189AB /* AlbumActivityDeleteIcon@2x.png */,
 				28D4759917AC267200C189AB /* AlbumActivityIcon.png */,
@@ -2067,6 +2082,8 @@
 				28D475DA17AC375400C189AB /* SVSidebarAlbumManagementActivityCell.m */,
 				28D475DD17AC45FE00C189AB /* SVSidebarAlbumManagementSection.h */,
 				28D475DE17AC45FE00C189AB /* SVSidebarAlbumManagementSection.m */,
+				28E94C9117C3B06800874BDE /* SVContactCell.h */,
+				28E94C9217C3B06900874BDE /* SVContactCell.m */,
 				28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */,
 				AA58FB1216C224E800C49E02 /* MainStoryboard.storyboard */,
 			);
@@ -2820,8 +2837,6 @@
 				28D4761217AFB77A00C189AB /* ClosureIndicator.png in Resources */,
 				28D4761317AFB77A00C189AB /* ClosureIndicator@2x.png in Resources */,
 				28D4761517AFC5CB00C189AB /* SVSidebarAlbumManagementSection.xib in Resources */,
-				28D4761B17B10BF000C189AB /* LabelNewPhoto.png in Resources */,
-				28D4761C17B10BF000C189AB /* LabelNewPhoto@2x.png in Resources */,
 				2854C28C17BB85100090BD3E /* butInvitedContacts.png in Resources */,
 				2854C28D17BB85100090BD3E /* butInvitedContacts@2x.png in Resources */,
 				28E94C2F17C2C4AE00874BDE /* IconCopy.png in Resources */,
@@ -2831,6 +2846,12 @@
 				28E94C3317C2C4AE00874BDE /* IconMail.png in Resources */,
 				28E94C3417C2C4AE00874BDE /* IconMail@2x.png in Resources */,
 				28E94C3517C2C4AE00874BDE /* IconMove@2x.png in Resources */,
+				28E94C9B17C3FB6300874BDE /* ContactIsMember.png in Resources */,
+				28E94C9C17C3FB6300874BDE /* ContactIsMember@2x.png in Resources */,
+				28E94C9D17C3FB6300874BDE /* MemberInvited.png in Resources */,
+				28E94C9E17C3FB6300874BDE /* MemberInvited@2x.png in Resources */,
+				28E94C9F17C3FB6300874BDE /* MemberJoined.png in Resources */,
+				28E94CA017C3FB6300874BDE /* MemberJoined@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2992,6 +3013,7 @@
 				28E94C2517C2BA6600874BDE /* SVLinkActivity.m in Sources */,
 				28E94C2617C2BA6600874BDE /* SVLinkEvent.m in Sources */,
 				28E94C3A17C3507D00874BDE /* SVActivityViewController.m in Sources */,
+				28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -148,23 +148,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
+    SVContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
     
 	NSArray *sectionRecords = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
 	
-    cell.textLabel.text = [sectionRecords[indexPath.row] objectForKey:kMemberNickname];
-    cell.detailTextLabel.text = [sectionRecords[indexPath.row] objectForKey:kMemberPhone];
+    cell.titleLabel.text = [sectionRecords[indexPath.row] objectForKey:kMemberNickname];
+    cell.subtitleLabel.text = [sectionRecords[indexPath.row] objectForKey:kMemberPhone];
+    cell.contactIcon.image = [sectionRecords[indexPath.row] objectForKey:kMemberIcon];
 	
 	NSMutableDictionary *member = [sectionRecords objectAtIndex:indexPath.row];
-	int s = [member[@"selected"] boolValue];
-	NSLog(@"member %i", s);
-	
 	BOOL contains = [member[@"selected"] boolValue];
-	
-	cell.imageView.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
+	cell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
     
     return cell;
 }
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
 }
@@ -208,7 +206,7 @@
 {
 	[self.searchBar resignFirstResponder];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-	UITableViewCell *tappedCell = [tableView cellForRowAtIndexPath:indexPath];
+	SVContactCell *tappedCell = (SVContactCell*)[tableView cellForRowAtIndexPath:indexPath];
 	
 	NSArray *sectionRecords = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
 	
@@ -217,7 +215,7 @@
 	
 	NSMutableDictionary *member = [sectionRecords objectAtIndex:indexPath.row];
 	BOOL contains = [member[@"selected"] boolValue];
-	tappedCell.imageView.image = [UIImage imageNamed:contains?@"imageUnselected":@"imageSelected"];
+	tappedCell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageUnselected":@"imageSelected"];
 	
 	if (contains) {
 		NSLog(@"remove contact %@", member);

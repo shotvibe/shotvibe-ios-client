@@ -40,6 +40,7 @@ static NSString * const kAPIBaseURLString = @"https://api.shotvibe.com/";
 #define kMemberPhone        @"phone"
 #define kMemberFirstName    @"firstName"
 #define kMemberLastName     @"lastname"
+#define kMemberIcon			@"member_icon"
 
 #define kUserCountryCode	@"country_code"
 
