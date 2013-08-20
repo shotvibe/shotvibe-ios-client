@@ -400,7 +400,7 @@
 	if (currentImage != nil) {
 		[activityItems addObject:currentImage];
 	}
-    SVLinkEvent *linkEvent = [self createLinkEvent];
+    //SVLinkEvent *linkEvent = [self createLinkEvent];
     
 	// Application activities
     SVLinkActivity *linkActivity = [[SVLinkActivity alloc] init];

@@ -284,22 +284,6 @@
 }
 
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-        return UIEdgeInsetsMake(5, 5, 5, 5);
-    }
-    
-    if (IS_IPHONE_5) {
-        return UIEdgeInsetsMake(5, 12, 5, 12);
-    }
-    else
-    {
-        return UIEdgeInsetsMake(5, 17, 5, 17);
-    }
-}
-
-
 #pragma mark - UIScrollViewDelegate Methods
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
