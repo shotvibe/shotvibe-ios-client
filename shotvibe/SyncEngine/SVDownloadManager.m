@@ -34,7 +34,7 @@
 }
 
 
-- (void) downloadAlbums {
+- (void) download {
 	
 	if (busy) {
 		NSLog(@"SVDownloadManager is busy");
@@ -42,9 +42,7 @@
 	}
 	NSLog(@"SVDownloadManager downloadAlbums");
 	
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	});
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	
 	ctxAlbums = [NSManagedObjectContext context];
 	busy = YES;
@@ -52,9 +50,11 @@
 	// Setup the Album request
     NSMutableURLRequest *theRequest = [[SVHttpClient sharedClient] requestWithMethod:@"GET" path:@"albums/" parameters:nil];
     
-	NSString *lastRequestDate = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAlbumsLastRequestedDate];
-	if ((lastRequestDate && !FORCE_RELOAD) || !FORCE_RELOAD) {
-		[theRequest setValue:lastRequestDate forHTTPHeaderField:@"If-Modified-Since"];
+	if (!FORCE_RELOAD) {
+		NSString *lastRequestDate = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAlbumsLastRequestedDate];
+		if (lastRequestDate) {
+			[theRequest setValue:lastRequestDate forHTTPHeaderField:@"If-Modified-Since"];
+		}
 	}
     
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
@@ -98,6 +98,7 @@
 	[albumsWithUpdates removeAllObjects];
     
 	NSLog(@"processAlbumsJSON albums count %i ", albums.count);
+	NSLog(@"processAlbumsJSON albums: %@ ", albums);
 	
 	[_queue addOperationWithBlock:^{
 		
@@ -225,6 +226,7 @@
 	}
 }
 
+// this runs in the queue
 - (void) downloadAlbumDetails:(NSString*)albumId {
 	
     OldAlbum *album = [OldAlbum findFirstByAttribute:@"albumId" withValue:albumId inContext:ctxPhotos];
@@ -234,15 +236,17 @@
 	NSLog(@"-----------> Album with creation date. %@", album.date_created);
 	
 	// The album has no date if it's the first sync
-	if (album.date_created != nil && album.etag != nil) {
-		[theRequest setValue:album.etag forHTTPHeaderField:[NSString stringWithUTF8String:"If-None-Match"]];
+	if (!FORCE_RELOAD) {
+		if (album.date_created != nil && album.etag != nil) {
+			[theRequest setValue:album.etag forHTTPHeaderField:[NSString stringWithUTF8String:"If-None-Match"]];
+		}
 	}
 	
 	AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:theRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
 		
 		[_queue addOperationWithBlock:^{
 			
-			NSLog(@"executing processAlbumsDetailsJSON operation with status code %i", response.statusCode);
+			NSLog(@"-----------> This album has updates. ProcessAlbumsDetailsJSON operation with status code %i", response.statusCode);
 			[self processAlbumsDetailsJSON:JSON];
 			[self downloadNextAlbumDetails];
 		}];
@@ -419,16 +423,15 @@
     }
 	else {
 		//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		[_queue addOperationWithBlock:^{
+		dispatch_async(dispatch_get_global_queue(0,0),^{
 			[self downloadPhoto:photo];
-		}];
-		//});
+		});
 	}
 }
 
 - (void)downloadPhoto:(OldAlbumPhoto*)aPhoto {
 	
-    NSLog(@"***********************  downloading photo %@ ", aPhoto.photo_id);
+    NSLog(@"***********************  downloading photo from server %@ ", aPhoto.photo_id);
 	
 	[[SVEntityStore sharedStore] getImageForPhoto:aPhoto WithCompletion:^(UIImage *image) {
 		
@@ -436,7 +439,7 @@
 		[localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncCompleted]];
 		
 		//localPhoto.album.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
-		[[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineDownloadIndividualCompletedNotification object:aPhoto.objectID];
+		//[[NSNotificationCenter defaultCenter] postNotificationName:kSVSyncEngineDownloadIndividualCompletedNotification object:aPhoto.objectID];
 		
 		//dispatch_async(dispatch_get_main_queue(), ^{
 			[self downloadNextPhoto];
@@ -505,31 +508,6 @@
 	
     dateString = [dateString substringWithRange:NSMakeRange(0, [dateString length]-5)];
     return [dateFormatter dateFromString:dateString];
-}
-
-
-
-#pragma mark Saving photos to disk
-
-- (NSURL *)imageDataDirectory {
-	
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *applicationDocumentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-    NSURL *url = [NSURL URLWithString:@"SVImages/" relativeToURL:applicationDocumentsDirectory];
-    NSURL *fileURL = [NSURL fileURLWithPath:[url path] isDirectory:YES];
-    
-    NSError *error = nil;
-    if (![fileManager fileExistsAtPath:[fileURL path]]) {
-        [fileManager createDirectoryAtPath:[fileURL path] withIntermediateDirectories:YES attributes:nil error:&error];
-    }
-    
-    NSError *attributeError = nil;
-    BOOL success = [fileURL setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
-    if(!success){
-        NSLog(@"Error excluding %@ from backup %@", [fileURL lastPathComponent], attributeError);
-    }
-    
-    return fileURL;
 }
 
 

@@ -6,16 +6,24 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "AFHTTPClient.h"
-#import "OldAlbum.h"
 #import <Foundation/Foundation.h>
+#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperation.h"
+#import "AFJSONRequestOperation.h"
+#import "OldAlbum.h"
+#import "OldAlbumPhoto.h"
+#import "OldMember.h"
+#import "SVDefines.h"
+#import "SVBusinessDelegate.h"
+#import "MagicalRecordShorthand.h"
+#import "MagicalRecord+Actions.h"
+#import "NSManagedObjectContext+MagicalRecord.h"
 
 @interface SVEntityStore : AFHTTPClient
 
 #pragma mark - Class Methods
 
 + (SVEntityStore *)sharedStore;
-
 
 #pragma mark - Registration Methods
 
@@ -41,6 +49,7 @@
 #pragma mark - Image Methods
 
 @property (nonatomic, strong) NSURL *imageDataDirectory;
+- (NSURL *)imageDataDirectory;
 - (void)wipe;
 
 - (void)setAllPhotosToNotNew;

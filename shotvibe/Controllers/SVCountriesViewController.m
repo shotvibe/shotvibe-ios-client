@@ -47,9 +47,9 @@
     }
 	allCountryCodes = [[NSArray alloc] initWithArray:countryCodes];
 	
-	countryCode_ = [[NSUserDefaults standardUserDefaults] stringForKey:kUserCountryCode];
-	if (countryCode_ == nil)
-		countryCode_ = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+	regionCode = [[NSUserDefaults standardUserDefaults] stringForKey:kUserCountryCode];
+	if (regionCode == nil)
+		regionCode = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
 	
 	// Configure views
 	
@@ -62,7 +62,7 @@
 - (void)viewDidAppear:(BOOL)animated{
 	
 	for (int i=0; i<countryCodes.count; i++) {
-		if ([[countryCodes objectAtIndex:i] isEqualToString:countryCode_]) {
+		if ([[countryCodes objectAtIndex:i] isEqualToString:regionCode]) {
 			[self.countriesTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
 			break;
 		}
@@ -71,7 +71,7 @@
 
 
 - (NSString*) selectedCountryCode {
-	return countryCode_;
+	return regionCode;
 }
 
 
@@ -102,7 +102,7 @@
     cell.code.text = [NSString stringWithFormat:@"+%i", countryCode];
 	cell.countryImage.image = [UIImage imageNamed:[countryCodes objectAtIndex:indexPath.row]];
 	
-	if ([countryCode_ isEqualToString:[countryCodes objectAtIndex:indexPath.row]]) {
+	if ([regionCode isEqualToString:[countryCodes objectAtIndex:indexPath.row]]) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	}
 	else {
@@ -136,10 +136,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	countryCode_ = [countryCodes objectAtIndex:indexPath.row];
+	regionCode = [countryCodes objectAtIndex:indexPath.row];
 	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
 	
-	[self.delegate didSelectCountryWithName:[countryNames objectAtIndex:indexPath.row] code:[countryCode_ copy]];
+	[self.delegate didSelectCountryWithName:[countryNames objectAtIndex:indexPath.row] regionCode:[regionCode copy]];
 	
 	[self.navigationController popViewControllerAnimated:YES];
 }

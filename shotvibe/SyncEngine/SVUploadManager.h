@@ -15,7 +15,6 @@
 #import "OldAlbum.h"
 #import "OldAlbumPhoto.h"
 #import "OldMember.h"
-#import "SVDownloadManager.h"
 
 @interface SVUploadManager : NSObject {
 	
@@ -25,15 +24,15 @@
 	NSMutableArray *albumsToUpload;
 	NSMutableDictionary *photosToUpload;
 	AFHTTPClient *uploader;
-	NSOperationQueue *_queue;
 	BOOL busy;
+	BOOL restartUploadWhenFinished;
 	OldAlbum *activeAlbum;
 }
 
 + (SVUploadManager *)sharedManager;
 
-- (void) uploadAlbums;// this will create albums on server that were not created because of internet connection
-- (void) uploadPhotos;// upload all the photos that are marked as needed to upload
+- (void) upload;// this will create albums on server that were not created because of internet connection
+//- (void) uploadPhotos;// upload all the photos that are marked as needed to upload
 - (void) deleteAlbums;
 - (void) deletePhotos;
 

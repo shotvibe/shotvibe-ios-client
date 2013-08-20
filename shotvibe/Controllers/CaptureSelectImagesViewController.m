@@ -38,17 +38,6 @@
 }
 
 
-#pragma mark - Initializers
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void) setTakenPhotos:(NSArray *)takenPhotos {
 	
 	selectedPhotos = [[NSMutableArray alloc] initWithArray:takenPhotos];
@@ -71,13 +60,12 @@
 		selectedPhotos = [[NSMutableArray alloc] init];
 	}
     
-    [self.gridView registerClass:[SVSelectionGridCell class] forCellWithReuseIdentifier:@"SVSelectionCell"];
+    [self.gridView registerClass:[SVSelectionGridCell class] forCellWithReuseIdentifier:@"SVSelectionGridCell"];
     
     if (self.selectedGroup) {
         self.title = [self.selectedGroup valueForProperty:ALAssetsGroupPropertyName];
     }
-    else
-    {
+    else {
         self.title = NSLocalizedString(@"Select To Upload", @"");
     }
     
@@ -86,22 +74,13 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
-    
 }
 
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -123,53 +102,42 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionCell" forIndexPath:indexPath];
-    
-    cell.imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
-    
-    if (self.selectedGroup) {
-        
-        ALAsset *asset = [self.takenPhotos objectAtIndex:indexPath.row];
-        cell.imageView.image = [UIImage imageWithCGImage:asset.thumbnail];
-        
-    }
-    else
-    {
-        UIImage *image = [UIImage imageWithContentsOfFile:[self.takenPhotos objectAtIndex:indexPath.row]];
-        
-        float oldWidth = image.size.width;
-        float scaleFactor = cell.imageView.frame.size.width / oldWidth;
-        
-        float newHeight = image.size.height * scaleFactor;
-        float newWidth = oldWidth * scaleFactor;
-        
-        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-        [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        cell.imageView.image = newImage;
-        
-    }
-    
-    [cell.contentView addSubview:cell.imageView];
-    
-    
-    // Configure the selection icon
-    
-    cell.selectionIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"imageUnselected.png"]];
-    cell.selectionIcon.userInteractionEnabled = NO;
-    cell.selectionIcon.tag = 9001;
-    
-    if ([selectedPhotos containsObject:[self.takenPhotos objectAtIndex:indexPath.row]]) {
-        
-        cell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
-    }
-    
-    cell.selectionIcon.frame = CGRectMake(cell.imageView.frame.size.width - cell.selectionIcon.bounds.size.width - 5, cell.imageView.frame.size.height - cell.selectionIcon.bounds.size.height - 5, cell.selectionIcon.frame.size.width, cell.selectionIcon.frame.size.height);
-    
-    [cell.contentView addSubview:cell.selectionIcon];
-    
+    SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionGridCell" forIndexPath:indexPath];
+	
+	dispatch_async(dispatch_get_global_queue(0,0),^{
+		
+		UIImage *image;
+		
+		if (self.selectedGroup) {
+			ALAsset *asset = [self.takenPhotos objectAtIndex:indexPath.row];
+			image = [UIImage imageWithCGImage:asset.thumbnail];
+		}
+		else {
+			UIImage *large_image = [UIImage imageWithContentsOfFile:[self.takenPhotos objectAtIndex:indexPath.row]];
+			
+			float oldWidth = large_image.size.width;
+			float scaleFactor = cell.imageView.frame.size.width / oldWidth;
+			
+			float newHeight = large_image.size.height * scaleFactor;
+			float newWidth = oldWidth * scaleFactor;
+			
+			UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+			[image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+			image = UIGraphicsGetImageFromCurrentImageContext();
+			UIGraphicsEndImageContext();
+		}
+		dispatch_async(dispatch_get_main_queue(),^{
+			cell.imageView.image = image;
+		});
+	});
+	
+	if ([selectedPhotos containsObject:[self.takenPhotos objectAtIndex:indexPath.row]]) {
+		cell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+	}
+	else {
+		cell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+	}
+	
     return cell;
 }
 
@@ -191,7 +159,8 @@
         [selectedPhotos removeObject:[self.takenPhotos objectAtIndex:indexPath.row]];
         selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
     }
-
+	
+	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
 }
 
 
@@ -200,29 +169,21 @@
 
 - (void)doneButtonPressed
 {
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+	NSLog(@"====================== 0. Done button pressed");
+	
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		
 		[self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error){
-			
+			NSLog(@"====================== 2. Package selected photos, after block call %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
 			// Save the images inside the app with a random id
 			for (NSData *photoData in selectedPhotoPaths) {
 				
-				NSString *tempPhotoId = [[NSUUID UUID] UUIDString];
-				
 				[SVBusinessDelegate saveUploadedPhotoImageData:photoData
-													forPhotoId:tempPhotoId
+													forPhotoId:[[NSUUID UUID] UUIDString]
 												   withAlbumId:self.selectedAlbum.albumId];
 			}
-			
-			dispatch_async(dispatch_get_main_queue(), ^{
-				
-				
-			});
-			
 		}];
 	});
-	
-	//self.doneButton.enabled = YES;
 	
 	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
 		
@@ -236,8 +197,8 @@
 - (void)packageSelectedPhotos:(void (^)(NSArray *selectedPhotoPaths, NSError *error))block
 {
     NSMutableArray *selectedPhotoPaths = [[NSMutableArray alloc] init];
-    NSUInteger assetCount = 0;
-    
+	NSLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
+	
     if (self.selectedGroup) {
         
         for (ALAsset *asset in selectedPhotos) {
@@ -245,36 +206,20 @@
             Byte *buffer = (Byte*)malloc(rep.size);
             NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
             NSData *data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-            
             if (data) {
                 [selectedPhotoPaths addObject:data];
             }
-            
-            assetCount++;
-            
-            if (assetCount >= selectedPhotos.count) {
-                block(selectedPhotoPaths, nil);
-            }
-            
         }
     }
-    else
-    {
+    else {
         for (NSString *selectedPhotoPath in selectedPhotos) {
             NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
-            
             if (photoData) {
                 [selectedPhotoPaths addObject:photoData];
             }
-            
-            assetCount++;
-            
-            if (assetCount >= selectedPhotos.count) {
-                block(selectedPhotoPaths, nil);
-            }
         }
     }
-    
+	block(selectedPhotoPaths, nil);
 }
 
 @end

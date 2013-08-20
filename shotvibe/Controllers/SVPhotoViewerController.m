@@ -28,10 +28,6 @@
 @implementation SVPhotoViewerController
 
 
-//- (void) loadView {
-//	
-//}
-
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
@@ -258,6 +254,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+	NSLog(@"PhotoViewer did receive memory warning");
 	
     // Dispose of any resources that can be recreated.
 	
@@ -380,23 +377,59 @@
 	}];
 }
 
-
-- (void)exportButtonPressed
-{
-    // Do other stuff
-    
-    //UIActionSheet *exportOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-//destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Move Picture", @""), NSLocalizedString(@"Share to Facebook", @""),
-	//NSLocalizedString(@"Share to Instagram", @""), NSLocalizedString(@"Set as Profile Picture", @""), NSLocalizedString(@"Email photo", @""),
-	//NSLocalizedString(@"Get Link", @""), nil];
-    
-    //[exportOptions showFromToolbar:self.toolbar];
-}
-
-
 - (void)toggleMenu
 {
     [self.navigationController.sideMenu toggleRightSideMenu];
+}
+
+
+
+
+
+#pragma mark Custom Activity
+
+- (void)exportButtonPressed
+{
+	// Activity items
+	NSMutableArray *activityItems = [NSMutableArray array];
+	[activityItems addObject:NSLocalizedString(@"This is the text that goes with the sharing!", nil)];
+	[activityItems addObject:[NSURL URLWithString:@"http://shotvibe.com"]];
+	
+	OldAlbumPhoto *photo = [self.sortedPhotos objectAtIndex:self.index];
+	UIImage *currentImage = [[SVEntityStore sharedStore] getImageForPhoto:photo];
+	if (currentImage != nil) {
+		[activityItems addObject:currentImage];
+	}
+    //SVLinkEvent *linkEvent = [self createLinkEvent];
+    
+	// Application activities
+    SVLinkActivity *linkActivity = [[SVLinkActivity alloc] init];
+    linkActivity.delegate = self;
+    
+    SVActivityViewController* activity = [[SVActivityViewController alloc] initWithActivityItems:[NSArray arrayWithArray:activityItems]
+                                                                           applicationActivities:@[linkActivity]];
+    //activity.excludedActivityTypes = @[UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll, UIActivityTypeAssignToContact];
+    
+    [self presentViewController:activity animated:YES completion:NULL];
+}
+
+-(SVLinkEvent *)createLinkEvent
+{
+    SVLinkEvent *linkEvent = [[SVLinkEvent alloc] init];
+    linkEvent.URL = [NSURL URLWithString:@"http://shotvibe.com"];
+    return linkEvent;
+}
+
+#pragma mark - NHCalendarActivityDelegate
+
+-(void)calendarActivityDidFinish:(SVLinkEvent *)event
+{
+    NSLog(@"Event: %@", event.URL);
+}
+
+-(void)calendarActivityDidFail:(SVLinkEvent *)event withError:(NSError *)error
+{
+    NSLog(@"Ops!");
 }
 
 

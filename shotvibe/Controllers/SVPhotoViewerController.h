@@ -11,9 +11,11 @@
 #import "RCScrollView.h"
 #import "RCImageView.h"
 #import "OldAlbumPhoto.h"
+#import "SVLinkActivity.h"
+#import "SVActivityViewController.h"
 
 @class OldAlbumPhoto;
-@interface SVPhotoViewerController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate> {
+@interface SVPhotoViewerController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, SVLinkActivityDelegate> {
 	
 	RCScrollView *photosScrollView;
 }

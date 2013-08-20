@@ -149,7 +149,7 @@
 
     // When we get to the album list view we no longer need to worry about rotation blocks from logging in, switch it to allowing rotation.
     CaptureNavigationController *navController = (CaptureNavigationController *)self.navigationController;
-    navController.allowsRotation = YES;
+    //navController.allowsRotation = YES;
     
     self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
     self.imageLoadingQueue = [[NSOperationQueue alloc] init];
@@ -178,7 +178,7 @@
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 	}
 
-	[[SVDownloadManager sharedManager] downloadAlbums];
+	[[SVDownloadManager sharedManager] download];
 }
 
 
@@ -289,7 +289,7 @@
     //////////////
     return cell;
 	
-	dispatch_async(dispatch_get_global_queue(0,0),^{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0),^{
 		
 	if (cell.tag == tagIndex.row) {
 			
@@ -331,7 +331,12 @@
 			}
 			
 			dispatch_async(dispatch_get_main_queue(),^{
+				@try {
 				cell.author.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Last added by", @""), firstPhoto.author.nickname];
+				}
+				@catch (NSException *exc) {
+					NSLog(@"%@", exc);
+				}
 			});
 		}
 		else {
@@ -619,6 +624,7 @@
 - (void)createNewAlbumWithTitle:(NSString *)title
 {
 	[[SVEntityStore sharedStore] newAlbumWithName:title andUserID:[[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId]];
+	[[SVUploadManager sharedManager] upload];
 }
 
 
@@ -660,11 +666,11 @@
 
 - (void)downloadCompleted:(NSNotification *)notification
 {
-	NSLog(@"DOWNLOAD COMPLETE, reload albums cells and start the upload process");
+	NSLog(@"DOWNLOAD COMPLETE, start the upload process");
     //[self.fetchedResultsController performFetch:nil];
     //[self.tableView reloadData];
 	
-	[[SVUploadManager sharedManager] uploadPhotos];
+	[[SVUploadManager sharedManager] upload];
 }
 
 -(void)setAlbumList:(NSArray *)albums

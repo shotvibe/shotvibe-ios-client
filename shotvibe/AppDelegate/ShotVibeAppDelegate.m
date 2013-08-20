@@ -257,12 +257,13 @@ NSString * deviceDescription()
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
+#if !CONFIGURATION_Debug
     UIAlertView* failureAlert = [[UIAlertView alloc] initWithTitle:@"Error Registering for Push Notifications"
                                                            message:[error localizedDescription]
                                                           delegate:nil
                                                  cancelButtonTitle:@"OK"
                                                  otherButtonTitles:nil];
-#if !CONFIGURATION_Debug
+
     [failureAlert show];
 #endif
 }

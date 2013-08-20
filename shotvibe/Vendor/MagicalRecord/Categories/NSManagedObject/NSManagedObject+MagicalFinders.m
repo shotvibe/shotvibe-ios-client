@@ -23,6 +23,7 @@
 
 + (NSArray *) MR_findAll
 {
+	NSLog(@"find all");
 	return [self MR_findAllInContext:[NSManagedObjectContext MR_contextForCurrentThread]];
 }
 

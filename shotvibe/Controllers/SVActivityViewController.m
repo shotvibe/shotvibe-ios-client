@@ -1,19 +1,18 @@
 //
-//  SVHelpViewController.m
+//  SVActivityViewController.m
 //  shotvibe
 //
-//  Created by John Gabelmann on 4/16/13.
+//  Created by Baluta Cristian on 20/08/2013.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "SVHelpViewController.h"
-#import "SVDefines.h"
+#import "SVActivityViewController.h"
 
-@interface SVHelpViewController ()
-@property (nonatomic, strong) IBOutlet UITextView *helpTextView;
+@interface SVActivityViewController ()
+
 @end
 
-@implementation SVHelpViewController
+@implementation SVActivityViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,12 +27,16 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    if (!IS_IOS6_OR_GREATER) {
-        self.helpTextView.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:12];
-        self.helpTextView.textColor = [UIColor colorWithRed:0.46 green:0.50 blue:0.52 alpha:1.0];
-    }
-
+	
+	//self.view.backgroundColor = [UIColor whiteColor];
+//	UIActivityListView *listView;
+	
+	for (UIView *v in self.view.subviews) {
+		NSLog(@"%@", v);
+		for (UIView *v1 in v.subviews) {
+			NSLog(@"%@", v1);
+		}
+	}
 }
 
 - (void)didReceiveMemoryWarning

@@ -24,9 +24,8 @@
 @property (nonatomic, strong) IBOutlet UIView *phoneNumberPhaseContainer;
 @property (nonatomic, strong) IBOutlet UIImageView *countryFlagView;
 @property (nonatomic, strong) IBOutlet UITextField *phoneNumberField;
-@property (nonatomic, strong) IBOutlet UILabel *countryCodeLabel;
 
-@property (nonatomic, strong) NSString *countryCode;
+@property (nonatomic) int countryCode;
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *confirmationCode;
 

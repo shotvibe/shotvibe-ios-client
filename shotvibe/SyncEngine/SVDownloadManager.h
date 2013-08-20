@@ -29,9 +29,7 @@
 }
 
 + (SVDownloadManager *)sharedManager;
-- (NSURL *)imageDataDirectory;
 
-- (void) downloadAlbums;
-- (void) downloadPhotos;
+- (void) download;
 
 @end

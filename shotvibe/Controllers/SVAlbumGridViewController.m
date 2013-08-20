@@ -33,8 +33,6 @@
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
 @property (nonatomic, strong) IBOutlet UIView *noPhotosView;
 
-@property (nonatomic, strong) NSOperationQueue *imageLoadingQueue;
-
 - (void)toggleMenu;
 - (void)toggleManagement;
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
@@ -49,7 +47,6 @@
     NSMutableArray *_objectChanges;
     NSMutableArray *_sectionChanges;
     NSMutableDictionary *thumbnailCache;
-	NSOperationQueue *_queue;
 }
 
 
@@ -85,17 +82,12 @@
 {
     [super viewDidLoad];
 	
-	_queue = [[NSOperationQueue alloc] init];
-	
     self.title = self.selectedAlbum.name;
 	
     _objectChanges = [NSMutableArray array];
     _sectionChanges = [NSMutableArray array];
     thumbnailCache = [[NSMutableDictionary alloc] init];
 	
-    self.imageLoadingQueue = [[NSOperationQueue alloc] init];
-    self.imageLoadingQueue.maxConcurrentOperationCount = 1;
-     
     // Setup fetched results
     
     // Setup tabbar right button
@@ -113,38 +105,36 @@
 	
 	self.noPhotosView.hidden = (nrOfPhotos > 0);
 	
-	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-		
-		[self fetchedResultsController];
-		
-		// Initialize the sidebar menu
-		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-		self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
-		self.sidebarRight.parentController = self;
-		self.sidebarRight.selectedAlbum = self.selectedAlbum;
-		
-		self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
-		self.sidebarLeft.parentController = self;
-		
-		self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController
-												   leftSideMenuController:self.sidebarLeft
-												  rightSideMenuController:self.sidebarRight
-																  panMode:MFSideMenuPanModeNavigationController];
-		
-		[self.navigationController setSideMenu:self.sauronTheSideMenu];
-		[self configureMenuForOrientation:self.interfaceOrientation];
-		
-	}];
+	[self fetchedResultsController];
+	
+	// Initialize the sidebar menu
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
+	self.sidebarRight.parentController = self;
+	self.sidebarRight.selectedAlbum = self.selectedAlbum;
+	
+	self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
+	self.sidebarLeft.parentController = self;
+	
+	self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController
+											   leftSideMenuController:self.sidebarLeft
+											  rightSideMenuController:self.sidebarRight
+															  panMode:MFSideMenuPanModeNavigationController];
+	
+	[self.navigationController setSideMenu:self.sauronTheSideMenu];
+	[self configureMenuForOrientation:self.interfaceOrientation];
 }
 
 
-- (void)viewDidAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self.gridView reloadData];
+}
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-	//[self.gridView reloadData];
 	
 	// Restore the sidemenu state, when is hide it loses x position
-	NSLog(@"viewWillappear %i", self.navigationController.sideMenu.menuState);
+	NSLog(@"viewDidappear %i", self.navigationController.sideMenu.menuState);
 	if (self.navigationController.sideMenu.menuState != MFSideMenuStateClosed) {
 		[self.navigationController.sideMenu setMenuState:self.navigationController.sideMenu.menuState];
 	}
@@ -159,7 +149,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+    return UIInterfaceOrientationMaskPortrait;// UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 
@@ -224,9 +214,7 @@
     cell.tag = indexPath.row;
 	__block NSIndexPath *tagIndex = indexPath;
     
-	dispatch_async(dispatch_get_global_queue(0,0),^{
-		
-	if (cell.tag == tagIndex.row) {
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0),^{
 		
 		OldAlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
@@ -252,37 +240,29 @@
 		}
 		else {
 			dispatch_async(dispatch_get_main_queue(),^{
-				[cell.networkImageView setImage:image];
+				if (cell.tag == tagIndex.row) [cell.networkImageView setImage:image];
 			});
 		}
 		
 		dispatch_async(dispatch_get_main_queue(),^{
 			
-			//float a = 0;
-			
-			if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
-				[cell.activityView startAnimating];
-				cell.networkImageView.alpha = 0.3;
+			if (cell.tag == tagIndex.row) {
+				if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
+					[cell.activityView startAnimating];
+					cell.networkImageView.alpha = 0.3;
+				}
+				else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadProgress) {
+					[cell.activityView startAnimating];
+					cell.networkImageView.alpha = 0.3;
+				}
+				else {
+					[cell.activityView stopAnimating];
+					cell.networkImageView.alpha = 1.0;
+				}
+				
+				cell.labelNewView.hidden = [currentPhoto.hasViewed boolValue];
 			}
-			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadProgress) {
-				[cell.activityView startAnimating];
-				cell.networkImageView.alpha = 0.3;
-			}
-			else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadComplete) {
-				[cell.activityView stopAnimating];
-				cell.networkImageView.alpha = 1.0;
-			}
-			else {
-				cell.networkImageView.alpha = 1.0;
-			}
-			
-			cell.labelNewView.hidden = [currentPhoto.hasViewed boolValue];
-			
-			//[UIView animateWithDuration:0.3 animations:^{
-			//	cell.networkImageView.alpha = a;
-			//}];
 		});
-	}
 	});
     
     return cell;
@@ -301,22 +281,6 @@
 	NSLog(@"didSelectItemAtIndexPath %@ %@", indexPath, detailController.selectedPhoto);
     
     [self.navigationController pushViewController:detailController animated:YES];
-}
-
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-        return UIEdgeInsetsMake(5, 5, 5, 5);
-    }
-    
-    if (IS_IPHONE_5) {
-        return UIEdgeInsetsMake(5, 12, 5, 12);
-    }
-    else
-    {
-        return UIEdgeInsetsMake(5, 17, 5, 17);
-    }
 }
 
 
@@ -404,6 +368,10 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
 	NSLog(@"SVAlbumGrid controllerDidChangeContent");
+	if (self.isViewLoaded && self.view.window){
+		// viewController is visible
+	}
+	else return;
     
     if ([_objectChanges count] > 0)
     {
@@ -419,7 +387,7 @@
 						case NSFetchedResultsChangeInsert:
 							NSLog(@"insert");
 							[self.gridView insertItemsAtIndexPaths:@[obj]];
-							[[SVUploadManager sharedManager] uploadPhotos];
+							[[SVUploadManager sharedManager] upload];
 							break;
 						case NSFetchedResultsChangeDelete:
 							NSLog(@"delete");
