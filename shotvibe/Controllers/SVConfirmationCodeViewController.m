@@ -114,6 +114,27 @@
 	return NO;
 }
 
+static AlbumManager *createAlbumManagerHack()
+{
+    // TODO This is a temporary way to get the AuthData value from the legacy code system
+
+    NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserId];
+    NSString *userAuthToken = [[NSUserDefaults standardUserDefaults] objectForKey:kApplicationUserAuthToken];
+
+    // Strip the prefix string "Token " that is stored by the legacy code
+    NSString *realUserAuthToken = [userAuthToken substringFromIndex:[@"Token " length]];
+
+    // TODO Temporary country code:
+    NSString *userDefaultCountryCode = @"US";
+
+    AuthData *authData = [[AuthData alloc] initWithUserID:userId authToken:realUserAuthToken defaultCountryCode:userDefaultCountryCode];
+
+    ShotVibeAPI *shotvibeAPI = [[ShotVibeAPI alloc] initWithAuthData:authData];
+
+    ShotVibeDB *db = [[ShotVibeDB alloc] init];
+
+    return [[AlbumManager alloc] initWithShotvibeAPI:shotvibeAPI shotvibeDB:db];
+}
 
 - (void)handleSuccessfulLogin
 {
@@ -125,7 +146,9 @@
     
     // Grab the deal and make it our root view controller from the storyboard for this navigation controller
     SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
-    
+
+    rootView.albumManager = createAlbumManagerHack();
+
     [self.navigationController setViewControllers:@[rootView] animated:YES];
 
     [SVPushNotificationsManager setup];

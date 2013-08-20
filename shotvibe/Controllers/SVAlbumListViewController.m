@@ -7,10 +7,10 @@
 //
 
 #import "SVAlbumListViewController.h"
+#import "AlbumSummary.h"
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIView *sectionHeader;
 @property (nonatomic, strong) NSMutableDictionary *albumPhotoInfo;
@@ -48,12 +48,14 @@
 
 @implementation SVAlbumListViewController
 {
+    NSMutableArray *albumList;
     BOOL searchShowing;
     NSMutableDictionary *thumbnailCache;
 	UIView *sectionView;
 	CaptureViewfinderController *cameraController;
 	NSIndexPath *tappedCell;
 	NSOperationQueue *_queue;
+    UIRefreshControl *refresh;
 }
 
 #pragma mark - Actions
@@ -80,7 +82,8 @@
     NSUInteger albumCount = 0;
     
     NSMutableArray *albumsForCapture = [[NSMutableArray alloc] init];
-    
+
+    /*
     for (OldAlbum *anAlbum in self.fetchedResultsController.fetchedObjects) {
         [albumsForCapture addObject:anAlbum];
         
@@ -90,8 +93,8 @@
             break;
         }
     }
-    
-    
+     */
+
 	cameraController = [[CaptureViewfinderController alloc] initWithNibName:@"CaptureViewfinder" bundle:[NSBundle mainBundle]];
 	cameraController.albums = albumsForCapture;
 	cameraController.delegate = self;
@@ -110,7 +113,8 @@
 	
 	if (self.navigationController.visibleViewController == self) {
 		NSLog(@"navigate to gridview");
-		
+
+        /*
 		int i = 0;
 		NSIndexPath *indexPath;
 		id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:0];
@@ -125,6 +129,7 @@
 			}
 			i ++;
 		}
+        */
 	}
 }
 
@@ -135,7 +140,13 @@
     [super viewDidLoad];
 	
 	_queue = [[NSOperationQueue alloc] init];
- 
+
+    NSLog(@"##### albumManager: %@", self.albumManager);
+
+    [self setAlbumList:[self.albumManager addAlbumListListener:self]];
+
+    NSLog(@"##### Initial albumList: %@", albumList);
+
     // When we get to the album list view we no longer need to worry about rotation blocks from logging in, switch it to allowing rotation.
     CaptureNavigationController *navController = (CaptureNavigationController *)self.navigationController;
     navController.allowsRotation = YES;
@@ -150,14 +161,12 @@
 	
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 	
-	UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+	refresh = [[UIRefreshControl alloc] init];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-	[refresh addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+	[refresh addTarget:self action:@selector(refreshView) forControlEvents:UIControlEventValueChanged];
 	[self.tableView addSubview:refresh];
-	
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadCompleted:) name:kSVSyncEngineDownloadCompletedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(albumUpdateReceived:) name:kSVSyncEngineAlbumProcessedNotification object:nil];
+
+    [self.albumManager refreshAlbumList];
 }
 
 
@@ -197,13 +206,15 @@
         
         // Get the selected Album
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        OldAlbum *selectedAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 		
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
         
         // Send the selected album to the destination controller
+        /*
         destinationController.selectedAlbum = selectedAlbum;
+        */
         
     }
 	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
@@ -251,9 +262,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:section];
-	NSLog(@"fetch albums %@", sectionInfo);
-    return [sectionInfo numberOfObjects];
+    return albumList.count;
 }
 
 
@@ -270,20 +279,22 @@
 	
     cell.tag = indexPath.row;
 	__block NSIndexPath *tagIndex = indexPath;
-	__block OldAlbum *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 	
-	NSString *distanceOfTimeInWords = [anAlbum.last_updated distanceOfTimeInWords];
+	NSString *distanceOfTimeInWords = [album.dateUpdated distanceOfTimeInWords];
 	
-	cell.title.text = anAlbum.name;
+	cell.title.text = album.name;
 	[cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
-	
+
+    //////////////
+    return cell;
 	
 	dispatch_async(dispatch_get_global_queue(0,0),^{
 		
 	if (cell.tag == tagIndex.row) {
 			
 		NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", anAlbum.albumId, SVObjectSyncDeleteNeeded];
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", album.albumId, SVObjectSyncDeleteNeeded];
 		NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbumPhoto"];
 		fetchRequest.sortDescriptors = @[datecreatedDescriptor];
 		fetchRequest.predicate = predicate;
@@ -332,8 +343,11 @@
 		// Set the number of unviewed photos
 			
 		//NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND isNew == YES", anAlbum.albumId]];
+        /*
 		NSInteger numberNew = [OldAlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
-		
+        */
+
+        /*
 		dispatch_async(dispatch_get_main_queue(),^{
 			if (numberNew > 0 ) {
 				[cell.numberNotViewedIndicator setHidden:NO];
@@ -342,6 +356,7 @@
 				[cell.numberNotViewedIndicator setHidden:YES];
 			}
 		});
+        */
 		
 	}
 	});
@@ -362,13 +377,16 @@
 	tappedCell = [indexPath copy];
 	
 	[_queue addOperationWithBlock:^{
-		
+
+		/*
 		OldAlbum *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		[[SVEntityStore sharedStore] setPhotosInAlbumToNotNew:anAlbum];
+        */
 		//[[SVEntityStore sharedStore] setAllPhotosToNotNew];
 	}];
 }
 
+/*
 
 #pragma mark NSFetchedResultsControllerDelegate methods
 
@@ -424,6 +442,7 @@
     [self.tableView endUpdates];
 }
 
+*/
 
 #pragma mark - RCImageViewDelegate
 
@@ -606,10 +625,11 @@
 
 - (void)searchForAlbumWithTitle:(NSString *)title
 {
-
+    /*
     self.fetchedResultsController = nil;
     self.fetchedResultsController = [[SVEntityStore sharedStore] allAlbumsMatchingSearchTerm:title WithDelegate:self];
     [self.tableView reloadData];
+    */
 }
 
 
@@ -620,6 +640,7 @@
 
 - (void)albumUpdateReceived:(NSNotification *)notification
 {
+    /*
     OldAlbum *updatedAlbum = (OldAlbum *)notification.object;
     
     NSIndexPath *albumIndex = [self.fetchedResultsController indexPathForObject:updatedAlbum];
@@ -633,6 +654,7 @@
             //}
         }
     }
+    */
 }
 
 
@@ -645,17 +667,40 @@
 	[[SVUploadManager sharedManager] uploadPhotos];
 }
 
+-(void)setAlbumList:(NSArray *)albums
+{
+    albumList = [NSMutableArray arrayWithCapacity:[albums count]];
+    for (id elem in [albums reverseObjectEnumerator]) {
+        [albumList addObject:elem];
+    }
+    [self.tableView reloadData];
+}
 
+-(void)refreshView
+{
+    [self.albumManager refreshAlbumList];
+}
 
--(void)refreshView:(UIRefreshControl *)refresh {
-	
+- (void)onAlbumListBeginRefresh
+{
+    [refresh beginRefreshing];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setDateFormat:@"MMM d, h:mm a"];
-	NSString *lastUpdated = [NSString stringWithFormat:@"Last updated on %@", [formatter stringFromDate:[NSDate date]]];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
-	[refresh endRefreshing];
-	[[SVDownloadManager sharedManager] downloadAlbums];
+}
+
+- (void)onAlbumListRefreshComplete:(NSArray *)albums
+{
+    [refresh endRefreshing];
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+
+    [self setAlbumList:albums];
+}
+
+- (void)onAlbumListRefreshError:(NSError *)error
+{
+    [refresh endRefreshing];
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+
+    // TODO ...
 }
 
 @end

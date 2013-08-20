@@ -25,14 +25,18 @@
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
 #import "NSManagedObjectContext+MagicalRecord.h"
+#import "AlbumListListener.h"
+#import "AlbumManager.h"
 
 @interface SVAlbumListViewController : UIViewController <UITableViewDataSource,
 UITableViewDelegate,
 UITextFieldDelegate,
 UISearchBarDelegate,
+AlbumListListener,
 CaptureViewfinderDelegate,
 RCImageViewDelegate> {
-	
 }
+
+@property (nonatomic, strong) AlbumManager *albumManager;
 
 @end
