@@ -1,5 +1,5 @@
 //
-//  AlbumSummary.h
+//  AlbumContents.h
 //  shotvibe
 //
 //  Created by benny on 8/20/13.
@@ -8,16 +8,20 @@
 
 #import "AlbumBase.h"
 
-@interface AlbumSummary : AlbumBase
+@interface AlbumContents : AlbumBase
 
 - (id)initWithAlbumId:(int64_t)albumId
                  etag:(NSString *)etag
                  name:(NSString *)name
           dateCreated:(NSDate *)dateCreated
           dateUpdated:(NSDate *)dateUpdated
-         latestPhotos:(NSArray *)latestPhotos;
+               photos:(NSArray *)photos
+              members:(NSArray *)members;
 
 // Array of `AlbumPhoto` objects
-@property (nonatomic, strong, readonly) NSArray *latestPhotos;
+@property (nonatomic, strong, readonly) NSArray *photos;
+
+// Array of `AlbumMember` objects
+@property (nonatomic, strong, readonly) NSArray *members;
 
 @end

@@ -492,6 +492,10 @@
 		28E94C3517C2C4AE00874BDE /* IconMove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2E17C2C4AE00874BDE /* IconMove@2x.png */; };
 		28E94C3717C2C9E800874BDE /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28E94C3617C2C9E700874BDE /* EventKit.framework */; };
 		28E94C3A17C3507D00874BDE /* SVActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C3917C3507D00874BDE /* SVActivityViewController.m */; };
+		3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */; };
+		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
+		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
+		3B013BCD17C3E84C00135869 /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BCC17C3E84C00135869 /* AlbumMember.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
 		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
@@ -1126,6 +1130,14 @@
 		28E94C3617C2C9E700874BDE /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		28E94C3817C3507D00874BDE /* SVActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActivityViewController.h; sourceTree = "<group>"; };
 		28E94C3917C3507D00874BDE /* SVActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVActivityViewController.m; sourceTree = "<group>"; };
+		3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumServerPhoto.h; sourceTree = "<group>"; };
+		3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumServerPhoto.m; sourceTree = "<group>"; };
+		3B013BC517C3E7CA00135869 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
+		3B013BC617C3E7CA00135869 /* AlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhoto.m; sourceTree = "<group>"; };
+		3B013BC817C3E83200135869 /* AlbumContents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumContents.h; sourceTree = "<group>"; };
+		3B013BC917C3E83200135869 /* AlbumContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumContents.m; sourceTree = "<group>"; };
+		3B013BCB17C3E84C00135869 /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
+		3B013BCC17C3E84C00135869 /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPushNotificationsManager.h; sourceTree = "<group>"; };
 		3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPushNotificationsManager.m; sourceTree = "<group>"; };
@@ -1887,19 +1899,6 @@
 			name = AlbumManagement;
 			sourceTree = "<group>";
 		};
-		3BE0B10B17C2B9E70058CAAD /* FMDB */ = {
-			isa = PBXGroup;
-			children = (
-				3BE0B10C17C2BA3E0058CAAD /* FMDatabase.h */,
-				3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */,
-				3BE0B11217C2BFE60058CAAD /* FMDatabasePool.h */,
-				3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */,
-				3BE0B10F17C2BFA20058CAAD /* FMResultSet.h */,
-				3BE0B11017C2BFA20058CAAD /* FMResultSet.m */,
-			);
-			name = FMDB;
-			sourceTree = "<group>";
-		};
 		28E94C2017C2BA3B00874BDE /* Social */ = {
 			isa = PBXGroup;
 			children = (
@@ -1925,6 +1924,19 @@
 				28E94C2E17C2C4AE00874BDE /* IconMove@2x.png */,
 			);
 			name = CustomActivity;
+			sourceTree = "<group>";
+		};
+		3BE0B10B17C2B9E70058CAAD /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				3BE0B10C17C2BA3E0058CAAD /* FMDatabase.h */,
+				3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */,
+				3BE0B11217C2BFE60058CAAD /* FMDatabasePool.h */,
+				3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */,
+				3BE0B10F17C2BFA20058CAAD /* FMResultSet.h */,
+				3BE0B11017C2BFA20058CAAD /* FMResultSet.m */,
+			);
+			name = FMDB;
 			sourceTree = "<group>";
 		};
 		AA12881316CB8774002AC699 /* Albums */ = {
@@ -2349,6 +2361,14 @@
 				3BE0B11617C2C5520058CAAD /* AlbumBase.m */,
 				3BE0B11817C2C71D0058CAAD /* AlbumSummary.h */,
 				3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */,
+				3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */,
+				3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */,
+				3B013BC517C3E7CA00135869 /* AlbumPhoto.h */,
+				3B013BC617C3E7CA00135869 /* AlbumPhoto.m */,
+				3B013BC817C3E83200135869 /* AlbumContents.h */,
+				3B013BC917C3E83200135869 /* AlbumContents.m */,
+				3B013BCB17C3E84C00135869 /* AlbumMember.h */,
+				3B013BCC17C3E84C00135869 /* AlbumMember.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3054,6 +3074,10 @@
 				28E94C2517C2BA6600874BDE /* SVLinkActivity.m in Sources */,
 				28E94C2617C2BA6600874BDE /* SVLinkEvent.m in Sources */,
 				28E94C3A17C3507D00874BDE /* SVActivityViewController.m in Sources */,
+				3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */,
+				3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */,
+				3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */,
+				3B013BCD17C3E84C00135869 /* AlbumMember.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
