@@ -20,13 +20,12 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
     NSString *databaseDirectory = [ShotVibeDB getApplicationSupportDirectory];
     NSString *databasePath = [databaseDirectory stringByAppendingPathComponent:DATABASE_FILE];
 
+    BOOL databaseExists = [[NSFileManager defaultManager] fileExistsAtPath:databasePath];
+
     db = [FMDatabase databaseWithPath:databasePath];
     if (![db open]) {
         NSAssert(false, @"Error Opening database: %@", [db lastErrorMessage]);
     }
-
-    NSFileManager *manager = [NSFileManager defaultManager];
-    BOOL databaseExists = [manager fileExistsAtPath:databasePath];
 
     [ShotVibeDB addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:databasePath isDirectory:NO]];
 
