@@ -432,7 +432,7 @@
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation
 {
 	NSLog(@"configureMenuForOrientation");
-	return;
+	//return;
     CGRect rightFrame = self.navigationController.sideMenu.rightSideMenuViewController.view.frame;
     rightFrame.size.height = 300;
     rightFrame.origin.x = 320 - kMFSideMenuSidebarWidth;
