@@ -85,7 +85,7 @@ enum RefreshStatus
                 return;
             }
 
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
                 if (refreshStatus == REFRESHING) {
                     [shotvibeDB setAlbumListWithAlbums:latestAlbumsList];
 
