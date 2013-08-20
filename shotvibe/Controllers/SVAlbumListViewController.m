@@ -7,7 +7,10 @@
 //
 
 #import "SVAlbumListViewController.h"
+#import "UIImageView+AFNetworking.h"
+
 #import "AlbumSummary.h"
+#import "AlbumPhoto.h";
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
@@ -285,6 +288,18 @@
 	
 	cell.title.text = album.name;
 	[cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
+
+    if (album.latestPhotos.count > 0) {
+        AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
+        if (latestPhoto.serverPhoto) {
+            NSString *fullsizePhotoUrl = latestPhoto.serverPhoto.url;
+            NSString *thumbnailSuffix = @"_thumb75.jpg";
+            NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
+
+            // TODO Temporarily using AFNetworking library for a quick and easy way to display photos
+            [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
+        }
+    }
 
     //////////////
     return cell;
