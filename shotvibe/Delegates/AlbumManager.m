@@ -90,6 +90,7 @@ enum RefreshStatus
                     for(id<AlbumListListener> listener in albumListListeners) {
                         [listener onAlbumListRefreshError:error];
                     }
+                    refreshStatus = IDLE;
                 });
 
                 NSLog(@"##### Error!");
