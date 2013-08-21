@@ -10,10 +10,13 @@
 #import "ShotVibeAPI.h"
 #import "ShotVibeDB.h"
 #import "AlbumListListener.h"
+#import "AlbumContentsListener.h"
 
 @interface AlbumManager : NSObject
 {
     NSMutableArray *albumListListeners;
+    NSMutableDictionary *albumContentsObjs;
+
     ShotVibeAPI *shotvibeAPI;
     ShotVibeDB *shotvibeDB;
 
@@ -30,5 +33,11 @@
 - (void)removeAlbumListListener:(id<AlbumListListener>)listener;
 
 - (void)refreshAlbumList;
+
+- (AlbumContents *)addAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener;
+
+- (void)removeAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener;
+
+- (void)refreshAlbumContents:(int64_t)albumId;
 
 @end

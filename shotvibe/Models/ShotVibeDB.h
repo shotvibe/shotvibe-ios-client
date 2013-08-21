@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "FMDatabase.h"
+#import "AlbumContents.h"
 
 @interface ShotVibeDB : NSObject
 {
@@ -25,5 +26,9 @@
 
 // `albums` must be an array of `AlbumSummary` objects
 - (BOOL)setAlbumListWithAlbums:(NSArray *)albums;
+
+- (AlbumContents *)getAlbumContents:(int64_t)albumId;
+
+- (BOOL)setAlbumContents:(int64_t)albumId withContents:(AlbumContents *)albumContents;
 
 @end

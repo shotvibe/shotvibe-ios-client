@@ -57,6 +57,7 @@
 	
 	if (buttonIndex == 1) {
 		NSLog(@"Leave album");
+        /*
 		[SVBusinessDelegate leaveAlbum:self.parentController.selectedAlbum completion:^(BOOL success) {
 			
 			//[self.activityIndicator stopAnimating];
@@ -68,8 +69,9 @@
 				
 				
 			}
-			
+
 		}];
+         */
 	}
 }
 
@@ -89,7 +91,7 @@
         [self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
     }
     
-	self.sidebarNav.topItem.title = self.parentController.selectedAlbum.name;
+	//self.sidebarNav.topItem.title = self.parentController.selectedAlbum.name;
 	
 	self.tableView.sectionHeaderHeight = 35;
 	self.openSectionIndex = NSNotFound;
@@ -129,19 +131,21 @@
 		[infoArray addObject:sectionInfo];
 		
 		// Section 2
-		
+
+        /*
 		NSMutableArray *arr2 = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"Name: %@", self.parentController.selectedAlbum.name],
 						[NSString stringWithFormat:@"Date Created: %@", [NSDateFormatter localizedStringFromDate:self.parentController.selectedAlbum.date_created dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle]],
 						[NSString stringWithFormat:@"Created by: %@", self.parentController.selectedAlbum.name],
 						[NSString stringWithFormat:@"Total Members: %i", [self.parentController.selectedAlbum.members count]],
 						[NSString stringWithFormat:@"Total Pictures: %i", [self.parentController.selectedAlbum.albumPhotos count]], nil];
+        
 		
 		SVSidebarAlbumSection *sectionInfo2 = [[SVSidebarAlbumSection alloc] init];
 		sectionInfo2.open = NO;
 		sectionInfo2.rows = arr2;
 		[infoArray addObject:sectionInfo2];
-		
-		
+		*/
+
 		self.sectionInfoArray = infoArray;
 	}
 	
@@ -154,15 +158,18 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    /*
 	SVSidebarAlbumSection *s = (self.sectionInfoArray)[section];
 	NSInteger nr = [s.rows count];
 	
     return s.open ? nr : 3;
+     */
+    return 0;
 }
 
 
@@ -192,6 +199,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    return nil;
     UITableViewCell *cell;
 	SVSidebarAlbumSection *info = (SVSidebarAlbumSection*)[self.sectionInfoArray objectAtIndex:indexPath.section];
 	

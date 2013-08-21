@@ -214,11 +214,8 @@
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
         
-        // Send the selected album to the destination controller
-        /*
-        destinationController.selectedAlbum = selectedAlbum;
-        */
-        
+        destinationController.albumManager = self.albumManager;
+        destinationController.albumId = album.albumId;
     }
 	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
 		

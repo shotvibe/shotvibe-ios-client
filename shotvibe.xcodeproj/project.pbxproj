@@ -1163,6 +1163,7 @@
 		3BE0B11E17C30E9C0058CAAD /* AlbumListListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlbumListListener.h; sourceTree = "<group>"; };
 		3BE0B11F17C30F0D0058CAAD /* AlbumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumManager.h; sourceTree = "<group>"; };
 		3BE0B12017C30F0D0058CAAD /* AlbumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumManager.m; sourceTree = "<group>"; };
+		3BE9FA8817C40FBC000F6676 /* AlbumContentsListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlbumContentsListener.h; sourceTree = "<group>"; };
 		AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumListViewCell.h; path = Controllers/SVAlbumListViewCell.h; sourceTree = "<group>"; };
 		AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumListViewCell.m; path = Controllers/SVAlbumListViewCell.m; sourceTree = "<group>"; };
 		AA2347BD177A783100D55918 /* SVHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVHttpClient.h; sourceTree = "<group>"; };
@@ -2176,6 +2177,7 @@
 				3BE0B11B17C2F6B60058CAAD /* JSON.h */,
 				3BE0B11C17C2F6B60058CAAD /* JSON.m */,
 				3BE0B11E17C30E9C0058CAAD /* AlbumListListener.h */,
+				3BE9FA8817C40FBC000F6676 /* AlbumContentsListener.h */,
 				3BE0B11F17C30F0D0058CAAD /* AlbumManager.h */,
 				3BE0B12017C30F0D0058CAAD /* AlbumManager.m */,
 			);
