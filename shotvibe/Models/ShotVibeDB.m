@@ -171,7 +171,7 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
     }
 
     // Delete any old rows in the database that are not in albums:
-    FMResultSet* s = [db executeQuery:@"SELECT (album_id) FROM album"];
+    FMResultSet* s = [db executeQuery:@"SELECT album_id FROM album"];
     if (!s) {
         ABORT_TRANSACTION;
     }
