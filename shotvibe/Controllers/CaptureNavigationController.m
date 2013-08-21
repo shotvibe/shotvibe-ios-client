@@ -8,9 +8,6 @@
 
 #import "CaptureNavigationController.h"
 
-@interface CaptureNavigationController ()
-
-@end
 
 @implementation CaptureNavigationController
 
@@ -36,13 +33,12 @@
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotate{
 	return YES;
 }
 
 -(NSUInteger)supportedInterfaceOrientations{
-	return UIInterfaceOrientationMaskAllButUpsideDown;
+	return UIInterfaceOrientationMaskPortrait;
 }
 
 

@@ -476,8 +476,6 @@
 		28D4761417AFB79E00C189AB /* SVSidebarAlbumManagementActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D475DA17AC375400C189AB /* SVSidebarAlbumManagementActivityCell.m */; };
 		28D4761517AFC5CB00C189AB /* SVSidebarAlbumManagementSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */; };
 		28D4761817B0F09E00C189AB /* SVSidebarAlbumSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */; };
-		28D4761B17B10BF000C189AB /* LabelNewPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 28D4761917B10BF000C189AB /* LabelNewPhoto.png */; };
-		28D4761C17B10BF000C189AB /* LabelNewPhoto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28D4761A17B10BF000C189AB /* LabelNewPhoto@2x.png */; };
 		28D4761F17B1210100C189AB /* SVUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4761E17B1210000C189AB /* SVUploadManager.m */; };
 		28D4762217B1344800C189AB /* SVDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4762117B1344700C189AB /* SVDownloadManager.m */; };
 		28E94C1F17C25EC500874BDE /* SVSettingsAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C1E17C25EC500874BDE /* SVSettingsAboutViewController.m */; };
@@ -496,6 +494,14 @@
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
 		3B013BCD17C3E84C00135869 /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BCC17C3E84C00135869 /* AlbumMember.m */; };
+		28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C9217C3B06900874BDE /* SVContactCell.m */; };
+		28E94C9B17C3FB6300874BDE /* ContactIsMember.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9517C3FB6300874BDE /* ContactIsMember.png */; };
+		28E94C9C17C3FB6300874BDE /* ContactIsMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9617C3FB6300874BDE /* ContactIsMember@2x.png */; };
+		28E94C9D17C3FB6300874BDE /* MemberInvited.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9717C3FB6300874BDE /* MemberInvited.png */; };
+		28E94C9E17C3FB6300874BDE /* MemberInvited@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9817C3FB6300874BDE /* MemberInvited@2x.png */; };
+		28E94C9F17C3FB6300874BDE /* MemberJoined.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9917C3FB6300874BDE /* MemberJoined.png */; };
+		28E94CA017C3FB6300874BDE /* MemberJoined@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */; };
+		28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CA217C4B83F00874BDE /* CameraRollSection.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
 		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
@@ -1108,8 +1114,6 @@
 		28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVSidebarAlbumManagementSection.xib; path = Views/SVSidebarAlbumManagementSection.xib; sourceTree = "<group>"; };
 		28D4761617B0F09C00C189AB /* SVSidebarAlbumSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSidebarAlbumSection.h; sourceTree = "<group>"; };
 		28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSidebarAlbumSection.m; sourceTree = "<group>"; };
-		28D4761917B10BF000C189AB /* LabelNewPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LabelNewPhoto.png; sourceTree = "<group>"; };
-		28D4761A17B10BF000C189AB /* LabelNewPhoto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LabelNewPhoto@2x.png"; sourceTree = "<group>"; };
 		28D4761D17B1210000C189AB /* SVUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVUploadManager.h; sourceTree = "<group>"; };
 		28D4761E17B1210000C189AB /* SVUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVUploadManager.m; sourceTree = "<group>"; };
 		28D4762017B1344700C189AB /* SVDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDownloadManager.h; sourceTree = "<group>"; };
@@ -1138,6 +1142,16 @@
 		3B013BC917C3E83200135869 /* AlbumContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumContents.m; sourceTree = "<group>"; };
 		3B013BCB17C3E84C00135869 /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
 		3B013BCC17C3E84C00135869 /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
+		28E94C9117C3B06800874BDE /* SVContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVContactCell.h; path = Views/SVContactCell.h; sourceTree = "<group>"; };
+		28E94C9217C3B06900874BDE /* SVContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVContactCell.m; path = Views/SVContactCell.m; sourceTree = "<group>"; };
+		28E94C9517C3FB6300874BDE /* ContactIsMember.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ContactIsMember.png; path = Contacts/ContactIsMember.png; sourceTree = "<group>"; };
+		28E94C9617C3FB6300874BDE /* ContactIsMember@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ContactIsMember@2x.png"; path = "Contacts/ContactIsMember@2x.png"; sourceTree = "<group>"; };
+		28E94C9717C3FB6300874BDE /* MemberInvited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MemberInvited.png; path = Contacts/MemberInvited.png; sourceTree = "<group>"; };
+		28E94C9817C3FB6300874BDE /* MemberInvited@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MemberInvited@2x.png"; path = "Contacts/MemberInvited@2x.png"; sourceTree = "<group>"; };
+		28E94C9917C3FB6300874BDE /* MemberJoined.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MemberJoined.png; path = Contacts/MemberJoined.png; sourceTree = "<group>"; };
+		28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MemberJoined@2x.png"; path = "Contacts/MemberJoined@2x.png"; sourceTree = "<group>"; };
+		28E94CA117C4B83E00874BDE /* CameraRollSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraRollSection.h; sourceTree = "<group>"; };
+		28E94CA217C4B83F00874BDE /* CameraRollSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraRollSection.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPushNotificationsManager.h; sourceTree = "<group>"; };
 		3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPushNotificationsManager.m; sourceTree = "<group>"; };
@@ -1809,8 +1823,6 @@
 		2897383217A1C08D003B18D3 /* cells related */ = {
 			isa = PBXGroup;
 			children = (
-				28D4761917B10BF000C189AB /* LabelNewPhoto.png */,
-				28D4761A17B10BF000C189AB /* LabelNewPhoto@2x.png */,
 				042E285517309857003BA9CF /* imageUnselected@2x.png */,
 				042E285617309857003BA9CF /* imageUnselected.png */,
 				042E285717309857003BA9CF /* imageSelected@2x.png */,
@@ -1874,6 +1886,12 @@
 		28D4759617AC264B00C189AB /* AlbumManagement */ = {
 			isa = PBXGroup;
 			children = (
+				28E94C9517C3FB6300874BDE /* ContactIsMember.png */,
+				28E94C9617C3FB6300874BDE /* ContactIsMember@2x.png */,
+				28E94C9717C3FB6300874BDE /* MemberInvited.png */,
+				28E94C9817C3FB6300874BDE /* MemberInvited@2x.png */,
+				28E94C9917C3FB6300874BDE /* MemberJoined.png */,
+				28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */,
 				28D4759717AC267200C189AB /* AlbumActivityDeleteIcon.png */,
 				28D4759817AC267200C189AB /* AlbumActivityDeleteIcon@2x.png */,
 				28D4759917AC267200C189AB /* AlbumActivityIcon.png */,
@@ -2003,7 +2021,6 @@
 		AA58FAEE16C224E800C49E02 = {
 			isa = PBXGroup;
 			children = (
-				28E94C3617C2C9E700874BDE /* EventKit.framework */,
 				AA58FB0016C224E800C49E02 /* shotvibe */,
 				AA58FB2416C224E800C49E02 /* shotvibeTests */,
 				AA58FAF916C224E800C49E02 /* Frameworks */,
@@ -2023,6 +2040,7 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				28E94C3617C2C9E700874BDE /* EventKit.framework */,
 				3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */,
 				04204EFA178B45D9001FE127 /* AddressBook.framework */,
 				AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */,
@@ -2121,6 +2139,8 @@
 				28D475DA17AC375400C189AB /* SVSidebarAlbumManagementActivityCell.m */,
 				28D475DD17AC45FE00C189AB /* SVSidebarAlbumManagementSection.h */,
 				28D475DE17AC45FE00C189AB /* SVSidebarAlbumManagementSection.m */,
+				28E94C9117C3B06800874BDE /* SVContactCell.h */,
+				28E94C9217C3B06900874BDE /* SVContactCell.m */,
 				28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */,
 				AA58FB1216C224E800C49E02 /* MainStoryboard.storyboard */,
 			);
@@ -2212,6 +2232,8 @@
 				04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */,
 				04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */,
 				04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */,
+				28E94CA117C4B83E00874BDE /* CameraRollSection.h */,
+				28E94CA217C4B83F00874BDE /* CameraRollSection.m */,
 				04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */,
 				04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */,
 			);
@@ -2895,8 +2917,6 @@
 				28D4761217AFB77A00C189AB /* ClosureIndicator.png in Resources */,
 				28D4761317AFB77A00C189AB /* ClosureIndicator@2x.png in Resources */,
 				28D4761517AFC5CB00C189AB /* SVSidebarAlbumManagementSection.xib in Resources */,
-				28D4761B17B10BF000C189AB /* LabelNewPhoto.png in Resources */,
-				28D4761C17B10BF000C189AB /* LabelNewPhoto@2x.png in Resources */,
 				2854C28C17BB85100090BD3E /* butInvitedContacts.png in Resources */,
 				2854C28D17BB85100090BD3E /* butInvitedContacts@2x.png in Resources */,
 				3BE0B10A17C29F2E0058CAAD /* create.sql in Resources */,
@@ -2907,6 +2927,12 @@
 				28E94C3317C2C4AE00874BDE /* IconMail.png in Resources */,
 				28E94C3417C2C4AE00874BDE /* IconMail@2x.png in Resources */,
 				28E94C3517C2C4AE00874BDE /* IconMove@2x.png in Resources */,
+				28E94C9B17C3FB6300874BDE /* ContactIsMember.png in Resources */,
+				28E94C9C17C3FB6300874BDE /* ContactIsMember@2x.png in Resources */,
+				28E94C9D17C3FB6300874BDE /* MemberInvited.png in Resources */,
+				28E94C9E17C3FB6300874BDE /* MemberInvited@2x.png in Resources */,
+				28E94C9F17C3FB6300874BDE /* MemberJoined.png in Resources */,
+				28E94CA017C3FB6300874BDE /* MemberJoined@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3080,6 +3106,8 @@
 				3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */,
 				3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */,
 				3B013BCD17C3E84C00135869 /* AlbumMember.m in Sources */,
+				28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */,
+				28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
