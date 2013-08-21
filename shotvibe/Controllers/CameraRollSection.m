@@ -23,9 +23,9 @@
 		[self addSubview:self.dateLabel];
 		
 		self.selectButton = [[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-26-7, 12, 26, 26)];
-		[self.selectButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
 		[self.selectButton addTarget:self action:@selector(checkmarkTouched) forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:self.selectButton];
+		[self selectCheckmark:NO];
     }
     return self;
 }
@@ -33,8 +33,12 @@
 - (void)checkmarkTouched {
 	
 	if ([self.delegate respondsToSelector:@selector(sectionCheckmarkTouched:)]) {
-		[self.delegate performSelector:@selector(sectionCheckmarkTouched:) withObject:[NSNumber numberWithInt:self.section]];
+		[self.delegate performSelector:@selector(sectionCheckmarkTouched:) withObject:self];
 	}
+}
+
+- (void)selectCheckmark:(BOOL)s {
+	[self.selectButton setImage:[UIImage imageNamed:s?@"imageSelected.png":@"imageUnselected.png"] forState:UIControlStateNormal];
 }
 
 @end

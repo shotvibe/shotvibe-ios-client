@@ -14,11 +14,12 @@
 @property(nonatomic) int section;
 @property(nonatomic, retain) IBOutlet UIButton *selectButton;
 @property(nonatomic, retain) IBOutlet UILabel *dateLabel;
+- (void)selectCheckmark:(BOOL)s;
 
 @end
 
 @protocol CameraRollSectionDelegate <NSObject>
 
-- (void)sectionCheckmarkTouched:(NSNumber*)section;
+- (void)sectionCheckmarkTouched:(CameraRollSection*)section;
 
 @end

@@ -34,10 +34,10 @@
 		
 		NSString *key = [NSString stringWithFormat:@"%i-%i-%i", components.year, components.month, components.day];
 		NSMutableArray *arr = [sections objectForKey:key];
-		NSLog(@"%@", key);
+		
 		if (arr == nil) {
 			arr = [NSMutableArray array];
-			[sectionsKeys addObject:key];
+			[sectionsKeys insertObject:key atIndex:0];
 		}
 		[arr addObject:photo];
 		[sections setObject:arr forKey:key];
@@ -167,7 +167,18 @@
 		header.dateLabel.text = currentDateString;
 		header.section = indexPath.section;
 		header.delegate = self;
-		//NSLog(@"%@", currentDateString);
+		
+		NSArray *arr = [sections objectForKey:sectionsKeys[header.section]];
+		BOOL allPhotosAreSelected = YES;
+		
+		// Check how many assets are already selected
+		for (ALAsset *asset in arr) {
+			if (![selectedPhotos containsObject:asset]) {
+				allPhotosAreSelected = NO;
+				break;
+			}
+		}
+		[header selectCheckmark:allPhotosAreSelected];
 		
 		return header;
 	}
@@ -196,26 +207,42 @@
 	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
 }
 
-- (void)sectionCheckmarkTouched:(NSNumber*)section {
+- (void)sectionCheckmarkTouched:(CameraRollSection*)section {
 	
-	NSArray *arr = [sections objectForKey:sectionsKeys[[section integerValue]]];
+	NSArray *arr = [sections objectForKey:sectionsKeys[section.section]];
 	int i = 0;
+	BOOL allPhotosAreSelected = YES;
+	
+	// Check how many assets are already selected
+	for (ALAsset *asset in arr) {
+		if (![selectedPhotos containsObject:asset]) {
+			allPhotosAreSelected = NO;
+			break;
+		}
+	}
 	
 	for (ALAsset *asset in arr) {
 		
-		SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:[section integerValue]]];
+		SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section.section]];
 		
-		if (![selectedPhotos containsObject:asset]) {
-			[selectedPhotos addObject:asset];
-			selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+		if (!allPhotosAreSelected) {
+			if (![selectedPhotos containsObject:asset]) {
+				[selectedPhotos addObject:asset];
+				selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+			}
 		}
 		else {
-			//[selectedPhotos removeObject:[arr objectAtIndex:indexPath.row]];
-			//selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+			if ([selectedPhotos containsObject:asset]) {
+				[selectedPhotos removeObject:asset];
+				selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+			}
 		}
 		
 		i++;
 	}
+	
+	[section selectCheckmark:!allPhotosAreSelected];
+	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
 }
 
 
