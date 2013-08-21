@@ -497,6 +497,7 @@
 		28E94C9E17C3FB6300874BDE /* MemberInvited@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9817C3FB6300874BDE /* MemberInvited@2x.png */; };
 		28E94C9F17C3FB6300874BDE /* MemberJoined.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9917C3FB6300874BDE /* MemberJoined.png */; };
 		28E94CA017C3FB6300874BDE /* MemberJoined@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */; };
+		28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CA217C4B83F00874BDE /* CameraRollSection.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
 		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
@@ -1128,6 +1129,8 @@
 		28E94C9817C3FB6300874BDE /* MemberInvited@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MemberInvited@2x.png"; path = "Contacts/MemberInvited@2x.png"; sourceTree = "<group>"; };
 		28E94C9917C3FB6300874BDE /* MemberJoined.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MemberJoined.png; path = Contacts/MemberJoined.png; sourceTree = "<group>"; };
 		28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MemberJoined@2x.png"; path = "Contacts/MemberJoined@2x.png"; sourceTree = "<group>"; };
+		28E94CA117C4B83E00874BDE /* CameraRollSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraRollSection.h; sourceTree = "<group>"; };
+		28E94CA217C4B83F00874BDE /* CameraRollSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraRollSection.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPushNotificationsManager.h; sourceTree = "<group>"; };
 		3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPushNotificationsManager.m; sourceTree = "<group>"; };
@@ -1964,7 +1967,6 @@
 		AA58FAEE16C224E800C49E02 = {
 			isa = PBXGroup;
 			children = (
-				28E94C3617C2C9E700874BDE /* EventKit.framework */,
 				AA58FB0016C224E800C49E02 /* shotvibe */,
 				AA58FB2416C224E800C49E02 /* shotvibeTests */,
 				AA58FAF916C224E800C49E02 /* Frameworks */,
@@ -1984,6 +1986,7 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				28E94C3617C2C9E700874BDE /* EventKit.framework */,
 				3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */,
 				04204EFA178B45D9001FE127 /* AddressBook.framework */,
 				AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */,
@@ -2168,6 +2171,8 @@
 				04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */,
 				04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */,
 				04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */,
+				28E94CA117C4B83E00874BDE /* CameraRollSection.h */,
+				28E94CA217C4B83F00874BDE /* CameraRollSection.m */,
 				04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */,
 				04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */,
 			);
@@ -3014,6 +3019,7 @@
 				28E94C2617C2BA6600874BDE /* SVLinkEvent.m in Sources */,
 				28E94C3A17C3507D00874BDE /* SVActivityViewController.m in Sources */,
 				28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */,
+				28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

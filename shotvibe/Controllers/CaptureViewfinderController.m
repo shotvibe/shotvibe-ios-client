@@ -55,6 +55,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     BOOL topBarHidden;
     BOOL isCapable;
     BOOL topBarDisabled;
+	BOOL isShowingLandscapeView;
 }
 
 #pragma mark - Properties
@@ -120,26 +121,26 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             [[self captureManager] setDelegate:self];
             
             if ([[self captureManager] setupSession]) {
-                // Create video preview layer and add it to the UI
-                AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
+				
+                CGRect bounds = [UIScreen mainScreen].bounds;
+				bounds.size.height -= (53 + 20);
                 
+				// Create video preview layer and add it to the UI
+                AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
+                [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+				previewLayer.frame = bounds;
+				
                 UIView *view = [self videoPreviewView];
                 CALayer *viewLayer = [view layer];
                 [viewLayer setMasksToBounds:YES];
                 
-                CGRect bounds = [UIScreen mainScreen].bounds;
-				bounds.size.height -= (53 + 20);
-                [newCaptureVideoPreviewLayer setFrame:bounds];
-				
-                if ([newCaptureVideoPreviewLayer connection].supportsVideoOrientation) {
-                    [[newCaptureVideoPreviewLayer connection] setVideoOrientation:AVCaptureVideoOrientationPortrait];
+                if ([previewLayer connection].supportsVideoOrientation) {
+                    [[previewLayer connection] setVideoOrientation:AVCaptureVideoOrientationPortrait];
                 }
                 
-                [newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+                [viewLayer addSublayer:previewLayer];
                 
-                [viewLayer insertSublayer:newCaptureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
-                
-                [self setCaptureVideoPreviewLayer:newCaptureVideoPreviewLayer];
+                [self setCaptureVideoPreviewLayer:previewLayer];
                 
                 // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -170,9 +171,14 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             }		
         }
     }
-    
-    
-    
+	
+	isShowingLandscapeView = NO;
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(orientationChanged:)
+												 name:UIDeviceOrientationDidChangeNotification
+											   object:nil];
+	
     [super viewDidLoad];
 }
 
@@ -197,19 +203,15 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 {
     [super viewDidAppear:animated];
     
-    
     // Dismiss the view if we're done working with photos.
     if (isFinishedSelectingPhotoEarly) {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-
     }
     
     if (!isCapable) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"No Camera", @"") message:NSLocalizedString(@"We cannot find a usable camera on this device.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [alert show];
-        
         //[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-
     }
 }
 
@@ -221,6 +223,24 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     if (isCapable) {
         [[[self captureManager] session] stopRunning];
     }
+}
+
+
+
+- (void)orientationChanged:(NSNotification *)notification
+{
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if (UIDeviceOrientationIsLandscape(deviceOrientation) &&
+        !isShowingLandscapeView)
+    {
+        isShowingLandscapeView = YES;
+    }
+    else if (UIDeviceOrientationIsPortrait(deviceOrientation) &&
+             isShowingLandscapeView)
+    {
+        isShowingLandscapeView = NO;
+    }
+	NSLog(@"orientationChanged in camera view");
 }
 
 
@@ -240,17 +260,24 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     self.stillButton.enabled = NO;
     
     if (!memwarningDisplayed) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Low Memory", @"") message:NSLocalizedString(@"You need to upload some of the pictures you've taken before you can take more!", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Low Memory", @"")
+															message:NSLocalizedString(@"You need to upload some of the pictures you've taken before you can take more!", @"")
+														   delegate:nil
+												  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+												  otherButtonTitles:nil];
         
         [alertView show];
     }
-    
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+#pragma mark interface orientation
+
+- (BOOL)shouldAutorotate {
+	return NO;
+}
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait;
 }
 
 
@@ -637,6 +664,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)captureManager:(AVCamCaptureManager *)captureManager didFailWithError:(NSError *)error
 {
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+		
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[error localizedDescription]
                                                             message:[error localizedFailureReason]
                                                            delegate:nil
@@ -712,9 +740,5 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 {
 	[self updateButtonStates];
 }
-
-
-
-
 
 @end

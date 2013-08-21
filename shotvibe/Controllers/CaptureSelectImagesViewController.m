@@ -6,36 +6,10 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "ALAssetsLibrary+helper.h"
-#import "Album.h"
-#import "AlbumPhoto.h"
 #import "CaptureSelectImagesViewController.h"
-#import "SVBusinessDelegate.h"
-#import "SVDefines.h"
-#import "SVEntityStore.h"
-#import "SVUploadManager.h"
-#import "SVSelectionGridCell.h"
-#import "MagicalRecordShorthand.h"
-#import "MagicalRecord.h"
-#import "MagicalRecord+Actions.h"
-
-@interface CaptureSelectImagesViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
-{
-}
-
-@property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
-@property (nonatomic, strong) UIBarButtonItem *doneButton;
-@property (nonatomic, strong) IBOutlet UICollectionView *gridView;
-
-- (void)doneButtonPressed;
-- (void)packageSelectedPhotos:(void (^)(NSArray *selectedPhotoPaths, NSError *error))block;
-@end
 
 
-@implementation CaptureSelectImagesViewController 
-{
-    NSMutableArray *selectedPhotos;
-}
+@implementation CaptureSelectImagesViewController
 
 
 - (void) setTakenPhotos:(NSArray *)takenPhotos {
@@ -43,10 +17,32 @@
 	selectedPhotos = [[NSMutableArray alloc] initWithArray:takenPhotos];
 	_takenPhotos = takenPhotos;
 }
+
 - (void) setLibraryPhotos:(NSArray *)libraryPhotos {
 	
 	selectedPhotos = [[NSMutableArray alloc] init];
 	_takenPhotos = libraryPhotos;
+	
+	// Group the photos by date
+	sections = [[NSMutableDictionary alloc] init];
+	sectionsKeys = [[NSMutableArray alloc] init];
+	
+	for (ALAsset *photo in _takenPhotos) {
+		
+		NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit
+																	   fromDate:[photo valueForProperty:ALAssetPropertyDate]];
+		
+		NSString *key = [NSString stringWithFormat:@"%i-%i-%i", components.year, components.month, components.day];
+		NSMutableArray *arr = [sections objectForKey:key];
+		NSLog(@"%@", key);
+		if (arr == nil) {
+			arr = [NSMutableArray array];
+			[sectionsKeys addObject:key];
+		}
+		[arr addObject:photo];
+		[sections setObject:arr forKey:key];
+	}
+	NSLog(@"%@", sectionsKeys);
 }
 
 
@@ -61,6 +57,7 @@
 	}
     
     [self.gridView registerClass:[SVSelectionGridCell class] forCellWithReuseIdentifier:@"SVSelectionGridCell"];
+	[self.gridView registerClass:[CameraRollSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"CameraRollSection"];
     
     if (self.selectedGroup) {
         self.title = [self.selectedGroup valueForProperty:ALAssetsGroupPropertyName];
@@ -69,8 +66,11 @@
         self.title = NSLocalizedString(@"Select To Upload", @"");
     }
     
-    self.doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(doneButtonPressed)];
-    self.navigationItem.rightBarButtonItem = self.doneButton;
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"")
+																   style:UIBarButtonItemStyleBordered
+																  target:self
+																  action:@selector(doneButtonPressed)];
+    self.navigationItem.rightBarButtonItem = doneButton;
 }
 
 
@@ -90,30 +90,33 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.takenPhotos.count;
+	NSArray *arr = [sections objectForKey:sectionsKeys[section]];
+    return arr.count;
 }
 
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 1;
+    return [sectionsKeys count];
 }
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionGridCell" forIndexPath:indexPath];
+	__block NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 	
 	dispatch_async(dispatch_get_global_queue(0,0),^{
 		
 		UIImage *image;
 		
 		if (self.selectedGroup) {
-			ALAsset *asset = [self.takenPhotos objectAtIndex:indexPath.row];
+			ALAsset *asset = [arr objectAtIndex:indexPath.row];
 			image = [UIImage imageWithCGImage:asset.thumbnail];
 		}
 		else {
-			UIImage *large_image = [UIImage imageWithContentsOfFile:[self.takenPhotos objectAtIndex:indexPath.row]];
+			// Images taken by camera
+			UIImage *large_image = [UIImage imageWithContentsOfFile:[arr objectAtIndex:indexPath.row]];
 			
 			float oldWidth = large_image.size.width;
 			float scaleFactor = cell.imageView.frame.size.width / oldWidth;
@@ -131,7 +134,7 @@
 		});
 	});
 	
-	if ([selectedPhotos containsObject:[self.takenPhotos objectAtIndex:indexPath.row]]) {
+	if ([selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
 		cell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
 	}
 	else {
@@ -139,6 +142,36 @@
 	}
 	
     return cell;
+}
+
+// Section headers
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+		   viewForSupplementaryElementOfKind:(NSString *)kind
+								 atIndexPath:(NSIndexPath *)indexPath {
+	
+	if (kind == UICollectionElementKindSectionHeader)
+	{
+		CameraRollSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"CameraRollSection" forIndexPath:indexPath];
+		//NSLog(@"%@", header);
+		NSArray *comps = [sectionsKeys[indexPath.section] componentsSeparatedByString:@"-"];
+		NSDateComponents *components = [[NSDateComponents alloc] init];
+		components.year = [comps[0] integerValue];
+		components.month = [comps[1] integerValue];
+		components.day = [comps[2] integerValue];
+		NSDate *newDate = [[NSCalendar currentCalendar] dateFromComponents:components];
+		
+		NSString *currentDateString = [NSDateFormatter localizedStringFromDate:newDate dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle];
+		
+		// Modify the header
+		header.dateLabel.text = currentDateString;
+		header.section = indexPath.section;
+		header.delegate = self;
+		//NSLog(@"%@", currentDateString);
+		
+		return header;
+	}
+	return nil;
 }
 
 
@@ -149,65 +182,62 @@
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
     SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
+	NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
     
-    if (![selectedPhotos containsObject:[self.takenPhotos objectAtIndex:indexPath.row]]) {
-        [selectedPhotos addObject:[self.takenPhotos objectAtIndex:indexPath.row]];
+    if (![selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
+        [selectedPhotos addObject:[arr objectAtIndex:indexPath.row]];
         selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
     }
-    else
-    {
-        [selectedPhotos removeObject:[self.takenPhotos objectAtIndex:indexPath.row]];
+    else {
+        [selectedPhotos removeObject:[arr objectAtIndex:indexPath.row]];
         selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
     }
 	
 	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
 }
 
-
-
-#pragma mark - Private Methods
-
-- (void)doneButtonPressed
-{
-	NSLog(@"====================== 0. Done button pressed");
+- (void)sectionCheckmarkTouched:(NSNumber*)section {
 	
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		
-		[self packageSelectedPhotos:^(NSArray *selectedPhotoPaths, NSError *error){
-			NSLog(@"====================== 2. Package selected photos, after block call %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
-			// Save the images inside the app with a random id
-			for (NSData *photoData in selectedPhotoPaths) {
-				
-				[SVBusinessDelegate saveUploadedPhotoImageData:photoData
-													forPhotoId:[[NSUUID UUID] UUIDString]
-												   withAlbumId:self.selectedAlbum.albumId];
-			}
-		}];
-	});
+	NSArray *arr = [sections objectForKey:sectionsKeys[[section integerValue]]];
+	int i = 0;
 	
-	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+	for (ALAsset *asset in arr) {
 		
-		if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
-			[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
+		SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:[section integerValue]]];
+		
+		if (![selectedPhotos containsObject:asset]) {
+			[selectedPhotos addObject:asset];
+			selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
 		}
-	}];
+		else {
+			//[selectedPhotos removeObject:[arr objectAtIndex:indexPath.row]];
+			//selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+		}
+		
+		i++;
+	}
 }
 
 
-- (void)packageSelectedPhotos:(void (^)(NSArray *selectedPhotoPaths, NSError *error))block
-{
-    NSMutableArray *selectedPhotoPaths = [[NSMutableArray alloc] init];
+#pragma mark - Package photos
+
+- (void)doneButtonPressed {
+	
 	NSLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
 	
+	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+		
     if (self.selectedGroup) {
         
         for (ALAsset *asset in selectedPhotos) {
             ALAssetRepresentation *rep = [asset defaultRepresentation];
             Byte *buffer = (Byte*)malloc(rep.size);
             NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
-            NSData *data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-            if (data) {
-                [selectedPhotoPaths addObject:data];
+            NSData *photoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+            if (photoData) {
+                [SVBusinessDelegate saveUploadedPhotoImageData:photoData
+													forPhotoId:[[NSUUID UUID] UUIDString]
+												   withAlbumId:self.selectedAlbum.albumId];
             }
         }
     }
@@ -215,11 +245,20 @@
         for (NSString *selectedPhotoPath in selectedPhotos) {
             NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
             if (photoData) {
-                [selectedPhotoPaths addObject:photoData];
+				[SVBusinessDelegate saveUploadedPhotoImageData:photoData
+													forPhotoId:[[NSUUID UUID] UUIDString]
+												   withAlbumId:self.selectedAlbum.albumId];
             }
         }
     }
-	block(selectedPhotoPaths, nil);
+//	});
+	
+	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+		
+		if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
+			[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
+		}
+	}];
 }
 
 @end
