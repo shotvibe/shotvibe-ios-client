@@ -22,6 +22,7 @@
 	
 	selectedPhotos = [[NSMutableArray alloc] init];
 	_takenPhotos = libraryPhotos;
+	geocoder = [[CLGeocoder alloc] init];
 	
 	// Group the photos by date
 	sections = [[NSMutableDictionary alloc] init];
@@ -29,10 +30,9 @@
 	
 	for (ALAsset *photo in _takenPhotos) {
 		
-		NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit
-																	   fromDate:[photo valueForProperty:ALAssetPropertyDate]];
-		
-		NSString *key = [NSString stringWithFormat:@"%i-%i-%i", components.year, components.month, components.day];
+		NSString *key = [NSDateFormatter localizedStringFromDate:[photo valueForProperty:ALAssetPropertyDate]
+													   dateStyle:NSDateFormatterLongStyle
+													   timeStyle:NSDateFormatterNoStyle];
 		NSMutableArray *arr = [sections objectForKey:key];
 		
 		if (arr == nil) {
@@ -42,6 +42,39 @@
 		[arr addObject:photo];
 		[sections setObject:arr forKey:key];
 	}
+	
+	// Group the photos by location
+//	__block int i = 0;
+//	for (ALAsset *photo in _takenPhotos) {
+//		
+//		CLLocation *location = [photo valueForProperty:ALAssetPropertyLocation];
+//		
+//		[geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+//			MKPlacemark *placemark = [placemarks objectAtIndex:0];
+//			NSLog(@"locality:%@, country:%@", placemark.locality, placemark.country);
+//			
+//			NSString *key = placemark.locality;
+//			if (key == nil) {
+//				key = @"Unknown Location";
+//			}
+//			
+//			NSMutableArray *arr = [sections objectForKey:key];
+//			
+//			if (arr == nil) {
+//				arr = [NSMutableArray array];
+//				[sectionsKeys insertObject:key atIndex:0];
+//			}
+//			[arr addObject:photo];
+//			[sections setObject:arr forKey:key];
+//			
+//			i ++;
+//			if (_takenPhotos.count == i) {
+//				NSLog(@"refresh grid");
+//				[self.gridView reloadData];
+//			}
+//		}];
+//	}
+	
 	NSLog(@"%@", sectionsKeys);
 }
 
@@ -153,18 +186,9 @@
 	if (kind == UICollectionElementKindSectionHeader)
 	{
 		CameraRollSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"CameraRollSection" forIndexPath:indexPath];
-		//NSLog(@"%@", header);
-		NSArray *comps = [sectionsKeys[indexPath.section] componentsSeparatedByString:@"-"];
-		NSDateComponents *components = [[NSDateComponents alloc] init];
-		components.year = [comps[0] integerValue];
-		components.month = [comps[1] integerValue];
-		components.day = [comps[2] integerValue];
-		NSDate *newDate = [[NSCalendar currentCalendar] dateFromComponents:components];
-		
-		NSString *currentDateString = [NSDateFormatter localizedStringFromDate:newDate dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle];
 		
 		// Modify the header
-		header.dateLabel.text = currentDateString;
+		header.dateLabel.text = sectionsKeys[indexPath.section];
 		header.section = indexPath.section;
 		header.delegate = self;
 		

@@ -16,6 +16,11 @@
     if ((self = [super initWithFrame:frame])) {
         // Initialization code
         self.delegate = self;
+		gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+		swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeUp:)];
+		swipeGesture.direction = UISwipeGestureRecognizerDirectionUp;
+		[self addGestureRecognizer:gesture];
+		[self addGestureRecognizer:swipeGesture];
     }
     return self;
 }
@@ -41,20 +46,16 @@
 
 
 #pragma mark Touches
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	touched = YES;
-}
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    touched = NO;
-}
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if ([d respondsToSelector:@selector(areaTouched)] && touched) {
+
+- (void)tap:(UITapGestureRecognizer *)tapGesture {
+	if ([d respondsToSelector:@selector(areaTouched)]) {
 		[d performSelector:@selector(areaTouched) withObject:nil];
 	}
 }
-//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-//	NSLog(@"touchesMoved");
-//}
-
+- (void)swipeUp:(UISwipeGestureRecognizer *)tapGesture {
+	if ([d respondsToSelector:@selector(areaTouchedForExit)]) {
+		[d performSelector:@selector(areaTouchedForExit) withObject:nil];
+	}
+}
 
 @end

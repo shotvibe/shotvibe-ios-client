@@ -148,19 +148,19 @@
 	int h = self.view.frame.size.height;
 	
 	OldAlbumPhoto *photo = [self.sortedPhotos objectAtIndex:i];
-	RCImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
+	RCScrollImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
 	cachedImage.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 	
 	NSLog(@"loadPhoto %i %@", i, photo.photo_id);
 	//NSLog(@"acche keys %@", [self.cache allKeys]);
     
     if (cachedImage != nil) {
-		NSLog(@"already in cache");
 		cachedImage.frame = CGRectMake((w+60)*i, 0, w, h);
+		cachedImage.contentSize = cachedImage.image.size;
     }
 	else {
 		// If the photo is not in cache try in the saved photos
-		RCImageView *rcphoto = [[RCImageView alloc] initWithFrame:CGRectMake((w+60)*i, 0, w, h) delegate:self];
+		RCScrollImageView *rcphoto = [[RCScrollImageView alloc] initWithFrame:CGRectMake((w+60)*i, 0, w, h) delegate:self];
 		rcphoto.i = i;
 		UIImage *localImage = [[SVEntityStore sharedStore] getImageForPhoto:photo];
 		
@@ -194,24 +194,14 @@
 }
 - (void)onPhotoComplete:(NSNumber*)nr {
 	
-	//int w = self.view.frame.size.width;
-	//int h = self.view.frame.size.height;
-	
-	//[self.cache setObject:rcphoto.image forKey:photo.photo_id];
-	
-	//NSLog(@"onPhotoComplete currentPhotoNr %i == currentlyLoadingPhoto %i", currentPhotoNr, currentlyLoadingPhoto);
-//	if (self.index == [nr intValue]) {
-//		[photosScrollView setContentOffset:CGPointMake((w+60)*self.index, 0) animated:NO];
-//		
-//		// Animate the current photo with a zoomin effect
-//		[[self.sortedPhotos objectAtIndex:self.index] setFrame:CGRectMake((w+60)*self.index, 0, w, h)];
-//	}
+	OldAlbumPhoto *photo = [self.sortedPhotos objectAtIndex:[nr intValue]];
+	RCScrollImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
+	cachedImage.contentSize = cachedImage.image.size;
+	[cachedImage setMaxMinZoomScalesForCurrentBounds];
 }
 - (void)onPhotoProgress:(NSNumber*)percentLoaded nr:(NSNumber*)nr{
 	
-//	[timelineView setPercent:[percentLoaded doubleValue]
-//					   forNr:[nr intValue]
-//				   direction:[nr intValue] < currentPhotoNr ? -1 : 1];
+	
 }
 
 
@@ -231,6 +221,7 @@
 }
 
 
+#pragma mark RCScrollView delegate
 
 - (void)areaTouched {
 	
@@ -247,6 +238,10 @@
 	}
 }
 
+- (void)areaTouchedForExit {
+	[self.navigationController popViewControllerAnimated:YES];
+	if (self.navigationController.toolbar.hidden) [self areaTouched];
+}
 
 
 
@@ -341,12 +336,12 @@
 	// Animate deleted photo to the trashbin
 	[UIView animateWithDuration:0.3
 					 animations:^{
-						 
-		RCImageView *cachedImage = [self.cache objectForKey:photoToDelete.photo_id];
-		if (cachedImage) {
-			CGRect rect = cachedImage.frame;
-			cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
-		}
+										 
+						RCImageView *cachedImage = [self.cache objectForKey:photoToDelete.photo_id];
+						if (cachedImage) {
+							CGRect rect = cachedImage.frame;
+							cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
+						}
 	}
 					 completion:^(BOOL finished){
 						 NSLog(@"finished trashbin animation. ");

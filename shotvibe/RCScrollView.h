@@ -11,7 +11,8 @@
 
 @interface RCScrollView : UIScrollView <UIScrollViewDelegate> {
 	id d;
-	BOOL touched;
+	UITapGestureRecognizer *gesture;
+	UISwipeGestureRecognizer *swipeGesture;
 }
 
 - (void)setD:(id)deleg;
