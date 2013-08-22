@@ -8,6 +8,8 @@
 
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 #import "ALAssetsLibrary+helper.h"
 #import "CaptureViewfinderController.h"
 #import "SVSelectionGridCell.h"
@@ -21,6 +23,7 @@
 	NSMutableArray *sectionsKeys;
 	NSMutableDictionary *sections;
 	NSMutableArray *selectedPhotos;
+	CLGeocoder *geocoder;
 }
 
 @property (nonatomic, strong) NSArray *takenPhotos;// Set only one of this options

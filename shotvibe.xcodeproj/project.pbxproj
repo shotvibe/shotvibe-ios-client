@@ -498,6 +498,7 @@
 		28E94C9F17C3FB6300874BDE /* MemberJoined.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9917C3FB6300874BDE /* MemberJoined.png */; };
 		28E94CA017C3FB6300874BDE /* MemberJoined@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */; };
 		28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CA217C4B83F00874BDE /* CameraRollSection.m */; };
+		28E94CA817C5456800874BDE /* RCScrollImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CA717C5456700874BDE /* RCScrollImageView.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
 		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
@@ -1131,6 +1132,8 @@
 		28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MemberJoined@2x.png"; path = "Contacts/MemberJoined@2x.png"; sourceTree = "<group>"; };
 		28E94CA117C4B83E00874BDE /* CameraRollSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraRollSection.h; sourceTree = "<group>"; };
 		28E94CA217C4B83F00874BDE /* CameraRollSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraRollSection.m; sourceTree = "<group>"; };
+		28E94CA617C5456600874BDE /* RCScrollImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCScrollImageView.h; path = Views/RCScrollImageView.h; sourceTree = "<group>"; };
+		28E94CA717C5456700874BDE /* RCScrollImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCScrollImageView.m; path = Views/RCScrollImageView.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPushNotificationsManager.h; sourceTree = "<group>"; };
 		3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPushNotificationsManager.m; sourceTree = "<group>"; };
@@ -2073,6 +2076,8 @@
 				2854C28517BA10E60090BD3E /* RCImageView.m */,
 				2854C28717BA178D0090BD3E /* RCScrollView.h */,
 				2854C28817BA178D0090BD3E /* RCScrollView.m */,
+				28E94CA617C5456600874BDE /* RCScrollImageView.h */,
+				28E94CA717C5456700874BDE /* RCScrollImageView.m */,
 				28CFCCA417A50C7B001511EF /* SVCountryViewCell.h */,
 				28CFCCA517A50C7C001511EF /* SVCountryViewCell.m */,
 				AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */,
@@ -3020,6 +3025,7 @@
 				28E94C3A17C3507D00874BDE /* SVActivityViewController.m in Sources */,
 				28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */,
 				28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */,
+				28E94CA817C5456800874BDE /* RCScrollImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

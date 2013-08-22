@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "SVEntityStore.h"
 #import "RCScrollView.h"
-#import "RCImageView.h"
+//#import "RCImageView.h"
+#import "RCScrollImageView.h"
 #import "AlbumPhoto.h"
 #import "SVLinkActivity.h"
 #import "SVActivityViewController.h"

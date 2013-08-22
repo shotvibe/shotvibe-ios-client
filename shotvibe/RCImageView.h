@@ -24,6 +24,7 @@
 @property(nonatomic, copy) NSString *referer;
 @property(nonatomic, retain) NSMutableData *imageData;
 @property(nonatomic) int i;
+@property(nonatomic) BOOL autosize;
 
 - (id)initWithFrame:(CGRect)frame delegate:(id)d;
 - (void)loadNetworkImage:(NSString *)path;

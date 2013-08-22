@@ -19,6 +19,7 @@
 		delegate = d;
 		i = -1;
 		self.contentMode = UIViewContentModeScaleAspectFit;
+		self.autosize = NO;
     }
     return self;
 }
@@ -95,6 +96,12 @@
 	//NSLog(@"%i", [imageData length]);
 	UIImage *image = [[UIImage alloc] initWithData:imageData];
 	
+	if (self.autosize) {
+		CGRect frameSize = self.frame;
+		frameSize.size.width = image.size.width;
+		frameSize.size.height = image.size.height;
+		self.frame = frameSize;
+	}
 	if (image.size.width < self.frame.size.width && image.size.height < self.frame.size.height) {
 		self.contentMode = UIViewContentModeCenter;
 	}
