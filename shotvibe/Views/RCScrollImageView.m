@@ -59,12 +59,14 @@
         // Initialization code
 		imageView = [[RCImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) delegate:d];
 		imageView.autosize = YES;
+		imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		[self addSubview:imageView];
     }
     return self;
 }
 
 - (void)setI:(int)i {
+	_i = i;
 	imageView.i = i;
 }
 - (void) setImage:(UIImage *)image {

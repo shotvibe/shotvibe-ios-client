@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "RCImageView.h"
-#import "CaptureViewfinderController.h"
 #import "CaptureNavigationController.h"
+#import "SVCameraPickerController.h"
 #import "SVDownloadManager.h"
 #import "SVUploadManager.h"
 #import "SVDefines.h"
@@ -33,7 +33,6 @@ UITableViewDelegate,
 UITextFieldDelegate,
 UISearchBarDelegate,
 AlbumListListener,
-CaptureViewfinderDelegate,
 RCImageViewDelegate> {
 }
 

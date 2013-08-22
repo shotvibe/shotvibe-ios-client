@@ -19,7 +19,7 @@
 #import "SVBusinessDelegate.h"
 #import "SVSettingsViewController.h"
 #import "CaptureNavigationController.h"
-#import "CaptureViewfinderController.h"
+#import "SVCameraPickerController.h"
 #import "SVImagePickerListViewController.h"
 #import "SVAlbumGridViewCell.h"
 #import "SVAddFriendsViewController.h"
@@ -60,7 +60,7 @@
 
 - (IBAction)takePicturePressed:(id)sender
 {
-    CaptureViewfinderController *cameraController = [[CaptureViewfinderController alloc] initWithNibName:@"CaptureViewfinder" bundle:[NSBundle mainBundle]];
+    SVCameraPickerController *cameraController = [[SVCameraPickerController alloc] initWithNibName:@"SVCameraOverlay" bundle:[NSBundle mainBundle]];
     //cameraController.albums = @[self.selectedAlbum];
     CaptureNavigationController *cameraNavController = [[CaptureNavigationController alloc] initWithRootViewController:cameraController];
     
@@ -69,7 +69,6 @@
 
 - (void)backButtonPressed:(id)sender
 {
-	NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!BACKKKKKK FROM PHOTOS");
 	// When we leave the album set all the photos as viewed
 	
 	
@@ -146,9 +145,14 @@
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+- (BOOL)shouldAutorotate
 {
-    return UIInterfaceOrientationMaskPortrait;// UIInterfaceOrientationMaskAllButUpsideDown;
+	//UIViewController *visibleController = self.navigationController.visibleViewController;
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 

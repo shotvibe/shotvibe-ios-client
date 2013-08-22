@@ -270,7 +270,7 @@
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		
 		self.records = [[NSMutableDictionary alloc] init];
-		NSLog(@"handle search %@", str);
+		NSLog(@"handle search string: %@", str);
 		for (int i=0; i<alphabet.count-1; i++) {
 			NSMutableArray *letterContacts = [NSMutableArray array];
 			for (NSMutableDictionary *member in self.allContacts) {
@@ -280,7 +280,6 @@
 					}
 				}
 				else {
-					//NSLog(@"search %@ in %@", );
 					if ([[[member objectForKey:kMemberFirstName] lowercaseString] hasPrefix:[alphabet[i] lowercaseString]] &&
 						[[[member objectForKey:kMemberNickname] lowercaseString] rangeOfString:[str lowercaseString]].location != NSNotFound) {
 						[letterContacts addObject:member];
@@ -293,9 +292,26 @@
 				[self.records setObject:letterContacts forKey:[alphabet objectAtIndex:i]];
 			}
 		}
+		if (str == nil) {
+			NSArray *arr2 = [self filterNonAlphabetContacts:self.allContacts];
+			if (arr2.count > 0) {
+				[keys_ addObject:@"#"];
+				[self.records setObject:arr2 forKey:@"#"];
+			}
+		}
+		else {
+			NSMutableArray *letterContacts = [NSMutableArray array];
+			for (NSMutableDictionary *member in self.allContacts) {
+				if ([[[member objectForKey:kMemberNickname] lowercaseString] rangeOfString:[str lowercaseString]].location != NSNotFound) {
+					[letterContacts addObject:member];
+				}
+			}
+			if (letterContacts.count > 0) {
+				[keys_ addObject:@"#"];
+				[self.records setObject:letterContacts forKey:@"#"];
+			}
+		}
 		
-			
-			
 //		for (int i=0; i<alphabet.count-1; i++) {
 ////			NSPredicate *predicate;
 ////			if (str == nil) {
@@ -318,12 +334,6 @@
 //			}
 //		}
 		
-		// Non alphabetic names
-		NSArray *arr2 = [self filterNonAlphabetContacts:self.allContacts];
-		if (arr2.count > 0) {
-			[keys_ addObject:@"#"];
-			[self.records setObject:arr2 forKey:@"#"];
-		}
 		
 		keys = [NSArray arrayWithArray:keys_];
 		
