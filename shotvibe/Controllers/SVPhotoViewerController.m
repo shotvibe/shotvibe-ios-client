@@ -154,8 +154,6 @@
 	__block int w = self.view.frame.size.height;
 	__block int h = self.view.frame.size.width;
 	__block int i = 0;
-	int j = 0;
-	AlbumPhoto *visible_photo;
 	
 	// Hide all the images except the visible one
 	for (AlbumPhoto *photo in self.sortedPhotos) {

@@ -51,7 +51,7 @@
     BOOL searchShowing;
     NSMutableDictionary *thumbnailCache;
 	UIView *sectionView;
-	CaptureViewfinderController *cameraController;
+	SVCameraPickerController *cameraController;
 	NSIndexPath *tappedCell;
 	NSOperationQueue *_queue;
 }
@@ -92,9 +92,9 @@
     }
     
     
-	cameraController = [[CaptureViewfinderController alloc] initWithNibName:@"CaptureViewfinder" bundle:[NSBundle mainBundle]];
-	cameraController.albums = albumsForCapture;
-	cameraController.delegate = self;
+	cameraController = [[SVCameraPickerController alloc] initWithNibName:@"SVCameraOverlay" bundle:[NSBundle mainBundle]];
+	//cameraController.albums = albumsForCapture;
+	//cameraController.delegate = self;
     
     CaptureNavigationController *cameraNavController = [[CaptureNavigationController alloc] initWithRootViewController:cameraController];
     
@@ -211,7 +211,7 @@
 
 - (BOOL)shouldAutorotate
 {
-	UIViewController *visibleController = self.navigationController.visibleViewController;
+	//UIViewController *visibleController = self.navigationController.visibleViewController;
     return YES;
 }
 

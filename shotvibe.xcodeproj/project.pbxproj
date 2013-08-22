@@ -28,8 +28,6 @@
 		0426B6431724D7CC007BAABC /* cameraCancelButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6301724D7CC007BAABC /* cameraCancelButton@2x.png */; };
 		0426B6451724D7CC007BAABC /* cameraCancelButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6311724D7CC007BAABC /* cameraCancelButton.png */; };
 		0426B64B1724D7CC007BAABC /* imagePile.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6341724D7CC007BAABC /* imagePile.png */; };
-		0426B6531724E262007BAABC /* CaptureViewfinder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6501724E262007BAABC /* CaptureViewfinder.xib */; };
-		0426B6551724E262007BAABC /* CaptureViewfinderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426B6521724E262007BAABC /* CaptureViewfinderController.m */; };
 		0426B65F1724EA41007BAABC /* cameraFlashOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6571724EA41007BAABC /* cameraFlashOn@2x.png */; };
 		0426B6611724EA41007BAABC /* cameraFlashOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6581724EA41007BAABC /* cameraFlashOn.png */; };
 		0426B6631724EA41007BAABC /* cameraFlashOff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B6591724EA41007BAABC /* cameraFlashOff@2x.png */; };
@@ -499,6 +497,8 @@
 		28E94CA017C3FB6300874BDE /* MemberJoined@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */; };
 		28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CA217C4B83F00874BDE /* CameraRollSection.m */; };
 		28E94CA817C5456800874BDE /* RCScrollImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CA717C5456700874BDE /* RCScrollImageView.m */; };
+		28E94CAA17C6740E00874BDE /* SVCameraOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */; };
+		28E94CAD17C6776D00874BDE /* SVCameraPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CAC17C6776B00874BDE /* SVCameraPickerController.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
 		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
@@ -613,9 +613,6 @@
 		0426B6301724D7CC007BAABC /* cameraCancelButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCancelButton@2x.png"; sourceTree = "<group>"; };
 		0426B6311724D7CC007BAABC /* cameraCancelButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraCancelButton.png; sourceTree = "<group>"; };
 		0426B6341724D7CC007BAABC /* imagePile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imagePile.png; sourceTree = "<group>"; };
-		0426B6501724E262007BAABC /* CaptureViewfinder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptureViewfinder.xib; sourceTree = "<group>"; };
-		0426B6511724E262007BAABC /* CaptureViewfinderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureViewfinderController.h; sourceTree = "<group>"; };
-		0426B6521724E262007BAABC /* CaptureViewfinderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureViewfinderController.m; sourceTree = "<group>"; };
 		0426B6571724EA41007BAABC /* cameraFlashOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraFlashOn@2x.png"; sourceTree = "<group>"; };
 		0426B6581724EA41007BAABC /* cameraFlashOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraFlashOn.png; sourceTree = "<group>"; };
 		0426B6591724EA41007BAABC /* cameraFlashOff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraFlashOff@2x.png"; sourceTree = "<group>"; };
@@ -1134,6 +1131,9 @@
 		28E94CA217C4B83F00874BDE /* CameraRollSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraRollSection.m; sourceTree = "<group>"; };
 		28E94CA617C5456600874BDE /* RCScrollImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCScrollImageView.h; path = Views/RCScrollImageView.h; sourceTree = "<group>"; };
 		28E94CA717C5456700874BDE /* RCScrollImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCScrollImageView.m; path = Views/RCScrollImageView.m; sourceTree = "<group>"; };
+		28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVCameraOverlay.xib; path = shotvibe/Views/SVCameraOverlay.xib; sourceTree = SOURCE_ROOT; };
+		28E94CAB17C6776A00874BDE /* SVCameraPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCameraPickerController.h; sourceTree = "<group>"; };
+		28E94CAC17C6776B00874BDE /* SVCameraPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVCameraPickerController.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPushNotificationsManager.h; sourceTree = "<group>"; };
 		3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPushNotificationsManager.m; sourceTree = "<group>"; };
@@ -2170,9 +2170,9 @@
 			children = (
 				0426B6851724F574007BAABC /* CaptureNavigationController.h */,
 				0426B6861724F574007BAABC /* CaptureNavigationController.m */,
-				0426B6511724E262007BAABC /* CaptureViewfinderController.h */,
-				0426B6521724E262007BAABC /* CaptureViewfinderController.m */,
-				0426B6501724E262007BAABC /* CaptureViewfinder.xib */,
+				28E94CAB17C6776A00874BDE /* SVCameraPickerController.h */,
+				28E94CAC17C6776B00874BDE /* SVCameraPickerController.m */,
+				28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */,
 				04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */,
 				04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */,
 				04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */,
@@ -2500,7 +2500,6 @@
 				0426B6431724D7CC007BAABC /* cameraCancelButton@2x.png in Resources */,
 				0426B6451724D7CC007BAABC /* cameraCancelButton.png in Resources */,
 				0426B64B1724D7CC007BAABC /* imagePile.png in Resources */,
-				0426B6531724E262007BAABC /* CaptureViewfinder.xib in Resources */,
 				0426B65F1724EA41007BAABC /* cameraFlashOn@2x.png in Resources */,
 				0426B6611724EA41007BAABC /* cameraFlashOn.png in Resources */,
 				0426B6631724EA41007BAABC /* cameraFlashOff@2x.png in Resources */,
@@ -2862,6 +2861,7 @@
 				28E94C9E17C3FB6300874BDE /* MemberInvited@2x.png in Resources */,
 				28E94C9F17C3FB6300874BDE /* MemberJoined.png in Resources */,
 				28E94CA017C3FB6300874BDE /* MemberJoined@2x.png in Resources */,
+				28E94CAA17C6740E00874BDE /* SVCameraOverlay.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2980,7 +2980,6 @@
 				0499B8F6171DECED00050596 /* SVWebViewController.m in Sources */,
 				AA89F528177D49E600B782A1 /* NSManagedObject+MagicalAggregation.m in Sources */,
 				0499B901171E127C00050596 /* SVProfileViewController.m in Sources */,
-				0426B6551724E262007BAABC /* CaptureViewfinderController.m in Sources */,
 				0426B67C1724EC26007BAABC /* AVCamCaptureManager.m in Sources */,
 				0426B67E1724EC26007BAABC /* AVCamRecorder.m in Sources */,
 				0426B6801724EC26007BAABC /* AVCamUtilities.m in Sources */,
@@ -3026,6 +3025,7 @@
 				28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */,
 				28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */,
 				28E94CA817C5456800874BDE /* RCScrollImageView.m in Sources */,
+				28E94CAD17C6776D00874BDE /* SVCameraPickerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
