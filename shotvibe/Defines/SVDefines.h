@@ -42,8 +42,6 @@ static NSString * const kAPIBaseURLString = @"https://api.shotvibe.com/";
 #define kMemberLastName     @"lastname"
 #define kMemberIcon			@"member_icon"
 
-#define kUserCountryCode	@"country_code"
-
 typedef enum {
     SVObjectSyncCompleted = 0,
     SVObjectSyncDownloadNeeded,

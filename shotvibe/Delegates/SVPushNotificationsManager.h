@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "AlbumManager.h"
+
 @interface SVPushNotificationsManager : NSObject
 
-+ (void)setup;
+- (id)initWithAlbumManager:(AlbumManager *)albumManager;
 
-+ (void)setAPNSDeviceToken:(NSData *)deviceToken;
+- (void)setup;
+
+- (void)setAPNSDeviceToken:(NSData *)deviceToken;
 
 @end

@@ -35,6 +35,9 @@
 
 
 @implementation ShotVibeAPI
+{
+    NSString *authConfirmationKey;
+}
 
 static NSString * const BASE_URL = @"https://api.shotvibe.com";
 
@@ -42,11 +45,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
 - (id)init
 {
-    self = [super init];
-
-    _authData = nil;
-
-    return self;
+    return [self initWithAuthData:nil];
 }
 
 
@@ -55,6 +54,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     self = [super init];
 
     _authData = authData;
+    authConfirmationKey = nil;
 
     return self;
 }
@@ -99,6 +99,107 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     }
 
     return YES;
+}
+
+- (AuthorizePhoneNumberResult)authorizePhoneNumber:(NSString *)phoneNumber defaultCountry:(NSString *)defaultCountry error:(NSError**)error
+{
+    NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
+                          phoneNumber, @"phone_number",
+                          defaultCountry, @"default_country",
+                          nil];
+
+    NSError *jsonError;
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
+    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
+
+    NSError *responseError;
+    Response *response = [self getResponse:@"/auth/authorize_phone_number/" method:@"POST" body:jsonData error:&responseError];
+
+    if (response == nil) {
+        *error = responseError;
+        return AuthorizePhoneNumberError;
+    }
+
+    // We want to explicitly check for this error code:
+    // It means that the phone number was invalid
+    const NSInteger HTTP_BAD_REQUEST = 400;
+    if (response.responseCode == HTTP_BAD_REQUEST) {
+        return AuthorizePhoneNumberInvalidNumber;
+    }
+
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return AuthorizePhoneNumberError;
+    }
+
+    @try {
+        JSONObject *responseObj = [[JSONObject alloc] initWithData:response.body];
+        authConfirmationKey = [responseObj getString:@"confirmation_key"];
+        return AuthorizePhoneNumberOk;
+    }
+    @catch (JSONException *exception) {
+        *error = [ShotVibeAPI createErrorFromJSONException:exception];
+        return AuthorizePhoneNumberError;
+    }
+}
+
+- (ConfirmSMSCodeResult)confirmSMSCode:(NSString *)confirmationCode
+               deviceDeviceDescription:(NSString *)deviceDescription
+                    defaultCountryCode:(NSString *)defaultCountryCode
+                                 error:(NSError **)error
+{
+    NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
+                          confirmationCode, @"confirmation_code",
+                          deviceDescription, @"device_description",
+                          nil];
+
+    NSError *jsonError;
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
+    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
+
+    NSError *responseError;
+    Response *response = [self getResponse:[NSString stringWithFormat:@"/auth/confirm_sms_code/%@/", authConfirmationKey]
+                                    method:@"POST"
+                                      body:jsonData
+                                     error:&responseError];
+
+    if (response == nil) {
+        *error = responseError;
+        return ConfirmSMSCodeError;
+    }
+
+    const NSInteger HTTP_FORBIDDEN = 403;
+    const NSInteger HTTP_GONE = 410;
+
+    // We want to explicitly check for this error code:
+    // It means that the SMS Code was incorrect
+    if (response.responseCode == HTTP_FORBIDDEN) {
+        return ConfirmSMSCodeIncorrectCode;
+    }
+    else if (response.responseCode == HTTP_GONE) {
+        // This error code means that the confirmation_key has expired.
+
+        // TODO We should call authorizePhoneNumber again here and then
+        // recursively try calling confirmSMSCode again
+    }
+
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return ConfirmSMSCodeError;
+    }
+
+    @try {
+        JSONObject *responseObj = [[JSONObject alloc] initWithData:response.body];
+        int64_t userId = [[responseObj getNumber:@"user_id"] longLongValue];
+        NSString *authToken = [responseObj getString:@"auth_token"];
+
+        _authData = [[AuthData alloc] initWithUserID:userId authToken:authToken defaultCountryCode:defaultCountryCode];
+        return ConfirmSMSCodeOk;
+    }
+    @catch (JSONException *exception) {
+        *error = [ShotVibeAPI createErrorFromJSONException:exception];
+        return ConfirmSMSCodeError;
+    }
 }
 
 - (NSArray *)getAlbumsWithError:(NSError **)error

@@ -10,7 +10,7 @@
 
 @implementation AuthData
 
-- (id)initWithUserID:(NSString *)userId authToken:(NSString *)authToken defaultCountryCode:(NSString *)defaultCountryCode
+- (id)initWithUserID:(int64_t)userId authToken:(NSString *)authToken defaultCountryCode:(NSString *)defaultCountryCode
 {
     self = [super init];
 

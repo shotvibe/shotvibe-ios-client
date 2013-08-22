@@ -494,6 +494,7 @@
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
 		3B013BCD17C3E84C00135869 /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BCC17C3E84C00135869 /* AlbumMember.m */; };
+		3B10035B17C653FD00387408 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B10035A17C653FD00387408 /* UserSettings.m */; };
 		28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C9217C3B06900874BDE /* SVContactCell.m */; };
 		28E94C9B17C3FB6300874BDE /* ContactIsMember.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9517C3FB6300874BDE /* ContactIsMember.png */; };
 		28E94C9C17C3FB6300874BDE /* ContactIsMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9617C3FB6300874BDE /* ContactIsMember@2x.png */; };
@@ -1143,6 +1144,8 @@
 		3B013BC917C3E83200135869 /* AlbumContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumContents.m; sourceTree = "<group>"; };
 		3B013BCB17C3E84C00135869 /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
 		3B013BCC17C3E84C00135869 /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
+		3B10035917C653FD00387408 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettings.h; sourceTree = "<group>"; };
+		3B10035A17C653FD00387408 /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSettings.m; sourceTree = "<group>"; };
 		28E94C9117C3B06800874BDE /* SVContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVContactCell.h; path = Views/SVContactCell.h; sourceTree = "<group>"; };
 		28E94C9217C3B06900874BDE /* SVContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVContactCell.m; path = Views/SVContactCell.m; sourceTree = "<group>"; };
 		28E94C9517C3FB6300874BDE /* ContactIsMember.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ContactIsMember.png; path = Contacts/ContactIsMember.png; sourceTree = "<group>"; };
@@ -2205,6 +2208,8 @@
 				3BE9FA8817C40FBC000F6676 /* AlbumContentsListener.h */,
 				3BE0B11F17C30F0D0058CAAD /* AlbumManager.h */,
 				3BE0B12017C30F0D0058CAAD /* AlbumManager.m */,
+				3B10035917C653FD00387408 /* UserSettings.h */,
+				3B10035A17C653FD00387408 /* UserSettings.m */,
 			);
 			name = "Business Delegates";
 			sourceTree = "<group>";
@@ -3114,6 +3119,7 @@
 				28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */,
 				28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */,
 				28E94CA817C5456800874BDE /* RCScrollImageView.m in Sources */,
+				3B10035B17C653FD00387408 /* UserSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
