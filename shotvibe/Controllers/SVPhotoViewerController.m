@@ -123,13 +123,76 @@
 	self.detailLabel = nil;
 }
 
--(void)willMoveToParentViewController:(UIViewController *)parent {
+- (void)willMoveToParentViewController:(UIViewController *)parent {
 	NSLog(@"This VC has has been pushed popped OR covered");
 	
     if (!parent)
         NSLog(@"This happens ONLY when it's popped");
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	
+	int w = self.view.frame.size.width;
+	int h = self.view.frame.size.height;
+	int i = 0;
+	
+	photosScrollView.contentSize = CGSizeMake((w+60)*[self.sortedPhotos count], h);
+	photosScrollView.contentOffset = CGPointMake((w+60)*self.index, 0);
+	
+	for (AlbumPhoto *photo in self.sortedPhotos) {
+		
+		RCScrollImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
+		cachedImage.frame = CGRectMake((w+60)*i, 0, w, h);
+		[cachedImage setMaxMinZoomScalesForCurrentBounds];
+		cachedImage.hidden = NO;
+		i++;
+	}
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	
+	__block int w = self.view.frame.size.height;
+	__block int h = self.view.frame.size.width;
+	__block int i = 0;
+	int j = 0;
+	AlbumPhoto *visible_photo;
+	
+	// Hide all the images except the visible one
+	for (AlbumPhoto *photo in self.sortedPhotos) {
+		RCScrollImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
+		if (cachedImage.i == i) {
+			//visible_photo = photo;
+		}
+		else cachedImage.hidden = YES;
+		i++;
+	}
+	i = 0;
+	
+//	RCScrollImageView *cachedImage = [self.cache objectForKey:visible_photo.photo_id];
+//	CGRect oldFrame = cachedImage.frame;
+//	oldFrame.size.width = w;
+//	oldFrame.size.height = h;
+//	NSLog(@"%i %@", j, cachedImage);
+	
+	[UIView animateWithDuration:duration animations:^{
+		//cachedImage.frame = oldFrame;
+		
+		for (AlbumPhoto *photo in self.sortedPhotos) {
+			RCScrollImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
+			if (cachedImage.i == i) {
+				if (w == 300) w = 320;
+				if (w == 460) w = 480;
+				if (h == 300) h = 320;
+				if (h == 460) h = 480;
+				CGRect oldFrame = cachedImage.frame;
+				oldFrame.size.width = w;
+				oldFrame.size.height = h;
+				cachedImage.frame = oldFrame;
+			}
+			i++;
+		}
+	}];
+}
 
 
 #pragma mark load/unload photos
@@ -273,6 +336,10 @@
 	}
 	[self.cache removeAllObjects];
 }
+
+
+
+
 
 
 - (void)updateInfoOnScreen

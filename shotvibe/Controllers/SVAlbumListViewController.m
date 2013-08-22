@@ -209,15 +209,14 @@
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-
 - (BOOL)shouldAutorotate
 {
+	UIViewController *visibleController = self.navigationController.visibleViewController;
     return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 
