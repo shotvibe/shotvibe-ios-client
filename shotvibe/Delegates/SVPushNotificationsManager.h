@@ -18,4 +18,6 @@
 
 - (void)setAPNSDeviceToken:(NSData *)deviceToken;
 
+- (void)handleNotification:(NSDictionary *)userInfo;
+
 @end

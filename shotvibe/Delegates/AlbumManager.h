@@ -40,4 +40,6 @@
 
 - (void)refreshAlbumContents:(int64_t)albumId;
 
+- (void)reportAlbumUpdate:(int64_t)albumId;
+
 @end

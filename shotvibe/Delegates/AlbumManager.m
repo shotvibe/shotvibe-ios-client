@@ -269,4 +269,11 @@ enum RefreshStatus
     }
 }
 
+- (void)reportAlbumUpdate:(int64_t)albumId
+{
+    [self refreshAlbumList];
+
+    [self refreshAlbumContents:albumId];
+}
+
 @end

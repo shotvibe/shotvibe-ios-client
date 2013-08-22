@@ -292,6 +292,11 @@ NSString * deviceDescription()
     [pushNotificationsManager setAPNSDeviceToken:deviceToken];
 }
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [pushNotificationsManager handleNotification:userInfo];
+}
+
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
 #if !CONFIGURATION_Debug
