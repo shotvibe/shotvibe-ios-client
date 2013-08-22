@@ -289,12 +289,12 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    
+
     SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
-    //detailController.selectedPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	detailController.index = indexPath.item;
-	NSLog(@"didSelectItemAtIndexPath %@ %@", indexPath, detailController.selectedPhoto);
-    
+    detailController.albumContents = albumContents;
+    detailController.index = indexPath.item;
+    NSLog(@"didSelectItemAtIndexPath %d", detailController.index);
+
     [self.navigationController pushViewController:detailController animated:YES];
 }
 
