@@ -33,6 +33,83 @@
 
 @end
 
+@interface UploadListener : NSObject <NSURLConnectionDataDelegate>
+
+- (NSHTTPURLResponse *)waitForResponse:(NSError **)error;
+
+@end
+
+@implementation UploadListener
+{
+    dispatch_semaphore_t finishedSemaphore_;
+    NSHTTPURLResponse *httpResponse_;
+    NSError *error_;
+}
+
+- (id)init
+{
+    self = [super init];
+
+    if (self) {
+        finishedSemaphore_ = dispatch_semaphore_create(0);
+        httpResponse_ = nil;
+        error_ = nil;
+    }
+
+    return self;
+}
+
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
+{
+    NSLog(@"didSendBodyData: (%d, %d, %d)", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+    // TODO ...
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    dispatch_semaphore_signal(finishedSemaphore_);
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    // Ignore the response body
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    @synchronized (self) {
+        error_ = error;
+    }
+
+    dispatch_semaphore_signal(finishedSemaphore_);
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    @synchronized(self) {
+        httpResponse_ = (NSHTTPURLResponse *)response;
+    }
+}
+
+- (NSHTTPURLResponse *)waitForResponse:(NSError **)error
+{
+    dispatch_semaphore_wait(finishedSemaphore_, DISPATCH_TIME_FOREVER);
+
+    @synchronized(self) {
+        if (error_) {
+            if (error) {
+                *error = error_;
+            }
+            return nil;
+        }
+        else {
+            return httpResponse_;
+        }
+    }
+}
+
+@end
+
 
 @implementation ShotVibeAPI
 {
@@ -357,12 +434,113 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
     if (response == nil) {
         *error = responseError;
+        return nil;
+    }
+
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return nil;
+    }
+
+    @try {
+        return [ShotVibeAPI parseAlbumContents:[[JSONObject alloc] initWithData:response.body]
+                                          etag:[ShotVibeAPI responseGetEtag:response]];
+    }
+    @catch (JSONException *exception) {
+        *error = [ShotVibeAPI createErrorFromJSONException:exception];
+        return nil;
+    }
+}
+
+- (NSArray *)photosUploadRequest:(int)numPhotos withError:(NSError **)error
+{
+    NSAssert(numPhotos >= 1, @"Invalid argument");
+
+    NSError *responseError;
+    Response *response = [self getResponse:[NSString stringWithFormat:@"/photos/upload_request/?num_photos=%d", numPhotos]
+                                    method:@"POST"
+                                      body:nil
+                                     error:&responseError];
+
+    if (!response) {
+        *error = responseError;
+        return nil;
+    }
+
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return nil;
+    }
+
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+
+    @try {
+        JSONArray *responseArray = [[JSONArray alloc] initWithData:response.body];
+        for (int i = 0; i < [responseArray count]; ++i) {
+            JSONObject *photoUploadRequestObj = [responseArray getJSONObject:i];
+
+            NSString *photoId = [photoUploadRequestObj getString:@"photo_id"];
+
+            [results addObject:photoId];
+        }
+    }
+    @catch (JSONException *exception) {
+        *error = [ShotVibeAPI createErrorFromJSONException:exception];
+        return nil;
+    }
+
+    return results;
+}
+
+- (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath withError:(NSError **)error
+{
+    NSError *responseError;
+    Response *response = [self putFile:[NSString stringWithFormat:@"/photos/upload/%@/", photoId] filePath:filePath contentType:@"application/octet-stream" uploadProgressListener:nil withError:&responseError];
+
+    if (!response) {
+        *error = responseError;
         return NO;
     }
 
     if ([response isError]) {
         *error = [ShotVibeAPI createErrorFromResponse:response];
         return NO;
+    }
+
+    return YES;
+}
+
+- (AlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(NSArray *)photoIds withError:(NSError **)error
+{
+    NSMutableArray *photosArray = [[NSMutableArray alloc] init];
+    for (NSString *photoId in photoIds) {
+        NSDictionary *photoObj = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  photoId, @"photo_id",
+                                  nil];
+        [photosArray addObject:photoObj];
+    }
+
+    NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
+                          photosArray, @"add_photos",
+                          nil];
+
+    NSError *jsonError;
+
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
+
+    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
+
+    NSError *responseError;
+    Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/", albumId] method:@"POST" body:jsonData error:&responseError];
+
+    if (response == nil) {
+        *error = responseError;
+        return nil;
+    }
+
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return nil;
     }
 
     @try {
@@ -430,6 +608,55 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     response.responseCode = [httpResponse statusCode];
     response.headers = [httpResponse allHeaderFields];
     response.body = httpResponseData;
+
+    return response;
+}
+
+- (Response *)putFile:(NSString *)url filePath:(NSString *)filePath contentType:(NSString *)contentType uploadProgressListener:(id)uploadProgressListener withError:(NSError **)error
+{
+    // TODO Some refactoring is in order to eliminate the duplicate code from the getResponse method
+
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:url]]];
+    [request setHTTPMethod:@"PUT"];
+    [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
+    if (self.authData != nil) {
+        [request setValue:[@"Token " stringByAppendingString:self.authData.authToken] forHTTPHeaderField:@"Authorization"];
+    }
+
+    NSError *attributesError;
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:&attributesError];
+    if (!attributes) {
+        *error = attributesError;
+        return nil;
+    }
+
+    NSNumber *fileSize = [attributes objectForKey:NSFileSize];
+
+    NSInputStream *inputStream = [NSInputStream inputStreamWithFileAtPath:filePath];
+    [request setHTTPBodyStream:inputStream];
+
+    [request setValue:[fileSize stringValue] forHTTPHeaderField:@"Content-Length"];
+
+
+    UploadListener *uploadListener = [[UploadListener alloc] init];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:uploadListener startImmediately:NO];
+    [connection setDelegateQueue:[[NSOperationQueue alloc] init]];
+    [connection start];
+
+    NSError *responseError;
+    NSHTTPURLResponse *httpResponse = [uploadListener waitForResponse:&responseError];
+    if (!httpResponse) {
+        *error = responseError;
+        return nil;
+    }
+
+    Response *response = [[Response alloc] init];
+    response.responseCode = [httpResponse statusCode];
+    response.headers = [httpResponse allHeaderFields];
+
+    // TODO return a real body:
+    response.body = nil;
 
     return response;
 }
