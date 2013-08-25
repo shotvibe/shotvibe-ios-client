@@ -508,6 +508,7 @@
 		3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58317D17B5A3870059C1CA /* SVPushNotificationsManager.m */; };
 		3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318117B5C4560059C1CA /* ShotVibeAPI.m */; };
 		3B58318517B5C4C10059C1CA /* AuthData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B58318417B5C4C10059C1CA /* AuthData.m */; };
+		3BCBF39117CA44DE00AAB7BE /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF39017CA44DE00AAB7BE /* FileUtils.m */; };
 		3BE0B10717C24D150058CAAD /* ShotVibeDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B10617C24D150058CAAD /* ShotVibeDB.m */; };
 		3BE0B10A17C29F2E0058CAAD /* create.sql in Resources */ = {isa = PBXBuildFile; fileRef = 3BE0B10917C29F2E0058CAAD /* create.sql */; };
 		3BE0B10E17C2BA3E0058CAAD /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */; };
@@ -1165,6 +1166,8 @@
 		3B58318117B5C4560059C1CA /* ShotVibeAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShotVibeAPI.m; sourceTree = "<group>"; };
 		3B58318317B5C4C00059C1CA /* AuthData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthData.h; sourceTree = "<group>"; };
 		3B58318417B5C4C10059C1CA /* AuthData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthData.m; sourceTree = "<group>"; };
+		3BCBF38F17CA44DE00AAB7BE /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
+		3BCBF39017CA44DE00AAB7BE /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
 		3BE0B10517C24D150058CAAD /* ShotVibeDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShotVibeDB.h; sourceTree = "<group>"; };
 		3BE0B10617C24D150058CAAD /* ShotVibeDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShotVibeDB.m; sourceTree = "<group>"; };
 		3BE0B10917C29F2E0058CAAD /* create.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = create.sql; sourceTree = "<group>"; };
@@ -2169,6 +2172,8 @@
 			children = (
 				AA58FB8C16C233FA00C49E02 /* Business Delegates */,
 				AA58FB8D16C2340100C49E02 /* Worker Sessions */,
+				3BCBF38F17CA44DE00AAB7BE /* FileUtils.h */,
+				3BCBF39017CA44DE00AAB7BE /* FileUtils.m */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -3120,6 +3125,7 @@
 				28E94CA817C5456800874BDE /* RCScrollImageView.m in Sources */,
 				3B10035B17C653FD00387408 /* UserSettings.m in Sources */,
 				28E94CAD17C6776D00874BDE /* SVCameraPickerController.m in Sources */,
+				3BCBF39117CA44DE00AAB7BE /* FileUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

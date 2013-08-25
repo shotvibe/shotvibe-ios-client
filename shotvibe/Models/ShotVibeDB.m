@@ -7,6 +7,7 @@
 //
 
 #import "ShotVibeDB.h"
+#import "FileUtils.h"
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
@@ -21,7 +22,7 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
 {
     self = [super init];
 
-    NSString *databaseDirectory = [ShotVibeDB getApplicationSupportDirectory];
+    NSString *databaseDirectory = [FileUtils getApplicationSupportDirectory];
     NSString *databasePath = [databaseDirectory stringByAppendingPathComponent:DATABASE_FILE];
 
     BOOL databaseExists = [[NSFileManager defaultManager] fileExistsAtPath:databasePath];
@@ -31,27 +32,13 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
         NSAssert(false, @"Error Opening database: %@", [db lastErrorMessage]);
     }
 
-    [ShotVibeDB addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:databasePath isDirectory:NO]];
+    [FileUtils addSkipBackupAttributeToItemAtURL:databasePath];
 
     if (!databaseExists) {
         [self createNewEmptyDatabase];
     }
 
     return self;
-}
-
-+ (NSString *)getApplicationSupportDirectory
-{
-    NSFileManager *manager = [NSFileManager defaultManager];
-    NSString *appSupportDir = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
-    if (![manager fileExistsAtPath:appSupportDir]) {
-        NSError *error;
-        if (![manager createDirectoryAtPath:appSupportDir withIntermediateDirectories:NO attributes:nil error:&error]) {
-            NSAssert(false, @"Error creating ApplicationSupportDirectory: %@", [error localizedDescription]);
-        }
-    }
-
-    return appSupportDir;
 }
 
 - (void)createNewEmptyDatabase
@@ -77,19 +64,6 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
 
     if(![db commit]) {
         NSAssert(false, @"Error committing transaction: %@", [db lastErrorMessage]);
-    }
-}
-
-// See: <http://developer.apple.com/library/ios/qa/qa1719/_index.html>
-+ (void)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
-{
-    assert([[NSFileManager defaultManager] fileExistsAtPath:[URL path]]);
-
-    NSError *error = nil;
-    if(![URL setResourceValue: [NSNumber numberWithBool:YES]
-                       forKey: NSURLIsExcludedFromBackupKey
-                        error: &error]) {
-        NSAssert(false, @"Error excluding %@ from backup %@", [URL lastPathComponent], error);
     }
 }
 
