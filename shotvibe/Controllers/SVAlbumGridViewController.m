@@ -26,6 +26,8 @@
 #import "SVUploadManager.h"
 #import "AlbumPhoto.h"
 #import "UIImageView+WebCache.h"
+#import "MWPhotoBrowser.h"
+#import "AlbumPhotoBrowserDelegate.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
 
@@ -308,12 +310,13 @@
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 
-    SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
-    detailController.albumContents = albumContents;
-    detailController.index = indexPath.item;
-    NSLog(@"didSelectItemAtIndexPath %d", detailController.index);
+    AlbumPhotoBrowserDelegate *delegate = [[AlbumPhotoBrowserDelegate alloc] initWithAlbumContents:albumContents];
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:delegate];
+    browser.wantsFullScreenLayout = YES;
+    browser.displayActionButton = NO;
+    [browser setInitialPageIndex:indexPath.item];
 
-    [self.navigationController pushViewController:detailController animated:YES];
+    [self.navigationController pushViewController:browser animated:YES];
 }
 
 
