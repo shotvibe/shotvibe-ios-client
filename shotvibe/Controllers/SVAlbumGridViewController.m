@@ -169,6 +169,8 @@
         UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
         
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+        destination.albumId = self.albumId;
+        destination.albumManager = self.albumManager;
         //destination.selectedAlbum = self.selectedAlbum;
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
@@ -216,12 +218,30 @@
 
     int i = indexPath.row;
     AlbumPhoto *photo = [albumContents.photos objectAtIndex:i];
-    NSString *fullsizePhotoUrl = photo.serverPhoto.url;
-    NSString *thumbnailSuffix = @"_thumb75.jpg";
-    NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
 
-    // TODO Temporarily using AFNetworking library for a quick and easy way to display photos
-    [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
+    if (photo.serverPhoto) {
+        NSString *fullsizePhotoUrl = photo.serverPhoto.url;
+        NSString *thumbnailSuffix = @"_thumb75.jpg";
+        NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
+
+        // TODO Temporarily using AFNetworking library for a quick and easy way to display photos
+        [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
+
+        [cell.activityView stopAnimating];
+        cell.networkImageView.alpha = 1.0;
+    }
+    else if (photo.uploadingPhoto) {
+        [cell.networkImageView setImage:[photo.uploadingPhoto getThumbnail]];
+
+        [cell.activityView startAnimating];
+
+        if ([photo.uploadingPhoto isUploadComplete]) {
+            cell.networkImageView.alpha = 0.8;
+        }
+        else {
+            cell.networkImageView.alpha = 0.3;
+        }
+    }
 
 
     /*
@@ -514,6 +534,11 @@
 - (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
 {
     // TODO
+}
+
+- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId
+{
+    [self.gridView reloadData];
 }
 
 

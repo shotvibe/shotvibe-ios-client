@@ -15,6 +15,7 @@
 #import "SVSelectionGridCell.h"
 #import "CameraRollSection.h"
 #import "SVBusinessDelegate.h"
+#import "AlbumManager.h"
 
 @class OldAlbum;
 
@@ -25,6 +26,9 @@
 	NSMutableArray *selectedPhotos;
 	CLGeocoder *geocoder;
 }
+
+@property (nonatomic, assign) int64_t albumId;
+@property (nonatomic, strong) AlbumManager *albumManager;
 
 @property (nonatomic, strong) NSArray *takenPhotos;// Set only one of this options
 @property (nonatomic, strong) NSArray *libraryPhotos;

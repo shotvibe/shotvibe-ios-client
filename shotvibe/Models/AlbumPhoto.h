@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "AlbumServerPhoto.h"
+#import "AlbumUploadingPhoto.h"
 
 @interface AlbumPhoto : NSObject
 
 - (id)initWithAlbumServerPhoto:(AlbumServerPhoto *)photo;
 
+- (id)initWithAlbumUploadingPhoto:(AlbumUploadingPhoto *)photo;
+
 @property (nonatomic, readonly, strong) AlbumServerPhoto *serverPhoto;
+@property (nonatomic, readonly, strong) AlbumUploadingPhoto *uploadingPhoto;
 
 @end

@@ -8,6 +8,9 @@
 
 #import "AlbumManager.h"
 #import "AlbumSummary.h"
+#import "AlbumContents.h"
+#import "PhotoUploadManager.h"
+#import "AlbumPhoto.h"
 
 enum RefreshStatus
 {
@@ -55,6 +58,8 @@ enum RefreshStatus
 
         albumListListeners = [[NSMutableArray alloc] init];
         albumContentsObjs = [[NSMutableDictionary alloc] init];
+
+        _photoUploadManager = [[PhotoUploadManager alloc] initWithShotVibeAPI:shotvibeAPI listener:self];
     }
 
     return self;
@@ -170,7 +175,8 @@ enum RefreshStatus
         [listener onAlbumContentsBeginRefresh:albumId];
     }
 
-    // TODO Later add the uploading photos to the end of the album
+    // Add the Uploading photos to the end of album:
+    cachedAlbum = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
 
     return cachedAlbum;
 }
@@ -242,10 +248,11 @@ enum RefreshStatus
                         NSLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
                     }
 
-                    // TODO Later add the uploading photos to the end of the album
+                    // Add the Uploading photos to the end of album:
+                    AlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:albumContents uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
 
                     for(id<AlbumContentsListener> listener in data.listeners) {
-                        [listener onAlbumContentsRefreshComplete:albumId albumContents:albumContents];
+                        [listener onAlbumContentsRefreshComplete:albumId albumContents:updatedContents];
                     }
 
                     data.refreshStatus = IDLE;
@@ -261,6 +268,66 @@ enum RefreshStatus
     });
 }
 
++ (AlbumContents *)addUploadingPhotosToAlbumContents:(AlbumContents *)albumContents uploadingPhotos:(NSArray *)uploadingPhotos
+{
+    // Bail out early if there are no uploadingPhotos
+    if (uploadingPhotos.count == 0) {
+        return albumContents;
+    }
+
+    // In rare cases it is possible for uploaded photos to be added to the
+    // server and contained in albumContents, before the client has
+    // received the acknowledgment and so they will have not yet been
+    // removed from uploadingPhotos. We must make sure to not show such duplicates
+
+    // But first an optimization: if none of the uploadingPhotos are
+    // being isAddingToAlbum, then there can be no duplicates, so just
+    // add them all
+    BOOL foundAddingToAlbum = NO;
+    for (AlbumPhoto *u in uploadingPhotos) {
+        if ([u.uploadingPhoto isAddingToAlbum]) {
+            foundAddingToAlbum = YES;
+        }
+    }
+    if (!foundAddingToAlbum) {
+        NSArray *currentPhotos = albumContents.photos;
+        NSArray *combinedPhotos = [currentPhotos arrayByAddingObjectsFromArray:uploadingPhotos];
+        return [[AlbumContents alloc] initWithAlbumId:(int64_t)albumContents.albumId
+                                                 etag:(NSString *)albumContents.etag
+                                                 name:(NSString *)albumContents.name
+                                          dateCreated:(NSDate *)albumContents.dateCreated
+                                          dateUpdated:(NSDate *)albumContents.dateUpdated
+                                               photos:combinedPhotos
+                                              members:(NSArray *)albumContents.members];
+    }
+
+    // Keep track of all the server photo ids in an appropriate efficient data
+    // structure, so that duplicates can be found:
+    NSMutableSet *serverPhotoIds = [[NSMutableSet alloc] init];
+    for (AlbumPhoto *p in albumContents.photos) {
+        if (p.serverPhoto) {
+            [serverPhotoIds addObject:p.serverPhoto.photoId];
+        }
+    }
+
+    // Add only the uploading photos that don't appear in the server photos
+    NSMutableArray *combinedPhotos = [NSMutableArray arrayWithArray:albumContents.photos];
+    for (AlbumPhoto *u in uploadingPhotos) {
+
+        if (![u.uploadingPhoto isAddingToAlbum] || ![serverPhotoIds containsObject:u.uploadingPhoto.photoId]) {
+            [combinedPhotos addObject:u];
+        }
+    }
+
+    return [[AlbumContents alloc] initWithAlbumId:(int64_t)albumContents.albumId
+                                             etag:(NSString *)albumContents.etag
+                                             name:(NSString *)albumContents.name
+                                      dateCreated:(NSDate *)albumContents.dateCreated
+                                      dateUpdated:(NSDate *)albumContents.dateUpdated
+                                           photos:combinedPhotos
+                                          members:(NSArray *)albumContents.members];
+}
+
 - (void)cleanAlbumContentsListeners:(int64_t)albumId
 {
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
@@ -274,6 +341,57 @@ enum RefreshStatus
     [self refreshAlbumList];
 
     [self refreshAlbumContents:albumId];
+}
+
+- (void)photoUploadAdditions:(int64_t)albumId
+{
+    AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
+    if (!data) {
+        return;
+    }
+
+    AlbumContents *cachedAlbum = [shotvibeDB getAlbumContents:albumId];
+
+    // Add the Uploading photos to the end of album:
+    AlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+
+    for(id<AlbumContentsListener> listener in data.listeners) {
+        [listener onAlbumContentsRefreshComplete:albumId albumContents:updatedContents];
+    }
+}
+
+- (void)photoUploadProgress:(int64_t)albumId
+{
+    AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
+    if (!data) {
+        return;
+    }
+
+    for(id<AlbumContentsListener> listener in data.listeners) {
+        [listener onAlbumContentsPhotoUploadProgress:albumId];
+    }
+}
+
+- (void)photoUploadComplete:(int64_t)albumId
+{
+    AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
+    if (!data) {
+        return;
+    }
+
+    for(id<AlbumContentsListener> listener in data.listeners) {
+        [listener onAlbumContentsPhotoUploadProgress:albumId];
+    }
+}
+
+- (void)photoAlbumAllPhotosUploaded:(int64_t)albumId
+{
+    [self refreshAlbumContents:albumId];
+}
+
+- (void)photoUploadError:(NSError *)error
+{
+    // TODO ...
 }
 
 @end

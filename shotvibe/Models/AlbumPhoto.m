@@ -16,6 +16,19 @@
 
     if (self) {
         _serverPhoto = photo;
+        _uploadingPhoto = nil;
+    }
+
+    return self;
+}
+
+- (id)initWithAlbumUploadingPhoto:(AlbumUploadingPhoto *)photo
+{
+    self = [super init];
+
+    if (self) {
+        _serverPhoto = nil;
+        _uploadingPhoto = photo;
     }
 
     return self;

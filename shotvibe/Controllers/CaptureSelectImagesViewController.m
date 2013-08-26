@@ -8,6 +8,7 @@
 
 #import "CaptureSelectImagesViewController.h"
 
+#import "PhotoUploadRequest.h"
 
 @implementation CaptureSelectImagesViewController
 
@@ -279,18 +280,12 @@
 	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		
     if (self.selectedGroup) {
-        
+        NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
         for (ALAsset *asset in selectedPhotos) {
-            ALAssetRepresentation *rep = [asset defaultRepresentation];
-            Byte *buffer = (Byte*)malloc(rep.size);
-            NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
-            NSData *photoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-            if (photoData) {
-                [SVBusinessDelegate saveUploadedPhotoImageData:photoData
-													forPhotoId:[[NSUUID UUID] UUIDString]
-												   withAlbumId:self.selectedAlbum.albumId];
-            }
+            PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithAsset:asset];
+            [photoUploadRequests addObject:photoUploadRequest];
         }
+        [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
     }
     else {
         for (NSString *selectedPhotoPath in selectedPhotos) {

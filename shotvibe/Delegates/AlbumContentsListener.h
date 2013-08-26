@@ -21,4 +21,6 @@
 
 - (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error;
 
+- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId;
+
 @end

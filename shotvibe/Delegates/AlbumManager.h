@@ -11,8 +11,9 @@
 #import "ShotVibeDB.h"
 #import "AlbumListListener.h"
 #import "AlbumContentsListener.h"
+#import "PhotoUploadManager.h"
 
-@interface AlbumManager : NSObject
+@interface AlbumManager : NSObject <PhotosUploadListener>
 {
     NSMutableArray *albumListListeners;
     NSMutableDictionary *albumContentsObjs;
@@ -22,6 +23,8 @@
 
     int refreshStatus;
 }
+
+@property (nonatomic, readonly, strong) PhotoUploadManager *photoUploadManager;
 
 - (id)initWithShotvibeAPI:(ShotVibeAPI *)api shotvibeDB:(ShotVibeDB *)db;
 
