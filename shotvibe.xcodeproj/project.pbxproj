@@ -492,6 +492,12 @@
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
 		3B013BCD17C3E84C00135869 /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BCC17C3E84C00135869 /* AlbumMember.m */; };
+		3B0A3CE617CB759A0058B620 /* MWCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CDA17CB759A0058B620 /* MWCaptionView.m */; };
+		3B0A3CE717CB759A0058B620 /* MWPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CDC17CB759A0058B620 /* MWPhoto.m */; };
+		3B0A3CE817CB759A0058B620 /* MWPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CDE17CB759A0058B620 /* MWPhotoBrowser.m */; };
+		3B0A3CE917CB759A0058B620 /* MWTapDetectingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CE117CB759A0058B620 /* MWTapDetectingImageView.m */; };
+		3B0A3CEA17CB759A0058B620 /* MWTapDetectingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CE317CB759A0058B620 /* MWTapDetectingView.m */; };
+		3B0A3CEB17CB759A0058B620 /* MWZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CE517CB759A0058B620 /* MWZoomingScrollView.m */; };
 		3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */; };
 		3B10035B17C653FD00387408 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B10035A17C653FD00387408 /* UserSettings.m */; };
 		28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C9217C3B06900874BDE /* SVContactCell.m */; };
@@ -1159,6 +1165,19 @@
 		3B013BC917C3E83200135869 /* AlbumContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumContents.m; sourceTree = "<group>"; };
 		3B013BCB17C3E84C00135869 /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
 		3B013BCC17C3E84C00135869 /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
+		3B0A3CD917CB759A0058B620 /* MWCaptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWCaptionView.h; path = MWPhotoBrowser/MWCaptionView.h; sourceTree = "<group>"; };
+		3B0A3CDA17CB759A0058B620 /* MWCaptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWCaptionView.m; path = MWPhotoBrowser/MWCaptionView.m; sourceTree = "<group>"; };
+		3B0A3CDB17CB759A0058B620 /* MWPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPhoto.h; path = MWPhotoBrowser/MWPhoto.h; sourceTree = "<group>"; };
+		3B0A3CDC17CB759A0058B620 /* MWPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWPhoto.m; path = MWPhotoBrowser/MWPhoto.m; sourceTree = "<group>"; };
+		3B0A3CDD17CB759A0058B620 /* MWPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPhotoBrowser.h; path = MWPhotoBrowser/MWPhotoBrowser.h; sourceTree = "<group>"; };
+		3B0A3CDE17CB759A0058B620 /* MWPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWPhotoBrowser.m; path = MWPhotoBrowser/MWPhotoBrowser.m; sourceTree = "<group>"; };
+		3B0A3CDF17CB759A0058B620 /* MWPhotoProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPhotoProtocol.h; path = MWPhotoBrowser/MWPhotoProtocol.h; sourceTree = "<group>"; };
+		3B0A3CE017CB759A0058B620 /* MWTapDetectingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWTapDetectingImageView.h; path = MWPhotoBrowser/MWTapDetectingImageView.h; sourceTree = "<group>"; };
+		3B0A3CE117CB759A0058B620 /* MWTapDetectingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWTapDetectingImageView.m; path = MWPhotoBrowser/MWTapDetectingImageView.m; sourceTree = "<group>"; };
+		3B0A3CE217CB759A0058B620 /* MWTapDetectingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWTapDetectingView.h; path = MWPhotoBrowser/MWTapDetectingView.h; sourceTree = "<group>"; };
+		3B0A3CE317CB759A0058B620 /* MWTapDetectingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWTapDetectingView.m; path = MWPhotoBrowser/MWTapDetectingView.m; sourceTree = "<group>"; };
+		3B0A3CE417CB759A0058B620 /* MWZoomingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWZoomingScrollView.h; path = MWPhotoBrowser/MWZoomingScrollView.h; sourceTree = "<group>"; };
+		3B0A3CE517CB759A0058B620 /* MWZoomingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWZoomingScrollView.m; path = MWPhotoBrowser/MWZoomingScrollView.m; sourceTree = "<group>"; };
 		3B0A3CED17CB7EBC0058B620 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
 		3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		3B10035917C653FD00387408 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettings.h; sourceTree = "<group>"; };
@@ -2007,6 +2026,26 @@
 			name = CustomActivity;
 			sourceTree = "<group>";
 		};
+		3B0A3CD717CB75190058B620 /* MWPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				3B0A3CD917CB759A0058B620 /* MWCaptionView.h */,
+				3B0A3CDA17CB759A0058B620 /* MWCaptionView.m */,
+				3B0A3CDB17CB759A0058B620 /* MWPhoto.h */,
+				3B0A3CDC17CB759A0058B620 /* MWPhoto.m */,
+				3B0A3CDD17CB759A0058B620 /* MWPhotoBrowser.h */,
+				3B0A3CDE17CB759A0058B620 /* MWPhotoBrowser.m */,
+				3B0A3CDF17CB759A0058B620 /* MWPhotoProtocol.h */,
+				3B0A3CE017CB759A0058B620 /* MWTapDetectingImageView.h */,
+				3B0A3CE117CB759A0058B620 /* MWTapDetectingImageView.m */,
+				3B0A3CE217CB759A0058B620 /* MWTapDetectingView.h */,
+				3B0A3CE317CB759A0058B620 /* MWTapDetectingView.m */,
+				3B0A3CE417CB759A0058B620 /* MWZoomingScrollView.h */,
+				3B0A3CE517CB759A0058B620 /* MWZoomingScrollView.m */,
+			);
+			name = MWPhotoBrowser;
+			sourceTree = "<group>";
+		};
 		3B0A3CEC17CB7E640058B620 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -2285,6 +2324,7 @@
 				AA89F4DE177D49E600B782A1 /* MagicalRecord */,
 				04734F2A16CF104F003F729B /* MFSideMenu */,
 				3B0A3CEC17CB7E640058B620 /* MBProgressHUD */,
+				3B0A3CD717CB75190058B620 /* MWPhotoBrowser */,
 				3B3AD13417CB4A3F004D24A9 /* SDWebImage */,
 			);
 			path = Vendor;
@@ -3247,6 +3287,12 @@
 				3B3AD15E17CB4A9C004D24A9 /* UIImage+MultiFormat.m in Sources */,
 				3B3AD15F17CB4A9C004D24A9 /* UIImage+WebP.m in Sources */,
 				3B3AD16017CB4A9C004D24A9 /* UIImageView+WebCache.m in Sources */,
+				3B0A3CE617CB759A0058B620 /* MWCaptionView.m in Sources */,
+				3B0A3CE717CB759A0058B620 /* MWPhoto.m in Sources */,
+				3B0A3CE817CB759A0058B620 /* MWPhotoBrowser.m in Sources */,
+				3B0A3CE917CB759A0058B620 /* MWTapDetectingImageView.m in Sources */,
+				3B0A3CEA17CB759A0058B620 /* MWTapDetectingView.m in Sources */,
+				3B0A3CEB17CB759A0058B620 /* MWZoomingScrollView.m in Sources */,
 				3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
