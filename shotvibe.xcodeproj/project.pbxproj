@@ -492,6 +492,7 @@
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
 		3B013BCD17C3E84C00135869 /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BCC17C3E84C00135869 /* AlbumMember.m */; };
+		3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */; };
 		3B10035B17C653FD00387408 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B10035A17C653FD00387408 /* UserSettings.m */; };
 		28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94C9217C3B06900874BDE /* SVContactCell.m */; };
 		28E94C9B17C3FB6300874BDE /* ContactIsMember.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9517C3FB6300874BDE /* ContactIsMember.png */; };
@@ -1158,6 +1159,8 @@
 		3B013BC917C3E83200135869 /* AlbumContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumContents.m; sourceTree = "<group>"; };
 		3B013BCB17C3E84C00135869 /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
 		3B013BCC17C3E84C00135869 /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
+		3B0A3CED17CB7EBC0058B620 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
+		3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		3B10035917C653FD00387408 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettings.h; sourceTree = "<group>"; };
 		3B10035A17C653FD00387408 /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSettings.m; sourceTree = "<group>"; };
 		28E94C9117C3B06800874BDE /* SVContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVContactCell.h; path = Views/SVContactCell.h; sourceTree = "<group>"; };
@@ -2004,6 +2007,15 @@
 			name = CustomActivity;
 			sourceTree = "<group>";
 		};
+		3B0A3CEC17CB7E640058B620 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				3B0A3CED17CB7EBC0058B620 /* MBProgressHUD.h */,
+				3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		3B3AD13417CB4A3F004D24A9 /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -2272,6 +2284,7 @@
 				04C407F017305E4C00973BC0 /* libPhoneNumber */,
 				AA89F4DE177D49E600B782A1 /* MagicalRecord */,
 				04734F2A16CF104F003F729B /* MFSideMenu */,
+				3B0A3CEC17CB7E640058B620 /* MBProgressHUD */,
 				3B3AD13417CB4A3F004D24A9 /* SDWebImage */,
 			);
 			path = Vendor;
@@ -3234,6 +3247,7 @@
 				3B3AD15E17CB4A9C004D24A9 /* UIImage+MultiFormat.m in Sources */,
 				3B3AD15F17CB4A9C004D24A9 /* UIImage+WebP.m in Sources */,
 				3B3AD16017CB4A9C004D24A9 /* UIImageView+WebCache.m in Sources */,
+				3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
