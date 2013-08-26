@@ -24,6 +24,10 @@
 
 - (void)reportAddingToAlbum;
 
+- (float)getUploadProgress;
+
+- (void)reportUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal;
+
 - (void)prepareTmpFile:(dispatch_queue_t)dispatchQueue;
 
 - (NSString *)getFilename;

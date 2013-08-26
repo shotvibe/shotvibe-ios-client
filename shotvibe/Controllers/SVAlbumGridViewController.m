@@ -237,7 +237,7 @@
             cell.uploadProgressView.progress = 1.0f;
         }
         else {
-            cell.uploadProgressView.progress = 0.0f;
+            cell.uploadProgressView.progress = [photo.uploadingPhoto getUploadProgress];
         }
     }
 

@@ -197,7 +197,12 @@ const NSTimeInterval RETRY_TIME = 5;
         BOOL photoSuccesfullyUploaded = NO;
         while (!photoSuccesfullyUploaded) {
             NSError *error;
-            if (![shotvibeAPI_ photoUpload:nextPhotoUpload.photoId filePath:filename withError:&error]) {
+            if (![shotvibeAPI_ photoUpload:nextPhotoUpload.photoId filePath:filename uploadProgress:^(int bytesUploaded, int bytesTotal){
+                [nextPhotoUpload reportUploadProgress:bytesUploaded bytesTotal:bytesTotal];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [listener_ photoUploadProgress:albumId];
+                });
+            } withError:&error]) {
                 NSLog(@"Error uploading photo: %@", [error description]);
                 [NSThread sleepForTimeInterval:RETRY_TIME];
             }

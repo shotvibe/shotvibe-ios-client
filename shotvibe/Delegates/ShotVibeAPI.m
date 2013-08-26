@@ -35,6 +35,8 @@
 
 @interface UploadListener : NSObject <NSURLConnectionDataDelegate>
 
+@property (nonatomic, copy) void (^uploadProgress)(int, int);
+
 - (NSHTTPURLResponse *)waitForResponse:(NSError **)error;
 
 @end
@@ -54,6 +56,8 @@
         finishedSemaphore_ = dispatch_semaphore_create(0);
         httpResponse_ = nil;
         error_ = nil;
+
+        self.uploadProgress = nil;
     }
 
     return self;
@@ -61,8 +65,9 @@
 
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-    NSLog(@"didSendBodyData: (%d, %d, %d)", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
-    // TODO ...
+    if (self.uploadProgress) {
+        self.uploadProgress(totalBytesWritten, totalBytesExpectedToWrite);
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -492,10 +497,14 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return results;
 }
 
-- (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath withError:(NSError **)error
+- (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
 {
     NSError *responseError;
-    Response *response = [self putFile:[NSString stringWithFormat:@"/photos/upload/%@/", photoId] filePath:filePath contentType:@"application/octet-stream" uploadProgressListener:nil withError:&responseError];
+    Response *response = [self putFile:[NSString stringWithFormat:@"/photos/upload/%@/", photoId]
+                              filePath:filePath
+                           contentType:@"application/octet-stream"
+                        uploadProgress:uploadProgress
+                             withError:&responseError];
 
     if (!response) {
         *error = responseError;
@@ -612,7 +621,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return response;
 }
 
-- (Response *)putFile:(NSString *)url filePath:(NSString *)filePath contentType:(NSString *)contentType uploadProgressListener:(id)uploadProgressListener withError:(NSError **)error
+- (Response *)putFile:(NSString *)url filePath:(NSString *)filePath contentType:(NSString *)contentType uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
 {
     // TODO Some refactoring is in order to eliminate the duplicate code from the getResponse method
 
@@ -640,6 +649,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
 
     UploadListener *uploadListener = [[UploadListener alloc] init];
+    uploadListener.uploadProgress = uploadProgress;
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:uploadListener startImmediately:NO];
     [connection setDelegateQueue:[[NSOperationQueue alloc] init]];
     [connection start];

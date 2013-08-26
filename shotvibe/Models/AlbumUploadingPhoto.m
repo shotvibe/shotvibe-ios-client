@@ -22,6 +22,8 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
 
     NSObject *lock_;
     UploadStatus uploadStatus_;
+
+    float uploadProgress_;
 }
 
 - (id)initWithPhotoUploadRequest:(PhotoUploadRequest *)photoUploadRequest album:(int64_t)album
@@ -36,6 +38,8 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
 
         lock_ = [[NSObject alloc] init];
         uploadStatus_ = UploadStatusQueued;
+
+        uploadProgress_ = 0.0f;
     }
 
     return self;
@@ -66,6 +70,21 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
 {
     @synchronized (lock_) {
         uploadStatus_ = UploadStatusAddingToAlbum;
+    }
+}
+
+- (float)getUploadProgress
+{
+    @synchronized (lock_) {
+        return uploadProgress_;
+    }
+}
+
+- (void)reportUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal
+{
+    @synchronized (lock_) {
+        uploadStatus_ = UploadStatusUploading;
+        uploadProgress_ = (float)bytesUploaded / (float)bytesTotal;
     }
 }
 
