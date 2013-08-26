@@ -25,7 +25,7 @@
 #import "SVAddFriendsViewController.h"
 #import "SVUploadManager.h"
 #import "AlbumPhoto.h"
-#import "UIImageView+AFNetworking.h"
+#import "UIImageView+WebCache.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
 
@@ -224,7 +224,7 @@
         NSString *thumbnailSuffix = @"_thumb75.jpg";
         NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
 
-        // TODO Temporarily using AFNetworking library for a quick and easy way to display photos
+        // TODO Temporarily using SDWebImage library for a quick and easy way to display photos
         [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
 
         cell.uploadProgressView.hidden = YES;

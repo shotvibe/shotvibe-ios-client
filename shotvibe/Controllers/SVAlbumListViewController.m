@@ -7,7 +7,7 @@
 //
 
 #import "SVAlbumListViewController.h"
-#import "UIImageView+AFNetworking.h"
+#import "UIImageView+WebCache.h"
 
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h";
@@ -294,7 +294,7 @@
             NSString *thumbnailSuffix = @"_thumb75.jpg";
             NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
 
-            // TODO Temporarily using AFNetworking library for a quick and easy way to display photos
+            // TODO Temporarily using SDWebImage library for a quick and easy way to display photos
             [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
         }
     }
