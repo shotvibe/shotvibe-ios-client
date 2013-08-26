@@ -227,23 +227,17 @@
         // TODO Temporarily using AFNetworking library for a quick and easy way to display photos
         [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
 
-        [cell.activityView stopAnimating];
-        cell.networkImageView.alpha = 1.0;
         cell.uploadProgressView.hidden = YES;
     }
     else if (photo.uploadingPhoto) {
         [cell.networkImageView setImage:[photo.uploadingPhoto getThumbnail]];
 
-        [cell.activityView startAnimating];
-
         cell.uploadProgressView.hidden = NO;
         if ([photo.uploadingPhoto isUploadComplete]) {
             cell.uploadProgressView.progress = 1.0f;
-            cell.networkImageView.alpha = 0.8;
         }
         else {
             cell.uploadProgressView.progress = 0.0f;
-            cell.networkImageView.alpha = 0.3;
         }
     }
 
