@@ -109,8 +109,7 @@
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
 	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
 	self.sidebarRight.parentController = self;
-	//self.sidebarRight.selectedAlbum = self.selectedAlbum;
-	
+
 	self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
 	self.sidebarLeft.parentController = self;
 	
@@ -518,6 +517,8 @@
     self.noPhotosView.hidden = albumContents.photos.count > 0;
 
     [self.gridView reloadData];
+
+    self.sidebarRight.albumContents = albumContents;
 }
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId
