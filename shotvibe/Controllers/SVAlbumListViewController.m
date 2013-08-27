@@ -51,9 +51,9 @@
     BOOL searchShowing;
     NSMutableDictionary *thumbnailCache;
 	UIView *sectionView;
-	SVCameraPickerController *cameraController;
 	NSIndexPath *tappedCell;
 	NSOperationQueue *_queue;
+	CaptureNavigationController *cameraNavController;
 }
 
 #pragma mark - Actions
@@ -91,18 +91,20 @@
         }
     }
     
-    
-	cameraController = [[SVCameraPickerController alloc] initWithNibName:@"SVCameraOverlay" bundle:[NSBundle mainBundle]];
-	//cameraController.albums = albumsForCapture;
-	//cameraController.delegate = self;
-    
-    CaptureNavigationController *cameraNavController = [[CaptureNavigationController alloc] initWithRootViewController:cameraController];
-    
-    [self presentViewController:cameraNavController animated:YES completion:nil];
+    cameraNavController = [[CaptureNavigationController alloc] init];
+	cameraNavController.cameraDelegate = self;
+	cameraNavController.albums = albumsForCapture;
+    cameraNavController.nav = self.navigationController;// this is set last
 }
 
 
 #pragma mark camera delegate
+
+- (void)cameraExit {
+	
+	NSLog(@"CAMERA EXIT, do nothing");
+	cameraNavController = nil;
+}
 
 - (void) cameraWasDismissedWithAlbum:(Album*)selectedAlbum {
 	
@@ -128,6 +130,7 @@
 	}
 }
 
+
 #pragma mark - UIViewController Methods
 
 - (void)viewDidLoad
@@ -141,7 +144,7 @@
     self.imageLoadingQueue.maxConcurrentOperationCount = 1;
     thumbnailCache = [[NSMutableDictionary alloc] init];
 	self.searchbar.placeholder = NSLocalizedString(@"Search an album", nil);
-
+	
     [self configureViews];
 	
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
@@ -166,6 +169,14 @@
 	}
 
 	[[SVDownloadManager sharedManager] download];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	if (cameraNavController != nil) {
+		[self cameraWasDismissedWithAlbum:cameraNavController.selectedAlbum];
+		cameraNavController = nil;
+	}
 }
 
 

@@ -47,6 +47,7 @@
     NSMutableArray *_objectChanges;
     NSMutableArray *_sectionChanges;
     NSMutableDictionary *thumbnailCache;
+	CaptureNavigationController *cameraNavController;
 }
 
 
@@ -58,11 +59,10 @@
 
 - (IBAction)takePicturePressed:(id)sender
 {
-    SVCameraPickerController *cameraController = [[SVCameraPickerController alloc] initWithNibName:@"SVCameraOverlay" bundle:[NSBundle mainBundle]];
-    //cameraController.albums = @[self.selectedAlbum];
-    CaptureNavigationController *cameraNavController = [[CaptureNavigationController alloc] initWithRootViewController:cameraController];
-    
-    [self presentViewController:cameraNavController animated:YES completion:nil];
+	cameraNavController = [[CaptureNavigationController alloc] init];
+	cameraNavController.cameraDelegate = self;
+	cameraNavController.albums = @[self.selectedAlbum];
+    cameraNavController.nav = self.navigationController;// this is set last
 }
 
 - (void)backButtonPressed:(id)sender

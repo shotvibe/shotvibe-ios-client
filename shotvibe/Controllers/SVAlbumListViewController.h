@@ -30,7 +30,8 @@
 UITableViewDelegate,
 UITextFieldDelegate,
 UISearchBarDelegate,
-RCImageViewDelegate> {
+RCImageViewDelegate,
+SVCameraPickerDelegate> {
 	
 }
 

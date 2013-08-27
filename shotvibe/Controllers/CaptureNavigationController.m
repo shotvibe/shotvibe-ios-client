@@ -11,35 +11,44 @@
 
 @implementation CaptureNavigationController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+
+- (id)init {
+
+    self = [super init];
+	if (self) {
+	}
+	return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+- (void) setNav:(UINavigationController *)nav {
+	_nav = nav;
+	cameraController = [[SVCameraPickerController alloc] initWithNibName:@"SVCameraOverlay" bundle:[NSBundle mainBundle]];
+	cameraController.delegate = self;
+	cameraController.albums = self.albums;
+	[nav pushViewController:cameraController animated:NO];
+	self.selectedAlbum = [self.albums objectAtIndex:0];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark SVCameraPicker delegates
+
+- (void)cameraExit {
+	
+	[self.nav popViewControllerAnimated:YES];
+	
+	if ([self.cameraDelegate respondsToSelector:@selector(cameraExit)]) {
+		[self.cameraDelegate cameraExit];
+	}
+	cameraController = nil;
 }
 
-
-- (BOOL)shouldAutorotate{
-	return YES;
+- (void)cameraWasDismissedWithAlbum:(Album*)album {
+	
+	self.selectedAlbum = album;
+	[self.nav popViewControllerAnimated:YES];
+	
+//	if ([self.cameraDelegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
+//		[self.cameraDelegate cameraWasDismissedWithAlbum:album];
+//	}
 }
-
--(NSUInteger)supportedInterfaceOrientations{
-	return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
 
 @end

@@ -12,12 +12,6 @@
 @implementation CaptureSelectImagesViewController
 
 
-- (void) setTakenPhotos:(NSArray *)takenPhotos {
-	
-	selectedPhotos = [[NSMutableArray alloc] initWithArray:takenPhotos];
-	_takenPhotos = takenPhotos;
-}
-
 - (void) setLibraryPhotos:(NSArray *)libraryPhotos {
 	
 	selectedPhotos = [[NSMutableArray alloc] init];
@@ -142,26 +136,9 @@
 	dispatch_async(dispatch_get_global_queue(0,0),^{
 		
 		UIImage *image;
+		ALAsset *asset = [arr objectAtIndex:indexPath.row];
+		image = [UIImage imageWithCGImage:asset.thumbnail];
 		
-		if (self.selectedGroup) {
-			ALAsset *asset = [arr objectAtIndex:indexPath.row];
-			image = [UIImage imageWithCGImage:asset.thumbnail];
-		}
-		else {
-			// Images taken by camera
-			UIImage *large_image = [UIImage imageWithContentsOfFile:[arr objectAtIndex:indexPath.row]];
-			
-			float oldWidth = large_image.size.width;
-			float scaleFactor = cell.imageView.frame.size.width / oldWidth;
-			
-			float newHeight = large_image.size.height * scaleFactor;
-			float newWidth = oldWidth * scaleFactor;
-			
-			UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-			[image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-			image = UIGraphicsGetImageFromCurrentImageContext();
-			UIGraphicsEndImageContext();
-		}
 		dispatch_async(dispatch_get_main_queue(),^{
 			cell.imageView.image = image;
 		});
@@ -276,33 +253,17 @@
 	
 	NSLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
 	
-	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		
-    if (self.selectedGroup) {
-        
-        for (ALAsset *asset in selectedPhotos) {
-            ALAssetRepresentation *rep = [asset defaultRepresentation];
-            Byte *buffer = (Byte*)malloc(rep.size);
-            NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
-            NSData *photoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-            if (photoData) {
-                [SVBusinessDelegate saveUploadedPhotoImageData:photoData
-													forPhotoId:[[NSUUID UUID] UUIDString]
-												   withAlbumId:self.selectedAlbum.albumId];
-            }
-        }
-    }
-    else {
-        for (NSString *selectedPhotoPath in selectedPhotos) {
-            NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
-            if (photoData) {
-				[SVBusinessDelegate saveUploadedPhotoImageData:photoData
-													forPhotoId:[[NSUUID UUID] UUIDString]
-												   withAlbumId:self.selectedAlbum.albumId];
-            }
-        }
-    }
-//	});
+	for (ALAsset *asset in selectedPhotos) {
+		ALAssetRepresentation *rep = [asset defaultRepresentation];
+		Byte *buffer = (Byte*)malloc(rep.size);
+		NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
+		NSData *photoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+		if (photoData) {
+			[SVBusinessDelegate saveUploadedPhotoImageData:photoData
+												forPhotoId:[[NSUUID UUID] UUIDString]
+											   withAlbumId:self.selectedAlbum.albumId];
+		}
+	}
 	
 	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
 		

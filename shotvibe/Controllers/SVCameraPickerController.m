@@ -8,26 +8,6 @@
 
 #import "SVCameraPickerController.h"
 
-@interface SVCameraPickerController ()
-
-@property (nonatomic, weak) IBOutlet UIImageView *imageView;
-
-@property (nonatomic, weak) IBOutlet UIToolbar *toolBar;
-
-@property (nonatomic) IBOutlet UIView *overlayView;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *takePictureButton;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *startStopButton;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *delayedPhotoButton;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *doneButton;
-
-@property (nonatomic) UIImagePickerController *imagePickerController;
-
-@property (nonatomic, weak) NSTimer *cameraTimer;
-@property (nonatomic) NSMutableArray *capturedImages;
-
-@end
-
-
 
 @implementation SVCameraPickerController
 
@@ -36,161 +16,194 @@
 	
     [super viewDidLoad];
     
+	selectedPhotos = [[NSMutableArray alloc] init];
     self.capturedImages = [[NSMutableArray alloc] init];
+	[self.sliderZoom addTarget:self
+						action:@selector(zoomChanged:)
+			  forControlEvents:UIControlEventValueChanged];
 	
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        // There is not a camera on this device, so don't show the camera button.
-        NSMutableArray *toolbarItems = [self.toolBar.items mutableCopy];
-        [toolbarItems removeObjectAtIndex:2];
-        [self.toolBar setItems:toolbarItems animated:NO];
-    }
-}
-
-
-- (IBAction)showImagePickerForCamera:(id)sender
-{
-    [self showImagePickerForSourceType:UIImagePickerControllerSourceTypeCamera];
-}
-
-
-- (IBAction)showImagePickerForPhotoPicker:(id)sender
-{
-    [self showImagePickerForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-}
-
-
-- (void)showImagePickerForSourceType:(UIImagePickerControllerSourceType)sourceType
-{
-	NSLog(@"showImagePicker for source %i", sourceType);
-    if (self.imageView.isAnimating) {
-        [self.imageView stopAnimating];
-    }
-    if (self.capturedImages.count > 0) {
-        [self.capturedImages removeAllObjects];
-    }
+    //if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
 	
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    imagePickerController.sourceType = sourceType;
-    imagePickerController.delegate = self;
+	[self configureAlbumScrollView];
+	
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(orientationChanged:)
+												 name:UIDeviceOrientationDidChangeNotification
+											   object:nil];
     
+    [self.gridView registerClass:[SVSelectionGridCell class] forCellWithReuseIdentifier:@"SVSelectionGridCell"];
+	
+	self.title = NSLocalizedString(@"Select To Upload", @"");
+    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"")
+																   style:UIBarButtonItemStyleBordered
+																  target:self
+																  action:@selector(doneButtonPressed)];
+    self.navigationItem.rightBarButtonItem = doneButton;
+	self.view.backgroundColor = [UIColor clearColor];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	
+	[super viewDidAppear:animated];
+	if (self.imagePickerController == nil) {
+		[self showImagePickerForSourceType: UIImagePickerControllerSourceTypeCamera];
+	}
+	NSLog(@"self.albums.count %i %@", self.albums.count, self.topBarContainer);
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+	if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count == 1) {
+		self.topBarContainer.frame = CGRectMake(0, -60, 320, 150);
+    }
+}
+
+
+- (void)orientationChanged:(NSNotification *)notification
+{
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if (UIDeviceOrientationIsLandscape(deviceOrientation) && !isShowingLandscapeView) {
+		int angle = deviceOrientation == UIDeviceOrientationLandscapeLeft ? 90 : -90;
+        isShowingLandscapeView = YES;
+		[self.butShutter setImage:[UIImage imageNamed:@"cameraCaptureButton-Vertical.png"] forState:UIControlStateNormal];
+		self.butFlash.transform = CGAffineTransformMakeRotation(angle*M_PI/180);
+		self.butToggleCamera.transform = CGAffineTransformMakeRotation(angle*M_PI/180);
+		// Hide
+		[UIView animateWithDuration:0.4 animations:^{
+			self.topBarContainer.frame = CGRectMake(0, -60, 320, 150);
+		}];
+    }
+    else if (UIDeviceOrientationIsPortrait(deviceOrientation) && isShowingLandscapeView) {
+        isShowingLandscapeView = NO;
+		[self.butShutter setImage:[UIImage imageNamed:@"cameraCaptureButton.png"] forState:UIControlStateNormal];
+		self.butFlash.transform = CGAffineTransformIdentity;
+		self.butToggleCamera.transform = CGAffineTransformIdentity;
+		// Hide
+		if (self.albums.count != 1) {
+			NSLog(@"animate to 0");
+			[UIView animateWithDuration:0.4 animations:^{
+				self.topBarContainer.frame = CGRectMake(0, 0, 320, 150);
+			}];
+		}
+    }
+	NSLog(@"orientationChanged in camera view");
+}
+
+
+- (void)didReceiveMemoryWarning
+{
+    self.butShutter.enabled = NO;
+    
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Low Memory", @"")
+														message:NSLocalizedString(@"You need to upload some of the pictures you've taken before you can take more!", @"")
+													   delegate:nil
+											  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+											  otherButtonTitles:nil];
+	
+	[alertView show];
+}
+
+
+- (void)showImagePickerForSourceType:(UIImagePickerControllerSourceType)sourceType {
+	
+	self.imagePickerController = [[UIImagePickerController alloc] init];
+	self.imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;
+	self.imagePickerController.sourceType = sourceType;
+	self.imagePickerController.delegate = self;
+    self.imagePickerController.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
+	
     if (sourceType == UIImagePickerControllerSourceTypeCamera) {
-        imagePickerController.showsCameraControls = NO;
-        imagePickerController.cameraOverlayView = self.view;
+		self.imagePickerController.showsCameraControls = NO;
+		self.overlayView.frame = self.imagePickerController.cameraOverlayView.frame;
+		self.imagePickerController.cameraOverlayView = self.overlayView;
+		self.imagePickerController.cameraOverlayView.hidden = YES;
+        self.overlayView = nil;
+    }
+	
+    [self presentViewController:self.imagePickerController animated:YES completion:^{
 		
-        //[[NSBundle mainBundle] loadNibNamed:@"SVCameraOverlay" owner:self options:nil];
-        //self.overlayView.frame = imagePickerController.cameraOverlayView.frame;
-        //self.overlayView = nil;
-    }
-	
-    self.imagePickerController = imagePickerController;
-    [self presentViewController:self.imagePickerController animated:YES completion:nil];
+		self.imagePickerController.cameraOverlayView.hidden = NO;
+	}];
 }
 
 
-#pragma mark - Toolbar actions
 
-- (IBAction)done:(id)sender
+
+
+#pragma mark - Buttons Actions
+
+- (IBAction)toggleCamera:(id)sender
 {
-    // Dismiss the camera.
-    if ([self.cameraTimer isValid])
-    {
-        [self.cameraTimer invalidate];
-    }
-    [self finishAndUpdate];
+    // Toggle between cameras when there is more than one
+	if (self.imagePickerController.cameraDevice == UIImagePickerControllerCameraDeviceRear) {
+		self.imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+		self.butFlash.hidden = YES;
+	}
+	else {
+		self.imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+		self.butFlash.hidden = NO;
+		// If necessary reset the flash mode
+	}
 }
 
 
-- (IBAction)takePhoto:(id)sender
-{
+- (IBAction)shooterPressed:(id)sender {
+    // Capture a still image
+    self.butShutter.enabled = NO;
     [self.imagePickerController takePicture];
+	
+	if (self.takeAnotherImage.hidden) {
+		self.takeAnotherImage.hidden = NO;
+	}
+	else if (self.takeAnotherImage.alpha > 0) {
+		self.takeAnotherImage.alpha = 0;
+	}
 }
 
 
-- (IBAction)delayedTakePhoto:(id)sender
-{
-    // These controls can't be used until the photo has been taken
-    self.doneButton.enabled = NO;
-    self.takePictureButton.enabled = NO;
-    self.delayedPhotoButton.enabled = NO;
-    self.startStopButton.enabled = NO;
+- (IBAction)exitButtonPressed:(id)sender {
+	NSLog(@"exitButtonPressed");
+	NSLog(@"self.delegate %@", self.delegate);
+    [self.imagePickerController dismissViewControllerAnimated:YES completion:^{
+		
+		if ([self.delegate respondsToSelector:@selector(cameraExit)]) {
+			[self.delegate cameraExit];
+		}
+	}];
+}
+
+- (IBAction)done:(id)sender {
 	
-    NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:5.0];
-    NSTimer *cameraTimer = [[NSTimer alloc] initWithFireDate:fireDate interval:1.0 target:self selector:@selector(timedPhotoFire:) userInfo:nil repeats:NO];
-	
-    [[NSRunLoop mainRunLoop] addTimer:cameraTimer forMode:NSDefaultRunLoopMode];
-    self.cameraTimer = cameraTimer;
+	if (self.capturedImages.count > 0) {
+		[self.imagePickerController dismissViewControllerAnimated:YES completion:^{
+			
+			[selectedPhotos addObjectsFromArray:self.capturedImages];
+			[self.gridView reloadData];
+			self.imagePickerController = nil;
+		}];
+	}
 }
 
 
-- (IBAction)startTakingPicturesAtIntervals:(id)sender
-{
-    /*
-     Start the timer to take a photo every 1.5 seconds.
-     
-     CAUTION: for the purpose of this sample, we will continue to take pictures indefinitely.
-     Be aware we will run out of memory quickly.  You must decide the proper threshold number of photos allowed to take from the camera.
-     One solution to avoid memory constraints is to save each taken photo to disk rather than keeping all of them in memory.
-     In low memory situations sometimes our "didReceiveMemoryWarning" method will be called in which case we can recover some memory and keep the app running.
-     */
-    self.startStopButton.title = NSLocalizedString(@"Stop", @"Title for overlay view controller start/stop button");
-    [self.startStopButton setAction:@selector(stopTakingPicturesAtIntervals:)];
+- (IBAction)changeFlashModeButtonPressed:(id)sender {
 	
-    self.doneButton.enabled = NO;
-    self.delayedPhotoButton.enabled = NO;
-    self.takePictureButton.enabled = NO;
-	
-    self.cameraTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(timedPhotoFire:) userInfo:nil repeats:YES];
-    [self.cameraTimer fire]; // Start taking pictures right away.
+    switch (self.imagePickerController.cameraFlashMode) {
+		case UIImagePickerControllerCameraFlashModeOff:
+			self.imagePickerController.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
+			[self.butFlash setImage:[UIImage imageNamed:@"cameraFlashOn.png"] forState:UIControlStateNormal];
+			break;
+		case UIImagePickerControllerCameraFlashModeOn:
+			self.imagePickerController.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
+			[self.butFlash setImage:[UIImage imageNamed:@"cameraFlashAuto.png"] forState:UIControlStateNormal];
+			break;
+		case UIImagePickerControllerCameraFlashModeAuto:
+			self.imagePickerController.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+			[self.butFlash setImage:[UIImage imageNamed:@"cameraFlashOff.png"] forState:UIControlStateNormal];
+			break;
+		default:
+			break;
+	}
 }
 
-
-- (IBAction)stopTakingPicturesAtIntervals:(id)sender
-{
-    // Stop and reset the timer.
-    [self.cameraTimer invalidate];
-    self.cameraTimer = nil;
-	
-    [self finishAndUpdate];
-}
-
-
-- (void)finishAndUpdate
-{
-    [self dismissViewControllerAnimated:YES completion:NULL];
-	
-    if ([self.capturedImages count] > 0)
-    {
-        if ([self.capturedImages count] == 1)
-        {
-            // Camera took a single picture.
-            [self.imageView setImage:[self.capturedImages objectAtIndex:0]];
-        }
-        else
-        {
-            // Camera took multiple pictures; use the list of images for animation.
-            self.imageView.animationImages = self.capturedImages;
-            self.imageView.animationDuration = 5.0;    // Show each captured photo for 5 seconds.
-            self.imageView.animationRepeatCount = 0;   // Animate forever (show all photos).
-            [self.imageView startAnimating];
-        }
-        
-        // To be ready to start again, clear the captured images array.
-        [self.capturedImages removeAllObjects];
-    }
-	
-    self.imagePickerController = nil;
-}
-
-
-#pragma mark - Timer
-
-// Called by the timer to take a picture.
-- (void)timedPhotoFire:(NSTimer *)timer
-{
-    [self.imagePickerController takePicture];
-}
 
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -198,16 +211,33 @@
 // This method is called when an image has been chosen from the library or taken from the camera.
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+	self.butShutter.enabled = YES;
+	
     UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+	NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", self.capturedImages.count]];
 	
-    [self.capturedImages addObject:image];
-	
-    if ([self.cameraTimer isValid])
-    {
-        return;
+	dispatch_async(dispatch_get_global_queue(0, 0), ^{
+		NSData *imageData = UIImageJPEGRepresentation(image, 0.9);
+		[imageData writeToFile:filePath atomically:YES];
+	});
+    
+    // Grab image data
+    UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    animatedImageView.image = image;
+    [self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
+    
+	// Animation not working, TODO
+    [UIView animateWithDuration:0.6 animations:^{
+		CGRect f = self.albumPreviewImage.frame;
+		f.origin.y += self.view.frame.size.height - 25;
+        animatedImageView.frame = f;
     }
-	
-    [self finishAndUpdate];
+	completion:^(BOOL finished) {
+        self.albumPreviewImage.image = image;
+        [self.capturedImages addObject:filePath];
+        self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
+        [animatedImageView removeFromSuperview];
+    }];
 }
 
 
@@ -218,5 +248,162 @@
 
 
 
+#pragma mark Albums scroll
+
+- (void)configureAlbumScrollView {
+	
+    // Create the labels
+    if (self.albums.count > 1) {
+        for (NSUInteger index = 0; index < self.albums.count; index++) {
+            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(index*320, 0, 320, 32)];
+            albumLabel.backgroundColor = [UIColor clearColor];
+			albumLabel.textAlignment = NSTextAlignmentCenter;
+            albumLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+            albumLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
+            
+            Album *currentAlbum = [self.albums objectAtIndex:index];
+            albumLabel.text = currentAlbum.name;
+            
+            [self.albumScrollView addSubview:albumLabel];
+        }
+        
+        [self.albumScrollView setContentSize:CGSizeMake(self.albumScrollView.frame.size.width*self.albums.count, self.albumScrollView.frame.size.height)];
+        [self.albumPageControl setNumberOfPages:self.albums.count];
+    }
+    else {
+		
+    }
+	
+    if (self.albums.count > 0) {
+        self.selectedAlbum = [self.albums objectAtIndex:0];
+    }
+}
+
+
+- (void)scrollToAlbumAtIndex:(NSInteger)index {
+    [self.albumScrollView scrollRectToVisible:CGRectMake(index*self.albumScrollView.frame.size.width, 0, self.albumScrollView.frame.size.width, self.albumScrollView.frame.size.height) animated:YES];
+    self.selectedAlbum = [self.albums objectAtIndex:index];
+}
+
+
+#pragma mark - UIScrollViewDelegate Methods
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSUInteger pageIndex = scrollView.contentOffset.x / scrollView.frame.size.width;
+    [self.albumPageControl setCurrentPage:pageIndex];
+    self.selectedAlbum = [self.albums objectAtIndex:pageIndex];
+}
+
+
+#pragma mark zoom
+
+- (void)zoomChanged:(UISlider*)slider {
+	
+	self.imagePickerController.cameraViewTransform = CGAffineTransformMakeScale(slider.value, slider.value);
+}
+
+
+
+#pragma mark Select photos
+
+- (void) setTakenPhotos:(NSArray *)takenPhotos {
+	
+	selectedPhotos = [[NSMutableArray alloc] initWithArray:takenPhotos];
+	
+}
+
+
+
+
+#pragma mark - UICollectionViewDataSource Methods
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.capturedImages.count;
+}
+
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionGridCell" forIndexPath:indexPath];
+	
+	dispatch_async(dispatch_get_global_queue(0,0),^{
+		
+		UIImage *image = [[UIImage alloc] init];
+		// Images taken by camera
+		UIImage *large_image = [UIImage imageWithContentsOfFile:[self.capturedImages objectAtIndex:indexPath.row]];
+		
+		float oldWidth = large_image.size.width;
+		float scaleFactor = cell.imageView.frame.size.width / oldWidth;
+		
+		float newHeight = large_image.size.height * scaleFactor;
+		float newWidth = oldWidth * scaleFactor;
+		
+		UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+		[image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+		image = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+		NSLog(@"image taken by camera %@ %@", [self.capturedImages objectAtIndex:indexPath.row], NSStringFromCGSize(image.size));
+		
+		dispatch_async(dispatch_get_main_queue(),^{
+			cell.imageView.image = large_image;
+		});
+	});
+	
+	if ([selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
+		cell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+	}
+	else {
+		cell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+	}
+	
+    return cell;
+}
+
+
+#pragma mark - UICollectionViewDelegate Methods
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    
+    SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
+	
+    if (![selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
+        [selectedPhotos addObject:[self.capturedImages objectAtIndex:indexPath.row]];
+        selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+    }
+    else {
+        [selectedPhotos removeObject:[self.capturedImages objectAtIndex:indexPath.row]];
+        selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+    }
+	
+	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+}
+
+
+- (void)doneButtonPressed {
+	
+	NSLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
+	
+	for (NSString *selectedPhotoPath in selectedPhotos) {
+		NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
+		if (photoData) {
+			[SVBusinessDelegate saveUploadedPhotoImageData:photoData
+												forPhotoId:[[NSUUID UUID] UUIDString]
+											   withAlbumId:self.selectedAlbum.albumId];
+		}
+	}
+	
+	if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
+		[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
+	}
+}
 
 @end

@@ -11,12 +11,12 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "ALAssetsLibrary+helper.h"
-#import "CaptureViewfinderController.h"
+#import "SVCameraPickerDelegate.h"
 #import "SVSelectionGridCell.h"
 #import "CameraRollSection.h"
 #import "SVBusinessDelegate.h"
+#import "Album.h"
 
-@class Album;
 
 @interface CaptureSelectImagesViewController : UIViewController <CameraRollSectionDelegate> {
 	
@@ -26,12 +26,12 @@
 	CLGeocoder *geocoder;
 }
 
+@property (nonatomic) id <SVCameraPickerDelegate> delegate;
+
 @property (nonatomic, strong) NSArray *takenPhotos;// Set only one of this options
 @property (nonatomic, strong) NSArray *libraryPhotos;
 @property (nonatomic, strong) Album *selectedAlbum;
 @property (nonatomic, strong) ALAssetsGroup *selectedGroup;
-
-@property (nonatomic) id <CaptureViewfinderDelegate> delegate;
 
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;

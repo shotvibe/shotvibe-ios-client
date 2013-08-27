@@ -229,10 +229,10 @@
             </objects>
             <point key="canvasLocation" x="-114" y="-45"/>
         </scene>
-        <!--Capture Navigation Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="OQw-17-hWL">
             <objects>
-                <navigationController definesPresentationContext="YES" id="4g5-BF-Tej" customClass="CaptureNavigationController" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="4g5-BF-Tej" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SBv-g1-uJf">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -344,10 +344,10 @@
             </objects>
             <point key="canvasLocation" x="1134" y="259"/>
         </scene>
-        <!--Capture Navigation Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="E9K-is-pZC">
             <objects>
-                <navigationController definesPresentationContext="YES" id="TFb-8t-Kdm" customClass="CaptureNavigationController" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="TFb-8t-Kdm" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Iog-LR-hvt">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SVCameraPickerDelegate.h"
 
 @class SVSidebarAlbumMemberViewController;
 @class SVSidebarAlbumManagementViewController;
-
 @class Album;
 
-@interface SVAlbumGridViewController : UIViewController <UIScrollViewDelegate>
+@interface SVAlbumGridViewController : UIViewController <UIScrollViewDelegate, SVCameraPickerDelegate>
 
 #pragma mark - Properties
 
