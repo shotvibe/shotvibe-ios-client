@@ -60,7 +60,7 @@
     }
 	
 	// Get all of the albums that have photos to upload
-	NSArray *arr = [Album findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %@", [NSNumber numberWithInteger:SVObjectSyncUploadNeeded]]
+	NSArray *arr = [OldAlbum findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %@", [NSNumber numberWithInteger:SVObjectSyncUploadNeeded]]
 									 inContext:ctxAlbums];
 	NSLog(@"arr %@", arr);
 	albumsToUpload = [NSMutableArray arrayWithArray:arr];
@@ -75,7 +75,7 @@
 	NSMutableArray *operations = [[NSMutableArray alloc] init];
 	
 	
-	for (Album *anAlbum in albumsToUpload) {
+	for (OldAlbum *anAlbum in albumsToUpload) {
 		
 		NSDictionary *parameters = @{@"album_name": anAlbum.name, @"photos": @[], @"members": @[]};
 		NSURLRequest *albumUploadRequest = [uploader requestWithMethod:@"POST" path:@"/albums/" parameters:parameters];
@@ -86,7 +86,7 @@
 //			NSManagedObjectContext *mainContext  = [NSManagedObjectContext MR_rootSavingContext];
 //			NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextWithParent:mainContext];
 			NSDictionary *a = JSON;
-			Album *album = anAlbum;//[Album findFirstByAttribute:@"albumId" withValue:a[@"id"] inContext:ctxAlbums];
+			OldAlbum *album = anAlbum;//[Album findFirstByAttribute:@"albumId" withValue:a[@"id"] inContext:ctxAlbums];
 			NSLog(@"update the local album %@ with the one from server %@", album, a);
 			
 			if (album) {
@@ -134,7 +134,7 @@
 	NSLog(@"########################### upload photos ########################");
 	
 	// Get all of the albums that have photos to upload
-	NSArray *arr = [Album findAllWithPredicate:[NSPredicate predicateWithFormat:@"SUBQUERY(albumPhotos, $albumPhoto, $albumPhoto.objectSyncStatus == %i).@count > 0", SVObjectSyncUploadNeeded]
+	NSArray *arr = [OldAlbum findAllWithPredicate:[NSPredicate predicateWithFormat:@"SUBQUERY(albumPhotos, $albumPhoto, $albumPhoto.objectSyncStatus == %i).@count > 0", SVObjectSyncUploadNeeded]
 									 inContext:[NSManagedObjectContext defaultContext]];
 	albumsToUpload = [NSMutableArray arrayWithArray:arr];
     
@@ -176,10 +176,10 @@
 	}
 }
 
-- (void) requestIdsForAlbum:(Album*)album {
+- (void) requestIdsForAlbum:(OldAlbum*)album {
 	
 	photosToUpload = [NSMutableDictionary dictionary];// Dictionary of AlbumPhoto
-	NSArray *arr = [AlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %i AND album.albumId == %@", SVObjectSyncUploadNeeded, album.albumId]
+	NSArray *arr = [OldAlbumPhoto findAllWithPredicate:[NSPredicate predicateWithFormat:@"objectSyncStatus == %i AND album.albumId == %@", SVObjectSyncUploadNeeded, album.albumId]
 										  inContext:[NSManagedObjectContext defaultContext]];
 	NSLog(@"@@@@@@@@@@@@@@@@@@@@@@@@ Need to upload %i photos in album %@", arr.count, album.name);
 	
@@ -224,7 +224,7 @@
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0),^{
 			
 			NSString *key = [[photosToUpload allKeys] lastObject];
-			AlbumPhoto *photo = [photosToUpload objectForKey:key];
+			OldAlbumPhoto *photo = [photosToUpload objectForKey:key];
 			[photosToUpload removeObjectForKey:key];
 			
 			[self uploadPhoto:photo withId:key];
@@ -235,13 +235,13 @@
 	}
 }
 
-- (void) uploadPhoto:(AlbumPhoto*)photo withId:(NSString*)photoID {
+- (void) uploadPhoto:(OldAlbumPhoto*)photo withId:(NSString*)photoID {
 	
 	NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>> 0. uploading photo with id %@", photoID);
 	
 	[MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
 		
-		AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+		OldAlbumPhoto *localPhoto = (OldAlbumPhoto *)[localContext objectWithID:photo.objectID];
 		
 		[localPhoto willChangeValueForKey:@"objectSyncStatus"];
 		localPhoto.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncUploadProgress];
@@ -275,7 +275,7 @@
 				
 				[MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
 					NSLog(@">>>>>>>>>>>>>>>>>>> 3. Photo was uploaded successfuly, change status to SVObjectSyncUploadComplete");
-					AlbumPhoto *localPhoto = (AlbumPhoto *)[localContext objectWithID:photo.objectID];
+					OldAlbumPhoto *localPhoto = (OldAlbumPhoto *)[localContext objectWithID:photo.objectID];
 					localPhoto.photo_id = photoID;
 					
 					[localPhoto willChangeValueForKey:@"objectSyncStatus"];
@@ -305,7 +305,7 @@
 
 // 3. When all photos are finished uploading, add them all to the album by calling: POST /albums/{aid}/
 
-- (void)addPhotosToAlbum:(Album *)anAlbum
+- (void)addPhotosToAlbum:(OldAlbum *)anAlbum
 {
     NSString *albumUploadPath = [NSString stringWithFormat:@"/albums/%@/", anAlbum.albumId];
 	NSLog(@">>>>>>>>>>>>>>>>>>> 5. addPhotosToAlbum albumUploadPath %@", albumUploadPath);
@@ -313,7 +313,7 @@
 	
     [anAlbum.albumPhotos enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         
-        AlbumPhoto *aPhoto = (AlbumPhoto *)obj;
+        OldAlbumPhoto *aPhoto = (OldAlbumPhoto *)obj;
         if (![aPhoto.photo_id isEqualToString:aPhoto.tempPhotoId]) {
             
             [addPhotosArray addObject:@{@"photo_id": aPhoto.photo_id}];
@@ -330,7 +330,7 @@
             
 			[MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
                 NSLog(@">>>>>>>>>>>>>>>>>>> photo upload completed, update Album model");
-                Album *localAlbum = (Album *)[localContext objectWithID:anAlbum.objectID];
+                OldAlbum *localAlbum = (OldAlbum *)[localContext objectWithID:anAlbum.objectID];
                 localAlbum.etag = [[album objectForKey:@"etag"] stringValue];
                 localAlbum.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
             }];
@@ -362,7 +362,7 @@
 
 
 
-- (void)renameImageForPhoto:(AlbumPhoto *)aPhoto UsingID:(NSString *)imageId
+- (void)renameImageForPhoto:(OldAlbumPhoto *)aPhoto UsingID:(NSString *)imageId
 {
 	NSLog(@">>>>>>>>>>>>>>>>>>> 2.2 rename image %@", imageId);
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0),^{

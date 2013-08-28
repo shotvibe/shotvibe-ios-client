@@ -8,9 +8,13 @@
 
 
 #import "SVSettingsViewController.h"
+#import "OldAlbum.h"
+#import "OldAlbumPhoto.h"
+#import "OldMember.h"
+#import "SVAlbumNotificationSettingsViewController.h"
+#import "SVDefines.h"
 #import "SVSettingsAboutViewController.h"
 #import "SVRegistrationViewController.h"
-#import "SVDefines.h"
 //#import "Album.h"
 //#import "AlbumPhoto.h"
 //#import "Member.h"
@@ -133,6 +137,7 @@
 		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kUserAlbumsLastRequestedDate];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 		
+
 		// Delete the database and the photos
 		[[SVEntityStore sharedStore] wipe];
 		

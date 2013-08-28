@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Album, AlbumPhoto;
+@class OldAlbum, OldAlbumPhoto;
 
-@interface Member : NSManagedObject
+@interface OldMember : NSManagedObject
 
 @property (nonatomic, retain) NSString * avatar_url;
 @property (nonatomic, retain) NSString * nickname;
@@ -22,15 +22,15 @@
 @property (nonatomic, retain) NSSet *albums;
 @end
 
-@interface Member (CoreDataGeneratedAccessors)
+@interface OldMember (CoreDataGeneratedAccessors)
 
-- (void)addAlbumPhotosObject:(AlbumPhoto *)value;
-- (void)removeAlbumPhotosObject:(AlbumPhoto *)value;
+- (void)addAlbumPhotosObject:(OldAlbumPhoto *)value;
+- (void)removeAlbumPhotosObject:(OldAlbumPhoto *)value;
 - (void)addAlbumPhotos:(NSSet *)values;
 - (void)removeAlbumPhotos:(NSSet *)values;
 
-- (void)addAlbumsObject:(Album *)value;
-- (void)removeAlbumsObject:(Album *)value;
+- (void)addAlbumsObject:(OldAlbum *)value;
+- (void)removeAlbumsObject:(OldAlbum *)value;
 - (void)addAlbums:(NSSet *)values;
 - (void)removeAlbums:(NSSet *)values;
 

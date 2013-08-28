@@ -9,6 +9,8 @@
 #import "SVConfirmationCodeViewController.h"
 #import "SVPushNotificationsManager.h"
 
+#import "UserSettings.h"
+
 @interface SVConfirmationCodeViewController ()
 
 @end
@@ -32,9 +34,6 @@
 {
     if ([segue.identifier isEqualToString:@"NoCodeSegue"]) {
 		SVNoCodeViewController *destination = (SVNoCodeViewController *)segue.destinationViewController;
-        destination.confirmationCode = self.confirmationCode;
-		destination.countryCode = self.countryCode;
-		destination.phoneNumber = self.phoneNumber;
     }
 }
 
@@ -53,33 +52,66 @@
 	[self validateRegistrationCode:regCode];
 }
 
+static NSString * deviceDescription()
+{
+    UIDevice *currentDevice = [UIDevice currentDevice];
+	return [NSString stringWithFormat:@"%@ (%@ %@)", [currentDevice model], [currentDevice systemName], [currentDevice systemVersion]];
+}
 
 - (void)validateRegistrationCode:(NSString *)registrationCode
 {
 	NSLog(@"validateRegistrationCode - code:  %@", registrationCode);
-	
-    [SVBusinessDelegate validateRegistrationCode:registrationCode withConfirmationCode:self.confirmationCode WithCompletion:^(BOOL success, NSString *authToken, NSString *userId, NSError *error) {
-        
-        if(success)
-        {
-            // Move this to successful completion handler once implemented
-            
-            NSLog(@"authToken:  %@, userId:  %@", authToken, userId);
-            
-            [[NSUserDefaults standardUserDefaults] setObject:userId forKey:kApplicationUserId];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Token %@", authToken] forKey:kApplicationUserAuthToken];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [self handleSuccessfulLogin];
-        }
-        else
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to validate", @"") message:NSLocalizedString(@"Failed to validate sms code", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-            [alert show];
-            
-        }
-        
-    }];
+
+    UIAlertView *activityDialog = [[UIAlertView alloc] initWithTitle:@"Registering..." message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+    [activityDialog show];
+
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    indicator.center = CGPointMake(activityDialog.bounds.size.width / 2, activityDialog.bounds.size.height - 50);
+    [indicator startAnimating];
+    [activityDialog addSubview:indicator];
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSError *error;
+        ConfirmSMSCodeResult r = [[self.albumManager getShotVibeAPI] confirmSMSCode:registrationCode
+                                                            deviceDeviceDescription:deviceDescription()
+                                                                 defaultCountryCode:self.defaultCountryCode
+                                                                              error:&error];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [activityDialog dismissWithClickedButtonIndex:0 animated:YES];
+            if (r == ConfirmSMSCodeOk) {
+                AuthData *authData = [self.albumManager getShotVibeAPI].authData;
+
+                [UserSettings setAuthData:authData];
+
+                // -----------------
+                // TODO Temporary Legacy compatibility shit:
+                [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%lld", authData.userId] forKey:kApplicationUserId];
+                [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Token %@", authData.authToken] forKey:kApplicationUserAuthToken];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                // -----------------
+
+
+                [self handleSuccessfulLogin];
+            }
+            else if (r == ConfirmSMSCodeIncorrectCode) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incorrect Code"
+                                                                message:@"Please enter the code that was sent to you, or go back to check your phone number"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            else if (r == ConfirmSMSCodeError) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:[error description]
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+        });
+    });
 }
 
 
@@ -125,10 +157,12 @@
     
     // Grab the deal and make it our root view controller from the storyboard for this navigation controller
     SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
-    
+
+    rootView.albumManager = self.albumManager;
+
     [self.navigationController setViewControllers:@[rootView] animated:YES];
 
-    [SVPushNotificationsManager setup];
+    [self.pushNotificationsManager setup];
 }
 
 @end

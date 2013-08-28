@@ -5,7 +5,7 @@
 //  Created by Fredrick Gabelmann on 1/23/13.
 //
 
-#import "Album.h"
+#import "OldAlbum.h"
 #import "SVInitializationWS.h"
 #import "SVDefines.h"
 #import "MagicalRecordShorthand.h"

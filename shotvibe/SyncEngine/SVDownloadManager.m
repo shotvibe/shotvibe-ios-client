@@ -105,10 +105,10 @@
 		for (NSDictionary *anAlbum in albums) {
 			
 			// Create an Album from NSDictionary
-			Album *album = [Album findFirstByAttribute:@"albumId" withValue:anAlbum[@"id"] inContext:ctxAlbums];
+			OldAlbum *album = [OldAlbum findFirstByAttribute:@"albumId" withValue:anAlbum[@"id"] inContext:ctxAlbums];
 			
 			if (!album) {
-				album = [Album createInContext:ctxAlbums];
+				album = [OldAlbum createInContext:ctxAlbums];
 				album.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDownloadNeeded];
 			}
 			else if (album.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
@@ -144,7 +144,7 @@
 	
 	NSError *error;
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Album" inManagedObjectContext:ctxAlbums];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"OldAlbum" inManagedObjectContext:ctxAlbums];
 	[fetchRequest setEntity:entity];
 	NSArray *localAlbums = [ctxAlbums executeFetchRequest:fetchRequest error:&error];
 	NSMutableArray *albumsToDelete = [NSMutableArray arrayWithArray:localAlbums];
@@ -152,7 +152,7 @@
 	NSLog(@"SVDownloadManager count locally: %i = %i", localAlbums.count, albums.count);
 	
 	for (NSDictionary *serverAlbum in albums) {
-		for (Album *localAlbum in albumsToDelete) {
+		for (OldAlbum *localAlbum in albumsToDelete) {
 			//NSLog(@"xxxxxxxxxxxxxxxxx   propose for deletion: %@ %@", [serverAlbum objectForKey:@"id"], localAlbum.albumId);
 			if ([[NSString stringWithFormat:@"%@", [serverAlbum objectForKey:@"id"]] isEqualToString:localAlbum.albumId]) {
 				[albumsToDelete removeObject:localAlbum];
@@ -162,7 +162,7 @@
 	}
 	
 	NSLog(@"albumsToDelete: %@", albumsToDelete);
-	for (Album *localAlbum in albumsToDelete) {
+	for (OldAlbum *localAlbum in albumsToDelete) {
 		NSLog(@"delete %@", localAlbum.albumId);
 		[localAlbum deleteInContext:ctxAlbums];
 	}
@@ -229,7 +229,7 @@
 // this runs in the queue
 - (void) downloadAlbumDetails:(NSString*)albumId {
 	
-    Album *album = [Album findFirstByAttribute:@"albumId" withValue:albumId inContext:ctxPhotos];
+    OldAlbum *album = [OldAlbum findFirstByAttribute:@"albumId" withValue:albumId inContext:ctxPhotos];
 	
 	NSString *path = [NSString stringWithFormat:@"albums/%@/", albumId];
 	NSMutableURLRequest *theRequest = [[SVHttpClient sharedClient] requestWithMethod:@"GET" path:path parameters:nil];
@@ -301,7 +301,7 @@
 {
     NSLog(@">>>>>>>>>>>>>>>>>>>>>>> PROCESSING PHOTOS for Album: %@", albumData[@"name"]);
     
-    Album *localAlbum = [Album findFirstByAttribute:@"albumId" withValue:albumData[@"id"] inContext:ctxPhotos];
+    OldAlbum *localAlbum = [OldAlbum findFirstByAttribute:@"albumId" withValue:albumData[@"id"] inContext:ctxPhotos];
 	
 	[self setValue:[albumData objectForKey:@"date_created"] forKey:@"date_created" forManagedObject:localAlbum];
 	
@@ -313,10 +313,10 @@
 		
 		for (NSDictionary *member in members) {
 			
-			Member *outerMember = [Member findFirstByAttribute:@"userId" withValue:[member objectForKey:@"id"] inContext:ctxPhotos];
+			OldMember *outerMember = [OldMember findFirstByAttribute:@"userId" withValue:[member objectForKey:@"id"] inContext:ctxPhotos];
 			
 			if (!outerMember) {
-				outerMember = [Member createInContext:ctxPhotos];
+				outerMember = [OldMember createInContext:ctxPhotos];
 			}
 			
 			[member enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -334,10 +334,10 @@
 		
 		for (NSDictionary *photo in photosArray) {
 			
-			AlbumPhoto *outerPhoto = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:photo[@"photo_id"] inContext:ctxPhotos];
+			OldAlbumPhoto *outerPhoto = [OldAlbumPhoto findFirstByAttribute:@"photo_id" withValue:photo[@"photo_id"] inContext:ctxPhotos];
 			
 			if (!outerPhoto) {
-				outerPhoto = [AlbumPhoto createInContext:ctxPhotos];
+				outerPhoto = [OldAlbumPhoto createInContext:ctxPhotos];
 				outerPhoto.hasViewed = [NSNumber numberWithBool:NO];
 				//outerPhoto.isNew = [NSNumber numberWithBool:YES];
 			}
@@ -350,7 +350,7 @@
 			
 			// Add members to database
 			
-			Member *localAuthor = [Member findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:ctxPhotos];
+			OldMember *localAuthor = [OldMember findFirstByAttribute:@"userId" withValue:[[photo objectForKey:@"author"] objectForKey:@"id"] inContext:ctxPhotos];
 			
 			[localAlbum addAlbumPhotosObject:outerPhoto];
 			
@@ -416,7 +416,7 @@
 - (void)downloadNextPhoto {
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectSyncStatus == %i", SVObjectSyncDownloadNeeded];
-	AlbumPhoto *photo = [AlbumPhoto findFirstWithPredicate:predicate inContext:ctxDownload];
+	OldAlbumPhoto *photo = [OldAlbumPhoto findFirstWithPredicate:predicate inContext:ctxDownload];
 	
 	if (photo == nil) {
 		[self saveDownloadContext];
@@ -429,13 +429,13 @@
 	}
 }
 
-- (void)downloadPhoto:(AlbumPhoto*)aPhoto {
+- (void)downloadPhoto:(OldAlbumPhoto*)aPhoto {
 	
     NSLog(@"***********************  downloading photo from server %@ ", aPhoto.photo_id);
 	
 	[[SVEntityStore sharedStore] getImageForPhoto:aPhoto WithCompletion:^(UIImage *image) {
 		
-		AlbumPhoto *localPhoto = (AlbumPhoto *)[ctxDownload objectWithID:aPhoto.objectID];
+		OldAlbumPhoto *localPhoto = (OldAlbumPhoto *)[ctxDownload objectWithID:aPhoto.objectID];
 		[localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncCompleted]];
 		
 		//localPhoto.album.objectSyncStatus = [NSNumber numberWithInteger:SVObjectSyncCompleted];
@@ -481,11 +481,11 @@
 	
     if ([key isEqualToString:@"latest_photos"] || [key isEqualToString:@"author"]) return;
 	
-	if ([[[managedObject entity] name] isEqualToString:@"Album"] && [key isEqualToString:@"id"])
+	if ([[[managedObject entity] name] isEqualToString:@"OldAlbum"] && [key isEqualToString:@"id"])
 	{
 		[managedObject setValue:value forKey:@"albumId"];
 	}
-	else if ([[[managedObject entity] name] isEqualToString:@"Member"] && [key isEqualToString:@"id"])
+	else if ([[[managedObject entity] name] isEqualToString:@"OldMember"] && [key isEqualToString:@"id"])
 	{
 		[managedObject setValue:value forKey:@"userId"];
 	}

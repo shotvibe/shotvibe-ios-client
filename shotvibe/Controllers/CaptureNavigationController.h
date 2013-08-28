@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SVCameraPickerDelegate.h"
 #import "SVCameraPickerController.h"
-#import "Album.h"
+#import "OldAlbum.h"
 
 @interface CaptureNavigationController : NSObject <SVCameraPickerDelegate> {
 	
@@ -18,7 +18,7 @@
 
 @property (nonatomic, retain) id<SVCameraPickerDelegate> cameraDelegate;
 @property (nonatomic, strong) NSArray *albums;
-@property (nonatomic, strong) Album *selectedAlbum;
+@property (nonatomic, strong) OldAlbum *selectedAlbum;
 @property (nonatomic, strong) UINavigationController *nav;
 
 @end

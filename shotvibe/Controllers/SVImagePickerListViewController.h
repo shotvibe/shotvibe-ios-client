@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class Album;
+#import "AlbumManager.h"
+
+@class OldAlbum;
 
 @interface SVImagePickerListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) Album *selectedAlbum;
+@property (nonatomic, assign) int64_t albumId;
+@property (nonatomic, strong) AlbumManager *albumManager;
+
+@property (nonatomic, strong) OldAlbum *selectedAlbum;
 
 @end

@@ -13,9 +13,9 @@
 #import "SVDownloadManager.h"
 #import "SVUploadManager.h"
 #import "SVDefines.h"
-#import "Album.h"
-#import "Member.h"
-#import "AlbumPhoto.h"
+#import "OldAlbum.h"
+#import "OldMember.h"
+#import "OldAlbumPhoto.h"
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumGridViewController.h"
 #import "SVOfflineStorageWS.h"
@@ -25,14 +25,18 @@
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
 #import "NSManagedObjectContext+MagicalRecord.h"
+#import "AlbumListListener.h"
+#import "AlbumManager.h"
 
 @interface SVAlbumListViewController : UIViewController <UITableViewDataSource,
 UITableViewDelegate,
 UITextFieldDelegate,
 UISearchBarDelegate,
+AlbumListListener,
 RCImageViewDelegate,
 SVCameraPickerDelegate> {
-	
 }
+
+@property (nonatomic, strong) AlbumManager *albumManager;
 
 @end

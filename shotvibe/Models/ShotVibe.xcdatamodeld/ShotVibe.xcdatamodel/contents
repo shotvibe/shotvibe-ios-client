@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="11G63b" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Album" representedClassName="Album" syncable="YES">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="OldAlbum" representedClassName="OldAlbum" syncable="YES">
         <attribute name="albumId" attributeType="String" syncable="YES"/>
         <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="etag" optional="YES" attributeType="String" syncable="YES"/>
@@ -11,10 +11,10 @@
         <attribute name="pushNotificationsOption" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="tempAlbumId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" attributeType="String" syncable="YES"/>
-        <relationship name="albumPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AlbumPhoto" inverseName="album" inverseEntity="AlbumPhoto" syncable="YES"/>
-        <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Member" inverseName="albums" inverseEntity="Member" syncable="YES"/>
+        <relationship name="albumPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OldAlbumPhoto" inverseName="album" inverseEntity="OldAlbumPhoto" syncable="YES"/>
+        <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OldMember" inverseName="albums" inverseEntity="OldMember" syncable="YES"/>
     </entity>
-    <entity name="AlbumPhoto" representedClassName="AlbumPhoto" syncable="YES">
+    <entity name="OldAlbumPhoto" representedClassName="OldAlbumPhoto" syncable="YES">
         <attribute name="date_created" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="hasViewed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="isNew" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -23,21 +23,21 @@
         <attribute name="photo_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="photoUploadStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="tempPhotoId" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="albumPhotos" inverseEntity="Album" syncable="YES"/>
-        <relationship name="author" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="albumPhotos" inverseEntity="Member" syncable="YES"/>
+        <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="OldAlbum" inverseName="albumPhotos" inverseEntity="OldAlbum" syncable="YES"/>
+        <relationship name="author" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="OldMember" inverseName="albumPhotos" inverseEntity="OldMember" syncable="YES"/>
     </entity>
-    <entity name="Member" representedClassName="Member" syncable="YES">
+    <entity name="OldMember" representedClassName="OldMember" syncable="YES">
         <attribute name="avatar_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nickname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="objectSyncStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userId" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="albumPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AlbumPhoto" inverseName="author" inverseEntity="AlbumPhoto" syncable="YES"/>
-        <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="members" inverseEntity="Album" syncable="YES"/>
+        <relationship name="albumPhotos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OldAlbumPhoto" inverseName="author" inverseEntity="OldAlbumPhoto" syncable="YES"/>
+        <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OldAlbum" inverseName="members" inverseEntity="OldAlbum" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-369" positionY="-153" width="128" height="225"/>
-        <element name="AlbumPhoto" positionX="-551" positionY="36" width="128" height="195"/>
-        <element name="Member" positionX="-101" positionY="54" width="128" height="150"/>
+        <element name="OldAlbum" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="OldAlbumPhoto" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="OldMember" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

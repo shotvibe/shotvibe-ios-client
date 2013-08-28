@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Album.h"
+#import "OldAlbum.h"
 #import "CaptureSelectImagesViewController.h"
 #import "SVCameraPickerDelegate.h"
 
@@ -19,7 +19,7 @@
 
 @property (nonatomic, strong) NSArray *albums;
 @property (nonatomic) NSMutableArray *capturedImages;
-@property (nonatomic, strong) Album *selectedAlbum;
+@property (nonatomic, strong) OldAlbum *selectedAlbum;
 @property (nonatomic, strong) id <SVCameraPickerDelegate> delegate;
 
 @property (nonatomic, strong) IBOutlet UIView *topBarContainer;

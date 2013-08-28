@@ -2,26 +2,36 @@
 //  AlbumPhoto.m
 //  shotvibe
 //
-//  Created by John Gabelmann on 6/26/13.
+//  Created by benny on 8/20/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import "AlbumPhoto.h"
-#import "Album.h"
-#import "Member.h"
-
 
 @implementation AlbumPhoto
 
-@dynamic date_created;
-@dynamic hasViewed;
-@dynamic isNew;
-@dynamic objectSyncStatus;
-@dynamic photoUploadStatus;
-@dynamic photo_id;
-@dynamic photo_url;
-@dynamic tempPhotoId;
-@dynamic album;
-@dynamic author;
+- (id)initWithAlbumServerPhoto:(AlbumServerPhoto *)photo
+{
+    self = [super init];
+
+    if (self) {
+        _serverPhoto = photo;
+        _uploadingPhoto = nil;
+    }
+
+    return self;
+}
+
+- (id)initWithAlbumUploadingPhoto:(AlbumUploadingPhoto *)photo
+{
+    self = [super init];
+
+    if (self) {
+        _serverPhoto = nil;
+        _uploadingPhoto = photo;
+    }
+
+    return self;
+}
 
 @end

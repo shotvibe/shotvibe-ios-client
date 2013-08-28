@@ -10,9 +10,9 @@
 
 @interface AuthData : NSObject
 
-- (id)initWithUserID:(NSString *)userId authToken:(NSString *)authToken defaultCountryCode:(NSString *)defaultCountryCode;
+- (id)initWithUserID:(int64_t)userId authToken:(NSString *)authToken defaultCountryCode:(NSString *)defaultCountryCode;
 
-@property (nonatomic, copy, readonly) NSString *userId;
+@property (nonatomic, assign, readonly) int64_t userId;
 @property (nonatomic, copy, readonly) NSString *authToken;
 @property (nonatomic, copy, readonly) NSString *defaultCountryCode;
 

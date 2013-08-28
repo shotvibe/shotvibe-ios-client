@@ -9,18 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @class SVAlbumGridViewController;
-@class Album;
+@class OldAlbum;
 
 @interface SVSidebarAlbumMemberViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 #pragma mark - Properties
 
 @property (strong, nonatomic) SVAlbumGridViewController *parentController;
-@property (strong, nonatomic) Album *selectedAlbum;
-
-
-#pragma mark - Instance Methods
-
-- (void)refreshMembers;
+@property (nonatomic, strong) AlbumContents *albumContents;
 
 @end

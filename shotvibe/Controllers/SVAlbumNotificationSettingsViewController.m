@@ -7,7 +7,7 @@
 //
 
 #import "SVAlbumNotificationSettingsViewController.h"
-#import "Album.h"
+#import "OldAlbum.h"
 #import "MagicalRecordShorthand.h"
 #import "MagicalRecord+Actions.h"
 
@@ -28,7 +28,7 @@
 {
     UISwitch *triggeredSwitch = (UISwitch *)sender;
     
-    Album *albumObject = (Album *)[[NSManagedObjectContext defaultContext] objectWithID:self.currentAlbum.objectID];
+    OldAlbum *albumObject = (OldAlbum *)[[NSManagedObjectContext defaultContext] objectWithID:self.currentAlbum.objectID];
     
     if (triggeredSwitch == self.pushNotificationsSwitch) {        
         albumObject.pushNotificationsOption = [NSNumber numberWithBool:triggeredSwitch.isOn];

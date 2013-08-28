@@ -2,26 +2,21 @@
 //  AlbumPhoto.h
 //  shotvibe
 //
-//  Created by John Gabelmann on 6/26/13.
+//  Created by benny on 8/20/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+#import "AlbumServerPhoto.h"
+#import "AlbumUploadingPhoto.h"
 
-@class Album, Member;
+@interface AlbumPhoto : NSObject
 
-@interface AlbumPhoto : NSManagedObject
+- (id)initWithAlbumServerPhoto:(AlbumServerPhoto *)photo;
 
-@property (nonatomic, retain) NSDate * date_created;
-@property (nonatomic, retain) NSNumber * hasViewed;
-@property (nonatomic, retain) NSNumber * isNew;// this is reset when you leave the app or visit an album
-@property (nonatomic, retain) NSNumber * objectSyncStatus;
-@property (nonatomic, retain) NSNumber * photoUploadStatus;
-@property (nonatomic, retain) NSString * photo_id;
-@property (nonatomic, retain) NSString * photo_url;
-@property (nonatomic, retain) NSString * tempPhotoId;
-@property (nonatomic, retain) Album *album;
-@property (nonatomic, retain) Member *author;
+- (id)initWithAlbumUploadingPhoto:(AlbumUploadingPhoto *)photo;
+
+@property (nonatomic, readonly, strong) AlbumServerPhoto *serverPhoto;
+@property (nonatomic, readonly, strong) AlbumUploadingPhoto *uploadingPhoto;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "CaptureSelectImagesViewController.h"
 
+#import "PhotoUploadRequest.h"
 
 @implementation CaptureSelectImagesViewController
 
@@ -253,6 +254,29 @@
 	
 	NSLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
 	
+	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+		
+    if (self.selectedGroup) {
+        NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
+        for (ALAsset *asset in selectedPhotos) {
+            PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithAsset:asset];
+            [photoUploadRequests addObject:photoUploadRequest];
+        }
+        [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
+    }
+    else {
+        for (NSString *selectedPhotoPath in selectedPhotos) {
+            NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
+            if (photoData) {
+				[SVBusinessDelegate saveUploadedPhotoImageData:photoData
+													forPhotoId:[[NSUUID UUID] UUIDString]
+												   withAlbumId:self.selectedAlbum.albumId];
+            }
+        }
+    }
+//	});
+
+    /*
 	for (ALAsset *asset in selectedPhotos) {
 		ALAssetRepresentation *rep = [asset defaultRepresentation];
 		Byte *buffer = (Byte*)malloc(rep.size);
@@ -264,6 +288,7 @@
 											   withAlbumId:self.selectedAlbum.albumId];
 		}
 	}
+    */
 	
 	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
 		

@@ -10,9 +10,9 @@
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
 #import "AFJSONRequestOperation.h"
-#import "Album.h"
-#import "AlbumPhoto.h"
-#import "Member.h"
+#import "OldAlbum.h"
+#import "OldAlbumPhoto.h"
+#import "OldMember.h"
 #import "SVDefines.h"
 #import "SVBusinessDelegate.h"
 #import "MagicalRecordShorthand.h"
@@ -36,15 +36,15 @@
 
 - (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate;
 - (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate;
-- (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate;
+- (NSFetchedResultsController *)allPhotosForAlbum:(OldAlbum *)anAlbum WithDelegate:(id)delegate;
 
 
 #pragma mark - Album Methods
 
 - (void)newAlbumWithName:(NSString *)albumName andUserID:(NSNumber *)userID;
 - (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
-- (void)leaveAlbum:(Album*)album completion:(void (^)(BOOL success, NSError *error))block;
-- (void)deleteAlbum:(Album*)album;
+- (void)leaveAlbum:(OldAlbum*)album completion:(void (^)(BOOL success, NSError *error))block;
+- (void)deleteAlbum:(OldAlbum*)album;
 
 #pragma mark - Image Methods
 
@@ -53,15 +53,15 @@
 - (void)wipe;
 
 - (void)setAllPhotosToNotNew;
-- (void)setPhotosInAlbumToNotNew:(Album*)album;
+- (void)setPhotosInAlbumToNotNew:(OldAlbum*)album;
 - (void)setPhotoAsViewed:(NSString *)photoId;
-- (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
-- (void)getImageForPhotoData:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block;
+- (void)getImageForPhoto:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
+- (void)getImageForPhotoData:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block;
 // Need to be able to just do a hard pull on the image without blocks for the detail view. This is OK because the photo detail view manages its own loading and cache
-- (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto;
+- (UIImage *)getImageForPhoto:(OldAlbumPhoto *)aPhoto;
 - (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block;
 - (void)getFullsizeImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block;
 - (void)writeImageData:(NSData *)imageData toDiskForImageID:(NSString *)imageID WithCompletion:(void (^)(BOOL success, NSURL *fileURL, NSError *error))block;
-- (void)deletePhoto:(AlbumPhoto *)aPhoto;
+- (void)deletePhoto:(OldAlbumPhoto *)aPhoto;
 
 @end

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "AlbumPhoto.h"
+#import "OldAlbumPhoto.h"
 #import "SVAlbumGridViewController.h"
 #import "SVEntityStore.h"
 #import "SVDefines.h"
@@ -24,10 +24,13 @@
 #import "SVAlbumGridViewCell.h"
 #import "SVAddFriendsViewController.h"
 #import "SVUploadManager.h"
+#import "AlbumPhoto.h"
+#import "UIImageView+WebCache.h"
+#import "MWPhotoBrowser.h"
+#import "AlbumPhotoBrowserDelegate.h"
 
-@interface SVAlbumGridViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
+@interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) MFSideMenu *sauronTheSideMenu;
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
@@ -43,6 +46,7 @@
 
 @implementation SVAlbumGridViewController
 {
+    AlbumContents *albumContents;
     BOOL isMenuShowing;
     NSMutableArray *_objectChanges;
     NSMutableArray *_sectionChanges;
@@ -61,7 +65,7 @@
 {
 	cameraNavController = [[CaptureNavigationController alloc] init];
 	cameraNavController.cameraDelegate = self;
-	cameraNavController.albums = @[self.selectedAlbum];
+	//cameraNavController.albums = @[self.selectedAlbum];
     cameraNavController.nav = self.navigationController;// this is set last
 }
 
@@ -80,9 +84,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    self.title = self.selectedAlbum.name;
-	
+
+    [self setAlbumContents:[self.albumManager addAlbumContentsListener:self.albumId listener:self]];
+    NSLog(@"ALBUM CONTENTS: %@", albumContents);
+
     _objectChanges = [NSMutableArray array];
     _sectionChanges = [NSMutableArray array];
     thumbnailCache = [[NSMutableDictionary alloc] init];
@@ -100,18 +105,11 @@
 	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
 	self.navigationItem.backBarButtonItem = backButton;
 	
-	NSInteger nrOfPhotos = [self collectionView:nil numberOfItemsInSection:0];
-	
-	self.noPhotosView.hidden = (nrOfPhotos > 0);
-	
-	[self fetchedResultsController];
-	
 	// Initialize the sidebar menu
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
 	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
 	self.sidebarRight.parentController = self;
-	self.sidebarRight.selectedAlbum = self.selectedAlbum;
-	
+
 	self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
 	self.sidebarLeft.parentController = self;
 	
@@ -122,6 +120,8 @@
 	
 	[self.navigationController setSideMenu:self.sauronTheSideMenu];
 	[self configureMenuForOrientation:self.interfaceOrientation];
+
+    [self.albumManager refreshAlbumContents:self.albumId];
 }
 
 
@@ -163,21 +163,23 @@
     if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
 		
         SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
-        destination.currentAlbum = self.selectedAlbum;
+        //destination.currentAlbum = self.selectedAlbum;
     }
     else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
 		
         UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
         
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        destination.selectedAlbum = self.selectedAlbum;
+        destination.albumId = self.albumId;
+        destination.albumManager = self.albumManager;
+        //destination.selectedAlbum = self.selectedAlbum;
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
 		
 		UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
         
         SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        destination.selectedAlbum = self.selectedAlbum;
+        //destination.selectedAlbum = self.selectedAlbum;
 		
 		//[self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
     }
@@ -199,8 +201,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+    return albumContents.photos.count;
 }
 
 
@@ -215,12 +216,40 @@
     SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVAlbumGridViewCell" forIndexPath:indexPath];
     
 	[cell.networkImageView setImage:nil];
+
+    int i = indexPath.row;
+    AlbumPhoto *photo = [albumContents.photos objectAtIndex:i];
+
+    if (photo.serverPhoto) {
+        NSString *fullsizePhotoUrl = photo.serverPhoto.url;
+        NSString *thumbnailSuffix = @"_thumb75.jpg";
+        NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
+
+        // TODO Temporarily using SDWebImage library for a quick and easy way to display photos
+        [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
+
+        cell.uploadProgressView.hidden = YES;
+    }
+    else if (photo.uploadingPhoto) {
+        [cell.networkImageView setImage:[photo.uploadingPhoto getThumbnail]];
+
+        cell.uploadProgressView.hidden = NO;
+        if ([photo.uploadingPhoto isUploadComplete]) {
+            cell.uploadProgressView.progress = 1.0f;
+        }
+        else {
+            cell.uploadProgressView.progress = [photo.uploadingPhoto getUploadProgress];
+        }
+    }
+
+
+    /*
     cell.tag = indexPath.row;
 	__block NSIndexPath *tagIndex = indexPath;
     
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0),^{
 		
-		AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		OldAlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
 		
 		//NSLog(@"---------> photo cell: %i %@ objectSyncStatus: %@", indexPath.item, currentPhoto.date_created, currentPhoto.objectSyncStatus);
@@ -268,6 +297,7 @@
 			}
 		});
 	});
+    */
     
     return cell;
 }
@@ -278,13 +308,14 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    
-    SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
-    detailController.selectedPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	detailController.index = indexPath.item;
-	NSLog(@"didSelectItemAtIndexPath %@ %@", indexPath, detailController.selectedPhoto);
-    
-    [self.navigationController pushViewController:detailController animated:YES];
+
+    AlbumPhotoBrowserDelegate *delegate = [[AlbumPhotoBrowserDelegate alloc] initWithAlbumContents:albumContents];
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:delegate];
+    browser.wantsFullScreenLayout = YES;
+    browser.displayActionButton = NO;
+    [browser setInitialPageIndex:indexPath.item];
+
+    [self.navigationController pushViewController:browser animated:YES];
 }
 
 
@@ -310,18 +341,6 @@
 
 
 #pragma mark NSFetchedResultsControllerDelegate methods
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
-    
-    self.fetchedResultsController = [[SVEntityStore sharedStore] allPhotosForAlbum:self.selectedAlbum WithDelegate:self];
-    
-    return _fetchedResultsController;
-}
-
 
 - (void)controller:(NSFetchedResultsController *)controller
   didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
@@ -414,9 +433,6 @@
     
     [_sectionChanges removeAllObjects];
     [_objectChanges removeAllObjects];
-	
-	NSInteger nrOfPhotos = [self collectionView:nil numberOfItemsInSection:0];
-	self.noPhotosView.hidden = (nrOfPhotos > 0);
 }
 
 
@@ -490,6 +506,41 @@
     self.navigationController.sideMenu.rightSideMenuViewController.view.frame = rightFrame;
     self.navigationController.sideMenu.leftSideMenuViewController.view.frame = leftFrame;
 
+}
+
+-(void)setAlbumContents:(AlbumContents *)album
+{
+    albumContents = album;
+
+    self.title = albumContents.name;
+
+    self.noPhotosView.hidden = albumContents.photos.count > 0;
+
+    [self.gridView reloadData];
+
+    self.sidebarRight.albumContents = albumContents;
+}
+
+- (void)onAlbumContentsBeginRefresh:(int64_t)albumId
+{
+    // TODO Make refresh control spin
+}
+
+- (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
+{
+    // TODO Stop refresh control spinning
+
+    [self setAlbumContents:album];
+}
+
+- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
+{
+    // TODO
+}
+
+- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId
+{
+    [self.gridView reloadData];
 }
 
 

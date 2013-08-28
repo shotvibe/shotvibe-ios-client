@@ -15,5 +15,6 @@
 @property (nonatomic, strong) IBOutlet UIView *labelNewView;
 @property (nonatomic, strong) IBOutlet UILabel *labelNewLabel;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityView;
+@property (nonatomic, strong) IBOutlet UIProgressView *uploadProgressView;
 
 @end

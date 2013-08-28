@@ -8,10 +8,9 @@
 
 #import "SVRegistrationViewController.h"
 #import "SVAlbumListViewController.h"
-#import "NBPhoneNumberUtil.h"
-#import "NBPhoneNumber.h"
 #import "SVBusinessDelegate.h"
 #import "SVDefines.h"
+#import "AlbumManager.h"
 
 @interface SVRegistrationViewController ()
 
@@ -20,8 +19,6 @@
 @property (nonatomic, strong) IBOutlet UIImageView *countryFlagView;
 @property (nonatomic, strong) IBOutlet UITextField *phoneNumberField;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
-
-@property (nonatomic, strong) NSString *confirmationCode;
 
 
 - (IBAction)registerButtonPressed:(id)sender;
@@ -33,7 +30,7 @@
 @implementation SVRegistrationViewController
 {
 	SVCountriesViewController *countries;
-	int countryCode;
+    NSString *selectedCountryCode;
 }
 
 
@@ -41,6 +38,7 @@
 {
     NSLog(@"Selecting country: %@", regionCode);
 
+    selectedCountryCode = regionCode;
     [self didSelectCountryWithName:regionCode regionCode:regionCode];
 }
 
@@ -55,27 +53,50 @@
 - (IBAction)registerButtonPressed:(id)sender
 {
 	[self.phoneNumberField resignFirstResponder];
-	
-	// Construct our phone number
-	NSString *phoneNumber = [NSString stringWithFormat:@"%i%@", countryCode, self.phoneNumberField.text];
-	
-	NBPhoneNumber *nbPhoneNumber = [[NBPhoneNumber alloc] init];
-	nbPhoneNumber.countryCode = countryCode;
-	nbPhoneNumber.nationalNumber = [self.phoneNumberField.text integerValue];
-	
-	if ([[NBPhoneNumberUtil sharedInstance] isValidNumber:nbPhoneNumber]) {
-		[self submitPhoneNumberRegistration:phoneNumber];
-	}
-	else {
-		self.phoneNumberField.text = @"";
-		
-		UIAlertView *invalidNumberAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Number", @"")
-																	 message:NSLocalizedString(@"Please enter a valid phone number.", @"")
-																	delegate:nil
-														   cancelButtonTitle:NSLocalizedString(@"OK", @"")
-														   otherButtonTitles:nil];
-		[invalidNumberAlert show];
-	}
+
+    UIAlertView *activityDialog = [[UIAlertView alloc] initWithTitle:@"Registering..." message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+    [activityDialog show];
+
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    indicator.center = CGPointMake(activityDialog.bounds.size.width / 2, activityDialog.bounds.size.height - 50);
+    [indicator startAnimating];
+    [activityDialog addSubview:indicator];
+
+    NSString *phoneNumber = self.phoneNumberField.text;
+    NSString *defaultCountry = countries.selectedCountryCode;
+    if (!defaultCountry) {
+        defaultCountry = selectedCountryCode;
+    }
+
+    NSLog(@"phoneNumber:'%@' defaultCountry:'%@'", phoneNumber, defaultCountry);
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSError *error;
+        AuthorizePhoneNumberResult r = [[self.albumManager getShotVibeAPI] authorizePhoneNumber:phoneNumber defaultCountry:defaultCountry error:&error];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [activityDialog dismissWithClickedButtonIndex:0 animated:YES];
+            if (r == AuthorizePhoneNumberOk) {
+                [self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
+            }
+            else if (r == AuthorizePhoneNumberInvalidNumber) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Number"
+                                                                message:@"Check that you have entered your correct phone number"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            else if (r == AuthorizePhoneNumberError) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:[error description]
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+        });
+    });
 }
 
 
@@ -95,21 +116,17 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-	
-    if([SVBusinessDelegate hasUserBeenAuthenticated])
+
+    NSLog(@"SVRegistrationViewController.viewDidLoad");
+
+    if ([self.albumManager getShotVibeAPI].authData)
     {
+        NSLog(@"SVRegistrationViewController AuthData available");
 		[self handleSuccessfulLogin];
     }
 	else {
-		
-		NSString *cc = [[NSUserDefaults standardUserDefaults] stringForKey:kUserCountryCode];
-		if (cc == nil) {
-			cc = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-		}
-		
-		self.countryFlagView.image = [UIImage imageNamed:cc];
-		countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:cc];
-		
+		self.countryFlagView.image = [UIImage imageNamed:@"US"];
+
 		[self.phoneNumberField becomeFirstResponder];
 	}
 	
@@ -124,9 +141,15 @@
     }
 	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
 		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
-        destination.confirmationCode = self.confirmationCode;
-		destination.countryCode = countryCode;
-		destination.phoneNumber = self.phoneNumberField.text;
+        destination.albumManager = self.albumManager;
+        destination.pushNotificationsManager = self.pushNotificationsManager;
+
+        NSString *defaultCountry = countries.selectedCountryCode;
+        if (!defaultCountry) {
+            defaultCountry = selectedCountryCode;
+        }
+
+        destination.defaultCountryCode = defaultCountry;
 	}
 }
 
@@ -141,14 +164,7 @@
 
 - (void)didSelectCountryWithName:(NSString *)name regionCode:(NSString *)regionCode
 {
-	NSLog(@"didselectcountry %@", name);
-	[[NSUserDefaults standardUserDefaults] setObject:regionCode forKey:kUserCountryCode];
-	[[NSUserDefaults standardUserDefaults] synchronize];
-	
-    // TODO: Handle setting the appropriate country phone code
-    
     self.countryFlagView.image = [UIImage imageNamed:regionCode];
-    countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:regionCode];
 }
 
 
@@ -183,47 +199,6 @@
 
 #pragma mark - Private Methods
 
-- (void)submitPhoneNumberRegistration:(NSString *)phoneNumber
-{
-	[self.activityIndicator startAnimating];
-	
-	NSString *cc = [countries selectedCountryCode];
-	if (cc == nil)
-		cc = [[NSUserDefaults standardUserDefaults] stringForKey:kUserCountryCode];
-	if (cc == nil)
-		cc = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-	
-	NSLog(@"submit %@ %@", cc, phoneNumber);
-	[SVBusinessDelegate registerPhoneNumber:phoneNumber withCountryCode:cc WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {
-		
-		[self.activityIndicator stopAnimating];
-		
-		NSLog(@"received confirmationCode %@", confirmationCode);
-		
-		if(success)
-		{
-			// if successful, this will take user to next part of registration, if not show warning or something to resend a valid phone number
-			// Move this to completion handler once implemented
-			
-			self.confirmationCode = confirmationCode;
-			
-			[self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
-		}
-		else
-		{
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to register", @"")
-															message:NSLocalizedString(@"Failed to register phone number.", @"")
-														   delegate:nil
-												  cancelButtonTitle:NSLocalizedString(@"OK", @"")
-												  otherButtonTitles: nil];
-			[alert show];
-		}
-		
-	}];
-}
-
-
-
 - (void)handleSuccessfulLogin
 {
 	NSLog(@"handleSuccessfulLogin");
@@ -234,7 +209,9 @@
     
     // Grab the deal and make it our root view controller from the storyboard for this navigation controller
     SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
-    
+
+    rootView.albumManager = self.albumManager;
+
     [self.navigationController setViewControllers:@[rootView] animated:YES];
 	
 }

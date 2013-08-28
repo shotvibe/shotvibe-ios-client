@@ -7,7 +7,6 @@
 //
 
 #import "SVCountriesViewController.h"
-#import "NBPhoneNumberUtil.h"
 
 
 @implementation SVCountriesViewController
@@ -47,7 +46,6 @@
     }
 	allCountryCodes = [[NSArray alloc] initWithArray:countryCodes];
 	
-	regionCode = [[NSUserDefaults standardUserDefaults] stringForKey:kUserCountryCode];
 	if (regionCode == nil)
 		regionCode = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
 	
@@ -96,10 +94,8 @@
 {
     SVCountryViewCell *cell = (SVCountryViewCell*)[tableView dequeueReusableCellWithIdentifier:@"SVCountryViewCell"];
     
-	NSInteger countryCode = [[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:[countryCodes objectAtIndex:indexPath.row]];
-	
     cell.title.text = [countryNames objectAtIndex:indexPath.row];
-    cell.code.text = [NSString stringWithFormat:@"+%i", countryCode];
+    cell.code.text = @"";
 	cell.countryImage.image = [UIImage imageNamed:[countryCodes objectAtIndex:indexPath.row]];
 	
 	if ([regionCode isEqualToString:[countryCodes objectAtIndex:indexPath.row]]) {

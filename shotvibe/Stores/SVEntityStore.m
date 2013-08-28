@@ -57,9 +57,9 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 	
 	//[NSManagedObject truncateAll];
 	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
-	[Member MR_truncateAllInContext:localContext];
-	[Album MR_truncateAllInContext:localContext];
-	[AlbumPhoto MR_truncateAllInContext:localContext];
+	[OldMember MR_truncateAllInContext:localContext];
+	[OldAlbum MR_truncateAllInContext:localContext];
+	[OldAlbumPhoto MR_truncateAllInContext:localContext];
 	[localContext MR_saveToPersistentStoreAndWait];
 }
 
@@ -99,7 +99,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 - (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate
 {
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbum"];
 	NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
 	NSManagedObjectContext *dc = [NSManagedObjectContext MR_defaultContext];
@@ -120,7 +120,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 - (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate
 {
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Album"];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbum"];
     NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
     
     fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
@@ -145,10 +145,10 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 }
 
 
-- (NSFetchedResultsController *)allPhotosForAlbum:(Album *)anAlbum WithDelegate:(id)delegate
+- (NSFetchedResultsController *)allPhotosForAlbum:(OldAlbum *)anAlbum WithDelegate:(id)delegate
 {
 	NSLog(@"NSFetchedResultsController *)allPhotosForAlbum %@", anAlbum.name);
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbumPhoto"];
     NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
     //NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
     
@@ -189,7 +189,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 //		}
 //    }];
 }
-- (void)setPhotosInAlbumToNotNew:(Album*)album {
+- (void)setPhotosInAlbumToNotNew:(OldAlbum*)album {
 	
 //	[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
 //		
@@ -207,7 +207,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 	
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
 		
-		AlbumPhoto *p = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"photo_id == %@", photoId]
+		OldAlbumPhoto *p = [OldAlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"photo_id == %@", photoId]
 												 inContext:localContext];
 		[p setHasViewed:[NSNumber numberWithBool:YES]];
     }];
@@ -219,7 +219,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 	// Get the local context
 	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
 	
-	Album *localAlbum = [Album createInContext:localContext];
+	OldAlbum *localAlbum = [OldAlbum createInContext:localContext];
 	
 	[localAlbum setTempAlbumId:[[NSUUID UUID] UUIDString]];
 	[localAlbum setDate_created:[NSDate date]];
@@ -237,12 +237,12 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 - (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
 {
-    Album *albumToAddPhotosTo = [Album findFirstByAttribute:@"albumId" withValue:albumID inContext:[NSManagedObjectContext defaultContext]];
+    OldAlbum *albumToAddPhotosTo = [OldAlbum findFirstByAttribute:@"albumId" withValue:albumID inContext:[NSManagedObjectContext defaultContext]];
     NSLog(@"addPhotoWithID to database: albumId %@, photoId: %@", albumID, photoId);
     if (photoId && albumID) {
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-            AlbumPhoto *localPhoto = [AlbumPhoto createInContext:localContext];
-            Album *localAlbum = (Album *)[localContext objectWithID:albumToAddPhotosTo.objectID];
+            OldAlbumPhoto *localPhoto = [OldAlbumPhoto createInContext:localContext];
+            OldAlbum *localAlbum = (OldAlbum *)[localContext objectWithID:albumToAddPhotosTo.objectID];
             
             [localPhoto setDate_created:[NSDate date]];
             [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
@@ -259,7 +259,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
         NSLog(@"WE'VE LOST INTELLIGENCE SIR!! photoId or albumId missing");
     }
 }
-- (void)leaveAlbum:(Album*)album completion:(void (^)(BOOL success, NSError *error))block {
+- (void)leaveAlbum:(OldAlbum*)album completion:(void (^)(BOOL success, NSError *error))block {
 	
 	NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:0];
     NSString *path = [NSString stringWithFormat:@"/albums/%@/leave/", album.albumId];
@@ -390,9 +390,9 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 #pragma mark - Image Methods
 
-- (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *))block
+- (void)getImageForPhoto:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *))block
 {
-	__block AlbumPhoto *blockPhoto = (AlbumPhoto *)aPhoto;
+	__block OldAlbumPhoto *blockPhoto = (OldAlbumPhoto *)aPhoto;
 	
     dispatch_async(dispatch_get_global_queue(0,0),^{
 		
@@ -429,9 +429,9 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 }
 
 
-- (void)getImageForPhotoData:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block
+- (void)getImageForPhotoData:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block
 {
-    __block AlbumPhoto *blockPhoto = (AlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
+    __block OldAlbumPhoto *blockPhoto = (OldAlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
     
     [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
 		
@@ -460,7 +460,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 }
 
 
-- (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto
+- (UIImage *)getImageForPhoto:(OldAlbumPhoto *)aPhoto
 {
     NSURL *url = [NSURL URLWithString:aPhoto.photo_id relativeToURL:self.imageDataDirectory];
     NSString *path = [url path];
@@ -602,7 +602,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
     }
 }
 
-- (void)deletePhoto:(AlbumPhoto *)aPhoto {
+- (void)deletePhoto:(OldAlbumPhoto *)aPhoto {
 	NSLog(@"Delete photo %@", aPhoto.photo_id);
 	// Remove photo from disk first
 	NSError *error = nil;
@@ -616,7 +616,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 	
 	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
 	
-	AlbumPhoto *photo = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
+	OldAlbumPhoto *photo = [OldAlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
 	
 	[photo willChangeValueForKey:@"objectSyncStatus"];
 	photo.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDeleteNeeded];

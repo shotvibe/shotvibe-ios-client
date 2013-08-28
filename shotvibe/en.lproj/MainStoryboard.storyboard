@@ -125,6 +125,10 @@
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="color" red="0.53333333329999999" green="0.68235294120000001" blue="0.37647058820000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         </activityIndicatorView>
+                                                        <progressView opaque="NO" contentMode="scaleToFill" progress="0.5" id="pJA-aq-0Bp">
+                                                            <rect key="frame" x="15" y="12" width="73" height="9"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </progressView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
@@ -133,6 +137,7 @@
                                                     <outlet property="labelNewLabel" destination="Kt1-Gj-Vew" id="dxW-PR-3Er"/>
                                                     <outlet property="labelNewView" destination="JmT-ek-vdD" id="Hnw-Pt-3hZ"/>
                                                     <outlet property="networkImageView" destination="C9q-ds-YvT" id="INW-lj-d2U"/>
+                                                    <outlet property="uploadProgressView" destination="pJA-aq-0Bp" id="9Xp-0v-1OT"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>

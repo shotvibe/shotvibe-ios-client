@@ -261,7 +261,7 @@
             albumLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
             albumLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
             
-            Album *currentAlbum = [self.albums objectAtIndex:index];
+            OldAlbum *currentAlbum = [self.albums objectAtIndex:index];
             albumLabel.text = currentAlbum.name;
             
             [self.albumScrollView addSubview:albumLabel];

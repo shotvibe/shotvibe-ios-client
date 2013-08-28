@@ -11,11 +11,11 @@
 #import "RCScrollView.h"
 //#import "RCImageView.h"
 #import "RCScrollImageView.h"
-#import "AlbumPhoto.h"
 #import "SVLinkActivity.h"
 #import "SVActivityViewController.h"
+#import "AlbumContents.h"
 
-@class AlbumPhoto;
+@class OldAlbumPhoto;
 @interface SVPhotoViewerController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, SVLinkActivityDelegate> {
 	
 	RCScrollView *photosScrollView;
@@ -23,9 +23,8 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) NSMutableArray *sortedPhotos;
+@property (nonatomic, strong) AlbumContents *albumContents;
 @property (nonatomic, strong) NSMutableDictionary *cache;
-@property (nonatomic, strong) AlbumPhoto *selectedPhoto;
 @property (nonatomic) int index;
 
 @end

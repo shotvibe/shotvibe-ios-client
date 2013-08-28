@@ -6,18 +6,18 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "Album.h"
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "SVSidebarAlbumMemberCell.h"
 #import "SVSidebarAlbumMemberViewController.h"
-#import "Member.h"
+#import "UIImageView+WebCache.h"
+
+#import "AlbumMember.h"
 
 @interface SVSidebarAlbumMemberViewController () <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
-@property (nonatomic, strong) NSArray *members;
 
 - (IBAction)addFriendsButtonPressed:(id)sender;
 
@@ -33,7 +33,14 @@
     [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:nil];
 }
 
+#pragma mark - Properties
 
+- (void)setAlbumContents:(AlbumContents *)albumContents
+{
+    _albumContents = albumContents;
+
+    [self.tableView reloadData];
+}
 
 
 #pragma mark - View Lifecycle
@@ -49,8 +56,6 @@
         
         [self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
     }
-    
-    [self refreshMembers];
 }
 
 
@@ -65,30 +70,20 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return self.members.count;
+    return self.albumContents.members.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
-    
-    Member *currentMember = [self.members objectAtIndex:indexPath.row];
-	
-	[cell.profileImageView setImage:nil];
-	[cell.profileImageView loadNetworkImage:currentMember.avatar_url];
-    cell.memberLabel.text = currentMember.nickname;
-	
+
+    AlbumMember *member = [self.albumContents.members objectAtIndex:indexPath.row];
+
+    [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
+    cell.memberLabel.text = member.nickname;
+
     return cell;
-}
-
-
-- (void)refreshMembers
-{
-    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"nickname" ascending:YES];
-    self.members = [[self.selectedAlbum.members allObjects] sortedArrayUsingDescriptors:@[descriptor]];
-    [self.tableView reloadData];
 }
 
 

@@ -104,7 +104,9 @@
     [SVBusinessDelegate loadAllAssetsForAlbumGroup:selectedGroup WithCompletion:^(NSArray *assets, NSError *error) {
 		
         CaptureSelectImagesViewController *selectImagesViewController = [[CaptureSelectImagesViewController alloc] initWithNibName:@"CaptureSelectImagesViewController" bundle:[NSBundle mainBundle]];
-        
+
+        selectImagesViewController.albumId = self.albumId;
+        selectImagesViewController.albumManager = self.albumManager;
         selectImagesViewController.libraryPhotos = [[NSArray alloc] initWithArray:assets];
         selectImagesViewController.selectedAlbum = self.selectedAlbum;
         selectImagesViewController.selectedGroup = selectedGroup;

@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class AlbumPhoto, Member;
+@class OldAlbumPhoto, OldMember;
 
-@interface Album : NSManagedObject
+@interface OldAlbum : NSManagedObject
 
 @property (nonatomic, retain) NSString * albumId;
 @property (nonatomic, retain) NSString * tempAlbumId;
@@ -27,15 +27,15 @@
 @property (nonatomic, retain) NSSet *members;
 @end
 
-@interface Album (CoreDataGeneratedAccessors)
+@interface OldAlbum (CoreDataGeneratedAccessors)
 
-- (void)addAlbumPhotosObject:(AlbumPhoto *)value;
-- (void)removeAlbumPhotosObject:(AlbumPhoto *)value;
+- (void)addAlbumPhotosObject:(OldAlbumPhoto *)value;
+- (void)removeAlbumPhotosObject:(OldAlbumPhoto *)value;
 - (void)addAlbumPhotos:(NSSet *)values;
 - (void)removeAlbumPhotos:(NSSet *)values;
 
-- (void)addMembersObject:(Member *)value;
-- (void)removeMembersObject:(Member *)value;
+- (void)addMembersObject:(OldMember *)value;
+- (void)removeMembersObject:(OldMember *)value;
 - (void)addMembers:(NSSet *)values;
 - (void)removeMembers:(NSSet *)values;
 

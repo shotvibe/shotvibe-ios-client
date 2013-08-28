@@ -18,6 +18,11 @@
 #import "SVAlbumListViewController.h"
 #import "SVRegistrationViewController.h"
 
+#import "UserSettings.h"
+#import "ShotVibeAPI.h"
+#import "ShotVibeDB.h"
+#import "AlbumManager.h"
+
 @interface ShotVibeAppDelegate ()
 
 @end
@@ -30,7 +35,7 @@
 @property (nonatomic) BOOL startWithAuth;
 @property (nonatomic, copy) NSString *countryCode;
 @property (nonatomic, copy) NSString *authToken;
-@property (nonatomic, copy) NSString *userId;
+@property (nonatomic, assign) int64_t userId;
 
 @end
 
@@ -58,11 +63,13 @@
                 return nil;
             }
 
-            result.userId = [queryParameters objectForKey:@"user_id"];
-            if(result.userId == nil) {
+            NSString *userIdStr = [queryParameters objectForKey:@"user_id"];
+            if(userIdStr == nil) {
                 NSLog(@"Error: No user_id query parameter found  in %@", [url description]);
                 return nil;
             }
+
+            result.userId = [userIdStr longLongValue];
 
             return result;
         }
@@ -108,6 +115,10 @@ NSDictionary * parseQueryParameters(NSString * query)
 
 
 @implementation ShotVibeAppDelegate
+{
+    AlbumManager *albumManager;
+    SVPushNotificationsManager *pushNotificationsManager;
+}
 
 #pragma mark - UIApplicationDelegate Methods
 
@@ -118,10 +129,30 @@ NSDictionary * parseQueryParameters(NSString * query)
     [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
 #endif
 
+    NSLog(@"didFinishLaunchingWithOptions");
+
+    ShotVibeAPI *shotvibeAPI = [[ShotVibeAPI alloc] initWithAuthData:[UserSettings getAuthData]];
+    ShotVibeDB *shotvibeDB = [[ShotVibeDB alloc] init];
+
+    albumManager = [[AlbumManager alloc] initWithShotvibeAPI:shotvibeAPI shotvibeDB:shotvibeDB];
+
+    pushNotificationsManager = [[SVPushNotificationsManager alloc] initWithAlbumManager:albumManager];
+
+    // The following casts will work because of the way the MainStoryboard is set up.
+
+    NSAssert([self.window.rootViewController isKindOfClass:[UINavigationController class]], @"Error");
+    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+
+    NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
+    SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
+    registrationViewController.albumManager = albumManager;
+    registrationViewController.pushNotificationsManager = pushNotificationsManager;
+
+
 	[SVInitializationBD initialize];
-	
-    if ([SVBusinessDelegate hasUserBeenAuthenticated]) {
-		[SVPushNotificationsManager setup];
+
+    if (shotvibeAPI.authData) {
+		[pushNotificationsManager setup];
     }
     else {
         // TODO Verify that there is an internet connection
@@ -185,14 +216,20 @@ NSString * deviceDescription()
         SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
 
         if (registrationInfo.startWithAuth) {
+            AuthData *authData = [[AuthData alloc] initWithUserID:registrationInfo.userId
+                                                        authToken:registrationInfo.authToken
+                                               defaultCountryCode:registrationInfo.countryCode];
 
-            // Store the registration data using the legacy system:
+            [UserSettings setAuthData:authData];
 
-            [[NSUserDefaults standardUserDefaults] setObject:registrationInfo.userId forKey:kApplicationUserId];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Token %@", registrationInfo.authToken] forKey:kApplicationUserAuthToken];
+            // -----------------
+            // TODO Temporary Legacy compatibility shit:
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%lld", authData.userId] forKey:kApplicationUserId];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Token %@", authData.authToken] forKey:kApplicationUserAuthToken];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            // -----------------
 
-            [SVPushNotificationsManager setup];
+            [pushNotificationsManager setup];
 
             [registrationViewController skipRegistration];
         }
@@ -252,7 +289,12 @@ NSString * deviceDescription()
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    [SVPushNotificationsManager setAPNSDeviceToken:deviceToken];
+    [pushNotificationsManager setAPNSDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [pushNotificationsManager handleNotification:userInfo];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error

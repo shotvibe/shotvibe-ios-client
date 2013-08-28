@@ -10,11 +10,11 @@
 #import <UIKit/UIKit.h>
 #import "SVWebViewController.h"
 
-@class Album;
+@class OldAlbum;
 
 @interface SVSettingsViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
-@property (nonatomic, strong) Album *currentAlbum;
+@property (nonatomic, strong) OldAlbum *currentAlbum;
 
 - (IBAction)doLogout:(id)sender;
 

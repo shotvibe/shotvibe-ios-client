@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "Album.h"
-#import "AlbumPhoto.h"
-#import "Member.h"
+#import "OldAlbum.h"
+#import "OldAlbumPhoto.h"
+#import "OldMember.h"
 
 
-@implementation Album
+@implementation OldAlbum
 
 @dynamic albumId;
 @dynamic date_created;

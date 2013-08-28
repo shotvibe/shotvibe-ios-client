@@ -12,9 +12,9 @@
 #import "SVEntityStore.h"
 #import "AFJSONRequestOperation.h"
 #import "AFImageRequestOperation.h"
-#import "Album.h"
-#import "AlbumPhoto.h"
-#import "Member.h"
+#import "OldAlbum.h"
+#import "OldAlbumPhoto.h"
+#import "OldMember.h"
 
 @interface SVUploadManager : NSObject {
 	
@@ -26,7 +26,7 @@
 	AFHTTPClient *uploader;
 	BOOL busy;
 	BOOL restartUploadWhenFinished;
-	Album *activeAlbum;
+	OldAlbum *activeAlbum;
 }
 
 + (SVUploadManager *)sharedManager;
