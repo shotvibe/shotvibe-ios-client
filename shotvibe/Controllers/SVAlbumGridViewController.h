@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SVCameraPickerDelegate.h"
 
 #import "AlbumContentsListener.h"
 #import "AlbumManager.h"
@@ -16,7 +17,7 @@
 
 @class OldAlbum;
 
-@interface SVAlbumGridViewController : UIViewController <UIScrollViewDelegate, AlbumContentsListener>
+@interface SVAlbumGridViewController : UIViewController <UIScrollViewDelegate, AlbumContentsListener, SVCameraPickerDelegate>
 
 #pragma mark - Properties
 

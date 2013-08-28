@@ -33,7 +33,8 @@ UITableViewDelegate,
 UITextFieldDelegate,
 UISearchBarDelegate,
 AlbumListListener,
-RCImageViewDelegate> {
+RCImageViewDelegate,
+SVCameraPickerDelegate> {
 }
 
 @property (nonatomic, strong) AlbumManager *albumManager;

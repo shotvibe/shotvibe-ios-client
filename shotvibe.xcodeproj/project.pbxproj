@@ -512,6 +512,11 @@
 		28E94CA817C5456800874BDE /* RCScrollImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CA717C5456700874BDE /* RCScrollImageView.m */; };
 		28E94CAA17C6740E00874BDE /* SVCameraOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */; };
 		28E94CAD17C6776D00874BDE /* SVCameraPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CAC17C6776B00874BDE /* SVCameraPickerController.m */; };
+		28F8779D17CC931D0051F528 /* slider-cap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F8779A17CC931D0051F528 /* slider-cap@2x.png */; };
+		28F8779E17CC931D0051F528 /* slider-track-fill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F8779B17CC931D0051F528 /* slider-track-fill@2x.png */; };
+		28F8779F17CC931D0051F528 /* slider-track@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F8779C17CC931D0051F528 /* slider-track@2x.png */; };
+		28F877A217CC98F50051F528 /* cameraCaptureButton-Vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877A017CC98F50051F528 /* cameraCaptureButton-Vertical.png */; };
+		28F877A317CC98F50051F528 /* cameraCaptureButton-Vertical@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877A117CC98F50051F528 /* cameraCaptureButton-Vertical@2x.png */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B3AD15417CB4A9C004D24A9 /* NSData+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3AD13917CB4A9C004D24A9 /* NSData+GIF.m */; };
 		3B3AD15517CB4A9C004D24A9 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3AD13B17CB4A9C004D24A9 /* SDImageCache.m */; };
@@ -1080,6 +1085,7 @@
 		2897384117A2422F003B18D3 /* albumNewIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumNewIcon.png; sourceTree = "<group>"; };
 		2897384217A2422F003B18D3 /* albumNewIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumNewIcon@2x.png"; sourceTree = "<group>"; };
 		2897384317A2422F003B18D3 /* albumTakePicture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumTakePicture@2x.png"; sourceTree = "<group>"; };
+		28CF18C917C7C07B00C4BA25 /* SVCameraPickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVCameraPickerDelegate.h; path = shotvibe/Delegates/SVCameraPickerDelegate.h; sourceTree = SOURCE_ROOT; };
 		28CFCC6D17A253F0001511EF /* contactsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contactsIcon.png; sourceTree = "<group>"; };
 		28CFCC6E17A253F0001511EF /* contactsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "contactsIcon@2x.png"; sourceTree = "<group>"; };
 		28CFCC7517A2B83F001511EF /* searchFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchFieldBg.png; sourceTree = "<group>"; };
@@ -1200,6 +1206,11 @@
 		28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVCameraOverlay.xib; path = shotvibe/Views/SVCameraOverlay.xib; sourceTree = SOURCE_ROOT; };
 		28E94CAB17C6776A00874BDE /* SVCameraPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCameraPickerController.h; sourceTree = "<group>"; };
 		28E94CAC17C6776B00874BDE /* SVCameraPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVCameraPickerController.m; sourceTree = "<group>"; };
+		28F8779A17CC931D0051F528 /* slider-cap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-cap@2x.png"; sourceTree = "<group>"; };
+		28F8779B17CC931D0051F528 /* slider-track-fill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-track-fill@2x.png"; sourceTree = "<group>"; };
+		28F8779C17CC931D0051F528 /* slider-track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-track@2x.png"; sourceTree = "<group>"; };
+		28F877A017CC98F50051F528 /* cameraCaptureButton-Vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCaptureButton-Vertical.png"; sourceTree = "<group>"; };
+		28F877A117CC98F50051F528 /* cameraCaptureButton-Vertical@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCaptureButton-Vertical@2x.png"; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B3AD13817CB4A9C004D24A9 /* NSData+GIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+GIF.h"; path = "SDWebImage/NSData+GIF.h"; sourceTree = "<group>"; };
 		3B3AD13917CB4A9C004D24A9 /* NSData+GIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+GIF.m"; path = "SDWebImage/NSData+GIF.m"; sourceTree = "<group>"; };
@@ -1448,6 +1459,11 @@
 		043473961705F42300CFE564 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				28F877A017CC98F50051F528 /* cameraCaptureButton-Vertical.png */,
+				28F877A117CC98F50051F528 /* cameraCaptureButton-Vertical@2x.png */,
+				28F8779A17CC931D0051F528 /* slider-cap@2x.png */,
+				28F8779B17CC931D0051F528 /* slider-track-fill@2x.png */,
+				28F8779C17CC931D0051F528 /* slider-track@2x.png */,
 				043473BF1705F48C00CFE564 /* Images */,
 				3BE0B10917C29F2E0058CAAD /* create.sql */,
 			);
@@ -1507,6 +1523,9 @@
 			children = (
 				0493ABEC1732D78B005ABCE7 /* SVImagePickerListViewController.h */,
 				0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */,
+				04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */,
+				04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */,
+				04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */,
 			);
 			name = Picker;
 			sourceTree = "<group>";
@@ -2387,14 +2406,12 @@
 		AA78D2B617172C26006E1240 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				28CF18C917C7C07B00C4BA25 /* SVCameraPickerDelegate.h */,
 				0426B6851724F574007BAABC /* CaptureNavigationController.h */,
 				0426B6861724F574007BAABC /* CaptureNavigationController.m */,
 				28E94CAB17C6776A00874BDE /* SVCameraPickerController.h */,
 				28E94CAC17C6776B00874BDE /* SVCameraPickerController.m */,
 				28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */,
-				04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */,
-				04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */,
-				04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */,
 				28E94CA117C4B83E00874BDE /* CameraRollSection.h */,
 				28E94CA217C4B83F00874BDE /* CameraRollSection.m */,
 				04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */,
@@ -3098,6 +3115,11 @@
 				28E94C9F17C3FB6300874BDE /* MemberJoined.png in Resources */,
 				28E94CA017C3FB6300874BDE /* MemberJoined@2x.png in Resources */,
 				28E94CAA17C6740E00874BDE /* SVCameraOverlay.xib in Resources */,
+				28F8779D17CC931D0051F528 /* slider-cap@2x.png in Resources */,
+				28F8779E17CC931D0051F528 /* slider-track-fill@2x.png in Resources */,
+				28F8779F17CC931D0051F528 /* slider-track@2x.png in Resources */,
+				28F877A217CC98F50051F528 /* cameraCaptureButton-Vertical.png in Resources */,
+				28F877A317CC98F50051F528 /* cameraCaptureButton-Vertical@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

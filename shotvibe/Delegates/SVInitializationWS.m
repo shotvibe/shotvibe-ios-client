@@ -175,6 +175,17 @@
     }
     
     
+	// UISlider
+	UIImage *minImage = [[UIImage imageNamed:@"slider-track-fill.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6) resizingMode:UIImageResizingModeStretch];
+    UIImage *maxImage = [[UIImage imageNamed:@"slider-track.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 6, 0, 6) resizingMode:UIImageResizingModeStretch];
+    UIImage *thumbImage = [UIImage imageNamed:@"slider-cap.png"];
+	
+    [[UISlider appearance] setMaximumTrackImage:maxImage forState:UIControlStateNormal];
+    [[UISlider appearance] setMinimumTrackImage:minImage forState:UIControlStateNormal];
+    [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateNormal];
+    [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateHighlighted];
+    
+	
     // Customize the UIActivityController
 	
 	//[[SVActivityViewController appearance] setBackgroundColor:[UIColor whiteColor]];

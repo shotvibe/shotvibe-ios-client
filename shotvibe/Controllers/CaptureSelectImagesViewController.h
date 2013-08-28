@@ -11,13 +11,12 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "ALAssetsLibrary+helper.h"
-#import "CaptureViewfinderController.h"
+#import "SVCameraPickerDelegate.h"
 #import "SVSelectionGridCell.h"
 #import "CameraRollSection.h"
 #import "SVBusinessDelegate.h"
 #import "AlbumManager.h"
-
-@class OldAlbum;
+#import "OldAlbum.h"
 
 @interface CaptureSelectImagesViewController : UIViewController <CameraRollSectionDelegate> {
 	
@@ -29,13 +28,12 @@
 
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;
+@property (nonatomic) id <SVCameraPickerDelegate> delegate;
 
 @property (nonatomic, strong) NSArray *takenPhotos;// Set only one of this options
 @property (nonatomic, strong) NSArray *libraryPhotos;
 @property (nonatomic, strong) OldAlbum *selectedAlbum;
 @property (nonatomic, strong) ALAssetsGroup *selectedGroup;
-
-@property (nonatomic) id <CaptureViewfinderDelegate> delegate;
 
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
