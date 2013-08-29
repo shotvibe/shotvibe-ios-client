@@ -51,6 +51,7 @@
     NSMutableArray *_objectChanges;
     NSMutableArray *_sectionChanges;
     NSMutableDictionary *thumbnailCache;
+    UIRefreshControl *refresh;
 	CaptureNavigationController *cameraNavController;
 }
 
@@ -120,6 +121,11 @@
 	
 	[self.navigationController setSideMenu:self.sauronTheSideMenu];
 	[self configureMenuForOrientation:self.interfaceOrientation];
+	
+	refresh = [[UIRefreshControl alloc] init];
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	[refresh addTarget:self action:@selector(refreshView) forControlEvents:UIControlEventValueChanged];
+	[self.gridView addSubview:refresh];
 
     [self.albumManager refreshAlbumContents:self.albumId];
 }
@@ -523,24 +529,37 @@
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId
 {
-    // TODO Make refresh control spin
+	[refresh beginRefreshing];
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing photos..."];
 }
 
 - (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
 {
-    // TODO Stop refresh control spinning
+	[refresh endRefreshing];
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 
     [self setAlbumContents:album];
 }
 
 - (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
 {
-    // TODO
+    [refresh endRefreshing];
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	
+    // TODO ...
 }
 
 - (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId
 {
     [self.gridView reloadData];
+}
+
+
+#pragma mark refresh control
+
+-(void)refreshView
+{
+    [self.albumManager refreshAlbumContents:self.albumId];
 }
 
 

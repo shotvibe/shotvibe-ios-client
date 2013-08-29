@@ -1912,9 +1912,9 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="sNb-fh-mhv"/>
+        <segue reference="DTJ-0y-Ox6"/>
+        <segue reference="qJa-KB-6Vd"/>
         <segue reference="itz-1F-TDT"/>
-        <segue reference="YZf-v8-Yxg"/>
-        <segue reference="08l-Qt-CIJ"/>
+        <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>
 </document>

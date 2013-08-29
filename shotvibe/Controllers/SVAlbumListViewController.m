@@ -10,7 +10,7 @@
 #import "UIImageView+WebCache.h"
 
 #import "AlbumSummary.h"
-#import "AlbumPhoto.h";
+#import "AlbumPhoto.h"
 
 @interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
 
@@ -722,6 +722,9 @@
     }
     [self.tableView reloadData];
 }
+
+
+#pragma mark refresh
 
 -(void)refreshView
 {
