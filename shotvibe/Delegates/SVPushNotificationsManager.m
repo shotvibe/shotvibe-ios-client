@@ -17,12 +17,12 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
     AlbumManager *albumManager;
 }
 
-- (id)initWithAlbumManager:(AlbumManager *)albumManager
+- (id)initWithAlbumManager:(AlbumManager *)albumManager_
 {
     self = [super init];
 
     if (self) {
-        self->albumManager = albumManager;
+        self->albumManager = albumManager_;
     }
 
     return self;

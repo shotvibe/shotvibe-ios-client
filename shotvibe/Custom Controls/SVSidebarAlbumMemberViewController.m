@@ -14,7 +14,7 @@
 
 #import "AlbumMember.h"
 
-@interface SVSidebarAlbumMemberViewController () <NSFetchedResultsControllerDelegate>
+@interface SVSidebarAlbumMemberViewController ()
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class SVAlbumGridViewController;
-@class OldAlbum;
+@class AlbumSummary;
 
 @interface SVSidebarAlbumMemberViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 

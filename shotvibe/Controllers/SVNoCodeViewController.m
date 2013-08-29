@@ -21,7 +21,7 @@
 	[self.phoneNumberField resignFirstResponder];
 	
 	// Construct our phone number
-	NSString *phoneNumber = [NSString stringWithFormat:@"%i%@", self.countryCode, self.phoneNumberField.text];
+	//NSString *phoneNumber = [NSString stringWithFormat:@"%i%@", self.countryCode, self.phoneNumberField.text];
 
     /*
 	NBPhoneNumber *nbPhoneNumber = [[NBPhoneNumber alloc] init];

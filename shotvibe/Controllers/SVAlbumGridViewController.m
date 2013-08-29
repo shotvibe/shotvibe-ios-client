@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "OldAlbumPhoto.h"
 #import "SVAlbumGridViewController.h"
 #import "SVEntityStore.h"
 #import "SVDefines.h"
@@ -23,7 +22,6 @@
 #import "SVImagePickerListViewController.h"
 #import "SVAlbumGridViewCell.h"
 #import "SVAddFriendsViewController.h"
-#import "SVUploadManager.h"
 #import "AlbumPhoto.h"
 #import "UIImageView+WebCache.h"
 #import "MWPhotoBrowser.h"
@@ -168,7 +166,7 @@
 	NSLog(@"prepareForSegue %@", segue.identifier);
     if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
 		
-        SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
+        //SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
         //destination.currentAlbum = self.selectedAlbum;
     }
     else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
@@ -255,7 +253,7 @@
     
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0),^{
 		
-		OldAlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
 		
 		//NSLog(@"---------> photo cell: %i %@ objectSyncStatus: %@", indexPath.item, currentPhoto.date_created, currentPhoto.objectSyncStatus);
@@ -347,7 +345,7 @@
 
 
 #pragma mark NSFetchedResultsControllerDelegate methods
-
+/*
 - (void)controller:(NSFetchedResultsController *)controller
   didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
            atIndex:(NSUInteger)sectionIndex
@@ -416,12 +414,12 @@
 						case NSFetchedResultsChangeInsert:
 							NSLog(@"insert");
 							[self.gridView insertItemsAtIndexPaths:@[obj]];
-							[[SVUploadManager sharedManager] upload];
+							//[[SVUploadManager sharedManager] upload];
 							break;
 						case NSFetchedResultsChangeDelete:
 							NSLog(@"delete");
 							[self.gridView deleteItemsAtIndexPaths:@[obj]];
-							[[SVUploadManager sharedManager] deletePhotos];
+							//[[SVUploadManager sharedManager] deletePhotos];
 							break;
 						case NSFetchedResultsChangeUpdate:
 							NSLog(@"update");
@@ -440,7 +438,7 @@
     [_sectionChanges removeAllObjects];
     [_objectChanges removeAllObjects];
 }
-
+*/
 
 
 #pragma mark - Private Methods

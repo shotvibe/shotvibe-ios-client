@@ -16,7 +16,7 @@
 #import "CameraRollSection.h"
 #import "SVBusinessDelegate.h"
 #import "AlbumManager.h"
-#import "OldAlbum.h"
+#import "AlbumSummary.h"
 
 @interface CaptureSelectImagesViewController : UIViewController <CameraRollSectionDelegate> {
 	
@@ -32,7 +32,7 @@
 
 @property (nonatomic, strong) NSArray *takenPhotos;// Set only one of this options
 @property (nonatomic, strong) NSArray *libraryPhotos;
-@property (nonatomic, strong) OldAlbum *selectedAlbum;
+@property (nonatomic, strong) AlbumSummary *selectedAlbum;
 @property (nonatomic, strong) ALAssetsGroup *selectedGroup;
 
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;

@@ -5,11 +5,9 @@
 //  Created by Fredrick Gabelmann on 1/23/13.
 //
 
-#import "OldAlbum.h"
+#import "AlbumSummary.h"
 #import "SVInitializationWS.h"
 #import "SVDefines.h"
-#import "MagicalRecordShorthand.h"
-#import "MagicalRecord+Setup.h"
 
 @interface SVInitializationWS ()
 
@@ -217,7 +215,7 @@
 - (void)initializeManagedObjectModel
 {
 	NSLog(@"================== initializeManagedObjectModel ===================");
-    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"ShotVibe.sqlite"];
+	
 }
 
 

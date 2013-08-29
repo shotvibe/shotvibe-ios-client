@@ -12,7 +12,17 @@
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 
-@interface SVAlbumListViewController () <NSFetchedResultsControllerDelegate>
+@interface SVAlbumListViewController ()
+{
+    NSMutableArray *albumList;
+    BOOL searchShowing;
+    NSMutableDictionary *thumbnailCache;
+	UIView *sectionView;
+	NSIndexPath *tappedCell;
+	NSOperationQueue *_queue;
+    UIRefreshControl *refresh;
+	CaptureNavigationController *cameraNavController;
+}
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIView *sectionHeader;
@@ -30,8 +40,6 @@
 
 
 - (void)configureViews;
-//- (SVAlbumListViewCell *)configureCell:(SVAlbumListViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
-//- (void)updateCell:(SVAlbumListViewCell *)cell AtIndexPath:(NSIndexPath *)indexPath;
 - (void)profilePressed;
 - (void)settingsPressed;
 - (void)showDropDown;
@@ -44,22 +52,13 @@
 - (IBAction)newAlbumClose:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
-- (OldAlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos;
+- (AlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos;
 
 @end
 
 
 @implementation SVAlbumListViewController
-{
-    NSMutableArray *albumList;
-    BOOL searchShowing;
-    NSMutableDictionary *thumbnailCache;
-	UIView *sectionView;
-	NSIndexPath *tappedCell;
-	NSOperationQueue *_queue;
-    UIRefreshControl *refresh;
-	CaptureNavigationController *cameraNavController;
-}
+
 
 #pragma mark - Actions
 
@@ -81,27 +80,9 @@
     [self hideDropDown];
 }
 - (IBAction)takePicturePressed:(id)sender {
-    // Max of 9 albums wat
-    NSUInteger albumCount = 0;
-    
-    NSMutableArray *albumsForCapture = [[NSMutableArray alloc] init];
-
-    /*
-    for (OldAlbum *anAlbum in self.fetchedResultsController.fetchedObjects) {
-        [albumsForCapture addObject:anAlbum];
-        
-        albumCount++;
-        
-        if (albumCount > 20) {
-            break;
-        }
-    }
-     */
-
-    
     cameraNavController = [[CaptureNavigationController alloc] init];
 	cameraNavController.cameraDelegate = self;
-	cameraNavController.albums = albumsForCapture;
+	cameraNavController.albums = [NSMutableArray arrayWithArray:albumList];
     cameraNavController.nav = self.navigationController;// this is set last
 }
 
@@ -114,7 +95,7 @@
 	cameraNavController = nil;
 }
 
-- (void) cameraWasDismissedWithAlbum:(OldAlbum*)selectedAlbum {
+- (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {
 	
 	NSLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
 	
@@ -125,7 +106,7 @@
 		int i = 0;
 		NSIndexPath *indexPath;
 		id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:0];
-		for (OldAlbum *a in [sectionInfo objects]) {
+		for (AlbumSummary *a in [sectionInfo objects]) {
 			
 			if ([a.albumId isEqualToString:selectedAlbum.albumId]) {
 				indexPath = [NSIndexPath indexPathForRow:i inSection:0];
@@ -156,7 +137,7 @@
     NSLog(@"##### Initial albumList: %@", albumList);
 
     // When we get to the album list view we no longer need to worry about rotation blocks from logging in, switch it to allowing rotation.
-    CaptureNavigationController *navController = (CaptureNavigationController *)self.navigationController;
+    //CaptureNavigationController *navController = (CaptureNavigationController *)self.navigationController;
     //navController.allowsRotation = YES;
     
     self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
@@ -186,7 +167,7 @@
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 	}
 
-	[[SVDownloadManager sharedManager] download];
+	//[[SVDownloadManager sharedManager] download];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -317,26 +298,26 @@
 		
 	if (cell.tag == tagIndex.row) {
 			
-		NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", album.albumId, SVObjectSyncDeleteNeeded];
-		NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbumPhoto"];
-		fetchRequest.sortDescriptors = @[datecreatedDescriptor];
-		fetchRequest.predicate = predicate;
-		
-		NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-																								   managedObjectContext:[NSManagedObjectContext defaultContext]
-																									 sectionNameKeyPath:nil
-																											  cacheName:nil];
-		[fetchedResultsController performFetch:nil];
-		NSArray *photos = [fetchedResultsController fetchedObjects];
+//		NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
+//		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", album.albumId, SVObjectSyncDeleteNeeded];
+//		NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+//		fetchRequest.sortDescriptors = @[datecreatedDescriptor];
+//		fetchRequest.predicate = predicate;
+//		
+//		NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+//																								   managedObjectContext:[NSManagedObjectContext defaultContext]
+//																									 sectionNameKeyPath:nil
+//																											  cacheName:nil];
+//		[fetchedResultsController performFetch:nil];
+		NSArray *photos;// = [fetchedResultsController fetchedObjects];
 			
 		if (photos.count > 0) {
 			
-			__block OldAlbumPhoto *firstPhoto = [photos objectAtIndex:0];
-			UIImage *image = [thumbnailCache objectForKey:firstPhoto.photo_id];
+			__block AlbumPhoto *firstPhoto = [photos objectAtIndex:0];
+			UIImage *image = [thumbnailCache objectForKey:firstPhoto.serverPhoto.photoId];
 			
 			if (!image) {
-				__block NSString *photoId = firstPhoto.photo_id;
+				__block NSString *photoId = firstPhoto.serverPhoto.photoId;
 				[[SVEntityStore sharedStore] getImageForPhoto:firstPhoto WithCompletion:^(UIImage *network_image) {
 					
 					if (network_image) {
@@ -356,7 +337,7 @@
 			
 			dispatch_async(dispatch_get_main_queue(),^{
 				@try {
-				cell.author.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Last added by", @""), firstPhoto.author.nickname];
+				cell.author.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Last added by", @""), firstPhoto.serverPhoto.authorNickname];
 				}
 				@catch (NSException *exc) {
 					NSLog(@"%@", exc);
@@ -373,7 +354,7 @@
 			
 		//NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND isNew == YES", anAlbum.albumId]];
         /*
-		NSInteger numberNew = [OldAlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
+		NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
         */
 
         /*
@@ -408,7 +389,7 @@
 	[_queue addOperationWithBlock:^{
 
 		/*
-		OldAlbum *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		AlbumSummary *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		[[SVEntityStore sharedStore] setPhotosInAlbumToNotNew:anAlbum];
         */
 		//[[SVEntityStore sharedStore] setAllPhotosToNotNew];
@@ -688,7 +669,7 @@
 - (void)albumUpdateReceived:(NSNotification *)notification
 {
     /*
-    OldAlbum *updatedAlbum = (OldAlbum *)notification.object;
+    AlbumSummary *updatedAlbum = (AlbumSummary *)notification.object;
     
     NSIndexPath *albumIndex = [self.fetchedResultsController indexPathForObject:updatedAlbum];
     
@@ -711,7 +692,7 @@
     //[self.fetchedResultsController performFetch:nil];
     //[self.tableView reloadData];
 	
-	[[SVUploadManager sharedManager] upload];
+	//[[SVUploadManager sharedManager] upload];
 }
 
 -(void)setAlbumList:(NSArray *)albums

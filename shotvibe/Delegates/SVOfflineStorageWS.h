@@ -8,20 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@class OldAlbum;
-@class OldAlbumPhoto;
+@class AlbumSummary;
+@class AlbumPhoto;
 
 @interface SVOfflineStorageWS : NSObject
 
 - (BOOL)doesPhotoWithId:(NSString *)photoId existForAlbumId:(id)albumId;
 
-- (void)saveImageData:(NSData *)imageData forPhoto:(OldAlbumPhoto *)photo inAlbumWithId:(id)albumId;
-- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId;
+- (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId;
+- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(int64_t)albumId;
 
-- (void)cleanupOfflineStorageForAlbum:(OldAlbum *)album;
-- (NSUInteger)numberOfImagesSavedInAlbum:(OldAlbum *)album;
-- (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(OldAlbum *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block;
-- (UIImage *)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(OldAlbum *)album;
+- (void)cleanupOfflineStorageForAlbum:(AlbumSummary *)album;
+- (NSUInteger)numberOfImagesSavedInAlbum:(AlbumSummary *)album;
+- (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(AlbumSummary *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block;
+- (UIImage *)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(AlbumSummary *)album;
 
 - (UIImage *)defaultThumbnailImage;
 @end

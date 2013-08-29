@@ -10,8 +10,8 @@
 #import "SVDefines.h"
 #import "UINavigationController+MFSideMenu.h"
 #import "MFSideMenu.h"
-#import "OldMember.h"
 #import "SVBusinessDelegate.h"
+#import "AlbumMember.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
 #import "UIImageView+AFNetworking.h"
@@ -48,7 +48,7 @@
 	//self.sortedPhotos = [NSMutableArray arrayWithArray: [[self.selectedPhoto.album.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor]]];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", self.selectedPhoto.album.albumId, SVObjectSyncDeleteNeeded];
-	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbumPhoto"];
+	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
 	fetchRequest.sortDescriptors = @[datecreatedDescriptor];
 	fetchRequest.predicate = predicate;
 	
@@ -391,7 +391,7 @@
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	
-    OldAlbumPhoto *photoToDelete = [self.sortedPhotos objectAtIndex:self.index];
+    AlbumPhoto *photoToDelete = [self.sortedPhotos objectAtIndex:self.index];
 	
 	// Remove physical file and mark for deletion from server
 	[[SVEntityStore sharedStore] deletePhoto:photoToDelete];
@@ -423,7 +423,7 @@
 					 animations:^{
 		
 		int i = 0;
-		for (OldAlbumPhoto *photo in self.sortedPhotos) {
+		for (AlbumPhoto *photo in self.sortedPhotos) {
 			RCImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
 			if (cachedImage) {
 				cachedImage.i = i;
@@ -458,7 +458,7 @@
 	[activityItems addObject:NSLocalizedString(@"This is the text that goes with the sharing!", nil)];
 	[activityItems addObject:[NSURL URLWithString:@"http://shotvibe.com"]];
 	
-	OldAlbumPhoto *photo = [self.sortedPhotos objectAtIndex:self.index];
+	AlbumPhoto *photo = [self.sortedPhotos objectAtIndex:self.index];
 	UIImage *currentImage = [[SVEntityStore sharedStore] getImageForPhoto:photo];
 	if (currentImage != nil) {
 		[activityItems addObject:currentImage];

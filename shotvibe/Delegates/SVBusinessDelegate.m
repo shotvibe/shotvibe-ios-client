@@ -10,10 +10,10 @@
 #import "SVOfflineStorageWS.h"
 #import "SVAssetRetrievalWS.h"
 #import "SVEntityStore.h"
-#import "OldAlbum.h"
-#import "OldAlbumPhoto.h"
 #import "SVURLBuilderWS.h"
 #import "SVDefines.h"
+#import "AlbumSummary.h"
+#import "AlbumPhoto.h"
 
 @implementation SVBusinessDelegate
 
@@ -26,7 +26,7 @@
 }
 
 
-+ (void)saveImageData:(NSData *)imageData forPhoto:(OldAlbumPhoto *)photo inAlbumWithId:(id)albumId
++ (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -34,7 +34,7 @@
 }
 
 
-+ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId withAlbumId:(NSString *)albumId
++ (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId withAlbumId:(int64_t)albumId
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
  
@@ -42,7 +42,7 @@
 }
 
 
-+ (void)cleanupOfflineStorageForAlbum:(OldAlbum *)album
++ (void)cleanupOfflineStorageForAlbum:(AlbumSummary *)album
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -50,7 +50,7 @@
 }
 
 
-+ (NSInteger)numberOfViewedImagesInAlbum:(OldAlbum *)album
++ (NSInteger)numberOfViewedImagesInAlbum:(AlbumSummary *)album
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -58,7 +58,7 @@
 }
 
 
-+ (void)loadImageFromAlbum:(OldAlbum *)album withPath:(NSString *)path WithCompletion:(void (^)(UIImage *image, NSError *error))block
++ (void)loadImageFromAlbum:(AlbumSummary *)album withPath:(NSString *)path WithCompletion:(void (^)(UIImage *image, NSError *error))block
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -68,7 +68,7 @@
 }
 
 
-+ (UIImage *)loadImageFromAlbum:(OldAlbum *)album withPath:(NSString *)path
++ (UIImage *)loadImageFromAlbum:(AlbumSummary *)album withPath:(NSString *)path
 {
     SVOfflineStorageWS *workerSession = [[SVOfflineStorageWS alloc] init];
     
@@ -119,12 +119,12 @@
 }
 
 
-+ (NSURL *)getURLForPhoto:(OldAlbumPhoto *)aPhoto
++ (NSURL *)getURLForPhoto:(AlbumPhoto *)aPhoto
 {
     SVURLBuilderWS *workerSession = [[SVURLBuilderWS alloc] init];
     
-    if (aPhoto.photo_url) {
-        return [workerSession photoUrlWithString:aPhoto.photo_url];
+    if (aPhoto.serverPhoto.url) {
+        return [workerSession photoUrlWithString:aPhoto.serverPhoto.url];
     }
     else
     {
@@ -170,7 +170,7 @@
 
 
 
-+ (void) leaveAlbum:(OldAlbum*)album completion:(void (^)(BOOL success))block {
++ (void) leaveAlbum:(AlbumSummary*)album completion:(void (^)(BOOL success))block {
 	
 	[[SVEntityStore sharedStore] leaveAlbum:album completion:^(BOOL success, NSError *error) {
 		

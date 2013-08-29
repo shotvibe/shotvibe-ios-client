@@ -12,12 +12,12 @@
 
 @end
 
-@class Album;
+@class AlbumSummary;
 @protocol SVCameraPickerDelegate <NSObject>
 
 @required
 - (void)cameraExit;
-- (void)cameraWasDismissedWithAlbum:(Album*)album;
+- (void)cameraWasDismissedWithAlbum:(AlbumSummary*)album;
 @optional
 - (void)didSelectPhoto:(UIImage *)thePhoto;
 //- (void)imagesCaptured:(NSArray*)capturedImages forAlbum:(Album*)selectedAlbum;

@@ -6,16 +6,13 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "OldAlbum.h"
+#import "AlbumSummary.h"
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "SVSidebarAlbumManagementViewController.h"
-#import "MagicalRecordShorthand.h"
-#import "MagicalRecord+Actions.h"
 
-@interface SVSidebarAlbumManagementViewController () <NSFetchedResultsControllerDelegate>
+@interface SVSidebarAlbumManagementViewController ()
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
 
@@ -149,7 +146,7 @@
 		self.sectionInfoArray = infoArray;
 	}
 	
-    [self fetchedResultsController];
+    //[self fetchedResultsController];
 }
 
 

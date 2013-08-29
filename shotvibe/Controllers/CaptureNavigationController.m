@@ -41,7 +41,7 @@
 	cameraController = nil;
 }
 
-- (void)cameraWasDismissedWithAlbum:(Album*)album {
+- (void)cameraWasDismissedWithAlbum:(AlbumSummary*)album {
 	
 	self.selectedAlbum = album;
 	[self.nav popViewControllerAnimated:YES];

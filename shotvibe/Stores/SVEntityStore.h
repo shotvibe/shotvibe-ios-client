@@ -10,14 +10,11 @@
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
 #import "AFJSONRequestOperation.h"
-#import "OldAlbum.h"
-#import "OldAlbumPhoto.h"
-#import "OldMember.h"
+#import "AlbumSummary.h"
+#import "AlbumPhoto.h"
+#import "AlbumMember.h"
 #import "SVDefines.h"
 #import "SVBusinessDelegate.h"
-#import "MagicalRecordShorthand.h"
-#import "MagicalRecord+Actions.h"
-#import "NSManagedObjectContext+MagicalRecord.h"
 
 @interface SVEntityStore : AFHTTPClient
 
@@ -30,21 +27,15 @@
 - (void)registerPhoneNumber:(NSString *) phoneNumber withCountryCode:(NSString *) countryCode WithCompletion:(void (^)(BOOL success, NSString *confirmationCode, NSError *error))block;
 - (void)validateRegistrationCode:(NSString *) registrationCode withConfirmationCode:(NSString *) confirmationCode  WithCompletion:(void (^)(BOOL success, NSString *authToken, NSString *userId,  NSError *error))block;
 
-- (void)invitePhoneNumbers:(NSDictionary*)phoneNumbers toAlbumId:(NSString *)albumId WithCompletion:(void (^)(BOOL success, NSError *error))block;
-
-#pragma mark - FRC Methods
-
-- (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate;
-- (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate;
-- (NSFetchedResultsController *)allPhotosForAlbum:(OldAlbum *)anAlbum WithDelegate:(id)delegate;
+- (void)invitePhoneNumbers:(NSDictionary*)phoneNumbers toAlbumId:(int64_t)albumId WithCompletion:(void (^)(BOOL success, NSError *error))block;
 
 
 #pragma mark - Album Methods
 
 - (void)newAlbumWithName:(NSString *)albumName andUserID:(NSNumber *)userID;
-- (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
-- (void)leaveAlbum:(OldAlbum*)album completion:(void (^)(BOOL success, NSError *error))block;
-- (void)deleteAlbum:(OldAlbum*)album;
+- (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(int64_t)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block;
+- (void)leaveAlbum:(AlbumSummary*)album completion:(void (^)(BOOL success, NSError *error))block;
+- (void)deleteAlbum:(AlbumSummary*)album;
 
 #pragma mark - Image Methods
 
@@ -53,15 +44,15 @@
 - (void)wipe;
 
 - (void)setAllPhotosToNotNew;
-- (void)setPhotosInAlbumToNotNew:(OldAlbum*)album;
+- (void)setPhotosInAlbumToNotNew:(AlbumSummary*)album;
 - (void)setPhotoAsViewed:(NSString *)photoId;
-- (void)getImageForPhoto:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
-- (void)getImageForPhotoData:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block;
+- (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *image))block;
+- (void)getImageForPhotoData:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block;
 // Need to be able to just do a hard pull on the image without blocks for the detail view. This is OK because the photo detail view manages its own loading and cache
-- (UIImage *)getImageForPhoto:(OldAlbumPhoto *)aPhoto;
+- (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto;
 - (void)getImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block;
 - (void)getFullsizeImageDataForImageID:(NSString *)imageID WithCompletion:(void (^)(NSData *imageData))block;
 - (void)writeImageData:(NSData *)imageData toDiskForImageID:(NSString *)imageID WithCompletion:(void (^)(BOOL success, NSURL *fileURL, NSError *error))block;
-- (void)deletePhoto:(OldAlbumPhoto *)aPhoto;
+- (void)deletePhoto:(AlbumPhoto *)aPhoto;
 
 @end

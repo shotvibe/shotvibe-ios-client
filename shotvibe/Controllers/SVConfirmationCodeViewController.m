@@ -33,7 +33,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"NoCodeSegue"]) {
-		SVNoCodeViewController *destination = (SVNoCodeViewController *)segue.destinationViewController;
+		//SVNoCodeViewController *destination = (SVNoCodeViewController *)segue.destinationViewController;
     }
 }
 

@@ -8,9 +8,9 @@
 
 
 #import "SVSettingsViewController.h"
-#import "OldAlbum.h"
-#import "OldAlbumPhoto.h"
-#import "OldMember.h"
+#import "AlbumSummary.h"
+#import "AlbumPhoto.h"
+#import "AlbumMember.h"
 #import "SVAlbumNotificationSettingsViewController.h"
 #import "SVDefines.h"
 #import "SVSettingsAboutViewController.h"

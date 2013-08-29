@@ -15,7 +15,7 @@
 @class SVSidebarAlbumMemberViewController;
 @class SVSidebarAlbumManagementViewController;
 
-@class OldAlbum;
+@class AlbumSummary;
 
 @interface SVAlbumGridViewController : UIViewController <UIScrollViewDelegate, AlbumContentsListener, SVCameraPickerDelegate>
 

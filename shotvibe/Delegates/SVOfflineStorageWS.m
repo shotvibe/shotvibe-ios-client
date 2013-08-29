@@ -9,9 +9,9 @@
 #import <stdlib.h>
 #import "SVDefines.h"
 #import "SVOfflineStorageWS.h"
-#import "OldAlbum.h"
-#import "OldAlbumPhoto.h"
 #import "SVEntityStore.h"
+#import "AlbumSummary.h"
+#import "AlbumPhoto.h"
 
 @interface SVOfflineStorageWS ()
 
@@ -56,7 +56,7 @@
 /*
  * this is used when downloading photos for an album
  */
-- (void)saveImageData:(NSData *)imageData forPhoto:(OldAlbumPhoto *)photo inAlbumWithId:(id)albumId
+- (void)saveImageData:(NSData *)imageData forPhoto:(AlbumPhoto *)photo inAlbumWithId:(id)albumId
 {
     NSString *albumIdAsString = nil;
     if ([albumId isKindOfClass:[NSNumber class]]) {
@@ -70,14 +70,14 @@
         [exception raise];
     }    
     
-    [self saveImageToFileSystem:imageData forPhotoId:photo.photo_id inAlbumWithId:albumIdAsString];
+    [self saveImageToFileSystem:imageData forPhotoId:photo.serverPhoto.photoId inAlbumWithId:albumIdAsString];
 }
 
 
 /*
  * this is the 'immediate store' for the photo that is being requested to upload
  */
-- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(NSString *)albumId
+- (void)saveUploadedPhotoImageData:(NSData *)imageData forPhotoId:(NSString *)photoId inAlbumWithId:(int64_t)albumId
 {
 	// This is already called in a different thread
 	NSLog(@"====================== 2.Save image to disk %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
@@ -124,10 +124,10 @@
                 
                 //NSManagedObjectContext *localContext = nil;
                 
-                NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbum"];
-                
-                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %@", albumId];
-                fetchRequest.predicate = predicate;
+//                NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumSummary"];
+//                
+//                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"albumId = %@", albumId];
+//                fetchRequest.predicate = predicate;
                 
                 //NSError *fetchError = nil;
                 
@@ -144,7 +144,7 @@
 }
 
 
-- (void)cleanupOfflineStorageForAlbum:(OldAlbum *)album
+- (void)cleanupOfflineStorageForAlbum:(AlbumSummary *)album
 {
     //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     //    NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -189,7 +189,7 @@
 }
 
 
-- (NSUInteger)numberOfImagesSavedInAlbum:(OldAlbum *)album
+- (NSUInteger)numberOfImagesSavedInAlbum:(AlbumSummary *)album
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -201,12 +201,12 @@
 }
 
 // This is primarily used for loading in the images for the grid cells and album cells
-- (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(OldAlbum *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block
+- (void)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(AlbumSummary *)album WithCompletion:(void (^)(UIImage *image, NSError *error))block
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:album.albumId];
+        NSString *documentsDirectoryPath = [NSString stringWithFormat:@"%@/%lli", documentsDirectory, album.albumId];
         
         NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
         
@@ -230,11 +230,11 @@
 }
 
 
-- (UIImage *)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(OldAlbum *)album
+- (UIImage *)loadImageFromOfflineWithPath:(NSString *)path inAlbum:(AlbumSummary *)album
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:album.albumId];
+    NSString *documentsDirectoryPath = [NSString stringWithFormat:@"%@/%lli", documentsDirectory, album.albumId];
     
     NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", documentsDirectoryPath, path];
     

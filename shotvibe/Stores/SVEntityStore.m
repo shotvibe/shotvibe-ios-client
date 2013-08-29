@@ -56,11 +56,11 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 	});
 	
 	//[NSManagedObject truncateAll];
-	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
-	[OldMember MR_truncateAllInContext:localContext];
-	[OldAlbum MR_truncateAllInContext:localContext];
-	[OldAlbumPhoto MR_truncateAllInContext:localContext];
-	[localContext MR_saveToPersistentStoreAndWait];
+//	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
+//	[AlbumMember MR_truncateAllInContext:localContext];
+//	[AlbumSummary MR_truncateAllInContext:localContext];
+//	[AlbumPhoto MR_truncateAllInContext:localContext];
+//	[localContext MR_saveToPersistentStoreAndWait];
 }
 
 
@@ -97,80 +97,83 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 #pragma mark - FRC Methods
 
-- (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate
-{
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbum"];
-	NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
-    fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
-	NSManagedObjectContext *dc = [NSManagedObjectContext MR_defaultContext];
-    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-																							   managedObjectContext:dc
-																								 sectionNameKeyPath:nil
-																										  cacheName:nil];
-    fetchedResultsController.delegate = delegate;
-	
-    NSError *fetchError = nil;
-    if (![fetchedResultsController performFetch:&fetchError]) {
-        NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
-    }
-    NSLog(@"get the allAlbumsForCurrentUserWithDelegate");
-    return fetchedResultsController;
-}
+//- (NSFetchedResultsController *)allAlbumsForCurrentUserWithDelegate:(id)delegate
+//{
+////    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumSummary"];
+////	NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
+////    fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
+////	NSManagedObjectContext *dc = [NSManagedObjectContext MR_defaultContext];
+////    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+////																							   managedObjectContext:dc
+////																								 sectionNameKeyPath:nil
+////																										  cacheName:nil];
+////    fetchedResultsController.delegate = delegate;
+////	
+////    NSError *fetchError = nil;
+////    if (![fetchedResultsController performFetch:&fetchError]) {
+////        NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
+////    }
+////    NSLog(@"get the allAlbumsForCurrentUserWithDelegate");
+////    return fetchedResultsController;
+//	return nil;
+//}
 
 
-- (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate
-{
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbum"];
-    NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
-    
-    fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
-    
-    if (![searchTerm isEqualToString:@""]) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchTerm];
-        fetchRequest.predicate = predicate;
-    }
-    
-    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-																							   managedObjectContext:[NSManagedObjectContext defaultContext]
-																								 sectionNameKeyPath:nil
-																										  cacheName:nil];
-    fetchedResultsController.delegate = delegate;
-    
-    NSError *fetchError = nil;
-    if (![fetchedResultsController performFetch:&fetchError]) {
-        NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
-    }
-    
-    return fetchedResultsController;
-}
+//- (NSFetchedResultsController *)allAlbumsMatchingSearchTerm:(NSString *)searchTerm WithDelegate:(id)delegate
+//{
+////    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumSummary"];
+////    NSSortDescriptor *lastUpdatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"last_updated" ascending:NO];
+////    
+////    fetchRequest.sortDescriptors = @[lastUpdatedDescriptor];
+////    
+////    if (![searchTerm isEqualToString:@""]) {
+////        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchTerm];
+////        fetchRequest.predicate = predicate;
+////    }
+////    
+////    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+////																							   managedObjectContext:[NSManagedObjectContext defaultContext]
+////																								 sectionNameKeyPath:nil
+////																										  cacheName:nil];
+////    fetchedResultsController.delegate = delegate;
+////    
+////    NSError *fetchError = nil;
+////    if (![fetchedResultsController performFetch:&fetchError]) {
+////        NSLog(@"There was an error fetching the results: %@", fetchError.userInfo);
+////    }
+////    
+////    return fetchedResultsController;
+//	return nil;
+//}
 
 
-- (NSFetchedResultsController *)allPhotosForAlbum:(OldAlbum *)anAlbum WithDelegate:(id)delegate
-{
-	NSLog(@"NSFetchedResultsController *)allPhotosForAlbum %@", anAlbum.name);
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"OldAlbumPhoto"];
-    NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
-    //NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
-    
-    fetchRequest.sortDescriptors = @[datecreatedDescriptor];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", anAlbum.albumId, SVObjectSyncDeleteNeeded];
-    fetchRequest.predicate = predicate;
-    
-    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-																							   managedObjectContext:[NSManagedObjectContext defaultContext]
-																								 sectionNameKeyPath:nil
-																										  cacheName:nil];
-    fetchedResultsController.delegate = delegate;
-    
-    NSError *fetchError = nil;
-    if (![fetchedResultsController performFetch:&fetchError]) {
-        NSLog(@"There was an error fetching the album photos: %@", fetchError.userInfo);
-    }
-	NSLog(@"fetched objects count: %i", [[fetchedResultsController fetchedObjects] count]);
-    
-    return fetchedResultsController;
-}
+//- (NSFetchedResultsController *)allPhotosForAlbum:(AlbumSummary *)anAlbum WithDelegate:(id)delegate
+//{
+////	NSLog(@"NSFetchedResultsController *)allPhotosForAlbum %@", anAlbum.name);
+////    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
+////    NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
+////    //NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
+////    
+////    fetchRequest.sortDescriptors = @[datecreatedDescriptor];
+////    
+////    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", anAlbum.albumId, SVObjectSyncDeleteNeeded];
+////    fetchRequest.predicate = predicate;
+////    
+////    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+////																							   managedObjectContext:[NSManagedObjectContext defaultContext]
+////																								 sectionNameKeyPath:nil
+////																										  cacheName:nil];
+////    fetchedResultsController.delegate = delegate;
+////    
+////    NSError *fetchError = nil;
+////    if (![fetchedResultsController performFetch:&fetchError]) {
+////        NSLog(@"There was an error fetching the album photos: %@", fetchError.userInfo);
+////    }
+////	NSLog(@"fetched objects count: %i", [[fetchedResultsController fetchedObjects] count]);
+////    
+////    return fetchedResultsController;
+//	return nil;
+//}
 
 
 #pragma mark - Album Methods
@@ -189,7 +192,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 //		}
 //    }];
 }
-- (void)setPhotosInAlbumToNotNew:(OldAlbum*)album {
+- (void)setPhotosInAlbumToNotNew:(AlbumSummary*)album {
 	
 //	[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
 //		
@@ -205,64 +208,64 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 {
 	NSLog(@"setPhotoIdAsViewed %@", photoId);
 	
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-		
-		OldAlbumPhoto *p = [OldAlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"photo_id == %@", photoId]
-												 inContext:localContext];
-		[p setHasViewed:[NSNumber numberWithBool:YES]];
-    }];
+//    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+//		
+//		AlbumPhoto *p = [AlbumPhoto findFirstWithPredicate:[NSPredicate predicateWithFormat:@"photo_id == %@", photoId]
+//												 inContext:localContext];
+//		[p setHasViewed:[NSNumber numberWithBool:YES]];
+//    }];
 }
 
 
 - (void)newAlbumWithName:(NSString *)albumName andUserID:(NSNumber *)userID
 {
 	// Get the local context
-	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
-	
-	OldAlbum *localAlbum = [OldAlbum createInContext:localContext];
-	
-	[localAlbum setTempAlbumId:[[NSUUID UUID] UUIDString]];
-	[localAlbum setDate_created:[NSDate date]];
-	[localAlbum setLast_updated:[NSDate date]];
-	[localAlbum setName:albumName];
-	[localAlbum setUrl:@""];
-	[localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
-	[localAlbum setEtag:@"0"];
-	[localAlbum addAlbumPhotos:[[NSSet alloc] init]];
-	[localAlbum addMembers:[[NSSet alloc] init]];
-	
-	[localContext MR_saveToPersistentStoreAndWait];
+//	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
+//	
+//	AlbumSummary *localAlbum = [AlbumSummary createInContext:localContext];
+//	
+//	[localAlbum setTempAlbumId:[[NSUUID UUID] UUIDString]];
+//	[localAlbum setDate_created:[NSDate date]];
+//	[localAlbum setLast_updated:[NSDate date]];
+//	[localAlbum setName:albumName];
+//	[localAlbum setUrl:@""];
+//	[localAlbum setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
+//	[localAlbum setEtag:@"0"];
+//	[localAlbum addAlbumPhotos:[[NSSet alloc] init]];
+//	[localAlbum addMembers:[[NSSet alloc] init]];
+//	
+//	[localContext MR_saveToPersistentStoreAndWait];
 }
 
 
-- (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(NSString *)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
+- (void)addPhotoWithID:(NSString *)photoId ToAlbumWithID:(int64_t)albumID WithCompletion:(void (^)(BOOL success, NSError *error))block
 {
-    OldAlbum *albumToAddPhotosTo = [OldAlbum findFirstByAttribute:@"albumId" withValue:albumID inContext:[NSManagedObjectContext defaultContext]];
-    NSLog(@"addPhotoWithID to database: albumId %@, photoId: %@", albumID, photoId);
-    if (photoId && albumID) {
-        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-            OldAlbumPhoto *localPhoto = [OldAlbumPhoto createInContext:localContext];
-            OldAlbum *localAlbum = (OldAlbum *)[localContext objectWithID:albumToAddPhotosTo.objectID];
-            
-            [localPhoto setDate_created:[NSDate date]];
-            [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
-            [localPhoto setTempPhotoId:photoId];
-            [localPhoto setPhoto_id:photoId];
-            [localPhoto setPhoto_url:@""];
-            
-            [localAlbum addAlbumPhotosObject:localPhoto];
-			
-        } completion:^(BOOL success, NSError *error) {
-            block(success, error);
-        }];
-    } else {
-        NSLog(@"WE'VE LOST INTELLIGENCE SIR!! photoId or albumId missing");
-    }
+//    AlbumSummary *albumToAddPhotosTo = [AlbumSummary findFirstByAttribute:@"albumId" withValue:albumID inContext:[NSManagedObjectContext defaultContext]];
+//    NSLog(@"addPhotoWithID to database: albumId %@, photoId: %@", albumID, photoId);
+//    if (photoId && albumID) {
+//        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+//            AlbumPhoto *localPhoto = [AlbumPhoto createInContext:localContext];
+//            AlbumSummary *localAlbum = (AlbumSummary *)[localContext objectWithID:albumToAddPhotosTo.objectID];
+//            
+//            [localPhoto setDate_created:[NSDate date]];
+//            [localPhoto setObjectSyncStatus:[NSNumber numberWithInteger:SVObjectSyncUploadNeeded]];
+//            [localPhoto setTempPhotoId:photoId];
+//            [localPhoto setPhoto_id:photoId];
+//            [localPhoto setPhoto_url:@""];
+//            
+//            [localAlbum addAlbumPhotosObject:localPhoto];
+//			
+//        } completion:^(BOOL success, NSError *error) {
+//            block(success, error);
+//        }];
+//    } else {
+//        NSLog(@"WE'VE LOST INTELLIGENCE SIR!! photoId or albumId missing");
+//    }
 }
-- (void)leaveAlbum:(OldAlbum*)album completion:(void (^)(BOOL success, NSError *error))block {
+- (void)leaveAlbum:(AlbumSummary*)album completion:(void (^)(BOOL success, NSError *error))block {
 	
 	NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithCapacity:0];
-    NSString *path = [NSString stringWithFormat:@"/albums/%@/leave/", album.albumId];
+    NSString *path = [NSString stringWithFormat:@"/albums/%lli/leave/", album.albumId];
     
     [self postPath:path
 		parameters:parameters
@@ -358,11 +361,11 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 #pragma mark - Invite friends
 
-- (void)invitePhoneNumbers:(NSDictionary*)phoneNumbers toAlbumId:(NSString *)albumId WithCompletion:(void (^)(BOOL success, NSError *error))block
+- (void)invitePhoneNumbers:(NSDictionary*)phoneNumbers toAlbumId:(int64_t)albumId WithCompletion:(void (^)(BOOL success, NSError *error))block
 {
 	
     // send invites to phone numbers using: POST /albums/id/
-    NSString *path = [NSString stringWithFormat:@"/albums/%@/", albumId];
+    NSString *path = [NSString stringWithFormat:@"/albums/%lld/", albumId];
 	NSLog(@"path:  %@", path);
     
     [self postPath:path parameters:phoneNumbers success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -390,20 +393,20 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 
 #pragma mark - Image Methods
 
-- (void)getImageForPhoto:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *))block
+- (void)getImageForPhoto:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(UIImage *))block
 {
-	__block OldAlbumPhoto *blockPhoto = (OldAlbumPhoto *)aPhoto;
+	__block AlbumPhoto *blockPhoto = (AlbumPhoto *)aPhoto;
 	
     dispatch_async(dispatch_get_global_queue(0,0),^{
 		
-		[self getImageDataForImageID:aPhoto.photo_id WithCompletion:^(NSData *imageData) {
-			NSLog(@"get photo with id %@", aPhoto.photo_id);
+		[self getImageDataForImageID:aPhoto.serverPhoto.photoId WithCompletion:^(NSData *imageData) {
+			NSLog(@"get photo with id %@", aPhoto.serverPhoto.photoId);
 			if (imageData) {
 				block ( [UIImage imageWithData:imageData] );
 			}
 			else {
-				[self getImageDataForImageID:aPhoto.tempPhotoId WithCompletion:^(NSData *imageData) {
-					NSLog(@"photo not found, get photo with temp id %@", aPhoto.tempPhotoId);
+				[self getImageDataForImageID:aPhoto.serverPhoto.photoId WithCompletion:^(NSData *imageData) {
+					NSLog(@"photo not found, get photo with temp id %@", aPhoto.serverPhoto.photoId);
 					if (imageData) {
 						block ( [UIImage imageWithData:imageData] );
 					}
@@ -416,7 +419,7 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 						
 						NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
 						if (data) {
-							[self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
+							[self writeImageData:data toDiskForImageID:blockPhoto.serverPhoto.photoId WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
 								// don't care >:O
 							}];
 							block ( [UIImage imageWithData:data scale:0.25] );
@@ -429,40 +432,40 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
 }
 
 
-- (void)getImageForPhotoData:(OldAlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block
+- (void)getImageForPhotoData:(AlbumPhoto *)aPhoto WithCompletion:(void (^)(NSData *imageData, BOOL success))block
 {
-    __block OldAlbumPhoto *blockPhoto = (OldAlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
-    
-    [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
-		
-        if (imageData) {
-            block(imageData, YES);
-            
-            imageData = nil;
-        }
-        else
-        {
-            NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
-            
-            NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
-            [NSURLConnection sendAsynchronousRequest:request queue:self.imageQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                if (data) {
-                    [self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
-                        // don't care >:O
-                        block(data, success);
-                    }];
-                } else {
-                    block(nil, NO);
-                }
-            }];
-        }
-    }];
+//    __block AlbumPhoto *blockPhoto = (AlbumPhoto *)[[NSManagedObjectContext contextForCurrentThread] objectWithID:aPhoto.objectID];
+//    
+//    [self getImageDataForImageID:blockPhoto.photo_id WithCompletion:^(NSData *imageData) {
+//		
+//        if (imageData) {
+//            block(imageData, YES);
+//            
+//            imageData = nil;
+//        }
+//        else
+//        {
+//            NSURL *photoURL = [SVBusinessDelegate getURLForPhoto:blockPhoto];
+//            
+//            NSURLRequest *request = [NSURLRequest requestWithURL:photoURL];
+//            [NSURLConnection sendAsynchronousRequest:request queue:self.imageQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//                if (data) {
+//                    [self writeImageData:data toDiskForImageID:blockPhoto.photo_id WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
+//                        // don't care >:O
+//                        block(data, success);
+//                    }];
+//                } else {
+//                    block(nil, NO);
+//                }
+//            }];
+//        }
+//    }];
 }
 
 
-- (UIImage *)getImageForPhoto:(OldAlbumPhoto *)aPhoto
+- (UIImage *)getImageForPhoto:(AlbumPhoto *)aPhoto
 {
-    NSURL *url = [NSURL URLWithString:aPhoto.photo_id relativeToURL:self.imageDataDirectory];
+    NSURL *url = [NSURL URLWithString:aPhoto.serverPhoto.photoId relativeToURL:self.imageDataDirectory];
     NSString *path = [url path];
     
     if (path) {
@@ -602,27 +605,27 @@ static NSString * const kShotVibeAPIBaseURLString = @"https://api.shotvibe.com";
     }
 }
 
-- (void)deletePhoto:(OldAlbumPhoto *)aPhoto {
-	NSLog(@"Delete photo %@", aPhoto.photo_id);
+- (void)deletePhoto:(AlbumPhoto *)aPhoto {
+	NSLog(@"Delete photo %@", aPhoto.serverPhoto.photoId);
 	// Remove photo from disk first
-	NSError *error = nil;
-	NSURL *url = [_imageDataDirectory URLByAppendingPathComponent:aPhoto.photo_id];
-	NSURL *url_thumb = [_imageDataDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@_thumbnail", aPhoto.photo_id]];
-	
-	[[NSFileManager defaultManager] removeItemAtURL:url error:&error];
-	[[NSFileManager defaultManager] removeItemAtURL:url_thumb error:&error];
-	
-	// Remove from database
-	
-	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
-	
-	OldAlbumPhoto *photo = [OldAlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
-	
-	[photo willChangeValueForKey:@"objectSyncStatus"];
-	photo.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDeleteNeeded];
-	[photo didChangeValueForKey:@"objectSyncStatus"];
-	
-	[localContext MR_saveToPersistentStoreAndWait];
+//	NSError *error = nil;
+//	NSURL *url = [_imageDataDirectory URLByAppendingPathComponent:aPhoto.photo_id];
+//	NSURL *url_thumb = [_imageDataDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@_thumbnail", aPhoto.photo_id]];
+//	
+//	[[NSFileManager defaultManager] removeItemAtURL:url error:&error];
+//	[[NSFileManager defaultManager] removeItemAtURL:url_thumb error:&error];
+//	
+//	// Remove from database
+//	
+//	NSManagedObjectContext *localContext = [NSManagedObjectContext MR_contextForCurrentThread];
+//	
+//	AlbumPhoto *photo = [AlbumPhoto findFirstByAttribute:@"photo_id" withValue:aPhoto.photo_id inContext:localContext];
+//	
+//	[photo willChangeValueForKey:@"objectSyncStatus"];
+//	photo.objectSyncStatus = [NSNumber numberWithInt:SVObjectSyncDeleteNeeded];
+//	[photo didChangeValueForKey:@"objectSyncStatus"];
+//	
+//	[localContext MR_saveToPersistentStoreAndWait];
 }
 
 @end

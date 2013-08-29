@@ -9,11 +9,9 @@
 #endif
 
 #ifdef __OBJC__
-    #define MR_SHORTHAND
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <SystemConfiguration/SystemConfiguration.h>
     #import <MobileCoreServices/MobileCoreServices.h>
     #import <QuartzCore/QuartzCore.h>
-    #import "CoreData+MagicalRecord.h"
 #endif
