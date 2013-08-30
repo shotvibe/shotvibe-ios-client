@@ -25,6 +25,8 @@
 	cameraController = [[SVCameraPickerController alloc] initWithNibName:@"SVCameraOverlay" bundle:[NSBundle mainBundle]];
 	cameraController.delegate = self;
 	cameraController.albums = self.albums;
+	cameraController.albumId = self.albumId;
+	cameraController.albumManager = self.albumManager;
 	[nav pushViewController:cameraController animated:NO];
 	self.selectedAlbum = [self.albums objectAtIndex:0];
 }
@@ -33,7 +35,7 @@
 
 - (void)cameraExit {
 	
-	[self.nav popViewControllerAnimated:YES];
+	[self.nav popViewControllerAnimated:NO];
 	
 	if ([self.cameraDelegate respondsToSelector:@selector(cameraExit)]) {
 		[self.cameraDelegate cameraExit];

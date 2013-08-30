@@ -80,10 +80,42 @@
     [self hideDropDown];
 }
 - (IBAction)takePicturePressed:(id)sender {
+	
+	int capacity = 8;
+	NSMutableArray *albums = [[NSMutableArray alloc] initWithCapacity:capacity];
+	int i = 0;
+	for (AlbumSummary *album in albumList) {
+		[albums addObject:album];
+		i++;
+		if (i>=capacity) {
+			break;
+		}
+	}
+	
     cameraNavController = [[CaptureNavigationController alloc] init];
 	cameraNavController.cameraDelegate = self;
-	cameraNavController.albums = [NSMutableArray arrayWithArray:albumList];
+	cameraNavController.albums = albums;
     cameraNavController.nav = self.navigationController;// this is set last
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"AlbumGridViewSegue"]) {
+        
+        // Get the selected Album
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+		
+        // Get the destination controller
+        SVAlbumGridViewController *destinationController = segue.destinationViewController;
+        
+        destinationController.albumManager = self.albumManager;
+        destinationController.albumId = album.albumId;
+    }
+	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
+		
+		
+	}
 }
 
 
@@ -201,26 +233,6 @@
 }
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"AlbumGridViewSegue"]) {
-        
-        // Get the selected Album
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
-		
-        // Get the destination controller
-        SVAlbumGridViewController *destinationController = segue.destinationViewController;
-        
-        destinationController.albumManager = self.albumManager;
-        destinationController.albumId = album.albumId;
-    }
-	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
-		
-		
-	}
-}
-
 
 - (BOOL)shouldAutorotate
 {
@@ -291,7 +303,7 @@
             NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
 
             // TODO Temporarily using SDWebImage library for a quick and easy way to display photos
-            [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl] placeholderImage:[UIImage imageNamed:@"placeholderImage"]];
+            [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
         }
     }
 	else {

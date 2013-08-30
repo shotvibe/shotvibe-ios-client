@@ -256,24 +256,24 @@
 	
 	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		
-    if (self.selectedGroup) {
-        NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
-        for (ALAsset *asset in selectedPhotos) {
-            PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithAsset:asset];
-            [photoUploadRequests addObject:photoUploadRequest];
-        }
-        [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
-    }
-    else {
-        for (NSString *selectedPhotoPath in selectedPhotos) {
-            NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
-            if (photoData) {
-				[SVBusinessDelegate saveUploadedPhotoImageData:photoData
-													forPhotoId:[[NSUUID UUID] UUIDString]
-												   withAlbumId:self.selectedAlbum.albumId];
-            }
-        }
-    }
+    //if (self.selectedGroup) {
+	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
+	for (ALAsset *asset in selectedPhotos) {
+		PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithAsset:asset];
+		[photoUploadRequests addObject:photoUploadRequest];
+	}
+	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
+//    }
+//    else {
+//        for (NSString *selectedPhotoPath in selectedPhotos) {
+//            NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
+//            if (photoData) {
+//				[SVBusinessDelegate saveUploadedPhotoImageData:photoData
+//													forPhotoId:[[NSUUID UUID] UUIDString]
+//												   withAlbumId:self.selectedAlbum.albumId];
+//            }
+//        }
+//    }
 //	});
 
     /*

@@ -22,14 +22,14 @@
 						action:@selector(zoomChanged:)
 			  forControlEvents:UIControlEventValueChanged];
 	
-	[self configureAlbumScrollView];
-	
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(orientationChanged:)
 												 name:UIDeviceOrientationDidChangeNotification
 											   object:nil];
     
+	[self configureAlbumScrollView];
+	
     [self.gridView registerClass:[SVSelectionGridCell class] forCellWithReuseIdentifier:@"SVSelectionGridCell"];
 	
 	self.title = NSLocalizedString(@"Select To Upload", @"");
@@ -48,13 +48,18 @@
 	if (self.imagePickerController == nil) {
 		[self showImagePickerForSourceType: UIImagePickerControllerSourceTypeCamera];
 	}
-	NSLog(@"self.albums.count %i %@", self.albums.count, self.topBarContainer);
+	
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-	if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count == 1) {
-		self.topBarContainer.frame = CGRectMake(0, -60, 320, 150);
+	if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
+		self.topBarContainer.hidden = YES;
+		[self performSelector:@selector(hideTopBar) withObject:nil afterDelay:1];
     }
 }
-
+- (void)hideTopBar {
+	self.topBarContainer.frame = CGRectMake(0, -60, 320, 150);
+	self.swipeLabel.hidden = YES;
+	self.topBarContainer.hidden = NO;
+}
 
 - (void)orientationChanged:(NSNotification *)notification
 {
@@ -63,8 +68,11 @@
 		int angle = deviceOrientation == UIDeviceOrientationLandscapeLeft ? 90 : -90;
         isShowingLandscapeView = YES;
 		[self.butShutter setImage:[UIImage imageNamed:@"cameraCaptureButton-Vertical.png"] forState:UIControlStateNormal];
-		self.butFlash.transform = CGAffineTransformMakeRotation(angle*M_PI/180);
-		self.butToggleCamera.transform = CGAffineTransformMakeRotation(angle*M_PI/180);
+		[UIView animateWithDuration:0.2 animations:^{
+			self.butFlash.transform = CGAffineTransformMakeRotation(angle*M_PI/180);
+			self.butToggleCamera.transform = CGAffineTransformMakeRotation(angle*M_PI/180);
+			//self.tileContainer.transform = CGAffineTransformMakeRotation(-angle*M_PI/180);
+		}];
 		// Hide
 		[UIView animateWithDuration:0.4 animations:^{
 			self.topBarContainer.frame = CGRectMake(0, -60, 320, 150);
@@ -73,17 +81,19 @@
     else if (UIDeviceOrientationIsPortrait(deviceOrientation) && isShowingLandscapeView) {
         isShowingLandscapeView = NO;
 		[self.butShutter setImage:[UIImage imageNamed:@"cameraCaptureButton.png"] forState:UIControlStateNormal];
-		self.butFlash.transform = CGAffineTransformIdentity;
-		self.butToggleCamera.transform = CGAffineTransformIdentity;
+		[UIView animateWithDuration:0.2 animations:^{
+			self.butFlash.transform = CGAffineTransformIdentity;
+			self.butToggleCamera.transform = CGAffineTransformIdentity;
+			//self.tileContainer.transform = CGAffineTransformIdentity;
+		}];
 		// Hide
-		if (self.albums.count != 1) {
+		if (self.albums.count > 1) {
 			NSLog(@"animate to 0");
 			[UIView animateWithDuration:0.4 animations:^{
 				self.topBarContainer.frame = CGRectMake(0, 0, 320, 150);
 			}];
 		}
     }
-	NSLog(@"orientationChanged in camera view");
 }
 
 
@@ -159,13 +169,13 @@
 
 
 - (IBAction)exitButtonPressed:(id)sender {
-	NSLog(@"exitButtonPressed");
-	NSLog(@"self.delegate %@", self.delegate);
+	
+	if ([self.delegate respondsToSelector:@selector(cameraExit)]) {
+		[self.delegate cameraExit];
+	}
+	
     [self.imagePickerController dismissViewControllerAnimated:YES completion:^{
 		
-		if ([self.delegate respondsToSelector:@selector(cameraExit)]) {
-			[self.delegate cameraExit];
-		}
 	}];
 }
 
@@ -226,6 +236,7 @@
 	// Animation not working, TODO
     [UIView animateWithDuration:0.6 animations:^{
 		CGRect f = self.albumPreviewImage.frame;
+		f.origin.x += self.tileContainer.frame.origin.x;
 		f.origin.y += self.view.frame.size.height - 25;
         animatedImageView.frame = f;
     }
@@ -267,25 +278,35 @@
         [self.albumScrollView setContentSize:CGSizeMake(self.albumScrollView.frame.size.width*self.albums.count, self.albumScrollView.frame.size.height)];
         [self.albumPageControl setNumberOfPages:self.albums.count];
     }
-    else {
-		
-    }
 	
     if (self.albums.count > 0) {
         self.selectedAlbum = [self.albums objectAtIndex:0];
     }
 }
+- (void)goLeft:(id)sender {
+	NSUInteger pageIndex = self.albumScrollView.contentOffset.x / self.albumScrollView.frame.size.width;
+	[self scrollToAlbumAtIndex:pageIndex-1];
+}
+- (void)goRight:(id)sender {
+	NSUInteger pageIndex = self.albumScrollView.contentOffset.x / self.albumScrollView.frame.size.width;
+	[self scrollToAlbumAtIndex:pageIndex+1];
+}
 
 
 - (void)scrollToAlbumAtIndex:(NSInteger)index {
+	if (index < 0 || index >= self.albumPageControl.numberOfPages) {
+		return;
+	}
     [self.albumScrollView scrollRectToVisible:CGRectMake(index*self.albumScrollView.frame.size.width, 0, self.albumScrollView.frame.size.width, self.albumScrollView.frame.size.height) animated:YES];
     self.selectedAlbum = [self.albums objectAtIndex:index];
+    [self.albumPageControl setCurrentPage:index];
 }
 
 
 #pragma mark - UIScrollViewDelegate Methods
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+	
     NSUInteger pageIndex = scrollView.contentOffset.x / scrollView.frame.size.width;
     [self.albumPageControl setCurrentPage:pageIndex];
     self.selectedAlbum = [self.albums objectAtIndex:pageIndex];
@@ -397,6 +418,14 @@
 											   withAlbumId:self.selectedAlbum.albumId];
 		}
 	}
+	
+	// Upload the taken photos
+	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
+	for (NSString *selectedPhotoPath in selectedPhotos) {
+		//PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithAsset:asset];
+		//[photoUploadRequests addObject:photoUploadRequest];
+	}
+	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
 	
 	if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
 		[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];

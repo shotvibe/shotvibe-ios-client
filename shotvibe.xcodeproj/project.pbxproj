@@ -496,6 +496,10 @@
 		28F8779F17CC931D0051F528 /* slider-track@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F8779C17CC931D0051F528 /* slider-track@2x.png */; };
 		28F877A217CC98F50051F528 /* cameraCaptureButton-Vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877A017CC98F50051F528 /* cameraCaptureButton-Vertical.png */; };
 		28F877A317CC98F50051F528 /* cameraCaptureButton-Vertical@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877A117CC98F50051F528 /* cameraCaptureButton-Vertical@2x.png */; };
+		28F877A817D0EB440051F528 /* ButNavLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877A617D0EB440051F528 /* ButNavLeft@2x.png */; };
+		28F877A917D0EB440051F528 /* ButNavRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877A717D0EB440051F528 /* ButNavRight@2x.png */; };
+		28F877AC17D0EC4C0051F528 /* ButNavLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877AA17D0EC4C0051F528 /* ButNavLeft.png */; };
+		28F877AD17D0EC4C0051F528 /* ButNavRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877AB17D0EC4C0051F528 /* ButNavRight.png */; };
 		3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */; };
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
@@ -1133,6 +1137,10 @@
 		28F8779C17CC931D0051F528 /* slider-track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-track@2x.png"; sourceTree = "<group>"; };
 		28F877A017CC98F50051F528 /* cameraCaptureButton-Vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCaptureButton-Vertical.png"; sourceTree = "<group>"; };
 		28F877A117CC98F50051F528 /* cameraCaptureButton-Vertical@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cameraCaptureButton-Vertical@2x.png"; sourceTree = "<group>"; };
+		28F877A617D0EB440051F528 /* ButNavLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButNavLeft@2x.png"; sourceTree = "<group>"; };
+		28F877A717D0EB440051F528 /* ButNavRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButNavRight@2x.png"; sourceTree = "<group>"; };
+		28F877AA17D0EC4C0051F528 /* ButNavLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButNavLeft.png; sourceTree = "<group>"; };
+		28F877AB17D0EC4C0051F528 /* ButNavRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButNavRight.png; sourceTree = "<group>"; };
 		3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumServerPhoto.h; sourceTree = "<group>"; };
 		3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumServerPhoto.m; sourceTree = "<group>"; };
 		3B013BC517C3E7CA00135869 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
@@ -1340,6 +1348,10 @@
 		043473961705F42300CFE564 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				28F877AA17D0EC4C0051F528 /* ButNavLeft.png */,
+				28F877AB17D0EC4C0051F528 /* ButNavRight.png */,
+				28F877A617D0EB440051F528 /* ButNavLeft@2x.png */,
+				28F877A717D0EB440051F528 /* ButNavRight@2x.png */,
 				28F877A017CC98F50051F528 /* cameraCaptureButton-Vertical.png */,
 				28F877A117CC98F50051F528 /* cameraCaptureButton-Vertical@2x.png */,
 				28F8779A17CC931D0051F528 /* slider-cap@2x.png */,
@@ -2360,8 +2372,8 @@
 			children = (
 				28E94C2017C2BA3B00874BDE /* Social */,
 				04C407E517303E9200973BC0 /* Registration */,
-				0493ABE81732D6EC005ABCE7 /* Picker */,
 				AA12881316CB8774002AC699 /* Albums */,
+				0493ABE81732D6EC005ABCE7 /* Picker */,
 				AA78D2B617172C26006E1240 /* Camera */,
 				AA78D2B717172C2B006E1240 /* Settings */,
 			);
@@ -2887,6 +2899,10 @@
 				28F8779F17CC931D0051F528 /* slider-track@2x.png in Resources */,
 				28F877A217CC98F50051F528 /* cameraCaptureButton-Vertical.png in Resources */,
 				28F877A317CC98F50051F528 /* cameraCaptureButton-Vertical@2x.png in Resources */,
+				28F877A817D0EB440051F528 /* ButNavLeft@2x.png in Resources */,
+				28F877A917D0EB440051F528 /* ButNavRight@2x.png in Resources */,
+				28F877AC17D0EC4C0051F528 /* ButNavLeft.png in Resources */,
+				28F877AD17D0EC4C0051F528 /* ButNavRight.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
