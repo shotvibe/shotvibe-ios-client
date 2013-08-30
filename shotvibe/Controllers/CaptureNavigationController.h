@@ -17,8 +17,12 @@
 }
 
 @property (nonatomic, retain) id<SVCameraPickerDelegate> cameraDelegate;
+@property (nonatomic, strong) UINavigationController *nav;
+
+@property (nonatomic, assign) int64_t albumId;
+@property (nonatomic, strong) AlbumManager *albumManager;
+
 @property (nonatomic, strong) NSArray *albums;
 @property (nonatomic, strong) AlbumSummary *selectedAlbum;
-@property (nonatomic, strong) UINavigationController *nav;
 
 @end

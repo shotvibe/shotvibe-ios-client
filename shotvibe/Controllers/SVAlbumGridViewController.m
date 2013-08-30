@@ -66,7 +66,8 @@
 {
 	cameraNavController = [[CaptureNavigationController alloc] init];
 	cameraNavController.cameraDelegate = self;
-	//cameraNavController.albums = @[self.selectedAlbum];
+	cameraNavController.albumId = self.albumId;
+	cameraNavController.albumManager = self.albumManager;
     cameraNavController.nav = self.navigationController;// this is set last
 }
 
@@ -76,6 +77,35 @@
 	
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	NSLog(@"prepareForSegue %@", segue.identifier);
+    if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
+		
+        //SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
+        //destination.currentAlbum = self.selectedAlbum;
+    }
+    else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
+		
+        UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+        
+        SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+        destination.albumId = self.albumId;
+        destination.albumManager = self.albumManager;
+        //destination.selectedAlbum = self.selectedAlbum;
+    }
+	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
+		
+		//UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+        
+        //SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+        //destination.selectedAlbum = self.selectedAlbum;
+		
+		//[self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
+    }
+}
+
 
 
 
@@ -163,36 +193,6 @@
 - (NSUInteger)supportedInterfaceOrientations {
 	return UIInterfaceOrientationMaskAllButUpsideDown;
 }
-
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-	NSLog(@"prepareForSegue %@", segue.identifier);
-    if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
-		
-        //SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
-        //destination.currentAlbum = self.selectedAlbum;
-    }
-    else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
-		
-        UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
-        
-        SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        destination.albumId = self.albumId;
-        destination.albumManager = self.albumManager;
-        //destination.selectedAlbum = self.selectedAlbum;
-    }
-	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
-		
-		//UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
-        
-        //SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        //destination.selectedAlbum = self.selectedAlbum;
-		
-		//[self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
-    }
-}
-
 
 
 #pragma mark - Memory Management
