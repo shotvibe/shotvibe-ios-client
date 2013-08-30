@@ -127,6 +127,21 @@
         self.overlayView = nil;
     }
 	
+	// Device's screen size (ignoring rotation intentionally):
+	CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+	
+	// iOS is going to calculate a size which constrains the 4:3 aspect ratio
+	// to the screen size. We're basically mimicking that here to determine
+	// what size the system will likely display the image at on screen.
+	// NOTE: screenSize.width may seem odd in this calculation - but, remember,
+	// the devices only take 4:3 images when they are oriented *sideways*.
+	float cameraAspectRatio = 4.0 / 3.0;
+	float imageWidth = floorf(screenSize.width * cameraAspectRatio);
+	float scale = ceilf((screenSize.height / imageWidth) * 10.0) / 10.0;
+	
+	self.imagePickerController.cameraViewTransform = CGAffineTransformMakeScale(scale, scale);
+	self.sliderZoom.minimumValue = scale;
+	
     [self presentViewController:self.imagePickerController animated:YES completion:^{
 		
 		self.imagePickerController.cameraOverlayView.hidden = NO;

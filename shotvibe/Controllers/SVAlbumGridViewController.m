@@ -176,6 +176,10 @@
 		[self.navigationController.sideMenu setMenuState:self.navigationController.sideMenu.menuState];
 	}
 }
+- (void)viewDidDisappear:(BOOL)animated {
+	
+	//self.sauronTheSideMenu
+}
 
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
