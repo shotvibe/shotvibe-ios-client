@@ -33,6 +33,8 @@
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
 @property (nonatomic, strong) IBOutlet UIView *noPhotosView;
+@property (nonatomic, strong) IBOutlet UIButton *butTakeVideo;
+@property (nonatomic, strong) IBOutlet UIButton *butTakePicture;
 
 - (void)toggleMenu;
 - (void)toggleManagement;
@@ -72,7 +74,6 @@
 {
 	// When we leave the album set all the photos as viewed
 	
-	
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -91,7 +92,10 @@
     _sectionChanges = [NSMutableArray array];
     thumbnailCache = [[NSMutableDictionary alloc] init];
 	
-    // Setup fetched results
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+		self.butTakePicture.enabled = NO;
+		self.butTakeVideo.enabled = NO;
+	}
     
     // Setup tabbar right button
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
@@ -180,9 +184,9 @@
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
 		
-		UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+		//UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
         
-        SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+        //SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         //destination.selectedAlbum = self.selectedAlbum;
 		
 		//[self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
@@ -199,6 +203,26 @@
     // Dispose of any resources that can be recreated.
     [thumbnailCache removeAllObjects];
 }
+
+
+
+
+#pragma mark camera delegate
+
+- (void)cameraExit {
+	
+	NSLog(@"CAMERA EXIT, do nothing");
+	cameraNavController = nil;
+}
+
+- (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {
+	
+	NSLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
+	
+	
+}
+
+
 
 
 #pragma mark - UICollectionViewDataSource Methods

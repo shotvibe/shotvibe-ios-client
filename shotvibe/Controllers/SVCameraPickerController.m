@@ -22,8 +22,6 @@
 						action:@selector(zoomChanged:)
 			  forControlEvents:UIControlEventValueChanged];
 	
-    //if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-	
 	[self configureAlbumScrollView];
 	
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -182,7 +180,6 @@
 		}];
 	}
 }
-
 
 - (IBAction)changeFlashModeButtonPressed:(id)sender {
 	
@@ -402,7 +399,7 @@
 	}
 	
 	if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
-		//[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
+		[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
 	}
 }
 

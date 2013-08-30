@@ -83,6 +83,7 @@
 	NSLog(@"====================== 2.Save image to disk %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
 	// Save to disk the image data
 	[[SVEntityStore sharedStore] writeImageData:imageData toDiskForImageID:photoId WithCompletion:^(BOOL success, NSURL *fileURL, NSError *error) {
+		NSLog(@"success %i", success);
 		if (success) {
 			// Save to database the new image
 			[[SVEntityStore sharedStore] addPhotoWithID:photoId ToAlbumWithID:albumId WithCompletion:^(BOOL success, NSError *error) {

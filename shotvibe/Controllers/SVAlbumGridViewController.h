@@ -8,13 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "SVCameraPickerDelegate.h"
-
 #import "AlbumContentsListener.h"
 #import "AlbumManager.h"
 
 @class SVSidebarAlbumMemberViewController;
 @class SVSidebarAlbumManagementViewController;
-
 @class AlbumSummary;
 
 @interface SVAlbumGridViewController : UIViewController <UIScrollViewDelegate, AlbumContentsListener, SVCameraPickerDelegate>
