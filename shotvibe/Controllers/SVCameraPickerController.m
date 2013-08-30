@@ -58,7 +58,20 @@
 - (void)hideTopBar {
 	self.topBarContainer.frame = CGRectMake(0, -60, 320, 150);
 	self.swipeLabel.hidden = YES;
-	self.topBarContainer.hidden = NO;
+	self.topBarContainer.alpha = 0;
+	[UIView animateWithDuration:0.3 animations:^{
+		self.topBarContainer.alpha = 1;
+		self.topBarContainer.hidden = NO;
+	}];
+	
+	NSLayoutConstraint *topSpaceConstraint = [NSLayoutConstraint constraintWithItem:self.topBarContainer
+                                                                             attribute:NSLayoutAttributeTop
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:self.overlayView
+                                                                             attribute:NSLayoutAttributeTop
+                                                                            multiplier:1.0
+                                                                              constant:-60.0];
+	[self.overlayView addConstraint:topSpaceConstraint];
 }
 
 - (void)orientationChanged:(NSNotification *)notification
@@ -233,6 +246,7 @@
 // This method is called when an image has been chosen from the library or taken from the camera.
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+	
 	self.butShutter.enabled = YES;
 	
     UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
@@ -247,7 +261,8 @@
     UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
     animatedImageView.image = image;
     [self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
-    
+	self.topBarContainer.hidden = YES;
+	
 	// Animation not working, TODO
     [UIView animateWithDuration:0.6 animations:^{
 		CGRect f = self.albumPreviewImage.frame;
@@ -260,6 +275,11 @@
         [self.capturedImages addObject:filePath];
         self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
         [animatedImageView removeFromSuperview];
+		
+		UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+		if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
+			[self performSelector:@selector(hideTopBar) withObject:nil afterDelay:0.6];
+		}
     }];
 }
 

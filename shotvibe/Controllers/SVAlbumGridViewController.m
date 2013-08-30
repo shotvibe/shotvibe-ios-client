@@ -175,10 +175,11 @@
 	if (self.navigationController.sideMenu.menuState != MFSideMenuStateClosed) {
 		[self.navigationController.sideMenu setMenuState:self.navigationController.sideMenu.menuState];
 	}
+	//self.sauronTheSideMenu.panMode = MFSideM;
 }
 - (void)viewDidDisappear:(BOOL)animated {
 	
-	//self.sauronTheSideMenu
+	//self.sauronTheSideMenu.panMode = MFSideMenuPanModeNone;
 }
 
 
