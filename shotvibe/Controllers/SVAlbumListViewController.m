@@ -202,8 +202,6 @@
     if (tappedCell != nil) {
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 	}
-
-	//[[SVDownloadManager sharedManager] download];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -704,15 +702,6 @@
     */
 }
 
-
-- (void)downloadCompleted:(NSNotification *)notification
-{
-	NSLog(@"DOWNLOAD COMPLETE, start the upload process");
-    //[self.fetchedResultsController performFetch:nil];
-    //[self.tableView reloadData];
-	
-	//[[SVUploadManager sharedManager] upload];
-}
 
 -(void)setAlbumList:(NSArray *)albums
 {

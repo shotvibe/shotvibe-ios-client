@@ -544,7 +544,6 @@
 		3BE0B11D17C2F6B60058CAAD /* JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11C17C2F6B60058CAAD /* JSON.m */; };
 		3BE0B12117C30F0E0058CAAD /* AlbumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B12017C30F0D0058CAAD /* AlbumManager.m */; };
 		AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */; };
-		AA2347BF177A783100D55918 /* SVHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2347BE177A783100D55918 /* SVHttpClient.m */; };
 		AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234837177AA3F600D55918 /* AFHTTPClient.m */; };
 		AA23484B177AA3F600D55918 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234839177AA3F600D55918 /* AFHTTPRequestOperation.m */; };
 		AA23484D177AA3F600D55918 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA23483B177AA3F600D55918 /* AFImageRequestOperation.m */; };
@@ -1232,8 +1231,6 @@
 		3BE9FA8817C40FBC000F6676 /* AlbumContentsListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlbumContentsListener.h; sourceTree = "<group>"; };
 		AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumListViewCell.h; path = Controllers/SVAlbumListViewCell.h; sourceTree = "<group>"; };
 		AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumListViewCell.m; path = Controllers/SVAlbumListViewCell.m; sourceTree = "<group>"; };
-		AA2347BD177A783100D55918 /* SVHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVHttpClient.h; sourceTree = "<group>"; };
-		AA2347BE177A783100D55918 /* SVHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVHttpClient.m; sourceTree = "<group>"; };
 		AA234836177AA3F600D55918 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		AA234837177AA3F600D55918 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		AA234838177AA3F600D55918 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -2040,15 +2037,6 @@
 			name = Albums;
 			sourceTree = "<group>";
 		};
-		AA2347B9177A774000D55918 /* SyncEngine */ = {
-			isa = PBXGroup;
-			children = (
-				AA2347BD177A783100D55918 /* SVHttpClient.h */,
-				AA2347BE177A783100D55918 /* SVHttpClient.m */,
-			);
-			path = SyncEngine;
-			sourceTree = "<group>";
-		};
 		AA234835177AA3F600D55918 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -2133,7 +2121,6 @@
 				AACB11C616C4543700BAC7E1 /* Models */,
 				043473961705F42300CFE564 /* Resources */,
 				AACB11C816C4547B00BAC7E1 /* Stores */,
-				AA2347B9177A774000D55918 /* SyncEngine */,
 				AA58FB7516C22B0400C49E02 /* Vendor */,
 				AA58FB3816C227F500C49E02 /* Views */,
 				AA58FB0116C224E800C49E02 /* Supporting Files */,
@@ -2969,7 +2956,6 @@
 				AA58FB9016C2341200C49E02 /* SVInitializationBD.m in Sources */,
 				AA58FB9416C2341C00C49E02 /* SVInitializationWS.m in Sources */,
 				04F11575178FA5D200B26C85 /* SVSelectionGridCell.m in Sources */,
-				AA2347BF177A783100D55918 /* SVHttpClient.m in Sources */,
 				AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */,
 				AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */,

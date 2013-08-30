@@ -9,7 +9,6 @@
 #import "SVAddFriendsViewController.h"
 #import "SVAddressBookBD.h"
 #import "SVDefines.h"
-#import "SVHttpClient.h"
 
 
 @interface SVAddFriendsViewController ()<UISearchBarDelegate>
