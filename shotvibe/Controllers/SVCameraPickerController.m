@@ -261,7 +261,11 @@
     UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
     animatedImageView.image = image;
     [self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
-	self.topBarContainer.hidden = YES;
+	
+	UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+	if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
+		self.topBarContainer.hidden = YES;
+	}
 	
 	// Animation not working, TODO
     [UIView animateWithDuration:0.6 animations:^{
@@ -276,7 +280,6 @@
         self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
         [animatedImageView removeFromSuperview];
 		
-		UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
 		if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
 			[self performSelector:@selector(hideTopBar) withObject:nil afterDelay:0.6];
 		}
