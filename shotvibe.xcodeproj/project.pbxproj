@@ -112,7 +112,6 @@
 		04AB0AAE17080A5700C5300B /* albumImageFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AB0A9F17080A5700C5300B /* albumImageFrame.png */; };
 		04AB0AB21708114800C5300B /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AB0AB11708114800C5300B /* NSDate+Formatting.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		04AFA7B8177CBEA700E32C6E /* SVAlbumGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */; };
-		04C36BC5177D047500EB97E0 /* SVURLBuilderWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C36BC4177D047500EB97E0 /* SVURLBuilderWS.m */; };
 		04C404E01730301500973BC0 /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C404DD1730301500973BC0 /* Countries.plist */; };
 		04C404E21730301500973BC0 /* CountryPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C404DF1730301500973BC0 /* CountryPicker.m */; };
 		04C405E11730303600973BC0 /* AC.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C404E81730303500973BC0 /* AC.png */; };
@@ -719,8 +718,6 @@
 		04AB0AB11708114800C5300B /* NSDate+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatting.m"; sourceTree = "<group>"; };
 		04AFA7B6177CBEA700E32C6E /* SVAlbumGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumGridViewCell.h; path = Controllers/SVAlbumGridViewCell.h; sourceTree = "<group>"; };
 		04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumGridViewCell.m; path = Controllers/SVAlbumGridViewCell.m; sourceTree = "<group>"; };
-		04C36BC3177D047500EB97E0 /* SVURLBuilderWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVURLBuilderWS.h; sourceTree = "<group>"; };
-		04C36BC4177D047500EB97E0 /* SVURLBuilderWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVURLBuilderWS.m; sourceTree = "<group>"; };
 		04C404DD1730301500973BC0 /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		04C404DE1730301500973BC0 /* CountryPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryPicker.h; sourceTree = "<group>"; };
 		04C404DF1730301500973BC0 /* CountryPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryPicker.m; sourceTree = "<group>"; };
@@ -2255,8 +2252,6 @@
 				0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */,
 				AA58FB9216C2341C00C49E02 /* SVInitializationWS.h */,
 				AA58FB9316C2341C00C49E02 /* SVInitializationWS.m */,
-				04C36BC3177D047500EB97E0 /* SVURLBuilderWS.h */,
-				04C36BC4177D047500EB97E0 /* SVURLBuilderWS.m */,
 				04204F01178B48ED001FE127 /* SVAddressBookWS.h */,
 				04204F02178B48ED001FE127 /* SVAddressBookWS.m */,
 			);
@@ -2969,7 +2964,6 @@
 				0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
 				AA4115BE177C0451009F400F /* NSFileManager+Helper.m in Sources */,
 				04AFA7B8177CBEA700E32C6E /* SVAlbumGridViewCell.m in Sources */,
-				04C36BC5177D047500EB97E0 /* SVURLBuilderWS.m in Sources */,
 				04204EFF178B48CB001FE127 /* SVAddressBookBD.m in Sources */,
 				04204F03178B48ED001FE127 /* SVAddressBookWS.m in Sources */,
 				28CFCCA317A50829001511EF /* SVCountriesViewController.m in Sources */,
