@@ -101,8 +101,7 @@
     __block ALAssetsGroup *selectedGroup = [self.albums objectAtIndex:indexPath.row];
     
     // Grab relevant album asset urls
-    SVAssetRetrievalWS *workerSession = [[SVAssetRetrievalWS alloc] init];
-    [workerSession loadAllAssetsForAlbumGroup:selectedGroup WithCompletion:^(NSArray *assets, NSError *error) {
+    [SVAssetRetrievalWS loadAllAssetsForAlbumGroup:selectedGroup WithCompletion:^(NSArray *assets, NSError *error) {
 		
         CaptureSelectImagesViewController *selectImagesViewController = [[CaptureSelectImagesViewController alloc] initWithNibName:@"CaptureSelectImagesViewController" bundle:[NSBundle mainBundle]];
 
@@ -123,8 +122,7 @@
 
 - (void)gatherLocalAlbums
 {
-    SVAssetRetrievalWS *workerSession = [[SVAssetRetrievalWS alloc] init];
-    [workerSession loadAllLocalAlbumsOnDeviceWithCompletion:^(NSArray *albums, NSError *error) {
+    [SVAssetRetrievalWS loadAllLocalAlbumsOnDeviceWithCompletion:^(NSArray *albums, NSError *error) {
         if (!error) {
             NSLog(@"Grabbed %i Albums", albums.count);
             self.albums = [[NSArray alloc] initWithArray:albums];

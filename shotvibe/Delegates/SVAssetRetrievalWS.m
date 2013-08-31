@@ -11,7 +11,7 @@
 
 @implementation SVAssetRetrievalWS
 
-- (void)loadAllLocalAlbumsOnDeviceWithCompletion:(void (^)(NSArray *albums, NSError *error))block
++ (void)loadAllLocalAlbumsOnDeviceWithCompletion:(void (^)(NSArray *albums, NSError *error))block
 {
     __block NSMutableArray *assetGroups = [[NSMutableArray alloc] init];
     
@@ -41,7 +41,7 @@
 }
 
 
-- (void)loadAllAssetsForAlbumGroup:(ALAssetsGroup *)group WithCompletion:(void (^)(NSArray *assets, NSError *error))block
++ (void)loadAllAssetsForAlbumGroup:(ALAssetsGroup *)group WithCompletion:(void (^)(NSArray *assets, NSError *error))block
 {
     __block NSMutableArray *assets = [[NSMutableArray alloc] init];
     
