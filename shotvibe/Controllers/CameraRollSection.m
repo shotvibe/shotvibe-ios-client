@@ -23,6 +23,7 @@
 		[self addSubview:self.dateLabel];
 		
 		self.selectButton = [[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-26-7, 12, 26, 26)];
+		self.selectButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 		[self.selectButton addTarget:self action:@selector(checkmarkTouched) forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:self.selectButton];
 		[self selectCheckmark:NO];

@@ -163,7 +163,9 @@
 	
 	if (kind == UICollectionElementKindSectionHeader)
 	{
-		CameraRollSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"CameraRollSection" forIndexPath:indexPath];
+		CameraRollSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+																	   withReuseIdentifier:@"CameraRollSection"
+																			  forIndexPath:indexPath];
 		
 		// Modify the header
 		header.dateLabel.text = sectionsKeys[indexPath.section];
