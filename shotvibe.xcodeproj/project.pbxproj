@@ -368,15 +368,6 @@
 		04C407E817303EB100973BC0 /* SVRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407E717303EB100973BC0 /* SVRegistrationViewController.m */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
-		04C407FC17305E7C00973BC0 /* NBNumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F217305E7C00973BC0 /* NBNumberFormat.m */; };
-		04C407FE17305E7C00973BC0 /* NBPhoneMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F417305E7C00973BC0 /* NBPhoneMetaData.m */; };
-		04C4080017305E7C00973BC0 /* NBPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F617305E7C00973BC0 /* NBPhoneNumber.m */; };
-		04C4080217305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407F917305E7C00973BC0 /* NBPhoneNumberDesc.m */; };
-		04C4080417305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C407FB17305E7C00973BC0 /* NBPhoneNumberUtil.m */; };
-		04C4080817305E9400973BC0 /* NBPhoneNumberMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080617305E9400973BC0 /* NBPhoneNumberMetadata.plist */; };
-		04C4080A17305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080717305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist */; };
-		04C4080E1730619700973BC0 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080C1730619700973BC0 /* LICENSE */; };
-		04C408101730619700973BC0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080D1730619700973BC0 /* README.md */; };
 		04CD9CE216CDF15A00FC72B3 /* SVPhotoViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD9CE116CDF15A00FC72B3 /* SVPhotoViewerController.m */; };
 		04E287F7173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */; };
 		04E287F9173176F00044C17A /* CaptureSelectImagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */; };
@@ -976,21 +967,6 @@
 		04C407E717303EB100973BC0 /* SVRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRegistrationViewController.m; sourceTree = "<group>"; };
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
-		04C407F117305E7C00973BC0 /* NBNumberFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBNumberFormat.h; sourceTree = "<group>"; };
-		04C407F217305E7C00973BC0 /* NBNumberFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBNumberFormat.m; sourceTree = "<group>"; };
-		04C407F317305E7C00973BC0 /* NBPhoneMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneMetaData.h; sourceTree = "<group>"; };
-		04C407F417305E7C00973BC0 /* NBPhoneMetaData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneMetaData.m; sourceTree = "<group>"; };
-		04C407F517305E7C00973BC0 /* NBPhoneNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumber.h; sourceTree = "<group>"; };
-		04C407F617305E7C00973BC0 /* NBPhoneNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumber.m; sourceTree = "<group>"; };
-		04C407F717305E7C00973BC0 /* NBPhoneNumberDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberDefines.h; sourceTree = "<group>"; };
-		04C407F817305E7C00973BC0 /* NBPhoneNumberDesc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberDesc.h; sourceTree = "<group>"; };
-		04C407F917305E7C00973BC0 /* NBPhoneNumberDesc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumberDesc.m; sourceTree = "<group>"; };
-		04C407FA17305E7C00973BC0 /* NBPhoneNumberUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberUtil.h; sourceTree = "<group>"; };
-		04C407FB17305E7C00973BC0 /* NBPhoneNumberUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumberUtil.m; sourceTree = "<group>"; };
-		04C4080617305E9400973BC0 /* NBPhoneNumberMetadata.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = NBPhoneNumberMetadata.plist; sourceTree = "<group>"; };
-		04C4080717305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = NBPhoneNumberMetadataForTesting.plist; sourceTree = "<group>"; };
-		04C4080C1730619700973BC0 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		04C4080D1730619700973BC0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		04CD9CE016CDF15A00FC72B3 /* SVPhotoViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPhotoViewerController.h; sourceTree = "<group>"; };
 		04CD9CE116CDF15A00FC72B3 /* SVPhotoViewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPhotoViewerController.m; sourceTree = "<group>"; };
 		04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureSelectImagesViewController.h; sourceTree = "<group>"; };
@@ -1689,28 +1665,6 @@
 			name = Registration;
 			sourceTree = "<group>";
 		};
-		04C407F017305E4C00973BC0 /* libPhoneNumber */ = {
-			isa = PBXGroup;
-			children = (
-				04C4080C1730619700973BC0 /* LICENSE */,
-				04C4080D1730619700973BC0 /* README.md */,
-				04C407F117305E7C00973BC0 /* NBNumberFormat.h */,
-				04C407F217305E7C00973BC0 /* NBNumberFormat.m */,
-				04C407F317305E7C00973BC0 /* NBPhoneMetaData.h */,
-				04C407F417305E7C00973BC0 /* NBPhoneMetaData.m */,
-				04C407F517305E7C00973BC0 /* NBPhoneNumber.h */,
-				04C407F617305E7C00973BC0 /* NBPhoneNumber.m */,
-				04C407F717305E7C00973BC0 /* NBPhoneNumberDefines.h */,
-				04C407F817305E7C00973BC0 /* NBPhoneNumberDesc.h */,
-				04C407F917305E7C00973BC0 /* NBPhoneNumberDesc.m */,
-				04C407FA17305E7C00973BC0 /* NBPhoneNumberUtil.h */,
-				04C407FB17305E7C00973BC0 /* NBPhoneNumberUtil.m */,
-				04C4080617305E9400973BC0 /* NBPhoneNumberMetadata.plist */,
-				04C4080717305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist */,
-			);
-			path = libPhoneNumber;
-			sourceTree = "<group>";
-		};
 		2884E86317A24D9900B382D9 /* little icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2206,7 +2160,6 @@
 				AA234835177AA3F600D55918 /* AFNetworking */,
 				04C404DC1730301500973BC0 /* CountryPicker */,
 				3BE0B10B17C2B9E70058CAAD /* FMDB */,
-				04C407F017305E4C00973BC0 /* libPhoneNumber */,
 				04734F2A16CF104F003F729B /* MFSideMenu */,
 				3B0A3CEC17CB7E640058B620 /* MBProgressHUD */,
 				3B0A3CD717CB75190058B620 /* MWPhotoBrowser */,
@@ -2752,10 +2705,6 @@
 				04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */,
 				04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */,
 				04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */,
-				04C4080817305E9400973BC0 /* NBPhoneNumberMetadata.plist in Resources */,
-				04C4080A17305E9400973BC0 /* NBPhoneNumberMetadataForTesting.plist in Resources */,
-				04C4080E1730619700973BC0 /* LICENSE in Resources */,
-				04C408101730619700973BC0 /* README.md in Resources */,
 				042E285917309857003BA9CF /* imageUnselected@2x.png in Resources */,
 				042E285B17309857003BA9CF /* imageUnselected.png in Resources */,
 				042E285D17309857003BA9CF /* imageSelected@2x.png in Resources */,
@@ -2952,11 +2901,6 @@
 				0426B6871724F574007BAABC /* CaptureNavigationController.m in Sources */,
 				04C404E21730301500973BC0 /* CountryPicker.m in Sources */,
 				04C407E817303EB100973BC0 /* SVRegistrationViewController.m in Sources */,
-				04C407FC17305E7C00973BC0 /* NBNumberFormat.m in Sources */,
-				04C407FE17305E7C00973BC0 /* NBPhoneMetaData.m in Sources */,
-				04C4080017305E7C00973BC0 /* NBPhoneNumber.m in Sources */,
-				04C4080217305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */,
-				04C4080417305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */,
 				AA23484D177AA3F600D55918 /* AFImageRequestOperation.m in Sources */,
 				04E287F7173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */,
 				0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
