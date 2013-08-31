@@ -18,11 +18,6 @@
 
 #pragma mark - Instance Methods
 
-- (void)initializeVendorLibraries
-{
-    
-}
-
 
 - (void)configureAppearanceProxies
 {
@@ -190,12 +185,6 @@
 }
 
 
-- (void)processAnalytics
-{
-    
-}
-
-
 - (void)initializeLocalSettingsDefaults
 {
     // Setup defaults for general notification settings (not for individual albums)
@@ -209,29 +198,6 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HAS_SET_NOTIFICATION_DEFAULTS"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-}
-
-
-- (void)initializeManagedObjectModel
-{
-	NSLog(@"================== initializeManagedObjectModel ===================");
-	
-}
-
-
-- (void)startSyncing
-{
-    /*// start bg sync for albums
-    [[DownloadSyncEngine sharedEngine] startSync];
-    
-    // start upload syncing
-    [[UploadSyncEngine sharedEngine] startSync];*/
-    
-    /*dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        
-        [[SVDownloadSyncEngine sharedEngine] startSync];
-        
-    });*/
 }
 
 

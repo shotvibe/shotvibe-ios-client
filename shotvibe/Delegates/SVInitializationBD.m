@@ -16,11 +16,7 @@
 {
     SVInitializationWS *worker = [[SVInitializationWS alloc] init];
     
-    [worker initializeVendorLibraries];
     [worker configureAppearanceProxies];
-    [worker processAnalytics];
     [worker initializeLocalSettingsDefaults];
-    [worker initializeManagedObjectModel];
-    [worker startSyncing];
 }
 @end

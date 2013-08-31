@@ -12,10 +12,7 @@
 
 #pragma mark - Instance Methods
 
-- (void)initializeVendorLibraries;
 - (void)configureAppearanceProxies;
-- (void)processAnalytics;
 - (void)initializeLocalSettingsDefaults;
-- (void)initializeManagedObjectModel;
-- (void)startSyncing;
+
 @end
