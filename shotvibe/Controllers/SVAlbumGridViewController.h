@@ -11,16 +11,16 @@
 #import "AlbumContentsListener.h"
 #import "AlbumManager.h"
 
-@class SVSidebarAlbumMemberViewController;
-@class SVSidebarAlbumManagementViewController;
+@class SVSidebarMemberController;
+@class SVSidebarManagementController;
 @class AlbumSummary;
 
 @interface SVAlbumGridViewController : UIViewController <UIScrollViewDelegate, AlbumContentsListener, SVCameraPickerDelegate>
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) SVSidebarAlbumMemberViewController *sidebarRight;
-@property (nonatomic, strong) SVSidebarAlbumManagementViewController *sidebarLeft;
+@property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
+@property (nonatomic, strong) SVSidebarManagementController *sidebarLeft;
 
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;

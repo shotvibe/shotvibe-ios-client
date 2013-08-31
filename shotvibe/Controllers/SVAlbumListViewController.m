@@ -122,8 +122,6 @@
 #pragma mark camera delegate
 
 - (void)cameraExit {
-	
-	NSLog(@"CAMERA EXIT, do nothing");
 	cameraNavController = nil;
 }
 
@@ -172,10 +170,6 @@
 		self.takePictureButton.enabled = NO;
 	}
 	
-    // When we get to the album list view we no longer need to worry about rotation blocks from logging in, switch it to allowing rotation.
-    //CaptureNavigationController *navController = (CaptureNavigationController *)self.navigationController;
-    //navController.allowsRotation = YES;
-    
     self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
     self.imageLoadingQueue = [[NSOperationQueue alloc] init];
     self.imageLoadingQueue.maxConcurrentOperationCount = 1;
@@ -207,11 +201,15 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+	
 	[super viewDidAppear:animated];
+	
 	if (cameraNavController != nil) {
-		[self cameraWasDismissedWithAlbum:cameraNavController.selectedAlbum];
+		//[self cameraWasDismissedWithAlbum:cameraNavController.selectedAlbum];
 		cameraNavController = nil;
 	}
+	
+	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 }
 
 
@@ -223,7 +221,8 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    if (self.albumField.isFirstResponder) {
+    if (self.albumField.isFirstResponder)
+	{
         [self.albumField resignFirstResponder];
     }
     else if (self.searchbar.isFirstResponder)
@@ -236,8 +235,7 @@
 
 - (BOOL)shouldAutorotate
 {
-	//UIViewController *visibleController = self.navigationController.visibleViewController;
-    return YES;
+	return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -416,69 +414,13 @@
 }
 
 /*
-
-#pragma mark NSFetchedResultsControllerDelegate methods
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-	if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
-    
-	_fetchedResultsController = [[SVEntityStore sharedStore] allAlbumsForCurrentUserWithDelegate:self];
-	
-	return _fetchedResultsController;
-}
-
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-    [self.tableView beginUpdates];
-}
-
-
-- (void)controller:(NSFetchedResultsController *)controller
-   didChangeObject:(id)anObject
-	   atIndexPath:(NSIndexPath *)indexPath
-	 forChangeType:(NSFetchedResultsChangeType)type
-	  newIndexPath:(NSIndexPath *)newIndexPath
-{
-    //NSLog(@"didChangeObject type:%i %@", type, indexPath);
-    //SVAlbumListViewCell *cell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
-    
-    switch (type) {
-        case NSFetchedResultsChangeInsert:
             [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-        case NSFetchedResultsChangeDelete:
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-        case NSFetchedResultsChangeUpdate:
-			[self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-        case NSFetchedResultsChangeMove:
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-        default:
-            break;
-    }
-}
-
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    [self.tableView endUpdates];
-}
 
 */
-
-#pragma mark - RCImageViewDelegate
-
-- (void)imageView:(RCImageView*)imageView didFailWithError:(NSError *)error
-{
-	NSLog(@"networkImageView didFailWithError %@", error);
-}
 
 
 #pragma mark - UITextFieldDelegate Methods
@@ -584,13 +526,10 @@
         [self.dropDownBackground setImage:resizableImage];
     }
 	
-	UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];
-	
 	// Set required taps and number of touches
+	UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];
 	[touchOnView setNumberOfTapsRequired:1];
 	[touchOnView setNumberOfTouchesRequired:1];
-	
-	// Add the gesture to the view
 	[self.tableOverlayView addGestureRecognizer:touchOnView];
 }
 - (void) releaseOverlay {
@@ -724,7 +663,7 @@
 }
 
 
-#pragma mark refresh
+#pragma mark UIRefreshView
 
 -(void)refreshView
 {

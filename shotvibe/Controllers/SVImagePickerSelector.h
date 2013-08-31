@@ -18,7 +18,7 @@
 #import "AlbumManager.h"
 #import "AlbumSummary.h"
 
-@interface CaptureSelectImagesViewController : UIViewController <CameraRollSectionDelegate> {
+@interface SVImagePickerSelector : UIViewController <CameraRollSectionDelegate> {
 	
 	NSMutableArray *sectionsKeys;
 	NSMutableDictionary *sections;

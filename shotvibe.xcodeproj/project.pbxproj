@@ -13,7 +13,7 @@
 		040BACD41717453C00D90C63 /* navBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD11717453C00D90C63 /* navBarBg@2x.png */; };
 		041A13E41706788100E66B78 /* sidebarMenuNavbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041A13E21706788100E66B78 /* sidebarMenuNavbar@2x.png */; };
 		041A13E61706788100E66B78 /* sidebarMenuNavbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 041A13E31706788100E66B78 /* sidebarMenuNavbar.png */; };
-		041A13ED1706882D00E66B78 /* SVSidebarAlbumManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A13EC1706882D00E66B78 /* SVSidebarAlbumManagementViewController.m */; };
+		041A13ED1706882D00E66B78 /* SVSidebarManagementController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A13EC1706882D00E66B78 /* SVSidebarManagementController.m */; };
 		041A13FD17068BED00E66B78 /* settingsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041A13FB17068BED00E66B78 /* settingsIcon@2x.png */; };
 		041A13FF17068BED00E66B78 /* settingsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 041A13FC17068BED00E66B78 /* settingsIcon.png */; };
 		04204EFB178B45D9001FE127 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04204EFA178B45D9001FE127 /* AddressBook.framework */; };
@@ -61,9 +61,7 @@
 		0446EEF31718845D00ED0076 /* addFriendsButtonBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0446EEE41718845D00ED0076 /* addFriendsButtonBg.png */; };
 		0446EF021718927B00ED0076 /* SVSidebarAlbumMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */; };
 		0446EF061718A41700ED0076 /* SVAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */; };
-		04734F2416CEC1B1003F729B /* SVSidebarAlbumMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarAlbumMemberViewController.m */; };
-		04734F2F16CF104F003F729B /* MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2C16CF104F003F729B /* MFSideMenu.m */; };
-		04734F3116CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */; };
+		04734F2416CEC1B1003F729B /* SVSidebarMemberController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMemberController.m */; };
 		0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */; };
 		0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF11732D7D6005ABCE7 /* ALAssetsLibrary+helper.m */; };
 		0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */; };
@@ -379,8 +377,8 @@
 		04C4080E1730619700973BC0 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080C1730619700973BC0 /* LICENSE */; };
 		04C408101730619700973BC0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 04C4080D1730619700973BC0 /* README.md */; };
 		04CD9CE216CDF15A00FC72B3 /* SVPhotoViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD9CE116CDF15A00FC72B3 /* SVPhotoViewerController.m */; };
-		04E287F7173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */; };
-		04E287F9173176F00044C17A /* CaptureSelectImagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */; };
+		04E287F7173176F00044C17A /* SVImagePickerSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E287F5173176F00044C17A /* SVImagePickerSelector.m */; };
+		04E287F9173176F00044C17A /* SVImagePickerSelector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E287F6173176F00044C17A /* SVImagePickerSelector.xib */; };
 		04F11575178FA5D200B26C85 /* SVSelectionGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */; };
 		2045764A178CB57C00E2CDBB /* contactsStreachableButton_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20457649178CB57C00E2CDBB /* contactsStreachableButton_normal@2x.png */; };
 		20457651178CCDA400E2CDBB /* contactsStreachableButton_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2045764F178CCDA400E2CDBB /* contactsStreachableButton_normal.png */; };
@@ -500,6 +498,9 @@
 		28F877A917D0EB440051F528 /* ButNavRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877A717D0EB440051F528 /* ButNavRight@2x.png */; };
 		28F877AC17D0EC4C0051F528 /* ButNavLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877AA17D0EC4C0051F528 /* ButNavLeft.png */; };
 		28F877AD17D0EC4C0051F528 /* ButNavRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F877AB17D0EC4C0051F528 /* ButNavRight.png */; };
+		28F877B517D1BB4B0051F528 /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F877B017D1BB4B0051F528 /* MFSideMenuContainerViewController.m */; };
+		28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F877B217D1BB4B0051F528 /* MFSideMenuShadow.m */; };
+		28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F877B417D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m */; };
 		3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */; };
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
@@ -607,8 +608,8 @@
 		040BACD11717453C00D90C63 /* navBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBarBg@2x.png"; sourceTree = "<group>"; };
 		041A13E21706788100E66B78 /* sidebarMenuNavbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sidebarMenuNavbar@2x.png"; sourceTree = "<group>"; };
 		041A13E31706788100E66B78 /* sidebarMenuNavbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidebarMenuNavbar.png; sourceTree = "<group>"; };
-		041A13EB1706882D00E66B78 /* SVSidebarAlbumManagementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarAlbumManagementViewController.h; path = "../Custom Controls/SVSidebarAlbumManagementViewController.h"; sourceTree = "<group>"; };
-		041A13EC1706882D00E66B78 /* SVSidebarAlbumManagementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarAlbumManagementViewController.m; path = "../Custom Controls/SVSidebarAlbumManagementViewController.m"; sourceTree = "<group>"; };
+		041A13EB1706882D00E66B78 /* SVSidebarManagementController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarManagementController.h; path = "../Custom Controls/SVSidebarManagementController.h"; sourceTree = "<group>"; };
+		041A13EC1706882D00E66B78 /* SVSidebarManagementController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarManagementController.m; path = "../Custom Controls/SVSidebarManagementController.m"; sourceTree = "<group>"; };
 		041A13FB17068BED00E66B78 /* settingsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settingsIcon@2x.png"; sourceTree = "<group>"; };
 		041A13FC17068BED00E66B78 /* settingsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsIcon.png; sourceTree = "<group>"; };
 		04204EFA178B45D9001FE127 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -661,12 +662,8 @@
 		0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarAlbumMemberCell.m; path = "Custom Controls/SVSidebarAlbumMemberCell.m"; sourceTree = "<group>"; };
 		0446EF041718A41700ED0076 /* SVAddFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAddFriendsViewController.h; sourceTree = "<group>"; };
 		0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAddFriendsViewController.m; sourceTree = "<group>"; };
-		04734F2216CEC1B1003F729B /* SVSidebarAlbumMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarAlbumMemberViewController.h; path = "../Custom Controls/SVSidebarAlbumMemberViewController.h"; sourceTree = "<group>"; };
-		04734F2316CEC1B1003F729B /* SVSidebarAlbumMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarAlbumMemberViewController.m; path = "../Custom Controls/SVSidebarAlbumMemberViewController.m"; sourceTree = "<group>"; };
-		04734F2B16CF104F003F729B /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
-		04734F2C16CF104F003F729B /* MFSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenu.m; sourceTree = "<group>"; };
-		04734F2D16CF104F003F729B /* UINavigationController+MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+MFSideMenu.h"; sourceTree = "<group>"; };
-		04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+MFSideMenu.m"; sourceTree = "<group>"; };
+		04734F2216CEC1B1003F729B /* SVSidebarMemberController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarMemberController.h; path = "../Custom Controls/SVSidebarMemberController.h"; sourceTree = "<group>"; };
+		04734F2316CEC1B1003F729B /* SVSidebarMemberController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarMemberController.m; path = "../Custom Controls/SVSidebarMemberController.m"; sourceTree = "<group>"; };
 		0493ABEC1732D78B005ABCE7 /* SVImagePickerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVImagePickerListViewController.h; sourceTree = "<group>"; };
 		0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVImagePickerListViewController.m; sourceTree = "<group>"; };
 		0493ABF01732D7D6005ABCE7 /* ALAssetsLibrary+helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+helper.h"; sourceTree = "<group>"; };
@@ -1000,9 +997,9 @@
 		04C4080D1730619700973BC0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		04CD9CE016CDF15A00FC72B3 /* SVPhotoViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPhotoViewerController.h; sourceTree = "<group>"; };
 		04CD9CE116CDF15A00FC72B3 /* SVPhotoViewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPhotoViewerController.m; sourceTree = "<group>"; };
-		04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureSelectImagesViewController.h; sourceTree = "<group>"; };
-		04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureSelectImagesViewController.m; sourceTree = "<group>"; };
-		04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptureSelectImagesViewController.xib; sourceTree = "<group>"; };
+		04E287F4173176F00044C17A /* SVImagePickerSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVImagePickerSelector.h; sourceTree = "<group>"; };
+		04E287F5173176F00044C17A /* SVImagePickerSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVImagePickerSelector.m; sourceTree = "<group>"; };
+		04E287F6173176F00044C17A /* SVImagePickerSelector.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVImagePickerSelector.xib; sourceTree = "<group>"; };
 		04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSelectionGridCell.h; sourceTree = "<group>"; };
 		04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSelectionGridCell.m; sourceTree = "<group>"; };
 		20457649178CB57C00E2CDBB /* contactsStreachableButton_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "contactsStreachableButton_normal@2x.png"; sourceTree = "<group>"; };
@@ -1141,6 +1138,13 @@
 		28F877A717D0EB440051F528 /* ButNavRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButNavRight@2x.png"; sourceTree = "<group>"; };
 		28F877AA17D0EC4C0051F528 /* ButNavLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButNavLeft.png; sourceTree = "<group>"; };
 		28F877AB17D0EC4C0051F528 /* ButNavRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButNavRight.png; sourceTree = "<group>"; };
+		28F877AE17D1BB4B0051F528 /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
+		28F877AF17D1BB4B0051F528 /* MFSideMenuContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenuContainerViewController.h; sourceTree = "<group>"; };
+		28F877B017D1BB4B0051F528 /* MFSideMenuContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenuContainerViewController.m; sourceTree = "<group>"; };
+		28F877B117D1BB4B0051F528 /* MFSideMenuShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenuShadow.h; sourceTree = "<group>"; };
+		28F877B217D1BB4B0051F528 /* MFSideMenuShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenuShadow.m; sourceTree = "<group>"; };
+		28F877B317D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MFSideMenuAdditions.h"; sourceTree = "<group>"; };
+		28F877B417D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MFSideMenuAdditions.m"; sourceTree = "<group>"; };
 		3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumServerPhoto.h; sourceTree = "<group>"; };
 		3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumServerPhoto.m; sourceTree = "<group>"; };
 		3B013BC517C3E7CA00135869 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
@@ -1403,10 +1407,13 @@
 		04734F2A16CF104F003F729B /* MFSideMenu */ = {
 			isa = PBXGroup;
 			children = (
-				04734F2B16CF104F003F729B /* MFSideMenu.h */,
-				04734F2C16CF104F003F729B /* MFSideMenu.m */,
-				04734F2D16CF104F003F729B /* UINavigationController+MFSideMenu.h */,
-				04734F2E16CF104F003F729B /* UINavigationController+MFSideMenu.m */,
+				28F877AE17D1BB4B0051F528 /* MFSideMenu.h */,
+				28F877AF17D1BB4B0051F528 /* MFSideMenuContainerViewController.h */,
+				28F877B017D1BB4B0051F528 /* MFSideMenuContainerViewController.m */,
+				28F877B117D1BB4B0051F528 /* MFSideMenuShadow.h */,
+				28F877B217D1BB4B0051F528 /* MFSideMenuShadow.m */,
+				28F877B317D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.h */,
+				28F877B417D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m */,
 			);
 			path = MFSideMenu;
 			sourceTree = "<group>";
@@ -1416,9 +1423,9 @@
 			children = (
 				0493ABEC1732D78B005ABCE7 /* SVImagePickerListViewController.h */,
 				0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */,
-				04E287F4173176F00044C17A /* CaptureSelectImagesViewController.h */,
-				04E287F5173176F00044C17A /* CaptureSelectImagesViewController.m */,
-				04E287F6173176F00044C17A /* CaptureSelectImagesViewController.xib */,
+				04E287F4173176F00044C17A /* SVImagePickerSelector.h */,
+				04E287F5173176F00044C17A /* SVImagePickerSelector.m */,
+				04E287F6173176F00044C17A /* SVImagePickerSelector.xib */,
 			);
 			name = Picker;
 			sourceTree = "<group>";
@@ -1941,6 +1948,21 @@
 			name = CustomActivity;
 			sourceTree = "<group>";
 		};
+		28F877B817D240210051F528 /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				04734F2216CEC1B1003F729B /* SVSidebarMemberController.h */,
+				04734F2316CEC1B1003F729B /* SVSidebarMemberController.m */,
+				041A13EB1706882D00E66B78 /* SVSidebarManagementController.h */,
+				041A13EC1706882D00E66B78 /* SVSidebarManagementController.m */,
+				28D4761617B0F09C00C189AB /* SVSidebarAlbumSection.h */,
+				28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */,
+				0446EF041718A41700ED0076 /* SVAddFriendsViewController.h */,
+				0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */,
+			);
+			name = SideMenu;
+			sourceTree = "<group>";
+		};
 		3B0A3CD717CB75190058B620 /* MWPhotoBrowser */ = {
 			isa = PBXGroup;
 			children = (
@@ -2026,14 +2048,6 @@
 				AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */,
 				04CD9CE016CDF15A00FC72B3 /* SVPhotoViewerController.h */,
 				04CD9CE116CDF15A00FC72B3 /* SVPhotoViewerController.m */,
-				04734F2216CEC1B1003F729B /* SVSidebarAlbumMemberViewController.h */,
-				04734F2316CEC1B1003F729B /* SVSidebarAlbumMemberViewController.m */,
-				041A13EB1706882D00E66B78 /* SVSidebarAlbumManagementViewController.h */,
-				041A13EC1706882D00E66B78 /* SVSidebarAlbumManagementViewController.m */,
-				28D4761617B0F09C00C189AB /* SVSidebarAlbumSection.h */,
-				28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */,
-				0446EF041718A41700ED0076 /* SVAddFriendsViewController.h */,
-				0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */,
 				3B0A3CF017CB80870058B620 /* AlbumPhotoBrowserDelegate.h */,
 				3B0A3CF117CB80870058B620 /* AlbumPhotoBrowserDelegate.m */,
 			);
@@ -2370,6 +2384,7 @@
 		AAF05CD216CB287F005BCFD3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				28F877B817D240210051F528 /* SideMenu */,
 				28E94C2017C2BA3B00874BDE /* Social */,
 				04C407E517303E9200973BC0 /* Registration */,
 				AA12881316CB8774002AC699 /* Albums */,
@@ -2801,7 +2816,7 @@
 				042E285B17309857003BA9CF /* imageUnselected.png in Resources */,
 				042E285D17309857003BA9CF /* imageSelected@2x.png in Resources */,
 				042E285F17309857003BA9CF /* imageSelected.png in Resources */,
-				04E287F9173176F00044C17A /* CaptureSelectImagesViewController.xib in Resources */,
+				04E287F9173176F00044C17A /* SVImagePickerSelector.xib in Resources */,
 				2045764A178CB57C00E2CDBB /* contactsStreachableButton_normal@2x.png in Resources */,
 				20457651178CCDA400E2CDBB /* contactsStreachableButton_normal.png in Resources */,
 				2897381F17A123A1003B18D3 /* videoIcon.png in Resources */,
@@ -2977,15 +2992,13 @@
 				AA66828E16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */,
 				AA234853177AA3F600D55918 /* AFPropertyListRequestOperation.m in Sources */,
 				04CD9CE216CDF15A00FC72B3 /* SVPhotoViewerController.m in Sources */,
-				04734F2416CEC1B1003F729B /* SVSidebarAlbumMemberViewController.m in Sources */,
+				04734F2416CEC1B1003F729B /* SVSidebarMemberController.m in Sources */,
 				AA234851177AA3F600D55918 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				AA23484B177AA3F600D55918 /* AFHTTPRequestOperation.m in Sources */,
 				AA234857177AA3F600D55918 /* AFXMLRequestOperation.m in Sources */,
 				AA234859177AA3F600D55918 /* UIImageView+AFNetworking.m in Sources */,
 				AA23484F177AA3F600D55918 /* AFJSONRequestOperation.m in Sources */,
-				04734F2F16CF104F003F729B /* MFSideMenu.m in Sources */,
-				04734F3116CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */,
-				041A13ED1706882D00E66B78 /* SVSidebarAlbumManagementViewController.m in Sources */,
+				041A13ED1706882D00E66B78 /* SVSidebarManagementController.m in Sources */,
 				04AB0AB21708114800C5300B /* NSDate+Formatting.m in Sources */,
 				AA78D2B017172BC0006E1240 /* SVBusinessDelegate.m in Sources */,
 				AA78D2B417172BCF006E1240 /* SVOfflineStorageWS.m in Sources */,
@@ -3003,7 +3016,7 @@
 				04C4080217305E7C00973BC0 /* NBPhoneNumberDesc.m in Sources */,
 				04C4080417305E7C00973BC0 /* NBPhoneNumberUtil.m in Sources */,
 				AA23484D177AA3F600D55918 /* AFImageRequestOperation.m in Sources */,
-				04E287F7173176F00044C17A /* CaptureSelectImagesViewController.m in Sources */,
+				04E287F7173176F00044C17A /* SVImagePickerSelector.m in Sources */,
 				0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
@@ -3070,6 +3083,9 @@
 				3B0A3CEB17CB759A0058B620 /* MWZoomingScrollView.m in Sources */,
 				3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */,
 				3B0A3CF217CB80870058B620 /* AlbumPhotoBrowserDelegate.m in Sources */,
+				28F877B517D1BB4B0051F528 /* MFSideMenuContainerViewController.m in Sources */,
+				28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */,
+				28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,6 +15,9 @@
 #import "SVDefines.h"
 #import "SVAlbumListViewController.h"
 #import "SVRegistrationViewController.h"
+#import "MFSideMenu.h"
+#import "SVSidebarManagementController.h"
+#import "SVSidebarMemberController.h"
 
 #import "UserSettings.h"
 #import "ShotVibeAPI.h"
@@ -22,7 +25,9 @@
 #import "AlbumManager.h"
 
 @interface ShotVibeAppDelegate ()
-
+@property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
+@property (nonatomic, strong) SVSidebarManagementController *sidebarLeft;
+@property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
 @end
 
 
@@ -127,8 +132,6 @@ NSDictionary * parseQueryParameters(NSString * query)
     [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
 #endif
 
-    NSLog(@"didFinishLaunchingWithOptions");
-
     ShotVibeAPI *shotvibeAPI = [[ShotVibeAPI alloc] initWithAuthData:[UserSettings getAuthData]];
     ShotVibeDB *shotvibeDB = [[ShotVibeDB alloc] init];
 
@@ -146,7 +149,20 @@ NSDictionary * parseQueryParameters(NSString * query)
     registrationViewController.albumManager = albumManager;
     registrationViewController.pushNotificationsManager = pushNotificationsManager;
 
-
+	// Initialize the sidebar menu
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
+	//self.sidebarRight.parentController = self;
+	
+	self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
+	//self.sidebarLeft.parentController = self;
+	
+	self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
+																  leftMenuViewController:self.sidebarLeft
+																 rightMenuViewController:self.sidebarRight];
+	self.sideMenu.panMode = MFSideMenuPanModeNone;
+	self.window.rootViewController = self.sideMenu;
+	
 	[SVInitializationBD initialize];
 
     if (shotvibeAPI.authData) {
@@ -207,11 +223,11 @@ NSString * deviceDescription()
     else {
         // The following casts will work because of the way the MainStoryboard is set up.
 
-        NSAssert([self.window.rootViewController isKindOfClass:[UINavigationController class]], @"Error");
-        UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-
-        NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
-        SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
+        NSAssert([self.window.rootViewController isKindOfClass:[MFSideMenuContainerViewController class]], @"Error");
+        MFSideMenuContainerViewController *sideMenu = (MFSideMenuContainerViewController *)self.window.rootViewController;
+		UINavigationController *nav = (UINavigationController*)sideMenu.centerViewController;
+        NSAssert([nav.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
+        SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)nav.visibleViewController;
 
         if (registrationInfo.startWithAuth) {
             AuthData *authData = [[AuthData alloc] initWithUserID:registrationInfo.userId

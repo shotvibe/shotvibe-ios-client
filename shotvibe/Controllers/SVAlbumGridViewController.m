@@ -7,14 +7,13 @@
 //
 
 #import "SVAlbumGridViewController.h"
+#import "MFSideMenu.h"
 #import "SVEntityStore.h"
 #import "SVDefines.h"
 #import "RCImageView.h"
 #import "SVPhotoViewerController.h"
-#import "SVSidebarAlbumMemberViewController.h"
-#import "MFSideMenu.h"
-#import "UINavigationController+MFSideMenu.h"
-#import "SVSidebarAlbumManagementViewController.h"
+#import "SVSidebarMemberController.h"
+#import "SVSidebarManagementController.h"
 #import "SVBusinessDelegate.h"
 #import "SVSettingsViewController.h"
 #import "CaptureNavigationController.h"
@@ -29,7 +28,7 @@
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
 
-@property (nonatomic, strong) MFSideMenu *sauronTheSideMenu;
+@property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
 @property (nonatomic, strong) IBOutlet UIView *noPhotosView;
@@ -102,7 +101,7 @@
         //SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         //destination.selectedAlbum = self.selectedAlbum;
 		
-		//[self.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
+		//[self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
     }
 }
 
@@ -138,21 +137,9 @@
 	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
 	self.navigationItem.backBarButtonItem = backButton;
 	
-	// Initialize the sidebar menu
-	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
-	self.sidebarRight.parentController = self;
-
-	self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
-	self.sidebarLeft.parentController = self;
 	
-	self.sauronTheSideMenu = [MFSideMenu menuWithNavigationController:self.navigationController
-											   leftSideMenuController:self.sidebarLeft
-											  rightSideMenuController:self.sidebarRight
-															  panMode:MFSideMenuPanModeNavigationController];
-	
-	[self.navigationController setSideMenu:self.sauronTheSideMenu];
-	[self configureMenuForOrientation:self.interfaceOrientation];
+//	self.sidebarRight.parentController = self;
+//	self.sidebarLeft.parentController = self;
 	
 	refresh = [[UIRefreshControl alloc] init];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
@@ -163,7 +150,7 @@
 }
 
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[self.gridView reloadData];
 }
@@ -171,28 +158,24 @@
     [super viewDidAppear:animated];
 	
 	// Restore the sidemenu state, when is hide it loses x position
-	NSLog(@"viewDidappear %i", self.navigationController.sideMenu.menuState);
-	if (self.navigationController.sideMenu.menuState != MFSideMenuStateClosed) {
-		[self.navigationController.sideMenu setMenuState:self.navigationController.sideMenu.menuState];
+	//NSLog(@"viewDidappear %i", self.menuContainerViewController.menuState);
+	if (self.menuContainerViewController.menuState != MFSideMenuStateClosed) {
+		[self.menuContainerViewController setMenuState:self.menuContainerViewController.menuState];
 	}
-	//self.sauronTheSideMenu.panMode = MFSideM;
+	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 }
-- (void)viewDidDisappear:(BOOL)animated {
-	
-	//self.sauronTheSideMenu.panMode = MFSideMenuPanModeNone;
-}
+//- (void)viewDidDisappear:(BOOL)animated {
+//	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
+//}
 
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{    
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {    
     [self configureMenuForOrientation:self.interfaceOrientation];
 }
 
-
-- (BOOL)shouldAutorotate
-{
-	//UIViewController *visibleController = self.navigationController.visibleViewController;
-    return YES;
+- (BOOL)shouldAutorotate {
+	return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -215,8 +198,6 @@
 #pragma mark camera delegate
 
 - (void)cameraExit {
-	
-	NSLog(@"CAMERA EXIT, do nothing");
 	cameraNavController = nil;
 }
 
@@ -356,7 +337,7 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    if (self.sauronTheSideMenu.menuState == MFSideMenuStateClosed) {
+    if (self.sideMenu.menuState == MFSideMenuStateClosed) {
         // kill all the recognizers while we're scrolling content
 //        while (self.navigationController.view.gestureRecognizers.count) {
 //            [self.navigationController.view removeGestureRecognizer:[self.navigationController.view.gestureRecognizers objectAtIndex:0]];
@@ -367,135 +348,43 @@
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if (self.sauronTheSideMenu.menuState == MFSideMenuStateClosed) {
-        //[self.sauronTheSideMenu setupGestureRecognizers];
+    if (self.sideMenu.menuState == MFSideMenuStateClosed) {
+        //[self.sideMenu setupGestureRecognizers];
     }
 }
 
-
-#pragma mark NSFetchedResultsControllerDelegate methods
-/*
-- (void)controller:(NSFetchedResultsController *)controller
-  didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex
-	 forChangeType:(NSFetchedResultsChangeType)type
-{
-    
-    NSMutableDictionary *change = [NSMutableDictionary new];
-    
-    switch(type) {
-        case NSFetchedResultsChangeInsert:
-            change[@(type)] = @(sectionIndex);
-            break;
-        case NSFetchedResultsChangeDelete:
-            change[@(type)] = @(sectionIndex);
-            break;
-    }
-    
-    [_sectionChanges addObject:change];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller
-   didChangeObject:(id)anObject
-       atIndexPath:(NSIndexPath *)indexPath
-	 forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath
-{
-    
-    NSMutableDictionary *change = [NSMutableDictionary new];
-    switch(type)
-    {
-        case NSFetchedResultsChangeInsert:
-            change[@(type)] = newIndexPath;
-            break;
-        case NSFetchedResultsChangeDelete:
-            change[@(type)] = indexPath;
-            break;
-        case NSFetchedResultsChangeUpdate:
-            change[@(type)] = indexPath;
-            break;
-        case NSFetchedResultsChangeMove:
-            change[@(type)] = @[indexPath, newIndexPath];
-            break;
-    }
-    [_objectChanges addObject:change];
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-	NSLog(@"SVAlbumGrid controllerDidChangeContent");
-	if (self.isViewLoaded && self.view.window){
-		// viewController is visible
-	}
-	else return;
-    
-    if ([_objectChanges count] > 0)
-    {
-		[self.gridView performBatchUpdates:^{
-			
-			for (NSDictionary *change in _objectChanges)
-			{
-				[change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
-					
-					NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-					switch (type)
-					{
-						case NSFetchedResultsChangeInsert:
-							NSLog(@"insert");
-							[self.gridView insertItemsAtIndexPaths:@[obj]];
-							//[[SVUploadManager sharedManager] upload];
-							break;
-						case NSFetchedResultsChangeDelete:
-							NSLog(@"delete");
-							[self.gridView deleteItemsAtIndexPaths:@[obj]];
-							//[[SVUploadManager sharedManager] deletePhotos];
-							break;
-						case NSFetchedResultsChangeUpdate:
-							NSLog(@"update");
-							[self.gridView reloadItemsAtIndexPaths:@[obj]];
-							break;
-						case NSFetchedResultsChangeMove:
-							NSLog(@"move");
-							[self.gridView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
-							break;
-					}
-				}];
-			}
-		} completion:nil];
-    }
-    
-    [_sectionChanges removeAllObjects];
-    [_objectChanges removeAllObjects];
-}
-*/
 
 
 #pragma mark - Private Methods
 
 - (void)toggleMenu
 {
-    [self.navigationController.sideMenu toggleRightSideMenu];
+    [self.menuContainerViewController toggleRightSideMenuCompletion:^{
+		
+	}];
 }
 
 - (void)toggleManagement
 {
-    [self.navigationController.sideMenu toggleLeftSideMenu];
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:^{
+		
+	}];
 }
 
 - (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation
 {
 	NSLog(@"configureMenuForOrientation");
 	//return;
-    CGRect rightFrame = self.navigationController.sideMenu.rightSideMenuViewController.view.frame;
+    CGRect rightFrame = self.menuContainerViewController.rightMenuViewController.view.frame;
     rightFrame.size.height = 300;
-    rightFrame.origin.x = 320 - kMFSideMenuSidebarWidth;
-    rightFrame.size.width = kMFSideMenuSidebarWidth;
+    rightFrame.origin.x = 320 - self.menuContainerViewController.rightMenuWidth;
+    rightFrame.size.width = self.menuContainerViewController.rightMenuWidth;
     rightFrame.origin.y = 20;
     
-    CGRect leftFrame = self.navigationController.sideMenu.leftSideMenuViewController.view.frame;
+    CGRect leftFrame = self.menuContainerViewController.leftMenuViewController.view.frame;
     leftFrame.size.height = 300;
     leftFrame.origin.x = 0;
-    leftFrame.size.width = kMFSideMenuSidebarWidth;
+    leftFrame.size.width = self.menuContainerViewController.leftMenuWidth;
     leftFrame.origin.y = 20;
     
     switch (orientation) {
@@ -522,22 +411,22 @@
 			
         case UIInterfaceOrientationLandscapeLeft:
             if (IS_IPHONE_5) {
-                rightFrame.origin.x = 568 - kMFSideMenuSidebarWidth;
+                rightFrame.origin.x = 568 - self.menuContainerViewController.leftMenuWidth;
             } else {
-                rightFrame.origin.x = 480 - kMFSideMenuSidebarWidth;
+                rightFrame.origin.x = 480 - self.menuContainerViewController.leftMenuWidth;
             }
             break;
         case UIInterfaceOrientationLandscapeRight:
             if (IS_IPHONE_5) {
-                rightFrame.origin.x = 568 - kMFSideMenuSidebarWidth;
+                rightFrame.origin.x = 568 - self.menuContainerViewController.rightMenuWidth;
             } else {
-                rightFrame.origin.x = 480 - kMFSideMenuSidebarWidth;
+                rightFrame.origin.x = 480 - self.menuContainerViewController.rightMenuWidth;
             }
             break;
     }
     
-    self.navigationController.sideMenu.rightSideMenuViewController.view.frame = rightFrame;
-    self.navigationController.sideMenu.leftSideMenuViewController.view.frame = leftFrame;
+    self.menuContainerViewController.rightMenuViewController.view.frame = rightFrame;
+    self.menuContainerViewController.leftMenuViewController.view.frame = leftFrame;
 
 }
 

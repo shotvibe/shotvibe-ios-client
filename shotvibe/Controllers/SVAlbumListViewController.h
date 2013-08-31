@@ -22,6 +22,7 @@
 #import "SVBusinessDelegate.h"
 #import "AlbumListListener.h"
 #import "AlbumManager.h"
+#import "MFSideMenu.h"
 
 @interface SVAlbumListViewController : UIViewController <UITableViewDataSource,
 UITableViewDelegate,

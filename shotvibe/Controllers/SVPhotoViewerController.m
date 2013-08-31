@@ -8,8 +8,6 @@
 
 #import "SVPhotoViewerController.h"
 #import "SVDefines.h"
-#import "UINavigationController+MFSideMenu.h"
-#import "MFSideMenu.h"
 #import "SVBusinessDelegate.h"
 #import "AlbumMember.h"
 #import "AlbumPhoto.h"
@@ -441,7 +439,7 @@
 
 - (void)toggleMenu
 {
-    [self.navigationController.sideMenu toggleRightSideMenu];
+    //[self.navigationController.sideMenu toggleRightSideMenu];
 }
 
 

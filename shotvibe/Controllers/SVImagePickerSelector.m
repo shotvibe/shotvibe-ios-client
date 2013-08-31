@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "CaptureSelectImagesViewController.h"
+#import "SVImagePickerSelector.h"
 
 #import "PhotoUploadRequest.h"
 
-@implementation CaptureSelectImagesViewController
+@implementation SVImagePickerSelector
 
 
 - (void) setLibraryPhotos:(NSArray *)libraryPhotos {

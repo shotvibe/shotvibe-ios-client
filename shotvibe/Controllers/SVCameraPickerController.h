@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AlbumSummary.h"
-#import "CaptureSelectImagesViewController.h"
+#import "SVImagePickerSelector.h"
 #import "SVCameraPickerDelegate.h"
 #import "PhotoUploadRequest.h"
 

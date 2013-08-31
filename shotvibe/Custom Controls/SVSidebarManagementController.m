@@ -6,12 +6,13 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import "SVSidebarManagementController.h"
 #import "AlbumSummary.h"
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
-#import "SVSidebarAlbumManagementViewController.h"
+#import "MFSideMenu.h"
 
-@interface SVSidebarAlbumManagementViewController ()
+@interface SVSidebarManagementController ()
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
@@ -23,14 +24,14 @@
 
 @end
 
-@implementation SVSidebarAlbumManagementViewController
+@implementation SVSidebarManagementController
 
 
 #pragma mark - Actions
 
 - (IBAction)settingsButtonPressed:(id)sender
 {
-	[self.parentController.navigationController.sideMenu setMenuState:MFSideMenuStateClosed];
+	[self.parentController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
     [self.parentController performSegueWithIdentifier:@"SettingsSegue" sender:nil];
 }
 - (IBAction)sharePressed:(id)sender {

@@ -9,12 +9,12 @@
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "SVSidebarAlbumMemberCell.h"
-#import "SVSidebarAlbumMemberViewController.h"
+#import "SVSidebarMemberController.h"
 #import "UIImageView+WebCache.h"
 
 #import "AlbumMember.h"
 
-@interface SVSidebarAlbumMemberViewController ()
+@interface SVSidebarMemberController ()
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation SVSidebarAlbumMemberViewController
+@implementation SVSidebarMemberController
 
 #pragma mark - Actions
 

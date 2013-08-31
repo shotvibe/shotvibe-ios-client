@@ -10,7 +10,7 @@
 #import "SVImagePickerListViewController.h"
 #import "SVBusinessDelegate.h"
 #import "SVAlbumListViewCell.h"
-#import "CaptureSelectImagesViewController.h"
+#import "SVImagePickerSelector.h"
 
 @interface SVImagePickerListViewController ()
 
@@ -103,7 +103,7 @@
     // Grab relevant album asset urls
     [SVBusinessDelegate loadAllAssetsForAlbumGroup:selectedGroup WithCompletion:^(NSArray *assets, NSError *error) {
 		
-        CaptureSelectImagesViewController *selectImagesViewController = [[CaptureSelectImagesViewController alloc] initWithNibName:@"CaptureSelectImagesViewController" bundle:[NSBundle mainBundle]];
+        SVImagePickerSelector *selectImagesViewController = [[SVImagePickerSelector alloc] initWithNibName:@"CaptureSelectImagesViewController" bundle:[NSBundle mainBundle]];
 
         selectImagesViewController.albumId = self.albumId;
         selectImagesViewController.albumManager = self.albumManager;
