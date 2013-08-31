@@ -7,7 +7,6 @@
 //
 
 #import "SVAlbumGridViewController.h"
-#import "SVEntityStore.h"
 #import "SVDefines.h"
 #import "RCImageView.h"
 #import "SVPhotoViewerController.h"
@@ -15,7 +14,6 @@
 #import "MFSideMenu.h"
 #import "UINavigationController+MFSideMenu.h"
 #import "SVSidebarAlbumManagementViewController.h"
-#import "SVBusinessDelegate.h"
 #import "SVSettingsViewController.h"
 #import "CaptureNavigationController.h"
 #import "SVCameraPickerController.h"

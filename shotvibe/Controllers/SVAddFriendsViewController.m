@@ -58,11 +58,13 @@
 		
 		// send request
 		
+        /*
 		[[SVEntityStore sharedStore] invitePhoneNumbers:phoneNumbers toAlbumId:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error) {
 			
 			NSLog(@"invite sent - success/error:  %i %@", success, error);
 			[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 		}];
+         */
 	}
 }
 

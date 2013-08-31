@@ -14,7 +14,6 @@
 #import "SVCameraPickerDelegate.h"
 #import "SVSelectionGridCell.h"
 #import "CameraRollSection.h"
-#import "SVBusinessDelegate.h"
 #import "AlbumManager.h"
 #import "AlbumSummary.h"
 

@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "SVAlbumListViewController.h"
-#import "SVBusinessDelegate.h"
 #import "SVDefines.h"
 #import "SVNoCodeViewController.h"
 #import "SVPushNotificationsManager.h"

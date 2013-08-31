@@ -10,7 +10,6 @@
 #import "SVSidebarAlbumManagementActivityCell.h"
 #import "SVSidebarAlbumManagementSection.h"
 #import "SVSidebarAlbumSection.h"
-#import "SVBusinessDelegate.h"
 #import "MFSideMenu.h"
 #import "UINavigationController+MFSideMenu.h"
 

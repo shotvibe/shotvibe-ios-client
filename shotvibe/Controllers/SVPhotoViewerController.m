@@ -10,7 +10,6 @@
 #import "SVDefines.h"
 #import "UINavigationController+MFSideMenu.h"
 #import "MFSideMenu.h"
-#import "SVBusinessDelegate.h"
 #import "AlbumMember.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"

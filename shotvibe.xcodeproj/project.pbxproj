@@ -579,11 +579,8 @@
 		AA58FD0516C2364B00C49E02 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FD0416C2364B00C49E02 /* CoreLocation.framework */; };
 		AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */; };
 		AA66828E16CCA7C80005BFFC /* SVAlbumGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */; };
-		AA78D2B017172BC0006E1240 /* SVBusinessDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */; };
-		AA78D2B417172BCF006E1240 /* SVOfflineStorageWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */; };
 		AA78D2C817172C67006E1240 /* dropDownField.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C217172C67006E1240 /* dropDownField.png */; };
 		AA78D2CA17172C67006E1240 /* dropDownField@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C317172C67006E1240 /* dropDownField@2x.png */; };
-		AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */; };
 		AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
 		AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E616C457F000BAC7E1 /* Security.framework */; };
 		AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */; };
@@ -1285,14 +1282,8 @@
 		AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		AA66828C16CCA7C80005BFFC /* SVAlbumGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumGridViewController.h; sourceTree = "<group>"; };
 		AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumGridViewController.m; sourceTree = "<group>"; };
-		AA78D2AE17172BC0006E1240 /* SVBusinessDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVBusinessDelegate.h; sourceTree = "<group>"; };
-		AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVBusinessDelegate.m; sourceTree = "<group>"; };
-		AA78D2B217172BCF006E1240 /* SVOfflineStorageWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVOfflineStorageWS.h; sourceTree = "<group>"; };
-		AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVOfflineStorageWS.m; sourceTree = "<group>"; };
 		AA78D2C217172C67006E1240 /* dropDownField.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropDownField.png; sourceTree = "<group>"; };
 		AA78D2C317172C67006E1240 /* dropDownField@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropDownField@2x.png"; sourceTree = "<group>"; };
-		AACB11C916C454A000BAC7E1 /* SVEntityStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVEntityStore.h; sourceTree = "<group>"; };
-		AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVEntityStore.m; sourceTree = "<group>"; };
 		AACB11E416C457DC00BAC7E1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AACB11E616C457F000BAC7E1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AAEB9CDD171648A000439939 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -2120,7 +2111,6 @@
 				AA58FB6D16C22B0400C49E02 /* Delegates */,
 				AACB11C616C4543700BAC7E1 /* Models */,
 				043473961705F42300CFE564 /* Resources */,
-				AACB11C816C4547B00BAC7E1 /* Stores */,
 				AA58FB7516C22B0400C49E02 /* Vendor */,
 				AA58FB3816C227F500C49E02 /* Views */,
 				AA58FB0116C224E800C49E02 /* Supporting Files */,
@@ -2231,8 +2221,6 @@
 		AA58FB8C16C233FA00C49E02 /* Business Delegates */ = {
 			isa = PBXGroup;
 			children = (
-				AA78D2AE17172BC0006E1240 /* SVBusinessDelegate.h */,
-				AA78D2AF17172BC0006E1240 /* SVBusinessDelegate.m */,
 				AA58FB8E16C2341200C49E02 /* SVInitializationBD.h */,
 				AA58FB8F16C2341200C49E02 /* SVInitializationBD.m */,
 				04204EFD178B48CB001FE127 /* SVAddressBookBD.h */,
@@ -2267,8 +2255,6 @@
 				0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */,
 				AA58FB9216C2341C00C49E02 /* SVInitializationWS.h */,
 				AA58FB9316C2341C00C49E02 /* SVInitializationWS.m */,
-				AA78D2B217172BCF006E1240 /* SVOfflineStorageWS.h */,
-				AA78D2B317172BCF006E1240 /* SVOfflineStorageWS.m */,
 				04C36BC3177D047500EB97E0 /* SVURLBuilderWS.h */,
 				04C36BC4177D047500EB97E0 /* SVURLBuilderWS.m */,
 				04204F01178B48ED001FE127 /* SVAddressBookWS.h */,
@@ -2343,15 +2329,6 @@
 				3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		AACB11C816C4547B00BAC7E1 /* Stores */ = {
-			isa = PBXGroup;
-			children = (
-				AACB11C916C454A000BAC7E1 /* SVEntityStore.h */,
-				AACB11CA16C454A000BAC7E1 /* SVEntityStore.m */,
-			);
-			path = Stores;
 			sourceTree = "<group>";
 		};
 		AAF05CD216CB287F005BCFD3 /* Controllers */ = {
@@ -2956,7 +2933,6 @@
 				AA58FB9016C2341200C49E02 /* SVInitializationBD.m in Sources */,
 				AA58FB9416C2341C00C49E02 /* SVInitializationWS.m in Sources */,
 				04F11575178FA5D200B26C85 /* SVSelectionGridCell.m in Sources */,
-				AACB11CB16C454A000BAC7E1 /* SVEntityStore.m in Sources */,
 				AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */,
 				AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */,
 				AA12881116CB876A002AC699 /* SVAlbumListViewCell.m in Sources */,
@@ -2973,8 +2949,6 @@
 				04734F3116CF104F003F729B /* UINavigationController+MFSideMenu.m in Sources */,
 				041A13ED1706882D00E66B78 /* SVSidebarAlbumManagementViewController.m in Sources */,
 				04AB0AB21708114800C5300B /* NSDate+Formatting.m in Sources */,
-				AA78D2B017172BC0006E1240 /* SVBusinessDelegate.m in Sources */,
-				AA78D2B417172BCF006E1240 /* SVOfflineStorageWS.m in Sources */,
 				0446EF021718927B00ED0076 /* SVSidebarAlbumMemberCell.m in Sources */,
 				0446EF061718A41700ED0076 /* SVAddFriendsViewController.m in Sources */,
 				0499B855171DD27B00050596 /* SVSettingsViewController.m in Sources */,

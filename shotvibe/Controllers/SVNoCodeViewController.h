@@ -10,7 +10,6 @@
 #import "SVCountriesViewController.h"
 #import "SVConfirmationCodeViewController.h"
 #import "SVAlbumListViewController.h"
-#import "SVBusinessDelegate.h"
 #import "SVDefines.h"
 
 @interface SVNoCodeViewController : UIViewController <UITextFieldDelegate, SVCountriesDelegate> {
