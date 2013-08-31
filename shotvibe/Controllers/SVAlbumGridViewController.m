@@ -13,7 +13,6 @@
 #import "SVPhotoViewerController.h"
 #import "SVSidebarMemberController.h"
 #import "SVSidebarManagementController.h"
-#import "SVBusinessDelegate.h"
 #import "SVSettingsViewController.h"
 #import "CaptureNavigationController.h"
 #import "SVCameraPickerController.h"
