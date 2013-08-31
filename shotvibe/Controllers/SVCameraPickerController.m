@@ -112,15 +112,17 @@
 
 - (void)didReceiveMemoryWarning
 {
-    self.butShutter.enabled = NO;
-    
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Low Memory", @"")
-														message:NSLocalizedString(@"You need to upload some of the pictures you've taken before you can take more!", @"")
-													   delegate:nil
-											  cancelButtonTitle:NSLocalizedString(@"OK", @"")
-											  otherButtonTitles:nil];
+	[super didReceiveMemoryWarning];
 	
-	[alertView show];
+//    self.butShutter.enabled = NO;
+//    
+//	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Low Memory", @"")
+//														message:NSLocalizedString(@"You need to upload some of the pictures you've taken before you can take more!", @"")
+//													   delegate:nil
+//											  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+//											  otherButtonTitles:nil];
+//	
+//	[alertView show];
 }
 
 
@@ -247,25 +249,47 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
 	
-	self.butShutter.enabled = YES;
-	
-    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
-	NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", self.capturedImages.count]];
-	
-	dispatch_async(dispatch_get_global_queue(0, 0), ^{
-		NSData *imageData = UIImageJPEGRepresentation(image, 0.9);
-		[imageData writeToFile:filePath atomically:YES];
-	});
-    
-    // Grab image data
-    UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    animatedImageView.image = image;
-    [self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
-	
 	UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
 	if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
 		self.topBarContainer.hidden = YES;
 	}
+	
+	self.butShutter.enabled = YES;
+	
+    UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+	__block UIImage *thumbImage;
+	NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", self.capturedImages.count]];
+	NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.png", self.capturedImages.count]];
+	
+	dispatch_async(dispatch_get_global_queue(0, 0), ^{
+		
+		if ([UIImageJPEGRepresentation(originalImage, 0.9) writeToFile:filePath atomically:YES]) {
+			
+			CGSize newSize = CGSizeMake(200, 200);
+			
+			float oldWidth = originalImage.size.width;
+			float scaleFactor = newSize.width / oldWidth;
+			
+			float newHeight = originalImage.size.height * scaleFactor;
+			float newWidth = oldWidth * scaleFactor;
+			
+			UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+			[originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+			thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+			UIGraphicsEndImageContext();
+			
+			[UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				self.albumPreviewImage.image = thumbImage;
+			});
+		}
+	});
+    
+    // Grab image data
+    UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    animatedImageView.image = originalImage;
+    [self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
 	
 	// Animation not working, TODO
     [UIView animateWithDuration:0.6 animations:^{
@@ -275,7 +299,7 @@
         animatedImageView.frame = f;
     }
 	completion:^(BOOL finished) {
-        self.albumPreviewImage.image = image;
+        
         [self.capturedImages addObject:filePath];
         self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
         [animatedImageView removeFromSuperview];
@@ -391,24 +415,15 @@
 	
 	dispatch_async(dispatch_get_global_queue(0,0),^{
 		
-		UIImage *image = [[UIImage alloc] init];
-		// Images taken by camera
-		UIImage *large_image = [UIImage imageWithContentsOfFile:[self.capturedImages objectAtIndex:indexPath.row]];
-		
-		float oldWidth = large_image.size.width;
-		float scaleFactor = cell.imageView.frame.size.width / oldWidth;
-		
-		float newHeight = large_image.size.height * scaleFactor;
-		float newWidth = oldWidth * scaleFactor;
-		
-		UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-		[image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-		image = UIGraphicsGetImageFromCurrentImageContext();
-		UIGraphicsEndImageContext();
-		NSLog(@"image taken by camera %@ %@", [self.capturedImages objectAtIndex:indexPath.row], NSStringFromCGSize(image.size));
+		NSMutableString *thumbPath = [NSMutableString stringWithString:self.capturedImages[indexPath.row]];
+		[thumbPath replaceOccurrencesOfString:@".png"
+								   withString:@"_thumb.png"
+									  options:NSLiteralSearch
+										range:NSMakeRange(0, [thumbPath length])];
+		UIImage *thumbImage = [UIImage imageWithContentsOfFile:thumbPath];
 		
 		dispatch_async(dispatch_get_main_queue(),^{
-			cell.imageView.image = large_image;
+			cell.imageView.image = thumbImage;
 		});
 	});
 	
