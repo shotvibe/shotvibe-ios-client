@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SVEntityStore.h"
 #import "AlbumSummary.h"
 #import "SVContactCell.h"
 

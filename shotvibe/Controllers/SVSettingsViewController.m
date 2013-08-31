@@ -18,7 +18,6 @@
 //#import "Album.h"
 //#import "AlbumPhoto.h"
 //#import "Member.h"
-#import "SVEntityStore.h"
 
 @interface SVSettingsViewController ()
 
@@ -139,7 +138,7 @@
 		
 
 		// Delete the database and the photos
-		[[SVEntityStore sharedStore] wipe];
+		//[[SVEntityStore sharedStore] wipe];
 		
 		// Grab the storyboard
 		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];

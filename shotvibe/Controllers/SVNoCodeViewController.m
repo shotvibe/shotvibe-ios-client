@@ -146,6 +146,7 @@
 		cc = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
 	
 	NSLog(@"submit %@ %@", cc, phoneNumber);
+    /*
 	[SVBusinessDelegate registerPhoneNumber:phoneNumber withCountryCode:cc WithCompletion:^(BOOL success, NSString *confirmationCode, NSError *error) {
 		
 		NSLog(@"received confirmationCode %@", confirmationCode);
@@ -171,6 +172,7 @@
 		}
 		
 	}];
+     */
 }
 
 

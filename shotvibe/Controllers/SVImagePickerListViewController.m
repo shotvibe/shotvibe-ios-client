@@ -8,7 +8,7 @@
 
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "SVImagePickerListViewController.h"
-#import "SVBusinessDelegate.h"
+#import "SVAssetRetrievalWS.h"
 #import "SVAlbumListViewCell.h"
 #import "SVImagePickerSelector.h"
 
@@ -101,7 +101,7 @@
     __block ALAssetsGroup *selectedGroup = [self.albums objectAtIndex:indexPath.row];
     
     // Grab relevant album asset urls
-    [SVBusinessDelegate loadAllAssetsForAlbumGroup:selectedGroup WithCompletion:^(NSArray *assets, NSError *error) {
+    [SVAssetRetrievalWS loadAllAssetsForAlbumGroup:selectedGroup WithCompletion:^(NSArray *assets, NSError *error) {
 		
         SVImagePickerSelector *selectImagesViewController = [[SVImagePickerSelector alloc] initWithNibName:@"CaptureSelectImagesViewController" bundle:[NSBundle mainBundle]];
 
@@ -122,7 +122,7 @@
 
 - (void)gatherLocalAlbums
 {
-    [SVBusinessDelegate loadAllLocalAlbumsOnDeviceWithCompletion:^(NSArray *albums, NSError *error) {
+    [SVAssetRetrievalWS loadAllLocalAlbumsOnDeviceWithCompletion:^(NSArray *albums, NSError *error) {
         if (!error) {
             NSLog(@"Grabbed %i Albums", albums.count);
             self.albums = [[NSArray alloc] initWithArray:albums];

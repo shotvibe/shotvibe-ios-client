@@ -10,7 +10,7 @@
 #import "SVSidebarAlbumManagementActivityCell.h"
 #import "SVSidebarAlbumManagementSection.h"
 #import "SVSidebarAlbumSection.h"
-#import "SVBusinessDelegate.h"
+#import "MFSideMenu.h"
 
 @class SVAlbumGridViewController;
 

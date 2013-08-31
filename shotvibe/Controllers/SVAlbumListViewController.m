@@ -196,8 +196,6 @@
     if (tappedCell != nil) {
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 	}
-
-	//[[SVDownloadManager sharedManager] download];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -308,87 +306,7 @@
 		[cell.networkImageView setImage:[UIImage imageNamed:@"placeholderImage"]];
 	}
 
-    //////////////
     return cell;
-	
-//	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0),^{
-//		
-//	if (cell.tag == tagIndex.row) {
-//			
-////		NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
-////		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", album.albumId, SVObjectSyncDeleteNeeded];
-////		NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
-////		fetchRequest.sortDescriptors = @[datecreatedDescriptor];
-////		fetchRequest.predicate = predicate;
-////		
-////		NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-////																								   managedObjectContext:[NSManagedObjectContext defaultContext]
-////																									 sectionNameKeyPath:nil
-////																											  cacheName:nil];
-////		[fetchedResultsController performFetch:nil];
-//		NSArray *photos;// = [fetchedResultsController fetchedObjects];
-//			
-//		if (photos.count > 0) {
-//			
-//			__block AlbumPhoto *firstPhoto = [photos objectAtIndex:0];
-//			UIImage *image = [thumbnailCache objectForKey:firstPhoto.serverPhoto.photoId];
-//			
-//			if (!image) {
-//				__block NSString *photoId = firstPhoto.serverPhoto.photoId;
-//				[[SVEntityStore sharedStore] getImageForPhoto:firstPhoto WithCompletion:^(UIImage *network_image) {
-//					
-//					if (network_image) {
-//						
-//						dispatch_async(dispatch_get_main_queue(),^{
-//							cell.networkImageView.image = network_image;
-//							[thumbnailCache setObject:network_image forKey:photoId];
-//						});
-//					}
-//				}];
-//			}
-//			else {
-//				dispatch_async(dispatch_get_main_queue(),^{
-//					[cell.networkImageView setImage:image];
-//				});
-//			}
-//			
-//			dispatch_async(dispatch_get_main_queue(),^{
-//				@try {
-//				cell.author.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Last added by", @""), firstPhoto.serverPhoto.authorNickname];
-//				}
-//				@catch (NSException *exc) {
-//					NSLog(@"%@", exc);
-//				}
-//			});
-//		}
-//		else {
-//			dispatch_async(dispatch_get_main_queue(),^{
-//				[cell.networkImageView setImage:[UIImage imageNamed:@"placeholderImage"]];
-//			});
-//		}
-//		
-//		// Set the number of unviewed photos
-//			
-//		//NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND isNew == YES", anAlbum.albumId]];
-//        /*
-//		NSInteger numberNew = [AlbumPhoto countOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:@"album.albumId == %@ AND hasViewed == NO", anAlbum.albumId]];
-//        */
-//
-//        /*
-//		dispatch_async(dispatch_get_main_queue(),^{
-//			if (numberNew > 0 ) {
-//				[cell.numberNotViewedIndicator setHidden:NO];
-//				[cell.numberNotViewedIndicator setTitle:[NSString stringWithFormat:@"%i", numberNew] forState:UIControlStateNormal];
-//			}else{
-//				[cell.numberNotViewedIndicator setHidden:YES];
-//			}
-//		});
-//        */
-//		
-//	}
-//	});
-//	
-//    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -643,15 +561,6 @@
     */
 }
 
-
-- (void)downloadCompleted:(NSNotification *)notification
-{
-	NSLog(@"DOWNLOAD COMPLETE, start the upload process");
-    //[self.fetchedResultsController performFetch:nil];
-    //[self.tableView reloadData];
-	
-	//[[SVUploadManager sharedManager] upload];
-}
 
 -(void)setAlbumList:(NSArray *)albums
 {

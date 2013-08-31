@@ -8,7 +8,6 @@
 
 #import "SVRegistrationViewController.h"
 #import "SVAlbumListViewController.h"
-#import "SVBusinessDelegate.h"
 #import "SVDefines.h"
 #import "AlbumManager.h"
 

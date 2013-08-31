@@ -9,7 +9,6 @@
 #import "SVAddFriendsViewController.h"
 #import "SVAddressBookBD.h"
 #import "SVDefines.h"
-#import "SVHttpClient.h"
 
 
 @interface SVAddFriendsViewController ()<UISearchBarDelegate>
@@ -59,11 +58,13 @@
 		
 		// send request
 		
+        /*
 		[[SVEntityStore sharedStore] invitePhoneNumbers:phoneNumbers toAlbumId:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error) {
 			
 			NSLog(@"invite sent - success/error:  %i %@", success, error);
 			[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 		}];
+         */
 	}
 }
 

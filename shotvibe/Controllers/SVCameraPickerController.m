@@ -466,9 +466,11 @@
 	for (NSString *selectedPhotoPath in selectedPhotos) {
 		NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
 		if (photoData) {
+            /*
 			[SVBusinessDelegate saveUploadedPhotoImageData:photoData
 												forPhotoId:[[NSUUID UUID] UUIDString]
 											   withAlbumId:self.selectedAlbum.albumId];
+             */
 		}
 	}
 	

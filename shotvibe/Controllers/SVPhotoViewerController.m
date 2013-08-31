@@ -8,7 +8,7 @@
 
 #import "SVPhotoViewerController.h"
 #import "SVDefines.h"
-#import "SVBusinessDelegate.h"
+#import "MFSideMenu.h"
 #import "AlbumMember.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"

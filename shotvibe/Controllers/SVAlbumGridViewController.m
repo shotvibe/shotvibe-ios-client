@@ -8,7 +8,6 @@
 
 #import "SVAlbumGridViewController.h"
 #import "MFSideMenu.h"
-#import "SVEntityStore.h"
 #import "SVDefines.h"
 #import "RCImageView.h"
 #import "SVPhotoViewerController.h"
@@ -352,7 +351,6 @@
         //[self.sideMenu setupGestureRecognizers];
     }
 }
-
 
 
 #pragma mark - Private Methods
