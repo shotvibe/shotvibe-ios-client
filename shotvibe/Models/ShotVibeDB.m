@@ -96,8 +96,11 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
         // TODO hm...
         NSString *etag = nil;
 
-        // TODO Load the latest photos from the database
-        NSArray *latestPhotos = [[NSArray alloc] init];
+        const int NUM_LATEST_PHOTOS = 2;
+        NSArray *latestPhotos = [self getLatestPhotos:albumId numPhotos:NUM_LATEST_PHOTOS];
+        if (!latestPhotos) {
+            return nil;
+        }
 
         AlbumSummary *albumSummary = [[AlbumSummary alloc] initWithAlbumId:albumId
                                                                       etag:etag
@@ -106,6 +109,39 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
                                                                dateUpdated:lastUpdated
                                                               latestPhotos:latestPhotos];
         [results addObject:albumSummary];
+    }
+
+    return results;
+}
+
+// Returns a list of `AlbumPhoto` objects
+- (NSArray *)getLatestPhotos:(int64_t)albumId numPhotos:(int)numPhotos
+{
+    FMResultSet* s = [db executeQuery:@
+                      "SELECT photo_id, url, author_id, created"
+                      " FROM photo"
+                      " WHERE photo_album=?"
+                      " ORDER BY num DESC",
+                      [NSNumber numberWithLongLong:albumId]];
+    if (!s) {
+        return nil;
+    }
+
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    while ([s next]) {
+        NSString *photoId = [s stringForColumnIndex:0];
+        NSString *photoUrl = [s stringForColumnIndex:1];
+        int64_t photoAuthorUserId = [s longLongIntForColumnIndex:2];
+        NSString *photoAuthorNickname = @"TODO"; // TODO
+        NSDate *photoDateAdded = [s dateForColumnIndex:3];
+
+        AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
+                                                                                  url:photoUrl
+                                                                         authorUserId:photoAuthorUserId
+                                                                       authorNickname:photoAuthorNickname
+                                                                            dateAdded:photoDateAdded];
+        AlbumPhoto *photo = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
+        [results addObject:photo];
     }
 
     return results;
