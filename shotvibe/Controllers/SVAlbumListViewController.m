@@ -174,7 +174,7 @@
     self.imageLoadingQueue = [[NSOperationQueue alloc] init];
     self.imageLoadingQueue.maxConcurrentOperationCount = 1;
     thumbnailCache = [[NSMutableDictionary alloc] init];
-	self.searchbar.placeholder = NSLocalizedString(@"Search an album", nil);
+	self.searchbar.placeholder = NSLocalizedString(@"Search album", nil);
 	
     [self configureViews];
 	

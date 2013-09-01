@@ -35,7 +35,6 @@
 
 - (void)toggleMenu;
 - (void)toggleManagement;
-- (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation;
 - (IBAction)takeVideoPressed:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
 
@@ -135,9 +134,8 @@
 	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
 	self.navigationItem.backBarButtonItem = backButton;
 	
-	
-//	self.sidebarRight.parentController = self;
-//	self.sidebarLeft.parentController = self;
+	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = self;
+	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
 	
 	refresh = [[UIRefreshControl alloc] init];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
@@ -162,15 +160,9 @@
 	}
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 }
-//- (void)viewDidDisappear:(BOOL)animated {
-//	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
-//}
 
 
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {    
-    [self configureMenuForOrientation:self.interfaceOrientation];
-}
+#pragma mark Rotation
 
 - (BOOL)shouldAutorotate {
 	return YES;
@@ -366,65 +358,6 @@
     [self.menuContainerViewController toggleLeftSideMenuCompletion:^{
 		
 	}];
-}
-
-- (void)configureMenuForOrientation:(UIInterfaceOrientation)orientation
-{
-	NSLog(@"configureMenuForOrientation");
-	//return;
-    CGRect rightFrame = self.menuContainerViewController.rightMenuViewController.view.frame;
-    rightFrame.size.height = 300;
-    rightFrame.origin.x = 320 - self.menuContainerViewController.rightMenuWidth;
-    rightFrame.size.width = self.menuContainerViewController.rightMenuWidth;
-    rightFrame.origin.y = 20;
-    
-    CGRect leftFrame = self.menuContainerViewController.leftMenuViewController.view.frame;
-    leftFrame.size.height = 300;
-    leftFrame.origin.x = 0;
-    leftFrame.size.width = self.menuContainerViewController.leftMenuWidth;
-    leftFrame.origin.y = 20;
-    
-    switch (orientation) {
-        case UIInterfaceOrientationPortrait:
-            
-            if (IS_IPHONE_5) {
-                rightFrame.size.height = 548;
-                leftFrame.size.height = 548;
-            } else {
-                rightFrame.size.height = 460;
-                leftFrame.size.height = 460;
-            }
-            break;
-			
-        case UIInterfaceOrientationPortraitUpsideDown:
-            if (IS_IPHONE_5) {
-                rightFrame.size.height = 548;
-                leftFrame.size.height = 548;
-            } else {
-                rightFrame.size.height = 460;
-                leftFrame.size.height = 460;
-            }
-            break;
-			
-        case UIInterfaceOrientationLandscapeLeft:
-            if (IS_IPHONE_5) {
-                rightFrame.origin.x = 568 - self.menuContainerViewController.leftMenuWidth;
-            } else {
-                rightFrame.origin.x = 480 - self.menuContainerViewController.leftMenuWidth;
-            }
-            break;
-        case UIInterfaceOrientationLandscapeRight:
-            if (IS_IPHONE_5) {
-                rightFrame.origin.x = 568 - self.menuContainerViewController.rightMenuWidth;
-            } else {
-                rightFrame.origin.x = 480 - self.menuContainerViewController.rightMenuWidth;
-            }
-            break;
-    }
-    
-    self.menuContainerViewController.rightMenuViewController.view.frame = rightFrame;
-    self.menuContainerViewController.leftMenuViewController.view.frame = leftFrame;
-
 }
 
 -(void)setAlbumContents:(AlbumContents *)album

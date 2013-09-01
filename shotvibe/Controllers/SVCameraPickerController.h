@@ -10,12 +10,14 @@
 #import "AlbumSummary.h"
 #import "SVImagePickerSelector.h"
 #import "SVCameraPickerDelegate.h"
+#import "SVCameraOverlay.h"
 #import "PhotoUploadRequest.h"
 
 @interface SVCameraPickerController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 	
 	BOOL isShowingLandscapeView;
 	NSMutableArray *selectedPhotos;
+	UITapGestureRecognizer *tapGesture;
 }
 
 @property (nonatomic, strong) NSArray *albums;
@@ -41,7 +43,7 @@
 @property (nonatomic, weak) IBOutlet UISlider *sliderZoom;
 
 @property (nonatomic) UIImagePickerController *imagePickerController;
-@property (nonatomic) IBOutlet UIView *overlayView;
+@property (nonatomic) IBOutlet SVCameraOverlay *overlayView;
 
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
 

@@ -28,6 +28,8 @@
 												 name:UIDeviceOrientationDidChangeNotification
 											   object:nil];
     
+	tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+	
 	[self configureAlbumScrollView];
 	
     [self.gridView registerClass:[SVSelectionGridCell class] forCellWithReuseIdentifier:@"SVSelectionGridCell"];
@@ -56,9 +58,11 @@
     }
 }
 - (void)hideTopBar {
+	
 	self.topBarContainer.frame = CGRectMake(0, -60, 320, 150);
 	self.swipeLabel.hidden = YES;
 	self.topBarContainer.alpha = 0;
+	
 	[UIView animateWithDuration:0.3 animations:^{
 		self.topBarContainer.alpha = 1;
 		self.topBarContainer.hidden = NO;
@@ -126,6 +130,15 @@
 }
 
 
+- (void)tap:(UITapGestureRecognizer *)tapGesture {
+	NSLog(@"add tap");
+}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	NSLog(@"touches began in controller");
+	[super touchesBegan:touches withEvent:event];
+}
+
+
 - (void)showImagePickerForSourceType:(UIImagePickerControllerSourceType)sourceType {
 	
 	self.imagePickerController = [[UIImagePickerController alloc] init];
@@ -136,10 +149,16 @@
 	
     if (sourceType == UIImagePickerControllerSourceTypeCamera) {
 		self.imagePickerController.showsCameraControls = NO;
+//		self.overlayView.frame = self.imagePickerController.cameraOverlayView.frame;
+//		self.imagePickerController.cameraOverlayView = self.overlayView;
+//		self.imagePickerController.cameraOverlayView.hidden = YES;
+//        self.overlayView = nil;
+		
+		SVCameraOverlay *overlayView_ = [[SVCameraOverlay alloc] initWithFrame:self.imagePickerController.view.frame];
+		overlayView_.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		self.overlayView.frame = self.imagePickerController.cameraOverlayView.frame;
-		self.imagePickerController.cameraOverlayView = self.overlayView;
-		self.imagePickerController.cameraOverlayView.hidden = YES;
-        self.overlayView = nil;
+		[overlayView_ addSubview:self.overlayView];
+		self.imagePickerController.cameraOverlayView = overlayView_;
     }
 	
 	// Device's screen size (ignoring rotation intentionally):
@@ -160,6 +179,7 @@
     [self presentViewController:self.imagePickerController animated:YES completion:^{
 		
 		self.imagePickerController.cameraOverlayView.hidden = NO;
+		//[self.imagePickerController.cameraOverlayView addGestureRecognizer:tapGesture];
 	}];
 }
 

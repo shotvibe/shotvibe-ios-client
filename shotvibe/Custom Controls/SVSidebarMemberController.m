@@ -42,6 +42,11 @@
     [self.tableView reloadData];
 }
 
+- (void)setParentController:(SVAlbumGridViewController *)parentController {
+	_parentController = parentController;
+	[self.tableView reloadData];
+}
+
 
 #pragma mark - View Lifecycle
 

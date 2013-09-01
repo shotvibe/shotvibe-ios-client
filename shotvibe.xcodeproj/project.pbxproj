@@ -491,6 +491,7 @@
 		28F877B517D1BB4B0051F528 /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F877B017D1BB4B0051F528 /* MFSideMenuContainerViewController.m */; };
 		28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F877B217D1BB4B0051F528 /* MFSideMenuShadow.m */; };
 		28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F877B417D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m */; };
+		28F877BB17D299F80051F528 /* SVCameraOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F877BA17D299F80051F528 /* SVCameraOverlay.m */; };
 		3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */; };
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
@@ -1114,6 +1115,8 @@
 		28F877B217D1BB4B0051F528 /* MFSideMenuShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenuShadow.m; sourceTree = "<group>"; };
 		28F877B317D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MFSideMenuAdditions.h"; sourceTree = "<group>"; };
 		28F877B417D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MFSideMenuAdditions.m"; sourceTree = "<group>"; };
+		28F877B917D299F80051F528 /* SVCameraOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCameraOverlay.h; sourceTree = "<group>"; };
+		28F877BA17D299F80051F528 /* SVCameraOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVCameraOverlay.m; sourceTree = "<group>"; };
 		3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumServerPhoto.h; sourceTree = "<group>"; };
 		3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumServerPhoto.m; sourceTree = "<group>"; };
 		3B013BC517C3E7CA00135869 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
@@ -2233,6 +2236,8 @@
 				0426B6861724F574007BAABC /* CaptureNavigationController.m */,
 				28E94CAB17C6776A00874BDE /* SVCameraPickerController.h */,
 				28E94CAC17C6776B00874BDE /* SVCameraPickerController.m */,
+				28F877B917D299F80051F528 /* SVCameraOverlay.h */,
+				28F877BA17D299F80051F528 /* SVCameraOverlay.m */,
 				28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */,
 				28E94CA117C4B83E00874BDE /* CameraRollSection.h */,
 				28E94CA217C4B83F00874BDE /* CameraRollSection.m */,
@@ -2984,6 +2989,7 @@
 				28F877B517D1BB4B0051F528 /* MFSideMenuContainerViewController.m in Sources */,
 				28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */,
 				28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */,
+				28F877BB17D299F80051F528 /* SVCameraOverlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

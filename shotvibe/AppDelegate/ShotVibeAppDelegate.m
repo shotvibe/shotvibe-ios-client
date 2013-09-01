@@ -150,15 +150,12 @@ NSDictionary * parseQueryParameters(NSString * query)
 	// Initialize the sidebar menu
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
 	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
-	//self.sidebarRight.parentController = self;
-	
 	self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
-	//self.sidebarLeft.parentController = self;
-	
 	self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
 																  leftMenuViewController:self.sidebarLeft
 																 rightMenuViewController:self.sidebarRight];
 	self.sideMenu.panMode = MFSideMenuPanModeNone;
+	//self.sideMenu.shadow.enabled = NO;
 	self.window.rootViewController = self.sideMenu;
 	
 	[SVInitializationBD initialize];

@@ -74,6 +74,11 @@
 }
 
 
+- (void)setParentController:(SVAlbumGridViewController *)parentController {
+	_parentController = parentController;
+	[self.tableView reloadData];
+}
+
 
 #pragma mark - View Lifecycle
 
@@ -103,7 +108,9 @@
 	[super viewWillAppear:animated];
 	
     /*
-     Check whether the section info array has been created, and if so whether the section count still matches the current section count. In general, you need to keep the section info synchronized with the rows and section. If you support editing in the table view, you need to appropriately update the section info during editing operations.
+     Check whether the section info array has been created, and if so whether the section count still matches the current section count. 
+	 In general, you need to keep the section info synchronized with the rows and section. 
+	 If you support editing in the table view, you need to appropriately update the section info during editing operations.
      */
 	if ((self.sectionInfoArray == nil) || ([self.sectionInfoArray count] != [self numberOfSectionsInTableView:self.tableView])) {
 		
@@ -146,8 +153,6 @@
 
 		self.sectionInfoArray = infoArray;
 	}
-	
-    //[self fetchedResultsController];
 }
 
 
@@ -171,12 +176,9 @@
 }
 
 
--(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
-	NSLog(@"+++++++++++++++++++++++++++++viewForHeaderInSection %i", section);
-    
-	//SVSidebarAlbumManagementSection *sectionHeaderView = (SVSidebarAlbumManagementSection*)[[[NSBundle mainBundle] loadNibNamed:@"SVSidebarAlbumManagementSection" owner:self options:nil] objectAtIndex:0];
+- (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
+	
 	SVSidebarAlbumManagementSection *sectionHeaderView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SVSidebarAlbumManagementSection"];
-	//SVSidebarAlbumSection *info = self.sectionInfoArray[section];
 	
 	switch (section) {
 		case 0: {
