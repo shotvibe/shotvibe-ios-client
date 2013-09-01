@@ -284,6 +284,36 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     }
 }
 
+- (AlbumMember *)getUserProfile:(int64_t)userId withError:(NSError **)error
+{
+    NSError *responseError;
+    Response *response = [self getResponse:[NSString stringWithFormat:@"/users/%lld/", userId] method:@"GET" body:nil error:&responseError];
+
+    if (!response) {
+        *error = responseError;
+        return nil;
+    }
+
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return nil;
+    }
+
+    @try {
+        JSONObject *profileObj = [[JSONObject alloc] initWithData:response.body];
+
+        NSNumber *memberId = [profileObj getNumber:@"id"];
+        NSString *nickname = [profileObj getString:@"nickname"];
+        NSString *avatarUrl = [profileObj getString:@"avatar_url"];
+
+        return [[AlbumMember alloc] initWithMemberId:[memberId longLongValue] nickname:nickname avatarUrl:avatarUrl];
+    }
+    @catch (JSONException *exception) {
+        *error = [ShotVibeAPI createErrorFromJSONException:exception];
+        return nil;
+    }
+}
+
 - (NSArray *)getAlbumsWithError:(NSError **)error
 {
     NSError *responseError;
