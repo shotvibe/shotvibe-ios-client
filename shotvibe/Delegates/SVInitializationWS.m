@@ -178,6 +178,8 @@
     [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateNormal];
     [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateHighlighted];
     
+	// Placeholder text color
+	//[[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor darkGrayColor]];
 	
     // Customize the UIActivityController
 	

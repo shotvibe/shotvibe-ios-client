@@ -182,6 +182,12 @@
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[refresh addTarget:self action:@selector(refreshView) forControlEvents:UIControlEventValueChanged];
 	[self.tableView addSubview:refresh];
+	
+	// Get the instance of the UITextField of the search bar
+	UITextField *searchField = [self.searchbar valueForKey:@"_searchField"];
+	// Change the search bar placeholder text color
+	[searchField setValue:[UIColor darkGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
+	
 
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 	
