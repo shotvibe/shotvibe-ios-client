@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "AlbumManager.h"
+
 @interface SVProfileViewController : UITableViewController <UITextFieldDelegate>
+
+@property (nonatomic, strong) AlbumManager *albumManager;
 
 @end

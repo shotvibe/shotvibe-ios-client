@@ -9,12 +9,13 @@
 #import <MessageUI/MessageUI.h>
 #import <UIKit/UIKit.h>
 #import "SVWebViewController.h"
+#import "AlbumManager.h"
 
 @class AlbumSummary;
 
 @interface SVSettingsViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
-@property (nonatomic, strong) AlbumSummary *currentAlbum;
+@property (nonatomic, strong) AlbumManager *albumManager;
 
 - (IBAction)doLogout:(id)sender;
 
