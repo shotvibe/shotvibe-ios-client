@@ -23,6 +23,7 @@
 	NSOperationQueue *_queue;
     UIRefreshControl *refresh;
 	CaptureNavigationController *cameraNavController;
+	NSArray *allAlbums;
 }
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
@@ -182,12 +183,9 @@
 	[self.tableView addSubview:refresh];
 	
 	// Get the instance of the UITextField of the search bar
-	UITextField *searchField = [self.searchbar valueForKey:@"_searchField"];
+	//UITextField *searchField = [self.searchbar valueForKey:@"_searchField"];
 	// Change the search bar placeholder text color
-	[searchField setValue:[UIColor darkGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
-	
-
-	//[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
+	//[searchField setValue:[UIColor darkGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
 	
     [self.albumManager refreshAlbumList];
 }
@@ -370,7 +368,6 @@
     return YES;
 }
 
-
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     //[self hideDropDown];
@@ -382,8 +379,6 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    [self searchForAlbumWithTitle:searchBar.text];
-	
 	CGRect r = self.tableOverlayView.frame;
 	r.origin.y = 44;
 	
@@ -396,12 +391,10 @@
 	searchShowing = YES;
 }
 
-
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self searchForAlbumWithTitle:searchBar.text];
 }
-
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
@@ -416,6 +409,18 @@
 	
 	searchShowing = NO;
 }
+
+- (void)searchForAlbumWithTitle:(NSString *)title
+{
+	albumList = [NSMutableArray arrayWithCapacity:[allAlbums count]];
+    for (AlbumSummary *album in [allAlbums reverseObjectEnumerator]) {
+		if (title == nil || [title isEqualToString:@""] || [[album.name lowercaseString] rangeOfString:title].location != NSNotFound) {
+			[albumList addObject:album];
+		}
+    }
+    [self.tableView reloadData];
+}
+
 
 
 #pragma mark - Private Methods
@@ -548,23 +553,11 @@
 }
 
 
-- (void)searchForAlbumWithTitle:(NSString *)title
-{
-    /*
-    self.fetchedResultsController = nil;
-    self.fetchedResultsController = [[SVEntityStore sharedStore] allAlbumsMatchingSearchTerm:title WithDelegate:self];
-    [self.tableView reloadData];
-    */
-}
-
 
 - (void)setAlbumList:(NSArray *)albums
 {
-    albumList = [NSMutableArray arrayWithCapacity:[albums count]];
-    for (id elem in [albums reverseObjectEnumerator]) {
-        [albumList addObject:elem];
-    }
-    [self.tableView reloadData];
+	allAlbums = albums;
+    [self searchForAlbumWithTitle:nil];
 }
 
 
