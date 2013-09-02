@@ -16,6 +16,7 @@
 {
     NSMutableArray *albumList;
     BOOL searchShowing;
+	BOOL creatingAlbum;
     NSMutableDictionary *thumbnailCache;
 	UIView *sectionView;
 	NSIndexPath *tappedCell;
@@ -539,6 +540,7 @@
                 [alert show];
             }
             else {
+				creatingAlbum = YES;
                 [self.albumManager refreshAlbumList];
             }
         });
@@ -556,32 +558,7 @@
 }
 
 
-
-
-
-#pragma mark DownloadManager Ntifications
-
-- (void)albumUpdateReceived:(NSNotification *)notification
-{
-    /*
-    AlbumSummary *updatedAlbum = (AlbumSummary *)notification.object;
-    
-    NSIndexPath *albumIndex = [self.fetchedResultsController indexPathForObject:updatedAlbum];
-    
-    if (albumIndex) {
-        SVAlbumListViewCell *albumCell = (SVAlbumListViewCell *)[self.tableView cellForRowAtIndexPath:albumIndex];
-        
-        if (albumCell) {
-            //if (albumCell.networkImageView.initialImage == albumCell.networkImageView.image) {
-			[self.tableView reloadRowsAtIndexPaths:@[albumIndex] withRowAnimation:UITableViewRowAnimationNone];
-            //}
-        }
-    }
-    */
-}
-
-
--(void)setAlbumList:(NSArray *)albums
+- (void)setAlbumList:(NSArray *)albums
 {
     albumList = [NSMutableArray arrayWithCapacity:[albums count]];
     for (id elem in [albums reverseObjectEnumerator]) {
@@ -600,17 +577,21 @@
 
 - (void)onAlbumListBeginRefresh
 {
-    [refresh beginRefreshing];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
+	if (!creatingAlbum) {
+		[refresh beginRefreshing];
+		refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
+	}
 }
 
 - (void)onAlbumListRefreshComplete:(NSArray *)albums
 {
-    [refresh endRefreshing];
+	[refresh endRefreshing];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-
-    [self setAlbumList:albums];
+	
+	[self setAlbumList:albums];
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
+	
+	creatingAlbum = NO;
 }
 
 - (void)onAlbumListRefreshError:(NSError *)error
