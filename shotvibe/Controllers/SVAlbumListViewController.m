@@ -592,6 +592,7 @@
 		[refresh beginRefreshing];
 		refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
 	}
+	[refresh endRefreshing];
 }
 
 - (void)onAlbumListRefreshComplete:(NSArray *)albums
