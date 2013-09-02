@@ -370,7 +370,7 @@
 
     [self.gridView reloadData];
 
-    self.sidebarRight.albumContents = albumContents;
+    //self.sidebarRight.albumContents = albumContents;
 }
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId

@@ -178,13 +178,13 @@
 	
     [self configureViews];
 	
-	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
-	
 	refresh = [[UIRefreshControl alloc] init];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[refresh addTarget:self action:@selector(refreshView) forControlEvents:UIControlEventValueChanged];
 	[self.tableView addSubview:refresh];
 
+	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
+	
     [self.albumManager refreshAlbumList];
 }
 
@@ -591,6 +591,7 @@
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 
     [self setAlbumList:albums];
+	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 }
 
 - (void)onAlbumListRefreshError:(NSError *)error
