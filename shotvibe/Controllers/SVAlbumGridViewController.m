@@ -76,7 +76,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	NSLog(@"prepareForSegue %@", segue.identifier);
+	
     if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
 		
         //SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
@@ -136,25 +136,27 @@
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = self;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
-	
-	refresh = [[UIRefreshControl alloc] init];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-	[refresh addTarget:self action:@selector(refreshView) forControlEvents:UIControlEventValueChanged];
-	[self.gridView addSubview:refresh];
-
-    [self.albumManager refreshAlbumContents:self.albumId];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	[self.gridView reloadData];
+	NSLog(@"viewWillAppear");
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+	NSLog(@"viewDidAppear");
 	
+	if (refresh == nil) {
+		refresh = [[UIRefreshControl alloc] init];
+		refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+		[refresh addTarget:self action:@selector(refreshView) forControlEvents:UIControlEventValueChanged];
+		[self.gridView addSubview:refresh];
+		
+		[self.albumManager refreshAlbumContents:self.albumId];
+		[self.gridView reloadData];
+	}
 	// Restore the sidemenu state, when is hide it loses x position
-	//NSLog(@"viewDidappear %i", self.menuContainerViewController.menuState);
 	if (self.menuContainerViewController.menuState != MFSideMenuStateClosed) {
 		[self.menuContainerViewController setMenuState:self.menuContainerViewController.menuState];
 	}
@@ -205,6 +207,8 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
+	NSLog(@"count photos %i", albumContents.photos.count);
+	if (refresh == nil) return 0;
     return albumContents.photos.count;
 }
 
@@ -405,6 +409,8 @@
 
 -(void)refreshView
 {
+	
+	NSLog(@"refreshView");
     [self.albumManager refreshAlbumContents:self.albumId];
 }
 

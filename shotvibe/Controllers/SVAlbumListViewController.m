@@ -189,7 +189,7 @@
 	[searchField setValue:[UIColor darkGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
 	
 
-	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
+	//[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 	
     [self.albumManager refreshAlbumList];
 }
@@ -327,14 +327,14 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	tappedCell = [indexPath copy];
 	
-	[_queue addOperationWithBlock:^{
+	/*[_queue addOperationWithBlock:^{
 
-		/*
+		
 		AlbumSummary *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		[[SVEntityStore sharedStore] setPhotosInAlbumToNotNew:anAlbum];
-        */
+     
 		//[[SVEntityStore sharedStore] setAllPhotosToNotNew];
-	}];
+	}];*/
 }
 
 /*
