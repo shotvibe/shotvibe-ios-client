@@ -128,17 +128,15 @@
 - (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {
 	
 	NSLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
-	
+	/*
 	if (self.navigationController.visibleViewController == self) {
 		NSLog(@"navigate to gridview");
-
-        /*
+		
 		int i = 0;
 		NSIndexPath *indexPath;
-		id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:0];
-		for (AlbumSummary *a in [sectionInfo objects]) {
+		for (AlbumSummary *a in albumList) {
 			
-			if ([a.albumId isEqualToString:selectedAlbum.albumId]) {
+			if (a.albumId == selectedAlbum.albumId) {
 				indexPath = [NSIndexPath indexPathForRow:i inSection:0];
 				NSLog(@"found at indexPath %@", indexPath);
 				[self performSegueWithIdentifier:@"AlbumGridViewSegue" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
@@ -147,8 +145,7 @@
 			}
 			i ++;
 		}
-        */
-	}
+	}*/
 }
 
 
@@ -209,6 +206,20 @@
 	[super viewDidAppear:animated];
 	
 	if (cameraNavController != nil) {
+		
+		int i = 0;
+		NSIndexPath *indexPath;
+		for (AlbumSummary *a in albumList) {
+			
+			if (a.albumId == cameraNavController.selectedAlbum.albumId) {
+				indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+				NSLog(@"found at indexPath %@", indexPath);
+				[self performSegueWithIdentifier:@"AlbumGridViewSegue" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+				
+				break;
+			}
+			i ++;
+		}
 		//[self cameraWasDismissedWithAlbum:cameraNavController.selectedAlbum];
 		cameraNavController = nil;
 	}
@@ -300,6 +311,7 @@
     if (album.latestPhotos.count > 0) {
         AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
         if (latestPhoto.serverPhoto) {
+			cell.author.text = [NSString stringWithFormat:@"Last added by %@", latestPhoto.serverPhoto.authorNickname];
             NSString *fullsizePhotoUrl = latestPhoto.serverPhoto.url;
             NSString *thumbnailSuffix = @"_thumb75.jpg";
             NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
@@ -310,6 +322,7 @@
     }
 	else {
 		[cell.networkImageView setImage:[UIImage imageNamed:@"placeholderImage"]];
+		cell.author.text = @"";
 	}
 
     return cell;
