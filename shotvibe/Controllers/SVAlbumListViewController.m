@@ -531,6 +531,19 @@
 
 - (void)createNewAlbumWithTitle:(NSString *)title
 {
+	// Add a placeholder album till the real one is created on server
+	AlbumSummary *album = [[AlbumSummary alloc] initWithAlbumId:0
+														   etag:@""
+														   name:title
+													dateCreated:[NSDate date]
+													dateUpdated:[NSDate date]
+												   latestPhotos:[NSArray array]];
+	[albumList insertObject:album atIndex:0];
+	[self.tableView beginUpdates];
+	[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+	[self.tableView endUpdates];
+	
+	// Write the album to server
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
         AlbumContents *albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title withError:&error];
@@ -543,6 +556,11 @@
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
                 [alert show];
+				// Remove temporary album
+				[albumList removeObjectAtIndex:0];
+				[self.tableView beginUpdates];
+				[self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+				[self.tableView endUpdates];
             }
             else {
 				creatingAlbum = YES;
