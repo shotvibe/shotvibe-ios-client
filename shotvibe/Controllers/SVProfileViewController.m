@@ -8,6 +8,7 @@
 
 #import "SVProfileViewController.h"
 #import "SVDefines.h"
+#import "MBProgressHUD.h"
 
 @interface SVProfileViewController ()
 
@@ -44,6 +45,30 @@
     [super viewDidLoad];
 
     //self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainBg.png"]];
+
+    NSAssert(self.albumManager, @"SVProfileViewController started without setting albumManager property");
+
+    ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
+
+    int64_t userId = shotvibeAPI.authData.userId;
+
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSError *error;
+        AlbumMember *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!userProfile) {
+                // TODO Show error dialog
+            }
+            else {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                self.nicknameField.text = userProfile.nickname;
+
+                // TODO Set avatar UIImageView to userProfile.avatarUrl
+            }
+        });
+    });
 }
 
 

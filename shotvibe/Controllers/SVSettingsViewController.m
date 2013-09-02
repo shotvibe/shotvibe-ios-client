@@ -14,6 +14,7 @@
 #import "SVAlbumNotificationSettingsViewController.h"
 #import "SVDefines.h"
 #import "SVSettingsAboutViewController.h"
+#import "SVProfileViewController.h"
 #import "SVRegistrationViewController.h"
 //#import "Album.h"
 //#import "AlbumPhoto.h"
@@ -52,6 +53,11 @@
         
         destination.title = @"Help";
 		destination.url = @"http://random.org";
+    }
+    else if ([segue.identifier isEqualToString:@"SettingsProfileSegue"]) {
+        SVProfileViewController *destination = (SVProfileViewController *)segue.destinationViewController;
+
+        destination.albumManager = self.albumManager;
     }
 }
 
