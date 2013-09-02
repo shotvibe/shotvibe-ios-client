@@ -20,25 +20,17 @@
     NSMutableDictionary *thumbnailCache;
 	UIView *sectionView;
 	NSIndexPath *tappedCell;
-	NSOperationQueue *_queue;
-    UIRefreshControl *refresh;
 	CaptureNavigationController *cameraNavController;
 	NSArray *allAlbums;
 }
 
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIView *sectionHeader;
-@property (nonatomic, strong) NSMutableDictionary *albumPhotoInfo;
 @property (nonatomic, strong) IBOutlet UIView *tableOverlayView;
 @property (nonatomic, strong) IBOutlet UIView *dropDownContainer;
-@property (nonatomic, strong) IBOutlet UIImageView *dropDownBackground;
 @property (nonatomic, strong) IBOutlet UITextField *albumField;
 @property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
-@property (nonatomic, strong) IBOutlet UIView *viewContainer;
 @property (nonatomic, strong) IBOutlet UIButton *albumButton;
 @property (nonatomic, strong) IBOutlet UIButton *takePictureButton;
-
-@property (nonatomic, strong) NSOperationQueue *imageLoadingQueue;
 
 
 - (void)configureViews;
@@ -70,9 +62,6 @@
 - (void)settingsPressed {
     [self performSegueWithIdentifier:@"SettingsSegue" sender:nil];
 }
-- (IBAction)newAlbumButtonPressed:(id)sender {
-    [self showDropDown];
-}
 - (IBAction)newAlbumClose:(id)sender {
     [self hideDropDown];
 }
@@ -81,8 +70,12 @@
     [self createNewAlbumWithTitle:name];
     [self hideDropDown];
 }
+//
+- (IBAction)newAlbumButtonPressed:(id)sender {
+    [self showDropDown];
+}
 - (IBAction)takePicturePressed:(id)sender {
-	
+	NSLog(@"takePicturePressed");
 	int capacity = 8;
 	NSMutableArray *albums = [[NSMutableArray alloc] initWithCapacity:capacity];
 	int i = 0;
@@ -157,8 +150,6 @@
 {
     [super viewDidLoad];
 	
-	_queue = [[NSOperationQueue alloc] init];
-
     NSLog(@"##### albumManager: %@", self.albumManager);
 
     [self setAlbumList:[self.albumManager addAlbumListListener:self]];
@@ -169,23 +160,15 @@
 		self.takePictureButton.enabled = NO;
 	}
 	
-    self.albumPhotoInfo = [[NSMutableDictionary alloc] init];
-    self.imageLoadingQueue = [[NSOperationQueue alloc] init];
-    self.imageLoadingQueue.maxConcurrentOperationCount = 1;
     thumbnailCache = [[NSMutableDictionary alloc] init];
 	self.searchbar.placeholder = NSLocalizedString(@"Search album", nil);
+	self.dropDownContainer.frame = CGRectMake(8, -134, self.dropDownContainer.frame.size.width, 134);
 	
     [self configureViews];
 	
-	refresh = [[UIRefreshControl alloc] init];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-	[refresh addTarget:self action:@selector(refreshView) forControlEvents:UIControlEventValueChanged];
-	[self.tableView addSubview:refresh];
-	
-	// Get the instance of the UITextField of the search bar
-	//UITextField *searchField = [self.searchbar valueForKey:@"_searchField"];
-	// Change the search bar placeholder text color
-	//[searchField setValue:[UIColor darkGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
+	self.refreshControl = [[UIRefreshControl alloc] init];
+	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	[self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
 	
     [self.albumManager refreshAlbumList];
 }
@@ -269,8 +252,7 @@
 
 #pragma mark - UITableViewDataSource Methods
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 - (UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -281,8 +263,7 @@
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return albumList.count;
 }
 
@@ -350,11 +331,11 @@
 }
 
 /*
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+	[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+	[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+	[self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+	[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+	[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 
 */
 
@@ -379,12 +360,12 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
+	[self.view addSubview:self.tableOverlayView];
 	CGRect r = self.tableOverlayView.frame;
 	r.origin.y = 44;
+	self.tableOverlayView.frame = r;
 	
 	[UIView animateWithDuration:0.3 animations:^{
-		
-		self.tableOverlayView.frame = r;
 		self.tableOverlayView.alpha = 1;
 		self.tableOverlayView.hidden = NO;
 	}];
@@ -419,6 +400,7 @@
 		}
     }
     [self.tableView reloadData];
+	[self.view addSubview:self.tableOverlayView];
 }
 
 
@@ -452,22 +434,6 @@
 	[self.searchbar setSearchFieldBackgroundImage:[UIImage imageNamed:@"butTransparent.png"] forState:UIControlStateNormal];
 	[self.searchbar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
 	
-    // Configure the dropdown background image
-    {
-        UIImage *baseImage = [UIImage imageNamed:@"dropDownField.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(0, 50, 0, 50);
-        
-        UIImage *resizableImage = nil;
-        if (IS_IOS6_OR_GREATER) {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-        }
-        else
-        {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
-        
-        [self.dropDownBackground setImage:resizableImage];
-    }
 	
 	// Set required taps and number of touches
 	UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];
@@ -490,15 +456,17 @@
 - (void)showDropDown
 {
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
+	[self.view addSubview:self.tableOverlayView];
 	
 	CGRect r = self.tableOverlayView.frame;
-	r.origin.y = 45;
+	r.origin.y = 45+44;
 	self.tableOverlayView.frame = r;
 	self.tableOverlayView.alpha = 0;
     self.tableOverlayView.hidden = NO;
     self.dropDownContainer.hidden = NO;
 	self.albumButton.enabled = NO;
 	self.takePictureButton.enabled = NO;
+	self.tableView.scrollEnabled = NO;
     
     NSString *currentDateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle];
     self.albumField.text = @"";
@@ -525,6 +493,7 @@
         self.dropDownContainer.hidden = YES;
 		self.albumButton.enabled = YES;
 		self.takePictureButton.enabled = YES;
+		self.tableView.scrollEnabled = YES;
     }];
 }
 
@@ -581,7 +550,7 @@
 
 #pragma mark UIRefreshView
 
--(void)refreshView
+-(void)refresh
 {
     [self.albumManager refreshAlbumList];
 }
@@ -589,16 +558,16 @@
 - (void)onAlbumListBeginRefresh
 {
 	if (!creatingAlbum) {
-		[refresh beginRefreshing];
-		refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
+		[self.refreshControl beginRefreshing];
+		self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
 	}
-	[refresh endRefreshing];
+	//[self.refreshControl endRefreshing];
 }
 
 - (void)onAlbumListRefreshComplete:(NSArray *)albums
 {
-	[refresh endRefreshing];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	[self.refreshControl endRefreshing];
+	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	
 	[self setAlbumList:albums];
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
@@ -608,8 +577,8 @@
 
 - (void)onAlbumListRefreshError:(NSError *)error
 {
-    [refresh endRefreshing];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    [self.refreshControl endRefreshing];
+	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 
     // TODO ...
 }

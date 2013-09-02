@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RCImageView.h"
-#import "CaptureNavigationController.h"
-#import "SVCameraPickerController.h"
 #import "SVDefines.h"
 #import "AlbumSummary.h"
 #import "AlbumMember.h"
 #import "AlbumPhoto.h"
+#import "CaptureNavigationController.h"
+#import "SVCameraPickerController.h"
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumGridViewController.h"
 #import "NSDate+Formatting.h"
@@ -21,13 +20,14 @@
 #import "AlbumManager.h"
 #import "MFSideMenu.h"
 
-@interface SVAlbumListViewController : UIViewController <UITableViewDataSource,
-UITableViewDelegate,
-UITextFieldDelegate,
-UISearchBarDelegate,
-AlbumListListener,
-RCImageViewDelegate,
-SVCameraPickerDelegate> {
+@interface SVAlbumListViewController : UITableViewController <UITableViewDataSource,
+																UITableViewDelegate,
+																UITextFieldDelegate,
+																UISearchBarDelegate,
+																AlbumListListener,
+																SVCameraPickerDelegate>
+{
+	
 }
 
 @property (nonatomic, strong) AlbumManager *albumManager;
