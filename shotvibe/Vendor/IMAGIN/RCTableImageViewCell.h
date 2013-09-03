@@ -12,6 +12,14 @@
 
 #define IMAGE_CELL_HEIGHT 200
 
+@class RCTableImageViewCell;
+@protocol RCTableImageViewCellDelegate <NSObject>
+
+- (void)deleteButtonPressedForIndex:(RCTableImageViewCell*)cell;
+- (void)shareButtonPressedForIndex:(RCTableImageViewCell*)cell;
+
+@end
+
 @interface RCTableImageViewCell : UITableViewCell {
 	
 	UIView *largeImageContainer;
@@ -21,5 +29,6 @@
 
 @property (nonatomic, retain) RCScrollImageView *largeImageView;
 @property (nonatomic, retain) UILabel *detailLabel;
+@property (nonatomic, retain) id delegate;
 
 @end

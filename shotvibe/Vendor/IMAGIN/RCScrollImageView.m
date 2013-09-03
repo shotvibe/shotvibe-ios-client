@@ -69,6 +69,9 @@
 	_i = i;
 	imageView.i = i;
 }
+- (UIImage*) image {
+	return imageView.image;
+}
 - (void) setImage:(UIImage *)image {
 	imageView.image = image;
 }
@@ -84,7 +87,6 @@
 		loadingIndicator.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
 		[self addSubview:loadingIndicator];
 		[loadingIndicator startAnimating];
-		NSLog(@"%@", loadingIndicator);
 	}
 	[imageView loadNetworkImage:path];
 }

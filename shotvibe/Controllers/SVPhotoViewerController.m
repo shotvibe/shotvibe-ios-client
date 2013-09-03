@@ -99,6 +99,10 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	
+	if (viewerType == PhotoViewerTypeTableView) {
+		return;
+	}
+	
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	int i = 0;
@@ -178,15 +182,17 @@
 				photosTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height-44) style:UITableViewStylePlain];
 				photosTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				photosTableView.rowHeight = IMAGE_CELL_HEIGHT;
+				photosTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 				photosTableView.delegate = self;
 				photosTableView.dataSource = self;
+				photosTableView.backgroundColor = [UIColor blackColor];
 				[self.view addSubview:photosTableView];
 				[self.navigationController.toolbar setHidden:YES];
 				[photosTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
 			}
 		}
 		break;
-			
+		
 		case PhotoViewerTypeScrollView:
 		{
 			if (photosScrollView == nil) {
@@ -244,7 +250,7 @@
 		// If the photo is not in cache try in the saved photos
 		RCScrollImageView *rcphoto = [[RCScrollImageView alloc] initWithFrame:CGRectMake((w+60)*i, 0, w, h) delegate:self];
 		rcphoto.i = i;
-		rcphoto.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+		rcphoto.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		
 		if (photo.serverPhoto) {
 			
@@ -334,6 +340,7 @@
 	if (cell == nil) {
 		cell = [[RCTableImageViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SVPhotoViewerCell"];
 		cell.contentView.clipsToBounds = YES;
+		cell.delegate = self;
 	}
 	RCScrollImageView *image = [self loadPhoto:indexPath.row andPreloadNext:NO];
 	cell.largeImageView = image;
@@ -528,12 +535,14 @@
 	}];
 }
 
-- (void)toggleMenu
-{
-    //[self.navigationController.sideMenu toggleRightSideMenu];
+- (void)deleteButtonPressedForIndex:(RCTableImageViewCell*)cell {
+	NSIndexPath *indexPath = [photosTableView indexPathForCell:cell];
+	[photosTableView beginUpdates];
+	[photosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+	AlbumPhoto *photoToDelete = [photos objectAtIndex:self.index];
+	[photos removeObject:photoToDelete];
+	[photosTableView endUpdates];
 }
-
-
 
 
 
@@ -548,10 +557,11 @@
 	[activityItems addObject:[NSURL URLWithString:@"http://shotvibe.com"]];
 	
 	AlbumPhoto *photo = [photos objectAtIndex:self.index];
-//	UIImage *currentImage = [[SVEntityStore sharedStore] getImageForPhoto:photo];
-//	if (currentImage != nil) {
-//		[activityItems addObject:currentImage];
-//	}
+	RCScrollImageView *imageView = [cache objectForKey:photo.serverPhoto.photoId];
+	UIImage *image = imageView.image;
+	if (image != nil) {
+		[activityItems addObject:image];
+	}
     //SVLinkEvent *linkEvent = [self createLinkEvent];
     
 	// Application activities
@@ -564,6 +574,12 @@
     
     [self presentViewController:activity animated:YES completion:NULL];
      
+}
+
+- (void)shareButtonPressedForIndex:(RCTableImageViewCell*)cell {
+	NSIndexPath *indexPath = [photosTableView indexPathForCell:cell];
+	self.index = indexPath.row;
+	[self exportButtonPressed];
 }
 
 -(SVLinkEvent *)createLinkEvent

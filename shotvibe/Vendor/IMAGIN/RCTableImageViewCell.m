@@ -33,12 +33,16 @@
 		
 		butDelete = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width-60, IMAGE_CELL_HEIGHT-25, 20, 20)];
 		[butDelete setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
+		[butDelete addTarget:self action:@selector(butDeletePressed:) forControlEvents:UIControlEventTouchUpInside];
 		butDelete.alpha = 0.5;
+		butDelete.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 		[self.contentView addSubview:butDelete];
 		
 		butShare = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width-30, IMAGE_CELL_HEIGHT-25, 20, 20)];
 		[butShare setImage:[UIImage imageNamed:@"exportIcon.png"] forState:UIControlStateNormal];
+		[butShare addTarget:self action:@selector(butSharePressed:) forControlEvents:UIControlEventTouchUpInside];
 		butShare.alpha = 0.5;
+		butShare.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 		[self.contentView addSubview:butShare];
     }
     return self;
@@ -67,6 +71,18 @@
 	rect.origin.y = IMAGE_CELL_HEIGHT/2 - rect.size.height/2;
 	_largeImageView.frame = rect;
 	[largeImageContainer addSubview:_largeImageView];
+}
+
+
+-(void)butDeletePressed:(id)sender {
+	if ([self.delegate respondsToSelector:@selector(deleteButtonPressedForIndex:)]) {
+		[self.delegate performSelector:@selector(deleteButtonPressedForIndex:) withObject:self];
+	}
+}
+-(void)butSharePressed:(id)sender {
+	if ([self.delegate respondsToSelector:@selector(shareButtonPressedForIndex:)]) {
+		[self.delegate performSelector:@selector(shareButtonPressedForIndex:) withObject:self];
+	}
 }
 
 @end
