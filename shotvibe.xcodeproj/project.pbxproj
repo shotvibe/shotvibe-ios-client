@@ -376,8 +376,10 @@
 		280A807817AA9350006ECD5C /* CameraTakeAnotherPicture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 280A807517AA9350006ECD5C /* CameraTakeAnotherPicture@2x.png */; };
 		2836B78517A934FE008AAB68 /* SVConfirmationCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B78317A934FE008AAB68 /* SVConfirmationCodeViewController.m */; };
 		2836B78B17A955B7008AAB68 /* SVNoCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B78A17A955B7008AAB68 /* SVNoCodeViewController.m */; };
-		2854C28617BA10E60090BD3E /* RCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2854C28517BA10E60090BD3E /* RCImageView.m */; };
-		2854C28917BA178D0090BD3E /* RCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2854C28817BA178D0090BD3E /* RCScrollView.m */; };
+		2849A74317D64E4E0076AFBA /* RCTableImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A74217D64E4E0076AFBA /* RCTableImageViewCell.m */; };
+		2849A74A17D66ECF0076AFBA /* RCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A74517D66ECF0076AFBA /* RCImageView.m */; };
+		2849A74B17D66ECF0076AFBA /* RCScrollImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A74717D66ECF0076AFBA /* RCScrollImageView.m */; };
+		2849A74C17D66ECF0076AFBA /* RCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A74917D66ECF0076AFBA /* RCScrollView.m */; };
 		2854C28C17BB85100090BD3E /* butInvitedContacts.png in Resources */ = {isa = PBXBuildFile; fileRef = 2854C28A17BB85100090BD3E /* butInvitedContacts.png */; };
 		2854C28D17BB85100090BD3E /* butInvitedContacts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2854C28B17BB85100090BD3E /* butInvitedContacts@2x.png */; };
 		2884E86117A24CFE00B382D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E85F17A24CFE00B382D9 /* Icon.png */; };
@@ -476,7 +478,6 @@
 		28E94C9F17C3FB6300874BDE /* MemberJoined.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9917C3FB6300874BDE /* MemberJoined.png */; };
 		28E94CA017C3FB6300874BDE /* MemberJoined@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */; };
 		28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CA217C4B83F00874BDE /* CameraRollSection.m */; };
-		28E94CA817C5456800874BDE /* RCScrollImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CA717C5456700874BDE /* RCScrollImageView.m */; };
 		28E94CAA17C6740E00874BDE /* SVCameraOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */; };
 		28E94CAD17C6776D00874BDE /* SVCameraPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E94CAC17C6776B00874BDE /* SVCameraPickerController.m */; };
 		28F8779D17CC931D0051F528 /* slider-cap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F8779A17CC931D0051F528 /* slider-cap@2x.png */; };
@@ -980,10 +981,14 @@
 		2836B78317A934FE008AAB68 /* SVConfirmationCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVConfirmationCodeViewController.m; sourceTree = "<group>"; };
 		2836B78917A955B7008AAB68 /* SVNoCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVNoCodeViewController.h; sourceTree = "<group>"; };
 		2836B78A17A955B7008AAB68 /* SVNoCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVNoCodeViewController.m; sourceTree = "<group>"; };
-		2854C28417BA10E60090BD3E /* RCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCImageView.h; sourceTree = "<group>"; };
-		2854C28517BA10E60090BD3E /* RCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCImageView.m; sourceTree = "<group>"; };
-		2854C28717BA178D0090BD3E /* RCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCScrollView.h; sourceTree = "<group>"; };
-		2854C28817BA178D0090BD3E /* RCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCScrollView.m; sourceTree = "<group>"; };
+		2849A74117D64E4E0076AFBA /* RCTableImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTableImageViewCell.h; path = IMAGIN/RCTableImageViewCell.h; sourceTree = "<group>"; };
+		2849A74217D64E4E0076AFBA /* RCTableImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTableImageViewCell.m; path = IMAGIN/RCTableImageViewCell.m; sourceTree = "<group>"; };
+		2849A74417D66ECF0076AFBA /* RCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageView.h; path = IMAGIN/RCImageView.h; sourceTree = "<group>"; };
+		2849A74517D66ECF0076AFBA /* RCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageView.m; path = IMAGIN/RCImageView.m; sourceTree = "<group>"; };
+		2849A74617D66ECF0076AFBA /* RCScrollImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCScrollImageView.h; path = IMAGIN/RCScrollImageView.h; sourceTree = "<group>"; };
+		2849A74717D66ECF0076AFBA /* RCScrollImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCScrollImageView.m; path = IMAGIN/RCScrollImageView.m; sourceTree = "<group>"; };
+		2849A74817D66ECF0076AFBA /* RCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCScrollView.h; path = IMAGIN/RCScrollView.h; sourceTree = "<group>"; };
+		2849A74917D66ECF0076AFBA /* RCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCScrollView.m; path = IMAGIN/RCScrollView.m; sourceTree = "<group>"; };
 		2854C28A17BB85100090BD3E /* butInvitedContacts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = butInvitedContacts.png; sourceTree = "<group>"; };
 		2854C28B17BB85100090BD3E /* butInvitedContacts@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butInvitedContacts@2x.png"; sourceTree = "<group>"; };
 		2884E85F17A24CFE00B382D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -1094,8 +1099,6 @@
 		28E94C9A17C3FB6300874BDE /* MemberJoined@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MemberJoined@2x.png"; path = "Contacts/MemberJoined@2x.png"; sourceTree = "<group>"; };
 		28E94CA117C4B83E00874BDE /* CameraRollSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraRollSection.h; sourceTree = "<group>"; };
 		28E94CA217C4B83F00874BDE /* CameraRollSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraRollSection.m; sourceTree = "<group>"; };
-		28E94CA617C5456600874BDE /* RCScrollImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCScrollImageView.h; path = Views/RCScrollImageView.h; sourceTree = "<group>"; };
-		28E94CA717C5456700874BDE /* RCScrollImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCScrollImageView.m; path = Views/RCScrollImageView.m; sourceTree = "<group>"; };
 		28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVCameraOverlay.xib; path = shotvibe/Views/SVCameraOverlay.xib; sourceTree = SOURCE_ROOT; };
 		28E94CAB17C6776A00874BDE /* SVCameraPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCameraPickerController.h; sourceTree = "<group>"; };
 		28E94CAC17C6776B00874BDE /* SVCameraPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVCameraPickerController.m; sourceTree = "<group>"; };
@@ -1675,6 +1678,21 @@
 			name = Registration;
 			sourceTree = "<group>";
 		};
+		2849A74017D5FEF60076AFBA /* IMAGIN */ = {
+			isa = PBXGroup;
+			children = (
+				2849A74417D66ECF0076AFBA /* RCImageView.h */,
+				2849A74517D66ECF0076AFBA /* RCImageView.m */,
+				2849A74617D66ECF0076AFBA /* RCScrollImageView.h */,
+				2849A74717D66ECF0076AFBA /* RCScrollImageView.m */,
+				2849A74817D66ECF0076AFBA /* RCScrollView.h */,
+				2849A74917D66ECF0076AFBA /* RCScrollView.m */,
+				2849A74117D64E4E0076AFBA /* RCTableImageViewCell.h */,
+				2849A74217D64E4E0076AFBA /* RCTableImageViewCell.m */,
+			);
+			name = IMAGIN;
+			sourceTree = "<group>";
+		};
 		2884E86317A24D9900B382D9 /* little icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2125,12 +2143,6 @@
 		AA58FB3816C227F500C49E02 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2854C28417BA10E60090BD3E /* RCImageView.h */,
-				2854C28517BA10E60090BD3E /* RCImageView.m */,
-				2854C28717BA178D0090BD3E /* RCScrollView.h */,
-				2854C28817BA178D0090BD3E /* RCScrollView.m */,
-				28E94CA617C5456600874BDE /* RCScrollImageView.h */,
-				28E94CA717C5456700874BDE /* RCScrollImageView.m */,
 				28CFCCA417A50C7B001511EF /* SVCountryViewCell.h */,
 				28CFCCA517A50C7C001511EF /* SVCountryViewCell.m */,
 				AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */,
@@ -2174,6 +2186,7 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				2849A74017D5FEF60076AFBA /* IMAGIN */,
 				AA234835177AA3F600D55918 /* AFNetworking */,
 				04C404DC1730301500973BC0 /* CountryPicker */,
 				3BE0B10B17C2B9E70058CAAD /* FMDB */,
@@ -2938,8 +2951,6 @@
 				3B58317E17B5A3870059C1CA /* SVPushNotificationsManager.m in Sources */,
 				3B58318217B5C4570059C1CA /* ShotVibeAPI.m in Sources */,
 				3B58318517B5C4C10059C1CA /* AuthData.m in Sources */,
-				2854C28617BA10E60090BD3E /* RCImageView.m in Sources */,
-				2854C28917BA178D0090BD3E /* RCScrollView.m in Sources */,
 				3BE0B10717C24D150058CAAD /* ShotVibeDB.m in Sources */,
 				3BE0B10E17C2BA3E0058CAAD /* FMDatabase.m in Sources */,
 				3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */,
@@ -2958,7 +2969,6 @@
 				3B013BCD17C3E84C00135869 /* AlbumMember.m in Sources */,
 				28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */,
 				28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */,
-				28E94CA817C5456800874BDE /* RCScrollImageView.m in Sources */,
 				3B10035B17C653FD00387408 /* UserSettings.m in Sources */,
 				28E94CAD17C6776D00874BDE /* SVCameraPickerController.m in Sources */,
 				3B87E68F17C99941006483C9 /* AlbumUploadingPhoto.m in Sources */,
@@ -2990,6 +3000,10 @@
 				28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */,
 				28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				28F877BB17D299F80051F528 /* SVCameraOverlay.m in Sources */,
+				2849A74317D64E4E0076AFBA /* RCTableImageViewCell.m in Sources */,
+				2849A74A17D66ECF0076AFBA /* RCImageView.m in Sources */,
+				2849A74B17D66ECF0076AFBA /* RCScrollImageView.m in Sources */,
+				2849A74C17D66ECF0076AFBA /* RCScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -80,8 +80,8 @@
 	
     if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
 		
-        //SVSettingsViewController *destination = (SVSettingsViewController *)segue.destinationViewController;
-        //destination.currentAlbum = self.selectedAlbum;
+        SVSettingsViewController *destinationController = segue.destinationViewController;
+        destinationController.albumManager = self.albumManager;
     }
     else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
 		
@@ -139,14 +139,8 @@
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
 }
 
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	NSLog(@"viewWillAppear");
-}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-	NSLog(@"viewDidAppear");
 	
 	if (refresh == nil) {
 		refresh = [[UIRefreshControl alloc] init];
@@ -156,20 +150,21 @@
 		
 		[self.albumManager refreshAlbumContents:self.albumId];
 		[self.gridView reloadData];
+		
+		// Remove the previous controller from the stack if it's SVCameraPickerController
+		NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+		//[allViewControllers removeObjectAtIndex:allViewControllers.count-2];
+		id lastController = allViewControllers[allViewControllers.count-2];
+		if ([lastController isKindOfClass:[SVCameraPickerController class]])
+			[allViewControllers removeObject:lastController];
+		self.navigationController.viewControllers = allViewControllers;
 	}
 	// Restore the sidemenu state, when is hide it loses x position
 	if (self.menuContainerViewController.menuState != MFSideMenuStateClosed) {
 		[self.menuContainerViewController setMenuState:self.menuContainerViewController.menuState];
 	}
-	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 	
-	// Remove the previous controller from the stack if it's SVCameraPickerController
-	NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-	//[allViewControllers removeObjectAtIndex:allViewControllers.count-2];
-	id lastController = allViewControllers[allViewControllers.count-2];
-	if ([lastController isKindOfClass:[SVCameraPickerController class]])
-		[allViewControllers removeObject:lastController];
-	self.navigationController.viewControllers = allViewControllers;
+	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 }
 
 
@@ -261,57 +256,10 @@
 
 
     /*
-    cell.tag = indexPath.row;
-	__block NSIndexPath *tagIndex = indexPath;
-    
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0),^{
-		
-		AlbumPhoto *currentPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
-		UIImage *image = [thumbnailCache objectForKey:currentPhoto.photo_id];
-		
-		//NSLog(@"---------> photo cell: %i %@ objectSyncStatus: %@", indexPath.item, currentPhoto.date_created, currentPhoto.objectSyncStatus);
-		//NSLog(@"image is cached to %@", image);
-		
-		if (!image) {
-			// Holding onto the tag index so that when our block returns we can check if we're still even looking at the same cell... This should prevent the roulette wheel
-			__block NSString *photoId = currentPhoto.photo_id;
-			
-			[[SVEntityStore sharedStore] getImageForPhoto:currentPhoto WithCompletion:^(UIImage *image) {
-				
-				if (image && cell.tag == tagIndex.row) {
-					
-					[thumbnailCache setObject:image forKey:photoId];
-					
-					dispatch_async(dispatch_get_main_queue(),^{
-						[cell.networkImageView setImage:image];
-					});
-				}
-			}];
-		}
-		else {
-			dispatch_async(dispatch_get_main_queue(),^{
-				if (cell.tag == tagIndex.row) [cell.networkImageView setImage:image];
-			});
-		}
 		
 		dispatch_async(dispatch_get_main_queue(),^{
 			
-			if (cell.tag == tagIndex.row) {
-				if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadNeeded) {
-					[cell.activityView startAnimating];
-					cell.networkImageView.alpha = 0.3;
-				}
-				else if (currentPhoto.objectSyncStatus.integerValue == SVObjectSyncUploadProgress) {
-					[cell.activityView startAnimating];
-					cell.networkImageView.alpha = 0.3;
-				}
-				else {
-					[cell.activityView stopAnimating];
-					cell.networkImageView.alpha = 1.0;
-				}
-				
-				cell.labelNewView.hidden = [currentPhoto.hasViewed boolValue];
-			}
 		});
 	});
     */
@@ -326,13 +274,20 @@
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 
-    AlbumPhotoBrowserDelegate *delegate = [[AlbumPhotoBrowserDelegate alloc] initWithAlbumContents:albumContents];
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:delegate];
-    browser.wantsFullScreenLayout = YES;
-    browser.displayActionButton = NO;
-    [browser setInitialPageIndex:indexPath.item];
-
-    [self.navigationController pushViewController:browser animated:YES];
+//    AlbumPhotoBrowserDelegate *delegate = [[AlbumPhotoBrowserDelegate alloc] initWithAlbumContents:albumContents];
+//    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:delegate];
+//    browser.wantsFullScreenLayout = YES;
+//    browser.displayActionButton = YES;
+//    [browser setInitialPageIndex:indexPath.item];
+//
+//    [self.navigationController pushViewController:browser animated:YES];
+	
+	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
+    detailController.albumContents = albumContents;
+	detailController.index = indexPath.item;
+	
+    [self.navigationController pushViewController:detailController animated:YES];
+	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 }
 
 
