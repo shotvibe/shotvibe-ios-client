@@ -959,7 +959,7 @@ to register this device</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JP1-VX-6BR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="630" y="-634"/>
+            <point key="canvasLocation" x="630" y="-628"/>
         </scene>
         <!--Add Friends View Controller-->
         <scene sceneID="8iq-Ap-kcP">
@@ -1952,6 +1952,7 @@ activation code just sent to you</string>
         <class className="SVConfirmationCodeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVConfirmationCodeViewController.h"/>
             <relationships>
+                <relationship kind="action" name="confirmButtonPressed:"/>
                 <relationship kind="outlet" name="butSubmit" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="codeField1" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="codeField2" candidateClass="UITextField"/>
@@ -2032,6 +2033,7 @@ activation code just sent to you</string>
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsViewController.h"/>
             <relationships>
                 <relationship kind="action" name="doLogout:"/>
+                <relationship kind="action" name="doUsage:"/>
             </relationships>
         </class>
         <class className="SVSidebarAlbumManagementActivityCell" superclassName="UITableViewCell">

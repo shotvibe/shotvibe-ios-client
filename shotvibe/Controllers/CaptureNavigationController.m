@@ -46,7 +46,7 @@
 - (void)cameraWasDismissedWithAlbum:(AlbumSummary*)album {
 	
 	self.selectedAlbum = album;
-	[self.nav popViewControllerAnimated:YES];
+	//[self.nav popViewControllerAnimated:YES];
 	
 	if ([self.cameraDelegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
 		[self.cameraDelegate cameraWasDismissedWithAlbum:album];

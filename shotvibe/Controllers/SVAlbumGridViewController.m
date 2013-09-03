@@ -19,6 +19,7 @@
 #import "SVImagePickerListViewController.h"
 #import "SVAlbumGridViewCell.h"
 #import "SVAddFriendsViewController.h"
+#import "CaptureNavigationController.h"
 #import "AlbumPhoto.h"
 #import "UIImageView+WebCache.h"
 #import "MWPhotoBrowser.h"
@@ -161,6 +162,14 @@
 		[self.menuContainerViewController setMenuState:self.menuContainerViewController.menuState];
 	}
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
+	
+	// Remove the previous controller from the stack if it's SVCameraPickerController
+	NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+	//[allViewControllers removeObjectAtIndex:allViewControllers.count-2];
+	id lastController = allViewControllers[allViewControllers.count-2];
+	if ([lastController isKindOfClass:[SVCameraPickerController class]])
+		[allViewControllers removeObject:lastController];
+	self.navigationController.viewControllers = allViewControllers;
 }
 
 

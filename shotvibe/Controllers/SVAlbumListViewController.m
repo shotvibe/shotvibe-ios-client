@@ -128,24 +128,21 @@
 - (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {
 	
 	NSLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
-	/*
-	if (self.navigationController.visibleViewController == self) {
-		NSLog(@"navigate to gridview");
+	NSLog(@"navigate to gridview");
+	
+	int i = 0;
+	NSIndexPath *indexPath;
+	for (AlbumSummary *a in albumList) {
 		
-		int i = 0;
-		NSIndexPath *indexPath;
-		for (AlbumSummary *a in albumList) {
+		if (a.albumId == selectedAlbum.albumId) {
+			indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+			NSLog(@"found at indexPath %@", indexPath);
+			[self performSegueWithIdentifier:@"AlbumGridViewSegue" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
 			
-			if (a.albumId == selectedAlbum.albumId) {
-				indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-				NSLog(@"found at indexPath %@", indexPath);
-				[self performSegueWithIdentifier:@"AlbumGridViewSegue" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
-				
-				break;
-			}
-			i ++;
+			break;
 		}
-	}*/
+		i ++;
+	}
 }
 
 
@@ -192,25 +189,25 @@
 	
 	[super viewDidAppear:animated];
 	
-	if (cameraNavController != nil) {
-		
-		int i = 0;
-		NSIndexPath *indexPath;
-		for (AlbumSummary *a in albumList) {
-			
-			if (a.albumId == cameraNavController.selectedAlbum.albumId) {
-				indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-				NSLog(@"found at indexPath %@", indexPath);
-				[self performSegueWithIdentifier:@"AlbumGridViewSegue" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
-				
-				break;
-			}
-			i ++;
-		}
-		//[self cameraWasDismissedWithAlbum:cameraNavController.selectedAlbum];
-		cameraNavController = nil;
-	}
-	
+//	if (cameraNavController != nil) {
+//		
+//		int i = 0;
+//		NSIndexPath *indexPath;
+//		for (AlbumSummary *a in albumList) {
+//			
+//			if (a.albumId == cameraNavController.selectedAlbum.albumId) {
+//				indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+//				NSLog(@"found at indexPath %@", indexPath);
+//				[self performSegueWithIdentifier:@"AlbumGridViewSegue" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+//				
+//				break;
+//			}
+//			i ++;
+//		}
+//		//[self cameraWasDismissedWithAlbum:cameraNavController.selectedAlbum];
+//		cameraNavController = nil;
+//	}
+	cameraNavController = nil;
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 }
 
