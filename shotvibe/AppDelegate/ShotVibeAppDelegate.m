@@ -231,13 +231,6 @@ NSString * deviceDescription()
 
             [UserSettings setAuthData:authData];
 
-            // -----------------
-            // TODO Temporary Legacy compatibility shit:
-            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%lld", authData.userId] forKey:kApplicationUserId];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"Token %@", authData.authToken] forKey:kApplicationUserAuthToken];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            // -----------------
-
             [pushNotificationsManager setup];
 
             [registrationViewController skipRegistration];

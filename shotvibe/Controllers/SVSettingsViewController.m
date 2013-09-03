@@ -134,18 +134,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
 	if (buttonIndex == 1) {
-		
-		// Delete the login data
-		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserId];
-		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApplicationUserAuthToken];
-		// Delete the last sync date
-		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kUserAlbumsLastRequestedDate];
-		[[NSUserDefaults standardUserDefaults] synchronize];
-		
-
-		// Delete the database and the photos
-		//[[SVEntityStore sharedStore] wipe];
-		
 		// Grab the storyboard
 		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
 		
