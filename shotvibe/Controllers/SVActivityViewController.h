@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol SVActivityViewControllerDelegate <NSObject>
+
+-(void)activityDidClose;
+
+@end
+
 @interface SVActivityViewController : UIViewController <UIAppearanceContainer>
 
+@property (nonatomic, retain) id<SVActivityViewControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UIView *activityView;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollSocialButtons;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollLocalButtons;

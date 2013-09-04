@@ -109,6 +109,9 @@
 		self.activityView.frame = rect;
 	}completion:^(BOOL finished) {
 		[self.view removeFromSuperview];
+		if ([self.delegate respondsToSelector:@selector(activityDidClose)]) {
+			[self.delegate activityDidClose];
+		}
 	}];
 }
 

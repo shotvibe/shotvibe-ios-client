@@ -587,6 +587,7 @@
 	if (activity == nil) {
 		activity = [[SVActivityViewController alloc] initWithNibName:@"SVActivityViewController" bundle:[NSBundle mainBundle]];
 		activity.controller = self;
+		activity.delegate = self;
 		activity.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 		activity.modalPresentationStyle = UIModalPresentationCurrentContext;
 	}
@@ -618,5 +619,14 @@
 	[self exportButtonPressed];
 }
 
+- (void)toggleMenu
+{
+    [self.menuContainerViewController toggleRightSideMenuCompletion:^{
+		
+	}];
+}
+-(void)activityDidClose {
+	[self.navigationController setToolbarHidden:NO animated:YES];
+}
 
 @end

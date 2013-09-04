@@ -20,7 +20,7 @@ typedef enum {
 	PhotoViewerTypeScrollView
 } PhotoViewerType;
 
-@interface SVPhotoViewerController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, RCTableImageViewCellDelegate> {
+@interface SVPhotoViewerController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, RCTableImageViewCellDelegate, SVActivityViewControllerDelegate> {
 	
 	UITableView *photosTableView;
 	RCScrollView *photosScrollView;
