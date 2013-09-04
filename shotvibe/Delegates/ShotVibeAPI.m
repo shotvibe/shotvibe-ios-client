@@ -314,6 +314,35 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     }
 }
 
+- (BOOL)setUserNickname:(int64_t)userId nickname:(NSString *)nickname withError:(NSError **)error
+{
+    NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
+                          nickname, @"nickname",
+                          nil];
+
+    NSError *jsonError;
+
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
+
+    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
+
+    NSError *responseError;
+    Response *response = [self getResponse:[NSString stringWithFormat:@"/users/%lld/", userId] method:@"PATCH" body:jsonData error:&responseError];
+
+    if (response == nil) {
+        *error = responseError;
+        return NO;
+    }
+
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return NO;
+    }
+
+    // TODO Maybe parse the response body
+    return YES;
+}
+
 - (NSArray *)getAlbumsWithError:(NSError **)error
 {
     NSError *responseError;

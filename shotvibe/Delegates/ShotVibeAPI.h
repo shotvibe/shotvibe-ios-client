@@ -43,6 +43,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 
 - (AlbumMember *)getUserProfile:(int64_t)userId withError:(NSError **)error;
 
+- (BOOL)setUserNickname:(int64_t)userId nickname:(NSString *)nickname withError:(NSError **)error;
+
 // Returns an array of `AlbumSummary` objects
 - (NSArray *)getAlbumsWithError:(NSError **)error;
 

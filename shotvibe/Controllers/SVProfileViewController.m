@@ -25,8 +25,34 @@
 
 - (IBAction)doneButtonPressed:(id)sender
 {
-    // Probably do some kind of save operation or someshit
-    [self.navigationController popViewControllerAnimated:YES];
+    NSString *newNickname = [self.nicknameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
+
+    int64_t userId = shotvibeAPI.authData.userId;
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSError *error;
+        BOOL success = [shotvibeAPI setUserNickname:userId nickname:newNickname withError:&error];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if (!success) {
+                // TODO Better error dialog with Retry option
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:[error description]
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            else {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        });
+    });
 }
 
 
@@ -58,11 +84,17 @@
         AlbumMember *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
 
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (!userProfile) {
-                // TODO Show error dialog
+                // TODO Better error dialog with Retry option
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:[error description]
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
             }
             else {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 self.nicknameField.text = userProfile.nickname;
 
                 // TODO Set avatar UIImageView to userProfile.avatarUrl
