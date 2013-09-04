@@ -97,6 +97,17 @@
         NSLog(@"This happens ONLY when it's popped");
 }
 
+
+#pragma mark Rotation
+
+- (BOOL)shouldAutorotate {
+	return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait;
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	
 	if (viewerType == PhotoViewerTypeTableView) {
@@ -187,9 +198,14 @@
 				photosTableView.dataSource = self;
 				photosTableView.backgroundColor = [UIColor blackColor];
 				[self.view addSubview:photosTableView];
-				[self.navigationController.toolbar setHidden:YES];
 				[photosTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+				
 			}
+			photosTableView.alpha = 1;
+			photosTableView.userInteractionEnabled = YES;
+			[[UIApplication sharedApplication] setStatusBarHidden:NO];
+			[self.navigationController setToolbarHidden:YES animated:YES];
+			[self.navigationController setNavigationBarHidden:NO animated:YES];
 		}
 		break;
 		
@@ -214,7 +230,10 @@
 				
 				[self loadPhoto:self.index andPreloadNext:YES];
 				[self updateInfoOnScreen];
-				[self.navigationController.toolbar setHidden:NO];
+				
+				[[UIApplication sharedApplication] setStatusBarHidden:YES];
+				[self.navigationController setToolbarHidden:YES animated:YES];
+				[self.navigationController setNavigationBarHidden:YES animated:YES];
 			}
 		}
 		break;
@@ -322,15 +341,14 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 	return 0;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return photos.count;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -358,6 +376,7 @@
 	//cell.backgroundColor = [UIColor whiteColor];
 	
 }
+
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 }
@@ -367,7 +386,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
+	tableView.userInteractionEnabled = NO;
+	self.index = indexPath.row;
+	[self showViewerOfType:PhotoViewerTypeScrollView];
+	
+	// Hide feedview
+	[UIView animateWithDuration:0.4 animations:^{
+		photosTableView.alpha = 0;
+	}];
 }
 
 
@@ -550,55 +578,44 @@
 
 - (void)exportButtonPressed
 {
-    
-	// Activity items
-	NSMutableArray *activityItems = [NSMutableArray array];
-	[activityItems addObject:NSLocalizedString(@"This is the text that goes with the sharing!", nil)];
-	[activityItems addObject:[NSURL URLWithString:@"http://shotvibe.com"]];
+	[self.navigationController.toolbar setHidden:YES];
 	
 	AlbumPhoto *photo = [photos objectAtIndex:self.index];
 	RCScrollImageView *imageView = [cache objectForKey:photo.serverPhoto.photoId];
 	UIImage *image = imageView.image;
-	if (image != nil) {
-		[activityItems addObject:image];
+	
+	if (activity == nil) {
+		activity = [[SVActivityViewController alloc] initWithNibName:@"SVActivityViewController" bundle:[NSBundle mainBundle]];
+		activity.controller = self;
+		activity.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+		activity.modalPresentationStyle = UIModalPresentationCurrentContext;
 	}
-    //SVLinkEvent *linkEvent = [self createLinkEvent];
-    
-	// Application activities
-    SVLinkActivity *linkActivity = [[SVLinkActivity alloc] init];
-    linkActivity.delegate = self;
-    
-    SVActivityViewController* activity = [[SVActivityViewController alloc] initWithActivityItems:[NSArray arrayWithArray:activityItems]
-                                                                           applicationActivities:@[linkActivity]];
-    //activity.excludedActivityTypes = @[UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll, UIActivityTypeAssignToContact];
-    
-    [self presentViewController:activity animated:YES completion:NULL];
-     
+    activity.activityDescription = NSLocalizedString(@"This is the text that goes with the sharing!", nil);
+	activity.activityUrl = [NSURL URLWithString:@"http://shotvibe.com"];
+    if (image != nil) {
+		activity.activityImage = image;
+	}
+
+	[self.view addSubview:activity.view];
+	
+	activity.view.alpha = 0;
+	__block CGRect rect = activity.activityView.frame;
+	rect.origin.y = self.view.frame.size.height;
+	activity.activityView.frame = rect;
+	
+	[UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+		rect.origin.y = self.view.frame.size.height - rect.size.height;
+		activity.view.alpha = 1;
+		activity.activityView.frame = rect;
+	}completion:^(BOOL finished) {
+		
+	}];
 }
 
 - (void)shareButtonPressedForIndex:(RCTableImageViewCell*)cell {
 	NSIndexPath *indexPath = [photosTableView indexPathForCell:cell];
 	self.index = indexPath.row;
 	[self exportButtonPressed];
-}
-
--(SVLinkEvent *)createLinkEvent
-{
-    SVLinkEvent *linkEvent = [[SVLinkEvent alloc] init];
-    linkEvent.URL = [NSURL URLWithString:@"http://shotvibe.com"];
-    return linkEvent;
-}
-
-#pragma mark - NHCalendarActivityDelegate
-
--(void)calendarActivityDidFinish:(SVLinkEvent *)event
-{
-    NSLog(@"Event: %@", event.URL);
-}
-
--(void)calendarActivityDidFail:(SVLinkEvent *)event withError:(NSError *)error
-{
-    NSLog(@"Ops!");
 }
 
 

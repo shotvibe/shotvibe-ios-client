@@ -17,10 +17,10 @@
         // Initialization code
         self.delegate = self;
 		gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-		swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeUp:)];
-		swipeGesture.direction = UISwipeGestureRecognizerDirectionUp;
+		//swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeUp:)];
+		//swipeGesture.direction = UISwipeGestureRecognizerDirectionUp;
 		[self addGestureRecognizer:gesture];
-		[self addGestureRecognizer:swipeGesture];
+		//[self addGestureRecognizer:swipeGesture];
     }
     return self;
 }

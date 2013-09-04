@@ -1,19 +1,25 @@
+//
+//  SVMoveActivity.m
+//  shotvibe
+//
+//  Created by Baluta Cristian on 04/09/2013.
+//  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
+//
 
-#import "SVLinkActivity.h"
+#import "SVMoveActivity.h"
 
-@implementation SVLinkActivity
-
+@implementation SVMoveActivity
 
 - (NSString *)activityType {
     return NSStringFromClass([self class]);
 }
 
 - (NSString *)activityTitle {
-    return NSLocalizedString(@"Get link", @"");
+    return NSLocalizedString(@"Move", @"");
 }
 
 - (UIImage *)activityImage {
-    return [UIImage imageNamed:@"IconLink.png"];
+    return [UIImage imageNamed:@"IconMove"];
 }
 
 -(BOOL)canPerformWithActivityItems:(NSArray *)activityItems
