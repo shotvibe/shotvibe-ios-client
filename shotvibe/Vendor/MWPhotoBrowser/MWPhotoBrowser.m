@@ -360,7 +360,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 - (void)viewWillDisappear:(BOOL)animated {
     
     // Check that we're being popped for good
-    if ([self.navigationController.viewControllers objectAtIndex:0] != self &&
+ /*   if ([self.navigationController.viewControllers objectAtIndex:0] != self &&
         ![self.navigationController.viewControllers containsObject:self]) {
         
         // State
@@ -379,7 +379,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     // Status bar
     if (self.wantsFullScreenLayout && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [[UIApplication sharedApplication] setStatusBarStyle:_previousStatusBarStyle animated:animated];
-    }
+    }*/
     
 	// Super
 	[super viewWillDisappear:animated];
@@ -394,7 +394,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 #pragma mark - Nav Bar Appearance
 
 - (void)setNavBarAppearance:(BOOL)animated {
-    self.navigationController.navigationBar.tintColor = nil;
+    return;
+	self.navigationController.navigationBar.tintColor = nil;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
         [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
@@ -403,6 +404,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 - (void)storePreviousNavBarAppearance {
+    return;
     _didSavePreviousStateOfNavBar = YES;
     self.previousNavBarTintColor = self.navigationController.navigationBar.tintColor;
     _previousNavBarStyle = self.navigationController.navigationBar.barStyle;
@@ -413,6 +415,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 - (void)restorePreviousNavBarAppearance:(BOOL)animated {
+    return;
     if (_didSavePreviousStateOfNavBar) {
         self.navigationController.navigationBar.tintColor = _previousNavBarTintColor;
         self.navigationController.navigationBar.barStyle = _previousNavBarStyle;

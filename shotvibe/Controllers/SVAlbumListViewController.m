@@ -8,6 +8,7 @@
 
 #import "SVAlbumListViewController.h"
 #import "SVSettingsViewController.h"
+#import "SVProfileViewController.h"
 #import "UIImageView+WebCache.h"
 
 #import "AlbumSummary.h"
@@ -113,8 +114,8 @@
         destinationController.albumManager = self.albumManager;
     }
 	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
-		
-		
+		SVProfileViewController *destinationController = segue.destinationViewController;
+        destinationController.albumManager = self.albumManager;
 	}
 }
 

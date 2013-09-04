@@ -276,6 +276,7 @@
 	
 	self.butShutter.enabled = YES;
 	
+	// TODO: save the image at 1600x1200px
     UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
 	__block UIImage *thumbImage;
 	NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", self.capturedImages.count]];

@@ -9,7 +9,7 @@
 #import "RCScrollImageView.h"
 
 @implementation RCScrollImageView
-
+@synthesize loadingIndicator;
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
@@ -69,17 +69,24 @@
 	_i = i;
 	imageView.i = i;
 }
+- (UIImage*) image {
+	return imageView.image;
+}
 - (void) setImage:(UIImage *)image {
 	imageView.image = image;
 }
 - (void)loadNetworkImage:(NSString *)path {
 	
 	if (loadingIndicator == nil) {
-		loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+		loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 		[loadingIndicator sizeToFit];
-		//loadingIndicator.frame = NIFrameOfCenteredViewWithinView(_loadingView, self);
+		CGRect rect = loadingIndicator.frame;
+		rect.origin.x = self.frame.size.width/2 - rect.size.width/2;
+		rect.origin.y = self.frame.size.height/2 - rect.size.height/2;
+		loadingIndicator.frame = rect;
 		loadingIndicator.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
 		[self addSubview:loadingIndicator];
+		[loadingIndicator startAnimating];
 	}
 	[imageView loadNetworkImage:path];
 }

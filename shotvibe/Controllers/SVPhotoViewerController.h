@@ -8,22 +8,30 @@
 
 #import <UIKit/UIKit.h>
 #import "RCScrollView.h"
-//#import "RCImageView.h"
+#import "RCImageView.h"
 #import "RCScrollImageView.h"
+#import "RCTableImageViewCell.h"
 #import "SVLinkActivity.h"
 #import "SVActivityViewController.h"
 #import "AlbumContents.h"
 
-@class AlbumPhoto;
-@interface SVPhotoViewerController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, SVLinkActivityDelegate> {
+typedef enum {
+	PhotoViewerTypeTableView,
+	PhotoViewerTypeScrollView
+} PhotoViewerType;
+
+@interface SVPhotoViewerController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, RCTableImageViewCellDelegate, SVLinkActivityDelegate> {
 	
+	UITableView *photosTableView;
 	RCScrollView *photosScrollView;
+	PhotoViewerType viewerType;
+	NSMutableArray *photos;
+	NSMutableDictionary *cache;
 }
 
 #pragma mark - Properties
 
 @property (nonatomic, strong) AlbumContents *albumContents;
-@property (nonatomic, strong) NSMutableDictionary *cache;
 @property (nonatomic) int index;
 
 @end

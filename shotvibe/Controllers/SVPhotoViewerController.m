@@ -22,6 +22,7 @@
 - (void)exportButtonPressed;
 - (void)toggleMenu;
 - (void)updateInfoOnScreen;
+- (void)showViewerOfType:(PhotoViewerType)type;
 @end
 
 @implementation SVPhotoViewerController
@@ -34,39 +35,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor blackColor];
-	self.cache = [[NSMutableDictionary alloc] init];
+	cache = [[NSMutableDictionary alloc] init];
+	photos = [NSMutableArray arrayWithArray:self.albumContents.photos];
 	
-	int w = self.view.frame.size.width;
-	int h = self.view.frame.size.height;
-
-
-    /*
-    NSSortDescriptor *datecreatedDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date_created" ascending:YES];
-    //NSSortDescriptor *idDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"photo_id" ascending:YES];
-	//self.sortedPhotos = [NSMutableArray arrayWithArray: [[self.selectedPhoto.album.albumPhotos allObjects] sortedArrayUsingDescriptors:@[descriptor]]];
-	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"album.albumId == %@ AND objectSyncStatus != %i", self.selectedPhoto.album.albumId, SVObjectSyncDeleteNeeded];
-	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"AlbumPhoto"];
-	fetchRequest.sortDescriptors = @[datecreatedDescriptor];
-	fetchRequest.predicate = predicate;
-	
-	NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-																							   managedObjectContext:[NSManagedObjectContext defaultContext]
-																								 sectionNameKeyPath:nil
-																										  cacheName:nil];
-	[fetchedResultsController performFetch:nil];
-	self.sortedPhotos = [NSMutableArray arrayWithArray: [fetchedResultsController fetchedObjects]];
-	*/
-    
-	photosScrollView = [[RCScrollView alloc] initWithFrame:CGRectMake(0, 0, w+60, h)];
-	photosScrollView.contentSize = CGSizeMake((w+60)*self.albumContents.photos.count, h);
-	photosScrollView.scrollEnabled = YES;
-	photosScrollView.showsHorizontalScrollIndicator = NO;
-	photosScrollView.showsVerticalScrollIndicator = NO;
-	photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
-	photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	[photosScrollView setD:self];// set delegate
-	[self.view addSubview:photosScrollView];
 	
     // Setup menu button
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
@@ -93,12 +64,7 @@
     self.toolbarItems = [NSArray arrayWithObjects:previousButton, flexibleSpace, nextButton, nil];
     self.navigationController.toolbarHidden = NO;
     
-	[self loadPhoto:self.index andPreloadNext:YES];
-	
-	photosScrollView.contentSize = CGSizeMake((w+60)*self.albumContents.photos.count, h);
-	photosScrollView.contentOffset = CGPointMake((w+60)*self.index, 0);
-	
-	[self updateInfoOnScreen];
+	[self showViewerOfType:PhotoViewerTypeTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -106,7 +72,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.toolbar.translucent = YES;
-	[self.navigationController.toolbar setHidden:NO];
+	//[self.navigationController.toolbar setHidden:NO];
 	self.title = self.albumContents.name;
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 }
@@ -133,6 +99,10 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	
+	if (viewerType == PhotoViewerTypeTableView) {
+		return;
+	}
+	
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	int i = 0;
@@ -142,7 +112,7 @@
 	
 	for (AlbumPhoto *photo in self.albumContents.photos) {
 		
-		RCScrollImageView *cachedImage = [self.cache objectForKey:photo.serverPhoto.photoId];
+		RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
 		cachedImage.frame = CGRectMake((w+60)*i, 0, w, h);
 		[cachedImage setMaxMinZoomScalesForCurrentBounds];
 		cachedImage.hidden = NO;
@@ -152,13 +122,19 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 	
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	
+	if (viewerType == PhotoViewerTypeTableView) {
+		return;
+	}
+	
 	__block int w = self.view.frame.size.height;
 	__block int h = self.view.frame.size.width;
 	__block int i = 0;
 	
 	// Hide all the images except the visible one
-	for (AlbumPhoto *photo in self.albumContents.photos) {
-		RCScrollImageView *cachedImage = [self.cache objectForKey:photo.serverPhoto.photoId];
+	for (AlbumPhoto *photo in photos) {
+		RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
 		if (cachedImage.i == i) {
 			//visible_photo = photo;
 		}
@@ -167,7 +143,7 @@
 	}
 	i = 0;
 	
-//	RCScrollImageView *cachedImage = [self.cache objectForKey:visible_photo.photo_id];
+//	RCScrollImageView *cachedImage = [cache objectForKey:visible_photo.photo_id];
 //	CGRect oldFrame = cachedImage.frame;
 //	oldFrame.size.width = w;
 //	oldFrame.size.height = h;
@@ -176,8 +152,8 @@
 	[UIView animateWithDuration:duration animations:^{
 		//cachedImage.frame = oldFrame;
 		
-		for (AlbumPhoto *photo in self.albumContents.photos) {
-			RCScrollImageView *cachedImage = [self.cache objectForKey:photo.serverPhoto.photoId];
+		for (AlbumPhoto *photo in photos) {
+			RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
 			if (cachedImage.i == i) {
 				if (w == 300) w = 320;
 				if (w == 460) w = 480;
@@ -194,27 +170,77 @@
 }
 
 
+#pragma mark Viewer
+
+- (void)showViewerOfType:(PhotoViewerType)type {
+	viewerType = type;
+	
+	switch (viewerType) {
+		case PhotoViewerTypeTableView:
+		{
+			if (photosTableView == nil) {
+				photosTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height-44) style:UITableViewStylePlain];
+				photosTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+				photosTableView.rowHeight = IMAGE_CELL_HEIGHT;
+				photosTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+				photosTableView.delegate = self;
+				photosTableView.dataSource = self;
+				photosTableView.backgroundColor = [UIColor blackColor];
+				[self.view addSubview:photosTableView];
+				[self.navigationController.toolbar setHidden:YES];
+				[photosTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+			}
+		}
+		break;
+		
+		case PhotoViewerTypeScrollView:
+		{
+			if (photosScrollView == nil) {
+				int w = self.view.frame.size.width;
+				int h = self.view.frame.size.height;
+				
+				photosScrollView = [[RCScrollView alloc] initWithFrame:CGRectMake(0, 0, w+60, h)];
+				photosScrollView.contentSize = CGSizeMake((w+60)*self.albumContents.photos.count, h);
+				photosScrollView.scrollEnabled = YES;
+				photosScrollView.showsHorizontalScrollIndicator = NO;
+				photosScrollView.showsVerticalScrollIndicator = NO;
+				photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
+				photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+				[photosScrollView setD:self];// set delegate
+				[self.view addSubview:photosScrollView];
+				
+				photosScrollView.contentSize = CGSizeMake((w+60)*photos.count, h);
+				photosScrollView.contentOffset = CGPointMake((w+60)*self.index, 0);
+				
+				[self loadPhoto:self.index andPreloadNext:YES];
+				[self updateInfoOnScreen];
+				[self.navigationController.toolbar setHidden:NO];
+			}
+		}
+		break;
+	}
+}
+
 #pragma mark load/unload photos
 
-- (void)loadPhoto:(int)i andPreloadNext:(BOOL)preload {
+- (RCScrollImageView*)loadPhoto:(int)i andPreloadNext:(BOOL)preload {
 	
 	// Preload only one photo in advance
-	if (i > self.index + 1 || i >= self.albumContents.photos.count) {
-		return;
+	if (i > self.index + 1 || i >= photos.count) {
+		return nil;
 	}
 	if (i < self.index - 1 || i < 0) {
-		return;
+		return nil;
 	}
 	
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	
-	AlbumPhoto *photo = [self.albumContents.photos objectAtIndex:i];
-	RCScrollImageView *cachedImage = [self.cache objectForKey:photo.serverPhoto.photoId];
-	cachedImage.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+	AlbumPhoto *photo = [photos objectAtIndex:i];
+	RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
 	
-	NSLog(@"loadPhoto %i %@", i, photo.serverPhoto.photoId);
-	//NSLog(@"acche keys %@", [self.cache allKeys]);
+	//NSLog(@"loadPhoto %i %@", i, photo.serverPhoto.photoId);
+	//NSLog(@"acche keys %@", [cache allKeys]);
     
     if (cachedImage != nil) {
 		cachedImage.frame = CGRectMake((w+60)*i, 0, w, h);
@@ -224,42 +250,62 @@
 		// If the photo is not in cache try in the saved photos
 		RCScrollImageView *rcphoto = [[RCScrollImageView alloc] initWithFrame:CGRectMake((w+60)*i, 0, w, h) delegate:self];
 		rcphoto.i = i;
-		UIImage *localImage = nil;
+		rcphoto.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		
-		if (localImage != nil) {
-			NSLog(@"found locally");
-			[rcphoto setImage:localImage];
+		if (photo.serverPhoto) {
+			
+			NSString *fullsizePhotoUrl = photo.serverPhoto.url;
+			NSString *displaySuffix = @"_r_dvgax.jpg";
+			NSString *finalUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:displaySuffix];
+			NSLog(@"loadNetworkImage %@", finalUrl);
+			[rcphoto loadNetworkImage:finalUrl];
 		}
-		else {
-			NSLog(@"image needs to load from server");
-			// In the last instance load the image from server
-			[rcphoto loadNetworkImage:photo.serverPhoto.url];
+		else if (photo.uploadingPhoto) {
+			UIImage *localImage = [UIImage imageWithData:[NSData dataWithContentsOfFile:[photo.uploadingPhoto getFilename]]];
+			if (localImage != nil) {
+				NSLog(@"found locally");
+				[rcphoto setImage:localImage];
+			}
 		}
-		[photosScrollView addSubview:rcphoto];
-		[self.cache setObject:rcphoto forKey:photo.serverPhoto.photoId];
+		
+		cachedImage = rcphoto;
+		[cache setObject:rcphoto forKey:photo.serverPhoto.photoId];
+	}
+	
+	switch (viewerType) {
+		case PhotoViewerTypeTableView:
+		{
+			cachedImage.frame = CGRectMake(0, 0, w, h);
+		}break;
+			
+		case PhotoViewerTypeScrollView:
+		{
+			cachedImage.frame = CGRectMake((w+60)*i, 0, w, h);
+			[photosScrollView addSubview:cachedImage];
+		}break;
 	}
 	
 	if (preload) {
 		[self loadPhoto:i+1 andPreloadNext:YES];
 		[self loadPhoto:i-1 andPreloadNext:NO];
 	}
-	
+	return cachedImage;
 }
 - (void)unloadPhoto:(int)i {
-	/*
-	if ([[self.sortedPhotos objectAtIndex:i] isKindOfClass:[RCImageView class]]) {
-		[[self.sortedPhotos objectAtIndex:i] cancel];
-		[[self.sortedPhotos objectAtIndex:i] removeFromSuperview];
-		[self.sortedPhotos removeObjectAtIndex:i];
-		[self.sortedPhotos insertObject:[NSNull null] atIndex:i];
+	
+	if ([[photos objectAtIndex:i] isKindOfClass:[RCImageView class]]) {
+		[[photos objectAtIndex:i] cancel];
+		[[photos objectAtIndex:i] removeFromSuperview];
+		[photos removeObjectAtIndex:i];
+		[photos insertObject:[NSNull null] atIndex:i];
 	}
-     */
 }
 - (void)onPhotoComplete:(NSNumber*)nr {
 	
-	AlbumPhoto *photo = [self.albumContents.photos objectAtIndex:[nr intValue]];
-	RCScrollImageView *cachedImage = [self.cache objectForKey:photo.serverPhoto.photoId];
+	AlbumPhoto *photo = [photos objectAtIndex:[nr intValue]];
+	RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
 	cachedImage.contentSize = cachedImage.image.size;
+	[cachedImage.loadingIndicator stopAnimating];
 	[cachedImage setMaxMinZoomScalesForCurrentBounds];
 }
 - (void)onPhotoProgress:(NSNumber*)percentLoaded nr:(NSNumber*)nr{
@@ -267,6 +313,62 @@
 	
 }
 
+
+
+
+
+#pragma mark - UITableViewDataSource Methods
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	return 0;
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return photos.count;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RCTableImageViewCell *cell = (RCTableImageViewCell*)[tableView dequeueReusableCellWithIdentifier:@"SVPhotoViewerCell"];
+	self.index = indexPath.row;
+	
+	if (cell == nil) {
+		cell = [[RCTableImageViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SVPhotoViewerCell"];
+		cell.contentView.clipsToBounds = YES;
+		cell.delegate = self;
+	}
+	RCScrollImageView *image = [self loadPhoto:indexPath.row andPreloadNext:NO];
+	cell.largeImageView = image;
+	
+	// Add description
+	AlbumPhoto *photo = [photos objectAtIndex:self.index];
+	NSString *updatedBy = NSLocalizedString(@"Updated by ", @"");
+	NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterShortStyle];
+	cell.detailLabel.text = [NSString stringWithFormat:@"%@%@ on %@", updatedBy, photo.serverPhoto.authorNickname, dateFormated];
+	
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+	//cell.backgroundColor = [UIColor whiteColor];
+	
+}
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+}
+
+
+#pragma mark - UITableViewDelegate Methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	
+}
 
 
 
@@ -315,27 +417,26 @@
 	NSLog(@"PhotoViewer did receive memory warning");
 	
     // Dispose of any resources that can be recreated.
-    /*
-	NSArray *keys = [self.cache allKeys];
+    
+	NSArray *keys = [cache allKeys];
 	
-	for (NSString *key in keys) {
-		if (![key isEqualToString:self.selectedPhoto.photo_id]) {
-			RCImageView *img = [self.cache objectForKey:key];
-			[img removeFromSuperview];
-			[self.cache removeObjectForKey:key];
-		}
-	}
-     */
+//	for (NSString *key in keys) {
+//		if (![key isEqualToString:self.selectedPhoto.photo_id]) {
+//			RCImageView *img = [cache objectForKey:key];
+//			[img removeFromSuperview];
+//			[cache removeObjectForKey:key];
+//		}
+//	}
 }
 - (void)dealloc {
 	
 	NSLog(@"dealloc SVPhotosViewwerController");
 	
-	for (NSString *key in [self.cache allKeys]) {
-		RCImageView *img = [self.cache objectForKey:key];
+	for (NSString *key in [cache allKeys]) {
+		RCImageView *img = [cache objectForKey:key];
 		[img removeFromSuperview];
 	}
-	[self.cache removeAllObjects];
+	[cache removeAllObjects];
 }
 
 
@@ -361,15 +462,15 @@
 	
     AlbumPhoto *photo = [self.albumContents.photos objectAtIndex:self.index];
 	
-		NSString *updatedBy = NSLocalizedString(@"Updated by ", @"");
-		
+	NSString *updatedBy = NSLocalizedString(@"Updated by ", @"");
+	
 //		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 //		formatter.dateFormat = @"MM.dd, HH:mm\"";
-		NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterShortStyle];
-		
-		NSString *str = [NSString stringWithFormat:@"%@%@\n%@", updatedBy, photo.serverPhoto.authorNickname, dateFormated];
-		NSLog(@"%@", str);
-		self.detailLabel.text = str;
+	NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterShortStyle];
+	
+	NSString *str = [NSString stringWithFormat:@"%@%@\n%@", updatedBy, photo.serverPhoto.authorNickname, dateFormated];
+	NSLog(@"%@", str);
+	self.detailLabel.text = str;
 
 	/*
 	if (photo.hasViewed.intValue == NO) {
@@ -385,64 +486,63 @@
 
 - (void)deleteButtonPressed
 {
-	/*
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	
-    AlbumPhoto *photoToDelete = [self.sortedPhotos objectAtIndex:self.index];
+    AlbumPhoto *photoToDelete = [photos objectAtIndex:self.index];
+	RCImageView *cachedImage = [cache objectForKey:photoToDelete.serverPhoto.photoId];
 	
 	// Remove physical file and mark for deletion from server
-	[[SVEntityStore sharedStore] deletePhoto:photoToDelete];
+	//[[SVEntityStore sharedStore] deletePhoto:photoToDelete];
 	
 	// Remove from local array
-	[self.sortedPhotos removeObject:photoToDelete];
+	[photos removeObject:photoToDelete];
 	
 	// Animate deleted photo to the trashbin
 	[UIView animateWithDuration:0.3
 					 animations:^{
-										 
-						RCImageView *cachedImage = [self.cache objectForKey:photoToDelete.photo_id];
+						 
 						if (cachedImage) {
 							CGRect rect = cachedImage.frame;
 							cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
 						}
 	}
 					 completion:^(BOOL finished){
-						 NSLog(@"finished trashbin animation. ");
-						 RCImageView *cachedImage = [self.cache objectForKey:photoToDelete.photo_id];
-						 if (cachedImage) {
-							 [cachedImage removeFromSuperview];
-							 [self.cache removeObjectForKey:photoToDelete.photo_id];
-						 }
-					 }];
+						
+						if (cachedImage) {
+							[cachedImage removeFromSuperview];
+							[cache removeObjectForKey:photoToDelete.serverPhoto.photoId];
+						}
+	}];
 	
-	// Iterate over left photos and rearrange them in the scrollview
+	// Iterate over all remaining photos and rearrange them in the scrollview
 	[UIView animateWithDuration:0.6
 					 animations:^{
 		
-		int i = 0;
-		for (AlbumPhoto *photo in self.sortedPhotos) {
-			RCImageView *cachedImage = [self.cache objectForKey:photo.photo_id];
-			if (cachedImage) {
-				cachedImage.i = i;
-				cachedImage.frame = CGRectMake((w+60)*i, 0, w, h);
-			}
-			i++;
-		}
+						int i = 0;
+						for (AlbumPhoto *photo in photos) {
+							RCImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
+							if (cachedImage) {
+								cachedImage.i = i;
+								cachedImage.frame = CGRectMake((w+60)*i, 0, w, h);
+							}
+							i++;
+						}
 	}
 					 completion:^(BOOL finished){
 						 NSLog(@"finished animation. ");
-						 photosScrollView.contentSize = CGSizeMake((w+60)*[self.sortedPhotos count], h);
+						 photosScrollView.contentSize = CGSizeMake((w+60)*[photos count], h);
 	}];
-     */
 }
 
-- (void)toggleMenu
-{
-    //[self.navigationController.sideMenu toggleRightSideMenu];
+- (void)deleteButtonPressedForIndex:(RCTableImageViewCell*)cell {
+	NSIndexPath *indexPath = [photosTableView indexPathForCell:cell];
+	[photosTableView beginUpdates];
+	[photosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+	AlbumPhoto *photoToDelete = [photos objectAtIndex:self.index];
+	[photos removeObject:photoToDelete];
+	[photosTableView endUpdates];
 }
-
-
 
 
 
@@ -450,16 +550,17 @@
 
 - (void)exportButtonPressed
 {
-    /*
+    
 	// Activity items
 	NSMutableArray *activityItems = [NSMutableArray array];
 	[activityItems addObject:NSLocalizedString(@"This is the text that goes with the sharing!", nil)];
 	[activityItems addObject:[NSURL URLWithString:@"http://shotvibe.com"]];
 	
-	AlbumPhoto *photo = [self.sortedPhotos objectAtIndex:self.index];
-	UIImage *currentImage = [[SVEntityStore sharedStore] getImageForPhoto:photo];
-	if (currentImage != nil) {
-		[activityItems addObject:currentImage];
+	AlbumPhoto *photo = [photos objectAtIndex:self.index];
+	RCScrollImageView *imageView = [cache objectForKey:photo.serverPhoto.photoId];
+	UIImage *image = imageView.image;
+	if (image != nil) {
+		[activityItems addObject:image];
 	}
     //SVLinkEvent *linkEvent = [self createLinkEvent];
     
@@ -472,7 +573,13 @@
     //activity.excludedActivityTypes = @[UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll, UIActivityTypeAssignToContact];
     
     [self presentViewController:activity animated:YES completion:NULL];
-     */
+     
+}
+
+- (void)shareButtonPressedForIndex:(RCTableImageViewCell*)cell {
+	NSIndexPath *indexPath = [photosTableView indexPathForCell:cell];
+	self.index = indexPath.row;
+	[self exportButtonPressed];
 }
 
 -(SVLinkEvent *)createLinkEvent

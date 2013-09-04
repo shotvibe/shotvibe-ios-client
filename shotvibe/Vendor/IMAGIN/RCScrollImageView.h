@@ -12,7 +12,6 @@
 @interface RCScrollImageView : UIScrollView <UIScrollViewDelegate> {
 	
 	RCImageView *imageView;
-	UIActivityIndicatorView *loadingIndicator;
 }
 
 - (id)initWithFrame:(CGRect)frame delegate:(id)d;
@@ -21,5 +20,6 @@
 
 @property(nonatomic, retain) UIImage *image;
 @property(nonatomic) int i;
+@property(nonatomic, retain) UIActivityIndicatorView *loadingIndicator;
 
 @end
