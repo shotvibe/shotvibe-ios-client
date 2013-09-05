@@ -28,7 +28,7 @@
 
 - (void)performActivity
 {
-	if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+	//if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
         SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
 		
         [mySLComposerSheet setInitialText:self.sharingText];
@@ -50,7 +50,7 @@
 		}];
 		
         [self.controller presentViewController:mySLComposerSheet animated:YES completion:nil];
-    }
+    //}
 }
 /*
 - (id)init

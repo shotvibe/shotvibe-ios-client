@@ -39,7 +39,7 @@
 	photos = [NSMutableArray arrayWithArray:self.albumContents.photos];
 	
 	
-    // Setup menu button
+    // Setup navigation buttons
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
 	
@@ -47,6 +47,7 @@
                                                   target: nil
                                                   action: nil];
     
+	// Setup toolbar buttons
 	UIImage* exportIcon = [UIImage imageNamed:@"exportIcon.png"];
 	
 	UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithImage: exportIcon
@@ -72,7 +73,6 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.toolbar.translucent = YES;
-	//[self.navigationController.toolbar setHidden:NO];
 	self.title = self.albumContents.name;
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 }
@@ -80,7 +80,8 @@
 {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.translucent = NO;
-	[self.navigationController.toolbar setHidden:YES];
+	[self.navigationController setToolbarHidden:YES animated:YES];
+	self.detailLabel.hidden = YES;
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 }
 - (void)viewDidDisappear:(BOOL)animated {
@@ -206,12 +207,16 @@
 			[[UIApplication sharedApplication] setStatusBarHidden:NO];
 			[self.navigationController setToolbarHidden:YES animated:YES];
 			[self.navigationController setNavigationBarHidden:NO animated:YES];
+			self.detailLabel.hidden = YES;
 		}
 		break;
 		
 		case PhotoViewerTypeScrollView:
 		{
 			if (photosScrollView == nil) {
+				self.navigationItem.rightBarButtonItem = nil;
+				self.wantsFullScreenLayout = YES;
+				
 				int w = self.view.frame.size.width;
 				int h = self.view.frame.size.height;
 				
@@ -223,10 +228,9 @@
 				photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
 				photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				[photosScrollView setD:self];// set delegate
-				[self.view addSubview:photosScrollView];
-				
 				photosScrollView.contentSize = CGSizeMake((w+60)*photos.count, h);
 				photosScrollView.contentOffset = CGPointMake((w+60)*self.index, 0);
+				[self.view addSubview:photosScrollView];
 				
 				[self loadPhoto:self.index andPreloadNext:YES];
 				[self updateInfoOnScreen];
@@ -234,6 +238,8 @@
 				[[UIApplication sharedApplication] setStatusBarHidden:YES];
 				[self.navigationController setToolbarHidden:YES animated:YES];
 				[self.navigationController setNavigationBarHidden:YES animated:YES];
+				self.detailLabel.hidden = YES;
+				
 			}
 		}
 		break;
@@ -408,8 +414,6 @@
 	CGFloat pageWidth = photosScrollView.frame.size.width;
 	self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	[self updateInfoOnScreen];
-	
-	NSLog(@"scrollViewDidEndDecelerating with currentPhotoNr = %i", self.index);
 	[self loadPhoto:self.index andPreloadNext:YES];
 }
 
@@ -419,15 +423,18 @@
 - (void)areaTouched {
 	
 	if (self.navigationController.toolbar.hidden) {
-		
+		NSLog(@"unhide");
 		[[UIApplication sharedApplication] setStatusBarHidden:NO];
 		[self.navigationController setToolbarHidden:NO animated:YES];
 		[self.navigationController setNavigationBarHidden:NO animated:YES];
+		self.detailLabel.hidden = NO;
 	}
 	else {
+		NSLog(@"hide");
 		[[UIApplication sharedApplication] setStatusBarHidden:YES];
 		[self.navigationController setToolbarHidden:YES animated:YES];
 		[self.navigationController setNavigationBarHidden:YES animated:YES];
+		self.detailLabel.hidden = YES;
 	}
 }
 
@@ -514,6 +521,8 @@
 
 - (void)deleteButtonPressed
 {
+	((UIBarButtonItem*)self.toolbarItems[0]).enabled = NO;
+	
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	
@@ -558,8 +567,8 @@
 						}
 	}
 					 completion:^(BOOL finished){
-						 NSLog(@"finished animation. ");
 						 photosScrollView.contentSize = CGSizeMake((w+60)*[photos count], h);
+						 ((UIBarButtonItem*)self.toolbarItems[0]).enabled = YES;
 	}];
 }
 
@@ -578,7 +587,8 @@
 
 - (void)exportButtonPressed
 {
-	[self.navigationController.toolbar setHidden:YES];
+	[self.navigationController setToolbarHidden:YES animated:YES];
+	self.detailLabel.hidden = YES;
 	
 	AlbumPhoto *photo = [photos objectAtIndex:self.index];
 	RCScrollImageView *imageView = [cache objectForKey:photo.serverPhoto.photoId];
@@ -626,7 +636,9 @@
 	}];
 }
 -(void)activityDidClose {
+	NSLog(@"activity did close");
 	[self.navigationController setToolbarHidden:NO animated:YES];
+	self.detailLabel.hidden = NO;
 }
 
 @end

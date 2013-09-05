@@ -44,6 +44,8 @@
 		butShare.alpha = 0.5;
 		butShare.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 		[self.contentView addSubview:butShare];
+		
+		self.selectedBackgroundView = [[UIView alloc] init];
     }
     return self;
 }

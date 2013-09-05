@@ -30,7 +30,7 @@
 
 - (void)performActivity
 {
-	if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+	//if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
         SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
 		
         [mySLComposerSheet setInitialText:self.sharingText];
@@ -52,7 +52,7 @@
 		}];
 		
         [self.controller presentViewController:mySLComposerSheet animated:YES completion:nil];
-    }
+    //}
 }
 
 
