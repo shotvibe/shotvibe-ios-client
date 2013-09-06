@@ -13,6 +13,7 @@
 
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
+#import "RCScrollImageView.h"
 
 @interface SVAlbumListViewController ()
 {
@@ -174,6 +175,19 @@
 	[self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
 	
     [self.albumManager refreshAlbumList];
+	
+	
+	
+//	RCScrollImageView *rcphoto = [[RCScrollImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width-50, self.view.frame.size.height-50) delegate:self];
+//	rcphoto.i = 0;
+//	[rcphoto loadNetworkImage:@"http://icon.s.photosight.ru/img/2/caa/5157888_large.jpg"];
+//	[self.view addSubview:rcphoto];
+//	
+//	[UIView animateWithDuration:2 delay:0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
+//		rcphoto.frame = CGRectMake(0, 0, 200, 300);
+//	}completion:^(BOOL fin){
+//		
+//	}];
 }
 
 

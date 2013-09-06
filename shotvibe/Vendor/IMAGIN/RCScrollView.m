@@ -39,17 +39,17 @@
 
 
 
-#pragma mark Touches
+#pragma mark Gestures
 
 - (void)tap:(UITapGestureRecognizer *)tapGesture {
 	if ([self.scrollDelegate respondsToSelector:@selector(areaTouched)]) {
 		[self.scrollDelegate performSelector:@selector(areaTouched) withObject:nil];
 	}
 }
-- (void)swipeUp:(UISwipeGestureRecognizer *)tapGesture {
-	if ([self.scrollDelegate respondsToSelector:@selector(areaTouchedForExit)]) {
-		[self.scrollDelegate performSelector:@selector(areaTouchedForExit) withObject:nil];
-	}
-}
+//- (void)swipeUp:(UISwipeGestureRecognizer *)tapGesture {
+//	if ([self.scrollDelegate respondsToSelector:@selector(areaTouchedForExit)]) {
+//		[self.scrollDelegate performSelector:@selector(areaTouchedForExit) withObject:nil];
+//	}
+//}
 
 @end

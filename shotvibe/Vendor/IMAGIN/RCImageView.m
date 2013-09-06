@@ -21,7 +21,7 @@
 		i = -1;
 		self.contentMode = UIViewContentModeScaleAspectFit;
 		self.autosize = NO;
-		self.backgroundColor = [UIColor redColor];
+		//self.backgroundColor = [UIColor redColor];
     }
     return self;
 }

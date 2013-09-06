@@ -109,10 +109,6 @@
 	int h = self.view.frame.size.height;
 	int i = 0;
 	
-	photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
-	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
-	photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
-	
 	for (AlbumPhoto *photo in photos) {
 		
 		RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
@@ -122,14 +118,15 @@
 		i++;
 		
 		if (cachedImage.i == self.index) {
+			photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
+			photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
+			photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
 			[photosScrollView addSubview:cachedImage];
 		}
 	}
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	
-	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	
 	__block int w = self.view.frame.size.height;
 	__block int h = self.view.frame.size.width;
@@ -153,13 +150,16 @@
 	rect.origin.x = 0;
 	rect.origin.y = 0;
 	cachedImage.frame = rect;
-	//cachedImage.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self.view addSubview:cachedImage];
-	NSLog(@"willRotateToInterfaceOrientation %@", NSStringFromCGRect(cachedImage.frame));
+	NSLog(@"willRotateToInterfaceOrientation %@", NSStringFromCGRect(rect));
 	
+	// The method of animating the frame rather than using autoresizingMasks works better
 	[UIView animateWithDuration:duration animations:^{
 		cachedImage.frame = CGRectMake(0, 0, w, h);
 	}];
+	
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	
 }
 
 
@@ -173,7 +173,7 @@
 		{
 			if (photosTableView == nil) {
 				photosTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height-44) style:UITableViewStylePlain];
-				photosTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+				//photosTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				photosTableView.rowHeight = IMAGE_CELL_HEIGHT;
 				photosTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 				photosTableView.delegate = self;
@@ -207,7 +207,7 @@
 				photosScrollView.showsHorizontalScrollIndicator = NO;
 				photosScrollView.showsVerticalScrollIndicator = NO;
 				photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
-				photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+				photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 				photosScrollView.scrollDelegate = self;// set delegate
 				photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
 				photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);

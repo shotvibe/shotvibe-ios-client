@@ -11,8 +11,38 @@
 @implementation RCScrollImageView
 @synthesize loadingIndicator;
 
+
+- (id)initWithFrame:(CGRect)frame delegate:(id)d
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+		self.scrollEnabled = YES;
+		self.showsHorizontalScrollIndicator = NO;
+		self.showsVerticalScrollIndicator = NO;
+		self.autoresizesSubviews = YES;
+		self.pagingEnabled = NO;
+		self.decelerationRate = UIScrollViewDecelerationRateFast;
+		self.minimumZoomScale = 1.0;
+		self.maximumZoomScale = 1.0;
+		self.delegate = self;
+		//self.backgroundColor = [UIColor orangeColor];
+		//self.layer.borderWidth = 10;
+		//self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+		self.contentSize = frame.size;
+		
+        // Initialization code
+		imageView = [[RCImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) delegate:d];
+		//imageView.autosize = YES;// this line is trouble, don't use it
+		imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		
+		[self addSubview:imageView];
+    }
+    return self;
+}
+
 - (void)layoutSubviews {
 	[super layoutSubviews];
+	NSLog(@"layoutsubviews %i %@", self.i, NSStringFromCGRect(self.frame));
 	
 	// Center the image as it becomes smaller than the size of the screen.
 	
@@ -38,39 +68,6 @@
 	imageView.frame = frameToCenter;
 }
 
-
-- (id)initWithFrame:(CGRect)frame delegate:(id)d
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-		
-		//self.contentSize = CGSizeMake((w+60)*[self.sortedPhotos count], h);
-		self.scrollEnabled = YES;
-		self.showsHorizontalScrollIndicator = NO;
-		self.showsVerticalScrollIndicator = NO;
-		self.pagingEnabled = NO;
-		self.decelerationRate = UIScrollViewDecelerationRateFast;
-		self.minimumZoomScale = 1.0;
-		self.maximumZoomScale = 1.0;
-		self.delegate = self;
-		self.backgroundColor = [UIColor orangeColor];
-		
-        // Initialization code
-		imageView = [[RCImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) delegate:d];
-		imageView.autosize = YES;
-		imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		
-		[self addSubview:imageView];
-		
-		UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-		v.backgroundColor = [UIColor blueColor];
-		v.alpha = 0.3;
-		v.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;// | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
-		
-		[self addSubview:v];
-    }
-    return self;
-}
 
 - (void)setI:(int)i {
 	_i = i;
