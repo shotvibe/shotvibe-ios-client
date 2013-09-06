@@ -120,11 +120,11 @@
     // Customize UISearchBar
     {
         UIImage *baseImage = [UIImage imageNamed:@"searchBarBg.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
+        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
         
         UIImage *resizableImage = nil;
         if (IS_IOS6_OR_GREATER) {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
         }
         else
         {

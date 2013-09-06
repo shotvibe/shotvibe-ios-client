@@ -13,9 +13,10 @@
 
 @interface SVAddFriendsViewController ()<UISearchBarDelegate>
 
+@property (nonatomic, strong) IBOutlet UIView *membersView;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIScrollView *addedContactsScrollView;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 
 @property (nonatomic, strong) NSArray *allContacts;
@@ -112,9 +113,17 @@
 //	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
 	self.segmentControl.selectedSegmentIndex = 1;
 	
-	self.searchBar.backgroundImage = [UIImage imageNamed:@"searchFieldBg.png"];
-	[self.searchBar setSearchFieldBackgroundImage:[UIImage imageNamed:@"butTransparent.png"] forState:UIControlStateNormal];
-	[self.searchBar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+	{
+		UIImage *baseImage = [UIImage imageNamed:@"searchBarBg.png"];
+		UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
+		UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+		self.searchBar.backgroundImage = resizableImage;
+		[self.searchBar setSearchFieldBackgroundImage:baseImage forState:UIControlStateNormal];
+		[self.searchBar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+		//[self.searchBar setTranslucent:YES];
+		[self.searchBar setNeedsDisplay];
+	}
+	
 	
 	// Setup back button
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
@@ -234,6 +243,14 @@
 #pragma mark -
 #pragma mark Search
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+	[searchBar setShowsCancelButton:YES animated:YES];
+	self.tableView.frame = CGRectMake(0, 44, 320, self.view.frame.size.height-44);
+}
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+	[searchBar setShowsCancelButton:NO animated:YES];
+	self.tableView.frame = CGRectMake(0, 44+75, 320, self.view.frame.size.height-44-75);
+}
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 	
 	if(searchText.length == 0) {
@@ -250,12 +267,12 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
 }
-//- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-//	NSLog(@"cancel clicked");
-//	[searchBar resignFirstResponder];
-//	searchBar.text = @"";
-//	[self handleSearchForText:nil];
-//}
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+	NSLog(@"cancel clicked");
+	[searchBar resignFirstResponder];
+	searchBar.text = @"";
+	[self handleSearchForText:nil];
+}
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)bar {
     // reset the shouldBeginEditing BOOL ivar to YES, but first take its value and use it to return it from the method call
     BOOL boolToReturn = shouldBeginEditing;
@@ -313,29 +330,6 @@
 			}
 		}
 		
-//		for (int i=0; i<alphabet.count-1; i++) {
-////			NSPredicate *predicate;
-////			if (str == nil) {
-////				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i]];
-////			}
-////			else {
-////				predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@ && %K CONTAINS[cd] %@", kMemberFirstName, [alphabet objectAtIndex:i], kMemberFirstName, str];
-////			}
-////			NSArray *arr = [self.allContacts filteredArrayUsingPredicate:predicate];
-//			
-//			if (str == nil) {
-//				if (self.allContacts objectAtIndex:<#(NSUInteger)#>) {
-//					<#statements#>
-//				}
-//			}
-//			
-//			if (arr.count > 0) {
-//				[keys_ addObject:[alphabet objectAtIndex:i]];
-//				[self.records setObject:arr forKey:[alphabet objectAtIndex:i]];
-//			}
-//		}
-		
-		
 		keys = [NSArray arrayWithArray:keys_];
 		
 		if (self.records != nil) {
@@ -359,7 +353,7 @@
 	
     //create a new dynamic button
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0];
+	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
 	button.titleLabel.shadowColor = [UIColor clearColor];
 	[button setTitle:([firstName isEqualToString:@""] ? lastName : firstName) forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -425,7 +419,7 @@
 - (void)updateContacts {
 	
 	int i = 0;
-	int x_1 = 5;
+	int x_1 = 80;
 	int x_2 = 5;
 	
 	for (UIButton *but in self.contactsButtons) {
@@ -433,12 +427,14 @@
 		CGRect frame;
 		
 		if (i % 2 == 0) {
-			frame = CGRectMake (x_1, 3, but.frame.size.width, 22);
-			x_1 = x_1 + but.frame.size.width + 5;
+			// Line 2
+			frame = CGRectMake (x_2, 40, but.frame.size.width, 30);
+			x_2 = x_2 + but.frame.size.width + 5;
 		}
 		else {
-			frame = CGRectMake (x_2, 28, but.frame.size.width, 22);
-			x_2 = x_2 + but.frame.size.width + 5;
+			// Line 1
+			frame = CGRectMake (x_1, 5, but.frame.size.width, 30);
+			x_1 = x_1 + but.frame.size.width + 5;
 		}
 		i++;
 		
