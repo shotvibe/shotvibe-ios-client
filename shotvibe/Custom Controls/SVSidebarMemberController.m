@@ -38,11 +38,11 @@
 - (void)setAlbumContents:(AlbumContents *)albumContents
 {
     _albumContents = albumContents;
-
     [self.tableView reloadData];
 }
 
-- (void)setParentController:(SVAlbumGridViewController *)parentController {
+- (void)setParentController:(SVAlbumGridViewController *)parentController
+{
 	_parentController = parentController;
 	[self.tableView reloadData];
 }
@@ -54,13 +54,11 @@
 {
     [super viewDidLoad];
     
-    {
-        UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
-        UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        
-        [self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
-    }
+	UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
+	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
+	UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
+	
+	[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 }
 
 
@@ -84,10 +82,12 @@
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 
     AlbumMember *member = [self.albumContents.members objectAtIndex:indexPath.row];
-
+	NSLog(@"member.avatarUrl %@", member.avatarUrl);
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
     cell.memberLabel.text = member.nickname;
-
+	cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
+	cell.statusLabel.text = @"Joined";
+	
     return cell;
 }
 

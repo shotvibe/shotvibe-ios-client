@@ -10,11 +10,9 @@
 
 
 @interface RCScrollView : UIScrollView <UIScrollViewDelegate> {
-	id d;
 	UITapGestureRecognizer *gesture;
-	UISwipeGestureRecognizer *swipeGesture;
 }
 
-- (void)setD:(id)deleg;
+@property (nonatomic, retain) id scrollDelegate;
 
 @end

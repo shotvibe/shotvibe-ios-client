@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <CFNetwork/CFNetwork.h>
 
+@protocol RCImageViewDelegate;
 
-@interface RCImageView : UIImageView {
-	id delegate;
+@interface RCImageView : UIImageView <NSURLConnectionDelegate> {
+	id<RCImageViewDelegate> delegate;
 	int i;
 	NSString *referer;
 	NSURLConnection *connection;
@@ -26,12 +27,11 @@
 @property(nonatomic) int i;
 @property(nonatomic) BOOL autosize;
 
-- (id)initWithFrame:(CGRect)frame delegate:(id)d;
+- (id)initWithFrame:(CGRect)frame delegate:(id<RCImageViewDelegate>)d;
 - (void)loadNetworkImage:(NSString *)path;
 - (void)cancel;
 
 @end
-
 
 @protocol RCImageViewDelegate <NSObject>
 @optional

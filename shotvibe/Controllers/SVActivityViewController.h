@@ -9,14 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @protocol SVActivityViewControllerDelegate <NSObject>
-
+@required
 -(void)activityDidClose;
+-(void)activityDidStartSharing;
 
 @end
 
 @interface SVActivityViewController : UIViewController <UIAppearanceContainer>
 
 @property (nonatomic, retain) id<SVActivityViewControllerDelegate> delegate;
+@property (nonatomic, retain) UIViewController *controller;
 @property (nonatomic, retain) IBOutlet UIView *activityView;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollSocialButtons;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollLocalButtons;
@@ -29,7 +31,6 @@
 @property (nonatomic, retain) UIImage *activityImage;
 
 
-@property (nonatomic, retain) UIViewController *controller;
 - (IBAction)cancelHandler:(id)sender;
 
 @end

@@ -81,7 +81,7 @@
 
 
 - (void)activityHandler:(id)sender {
-	NSLog(@"%@", sender);
+	
 	NSUInteger index = ((UIButton*)sender).tag;
 	SVActivity *activity;
 	
@@ -97,6 +97,10 @@
 	activity.sharingUrl = self.activityUrl;
 	activity.sharingImage = self.activityImage;
 	[activity performActivity];
+	
+	if ([self.delegate respondsToSelector:@selector(activityDidStartSharing)]) {
+		[self.delegate activityDidStartSharing];
+	}
 }
 
 - (IBAction)cancelHandler:(id)sender {

@@ -15,6 +15,8 @@
 #import "SVActivityViewController.h"
 #import "AlbumContents.h"
 
+#define GAP_X 60
+
 typedef enum {
 	PhotoViewerTypeTableView,
 	PhotoViewerTypeScrollView

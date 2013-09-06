@@ -29,27 +29,27 @@
 - (void)performActivity
 {
 	//if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-        SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+	SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+	
+	[mySLComposerSheet setInitialText:self.sharingText];
+	[mySLComposerSheet addImage:self.sharingImage];
+	[mySLComposerSheet addURL:self.sharingUrl];
+	[mySLComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
 		
-        [mySLComposerSheet setInitialText:self.sharingText];
-        [mySLComposerSheet addImage:self.sharingImage];
-        [mySLComposerSheet addURL:self.sharingUrl];
-        [mySLComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
-			
-			switch (result) {
-				case SLComposeViewControllerResultCancelled:
-					NSLog(@"Post Canceled");
-					break;
-				case SLComposeViewControllerResultDone:
-					NSLog(@"Post Sucessful");
-					break;
-					
-				default:
-					break;
-			}
-		}];
-		
-        [self.controller presentViewController:mySLComposerSheet animated:YES completion:nil];
+		switch (result) {
+			case SLComposeViewControllerResultCancelled:
+				NSLog(@"Post Canceled");
+				break;
+			case SLComposeViewControllerResultDone:
+				NSLog(@"Post Sucessful");
+				break;
+				
+			default:
+				break;
+		}
+	}];
+	
+	[self.controller presentViewController:mySLComposerSheet animated:YES completion:nil];
     //}
 }
 /*

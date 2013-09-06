@@ -13,13 +13,15 @@
 @synthesize imageData, i, referer;
 
 
-- (id)initWithFrame:(CGRect)frame delegate:(id)d {
-    if ((self = [super initWithFrame:frame])) {
+- (id)initWithFrame:(CGRect)frame delegate:(id<RCImageViewDelegate>)d {
+	self = [super initWithFrame:frame];
+    if (self) {
         // Initialization code
 		delegate = d;
 		i = -1;
 		self.contentMode = UIViewContentModeScaleAspectFit;
 		self.autosize = NO;
+		self.backgroundColor = [UIColor redColor];
     }
     return self;
 }
@@ -43,9 +45,11 @@
 	//NSURLRequest *request = [NSURLRequest requestWithURL:url];
 	//NSLog(@"RCImageView %@", path);
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-//	if (referer != nil) {
-//		[request setValue:referer forHTTPHeaderField:@"Referer"];
-//	}
+	
+	if (referer != nil) {
+		// Trick the website the image is loaded from to think the request comes from a specific place
+		[request setValue:referer forHTTPHeaderField:@"Referer"];
+	}
 	
 	connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 }

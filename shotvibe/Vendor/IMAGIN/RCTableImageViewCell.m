@@ -70,9 +70,6 @@
 	
 	_largeImageView = largeImageView;
 	_largeImageView.userInteractionEnabled = NO;
-	CGRect rect = _largeImageView.frame;
-	rect.origin.y = IMAGE_CELL_HEIGHT/2 - rect.size.height/2;
-	_largeImageView.frame = rect;
 	[largeImageContainer addSubview:_largeImageView];
 }
 

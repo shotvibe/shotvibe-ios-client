@@ -17,16 +17,9 @@
         // Initialization code
         self.delegate = self;
 		gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-		//swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeUp:)];
-		//swipeGesture.direction = UISwipeGestureRecognizerDirectionUp;
 		[self addGestureRecognizer:gesture];
-		//[self addGestureRecognizer:swipeGesture];
     }
     return self;
-}
-
-- (void)setD:(id)deleg {
-    d = deleg;
 }
 
 - (BOOL)touchesShouldCancelInContentView:(UIView *)view {
@@ -36,9 +29,10 @@
 
 
 #pragma mark scrollview delegate
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if ([d respondsToSelector:@selector(scrollViewDidEndDecelerating)]) {
-		[d performSelector:@selector(scrollViewDidEndDecelerating) withObject:nil];
+    if ([self.scrollDelegate respondsToSelector:@selector(scrollViewDidEndDecelerating)]) {
+		[self.scrollDelegate performSelector:@selector(scrollViewDidEndDecelerating) withObject:nil];
 	}
 }
 
@@ -48,13 +42,13 @@
 #pragma mark Touches
 
 - (void)tap:(UITapGestureRecognizer *)tapGesture {
-	if ([d respondsToSelector:@selector(areaTouched)]) {
-		[d performSelector:@selector(areaTouched) withObject:nil];
+	if ([self.scrollDelegate respondsToSelector:@selector(areaTouched)]) {
+		[self.scrollDelegate performSelector:@selector(areaTouched) withObject:nil];
 	}
 }
 - (void)swipeUp:(UISwipeGestureRecognizer *)tapGesture {
-	if ([d respondsToSelector:@selector(areaTouchedForExit)]) {
-		[d performSelector:@selector(areaTouchedForExit) withObject:nil];
+	if ([self.scrollDelegate respondsToSelector:@selector(areaTouchedForExit)]) {
+		[self.scrollDelegate performSelector:@selector(areaTouchedForExit) withObject:nil];
 	}
 }
 

@@ -16,9 +16,8 @@
 	
 	// Center the image as it becomes smaller than the size of the screen.
 	
-	UIView* zoomingSubview = [self.delegate viewForZoomingInScrollView:self];
-	CGSize boundsSize = self.bounds.size;
-	CGRect frameToCenter = zoomingSubview.frame;
+	CGSize boundsSize = self.frame.size;
+	CGRect frameToCenter = imageView.frame;
 	
 	// Center horizontally.
 	if (frameToCenter.size.width < boundsSize.width) {
@@ -36,7 +35,7 @@
 		frameToCenter.origin.y = 0;
 	}
 	
-	zoomingSubview.frame = frameToCenter;
+	imageView.frame = frameToCenter;
 }
 
 
@@ -50,17 +49,25 @@
 		self.showsHorizontalScrollIndicator = NO;
 		self.showsVerticalScrollIndicator = NO;
 		self.pagingEnabled = NO;
-		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		self.decelerationRate = UIScrollViewDecelerationRateFast;
 		self.minimumZoomScale = 1.0;
 		self.maximumZoomScale = 1.0;
 		self.delegate = self;
+		self.backgroundColor = [UIColor orangeColor];
 		
         // Initialization code
 		imageView = [[RCImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) delegate:d];
 		imageView.autosize = YES;
 		imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		
 		[self addSubview:imageView];
+		
+		UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+		v.backgroundColor = [UIColor blueColor];
+		v.alpha = 0.3;
+		v.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;// | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
+		
+		[self addSubview:v];
     }
     return self;
 }
@@ -69,12 +76,15 @@
 	_i = i;
 	imageView.i = i;
 }
+
 - (UIImage*) image {
 	return imageView.image;
 }
+
 - (void) setImage:(UIImage *)image {
 	imageView.image = image;
 }
+
 - (void)loadNetworkImage:(NSString *)path {
 	
 	if (loadingIndicator == nil) {
@@ -86,8 +96,8 @@
 		loadingIndicator.frame = rect;
 		loadingIndicator.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
 		[self addSubview:loadingIndicator];
-		[loadingIndicator startAnimating];
 	}
+	[loadingIndicator startAnimating];
 	[imageView loadNetworkImage:path];
 }
 
@@ -105,7 +115,7 @@
 
 - (void)setMaxMinZoomScalesForCurrentBounds {
 	
-	CGSize imageSize = imageView.bounds.size;
+	CGSize imageSize = imageView.frame.size;
 	
 	// Avoid crashing if the image has no dimensions.
 	if (imageSize.width <= 0 || imageSize.height <= 0) {
@@ -113,8 +123,8 @@
 		self.minimumZoomScale = 1;
 	}
 	else {
-		float scaleWMin = self.bounds.size.width / imageSize.width;
-		float scaleHMin = self.bounds.size.height / imageSize.height;
+		float scaleWMin = self.frame.size.width / imageSize.width;
+		float scaleHMin = self.frame.size.height / imageSize.height;
 		self.minimumZoomScale = (scaleWMin < scaleHMin) ? scaleWMin : scaleHMin;
 	}
 	[self setZoomScale:self.minimumZoomScale animated:NO];

@@ -422,11 +422,11 @@
     self.navigationItem.titleView = titleContainer;
     
     // Setup menu button
-    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"contactsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(profilePressed)];
+    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconProfile.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(profilePressed)];
     self.navigationItem.leftBarButtonItem = butProfile;
     
     // Setup menu button
-    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
+    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSettings.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
     self.navigationItem.rightBarButtonItem = managementButton;
     
 	UIImage *search_bg = [UIImage imageNamed:@"searchFieldBg.png"];

@@ -52,8 +52,31 @@
 		}];
 		
         [self.controller presentViewController:mySLComposerSheet animated:YES completion:nil];
-    //}
+//    }
+//	else [self login];
 }
+
+//-(void)login {
+//	
+//	ACAccountStore *store = [[ACAccountStore alloc] init] ;
+//    ACAccountType *fbType = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+//    [store requestAccessToAccountsWithType:fbType options:[NSDictionary dictionaryWithObjectsAndKeys:@"",ACFacebookAppIdKey, nil] completion:^(BOOL granted, NSError *error) {
+//        if(YES) {
+//            ACAccount *fbAccount = [[ACAccount alloc] initWithAccountType:[store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]];
+//			
+//            //ACAccountCredential *outhCredential = [[ACAccountCredential alloc] initWithOAuth2Token:@"" refreshToken:refesrhToken expiryDate:[appDelegate.facebook expirationDate]];
+//			//fbAccount.credential = outhCredential;
+//			
+//            [store saveAccount:fbAccount withCompletionHandler:^(BOOL success, NSError *error) {
+//                if(success)
+//                {
+//                    [self performSelectorOnMainThread:@selector(showFBPostSheet) withObject:nil waitUntilDone:NO];
+//                }
+//            }];
+//        }
+//        // Handle any error state here as you wish
+//    }];
+//}
 
 
 @end
