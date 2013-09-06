@@ -18,12 +18,12 @@
         // Initialization code
 		largeImageContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, IMAGE_CELL_HEIGHT)];
 		largeImageContainer.clipsToBounds = YES;
-		largeImageContainer.backgroundColor = [UIColor darkGrayColor];
+		largeImageContainer.backgroundColor = [UIColor blackColor];
 		largeImageContainer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		[self.contentView addSubview:largeImageContainer];
 		
 		detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, IMAGE_CELL_HEIGHT-30, self.frame.size.width, 30)];
-		detailLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7];
+		detailLabel.backgroundColor = [UIColor clearColor];//colorWithWhite:0 alpha:0.7];
 		detailLabel.textColor = [UIColor lightGrayColor];
 		detailLabel.numberOfLines = 1;
 		detailLabel.textAlignment = NSTextAlignmentLeft;
@@ -31,7 +31,7 @@
 		detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		[self.contentView addSubview:detailLabel];
 		
-		butDelete = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width-60, IMAGE_CELL_HEIGHT-25, 20, 20)];
+		butDelete = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width-80, IMAGE_CELL_HEIGHT-25, 20, 20)];
 		[butDelete setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
 		[butDelete addTarget:self action:@selector(butDeletePressed:) forControlEvents:UIControlEventTouchUpInside];
 		butDelete.alpha = 0.5;

@@ -175,7 +175,8 @@
 				photosTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height-44) style:UITableViewStylePlain];
 				//photosTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				photosTableView.rowHeight = IMAGE_CELL_HEIGHT;
-				photosTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//				photosTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+				photosTableView.separatorColor = [UIColor grayColor];
 				photosTableView.delegate = self;
 				photosTableView.dataSource = self;
 				photosTableView.backgroundColor = [UIColor blackColor];
@@ -332,14 +333,13 @@
 		cell.delegate = self;
 	}
 	RCScrollImageView *image = [self loadPhoto:indexPath.row andPreloadNext:NO];
-	image.frame = CGRectMake(0, 0, 320, IMAGE_CELL_HEIGHT);
+	image.frame = CGRectMake(0, 5, 320, IMAGE_CELL_HEIGHT-40);
 	cell.largeImageView = image;
 	
 	// Add description
 	AlbumPhoto *photo = [photos objectAtIndex:self.index];
-	NSString *updatedBy = NSLocalizedString(@"Updated by ", @"");
 	NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterShortStyle];
-	cell.detailLabel.text = [NSString stringWithFormat:@"%@%@ on %@", updatedBy, photo.serverPhoto.authorNickname, dateFormated];
+	cell.detailLabel.text = [NSString stringWithFormat:@"%@ - %@", photo.serverPhoto.authorNickname, dateFormated];
 	
     return cell;
 }
@@ -495,14 +495,11 @@
 	
     AlbumPhoto *photo = [photos objectAtIndex:self.index];
 	
-	NSString *updatedBy = NSLocalizedString(@"Updated by ", @"");
-	
 //		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 //		formatter.dateFormat = @"MM.dd, HH:mm\"";
 	NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterShortStyle];
 	
-	NSString *str = [NSString stringWithFormat:@"%@%@\n%@", updatedBy, photo.serverPhoto.authorNickname, dateFormated];
-	NSLog(@"%@", str);
+	NSString *str = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.authorNickname, dateFormated];
 	self.detailLabel.text = str;
 
 	/*

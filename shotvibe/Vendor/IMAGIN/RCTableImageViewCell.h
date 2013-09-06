@@ -10,7 +10,7 @@
 #import "RCImageView.h"
 #import "RCScrollImageView.h"
 
-#define IMAGE_CELL_HEIGHT 200
+#define IMAGE_CELL_HEIGHT 260
 
 @class RCTableImageViewCell;
 @protocol RCTableImageViewCellDelegate <NSObject>
