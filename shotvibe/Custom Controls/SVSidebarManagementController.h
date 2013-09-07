@@ -13,12 +13,14 @@
 #import "MFSideMenu.h"
 
 @class SVAlbumGridViewController;
+@class AlbumContents;
 
 @interface SVSidebarManagementController : UIViewController <UITableViewDataSource, UITableViewDelegate, SVSidebarAlbumManagementSectionDelegate, UIAlertViewDelegate>
 
 #pragma mark - Properties
 
 @property (strong, nonatomic) SVAlbumGridViewController *parentController;
+@property (nonatomic, strong) AlbumContents *albumContents;
 @property (nonatomic) NSMutableArray *sectionInfoArray;
 @property (nonatomic) NSInteger openSectionIndex;
 

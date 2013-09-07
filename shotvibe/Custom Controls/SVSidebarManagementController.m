@@ -7,7 +7,7 @@
 //
 
 #import "SVSidebarManagementController.h"
-#import "AlbumSummary.h"
+#import "AlbumContents.h"
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "MFSideMenu.h"
@@ -35,7 +35,7 @@
     [self.parentController performSegueWithIdentifier:@"SettingsSegue" sender:nil];
 }
 - (IBAction)sharePressed:(id)sender {
-	
+	//[self.parentController performSelector:@selector(<#selector#>)];
 }
 - (IBAction)natificationsPressed:(id)sender {
 	
@@ -74,12 +74,6 @@
 }
 
 
-- (void)setParentController:(SVAlbumGridViewController *)parentController {
-	_parentController = parentController;
-	[self.tableView reloadData];
-}
-
-
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
@@ -93,8 +87,6 @@
         
         [self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
     }
-    
-	//self.sidebarNav.topItem.title = self.parentController.selectedAlbum.name;
 	
 	self.tableView.sectionHeaderHeight = 35;
 	self.openSectionIndex = NSNotFound;
@@ -107,26 +99,28 @@
 	
 	[super viewWillAppear:animated];
 	
-    /*
-     Check whether the section info array has been created, and if so whether the section count still matches the current section count. 
-	 In general, you need to keep the section info synchronized with the rows and section. 
+    
+}
+
+
+
+#pragma mark - Properties
+
+- (void)setAlbumContents:(AlbumContents *)albumContents
+{
+    _albumContents = albumContents;
+	self.sidebarNav.topItem.title = _albumContents.name;
+	
+	/*
+     Check whether the section info array has been created, and if so whether the section count still matches the current section count.
+	 In general, you need to keep the section info synchronized with the rows and section.
 	 If you support editing in the table view, you need to appropriately update the section info during editing operations.
      */
 	if ((self.sectionInfoArray == nil) || ([self.sectionInfoArray count] != [self numberOfSectionsInTableView:self.tableView])) {
 		
 		// Section 1
 		
-		NSMutableArray *arr = [NSMutableArray arrayWithObjects:@"You created the album",
-						@"XXXX added pics",
-						@"XXX added video",
-						@"XXX deleted pics",
-						@"XXXX deleted video",
-						@"XXXX edited photo",
-						@"XXXX invited YYYY",
-						@"XXX joined the album",
-						@"XXXX left album",
-						@"XXXX invited YYYYY",
-						@"XXXX joined the album", nil];
+		NSMutableArray *arr = [NSMutableArray arrayWithObjects:@"You created the album", nil];
 		
 		NSMutableArray *infoArray = [[NSMutableArray alloc] init];
 		
@@ -135,24 +129,32 @@
 		sectionInfo.rows = arr;
 		[infoArray addObject:sectionInfo];
 		
+		
 		// Section 2
-
-        /*
-		NSMutableArray *arr2 = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"Name: %@", self.parentController.selectedAlbum.name],
-						[NSString stringWithFormat:@"Date Created: %@", [NSDateFormatter localizedStringFromDate:self.parentController.selectedAlbum.date_created dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle]],
-						[NSString stringWithFormat:@"Created by: %@", self.parentController.selectedAlbum.name],
-						[NSString stringWithFormat:@"Total Members: %i", [self.parentController.selectedAlbum.members count]],
-						[NSString stringWithFormat:@"Total Pictures: %i", [self.parentController.selectedAlbum.albumPhotos count]], nil];
+        
+		NSMutableArray *arr2 = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"Name: %@", _albumContents.name],
+								[NSString stringWithFormat:@"Date Created: %@", [NSDateFormatter localizedStringFromDate:_albumContents.dateCreated dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle]],
+								//[NSString stringWithFormat:@"Created by: %@", @""],
+								[NSString stringWithFormat:@"Total Members: %i", _albumContents.members.count],
+								[NSString stringWithFormat:@"Total Pictures: %i", _albumContents.photos.count], nil];
         
 		
 		SVSidebarAlbumSection *sectionInfo2 = [[SVSidebarAlbumSection alloc] init];
 		sectionInfo2.open = NO;
 		sectionInfo2.rows = arr2;
 		[infoArray addObject:sectionInfo2];
-		*/
-
+		
+		
 		self.sectionInfoArray = infoArray;
 	}
+	
+    [self.tableView reloadData];
+}
+
+- (void)setParentController:(SVAlbumGridViewController *)parentController
+{
+	_parentController = parentController;
+	[self.tableView reloadData];
 }
 
 
@@ -161,18 +163,15 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 0;
+    return self.sectionInfoArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    /*
 	SVSidebarAlbumSection *s = (self.sectionInfoArray)[section];
 	NSInteger nr = [s.rows count];
 	
-    return s.open ? nr : 3;
-     */
-    return 0;
+    return s.open ? nr : (nr > 3 ? 3 : nr);
 }
 
 
@@ -199,7 +198,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return nil;
     UITableViewCell *cell;
 	SVSidebarAlbumSection *info = (SVSidebarAlbumSection*)[self.sectionInfoArray objectAtIndex:indexPath.section];
 	

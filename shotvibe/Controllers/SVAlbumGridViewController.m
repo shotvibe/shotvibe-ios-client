@@ -136,6 +136,7 @@
 	self.navigationItem.backBarButtonItem = backButton;
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = self;
+	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
 }
