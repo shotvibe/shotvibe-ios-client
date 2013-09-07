@@ -65,7 +65,7 @@
     self.toolbarItems = [NSArray arrayWithObjects:previousButton, flexibleSpace, nextButton, nil];
     self.navigationController.toolbarHidden = NO;
     
-	[self showViewerOfType:PhotoViewerTypeTableView];
+	[self showViewerOfType:PhotoViewerTypeScrollView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -212,10 +212,11 @@
 				photosScrollView.scrollDelegate = self;// set delegate
 				photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
 				photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
-				photosScrollView.alpha = 0;
+				if (photosTableView != nil) photosScrollView.alpha = 0;
 				[self.view addSubview:photosScrollView];
 				
-				[self loadPhoto:self.index andPreloadNext:YES];
+				RCScrollImageView *imageView = [self loadPhoto:self.index andPreloadNext:YES];
+				[photosScrollView addSubview:imageView];
 				[self updateInfoOnScreen];
 				
 				[[UIApplication sharedApplication] setStatusBarHidden:YES];
