@@ -52,13 +52,10 @@
         UIImage *resizableImage = nil;
         if (IS_IOS6_OR_GREATER) {
             resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-            
             // Why on earth is the position different depending on version?
         }
-        else
-        {
+        else {
             resizableImage = [baseImage stretchableImageWithLeftCapWidth:0 topCapHeight:5];
-            
             // iOS5 back buttons are messed up :/
         }
         
@@ -114,9 +111,13 @@
     
     
     // Customize UIToolbar
-    [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"pictureDetailToolbarBg.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-    [[UIToolbar appearance] setBackgroundImage:[UIImage imageNamed:@"pictureDetailToolbarBg.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
+	{
+		[[UIToolbar appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.7]];
+		[[UIToolbar appearance] setBackgroundImage:[UIImage new] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+		//[[UIToolbar appearance] setBackgroundImage:resizableImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
+	}
     
+	
     // Customize UISearchBar
     {
         UIImage *baseImage = [UIImage imageNamed:@"searchBarBg.png"];

@@ -13,6 +13,7 @@
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
 #import "UIImageView+AFNetworking.h"
+#import "ShotVibeAppDelegate.h"
 
 @interface SVPhotoViewerController ()
 
@@ -70,19 +71,36 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+	[super viewWillAppear:animated];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.toolbar.translucent = YES;
 	self.title = self.albumContents.name;
+	
+	// The show/hide toolbar is disabled if i change the frame of the app here. Why?
+}
+-(void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
+	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+	[UIView animateWithDuration:0.4 animations:^{
+		[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
+	} completion:^(BOOL fin){
+		[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
+	}];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.toolbar.translucent = NO;
 	[self.navigationController setToolbarHidden:YES animated:YES];
 	self.detailLabel.hidden = YES;
+	
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+	[UIView animateWithDuration:0.4 animations:^{
+		[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] applicationFrame]];
+	}];
 }
 - (void)viewDidDisappear:(BOOL)animated {
 	
@@ -104,6 +122,8 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	
+	//[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 	
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
@@ -219,7 +239,7 @@
 				[photosScrollView addSubview:imageView];
 				[self updateInfoOnScreen];
 				
-				[[UIApplication sharedApplication] setStatusBarHidden:YES];
+				[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
 				[self.navigationController setToolbarHidden:YES animated:YES];
 				[self.navigationController setNavigationBarHidden:YES animated:YES];
 				self.detailLabel.hidden = YES;
@@ -424,13 +444,13 @@
 - (void)areaTouched {
 	
 	if (self.navigationController.toolbar.hidden) {
-		[[UIApplication sharedApplication] setStatusBarHidden:NO];
+		//[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 		[self.navigationController setToolbarHidden:NO animated:YES];
 		[self.navigationController setNavigationBarHidden:NO animated:YES];
 		self.detailLabel.hidden = NO;
 	}
 	else {
-		[[UIApplication sharedApplication] setStatusBarHidden:YES];
+		//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
 		[self.navigationController setToolbarHidden:YES animated:YES];
 		[self.navigationController setNavigationBarHidden:YES animated:YES];
 		self.detailLabel.hidden = YES;
@@ -453,14 +473,17 @@
     // Dispose of any resources that can be recreated.
     
 	NSArray *keys = [cache allKeys];
+	int i = 0;
 	
-//	for (NSString *key in keys) {
-//		if (![key isEqualToString:self.selectedPhoto.photo_id]) {
-//			RCImageView *img = [cache objectForKey:key];
-//			[img removeFromSuperview];
-//			[cache removeObjectForKey:key];
-//		}
-//	}
+	for (NSString *key in keys) {
+		AlbumPhoto *photo = [photos objectAtIndex:i];
+		if (photo.serverPhoto && ![key isEqualToString:photo.serverPhoto.photoId]) {
+			RCScrollImageView *img = [cache objectForKey:key];
+			[img removeFromSuperview];
+			[cache removeObjectForKey:key];
+		}
+		i++;
+	}
 }
 - (void)dealloc {
 	
@@ -484,21 +507,19 @@
 		
 		// Setup detail label
 		self.detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -57, self.view.frame.size.width, 57)];
-		self.detailLabel.backgroundColor = [UIColor clearColor];
+		self.detailLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
 		self.detailLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
 		self.detailLabel.numberOfLines = 2;
 		self.detailLabel.textAlignment = NSTextAlignmentCenter;
 		self.detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
-		self.detailLabel.shadowOffset = CGSizeMake(0, 1);
-		self.detailLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
+		self.detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		[self.navigationController.toolbar addSubview:self.detailLabel];
 	}
 	
     AlbumPhoto *photo = [photos objectAtIndex:self.index];
-	
-//		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//		formatter.dateFormat = @"MM.dd, HH:mm\"";
-	NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterShortStyle];
+	NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
+															dateStyle:NSDateFormatterLongStyle
+															timeStyle:NSDateFormatterShortStyle];
 	
 	NSString *str = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.authorNickname, dateFormated];
 	self.detailLabel.text = str;
@@ -637,7 +658,7 @@
     activity.activityDescription = NSLocalizedString(@"This is the text that goes with the sharing!", nil);
 	activity.activityUrl = [NSURL URLWithString:@"http://shotvibe.com"];
 	activity.activityImage = image;
-
+	
 	[self.view addSubview:activity.view];
 	
 	activity.view.alpha = 0;

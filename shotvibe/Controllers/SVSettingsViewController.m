@@ -16,9 +16,9 @@
 #import "SVSettingsAboutViewController.h"
 #import "SVProfileViewController.h"
 #import "SVRegistrationViewController.h"
-//#import "Album.h"
-//#import "AlbumPhoto.h"
-//#import "Member.h"
+#import "UserSettings.h"
+#import "AuthData.h"
+
 
 @interface SVSettingsViewController ()
 
@@ -73,7 +73,7 @@
         if ([MFMailComposeViewController canSendMail]) {
             MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
             [mailController setSubject:NSLocalizedString(@"ShotVibe Support Request", @"")];
-            [mailController setToRecipients:@[@"Apple-support@shotvibe.com"]];
+            [mailController setToRecipients:@[@"apple-support@shotvibe.com"]];
             mailController.mailComposeDelegate = self;
             
             [self presentViewController:mailController animated:YES completion:NULL];
@@ -90,7 +90,7 @@
 }
 
 
-
+/*
 - (IBAction)doUsage:(id)sender {
 	
 	NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -119,7 +119,7 @@
 										  cancelButtonTitle:NSLocalizedString(@"Ok", @"")
 										  otherButtonTitles:nil];
 	[alert show];
-}
+}*/
 
 - (IBAction)doLogout:(id)sender {
 	
@@ -134,6 +134,10 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
 	if (buttonIndex == 1) {
+		
+		AuthData *authdata = [[AuthData alloc] initWithUserID:0 authToken:nil defaultCountryCode:nil];
+		[UserSettings setAuthData:authdata];
+		
 		// Grab the storyboard
 		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
 		
