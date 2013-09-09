@@ -16,9 +16,9 @@
 
 @property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, strong) SVPushNotificationsManager *pushNotificationsManager;
-@property (nonatomic, strong) NSString *defaultCountryCode;
+@property (nonatomic, strong) NSString *phoneNumber;
+@property (nonatomic, strong) NSString *selectedCountryCode;
 
-//@property (nonatomic, strong) IBOutlet UIView *registrationCodePhaseContainer;
 @property (nonatomic, strong) IBOutlet UITextField *codeField1;
 @property (nonatomic, strong) IBOutlet UITextField *codeField2;
 @property (nonatomic, strong) IBOutlet UITextField *codeField3;
@@ -26,6 +26,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *butSubmit;
 
 - (void)validateRegistrationCode:(NSString *)registrationCode;
-- (void)handleSuccessfulLogin;
+- (void)handleSuccessfulLogin:(BOOL)animated;
 
 @end

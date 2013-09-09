@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SVCountriesViewController.h"
-#import "SVConfirmationCodeViewController.h"
 
 #import "AlbumManager.h"
 #import "SVPushNotificationsManager.h"
+#import "SVCountriesViewController.h"
+
 
 @interface SVRegistrationViewController : UIViewController <UITextFieldDelegate, SVCountriesDelegate>
 

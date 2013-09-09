@@ -649,8 +649,8 @@ to register this device</string>
                                             <outlet property="delegate" destination="3rg-2I-Dzz" id="xGK-6y-Iq9"/>
                                         </connections>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="IL.png" id="vZa-qx-MCh">
-                                        <rect key="frame" x="29" y="128" width="37" height="27"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="US.png" id="vZa-qx-MCh">
+                                        <rect key="frame" x="37" y="128" width="24" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GDf-Lq-8B3">
@@ -1574,18 +1574,11 @@ to register this device</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="A9A-qD-5Nc">
-                                                    <rect key="frame" x="20" y="15" width="23" height="16"/>
+                                                    <rect key="frame" x="20" y="10" width="24" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Country" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ijU-bV-hIf">
-                                                    <rect key="frame" x="61" y="11" width="178" height="23"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.4549019608" alpha="1" colorSpace="deviceRGB"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="+123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hSG-6t-k97">
-                                                    <rect key="frame" x="234" y="11" width="54" height="23"/>
+                                                    <rect key="frame" x="61" y="10" width="239" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                                     <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.4549019608" alpha="1" colorSpace="deviceRGB"/>
@@ -1596,7 +1589,6 @@ to register this device</string>
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <outlet property="code" destination="hSG-6t-k97" id="HQn-ry-E9L"/>
                                             <outlet property="countryImage" destination="A9A-qD-5Nc" id="Pcg-Ce-2eo"/>
                                             <outlet property="title" destination="ijU-bV-hIf" id="r0p-nb-2Cr"/>
                                         </connections>
@@ -1675,7 +1667,7 @@ activation code just sent to you</string>
                                         <rect key="frame" x="54" y="144" width="213" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="vVH-zc-omB">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="vVH-zc-omB">
                                         <rect key="frame" x="54" y="144" width="48" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1685,7 +1677,7 @@ activation code just sent to you</string>
                                             <outlet property="delegate" destination="Dlz-oj-oY1" id="nog-Ss-YQk"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="l0m-jo-UKY">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="l0m-jo-UKY">
                                         <rect key="frame" x="109" y="144" width="48" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1695,7 +1687,7 @@ activation code just sent to you</string>
                                             <outlet property="delegate" destination="Dlz-oj-oY1" id="Gvf-vh-r9W"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="BAd-iE-ZCV">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="BAd-iE-ZCV">
                                         <rect key="frame" x="164" y="144" width="48" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1705,7 +1697,7 @@ activation code just sent to you</string>
                                             <outlet property="delegate" destination="Dlz-oj-oY1" id="Kqz-WJ-ewe"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="oB8-rA-i0T">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="oB8-rA-i0T">
                                         <rect key="frame" x="219" y="144" width="48" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1812,8 +1804,8 @@ activation code just sent to you</string>
                                             <outlet property="delegate" destination="1tW-Ft-5Bj" id="1mW-vE-hlo"/>
                                         </connections>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="IL.png" id="jBl-tD-fdT">
-                                        <rect key="frame" x="29" y="91" width="37" height="27"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="US.png" id="jBl-tD-fdT">
+                                        <rect key="frame" x="37" y="91" width="24" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="czZ-wZ-shT">
@@ -1857,7 +1849,7 @@ activation code just sent to you</string>
         <image name="AlbumInfoNotificationIcon.png" width="16" height="18"/>
         <image name="AlbumInfoShareIcon.png" width="16" height="14"/>
         <image name="ContactIsMember.png" width="26" height="26"/>
-        <image name="IL.png" width="48" height="48"/>
+        <image name="US.png" width="48" height="48"/>
         <image name="aboutIcon.png" width="14" height="13"/>
         <image name="addFriendsButtonBg.png" width="245" height="41"/>
         <image name="addFriendsIcon.png" width="16" height="16"/>
@@ -2091,6 +2083,9 @@ activation code just sent to you</string>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -2098,8 +2093,8 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="gU5-ak-Uzz"/>
         <segue reference="FFK-OC-3pt"/>
+        <segue reference="gU5-ak-Uzz"/>
         <segue reference="itz-1F-TDT"/>
         <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>

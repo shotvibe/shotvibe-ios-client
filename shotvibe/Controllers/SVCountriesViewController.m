@@ -45,33 +45,35 @@
         [countryCodes addObject:[countryCodesByName objectForKey:name]];
     }
 	allCountryCodes = [[NSArray alloc] initWithArray:countryCodes];
-	
-	if (regionCode == nil)
-		regionCode = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+	NSLog(@"viewdidload %@", self.regionCode);
 	
 	// Configure views
 	
-	self.searchbar.backgroundImage = [UIImage imageNamed:@"searchFieldBg.png"];
-	[self.searchbar setSearchFieldBackgroundImage:[UIImage imageNamed:@"butTransparent.png"] forState:UIControlStateNormal];
-	[self.searchbar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+	searchbar.backgroundImage = [UIImage imageNamed:@"searchFieldBg.png"];
+	[searchbar setSearchFieldBackgroundImage:[UIImage imageNamed:@"butTransparent.png"] forState:UIControlStateNormal];
+	[searchbar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
 	
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-	
+- (void)viewWillAppear:(BOOL)animated{
+	[super viewWillAppear:animated];
 	for (int i=0; i<countryCodes.count; i++) {
-		if ([[countryCodes objectAtIndex:i] isEqualToString:regionCode]) {
-			[self.countriesTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+		if ([[countryCodes objectAtIndex:i] isEqualToString:self.regionCode]) {
+			[countriesTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
 			break;
 		}
 	}
 }
 
-
-- (NSString*) selectedCountryCode {
-	return regionCode;
+- (void)viewDidAppear:(BOOL)animated{
+	[super viewDidAppear:animated];
 }
 
+- (void)setRegionCode:(NSString *)regionCode {
+	_regionCode = regionCode;
+	NSLog(@"setRegionCode %@", self.regionCode);
+	[countriesTable reloadData];
+}
 
 
 
@@ -97,8 +99,8 @@
     cell.title.text = [countryNames objectAtIndex:indexPath.row];
     cell.code.text = @"";
 	cell.countryImage.image = [UIImage imageNamed:[countryCodes objectAtIndex:indexPath.row]];
-	
-	if ([regionCode isEqualToString:[countryCodes objectAtIndex:indexPath.row]]) {
+	NSLog(@"%@ == %@", self.regionCode, [countryCodes objectAtIndex:indexPath.row]);
+	if ([self.regionCode isEqualToString:[countryCodes objectAtIndex:indexPath.row]]) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	}
 	else {
@@ -132,10 +134,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	regionCode = [countryCodes objectAtIndex:indexPath.row];
+	_regionCode = [countryCodes objectAtIndex:indexPath.row];
 	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
 	
-	[self.delegate didSelectCountryWithName:[countryNames objectAtIndex:indexPath.row] regionCode:[regionCode copy]];
+	[self.delegate didSelectCountryWithName:_regionCode regionCode:[_regionCode copy]];
 	
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -149,7 +151,7 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
 	[self filterCountriesBy:searchBar.text];
-	self.countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-216-45-44-20);
+	countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-216-45-44-20);
 }
 
 
@@ -163,7 +165,7 @@
 {
     [self filterCountriesBy:searchBar.text];
     [searchBar resignFirstResponder];
-	self.countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-45-44-20);
+	countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-45-44-20);
 }
 
 - (void) filterCountriesBy:(NSString*)term {
@@ -188,10 +190,8 @@
 		}
 	}
 	
-	[self.countriesTable reloadData];
+	[countriesTable reloadData];
 }
-
-
 
 
 @end

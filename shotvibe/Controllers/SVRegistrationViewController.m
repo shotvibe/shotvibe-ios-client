@@ -8,7 +8,7 @@
 
 #import "SVRegistrationViewController.h"
 #import "SVAlbumListViewController.h"
-#import "SVDefines.h"
+#import "SVConfirmationCodeViewController.h"
 #import "AlbumManager.h"
 
 @interface SVRegistrationViewController ()
@@ -22,7 +22,6 @@
 
 - (IBAction)registerButtonPressed:(id)sender;
 - (IBAction)countrySelectButtonPressed:(id)sender;
-- (void)submitPhoneNumberRegistration:(NSString *)phoneNumber;
 
 @end
 
@@ -32,20 +31,6 @@
     NSString *selectedCountryCode;
 }
 
-
-- (void)selectCountry:(NSString *)regionCode
-{
-    NSLog(@"Selecting country: %@", regionCode);
-
-    selectedCountryCode = regionCode;
-    [self didSelectCountryWithName:regionCode regionCode:regionCode];
-}
-
-
-- (void)skipRegistration
-{
-    [self handleSuccessfulLogin];
-}
 
 #pragma mark - Actions
 
@@ -62,17 +47,14 @@
     [activityDialog addSubview:indicator];
 
     NSString *phoneNumber = self.phoneNumberField.text;
-    NSString *defaultCountry = countries.selectedCountryCode;
-    if (!defaultCountry) {
-        defaultCountry = selectedCountryCode;
-    }
-
+    NSString *defaultCountry = selectedCountryCode;
+    
     NSLog(@"phoneNumber:'%@' defaultCountry:'%@'", phoneNumber, defaultCountry);
-
+	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
         AuthorizePhoneNumberResult r = [[self.albumManager getShotVibeAPI] authorizePhoneNumber:phoneNumber defaultCountry:defaultCountry error:&error];
-
+		
         dispatch_async(dispatch_get_main_queue(), ^{
             [activityDialog dismissWithClickedButtonIndex:0 animated:YES];
             if (r == AuthorizePhoneNumberOk) {
@@ -115,40 +97,36 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-
-    NSLog(@"SVRegistrationViewController.viewDidLoad");
-
+	
     if ([self.albumManager getShotVibeAPI].authData)
     {
         NSLog(@"SVRegistrationViewController AuthData available");
-		[self handleSuccessfulLogin];
+		[self handleSuccessfulLogin:NO];
     }
 	else {
-		self.countryFlagView.image = [UIImage imageNamed:@"US"];
-
 		[self.phoneNumberField becomeFirstResponder];
 	}
-	
+	if (selectedCountryCode == nil) {
+		[self didSelectCountryWithName:nil regionCode:[[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]];
+	}
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
+		
 		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
         destination.delegate = self;
+		destination.regionCode = selectedCountryCode;
 		countries = destination;
     }
 	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
+		
 		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
         destination.albumManager = self.albumManager;
         destination.pushNotificationsManager = self.pushNotificationsManager;
-
-        NSString *defaultCountry = countries.selectedCountryCode;
-        if (!defaultCountry) {
-            defaultCountry = selectedCountryCode;
-        }
-
-        destination.defaultCountryCode = defaultCountry;
+        destination.selectedCountryCode = selectedCountryCode;
+		destination.phoneNumber = self.phoneNumberField.text;
 	}
 }
 
@@ -163,6 +141,7 @@
 
 - (void)didSelectCountryWithName:(NSString *)name regionCode:(NSString *)regionCode
 {
+	selectedCountryCode = regionCode;
     self.countryFlagView.image = [UIImage imageNamed:regionCode];
 }
 
@@ -196,9 +175,24 @@
 }
 
 
+#pragma mark public methods
+
+- (void)selectCountry:(NSString *)regionCode
+{
+    NSLog(@"Selecting country: %@", regionCode);
+    [self didSelectCountryWithName:regionCode regionCode:regionCode];
+}
+
+- (void)skipRegistration
+{
+    [self handleSuccessfulLogin:YES];
+}
+
+
+
 #pragma mark - Private Methods
 
-- (void)handleSuccessfulLogin
+- (void)handleSuccessfulLogin:(BOOL)animated
 {
 	NSLog(@"handleSuccessfulLogin");
     //[[SVDownloadSyncEngine sharedEngine] startSync];
@@ -211,7 +205,7 @@
 
     rootView.albumManager = self.albumManager;
 
-    [self.navigationController setViewControllers:@[rootView] animated:YES];
+    [self.navigationController setViewControllers:@[rootView] animated:animated];
 	
 }
 

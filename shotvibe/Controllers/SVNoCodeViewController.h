@@ -8,28 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "SVCountriesViewController.h"
-#import "SVConfirmationCodeViewController.h"
-#import "SVAlbumListViewController.h"
-#import "SVDefines.h"
+#import "AlbumManager.h"
+#import "SVPushNotificationsManager.h"
 
 @interface SVNoCodeViewController : UIViewController <UITextFieldDelegate, SVCountriesDelegate> {
 	
 	SVCountriesViewController *countries;
+    NSString *selectedCountryCode;
 }
 
-@property (nonatomic, strong) IBOutlet UIButton *butContinue;
-@property (nonatomic, strong) IBOutlet UIView *phoneNumberPhaseContainer;
-@property (nonatomic, strong) IBOutlet UIImageView *countryFlagView;
-@property (nonatomic, strong) IBOutlet UITextField *phoneNumberField;
-
-@property (nonatomic) int countryCode;
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *confirmationCode;
+@property (nonatomic, strong) AlbumManager *albumManager;
+@property (nonatomic, strong) SVPushNotificationsManager *pushNotificationsManager;
 
-
-- (IBAction)registerButtonPressed:(id)sender;
-- (IBAction)countrySelectButtonPressed:(id)sender;
-- (IBAction)callmeButtonPressed:(id)sender;
-- (void)submitPhoneNumberRegistration:(NSString *)phoneNumber;
+- (void)selectCountry:(NSString *)countryCode;
 
 @end

@@ -8,17 +8,10 @@
 
 #import "SVConfirmationCodeViewController.h"
 #import "SVPushNotificationsManager.h"
-
 #import "UserSettings.h"
 
-@interface SVConfirmationCodeViewController ()
-
-@end
 
 @implementation SVConfirmationCodeViewController
-
-
-
 
 
 #pragma mark - View Lifecycle
@@ -26,14 +19,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
 	[self.codeField1 becomeFirstResponder];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"NoCodeSegue"]) {
-		//SVNoCodeViewController *destination = (SVNoCodeViewController *)segue.destinationViewController;
+		SVNoCodeViewController *destination = (SVNoCodeViewController *)segue.destinationViewController;
+		destination.albumManager = self.albumManager;
+		destination.pushNotificationsManager = self.pushNotificationsManager;
+		destination.phoneNumber = self.phoneNumber;
+		[destination selectCountry:self.selectedCountryCode];
     }
 }
 
@@ -74,7 +70,7 @@ static NSString * deviceDescription()
         NSError *error;
         ConfirmSMSCodeResult r = [[self.albumManager getShotVibeAPI] confirmSMSCode:registrationCode
                                                             deviceDeviceDescription:deviceDescription()
-                                                                 defaultCountryCode:self.defaultCountryCode
+                                                                 defaultCountryCode:self.selectedCountryCode
                                                                               error:&error];
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -84,7 +80,7 @@ static NSString * deviceDescription()
 
                 [UserSettings setAuthData:authData];
 
-                [self handleSuccessfulLogin];
+                [self handleSuccessfulLogin:YES];
             }
             else if (r == ConfirmSMSCodeIncorrectCode) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incorrect Code"
@@ -139,7 +135,7 @@ static NSString * deviceDescription()
 }
 
 
-- (void)handleSuccessfulLogin
+- (void)handleSuccessfulLogin:(BOOL)animated
 {
 	NSLog(@"handleSuccessfulLogin");
     //[[SVDownloadSyncEngine sharedEngine] startSync];
@@ -152,7 +148,7 @@ static NSString * deviceDescription()
 
     rootView.albumManager = self.albumManager;
 
-    [self.navigationController setViewControllers:@[rootView] animated:YES];
+    [self.navigationController setViewControllers:@[rootView] animated:animated];
 
     [self.pushNotificationsManager setup];
 }

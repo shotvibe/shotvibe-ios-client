@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "SVCountryViewCell.h"
-#import "SVDefines.h"
 
 @class SVCountriesViewController;
 
@@ -27,15 +26,12 @@
 	NSMutableArray *countryCodes;
 	NSDictionary *countryNamesByCode;
 	NSDictionary *countryCodesByName;
-	NSString *regionCode;
+	
+	IBOutlet UITableView *countriesTable;
+	IBOutlet UISearchBar *searchbar;
 }
 
 @property (nonatomic) id<SVCountriesDelegate> delegate;
-@property (nonatomic, retain) NSString *selectedCountryName;
-@property (nonatomic, retain) NSString *selectedCountryCode;
-@property (nonatomic, retain) IBOutlet UITableView *countriesTable;
-@property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
-
-- (void)setWithLocale:(NSLocale *)locale;
+@property (nonatomic, retain) NSString *regionCode;
 
 @end
