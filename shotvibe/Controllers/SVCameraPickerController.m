@@ -278,6 +278,9 @@
 	
 	// TODO: save the image at 1600x1200px
     UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+	if (self.sliderZoom.value > 1) {
+		
+	}
 	__block UIImage *thumbImage;
 	NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", self.capturedImages.count]];
 	NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.png", self.capturedImages.count]];

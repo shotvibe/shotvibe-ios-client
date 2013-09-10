@@ -430,6 +430,7 @@
 		2849A80717D9AB970076AFBA /* IconSettings.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A80317D9AB970076AFBA /* IconSettings.png */; };
 		2849A80817D9AB970076AFBA /* IconSettings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A80417D9AB970076AFBA /* IconSettings@2x.png */; };
 		2849A80A17D9ABE90076AFBA /* imagePile.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A80917D9ABE90076AFBA /* imagePile.png */; };
+		2849A80D17DDE61A0076AFBA /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A80C17DDE61A0076AFBA /* UIImage+Scale.m */; };
 		2884E86117A24CFE00B382D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E85F17A24CFE00B382D9 /* Icon.png */; };
 		2884E86217A24CFE00B382D9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86017A24CFE00B382D9 /* Icon@2x.png */; };
 		2884E86617A24E7F00B382D9 /* SegmentButtonOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */; };
@@ -1047,6 +1048,8 @@
 		2849A80317D9AB970076AFBA /* IconSettings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconSettings.png; sourceTree = "<group>"; };
 		2849A80417D9AB970076AFBA /* IconSettings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconSettings@2x.png"; sourceTree = "<group>"; };
 		2849A80917D9ABE90076AFBA /* imagePile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imagePile.png; sourceTree = "<group>"; };
+		2849A80B17DDE61A0076AFBA /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
+		2849A80C17DDE61A0076AFBA /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
 		2884E85F17A24CFE00B382D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2884E86017A24CFE00B382D9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentButtonOutline.png; sourceTree = "<group>"; };
@@ -2306,6 +2309,8 @@
 				04AB0AB11708114800C5300B /* NSDate+Formatting.m */,
 				AA4115BC177C0451009F400F /* NSFileManager+Helper.h */,
 				AA4115BD177C0451009F400F /* NSFileManager+Helper.m */,
+				2849A80B17DDE61A0076AFBA /* UIImage+Scale.h */,
+				2849A80C17DDE61A0076AFBA /* UIImage+Scale.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -3028,6 +3033,7 @@
 				2849A76D17D75D430076AFBA /* SVTwitterActivity.m in Sources */,
 				2849A77017D7689C0076AFBA /* SVMoveActivity.m in Sources */,
 				2849A77317D7752A0076AFBA /* SVActivity.m in Sources */,
+				2849A80D17DDE61A0076AFBA /* UIImage+Scale.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

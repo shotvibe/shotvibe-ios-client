@@ -10,10 +10,15 @@
 #import "SVSettingsViewController.h"
 #import "SVProfileViewController.h"
 #import "UIImageView+WebCache.h"
+#import "SVDefines.h"
+#import "CaptureNavigationController.h"
+#import "SVAlbumListViewCell.h"
+#import "SVAlbumGridViewController.h"
+#import "NSDate+Formatting.h"
+#import "MFSideMenu.h"
 
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
-#import "RCScrollImageView.h"
 
 @interface SVAlbumListViewController ()
 {
@@ -204,24 +209,6 @@
 	
 	[super viewDidAppear:animated];
 	
-//	if (cameraNavController != nil) {
-//		
-//		int i = 0;
-//		NSIndexPath *indexPath;
-//		for (AlbumSummary *a in albumList) {
-//			
-//			if (a.albumId == cameraNavController.selectedAlbum.albumId) {
-//				indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-//				NSLog(@"found at indexPath %@", indexPath);
-//				[self performSegueWithIdentifier:@"AlbumGridViewSegue" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
-//				
-//				break;
-//			}
-//			i ++;
-//		}
-//		//[self cameraWasDismissedWithAlbum:cameraNavController.selectedAlbum];
-//		cameraNavController = nil;
-//	}
 	cameraNavController = nil;
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 }
@@ -235,12 +222,10 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    if (self.albumField.isFirstResponder)
-	{
+    if (self.albumField.isFirstResponder) {
         [self.albumField resignFirstResponder];
     }
-    else if (self.searchbar.isFirstResponder)
-    {
+    else if (self.searchbar.isFirstResponder) {
         [self.searchbar resignFirstResponder];
     }
 }

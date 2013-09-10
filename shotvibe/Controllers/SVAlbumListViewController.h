@@ -7,18 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SVDefines.h"
-#import "AlbumSummary.h"
-#import "AlbumMember.h"
-#import "AlbumPhoto.h"
-#import "CaptureNavigationController.h"
-#import "SVCameraPickerController.h"
-#import "SVAlbumListViewCell.h"
-#import "SVAlbumGridViewController.h"
-#import "NSDate+Formatting.h"
-#import "AlbumListListener.h"
 #import "AlbumManager.h"
-#import "MFSideMenu.h"
+#import "AlbumListListener.h"
+#import "SVCameraPickerController.h"
+
 
 @interface SVAlbumListViewController : UITableViewController <UITableViewDataSource,
 																UITableViewDelegate,

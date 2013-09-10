@@ -7,6 +7,8 @@
 //
 
 #import "RCImageView.h"
+#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
 
 
 @implementation RCImageView
@@ -39,6 +41,17 @@
 
 - (void)loadNetworkImage:(NSString *)path {
 	
+	// Use the SDWebCache to load and cache the pictures
+	__block id delegate_ = delegate;
+	__block int i_ = i;
+	[self setImageWithURL:[NSURL URLWithString:path] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+		if ([delegate_ respondsToSelector:@selector(onPhotoComplete:)]) {
+			[delegate_ performSelector:@selector(onPhotoComplete:) withObject:[NSNumber numberWithInt:i_]];
+		}
+	}];
+	
+	// Use normal loading, no cache
+	return;
 	imageData = [NSMutableData data];
 	
 	NSURL *url = [NSURL URLWithString:path];
