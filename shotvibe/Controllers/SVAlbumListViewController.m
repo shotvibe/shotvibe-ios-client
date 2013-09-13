@@ -16,6 +16,7 @@
 #import "SVAlbumGridViewController.h"
 #import "NSDate+Formatting.h"
 #import "MFSideMenu.h"
+#import "MBProgressHUD.h"
 
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
@@ -290,6 +291,7 @@
 	cell.title.text = album.name;
 	[cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
 
+	// TODO: ltestPhotos might be nil if we insert an AlbumContents instead AlbumSummary
     if (album.latestPhotos.count > 0) {
         AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
         if (latestPhoto.serverPhoto) {
@@ -502,22 +504,20 @@
 
 - (void)createNewAlbumWithTitle:(NSString *)title
 {
-	// Add a placeholder album till the real one is created on server
-	AlbumSummary *album = [[AlbumSummary alloc] initWithAlbumId:0
-														   etag:@""
-														   name:title
-													dateCreated:[NSDate date]
-													dateUpdated:[NSDate date]
-												   latestPhotos:[NSArray array]];
-	[albumList insertObject:album atIndex:0];
-	[self.tableView beginUpdates];
-	[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-	[self.tableView endUpdates];
+	
+	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
 	// Write the album to server
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
         AlbumContents *albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title withError:&error];
+		
+		AlbumSummary *album = [[AlbumSummary alloc] initWithAlbumId:0
+															   etag:@""
+															   name:title
+														dateCreated:[NSDate date]
+														dateUpdated:[NSDate date]
+													   latestPhotos:[NSArray array]];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             if (!albumContents) {
@@ -528,15 +528,20 @@
                                                       otherButtonTitles:nil];
                 [alert show];
 				// Remove temporary album
-				[albumList removeObjectAtIndex:0];
-				[self.tableView beginUpdates];
-				[self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-				[self.tableView endUpdates];
+//				[albumList removeObjectAtIndex:0];
+//				[self.tableView beginUpdates];
+//				[self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+//				[self.tableView endUpdates];
             }
             else {
 				creatingAlbum = YES;
-                [self.albumManager refreshAlbumList];
+				[albumList insertObject:album atIndex:0];
+				
+				[self.tableView beginUpdates];
+				[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+				[self.tableView endUpdates];
             }
+			[MBProgressHUD hideHUDForView:self.view animated:YES];
         });
     });
 }
