@@ -1298,7 +1298,7 @@ to register this device</string>
                                             <rect key="frame" x="0.0" y="0.0" width="112" height="112"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="photoFrame.png" id="7aN-v7-Fda" customClass="RCImageView">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="7aN-v7-Fda" customClass="RCImageView">
                                             <rect key="frame" x="4" y="4" width="104" height="104"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
@@ -1430,6 +1430,7 @@ to register this device</string>
                         <outlet property="emailAddressField" destination="iEd-Fx-BXh" id="Tex-tU-eO8"/>
                         <outlet property="nicknameField" destination="vFh-LO-IyP" id="sFb-Ky-EWv"/>
                         <outlet property="passwordField" destination="o19-SQ-QBo" id="Kfl-ST-MWC"/>
+                        <outlet property="userPhoto" destination="7aN-v7-Fda" id="EAp-gZ-x8b"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2wO-Wd-onm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1950,6 +1951,7 @@ activation code just sent to you</string>
         <class className="SVConfirmationCodeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVConfirmationCodeViewController.h"/>
             <relationships>
+                <relationship kind="action" name="confirmButtonPressed:"/>
                 <relationship kind="outlet" name="butSubmit" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="codeField1" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="codeField2" candidateClass="UITextField"/>
@@ -2009,6 +2011,7 @@ activation code just sent to you</string>
                 <relationship kind="outlet" name="emailAddressField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="nicknameField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="userPhoto" candidateClass="RCImageView"/>
             </relationships>
         </class>
         <class className="SVRegistrationViewController" superclassName="UIViewController">
@@ -2083,9 +2086,6 @@ activation code just sent to you</string>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -2093,7 +2093,7 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="FFK-OC-3pt"/>
+        <segue reference="YZf-v8-Yxg"/>
         <segue reference="gU5-ak-Uzz"/>
         <segue reference="itz-1F-TDT"/>
         <segue reference="sNb-fh-mhv"/>

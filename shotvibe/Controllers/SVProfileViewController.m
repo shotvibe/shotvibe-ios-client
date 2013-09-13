@@ -9,12 +9,14 @@
 #import "SVProfileViewController.h"
 #import "SVDefines.h"
 #import "MBProgressHUD.h"
+#import "RCImageView.h"
 
 @interface SVProfileViewController ()
 
 @property (nonatomic, strong) IBOutlet UITextField *nicknameField;
 @property (nonatomic, strong) IBOutlet UITextField *emailAddressField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordField;
+@property (nonatomic, strong) IBOutlet RCImageView *userPhoto;
 
 - (IBAction)doneButtonPressed:(id)sender;
 
@@ -96,8 +98,7 @@
             }
             else {
                 self.nicknameField.text = userProfile.nickname;
-
-                // TODO Set avatar UIImageView to userProfile.avatarUrl
+				[self.userPhoto loadNetworkImage:userProfile.avatarUrl];
             }
         });
     });

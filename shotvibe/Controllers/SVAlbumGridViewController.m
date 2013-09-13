@@ -139,6 +139,8 @@
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
+	
+	
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -149,9 +151,6 @@
 		refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 		[refresh addTarget:self action:@selector(refreshView) forControlEvents:UIControlEventValueChanged];
 		[self.gridView addSubview:refresh];
-		
-		[self.albumManager refreshAlbumContents:self.albumId];
-		[self.gridView reloadData];
 		
 		// Remove the previous controller from the stack if it's SVCameraPickerController
 		NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
@@ -214,7 +213,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
 	NSLog(@"count photos %i", albumContents.photos.count);
-	if (refresh == nil) return 0;
+	//if (refresh == nil) return 0;
     return albumContents.photos.count;
 }
 
