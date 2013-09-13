@@ -112,6 +112,8 @@
 {
     [super viewDidLoad];
 
+	self.gridView.alwaysBounceVertical = YES;
+	
     _objectChanges = [NSMutableArray array];
     _sectionChanges = [NSMutableArray array];
     thumbnailCache = [[NSMutableDictionary alloc] init];
@@ -166,6 +168,7 @@
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 	
 	[refresh beginRefreshing];
+	[self.gridView setContentOffset:CGPointMake(0, -60) animated:YES];
 	[self.albumManager refreshAlbumContents:self.albumId];
 }
 -(void)viewDidDisappear:(BOOL)animated {
