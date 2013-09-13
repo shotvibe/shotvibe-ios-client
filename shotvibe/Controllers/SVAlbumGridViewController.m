@@ -112,9 +112,6 @@
 {
     [super viewDidLoad];
 
-    [self setAlbumContents:[self.albumManager addAlbumContentsListener:self.albumId listener:self]];
-    NSLog(@"ALBUM CONTENTS: %@", albumContents);
-
     _objectChanges = [NSMutableArray array];
     _sectionChanges = [NSMutableArray array];
     thumbnailCache = [[NSMutableDictionary alloc] init];
@@ -136,11 +133,12 @@
 	self.navigationItem.backBarButtonItem = backButton;
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = self;
-	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
-	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
 	
-	
+    albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
+    NSLog(@"initial ALBUM CONTENTS: %@", albumContents);
+	[self setAlbumContents:albumContents];
+	[self.gridView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -166,8 +164,20 @@
 	}
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
+	
+	[refresh beginRefreshing];
+	[self.albumManager refreshAlbumContents:self.albumId];
+}
+-(void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	
+	//[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
 }
 
+- (void)dealloc {
+	[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
+	NSLog(@"dealloc %lli", self.albumId);
+}
 
 #pragma mark Rotation
 
@@ -331,25 +341,29 @@
 
 -(void)setAlbumContents:(AlbumContents *)album
 {
+	NSLog(@"setAlbumContents after refresh %@", album);
     albumContents = album;
-
+	
+	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
+	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
+	
     self.title = albumContents.name;
 
     self.noPhotosView.hidden = albumContents.photos.count > 0;
 
     [self.gridView reloadData];
-
-    //self.sidebarRight.albumContents = albumContents;
 }
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId
 {
+	NSLog(@"begin refresh");
 	[refresh beginRefreshing];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing photos..."];
 }
 
 - (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
 {
+	NSLog(@"end refresh");
 	[refresh endRefreshing];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 
@@ -358,6 +372,7 @@
 
 - (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
 {
+	NSLog(@"error refresh");
     [refresh endRefreshing];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	
@@ -372,10 +387,7 @@
 
 #pragma mark refresh control
 
--(void)refreshView
-{
-	
-	NSLog(@"refreshView");
+- (void)refreshView {
     [self.albumManager refreshAlbumContents:self.albumId];
 }
 
