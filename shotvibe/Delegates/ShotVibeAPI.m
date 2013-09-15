@@ -343,6 +343,28 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return YES;
 }
 
+- (BOOL)uploadUserAvatar:(int64_t)userId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
+{
+    NSError *responseError;
+    Response *response = [self putFile:[NSString stringWithFormat:@"/users/%lld/avatar/", userId]
+                              filePath:filePath
+                           contentType:@"application/octet-stream"
+                        uploadProgress:uploadProgress
+                             withError:&responseError];
+
+    if (!response) {
+        *error = responseError;
+        return NO;
+    }
+
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return NO;
+    }
+
+    return YES;
+}
+
 - (NSArray *)getAlbumsWithError:(NSError **)error
 {
     NSError *responseError;

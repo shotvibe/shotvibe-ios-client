@@ -45,6 +45,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 
 - (BOOL)setUserNickname:(int64_t)userId nickname:(NSString *)nickname withError:(NSError **)error;
 
+- (BOOL)uploadUserAvatar:(int64_t)userId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error;
+
 // Returns an array of `AlbumSummary` objects
 - (NSArray *)getAlbumsWithError:(NSError **)error;
 
