@@ -104,7 +104,7 @@
                         <outlet property="tableOverlayView" destination="rA8-oA-eN4" id="hp4-eM-9P7"/>
                         <outlet property="takePictureButton" destination="T4H-zi-gWL" id="1p6-G8-4pt"/>
                         <segue destination="N4E-mX-u47" kind="push" identifier="SettingsSegue" id="FFK-OC-3pt"/>
-                        <segue destination="YCy-E4-hqR" kind="push" identifier="ProfileSegue" id="gU5-ak-Uzz"/>
+                        <segue destination="K2n-3B-CQ0" kind="push" identifier="ProfileSegue" id="iIS-e3-EEA"/>
                     </connections>
                 </tableViewController>
                 <view contentMode="scaleToFill" id="9dY-ZJ-sBW" userLabel="header">
@@ -774,7 +774,7 @@ to register this device</string>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <segue destination="YCy-E4-hqR" kind="push" identifier="SettingsProfileSegue" id="08l-Qt-CIJ"/>
+                                            <segue destination="K2n-3B-CQ0" kind="push" identifier="SettingsProfileSegue" id="wnh-dc-9HX"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="M1e-TR-5rv" imageView="ymW-eZ-yZi" style="IBUITableViewCellStyleDefault" id="0Yr-N1-aPQ">
@@ -1277,165 +1277,59 @@ to register this device</string>
             </objects>
             <point key="canvasLocation" x="1026" y="1821"/>
         </scene>
-        <!--Profile View Controller - Update Your Profile-->
-        <scene sceneID="495-bA-SCm">
+        <!--Profile View Controller-->
+        <scene sceneID="An0-TW-5AK">
             <objects>
-                <tableViewController storyboardIdentifier="ProfileViewController" id="YCy-E4-hqR" customClass="SVProfileViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="46" sectionHeaderHeight="22" sectionFooterHeight="22" id="hwz-xH-nuL">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="deviceRGB"/>
-                        <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="zkp-K2-beA">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="165"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <view contentMode="scaleToFill" id="mgc-gZ-yWS">
-                                    <rect key="frame" x="104" y="15" width="112" height="112"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="profileFrame.png" id="yGs-aT-XbE">
-                                            <rect key="frame" x="0.0" y="0.0" width="112" height="112"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="7aN-v7-Fda" customClass="RCImageView">
-                                            <rect key="frame" x="4" y="4" width="104" height="104"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="editProfileImageIcon.png" id="05f-1g-gHW">
-                                            <rect key="frame" x="86" y="86" width="23" height="23"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Alex Perez" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t5O-ee-Vg0">
-                                    <rect key="frame" x="0.0" y="124" width="320" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
-                                    <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="NYC" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jxs-MC-y25">
-                                    <rect key="frame" x="0.0" y="142" width="320" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
-                                    <color key="textColor" red="0.47450980390000003" green="0.53333333329999999" blue="0.57254901960000004" alpha="1" colorSpace="deviceRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <sections>
-                            <tableViewSection id="SCU-5S-0fm">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="BdV-Ra-gHW">
-                                        <rect key="frame" x="0.0" y="165" width="320" height="46"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="searchFieldBg.png" id="9CF-VV-Ymx">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nick Name" minimumFontSize="17" clearButtonMode="whileEditing" id="vFh-LO-IyP">
-                                                    <rect key="frame" x="20" y="0.0" width="290" height="46"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="YCy-E4-hqR" id="V5V-rD-yqF"/>
-                                                    </connections>
-                                                </textField>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection id="M1v-2X-RNY">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="2bT-NH-yhp">
-                                        <rect key="frame" x="0.0" y="211" width="320" height="46"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="searchFieldBg.png" id="2Mz-QS-YcL">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" minimumFontSize="17" clearButtonMode="whileEditing" id="iEd-Fx-BXh">
-                                                    <rect key="frame" x="20" y="1" width="290" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="YCy-E4-hqR" id="DQE-o7-WcX"/>
-                                                    </connections>
-                                                </textField>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="UDX-fZ-ap8">
-                                        <rect key="frame" x="0.0" y="257" width="320" height="46"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="searchFieldBg.png" id="fgu-j5-00z">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" id="o19-SQ-QBo">
-                                                    <rect key="frame" x="20" y="1" width="290" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="YCy-E4-hqR" id="EKo-TX-Uy0"/>
-                                                    </connections>
-                                                </textField>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="YCy-E4-hqR" id="2rM-2a-Dqd"/>
-                            <outlet property="delegate" destination="YCy-E4-hqR" id="3W6-SZ-7u7"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Update Your Profile" id="EQs-SB-nWY">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="Vx8-fI-TZV"/>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="HQG-4q-lQA">
-                            <connections>
-                                <action selector="doneButtonPressed:" destination="YCy-E4-hqR" id="hgR-Ax-3Ej"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                <viewController id="K2n-3B-CQ0" customClass="SVProfileViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gO2-TN-Jny">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="6zt-Kf-ZnC">
+                                <rect key="frame" x="0.0" y="163" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="Nzl-Sf-j4B">
+                                <rect key="frame" x="0.0" y="213" width="320" height="1"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.79907048357664234" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="ProfileHeader.png" id="OYs-hf-bR6">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="163"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="ProfileIconBackground.png" id="yGs-aT-XbE">
+                                <rect key="frame" x="13" y="90" width="110" height="110"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="7aN-v7-Fda" customClass="RCImageView">
+                                <rect key="frame" x="17" y="93" width="102" height="102"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nick Name" minimumFontSize="17" clearButtonMode="whileEditing" id="vFh-LO-IyP">
+                                <rect key="frame" x="138" y="165" width="182" height="46"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="K2n-3B-CQ0" id="Rfb-mf-TSD"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92941176470588238" green="0.93333333333333335" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Nmm-Ze-9zp"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="emailAddressField" destination="iEd-Fx-BXh" id="Tex-tU-eO8"/>
-                        <outlet property="nicknameField" destination="vFh-LO-IyP" id="sFb-Ky-EWv"/>
-                        <outlet property="passwordField" destination="o19-SQ-QBo" id="Kfl-ST-MWC"/>
-                        <outlet property="userPhoto" destination="7aN-v7-Fda" id="EAp-gZ-x8b"/>
+                        <outlet property="nicknameField" destination="vFh-LO-IyP" id="A3J-tc-E58"/>
+                        <outlet property="userPhoto" destination="7aN-v7-Fda" id="TAB-OL-cpD"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2wO-Wd-onm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4gM-zP-CMA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-368" y="1821"/>
+            <point key="canvasLocation" x="-328" y="1783"/>
         </scene>
         <!--Settings About View Controller - General Notification Settings-->
         <scene sceneID="DRS-hq-iat">
@@ -1850,6 +1744,8 @@ activation code just sent to you</string>
         <image name="AlbumInfoNotificationIcon.png" width="16" height="18"/>
         <image name="AlbumInfoShareIcon.png" width="16" height="14"/>
         <image name="ContactIsMember.png" width="26" height="26"/>
+        <image name="ProfileHeader.png" width="320" height="163"/>
+        <image name="ProfileIconBackground.png" width="110" height="110"/>
         <image name="US.png" width="48" height="48"/>
         <image name="aboutIcon.png" width="14" height="13"/>
         <image name="addFriendsButtonBg.png" width="245" height="41"/>
@@ -1870,17 +1766,14 @@ activation code just sent to you</string>
         <image name="clockIcon.png" width="8" height="8"/>
         <image name="delimiter.png" width="1" height="45"/>
         <image name="dropDownField.png" width="305" height="130"/>
-        <image name="editProfileImageIcon.png" width="23" height="23"/>
         <image name="emailIcon.png" width="14" height="11"/>
         <image name="helpIcon.png" width="14" height="14"/>
         <image name="imageUnselected.png" width="26" height="26"/>
         <image name="newPhotosIndicator.png" width="27" height="18"/>
         <image name="phoneNumberContainer.png" width="270" height="44"/>
         <image name="photoFrame.png" width="97" height="96"/>
-        <image name="profileFrame.png" width="112" height="112"/>
         <image name="profileIcon.png" width="14" height="14"/>
         <image name="registrationCodeFieldBg.png" width="213" height="45"/>
-        <image name="searchFieldBg.png" width="320" height="46"/>
         <image name="settingsIcon.png" width="16" height="16"/>
         <image name="videoIcon.png" width="27" height="17"/>
     </resources>
@@ -1893,6 +1786,7 @@ activation code just sent to you</string>
             <relationships>
                 <relationship kind="action" name="cancelPressed:"/>
                 <relationship kind="action" name="donePressed:"/>
+                <relationship kind="action" name="segmentChanged:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="addedContactsScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="membersView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
@@ -2004,13 +1898,11 @@ activation code just sent to you</string>
                 <relationship kind="outlet" name="phoneNumberPhaseContainer" candidateClass="UIView"/>
             </relationships>
         </class>
-        <class className="SVProfileViewController" superclassName="UITableViewController">
+        <class className="SVProfileViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVProfileViewController.h"/>
             <relationships>
                 <relationship kind="action" name="doneButtonPressed:"/>
-                <relationship kind="outlet" name="emailAddressField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="nicknameField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="userPhoto" candidateClass="RCImageView"/>
             </relationships>
         </class>
@@ -2093,9 +1985,9 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="YZf-v8-Yxg"/>
-        <segue reference="gU5-ak-Uzz"/>
-        <segue reference="itz-1F-TDT"/>
+        <segue reference="FFK-OC-3pt"/>
+        <segue reference="iIS-e3-EEA"/>
+        <segue reference="hc8-VF-LIN"/>
         <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>
 </document>

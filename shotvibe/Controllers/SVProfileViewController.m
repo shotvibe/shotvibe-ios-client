@@ -14,8 +14,6 @@
 @interface SVProfileViewController ()
 
 @property (nonatomic, strong) IBOutlet UITextField *nicknameField;
-@property (nonatomic, strong) IBOutlet UITextField *emailAddressField;
-@property (nonatomic, strong) IBOutlet UITextField *passwordField;
 @property (nonatomic, strong) IBOutlet RCImageView *userPhoto;
 
 - (IBAction)doneButtonPressed:(id)sender;
@@ -58,22 +56,11 @@
 }
 
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    //self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainBg.png"]];
-
+	
     NSAssert(self.albumManager, @"SVProfileViewController started without setting albumManager property");
 
     ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
@@ -102,6 +89,8 @@
             }
         });
     });
+	
+	self.title = @"Profile";
 }
 
 
@@ -182,6 +171,18 @@
     [textField resignFirstResponder];
     
     return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	
+	if (!saveButton) {
+		saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(doneButtonPressed:)];
+		NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
+		[saveButton setTitleTextAttributes:att forState:UIControlStateNormal];
+		//[saveButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
+		self.navigationItem.rightBarButtonItem = saveButton;
+	}
+	return YES;
 }
 
 @end

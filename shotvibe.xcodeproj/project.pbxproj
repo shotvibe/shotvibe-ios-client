@@ -431,6 +431,10 @@
 		2849A80817D9AB970076AFBA /* IconSettings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A80417D9AB970076AFBA /* IconSettings@2x.png */; };
 		2849A80A17D9ABE90076AFBA /* imagePile.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A80917D9ABE90076AFBA /* imagePile.png */; };
 		2849A80D17DDE61A0076AFBA /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A80C17DDE61A0076AFBA /* UIImage+Scale.m */; };
+		2849A81B17E6F0CE0076AFBA /* ProfileIconBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A81917E6F0CE0076AFBA /* ProfileIconBackground.png */; };
+		2849A81C17E6F0CE0076AFBA /* ProfileIconBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A81A17E6F0CE0076AFBA /* ProfileIconBackground@2x.png */; };
+		2849A81F17E6FA2D0076AFBA /* ProfileHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A81D17E6FA2C0076AFBA /* ProfileHeader.png */; };
+		2849A82017E6FA2D0076AFBA /* ProfileHeader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A81E17E6FA2D0076AFBA /* ProfileHeader@2x.png */; };
 		2884E86117A24CFE00B382D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E85F17A24CFE00B382D9 /* Icon.png */; };
 		2884E86217A24CFE00B382D9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86017A24CFE00B382D9 /* Icon@2x.png */; };
 		2884E86617A24E7F00B382D9 /* SegmentButtonOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */; };
@@ -1050,6 +1054,10 @@
 		2849A80917D9ABE90076AFBA /* imagePile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imagePile.png; sourceTree = "<group>"; };
 		2849A80B17DDE61A0076AFBA /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
 		2849A80C17DDE61A0076AFBA /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
+		2849A81917E6F0CE0076AFBA /* ProfileIconBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ProfileIconBackground.png; sourceTree = "<group>"; };
+		2849A81A17E6F0CE0076AFBA /* ProfileIconBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ProfileIconBackground@2x.png"; sourceTree = "<group>"; };
+		2849A81D17E6FA2C0076AFBA /* ProfileHeader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ProfileHeader.png; sourceTree = "<group>"; };
+		2849A81E17E6FA2D0076AFBA /* ProfileHeader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ProfileHeader@2x.png"; sourceTree = "<group>"; };
 		2884E85F17A24CFE00B382D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2884E86017A24CFE00B382D9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentButtonOutline.png; sourceTree = "<group>"; };
@@ -1327,6 +1335,10 @@
 		043473961705F42300CFE564 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2849A81D17E6FA2C0076AFBA /* ProfileHeader.png */,
+				2849A81E17E6FA2D0076AFBA /* ProfileHeader@2x.png */,
+				2849A81917E6F0CE0076AFBA /* ProfileIconBackground.png */,
+				2849A81A17E6F0CE0076AFBA /* ProfileIconBackground@2x.png */,
 				2849A77417D9AA410076AFBA /* Camera */,
 				28E94C2717C2C49500874BDE /* CustomActivity */,
 				2897383217A1C08D003B18D3 /* cells related */,
@@ -2866,6 +2878,10 @@
 				2849A80717D9AB970076AFBA /* IconSettings.png in Resources */,
 				2849A80817D9AB970076AFBA /* IconSettings@2x.png in Resources */,
 				2849A80A17D9ABE90076AFBA /* imagePile.png in Resources */,
+				2849A81B17E6F0CE0076AFBA /* ProfileIconBackground.png in Resources */,
+				2849A81C17E6F0CE0076AFBA /* ProfileIconBackground@2x.png in Resources */,
+				2849A81F17E6FA2D0076AFBA /* ProfileHeader.png in Resources */,
+				2849A82017E6FA2D0076AFBA /* ProfileHeader@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

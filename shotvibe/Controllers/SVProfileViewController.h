@@ -10,7 +10,9 @@
 
 #import "AlbumManager.h"
 
-@interface SVProfileViewController : UITableViewController <UITextFieldDelegate>
+@interface SVProfileViewController : UIViewController <UITextFieldDelegate> {
+	UIBarButtonItem *saveButton;
+}
 
 @property (nonatomic, strong) AlbumManager *albumManager;
 
