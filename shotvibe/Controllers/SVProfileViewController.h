@@ -10,10 +10,10 @@
 
 #import "AlbumManager.h"
 
-@interface SVProfileViewController : UIViewController <UITextFieldDelegate> {
-	UIBarButtonItem *saveButton;
-}
+@interface SVProfileViewController : UIViewController <UITextFieldDelegate>
 
 @property (nonatomic, strong) AlbumManager *albumManager;
+
+-(IBAction)ChangeProfilePicture:(id)sender;
 
 @end

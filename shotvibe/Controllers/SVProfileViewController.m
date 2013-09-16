@@ -25,6 +25,8 @@
 
 - (IBAction)doneButtonPressed:(id)sender
 {
+	[self.nicknameField resignFirstResponder];
+	
     NSString *newNickname = [self.nicknameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -41,20 +43,23 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (!success) {
                 // TODO Better error dialog with Retry option
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:[error description]
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                                                message:[error description]
+//                                                               delegate:nil
+//                                                      cancelButtonTitle:@"OK"
+//                                                      otherButtonTitles:nil];
+//                [alert show];
             }
             else {
-                [self.navigationController popViewControllerAnimated:YES];
+				self.navigationItem.rightBarButtonItem.enabled = NO;
             }
         });
     });
 }
 
+-(IBAction)ChangeProfilePicture:(id)sender {
+	
+}
 
 
 - (void)viewDidLoad
@@ -76,12 +81,12 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (!userProfile) {
                 // TODO Better error dialog with Retry option
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:[error description]
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                                                message:[error description]
+//                                                               delegate:nil
+//                                                      cancelButtonTitle:@"OK"
+//                                                      otherButtonTitles:nil];
+//                [alert show];
             }
             else {
                 self.nicknameField.text = userProfile.nickname;
@@ -91,6 +96,13 @@
     });
 	
 	self.title = @"Profile";
+	
+	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(doneButtonPressed:)];
+	NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
+	[saveButton setTitleTextAttributes:att forState:UIControlStateNormal];
+	[saveButton setTitlePositionAdjustment:UIOffsetMake(7,0) forBarMetrics:UIBarMetricsDefault];
+	self.navigationItem.rightBarButtonItem = saveButton;
+	self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 
@@ -173,15 +185,13 @@
     return YES;
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+	self.navigationItem.rightBarButtonItem.enabled = YES;
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	
-	if (!saveButton) {
-		saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(doneButtonPressed:)];
-		NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
-		[saveButton setTitleTextAttributes:att forState:UIControlStateNormal];
-		//[saveButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
-		self.navigationItem.rightBarButtonItem = saveButton;
-	}
+	
 	return YES;
 }
 
