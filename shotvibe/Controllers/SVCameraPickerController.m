@@ -34,7 +34,12 @@
 	
     [self.gridView registerClass:[SVSelectionGridCell class] forCellWithReuseIdentifier:@"SVSelectionGridCell"];
 	
-	self.title = NSLocalizedString(@"Select To Upload", @"");
+	if (self.oneImagePicker) {
+		self.title = NSLocalizedString(@"Select To Crop", @"");
+	}
+	else {
+		self.title = NSLocalizedString(@"Select To Upload", @"");
+	}
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"")
 																   style:UIBarButtonItemStyleBordered
@@ -281,57 +286,73 @@
 	if (self.sliderZoom.value > 1) {
 		
 	}
-	__block UIImage *thumbImage;
-	NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", self.capturedImages.count]];
-	NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.png", self.capturedImages.count]];
 	
-	dispatch_async(dispatch_get_global_queue(0, 0), ^{
+	if (!self.oneImagePicker) {
 		
-		if ([UIImageJPEGRepresentation(originalImage, 0.9) writeToFile:filePath atomically:YES]) {
-			
-			CGSize newSize = CGSizeMake(200, 200);
-			
-			float oldWidth = originalImage.size.width;
-			float scaleFactor = newSize.width / oldWidth;
-			
-			float newHeight = originalImage.size.height * scaleFactor;
-			float newWidth = oldWidth * scaleFactor;
-			
-			UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-			[originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-			thumbImage = UIGraphicsGetImageFromCurrentImageContext();
-			UIGraphicsEndImageContext();
-			
-			[UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
-			
-			dispatch_async(dispatch_get_main_queue(), ^{
-				self.albumPreviewImage.image = thumbImage;
-			});
-		}
-	});
-    
-    // Grab image data
-    UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    animatedImageView.image = originalImage;
-    [self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
-	
-	// Animation not working, TODO
-    [UIView animateWithDuration:0.6 animations:^{
-		CGRect f = self.albumPreviewImage.frame;
-		f.origin.x += self.tileContainer.frame.origin.x;
-		f.origin.y += self.view.frame.size.height - 25;
-        animatedImageView.frame = f;
-    }
-	completion:^(BOOL finished) {
-        
-        [self.capturedImages addObject:filePath];
-        self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
-        [animatedImageView removeFromSuperview];
+		__block UIImage *thumbImage;
+		NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", self.capturedImages.count]];
+		NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.png", self.capturedImages.count]];
 		
-		if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
-			[self performSelector:@selector(hideTopBar) withObject:nil afterDelay:0.6];
+		dispatch_async(dispatch_get_global_queue(0, 0), ^{
+			
+			if ([UIImageJPEGRepresentation(originalImage, 0.9) writeToFile:filePath atomically:YES]) {
+				
+				CGSize newSize = CGSizeMake(200, 200);
+				
+				float oldWidth = originalImage.size.width;
+				float scaleFactor = newSize.width / oldWidth;
+				
+				float newHeight = originalImage.size.height * scaleFactor;
+				float newWidth = oldWidth * scaleFactor;
+				
+				UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+				[originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+				thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+				UIGraphicsEndImageContext();
+				
+				[UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
+				
+				dispatch_async(dispatch_get_main_queue(), ^{
+					self.albumPreviewImage.image = thumbImage;
+				});
+			}
+		});
+		
+		// Grab image data
+		UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+		animatedImageView.image = originalImage;
+		[self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
+		
+		// Animation not working, TODO
+		[UIView animateWithDuration:0.6 animations:^{
+			CGRect f = self.albumPreviewImage.frame;
+			f.origin.x += self.tileContainer.frame.origin.x;
+			f.origin.y += self.view.frame.size.height - 25;
+			animatedImageView.frame = f;
 		}
-    }];
+						 completion:^(BOOL finished) {
+							 
+							 [self.capturedImages addObject:filePath];
+							 self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
+							 [animatedImageView removeFromSuperview];
+							 
+							 if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
+								 [self performSelector:@selector(hideTopBar) withObject:nil afterDelay:0.6];
+							 }
+						 }];
+	}
+    else {
+		
+		SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController" bundle:[NSBundle mainBundle]];
+		cropController.delegate = self.cropDelegate;
+		
+		cropController.image = originalImage;
+		
+		[self.imagePickerController dismissViewControllerAnimated:YES completion:^{
+			[self.navigationController pushViewController:cropController animated:YES];
+		}];
+		
+	}
 }
 
 

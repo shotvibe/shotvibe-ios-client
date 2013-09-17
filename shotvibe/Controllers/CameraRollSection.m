@@ -26,7 +26,7 @@
 		self.selectButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 		[self.selectButton addTarget:self action:@selector(checkmarkTouched) forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:self.selectButton];
-		[self selectCheckmark:NO];
+//		[self selectCheckmark:NO];
     }
     return self;
 }

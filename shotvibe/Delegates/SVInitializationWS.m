@@ -185,6 +185,37 @@
     // Customize the UIActivityController
 	
 	//[[SVActivityViewController appearance] setBackgroundColor:[UIColor whiteColor]];
+	
+	
+	// Customize the UIActionSheet
+	// Seems is not possible, the UIActionSheet has UIAlertButtons which can't be customized like this
+	{
+/*        UIImage *baseImage = [UIImage imageNamed:@"albumEmptyCameraButton"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(5, 5, 5, 5);
+        
+        UIImage *resizableImage = nil;
+        if (IS_IOS6_OR_GREATER) {
+            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+            // Why on earth is the position different depending on version?
+        }
+        else {
+            resizableImage = [baseImage stretchableImageWithLeftCapWidth:0 topCapHeight:5];
+            // iOS5 back buttons are messed up :/
+        }
+        
+        [[UIAlertButton appearanceWhenContainedIn:[UIActionSheet class], [UIView class], nil] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [[UIAlertButton appearanceWhenContainedIn:[UIActionSheet class], nil] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+		[[UIAlertButton appearanceWhenContainedIn:[UIActionSheet class], nil] setTitlePositionAdjustment:UIOffsetMake(-10,0) forBarMetrics:UIBarMetricsDefault];
+	
+		// Customize regular barbuttonitem for navbar
+		[[UIAlertButton appearanceWhenContainedIn:[UIActionSheet class], [UIView class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+															  UITextAttributeTextColor,
+															  [UIColor clearColor],
+															  UITextAttributeTextShadowColor,
+															  [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0],
+															  UITextAttributeFont, nil]
+													forState:UIControlStateNormal];*/
+	}
 }
 
 

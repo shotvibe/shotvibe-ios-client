@@ -94,11 +94,14 @@
         self.title = NSLocalizedString(@"Select To Upload", @"");
     }
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"")
-																   style:UIBarButtonItemStyleBordered
-																  target:self
-																  action:@selector(doneButtonPressed)];
-    self.navigationItem.rightBarButtonItem = doneButton;
+	if (!self.oneImagePicker) {
+		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"")
+																	   style:UIBarButtonItemStyleBordered
+																	  target:self
+																	  action:@selector(doneButtonPressed)];
+		self.navigationItem.rightBarButtonItem = doneButton;
+	}
+    
 }
 
 
@@ -145,11 +148,16 @@
 		});
 	});
 	
-	if ([selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
-		cell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+	if (!self.oneImagePicker) {
+		if ([selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
+			cell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+		}
+		else {
+			cell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+		}
 	}
 	else {
-		cell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+		cell.selectionIcon.hidden = YES;
 	}
 	
     return cell;
@@ -182,7 +190,9 @@
 				break;
 			}
 		}
-		[header selectCheckmark:allPhotosAreSelected];
+		if (!self.oneImagePicker) {
+			[header selectCheckmark:allPhotosAreSelected];
+		}
 		
 		return header;
 	}
@@ -196,19 +206,53 @@
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
-    SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
-	NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
-    
-    if (![selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
-        [selectedPhotos addObject:[arr objectAtIndex:indexPath.row]];
-        selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
-    }
+	if (!self.oneImagePicker) {
+		
+		SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
+		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
+		
+		if (![selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
+			[selectedPhotos addObject:[arr objectAtIndex:indexPath.row]];
+			selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+		}
+		else {
+			[selectedPhotos removeObject:[arr objectAtIndex:indexPath.row]];
+			selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+		}
+		
+		self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+	}
     else {
-        [selectedPhotos removeObject:[arr objectAtIndex:indexPath.row]];
-        selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
-    }
-	
-	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+		
+		SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController" bundle:[NSBundle mainBundle]];
+		cropController.delegate = self.cropDelegate;
+		
+		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
+		ALAsset *asset = [arr objectAtIndex:indexPath.row];
+		NSDictionary *dict = [asset valueForProperty:ALAssetPropertyURLs];
+		NSURL *url = [dict objectForKey:@"public.jpeg"];
+		
+		ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset){
+			//NSLog(@"resultblock %@", myasset);
+			ALAssetRepresentation *rep = [myasset defaultRepresentation];
+			//CGImageRef iref = [rep fullResolutionImage];
+			CGImageRef iref = [rep fullScreenImage];
+			if (iref) {
+				NSLog(@"image found");
+				cropController.image = [UIImage imageWithCGImage:iref];
+				[self.navigationController pushViewController:cropController animated:YES];
+			}
+			else {
+				NSLog(@"error creating the fullscreen version of the image");
+			}
+		};
+		ALAssetsLibraryAccessFailureBlock failureblock  = ^(NSError *myerror){
+			NSLog(@"Cant get image - %@", [myerror localizedDescription]);
+		};
+		
+		ALAssetsLibrary *assetslibrary = [[ALAssetsLibrary alloc] init];
+		[assetslibrary assetForURL:url resultBlock:resultblock failureBlock:failureblock];
+	}
 }
 
 - (void)sectionCheckmarkTouched:(CameraRollSection*)section {
@@ -244,9 +288,10 @@
 		
 		i++;
 	}
-	
-	[section selectCheckmark:!allPhotosAreSelected];
-	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+	if (!self.oneImagePicker) {
+		[section selectCheckmark:!allPhotosAreSelected];
+		self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+	}
 }
 
 
@@ -298,6 +343,15 @@
 			[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
 		}
 	}];
+}
+
+
+#pragma mark Crop tool delegate
+
+- (void)didCropImage:(UIImage *)image {
+	if ([self.cropDelegate respondsToSelector:@selector(didCropImage:)]) {
+		[self.cropDelegate didCropImage:image];
+	}
 }
 
 @end

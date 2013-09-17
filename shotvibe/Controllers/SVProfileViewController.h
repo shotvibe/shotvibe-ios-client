@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 
 #import "AlbumManager.h"
+#import "SVCameraPickerDelegate.h"
+#import "SVCameraPickerController.h"
 
-@interface SVProfileViewController : UIViewController <UITextFieldDelegate>
+
+//#define OPTIONS [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] ? (@"Camera", @"Photo Gallery") : @"Photo Gallery"
+#define OPTIONS @"Camera", @"Photo Gallery"
+
+@interface SVProfileViewController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate, SVCameraPickerDelegate>
 
 @property (nonatomic, strong) AlbumManager *albumManager;
-
--(IBAction)ChangeProfilePicture:(id)sender;
 
 @end

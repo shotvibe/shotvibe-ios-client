@@ -14,9 +14,11 @@
 
 @interface SVImagePickerListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, retain) id cropDelegate;
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;
 
 @property (nonatomic, strong) AlbumSummary *selectedAlbum;
+@property (nonatomic) BOOL oneImagePicker;
 
 @end

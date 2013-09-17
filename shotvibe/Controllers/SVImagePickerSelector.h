@@ -14,10 +14,11 @@
 #import "SVCameraPickerDelegate.h"
 #import "SVSelectionGridCell.h"
 #import "CameraRollSection.h"
+#import "SVImageCropViewController.h"
 #import "AlbumManager.h"
 #import "AlbumSummary.h"
 
-@interface SVImagePickerSelector : UIViewController <CameraRollSectionDelegate> {
+@interface SVImagePickerSelector : UIViewController <CameraRollSectionDelegate, SVImageCropDelegate> {
 	
 	NSMutableArray *sectionsKeys;
 	NSMutableDictionary *sections;
@@ -28,6 +29,8 @@
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic) id <SVCameraPickerDelegate> delegate;
+@property (nonatomic) id cropDelegate;
+@property (nonatomic) BOOL oneImagePicker;
 
 @property (nonatomic, strong) NSArray *takenPhotos;// Set only one of this options
 @property (nonatomic, strong) NSArray *libraryPhotos;

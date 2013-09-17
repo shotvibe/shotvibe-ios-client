@@ -458,6 +458,7 @@
         <scene sceneID="OQw-17-hWL">
             <objects>
                 <navigationController definesPresentationContext="YES" id="4g5-BF-Tej" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="ga3-94-e9G"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SBv-g1-uJf">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1329,9 +1330,13 @@ to register this device</string>
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="doneButtonPressed:" destination="K2n-3B-CQ0" eventType="touchUpInside" id="gQZ-KS-u2H"/>
+                                    <action selector="changeProfilePicture:" destination="K2n-3B-CQ0" eventType="touchUpInside" id="Jkr-ZA-UQs"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="editProfileImageIcon.png" id="Ll6-SU-NTY">
+                                <rect key="frame" x="94" y="170" width="23" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.92941176470588238" green="0.93333333333333335" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -1340,11 +1345,12 @@ to register this device</string>
                     <connections>
                         <outlet property="nicknameField" destination="vFh-LO-IyP" id="A3J-tc-E58"/>
                         <outlet property="userPhoto" destination="7aN-v7-Fda" id="TAB-OL-cpD"/>
+                        <segue destination="Pcu-I1-edh" kind="push" identifier="PhotoGallerySegue" id="Ywg-8f-VfQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4gM-zP-CMA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-328" y="1783"/>
+            <point key="canvasLocation" x="-402" y="1931"/>
         </scene>
         <!--Settings About View Controller - General Notification Settings-->
         <scene sceneID="DRS-hq-iat">
@@ -1781,6 +1787,7 @@ activation code just sent to you</string>
         <image name="clockIcon.png" width="8" height="8"/>
         <image name="delimiter.png" width="1" height="45"/>
         <image name="dropDownField.png" width="305" height="130"/>
+        <image name="editProfileImageIcon.png" width="23" height="23"/>
         <image name="emailIcon.png" width="14" height="11"/>
         <image name="helpIcon.png" width="14" height="14"/>
         <image name="imageUnselected.png" width="26" height="26"/>
@@ -1914,7 +1921,7 @@ activation code just sent to you</string>
         <class className="SVProfileViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVProfileViewController.h"/>
             <relationships>
-                <relationship kind="action" name="ChangeProfilePicture:"/>
+                <relationship kind="action" name="changeProfilePicture:"/>
                 <relationship kind="action" name="doneButtonPressed:"/>
                 <relationship kind="outlet" name="nicknameField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="userPhoto" candidateClass="RCImageView"/>
@@ -1999,9 +2006,10 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="FFK-OC-3pt"/>
-        <segue reference="iIS-e3-EEA"/>
+        <segue reference="YZf-v8-Yxg"/>
         <segue reference="hc8-VF-LIN"/>
+        <segue reference="wnh-dc-9HX"/>
+        <segue reference="Ywg-8f-VfQ"/>
         <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>
 </document>

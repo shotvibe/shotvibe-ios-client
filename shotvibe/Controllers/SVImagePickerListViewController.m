@@ -34,6 +34,13 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
+- (void)backButtonPressed:(id)sender
+{
+	// When we leave the album set all the photos as viewed
+	
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 #pragma mark - Initializers
 
@@ -53,10 +60,18 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back", @"") style:UIBarButtonItemStyleBordered target:nil action:nil];
-    self.navigationItem.backBarButtonItem = backButton;
-    
+    NSLog(@"SVImagePickerController viewdidload");
+	
+    // Setup back button
+//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
+//    NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
+//	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
+//	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
+//	
+	if (self.oneImagePicker) {
+		self.navigationItem.leftBarButtonItem = nil;
+	}
+	
     [self gatherLocalAlbums];
 }
 
@@ -110,10 +125,12 @@
         selectImagesViewController.libraryPhotos = [[NSArray alloc] initWithArray:assets];
         selectImagesViewController.selectedAlbum = self.selectedAlbum;
         selectImagesViewController.selectedGroup = selectedGroup;
+		selectImagesViewController.oneImagePicker = self.oneImagePicker;
+		selectImagesViewController.cropDelegate = self.cropDelegate;
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        //dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:selectImagesViewController animated:YES];
-        });
+        //});
     }];
 }
 

@@ -10,18 +10,26 @@
 #import "SVDefines.h"
 #import "MBProgressHUD.h"
 #import "RCImageView.h"
+#import "SVImagePickerListViewController.h"
+#import "CaptureNavigationController.h"
 
 @interface SVProfileViewController ()
 
 @property (nonatomic, strong) IBOutlet UITextField *nicknameField;
 @property (nonatomic, strong) IBOutlet RCImageView *userPhoto;
+@property (nonatomic) BOOL userPhotoChanged;
 
+@property (weak, nonatomic) UIActionSheet *actionSheet;
+@property (nonatomic, retain) CaptureNavigationController *cameraNavController;
+
+- (IBAction)changeProfilePicture:(id)sender;
 - (IBAction)doneButtonPressed:(id)sender;
 
 @end
 
-@implementation SVProfileViewController
 
+@implementation SVProfileViewController
+@synthesize cameraNavController = _cameraNavController;
 
 - (IBAction)doneButtonPressed:(id)sender
 {
@@ -36,6 +44,7 @@
     int64_t userId = shotvibeAPI.authData.userId;
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+		// Save nickname
         NSError *error;
         BOOL success = [shotvibeAPI setUserNickname:userId nickname:newNickname withError:&error];
 
@@ -54,13 +63,93 @@
 				self.navigationItem.rightBarButtonItem.enabled = NO;
             }
         });
+		
+		// Save avatar
+		if (self.userPhotoChanged) {
+			NSError *error2;
+			NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+			path = [path stringByAppendingString:@"/avatar.jpg"];
+			BOOL success2 = [shotvibeAPI uploadUserAvatar:userId filePath:path uploadProgress:^(int i, int j){
+				NSLog(@"upload avatar %i %i", i, j);
+			}withError:&error2];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[MBProgressHUD hideHUDForView:self.view animated:YES];
+				if (!success) {
+					NSLog(@"err avatar upload");
+				}
+				else {
+					self.navigationItem.rightBarButtonItem.enabled = NO;
+				}
+			});
+		}
     });
 }
 
--(IBAction)ChangeProfilePicture:(id)sender {
-	
+-(IBAction)changeProfilePicture:(id)sender {
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Chose a new profile picture"
+															 delegate:self
+													cancelButtonTitle:@"Cancel"
+											   destructiveButtonTitle:nil
+													otherButtonTitles:OPTIONS, nil];
+	[actionSheet showFromRect:self.view.frame inView:self.view animated:YES];
 }
 
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *choice = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if (buttonIndex == [actionSheet destructiveButtonIndex]) {
+        // destroy something
+        NSLog(@"Destroy");
+    }
+	else if ([choice isEqualToString:@"Camera"]){
+		
+//        _cameraNavController = [[CaptureNavigationController alloc] init];
+//		_cameraNavController.cameraDelegate = self;
+//		_cameraNavController.albums = nil;
+//		_cameraNavController.nav = self.navigationController;// this is set last
+//		_cameraNavController.oneImagePicker = YES;
+//		
+		SVCameraPickerController *cameraController = [[SVCameraPickerController alloc] initWithNibName:@"SVCameraOverlay" bundle:[NSBundle mainBundle]];
+		cameraController.delegate = self;
+		cameraController.cropDelegate = self;
+		cameraController.oneImagePicker = YES;
+		[self.navigationController pushViewController:cameraController animated:YES];
+    }
+	else if ([choice isEqualToString:@"Photo Gallery"]){
+        // do something else
+        [self performSegueWithIdentifier:@"PhotoGallerySegue" sender:self];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if ([segue.identifier isEqualToString:@"PhotoGallerySegue"]) {
+		
+		SVImagePickerListViewController *destination = segue.destinationViewController;
+        destination.albumManager = self.albumManager;
+		destination.oneImagePicker = YES;
+		destination.cropDelegate = self;
+    }
+}
+
+- (void) didCropImage:(UIImage*)image {
+	NSLog(@"image did crop");
+	self.userPhoto.image = image;
+	[self.navigationController popToViewController:self animated:YES];
+	self.userPhotoChanged = YES;
+	
+	// Save image to disk
+	NSError *err;
+	NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	path = [path stringByAppendingString:@"/avatar.jpg"];
+	[UIImageJPEGRepresentation(image, 1.0) writeToFile:path options:NSAtomicWrite error:&err];
+	
+	if (err) {
+		NSLog(@"some rror ocured while saving the avatar to disk");
+	}
+	self.navigationItem.rightBarButtonItem.enabled = YES;
+}
 
 - (void)viewDidLoad
 {
