@@ -36,6 +36,7 @@
 	
 	if (self.oneImagePicker) {
 		self.title = NSLocalizedString(@"Select To Crop", @"");
+		self.tileContainer.hidden = YES;
 	}
 	else {
 		self.title = NSLocalizedString(@"Select To Upload", @"");

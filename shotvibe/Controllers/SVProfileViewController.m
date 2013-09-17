@@ -13,7 +13,9 @@
 #import "SVImagePickerListViewController.h"
 #import "CaptureNavigationController.h"
 
-@interface SVProfileViewController ()
+@interface SVProfileViewController () {
+	UIBarButtonItem *saveButton;
+}
 
 @property (nonatomic, strong) IBOutlet UITextField *nicknameField;
 @property (nonatomic, strong) IBOutlet RCImageView *userPhoto;
@@ -63,31 +65,12 @@
 				self.navigationItem.rightBarButtonItem.enabled = NO;
             }
         });
-		
-		// Save avatar
-		if (self.userPhotoChanged) {
-			NSError *error2;
-			NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-			path = [path stringByAppendingString:@"/avatar.jpg"];
-			BOOL success2 = [shotvibeAPI uploadUserAvatar:userId filePath:path uploadProgress:^(int i, int j){
-				NSLog(@"upload avatar %i %i", i, j);
-			}withError:&error2];
-			
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[MBProgressHUD hideHUDForView:self.view animated:YES];
-				if (!success) {
-					NSLog(@"err avatar upload");
-				}
-				else {
-					self.navigationItem.rightBarButtonItem.enabled = NO;
-				}
-			});
-		}
     });
 }
 
 -(IBAction)changeProfilePicture:(id)sender {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Chose a new profile picture"
+	[self.nicknameField resignFirstResponder];
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Chose a new profile picture from"
 															 delegate:self
 													cancelButtonTitle:@"Cancel"
 											   destructiveButtonTitle:nil
@@ -148,7 +131,31 @@
 	if (err) {
 		NSLog(@"some rror ocured while saving the avatar to disk");
 	}
-	self.navigationItem.rightBarButtonItem.enabled = YES;
+	
+	
+	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	
+    ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
+	
+    int64_t userId = shotvibeAPI.authData.userId;
+	
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+		// Save avatar
+		NSError *error2;
+		BOOL success = [shotvibeAPI uploadUserAvatar:userId filePath:path uploadProgress:^(int i, int j){
+			NSLog(@"upload avatar %i %i", i, j);
+		}withError:&error2];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[MBProgressHUD hideHUDForView:self.view animated:YES];
+			if (!success) {
+				NSLog(@"err avatar upload");
+			}
+			else {
+				self.navigationItem.rightBarButtonItem = nil;
+			}
+		});
+	});
 }
 
 - (void)viewDidLoad
@@ -186,12 +193,11 @@
 	
 	self.title = @"Profile";
 	
-	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(doneButtonPressed:)];
+	saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(doneButtonPressed:)];
 	NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
 	[saveButton setTitleTextAttributes:att forState:UIControlStateNormal];
 	[saveButton setTitlePositionAdjustment:UIOffsetMake(7,0) forBarMetrics:UIBarMetricsDefault];
-	self.navigationItem.rightBarButtonItem = saveButton;
-	self.navigationItem.rightBarButtonItem.enabled = NO;
+	self.navigationItem.rightBarButtonItem = nil;
 }
 
 
@@ -255,13 +261,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    
 }
 
 
@@ -275,13 +275,15 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-	self.navigationItem.rightBarButtonItem.enabled = YES;
+	self.navigationItem.rightBarButtonItem = saveButton;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-	
-	
 	return YES;
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	[self.nicknameField resignFirstResponder];
 }
 
 @end

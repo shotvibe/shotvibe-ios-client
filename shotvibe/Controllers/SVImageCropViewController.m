@@ -103,7 +103,7 @@
 	else {
 		float scaleWMin = scrollView.frame.size.width / imageSize.width;
 		float scaleHMin = scrollView.frame.size.height / imageSize.height;
-		scrollView.minimumZoomScale = (scaleWMin < scaleHMin) ? scaleWMin : scaleHMin;
+		scrollView.minimumZoomScale = (scaleWMin >= scaleHMin) ? scaleWMin : scaleHMin;
 	}
 	[scrollView setZoomScale:scrollView.minimumZoomScale animated:NO];
 }
