@@ -94,12 +94,11 @@
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
 		
-		//UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
-        
-        //SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        //destination.selectedAlbum = self.selectedAlbum;
-		
-		//[self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+		NSLog(@"add friends segue AddFriendsSegue");
+		UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+        SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+        destination.albumManager = self.albumManager;
+		destination.albumId = self.albumId;
     }
 }
 

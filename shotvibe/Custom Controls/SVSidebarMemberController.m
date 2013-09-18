@@ -10,6 +10,7 @@
 #import "SVDefines.h"
 #import "SVSidebarAlbumMemberCell.h"
 #import "SVSidebarMemberController.h"
+#import "SVAddFriendsViewController.h"
 #import "UIImageView+WebCache.h"
 
 #import "AlbumMember.h"
@@ -23,15 +24,18 @@
 
 @end
 
+
+
 @implementation SVSidebarMemberController
 
 #pragma mark - Actions
 
 - (IBAction)addFriendsButtonPressed:(id)sender
 {
-    // Do other stuff
-    [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:nil];
+	// prepareForSegue is called in parentController SVAlbumGridViewController
+    [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
 }
+
 
 #pragma mark - Properties
 
@@ -61,11 +65,6 @@
 	[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 }
 
-//- (void)viewDidAppear:(BOOL)animated {
-//	[super viewDidAppear:animated];
-//	NSLog(@"viewdidappear");
-//	[self.navigationController setToolbarHidden:YES animated:YES];
-//}
 
 #pragma mark - Table view data source
 

@@ -9,6 +9,7 @@
 #import "SVAddFriendsViewController.h"
 #import "SVAddressBookBD.h"
 #import "SVDefines.h"
+#import "AlbumContents.h"
 
 
 @interface SVAddFriendsViewController ()<UISearchBarDelegate>
@@ -40,7 +41,7 @@
 - (IBAction)donePressed:(id)sender {
     // add members to album
     //TODO if already shotvibe member just add to album else sent notification to user to join?
-    //NSLog(@"contacts to add >> %@", self.selectedIndexPaths);
+    NSLog(@"contacts to add >> ");
 	
 	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
 	
@@ -53,19 +54,22 @@
 	
 	if (contactsToInvite.count > 0) {
 		
-		[contactsToInvite addObject:@{@"phone_number": @"40722905582", @"default_country":@"ro", @"contact_nickname":@"Cristi"}];
-		NSDictionary *phoneNumbers = @{@"add_members": contactsToInvite};
+		[contactsToInvite addObject:@{@"phone_number": @"0722905582", @"default_country":@"ro", @"contact_nickname":@"Cristi"}];
+		__block NSDictionary *phoneNumbers = @{@"add_members": contactsToInvite};
 		NSLog(@"contactsToInvite %@", phoneNumbers);
+		NSLog(@"[self.albumManager getShotVibeAPI] %@ %@", self.albumManager, [self.albumManager getShotVibeAPI]);
 		
 		// send request
-		
-        /*
-		[[SVEntityStore sharedStore] invitePhoneNumbers:phoneNumbers toAlbumId:self.selectedAlbum.albumId WithCompletion:^(BOOL success, NSError *error) {
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+			NSError *error;
+			AlbumContents *r = [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId phoneNumbers:contactsToInvite withError:&error];
 			
-			NSLog(@"invite sent - success/error:  %i %@", success, error);
-			[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-		}];
-         */
+			dispatch_async(dispatch_get_main_queue(), ^{
+				NSLog(@"r %@", r);
+				NSLog(@"invite sent - success/error: %@", error);
+				//[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+			});
+		});
 	}
 }
 
@@ -114,14 +118,14 @@
 	self.segmentControl.selectedSegmentIndex = 1;
 	
 	{
-		UIImage *baseImage = [UIImage imageNamed:@"searchBarBg.png"];
-		UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
-		UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-		self.searchBar.backgroundImage = resizableImage;
-		[self.searchBar setSearchFieldBackgroundImage:baseImage forState:UIControlStateNormal];
-		[self.searchBar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-		//[self.searchBar setTranslucent:YES];
-		[self.searchBar setNeedsDisplay];
+//		UIImage *baseImage = [UIImage imageNamed:@"searchBarBg.png"];
+//		UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
+//		UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+//		self.searchBar.backgroundImage = resizableImage;
+//		[self.searchBar setSearchFieldBackgroundImage:baseImage forState:UIControlStateNormal];
+//		[self.searchBar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+//		//[self.searchBar setTranslucent:YES];
+//		[self.searchBar setNeedsDisplay];
 	}
 	
 	

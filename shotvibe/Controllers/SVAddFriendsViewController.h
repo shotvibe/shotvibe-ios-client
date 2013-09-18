@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AlbumSummary.h"
+#import "AlbumManager.h"
 #import "SVContactCell.h"
 
 @interface SVAddFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
@@ -15,7 +15,7 @@
 	BOOL shouldBeginEditing;
 }
 
-@property (nonatomic, strong) NSString *albumId;
-@property (strong, nonatomic) AlbumSummary *selectedAlbum;
+@property (nonatomic, assign) int64_t albumId;
+@property (nonatomic, strong) AlbumManager *albumManager;
 
 @end
