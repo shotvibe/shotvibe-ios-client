@@ -13,6 +13,7 @@
 
 @interface SVProfileViewController () {
 	UIBarButtonItem *saveButton;
+	BOOL nameChanged;
 }
 
 @property (nonatomic, strong) IBOutlet UITextField *nicknameField;
@@ -29,6 +30,7 @@
 - (IBAction)doneButtonPressed:(id)sender
 {
 	[self.nicknameField resignFirstResponder];
+	self.navigationItem.rightBarButtonItem = nil;
 	
     NSString *newNickname = [self.nicknameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
@@ -46,6 +48,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (!success) {
+				self.navigationItem.rightBarButtonItem = saveButton;
                 // TODO Better error dialog with Retry option
 //                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
 //                                                                message:[error description]
@@ -55,7 +58,8 @@
 //                [alert show];
             }
             else {
-				self.navigationItem.rightBarButtonItem.enabled = NO;
+				//self.navigationItem.rightBarButtonItem = nil;
+				nameChanged = NO;
             }
         });
     });
@@ -130,7 +134,7 @@
 	NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
 	[saveButton setTitleTextAttributes:att forState:UIControlStateNormal];
 	[saveButton setTitlePositionAdjustment:UIOffsetMake(7,0) forBarMetrics:UIBarMetricsDefault];
-	self.navigationItem.rightBarButtonItem = nil;
+	//self.navigationItem.rightBarButtonItem = nil;
 }
 
 
@@ -196,23 +200,27 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
+    self.navigationItem.rightBarButtonItem = nil;
     return YES;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-	
+	if (nameChanged) {
+		self.navigationItem.rightBarButtonItem = saveButton;
+	}
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	if (!self.navigationItem.rightBarButtonItem) {
 		self.navigationItem.rightBarButtonItem = saveButton;
+		nameChanged = YES;
 	}
 	return YES;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	[self.nicknameField resignFirstResponder];
+	self.navigationItem.rightBarButtonItem = nil;
 }
 
 @end
