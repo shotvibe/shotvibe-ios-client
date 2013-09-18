@@ -435,8 +435,9 @@
 		2849A81C17E6F0CE0076AFBA /* ProfileIconBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A81A17E6F0CE0076AFBA /* ProfileIconBackground@2x.png */; };
 		2849A81F17E6FA2D0076AFBA /* ProfileHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A81D17E6FA2C0076AFBA /* ProfileHeader.png */; };
 		2849A82017E6FA2D0076AFBA /* ProfileHeader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A81E17E6FA2D0076AFBA /* ProfileHeader@2x.png */; };
-		2849A82417E852FF0076AFBA /* SVImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A82217E852FE0076AFBA /* SVImageCropViewController.m */; };
-		2849A82517E852FF0076AFBA /* SVImageCropViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2849A82317E852FF0076AFBA /* SVImageCropViewController.xib */; };
+		2849A82817E8B8BA0076AFBA /* SVProfilePicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A82717E8B8BA0076AFBA /* SVProfilePicViewController.m */; };
+		2849A82C17E8E0E00076AFBA /* SVImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A82A17E8E0DE0076AFBA /* SVImageCropViewController.m */; };
+		2849A82D17E8E0E00076AFBA /* SVImageCropViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2849A82B17E8E0DF0076AFBA /* SVImageCropViewController.xib */; };
 		2884E86117A24CFE00B382D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E85F17A24CFE00B382D9 /* Icon.png */; };
 		2884E86217A24CFE00B382D9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86017A24CFE00B382D9 /* Icon@2x.png */; };
 		2884E86617A24E7F00B382D9 /* SegmentButtonOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */; };
@@ -1060,9 +1061,11 @@
 		2849A81A17E6F0CE0076AFBA /* ProfileIconBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ProfileIconBackground@2x.png"; sourceTree = "<group>"; };
 		2849A81D17E6FA2C0076AFBA /* ProfileHeader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ProfileHeader.png; sourceTree = "<group>"; };
 		2849A81E17E6FA2D0076AFBA /* ProfileHeader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ProfileHeader@2x.png"; sourceTree = "<group>"; };
-		2849A82117E852FD0076AFBA /* SVImageCropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVImageCropViewController.h; sourceTree = "<group>"; };
-		2849A82217E852FE0076AFBA /* SVImageCropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVImageCropViewController.m; sourceTree = "<group>"; };
-		2849A82317E852FF0076AFBA /* SVImageCropViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVImageCropViewController.xib; sourceTree = "<group>"; };
+		2849A82617E8B8B90076AFBA /* SVProfilePicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProfilePicViewController.h; sourceTree = "<group>"; };
+		2849A82717E8B8BA0076AFBA /* SVProfilePicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProfilePicViewController.m; sourceTree = "<group>"; };
+		2849A82917E8E0DE0076AFBA /* SVImageCropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVImageCropViewController.h; sourceTree = "<group>"; };
+		2849A82A17E8E0DE0076AFBA /* SVImageCropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVImageCropViewController.m; sourceTree = "<group>"; };
+		2849A82B17E8E0DF0076AFBA /* SVImageCropViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVImageCropViewController.xib; sourceTree = "<group>"; };
 		2884E85F17A24CFE00B382D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2884E86017A24CFE00B382D9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentButtonOutline.png; sourceTree = "<group>"; };
@@ -1397,9 +1400,6 @@
 				04E287F4173176F00044C17A /* SVImagePickerSelector.h */,
 				04E287F5173176F00044C17A /* SVImagePickerSelector.m */,
 				04E287F6173176F00044C17A /* SVImagePickerSelector.xib */,
-				2849A82117E852FD0076AFBA /* SVImageCropViewController.h */,
-				2849A82217E852FE0076AFBA /* SVImageCropViewController.m */,
-				2849A82317E852FF0076AFBA /* SVImageCropViewController.xib */,
 			);
 			name = Picker;
 			sourceTree = "<group>";
@@ -2316,6 +2316,11 @@
 				0499B8F5171DECED00050596 /* SVWebViewController.m */,
 				0499B8FF171E127C00050596 /* SVProfileViewController.h */,
 				0499B900171E127C00050596 /* SVProfileViewController.m */,
+				2849A82617E8B8B90076AFBA /* SVProfilePicViewController.h */,
+				2849A82717E8B8BA0076AFBA /* SVProfilePicViewController.m */,
+				2849A82917E8E0DE0076AFBA /* SVImageCropViewController.h */,
+				2849A82A17E8E0DE0076AFBA /* SVImageCropViewController.m */,
+				2849A82B17E8E0DF0076AFBA /* SVImageCropViewController.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2890,7 +2895,7 @@
 				2849A81C17E6F0CE0076AFBA /* ProfileIconBackground@2x.png in Resources */,
 				2849A81F17E6FA2D0076AFBA /* ProfileHeader.png in Resources */,
 				2849A82017E6FA2D0076AFBA /* ProfileHeader@2x.png in Resources */,
-				2849A82517E852FF0076AFBA /* SVImageCropViewController.xib in Resources */,
+				2849A82D17E8E0E00076AFBA /* SVImageCropViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3059,7 +3064,8 @@
 				2849A77017D7689C0076AFBA /* SVMoveActivity.m in Sources */,
 				2849A77317D7752A0076AFBA /* SVActivity.m in Sources */,
 				2849A80D17DDE61A0076AFBA /* UIImage+Scale.m in Sources */,
-				2849A82417E852FF0076AFBA /* SVImageCropViewController.m in Sources */,
+				2849A82817E8B8BA0076AFBA /* SVProfilePicViewController.m in Sources */,
+				2849A82C17E8E0E00076AFBA /* SVImageCropViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

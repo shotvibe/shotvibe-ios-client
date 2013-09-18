@@ -8,12 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-
 @protocol SVImageCropDelegate <NSObject>
 @required
 - (void)didCropImage:(UIImage *)thePhoto;
 @end
-
 
 
 @interface SVImageCropViewController : UIViewController {

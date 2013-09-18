@@ -7,7 +7,7 @@
 //
 
 #import "SVCameraPickerController.h"
-
+#import "SVImageCropViewController.h"
 
 @implementation SVCameraPickerController
 

@@ -7,10 +7,8 @@
 //
 
 #import "SVImageCropViewController.h"
+#import "UIImage+Scale.h"
 
-@interface SVImageCropViewController ()
-
-@end
 
 @implementation SVImageCropViewController
 
@@ -19,9 +17,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-	self.title = NSLocalizedString(@"Move and Scale", @"");
+	self.title = nil;
 	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"")
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Choose", @"")
 																   style:UIBarButtonItemStyleBordered
 																  target:self
 																  action:@selector(doneButtonPressed)];
@@ -50,11 +48,15 @@
 	bottomView.frame = CGRectMake(0, scrollView.frame.origin.y + scrollView.frame.size.height, 320, topView.frame.size.height);
 }
 
-- (void)didReceiveMemoryWarning
+- (BOOL)shouldAutorotate
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	return YES;
 }
+
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait;
+}
+
 
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
@@ -63,13 +65,7 @@
 
 
 - (void)doneButtonPressed {
-	
-//	UIGraphicsBeginImageContext(self.view.frame.size);
-//	[scrollView.layer renderInContext:UIGraphicsGetCurrentContext()];
-//	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//	UIGraphicsEndImageContext();
-//	
-	
+	NSLog(@"doneButtonPressed %@", self.delegate);
 	float scale = 1.0f/scrollView.zoomScale;
 	
 	CGRect visibleRect;
@@ -79,12 +75,9 @@
 	visibleRect.size.height = scrollView.bounds.size.height * scale;
 	
 	CGImageRef cr = CGImageCreateWithImageInRect (self.image.CGImage, visibleRect);
-	UIImage* cropped = [[UIImage alloc] initWithCGImage:cr];
+	UIImage *cropped = [[UIImage alloc] initWithCGImage:cr];
 	CGImageRelease(cr);
-//		
-//	UIImageView *imageView_ = [[UIImageView alloc] initWithImage:cropped];
-//	[self.view addSubview:imageView_];
-//	
+	
 	if ([self.delegate respondsToSelector:@selector(didCropImage:)]) {
 		[self.delegate didCropImage:cropped];
 	}

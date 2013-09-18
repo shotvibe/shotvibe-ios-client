@@ -11,7 +11,6 @@
 #import "SVImagePickerSelector.h"
 #import "SVCameraPickerDelegate.h"
 #import "SVCameraOverlay.h"
-#import "SVImageCropViewController.h"
 #import "PhotoUploadRequest.h"
 
 @interface SVCameraPickerController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {

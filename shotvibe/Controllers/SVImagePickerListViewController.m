@@ -42,18 +42,6 @@
 }
 
 
-#pragma mark - Initializers
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
@@ -63,13 +51,13 @@
     NSLog(@"SVImagePickerController viewdidload");
 	
     // Setup back button
-//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
-//    NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
-//	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
-//	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
-//	
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
+    NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
+	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
+	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
+	
 	if (self.oneImagePicker) {
-		self.navigationItem.leftBarButtonItem = nil;
+		//self.navigationItem.leftBarButtonItem = nil;
 	}
 	
     [self gatherLocalAlbums];
@@ -126,7 +114,7 @@
         selectImagesViewController.selectedAlbum = self.selectedAlbum;
         selectImagesViewController.selectedGroup = selectedGroup;
 		selectImagesViewController.oneImagePicker = self.oneImagePicker;
-		selectImagesViewController.cropDelegate = self.cropDelegate;
+		selectImagesViewController.cropDelegate = self.delegate;
         
         //dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:selectImagesViewController animated:YES];

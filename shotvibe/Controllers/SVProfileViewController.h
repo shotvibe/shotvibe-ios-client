@@ -9,14 +9,10 @@
 #import <UIKit/UIKit.h>
 
 #import "AlbumManager.h"
-#import "SVCameraPickerDelegate.h"
-#import "SVCameraPickerController.h"
+#import "SVProfilePicViewController.h"
 
 
-//#define OPTIONS [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] ? (@"Camera", @"Photo Gallery") : @"Photo Gallery"
-#define OPTIONS @"Camera", @"Photo Gallery"
-
-@interface SVProfileViewController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate, SVCameraPickerDelegate>
+@interface SVProfileViewController : UIViewController <UITextFieldDelegate, SVImageCropDelegate>
 
 @property (nonatomic, strong) AlbumManager *albumManager;
 

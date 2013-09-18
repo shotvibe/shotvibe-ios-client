@@ -7,7 +7,7 @@
 //
 
 #import "SVImagePickerSelector.h"
-
+#import "SVImageCropViewController.h"
 #import "PhotoUploadRequest.h"
 
 @implementation SVImagePickerSelector
@@ -224,21 +224,23 @@
 	}
     else {
 		
-		SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController" bundle:[NSBundle mainBundle]];
-		cropController.delegate = self.cropDelegate;
-		
 		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 		ALAsset *asset = [arr objectAtIndex:indexPath.row];
 		NSDictionary *dict = [asset valueForProperty:ALAssetPropertyURLs];
 		NSURL *url = [dict objectForKey:@"public.jpeg"];
 		
 		ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset){
-			//NSLog(@"resultblock %@", myasset);
 			ALAssetRepresentation *rep = [myasset defaultRepresentation];
-			//CGImageRef iref = [rep fullResolutionImage];
 			CGImageRef iref = [rep fullScreenImage];
 			if (iref) {
-				NSLog(@"image found");
+//				if ([self.delegate respondsToSelector:@selector(didSelectPhoto:)]) {
+//					[self.delegate didSelectPhoto:];
+//					[self.navigationController dismissViewControllerAnimated:YES completion:^{
+//						
+//					}];
+//				}
+				SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController" bundle:[NSBundle mainBundle]];
+				cropController.delegate = self.cropDelegate;
 				cropController.image = [UIImage imageWithCGImage:iref];
 				[self.navigationController pushViewController:cropController animated:YES];
 			}
@@ -343,15 +345,6 @@
 			[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
 		}
 	}];
-}
-
-
-#pragma mark Crop tool delegate
-
-- (void)didCropImage:(UIImage *)image {
-	if ([self.cropDelegate respondsToSelector:@selector(didCropImage:)]) {
-		[self.cropDelegate didCropImage:image];
-	}
 }
 
 @end

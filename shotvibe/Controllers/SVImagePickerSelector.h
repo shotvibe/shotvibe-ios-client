@@ -14,11 +14,10 @@
 #import "SVCameraPickerDelegate.h"
 #import "SVSelectionGridCell.h"
 #import "CameraRollSection.h"
-#import "SVImageCropViewController.h"
 #import "AlbumManager.h"
 #import "AlbumSummary.h"
 
-@interface SVImagePickerSelector : UIViewController <CameraRollSectionDelegate, SVImageCropDelegate> {
+@interface SVImagePickerSelector : UIViewController <CameraRollSectionDelegate> {
 	
 	NSMutableArray *sectionsKeys;
 	NSMutableDictionary *sections;
