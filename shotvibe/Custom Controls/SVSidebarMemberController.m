@@ -89,6 +89,7 @@
     AlbumMember *member = [self.albumContents.members objectAtIndex:indexPath.row];
 	NSLog(@"member.avatarUrl %@", member.avatarUrl);
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
+	//cell.profileImageView.backgroundColor = [UIColor redColor];
     cell.memberLabel.text = member.nickname;
 	cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
 	cell.statusLabel.text = @"Joined";
