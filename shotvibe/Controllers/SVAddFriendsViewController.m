@@ -10,6 +10,7 @@
 #import "SVAddressBookBD.h"
 #import "SVDefines.h"
 #import "AlbumContents.h"
+#import "MBProgressHUD.h"
 
 
 @interface SVAddFriendsViewController ()<UISearchBarDelegate>
@@ -43,6 +44,8 @@
     //TODO if already shotvibe member just add to album else sent notification to user to join?
     NSLog(@"contacts to add >> ");
 	
+	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	
 	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
 	
 	for (NSMutableDictionary *member in self.allContacts) {
@@ -67,7 +70,8 @@
 			dispatch_async(dispatch_get_main_queue(), ^{
 				NSLog(@"r %@", r);
 				NSLog(@"invite sent - success/error: %@", error);
-				//[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+				[MBProgressHUD hideHUDForView:self.view animated:YES];
+				[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 			});
 		});
 	}
