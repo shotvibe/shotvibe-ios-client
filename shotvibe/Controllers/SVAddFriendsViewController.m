@@ -47,20 +47,22 @@
 	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
 	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
+	NSString *regionCode = [[[NSLocale currentLocale] objectForKey:NSLocaleCountryCode] uppercaseString];
 	
 	for (NSMutableDictionary *member in self.allContacts) {
 		if ([member[@"selected"] boolValue] == YES) {
-			NSLog(@"selected %@", member);
-			[contactsToInvite addObject:@{@"phone_number":member[@"phone"], @"default_country":@"ro", @"contact_nickname":member[@"nickname"]}];
+			NSLog(@"selected %@ regionCode %@", member, regionCode);
+			[contactsToInvite addObject:@{@"phone_number":member[@"phone"], @"default_country":regionCode, @"contact_nickname":member[@"nickname"]}];
 		}
 	}
 	
+	//[contactsToInvite addObject:@{@"phone_number": @"+40700000002", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
+	//[contactsToInvite addObject:@{@"phone_number": @"(070) 000-0001", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
+	
 	if (contactsToInvite.count > 0) {
 		
-		[contactsToInvite addObject:@{@"phone_number": @"0722905582", @"default_country":@"ro", @"contact_nickname":@"Cristi"}];
 		__block NSDictionary *phoneNumbers = @{@"add_members": contactsToInvite};
 		NSLog(@"contactsToInvite %@", phoneNumbers);
-		NSLog(@"[self.albumManager getShotVibeAPI] %@ %@", self.albumManager, [self.albumManager getShotVibeAPI]);
 		
 		// send request
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -68,7 +70,7 @@
 			AlbumContents *r = [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId phoneNumbers:contactsToInvite withError:&error];
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
-				NSLog(@"r %@", r);
+				NSLog(@"r.members %@", r.members);
 				NSLog(@"invite sent - success/error: %@", error);
 				[MBProgressHUD hideHUDForView:self.view animated:YES];
 				[self.navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -145,6 +147,7 @@
 	
 	self.navigationItem.leftBarButtonItem = backButton;
 	self.navigationItem.rightBarButtonItem = doneButton;
+	self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 
@@ -452,6 +455,7 @@
 	}
 	
 	[self.addedContactsScrollView setContentSize:(CGSizeMake(x_1 > x_2 ? x_1 : x_2, self.addedContactsScrollView.frame.size.height))];
+	self.navigationItem.rightBarButtonItem.enabled = self.contactsButtons.count > 0;
 }
 
 
