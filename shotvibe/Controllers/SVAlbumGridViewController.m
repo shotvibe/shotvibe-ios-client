@@ -166,6 +166,10 @@
 	}
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
+	//[((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).t setToolbarHidden:YES animated:YES];
+	NSLog(@"view did appear %@ %@",
+		  self.menuContainerViewController.rightMenuViewController,
+		  self.navigationController.viewControllers);
 	
 	[refresh beginRefreshing];
 	[self.gridView setContentOffset:CGPointMake(0, -60) animated:YES];

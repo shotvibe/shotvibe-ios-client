@@ -61,6 +61,11 @@
 	[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 }
 
+//- (void)viewDidAppear:(BOOL)animated {
+//	[super viewDidAppear:animated];
+//	NSLog(@"viewdidappear");
+//	[self.navigationController setToolbarHidden:YES animated:YES];
+//}
 
 #pragma mark - Table view data source
 

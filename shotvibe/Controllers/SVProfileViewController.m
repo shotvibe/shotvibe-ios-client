@@ -201,10 +201,13 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-	self.navigationItem.rightBarButtonItem = saveButton;
+	
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	if (!self.navigationItem.rightBarButtonItem) {
+		self.navigationItem.rightBarButtonItem = saveButton;
+	}
 	return YES;
 }
 

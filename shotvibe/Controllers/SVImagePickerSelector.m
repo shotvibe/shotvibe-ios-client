@@ -227,18 +227,16 @@
 		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 		ALAsset *asset = [arr objectAtIndex:indexPath.row];
 		NSDictionary *dict = [asset valueForProperty:ALAssetPropertyURLs];
+		NSLog(@"dict %@", dict);
 		NSURL *url = [dict objectForKey:@"public.jpeg"];
+		if (url == nil) {
+			url = [dict objectForKey:@"public.png"];
+		}
 		
 		ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset){
 			ALAssetRepresentation *rep = [myasset defaultRepresentation];
 			CGImageRef iref = [rep fullScreenImage];
 			if (iref) {
-//				if ([self.delegate respondsToSelector:@selector(didSelectPhoto:)]) {
-//					[self.delegate didSelectPhoto:];
-//					[self.navigationController dismissViewControllerAnimated:YES completion:^{
-//						
-//					}];
-//				}
 				SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController" bundle:[NSBundle mainBundle]];
 				cropController.delegate = self.cropDelegate;
 				cropController.image = [UIImage imageWithCGImage:iref];

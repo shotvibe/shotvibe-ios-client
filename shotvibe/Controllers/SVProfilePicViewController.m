@@ -47,7 +47,7 @@
 
 - (void)editButtonPressed {
 	
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Chose a new profile picture from"
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose a new profile picture from"
 															 delegate:self
 													cancelButtonTitle:@"Cancel"
 											   destructiveButtonTitle:nil

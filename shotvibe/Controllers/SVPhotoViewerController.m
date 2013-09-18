@@ -92,7 +92,7 @@
 {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.toolbar.translucent = NO;
+    //self.navigationController.toolbar.translucent = NO;
 	[self.navigationController setToolbarHidden:YES animated:YES];
 	self.detailLabel.hidden = YES;
 	
@@ -107,6 +107,7 @@
 	[super viewDidDisappear:animated];
 	[self.detailLabel removeFromSuperview];
 	self.detailLabel = nil;
+	[self.view removeFromSuperview];
 }
 
 
