@@ -90,8 +90,8 @@
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
 	//cell.profileImageView.backgroundColor = [UIColor redColor];
     cell.memberLabel.text = member.nickname;
-	cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
-	cell.statusLabel.text = @"Joined";
+	cell.statusImageView.image = [UIImage imageNamed:[member.inviteStatus isEqualToString:@"joined"] ? @"MemberJoined" : @"MemberInvited"];
+	cell.statusLabel.text = [member.inviteStatus isEqualToString:@"joined"] ? @"joined" : @"invited";
 	
     return cell;
 }

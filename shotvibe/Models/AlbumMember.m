@@ -12,7 +12,8 @@
 
 - (id)initWithMemberId:(int64_t)memberId
               nickname:(NSString *)nickname
-             avatarUrl:(NSString *)avatarUrl
+			 avatarUrl:(NSString *)avatarUrl
+		  inviteStatus:(NSString *)inviteStatus
 {
     self = [super init];
 
@@ -20,6 +21,7 @@
         _memberId = memberId;
         _nickname = nickname;
         _avatarUrl = avatarUrl;
+		_inviteStatus = inviteStatus;
     }
 
     return self;

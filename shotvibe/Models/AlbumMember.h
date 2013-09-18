@@ -12,10 +12,12 @@
 
 - (id)initWithMemberId:(int64_t)memberId
               nickname:(NSString *)nickname
-             avatarUrl:(NSString *)avatarUrl;
+             avatarUrl:(NSString *)avatarUrl
+		  inviteStatus:(NSString *)inviteStatus;
 
 @property (nonatomic, readonly, assign) int64_t memberId;
 @property (nonatomic, readonly, copy) NSString *nickname;
 @property (nonatomic, readonly, copy) NSString *avatarUrl;
+@property (nonatomic, readonly, copy) NSString *inviteStatus;
 
 @end

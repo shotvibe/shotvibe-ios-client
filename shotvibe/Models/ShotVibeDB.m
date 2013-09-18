@@ -257,7 +257,8 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
         NSString *memberAvatarUrl = nil; // TODO
         AlbumMember *albumMember = [[AlbumMember alloc] initWithMemberId:memberId
                                                                 nickname:memberNickname
-                                                               avatarUrl:memberAvatarUrl];
+                                                               avatarUrl:memberAvatarUrl
+															inviteStatus:nil];
         [albumMembers addObject:albumMember];
     }
 

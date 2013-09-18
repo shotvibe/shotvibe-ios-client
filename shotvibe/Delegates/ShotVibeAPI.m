@@ -305,8 +305,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSNumber *memberId = [profileObj getNumber:@"id"];
         NSString *nickname = [profileObj getString:@"nickname"];
         NSString *avatarUrl = [profileObj getString:@"avatar_url"];
+        NSString *inviteStatus = [profileObj getString:@"invite_status"];
 
-        return [[AlbumMember alloc] initWithMemberId:[memberId longLongValue] nickname:nickname avatarUrl:avatarUrl];
+        return [[AlbumMember alloc] initWithMemberId:[memberId longLongValue] nickname:nickname avatarUrl:avatarUrl inviteStatus:inviteStatus];
     }
     @catch (JSONException *exception) {
         *error = [ShotVibeAPI createErrorFromJSONException:exception];
@@ -455,10 +456,12 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSNumber *memberId = [memberObj getNumber:@"id"];
         NSString *memberNickname = [memberObj getString:@"nickname"];
         NSString *memberAvatarUrl = [memberObj getString:@"avatar_url"];
+        NSString *memberInviteStatus = [memberObj getString:@"invite_status"];
 
         AlbumMember *albumMember = [[AlbumMember alloc] initWithMemberId:[memberId longLongValue]
                                                                 nickname:memberNickname
-                                                               avatarUrl:memberAvatarUrl];
+                                                               avatarUrl:memberAvatarUrl
+															inviteStatus:memberInviteStatus];
 
         [members addObject:albumMember];
     }
