@@ -65,4 +65,6 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 - (AlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(NSArray *)photoIds withError:(NSError **)error;
 - (AlbumContents *)albumAddMembers:(int64_t)albumId phoneNumbers:(NSArray *)phoneNumbers withError:(NSError **)error;
 
+- (void)leaveAlbumWithId:(int64_t)albumId;
+
 @end

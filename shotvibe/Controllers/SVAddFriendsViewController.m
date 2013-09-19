@@ -175,7 +175,12 @@
 	
     cell.titleLabel.text = [sectionRecords[indexPath.row] objectForKey:kMemberNickname];
     cell.subtitleLabel.text = [sectionRecords[indexPath.row] objectForKey:kMemberPhone];
-    cell.contactIcon.image = [sectionRecords[indexPath.row] objectForKey:kMemberIcon];
+	
+	UIImage *icon = [sectionRecords[indexPath.row] objectForKey:kMemberIcon];
+	if (icon == nil) {
+		icon = [UIImage imageNamed:@"default-avatar-0038.png"];
+	}
+    cell.contactIcon.image = icon;
 	
 	NSMutableDictionary *member = [sectionRecords objectAtIndex:indexPath.row];
 	BOOL contains = [member[@"selected"] boolValue];

@@ -1010,7 +1010,7 @@ to register this device</string>
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="tvS-Qp-UZM">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="default-avatar-0038.png" id="tvS-Qp-UZM">
                                                     <rect key="frame" x="10" y="10" width="34" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="deviceRGB"/>
@@ -1811,6 +1811,7 @@ activation code just sent to you</string>
         <image name="cameraRollIcon.png" width="27" height="22"/>
         <image name="cellDivider.png" width="320" height="1"/>
         <image name="clockIcon.png" width="8" height="8"/>
+        <image name="default-avatar-0038.png" width="34" height="34"/>
         <image name="delimiter.png" width="1" height="45"/>
         <image name="dropDownField.png" width="305" height="130"/>
         <image name="editProfileImageIcon.png" width="23" height="23"/>

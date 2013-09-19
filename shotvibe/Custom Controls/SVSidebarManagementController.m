@@ -55,21 +55,17 @@
 	
 	if (buttonIndex == 1) {
 		NSLog(@"Leave album");
-        /*
-		[SVBusinessDelegate leaveAlbum:self.parentController.selectedAlbum completion:^(BOOL success) {
+		ShotVibeAPI *shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
+		
+		int64_t userId = shotvibeAPI.authData.userId;
+		
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+			[shotvibeAPI leaveAlbumWithId:userId];
 			
-			//[self.activityIndicator stopAnimating];
-			
-			if(success) {
+			dispatch_async(dispatch_get_main_queue(), ^{
 				
-			}
-			else {
-				
-				
-			}
-
-		}];
-         */
+			});
+		});
 	}
 }
 
