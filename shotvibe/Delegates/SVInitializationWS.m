@@ -122,12 +122,12 @@
 	
     // Customize UISearchBar
     {
-		UIImage *search_bg = [UIImage imageNamed:@"SearchFieldBg.png"];
+		UIImage *search_bg = [UIImage imageNamed:@"searchFieldBg.png"];
 		UIImage *resizable_bg = [search_bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 20, 5, 20) resizingMode:UIImageResizingModeStretch];
 		
 		[[UISearchBar appearance] setBackgroundImage:[UIImage imageNamed:@"SearchBg.png"]];
 		[[UISearchBar appearance] setSearchFieldBackgroundImage:resizable_bg forState:UIControlStateNormal];
-		[[UISearchBar appearance] setImage:[UIImage imageNamed:@"SearchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+		[[UISearchBar appearance] setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     }
     
     
