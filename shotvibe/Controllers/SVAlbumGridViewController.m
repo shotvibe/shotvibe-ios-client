@@ -165,6 +165,7 @@
 	}
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
+	
 	//[((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).t setToolbarHidden:YES animated:YES];
 	NSLog(@"view did appear %@ %@",
 		  self.menuContainerViewController.rightMenuViewController,
@@ -174,7 +175,8 @@
 	[self.gridView setContentOffset:CGPointMake(0, -60) animated:YES];
 	[self.albumManager refreshAlbumContents:self.albumId];
 }
--(void)viewDidDisappear:(BOOL)animated {
+
+- (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 	
 	//[self.albumManager removeAlbumContentsListener:self.albumId listener:self];

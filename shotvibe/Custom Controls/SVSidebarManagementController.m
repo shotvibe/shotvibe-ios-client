@@ -57,10 +57,8 @@
 		NSLog(@"Leave album");
 		ShotVibeAPI *shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
 		
-		int64_t userId = shotvibeAPI.authData.userId;
-		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-			[shotvibeAPI leaveAlbumWithId:userId];
+			[shotvibeAPI leaveAlbumWithId:self.albumContents.albumId];
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
 				

@@ -152,7 +152,7 @@ NSDictionary * parseQueryParameters(NSString * query)
 	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
 	self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
 	self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
-																  leftMenuViewController:self.sidebarLeft
+																  leftMenuViewController:nil
 																 rightMenuViewController:self.sidebarRight];
 	self.sideMenu.panMode = MFSideMenuPanModeNone;
 	//self.sideMenu.shadow.enabled = NO;

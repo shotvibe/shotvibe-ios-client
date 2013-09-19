@@ -686,9 +686,12 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 	NSDictionary *body = [[NSDictionary alloc] init];
 	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:NULL];
 	NSError *responseError;
-    Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/leave/", albumId] method:@"POST" body:jsonData error:&responseError];
+    Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/leave/", albumId]
+									method:@"POST"
+									  body:jsonData
+									 error:&responseError];
 	
-	NSLog(@"response %i %@", response.responseCode, responseError);
+	NSLog(@"albumId %lli, response %i, %@ %@", albumId, response.responseCode, response.body, responseError);
     if ([response isError]) {
         //*error = [ShotVibeAPI createErrorFromResponse:response];
         return;

@@ -15,7 +15,9 @@
 
 #import "AlbumMember.h"
 
-@interface SVSidebarMemberController ()
+@interface SVSidebarMemberController () {
+	ShotVibeAPI *shotvibeAPI;
+}
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
@@ -48,6 +50,11 @@
 - (void)setParentController:(SVAlbumGridViewController *)parentController
 {
 	_parentController = parentController;
+	
+	shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
+	//	int64_t userId = shotvibeAPI.authData.userId;
+	NSLog(@"shotvibeAPI.authData.userId %@ %@ %lld", shotvibeAPI, shotvibeAPI.authData, shotvibeAPI.authData.userId);
+	
 	[self.tableView reloadData];
 }
 
@@ -61,7 +68,6 @@
 	UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
 	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
 	UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
-	
 	[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 }
 
@@ -86,7 +92,7 @@
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 
     AlbumMember *member = [self.albumContents.members objectAtIndex:indexPath.row];
-	NSLog(@"member.avatarUrl %@", member.avatarUrl);
+	NSLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
 	//cell.profileImageView.backgroundColor = [UIColor redColor];
     cell.memberLabel.text = member.nickname;
@@ -94,6 +100,38 @@
 	cell.statusLabel.text = [member.inviteStatus isEqualToString:@"joined"] ? @"joined" : @"invited";
 	
     return cell;
+}
+
+
+#pragma mark - UITableViewDelegate Methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Leave album", @"")
+													message:NSLocalizedString(@"Are you sure you want to leave this album?", @"")
+												   delegate:nil
+										  cancelButtonTitle:NSLocalizedString(@"No", @"")
+										  otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
+	alert.delegate = self;
+	[alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	
+	if (buttonIndex == 1) {
+		NSLog(@"Leave album");
+		ShotVibeAPI *shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
+		
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+			[shotvibeAPI leaveAlbumWithId:self.albumContents.albumId];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				
+			});
+		});
+	}
 }
 
 
