@@ -1811,7 +1811,7 @@ activation code just sent to you</string>
         <image name="cameraRollIcon.png" width="27" height="22"/>
         <image name="cellDivider.png" width="320" height="1"/>
         <image name="clockIcon.png" width="8" height="8"/>
-        <image name="default-avatar-0038.png" width="34" height="34"/>
+        <image name="default-avatar-0038.png" width="16" height="16"/>
         <image name="delimiter.png" width="1" height="45"/>
         <image name="dropDownField.png" width="305" height="130"/>
         <image name="editProfileImageIcon.png" width="23" height="23"/>

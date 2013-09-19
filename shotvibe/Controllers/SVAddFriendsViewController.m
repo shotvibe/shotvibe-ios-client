@@ -167,7 +167,10 @@
 	
 	UIImage *icon = [sectionRecords[indexPath.row] objectForKey:kMemberIcon];
 	if (icon == nil) {
-		icon = [UIImage imageNamed:@"default-avatar-0038.png"];
+		int lowerBound = 1;
+		int upperBound = 5;
+		int rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
+		icon = [UIImage imageNamed:[NSString stringWithFormat:@"default-avatar-0%i.png", rndValue]];
 	}
     cell.contactIcon.image = icon;
 	
