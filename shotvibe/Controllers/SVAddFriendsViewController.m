@@ -7,7 +7,7 @@
 //
 
 #import "SVAddFriendsViewController.h"
-#import "SVAddressBookBD.h"
+#import "SVAddressBookWS.h"
 #import "SVDefines.h"
 #import "AlbumContents.h"
 #import "MBProgressHUD.h"
@@ -228,6 +228,19 @@
 	
 	NSArray *sectionRecords = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
 	
+	// Check if this contact has a phone number
+	if ([sectionRecords[indexPath.row] objectForKey:kMemberPhone] == nil) {
+		
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
+														message:NSLocalizedString(@"This user has no mobile phone number, you can't invite him.", @"")
+													   delegate:self
+											  cancelButtonTitle:NSLocalizedString(@"Ok", @"")
+											  otherButtonTitles:nil];
+		[alert show];
+		
+		return;
+	}
+	
 	// Check if the tapped contact is already used.
 	// If yes, remove it
 	
@@ -419,10 +432,7 @@
 	}
 	
 	[self updateContacts];
-	
     [self.tableView reloadData];
-    
-    //[self.tableView reloadData];
 }
 - (void)updateContacts {
 	
@@ -465,7 +475,8 @@
 
 -(void)loadAddressbookContacts
 {
-    [SVAddressBookBD searchContactsWithString:nil WithCompletion:^(NSArray *contacts, NSError *error) {
+	SVAddressBookWS *workerSession = [[SVAddressBookWS alloc] init];
+    [workerSession searchContactsWithString:nil WithCompletion:^(NSArray *contacts, NSError *error) {
 		self.allContacts = contacts;
 		[self handleSearchForText:nil];
 		NSLog(@"search finished %i", [contacts count]);
@@ -473,7 +484,7 @@
 		dispatch_async(dispatch_get_main_queue(), ^{
 			
 		});
-	}];
+    }];
 }
 
 

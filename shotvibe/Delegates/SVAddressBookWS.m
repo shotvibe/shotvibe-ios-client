@@ -103,9 +103,9 @@
         
         NSString* firstName = (__bridge_transfer NSString*) ABRecordCopyValue((__bridge ABRecordRef)aPerson, kABPersonFirstNameProperty);
         NSString* lastName = (__bridge_transfer NSString*) ABRecordCopyValue((__bridge ABRecordRef)aPerson, kABPersonLastNameProperty);
-        
 		if (firstName == nil) firstName = @"";
 		if (lastName == nil) lastName = @"";
+		
 		
         [aMember setObject:[NSString stringWithFormat:@"%@ %@", firstName, lastName] forKey:kMemberNickname];
         [aMember setObject:firstName forKey:kMemberFirstName];
@@ -118,21 +118,31 @@
 			[aMember setObject:img forKey:kMemberIcon];
 		}
 		
-		k++;
+		
         
         ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)aPerson, kABPersonPhoneProperty);
-        for (CFIndex i = 0; i < ABMultiValueGetCount(phoneNumbers); i++) {
-            NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
-            if (phoneNumber.length > 0) {
-                [aMember setObject:phoneNumber forKey:kMemberPhone];
-                break;
-            }
-        }
+		signed long num = ABMultiValueGetCount(phoneNumbers);
+		
+		if (num == 0) {
+			[members addObject:aMember];
+			k++;
+		}
+		else {
+			for (CFIndex i = 0; i < num; i++) {
+				NSMutableDictionary *aCopyMember = [NSMutableDictionary dictionaryWithDictionary:aMember];
+				[aCopyMember setObject:[NSNumber numberWithInt:k] forKey:@"tag"];
+				
+				NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
+	
+				if (phoneNumber != nil && phoneNumber.length > 0) {
+					[aCopyMember setObject:phoneNumber forKey:kMemberPhone];
+				}
+				[members addObject:aCopyMember];
+				k++;
+			}
+		}
         
         CFRelease(phoneNumbers);
-        
-        [members addObject:aMember];
-		//[members addObjectsFromArray:@[aMember, aMember, aMember, aMember, aMember, aMember, aMember, aMember]];
     }
     
     NSSortDescriptor *firstNameDescriptor = [[NSSortDescriptor alloc] initWithKey:kMemberFirstName ascending:YES];
