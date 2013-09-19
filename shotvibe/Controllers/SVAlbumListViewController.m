@@ -430,14 +430,6 @@
     UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSettings.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
     self.navigationItem.rightBarButtonItem = managementButton;
     
-	UIImage *search_bg = [UIImage imageNamed:@"searchFieldBg.png"];
-	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
-	UIImage *resizableImage = [search_bg resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-	
-	self.searchbar.backgroundImage = resizableImage;
-	[self.searchbar setSearchFieldBackgroundImage:[UIImage imageNamed:@"butTransparent.png"] forState:UIControlStateNormal];
-	[self.searchbar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-	
 	
 	// Set required taps and number of touches
 	UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];

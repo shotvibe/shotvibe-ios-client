@@ -21,6 +21,8 @@
 
 - (void)configureAppearanceProxies
 {
+	NSLog(@"configure appearance proxies");
+	
     // Customize appearance of the navigation bar    
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont, nil]];
     [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsDefault];
@@ -120,19 +122,12 @@
 	
     // Customize UISearchBar
     {
-        UIImage *baseImage = [UIImage imageNamed:@"searchBarBg.png"];
-        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
-        
-        UIImage *resizableImage = nil;
-        if (IS_IOS6_OR_GREATER) {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-        }
-        else
-        {
-            resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        }
-        
-        [[UISearchBar appearance] setBackgroundImage:resizableImage];
+		UIImage *search_bg = [UIImage imageNamed:@"SearchFieldBg.png"];
+		UIImage *resizable_bg = [search_bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 20, 5, 20) resizingMode:UIImageResizingModeStretch];
+		
+		[[UISearchBar appearance] setBackgroundImage:[UIImage imageNamed:@"SearchBg.png"]];
+		[[UISearchBar appearance] setSearchFieldBackgroundImage:resizable_bg forState:UIControlStateNormal];
+		[[UISearchBar appearance] setImage:[UIImage imageNamed:@"SearchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     }
     
     

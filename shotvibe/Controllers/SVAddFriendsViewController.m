@@ -123,17 +123,6 @@
 //	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
 	self.segmentControl.selectedSegmentIndex = 1;
 	
-	{
-//		UIImage *baseImage = [UIImage imageNamed:@"searchBarBg.png"];
-//		UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
-//		UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-//		self.searchBar.backgroundImage = resizableImage;
-//		[self.searchBar setSearchFieldBackgroundImage:baseImage forState:UIControlStateNormal];
-//		[self.searchBar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-//		//[self.searchBar setTranslucent:YES];
-//		[self.searchBar setNeedsDisplay];
-	}
-	
 	
 	// Setup back button
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];

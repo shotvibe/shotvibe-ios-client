@@ -45,14 +45,6 @@
         [countryCodes addObject:[countryCodesByName objectForKey:name]];
     }
 	allCountryCodes = [[NSArray alloc] initWithArray:countryCodes];
-	NSLog(@"viewdidload %@", self.regionCode);
-	
-	// Configure views
-	
-	searchbar.backgroundImage = [UIImage imageNamed:@"searchFieldBg.png"];
-	[searchbar setSearchFieldBackgroundImage:[UIImage imageNamed:@"butTransparent.png"] forState:UIControlStateNormal];
-	[searchbar setImage:[UIImage imageNamed:@"searchFieldIcon.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-	
 }
 
 - (void)viewWillAppear:(BOOL)animated{

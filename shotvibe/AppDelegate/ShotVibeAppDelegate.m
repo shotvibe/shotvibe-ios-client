@@ -8,7 +8,7 @@
 
 #import <Crashlytics/Crashlytics.h>
 #import "ShotVibeAppDelegate.h"
-#import "SVInitializationBD.h"
+#import "SVInitializationWS.h"
 #import "SVPushNotificationsManager.h"
 #import "SVDefines.h"
 #import "SVAlbumListViewController.h"
@@ -157,8 +157,10 @@ NSDictionary * parseQueryParameters(NSString * query)
 	self.sideMenu.panMode = MFSideMenuPanModeNone;
 	//self.sideMenu.shadow.enabled = NO;
 	self.window.rootViewController = self.sideMenu;
-	
-	[SVInitializationBD initialize];
+	NSLog(@"app did launch");
+	SVInitializationWS *worker = [[SVInitializationWS alloc] init];
+    [worker configureAppearanceProxies];
+    [worker initializeLocalSettingsDefaults];
 
     if (shotvibeAPI.authData) {
 		[pushNotificationsManager setup];
