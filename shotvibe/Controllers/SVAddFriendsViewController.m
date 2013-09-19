@@ -47,12 +47,12 @@
 	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
 	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
-	NSString *regionCode = [[[NSLocale currentLocale] objectForKey:NSLocaleCountryCode] uppercaseString];
+	NSString *countryCode = [self.albumManager getShotVibeAPI].authData.defaultCountryCode;
 	
 	for (NSMutableDictionary *member in self.allContacts) {
 		if ([member[@"selected"] boolValue] == YES) {
-			NSLog(@"selected %@ regionCode %@", member, regionCode);
-			[contactsToInvite addObject:@{@"phone_number":member[@"phone"], @"default_country":regionCode, @"contact_nickname":member[@"nickname"]}];
+			NSLog(@"selected %@ countryCode %@", member, countryCode);
+			[contactsToInvite addObject:@{@"phone_number":member[@"phone"], @"default_country":countryCode, @"contact_nickname":member[@"nickname"]}];
 		}
 	}
 	
