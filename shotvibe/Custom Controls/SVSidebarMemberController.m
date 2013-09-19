@@ -12,6 +12,7 @@
 #import "SVSidebarMemberController.h"
 #import "SVAddFriendsViewController.h"
 #import "UIImageView+WebCache.h"
+#import "MFSideMenu.h"
 
 #import "AlbumMember.h"
 
@@ -52,8 +53,6 @@
 	_parentController = parentController;
 	
 	shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
-	//	int64_t userId = shotvibeAPI.authData.userId;
-	NSLog(@"shotvibeAPI.authData.userId %@ %@ %lld", shotvibeAPI, shotvibeAPI.authData, shotvibeAPI.authData.userId);
 	
 	[self.tableView reloadData];
 }
@@ -69,6 +68,8 @@
 	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
 	UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
 	[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
+	self.tableView.delegate = self;
+	[self.tableView setAllowsSelection:YES];
 }
 
 
@@ -92,13 +93,26 @@
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 
     AlbumMember *member = [self.albumContents.members objectAtIndex:indexPath.row];
-	NSLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
-    [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
-	//cell.profileImageView.backgroundColor = [UIColor redColor];
-    cell.memberLabel.text = member.nickname;
-	cell.statusImageView.image = [UIImage imageNamed:[member.inviteStatus isEqualToString:@"joined"] ? @"MemberJoined" : @"MemberInvited"];
-	cell.statusLabel.text = [member.inviteStatus isEqualToString:@"joined"] ? @"joined" : @"invited";
 	
+    [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
+	[cell.memberLabel setText:member.nickname];
+	
+	NSLog(@"table enabled %i %i", tableView.userInteractionEnabled, cell.userInteractionEnabled);
+	
+	if (shotvibeAPI.authData.userId == member.memberId) {
+		
+		cell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
+		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
+		cell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
+		cell.statusLabel.text = @"Leave Album";
+	}
+	else {
+		cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
+		cell.statusImageView.image = [UIImage imageNamed:[member.inviteStatus isEqualToString:@"joined"] ? @"MemberJoined" : @"MemberInvited"];
+		cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
+		cell.statusLabel.text = [member.inviteStatus isEqualToString:@"joined"] ? @"joined" : @"invited";
+	}
+	//NSLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
     return cell;
 }
 
@@ -109,26 +123,30 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Leave album", @"")
-													message:NSLocalizedString(@"Are you sure you want to leave this album?", @"")
-												   delegate:nil
-										  cancelButtonTitle:NSLocalizedString(@"No", @"")
-										  otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
-	alert.delegate = self;
-	[alert show];
+	AlbumMember *member = [self.albumContents.members objectAtIndex:indexPath.row];
+	
+	if (shotvibeAPI.authData.userId == member.memberId) {
+		
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Leave album", @"")
+														message:NSLocalizedString(@"Are you sure you want to leave this album?", @"")
+													   delegate:nil
+											  cancelButtonTitle:NSLocalizedString(@"No", @"")
+											  otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
+		alert.delegate = self;
+		[alert show];
+	}
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
 	if (buttonIndex == 1) {
-		NSLog(@"Leave album");
-		ShotVibeAPI *shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
 		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-			[shotvibeAPI leaveAlbumWithId:self.albumContents.albumId];
+			BOOL success = [shotvibeAPI leaveAlbumWithId:self.albumContents.albumId];
 			
-			dispatch_async(dispatch_get_main_queue(), ^{
-				
+			if (success) dispatch_async(dispatch_get_main_queue(), ^{
+				[self.parentController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+				[self.parentController.navigationController popViewControllerAnimated:YES];
 			});
 		});
 	}

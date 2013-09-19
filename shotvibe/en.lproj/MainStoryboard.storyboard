@@ -862,7 +862,7 @@ to register this device</string>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.12941176469999999" green="0.15686274510000001" blue="0.1843137255" alpha="0.5" colorSpace="deviceRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AlbumMemberCell" id="op5-Xa-UFq" customClass="SVSidebarAlbumMemberCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AlbumMemberCell" id="op5-Xa-UFq" customClass="SVSidebarAlbumMemberCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="42"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -896,7 +896,7 @@ to register this device</string>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9jU-GG-RIc">
-                                                    <rect key="frame" x="204" y="15" width="13" height="13"/>
+                                                    <rect key="frame" x="204" y="14" width="13" height="13"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>

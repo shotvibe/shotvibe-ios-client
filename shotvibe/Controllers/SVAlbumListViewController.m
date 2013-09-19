@@ -179,28 +179,13 @@
 	self.refreshControl = [[UIRefreshControl alloc] init];
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-	
-    [self.albumManager refreshAlbumList];
-	
-	
-	
-//	RCScrollImageView *rcphoto = [[RCScrollImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width-50, self.view.frame.size.height-50) delegate:self];
-//	rcphoto.i = 0;
-//	[rcphoto loadNetworkImage:@"http://icon.s.photosight.ru/img/2/caa/5157888_large.jpg"];
-//	[self.view addSubview:rcphoto];
-//	
-//	[UIView animateWithDuration:2 delay:0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
-//		rcphoto.frame = CGRectMake(0, 0, 200, 300);
-//	}completion:^(BOOL fin){
-//		
-//	}];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self refresh];
     if (tappedCell != nil) {
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 	}
@@ -248,7 +233,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    
     [thumbnailCache removeAllObjects];
 }
 
@@ -265,32 +249,21 @@
 	return 45;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return albumList.count;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
-    //NSLog(@"++++++++++++++++++++++++++++ config table cell at row %i", indexPath.row);
-	
-	// Configure thumbnail
-	
-    [cell.networkImageView setImage:nil];
-	//cell.networkImageView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.1].CGColor;
-	//cell.networkImageView.layer.borderWidth = 1;
-	
-    cell.tag = indexPath.row;
-	//__block NSIndexPath *tagIndex = indexPath;
     AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
-	
 	NSString *distanceOfTimeInWords = [album.dateUpdated distanceOfTimeInWords];
-	
+    
+    cell.tag = indexPath.row;
 	cell.title.text = album.name;
 	[cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
 
+    [cell.networkImageView setImage:nil];
 	// TODO: ltestPhotos might be nil if we insert an AlbumContents instead AlbumSummary
     if (album.latestPhotos.count > 0) {
         AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
@@ -312,7 +285,8 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	cell.backgroundColor = [UIColor whiteColor];
 }
 
@@ -323,25 +297,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	tappedCell = [indexPath copy];
-	
-	/*[_queue addOperationWithBlock:^{
-
-		
-		AlbumSummary *anAlbum = [self.fetchedResultsController objectAtIndexPath:indexPath];
-		[[SVEntityStore sharedStore] setPhotosInAlbumToNotNew:anAlbum];
-     
-		//[[SVEntityStore sharedStore] setAllPhotosToNotNew];
-	}];*/
 }
-
-/*
-	[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-	[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-	[self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-	[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-	[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:newIndexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-
-*/
 
 
 #pragma mark - UITextFieldDelegate Methods
@@ -352,13 +308,6 @@
     [self textFieldDidEndEditing:textField];
     return YES;
 }
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    //[self hideDropDown];
-	// this is causing the dropdown to be called twice
-}
-
 
 #pragma mark - UISearchbarDelegate Methods
 
@@ -437,6 +386,7 @@
 	[touchOnView setNumberOfTouchesRequired:1];
 	[self.tableOverlayView addGestureRecognizer:touchOnView];
 }
+
 - (void) releaseOverlay {
 	
 	if (searchShowing) {
@@ -501,6 +451,7 @@
 	
 	// Write the album to server
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+		
         NSError *error;
         AlbumContents *albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title withError:&error];
 		
@@ -549,7 +500,7 @@
 
 #pragma mark UIRefreshView
 
--(void)refresh
+- (void)refresh
 {
     [self.albumManager refreshAlbumList];
 }
@@ -560,7 +511,6 @@
 		[self.refreshControl beginRefreshing];
 		self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
 	}
-	//[self.refreshControl endRefreshing];
 }
 
 - (void)onAlbumListRefreshComplete:(NSArray *)albums
