@@ -243,7 +243,7 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
     }
 
     s = [db executeQuery:@
-         "SELECT album_member.user_id, user.nickname FROM album_member"
+         "SELECT album_member.user_id, user.nickname user.avatar_url FROM album_member"
          " LEFT OUTER JOIN user"
          " ON album_member.user_id = user.user_id"
          " WHERE album_member.album_id=?"
@@ -254,7 +254,7 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
     while ([s next]) {
         int64_t memberId = [s longLongIntForColumnIndex:0];
         NSString *memberNickname = [s stringForColumnIndex:1];
-        NSString *memberAvatarUrl = nil; // TODO
+        NSString *memberAvatarUrl = [s stringForColumnIndex:2];
         AlbumMember *albumMember = [[AlbumMember alloc] initWithMemberId:memberId
                                                                 nickname:memberNickname
                                                                avatarUrl:memberAvatarUrl
@@ -337,10 +337,10 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
             ABORT_TRANSACTION;
         }
 
-        // TODO Also update field member.avatarUrl
-        if(![db executeUpdate:@"INSERT OR REPLACE INTO user (user_id, nickname) VALUES (?, ?)",
+        if(![db executeUpdate:@"INSERT OR REPLACE INTO user (user_id, nickname, avatar_url) VALUES (?, ?, ?)",
              [NSNumber numberWithLongLong:member.memberId],
-             member.nickname]) {
+             member.nickname,
+             member.avatarUrl]) {
             ABORT_TRANSACTION;
         }
     }

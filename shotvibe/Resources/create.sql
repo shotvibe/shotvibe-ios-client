@@ -20,7 +20,10 @@ CREATE TABLE user(
 user_id INTEGER PRIMARY KEY,
 
 -- The user friendly name of the user, returned from the server
-nickname TEXT NOT NULL
+nickname TEXT NOT NULL,
+
+-- The URL of the avatar image of the user, returned from the server
+avatar_url TEXT NOT NULL
 );
 
 CREATE TABLE photo(
