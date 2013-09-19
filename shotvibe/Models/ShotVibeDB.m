@@ -18,6 +18,9 @@
 
 static NSString * const DATABASE_FILE = @"shotvibe.db";
 
+static const int DATABASE_VERSION = 1;
+
+
 - (id)init
 {
     self = [super init];
@@ -34,7 +37,17 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
 
     [FileUtils addSkipBackupAttributeToItemAtURL:databasePath];
 
-    if (!databaseExists) {
+    if (databaseExists) {
+        FMResultSet *resultSet = [db executeQuery:@"PRAGMA user_version"];
+        int version = 0;
+        if ([resultSet next]) {
+            version = [resultSet intForColumnIndex:0];
+        }
+        if (version < DATABASE_VERSION) {
+            // TODO Perform database migration
+        }
+    }
+    else {
         [self createNewEmptyDatabase];
     }
 
@@ -58,6 +71,12 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
 
     char *errmsg = 0;
     if (sqlite3_exec([db sqliteHandle], [contents UTF8String], 0, 0, &errmsg) != SQLITE_OK) {
+        NSAssert(false, @"Error creating database: %s", errmsg);
+    }
+    sqlite3_free(errmsg);
+
+    errmsg = 0;
+    if (sqlite3_exec([db sqliteHandle], [[NSString stringWithFormat:@"PRAGMA user_version = %d", DATABASE_VERSION] UTF8String], NULL,acl_get_qualifier , &errmsg) != SQLITE_OK) {
         NSAssert(false, @"Error creating database: %s", errmsg);
     }
     sqlite3_free(errmsg);
