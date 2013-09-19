@@ -1,5 +1,5 @@
 //
-//  CaptureSelectImagesViewController.h
+//  SVImagePickerSelector.h
 //  shotvibe
 //
 //  Created by John Gabelmann on 5/1/13.

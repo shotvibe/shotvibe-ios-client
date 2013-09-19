@@ -48,7 +48,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    NSLog(@"SVImagePickerController viewdidload");
+    NSLog(@"SVImagePickerListViewController viewdidload");
 	
     // Setup back button
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
@@ -64,13 +64,6 @@
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -78,12 +71,10 @@
     return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.albums.count;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -106,19 +97,16 @@
     // Grab relevant album asset urls
     [SVAssetRetrievalWS loadAllAssetsForAlbumGroup:selectedGroup WithCompletion:^(NSArray *assets, NSError *error) {
 		
-        SVImagePickerSelector *selectImagesViewController = [[SVImagePickerSelector alloc] initWithNibName:@"CaptureSelectImagesViewController" bundle:[NSBundle mainBundle]];
+        SVImagePickerSelector *selector = [[SVImagePickerSelector alloc] initWithNibName:@"SVImagePickerSelector" bundle:[NSBundle mainBundle]];
 
-        selectImagesViewController.albumId = self.albumId;
-        selectImagesViewController.albumManager = self.albumManager;
-        selectImagesViewController.libraryPhotos = [[NSArray alloc] initWithArray:assets];
-        selectImagesViewController.selectedAlbum = self.selectedAlbum;
-        selectImagesViewController.selectedGroup = selectedGroup;
-		selectImagesViewController.oneImagePicker = self.oneImagePicker;
-		selectImagesViewController.cropDelegate = self.delegate;
-        
-        //dispatch_async(dispatch_get_main_queue(), ^{
-            [self.navigationController pushViewController:selectImagesViewController animated:YES];
-        //});
+        selector.albumId = self.albumId;
+        selector.albumManager = self.albumManager;
+        selector.libraryPhotos = [[NSArray alloc] initWithArray:assets];
+        selector.selectedAlbum = self.selectedAlbum;
+        selector.selectedGroup = selectedGroup;
+		selector.oneImagePicker = self.oneImagePicker;
+		selector.cropDelegate = self.delegate;
+        [self.navigationController pushViewController:selector animated:YES];
     }];
 }
 

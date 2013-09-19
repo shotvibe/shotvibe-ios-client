@@ -1,5 +1,5 @@
 //
-//  CaptureSelectImagesViewController.m
+//  SVImagePickerSelector.m
 //  shotvibe
 //
 //  Created by John Gabelmann on 5/1/13.
@@ -134,6 +134,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+	NSLog(@"cell %@", indexPath);
+	
     SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionGridCell" forIndexPath:indexPath];
 	__block NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 	
