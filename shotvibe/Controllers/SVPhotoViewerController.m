@@ -742,7 +742,7 @@
 		activity.modalPresentationStyle = UIModalPresentationCurrentContext;
 	}
     activity.activityDescription = NSLocalizedString(@"This is the text that goes with the sharing!", nil);
-	activity.activityUrl = [NSURL URLWithString:@"http://shotvibe.com"];
+	activity.activityUrl = [NSURL URLWithString:photo.serverPhoto.url];
 	activity.activityImage = image;
 	
 	[self.view addSubview:activity.view];

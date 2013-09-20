@@ -28,7 +28,9 @@
 
 - (void)performActivity
 {
-	
+	if (self.sharingUrl) {
+		[UIPasteboard generalPasteboard].URL = self.sharingUrl;
+	}
 }
 
 @end

@@ -526,7 +526,6 @@
 		3B0A3CEA17CB759A0058B620 /* MWTapDetectingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CE317CB759A0058B620 /* MWTapDetectingView.m */; };
 		3B0A3CEB17CB759A0058B620 /* MWZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CE517CB759A0058B620 /* MWZoomingScrollView.m */; };
 		3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */; };
-		3B0A3CF217CB80870058B620 /* AlbumPhotoBrowserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CF117CB80870058B620 /* AlbumPhotoBrowserDelegate.m */; };
 		3B10035B17C653FD00387408 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B10035A17C653FD00387408 /* UserSettings.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B3AD15417CB4A9C004D24A9 /* NSData+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3AD13917CB4A9C004D24A9 /* NSData+GIF.m */; };
@@ -1194,8 +1193,6 @@
 		3B0A3CE517CB759A0058B620 /* MWZoomingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWZoomingScrollView.m; path = MWPhotoBrowser/MWZoomingScrollView.m; sourceTree = "<group>"; };
 		3B0A3CED17CB7EBC0058B620 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
 		3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
-		3B0A3CF017CB80870058B620 /* AlbumPhotoBrowserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhotoBrowserDelegate.h; sourceTree = "<group>"; };
-		3B0A3CF117CB80870058B620 /* AlbumPhotoBrowserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhotoBrowserDelegate.m; sourceTree = "<group>"; };
 		3B10035917C653FD00387408 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettings.h; sourceTree = "<group>"; };
 		3B10035A17C653FD00387408 /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSettings.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -2099,8 +2096,6 @@
 				AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */,
 				04CD9CE016CDF15A00FC72B3 /* SVPhotoViewerController.h */,
 				04CD9CE116CDF15A00FC72B3 /* SVPhotoViewerController.m */,
-				3B0A3CF017CB80870058B620 /* AlbumPhotoBrowserDelegate.h */,
-				3B0A3CF117CB80870058B620 /* AlbumPhotoBrowserDelegate.m */,
 			);
 			name = Albums;
 			sourceTree = "<group>";
@@ -3098,7 +3093,6 @@
 				3B0A3CEA17CB759A0058B620 /* MWTapDetectingView.m in Sources */,
 				3B0A3CEB17CB759A0058B620 /* MWZoomingScrollView.m in Sources */,
 				3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */,
-				3B0A3CF217CB80870058B620 /* AlbumPhotoBrowserDelegate.m in Sources */,
 				28F877B517D1BB4B0051F528 /* MFSideMenuContainerViewController.m in Sources */,
 				28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */,
 				28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */,

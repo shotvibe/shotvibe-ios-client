@@ -28,17 +28,8 @@
 
 - (void)performActivity
 {
-	NSDictionary *userInfo = [[NSDictionary alloc] init];
-        
-	NSString *text = [userInfo objectForKey:@"text"];
-	UIImage *image = [userInfo objectForKey:@"image"];
-	NSURL *url = [userInfo objectForKey:@"url"];
-	if (text)
-		[UIPasteboard generalPasteboard].string = self.activityTitle;
-	if (url)
-		[UIPasteboard generalPasteboard].URL = url;
-	if (image) {
-		NSData *imageData = UIImageJPEGRepresentation(image, 0.75f);
+	if (self.sharingImage) {
+		NSData *imageData = UIImageJPEGRepresentation(self.sharingImage, 0.75f);
 		[[UIPasteboard generalPasteboard] setData:imageData
 								forPasteboardType:[UIPasteboardTypeListImage objectAtIndex:0]];
 	}
