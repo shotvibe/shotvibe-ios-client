@@ -68,12 +68,17 @@
 //    self.navigationController.toolbarHidden = YES;
 	
 	// Add custom toolbar
-	self.toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44+20, 320, 44)];
+	self.toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, 320, 44)];
 	self.toolbarView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
 	self.toolbarView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
 	self.toolbarView.hidden = YES;
 	self.toolbarView.alpha = 0;
 	
+	UIButton *butTrash = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+	[butTrash setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
+	[butTrash addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+	[self.toolbarView addSubview:butTrash];
+    
 	UIButton *butShare = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 0, 44, 44)];
 	[butShare setImage:[UIImage imageNamed:@"exportIcon.png"] forState:UIControlStateNormal];
 	[butShare addTarget:self action:@selector(exportButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -98,16 +103,14 @@
 	[super viewDidAppear:animated];NSLog(@"photos did appear");
 	
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
-	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
 	
-	[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
+//	CGRect r = [[UIScreen mainScreen] bounds];
+//	r.origin.y = -20;
+//	[self.view setFrame:r];
+	
+	//[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
 	[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
-	
-//	[UIView animateWithDuration:0.4 animations:^{
-//		[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
-//	} completion:^(BOOL fin){
-//		[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
-//	}];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -118,10 +121,10 @@
 	//[self.navigationController setToolbarHidden:YES animated:YES];
 	
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
-	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 	
 	[UIView animateWithDuration:0.4 animations:^{
-		[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] applicationFrame]];
+		//[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] applicationFrame]];
 	} completion:^(BOOL finished) {
 		
 	}];
@@ -265,7 +268,7 @@
 				[photosScrollView addSubview:imageView];
 				[self updateInfoOnScreen];
 				
-				[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+				//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
 				//[self.navigationController setToolbarHidden:YES animated:YES];
 				[self.navigationController setNavigationBarHidden:YES animated:YES];
 			}
@@ -317,7 +320,16 @@
 		}
 		
 		cachedImage = rcphoto;
-		[cache setObject:rcphoto forKey:photo.serverPhoto.photoId];
+		NSString *key;
+		if (photo.serverPhoto) {
+			key = photo.serverPhoto.photoId;
+		} else {
+			key = photo.uploadingPhoto.photoId;
+		}
+		NSLog(@"cache photo: %@ %@ %@", photo.serverPhoto, photo.uploadingPhoto, key);
+		if (key) {
+			[cache setObject:rcphoto forKey:key];
+		}
 		if (viewerType == PhotoViewerTypeScrollView) {
 			[photosScrollView addSubview:cachedImage];
 		}
@@ -469,7 +481,7 @@
 - (void)areaTouched {
 	
 	if (self.toolbarView.hidden) {
-		//[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+		[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 		//[self.navigationController setToolbarHidden:NO animated:YES];
 		[self.view addSubview:self.toolbarView];
 		[UIView animateWithDuration:0.4 animations:^{
@@ -479,7 +491,7 @@
 		[self.navigationController setNavigationBarHidden:NO animated:YES];
 	}
 	else {
-		//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
 		//[self.navigationController setToolbarHidden:YES animated:YES];
 		[UIView animateWithDuration:0.4 animations:^{
 			self.toolbarView.alpha = 0;

@@ -294,6 +294,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+	NSLog(@"didSelectItemAtIndexPath %@ %@", indexPath, albumContents.photos);
 	
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumContents = albumContents;
