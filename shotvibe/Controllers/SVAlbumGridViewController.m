@@ -70,14 +70,11 @@
 
 - (void)backButtonPressed:(id)sender
 {
-	// When we leave the album set all the photos as viewed
-	
-    [self.navigationController popViewControllerAnimated:YES];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	
     if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
 		
         SVSettingsViewController *destinationController = segue.destinationViewController;
@@ -90,11 +87,9 @@
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = self.albumId;
         destination.albumManager = self.albumManager;
-        //destination.selectedAlbum = self.selectedAlbum;
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
 		
-		NSLog(@"add friends segue AddFriendsSegue");
 		UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
         SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumManager = self.albumManager;
@@ -139,7 +134,7 @@
     albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
     NSLog(@"-------view did load. ALBUM CONTENTS: %@ albumId %lld", albumContents, self.albumId);
 	[self setAlbumContents:albumContents];
-	[self.gridView reloadData];
+	//[self.gridView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -159,10 +154,11 @@
 			[allViewControllers removeObject:lastController];
 		self.navigationController.viewControllers = allViewControllers;
 	}
+	
 	// Restore the sidemenu state, when is hide it loses x position
-	if (self.menuContainerViewController.menuState != MFSideMenuStateClosed) {
-		[self.menuContainerViewController setMenuState:self.menuContainerViewController.menuState];
-	}
+//	if (self.menuContainerViewController.menuState != MFSideMenuStateClosed) {
+//		[self.menuContainerViewController setMenuState:self.menuContainerViewController.menuState];
+//	}
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 	
@@ -254,25 +250,20 @@
     AlbumPhoto *photo = [albumContents.photos objectAtIndex:i];
 
     if (photo.serverPhoto) {
+		
         NSString *fullsizePhotoUrl = photo.serverPhoto.url;
         NSString *thumbnailSuffix = @"_thumb75.jpg";
         NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
-
-        // TODO Temporarily using SDWebImage library for a quick and easy way to display photos
+		
         [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
-
         cell.uploadProgressView.hidden = YES;
     }
     else if (photo.uploadingPhoto) {
+		
         [cell.networkImageView setImage:[photo.uploadingPhoto getThumbnail]];
-
+		
         cell.uploadProgressView.hidden = NO;
-        if ([photo.uploadingPhoto isUploadComplete]) {
-            cell.uploadProgressView.progress = 1.0f;
-        }
-        else {
-            cell.uploadProgressView.progress = [photo.uploadingPhoto getUploadProgress];
-        }
+        cell.uploadProgressView.progress = 0.0f;
     }
 
 
@@ -294,14 +285,6 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-
-//    AlbumPhotoBrowserDelegate *delegate = [[AlbumPhotoBrowserDelegate alloc] initWithAlbumContents:albumContents];
-//    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:delegate];
-//    browser.wantsFullScreenLayout = YES;
-//    browser.displayActionButton = YES;
-//    [browser setInitialPageIndex:indexPath.item];
-//
-//    [self.navigationController pushViewController:browser animated:YES];
 	
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumContents = albumContents;
@@ -391,7 +374,17 @@
 
 - (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId
 {
-    [self.gridView reloadData];
+	// Iterate over visible cells and find the cell with the albumId
+	
+	for (SVAlbumGridViewCell *cell in self.gridView.visibleCells) {
+		NSIndexPath *indexPath = [self.gridView indexPathForCell:cell];
+		AlbumPhoto *photo = [albumContents.photos objectAtIndex:indexPath.item];
+		
+		if (photo.uploadingPhoto) {
+			cell.uploadProgressView.hidden = [photo.uploadingPhoto isUploadComplete];
+			cell.uploadProgressView.progress = [photo.uploadingPhoto getUploadProgress];
+		}
+	}
 }
 
 
