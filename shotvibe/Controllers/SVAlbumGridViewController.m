@@ -26,6 +26,15 @@
 #import "AlbumPhotoBrowserDelegate.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
+{
+    AlbumContents *albumContents;
+    BOOL isMenuShowing;
+    NSMutableArray *_objectChanges;
+    NSMutableArray *_sectionChanges;
+    NSMutableDictionary *thumbnailCache;
+    UIRefreshControl *refresh;
+	CaptureNavigationController *cameraNavController;
+}
 
 @property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
@@ -42,15 +51,6 @@
 @end
 
 @implementation SVAlbumGridViewController
-{
-    AlbumContents *albumContents;
-    BOOL isMenuShowing;
-    NSMutableArray *_objectChanges;
-    NSMutableArray *_sectionChanges;
-    NSMutableDictionary *thumbnailCache;
-    UIRefreshControl *refresh;
-	CaptureNavigationController *cameraNavController;
-}
 
 
 - (IBAction)takeVideoPressed:(id)sender

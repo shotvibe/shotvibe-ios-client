@@ -36,6 +36,7 @@
 @property (nonatomic, strong) IBOutlet UIView *sectionHeader;
 @property (nonatomic, strong) IBOutlet UIView *tableOverlayView;
 @property (nonatomic, strong) IBOutlet UIView *dropDownContainer;
+@property (nonatomic, strong) IBOutlet UIView *noPhotosView;
 @property (nonatomic, strong) IBOutlet UITextField *albumField;
 @property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
 @property (nonatomic, strong) IBOutlet UIButton *albumButton;
@@ -179,6 +180,7 @@
 	self.refreshControl = [[UIRefreshControl alloc] init];
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+	[self updateEmptyState];
 }
 
 
@@ -387,6 +389,23 @@
 	[self.tableOverlayView addGestureRecognizer:touchOnView];
 }
 
+- (void) updateEmptyState
+{
+	if (albumList.count == 0) {
+		self.noPhotosView.frame = CGRectMake(0, 88, 320, 548);
+		[self.view addSubview:self.noPhotosView];
+		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+		self.takePictureButton.enabled = NO;
+	}
+	else {
+		if ([self.noPhotosView isDescendantOfView:self.view]) {
+			[self.noPhotosView removeFromSuperview];
+			self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+			self.takePictureButton.enabled = YES;
+		}
+	}
+}
+
 - (void) releaseOverlay {
 	
 	if (searchShowing) {
@@ -477,6 +496,7 @@
 				[self.tableView beginUpdates];
 				[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 				[self.tableView endUpdates];
+				[self updateEmptyState];
             }
 			[MBProgressHUD hideHUDForView:self.view animated:YES];
 			creatingAlbum = NO;
@@ -517,6 +537,7 @@
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 	
 	creatingAlbum = NO;
+	[self updateEmptyState];
 }
 
 - (void)onAlbumListRefreshError:(NSError *)error
