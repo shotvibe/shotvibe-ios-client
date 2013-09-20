@@ -134,7 +134,6 @@
     albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
     NSLog(@"-------view did load. ALBUM CONTENTS: %@ albumId %lld", albumContents, self.albumId);
 	[self setAlbumContents:albumContents];
-	//[self.gridView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -205,6 +204,21 @@
     [thumbnailCache removeAllObjects];
 }
 
+
+
+
+- (void) updateEmptyState
+{
+	if (albumContents.photos.count == 0) {
+		//self.noPhotosView.frame = CGRectMake(0, 88, 320, 548);
+		[self.gridView addSubview:self.noPhotosView];
+	}
+	else {
+		if ([self.noPhotosView isDescendantOfView:self.gridView]) {
+			[self.noPhotosView removeFromSuperview];
+		}
+	}
+}
 
 
 
@@ -342,9 +356,8 @@
 	
     self.title = albumContents.name;
 
-    self.noPhotosView.hidden = albumContents.photos.count > 0;
-
     [self.gridView reloadData];
+	[self updateEmptyState];
 }
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId
