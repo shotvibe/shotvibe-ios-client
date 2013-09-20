@@ -209,14 +209,12 @@
 
 - (void) updateEmptyState
 {
+	NSLog(@"update empty state");
 	if (albumContents.photos.count == 0) {
-		//self.noPhotosView.frame = CGRectMake(0, 88, 320, 548);
 		[self.gridView addSubview:self.noPhotosView];
 	}
-	else {
-		if ([self.noPhotosView isDescendantOfView:self.gridView]) {
-			[self.noPhotosView removeFromSuperview];
-		}
+	else if ([self.noPhotosView isDescendantOfView:self.gridView] || [self.noPhotosView isDescendantOfView:self.view]) {
+		[self.noPhotosView removeFromSuperview];
 	}
 }
 
@@ -348,7 +346,7 @@
 
 -(void)setAlbumContents:(AlbumContents *)album
 {
-	NSLog(@"setAlbumContents after refresh %@", album);
+	NSLog(@"setAlbumContents after refresh %@", album.photos);
     albumContents = album;
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
