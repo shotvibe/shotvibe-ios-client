@@ -71,7 +71,6 @@
 	self.toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, 320, 44)];
 	self.toolbarView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
 	self.toolbarView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-	self.toolbarView.hidden = YES;
 	self.toolbarView.alpha = 0;
 	
 	UIButton *butTrash = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
@@ -93,21 +92,17 @@
 	[super viewWillAppear:animated];NSLog(@"photos will appear");
 	
     self.navigationController.navigationBar.translucent = YES;
-//    self.navigationController.toolbar.translucent = YES;
-//	self.navigationController.toolbarHidden = YES;
+	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+	
+	[self setControlsHidden:YES animated:YES permanent:NO];
+	
 	self.title = self.albumContents.name;
 	[self updateInfoOnScreen];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];NSLog(@"photos did appear");
-	
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
-	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-	
-//	CGRect r = [[UIScreen mainScreen] bounds];
-//	r.origin.y = -20;
-//	[self.view setFrame:r];
 	
 	//[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
 	[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
@@ -270,7 +265,7 @@
 				
 				//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
 				//[self.navigationController setToolbarHidden:YES animated:YES];
-				[self.navigationController setNavigationBarHidden:YES animated:YES];
+				//[self.navigationController setNavigationBarHidden:YES animated:YES];
 			}
 		}
 		break;
@@ -480,25 +475,30 @@
 
 - (void)areaTouched {
 	
-	if (self.toolbarView.hidden) {
-		[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-		//[self.navigationController setToolbarHidden:NO animated:YES];
+	if (self.toolbarView.alpha == 0) {
+		[self setControlsHidden:NO animated:YES permanent:NO];
 		[self.view addSubview:self.toolbarView];
-		[UIView animateWithDuration:0.4 animations:^{
-			self.toolbarView.hidden = NO;
-			self.toolbarView.alpha = 1;
-		}];
-		[self.navigationController setNavigationBarHidden:NO animated:YES];
+		
+//		[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+//		//[self.navigationController setToolbarHidden:NO animated:YES];
+//		[self.view addSubview:self.toolbarView];
+//		[UIView animateWithDuration:0.4 animations:^{
+//			self.toolbarView.hidden = NO;
+//			self.toolbarView.alpha = 1;
+//		}];
+//		[self.navigationController setNavigationBarHidden:NO animated:YES];
 	}
 	else {
-		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-		//[self.navigationController setToolbarHidden:YES animated:YES];
-		[UIView animateWithDuration:0.4 animations:^{
-			self.toolbarView.alpha = 0;
-		} completion:^(BOOL finished) {
-			self.toolbarView.hidden = YES;
-		}];
-		[self.navigationController setNavigationBarHidden:YES animated:YES];
+		[self setControlsHidden:YES animated:YES permanent:NO];
+		
+//		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+//		//[self.navigationController setToolbarHidden:YES animated:YES];
+//		[UIView animateWithDuration:0.4 animations:^{
+//			self.toolbarView.alpha = 0;
+//		} completion:^(BOOL finished) {
+//			self.toolbarView.hidden = YES;
+//		}];
+//		[self.navigationController setNavigationBarHidden:YES animated:YES];
 	}
 }
 
@@ -506,6 +506,48 @@
 //	[self.navigationController popViewControllerAnimated:YES];
 //	if (self.navigationController.toolbar.hidden) [self areaTouched];
 //}
+
+#pragma mark - Control Hiding / Showing
+
+// If permanent then we don't set timers to hide again
+- (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent {
+    
+	// Status bar and nav bar positioning
+    if (self.wantsFullScreenLayout) {
+        
+        // Get status bar height if visible
+        CGFloat statusBarHeight = 0;
+        if (![UIApplication sharedApplication].statusBarHidden) {
+            CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+            statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
+        }
+        
+        // Status Bar
+        [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
+        
+        // Get status bar height if visible
+        if (![UIApplication sharedApplication].statusBarHidden) {
+            CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+            statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
+        }
+        
+        // Set navigation bar frame
+        CGRect navBarFrame = self.navigationController.navigationBar.frame;
+        navBarFrame.origin.y = statusBarHeight;
+        self.navigationController.navigationBar.frame = navBarFrame;
+    }
+	
+	// Animate
+    if (animated) {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.35];
+    }
+    CGFloat alpha = hidden ? 0 : 1;
+	[self.navigationController.navigationBar setAlpha:alpha];
+	[self.toolbarView setAlpha:alpha];
+	if (animated) [UIView commitAnimations];
+	
+}
 
 
 
@@ -740,5 +782,6 @@
 -(void)activityDidStartSharing {
 	[activity cancelHandler:nil];
 }
+
 
 @end

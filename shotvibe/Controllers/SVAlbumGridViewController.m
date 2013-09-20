@@ -299,6 +299,7 @@
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumContents = albumContents;
 	detailController.index = indexPath.item;
+	detailController.wantsFullScreenLayout = YES;
 	
     [self.navigationController pushViewController:detailController animated:YES];
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;

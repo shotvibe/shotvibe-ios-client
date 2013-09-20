@@ -157,7 +157,8 @@ NSDictionary * parseQueryParameters(NSString * query)
 	self.sideMenu.panMode = MFSideMenuPanModeNone;
 	//self.sideMenu.shadow.enabled = NO;
 	self.window.rootViewController = self.sideMenu;
-	NSLog(@"app did launch");
+	self.window.rootViewController.wantsFullScreenLayout = YES;
+	
 	SVInitializationWS *worker = [[SVInitializationWS alloc] init];
     [worker configureAppearanceProxies];
     [worker initializeLocalSettingsDefaults];

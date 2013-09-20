@@ -70,6 +70,8 @@
 	[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 	self.tableView.delegate = self;
 	[self.tableView setAllowsSelection:YES];
+	self.wantsFullScreenLayout = NO;
+	
 }
 
 
