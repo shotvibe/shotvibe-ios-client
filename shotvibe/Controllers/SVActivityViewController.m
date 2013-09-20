@@ -32,7 +32,7 @@
 							 [[SVFacebookActivity alloc] init]];
 		self.localActivities = @[
 							 [[SVCopyActivity alloc] init],
-							 [[SVMoveActivity alloc] init],
+//							 [[SVMoveActivity alloc] init],
 							 [[SVLinkActivity alloc] init]];
     }
     return self;

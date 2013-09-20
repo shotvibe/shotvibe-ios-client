@@ -105,12 +105,14 @@
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
 		cell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
 		cell.statusLabel.text = @"Leave Album";
+		cell.userInteractionEnabled = YES;
 	}
 	else {
 		cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
 		cell.statusImageView.image = [UIImage imageNamed:[member.inviteStatus isEqualToString:@"joined"] ? @"MemberJoined" : @"MemberInvited"];
 		cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
 		cell.statusLabel.text = [member.inviteStatus isEqualToString:@"joined"] ? @"joined" : @"invited";
+		cell.userInteractionEnabled = NO;
 	}
 	//NSLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
     return cell;

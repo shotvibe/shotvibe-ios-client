@@ -335,6 +335,8 @@
 		04E287F7173176F00044C17A /* SVImagePickerSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E287F5173176F00044C17A /* SVImagePickerSelector.m */; };
 		04E287F9173176F00044C17A /* SVImagePickerSelector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E287F6173176F00044C17A /* SVImagePickerSelector.xib */; };
 		04F11575178FA5D200B26C85 /* SVSelectionGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */; };
+		280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */; };
+		280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */; };
 		2836B78517A934FE008AAB68 /* SVConfirmationCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B78317A934FE008AAB68 /* SVConfirmationCodeViewController.m */; };
 		2836B78B17A955B7008AAB68 /* SVNoCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B78A17A955B7008AAB68 /* SVNoCodeViewController.m */; };
 		2849A74317D64E4E0076AFBA /* RCTableImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A74217D64E4E0076AFBA /* RCTableImageViewCell.m */; };
@@ -955,6 +957,8 @@
 		04E287F6173176F00044C17A /* SVImagePickerSelector.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVImagePickerSelector.xib; sourceTree = "<group>"; };
 		04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSelectionGridCell.h; sourceTree = "<group>"; };
 		04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSelectionGridCell.m; sourceTree = "<group>"; };
+		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
+		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2836B78217A934FE008AAB68 /* SVConfirmationCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVConfirmationCodeViewController.h; sourceTree = "<group>"; };
 		2836B78317A934FE008AAB68 /* SVConfirmationCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVConfirmationCodeViewController.m; sourceTree = "<group>"; };
 		2836B78917A955B7008AAB68 /* SVNoCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVNoCodeViewController.h; sourceTree = "<group>"; };
@@ -1374,8 +1378,9 @@
 				2897383317A1C10D003B18D3 /* registration */,
 				2884E86317A24D9900B382D9 /* little icons */,
 				28D4759617AC264B00C189AB /* Sidemenu */,
-				0446EEE01718845D00ED0076 /* albumMemberProfileFrame.png */,
 				0446EEDF1718845D00ED0076 /* albumMemberProfileFrame@2x.png */,
+				280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */,
+				280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */,
 				AA78D2C217172C67006E1240 /* dropDownField.png */,
 				AA78D2C317172C67006E1240 /* dropDownField@2x.png */,
 				04AB0A871707F95700C5300B /* Logo.png */,
@@ -1825,6 +1830,7 @@
 		2884E86317A24D9900B382D9 /* little icons */ = {
 			isa = PBXGroup;
 			children = (
+				0446EEE01718845D00ED0076 /* albumMemberProfileFrame.png */,
 				28CFCD0217A7D7E2001511EF /* albumTakePicture.png */,
 				2897384317A2422F003B18D3 /* albumTakePicture@2x.png */,
 				28CFCC8517A32CF2001511EF /* SettingsDisclosure.png */,
@@ -2942,6 +2948,8 @@
 				2849A8A417EB0B410076AFBA /* default-avatar-04@2x.png in Resources */,
 				2849A8A517EB0B410076AFBA /* default-avatar-05.png in Resources */,
 				2849A8A617EB0B410076AFBA /* default-avatar-05@2x.png in Resources */,
+				280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */,
+				280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

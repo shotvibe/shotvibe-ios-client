@@ -452,18 +452,12 @@
 	// Write the album to server
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		
+		creatingAlbum = YES;
         NSError *error;
         AlbumContents *albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title withError:&error];
-		
-		AlbumSummary *album = [[AlbumSummary alloc] initWithAlbumId:0
-															   etag:@""
-															   name:title
-														dateCreated:[NSDate date]
-														dateUpdated:[NSDate date]
-													   latestPhotos:[NSArray array]];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (!albumContents) {
+            if (error) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Creating Album"
                                                                 message:[error description]
                                                                delegate:nil
@@ -477,7 +471,12 @@
 //				[self.tableView endUpdates];
             }
             else {
-				creatingAlbum = YES;
+				AlbumSummary *album = [[AlbumSummary alloc] initWithAlbumId:albumContents.albumId
+																	   etag:albumContents.etag
+																	   name:albumContents.name
+																dateCreated:albumContents.dateCreated
+																dateUpdated:albumContents.dateUpdated
+															   latestPhotos:[NSArray array]];
 				[albumList insertObject:album atIndex:0];
 				
 				[self.tableView beginUpdates];
@@ -485,6 +484,7 @@
 				[self.tableView endUpdates];
             }
 			[MBProgressHUD hideHUDForView:self.view animated:YES];
+			creatingAlbum = NO;
         });
     });
 }

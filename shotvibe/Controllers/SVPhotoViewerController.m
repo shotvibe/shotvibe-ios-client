@@ -62,35 +62,42 @@
 																	   style: UIBarButtonItemStylePlain
 																	  target: self
 																	  action: @selector(deleteButtonPressed)];
-    
+	
     self.toolbarItems = [NSArray arrayWithObjects:previousButton, flexibleSpace, nextButton, nil];
-    self.navigationController.toolbarHidden = NO;
+    self.navigationController.toolbarHidden = YES;
     
 	[self showViewerOfType:PhotoViewerTypeScrollView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
+	[super viewWillAppear:animated];NSLog(@"photos will appear");
+	
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.toolbar.translucent = YES;
+	self.navigationController.toolbarHidden = YES;
 	self.title = self.albumContents.name;
-	
-	// The show/hide toolbar is disabled if i change the frame of the app here. Why?
 }
--(void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];NSLog(@"photos did appear");
+	
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
-	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-	[UIView animateWithDuration:0.4 animations:^{
-		[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
-	} completion:^(BOOL fin){
-		[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
-	}];
+	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+	
+	[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
+	[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
+	
+//	[UIView animateWithDuration:0.4 animations:^{
+//		[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
+//	} completion:^(BOOL fin){
+//		[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
+//	}];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
+    [super viewWillDisappear:animated];NSLog(@"photos will disappear");
+	
     self.navigationController.navigationBar.translucent = NO;
     //self.navigationController.toolbar.translucent = NO;
 	[self.navigationController setToolbarHidden:YES animated:YES];
@@ -98,13 +105,18 @@
 	
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+	
 	[UIView animateWithDuration:0.4 animations:^{
 		[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] applicationFrame]];
+	} completion:^(BOOL finished) {
+		
 	}];
 }
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];NSLog(@"photos did disappear");
 	
-	[super viewDidDisappear:animated];
+	self.toolbarItems = nil;
 	[self.detailLabel removeFromSuperview];
 	self.detailLabel = nil;
 	[self.view removeFromSuperview];
@@ -444,7 +456,7 @@
 
 - (void)areaTouched {
 	
-	if (self.navigationController.toolbar.hidden) {
+	if (self.navigationController.toolbarHidden) {
 		//[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 		[self.navigationController setToolbarHidden:NO animated:YES];
 		[self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -458,10 +470,10 @@
 	}
 }
 
-- (void)areaTouchedForExit {
-	[self.navigationController popViewControllerAnimated:YES];
-	if (self.navigationController.toolbar.hidden) [self areaTouched];
-}
+//- (void)areaTouchedForExit {
+//	[self.navigationController popViewControllerAnimated:YES];
+//	if (self.navigationController.toolbar.hidden) [self areaTouched];
+//}
 
 
 
@@ -690,6 +702,7 @@
 }
 -(void)activityDidClose {
 	if (viewerType == PhotoViewerTypeScrollView) {
+		NSLog(@"activity did close");
 		[self.navigationController setToolbarHidden:NO animated:YES];
 		self.detailLabel.hidden = NO;
 	}

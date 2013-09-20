@@ -137,7 +137,7 @@
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
 	
     albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
-    NSLog(@"initial ALBUM CONTENTS: %@", albumContents);
+    NSLog(@"-------view did load. ALBUM CONTENTS: %@ albumId %lld", albumContents, self.albumId);
 	[self setAlbumContents:albumContents];
 	[self.gridView reloadData];
 }
@@ -166,14 +166,16 @@
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 	
-	//[((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).t setToolbarHidden:YES animated:YES];
-	NSLog(@"view did appear %@ %@",
+	NSLog(@"----------------view did appear %@ %@ %@",
 		  self.menuContainerViewController.rightMenuViewController,
-		  self.navigationController.viewControllers);
+		  self.navigationController.viewControllers, self.toolbarItems);
 	
 	[refresh beginRefreshing];
 	[self.gridView setContentOffset:CGPointMake(0, -60) animated:YES];
 	[self.albumManager refreshAlbumContents:self.albumId];
+	
+	self.toolbarItems = nil;
+	self.menuContainerViewController.rightMenuViewController.toolbarItems = nil;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

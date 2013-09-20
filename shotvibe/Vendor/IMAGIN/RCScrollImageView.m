@@ -96,6 +96,9 @@
 	}
 	[loadingIndicator startAnimating];
 	[imageView loadNetworkImage:path];
+	if (imageView.image) {
+		[loadingIndicator stopAnimating];
+	}
 }
 
 

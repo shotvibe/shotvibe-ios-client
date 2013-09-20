@@ -30,6 +30,7 @@ typedef enum {
 	NSMutableArray *photos;
 	NSMutableDictionary *cache;
 	SVActivityViewController* activity;
+	BOOL toolVisible;
 }
 
 #pragma mark - Properties
