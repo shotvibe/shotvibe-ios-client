@@ -990,10 +990,10 @@ to register this device</string>
             </objects>
             <point key="canvasLocation" x="630" y="-628"/>
         </scene>
-        <!--Add Friends View Controller-->
+        <!--Add Friends View Controller - Invite friends-->
         <scene sceneID="8iq-Ap-kcP">
             <objects>
-                <viewController id="hue-j9-5bn" customClass="SVAddFriendsViewController" sceneMemberID="viewController">
+                <viewController title="Invite friends" id="hue-j9-5bn" customClass="SVAddFriendsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JmG-lN-sm5">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1041,7 +1041,7 @@ to register this device</string>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="deviceRGB"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="ContactIsMember.png" id="CHs-Ve-5u5">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="ContactIsMember.png" id="CHs-Ve-5u5">
                                                     <rect key="frame" x="274" y="14" width="26" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -1092,21 +1092,8 @@ to register this device</string>
                         </subviews>
                         <color key="backgroundColor" red="0.92941176470588238" green="0.93333333333333335" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dfg-eK-1ty">
-                        <nil key="title"/>
+                    <navigationItem key="navigationItem" title="Invite friends" id="dfg-eK-1ty">
                         <barButtonItem key="leftBarButtonItem" title="Item" id="GLm-f8-izA"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="i5Z-MR-XKs">
-                            <rect key="frame" x="61" y="7" width="196" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <segments>
-                                <segment title="ShotVibe"/>
-                                <segment title="Phone"/>
-                            </segments>
-                            <connections>
-                                <action selector="segmentChanged:" destination="hue-j9-5bn" eventType="valueChanged" id="WUY-iV-Fvw"/>
-                            </connections>
-                        </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="Vqv-dA-Mob">
                             <connections>
                                 <action selector="donePressed:" destination="hue-j9-5bn" id="ZCB-vM-DIA"/>
@@ -1117,7 +1104,6 @@ to register this device</string>
                         <outlet property="addedContactsScrollView" destination="dAJ-mE-XY5" id="3hc-tb-li5"/>
                         <outlet property="membersView" destination="oru-dQ-Y8C" id="eIr-I7-71e"/>
                         <outlet property="searchBar" destination="xWL-42-6Js" id="H6w-6F-S19"/>
-                        <outlet property="segmentControl" destination="i5Z-MR-XKs" id="uUa-pp-EDL"/>
                         <outlet property="tableView" destination="Csh-Y9-cyY" id="x2Y-Bg-Xu4"/>
                     </connections>
                 </viewController>
@@ -1861,6 +1847,7 @@ activation code just sent to you</string>
             <relationships>
                 <relationship kind="action" name="cancelPressed:"/>
                 <relationship kind="action" name="donePressed:"/>
+                <relationship kind="action" name="segmentChanged:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="addedContactsScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="membersView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>

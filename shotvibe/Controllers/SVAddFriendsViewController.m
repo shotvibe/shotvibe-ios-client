@@ -137,6 +137,7 @@
 	self.navigationItem.leftBarButtonItem = backButton;
 	self.navigationItem.rightBarButtonItem = doneButton;
 	self.navigationItem.rightBarButtonItem.enabled = NO;
+	self.title = @"Invite friends";
 }
 
 
