@@ -17,6 +17,7 @@
 
 @interface SVPhotoViewerController ()
 
+@property (nonatomic, strong) UIView *toolbarView;
 @property (nonatomic, strong) UILabel *detailLabel;
 
 - (void)deleteButtonPressed;
@@ -41,30 +42,43 @@
 	
 	
     // Setup navigation buttons
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
-    self.navigationItem.rightBarButtonItem = menuButton;
+//    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
+//    self.navigationItem.rightBarButtonItem = menuButton;
+//	
+//	UIBarItem* flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
+//                                                  target: nil
+//                                                  action: nil];
+//    
+//	// Setup toolbar buttons
+//	UIImage* exportIcon = [UIImage imageNamed:@"exportIcon.png"];
+//	
+//	UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithImage: exportIcon
+//																   style: UIBarButtonItemStylePlain
+//																  target: self
+//																  action: @selector(exportButtonPressed)];
+//    
+//	UIImage* deleteIcon = [UIImage imageNamed:@"trashIcon.png"];
+//	
+//	UIBarButtonItem *previousButton = [[UIBarButtonItem alloc] initWithImage: deleteIcon
+//																	   style: UIBarButtonItemStylePlain
+//																	  target: self
+//																	  action: @selector(deleteButtonPressed)];
+//	
+//    self.toolbarItems = [NSArray arrayWithObjects:previousButton, flexibleSpace, nextButton, nil];
+//    self.navigationController.toolbarHidden = YES;
 	
-	UIBarItem* flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
-                                                  target: nil
-                                                  action: nil];
-    
-	// Setup toolbar buttons
-	UIImage* exportIcon = [UIImage imageNamed:@"exportIcon.png"];
+	// Add custom toolbar
+	self.toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44+20, 320, 44)];
+	self.toolbarView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
+	self.toolbarView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+	self.toolbarView.hidden = YES;
+	self.toolbarView.alpha = 0;
 	
-	UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithImage: exportIcon
-																   style: UIBarButtonItemStylePlain
-																  target: self
-																  action: @selector(exportButtonPressed)];
-    
-	UIImage* deleteIcon = [UIImage imageNamed:@"trashIcon.png"];
-	
-	UIBarButtonItem *previousButton = [[UIBarButtonItem alloc] initWithImage: deleteIcon
-																	   style: UIBarButtonItemStylePlain
-																	  target: self
-																	  action: @selector(deleteButtonPressed)];
-	
-    self.toolbarItems = [NSArray arrayWithObjects:previousButton, flexibleSpace, nextButton, nil];
-    self.navigationController.toolbarHidden = YES;
+	UIButton *butShare = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 0, 44, 44)];
+	[butShare setImage:[UIImage imageNamed:@"exportIcon.png"] forState:UIControlStateNormal];
+	[butShare addTarget:self action:@selector(exportButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+	butShare.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+	[self.toolbarView addSubview:butShare];
     
 	[self showViewerOfType:PhotoViewerTypeScrollView];
 }
@@ -74,9 +88,10 @@
 	[super viewWillAppear:animated];NSLog(@"photos will appear");
 	
     self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.toolbar.translucent = YES;
-	self.navigationController.toolbarHidden = YES;
+//    self.navigationController.toolbar.translucent = YES;
+//	self.navigationController.toolbarHidden = YES;
 	self.title = self.albumContents.name;
+	[self updateInfoOnScreen];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -100,8 +115,7 @@
 	
     self.navigationController.navigationBar.translucent = NO;
     //self.navigationController.toolbar.translucent = NO;
-	[self.navigationController setToolbarHidden:YES animated:YES];
-	self.detailLabel.hidden = YES;
+	//[self.navigationController setToolbarHidden:YES animated:YES];
 	
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
@@ -116,7 +130,7 @@
 {
 	[super viewDidDisappear:animated];NSLog(@"photos did disappear");
 	
-	self.toolbarItems = nil;
+	//self.toolbarItems = nil;
 	[self.detailLabel removeFromSuperview];
 	self.detailLabel = nil;
 	[self.view removeFromSuperview];
@@ -222,7 +236,6 @@
 			[[UIApplication sharedApplication] setStatusBarHidden:NO];
 			[self.navigationController setToolbarHidden:YES animated:YES];
 			[self.navigationController setNavigationBarHidden:NO animated:YES];
-			self.detailLabel.hidden = YES;
 		}
 		break;
 		
@@ -253,9 +266,8 @@
 				[self updateInfoOnScreen];
 				
 				[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-				[self.navigationController setToolbarHidden:YES animated:YES];
+				//[self.navigationController setToolbarHidden:YES animated:YES];
 				[self.navigationController setNavigationBarHidden:YES animated:YES];
-				self.detailLabel.hidden = YES;
 			}
 		}
 		break;
@@ -456,17 +468,25 @@
 
 - (void)areaTouched {
 	
-	if (self.navigationController.toolbarHidden) {
+	if (self.toolbarView.hidden) {
 		//[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-		[self.navigationController setToolbarHidden:NO animated:YES];
+		//[self.navigationController setToolbarHidden:NO animated:YES];
+		[self.view addSubview:self.toolbarView];
+		[UIView animateWithDuration:0.4 animations:^{
+			self.toolbarView.hidden = NO;
+			self.toolbarView.alpha = 1;
+		}];
 		[self.navigationController setNavigationBarHidden:NO animated:YES];
-		self.detailLabel.hidden = NO;
 	}
 	else {
 		//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-		[self.navigationController setToolbarHidden:YES animated:YES];
+		//[self.navigationController setToolbarHidden:YES animated:YES];
+		[UIView animateWithDuration:0.4 animations:^{
+			self.toolbarView.alpha = 0;
+		} completion:^(BOOL finished) {
+			self.toolbarView.hidden = YES;
+		}];
 		[self.navigationController setNavigationBarHidden:YES animated:YES];
-		self.detailLabel.hidden = YES;
 	}
 }
 
@@ -526,7 +546,7 @@
 		self.detailLabel.textAlignment = NSTextAlignmentCenter;
 		self.detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
 		self.detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		[self.navigationController.toolbar addSubview:self.detailLabel];
+		[self.toolbarView addSubview:self.detailLabel];
 	}
 	
     AlbumPhoto *photo = [photos objectAtIndex:self.index];
@@ -654,8 +674,7 @@
 
 - (void)exportButtonPressed
 {
-	[self.navigationController setToolbarHidden:YES animated:YES];
-	self.detailLabel.hidden = YES;
+	//[self.navigationController setToolbarHidden:YES animated:YES];
 	
 	AlbumPhoto *photo = [photos objectAtIndex:self.index];
 	RCScrollImageView *imageView = [cache objectForKey:photo.serverPhoto.photoId];
@@ -703,8 +722,7 @@
 -(void)activityDidClose {
 	if (viewerType == PhotoViewerTypeScrollView) {
 		NSLog(@"activity did close");
-		[self.navigationController setToolbarHidden:NO animated:YES];
-		self.detailLabel.hidden = NO;
+		//[self.navigationController setToolbarHidden:NO animated:YES];
 	}
 }
 -(void)activityDidStartSharing {

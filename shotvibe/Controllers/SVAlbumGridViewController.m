@@ -209,7 +209,6 @@
 
 - (void) updateEmptyState
 {
-	NSLog(@"update empty state");
 	if (albumContents.photos.count == 0) {
 		[self.gridView addSubview:self.noPhotosView];
 	}
@@ -230,7 +229,6 @@
 	
 	NSLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
 	
-	
 }
 
 
@@ -241,8 +239,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
 	NSLog(@"count photos %i", albumContents.photos.count);
-	//if (refresh == nil) return 0;
-    return albumContents.photos.count;
+	return albumContents.photos.count;
 }
 
 
