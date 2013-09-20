@@ -464,11 +464,6 @@
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
                 [alert show];
-				// Remove temporary album
-//				[albumList removeObjectAtIndex:0];
-//				[self.tableView beginUpdates];
-//				[self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//				[self.tableView endUpdates];
             }
             else {
 				AlbumSummary *album = [[AlbumSummary alloc] initWithAlbumId:albumContents.albumId
