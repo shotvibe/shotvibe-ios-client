@@ -97,7 +97,7 @@
 
 // This method is called when an image has been chosen from the library or taken from the camera.
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+    UIImage *originalImage = [info valueForKey:UIImagePickerControllerEditedImage];
 	[self didSelectPhoto:originalImage];
 	[self.navigationController.visibleViewController dismissViewControllerAnimated:YES completion:^{}];
 }

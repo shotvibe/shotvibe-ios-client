@@ -754,6 +754,7 @@
 	
 	[UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
 		rect.origin.y = self.view.frame.size.height - rect.size.height;
+		rect.origin.x = self.view.frame.size.width/2 - rect.size.width/2;
 		activity.view.alpha = 1;
 		activity.activityView.frame = rect;
 	}completion:^(BOOL finished) {
@@ -776,11 +777,15 @@
 -(void)activityDidClose {
 	if (viewerType == PhotoViewerTypeScrollView) {
 		NSLog(@"activity did close");
-		//[self.navigationController setToolbarHidden:NO animated:YES];
+		if (activity) {
+			activity.controller = nil;
+			activity.delegate = nil;
+			activity = nil;
+		}
 	}
 }
 -(void)activityDidStartSharing {
-	[activity cancelHandler:nil];
+	[activity closeAndClean:NO];
 }
 
 

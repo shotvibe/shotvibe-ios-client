@@ -32,5 +32,6 @@
 
 
 - (IBAction)cancelHandler:(id)sender;
+- (void)closeAndClean:(BOOL)dispatch;
 
 @end

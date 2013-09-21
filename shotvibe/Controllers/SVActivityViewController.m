@@ -104,7 +104,11 @@
 }
 
 - (IBAction)cancelHandler:(id)sender {
-	
+	NSLog(@"cancel handler");
+	[self closeAndClean:YES];
+}
+
+- (void)closeAndClean:(BOOL)dispatch {
 	__block CGRect rect = self.activityView.frame;
 	
 	[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
@@ -112,10 +116,13 @@
 		self.view.alpha = 0;
 		self.activityView.frame = rect;
 	}completion:^(BOOL finished) {
-		[self.view removeFromSuperview];
-		if ([self.delegate respondsToSelector:@selector(activityDidClose)]) {
-			[self.delegate activityDidClose];
+		if (dispatch) {
+			[self.view removeFromSuperview];
+			if ([self.delegate respondsToSelector:@selector(activityDidClose)]) {
+				[self.delegate activityDidClose];
+			}
 		}
+		
 	}];
 }
 
