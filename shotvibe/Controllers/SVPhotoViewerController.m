@@ -85,6 +85,16 @@
 	[self.toolbarView addSubview:butShare];
     
 	[self showViewerOfType:PhotoViewerTypeScrollView];
+	
+	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+	doubleTap.numberOfTapsRequired = 2;
+	[photosScrollView addGestureRecognizer:doubleTap];
+	
+	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+	singleTap.numberOfTapsRequired = 1;
+	[photosScrollView addGestureRecognizer:singleTap];
+	
+	[singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -298,6 +308,7 @@
 		// If the photo is not in cache try in the saved photos
 		RCScrollImageView *rcphoto = [[RCScrollImageView alloc] initWithFrame:CGRectMake((w+GAP_X)*i, 0, w, h) delegate:self];
 		rcphoto.i = i;
+		//rcphoto.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;// do not autoresze it
 		
 		if (photo.serverPhoto) {
 			
@@ -350,12 +361,14 @@
 	AlbumPhoto *photo = [photos objectAtIndex:[nr intValue]];
 	RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
 	cachedImage.contentSize = cachedImage.image.size;
+	[cachedImage loadComplete];
 	[cachedImage.loadingIndicator stopAnimating];
 	[cachedImage setMaxMinZoomScalesForCurrentBounds];
 }
 - (void)onPhotoProgress:(NSNumber*)percentLoaded nr:(NSNumber*)nr{
 	
 }
+
 
 
 
@@ -474,7 +487,7 @@
 #pragma mark RCScrollView delegate
 
 - (void)areaTouched {
-	
+	return;
 	if (self.toolbarView.alpha == 0) {
 		[self setControlsHidden:NO animated:YES permanent:NO];
 		[self.view addSubview:self.toolbarView];
@@ -500,6 +513,27 @@
 //		}];
 //		[self.navigationController setNavigationBarHidden:YES animated:YES];
 	}
+}
+
+- (void)handleSingleTap:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateEnded) {
+		if (self.toolbarView.alpha == 0) {
+			[self setControlsHidden:NO animated:YES permanent:NO];
+			[self.view addSubview:self.toolbarView];
+		}
+		else {
+			[self setControlsHidden:YES animated:YES permanent:NO];
+		}
+    }
+}
+
+- (void)handleDoubleTap:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateEnded) {
+		NSLog(@"double %i", sender.numberOfTouches);
+		AlbumPhoto *photo = [photos objectAtIndex:self.index];
+		RCScrollImageView *imageView = [cache objectForKey:photo.serverPhoto.photoId];
+		[imageView toggleZoom];
+    }
 }
 
 //- (void)areaTouchedForExit {

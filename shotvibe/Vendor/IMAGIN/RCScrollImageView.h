@@ -17,6 +17,8 @@
 - (id)initWithFrame:(CGRect)frame delegate:(id)d;
 - (void)loadNetworkImage:(NSString *)path;
 - (void)setMaxMinZoomScalesForCurrentBounds;
+- (void)loadComplete;
+- (void)toggleZoom;
 
 @property(nonatomic, retain) UIImage *image;
 @property(nonatomic) int i;

@@ -33,12 +33,17 @@
         // Initialization code
 		imageView = [[RCImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) delegate:d];
 		//imageView.autosize = YES;// this line is trouble, don't use it
-		imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		//imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		
 		[self addSubview:imageView];
     }
     return self;
 }
+
+- (void)toggleZoom {
+	[self setZoomScale:(self.zoomScale < self.maximumZoomScale ? self.maximumZoomScale : self.minimumZoomScale) animated:YES];
+}
+
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
@@ -80,6 +85,7 @@
 
 - (void) setImage:(UIImage *)image {
 	imageView.image = image;
+	[self loadComplete];
 }
 
 - (void)loadNetworkImage:(NSString *)path {
@@ -96,9 +102,16 @@
 	}
 	[loadingIndicator startAnimating];
 	[imageView loadNetworkImage:path];
+	// If the image already exists stop the loadingIndicator
 	if (imageView.image) {
 		[loadingIndicator stopAnimating];
+		[self loadComplete];
 	}
+}
+
+- (void)loadComplete {
+	imageView.frame = (CGRect){.size=imageView.image.size, .origin=CGPointMake(0, 0)};
+	NSLog(@"adjust the size of the RCImageView %@", NSStringFromCGRect(imageView.frame));
 }
 
 
@@ -108,14 +121,13 @@
 	return imageView;
 }
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale {
-	NSLog(@"did end zooming %f", scale);
 	[self setNeedsLayout];
 }
 
 
 - (void)setMaxMinZoomScalesForCurrentBounds {
 	
-	CGSize imageSize = imageView.frame.size;
+	CGSize imageSize = imageView.image.size;
 	
 	// Avoid crashing if the image has no dimensions.
 	if (imageSize.width <= 0 || imageSize.height <= 0) {
@@ -125,10 +137,12 @@
 	else {
 		float scaleWMin = self.frame.size.width / imageSize.width;
 		float scaleHMin = self.frame.size.height / imageSize.height;
-		self.minimumZoomScale = (scaleWMin < scaleHMin) ? scaleWMin : scaleHMin;
+		self.minimumZoomScale = ((scaleWMin < scaleHMin) ? scaleWMin : scaleHMin);
 	}
+//	self.maximumZoomScale = 1;
 	[self setZoomScale:self.minimumZoomScale animated:NO];
 	[self setNeedsLayout];
+	NSLog(@"self.minimumZoomScale %f %f", self.minimumZoomScale, self.maximumZoomScale);
 }
 
 
