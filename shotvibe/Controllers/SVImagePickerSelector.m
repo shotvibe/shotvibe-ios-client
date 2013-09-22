@@ -312,32 +312,7 @@
 		[photoUploadRequests addObject:photoUploadRequest];
 	}
 	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
-//    }
-//    else {
-//        for (NSString *selectedPhotoPath in selectedPhotos) {
-//            NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
-//            if (photoData) {
-//				[SVBusinessDelegate saveUploadedPhotoImageData:photoData
-//													forPhotoId:[[NSUUID UUID] UUIDString]
-//												   withAlbumId:self.selectedAlbum.albumId];
-//            }
-//        }
-//    }
-//	});
 
-    /*
-	for (ALAsset *asset in selectedPhotos) {
-		ALAssetRepresentation *rep = [asset defaultRepresentation];
-		Byte *buffer = (Byte*)malloc(rep.size);
-		NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
-		NSData *photoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-		if (photoData) {
-			[SVBusinessDelegate saveUploadedPhotoImageData:photoData
-												forPhotoId:[[NSUUID UUID] UUIDString]
-											   withAlbumId:self.selectedAlbum.albumId];
-		}
-	}
-    */
 	
 	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
 		

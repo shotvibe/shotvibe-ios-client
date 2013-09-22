@@ -27,9 +27,31 @@
     return self;
 }
 
+- (id)initWithPath:(NSString *)path
+{
+    self = [super init];
+	
+    if (self) {
+        asset_ = nil;
+        filePath_ = path;
+    }
+	
+    return self;
+}
+
 - (UIImage *)getThumbnail
 {
-    return [UIImage imageWithCGImage:asset_.thumbnail];
+	if (asset_) {
+		return [UIImage imageWithCGImage:asset_.thumbnail];
+	}
+	
+	NSMutableString *thumbPath = [NSMutableString stringWithString:filePath_];
+	[thumbPath replaceOccurrencesOfString:@".jpg"
+							   withString:@"_thumb.jpg"
+								  options:NSLiteralSearch
+									range:NSMakeRange(0, [thumbPath length])];
+	
+	return [UIImage imageWithContentsOfFile:thumbPath];
 }
 
 static NSString * const UPLOADS_DIRECTORY = @"uploads";
@@ -57,6 +79,11 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 
 - (void)saveToFile
 {
+	// If the path already exists skip this step
+	if (filePath_) {
+		return;
+	}
+	
     filePath_ = [PhotoUploadRequest getUploadingPhotoFilename];
 
     ALAssetRepresentation *rep = [asset_ defaultRepresentation];

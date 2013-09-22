@@ -291,8 +291,8 @@
 	if (!self.oneImagePicker) {
 		
 		__block UIImage *thumbImage;
-		NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.png", self.capturedImages.count]];
-		NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.png", self.capturedImages.count]];
+		NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", self.capturedImages.count]];
+		NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", self.capturedImages.count]];
 		
 		dispatch_async(dispatch_get_global_queue(0, 0), ^{
 			
@@ -462,8 +462,8 @@
 	dispatch_async(dispatch_get_global_queue(0,0),^{
 		
 		NSMutableString *thumbPath = [NSMutableString stringWithString:self.capturedImages[indexPath.row]];
-		[thumbPath replaceOccurrencesOfString:@".png"
-								   withString:@"_thumb.png"
+		[thumbPath replaceOccurrencesOfString:@".jpg"
+								   withString:@"_thumb.jpg"
 									  options:NSLiteralSearch
 										range:NSMakeRange(0, [thumbPath length])];
 		UIImage *thumbImage = [UIImage imageWithContentsOfFile:thumbPath];
@@ -509,25 +509,17 @@
 	
 	NSLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
 	
-	for (NSString *selectedPhotoPath in selectedPhotos) {
-		NSData *photoData = [NSData dataWithContentsOfFile:selectedPhotoPath];
-		if (photoData) {
-            /*
-			[SVBusinessDelegate saveUploadedPhotoImageData:photoData
-												forPhotoId:[[NSUUID UUID] UUIDString]
-											   withAlbumId:self.selectedAlbum.albumId];
-             */
-		}
-	}
-	
 	// Upload the taken photos
 	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
 	for (NSString *selectedPhotoPath in selectedPhotos) {
-		//PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithAsset:asset];
-		//[photoUploadRequests addObject:photoUploadRequest];
+		PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:selectedPhotoPath];
+		[photoUploadRequests addObject:photoUploadRequest];
 	}
 	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
 	
+	
+	[self.navigationController popViewControllerAnimated:YES];
+	 
 	if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
 		[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
 	}

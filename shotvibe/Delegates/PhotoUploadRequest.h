@@ -12,6 +12,7 @@
 @interface PhotoUploadRequest : NSObject
 
 - (id)initWithAsset:(ALAsset *)asset;
+- (id)initWithPath:(NSString *)path;
 
 - (UIImage *)getThumbnail;
 
