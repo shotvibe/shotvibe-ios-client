@@ -181,6 +181,7 @@
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
 	[self updateEmptyState];
+	
 }
 
 
@@ -287,10 +288,10 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	cell.backgroundColor = [UIColor whiteColor];
-}
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//	cell.backgroundColor = [UIColor whiteColor];
+//}
 
 
 #pragma mark - UITableViewDelegate Methods
