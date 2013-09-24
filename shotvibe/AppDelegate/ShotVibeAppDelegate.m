@@ -304,6 +304,8 @@ NSString * deviceDescription()
 #endif
 }
 
+
+
 #pragma mark - Class Methods
 
 + (ShotVibeAppDelegate *)sharedDelegate

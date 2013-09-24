@@ -11,7 +11,7 @@
 		040BACD41717453C00D90C63 /* navBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040BACD11717453C00D90C63 /* navBarBg@2x.png */; };
 		041A13ED1706882D00E66B78 /* SVSidebarManagementController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A13EC1706882D00E66B78 /* SVSidebarManagementController.m */; };
 		04204EFB178B45D9001FE127 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04204EFA178B45D9001FE127 /* AddressBook.framework */; };
-		04204F03178B48ED001FE127 /* SVAddressBookWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 04204F02178B48ED001FE127 /* SVAddressBookWS.m */; };
+		04204F03178B48ED001FE127 /* SVAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 04204F02178B48ED001FE127 /* SVAddressBook.m */; };
 		0426B63D1724D7CC007BAABC /* imagePile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0426B62D1724D7CC007BAABC /* imagePile@2x.png */; };
 		0426B6701724EBC4007BAABC /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B66F1724EBC4007BAABC /* ImageIO.framework */; };
 		0426B6741724EBE2007BAABC /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426B6721724EBD9007BAABC /* AssetsLibrary.framework */; };
@@ -614,8 +614,8 @@
 		041A13EB1706882D00E66B78 /* SVSidebarManagementController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarManagementController.h; path = "../Custom Controls/SVSidebarManagementController.h"; sourceTree = "<group>"; };
 		041A13EC1706882D00E66B78 /* SVSidebarManagementController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarManagementController.m; path = "../Custom Controls/SVSidebarManagementController.m"; sourceTree = "<group>"; };
 		04204EFA178B45D9001FE127 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		04204F01178B48ED001FE127 /* SVAddressBookWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAddressBookWS.h; sourceTree = "<group>"; };
-		04204F02178B48ED001FE127 /* SVAddressBookWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAddressBookWS.m; sourceTree = "<group>"; };
+		04204F01178B48ED001FE127 /* SVAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAddressBook.h; path = ../Delegates/SVAddressBook.h; sourceTree = "<group>"; };
+		04204F02178B48ED001FE127 /* SVAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAddressBook.m; path = ../Delegates/SVAddressBook.m; sourceTree = "<group>"; };
 		0426B62D1724D7CC007BAABC /* imagePile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePile@2x.png"; sourceTree = "<group>"; };
 		0426B66F1724EBC4007BAABC /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		0426B6721724EBD9007BAABC /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -2315,8 +2315,6 @@
 				0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */,
 				AA58FB9216C2341C00C49E02 /* SVInitializationWS.h */,
 				AA58FB9316C2341C00C49E02 /* SVInitializationWS.m */,
-				04204F01178B48ED001FE127 /* SVAddressBookWS.h */,
-				04204F02178B48ED001FE127 /* SVAddressBookWS.m */,
 			);
 			name = "Worker Sessions";
 			sourceTree = "<group>";
@@ -2378,6 +2376,8 @@
 		AACB11C616C4543700BAC7E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				04204F01178B48ED001FE127 /* SVAddressBook.h */,
+				04204F02178B48ED001FE127 /* SVAddressBook.m */,
 				3BE0B10517C24D150058CAAD /* ShotVibeDB.h */,
 				3BE0B10617C24D150058CAAD /* ShotVibeDB.m */,
 				3BE0B11517C2C5520058CAAD /* AlbumBase.h */,
@@ -3039,7 +3039,7 @@
 				0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
 				AA4115BE177C0451009F400F /* NSFileManager+Helper.m in Sources */,
 				04AFA7B8177CBEA700E32C6E /* SVAlbumGridViewCell.m in Sources */,
-				04204F03178B48ED001FE127 /* SVAddressBookWS.m in Sources */,
+				04204F03178B48ED001FE127 /* SVAddressBook.m in Sources */,
 				28CFCCA317A50829001511EF /* SVCountriesViewController.m in Sources */,
 				28CFCCA617A50C7D001511EF /* SVCountryViewCell.m in Sources */,
 				2836B78517A934FE008AAB68 /* SVConfirmationCodeViewController.m in Sources */,

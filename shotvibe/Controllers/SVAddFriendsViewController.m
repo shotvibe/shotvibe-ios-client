@@ -7,7 +7,8 @@
 //
 
 #import "SVAddFriendsViewController.h"
-#import "SVAddressBookWS.h"
+#import "SVAddressBook.h"
+#import "SVContactCell.h"
 #import "SVDefines.h"
 #import "AlbumContents.h"
 #import "MBProgressHUD.h"
@@ -16,14 +17,10 @@
 @interface SVAddFriendsViewController ()<UISearchBarDelegate>
 
 @property (nonatomic, strong) IBOutlet UIView *membersView;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIScrollView *addedContactsScrollView;
-@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
-
-@property (nonatomic, strong) NSArray *allContacts;
-@property (nonatomic, strong) NSMutableDictionary *records;// dictionary of arrays
-@property (nonatomic, strong) NSMutableArray *contactsButtons;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UIScrollView *addedContactsScrollView;
+@property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, weak) IBOutlet UISegmentedControl *segmentControl;
 
 - (IBAction)cancelPressed:(id)sender;
 - (IBAction)donePressed:(id)sender;
@@ -32,9 +29,9 @@
 
 @implementation SVAddFriendsViewController
 {
-    NSArray *alphabet;
-    NSArray *keys;
-	BOOL stopCurrentSearch;
+	SVAddressBook *ab;
+	NSMutableArray *contactsButtons;// list of selected contacts buttons
+	NSMutableArray *selectedContacts;// list of ids of the contacts that were selected
 }
 
 #pragma mark - Actions
@@ -49,7 +46,7 @@
 	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
 	NSString *countryCode = [self.albumManager getShotVibeAPI].authData.defaultCountryCode;
 	
-	for (NSMutableDictionary *member in self.allContacts) {
+	for (NSMutableDictionary *member in selectedContacts) {
 		if ([member[@"selected"] boolValue] == YES) {
 			NSLog(@"selected %@ countryCode %@", member, countryCode);
 			[contactsToInvite addObject:@{@"phone_number":member[@"phone"], @"default_country":countryCode, @"contact_nickname":member[@"nickname"]}];
@@ -104,12 +101,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	self.contactsButtons = [[NSMutableArray alloc] init];
-	alphabet = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", @"#"];
-	keys = [NSArray arrayWithArray:alphabet];
-	self.records = [[NSMutableDictionary alloc] init];
-	stopCurrentSearch = NO;
-	shouldBeginEditing = YES;
+	contactsButtons = [[NSMutableArray alloc] init];
+	ab = [[SVAddressBook alloc] init];
     
     CGRect segmentFrame = self.segmentControl.frame;
     segmentFrame.origin.y -= 1.5;
@@ -146,13 +139,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [keys count];
+    return [ab.filteredKeys count];
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSArray *arr = [self.records objectForKey:[keys objectAtIndex:section]];
+	NSArray *arr = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:section]];
 	return [arr count];
 }
 
@@ -161,23 +154,26 @@
 {
     SVContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
     
-	NSArray *sectionRecords = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
+	NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section]];
+	ABRecordRef record = (__bridge ABRecordRef)sectionRecords[indexPath.row];
+	NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName(record);
 	
-    cell.titleLabel.text = [sectionRecords[indexPath.row] objectForKey:kMemberNickname];
-    cell.subtitleLabel.text = [sectionRecords[indexPath.row] objectForKey:kMemberPhone];
+    cell.titleLabel.text = [NSString stringWithFormat:@"%@", name];
+    cell.subtitleLabel.text = [NSString stringWithFormat:@"%@", name];
 	
-	UIImage *icon = [sectionRecords[indexPath.row] objectForKey:kMemberIcon];
-	if (icon == nil) {
+	if (ABPersonHasImageData(record)) {
+		NSData *contactImageData = (__bridge_transfer NSData*) ABPersonCopyImageDataWithFormat(record, kABPersonImageFormatThumbnail);
+		cell.contactIcon.image = [[UIImage alloc] initWithData:contactImageData];
+	}
+	else {
 		int lowerBound = 1;
 		int upperBound = 5;
 		int rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
-		icon = [UIImage imageNamed:[NSString stringWithFormat:@"default-avatar-0%i.png", rndValue]];
+		cell.contactIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"default-avatar-0%i.png", rndValue]];
 	}
-    cell.contactIcon.image = icon;
 	
-	NSMutableDictionary *member = [sectionRecords objectAtIndex:indexPath.row];
-	BOOL contains = [member[@"selected"] boolValue];
-	cell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
+//	BOOL contains = [member[@"selected"] boolValue];
+//	cell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
     
     return cell;
 }
@@ -189,7 +185,7 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    return keys;
+    return ab.filteredKeys;
 }
 
 
@@ -208,10 +204,10 @@
 	l.textColor = [UIColor grayColor];
 	l.backgroundColor = [UIColor clearColor];
 	
-	NSArray *arr = [self.records objectForKey:[keys objectAtIndex:section]];
+	NSArray *arr = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:section]];
 	
     if ([arr count] > 0) {
-        l.text = [keys objectAtIndex:section];
+        l.text = [ab.filteredKeys objectAtIndex:section];
     }
 	
 	return v;
@@ -220,17 +216,17 @@
 
 #pragma mark - TableviewDelegate Methods
 
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[self.searchBar resignFirstResponder];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
 	SVContactCell *tappedCell = (SVContactCell*)[tableView cellForRowAtIndexPath:indexPath];
 	
-	NSArray *sectionRecords = [self.records objectForKey:[keys objectAtIndex:indexPath.section]];
+	NSMutableArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section]];
 	
 	// Check if this contact has a phone number
-	if ([sectionRecords[indexPath.row] objectForKey:kMemberPhone] == nil) {
+	/*if ([sectionRecords[indexPath.row] objectForKey:kMemberPhone] == nil) {
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
 														message:NSLocalizedString(@"This user has no mobile phone number, you can't invite him.", @"")
@@ -258,7 +254,7 @@
 		NSLog(@"add contact %@", member);
 		[member setObject:[NSNumber numberWithBool:YES] forKey:@"selected"];
         [self addToContactsList:member];
-	}
+	}*/
 }
 
 
@@ -267,23 +263,21 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
 	[searchBar setShowsCancelButton:YES animated:YES];
-	self.tableView.frame = CGRectMake(0, 44, 320, self.view.frame.size.height-44);
+	[UIView animateWithDuration:0.3 animations:^{
+		self.tableView.frame = CGRectMake(0, 44, 320, self.view.frame.size.height-44-216);
+	}];
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
 	[searchBar setShowsCancelButton:NO animated:YES];
-	self.tableView.frame = CGRectMake(0, 44+75, 320, self.view.frame.size.height-44-75);
+	[UIView animateWithDuration:0.3 animations:^{
+		self.tableView.frame = CGRectMake(0, 44+75, 320, self.view.frame.size.height-44-75);
+	}];
 }
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 	
-	if(searchText.length == 0) {
-		NSLog(@"not first responder");
-        // user tapped the 'clear' button
-        //shouldBeginEditing = NO;
-        // do whatever I want to happen when the user clears the search...
+	if (searchText.length == 0) {
 		[searchBar resignFirstResponder];
     }
-	
-	stopCurrentSearch = YES;
 	[self handleSearchForText: searchText.length == 0 ? nil : searchText];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -296,71 +290,24 @@
 	[self handleSearchForText:nil];
 }
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)bar {
-    // reset the shouldBeginEditing BOOL ivar to YES, but first take its value and use it to return it from the method call
-    BOOL boolToReturn = shouldBeginEditing;
-    shouldBeginEditing = YES;
-    return boolToReturn;
+    return YES;
 }
 
+
+
 - (void) handleSearchForText:(NSString*)str {
-	
-	self.records = nil;
-	NSMutableArray *keys_ = [[NSMutableArray alloc] init];
-	
+	NSLog(@"handle search %@", str);
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		
-		self.records = [[NSMutableDictionary alloc] init];
-		NSLog(@"handle search string: %@", str);
-		for (int i=0; i<alphabet.count-1; i++) {
-			NSMutableArray *letterContacts = [NSMutableArray array];
-			for (NSMutableDictionary *member in self.allContacts) {
-				if (str == nil) {
-					if ([[[member objectForKey:kMemberFirstName] lowercaseString] hasPrefix:[alphabet[i] lowercaseString]]) {
-						[letterContacts addObject:member];
-					}
-				}
-				else {
-					if ([[[member objectForKey:kMemberFirstName] lowercaseString] hasPrefix:[alphabet[i] lowercaseString]] &&
-						[[[member objectForKey:kMemberNickname] lowercaseString] rangeOfString:[str lowercaseString]].location != NSNotFound) {
-						[letterContacts addObject:member];
-					}
-				}
-			}
-			//NSLog(@"%@ %i", [alphabet objectAtIndex:i], letterContacts.count);
-			if (letterContacts.count > 0) {
-				[keys_ addObject:[alphabet objectAtIndex:i]];
-				[self.records setObject:letterContacts forKey:[alphabet objectAtIndex:i]];
-			}
-		}
-		if (str == nil) {
-			NSArray *arr2 = [self filterNonAlphabetContacts:self.allContacts];
-			if (arr2.count > 0) {
-				[keys_ addObject:@"#"];
-				[self.records setObject:arr2 forKey:@"#"];
-			}
-		}
-		else {
-			NSMutableArray *letterContacts = [NSMutableArray array];
-			for (NSMutableDictionary *member in self.allContacts) {
-				if ([[[member objectForKey:kMemberNickname] lowercaseString] rangeOfString:[str lowercaseString]].location != NSNotFound) {
-					[letterContacts addObject:member];
-				}
-			}
-			if (letterContacts.count > 0) {
-				[keys_ addObject:@"#"];
-				[self.records setObject:letterContacts forKey:@"#"];
-			}
-		}
+		[ab filterByKeyword:str];
 		
-		keys = [NSArray arrayWithArray:keys_];
-		
-		if (self.records != nil) {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[self.tableView reloadData];
-			});
-		}
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSLog(@"reload table");
+			[self.tableView reloadData];
+		});
 	});
 }
+
 
 
 #pragma mark - Private Methods
@@ -391,7 +338,7 @@
 	[button setBackgroundImage:resizableImage forState:UIControlStateNormal];
 	[button addTarget:self action:@selector(removeContactFromList:) forControlEvents:UIControlEventTouchUpInside];
 	[self.addedContactsScrollView addSubview:button];
-	[self.contactsButtons addObject:button];
+	[contactsButtons addObject:button];
 	button.alpha = 0;
 	
     [self updateContacts];
@@ -409,10 +356,10 @@
 }
 -(void)removeContactFromTable:(NSMutableDictionary*)contact
 {
-	NSMutableArray *arr = self.contactsButtons;
+	NSMutableArray *arr = contactsButtons;
 	for (UIButton *but in arr) {
 		if (but.tag == [[contact objectForKey:@"tag"] intValue]) {
-			[self.contactsButtons removeObject:but];
+			[contactsButtons removeObject:but];
 			[but removeFromSuperview];
 			[self updateContacts];
 			break;
@@ -423,9 +370,9 @@
 -(void)removeContactFromList:(UIButton *)sender
 {
 	[sender removeFromSuperview];
-	[self.contactsButtons removeObject:sender];
+	[contactsButtons removeObject:sender];
 	
-	for (NSMutableDictionary *member in self.allContacts) {
+	for (NSMutableDictionary *member in ab.filteredContacts) {
 		if ([member[@"tag"] intValue] == sender.tag) {
 			[member setObject:[NSNumber numberWithBool:NO] forKey:@"selected"];
 			break;
@@ -441,7 +388,7 @@
 	int x_1 = 80;
 	int x_2 = 5;
 	
-	for (UIButton *but in self.contactsButtons) {
+	for (UIButton *but in contactsButtons) {
 		
 		CGRect frame;
 		
@@ -463,54 +410,18 @@
 	}
 	
 	[self.addedContactsScrollView setContentSize:(CGSizeMake(x_1 > x_2 ? x_1 : x_2, self.addedContactsScrollView.frame.size.height))];
-	self.navigationItem.rightBarButtonItem.enabled = self.contactsButtons.count > 0;
+	self.navigationItem.rightBarButtonItem.enabled = contactsButtons.count > 0;
 }
 
 
 -(void)loadShotVibeContacts
 {
-	NSLog(@"loadShotVibeContacts");
-    self.records = nil;
     [self.tableView reloadData];
 }
 
 -(void)loadAddressbookContacts
 {
-	SVAddressBookWS *workerSession = [[SVAddressBookWS alloc] init];
-    [workerSession searchContactsWithString:nil WithCompletion:^(NSArray *contacts, NSError *error) {
-		self.allContacts = contacts;
-		[self handleSearchForText:nil];
-		NSLog(@"search finished %i", [contacts count]);
-		
-		dispatch_async(dispatch_get_main_queue(), ^{
-			
-		});
-    }];
+	[self handleSearchForText:nil];
 }
-
-
-
-
-- (NSArray *)filterNonAlphabetContacts:(NSArray *)contacts
-{
-    return [contacts filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
-        
-        BOOL result = YES;
-        NSString * firstName = [evaluatedObject objectForKey:kMemberFirstName];
-        
-        for (NSString *letter in alphabet) {
-            
-            if ([letter isEqualToString:@"#"]) {
-                break;
-            }
-            else if ([[firstName lowercaseString] hasPrefix:[letter lowercaseString]]) {
-                result = NO;
-            }
-        }
-        
-        return result;
-    }]];
-}
-
 
 @end
