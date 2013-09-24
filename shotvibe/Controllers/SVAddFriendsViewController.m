@@ -108,14 +108,15 @@
 	
 	contactsButtons = [[NSMutableArray alloc] init];
 	selectedIds = [[NSMutableArray alloc] init];
-	ab = [[SVAddressBook alloc] init];
+	ab = [[SVAddressBook alloc] initWithBlock:^(BOOL granted, NSError *error) {
+		//[self loadShotVibeContacts];
+		[self loadAddressbookContacts];
+	}];
     
     CGRect segmentFrame = self.segmentControl.frame;
     segmentFrame.origin.y -= 1.5;
     self.segmentControl.frame = segmentFrame;
     
-    //[self loadShotVibeContacts];
-	[self loadAddressbookContacts];
 	
 //	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 //	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
@@ -166,8 +167,8 @@
 	ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
 	NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
 	
-    cell.titleLabel.text = [NSString stringWithFormat:@"%@", name];
-    cell.subtitleLabel.text = [NSString stringWithFormat:@"%@", phoneNumber];
+    cell.titleLabel.text = [NSString stringWithFormat:@"%@", name==nil?@"":name];
+    cell.subtitleLabel.text = [NSString stringWithFormat:@"%@", phoneNumber==nil?@"":phoneNumber];
 	
 	if (ABPersonHasImageData(record)) {
 		NSData *contactImageData = (__bridge_transfer NSData*) ABPersonCopyImageDataWithFormat(record, kABPersonImageFormatThumbnail);
@@ -331,7 +332,7 @@
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
 	button.titleLabel.shadowColor = [UIColor clearColor];
-	[button setTitle:name forState:UIControlStateNormal];
+	[button setTitle:(name==nil?@"---":name) forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[button setImage:[UIImage imageNamed:@"contactsX.png"] forState:UIControlStateNormal];
 	[button setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];

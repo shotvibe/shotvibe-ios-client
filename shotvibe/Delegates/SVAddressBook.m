@@ -15,7 +15,7 @@
 @implementation SVAddressBook
 
 
-- (id)init {
+- (id)initWithBlock:(AddressBookPermissionsBlock)completionBlock {
 	self = [super init];
 	if (self) {
 		//self.alphabet = @[@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z",@"#"];
@@ -34,20 +34,16 @@
 				CFArrayRef people = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering (addressBook, source, ABPersonGetSortOrdering());
 				self.allContacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(people)];
 				
-				// For testing purposes
-//				allContacts = [allContacts arrayByAddingObjectsFromArray:(__bridge NSArray *)(people)];
-//				allContacts = [allContacts arrayByAddingObjectsFromArray:(__bridge NSArray *)(people)];
-//				allContacts = [allContacts arrayByAddingObjectsFromArray:(__bridge NSArray *)(people)];
-//				allContacts = [allContacts arrayByAddingObjectsFromArray:(__bridge NSArray *)(people)];
-//				allContacts = [allContacts arrayByAddingObjectsFromArray:(__bridge NSArray *)(people)];
-//				allContacts = [allContacts arrayByAddingObjectsFromArray:(__bridge NSArray *)(people)];
-//				allContacts = [allContacts arrayByAddingObjectsFromArray:(__bridge NSArray *)(people)];
-//				
 				CFRelease(people);
 				CFRelease(source);
+				
+				if (completionBlock)
+                    completionBlock(YES,nil);
 			}
 			else {
 				NSLog(@"Unfortunately we need access to the contacts list");
+				if (completionBlock)
+                    completionBlock(NO,nil);
 			}
 		});
 	}

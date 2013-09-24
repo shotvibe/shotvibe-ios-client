@@ -8,12 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^AddressBookPermissionsBlock)(BOOL granted, NSError *error);
+
+
 @interface SVAddressBook : NSObject
 
 @property (nonatomic, strong) NSArray *allContacts;
 @property (nonatomic, strong) NSMutableDictionary *filteredContacts;// Filtered contacts grouped by alphabet letters
 @property (nonatomic, strong) NSArray *filteredKeys;
 
+- (id)initWithBlock:(AddressBookPermissionsBlock)completionBlock;
 - (void)filterByKeyword:(NSString*)keyword;
 - (NSString*)normalizePhoneNumber:(NSString*)phone;
 - (long long)idOfRecord:(ABRecordRef)record;
