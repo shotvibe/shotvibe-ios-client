@@ -71,6 +71,9 @@
 		if (keyword == nil || (name != nil && [[name lowercaseString] rangeOfString:keyword].location != NSNotFound))
 		{
 			NSString *key = [[name substringToIndex:1] uppercaseString];
+			if (key == nil || [key isEqualToString:@"_"]) {
+				key = @"#";
+			}
 			NSMutableArray *arr = [self.filteredContacts objectForKey:key];
 			if (arr == nil) {
 				arr = [[NSMutableArray alloc] init];
