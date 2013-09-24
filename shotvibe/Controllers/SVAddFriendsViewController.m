@@ -31,7 +31,7 @@
 {
 	SVAddressBook *ab;
 	NSMutableArray *contactsButtons;// list of selected contacts buttons
-	NSMutableArray *selectedContacts;// list of ids of the contacts that were selected
+	NSMutableArray *selectedIds;// list of ids of the contacts that were selected
 }
 
 #pragma mark - Actions
@@ -46,11 +46,16 @@
 	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
 	NSString *countryCode = [self.albumManager getShotVibeAPI].authData.defaultCountryCode;
 	
-	for (NSMutableDictionary *member in selectedContacts) {
-		if ([member[@"selected"] boolValue] == YES) {
-			NSLog(@"selected %@ countryCode %@", member, countryCode);
-			[contactsToInvite addObject:@{@"phone_number":member[@"phone"], @"default_country":countryCode, @"contact_nickname":member[@"nickname"]}];
-		}
+	for (id record in selectedIds) {
+		
+		ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)(record), kABPersonPhoneProperty);
+		
+		[contactsToInvite addObject:@{
+		 @"phone_number":(__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0),
+		 @"default_country":countryCode,
+		 @"contact_nickname":(__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(record))}];
+		
+		CFRelease(phoneNumbers);
 	}
 	
 	//[contactsToInvite addObject:@{@"phone_number": @"+40700000002", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
@@ -102,6 +107,7 @@
 	// Do any additional setup after loading the view.
 	
 	contactsButtons = [[NSMutableArray alloc] init];
+	selectedIds = [[NSMutableArray alloc] init];
 	ab = [[SVAddressBook alloc] init];
     
     CGRect segmentFrame = self.segmentControl.frame;
@@ -157,9 +163,11 @@
 	NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section]];
 	ABRecordRef record = (__bridge ABRecordRef)sectionRecords[indexPath.row];
 	NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName(record);
+	ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
+	NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
 	
     cell.titleLabel.text = [NSString stringWithFormat:@"%@", name];
-    cell.subtitleLabel.text = [NSString stringWithFormat:@"%@", name];
+    cell.subtitleLabel.text = [NSString stringWithFormat:@"%@", phoneNumber];
 	
 	if (ABPersonHasImageData(record)) {
 		NSData *contactImageData = (__bridge_transfer NSData*) ABPersonCopyImageDataWithFormat(record, kABPersonImageFormatThumbnail);
@@ -171,9 +179,10 @@
 		int rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
 		cell.contactIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"default-avatar-0%i.png", rndValue]];
 	}
+	CFRelease(phoneNumbers);
 	
-//	BOOL contains = [member[@"selected"] boolValue];
-//	cell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
+	BOOL contains = [selectedIds containsObject:(__bridge id)(record)];
+	cell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
     
     return cell;
 }
@@ -216,7 +225,7 @@
 
 #pragma mark - TableviewDelegate Methods
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[self.searchBar resignFirstResponder];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -224,9 +233,13 @@
 	SVContactCell *tappedCell = (SVContactCell*)[tableView cellForRowAtIndexPath:indexPath];
 	
 	NSMutableArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section]];
+	ABRecordRef record = (__bridge ABRecordRef)(sectionRecords[indexPath.row]);
+	ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
+	NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+	CFRelease(phoneNumbers);
 	
 	// Check if this contact has a phone number
-	/*if ([sectionRecords[indexPath.row] objectForKey:kMemberPhone] == nil) {
+	if (phoneNumber == nil) {
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
 														message:NSLocalizedString(@"This user has no mobile phone number, you can't invite him.", @"")
@@ -241,20 +254,15 @@
 	// Check if the tapped contact is already used.
 	// If yes, remove it
 	
-	NSMutableDictionary *member = [sectionRecords objectAtIndex:indexPath.row];
-	BOOL contains = [member[@"selected"] boolValue];
+	BOOL contains = [selectedIds containsObject:(__bridge id)(record)];
 	tappedCell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageUnselected":@"imageSelected"];
 	
 	if (contains) {
-		NSLog(@"remove contact %@", member);
-		[member setObject:[NSNumber numberWithBool:NO] forKey:@"selected"];
-		[self removeContactFromTable:member];
+		[self removeContactFromTable:record];
 	}
 	else {
-		NSLog(@"add contact %@", member);
-		[member setObject:[NSNumber numberWithBool:YES] forKey:@"selected"];
-        [self addToContactsList:member];
-	}*/
+        [self addToContactsList:record];
+	}
 }
 
 
@@ -312,24 +320,24 @@
 
 #pragma mark - Private Methods
 
--(void)addToContactsList:(NSMutableDictionary*)contact
+-(void)addToContactsList:(ABRecordRef)record
 {
-	//[contact setObject:[NSNumber numberWithBool:YES] forKey:@"selected"];
-	
-	NSString *firstName = [contact objectForKey:kMemberFirstName];
-	NSString *lastName = [contact objectForKey:kMemberLastName];
-	int tag = [[contact objectForKey:@"tag"] intValue];
+	//CFStringRef firstName = ABRecordCopyValue(record, kABPersonFirstNameProperty);
+	//CFStringRef lastName = ABRecordCopyValue(record, kABPersonLastNameProperty);
+	NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName(record);
+	long long tag = [ab idOfRecord:record];
 	
     //create a new dynamic button
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
 	button.titleLabel.shadowColor = [UIColor clearColor];
-	[button setTitle:([firstName isEqualToString:@""] ? lastName : firstName) forState:UIControlStateNormal];
+	[button setTitle:name forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[button setImage:[UIImage imageNamed:@"contactsX.png"] forState:UIControlStateNormal];
 	[button setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
 	[button setTag:tag];
 	[button sizeToFit];
+	NSLog(@"add %lli", (long long)button.tag);
 	
 	UIImage *baseImage = [UIImage imageNamed:@"butInvitedContacts.png"];
 	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
@@ -341,6 +349,7 @@
 	[contactsButtons addObject:button];
 	button.alpha = 0;
 	
+	[selectedIds addObject:(__bridge id)(record)];
     [self updateContacts];
 	
 	// Scroll to right only after we add a new contact not on removal
@@ -354,13 +363,15 @@
 		button.alpha = 1;
 	}];
 }
--(void)removeContactFromTable:(NSMutableDictionary*)contact
+-(void)removeContactFromTable:(ABRecordRef)record
 {
 	NSMutableArray *arr = contactsButtons;
 	for (UIButton *but in arr) {
-		if (but.tag == [[contact objectForKey:@"tag"] intValue]) {
+		if (but.tag == [ab idOfRecord:record]) {
+			NSLog(@"remove 1 %lli", (long long)but.tag);
 			[contactsButtons removeObject:but];
 			[but removeFromSuperview];
+			[selectedIds removeObject:(__bridge id)(record)];
 			[self updateContacts];
 			break;
 		}
@@ -369,18 +380,18 @@
 
 -(void)removeContactFromList:(UIButton *)sender
 {
-	[sender removeFromSuperview];
-	[contactsButtons removeObject:sender];
-	
-	for (NSMutableDictionary *member in ab.filteredContacts) {
-		if ([member[@"tag"] intValue] == sender.tag) {
-			[member setObject:[NSNumber numberWithBool:NO] forKey:@"selected"];
+	for (id record in selectedIds) {
+		if ([ab idOfRecord:(__bridge ABRecordRef)(record)] == sender.tag) {
+			NSLog(@"remove 2 %lli", (long long)sender.tag);
+			[selectedIds removeObject:record];
 			break;
 		}
 	}
 	
+	[sender removeFromSuperview];
+	[contactsButtons removeObject:sender];
 	[self updateContacts];
-    [self.tableView reloadData];
+	[self.tableView reloadData];
 }
 - (void)updateContacts {
 	

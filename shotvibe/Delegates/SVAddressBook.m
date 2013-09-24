@@ -21,7 +21,7 @@
 		//self.alphabet = @[@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z",@"#"];
 		self.filteredKeys = [[NSArray alloc] init];
 		self.filteredContacts = [[NSMutableDictionary alloc] init];
-		allContacts = [[NSArray alloc] init];
+		self.allContacts = [[NSArray alloc] init];
 		
 		// Get access to the addressbook
 		ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
@@ -32,7 +32,7 @@
 			if (granted) {
 				ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook); // or get the source with ABPersonCopySource(somePersonsABRecordRef);
 				CFArrayRef people = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering (addressBook, source, ABPersonGetSortOrdering());
-				allContacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(people)];
+				self.allContacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(people)];
 				
 				// For testing purposes
 //				allContacts = [allContacts arrayByAddingObjectsFromArray:(__bridge NSArray *)(people)];
@@ -45,14 +45,11 @@
 //				
 				CFRelease(people);
 				CFRelease(source);
-				NSLog(@"contacts completion");
 			}
 			else {
 				NSLog(@"Unfortunately we need access to the contacts list");
 			}
 		});
-		
-		NSLog(@"fin init");
 	}
 	return self;
 }
@@ -64,7 +61,7 @@
 	
 	// Iterate over original contacts
 	
-	for (id evaluatedObject in allContacts) {
+	for (id evaluatedObject in self.allContacts) {
 		
 		NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)evaluatedObject);
 		
@@ -88,12 +85,39 @@
 			else {
 				for (CFIndex i = 0; i < num; i++) {
 					
-					NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
-					
-					if (phoneNumber != nil && phoneNumber.length > 0) {
-						//[aCopyMember setObject:phoneNumber forKey:kMemberPhone];
+					if (i > 0) {
+						// Create a separate contact with the alternative phone numbers of a contact
+						NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
+						if (phoneNumber != nil && phoneNumber.length > 0) {
+							
+							ABRecordRef persona = ABPersonCreate();
+							
+							CFStringRef firstName = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonFirstNameProperty);
+							CFStringRef lastName = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonLastNameProperty);
+							ABRecordSetValue (persona, kABPersonFirstNameProperty, firstName, nil);
+							ABRecordSetValue (persona, kABPersonLastNameProperty, lastName, nil);
+							//CFRelease(firstName);
+							//CFRelease(lastName);
+							
+							ABMutableMultiValueRef multiPhone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+							bool didAddPhone = ABMultiValueAddValueAndLabel(multiPhone, (__bridge CFTypeRef)(phoneNumber), kABPersonPhoneMobileLabel, NULL);
+							if (didAddPhone){
+								ABRecordSetValue(persona, kABPersonPhoneProperty, multiPhone, nil);
+							}
+							CFRelease(multiPhone);
+							
+							if (ABPersonHasImageData((__bridge ABRecordRef)evaluatedObject)) {
+								ABPersonSetImageData(persona, ABPersonCopyImageDataWithFormat((__bridge ABRecordRef)evaluatedObject, kABPersonImageFormatThumbnail), nil);
+							}
+							
+							[arr addObject:(__bridge id)(persona)];
+							
+							CFRelease(persona);
+						}
 					}
-					[arr addObject:evaluatedObject];
+					else {
+						[arr addObject:evaluatedObject];
+					}
 				}
 			}
 			
@@ -107,6 +131,21 @@
 	self.filteredKeys = [[self.filteredContacts allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 	
 	//NSLog(@"self.filteredContacts %@ %@", self.filteredKeys, self.filteredContacts);
+}
+
+- (long long)idOfRecord:(ABRecordRef)record {
+	
+	ABRecordID id_ = ABRecordGetRecordID(record);
+	
+	if (id_ == -1) {
+		ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
+		NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+		CFRelease(phoneNumbers);
+		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
+		phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+		return [phoneNumber longLongValue];
+	}
+	return id_;
 }
 
 
