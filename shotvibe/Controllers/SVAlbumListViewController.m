@@ -179,7 +179,7 @@
 	
 	self.refreshControl = [[UIRefreshControl alloc] init];
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-	[self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+	[self.refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
 	[self updateEmptyState];
 	
 }
@@ -188,7 +188,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self refresh];
+     [self.albumManager refreshAlbumList];
     if (tappedCell != nil) {
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 	}
@@ -516,36 +516,36 @@
 
 #pragma mark UIRefreshView
 
-- (void)refresh
+- (void)beginRefreshing
 {
     [self.albumManager refreshAlbumList];
-}
-
-- (void)onAlbumListBeginRefresh
-{
 	if (!creatingAlbum) {
 		[self.refreshControl beginRefreshing];
 		self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
 	}
 }
-
-- (void)onAlbumListRefreshComplete:(NSArray *)albums
+- (void)endRefreshing
 {
 	[self.refreshControl endRefreshing];
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-	
-	[self setAlbumList:albums];
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
+}
+
+- (void)onAlbumListBeginRefresh
+{
+	NSLog(@"Albums begin refresh");
+}
+
+- (void)onAlbumListRefreshComplete:(NSArray *)albums
+{
 	
 	creatingAlbum = NO;
+	[self setAlbumList:albums];
 	[self updateEmptyState];
 }
 
 - (void)onAlbumListRefreshError:(NSError *)error
 {
-    [self.refreshControl endRefreshing];
-	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-
     // TODO ...
 }
 

@@ -142,8 +142,6 @@ NSDictionary * parseQueryParameters(NSString * query)
     NSAssert([self.window.rootViewController isKindOfClass:[UINavigationController class]], @"Error");
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
 	
-	[navigationController.view insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background"]] atIndex:0];
-	
     NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
     registrationViewController.albumManager = albumManager;

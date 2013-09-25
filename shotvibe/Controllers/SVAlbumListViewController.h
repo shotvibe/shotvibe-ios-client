@@ -18,9 +18,6 @@
 																UISearchBarDelegate,
 																AlbumListListener,
 																SVCameraPickerDelegate>
-{
-	
-}
 
 @property (nonatomic, strong) AlbumManager *albumManager;
 
