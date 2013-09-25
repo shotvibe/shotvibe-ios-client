@@ -61,7 +61,10 @@
 		
 		NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)evaluatedObject);
 		
-		if (keyword == nil || (name != nil && [[name lowercaseString] rangeOfString:keyword].location != NSNotFound))
+		if (name == nil) {
+			continue;
+		}
+		if (keyword == nil || [[name lowercaseString] rangeOfString:keyword].location != NSNotFound)
 		{
 			NSString *key = [[name substringToIndex:1] uppercaseString];
 			if (key == nil || [key isEqualToString:@"_"]) {
@@ -84,7 +87,8 @@
 					if (i > 0) {
 						// Create a separate contact with the alternative phone numbers of a contact
 						NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
-						if (phoneNumber != nil && phoneNumber.length > 0) {
+						NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+						if (phoneNumber != nil && phoneNumber.length > 0 && phoneNumericNumber.length > 0) {
 							
 							ABRecordRef persona = ABPersonCreate();
 							
@@ -163,6 +167,7 @@
 		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
 		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"*" withString:@""];
 		//phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+		NSLog(@"phoneNumber %@", phoneNumber);
 		long long i = [phoneNumber longLongValue];
 		return i/64;
 	}
