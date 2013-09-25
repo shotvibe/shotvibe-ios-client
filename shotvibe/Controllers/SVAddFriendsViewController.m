@@ -237,10 +237,12 @@
 	ABRecordRef record = (__bridge ABRecordRef)(sectionRecords[indexPath.row]);
 	ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
 	NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+	NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
 	CFRelease(phoneNumbers);
+	//NSLog(@"%@ %@", phoneNumber, phoneNumericNumber);
 	
 	// Check if this contact has a phone number
-	if (phoneNumber == nil) {
+	if (phoneNumber == nil || phoneNumericNumber.length == 0) {
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
 														message:NSLocalizedString(@"This user has no mobile phone number, you can't invite him.", @"")
@@ -369,7 +371,7 @@
 	NSMutableArray *arr = contactsButtons;
 	for (UIButton *but in arr) {
 		if (but.tag == [ab idOfRecord:record]) {
-			NSLog(@"remove 1 %lli", (long long)but.tag);
+			NSLog(@"remove 1 %i", but.tag);
 			[contactsButtons removeObject:but];
 			[but removeFromSuperview];
 			[selectedIds removeObject:(__bridge id)(record)];
@@ -383,7 +385,7 @@
 {
 	for (id record in selectedIds) {
 		if ([ab idOfRecord:(__bridge ABRecordRef)(record)] == sender.tag) {
-			NSLog(@"remove 2 %lli", (long long)sender.tag);
+			NSLog(@"remove 2 %i", sender.tag);
 			[selectedIds removeObject:record];
 			break;
 		}

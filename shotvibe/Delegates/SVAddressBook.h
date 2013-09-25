@@ -20,6 +20,6 @@ typedef void(^AddressBookPermissionsBlock)(BOOL granted, NSError *error);
 - (id)initWithBlock:(AddressBookPermissionsBlock)completionBlock;
 - (void)filterByKeyword:(NSString*)keyword;
 - (NSString*)normalizePhoneNumber:(NSString*)phone;
-- (long long)idOfRecord:(ABRecordRef)record;
+- (int)idOfRecord:(ABRecordRef)record;
 
 @end
