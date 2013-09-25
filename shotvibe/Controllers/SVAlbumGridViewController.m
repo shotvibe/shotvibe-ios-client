@@ -29,6 +29,7 @@
 {
     AlbumContents *albumContents;
     BOOL isMenuShowing;
+	BOOL refreshManualy;
     NSMutableArray *_objectChanges;
     NSMutableArray *_sectionChanges;
     NSMutableDictionary *thumbnailCache;
@@ -142,12 +143,11 @@
 	if (refresh == nil) {
 		refresh = [[UIRefreshControl alloc] init];
 		refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-		[refresh addTarget:self action:@selector(refreshView) forControlEvents:UIControlEventValueChanged];
+		[refresh addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
 		[self.gridView addSubview:refresh];
 		
 		// Remove the previous controller from the stack if it's SVCameraPickerController
 		NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-		//[allViewControllers removeObjectAtIndex:allViewControllers.count-2];
 		id lastController = allViewControllers[allViewControllers.count-2];
 		if ([lastController isKindOfClass:[SVCameraPickerController class]])
 			[allViewControllers removeObject:lastController];
@@ -165,8 +165,7 @@
 		  self.menuContainerViewController.rightMenuViewController,
 		  self.navigationController.viewControllers, self.toolbarItems);
 	
-	[refresh beginRefreshing];
-	[self.gridView setContentOffset:CGPointMake(0, -60) animated:YES];
+	// Silently refresh the photos
 	[self.albumManager refreshAlbumContents:self.albumId];
 	
 	self.toolbarItems = nil;
@@ -274,16 +273,6 @@
         cell.uploadProgressView.hidden = NO;
         cell.uploadProgressView.progress = 0.0f;
     }
-
-
-    /*
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0),^{
-		
-		dispatch_async(dispatch_get_main_queue(),^{
-			
-		});
-	});
-    */
     
     return cell;
 }
@@ -360,16 +349,14 @@
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId
 {
 	NSLog(@"begin refresh");
-	[refresh beginRefreshing];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing photos..."];
 }
 
 - (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
 {
 	NSLog(@"end refresh");
-	[refresh endRefreshing];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-
+	if (refreshManualy) {
+		[self endRefreshing];
+	}
     [self setAlbumContents:album];
 }
 
@@ -398,11 +385,22 @@
 }
 
 
-#pragma mark refresh control
 
-- (void)refreshView {
+
+#pragma mark UIRefreshView
+
+- (void)beginRefreshing
+{
     [self.albumManager refreshAlbumContents:self.albumId];
+	refreshManualy = YES;
+	[refresh beginRefreshing];
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing photos..."];
 }
-
+- (void)endRefreshing
+{
+	refreshManualy = NO;
+	[refresh endRefreshing];
+	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+}
 
 @end

@@ -26,6 +26,7 @@
     NSMutableArray *albumList;
     BOOL searchShowing;
 	BOOL creatingAlbum;
+	BOOL refreshManualy;
     NSMutableDictionary *thumbnailCache;
 	UIView *sectionView;
 	NSIndexPath *tappedCell;
@@ -520,16 +521,20 @@
 {
     [self.albumManager refreshAlbumList];
 	if (!creatingAlbum) {
+		refreshManualy = YES;
 		[self.refreshControl beginRefreshing];
 		self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
 	}
 }
 - (void)endRefreshing
 {
+	refreshManualy = NO;
 	[self.refreshControl endRefreshing];
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 }
+
+
 
 - (void)onAlbumListBeginRefresh
 {
@@ -538,10 +543,13 @@
 
 - (void)onAlbumListRefreshComplete:(NSArray *)albums
 {
-	
+	NSLog(@"Albums end refresh");
 	creatingAlbum = NO;
 	[self setAlbumList:albums];
 	[self updateEmptyState];
+	if (refreshManualy) {
+		[self endRefreshing];
+	}
 }
 
 - (void)onAlbumListRefreshError:(NSError *)error
