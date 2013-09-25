@@ -49,11 +49,12 @@
 	for (id record in selectedIds) {
 		
 		ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)(record), kABPersonPhoneProperty);
+		NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(record));
 		
 		[contactsToInvite addObject:@{
 		 @"phone_number":(__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0),
 		 @"default_country":countryCode,
-		 @"contact_nickname":(__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(record))}];
+		 @"contact_nickname":name==nil?@"":name}];
 		
 		CFRelease(phoneNumbers);
 	}
@@ -334,7 +335,7 @@
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
 	button.titleLabel.shadowColor = [UIColor clearColor];
-	[button setTitle:(name==nil?@"---":name) forState:UIControlStateNormal];
+	[button setTitle:(name==nil?@"":name) forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[button setImage:[UIImage imageNamed:@"contactsX.png"] forState:UIControlStateNormal];
 	[button setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];

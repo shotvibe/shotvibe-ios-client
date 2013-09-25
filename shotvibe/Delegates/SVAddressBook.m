@@ -124,26 +124,24 @@
 		}
 	}
 	
-	ABRecordRef persona = ABPersonCreate();
-	ABRecordSetValue (persona, kABPersonFirstNameProperty, @"", nil);
-	ABRecordSetValue (persona, kABPersonLastNameProperty, @"", nil);
-	ABMutableMultiValueRef multiPhone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-	bool didAddPhone = ABMultiValueAddValueAndLabel(multiPhone, @"Google", kABPersonPhoneMobileLabel, NULL);
-	if (didAddPhone){
-		ABRecordSetValue(persona, kABPersonPhoneProperty, multiPhone, nil);
-	}
+//	ABRecordRef persona = ABPersonCreate();
+//	ABRecordSetValue (persona, kABPersonFirstNameProperty, @"", nil);
+//	ABRecordSetValue (persona, kABPersonLastNameProperty, @"", nil);
+//	ABMutableMultiValueRef multiPhone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+//	bool didAddPhone = ABMultiValueAddValueAndLabel(multiPhone, @"Google", kABPersonPhoneMobileLabel, NULL);
+//	if (didAddPhone){
+//		ABRecordSetValue(persona, kABPersonPhoneProperty, multiPhone, nil);
+//	}
+//	
+//	NSMutableArray *arr = [self.filteredContacts objectForKey:@"#"];
+//	if (arr == nil) {
+//		arr = [[NSMutableArray alloc] init];
+//	}
+//	[arr addObject:(__bridge id)(persona)];
+//	[self.filteredContacts setObject:arr forKey:@"#"];
 	
-	NSMutableArray *arr = [self.filteredContacts objectForKey:@"#"];
-	if (arr == nil) {
-		arr = [[NSMutableArray alloc] init];
-	}
-	[arr addObject:(__bridge id)(persona)];
-	[self.filteredContacts setObject:arr forKey:@"#"];
-	
-	CFRelease(multiPhone);
-	//CFRelease(firstName);
-	//CFRelease(lastName);
-	CFRelease(persona);
+	//CFRelease(multiPhone);
+	//CFRelease(persona);
 	
 	self.filteredKeys = [[self.filteredContacts allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 	
