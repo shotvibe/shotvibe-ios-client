@@ -298,10 +298,10 @@
 	int h = self.view.frame.size.height;
 	
 	AlbumPhoto *photo = [photos objectAtIndex:i];
-	RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
+	NSString *photoId = photo.serverPhoto ? photo.serverPhoto.photoId : (photo.uploadingPhoto ? photo.uploadingPhoto.photoId : [NSString stringWithFormat:@"%i", i]);
+	RCScrollImageView *cachedImage = [cache objectForKey:photoId];
 	
-	//NSLog(@"loadPhoto %i %@", i, photo.serverPhoto.photoId);
-	//NSLog(@"acche keys %@", [cache allKeys]);
+	NSLog(@"loadPhoto %i %@", i, photoId);
     
     if (cachedImage == nil) {
 		
@@ -322,6 +322,9 @@
 			UIImage *localImage = [UIImage imageWithData:[NSData dataWithContentsOfFile:[photo.uploadingPhoto getFilename]]];
 			if (localImage != nil) {
 				[rcphoto setImage:localImage];
+				rcphoto.contentSize = cachedImage.image.size;
+				[rcphoto setMaxMinZoomScalesForCurrentBounds];
+				// Do not call loadComplete from here because the photo is not yet in cache, so you can't scale the photo
 			}
 		}
 		
@@ -357,12 +360,11 @@
 	}
 }
 - (void)onPhotoComplete:(NSNumber*)nr {
-	
+	NSLog(@"onPhotoComplete %@", nr);
 	AlbumPhoto *photo = [photos objectAtIndex:[nr intValue]];
 	RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
 	cachedImage.contentSize = cachedImage.image.size;
 	[cachedImage loadComplete];
-	[cachedImage.loadingIndicator stopAnimating];
 	[cachedImage setMaxMinZoomScalesForCurrentBounds];
 }
 - (void)onPhotoProgress:(NSNumber*)percentLoaded nr:(NSNumber*)nr{
@@ -487,7 +489,7 @@
 #pragma mark RCScrollView delegate
 
 - (void)areaTouched {
-	return;
+	/*
 	if (self.toolbarView.alpha == 0) {
 		[self setControlsHidden:NO animated:YES permanent:NO];
 		[self.view addSubview:self.toolbarView];
@@ -512,7 +514,7 @@
 //			self.toolbarView.hidden = YES;
 //		}];
 //		[self.navigationController setNavigationBarHidden:YES animated:YES];
-	}
+	}*/
 }
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)sender {
@@ -529,17 +531,13 @@
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
-		NSLog(@"double %i", sender.numberOfTouches);
 		AlbumPhoto *photo = [photos objectAtIndex:self.index];
 		RCScrollImageView *imageView = [cache objectForKey:photo.serverPhoto.photoId];
 		[imageView toggleZoom];
     }
 }
 
-//- (void)areaTouchedForExit {
-//	[self.navigationController popViewControllerAnimated:YES];
-//	if (self.navigationController.toolbar.hidden) [self areaTouched];
-//}
+
 
 #pragma mark - Control Hiding / Showing
 

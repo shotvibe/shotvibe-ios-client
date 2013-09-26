@@ -110,6 +110,7 @@
 }
 
 - (void)loadComplete {
+	[loadingIndicator stopAnimating];
 	imageView.frame = (CGRect){.size=imageView.image.size, .origin=CGPointMake(0, 0)};
 	NSLog(@"adjust the size of the RCImageView %@", NSStringFromCGRect(imageView.frame));
 }

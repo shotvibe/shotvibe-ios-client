@@ -167,7 +167,6 @@
 		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
 		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"*" withString:@""];
 		//phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
-		NSLog(@"phoneNumber %@", phoneNumber);
 		long long i = [phoneNumber longLongValue];
 		return i/64;
 	}
