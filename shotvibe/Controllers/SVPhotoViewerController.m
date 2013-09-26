@@ -18,6 +18,7 @@
 @interface SVPhotoViewerController ()
 
 @property (nonatomic, strong) UIView *toolbarView;
+@property (nonatomic, strong) UIButton *butTrash;
 @property (nonatomic, strong) UILabel *detailLabel;
 
 - (void)deleteButtonPressed;
@@ -37,9 +38,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor blackColor];
-	cache = [[NSMutableDictionary alloc] init];
-	photos = [NSMutableArray arrayWithArray:self.albumContents.photos];
 	
+	cache = [[NSMutableArray alloc] init];
+	photos = [NSMutableArray arrayWithArray:self.albumContents.photos];
+	for (id photo in photos) {
+		[cache addObject:[NSNull null]];
+	}
 	
     // Setup navigation buttons
 //    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
@@ -73,10 +77,10 @@
 	self.toolbarView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
 	self.toolbarView.alpha = 0;
 	
-	UIButton *butTrash = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-	[butTrash setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
-	[butTrash addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-	[self.toolbarView addSubview:butTrash];
+	self.butTrash = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+	[self.butTrash setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
+	[self.butTrash addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+	[self.toolbarView addSubview:self.butTrash];
     
 	UIButton *butShare = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 0, 44, 44)];
 	[butShare setImage:[UIImage imageNamed:@"exportIcon.png"] forState:UIControlStateNormal];
@@ -164,19 +168,24 @@
 	int h = self.view.frame.size.height;
 	int i = 0;
 	
-	for (AlbumPhoto *photo in photos) {
+	for (id photo in cache) {
 		
-		RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
-		cachedImage.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
-		[cachedImage setMaxMinZoomScalesForCurrentBounds];
-		cachedImage.hidden = NO;
-		i++;
+		RCScrollImageView *cachedImage;
 		
-		if (cachedImage.i == self.index) {
-			photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
-			photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
-			photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
-			[photosScrollView addSubview:cachedImage];
+		if ([photo isKindOfClass:[RCScrollImageView class]]) {
+			
+			cachedImage = photo;
+			cachedImage.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
+			[cachedImage setMaxMinZoomScalesForCurrentBounds];
+			cachedImage.hidden = NO;
+			i++;
+			
+			if (cachedImage.i == self.index) {
+				photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
+				photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
+				photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
+				[photosScrollView addSubview:cachedImage];
+			}
 		}
 	}
 }
@@ -185,33 +194,43 @@
 	
 	__block int w = self.view.frame.size.height;
 	__block int h = self.view.frame.size.width;
+	int i = 0;
 	
 	// Hide all the images except the visible one
-	for (AlbumPhoto *photo in photos) {
-		RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
-		if (cachedImage.i != self.index) {
-			cachedImage.hidden = YES;
+	for (id photo in cache) {
+		RCScrollImageView *cachedImage;
+		if ([photo isKindOfClass:[RCScrollImageView class]]) {
+			cachedImage = photo;
+			if (i != self.index) {
+				cachedImage.hidden = YES;
+			}
 		}
+		i++;
 	}
 	
-	if (w == 300) w = 320;
-	if (w == 460) w = 480;
-	if (h == 300) h = 320;
-	if (h == 460) h = 480;
+//	if (w == 300) w = 320;
+//	if (w == 460) w = 480;
+//	if (h == 300) h = 320;
+//	if (h == 460) h = 480;
 	
-	AlbumPhoto *photo = [photos objectAtIndex:self.index];
-	RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
-	CGRect rect = cachedImage.frame;
-	rect.origin.x = 0;
-	rect.origin.y = 0;
-	cachedImage.frame = rect;
-	[self.view addSubview:cachedImage];
-	NSLog(@"willRotateToInterfaceOrientation %@", NSStringFromCGRect(rect));
+	RCScrollImageView *cachedImage;
+	id photo = [cache objectAtIndex:self.index];
 	
-	// The method of animating the frame rather than using autoresizingMasks works better
-	[UIView animateWithDuration:duration animations:^{
-		cachedImage.frame = CGRectMake(0, 0, w, h);
-	}];
+	if ([photo isKindOfClass:[RCScrollImageView class]]) {
+		
+		cachedImage = photo;
+		CGRect rect = cachedImage.frame;
+		rect.origin.x = 0;
+		rect.origin.y = 0;
+		cachedImage.frame = rect;
+		[self.view addSubview:cachedImage];
+		NSLog(@"willRotateToInterfaceOrientation %@", NSStringFromCGRect(rect));
+		
+		// The method of animating the frame rather than using autoresizingMasks works better
+		[UIView animateWithDuration:duration animations:^{
+			cachedImage.frame = CGRectMake(0, 0, w, h);
+		}];
+	}
 	
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	
@@ -297,15 +316,12 @@
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	
+	id cachedImage = [cache objectAtIndex:i];
 	AlbumPhoto *photo = [photos objectAtIndex:i];
-	NSString *photoId = photo.serverPhoto ? photo.serverPhoto.photoId : (photo.uploadingPhoto ? photo.uploadingPhoto.photoId : [NSString stringWithFormat:@"%i", i]);
-	RCScrollImageView *cachedImage = [cache objectForKey:photoId];
 	
-	NSLog(@"loadPhoto %i %@", i, photoId);
-    
-    if (cachedImage == nil) {
+	if ([cachedImage isKindOfClass:[NSNull class]]) {
 		
-		// If the photo is not in cache try in the saved photos
+		// If the photo is not in cache load it
 		RCScrollImageView *rcphoto = [[RCScrollImageView alloc] initWithFrame:CGRectMake((w+GAP_X)*i, 0, w, h) delegate:self];
 		rcphoto.i = i;
 		//rcphoto.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;// do not autoresze it
@@ -322,23 +338,17 @@
 			UIImage *localImage = [UIImage imageWithData:[NSData dataWithContentsOfFile:[photo.uploadingPhoto getFilename]]];
 			if (localImage != nil) {
 				[rcphoto setImage:localImage];
-				rcphoto.contentSize = cachedImage.image.size;
+				rcphoto.contentSize = localImage.size;
 				[rcphoto setMaxMinZoomScalesForCurrentBounds];
 				// Do not call loadComplete from here because the photo is not yet in cache, so you can't scale the photo
 			}
 		}
 		
 		cachedImage = rcphoto;
-		NSString *key;
-		if (photo.serverPhoto) {
-			key = photo.serverPhoto.photoId;
-		} else {
-			key = photo.uploadingPhoto.photoId;
-		}
-		NSLog(@"cache photo: %@ %@ %@", photo.serverPhoto, photo.uploadingPhoto, key);
-		if (key) {
-			[cache setObject:rcphoto forKey:key];
-		}
+		
+		NSLog(@"cache photo: %i", i);
+		[cache replaceObjectAtIndex:i withObject:cachedImage];
+		
 		if (viewerType == PhotoViewerTypeScrollView) {
 			[photosScrollView addSubview:cachedImage];
 		}
@@ -361,8 +371,7 @@
 }
 - (void)onPhotoComplete:(NSNumber*)nr {
 	NSLog(@"onPhotoComplete %@", nr);
-	AlbumPhoto *photo = [photos objectAtIndex:[nr intValue]];
-	RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
+	RCScrollImageView *cachedImage = [cache objectAtIndex:[nr intValue]];
 	cachedImage.contentSize = cachedImage.image.size;
 	[cachedImage loadComplete];
 	[cachedImage setMaxMinZoomScalesForCurrentBounds];
@@ -442,7 +451,7 @@
 	if (h == 460) h = 480;
 	
 	AlbumPhoto *photo = [photos objectAtIndex:self.index];
-	RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
+	RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
 	
 	// Get the cell rect and adjust it to consider scroll offset
 	__block CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
@@ -531,8 +540,7 @@
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
-		AlbumPhoto *photo = [photos objectAtIndex:self.index];
-		RCScrollImageView *imageView = [cache objectForKey:photo.serverPhoto.photoId];
+		RCScrollImageView *imageView = [cache objectAtIndex:self.index];
 		[imageView toggleZoom];
     }
 }
@@ -591,15 +599,13 @@
 	
     // Dispose of any resources that can be recreated.
     
-	NSArray *keys = [cache allKeys];
 	int i = 0;
 	
-	for (NSString *key in keys) {
-		AlbumPhoto *photo = [photos objectAtIndex:i];
-		if (photo.serverPhoto && ![key isEqualToString:photo.serverPhoto.photoId]) {
-			RCScrollImageView *img = [cache objectForKey:key];
+	for (id photo in cache) {
+		if ([photo isKindOfClass:[RCScrollImageView class]] && self.index != i) {
+			RCScrollImageView *img = photo;
 			[img removeFromSuperview];
-			[cache removeObjectForKey:key];
+			[cache replaceObjectAtIndex:i withObject:[NSNull null]];
 		}
 		i++;
 	}
@@ -608,9 +614,10 @@
 	
 	NSLog(@"dealloc SVPhotosViewwerController");
 	
-	for (NSString *key in [cache allKeys]) {
-		RCImageView *img = [cache objectForKey:key];
-		[img removeFromSuperview];
+	for (id photo in cache) {
+		if ([photo isKindOfClass:[RCScrollImageView class]]) {
+			[photo removeFromSuperview];
+		}
 	}
 	[cache removeAllObjects];
 }
@@ -703,52 +710,56 @@
 			
 		case PhotoViewerTypeScrollView:
 		{
+			self.butTrash.enabled = NO;
+			
 			int w = self.view.frame.size.width;
 			int h = self.view.frame.size.height;
-			
-			AlbumPhoto *photoToDelete = [photos objectAtIndex:self.index];
-			RCImageView *cachedImage = [cache objectForKey:photoToDelete.serverPhoto.photoId];
+			NSLog(@"delete index %i %i", self.index, cache.count);
+			AlbumPhoto *photo = [photos objectAtIndex:self.index];
+			RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
 			
 			// Remove physical file and mark for deletion from server
 			//[[SVEntityStore sharedStore] deletePhoto:photoToDelete];
 			
 			// Remove from local array
-			[photos removeObject:photoToDelete];
+			[photos removeObject:photo];
 			
 			// Animate deleted photo to the trashbin
-			[UIView animateWithDuration:0.3
+			[UIView animateWithDuration:0.4
 							 animations:^{
 								 
-								 if (cachedImage) {
+								 if ([photo isKindOfClass:[RCScrollImageView class]]) {
 									 CGRect rect = cachedImage.frame;
 									 cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
 								 }
 							 }
 							 completion:^(BOOL finished){
 								 
-								 if (cachedImage) {
-									 [cachedImage removeFromSuperview];
-									 [cache removeObjectForKey:photoToDelete.serverPhoto.photoId];
-								 }
-							 }];
-			
-			// Iterate over all remaining photos and rearrange them in the scrollview
-			[UIView animateWithDuration:0.6
-							 animations:^{
+								[cachedImage removeFromSuperview];
+								[cache removeObject:cachedImage];
+								 [self loadPhoto:self.index+1 andPreloadNext:NO];
+								 NSLog(@"deleted at index %i %i", self.index, cache.count);
 								 
-								 int i = 0;
-								 for (AlbumPhoto *photo in photos) {
-									 RCScrollImageView *cachedImage = [cache objectForKey:photo.serverPhoto.photoId];
-									 if (cachedImage) {
-										 cachedImage.i = i;
-										 cachedImage.frame = CGRectMake((w+60)*i, 0, w, h);
-									 }
-									 i++;
-								 }
-							 }
-							 completion:^(BOOL finished){
-								 photosScrollView.contentSize = CGSizeMake((w+60)*[photos count], h);
-								 ((UIBarButtonItem*)self.toolbarItems[0]).enabled = YES;
+								 // Iterate over all remaining photos and rearrange them in the scrollview
+								 [UIView animateWithDuration:0.5
+												  animations:^{
+													  
+													  int i = 0;
+													  RCScrollImageView *cachedImage;
+													  for (id photo in cache) {
+														  if ([photo isKindOfClass:[RCScrollImageView class]]) {
+															  cachedImage = photo;
+															  cachedImage.i = i;
+															  cachedImage.frame = CGRectMake((w+60)*i, 0, w, h);
+														  }
+														  i++;
+													  }
+												  }
+												  completion:^(BOOL finished){
+													  photosScrollView.contentSize = CGSizeMake((w+60)*[photos count], h);
+													  self.butTrash.enabled = YES;
+													  NSLog(@"finish rearanging left photos %i", cache.count);
+												  }];
 							 }];
 		}break;
 	}
@@ -760,11 +771,9 @@
 
 - (void)exportButtonPressed
 {
-	//[self.navigationController setToolbarHidden:YES animated:YES];
-	
 	AlbumPhoto *photo = [photos objectAtIndex:self.index];
-	RCScrollImageView *imageView = [cache objectForKey:photo.serverPhoto.photoId];
-	UIImage *image = imageView.image;
+	RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
+	UIImage *image = cachedImage.image;
 	
 	if (activity == nil) {
 		activity = [[SVActivityViewController alloc] initWithNibName:@"SVActivityViewController" bundle:[NSBundle mainBundle]];

@@ -28,7 +28,7 @@ typedef enum {
 	RCScrollView *photosScrollView;
 	PhotoViewerType viewerType;
 	NSMutableArray *photos;
-	NSMutableDictionary *cache;
+	NSMutableArray *cache;
 	SVActivityViewController* activity;
 	BOOL toolVisible;
 }
