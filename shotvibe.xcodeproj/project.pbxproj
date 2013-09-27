@@ -455,6 +455,14 @@
 		2849A8A417EB0B410076AFBA /* default-avatar-04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A89A17EB0B410076AFBA /* default-avatar-04@2x.png */; };
 		2849A8A517EB0B410076AFBA /* default-avatar-05.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A89B17EB0B410076AFBA /* default-avatar-05.png */; };
 		2849A8A617EB0B410076AFBA /* default-avatar-05@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A89C17EB0B410076AFBA /* default-avatar-05@2x.png */; };
+		285EB93F17F55BDA00A33E5B /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB93C17F55BDA00A33E5B /* libAviarySDK.a */; };
+		285EB94017F55BDB00A33E5B /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 285EB93E17F55BDA00A33E5B /* AviarySDKResources.bundle */; };
+		285EB94217F55C8200A33E5B /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94117F55C8100A33E5B /* Accelerate.framework */; };
+		285EB94417F55C8C00A33E5B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94317F55C8C00A33E5B /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		285EB94617F55CA500A33E5B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94517F55CA500A33E5B /* CoreText.framework */; };
+		285EB94817F55CDD00A33E5B /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94717F55CDD00A33E5B /* libz.1.2.5.dylib */; };
+		285EB94A17F55CFA00A33E5B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94917F55CFA00A33E5B /* OpenGLES.framework */; };
+		285EB94C17F55D0A00A33E5B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94B17F55D0A00A33E5B /* StoreKit.framework */; };
 		2884E86117A24CFE00B382D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E85F17A24CFE00B382D9 /* Icon.png */; };
 		2884E86217A24CFE00B382D9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86017A24CFE00B382D9 /* Icon@2x.png */; };
 		2884E86617A24E7F00B382D9 /* SegmentButtonOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */; };
@@ -1093,6 +1101,22 @@
 		2849A89A17EB0B410076AFBA /* default-avatar-04@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-avatar-04@2x.png"; sourceTree = "<group>"; };
 		2849A89B17EB0B410076AFBA /* default-avatar-05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-avatar-05.png"; sourceTree = "<group>"; };
 		2849A89C17EB0B410076AFBA /* default-avatar-05@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-avatar-05@2x.png"; sourceTree = "<group>"; };
+		285EB93417F55BDA00A33E5B /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
+		285EB93517F55BDA00A33E5B /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
+		285EB93617F55BDA00A33E5B /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
+		285EB93717F55BDA00A33E5B /* AFPhotoEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorController.h; sourceTree = "<group>"; };
+		285EB93817F55BDA00A33E5B /* AFPhotoEditorControllerOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorControllerOptions.h; sourceTree = "<group>"; };
+		285EB93917F55BDA00A33E5B /* AFPhotoEditorCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorCustomization.h; sourceTree = "<group>"; };
+		285EB93A17F55BDA00A33E5B /* AFPhotoEditorProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorProduct.h; sourceTree = "<group>"; };
+		285EB93B17F55BDA00A33E5B /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorSession.h; sourceTree = "<group>"; };
+		285EB93C17F55BDA00A33E5B /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAviarySDK.a; sourceTree = "<group>"; };
+		285EB93E17F55BDA00A33E5B /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
+		285EB94117F55C8100A33E5B /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		285EB94317F55C8C00A33E5B /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		285EB94517F55CA500A33E5B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		285EB94717F55CDD00A33E5B /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		285EB94917F55CFA00A33E5B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		285EB94B17F55D0A00A33E5B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2884E85F17A24CFE00B382D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2884E86017A24CFE00B382D9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentButtonOutline.png; sourceTree = "<group>"; };
@@ -1325,24 +1349,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */,
+				285EB94417F55C8C00A33E5B /* AdSupport.framework in Frameworks */,
+				285EB94217F55C8200A33E5B /* Accelerate.framework in Frameworks */,
 				04204EFB178B45D9001FE127 /* AddressBook.framework in Frameworks */,
-				0426B6831724F3B5007BAABC /* CoreMedia.framework in Frameworks */,
 				0426B6741724EBE2007BAABC /* AssetsLibrary.framework in Frameworks */,
-				0426B6701724EBC4007BAABC /* ImageIO.framework in Frameworks */,
-				0499B911171E4D2900050596 /* MessageUI.framework in Frameworks */,
-				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
-				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
+				3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */,
+				0426B6831724F3B5007BAABC /* CoreMedia.framework in Frameworks */,
 				AA58FCFF16C235FD00C49E02 /* CFNetwork.framework in Frameworks */,
 				AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */,
+				285EB94617F55CA500A33E5B /* CoreText.framework in Frameworks */,
 				AA58FD0516C2364B00C49E02 /* CoreLocation.framework in Frameworks */,
 				AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */,
+				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
+				0426B6701724EBC4007BAABC /* ImageIO.framework in Frameworks */,
+				285EB93F17F55BDA00A33E5B /* libAviarySDK.a in Frameworks */,
+				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
+				285EB94817F55CDD00A33E5B /* libz.1.2.5.dylib in Frameworks */,
 				AA58FD0116C2361300C49E02 /* MobileCoreServices.framework in Frameworks */,
+				0499B911171E4D2900050596 /* MessageUI.framework in Frameworks */,
+				285EB94A17F55CFA00A33E5B /* OpenGLES.framework in Frameworks */,
 				AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */,
+				2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */,
+				285EB94C17F55D0A00A33E5B /* StoreKit.framework in Frameworks */,
 				AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */,
 				AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */,
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
-				3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1824,6 +1855,39 @@
 			path = DefaultAvatars;
 			sourceTree = "<group>";
 		};
+		285EB93217F55BDA00A33E5B /* AviarySDK */ = {
+			isa = PBXGroup;
+			children = (
+				285EB93317F55BDA00A33E5B /* Headers */,
+				285EB93C17F55BDA00A33E5B /* libAviarySDK.a */,
+				285EB93D17F55BDA00A33E5B /* Resources */,
+			);
+			path = AviarySDK;
+			sourceTree = SOURCE_ROOT;
+		};
+		285EB93317F55BDA00A33E5B /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				285EB93417F55BDA00A33E5B /* AFOpenGLManager.h */,
+				285EB93517F55BDA00A33E5B /* AFPhotoEditorContext.h */,
+				285EB93617F55BDA00A33E5B /* AFPhotoEditorController+InAppPurchase.h */,
+				285EB93717F55BDA00A33E5B /* AFPhotoEditorController.h */,
+				285EB93817F55BDA00A33E5B /* AFPhotoEditorControllerOptions.h */,
+				285EB93917F55BDA00A33E5B /* AFPhotoEditorCustomization.h */,
+				285EB93A17F55BDA00A33E5B /* AFPhotoEditorProduct.h */,
+				285EB93B17F55BDA00A33E5B /* AFPhotoEditorSession.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		285EB93D17F55BDA00A33E5B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				285EB93E17F55BDA00A33E5B /* AviarySDKResources.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		2884E86317A24D9900B382D9 /* little icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2148,6 +2212,12 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				285EB94B17F55D0A00A33E5B /* StoreKit.framework */,
+				285EB94917F55CFA00A33E5B /* OpenGLES.framework */,
+				285EB94717F55CDD00A33E5B /* libz.1.2.5.dylib */,
+				285EB94517F55CA500A33E5B /* CoreText.framework */,
+				285EB94317F55C8C00A33E5B /* AdSupport.framework */,
+				285EB94117F55C8100A33E5B /* Accelerate.framework */,
 				AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */,
 				AA58FAFC16C224E800C49E02 /* Foundation.framework */,
 				AA58FAFA16C224E800C49E02 /* UIKit.framework */,
@@ -2270,6 +2340,7 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				285EB93217F55BDA00A33E5B /* AviarySDK */,
 				2849A74017D5FEF60076AFBA /* IMAGIN */,
 				AA234835177AA3F600D55918 /* AFNetworking */,
 				04C404DC1730301500973BC0 /* CountryPicker */,
@@ -2945,6 +3016,7 @@
 				2849A8A617EB0B410076AFBA /* default-avatar-05@2x.png in Resources */,
 				280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */,
 				280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */,
+				285EB94017F55BDB00A33E5B /* AviarySDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3204,10 +3276,16 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "CONFIGURATION_$(CONFIGURATION)";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/AviarySDK\"",
+				);
 				LLVM_LTO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = ShotVibe;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
@@ -3314,10 +3392,16 @@
 				);
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/AviarySDK\"",
+				);
 				LLVM_LTO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = ShotVibe;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -3336,10 +3420,16 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "CONFIGURATION_$(CONFIGURATION)";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/AviarySDK\"",
+				);
 				LLVM_LTO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = ShotVibe;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;

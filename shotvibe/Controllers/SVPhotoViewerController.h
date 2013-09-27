@@ -14,6 +14,7 @@
 #import "SVLinkActivity.h"
 #import "SVActivityViewController.h"
 #import "AlbumContents.h"
+#import "AFPhotoEditorController.h"
 
 #define GAP_X 60
 
@@ -22,7 +23,7 @@ typedef enum {
 	PhotoViewerTypeScrollView
 } PhotoViewerType;
 
-@interface SVPhotoViewerController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, RCTableImageViewCellDelegate, SVActivityViewControllerDelegate> {
+@interface SVPhotoViewerController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, RCTableImageViewCellDelegate, SVActivityViewControllerDelegate, AFPhotoEditorControllerDelegate> {
 	
 	UITableView *photosTableView;
 	RCScrollView *photosScrollView;

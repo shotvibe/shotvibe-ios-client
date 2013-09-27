@@ -88,6 +88,12 @@
 	butShare.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 	[self.toolbarView addSubview:butShare];
     
+	UIButton *butEdit = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44-44-20, 0, 44, 44)];
+	[butEdit setImage:[UIImage imageNamed:@"editProfileImageIcon.png"] forState:UIControlStateNormal];
+	[butEdit addTarget:self action:@selector(displayEditor) forControlEvents:UIControlEventTouchUpInside];
+	butEdit.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+	[self.toolbarView addSubview:butEdit];
+    
 	[self showViewerOfType:PhotoViewerTypeScrollView];
 	
 	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
@@ -371,10 +377,13 @@
 }
 - (void)onPhotoComplete:(NSNumber*)nr {
 	NSLog(@"onPhotoComplete %@", nr);
-	RCScrollImageView *cachedImage = [cache objectAtIndex:[nr intValue]];
-	cachedImage.contentSize = cachedImage.image.size;
-	[cachedImage loadComplete];
-	[cachedImage setMaxMinZoomScalesForCurrentBounds];
+	id photo = [cache objectAtIndex:[nr intValue]];
+	if ([photo isKindOfClass:[RCScrollImageView class]]) {
+		RCScrollImageView *cachedImage = photo;
+		cachedImage.contentSize = cachedImage.image.size;
+		[cachedImage loadComplete];
+		[cachedImage setMaxMinZoomScalesForCurrentBounds];
+	}
 }
 - (void)onPhotoProgress:(NSNumber*)percentLoaded nr:(NSNumber*)nr{
 	
@@ -829,5 +838,43 @@
 	[activity closeAndClean:NO];
 }
 
+
+#pragma mark Aviary sdk
+#pragma mark Photo editing tool
+
+- (void)displayEditor
+{
+	AlbumPhoto *photo = [photos objectAtIndex:self.index];
+	RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
+	UIImage *imageToEdit = cachedImage.image;
+	
+    AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage:imageToEdit];
+    [editorController setDelegate:self];
+	
+    [self presentViewController:editorController animated:YES completion:nil];
+	
+}
+
+- (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
+
+{
+	
+    // Handle the result image here
+	[editor dismissViewControllerAnimated:YES completion:^{
+		
+	}];
+}
+
+
+
+- (void)photoEditorCanceled:(AFPhotoEditorController *)editor
+
+{
+	
+    // Handle cancellation here
+	[editor dismissViewControllerAnimated:YES completion:^{
+		
+	}];
+}
 
 @end
