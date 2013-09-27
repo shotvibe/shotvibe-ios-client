@@ -14,6 +14,7 @@
 #import "SVLinkActivity.h"
 #import "SVActivityViewController.h"
 #import "AlbumContents.h"
+#import "AlbumManager.h"
 #import "AFPhotoEditorController.h"
 
 #define GAP_X 60
@@ -37,6 +38,7 @@ typedef enum {
 #pragma mark - Properties
 
 @property (nonatomic, strong) AlbumContents *albumContents;
+@property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic) int index;
 
 @end

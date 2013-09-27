@@ -287,6 +287,7 @@
 	
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumContents = albumContents;
+	detailController.albumManager = self.albumManager;
 	detailController.index = indexPath.item;
 	detailController.wantsFullScreenLayout = YES;
 	

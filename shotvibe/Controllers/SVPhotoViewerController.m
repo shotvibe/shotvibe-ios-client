@@ -88,7 +88,7 @@
 	butShare.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 	[self.toolbarView addSubview:butShare];
     
-	UIButton *butEdit = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44-44-20, 0, 44, 44)];
+	UIButton *butEdit = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44-44-10, 0, 44, 44)];
 	[butEdit setImage:[UIImage imageNamed:@"editProfileImageIcon.png"] forState:UIControlStateNormal];
 	[butEdit addTarget:self action:@selector(displayEditor) forControlEvents:UIControlEventTouchUpInside];
 	butEdit.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
@@ -137,12 +137,6 @@
 	
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-	
-	[UIView animateWithDuration:0.4 animations:^{
-		//[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] applicationFrame]];
-	} completion:^(BOOL finished) {
-		
-	}];
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -184,7 +178,6 @@
 			cachedImage.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
 			[cachedImage setMaxMinZoomScalesForCurrentBounds];
 			cachedImage.hidden = NO;
-			i++;
 			
 			if (cachedImage.i == self.index) {
 				photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
@@ -193,6 +186,7 @@
 				[photosScrollView addSubview:cachedImage];
 			}
 		}
+		i++;
 	}
 }
 
@@ -203,39 +197,32 @@
 	int i = 0;
 	
 	// Hide all the images except the visible one
+	RCScrollImageView *cachedImage;
 	for (id photo in cache) {
-		RCScrollImageView *cachedImage;
 		if ([photo isKindOfClass:[RCScrollImageView class]]) {
+			
 			cachedImage = photo;
-			if (i != self.index) {
+			
+			if (i == self.index) {
+				
+				cachedImage.hidden = NO;
+				CGRect rect = cachedImage.frame;
+				rect.origin.x = 0;
+				rect.origin.y = 0;
+				cachedImage.frame = rect;
+				[self.view addSubview:cachedImage];
+				NSLog(@"willRotateToInterfaceOrientation %@", NSStringFromCGRect(rect));
+				
+				// The method of animating the frame rather than using autoresizingMasks works better
+				[UIView animateWithDuration:duration animations:^{
+					cachedImage.frame = CGRectMake(0, 0, w, h);
+				}];
+			}
+			else {
 				cachedImage.hidden = YES;
 			}
 		}
 		i++;
-	}
-	
-//	if (w == 300) w = 320;
-//	if (w == 460) w = 480;
-//	if (h == 300) h = 320;
-//	if (h == 460) h = 480;
-	
-	RCScrollImageView *cachedImage;
-	id photo = [cache objectAtIndex:self.index];
-	
-	if ([photo isKindOfClass:[RCScrollImageView class]]) {
-		
-		cachedImage = photo;
-		CGRect rect = cachedImage.frame;
-		rect.origin.x = 0;
-		rect.origin.y = 0;
-		cachedImage.frame = rect;
-		[self.view addSubview:cachedImage];
-		NSLog(@"willRotateToInterfaceOrientation %@", NSStringFromCGRect(rect));
-		
-		// The method of animating the frame rather than using autoresizingMasks works better
-		[UIView animateWithDuration:duration animations:^{
-			cachedImage.frame = CGRectMake(0, 0, w, h);
-		}];
 	}
 	
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -495,12 +482,12 @@
 	self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	[self updateInfoOnScreen];
 	
-	int w = self.view.frame.size.width;
-	int h = self.view.frame.size.height;
+//	int w = self.view.frame.size.width;
+//	int h = self.view.frame.size.height;
 	
 	RCScrollImageView *image = [self loadPhoto:self.index andPreloadNext:YES];
-	image.frame = CGRectMake((w+GAP_X)*self.index, 0, w, h);
-	[photosScrollView addSubview:image];
+//	image.frame = CGRectMake((w+GAP_X)*self.index, 0, w, h);
+//	[photosScrollView addSubview:image];
 }
 
 
@@ -652,20 +639,16 @@
 	}
 	
     AlbumPhoto *photo = [photos objectAtIndex:self.index];
-	NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
-															dateStyle:NSDateFormatterLongStyle
-															timeStyle:NSDateFormatterShortStyle];
 	
-	NSString *str = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.authorNickname, dateFormated];
-	self.detailLabel.text = str;
-
-	/*
-	if (photo.hasViewed.intValue == NO) {
-		//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-			[[SVEntityStore sharedStore] setPhotoAsViewed:photo.photo_id];
-		//});
+	if (photo.serverPhoto) {
+		NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
+																dateStyle:NSDateFormatterLongStyle
+																timeStyle:NSDateFormatterShortStyle];
+		self.detailLabel.text = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.authorNickname, dateFormated];
 	}
-     */
+	else {
+		self.detailLabel.text = NSLocalizedString(@"Uploading photo...", @"");
+	}
 }
 
 
@@ -673,7 +656,7 @@
 
 - (void)deleteButtonPressed
 {
-	((UIBarButtonItem*)self.toolbarItems[0]).enabled = NO;
+	//((UIBarButtonItem*)self.toolbarItems[0]).enabled = NO;
 	[self askIfOkToDelete];
 }
 
@@ -746,7 +729,7 @@
 								 
 								[cachedImage removeFromSuperview];
 								[cache removeObject:cachedImage];
-								 [self loadPhoto:self.index+1 andPreloadNext:NO];
+								 [self loadPhoto:self.index+1 andPreloadNext:YES];
 								 NSLog(@"deleted at index %i %i", self.index, cache.count);
 								 
 								 // Iterate over all remaining photos and rearrange them in the scrollview
@@ -856,10 +839,39 @@
 }
 
 - (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
-
 {
+	// Save the image to disk
+	NSString *imagePath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto.jpg"];
+	NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto_thumb.jpg"];
 	
-    // Handle the result image here
+	dispatch_async(dispatch_get_global_queue(0, 0), ^{
+		
+		if ([UIImageJPEGRepresentation(image, 0.9) writeToFile:imagePath atomically:YES]) {
+			
+			CGSize newSize = CGSizeMake(200, 200);
+			
+			float oldWidth = image.size.width;
+			float scaleFactor = newSize.width / oldWidth;
+			
+			float newHeight = image.size.height * scaleFactor;
+			float newWidth = oldWidth * scaleFactor;
+			
+			UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+			[image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+			UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+			UIGraphicsEndImageContext();
+			
+			[UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				
+				// Upload the saved photo
+				PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
+				[self.albumManager.photoUploadManager uploadPhotos:self.albumContents.albumId photoUploadRequests:@[photoUploadRequest]];
+			});
+		}
+	});
+	// Handle the result image here
 	[editor dismissViewControllerAnimated:YES completion:^{
 		
 	}];
@@ -868,7 +880,6 @@
 
 
 - (void)photoEditorCanceled:(AFPhotoEditorController *)editor
-
 {
 	
     // Handle cancellation here
