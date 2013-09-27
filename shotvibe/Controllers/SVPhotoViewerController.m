@@ -39,8 +39,10 @@
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor blackColor];
 	
+	albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
+	
 	cache = [[NSMutableArray alloc] init];
-	photos = [NSMutableArray arrayWithArray:self.albumContents.photos];
+	photos = [NSMutableArray arrayWithArray:albumContents.photos];
 	for (id photo in photos) {
 		[cache addObject:[NSNull null]];
 	}
@@ -117,7 +119,7 @@
 	
 	[self setControlsHidden:YES animated:YES permanent:NO];
 	
-	self.title = self.albumContents.name;
+	self.title = albumContents.name;
 	[self updateInfoOnScreen];
 }
 - (void)viewDidAppear:(BOOL)animated
@@ -446,7 +448,7 @@
 	if (h == 300) h = 320;
 	if (h == 460) h = 480;
 	
-	AlbumPhoto *photo = [photos objectAtIndex:self.index];
+	//AlbumPhoto *photo = [photos objectAtIndex:self.index];
 	RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
 	
 	// Get the cell rect and adjust it to consider scroll offset
@@ -485,7 +487,8 @@
 //	int w = self.view.frame.size.width;
 //	int h = self.view.frame.size.height;
 	
-	RCScrollImageView *image = [self loadPhoto:self.index andPreloadNext:YES];
+	//RCScrollImageView *image =
+	[self loadPhoto:self.index andPreloadNext:YES];
 //	image.frame = CGRectMake((w+GAP_X)*self.index, 0, w, h);
 //	[photosScrollView addSubview:image];
 }
@@ -865,13 +868,16 @@
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
 				
+				[cache addObject:[NSNull null]];
+				
 				// Upload the saved photo
 				PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
-				[self.albumManager.photoUploadManager uploadPhotos:self.albumContents.albumId photoUploadRequests:@[photoUploadRequest]];
+				[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:@[photoUploadRequest]];
 			});
 		}
 	});
-	// Handle the result image here
+	
+	
 	[editor dismissViewControllerAnimated:YES completion:^{
 		
 	}];
@@ -886,6 +892,38 @@
 	[editor dismissViewControllerAnimated:YES completion:^{
 		
 	}];
+}
+
+
+
+#pragma mark content refresh
+
+- (void)onAlbumContentsBeginRefresh:(int64_t)albumId
+{
+	NSLog(@"begin refresh");
+}
+
+- (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
+{
+	NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>> reload data from length %i", photos.count);
+	albumContents = album;
+	photos = [NSMutableArray arrayWithArray:albumContents.photos];
+	self.index = photos.count - 1;
+	
+	[self loadPhoto:self.index andPreloadNext:YES];
+	[self updateInfoOnScreen];
+	
+	int w = self.view.frame.size.width;
+	int h = self.view.frame.size.height;
+	photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
+}
+
+- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
+{
+}
+
+- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId
+{
 }
 
 @end

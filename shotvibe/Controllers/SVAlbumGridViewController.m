@@ -286,7 +286,7 @@
 	NSLog(@"didSelectItemAtIndexPath %@ %@", indexPath, albumContents.photos);
 	
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
-    detailController.albumContents = albumContents;
+    detailController.albumId = self.albumId;
 	detailController.albumManager = self.albumManager;
 	detailController.index = indexPath.item;
 	detailController.wantsFullScreenLayout = YES;
@@ -345,6 +345,13 @@
 
     [self.gridView reloadData];
 	[self updateEmptyState];
+	
+	// If the viewer is open refresh it
+//	if ([self.navigationController.visibleViewController isKindOfClass:[SVPhotoViewerController class]]) {
+//		SVPhotoViewerController *controller = (SVPhotoViewerController*)self.navigationController.visibleViewController;
+//		controller.albumContents = albumContents;
+//		[controller reloadData];
+//	}
 }
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId

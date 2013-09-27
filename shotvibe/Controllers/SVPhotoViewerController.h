@@ -33,12 +33,13 @@ typedef enum {
 	NSMutableArray *cache;
 	SVActivityViewController* activity;
 	BOOL toolVisible;
+	AlbumContents *albumContents;
 }
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) AlbumContents *albumContents;
 @property (nonatomic, strong) AlbumManager *albumManager;
+@property (nonatomic, assign) int64_t albumId;
 @property (nonatomic) int index;
 
 @end
