@@ -16,6 +16,19 @@
 #import "ShotVibeAppDelegate.h"
 
 @interface SVPhotoViewerController ()
+{
+	
+	RCScrollView *photosScrollView;
+	NSMutableArray *photos;
+	NSMutableArray *cache;
+	SVActivityViewController* activity;
+	BOOL toolVisible;
+	BOOL navigatingNext;
+	AlbumContents *albumContents;
+	
+	UITapGestureRecognizer *singleTap;
+	UITapGestureRecognizer *doubleTap;
+}
 
 @property (nonatomic, strong) UIView *toolbarView;
 @property (nonatomic, strong) UIButton *butTrash;
@@ -25,7 +38,6 @@
 - (void)exportButtonPressed;
 - (void)toggleMenu;
 - (void)updateInfoOnScreen;
-- (void)showViewerOfType:(PhotoViewerType)type;
 @end
 
 @implementation SVPhotoViewerController
@@ -96,15 +108,34 @@
 	butEdit.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 	[self.toolbarView addSubview:butEdit];
     
-	[self showViewerOfType:PhotoViewerTypeScrollView];
+	self.navigationItem.rightBarButtonItem = nil;
+	self.wantsFullScreenLayout = YES;
 	
-	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+	int w = self.view.frame.size.width;
+	int h = self.view.frame.size.height;
+	
+	photosScrollView = [[RCScrollView alloc] initWithFrame:CGRectMake(0, 0, w+GAP_X, h)];
+	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
+	photosScrollView.scrollEnabled = YES;
+	photosScrollView.showsHorizontalScrollIndicator = NO;
+	photosScrollView.showsVerticalScrollIndicator = NO;
+	photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
+	photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+	photosScrollView.scrollDelegate = self;// set delegate
+	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
+	photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
+	[self.view addSubview:photosScrollView];
+	
+	RCScrollImageView *imageView = [self loadPhoto:self.index andPreloadNext:YES];
+	[photosScrollView addSubview:imageView];
+	
+	// Add gestures
+	
+	doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
 	doubleTap.numberOfTapsRequired = 2;
-	[photosScrollView addGestureRecognizer:doubleTap];
 	
-	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+	singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
 	singleTap.numberOfTapsRequired = 1;
-	[photosScrollView addGestureRecognizer:singleTap];
 	
 	[singleTap requireGestureRecognizerToFail:doubleTap];
 }
@@ -118,6 +149,13 @@
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 	
 	[self setControlsHidden:YES animated:YES permanent:NO];
+	
+	[photosScrollView addGestureRecognizer:doubleTap];
+	[photosScrollView addGestureRecognizer:singleTap];
+	
+	if (albumContents == nil) {
+		albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
+	}
 	
 	self.title = albumContents.name;
 	[self updateInfoOnScreen];
@@ -139,15 +177,33 @@
 	
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-}
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];NSLog(@"photos did disappear");
 	
-	//self.toolbarItems = nil;
-	[self.detailLabel removeFromSuperview];
-	self.detailLabel = nil;
-	[self.view removeFromSuperview];
+	[photosScrollView removeGestureRecognizer:doubleTap];
+	[photosScrollView removeGestureRecognizer:singleTap];
+	
+	[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
+	albumContents = nil;
+	
+	if (!navigatingNext) {
+		self.albumManager = nil;
+		photosScrollView.scrollDelegate = nil;
+		[photosScrollView removeFromSuperview];
+		photosScrollView = nil;
+		
+		photos = nil;
+		cache = nil;
+		activity = nil;
+		
+		singleTap = nil;
+		doubleTap = nil;
+	
+		[self.toolbarView removeFromSuperview];
+		self.toolbarView = nil;
+		self.butTrash = nil;
+		[self.detailLabel removeFromSuperview];
+		self.detailLabel = nil;
+	}
+	navigatingNext = NO;
 }
 
 
@@ -155,7 +211,7 @@
 #pragma mark Rotation
 
 - (BOOL)shouldAutorotate {
-	return (viewerType == PhotoViewerTypeScrollView);
+	return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -231,69 +287,6 @@
 }
 
 
-#pragma mark Viewer
-
-- (void)showViewerOfType:(PhotoViewerType)type {
-	viewerType = type;
-	
-	switch (viewerType) {
-		case PhotoViewerTypeTableView:
-		{
-			if (photosTableView == nil) {
-				photosTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height-44) style:UITableViewStylePlain];
-				//photosTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-				photosTableView.rowHeight = IMAGE_CELL_HEIGHT;
-//				photosTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-				photosTableView.separatorColor = [UIColor grayColor];
-				photosTableView.delegate = self;
-				photosTableView.dataSource = self;
-				photosTableView.backgroundColor = [UIColor blackColor];
-				[self.view addSubview:photosTableView];
-				[photosTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.index inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-				
-			}
-			photosTableView.alpha = 1;
-			photosTableView.userInteractionEnabled = YES;
-			[[UIApplication sharedApplication] setStatusBarHidden:NO];
-			[self.navigationController setToolbarHidden:YES animated:YES];
-			[self.navigationController setNavigationBarHidden:NO animated:YES];
-		}
-		break;
-		
-		case PhotoViewerTypeScrollView:
-		{
-			if (photosScrollView == nil) {
-				self.navigationItem.rightBarButtonItem = nil;
-				self.wantsFullScreenLayout = YES;
-				
-				int w = self.view.frame.size.width;
-				int h = self.view.frame.size.height;
-				
-				photosScrollView = [[RCScrollView alloc] initWithFrame:CGRectMake(0, 0, w+GAP_X, h)];
-				photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
-				photosScrollView.scrollEnabled = YES;
-				photosScrollView.showsHorizontalScrollIndicator = NO;
-				photosScrollView.showsVerticalScrollIndicator = NO;
-				photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
-				photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-				photosScrollView.scrollDelegate = self;// set delegate
-				photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
-				photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
-				if (photosTableView != nil) photosScrollView.alpha = 0;
-				[self.view addSubview:photosScrollView];
-				
-				RCScrollImageView *imageView = [self loadPhoto:self.index andPreloadNext:YES];
-				[photosScrollView addSubview:imageView];
-				[self updateInfoOnScreen];
-				
-				//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-				//[self.navigationController setToolbarHidden:YES animated:YES];
-				//[self.navigationController setNavigationBarHidden:YES animated:YES];
-			}
-		}
-		break;
-	}
-}
 
 #pragma mark load/unload photos
 
@@ -343,9 +336,7 @@
 		NSLog(@"cache photo: %i", i);
 		[cache replaceObjectAtIndex:i withObject:cachedImage];
 		
-		if (viewerType == PhotoViewerTypeScrollView) {
-			[photosScrollView addSubview:cachedImage];
-		}
+		[photosScrollView addSubview:cachedImage];
 	}
 	
 	if (preload) {
@@ -376,99 +367,6 @@
 - (void)onPhotoProgress:(NSNumber*)percentLoaded nr:(NSNumber*)nr{
 	
 }
-
-
-
-
-
-
-#pragma mark - UITableViewDataSource Methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return photos.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    RCTableImageViewCell *cell = (RCTableImageViewCell*)[tableView dequeueReusableCellWithIdentifier:@"SVPhotoViewerCell"];
-	self.index = indexPath.row;
-	
-	if (cell == nil) {
-		cell = [[RCTableImageViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SVPhotoViewerCell"];
-		cell.contentView.clipsToBounds = YES;
-		cell.delegate = self;
-	}
-	RCScrollImageView *image = [self loadPhoto:indexPath.row andPreloadNext:NO];
-	image.frame = CGRectMake(0, 5, 320, IMAGE_CELL_HEIGHT-40);
-	cell.largeImageView = image;
-	
-	// Add description
-	AlbumPhoto *photo = [photos objectAtIndex:self.index];
-	NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterShortStyle];
-	cell.detailLabel.text = [NSString stringWithFormat:@"%@ - %@", photo.serverPhoto.authorNickname, dateFormated];
-	
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-	//cell.backgroundColor = [UIColor whiteColor];
-	
-}
-
-- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-}
-
-
-#pragma mark - UITableViewDelegate Methods
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-	
-	tableView.userInteractionEnabled = NO;
-	self.index = indexPath.row;
-	[self showViewerOfType:PhotoViewerTypeScrollView];
-	
-	//
-	__block int w = self.view.frame.size.width;
-	__block int h = self.view.frame.size.height;
-	
-	
-	//AlbumPhoto *photo = [photos objectAtIndex:self.index];
-	RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
-	
-	// Get the cell rect and adjust it to consider scroll offset
-	__block CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
-	cellRect = CGRectOffset(cellRect, -tableView.contentOffset.x, -tableView.contentOffset.y);
-	
-//	RCTableImageViewCell *cell = (RCTableImageViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-//	__block CGRect r = [cell convertRect:cell.frame toView:self.view];
-	NSLog(@"zoom from %@", NSStringFromCGRect(cellRect));
-	cachedImage.frame = cellRect;
-	
-	[self.view addSubview:photosScrollView];
-	[self.view addSubview:cachedImage];
-	
-	[UIView animateWithDuration:0.4 animations:^{
-		cachedImage.frame = CGRectMake(0, 0, w, h);
-		photosTableView.alpha = 0;
-		photosScrollView.alpha = 1;
-	} completion:^(BOOL f){
-		cachedImage.frame = CGRectMake((w + GAP_X) * self.index, 0, w, h);
-		[photosScrollView addSubview:cachedImage];
-	}];
-}
-
-
 
 
 #pragma mark ScrollView delegate functions
@@ -630,19 +528,6 @@
 
 - (void)deleteButtonPressed
 {
-	//((UIBarButtonItem*)self.toolbarItems[0]).enabled = NO;
-	[self askIfOkToDelete];
-}
-
-- (void)deleteButtonPressedForIndex:(RCTableImageViewCell*)cell
-{
-	NSIndexPath *indexPath = [photosTableView indexPathForCell:cell];
-	self.index = indexPath.row;
-	[self deleteButtonPressed];
-}
-
-- (void)askIfOkToDelete {
-	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete picture", @"")
 													message:NSLocalizedString(@"Deleting this picture will delete it from the cloud as well, are you sure you want to continue?", @"")
 												   delegate:self
@@ -662,73 +547,63 @@
 
 - (void)deletePictureAtIndex:(int)i {
 	
-	switch (viewerType) {
-		case PhotoViewerTypeTableView:
-		{
-			NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.index inSection:0];
-			[photosTableView beginUpdates];
-			[photosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-			AlbumPhoto *photoToDelete = [photos objectAtIndex:self.index];
-			[photos removeObject:photoToDelete];
-			[photosTableView endUpdates];
-			((UIBarButtonItem*)self.toolbarItems[0]).enabled = YES;
-		}break;
-			
-		case PhotoViewerTypeScrollView:
-		{
-			self.butTrash.enabled = NO;
-			
-			int w = self.view.frame.size.width;
-			int h = self.view.frame.size.height;
-			NSLog(@"delete index %i %i", self.index, cache.count);
-			AlbumPhoto *photo = [photos objectAtIndex:self.index];
-			RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
-			
-			// Remove physical file and mark for deletion from server
-			//[[SVEntityStore sharedStore] deletePhoto:photoToDelete];
-			
-			// Remove from local array
-			[photos removeObject:photo];
-			
-			// Animate deleted photo to the trashbin
-			[UIView animateWithDuration:0.5
-							 animations:^{
-								 
-								 if ([photo isKindOfClass:[RCScrollImageView class]]) {
-									 CGRect rect = cachedImage.frame;
-									 cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
-								 }
-							 }
-							 completion:^(BOOL finished){
-								 
-								[cachedImage removeFromSuperview];
-								[cache removeObject:cachedImage];
-								 [self loadPhoto:self.index+1 andPreloadNext:YES];
-								 NSLog(@"deleted at index %i %i", self.index, cache.count);
-								 
-								 // Iterate over all remaining photos and rearrange them in the scrollview
-								 [UIView animateWithDuration:0.5
-												  animations:^{
-													  
-													  int i = 0;
-													  RCScrollImageView *cachedImage;
-													  for (id photo in cache) {
-														  if ([photo isKindOfClass:[RCScrollImageView class]]) {
-															  cachedImage = photo;
-															  cachedImage.i = i;
-															  cachedImage.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
-														  }
-														  i++;
-													  }
+	self.butTrash.enabled = NO;
+	
+	int w = self.view.frame.size.width;
+	int h = self.view.frame.size.height;
+	NSLog(@"delete index %i count %i", self.index, cache.count);
+	AlbumPhoto *photo = [photos objectAtIndex:self.index];
+	__block RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
+	[photos removeObjectAtIndex:self.index];
+	[cache removeObjectAtIndex:self.index];
+	
+	// Remove from server
+	NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
+	[photosToDelete addObject:@{@"photo_id":photo.serverPhoto.photoId}];
+	NSLog(@"delete photos %@", photosToDelete);
+	
+	// send request
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+		NSError *error;
+		[[self.albumManager getShotVibeAPI] deletePhotos:photosToDelete withError:&error];
+		NSLog(@"delete photo with error %@", error);
+	});
+	
+	// Animate deleted photo to the trashbin
+	[UIView animateWithDuration:0.5
+					 animations:^{
+						 
+						 if ([photo isKindOfClass:[RCScrollImageView class]]) {
+							 CGRect rect = cachedImage.frame;
+							 cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
+						 }
+					 }
+					 completion:^(BOOL finished){
+						 
+						 [cachedImage removeFromSuperview];
+						 [self loadPhoto:self.index+1 andPreloadNext:YES];
+						 
+						 // Iterate over all remaining photos and rearrange them in the scrollview
+						 [UIView animateWithDuration:0.5
+										  animations:^{
+											  // Shift the indexes and photos to the left
+											  int i = 0;
+											  RCScrollImageView *cachedImage_;
+											  for (id photo in cache) {
+												  if ([photo isKindOfClass:[RCScrollImageView class]]) {
+													  cachedImage_ = photo;
+													  cachedImage_.i = i;
+													  cachedImage_.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
 												  }
-												  completion:^(BOOL finished){
-													  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[photos count], h);
-													  self.butTrash.enabled = YES;
-													  NSLog(@"finish rearanging left photos %i", cache.count);
-												  }];
-							 }];
-		}break;
-	}
+												  i++;
+											  }
+										  }
+										  completion:^(BOOL finished){
+											  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[photos count], h);
+											  self.butTrash.enabled = YES;
+											  NSLog(@"finish rearanging left photos %i", cache.count);
+										  }];
+					 }];
 }
 
 
@@ -769,12 +644,6 @@
 	}];
 }
 
-- (void)shareButtonPressedForIndex:(RCTableImageViewCell*)cell {
-	NSIndexPath *indexPath = [photosTableView indexPathForCell:cell];
-	self.index = indexPath.row;
-	[self exportButtonPressed];
-}
-
 - (void)toggleMenu
 {
     [self.menuContainerViewController toggleRightSideMenuCompletion:^{
@@ -782,13 +651,11 @@
 	}];
 }
 -(void)activityDidClose {
-	if (viewerType == PhotoViewerTypeScrollView) {
-		NSLog(@"activity did close");
-		if (activity) {
-			activity.controller = nil;
-			activity.delegate = nil;
-			activity = nil;
-		}
+	NSLog(@"activity did close");
+	if (activity) {
+		activity.controller = nil;
+		activity.delegate = nil;
+		activity = nil;
 	}
 }
 -(void)activityDidStartSharing {
@@ -801,13 +668,14 @@
 
 - (void)displayEditor
 {
-	AlbumPhoto *photo = [photos objectAtIndex:self.index];
+	//AlbumPhoto *photo = [photos objectAtIndex:self.index];
 	RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
 	UIImage *imageToEdit = cachedImage.image;
 	
     AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage:imageToEdit];
     [editorController setDelegate:self];
 	
+	navigatingNext = YES;
     [self presentViewController:editorController animated:YES completion:nil];
 	
 }
@@ -848,7 +716,7 @@
 	
 	
 	[editor dismissViewControllerAnimated:YES completion:^{
-		
+		[editor setDelegate:nil];
 	}];
 }
 

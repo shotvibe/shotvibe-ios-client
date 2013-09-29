@@ -16,25 +16,13 @@
 #import "AlbumContents.h"
 #import "AlbumManager.h"
 #import "AFPhotoEditorController.h"
+#import "AlbumContentsListener.h"
 
 #define GAP_X 60
 
-typedef enum {
-	PhotoViewerTypeTableView,
-	PhotoViewerTypeScrollView
-} PhotoViewerType;
 
-@interface SVPhotoViewerController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, RCTableImageViewCellDelegate, SVActivityViewControllerDelegate, AFPhotoEditorControllerDelegate> {
-	
-	UITableView *photosTableView;
-	RCScrollView *photosScrollView;
-	PhotoViewerType viewerType;
-	NSMutableArray *photos;
-	NSMutableArray *cache;
-	SVActivityViewController* activity;
-	BOOL toolVisible;
-	AlbumContents *albumContents;
-}
+@interface SVPhotoViewerController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, RCTableImageViewCellDelegate, SVActivityViewControllerDelegate, AFPhotoEditorControllerDelegate, AlbumContentsListener>
+
 
 #pragma mark - Properties
 

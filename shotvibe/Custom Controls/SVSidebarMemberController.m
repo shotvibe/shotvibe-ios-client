@@ -99,8 +99,6 @@
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
 	[cell.memberLabel setText:member.nickname];
 	
-	NSLog(@"table enabled %i %i", tableView.userInteractionEnabled, cell.userInteractionEnabled);
-	
 	if (shotvibeAPI.authData.userId == member.memberId) {
 		
 		cell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);

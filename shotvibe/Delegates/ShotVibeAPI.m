@@ -681,6 +681,37 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     }
 }
 
+
+- (BOOL)deletePhotos:(NSArray *)photos withError:(NSError **)error
+{
+    NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
+                          photos, @"photos",
+                          nil];
+	NSLog(@"body %@", body);
+    NSError *jsonError;
+	
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
+	
+    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
+	
+    NSError *responseError;
+    Response *response = [self getResponse:@"/photos/delete/" method:@"POST" body:jsonData error:&responseError];
+	
+    if (responseError != nil) {
+		NSLog(@"responseError %@", responseError);
+        *error = responseError;
+		return NO;
+    }
+	
+    if ([response isError]) {
+		NSLog(@"response %@", response);
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+		return NO;
+    }
+	return YES;
+}
+
+
 - (BOOL)leaveAlbumWithId:(int64_t)albumId
 {
 	NSDictionary *body = [[NSDictionary alloc] init];

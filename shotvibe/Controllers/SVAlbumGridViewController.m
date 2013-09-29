@@ -30,8 +30,7 @@
     AlbumContents *albumContents;
     BOOL isMenuShowing;
 	BOOL refreshManualy;
-    NSMutableArray *_objectChanges;
-    NSMutableArray *_sectionChanges;
+	BOOL navigatingNext;
     NSMutableDictionary *thumbnailCache;
     UIRefreshControl *refresh;
 	CaptureNavigationController *cameraNavController;
@@ -109,8 +108,6 @@
 
 	self.gridView.alwaysBounceVertical = YES;
 	
-    _objectChanges = [NSMutableArray array];
-    _sectionChanges = [NSMutableArray array];
     thumbnailCache = [[NSMutableDictionary alloc] init];
 	
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -131,13 +128,21 @@
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = self;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
-	
-    albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
-    NSLog(@"-------view did load. ALBUM CONTENTS: %@ albumId %lld", albumContents, self.albumId);
-	[self setAlbumContents:albumContents];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];NSLog(@"photos grid will appear");
+	
+	if (albumContents == nil) {
+		albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
+		NSLog(@"-------view will appear. ALBUM CONTENTS, album id %lld", self.albumId);
+		[self setAlbumContents:albumContents];
+	}
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
 	
 	if (refresh == nil) {
@@ -172,15 +177,31 @@
 	self.menuContainerViewController.rightMenuViewController.toolbarItems = nil;
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];NSLog(@"photos grid will disappear");
 	
-	//[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
+	[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
+	albumContents = nil;
+	
+	if (!navigatingNext) {
+		self.albumManager = nil;
+		((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = nil;
+		((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = nil;
+		self.sideMenu = nil;
+		self.gridviewContainer = nil;
+		self.gridView = nil;
+		self.noPhotosView = nil;
+		self.butTakeVideo = nil;
+		self.butTakePicture = nil;
+		
+		
+	}
+	navigatingNext = NO;
 }
 
 - (void)dealloc {
-	[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
-	NSLog(@"dealloc %lli", self.albumId);
+	NSLog(@"dealloc SVAlbumGridViewController %lli", self.albumId);
 }
 
 #pragma mark Rotation
@@ -291,6 +312,7 @@
 	detailController.index = indexPath.item;
 	detailController.wantsFullScreenLayout = YES;
 	
+	navigatingNext = YES;
     [self.navigationController pushViewController:detailController animated:YES];
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 }
@@ -335,7 +357,7 @@
 
 -(void)setAlbumContents:(AlbumContents *)album
 {
-	NSLog(@"setAlbumContents after refresh %@", album.photos);
+	NSLog(@"setAlbumContents after refresh %@", album);
     albumContents = album;
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
