@@ -523,6 +523,7 @@
 		28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F877B217D1BB4B0051F528 /* MFSideMenuShadow.m */; };
 		28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F877B417D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m */; };
 		28F877BB17D299F80051F528 /* SVCameraOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F877BA17D299F80051F528 /* SVCameraOverlay.m */; };
+		28FC2C2917F886CC00AE24C3 /* SVAlbumGridSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2C2817F886CC00AE24C3 /* SVAlbumGridSection.m */; };
 		3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */; };
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
@@ -1194,6 +1195,8 @@
 		28F877B417D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MFSideMenuAdditions.m"; sourceTree = "<group>"; };
 		28F877B917D299F80051F528 /* SVCameraOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCameraOverlay.h; sourceTree = "<group>"; };
 		28F877BA17D299F80051F528 /* SVCameraOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVCameraOverlay.m; sourceTree = "<group>"; };
+		28FC2C2717F886CC00AE24C3 /* SVAlbumGridSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumGridSection.h; path = Views/SVAlbumGridSection.h; sourceTree = "<group>"; };
+		28FC2C2817F886CC00AE24C3 /* SVAlbumGridSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumGridSection.m; path = Views/SVAlbumGridSection.m; sourceTree = "<group>"; };
 		3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumServerPhoto.h; sourceTree = "<group>"; };
 		3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumServerPhoto.m; sourceTree = "<group>"; };
 		3B013BC517C3E7CA00135869 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
@@ -1454,6 +1457,8 @@
 				04E287F4173176F00044C17A /* SVImagePickerSelector.h */,
 				04E287F5173176F00044C17A /* SVImagePickerSelector.m */,
 				04E287F6173176F00044C17A /* SVImagePickerSelector.xib */,
+				28E94CA117C4B83E00874BDE /* CameraRollSection.h */,
+				28E94CA217C4B83F00874BDE /* CameraRollSection.m */,
 			);
 			name = Picker;
 			sourceTree = "<group>";
@@ -2303,6 +2308,8 @@
 				AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */,
 				04AFA7B6177CBEA700E32C6E /* SVAlbumGridViewCell.h */,
 				04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */,
+				28FC2C2717F886CC00AE24C3 /* SVAlbumGridSection.h */,
+				28FC2C2817F886CC00AE24C3 /* SVAlbumGridSection.m */,
 				0446EF001718927B00ED0076 /* SVSidebarAlbumMemberCell.h */,
 				0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */,
 				28D475D917AC375400C189AB /* SVSidebarAlbumManagementActivityCell.h */,
@@ -2401,8 +2408,6 @@
 				28F877B917D299F80051F528 /* SVCameraOverlay.h */,
 				28F877BA17D299F80051F528 /* SVCameraOverlay.m */,
 				28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */,
-				28E94CA117C4B83E00874BDE /* CameraRollSection.h */,
-				28E94CA217C4B83F00874BDE /* CameraRollSection.m */,
 				04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */,
 				04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */,
 			);
@@ -3184,6 +3189,7 @@
 				2849A80D17DDE61A0076AFBA /* UIImage+Scale.m in Sources */,
 				2849A82817E8B8BA0076AFBA /* SVProfilePicViewController.m in Sources */,
 				2849A82C17E8E0E00076AFBA /* SVImageCropViewController.m in Sources */,
+				28FC2C2917F886CC00AE24C3 /* SVAlbumGridSection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

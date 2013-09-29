@@ -11,7 +11,12 @@
 #import "AlbumContentsListener.h"
 #import "AlbumManager.h"
 
-@interface SVAlbumGridViewController : UIViewController <UIScrollViewDelegate, AlbumContentsListener, SVCameraPickerDelegate>
+typedef enum {
+	SortByDate,
+	SortByAuthor
+}SortType;
+
+@interface SVAlbumGridViewController : UIViewController <AlbumContentsListener, SVCameraPickerDelegate>
 
 #pragma mark - Properties
 
