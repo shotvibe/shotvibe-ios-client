@@ -169,10 +169,9 @@
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	int i = 0;
+	RCScrollImageView *cachedImage;
 	
 	for (id photo in cache) {
-		
-		RCScrollImageView *cachedImage;
 		
 		if ([photo isKindOfClass:[RCScrollImageView class]]) {
 			
@@ -443,10 +442,6 @@
 	__block int w = self.view.frame.size.width;
 	__block int h = self.view.frame.size.height;
 	
-	if (w == 300) w = 320;
-	if (w == 460) w = 480;
-	if (h == 300) h = 320;
-	if (h == 460) h = 480;
 	
 	//AlbumPhoto *photo = [photos objectAtIndex:self.index];
 	RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
@@ -494,36 +489,7 @@
 }
 
 
-#pragma mark RCScrollView delegate
-
-- (void)areaTouched {
-	/*
-	if (self.toolbarView.alpha == 0) {
-		[self setControlsHidden:NO animated:YES permanent:NO];
-		[self.view addSubview:self.toolbarView];
-		
-//		[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-//		//[self.navigationController setToolbarHidden:NO animated:YES];
-//		[self.view addSubview:self.toolbarView];
-//		[UIView animateWithDuration:0.4 animations:^{
-//			self.toolbarView.hidden = NO;
-//			self.toolbarView.alpha = 1;
-//		}];
-//		[self.navigationController setNavigationBarHidden:NO animated:YES];
-	}
-	else {
-		[self setControlsHidden:YES animated:YES permanent:NO];
-		
-//		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-//		//[self.navigationController setToolbarHidden:YES animated:YES];
-//		[UIView animateWithDuration:0.4 animations:^{
-//			self.toolbarView.alpha = 0;
-//		} completion:^(BOOL finished) {
-//			self.toolbarView.hidden = YES;
-//		}];
-//		[self.navigationController setNavigationBarHidden:YES animated:YES];
-	}*/
-}
+#pragma mark Tap gestures
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
@@ -594,7 +560,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-	NSLog(@"PhotoViewer did receive memory warning");
+	NSLog(@"PhotoViewer did receive memory warning %@", cache);
 	
     // Dispose of any resources that can be recreated.
     
@@ -602,7 +568,9 @@
 	
 	for (id photo in cache) {
 		if ([photo isKindOfClass:[RCScrollImageView class]] && self.index != i) {
+			NSLog(@"remove photo %i", i);
 			RCScrollImageView *img = photo;
+			img.delegate = nil;
 			[img removeFromSuperview];
 			[cache replaceObjectAtIndex:i withObject:[NSNull null]];
 		}
@@ -641,17 +609,20 @@
 		[self.toolbarView addSubview:self.detailLabel];
 	}
 	
-    AlbumPhoto *photo = [photos objectAtIndex:self.index];
+	NSString *str = NSLocalizedString(@"Uploading photo...", @"");
 	
-	if (photo.serverPhoto) {
-		NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
-																dateStyle:NSDateFormatterLongStyle
-																timeStyle:NSDateFormatterShortStyle];
-		self.detailLabel.text = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.authorNickname, dateFormated];
+	if (photos.count > self.index) {
+		
+		AlbumPhoto *photo = [photos objectAtIndex:self.index];
+		
+		if (photo.serverPhoto) {
+			NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
+																	dateStyle:NSDateFormatterLongStyle
+																	timeStyle:NSDateFormatterShortStyle];
+			str = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.authorNickname, dateFormated];
+		}
 	}
-	else {
-		self.detailLabel.text = NSLocalizedString(@"Uploading photo...", @"");
-	}
+    self.detailLabel.text = str;
 }
 
 
@@ -720,7 +691,7 @@
 			[photos removeObject:photo];
 			
 			// Animate deleted photo to the trashbin
-			[UIView animateWithDuration:0.4
+			[UIView animateWithDuration:0.5
 							 animations:^{
 								 
 								 if ([photo isKindOfClass:[RCScrollImageView class]]) {
@@ -745,13 +716,13 @@
 														  if ([photo isKindOfClass:[RCScrollImageView class]]) {
 															  cachedImage = photo;
 															  cachedImage.i = i;
-															  cachedImage.frame = CGRectMake((w+60)*i, 0, w, h);
+															  cachedImage.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
 														  }
 														  i++;
 													  }
 												  }
 												  completion:^(BOOL finished){
-													  photosScrollView.contentSize = CGSizeMake((w+60)*[photos count], h);
+													  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[photos count], h);
 													  self.butTrash.enabled = YES;
 													  NSLog(@"finish rearanging left photos %i", cache.count);
 												  }];
@@ -868,8 +839,6 @@
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
 				
-				[cache addObject:[NSNull null]];
-				
 				// Upload the saved photo
 				PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
 				[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:@[photoUploadRequest]];
@@ -900,7 +869,6 @@
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId
 {
-	NSLog(@"begin refresh");
 }
 
 - (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
@@ -908,6 +876,7 @@
 	NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>> reload data from length %i", photos.count);
 	albumContents = album;
 	photos = [NSMutableArray arrayWithArray:albumContents.photos];
+	[cache addObject:[NSNull null]];
 	self.index = photos.count - 1;
 	
 	[self loadPhoto:self.index andPreloadNext:YES];
@@ -915,6 +884,7 @@
 	
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
+	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[photos count], h);
 	photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
 }
 

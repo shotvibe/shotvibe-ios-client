@@ -16,6 +16,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+		self.delegate = self;
 		self.scrollEnabled = YES;
 		self.showsHorizontalScrollIndicator = NO;
 		self.showsVerticalScrollIndicator = NO;
@@ -24,7 +25,6 @@
 		self.decelerationRate = UIScrollViewDecelerationRateFast;
 		self.minimumZoomScale = 1.0;
 		self.maximumZoomScale = 1.0;
-		self.delegate = self;
 		//self.backgroundColor = [UIColor orangeColor];
 		//self.layer.borderWidth = 10;
 		//self.layer.borderColor = [UIColor lightGrayColor].CGColor;
