@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RCImageView.h"
+
 
 @interface SVAlbumGridSection : UICollectionReusableView
 
-@property(nonatomic) int section;
-@property(nonatomic, retain) IBOutlet UILabel *dateLabel;
+@property(nonatomic, retain) UILabel *dateLabel;
+@property(nonatomic, retain) RCImageView *imageView;
+
+- (void)setType:(int)type;
 
 @end

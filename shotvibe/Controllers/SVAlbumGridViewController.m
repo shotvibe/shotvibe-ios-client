@@ -45,6 +45,8 @@
 @property (nonatomic, strong) IBOutlet UIView *noPhotosView;
 @property (nonatomic, strong) IBOutlet UIButton *butTakeVideo;
 @property (nonatomic, strong) IBOutlet UIButton *butTakePicture;
+@property (nonatomic, strong) IBOutlet UIView *switchView;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *switchSort;
 
 - (void)toggleMenu;
 - (void)toggleManagement;
@@ -114,6 +116,7 @@
 	
 	sections = [[NSMutableDictionary alloc] init];
 	sectionsKeys = [[NSMutableArray alloc] init];
+	sort = [[NSUserDefaults standardUserDefaults] integerForKey:@"sort_photos"];
 	
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 		self.butTakePicture.enabled = NO;
@@ -132,7 +135,12 @@
 	self.navigationItem.backBarButtonItem = backButton;
 	
 	[self.gridView registerClass:[SVAlbumGridSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SVAlbumGridSection"];
-    
+	[self.gridView addSubview:self.switchView];
+	self.switchView.frame = CGRectMake(0, 0, 320, 45);
+	self.switchSort.frame = CGRectMake(200, 10, 320-207, 30);
+	[self.switchSort addTarget:self action:@selector(switchSortHandler:) forControlEvents:UIControlEventValueChanged];
+	self.switchSort.selectedSegmentIndex = sort;
+	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = self;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
 	
@@ -146,8 +154,9 @@
 	NSLog(@"-------view will appear. ALBUM CONTENTS, album id %lld %@ %@", self.albumId, self.albumManager, albumContents);
 	
 	if (albumContents == nil) {
-		AlbumContents *contents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
-		[self setAlbumContents:contents];
+		//AlbumContents *contents;
+		albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
+		//[self setAlbumContents:contents];
 	}
 	[self.albumManager refreshAlbumContents:self.albumId];
 }
@@ -191,6 +200,8 @@
 		self.noPhotosView = nil;
 		self.butTakeVideo = nil;
 		self.butTakePicture = nil;
+		[self.switchSort removeTarget:self action:@selector(switchSortHandler:) forControlEvents:UIControlEventValueChanged];
+		self.switchSort = nil;
 	}
 	navigatingNext = NO;
 }
@@ -305,8 +316,24 @@
 																			   forIndexPath:indexPath];
 		
 		// Modify the header
+		[header setType:sort];
+		
 		header.dateLabel.text = sectionsKeys[indexPath.section];
 		header.dateLabel.backgroundColor = [UIColor clearColor];
+		
+		if (sort == SortByAuthor) {
+			NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
+			AlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
+			
+			//Search through the members
+			for (AlbumMember *member in albumContents.members) {
+				if (photo.serverPhoto.authorUserId == member.memberId) {
+					[header.imageView loadNetworkImage:member.avatarUrl];
+					break;
+				}
+			}
+		}
+		
 		
 		return header;
 	}
@@ -383,12 +410,13 @@
 	
     self.title = albumContents.name;
 	
-	[self sortThumbsBy:SortByAuthor];
+	[self sortThumbsBy:sort];
     [self.gridView reloadData];
 	[self updateEmptyState];
 }
 - (void)sortThumbsBy:(SortType)sortType {
 	
+	sort = sortType;
 	[sectionsKeys removeAllObjects];
 	[sections removeAllObjects];
 	
@@ -426,6 +454,13 @@
 		[sections setObject:arr forKey:key];
 	}
 	NSLog(@"__________Keys after sorting %@", sectionsKeys);
+}
+- (void)switchSortHandler:(UISegmentedControl*)control {
+	sort = control.selectedSegmentIndex;
+	[self sortThumbsBy:sort];
+	[self.gridView reloadData];
+	[[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId
