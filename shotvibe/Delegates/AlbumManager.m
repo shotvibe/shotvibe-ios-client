@@ -162,7 +162,7 @@ enum RefreshStatus
 - (AlbumContents *)addAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener
 {
     AlbumContents *cachedAlbum = [shotvibeDB getAlbumContents:albumId];
-	NSLog(@"cached album photos %@", cachedAlbum.photos);
+	
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
     if (!data) {
         data = [[AlbumContentsData alloc] init];
@@ -170,7 +170,7 @@ enum RefreshStatus
     }
 
     [data.listeners addObject:listener];
-
+	
     if (data.refreshStatus == REFRESHING || data.refreshStatus == REFRESHING_UPDATE) {
         [listener onAlbumContentsBeginRefresh:albumId];
     }

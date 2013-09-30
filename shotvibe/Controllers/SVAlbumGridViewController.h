@@ -12,7 +12,7 @@
 #import "AlbumManager.h"
 
 typedef enum {
-	SortByDate,
+	SortByDate=0,
 	SortByAuthor
 }SortType;
 
