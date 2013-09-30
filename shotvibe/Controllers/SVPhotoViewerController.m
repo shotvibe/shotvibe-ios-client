@@ -14,6 +14,7 @@
 #import "AlbumServerPhoto.h"
 #import "UIImageView+AFNetworking.h"
 #import "ShotVibeAppDelegate.h"
+#import "MBProgressHUD.h"
 
 @interface SVPhotoViewerController ()
 {
@@ -557,58 +558,78 @@
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	NSLog(@"delete index %i count %i", self.index, cache.count);
+	
 	AlbumPhoto *photo = [photos objectAtIndex:self.index];
 	__block RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
-	[photos removeObjectAtIndex:self.index];
-	[cache removeObjectAtIndex:self.index];
 	
-	// Remove from server
-	NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
-	[photosToDelete addObject:@{@"photo_id":photo.serverPhoto.photoId}];
-	NSLog(@"delete photos %@", photosToDelete);
+	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
 	// send request
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		NSError *error;
+		
+		// Remove from server
+		NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
+		[photosToDelete addObject:@{@"photo_id":photo.serverPhoto.photoId}];
+		NSLog(@"delete photos %@", photosToDelete);
+		__block NSError *error;
 		[[self.albumManager getShotVibeAPI] deletePhotos:photosToDelete withError:&error];
 		NSLog(@"delete photo with error %@", error);
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[MBProgressHUD hideHUDForView:self.view animated:YES];
+		});
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if (error) {
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error connecting to the server at this time.", @"")
+																message:nil
+															   delegate:nil
+													  cancelButtonTitle:NSLocalizedString(@"Ok", @"")
+													  otherButtonTitles:nil];
+				[alert show];
+				self.butTrash.enabled = YES;
+			}
+			else {
+				// Animate deleted photo to the trashbin
+				[UIView animateWithDuration:0.5
+								 animations:^{
+									 
+									 if ([photo isKindOfClass:[RCScrollImageView class]]) {
+										 CGRect rect = cachedImage.frame;
+										 cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
+									 }
+								 }
+								 completion:^(BOOL finished){
+									 
+									 [photos removeObjectAtIndex:self.index];
+									 [cache removeObjectAtIndex:self.index];
+									 [cachedImage removeFromSuperview];
+									 [self loadPhoto:self.index+1 andPreloadNext:YES];
+									 
+									 // Iterate over all remaining photos and rearrange them in the scrollview
+									 [UIView animateWithDuration:0.5
+													  animations:^{
+														  // Shift the indexes and photos to the left
+														  int i = 0;
+														  RCScrollImageView *cachedImage_;
+														  for (id photo in cache) {
+															  if ([photo isKindOfClass:[RCScrollImageView class]]) {
+																  cachedImage_ = photo;
+																  cachedImage_.i = i;
+																  cachedImage_.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
+															  }
+															  i++;
+														  }
+													  }
+													  completion:^(BOOL finished){
+														  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[photos count], h);
+														  self.butTrash.enabled = YES;
+														  NSLog(@"finish rearanging left photos %i", cache.count);
+													  }];
+								 }];
+			}
+		});
 	});
-	
-	// Animate deleted photo to the trashbin
-	[UIView animateWithDuration:0.5
-					 animations:^{
-						 
-						 if ([photo isKindOfClass:[RCScrollImageView class]]) {
-							 CGRect rect = cachedImage.frame;
-							 cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
-						 }
-					 }
-					 completion:^(BOOL finished){
-						 
-						 [cachedImage removeFromSuperview];
-						 [self loadPhoto:self.index+1 andPreloadNext:YES];
-						 
-						 // Iterate over all remaining photos and rearrange them in the scrollview
-						 [UIView animateWithDuration:0.5
-										  animations:^{
-											  // Shift the indexes and photos to the left
-											  int i = 0;
-											  RCScrollImageView *cachedImage_;
-											  for (id photo in cache) {
-												  if ([photo isKindOfClass:[RCScrollImageView class]]) {
-													  cachedImage_ = photo;
-													  cachedImage_.i = i;
-													  cachedImage_.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
-												  }
-												  i++;
-											  }
-										  }
-										  completion:^(BOOL finished){
-											  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[photos count], h);
-											  self.butTrash.enabled = YES;
-											  NSLog(@"finish rearanging left photos %i", cache.count);
-										  }];
-					 }];
 }
 
 
