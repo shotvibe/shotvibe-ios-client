@@ -459,18 +459,19 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-	NSLog(@"PhotoViewer did receive memory warning %@", cache);
+	NSLog(@"PhotoViewer did receive memory warning %i %@", self.index, cache);
 	
     // Dispose of any resources that can be recreated.
     
 	int i = 0;
+	NSArray *cacheIter = [NSArray arrayWithArray:cache];
 	
-	for (id photo in cache) {
+	for (id photo in cacheIter) {
 		if ([photo isKindOfClass:[RCScrollImageView class]] && self.index != i) {
-			NSLog(@"remove photo %i", i);
-			RCScrollImageView *img = photo;
-			img.delegate = nil;
-			[img removeFromSuperview];
+			NSLog(@"remove photo from cache %i", i);
+			RCScrollImageView *cachedImage = photo;
+			cachedImage.delegate = nil;
+			[cachedImage removeFromSuperview];
 			[cache replaceObjectAtIndex:i withObject:[NSNull null]];
 		}
 		i++;
@@ -481,8 +482,12 @@
 	NSLog(@"dealloc SVPhotosViewwerController");
 	
 	for (id photo in cache) {
+		
 		if ([photo isKindOfClass:[RCScrollImageView class]]) {
-			[photo removeFromSuperview];
+			
+			RCScrollImageView *cachedImage = photo;
+			[cachedImage removeFromSuperview];
+			cachedImage.delegate = nil;
 		}
 	}
 	[cache removeAllObjects];
