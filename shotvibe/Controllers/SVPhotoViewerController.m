@@ -609,7 +609,14 @@
 									 [photos removeObjectAtIndex:self.index];
 									 [cache removeObjectAtIndex:self.index];
 									 [cachedImage removeFromSuperview];
-									 [self loadPhoto:self.index+1 andPreloadNext:YES];
+									 if (self.index >= photos.count) {
+										 self.index = photos.count - 1;
+										 [self loadPhoto:self.index andPreloadNext:YES];
+									 }
+									 else {
+										 [self loadPhoto:self.index+1 andPreloadNext:YES];
+									 }
+									 
 									 
 									 // Iterate over all remaining photos and rearrange them in the scrollview
 									 [UIView animateWithDuration:0.5
