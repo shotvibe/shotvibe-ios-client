@@ -15,17 +15,19 @@
 #import "UIImageView+AFNetworking.h"
 #import "ShotVibeAppDelegate.h"
 #import "MBProgressHUD.h"
+#import "RCScrollView.h"
+#import "RCImageView.h"
+#import "RCScrollImageView.h"
+#import "RCTableImageViewCell.h"
+#import "SVLinkActivity.h"
 
 @interface SVPhotoViewerController ()
 {
-	
 	RCScrollView *photosScrollView;
-	NSMutableArray *photos;
 	NSMutableArray *cache;
 	SVActivityViewController* activity;
 	BOOL toolVisible;
 	BOOL navigatingNext;
-	AlbumContents *albumContents;
 	
 	UITapGestureRecognizer *singleTap;
 	UITapGestureRecognizer *doubleTap;
@@ -52,39 +54,10 @@
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor blackColor];
 	
-	albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
-	
-	cache = [[NSMutableArray alloc] init];
-	photos = [NSMutableArray arrayWithArray:albumContents.photos];
-	for (id photo in photos) {
+	cache = [[NSMutableArray alloc] initWithCapacity:self.photos.count];
+	for (id photo in self.photos) {
 		[cache addObject:[NSNull null]];
 	}
-	
-    // Setup navigation buttons
-//    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
-//    self.navigationItem.rightBarButtonItem = menuButton;
-//	
-//	UIBarItem* flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
-//                                                  target: nil
-//                                                  action: nil];
-//    
-//	// Setup toolbar buttons
-//	UIImage* exportIcon = [UIImage imageNamed:@"exportIcon.png"];
-//	
-//	UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithImage: exportIcon
-//																   style: UIBarButtonItemStylePlain
-//																  target: self
-//																  action: @selector(exportButtonPressed)];
-//    
-//	UIImage* deleteIcon = [UIImage imageNamed:@"trashIcon.png"];
-//	
-//	UIBarButtonItem *previousButton = [[UIBarButtonItem alloc] initWithImage: deleteIcon
-//																	   style: UIBarButtonItemStylePlain
-//																	  target: self
-//																	  action: @selector(deleteButtonPressed)];
-//	
-//    self.toolbarItems = [NSArray arrayWithObjects:previousButton, flexibleSpace, nextButton, nil];
-//    self.navigationController.toolbarHidden = YES;
 	
 	// Add custom toolbar
 	self.toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, 320, 44)];
@@ -116,14 +89,14 @@
 	int h = self.view.frame.size.height;
 	
 	photosScrollView = [[RCScrollView alloc] initWithFrame:CGRectMake(0, 0, w+GAP_X, h)];
-	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
+	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
 	photosScrollView.scrollEnabled = YES;
 	photosScrollView.showsHorizontalScrollIndicator = NO;
 	photosScrollView.showsVerticalScrollIndicator = NO;
 	photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
 	photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 	photosScrollView.scrollDelegate = self;// set delegate
-	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
+	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
 	photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
 	[self.view addSubview:photosScrollView];
 	
@@ -143,7 +116,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];NSLog(@"photos will appear");
+	[super viewWillAppear:animated];NSLog(@"photos will appear %@", self.photos);
 	
     self.navigationController.navigationBar.translucent = YES;
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
@@ -154,11 +127,6 @@
 	[photosScrollView addGestureRecognizer:doubleTap];
 	[photosScrollView addGestureRecognizer:singleTap];
 	
-	if (albumContents == nil) {
-		albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
-	}
-	
-	self.title = albumContents.name;
 	[self updateInfoOnScreen];
 }
 - (void)viewDidAppear:(BOOL)animated
@@ -182,16 +150,13 @@
 	[photosScrollView removeGestureRecognizer:doubleTap];
 	[photosScrollView removeGestureRecognizer:singleTap];
 	
-	[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
-	albumContents = nil;
-	
 	if (!navigatingNext) {
 		self.albumManager = nil;
 		photosScrollView.scrollDelegate = nil;
 		[photosScrollView removeFromSuperview];
 		photosScrollView = nil;
 		
-		photos = nil;
+		self.photos = nil;
 		cache = nil;
 		activity = nil;
 		
@@ -239,7 +204,7 @@
 			
 			if (cachedImage.i == self.index) {
 				photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
-				photosScrollView.contentSize = CGSizeMake((w+GAP_X)*photos.count, h);
+				photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
 				photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
 				[photosScrollView addSubview:cachedImage];
 			}
@@ -294,7 +259,7 @@
 - (RCScrollImageView*)loadPhoto:(int)i andPreloadNext:(BOOL)preload {
 	
 	// Preload only one photo in advance
-	if (i > self.index + 1 || i >= photos.count) {
+	if (i > self.index + 1 || i >= self.photos.count) {
 		return nil;
 	}
 	if (i < self.index - 1 || i < 0) {
@@ -305,7 +270,7 @@
 	int h = self.view.frame.size.height;
 	
 	id cachedImage = [cache objectAtIndex:i];
-	AlbumPhoto *photo = [photos objectAtIndex:i];
+	AlbumPhoto *photo = [self.photos objectAtIndex:i];
 	
 	if ([cachedImage isKindOfClass:[NSNull class]]) {
 		
@@ -348,11 +313,11 @@
 }
 - (void)unloadPhoto:(int)i {
 	
-	if ([[photos objectAtIndex:i] isKindOfClass:[RCImageView class]]) {
-		[[photos objectAtIndex:i] cancel];
-		[[photos objectAtIndex:i] removeFromSuperview];
-		[photos removeObjectAtIndex:i];
-		[photos insertObject:[NSNull null] atIndex:i];
+	if ([[self.photos objectAtIndex:i] isKindOfClass:[RCImageView class]]) {
+		[[self.photos objectAtIndex:i] cancel];
+		[[self.photos objectAtIndex:i] removeFromSuperview];
+		[self.photos removeObjectAtIndex:i];
+		[self.photos insertObject:[NSNull null] atIndex:i];
 	}
 }
 - (void)onPhotoComplete:(NSNumber*)nr {
@@ -515,11 +480,12 @@
 	
 	NSString *str = NSLocalizedString(@"Uploading photo...", @"");
 	
-	if (photos.count > self.index) {
+	if (self.photos.count > self.index) {
 		
-		AlbumPhoto *photo = [photos objectAtIndex:self.index];
+		AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 		
 		if (photo.serverPhoto) {
+			NSLog(@"name %@", photo.serverPhoto.authorNickname);
 			NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
 																	dateStyle:NSDateFormatterLongStyle
 																	timeStyle:NSDateFormatterShortStyle];
@@ -564,7 +530,7 @@
 	int h = self.view.frame.size.height;
 	NSLog(@"delete index %i count %i", self.index, cache.count);
 	
-	AlbumPhoto *photo = [photos objectAtIndex:self.index];
+	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 	__block RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
 	
 	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -606,11 +572,11 @@
 								 }
 								 completion:^(BOOL finished){
 									 
-									 [photos removeObjectAtIndex:self.index];
+									 [self.photos removeObjectAtIndex:self.index];
 									 [cache removeObjectAtIndex:self.index];
 									 [cachedImage removeFromSuperview];
-									 if (self.index >= photos.count) {
-										 self.index = photos.count - 1;
+									 if (self.index >= self.photos.count) {
+										 self.index = self.photos.count - 1;
 										 [self loadPhoto:self.index andPreloadNext:YES];
 									 }
 									 else {
@@ -634,7 +600,7 @@
 														  }
 													  }
 													  completion:^(BOOL finished){
-														  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[photos count], h);
+														  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[self.photos count], h);
 														  self.butTrash.enabled = YES;
 														  NSLog(@"finish rearanging left photos %i", cache.count);
 													  }];
@@ -650,7 +616,7 @@
 
 - (void)exportButtonPressed
 {
-	AlbumPhoto *photo = [photos objectAtIndex:self.index];
+	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 	RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
 	UIImage *image = cachedImage.image;
 	
@@ -767,39 +733,6 @@
 	[editor dismissViewControllerAnimated:YES completion:^{
 		
 	}];
-}
-
-
-
-#pragma mark content refresh
-
-- (void)onAlbumContentsBeginRefresh:(int64_t)albumId
-{
-}
-
-- (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
-{
-	NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>> reload data from length %i", photos.count);
-	albumContents = album;
-	photos = [NSMutableArray arrayWithArray:albumContents.photos];
-	[cache addObject:[NSNull null]];
-	self.index = photos.count - 1;
-	
-	[self loadPhoto:self.index andPreloadNext:YES];
-	[self updateInfoOnScreen];
-	
-	int w = self.view.frame.size.width;
-	int h = self.view.frame.size.height;
-	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[photos count], h);
-	photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
-}
-
-- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
-{
-}
-
-- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId
-{
 }
 
 @end

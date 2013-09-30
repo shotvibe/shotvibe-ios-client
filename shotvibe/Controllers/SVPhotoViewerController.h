@@ -7,26 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RCScrollView.h"
-#import "RCImageView.h"
-#import "RCScrollImageView.h"
-#import "RCTableImageViewCell.h"
-#import "SVLinkActivity.h"
-#import "SVActivityViewController.h"
 #import "AlbumContents.h"
 #import "AlbumManager.h"
-#import "AFPhotoEditorController.h"
 #import "AlbumContentsListener.h"
+#import "SVActivityViewController.h"
+#import "AFPhotoEditorController.h"
 
 #define GAP_X 60
 
 
-@interface SVPhotoViewerController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, RCTableImageViewCellDelegate, SVActivityViewControllerDelegate, AFPhotoEditorControllerDelegate, AlbumContentsListener>
+@interface SVPhotoViewerController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, SVActivityViewControllerDelegate, AFPhotoEditorControllerDelegate, AlbumContentsListener>
 
 
 #pragma mark - Properties
 
 @property (nonatomic, strong) AlbumManager *albumManager;
+@property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic) int index;
 

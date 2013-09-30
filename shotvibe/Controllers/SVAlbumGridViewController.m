@@ -375,7 +375,9 @@
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumId = self.albumId;
 	detailController.albumManager = self.albumManager;
+	detailController.photos = [NSMutableArray arrayWithArray:albumContents.photos];
 	detailController.index = i;
+	detailController.title = albumContents.name;
 	detailController.wantsFullScreenLayout = YES;
 	
 	navigatingNext = YES;
