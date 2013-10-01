@@ -236,9 +236,11 @@
 {
 	if (albumContents.photos.count == 0) {
 		[self.gridView addSubview:self.noPhotosView];
+		self.switchView.hidden = YES;
 	}
 	else if ([self.noPhotosView isDescendantOfView:self.gridView] || [self.noPhotosView isDescendantOfView:self.view]) {
 		[self.noPhotosView removeFromSuperview];
+		self.switchView.hidden = NO;
 	}
 }
 

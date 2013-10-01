@@ -575,35 +575,41 @@
 									 [self.photos removeObjectAtIndex:self.index];
 									 [cache removeObjectAtIndex:self.index];
 									 [cachedImage removeFromSuperview];
-									 if (self.index >= self.photos.count) {
-										 self.index = self.photos.count - 1;
-										 [self loadPhoto:self.index andPreloadNext:YES];
+									 
+									 if (self.photos.count == 0) {
+										 [self.navigationController popViewControllerAnimated:YES];
 									 }
 									 else {
-										 [self loadPhoto:self.index+1 andPreloadNext:YES];
-									 }
-									 
-									 
-									 // Iterate over all remaining photos and rearrange them in the scrollview
-									 [UIView animateWithDuration:0.5
-													  animations:^{
-														  // Shift the indexes and photos to the left
-														  int i = 0;
-														  RCScrollImageView *cachedImage_;
-														  for (id photo in cache) {
-															  if ([photo isKindOfClass:[RCScrollImageView class]]) {
-																  cachedImage_ = photo;
-																  cachedImage_.i = i;
-																  cachedImage_.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
+										 if (self.index >= self.photos.count) {
+											 self.index = self.photos.count - 1;
+											 [self loadPhoto:self.index andPreloadNext:YES];
+										 }
+										 else {
+											 [self loadPhoto:self.index+1 andPreloadNext:YES];
+										 }
+										 
+										 
+										 // Iterate over all remaining photos and rearrange them in the scrollview
+										 [UIView animateWithDuration:0.5
+														  animations:^{
+															  // Shift the indexes and photos to the left
+															  int i = 0;
+															  RCScrollImageView *cachedImage_;
+															  for (id photo in cache) {
+																  if ([photo isKindOfClass:[RCScrollImageView class]]) {
+																	  cachedImage_ = photo;
+																	  cachedImage_.i = i;
+																	  cachedImage_.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
+																  }
+																  i++;
 															  }
-															  i++;
 														  }
-													  }
-													  completion:^(BOOL finished){
-														  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[self.photos count], h);
-														  self.butTrash.enabled = YES;
-														  NSLog(@"finish rearanging left photos %i", cache.count);
-													  }];
+														  completion:^(BOOL finished){
+															  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[self.photos count], h);
+															  self.butTrash.enabled = YES;
+															  NSLog(@"finish rearanging left photos %i", cache.count);
+														  }];
+									 }
 								 }];
 			}
 		});
