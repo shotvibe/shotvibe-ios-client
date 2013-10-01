@@ -20,31 +20,11 @@
 #import "AuthData.h"
 
 
-@interface SVSettingsViewController ()
-
-@end
-
 @implementation SVSettingsViewController
 
 #pragma mark - Initializers
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
 #pragma mark - View Lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -52,7 +32,7 @@
         SVWebViewController *destination = (SVWebViewController *)segue.destinationViewController;
         
         destination.title = @"Help";
-		destination.url = @"http://random.org";
+		destination.url = @"https://m.shotvibe.com/help.html";
     }
     else if ([segue.identifier isEqualToString:@"SettingsProfileSegue"]) {
         SVProfileViewController *destination = (SVProfileViewController *)segue.destinationViewController;

@@ -48,15 +48,15 @@
 	
     if ([segue.identifier isEqualToString:@"SettingsAttributionsSegue"]) {
         destination.title = @"Open Source Attributions";
-		destination.url = @"http://random.org";
+		destination.url = @"https://m.shotvibe.com/licenses.html";
     }
 	else if ([segue.identifier isEqualToString:@"SettingsTermsSegue"]) {
         destination.title = @"Terms Of Service";
-		destination.url = @"http://random.org";
+		destination.url = @"https://m.shotvibe.com/terms.html";
     }
 	else if ([segue.identifier isEqualToString:@"SettingsPrivacySegue"]) {
         destination.title = @"Privacy Policy";
-		destination.url = @"http://random.org";
+		destination.url = @"https://m.shotvibe.com/privacy.html";
     }
 }
 

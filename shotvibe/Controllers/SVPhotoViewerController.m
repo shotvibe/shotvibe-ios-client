@@ -720,6 +720,20 @@
 				// Upload the saved photo
 				PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
 				[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:@[photoUploadRequest]];
+				
+				// Add the photo manually in the array
+				AlbumUploadingPhoto *newUpload = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:photoUploadRequest album:self.albumId];
+				AlbumPhoto *photo = [[AlbumPhoto alloc] initWithAlbumUploadingPhoto:newUpload];
+				[self.photos addObject:photo];
+				[cache addObject:[NSNull null]];
+				
+				// Move the scrollbar to the new picture
+//				int w = self.view.frame.size.width;
+//				int h = self.view.frame.size.height;
+//				self.index = self.photos.count - 1;
+//				[self loadPhoto:self.index andPreloadNext:YES];
+//				photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
+//				photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
 			});
 		}
 	});
