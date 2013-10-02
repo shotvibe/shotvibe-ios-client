@@ -21,6 +21,7 @@
 @property (nonatomic, weak) IBOutlet UIScrollView *addedContactsScrollView;
 @property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *segmentControl;
+@property (nonatomic, weak) IBOutlet UIView *noContactsView;
 
 - (IBAction)cancelPressed:(id)sender;
 - (IBAction)donePressed:(id)sender;
@@ -107,11 +108,18 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
+	self.noContactsView.hidden = YES;
+	
 	contactsButtons = [[NSMutableArray alloc] init];
 	selectedIds = [[NSMutableArray alloc] init];
 	ab = [[SVAddressBook alloc] initWithBlock:^(BOOL granted, NSError *error) {
-		//[self loadShotVibeContacts];
-		[self loadAddressbookContacts];
+		if (granted) {
+			//[self loadShotVibeContacts];
+			[self loadAddressbookContacts];
+		}
+		else {
+			self.noContactsView.hidden = NO;
+		}
 	}];
     
     CGRect segmentFrame = self.segmentControl.frame;

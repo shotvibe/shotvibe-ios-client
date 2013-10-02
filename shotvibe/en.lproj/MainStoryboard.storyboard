@@ -1109,6 +1109,27 @@ to register this device</string>
                                     <outlet property="delegate" destination="hue-j9-5bn" id="3GO-ce-6k2"/>
                                 </connections>
                             </searchBar>
+                            <view contentMode="scaleToFill" id="Zaj-7x-zGj">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="In order to invite people we need access to your contacts list" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AB3-EQ-yf7">
+                                        <rect key="frame" x="20" y="146" width="280" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                        <color key="textColor" red="0.81395487879999995" green="0.1219720593" blue="0.21948429080000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="highlightedColor" red="0.81395487879999995" green="0.1219720593" blue="0.21948429080000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="To enable it go to Settings/Privacy/Contacts" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AFX-5U-UKe">
+                                        <rect key="frame" x="20" y="197" width="280" height="66"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.92941176470588238" green="0.93333333333333335" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -1123,6 +1144,7 @@ to register this device</string>
                     <connections>
                         <outlet property="addedContactsScrollView" destination="dAJ-mE-XY5" id="3hc-tb-li5"/>
                         <outlet property="membersView" destination="oru-dQ-Y8C" id="eIr-I7-71e"/>
+                        <outlet property="noContactsView" destination="Zaj-7x-zGj" id="Hto-wP-3KG"/>
                         <outlet property="searchBar" destination="xWL-42-6Js" id="H6w-6F-S19"/>
                         <outlet property="tableView" destination="Csh-Y9-cyY" id="x2Y-Bg-Xu4"/>
                     </connections>
@@ -1871,8 +1893,10 @@ activation code just sent to you</string>
             <relationships>
                 <relationship kind="action" name="cancelPressed:"/>
                 <relationship kind="action" name="donePressed:"/>
+                <relationship kind="action" name="segmentChanged:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="addedContactsScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="membersView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="noContactsView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="segmentControl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
@@ -1932,6 +1956,7 @@ activation code just sent to you</string>
         <class className="SVConfirmationCodeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVConfirmationCodeViewController.h"/>
             <relationships>
+                <relationship kind="action" name="confirmButtonPressed:"/>
                 <relationship kind="outlet" name="butSubmit" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="codeField1" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="codeField2" candidateClass="UITextField"/>
@@ -2069,6 +2094,9 @@ activation code just sent to you</string>
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
