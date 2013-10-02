@@ -2469,12 +2469,12 @@
 			isa = PBXGroup;
 			children = (
 				28F877B817D240210051F528 /* SideMenu */,
-				28E94C2017C2BA3B00874BDE /* Social */,
 				04C407E517303E9200973BC0 /* Registration */,
 				AA12881316CB8774002AC699 /* Albums */,
 				0493ABE81732D6EC005ABCE7 /* Picker */,
 				AA78D2B617172C26006E1240 /* Camera */,
 				AA78D2B717172C2B006E1240 /* Settings */,
+				28E94C2017C2BA3B00874BDE /* Social */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

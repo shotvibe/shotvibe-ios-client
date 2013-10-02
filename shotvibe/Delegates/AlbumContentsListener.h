@@ -12,6 +12,7 @@
 
 @protocol AlbumContentsListener <NSObject>
 
+@required
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId;
 
 /**

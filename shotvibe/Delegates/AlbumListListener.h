@@ -10,6 +10,7 @@
 
 @protocol AlbumListListener <NSObject>
 
+@required
 - (void)onAlbumListBeginRefresh;
 
 /**

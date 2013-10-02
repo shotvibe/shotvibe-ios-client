@@ -16,7 +16,12 @@
 #define GAP_X 60
 
 
-@interface SVPhotoViewerController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, SVActivityViewControllerDelegate, AFPhotoEditorControllerDelegate, AlbumContentsListener>
+@interface SVPhotoViewerController : UIViewController <
+UIScrollViewDelegate,
+UIActionSheetDelegate,
+SVActivityViewControllerDelegate,
+AFPhotoEditorControllerDelegate,
+AlbumContentsListener>
 
 
 #pragma mark - Properties
@@ -24,6 +29,6 @@
 @property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, assign) int64_t albumId;
-@property (nonatomic) int index;
+@property (nonatomic, assign) int index;
 
 @end
