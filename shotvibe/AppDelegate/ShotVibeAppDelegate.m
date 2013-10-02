@@ -8,7 +8,7 @@
 
 #import <Crashlytics/Crashlytics.h>
 #import "ShotVibeAppDelegate.h"
-#import "SVInitializationWS.h"
+#import "SVInitialization.h"
 #import "SVPushNotificationsManager.h"
 #import "SVDefines.h"
 #import "SVAlbumListViewController.h"
@@ -159,7 +159,7 @@ NSDictionary * parseQueryParameters(NSString * query)
 	self.window.rootViewController = self.sideMenu;
 	self.window.rootViewController.wantsFullScreenLayout = YES;
 	
-	SVInitializationWS *worker = [[SVInitializationWS alloc] init];
+	SVInitialization *worker = [[SVInitialization alloc] init];
 	
     [worker configureAppearanceProxies];
     [worker initializeLocalSettingsDefaults];

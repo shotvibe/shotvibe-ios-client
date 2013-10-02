@@ -6,15 +6,15 @@
 //
 
 #import "AlbumSummary.h"
-#import "SVInitializationWS.h"
+#import "SVInitialization.h"
 #import "SVDefines.h"
 
-@interface SVInitializationWS ()
+@interface SVInitialization ()
 
 
 @end
 
-@implementation SVInitializationWS
+@implementation SVInitialization
 
 #pragma mark - Instance Methods
 

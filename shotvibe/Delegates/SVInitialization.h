@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "SVActivityViewController.h"
 
-@interface SVInitializationWS : NSObject
+@interface SVInitialization : NSObject
 
 #pragma mark - Instance Methods
 

@@ -7,9 +7,9 @@
 //
 
 #import "ALAssetsLibrary+helper.h"
-#import "SVAssetRetrievalWS.h"
+#import "SVAssets.h"
 
-@implementation SVAssetRetrievalWS
+@implementation SVAssets
 
 + (void)loadAllLocalAlbumsOnDeviceWithCompletion:(void (^)(NSArray *albums, NSError *error))block
 {

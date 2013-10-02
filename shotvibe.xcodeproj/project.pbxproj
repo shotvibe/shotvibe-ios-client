@@ -34,7 +34,7 @@
 		04734F2416CEC1B1003F729B /* SVSidebarMemberController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04734F2316CEC1B1003F729B /* SVSidebarMemberController.m */; };
 		0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */; };
 		0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF11732D7D6005ABCE7 /* ALAssetsLibrary+helper.m */; };
-		0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */; };
+		0493ABF61732DF14005ABCE7 /* SVAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493ABF51732DF14005ABCE7 /* SVAssets.m */; };
 		0499B855171DD27B00050596 /* SVSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499B854171DD27B00050596 /* SVSettingsViewController.m */; };
 		0499B897171DD6DE00050596 /* termsOfUseIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B887171DD6DE00050596 /* termsOfUseIcon@2x.png */; };
 		0499B899171DD6DE00050596 /* termsOfUseIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0499B888171DD6DE00050596 /* termsOfUseIcon.png */; };
@@ -596,7 +596,7 @@
 		AA58FB7616C22B0400C49E02 /* ShotVibeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6616C22B0400C49E02 /* ShotVibeAppDelegate.m */; };
 		AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB8616C2314500C49E02 /* QuartzCore.framework */; };
 		AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB8816C2315100C49E02 /* SystemConfiguration.framework */; };
-		AA58FB9416C2341C00C49E02 /* SVInitializationWS.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB9316C2341C00C49E02 /* SVInitializationWS.m */; };
+		AA58FB9416C2341C00C49E02 /* SVInitialization.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB9316C2341C00C49E02 /* SVInitialization.m */; };
 		AA58FCFF16C235FD00C49E02 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FCFE16C235FD00C49E02 /* CFNetwork.framework */; };
 		AA58FD0116C2361300C49E02 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FD0016C2361300C49E02 /* MobileCoreServices.framework */; };
 		AA58FD0516C2364B00C49E02 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FD0416C2364B00C49E02 /* CoreLocation.framework */; };
@@ -655,8 +655,8 @@
 		0493ABED1732D78B005ABCE7 /* SVImagePickerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVImagePickerListViewController.m; sourceTree = "<group>"; };
 		0493ABF01732D7D6005ABCE7 /* ALAssetsLibrary+helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+helper.h"; sourceTree = "<group>"; };
 		0493ABF11732D7D6005ABCE7 /* ALAssetsLibrary+helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+helper.m"; sourceTree = "<group>"; };
-		0493ABF41732DF14005ABCE7 /* SVAssetRetrievalWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAssetRetrievalWS.h; sourceTree = "<group>"; };
-		0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAssetRetrievalWS.m; sourceTree = "<group>"; };
+		0493ABF41732DF14005ABCE7 /* SVAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAssets.h; path = ../Delegates/SVAssets.h; sourceTree = "<group>"; };
+		0493ABF51732DF14005ABCE7 /* SVAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAssets.m; path = ../Delegates/SVAssets.m; sourceTree = "<group>"; };
 		0499B853171DD27B00050596 /* SVSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSettingsViewController.h; sourceTree = "<group>"; };
 		0499B854171DD27B00050596 /* SVSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSettingsViewController.m; sourceTree = "<group>"; };
 		0499B887171DD6DE00050596 /* termsOfUseIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "termsOfUseIcon@2x.png"; sourceTree = "<group>"; };
@@ -1267,8 +1267,8 @@
 		3BCBF38A17CA1D2500AAB7BE /* PhotosUploadListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosUploadListener.h; sourceTree = "<group>"; };
 		3BCBF38C17CA40E800AAB7BE /* PhotoUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoUploadRequest.h; sourceTree = "<group>"; };
 		3BCBF38D17CA40E800AAB7BE /* PhotoUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoUploadRequest.m; sourceTree = "<group>"; };
-		3BCBF38F17CA44DE00AAB7BE /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
-		3BCBF39017CA44DE00AAB7BE /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
+		3BCBF38F17CA44DE00AAB7BE /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileUtils.h; path = ../Delegates/FileUtils.h; sourceTree = "<group>"; };
+		3BCBF39017CA44DE00AAB7BE /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileUtils.m; path = ../Delegates/FileUtils.m; sourceTree = "<group>"; };
 		3BE0B10517C24D150058CAAD /* ShotVibeDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShotVibeDB.h; sourceTree = "<group>"; };
 		3BE0B10617C24D150058CAAD /* ShotVibeDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShotVibeDB.m; sourceTree = "<group>"; };
 		3BE0B10917C29F2E0058CAAD /* create.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = create.sql; sourceTree = "<group>"; };
@@ -1333,8 +1333,8 @@
 		AA58FB6616C22B0400C49E02 /* ShotVibeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShotVibeAppDelegate.m; sourceTree = "<group>"; };
 		AA58FB8616C2314500C49E02 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AA58FB8816C2315100C49E02 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		AA58FB9216C2341C00C49E02 /* SVInitializationWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVInitializationWS.h; sourceTree = "<group>"; };
-		AA58FB9316C2341C00C49E02 /* SVInitializationWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVInitializationWS.m; sourceTree = "<group>"; };
+		AA58FB9216C2341C00C49E02 /* SVInitialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVInitialization.h; path = ../Delegates/SVInitialization.h; sourceTree = "<group>"; };
+		AA58FB9316C2341C00C49E02 /* SVInitialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVInitialization.m; path = ../Delegates/SVInitialization.m; sourceTree = "<group>"; };
 		AA58FCFE16C235FD00C49E02 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		AA58FD0016C2361300C49E02 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AA58FD0416C2364B00C49E02 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -1348,7 +1348,7 @@
 		AAEB9CDD171648A000439939 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		AAF05CD316CB28DD005BCFD3 /* SVAlbumListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumListViewController.h; sourceTree = "<group>"; };
 		AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumListViewController.m; sourceTree = "<group>"; };
-		AAF05CD716CB309A005BCFD3 /* SVDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVDefines.h; path = Defines/SVDefines.h; sourceTree = "<group>"; };
+		AAF05CD716CB309A005BCFD3 /* SVDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVDefines.h; path = ../Defines/SVDefines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2255,15 +2255,14 @@
 		AA58FB0016C224E800C49E02 /* shotvibe */ = {
 			isa = PBXGroup;
 			children = (
-				AAF05CD716CB309A005BCFD3 /* SVDefines.h */,
 				AA58FB6416C22B0400C49E02 /* AppDelegate */,
 				AACB11C316C453E600BAC7E1 /* Categories */,
 				AAF05CD216CB287F005BCFD3 /* Controllers */,
-				AA58FB6D16C22B0400C49E02 /* Delegates */,
+				AA58FB6D16C22B0400C49E02 /* API */,
 				AACB11C616C4543700BAC7E1 /* Models */,
-				043473961705F42300CFE564 /* Resources */,
 				AA58FB7516C22B0400C49E02 /* Vendor */,
 				AA58FB3816C227F500C49E02 /* Views */,
+				043473961705F42300CFE564 /* Resources */,
 				AA58FB0116C224E800C49E02 /* Supporting Files */,
 			);
 			path = shotvibe;
@@ -2333,40 +2332,18 @@
 		AA58FB6416C22B0400C49E02 /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
+				AAF05CD716CB309A005BCFD3 /* SVDefines.h */,
 				AA58FB6516C22B0400C49E02 /* ShotVibeAppDelegate.h */,
 				AA58FB6616C22B0400C49E02 /* ShotVibeAppDelegate.m */,
+				AA58FB9216C2341C00C49E02 /* SVInitialization.h */,
+				AA58FB9316C2341C00C49E02 /* SVInitialization.m */,
+				3BCBF38F17CA44DE00AAB7BE /* FileUtils.h */,
+				3BCBF39017CA44DE00AAB7BE /* FileUtils.m */,
 			);
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
-		AA58FB6D16C22B0400C49E02 /* Delegates */ = {
-			isa = PBXGroup;
-			children = (
-				AA58FB8C16C233FA00C49E02 /* Business Delegates */,
-				AA58FB8D16C2340100C49E02 /* Worker Sessions */,
-				3BCBF38F17CA44DE00AAB7BE /* FileUtils.h */,
-				3BCBF39017CA44DE00AAB7BE /* FileUtils.m */,
-			);
-			path = Delegates;
-			sourceTree = "<group>";
-		};
-		AA58FB7516C22B0400C49E02 /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				285EB93217F55BDA00A33E5B /* AviarySDK */,
-				2849A74017D5FEF60076AFBA /* IMAGIN */,
-				AA234835177AA3F600D55918 /* AFNetworking */,
-				04C404DC1730301500973BC0 /* CountryPicker */,
-				3BE0B10B17C2B9E70058CAAD /* FMDB */,
-				04734F2A16CF104F003F729B /* MFSideMenu */,
-				3B0A3CEC17CB7E640058B620 /* MBProgressHUD */,
-				3B0A3CD717CB75190058B620 /* MWPhotoBrowser */,
-				3B3AD13417CB4A3F004D24A9 /* SDWebImage */,
-			);
-			path = Vendor;
-			sourceTree = "<group>";
-		};
-		AA58FB8C16C233FA00C49E02 /* Business Delegates */ = {
+		AA58FB6D16C22B0400C49E02 /* API */ = {
 			isa = PBXGroup;
 			children = (
 				3B58317C17B5A3860059C1CA /* SVPushNotificationsManager.h */,
@@ -2389,18 +2366,24 @@
 				3BCBF38C17CA40E800AAB7BE /* PhotoUploadRequest.h */,
 				3BCBF38D17CA40E800AAB7BE /* PhotoUploadRequest.m */,
 			);
-			name = "Business Delegates";
+			name = API;
+			path = Delegates;
 			sourceTree = "<group>";
 		};
-		AA58FB8D16C2340100C49E02 /* Worker Sessions */ = {
+		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				0493ABF41732DF14005ABCE7 /* SVAssetRetrievalWS.h */,
-				0493ABF51732DF14005ABCE7 /* SVAssetRetrievalWS.m */,
-				AA58FB9216C2341C00C49E02 /* SVInitializationWS.h */,
-				AA58FB9316C2341C00C49E02 /* SVInitializationWS.m */,
+				285EB93217F55BDA00A33E5B /* AviarySDK */,
+				2849A74017D5FEF60076AFBA /* IMAGIN */,
+				AA234835177AA3F600D55918 /* AFNetworking */,
+				04C404DC1730301500973BC0 /* CountryPicker */,
+				3BE0B10B17C2B9E70058CAAD /* FMDB */,
+				04734F2A16CF104F003F729B /* MFSideMenu */,
+				3B0A3CEC17CB7E640058B620 /* MBProgressHUD */,
+				3B0A3CD717CB75190058B620 /* MWPhotoBrowser */,
+				3B3AD13417CB4A3F004D24A9 /* SDWebImage */,
 			);
-			name = "Worker Sessions";
+			path = Vendor;
 			sourceTree = "<group>";
 		};
 		AA78D2B617172C26006E1240 /* Camera */ = {
@@ -2458,6 +2441,8 @@
 		AACB11C616C4543700BAC7E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0493ABF41732DF14005ABCE7 /* SVAssets.h */,
+				0493ABF51732DF14005ABCE7 /* SVAssets.m */,
 				04204F01178B48ED001FE127 /* SVAddressBook.h */,
 				04204F02178B48ED001FE127 /* SVAddressBook.m */,
 				3BE0B10517C24D150058CAAD /* ShotVibeDB.h */,
@@ -3093,7 +3078,7 @@
 				AA58FB0716C224E800C49E02 /* main.m in Sources */,
 				AA58FB7616C22B0400C49E02 /* ShotVibeAppDelegate.m in Sources */,
 				AA234855177AA3F600D55918 /* AFURLConnectionOperation.m in Sources */,
-				AA58FB9416C2341C00C49E02 /* SVInitializationWS.m in Sources */,
+				AA58FB9416C2341C00C49E02 /* SVInitialization.m in Sources */,
 				04F11575178FA5D200B26C85 /* SVSelectionGridCell.m in Sources */,
 				AAF05CD516CB28DD005BCFD3 /* SVAlbumListViewController.m in Sources */,
 				AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */,
@@ -3121,7 +3106,7 @@
 				04E287F7173176F00044C17A /* SVImagePickerSelector.m in Sources */,
 				0493ABEE1732D78B005ABCE7 /* SVImagePickerListViewController.m in Sources */,
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
-				0493ABF61732DF14005ABCE7 /* SVAssetRetrievalWS.m in Sources */,
+				0493ABF61732DF14005ABCE7 /* SVAssets.m in Sources */,
 				AA4115BE177C0451009F400F /* NSFileManager+Helper.m in Sources */,
 				04AFA7B8177CBEA700E32C6E /* SVAlbumGridViewCell.m in Sources */,
 				04204F03178B48ED001FE127 /* SVAddressBook.m in Sources */,

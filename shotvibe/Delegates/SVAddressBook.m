@@ -128,6 +128,8 @@
 		}
 	}
 	
+	// For testing purposes
+	
 //	ABRecordRef persona = ABPersonCreate();
 //	ABRecordSetValue (persona, kABPersonFirstNameProperty, @"", nil);
 //	ABRecordSetValue (persona, kABPersonLastNameProperty, @"", nil);
