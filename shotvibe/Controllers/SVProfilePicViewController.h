@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SVCameraPickerDelegate.h"
 #import "SVImageCropViewController.h"
 #import "AlbumManager.h"
 
-@interface SVProfilePicViewController : UIViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, SVCameraPickerDelegate> {
+@interface SVProfilePicViewController : UIViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate> {
 	
 	IBOutlet UIImageView *imageView;
 }

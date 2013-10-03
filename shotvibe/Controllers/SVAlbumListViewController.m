@@ -20,6 +20,7 @@
 
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
+#import "ShotVibeAppDelegate.h"
 
 @interface SVAlbumListViewController ()
 {
@@ -51,13 +52,10 @@
 - (void)hideDropDown;
 - (void)searchForAlbumWithTitle:(NSString *)title;
 - (void)createNewAlbumWithTitle:(NSString *)title;
-- (void)albumUpdateReceived:(NSNotification *)notification;
-- (void)syncCompleted:(NSNotification *)notification;
 - (IBAction)newAlbumButtonPressed:(id)sender;
 - (IBAction)newAlbumClose:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
-- (AlbumPhoto *)findMostRecentPhotoInPhotoSet:(NSArray *)photos;
 
 @end
 
@@ -84,6 +82,8 @@
 //
 - (IBAction)newAlbumButtonPressed:(id)sender {
     [self showDropDown];
+	ShotVibeAppDelegate *app = [ShotVibeAppDelegate sharedDelegate];
+	[app application:nil didReceiveRemoteNotification:nil];
 }
 - (IBAction)takePicturePressed:(id)sender {
 	NSLog(@"takePicturePressed");

@@ -7,7 +7,6 @@
 //
 
 #import "SVProfilePicViewController.h"
-#import "SVCameraPickerController.h"
 #import "SVImagePickerListViewController.h"
 #import "SVDefines.h"
 #import "MBProgressHUD.h"
