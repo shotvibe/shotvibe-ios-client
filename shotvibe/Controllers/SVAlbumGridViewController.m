@@ -22,8 +22,6 @@
 #import "CaptureNavigationController.h"
 #import "AlbumPhoto.h"
 #import "UIImageView+WebCache.h"
-#import "MWPhotoBrowser.h"
-#import "AlbumPhotoBrowserDelegate.h"
 #import "SVAlbumGridSection.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>

@@ -16,7 +16,7 @@
 #import "MFSideMenu.h"
 #import "SVSidebarManagementController.h"
 #import "SVSidebarMemberController.h"
-
+#import "JCNotificationCenter.h"
 #import "UserSettings.h"
 #import "ShotVibeAPI.h"
 #import "ShotVibeDB.h"
@@ -282,6 +282,8 @@ NSString * deviceDescription()
 }
 
 
+#pragma mark Remote notifications
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     [pushNotificationsManager setAPNSDeviceToken:deviceToken];
@@ -290,6 +292,17 @@ NSString * deviceDescription()
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [pushNotificationsManager handleNotification:userInfo];
+	
+	// Present the notification to the user
+	
+	NSString* title = @"Push Notification";
+	NSDictionary* aps = [userInfo objectForKey:@"aps"];
+	NSString* alert = [aps objectForKey:@"alert"];
+	[JCNotificationCenter enqueueNotificationWithTitle:title
+											   message:alert
+											tapHandler:^{
+												NSLog(@"Received tap on notification banner!");
+											}];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
