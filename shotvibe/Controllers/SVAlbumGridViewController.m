@@ -66,6 +66,7 @@
 
 - (IBAction)takePicturePressed:(id)sender
 {
+	navigatingNext = YES;
 	cameraNavController = [[CaptureNavigationController alloc] init];
 	cameraNavController.cameraDelegate = self;
 	cameraNavController.albumId = self.albumId;
@@ -186,10 +187,11 @@
 {
     [super viewWillDisappear:animated];NSLog(@"-----------photos grid will disappear navigatingNext %i", navigatingNext);
 	
-	[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
-	albumContents = nil;
-	
 	if (!navigatingNext) {
+		
+		[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
+		albumContents = nil;
+		
 		NSLog(@"clean everything");
 		self.albumManager = nil;
 		((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = nil;
