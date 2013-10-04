@@ -12,6 +12,7 @@
 #import "SVDefines.h"
 #import "AlbumContents.h"
 #import "MBProgressHUD.h"
+#import "UIImageView+AFNetworking.h"
 
 
 @interface SVAddFriendsViewController ()<UISearchBarDelegate>
@@ -181,13 +182,15 @@
 	
 	if (ABPersonHasImageData(record)) {
 		NSData *contactImageData = (__bridge_transfer NSData*) ABPersonCopyImageDataWithFormat(record, kABPersonImageFormatThumbnail);
+		[cell.contactIcon cancelImageRequestOperation];
 		cell.contactIcon.image = [[UIImage alloc] initWithData:contactImageData];
 	}
 	else {
 		int lowerBound = 1;
-		int upperBound = 5;
+		int upperBound = 78;
 		int rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
-		cell.contactIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"default-avatar-0%i.png", rndValue]];
+		//cell.contactIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"default-avatar-0%i.png", rndValue]];
+		[cell.contactIcon setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://shotvibe-avatars-01.s3.amazonaws.com/default-avatar-00%@%i.jpg", rndValue<10?@"0":@"", rndValue]]];
 	}
 	CFRelease(phoneNumbers);
 	
