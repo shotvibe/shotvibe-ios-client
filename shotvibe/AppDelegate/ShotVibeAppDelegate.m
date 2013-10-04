@@ -126,9 +126,14 @@ NSDictionary * parseQueryParameters(NSString * query)
 
 #pragma mark - UIApplicationDelegate Methods
 
-NSString * serverCountryLookup(void (^errorReporter)(NSString *, NSString *))
+// This should be updated whenever submitting the app
+static NSString *const appCountryLookupVersion = @"1";
+
+NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString *, NSString *))
 {
-    NSString* shotvibeCountryLookupURL = @"https://api.shotvibe.com/auth/country_lookup/";
+    NSString* shotvibeCountryLookupURL = @"https://api.shotvibe.com/auth/country_lookup/?";
+
+    shotvibeCountryLookupURL = appendQueryParameter(shotvibeCountryLookupURL, @"version", version);
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:shotvibeCountryLookupURL]];
@@ -178,7 +183,7 @@ NSString * serverCountryLookup(void (^errorReporter)(NSString *, NSString *))
     // Ask the server if we should use the autologin system
     NSString *countryCode;
 
-    countryCode = serverCountryLookup(^(NSString *titleText, NSString *detailText) {
+    countryCode = serverCountryLookup(appCountryLookupVersion, ^(NSString *titleText, NSString *detailText) {
         [MBProgressHUD hideAllHUDsForView:self.window.rootViewController.view animated:NO];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:NO];
         hud.labelText = titleText;
