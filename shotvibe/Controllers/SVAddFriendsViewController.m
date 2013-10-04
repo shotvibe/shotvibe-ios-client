@@ -186,11 +186,15 @@
 		cell.contactIcon.image = [[UIImage alloc] initWithData:contactImageData];
 	}
 	else {
-		int lowerBound = 1;
-		int upperBound = 78;
-		int rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
+//		int lowerBound = 1;
+//		int upperBound = 78;
+//		int rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
+		int i = 1 + indexPath.row;
+		if (i>78) {
+			i = 1 + i%78;
+		}
 		//cell.contactIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"default-avatar-0%i.png", rndValue]];
-		[cell.contactIcon setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://shotvibe-avatars-01.s3.amazonaws.com/default-avatar-00%@%i.jpg", rndValue<10?@"0":@"", rndValue]]];
+		[cell.contactIcon setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://shotvibe-avatars-01.s3.amazonaws.com/default-avatar-00%@%i.jpg", i<10?@"0":@"", i]]];
 	}
 	CFRelease(phoneNumbers);
 	
