@@ -66,9 +66,11 @@
 #pragma mark - Actions
 
 - (void)profilePressed {
+	tappedCell = nil;
 	[self performSegueWithIdentifier:@"ProfileSegue" sender:nil];
 }
 - (void)settingsPressed {
+	tappedCell = nil;
     [self performSegueWithIdentifier:@"SettingsSegue" sender:nil];
 }
 - (IBAction)newAlbumClose:(id)sender {
@@ -181,6 +183,7 @@
 	self.refreshControl = [[UIRefreshControl alloc] init];
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[self.refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
+	
 	[self updateEmptyState];
 	
 }
@@ -188,9 +191,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-     [self.albumManager refreshAlbumList];
-    if (tappedCell != nil) {
+	[super viewWillAppear:animated];
+	[self.albumManager refreshAlbumList];
+	if (tappedCell != nil) {
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 	}
 }

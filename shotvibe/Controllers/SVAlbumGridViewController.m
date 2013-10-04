@@ -43,6 +43,8 @@
 @property (nonatomic, strong) IBOutlet UIView *noPhotosView;
 @property (nonatomic, strong) IBOutlet UIButton *butTakeVideo;
 @property (nonatomic, strong) IBOutlet UIButton *butTakePicture;
+@property (nonatomic, strong) IBOutlet UIButton *butTakeVideo2;
+@property (nonatomic, strong) IBOutlet UIButton *butTakePicture2;
 @property (nonatomic, strong) IBOutlet UIView *switchView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *switchSort;
 
@@ -119,7 +121,9 @@
 	
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 		self.butTakePicture.enabled = NO;
+		self.butTakePicture2.enabled = NO;
 		self.butTakeVideo.enabled = NO;
+		self.butTakeVideo2.enabled = NO;
 	}
     
     // Setup tabbar right button

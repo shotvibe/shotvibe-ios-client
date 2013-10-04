@@ -486,6 +486,7 @@
                     <navigationItem key="navigationItem" id="pdu-Tl-D5W"/>
                     <connections>
                         <outlet property="butTakePicture" destination="6Xh-QU-6j5" id="9IL-JA-59F"/>
+                        <outlet property="butTakePicture2" destination="7Fn-bF-IVB" id="mrx-T2-7St"/>
                         <outlet property="butTakeVideo" destination="rBd-U2-udB" id="B4G-Zx-SpY"/>
                         <outlet property="gridView" destination="D2i-UJ-1Pr" id="6S0-od-gvF"/>
                         <outlet property="gridviewContainer" destination="AT7-8R-Xbr" id="98f-ut-t31"/>
@@ -1893,7 +1894,6 @@ activation code just sent to you</string>
             <relationships>
                 <relationship kind="action" name="cancelPressed:"/>
                 <relationship kind="action" name="donePressed:"/>
-                <relationship kind="action" name="segmentChanged:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="addedContactsScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="membersView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="noContactsView" candidateClass="UIView"/>
@@ -1918,7 +1918,9 @@ activation code just sent to you</string>
                 <relationship kind="action" name="takePicturePressed:"/>
                 <relationship kind="action" name="takeVideoPressed:"/>
                 <relationship kind="outlet" name="butTakePicture" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="butTakePicture2" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="butTakeVideo" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="butTakeVideo2" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="gridView" candidateClass="UICollectionView"/>
                 <relationship kind="outlet" name="gridviewContainer" candidateClass="UIView"/>
                 <relationship kind="outlet" name="noPhotosView" candidateClass="UIView"/>
@@ -1956,7 +1958,6 @@ activation code just sent to you</string>
         <class className="SVConfirmationCodeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVConfirmationCodeViewController.h"/>
             <relationships>
-                <relationship kind="action" name="confirmButtonPressed:"/>
                 <relationship kind="outlet" name="butSubmit" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="codeField1" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="codeField2" candidateClass="UITextField"/>
