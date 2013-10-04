@@ -109,6 +109,9 @@
 	if (selectedCountryCode == nil) {
 		[self didSelectCountryWithName:nil regionCode:[[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]];
 	}
+    else {
+        [self didSelectCountryWithName:selectedCountryCode regionCode:selectedCountryCode];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

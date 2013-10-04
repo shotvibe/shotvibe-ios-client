@@ -17,10 +17,13 @@
 #import "SVSidebarManagementController.h"
 #import "SVSidebarMemberController.h"
 #import "JCNotificationCenter.h"
+#import "MBProgressHUD.h"
+
 #import "UserSettings.h"
 #import "ShotVibeAPI.h"
 #import "ShotVibeDB.h"
 #import "AlbumManager.h"
+#import "JSON.h"
 
 @interface ShotVibeAppDelegate ()
 @property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
@@ -123,6 +126,110 @@ NSDictionary * parseQueryParameters(NSString * query)
 
 #pragma mark - UIApplicationDelegate Methods
 
+NSString * serverCountryLookup(void (^errorReporter)(NSString *, NSString *))
+{
+    NSString* shotvibeCountryLookupURL = @"https://api.shotvibe.com/auth/country_lookup/";
+
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:shotvibeCountryLookupURL]];
+    [request setHTTPMethod:@"POST"];
+
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+    NSError *httpError;
+    NSHTTPURLResponse *httpResponse;
+    NSData *httpResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&httpResponse error:&httpError];
+
+    if (httpResponseData == nil) {
+        errorReporter(@"Network Error", httpError.localizedDescription);
+        return nil;
+    }
+
+    if (httpResponse.statusCode >= 400) {
+        errorReporter(@"Server Error", [NSString stringWithFormat:@"Invalid Server Status Code: %ld", (long)httpResponse.statusCode]);
+        return nil;
+    }
+
+
+    @try {
+        JSONObject *obj = [[JSONObject alloc] initWithData:httpResponseData];
+        NSString *countryCode = [obj getString:@"country_code"];
+
+        NSLog(@"%@", countryCode);
+
+        return countryCode;
+    }
+    @catch (JSONException *exception) {
+        errorReporter(@"Server Error", [NSString stringWithFormat:@"Invalid JSON: %@", exception.description]);
+        return nil;
+    }
+}
+
+- (void)processCountryCode:(UIApplication *)application registrationViewController:(SVRegistrationViewController *)registrationViewController
+{
+    // TODO This is very messy code
+
+    // Hide the keyboard, since it shows up above the HUD:
+    [self.window.rootViewController.view endEditing:YES];
+
+    [MBProgressHUD hideAllHUDsForView:self.window.rootViewController.view animated:NO];
+    [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:NO];
+
+    // Ask the server if we should use the autologin system
+    NSString *countryCode;
+
+    countryCode = serverCountryLookup(^(NSString *titleText, NSString *detailText) {
+        [MBProgressHUD hideAllHUDsForView:self.window.rootViewController.view animated:NO];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:NO];
+        hud.labelText = titleText;
+        hud.detailsLabelText = detailText;
+        hud.opacity = 1.0f;
+        hud.cornerRadius = 0.0f;
+        hud.minSize = self.window.bounds.size;
+
+        // Make sure that the keyboard is hidden:
+        [self.window.rootViewController.view endEditing:YES];
+
+        NSLog(@"%@: %@", titleText, detailText);
+    });
+
+
+    if (!countryCode) {
+        double delayInSeconds = 2.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self processCountryCode:application registrationViewController:registrationViewController];
+        });
+
+        return;
+    }
+
+    [MBProgressHUD hideAllHUDsForView:self.window.rootViewController.view animated:NO];
+
+    NSString *COUNTRY_CODE_AUTOLOGIN = @"auto";
+
+    if ([countryCode isEqualToString:COUNTRY_CODE_AUTOLOGIN]) {
+        NSString* shotvibeAppInitUrl = @"https://www.shotvibe.com/app_init/?";
+
+        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"app", @"iphone");
+        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"device_description", deviceDescription());
+
+        double currentTime = [[NSDate date] timeIntervalSince1970];
+        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"cache_buster", [[NSNumber numberWithDouble:currentTime] stringValue]);
+
+        NSURL* url = [NSURL URLWithString:shotvibeAppInitUrl];
+        NSAssert(url != nil, @"Error construction NSURL from string %@", shotvibeAppInitUrl);
+
+        BOOL success = [application openURL:url];
+        NSAssert(success, @"Error opening url: %@", [url description]);
+    }
+    else {
+        // Skip the autologin, just use the country code
+
+        [registrationViewController selectCountry:countryCode];
+    }
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 #if !CONFIGURATION_Debug
@@ -168,21 +275,7 @@ NSDictionary * parseQueryParameters(NSString * query)
 		[pushNotificationsManager setup];
     }
     else {
-        // TODO Verify that there is an internet connection
-
-        NSString* shotvibeAppInitUrl = @"https://www.shotvibe.com/app_init/?";
-
-        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"app", @"iphone");
-        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"device_description", deviceDescription());
-
-        double currentTime = [[NSDate date] timeIntervalSince1970];
-        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"cache_buster", [[NSNumber numberWithDouble:currentTime] stringValue]);
-
-        NSURL* url = [NSURL URLWithString:shotvibeAppInitUrl];
-        NSAssert(url != nil, @"Error construction NSURL from string %@", shotvibeAppInitUrl);
-
-        BOOL success = [application openURL:url];
-        NSAssert(success, @"Error opening url: %@", [url description]);
+        [self processCountryCode:application registrationViewController:registrationViewController];
     }
 
     return YES;
