@@ -219,6 +219,19 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
         shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"app", @"iphone");
         shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"device_description", deviceDescription());
 
+        NSString *app_url_scheme;
+#if CONFIGURATION_Debug
+        app_url_scheme = @"shotvibe.debug";
+#elif CONFIGURATION_AdHoc
+        app_url_scheme = @"shotvibe.adhoc";
+#elif CONFIGURATION_Release
+        app_url_scheme = @"shotvibe";
+#else
+#error "UNKNOWN CONFIGURATION"
+#endif
+
+        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"app_url_scheme", app_url_scheme);
+
         double currentTime = [[NSDate date] timeIntervalSince1970];
         shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"cache_buster", [[NSNumber numberWithDouble:currentTime] stringValue]);
 

@@ -31,7 +31,7 @@
 			<string>com.shotvibe.shotvibe-url-scheme</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>shotvibe</string>
+				<string>shotvibe${BUNDLE_ID_SUFFIX}</string>
 			</array>
 		</dict>
 	</array>
