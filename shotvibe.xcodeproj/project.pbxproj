@@ -526,15 +526,8 @@
 		28FC2C3017FAF8F600AE24C3 /* Pencil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28FC2C2E17FAF8F600AE24C3 /* Pencil@2x.png */; };
 		28FC2C3317FAFA5700AE24C3 /* PencilWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 28FC2C3117FAFA5700AE24C3 /* PencilWhite.png */; };
 		28FC2C3417FAFA5700AE24C3 /* PencilWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28FC2C3217FAFA5700AE24C3 /* PencilWhite@2x.png */; };
-		28FC2C9D17FD50EA00AE24C3 /* JCNotificationBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2C8B17FD50E900AE24C3 /* JCNotificationBanner.m */; };
-		28FC2C9E17FD50EA00AE24C3 /* JCNotificationBannerPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2C8D17FD50E900AE24C3 /* JCNotificationBannerPresenter.m */; };
-		28FC2C9F17FD50EA00AE24C3 /* JCNotificationBannerPresenterIOSStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2C9017FD50EA00AE24C3 /* JCNotificationBannerPresenterIOSStyle.m */; };
-		28FC2CA017FD50EA00AE24C3 /* JCNotificationBannerPresenterSmokeStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2C9217FD50EA00AE24C3 /* JCNotificationBannerPresenterSmokeStyle.m */; };
-		28FC2CA117FD50EA00AE24C3 /* JCNotificationBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2C9417FD50EA00AE24C3 /* JCNotificationBannerView.m */; };
-		28FC2CA217FD50EA00AE24C3 /* JCNotificationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2C9617FD50EA00AE24C3 /* JCNotificationBannerViewController.m */; };
-		28FC2CA317FD50EA00AE24C3 /* JCNotificationBannerViewIOSStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2C9817FD50EA00AE24C3 /* JCNotificationBannerViewIOSStyle.m */; };
-		28FC2CA417FD50EA00AE24C3 /* JCNotificationBannerWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2C9A17FD50EA00AE24C3 /* JCNotificationBannerWindow.m */; };
-		28FC2CA517FD50EA00AE24C3 /* JCNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2C9C17FD50EA00AE24C3 /* JCNotificationCenter.m */; };
+		28FC2CA917FE8EE400AE24C3 /* MPNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2CA817FE8EE400AE24C3 /* MPNotificationView.m */; };
+		28FC2CAD17FE8F2600AE24C3 /* OBGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2CAC17FE8F2600AE24C3 /* OBGradientView.m */; };
 		3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */; };
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
@@ -1204,25 +1197,10 @@
 		28FC2C2E17FAF8F600AE24C3 /* Pencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pencil@2x.png"; sourceTree = "<group>"; };
 		28FC2C3117FAFA5700AE24C3 /* PencilWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PencilWhite.png; sourceTree = "<group>"; };
 		28FC2C3217FAFA5700AE24C3 /* PencilWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PencilWhite@2x.png"; sourceTree = "<group>"; };
-		28FC2C8A17FD50E900AE24C3 /* JCNotificationBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNotificationBanner.h; sourceTree = "<group>"; };
-		28FC2C8B17FD50E900AE24C3 /* JCNotificationBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNotificationBanner.m; sourceTree = "<group>"; };
-		28FC2C8C17FD50E900AE24C3 /* JCNotificationBannerPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNotificationBannerPresenter.h; sourceTree = "<group>"; };
-		28FC2C8D17FD50E900AE24C3 /* JCNotificationBannerPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNotificationBannerPresenter.m; sourceTree = "<group>"; };
-		28FC2C8E17FD50E900AE24C3 /* JCNotificationBannerPresenter_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNotificationBannerPresenter_Private.h; sourceTree = "<group>"; };
-		28FC2C8F17FD50E900AE24C3 /* JCNotificationBannerPresenterIOSStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNotificationBannerPresenterIOSStyle.h; sourceTree = "<group>"; };
-		28FC2C9017FD50EA00AE24C3 /* JCNotificationBannerPresenterIOSStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNotificationBannerPresenterIOSStyle.m; sourceTree = "<group>"; };
-		28FC2C9117FD50EA00AE24C3 /* JCNotificationBannerPresenterSmokeStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNotificationBannerPresenterSmokeStyle.h; sourceTree = "<group>"; };
-		28FC2C9217FD50EA00AE24C3 /* JCNotificationBannerPresenterSmokeStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNotificationBannerPresenterSmokeStyle.m; sourceTree = "<group>"; };
-		28FC2C9317FD50EA00AE24C3 /* JCNotificationBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNotificationBannerView.h; sourceTree = "<group>"; };
-		28FC2C9417FD50EA00AE24C3 /* JCNotificationBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNotificationBannerView.m; sourceTree = "<group>"; };
-		28FC2C9517FD50EA00AE24C3 /* JCNotificationBannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNotificationBannerViewController.h; sourceTree = "<group>"; };
-		28FC2C9617FD50EA00AE24C3 /* JCNotificationBannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNotificationBannerViewController.m; sourceTree = "<group>"; };
-		28FC2C9717FD50EA00AE24C3 /* JCNotificationBannerViewIOSStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNotificationBannerViewIOSStyle.h; sourceTree = "<group>"; };
-		28FC2C9817FD50EA00AE24C3 /* JCNotificationBannerViewIOSStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNotificationBannerViewIOSStyle.m; sourceTree = "<group>"; };
-		28FC2C9917FD50EA00AE24C3 /* JCNotificationBannerWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNotificationBannerWindow.h; sourceTree = "<group>"; };
-		28FC2C9A17FD50EA00AE24C3 /* JCNotificationBannerWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNotificationBannerWindow.m; sourceTree = "<group>"; };
-		28FC2C9B17FD50EA00AE24C3 /* JCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNotificationCenter.h; sourceTree = "<group>"; };
-		28FC2C9C17FD50EA00AE24C3 /* JCNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNotificationCenter.m; sourceTree = "<group>"; };
+		28FC2CA717FE8EE400AE24C3 /* MPNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPNotificationView.h; sourceTree = "<group>"; };
+		28FC2CA817FE8EE400AE24C3 /* MPNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPNotificationView.m; sourceTree = "<group>"; };
+		28FC2CAB17FE8F2600AE24C3 /* OBGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBGradientView.h; sourceTree = "<group>"; };
+		28FC2CAC17FE8F2600AE24C3 /* OBGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBGradientView.m; sourceTree = "<group>"; };
 		3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumServerPhoto.h; sourceTree = "<group>"; };
 		3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumServerPhoto.m; sourceTree = "<group>"; };
 		3B013BC517C3E7CA00135869 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
@@ -2095,30 +2073,22 @@
 			name = SideMenu;
 			sourceTree = "<group>";
 		};
-		28FC2C8917FD50E900AE24C3 /* JCNotifications */ = {
+		28FC2CA617FE8EE300AE24C3 /* MPNotificationView */ = {
 			isa = PBXGroup;
 			children = (
-				28FC2C8A17FD50E900AE24C3 /* JCNotificationBanner.h */,
-				28FC2C8B17FD50E900AE24C3 /* JCNotificationBanner.m */,
-				28FC2C8C17FD50E900AE24C3 /* JCNotificationBannerPresenter.h */,
-				28FC2C8D17FD50E900AE24C3 /* JCNotificationBannerPresenter.m */,
-				28FC2C8E17FD50E900AE24C3 /* JCNotificationBannerPresenter_Private.h */,
-				28FC2C8F17FD50E900AE24C3 /* JCNotificationBannerPresenterIOSStyle.h */,
-				28FC2C9017FD50EA00AE24C3 /* JCNotificationBannerPresenterIOSStyle.m */,
-				28FC2C9117FD50EA00AE24C3 /* JCNotificationBannerPresenterSmokeStyle.h */,
-				28FC2C9217FD50EA00AE24C3 /* JCNotificationBannerPresenterSmokeStyle.m */,
-				28FC2C9317FD50EA00AE24C3 /* JCNotificationBannerView.h */,
-				28FC2C9417FD50EA00AE24C3 /* JCNotificationBannerView.m */,
-				28FC2C9517FD50EA00AE24C3 /* JCNotificationBannerViewController.h */,
-				28FC2C9617FD50EA00AE24C3 /* JCNotificationBannerViewController.m */,
-				28FC2C9717FD50EA00AE24C3 /* JCNotificationBannerViewIOSStyle.h */,
-				28FC2C9817FD50EA00AE24C3 /* JCNotificationBannerViewIOSStyle.m */,
-				28FC2C9917FD50EA00AE24C3 /* JCNotificationBannerWindow.h */,
-				28FC2C9A17FD50EA00AE24C3 /* JCNotificationBannerWindow.m */,
-				28FC2C9B17FD50EA00AE24C3 /* JCNotificationCenter.h */,
-				28FC2C9C17FD50EA00AE24C3 /* JCNotificationCenter.m */,
+				28FC2CA717FE8EE400AE24C3 /* MPNotificationView.h */,
+				28FC2CA817FE8EE400AE24C3 /* MPNotificationView.m */,
 			);
-			path = JCNotifications;
+			path = MPNotificationView;
+			sourceTree = "<group>";
+		};
+		28FC2CAA17FE8F2400AE24C3 /* OBGradientView */ = {
+			isa = PBXGroup;
+			children = (
+				28FC2CAB17FE8F2600AE24C3 /* OBGradientView.h */,
+				28FC2CAC17FE8F2600AE24C3 /* OBGradientView.m */,
+			);
+			path = OBGradientView;
 			sourceTree = "<group>";
 		};
 		3B0A3CEC17CB7E640058B620 /* MBProgressHUD */ = {
@@ -2388,7 +2358,8 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				28FC2C8917FD50E900AE24C3 /* JCNotifications */,
+				28FC2CAA17FE8F2400AE24C3 /* OBGradientView */,
+				28FC2CA617FE8EE300AE24C3 /* MPNotificationView */,
 				285EB93217F55BDA00A33E5B /* AviarySDK */,
 				2849A74017D5FEF60076AFBA /* IMAGIN */,
 				AA234835177AA3F600D55918 /* AFNetworking */,
@@ -3192,15 +3163,8 @@
 				2849A82817E8B8BA0076AFBA /* SVProfilePicViewController.m in Sources */,
 				2849A82C17E8E0E00076AFBA /* SVImageCropViewController.m in Sources */,
 				28FC2C2917F886CC00AE24C3 /* SVAlbumGridSection.m in Sources */,
-				28FC2C9D17FD50EA00AE24C3 /* JCNotificationBanner.m in Sources */,
-				28FC2C9E17FD50EA00AE24C3 /* JCNotificationBannerPresenter.m in Sources */,
-				28FC2C9F17FD50EA00AE24C3 /* JCNotificationBannerPresenterIOSStyle.m in Sources */,
-				28FC2CA017FD50EA00AE24C3 /* JCNotificationBannerPresenterSmokeStyle.m in Sources */,
-				28FC2CA117FD50EA00AE24C3 /* JCNotificationBannerView.m in Sources */,
-				28FC2CA217FD50EA00AE24C3 /* JCNotificationBannerViewController.m in Sources */,
-				28FC2CA317FD50EA00AE24C3 /* JCNotificationBannerViewIOSStyle.m in Sources */,
-				28FC2CA417FD50EA00AE24C3 /* JCNotificationBannerWindow.m in Sources */,
-				28FC2CA517FD50EA00AE24C3 /* JCNotificationCenter.m in Sources */,
+				28FC2CA917FE8EE400AE24C3 /* MPNotificationView.m in Sources */,
+				28FC2CAD17FE8F2600AE24C3 /* OBGradientView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

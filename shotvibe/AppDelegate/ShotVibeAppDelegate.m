@@ -16,7 +16,8 @@
 #import "MFSideMenu.h"
 #import "SVSidebarManagementController.h"
 #import "SVSidebarMemberController.h"
-#import "JCNotificationCenter.h"
+#import "MPNotificationView.h"
+#import "UIImageView+AFNetworking.h"
 #import "MBProgressHUD.h"
 
 #import "UserSettings.h"
@@ -408,14 +409,18 @@ NSString * deviceDescription()
 	
 	// Present the notification to the user
 	
-	NSString* title = @"Push Notification";
-	NSDictionary* aps = [userInfo objectForKey:@"aps"];
-	NSString* alert = [aps objectForKey:@"alert"];
-	[JCNotificationCenter enqueueNotificationWithTitle:title
-											   message:alert
-											tapHandler:^{
-												NSLog(@"Received tap on notification banner!");
-											}];
+	NSString *title = @"Băluță Cristian";
+	NSDictionary *aps = [userInfo objectForKey:@"aps"];
+	NSString *alert = [aps objectForKey:@"alert"];
+	
+	MPNotificationView *notification = [MPNotificationView notifyWithText:title
+																   detail:alert
+																	image:nil
+															  andDuration:5.0];
+	
+	//From UIImage+AFNetworking.h:
+	[notification.imageView setImageWithURL:[NSURL URLWithString:@"https://dl.dropbox.com/u/361895/mopeddog.png"]];
+
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error

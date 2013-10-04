@@ -82,8 +82,8 @@
 //
 - (IBAction)newAlbumButtonPressed:(id)sender {
     [self showDropDown];
-	ShotVibeAppDelegate *app = [ShotVibeAppDelegate sharedDelegate];
-	[app application:nil didReceiveRemoteNotification:nil];
+//	ShotVibeAppDelegate *app = [ShotVibeAppDelegate sharedDelegate];
+//	[app application:nil didReceiveRemoteNotification:nil];
 }
 - (IBAction)takePicturePressed:(id)sender {
 	NSLog(@"takePicturePressed");
