@@ -15,7 +15,6 @@
 #import "UIImageView+AFNetworking.h"
 #import "ShotVibeAppDelegate.h"
 #import "MBProgressHUD.h"
-#import "RCScrollView.h"
 #import "RCImageView.h"
 #import "RCScrollImageView.h"
 #import "RCTableImageViewCell.h"
@@ -23,7 +22,7 @@
 
 @interface SVPhotoViewerController ()
 {
-	RCScrollView *photosScrollView;
+	UIScrollView *photosScrollView;
 	NSMutableArray *cache;
 	SVActivityViewController* activity;
 	BOOL toolVisible;
@@ -90,14 +89,14 @@
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
 	
-	photosScrollView = [[RCScrollView alloc] initWithFrame:CGRectMake(0, 0, w+GAP_X, h)];
+	photosScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, w+GAP_X, h)];
 	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
 	photosScrollView.scrollEnabled = YES;
 	photosScrollView.showsHorizontalScrollIndicator = NO;
 	photosScrollView.showsVerticalScrollIndicator = NO;
 	photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
 	photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-	photosScrollView.scrollDelegate = self;// set delegate
+	photosScrollView.delegate = self;// set delegate
 	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
 	photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
 	[self.view addSubview:photosScrollView];
@@ -157,7 +156,7 @@
 		[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
 		self.albumManager = nil;
 		
-		photosScrollView.scrollDelegate = nil;
+		photosScrollView.delegate = nil;
 		[photosScrollView removeFromSuperview];
 		photosScrollView = nil;
 		
