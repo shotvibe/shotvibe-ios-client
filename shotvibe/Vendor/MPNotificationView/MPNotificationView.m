@@ -214,7 +214,7 @@ static CGFloat const __imagePadding = 8.0f;
         _imageView.clipsToBounds = YES;
         [self addSubview:_imageView];
         
-        UIFont *textFont = [UIFont boldSystemFontOfSize:14.0f];
+        UIFont *textFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14];
         CGRect textFrame = CGRectMake(__imagePadding + CGRectGetMaxX(_imageView.frame),
                                       2,
                                       notificationWidth - __imagePadding * 2 - CGRectGetMaxX(_imageView.frame),
@@ -222,12 +222,12 @@ static CGFloat const __imagePadding = 8.0f;
         _textLabel = [[UILabel alloc] initWithFrame:textFrame];
         _textLabel.font = textFont;
         _textLabel.numberOfLines = 1;
-        _textLabel.textAlignment = UITextAlignmentLeft;
-        _textLabel.lineBreakMode = UILineBreakModeTailTruncation;
+        _textLabel.textAlignment = NSTextAlignmentLeft;
+        _textLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _textLabel.backgroundColor = [UIColor clearColor];
         [_contentView addSubview:_textLabel];
-        
-        UIFont *detailFont = [UIFont systemFontOfSize:13.0f];
+		
+        UIFont *detailFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         CGRect detailFrame = CGRectMake(CGRectGetMinX(textFrame),
                                         CGRectGetMaxY(textFrame),
                                         notificationWidth - __imagePadding * 2 - CGRectGetMaxX(_imageView.frame),
@@ -236,8 +236,8 @@ static CGFloat const __imagePadding = 8.0f;
         _detailTextLabel = [[UILabel alloc] initWithFrame:detailFrame];
         _detailTextLabel.font = detailFont;
         _detailTextLabel.numberOfLines = 1;
-        _detailTextLabel.textAlignment = UITextAlignmentLeft;
-        _detailTextLabel.lineBreakMode = UILineBreakModeTailTruncation;
+        _detailTextLabel.textAlignment = NSTextAlignmentLeft;
+        _detailTextLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _detailTextLabel.backgroundColor = [UIColor clearColor];
         [_contentView addSubview:_detailTextLabel];
         

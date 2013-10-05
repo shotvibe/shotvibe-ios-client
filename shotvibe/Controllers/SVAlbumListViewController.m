@@ -85,7 +85,8 @@
 - (IBAction)newAlbumButtonPressed:(id)sender {
     [self showDropDown];
 //	ShotVibeAppDelegate *app = [ShotVibeAppDelegate sharedDelegate];
-//	[app application:nil didReceiveRemoteNotification:nil];
+//	NSDictionary *dic = @{@"aps":@{@"alert":@"Just added few pics to your album"}};
+//	[app application:nil didReceiveRemoteNotification:dic];
 }
 - (IBAction)takePicturePressed:(id)sender {
 	NSLog(@"takePicturePressed");
