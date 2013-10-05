@@ -323,8 +323,13 @@
 		rcphoto.i = i;
 		//rcphoto.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;// do not autoresze it
 		
+		cachedImage = rcphoto;
+		
+		NSLog(@"cache photo: %i", i);
+		[cache replaceObjectAtIndex:i withObject:cachedImage];
+		
 		if (photo.serverPhoto) {
-			
+			NSLog(@"load photo: %i", i);
 			NSString *fullsizePhotoUrl = photo.serverPhoto.url;
 			NSString *displaySuffix = @"_r_dvgax.jpg";
 			NSString *finalUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:displaySuffix];
@@ -340,11 +345,6 @@
 				// Do not call loadComplete from here because the photo is not yet in cache, so you can't scale the photo
 			}
 		}
-		
-		cachedImage = rcphoto;
-		
-		NSLog(@"cache photo: %i", i);
-		[cache replaceObjectAtIndex:i withObject:cachedImage];
 		
 		[photosScrollView addSubview:cachedImage];
 	}
@@ -365,7 +365,7 @@
 	}
 }
 - (void)onPhotoComplete:(NSNumber*)nr {
-	NSLog(@"onPhotoComplete %@", nr);
+	NSLog(@"load complete %@", nr);
 	id photo = [cache objectAtIndex:[nr intValue]];
 	if ([photo isKindOfClass:[RCScrollImageView class]]) {
 		RCScrollImageView *cachedImage = photo;
@@ -381,12 +381,12 @@
 
 #pragma mark UIScrollView delegate functions
 
-- (void)scrollViewDidEndDecelerating {
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 	
 	CGFloat pageWidth = photosScrollView.frame.size.width;
 	self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	[self updateInfoOnScreen];
-	
+	NSLog(@"----scrollViewDidEndDecelerating %i", self.index);
 	//RCScrollImageView *image =
 	[self loadPhoto:self.index andPreloadNext:YES];
 }

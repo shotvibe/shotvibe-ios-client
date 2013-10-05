@@ -100,13 +100,14 @@
 		loadingIndicator.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
 		[self addSubview:loadingIndicator];
 	}
+	
 	[loadingIndicator startAnimating];
 	[imageView loadNetworkImage:path];
+	
 	// If the image already exists stop the loadingIndicator
-	if (imageView.image) {
-		[loadingIndicator stopAnimating];
-		[self loadComplete];
-	}
+//	if (imageView.image) {
+//		[self loadComplete];
+//	}
 }
 
 - (void)loadComplete {

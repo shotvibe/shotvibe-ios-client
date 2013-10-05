@@ -51,20 +51,20 @@
 	}];
 	
 	// Use normal loading, no cache
-	return;
-	imageData = [NSMutableData data];
 	
-	NSURL *url = [NSURL URLWithString:path];
-	//NSURLRequest *request = [NSURLRequest requestWithURL:url];
-	//NSLog(@"RCImageView %@", path);
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-	
-	if (referer != nil) {
-		// Trick the website the image is loaded from to think the request comes from a specific place
-		[request setValue:referer forHTTPHeaderField:@"Referer"];
-	}
-	
-	connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+//	imageData = [NSMutableData data];
+//	
+//	NSURL *url = [NSURL URLWithString:path];
+//	//NSURLRequest *request = [NSURLRequest requestWithURL:url];
+//	//NSLog(@"RCImageView %@", path);
+//	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+//	
+//	if (referer != nil) {
+//		// Trick the website the image is loaded from to think the request comes from a specific place
+//		[request setValue:referer forHTTPHeaderField:@"Referer"];
+//	}
+//	
+//	connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 }
 
 
