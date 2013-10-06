@@ -409,6 +409,8 @@ NSString * deviceDescription()
 	
 	// Present the notification to the user
 	
+    // Temporarily disable the push notification banner
+    /*
 	NSString *title = @"Băluță Cristian";
 	NSDictionary *aps = [userInfo objectForKey:@"aps"];
 	NSString *alert = [aps objectForKey:@"alert"];
@@ -420,7 +422,7 @@ NSString * deviceDescription()
 	
 	//From UIImage+AFNetworking.h:
 	[notification.imageView setImageWithURL:[NSURL URLWithString:@"https://dl.dropbox.com/u/361895/mopeddog.png"]];
-
+     */
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
