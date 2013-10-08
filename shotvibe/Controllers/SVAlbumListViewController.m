@@ -144,6 +144,7 @@
 }
 -(void)releaseOnLibrary {
 	//[self performSegueWithIdentifier:@"ImagePickerSegue" sender:nil];
+	
 }
 
 
