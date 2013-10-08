@@ -37,7 +37,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.43921568630000002" green="0.82745098039999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.62745098039215685" green="0.84705882352941175" blue="0.066666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
                                         <view contentMode="scaleToFill" id="t4e-X8-o6c">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
@@ -126,6 +126,7 @@
                         <outlet property="takePictureButton" destination="T4H-zi-gWL" id="1p6-G8-4pt"/>
                         <segue destination="N4E-mX-u47" kind="push" identifier="SettingsSegue" id="FFK-OC-3pt"/>
                         <segue destination="K2n-3B-CQ0" kind="push" identifier="ProfileSegue" id="iIS-e3-EEA"/>
+                        <segue destination="4g5-BF-Tej" kind="modal" identifier="AlbumsToImagePickerSegue" id="i8y-Zz-QXE"/>
                     </connections>
                 </tableViewController>
                 <view contentMode="scaleToFill" id="RaB-Wv-rg9" userLabel="album empty">
@@ -520,7 +521,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FaP-w9-IIV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-114" y="-45"/>
+            <point key="canvasLocation" x="-114" y="-473"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="OQw-17-hWL">
@@ -1015,7 +1016,7 @@ to register this device</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z6V-XX-zxm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-114" y="-740"/>
+            <point key="canvasLocation" x="290" y="-1432"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jHK-nQ-yGy">
@@ -2129,9 +2130,9 @@ activation code just sent to you</string>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="sNb-fh-mhv"/>
-        <segue reference="oiS-6F-bJN"/>
-        <segue reference="FFK-OC-3pt"/>
+        <segue reference="TQ5-6R-Qxo"/>
         <segue reference="iIS-e3-EEA"/>
+        <segue reference="YZf-v8-Yxg"/>
         <segue reference="hc8-VF-LIN"/>
     </inferredMetricsTieBreakers>
 </document>

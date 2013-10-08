@@ -129,22 +129,37 @@
 		SVProfileViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
 	}
-	else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
+	else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
 		
         UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
         
+		AlbumSummary *album = (AlbumSummary*)sender;
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        //destination.albumId = self.albumId;
+        destination.albumId = album.albumId;
         destination.albumManager = self.albumManager;
     }
 }
 
--(void)releaseOnCamera {
-	[self takePicturePressed:nil];
-}
--(void)releaseOnLibrary {
-	//[self performSegueWithIdentifier:@"ImagePickerSegue" sender:nil];
+
+#pragma mark Cell delegate
+
+- (void)releaseOnCamera:(UITableViewCell*)cell {
 	
+	NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+	AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+	
+	cameraNavController = [[CaptureNavigationController alloc] init];
+	cameraNavController.cameraDelegate = self;
+	cameraNavController.albumId = album.albumId;
+	cameraNavController.albumManager = self.albumManager;
+    cameraNavController.nav = self.navigationController;// this is set last
+}
+- (void)releaseOnLibrary:(UITableViewCell*)cell {
+	
+	NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+	AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+	
+	[self performSegueWithIdentifier:@"AlbumsToImagePickerSegue" sender:album];
 }
 
 

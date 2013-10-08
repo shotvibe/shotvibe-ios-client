@@ -10,10 +10,9 @@
 #import "RCImageView.h"
 
 @protocol SVAlbumListViewCellDelegate <NSObject>
-
--(void)releaseOnCamera;
--(void)releaseOnLibrary;
-
+@required
+- (void)releaseOnCamera:(UITableViewCell*)cell;
+- (void)releaseOnLibrary:(UITableViewCell*)cell;
 @end
 
 

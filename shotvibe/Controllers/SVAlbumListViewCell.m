@@ -48,21 +48,26 @@
 		int dw = 40;
 		if (dx > 40) {
 			dw = dx;
+			self.backView.alpha = 1;
 		}
+		else {
+			self.backView.alpha = 0.5;
+		}
+		
 		self.backView.frame = CGRectMake(0, 0, dw, self.frame.size.height);
 		
-		if (dx > 120 && _swipeStage == 0) {
+		if (dx > 160 && _swipeStage == 0) {
 			_swipeStage = 1;
 			self.backImageView.image = [UIImage imageNamed:@"cameraRollIcon.png"];
 			[UIView animateWithDuration:0.18 animations:^{
-				self.backView.backgroundColor = [UIColor yellowColor];
+				self.backView.backgroundColor = [UIColor colorWithRed:1 green:0.44 blue:0.27 alpha:1];
 			}];
 		}
-		else if (dx <= 120 && _swipeStage == 1) {
+		else if (dx <= 160 && _swipeStage == 1) {
 			_swipeStage = 0;
 			self.backImageView.image = [UIImage imageNamed:@"cameraIcon.png"];
 			[UIView animateWithDuration:0.18 animations:^{
-				self.backView.backgroundColor = [UIColor cyanColor];
+				self.backView.backgroundColor = [UIColor colorWithRed:0.63 green:0.85 blue:0.07 alpha:1];
 			}];
 		}
 	}
@@ -77,31 +82,25 @@
 	CGPoint location = [touch locationInView:self];
 	int dx = location.x - _originalCenter.x;
 	
-	if (self.frontView.frame.origin.x < 10) {
+	if (self.frontView.frame.origin.x < 40) {
 		[super touchesEnded:touches withEvent:event];
 	}
 	else {
 		[super touchesCancelled:touches withEvent:event];
 		
-		if (dx > 120 && _swipeStage == 1) {
-			[self.delegate releaseOnLibrary];
+		if (dx > 160 && _swipeStage == 1) {
+			[self.delegate releaseOnLibrary:self];
 		}
-		else if (dx <= 120 && _swipeStage == 0) {
-			[self.delegate releaseOnCamera];
+		else if (dx <= 160 && _swipeStage == 0) {
+			[self.delegate releaseOnCamera:self];
 		}
 	}
+	
+	_swipeStage = 0;
 	
 	[UIView animateWithDuration:0.18 animations:^{
 		self.frontView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 	}];
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-//	
-//	[UIView animateWithDuration:0.2 animations:^{
-//		self.frontView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-//	}];
-	[super touchesCancelled:touches withEvent:event];
 }
 
 @end
