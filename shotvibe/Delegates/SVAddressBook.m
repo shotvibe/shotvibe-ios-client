@@ -23,6 +23,9 @@
 		self.filteredContacts = [[NSMutableDictionary alloc] init];
 		self.allContacts = [[NSArray alloc] init];
 		
+		abQueue = dispatch_queue_create("abqueue", DISPATCH_QUEUE_SERIAL);
+		dispatch_set_target_queue(abQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+		
 		// Get access to the addressbook
 		ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
 		

@@ -9,10 +9,29 @@
 #import <UIKit/UIKit.h>
 #import "RCImageView.h"
 
-@interface SVAlbumListViewCell : UITableViewCell
+@protocol SVAlbumListViewCellDelegate <NSObject>
+
+-(void)releaseOnCamera;
+-(void)releaseOnLibrary;
+
+@end
+
+
+@interface SVAlbumListViewCell : UITableViewCell <UIGestureRecognizerDelegate> {
+	
+	CGPoint _originalCenter;
+	int _swipeStage;
+}
 
 #pragma mark - Properties
 
+
+@property (strong, nonatomic) id<SVAlbumListViewCellDelegate> delegate;
+
+@property (weak, nonatomic) IBOutlet UIView *backView;
+@property (weak, nonatomic) IBOutlet UIView *frontView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *backImageView;
 @property (weak, nonatomic) IBOutlet RCImageView *networkImageView;
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIButton *timestamp;

@@ -10,6 +10,7 @@
 #import "AlbumManager.h"
 #import "AlbumListListener.h"
 #import "SVCameraPickerController.h"
+#import "SVAlbumListViewCell.h"
 
 
 @interface SVAlbumListViewController : UITableViewController <UITableViewDataSource,
@@ -17,7 +18,8 @@
 																UITextFieldDelegate,
 																UISearchBarDelegate,
 																AlbumListListener,
-																SVCameraPickerDelegate>
+																SVCameraPickerDelegate,
+																SVAlbumListViewCellDelegate>
 
 @property (nonatomic, strong) AlbumManager *albumManager;
 

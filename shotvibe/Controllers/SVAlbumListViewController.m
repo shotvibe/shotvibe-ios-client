@@ -12,8 +12,8 @@
 #import "UIImageView+WebCache.h"
 #import "SVDefines.h"
 #import "CaptureNavigationController.h"
-#import "SVAlbumListViewCell.h"
 #import "SVAlbumGridViewController.h"
+#import "SVImagePickerListViewController.h"
 #import "NSDate+Formatting.h"
 #import "MFSideMenu.h"
 #import "MBProgressHUD.h"
@@ -129,6 +129,21 @@
 		SVProfileViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
 	}
+	else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
+		
+        UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+        
+        SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+        //destination.albumId = self.albumId;
+        destination.albumManager = self.albumManager;
+    }
+}
+
+-(void)releaseOnCamera {
+	[self takePicturePressed:nil];
+}
+-(void)releaseOnLibrary {
+	//[self performSegueWithIdentifier:@"ImagePickerSegue" sender:nil];
 }
 
 
@@ -264,6 +279,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.delegate = self;
+	
     AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 	NSString *distanceOfTimeInWords = [album.dateUpdated distanceOfTimeInWords];
     
@@ -276,7 +294,7 @@
     if (album.latestPhotos.count > 0) {
         AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
         if (latestPhoto.serverPhoto) {
-			cell.author.text = [NSString stringWithFormat:@"Last added by %@", latestPhoto.serverPhoto.authorNickname];
+			cell.author.text = [NSString stringWithFormat:@"Last edited by %@", latestPhoto.serverPhoto.authorNickname];
             NSString *fullsizePhotoUrl = latestPhoto.serverPhoto.url;
             NSString *thumbnailSuffix = @"_thumb75.jpg";
             NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
@@ -293,10 +311,10 @@
     return cell;
 }
 
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//	cell.backgroundColor = [UIColor whiteColor];
-//}
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	cell.backgroundColor = [UIColor whiteColor];
+}
 
 
 #pragma mark - UITableViewDelegate Methods

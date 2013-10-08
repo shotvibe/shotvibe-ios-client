@@ -11,7 +11,10 @@
 typedef void(^AddressBookPermissionsBlock)(BOOL granted, NSError *error);
 
 
-@interface SVAddressBook : NSObject
+@interface SVAddressBook : NSObject {
+	
+	dispatch_queue_t abQueue;
+}
 
 @property (nonatomic, strong) NSArray *allContacts;
 @property (nonatomic, strong) NSMutableDictionary *filteredContacts;// Filtered contacts grouped by alphabet letters
