@@ -126,12 +126,12 @@
     CGRect segmentFrame = self.segmentControl.frame;
     segmentFrame.origin.y -= 1.5;
     self.segmentControl.frame = segmentFrame;
-    
+    self.segmentControl.selectedSegmentIndex = 1;
+	
 	
 //	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 //	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 //	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-	self.segmentControl.selectedSegmentIndex = 1;
 	
 	
 	// Setup back button
@@ -324,15 +324,10 @@
 
 - (void) handleSearchForText:(NSString*)str {
 	NSLog(@"handle search %@", str);
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		
-		[ab filterByKeyword:str];
-		
-		dispatch_async(dispatch_get_main_queue(), ^{
-			NSLog(@"reload table");
-			[self.tableView reloadData];
-		});
-	});
+	
+	[ab filterByKeyword:str completionBlock:^{
+		[self.tableView reloadData];
+	}];
 }
 
 

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef void(^AddressBookPermissionsBlock)(BOOL granted, NSError *error);
+typedef void(^AddressBookSearchCompletionBlock)();
 
 
 @interface SVAddressBook : NSObject {
@@ -21,7 +22,7 @@ typedef void(^AddressBookPermissionsBlock)(BOOL granted, NSError *error);
 @property (nonatomic, strong) NSArray *filteredKeys;
 
 - (id)initWithBlock:(AddressBookPermissionsBlock)completionBlock;
-- (void)filterByKeyword:(NSString*)keyword;
+- (void)filterByKeyword:(NSString*)keyword completionBlock:(AddressBookSearchCompletionBlock)completionBlock;
 - (int)idOfRecord:(ABRecordRef)record;
 
 @end

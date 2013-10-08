@@ -54,82 +54,92 @@
 }
 
 
-- (void)filterByKeyword:(NSString*)keyword {
+- (void)filterByKeyword:(NSString*)keyword completionBlock:(AddressBookSearchCompletionBlock)completionBlock {
 	
-	[self.filteredContacts removeAllObjects];
-	
-	// Iterate over original contacts
-	
-	for (id evaluatedObject in self.allContacts) {
+	dispatch_async(abQueue, ^{
 		
-		NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)evaluatedObject);
+		[self.filteredContacts removeAllObjects];
 		
-		if (name == nil) {
-			continue;
-		}
-		if (keyword == nil || [[name lowercaseString] rangeOfString:keyword].location != NSNotFound)
-		{
-			NSString *key = [[name substringToIndex:1] uppercaseString];
-			if (key == nil || [key isEqualToString:@"_"]) {
-				key = @"#";
-			}
-			NSMutableArray *arr = [self.filteredContacts objectForKey:key];
-			if (arr == nil) {
-				arr = [[NSMutableArray alloc] init];
-			}
+		// Iterate over original contacts
+		
+		for (id evaluatedObject in self.allContacts) {
 			
-			ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonPhoneProperty);
-			signed long num = ABMultiValueGetCount(phoneNumbers);
+			NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)evaluatedObject);
 			
-			if (num == 0) {
-				[arr addObject:evaluatedObject];
+			if (name == nil) {
+				continue;
 			}
-			else {
-				for (CFIndex i = 0; i < num; i++) {
-					
-					if (i > 0) {
-						// Create a separate contact with the alternative phone numbers of a contact
-						NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
-						NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
-						if (phoneNumber != nil && phoneNumber.length > 0 && phoneNumericNumber.length > 0) {
-							
-							ABRecordRef persona = ABPersonCreate();
-							
-							CFStringRef firstName = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonFirstNameProperty);
-							CFStringRef lastName = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonLastNameProperty);
-							ABRecordSetValue (persona, kABPersonFirstNameProperty, firstName, nil);
-							ABRecordSetValue (persona, kABPersonLastNameProperty, lastName, nil);
-							
-							ABMutableMultiValueRef multiPhone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-							bool didAddPhone = ABMultiValueAddValueAndLabel(multiPhone, (__bridge CFTypeRef)(phoneNumber), kABPersonPhoneMobileLabel, NULL);
-							if (didAddPhone){
-								ABRecordSetValue(persona, kABPersonPhoneProperty, multiPhone, nil);
+			if (keyword == nil || [[name lowercaseString] rangeOfString:keyword].location != NSNotFound)
+			{
+				NSString *key = [[name substringToIndex:1] uppercaseString];
+				if (key == nil || [key isEqualToString:@"_"]) {
+					key = @"#";
+				}
+				NSMutableArray *arr = [self.filteredContacts objectForKey:key];
+				if (arr == nil) {
+					arr = [[NSMutableArray alloc] init];
+				}
+				
+				ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonPhoneProperty);
+				signed long num = ABMultiValueGetCount(phoneNumbers);
+				
+				if (num == 0) {
+					[arr addObject:evaluatedObject];
+				}
+				else {
+					for (CFIndex i = 0; i < num; i++) {
+						
+						if (i > 0) {
+							// Create a separate contact with the alternative phone numbers of a contact
+							NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
+							NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+							if (phoneNumber != nil && phoneNumber.length > 0 && phoneNumericNumber.length > 0) {
+								
+								ABRecordRef persona = ABPersonCreate();
+								
+								CFStringRef firstName = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonFirstNameProperty);
+								CFStringRef lastName = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonLastNameProperty);
+								ABRecordSetValue (persona, kABPersonFirstNameProperty, firstName, nil);
+								ABRecordSetValue (persona, kABPersonLastNameProperty, lastName, nil);
+								
+								ABMutableMultiValueRef multiPhone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+								bool didAddPhone = ABMultiValueAddValueAndLabel(multiPhone, (__bridge CFTypeRef)(phoneNumber), kABPersonPhoneMobileLabel, NULL);
+								if (didAddPhone){
+									ABRecordSetValue(persona, kABPersonPhoneProperty, multiPhone, nil);
+								}
+								
+								if (ABPersonHasImageData((__bridge ABRecordRef)evaluatedObject)) {
+									ABPersonSetImageData(persona, ABPersonCopyImageDataWithFormat((__bridge ABRecordRef)evaluatedObject, kABPersonImageFormatThumbnail), nil);
+								}
+								
+								[arr addObject:(__bridge id)(persona)];
+								
+								CFRelease(multiPhone);
+								//CFRelease(firstName);
+								//CFRelease(lastName);
+								CFRelease(persona);
 							}
-							
-							if (ABPersonHasImageData((__bridge ABRecordRef)evaluatedObject)) {
-								ABPersonSetImageData(persona, ABPersonCopyImageDataWithFormat((__bridge ABRecordRef)evaluatedObject, kABPersonImageFormatThumbnail), nil);
-							}
-							
-							[arr addObject:(__bridge id)(persona)];
-							
-							CFRelease(multiPhone);
-							//CFRelease(firstName);
-							//CFRelease(lastName);
-							CFRelease(persona);
+						}
+						else {
+							[arr addObject:evaluatedObject];
 						}
 					}
-					else {
-						[arr addObject:evaluatedObject];
-					}
 				}
+				
+				CFRelease(phoneNumbers);
+				
+				[self.filteredContacts setObject:arr forKey:key];
 			}
-			
-			CFRelease(phoneNumbers);
-			
-			
-			[self.filteredContacts setObject:arr forKey:key];
 		}
-	}
+		
+		self.filteredKeys = [[self.filteredContacts allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			completionBlock();
+		});
+	});
+}
+
 	
 	// For testing purposes
 	
@@ -152,10 +162,10 @@
 	//CFRelease(multiPhone);
 	//CFRelease(persona);
 	
-	self.filteredKeys = [[self.filteredContacts allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+	
 	
 	//NSLog(@"self.filteredContacts %@ %@", self.filteredKeys, self.filteredContacts);
-}
+
 
 - (int)idOfRecord:(ABRecordRef)record {
 	
