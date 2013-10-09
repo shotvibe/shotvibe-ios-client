@@ -178,7 +178,7 @@
 																			  forIndexPath:indexPath];
 		
 		// Modify the header
-		header.dateLabel.text = sectionsKeys[indexPath.section];
+		header.dateLabel.text = [NSString stringWithFormat:@"       %@", sectionsKeys[indexPath.section]];
 		header.section = indexPath.section;
 		header.delegate = self;
 		

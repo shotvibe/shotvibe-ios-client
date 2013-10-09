@@ -1457,7 +1457,7 @@ to register this device</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sNv-KV-x6j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-396" y="2718"/>
+            <point key="canvasLocation" x="44" y="1931"/>
         </scene>
         <!--Settings About View Controller - General Notification Settings-->
         <scene sceneID="DRS-hq-iat">
@@ -1983,7 +1983,6 @@ activation code just sent to you</string>
         <class className="SVConfirmationCodeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SVConfirmationCodeViewController.h"/>
             <relationships>
-                <relationship kind="action" name="confirmButtonPressed:"/>
                 <relationship kind="outlet" name="butSubmit" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="codeField1" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="codeField2" candidateClass="UITextField"/>
@@ -2129,10 +2128,10 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="sNb-fh-mhv"/>
-        <segue reference="TQ5-6R-Qxo"/>
         <segue reference="iIS-e3-EEA"/>
-        <segue reference="YZf-v8-Yxg"/>
+        <segue reference="FFK-OC-3pt"/>
+        <segue reference="i8y-Zz-QXE"/>
         <segue reference="hc8-VF-LIN"/>
+        <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -15,12 +15,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-		NSLog(@"init camera roll section %@", NSStringFromCGRect(frame));
 		
-		self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, frame.size.width, frame.size.height)];
+		self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(-1, 9, frame.size.width+2, 26+6)];
 		self.dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
 		self.dateLabel.textColor = [UIColor darkGrayColor];
+		self.dateLabel.backgroundColor = [UIColor whiteColor];
+		self.dateLabel.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
+		self.dateLabel.layer.borderWidth = 0.6;
+		self.dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		[self addSubview:self.dateLabel];
+		
+		UIImageView *calendarIcon = [[UIImageView alloc] initWithFrame:CGRectMake(7, 19, 12, 12)];
+		calendarIcon.image = [UIImage imageNamed:@"IconCalendar"];
+		[self addSubview:calendarIcon];
 		
 		self.selectButton = [[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-26-7, 12, 26, 26)];
 		self.selectButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
