@@ -54,7 +54,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
 	if (buttonIndex == 1) {
-		NSLog(@"Leave album");
+		RCLog(@"Leave album");
 		ShotVibeAPI *shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
 		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -296,7 +296,7 @@
 
 
 -(void)sectionHeaderView:(SVSidebarAlbumManagementSection*)sectionHeaderView sectionClosed:(NSInteger)sectionClosed {
-	NSLog(@"close section %i", sectionClosed);
+	RCLog(@"close section %i", sectionClosed);
 	
 	/*
      Create an array of the index paths of the rows in the section that was closed, then delete those rows from the table view.

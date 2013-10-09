@@ -57,7 +57,7 @@ static const int DATABASE_VERSION = 1;
 - (void)createNewEmptyDatabase
 {
     NSString *scriptFilePath = [[NSBundle mainBundle] pathForResource:@"create" ofType:@"sql" inDirectory:@""];
-    NSLog(@"%@", scriptFilePath);
+    RCLog(@"%@", scriptFilePath);
 
     NSError *error;
     NSString *contents = [NSString stringWithContentsOfFile:scriptFilePath encoding:NSUTF8StringEncoding error:&error];

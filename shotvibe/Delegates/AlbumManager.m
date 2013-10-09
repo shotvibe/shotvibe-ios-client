@@ -74,7 +74,7 @@ enum RefreshStatus
 {
     NSArray *cachedAlbums = [shotvibeDB getAlbumList];
     if (!cachedAlbums) {
-        NSLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
+        RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
     }
 
     [albumListListeners addObject:listener];
@@ -93,7 +93,7 @@ enum RefreshStatus
 
 - (void)refreshAlbumList
 {
-    NSLog(@"##### REFRESHING ALBUM LIST");
+    RCLog(@"##### REFRESHING ALBUM LIST");
 
     if (refreshStatus == IDLE) {
         refreshStatus = REFRESHING;
@@ -124,7 +124,7 @@ enum RefreshStatus
                     refreshStatus = IDLE;
                 });
 
-                NSLog(@"##### Error!");
+                RCLog(@"##### Error!");
                 // TODO Schedule to retry soon
                 return;
             }
@@ -135,12 +135,12 @@ enum RefreshStatus
                 return [lhs.dateUpdated compare:rhs.dateUpdated];
             }];
 
-            NSLog(@"##### LATEST ALBUM LIST: %d", [latestAlbumsList count]);
+            RCLog(@"##### LATEST ALBUM LIST: %d", [latestAlbumsList count]);
 
             dispatch_sync(dispatch_get_main_queue(), ^{
                 if (refreshStatus == REFRESHING) {
                     if (![shotvibeDB setAlbumListWithAlbums:latestAlbumsList]) {
-                        NSLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
+                        RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
                     }
 
                     for(id<AlbumListListener> listener in albumListListeners) {
@@ -191,7 +191,7 @@ enum RefreshStatus
 
 - (void)refreshAlbumContents:(int64_t)albumId
 {
-    NSLog(@"##### REFRESHING ALBUM CONTENTS %lld", albumId);
+    RCLog(@"##### REFRESHING ALBUM CONTENTS %lld", albumId);
 
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
     if (!data) {
@@ -231,21 +231,21 @@ enum RefreshStatus
                     [self cleanAlbumContentsListeners:albumId];
                 });
 
-                NSLog(@"##### Error!");
+                RCLog(@"##### Error!");
                 // TODO Schedule to retry soon
                 return;
             }
 
             // TODO Sort members by nickname
 
-            NSLog(@"##### ALBUM CONTENTS %lld Number of photos: %d", albumId, albumContents.photos.count);
+            RCLog(@"##### ALBUM CONTENTS %lld Number of photos: %d", albumId, albumContents.photos.count);
 
             dispatch_sync(dispatch_get_main_queue(), ^{
                 AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
 
                 if (data.refreshStatus == REFRESHING) {
                     if (![shotvibeDB setAlbumContents:albumId withContents:albumContents]) {
-                        NSLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
+                        RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
                     }
 
                     // Add the Uploading photos to the end of album:

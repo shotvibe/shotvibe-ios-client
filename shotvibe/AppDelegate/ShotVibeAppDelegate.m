@@ -54,7 +54,7 @@
 
     result.countryCode = [queryParameters objectForKey:@"country_code"];
     if(result.countryCode == nil) {
-        NSLog(@"Error: No country_code query parameter found in %@", [url description]);
+        RCLog(@"Error: No country_code query parameter found in %@", [url description]);
         return nil;
     }
 
@@ -64,13 +64,13 @@
 
             result.authToken = [queryParameters objectForKey:@"auth_token"];
             if(result.authToken == nil) {
-                NSLog(@"Error: No auth_token query parameter found in %@", [url description]);
+                RCLog(@"Error: No auth_token query parameter found in %@", [url description]);
                 return nil;
             }
 
             NSString *userIdStr = [queryParameters objectForKey:@"user_id"];
             if(userIdStr == nil) {
-                NSLog(@"Error: No user_id query parameter found  in %@", [url description]);
+                RCLog(@"Error: No user_id query parameter found  in %@", [url description]);
                 return nil;
             }
 
@@ -161,7 +161,7 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
         JSONObject *obj = [[JSONObject alloc] initWithData:httpResponseData];
         NSString *countryCode = [obj getString:@"country_code"];
 
-        NSLog(@"%@", countryCode);
+        RCLog(@"%@", countryCode);
 
         return countryCode;
     }
@@ -196,7 +196,7 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
         // Make sure that the keyboard is hidden:
         [self.window.rootViewController.view endEditing:YES];
 
-        NSLog(@"%@: %@", titleText, detailText);
+        RCLog(@"%@: %@", titleText, detailText);
     });
 
 
@@ -324,12 +324,12 @@ NSString * deviceDescription()
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    NSLog(@"openURL: %@", [url description]);
+    RCLog(@"openURL: %@", [url description]);
 
     RegistrationInfo *registrationInfo = [RegistrationInfo RegistrationInfoFromURL:url];
 
     if(registrationInfo == nil) {
-        NSLog(@"Error reading RegistrationInfo from url");
+        RCLog(@"Error reading RegistrationInfo from url");
     }
     else {
         // The following casts will work because of the way the MainStoryboard is set up.
@@ -371,7 +371,7 @@ NSString * deviceDescription()
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-	NSLog(@"applicationDidEnterBackground fin");
+	RCLog(@"applicationDidEnterBackground fin");
 }
 
 

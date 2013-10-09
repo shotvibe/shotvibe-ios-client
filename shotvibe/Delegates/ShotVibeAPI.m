@@ -687,7 +687,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
                           photos, @"photos",
                           nil];
-	NSLog(@"body %@", body);
+	RCLog(@"body %@", body);
     NSError *jsonError;
 	
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
@@ -698,13 +698,13 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     Response *response = [self getResponse:@"/photos/delete/" method:@"POST" body:jsonData error:&responseError];
 	
     if (responseError != nil) {
-		NSLog(@"responseError %@", responseError);
+		RCLog(@"responseError %@", responseError);
         *error = responseError;
 		return NO;
     }
 	
     if ([response isError]) {
-		NSLog(@"response %@", response);
+		RCLog(@"response %@", response);
         *error = [ShotVibeAPI createErrorFromResponse:response];
 		return NO;
     }
@@ -722,7 +722,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 									  body:jsonData
 									 error:&responseError];
 	
-	//NSLog(@"albumId %lli, response %i, %@ %@", albumId, response.responseCode, response.body, responseError);
+	//RCLog(@"albumId %lli, response %i, %@ %@", albumId, response.responseCode, response.body, responseError);
 	if (response.responseCode == 204) {
 		return YES;
 	}

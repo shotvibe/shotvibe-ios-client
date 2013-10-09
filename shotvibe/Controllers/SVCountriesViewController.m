@@ -63,7 +63,7 @@
 
 - (void)setRegionCode:(NSString *)regionCode {
 	_regionCode = regionCode;
-	NSLog(@"setRegionCode %@", self.regionCode);
+	RCLog(@"setRegionCode %@", self.regionCode);
 	[countriesTable reloadData];
 }
 
@@ -91,7 +91,7 @@
     cell.title.text = [countryNames objectAtIndex:indexPath.row];
     cell.code.text = @"";
 	cell.countryImage.image = [UIImage imageNamed:[countryCodes objectAtIndex:indexPath.row]];
-	NSLog(@"%@ == %@", self.regionCode, [countryCodes objectAtIndex:indexPath.row]);
+	RCLog(@"%@ == %@", self.regionCode, [countryCodes objectAtIndex:indexPath.row]);
 	if ([self.regionCode isEqualToString:[countryCodes objectAtIndex:indexPath.row]]) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	}

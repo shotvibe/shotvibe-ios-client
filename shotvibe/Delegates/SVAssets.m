@@ -17,7 +17,7 @@
     
     [[ALAssetsLibrary sharedLibrary] enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
         if (group) {
-            NSLog(@"Fetched Album: %@ - %i photos type %@", [group valueForProperty:ALAssetsGroupPropertyName], group.numberOfAssets, [group valueForProperty:ALAssetsGroupPropertyType]);
+            RCLog(@"Fetched Album: %@ - %i photos type %@", [group valueForProperty:ALAssetsGroupPropertyName], group.numberOfAssets, [group valueForProperty:ALAssetsGroupPropertyType]);
             
 			// Camera roll type
 			if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {
@@ -35,7 +35,7 @@
             block(assetGroups, nil);
         }
     } failureBlock:^(NSError *error) {
-        NSLog(@"Error fetching asset groups: %@", [error localizedDescription]);
+        RCLog(@"Error fetching asset groups: %@", [error localizedDescription]);
         block(nil, error);
     }];
 }

@@ -17,7 +17,7 @@
         // Initialization code
 		
 		_swipeStage = 0;
-		NSLog(@"init with style");
+		RCLog(@"init with style");
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;

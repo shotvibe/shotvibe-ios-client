@@ -117,7 +117,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];NSLog(@"photos will appear %@", self.photos);
+	[super viewWillAppear:animated];RCLog(@"photos will appear %@", self.photos);
 	
     self.navigationController.navigationBar.translucent = YES;
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
@@ -132,14 +132,14 @@
 }
 - (void)viewDidAppear:(BOOL)animated
 {
-	[super viewDidAppear:animated];NSLog(@"photos did appear");
+	[super viewDidAppear:animated];RCLog(@"photos did appear");
 	
 	//[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
 	[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];NSLog(@"photos will disappear");
+    [super viewWillDisappear:animated];RCLog(@"photos will disappear");
 	
     self.navigationController.navigationBar.translucent = NO;
     //self.navigationController.toolbar.translucent = NO;
@@ -182,7 +182,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-	NSLog(@"PhotoViewer did receive memory warning %i %@", self.index, cache);
+	RCLog(@"PhotoViewer did receive memory warning %i %@", self.index, cache);
 	
     // Dispose of any resources that can be recreated.
     
@@ -191,7 +191,7 @@
 	
 	for (id photo in cacheIter) {
 		if ([photo isKindOfClass:[RCScrollImageView class]] && self.index != i) {
-			NSLog(@"remove photo from cache %i", i);
+			RCLog(@"remove photo from cache %i", i);
 			RCScrollImageView *cachedImage = photo;
 			cachedImage.delegate = nil;
 			[cachedImage removeFromSuperview];
@@ -203,7 +203,7 @@
 
 - (void)dealloc {
 	
-	NSLog(@"dealloc SVPhotosViewwerController");
+	RCLog(@"dealloc SVPhotosViewwerController");
 	
 	for (id photo in cache) {
 		
@@ -278,7 +278,7 @@
 				rect.origin.y = 0;
 				cachedImage.frame = rect;
 				[self.view addSubview:cachedImage];
-				NSLog(@"willRotateToInterfaceOrientation %@", NSStringFromCGRect(rect));
+				RCLog(@"willRotateToInterfaceOrientation %@", NSStringFromCGRect(rect));
 				
 				// The method of animating the frame rather than using autoresizingMasks works better
 				[UIView animateWithDuration:duration animations:^{
@@ -325,11 +325,11 @@
 		
 		cachedImage = rcphoto;
 		
-		NSLog(@"cache photo: %i", i);
+		RCLog(@"cache photo: %i", i);
 		[cache replaceObjectAtIndex:i withObject:cachedImage];
 		
 		if (photo.serverPhoto) {
-			NSLog(@"load photo: %i", i);
+			RCLog(@"load photo: %i", i);
 			NSString *fullsizePhotoUrl = photo.serverPhoto.url;
 			NSString *displaySuffix = @"_r_dvgax.jpg";
 			NSString *finalUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:displaySuffix];
@@ -365,7 +365,7 @@
 	}
 }
 - (void)onPhotoComplete:(NSNumber*)nr {
-	NSLog(@"load complete %@", nr);
+	RCLog(@"load complete %@", nr);
 	id photo = [cache objectAtIndex:[nr intValue]];
 	if ([photo isKindOfClass:[RCScrollImageView class]]) {
 		RCScrollImageView *cachedImage = photo;
@@ -386,13 +386,13 @@
 	CGFloat pageWidth = photosScrollView.frame.size.width;
 	self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	[self updateInfoOnScreen];
-	NSLog(@"----scrollViewDidEndDecelerating %i", self.index);
+	RCLog(@"----scrollViewDidEndDecelerating %i", self.index);
 	//RCScrollImageView *image =
 	[self loadPhoto:self.index andPreloadNext:YES];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//	NSLog(@"scrollViewWillBeginDragging");
+//	RCLog(@"scrollViewWillBeginDragging");
 //	uploadingAviaryPicture = NO;
 }
 
@@ -487,7 +487,7 @@
 		AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 		
 		if (photo.serverPhoto) {
-			NSLog(@"name %@", photo.serverPhoto.authorNickname);
+			RCLog(@"name %@", photo.serverPhoto.authorNickname);
 			NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
 																	dateStyle:NSDateFormatterLongStyle
 																	timeStyle:NSDateFormatterShortStyle];
@@ -534,7 +534,7 @@
 	
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
-	NSLog(@"delete index %i count %i", self.index, cache.count);
+	RCLog(@"delete index %i count %i", self.index, cache.count);
 	
 	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 	__block RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
@@ -547,10 +547,10 @@
 		// Remove from server
 		NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
 		[photosToDelete addObject:@{@"photo_id":photo.serverPhoto.photoId}];
-		NSLog(@"delete photos %@", photosToDelete);
+		RCLog(@"delete photos %@", photosToDelete);
 		__block NSError *error;
 		[[self.albumManager getShotVibeAPI] deletePhotos:photosToDelete withError:&error];
-		NSLog(@"delete photo with error %@", error);
+		RCLog(@"delete photo with error %@", error);
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -613,7 +613,7 @@
 														  completion:^(BOOL finished){
 															  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[self.photos count], h);
 															  self.butTrash.enabled = YES;
-															  NSLog(@"finish rearanging left photos %i", cache.count);
+															  RCLog(@"finish rearanging left photos %i", cache.count);
 														  }];
 									 }
 								 }];
@@ -667,7 +667,7 @@
 	}];
 }
 -(void)activityDidClose {
-	NSLog(@"activity did close");
+	RCLog(@"activity did close");
 	if (activity) {
 		activity.controller = nil;
 		activity.delegate = nil;
@@ -753,14 +753,14 @@
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId
 {
-	NSLog(@"---------------begin refresh");
+	RCLog(@"---------------begin refresh");
 }
 
 - (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
 {
 	// TODO: take into account when the refresh is coming from the AlbumGrid and when is coming from the PhotoViewer
-	NSLog(@"---------------end refresh");
-	NSLog(@"---------------photos count %i new photos count %i", self.photos.count, album.photos.count);
+	RCLog(@"---------------end refresh");
+	RCLog(@"---------------photos count %i new photos count %i", self.photos.count, album.photos.count);
 	
 	if (self.photos.count == album.photos.count - 1) {
 		[self.photos addObject:[album.photos lastObject]];
@@ -787,7 +787,7 @@
 
 - (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
 {
-	NSLog(@"error refresh");
+	RCLog(@"error refresh");
 }
 - (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId {
 	

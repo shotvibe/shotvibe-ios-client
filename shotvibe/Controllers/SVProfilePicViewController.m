@@ -62,7 +62,7 @@
     NSString *choice = [actionSheet buttonTitleAtIndex:buttonIndex];
     if (buttonIndex == [actionSheet destructiveButtonIndex]) {
         // destroy something
-        NSLog(@"Destroy");
+        RCLog(@"Destroy");
     }
 	else if ([choice isEqualToString:@"Camera"]){
 		
@@ -108,7 +108,7 @@
 
 - (void)didSelectPhoto:(UIImage *)thePhoto {
 	
-	NSLog(@"didSelectPhoto %@", thePhoto);
+	RCLog(@"didSelectPhoto %@", thePhoto);
 	
 	UIImage *scaledImage = [thePhoto imageByScalingAndCroppingForSize:CGSizeMake(320, 320)];
 	
@@ -123,7 +123,7 @@
 	[UIImageJPEGRepresentation(scaledImage, 0.9) writeToFile:path options:NSAtomicWrite error:&err];
 	
 	if (err) {
-		NSLog(@"some error ocured while saving the avatar to disk");
+		RCLog(@"some error ocured while saving the avatar to disk");
 		return;
 	}
 	
@@ -138,13 +138,13 @@
 		// Save avatar
 		NSError *error2;
 		BOOL success = [shotvibeAPI uploadUserAvatar:userId filePath:path uploadProgress:^(int i, int j){
-			NSLog(@"upload avatar %i %i", i, j);
+			RCLog(@"upload avatar %i %i", i, j);
 		} withError:&error2];
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[MBProgressHUD hideHUDForView:self.view animated:YES];
 			if (!success) {
-				NSLog(@"err avatar upload");
+				RCLog(@"err avatar upload");
 			}
 			else {
 				if ([self.delegate respondsToSelector:@selector(didCropImage:)]) {
@@ -157,7 +157,7 @@
 
 - (void) didCropImage:(UIImage*)image {
 	
-	NSLog(@"didCropImage");
+	RCLog(@"didCropImage");
 	[self didSelectPhoto:image];
 	[self.navigationController.visibleViewController dismissViewControllerAnimated:YES completion:^{
 		

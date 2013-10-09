@@ -56,7 +56,7 @@
 //	
 //	NSURL *url = [NSURL URLWithString:path];
 //	//NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//	//NSLog(@"RCImageView %@", path);
+//	//RCLog(@"RCImageView %@", path);
 //	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
 //	
 //	if (referer != nil) {
@@ -86,7 +86,7 @@
 	totalBytesLoaded = 0;
 	[imageData setLength:0];
 	
-	//NSLog(@"RCHttp didReceiveResponse totalBytesExpected = %qi", totalBytesExpected);
+	//RCLog(@"RCHttp didReceiveResponse totalBytesExpected = %qi", totalBytesExpected);
 }
 
 
@@ -101,7 +101,7 @@
 	sprintf(buff, "%0.2f", ln);
 	double pc = atof(buff);
 	pc *= 100;
-	//NSLog(@"RCImageView didReceiveData with Percentage: %3.0f%%", pc);
+	//RCLog(@"RCImageView didReceiveData with Percentage: %3.0f%%", pc);
 	
 	if ([delegate respondsToSelector:@selector(onPhotoProgress:index:)]) {
 		[delegate performSelector:@selector(onPhotoProgress:index:) withObject:[NSNumber numberWithDouble:pc] withObject:[NSNumber numberWithInt:i]];
@@ -109,8 +109,8 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn {
-    //NSLog(@"RCImageView connectionDidFinishLoading %i", i);
-	//NSLog(@"%i", [imageData length]);
+    //RCLog(@"RCImageView connectionDidFinishLoading %i", i);
+	//RCLog(@"%i", [imageData length]);
 	UIImage *image = [[UIImage alloc] initWithData:imageData];
 	
 	if (self.autosize) {
@@ -126,7 +126,7 @@
 	[self setImage:image];
 	self.opaque = YES;// explicitly opaque for performance
 	
-	//NSLog(@"RCImageView fin %i", [UIImageJPEGRepresentation (self.image, 0.8f) length]);
+	//RCLog(@"RCImageView fin %i", [UIImageJPEGRepresentation (self.image, 0.8f) length]);
 	if ([delegate respondsToSelector:@selector(onPhotoComplete:)]) {
 		[delegate performSelector:@selector(onPhotoComplete:) withObject:[NSNumber numberWithInt:i]];
 	}

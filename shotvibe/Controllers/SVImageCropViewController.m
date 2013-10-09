@@ -65,7 +65,7 @@
 
 
 - (void)doneButtonPressed {
-	NSLog(@"doneButtonPressed %@", self.delegate);
+	RCLog(@"doneButtonPressed %@", self.delegate);
 	float scale = 1.0f/scrollView.zoomScale;
 	
 	CGRect visibleRect;

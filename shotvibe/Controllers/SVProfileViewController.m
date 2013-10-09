@@ -48,7 +48,7 @@
 
 - (void) didCropImage:(UIImage*)image {
 	
-	NSLog(@"image did crop and save");
+	RCLog(@"image did crop and save");
 	self.userPhoto.image = image;
 	[self.navigationController popToViewController:self animated:YES];
 }

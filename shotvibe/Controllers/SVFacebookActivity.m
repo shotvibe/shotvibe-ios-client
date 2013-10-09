@@ -37,10 +37,10 @@
 		
 		switch (result) {
 			case SLComposeViewControllerResultCancelled:
-				NSLog(@"Post Canceled");
+				RCLog(@"Post Canceled");
 				break;
 			case SLComposeViewControllerResultDone:
-				NSLog(@"Post Sucessful");
+				RCLog(@"Post Sucessful");
 				break;
 			default:
 				break;

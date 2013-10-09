@@ -138,7 +138,7 @@ const NSTimeInterval RETRY_TIME = 5;
 
 - (void)uploadAlbumPhotos:(int64_t)albumId
 {
-    NSLog(@"uploadAlbumPhotos: %lld", albumId);
+    RCLog(@"uploadAlbumPhotos: %lld", albumId);
 
     while (YES) {
         AlbumUploadingPhoto *nextPhotoUpload;
@@ -170,17 +170,17 @@ const NSTimeInterval RETRY_TIME = 5;
             currentUploadQueueSize = uploadQueueSize_;
         }
 
-        NSLog(@"nextPhotoUploadIndex: %d", nextPhotoUploadIndex);
+        RCLog(@"nextPhotoUploadIndex: %d", nextPhotoUploadIndex);
 
         if ([photoIds_ count] == 0) {
-            NSLog(@"PhotoUploadManager Requesting Photo IDs");
+            RCLog(@"PhotoUploadManager Requesting Photo IDs");
 
             NSArray *newPhotoIds = nil;
             while (!newPhotoIds) {
                 NSError *error;
                 newPhotoIds = [shotvibeAPI_ photosUploadRequest:currentUploadQueueSize + 1 withError:&error];
                 if (!newPhotoIds) {
-                    NSLog(@"Error requesting photo IDS: %@", [error description]);
+                    RCLog(@"Error requesting photo IDS: %@", [error description]);
                     [NSThread sleepForTimeInterval:RETRY_TIME];
                 }
             }
@@ -191,7 +191,7 @@ const NSTimeInterval RETRY_TIME = 5;
         nextPhotoUpload.photoId = [photoIds_ objectAtIndex:0];
         [photoIds_ removeObjectAtIndex:0];
 
-        NSLog(@"Next photoId: %@", nextPhotoUpload.photoId);
+        RCLog(@"Next photoId: %@", nextPhotoUpload.photoId);
 
         NSString *filename = [nextPhotoUpload getFilename];
         BOOL photoSuccesfullyUploaded = NO;
@@ -203,7 +203,7 @@ const NSTimeInterval RETRY_TIME = 5;
                     [listener_ photoUploadProgress:albumId];
                 });
             } withError:&error]) {
-                NSLog(@"Error uploading photo: %@", [error description]);
+                RCLog(@"Error uploading photo: %@", [error description]);
                 [NSThread sleepForTimeInterval:RETRY_TIME];
             }
             else {
@@ -211,7 +211,7 @@ const NSTimeInterval RETRY_TIME = 5;
             }
         }
 
-        NSLog(@"Succesfully uploaded photo");
+        RCLog(@"Succesfully uploaded photo");
 
         [nextPhotoUpload reportUploadComplete];
 
@@ -235,7 +235,7 @@ const NSTimeInterval RETRY_TIME = 5;
     while (!photosSuccesfullyAdded) {
         NSError *error;
         if (![shotvibeAPI_ albumAddPhotos:albumId photoIds:addPhotoIds withError:&error]) {
-            NSLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
+            RCLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
             [NSThread sleepForTimeInterval:RETRY_TIME];
         }
         else {
@@ -243,7 +243,7 @@ const NSTimeInterval RETRY_TIME = 5;
         }
     }
 
-    NSLog(@"Completely done uploading photos to album!");
+    RCLog(@"Completely done uploading photos to album!");
 
     // Delete from uploadingPhotos_ the photos that were added to the album
     @synchronized (lock_) {

@@ -47,7 +47,6 @@
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
-	NSLog(@"layoutsubviews %i %@", self.i, NSStringFromCGRect(self.frame));
 	
 	// Center the image as it becomes smaller than the size of the screen.
 	
@@ -113,7 +112,6 @@
 - (void)loadComplete {
 	[loadingIndicator stopAnimating];
 	imageView.frame = (CGRect){.size=imageView.image.size, .origin=CGPointMake(0, 0)};
-	NSLog(@"adjust the size of the RCImageView %@", NSStringFromCGRect(imageView.frame));
 }
 
 
@@ -144,7 +142,7 @@
 //	self.maximumZoomScale = 1;
 	[self setZoomScale:self.minimumZoomScale animated:NO];
 	[self setNeedsLayout];
-	NSLog(@"self.minimumZoomScale %f %f", self.minimumZoomScale, self.maximumZoomScale);
+	RCLog(@"self.minimumZoomScale %f %f", self.minimumZoomScale, self.maximumZoomScale);
 }
 
 

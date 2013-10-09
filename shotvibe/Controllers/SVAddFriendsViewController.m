@@ -41,7 +41,7 @@
 - (IBAction)donePressed:(id)sender {
     // add members to album
     //TODO if already shotvibe member just add to album else sent notification to user to join?
-    NSLog(@"contacts to add >> ");
+    RCLog(@"contacts to add >> ");
 	
 	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
@@ -67,7 +67,7 @@
 	if (contactsToInvite.count > 0) {
 		
 		__block NSDictionary *phoneNumbers = @{@"add_members": contactsToInvite};
-		NSLog(@"contactsToInvite %@", phoneNumbers);
+		RCLog(@"contactsToInvite %@", phoneNumbers);
 		
 		// send request
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -75,8 +75,8 @@
 			AlbumContents *r = [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId phoneNumbers:contactsToInvite withError:&error];
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
-				NSLog(@"r.members %@", r.members);
-				NSLog(@"invite sent - success/error: %@", error);
+				RCLog(@"r.members %@", r.members);
+				RCLog(@"invite sent - success/error: %@", error);
 				[MBProgressHUD hideHUDForView:self.view animated:YES];
 				[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 			});
@@ -255,7 +255,7 @@
 	NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
 	NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
 	CFRelease(phoneNumbers);
-	//NSLog(@"%@ %@", phoneNumber, phoneNumericNumber);
+	//RCLog(@"%@ %@", phoneNumber, phoneNumericNumber);
 	
 	// Check if this contact has a phone number
 	if (phoneNumber == nil || phoneNumericNumber.length == 0) {
@@ -311,7 +311,7 @@
     [searchBar resignFirstResponder];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-	NSLog(@"cancel clicked");
+	RCLog(@"cancel clicked");
 	[searchBar resignFirstResponder];
 	searchBar.text = @"";
 	[self handleSearchForText:nil];
@@ -323,7 +323,7 @@
 
 
 - (void) handleSearchForText:(NSString*)str {
-	NSLog(@"handle search %@", str);
+	RCLog(@"handle search %@", str);
 	
 	[ab filterByKeyword:str completionBlock:^{
 		[self.tableView reloadData];
@@ -351,7 +351,7 @@
 	[button setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
 	[button setTag:tag];
 	[button sizeToFit];
-	NSLog(@"add %lli", (long long)button.tag);
+	RCLog(@"add %lli", (long long)button.tag);
 	
 	UIImage *baseImage = [UIImage imageNamed:@"butInvitedContacts.png"];
 	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
@@ -382,7 +382,7 @@
 	NSMutableArray *arr = contactsButtons;
 	for (UIButton *but in arr) {
 		if (but.tag == [ab idOfRecord:record]) {
-			NSLog(@"remove 1 %i", but.tag);
+			RCLog(@"remove 1 %i", but.tag);
 			[contactsButtons removeObject:but];
 			[but removeFromSuperview];
 			[selectedIds removeObject:(__bridge id)(record)];
@@ -396,7 +396,7 @@
 {
 	for (id record in selectedIds) {
 		if ([ab idOfRecord:(__bridge ABRecordRef)(record)] == sender.tag) {
-			NSLog(@"remove 2 %i", sender.tag);
+			RCLog(@"remove 2 %i", sender.tag);
 			[selectedIds removeObject:record];
 			break;
 		}

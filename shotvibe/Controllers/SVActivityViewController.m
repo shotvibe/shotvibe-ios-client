@@ -104,7 +104,7 @@
 }
 
 - (IBAction)cancelHandler:(id)sender {
-	NSLog(@"cancel handler");
+	RCLog(@"cancel handler");
 	[self closeAndClean:YES];
 }
 

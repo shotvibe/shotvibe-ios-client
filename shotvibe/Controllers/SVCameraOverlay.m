@@ -26,7 +26,7 @@
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
 	
-	//NSLog(@"tap %@", NSStringFromCGPoint(point));
+	//RCLog(@"tap %@", NSStringFromCGPoint(point));
 	
 //	if(CGRectContainsPoint(infoButton.frame, point) || CGRectContainsPoint(snapButton.frame, point)) {
 //		// touched button
@@ -37,7 +37,7 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	NSLog(@"touches began");
+	RCLog(@"touches began");
     [super touchesBegan:touches withEvent:event];
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:self];

@@ -153,8 +153,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];NSLog(@"photos grid will appear");
-	NSLog(@"-------view will appear. ALBUM CONTENTS, album id %lld %@ %@", self.albumId, self.albumManager, albumContents);
+	[super viewWillAppear:animated];RCLog(@"photos grid will appear");
+	RCLog(@"-------view will appear. ALBUM CONTENTS, album id %lld %@ %@", self.albumId, self.albumManager, albumContents);
 	
 	if (albumContents == nil) {
 		//AlbumContents *contents;
@@ -187,14 +187,14 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];NSLog(@"-----------photos grid will disappear navigatingNext %i", navigatingNext);
+    [super viewWillDisappear:animated];RCLog(@"-----------photos grid will disappear navigatingNext %i", navigatingNext);
 	
 	if (!navigatingNext) {
 		
 		[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
 		albumContents = nil;
 		
-		NSLog(@"clean everything");
+		RCLog(@"clean everything");
 		self.albumManager = nil;
 		((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = nil;
 		((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = nil;
@@ -211,7 +211,7 @@
 }
 
 - (void)dealloc {
-	NSLog(@"dealloc SVAlbumGridViewController %lli", self.albumId);
+	RCLog(@"dealloc SVAlbumGridViewController %lli", self.albumId);
 }
 
 #pragma mark Rotation
@@ -258,7 +258,7 @@
 
 - (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {
 	
-	NSLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
+	RCLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
 	
 }
 
@@ -376,7 +376,7 @@
 			break;
 		}
 	}
-	NSLog(@"didSelectItemAtIndexPath %@ %i", indexPath, i);
+	RCLog(@"didSelectItemAtIndexPath %@ %i", indexPath, i);
 	
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumId = self.albumId;
@@ -410,7 +410,7 @@
 
 - (void)setAlbumContents:(AlbumContents *)album
 {
-	NSLog(@"---------------------setAlbumContents after refresh %@", album.photos);
+	RCLog(@"---------------------setAlbumContents after refresh %@", album.photos);
     albumContents = album;
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
@@ -461,7 +461,7 @@
 		[arr addObject:photo];
 		[sections setObject:arr forKey:key];
 	}
-	NSLog(@"__________Keys after sorting %@", sectionsKeys);
+	RCLog(@"__________Keys after sorting %@", sectionsKeys);
 }
 - (void)switchSortHandler:(UISegmentedControl*)control {
 	sort = control.selectedSegmentIndex;
@@ -473,12 +473,12 @@
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId
 {
-	NSLog(@"begin refresh");
+	RCLog(@"begin refresh");
 }
 
 - (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
 {
-	NSLog(@"end refresh");
+	RCLog(@"end refresh");
 	if (refreshManualy) {
 		[self endRefreshing];
 	}
@@ -487,7 +487,7 @@
 
 - (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
 {
-	NSLog(@"error refresh");
+	RCLog(@"error refresh");
     [refresh endRefreshing];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	

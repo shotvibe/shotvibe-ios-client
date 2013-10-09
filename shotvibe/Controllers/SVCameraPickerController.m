@@ -111,7 +111,7 @@
 		}];
 		// Hide
 		if (self.albums.count > 1) {
-			NSLog(@"animate to 0");
+			RCLog(@"animate to 0");
 			[UIView animateWithDuration:0.4 animations:^{
 				self.topBarContainer.frame = CGRectMake(0, 0, 320, 150);
 			}];
@@ -137,10 +137,10 @@
 
 
 - (void)tap:(UITapGestureRecognizer *)tapGesture {
-	NSLog(@"add tap");
+	RCLog(@"add tap");
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	NSLog(@"touches began in controller");
+	RCLog(@"touches began in controller");
 	[super touchesBegan:touches withEvent:event];
 }
 
@@ -507,7 +507,7 @@
 
 - (void)doneButtonPressed {
 	
-	NSLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
+	RCLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
 	
 	// Upload the taken photos
 	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];

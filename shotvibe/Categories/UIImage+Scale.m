@@ -71,7 +71,7 @@
 	
     if(newImage == nil)
     {
-        NSLog(@"could not scale image");
+        RCLog(@"could not scale image");
     }
 	
     //pop the context to get back to the default

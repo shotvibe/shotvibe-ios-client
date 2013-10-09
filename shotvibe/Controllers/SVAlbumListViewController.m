@@ -89,7 +89,7 @@
 //	[app application:nil didReceiveRemoteNotification:dic];
 }
 - (IBAction)takePicturePressed:(id)sender {
-	NSLog(@"takePicturePressed");
+	RCLog(@"takePicturePressed");
 	int capacity = 8;
 	NSMutableArray *albums = [[NSMutableArray alloc] initWithCapacity:capacity];
 	int i = 0;
@@ -171,8 +171,8 @@
 
 - (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {
 	
-	NSLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
-	NSLog(@"navigate to gridview");
+	RCLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
+	RCLog(@"navigate to gridview");
 	
 	int i = 0;
 	NSIndexPath *indexPath;
@@ -180,7 +180,7 @@
 		
 		if (a.albumId == selectedAlbum.albumId) {
 			indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-			NSLog(@"found at indexPath %@", indexPath);
+			RCLog(@"found at indexPath %@", indexPath);
 			[self performSegueWithIdentifier:@"AlbumGridViewSegue" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
 			
 			break;
@@ -196,11 +196,11 @@
 {
     [super viewDidLoad];
 	
-    NSLog(@"##### albumManager: %@", self.albumManager);
+    RCLog(@"##### albumManager: %@", self.albumManager);
 
     [self setAlbumList:[self.albumManager addAlbumListListener:self]];
 
-    NSLog(@"##### Initial albumList: %@", albumList);
+    RCLog(@"##### Initial albumList: %@", albumList);
 	
 	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 		self.takePictureButton.enabled = NO;
@@ -576,12 +576,12 @@
 
 - (void)onAlbumListBeginRefresh
 {
-	NSLog(@"Albums begin refresh");
+	RCLog(@"Albums begin refresh");
 }
 
 - (void)onAlbumListRefreshComplete:(NSArray *)albums
 {
-	NSLog(@"Albums end refresh");
+	RCLog(@"Albums end refresh");
 	creatingAlbum = NO;
 	[self setAlbumList:albums];
 	[self updateEmptyState];

@@ -45,7 +45,7 @@
     NSString *phoneNumber = self.phoneNumberField.text;
     NSString *defaultCountry = selectedCountryCode;
 	
-    NSLog(@"phoneNumber:'%@' defaultCountry:'%@'", phoneNumber, defaultCountry);
+    RCLog(@"phoneNumber:'%@' defaultCountry:'%@'", phoneNumber, defaultCountry);
 	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
@@ -128,7 +128,7 @@
     selectedCountryCode = regionCode;
     self.countryFlagView.image = [UIImage imageNamed:regionCode];
     
-	NSLog(@"didselectcountry %@ %@", name, regionCode);
+	RCLog(@"didselectcountry %@ %@", name, regionCode);
 }
 
 
@@ -165,7 +165,7 @@
 
 - (void)selectCountry:(NSString *)regionCode
 {
-    NSLog(@"Selecting country: %@", regionCode);
+    RCLog(@"Selecting country: %@", regionCode);
     [self didSelectCountryWithName:regionCode regionCode:regionCode];
 }
 

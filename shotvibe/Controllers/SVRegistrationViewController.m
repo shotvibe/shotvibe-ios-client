@@ -49,7 +49,7 @@
     NSString *phoneNumber = self.phoneNumberField.text;
     NSString *defaultCountry = selectedCountryCode;
     
-    NSLog(@"phoneNumber:'%@' defaultCountry:'%@'", phoneNumber, defaultCountry);
+    RCLog(@"phoneNumber:'%@' defaultCountry:'%@'", phoneNumber, defaultCountry);
 	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
@@ -100,7 +100,7 @@
 	
     if ([self.albumManager getShotVibeAPI].authData)
     {
-        NSLog(@"SVRegistrationViewController AuthData available");
+        RCLog(@"SVRegistrationViewController AuthData available");
 		[self handleSuccessfulLogin:NO];
     }
 	else {
@@ -182,7 +182,7 @@
 
 - (void)selectCountry:(NSString *)regionCode
 {
-    NSLog(@"Selecting country: %@", regionCode);
+    RCLog(@"Selecting country: %@", regionCode);
     [self didSelectCountryWithName:regionCode regionCode:regionCode];
 }
 
@@ -197,7 +197,7 @@
 
 - (void)handleSuccessfulLogin:(BOOL)animated
 {
-	NSLog(@"handleSuccessfulLogin");
+	RCLog(@"handleSuccessfulLogin");
     //[[SVDownloadSyncEngine sharedEngine] startSync];
     
     // Grab the storyboard

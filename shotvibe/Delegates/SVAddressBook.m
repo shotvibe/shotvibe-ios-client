@@ -36,6 +36,7 @@
 				ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook); // or get the source with ABPersonCopySource(somePersonsABRecordRef);
 				CFArrayRef people = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering (addressBook, source, ABPersonGetSortOrdering());
 				self.allContacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(people)];
+				RCLog(@"Found %i contacts", self.allContacts.count);
 				
 				CFRelease(people);
 				CFRelease(source);
@@ -44,7 +45,7 @@
                     completionBlock(YES,nil);
 			}
 			else {
-				NSLog(@"Unfortunately we need access to the contacts list");
+				RCLog(@"Unfortunately we need access to the contacts list");
 				if (completionBlock)
                     completionBlock(NO,nil);
 			}
@@ -67,6 +68,7 @@
 			NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)evaluatedObject);
 			
 			if (name == nil) {
+				RCLog(@"name is nil. skip this contact");
 				continue;
 			}
 			if (keyword == nil || [[name lowercaseString] rangeOfString:keyword].location != NSNotFound)
@@ -112,7 +114,7 @@
 									ABPersonSetImageData(persona, ABPersonCopyImageDataWithFormat((__bridge ABRecordRef)evaluatedObject, kABPersonImageFormatThumbnail), nil);
 								}
 								
-								[arr addObject:(__bridge id)(persona)];
+								[arr addObject:(__bridge id)persona];
 								
 								CFRelease(multiPhone);
 								//CFRelease(firstName);
@@ -129,6 +131,7 @@
 				CFRelease(phoneNumbers);
 				
 				[self.filteredContacts setObject:arr forKey:key];
+				RCLog(@"%i contacts for key %@", arr.count, key);
 			}
 		}
 		
@@ -164,7 +167,7 @@
 	
 	
 	
-	//NSLog(@"self.filteredContacts %@ %@", self.filteredKeys, self.filteredContacts);
+	//RCLog(@"self.filteredContacts %@ %@", self.filteredKeys, self.filteredContacts);
 
 
 - (int)idOfRecord:(ABRecordRef)record {

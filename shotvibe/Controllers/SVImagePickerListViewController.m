@@ -48,7 +48,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    NSLog(@"SVImagePickerListViewController viewdidload");
+    RCLog(@"SVImagePickerListViewController viewdidload");
 	
     // Setup back button
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
@@ -117,7 +117,7 @@
 {
     [SVAssets loadAllLocalAlbumsOnDeviceWithCompletion:^(NSArray *albums, NSError *error) {
         if (!error) {
-            NSLog(@"Grabbed %i Albums", albums.count);
+            RCLog(@"Grabbed %i Albums", albums.count);
             self.albums = [[NSArray alloc] initWithArray:albums];
             [self.tableView reloadData];
         }

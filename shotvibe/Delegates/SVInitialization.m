@@ -21,7 +21,7 @@
 
 - (void)configureAppearanceProxies
 {
-	NSLog(@"configure appearance proxies");
+	RCLog(@"configure appearance proxies");
 	
     // Customize appearance of the navigation bar    
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont, nil]];

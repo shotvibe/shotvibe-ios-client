@@ -56,7 +56,7 @@ static NSString * deviceDescription()
 
 - (void)validateRegistrationCode:(NSString *)registrationCode
 {
-	NSLog(@"validateRegistrationCode - code:  %@", registrationCode);
+	RCLog(@"validateRegistrationCode - code:  %@", registrationCode);
 
     UIAlertView *activityDialog = [[UIAlertView alloc] initWithTitle:@"Registering..." message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
     [activityDialog show];
@@ -137,7 +137,7 @@ static NSString * deviceDescription()
 
 - (void)handleSuccessfulLogin:(BOOL)animated
 {
-	NSLog(@"handleSuccessfulLogin");
+	RCLog(@"handleSuccessfulLogin");
     //[[SVDownloadSyncEngine sharedEngine] startSync];
     
     // Grab the storyboard

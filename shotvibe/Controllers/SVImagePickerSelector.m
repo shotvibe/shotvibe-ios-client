@@ -46,7 +46,7 @@
 //		
 //		[geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
 //			MKPlacemark *placemark = [placemarks objectAtIndex:0];
-//			NSLog(@"locality:%@, country:%@", placemark.locality, placemark.country);
+//			RCLog(@"locality:%@, country:%@", placemark.locality, placemark.country);
 //			
 //			NSString *key = placemark.locality;
 //			if (key == nil) {
@@ -64,13 +64,13 @@
 //			
 //			i ++;
 //			if (_takenPhotos.count == i) {
-//				NSLog(@"refresh grid");
+//				RCLog(@"refresh grid");
 //				[self.gridView reloadData];
 //			}
 //		}];
 //	}
 	
-	NSLog(@"%@", sectionsKeys);
+	RCLog(@"%@", sectionsKeys);
 }
 
 
@@ -134,7 +134,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSLog(@"cell %@", indexPath);
+	RCLog(@"cell %@", indexPath);
 	
     SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionGridCell" forIndexPath:indexPath];
 	__block NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
@@ -229,7 +229,7 @@
 		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 		ALAsset *asset = [arr objectAtIndex:indexPath.row];
 		NSDictionary *dict = [asset valueForProperty:ALAssetPropertyURLs];
-		NSLog(@"dict %@", dict);
+		RCLog(@"dict %@", dict);
 		NSURL *url = [dict objectForKey:@"public.jpeg"];
 		if (url == nil) {
 			url = [dict objectForKey:@"public.png"];
@@ -245,11 +245,11 @@
 				[self.navigationController pushViewController:cropController animated:YES];
 			}
 			else {
-				NSLog(@"error creating the fullscreen version of the image");
+				RCLog(@"error creating the fullscreen version of the image");
 			}
 		};
 		ALAssetsLibraryAccessFailureBlock failureblock  = ^(NSError *myerror){
-			NSLog(@"Cant get image - %@", [myerror localizedDescription]);
+			RCLog(@"Cant get image - %@", [myerror localizedDescription]);
 		};
 		
 		ALAssetsLibrary *assetslibrary = [[ALAssetsLibrary alloc] init];
@@ -301,7 +301,7 @@
 
 - (void)doneButtonPressed {
 	
-	NSLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
+	RCLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
 	
 	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		

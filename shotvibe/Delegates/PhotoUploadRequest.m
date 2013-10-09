@@ -89,7 +89,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
     ALAssetRepresentation *rep = [asset_ defaultRepresentation];
 
     if (![[NSFileManager defaultManager] createFileAtPath:filePath_ contents:nil attributes:nil]) {
-        NSLog(@"ERROR CREATING FILE: %@", filePath_);
+        RCLog(@"ERROR CREATING FILE: %@", filePath_);
         // TODO Handle error...
         return;
     }
@@ -97,7 +97,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
     NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:filePath_];
 
     if (!handle) {
-        NSLog(@"ERROR OPENING FILE: %@", filePath_);
+        RCLog(@"ERROR OPENING FILE: %@", filePath_);
         // TODO Handle error...
         return;
     }
@@ -112,7 +112,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
         NSUInteger numBytesRead = [rep getBytes:buffer fromOffset:offset length:BUFFER_SIZE error:&error];
 
         if (numBytesRead == 0) {
-            NSLog(@"ERROR WRITING FILE: %@", [error description]);
+            RCLog(@"ERROR WRITING FILE: %@", [error description]);
             // TODO Handle error...
         }
 
@@ -123,7 +123,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 
     free(buffer);
 
-    NSLog(@"Closing file");
+    RCLog(@"Closing file");
     [handle closeFile];
     handle = nil;
 

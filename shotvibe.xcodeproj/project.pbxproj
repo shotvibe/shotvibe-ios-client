@@ -484,6 +484,7 @@
 		2897384717A2422F003B18D3 /* albumTakePicture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2897384317A2422F003B18D3 /* albumTakePicture@2x.png */; };
 		28B30F911805BB5F005C50A4 /* IconCalendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30F8F1805BB5F005C50A4 /* IconCalendar.png */; };
 		28B30F921805BB5F005C50A4 /* IconCalendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30F901805BB5F005C50A4 /* IconCalendar@2x.png */; };
+		28B30F981805E56D005C50A4 /* RCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 28B30F971805E56D005C50A4 /* RCLog.m */; };
 		28CFCC7F17A2C247001511EF /* SegmentSeparator.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC7D17A2C247001511EF /* SegmentSeparator.png */; };
 		28CFCC8017A2C247001511EF /* SegmentSeparator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC7E17A2C247001511EF /* SegmentSeparator@2x.png */; };
 		28CFCC8317A30BA2001511EF /* albumEmptyCameraButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC8117A30BA1001511EF /* albumEmptyCameraButton.png */; };
@@ -1139,6 +1140,8 @@
 		2897384317A2422F003B18D3 /* albumTakePicture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumTakePicture@2x.png"; sourceTree = "<group>"; };
 		28B30F8F1805BB5F005C50A4 /* IconCalendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconCalendar.png; sourceTree = "<group>"; };
 		28B30F901805BB5F005C50A4 /* IconCalendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconCalendar@2x.png"; sourceTree = "<group>"; };
+		28B30F961805E56D005C50A4 /* RCLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLog.h; sourceTree = "<group>"; };
+		28B30F971805E56D005C50A4 /* RCLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLog.m; sourceTree = "<group>"; };
 		28CF18C917C7C07B00C4BA25 /* SVCameraPickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVCameraPickerDelegate.h; path = shotvibe/Delegates/SVCameraPickerDelegate.h; sourceTree = SOURCE_ROOT; };
 		28CFCC7D17A2C247001511EF /* SegmentSeparator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentSeparator.png; sourceTree = "<group>"; };
 		28CFCC7E17A2C247001511EF /* SegmentSeparator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SegmentSeparator@2x.png"; sourceTree = "<group>"; };
@@ -2364,6 +2367,8 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				28B30F961805E56D005C50A4 /* RCLog.h */,
+				28B30F971805E56D005C50A4 /* RCLog.m */,
 				28FC2CAA17FE8F2400AE24C3 /* OBGradientView */,
 				28FC2CA617FE8EE300AE24C3 /* MPNotificationView */,
 				285EB93217F55BDA00A33E5B /* AviarySDK */,
@@ -3173,6 +3178,7 @@
 				28FC2C2917F886CC00AE24C3 /* SVAlbumGridSection.m in Sources */,
 				28FC2CA917FE8EE400AE24C3 /* MPNotificationView.m in Sources */,
 				28FC2CAD17FE8F2600AE24C3 /* OBGradientView.m in Sources */,
+				28B30F981805E56D005C50A4 /* RCLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

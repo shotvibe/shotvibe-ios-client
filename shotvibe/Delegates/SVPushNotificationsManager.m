@@ -62,17 +62,17 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 
     dispatch_async(backgroundQueue, ^{
         NSError *error;
-        NSLog(@"Registering deviceToken: %@", deviceToken);
+        RCLog(@"Registering deviceToken: %@", deviceToken);
         if (![[albumManager getShotVibeAPI] registerDevicePushWithDeviceToken:deviceToken error:&error]) {
             // We weren't able to register with the API server.
 			// So just give up now: the registrationId won't be saved in UserSettings,
 			// and so this operation will be retried some time later on (the next time setup is called)
-            NSLog(@"Error Registering: %@", [error localizedDescription]);
+            RCLog(@"Error Registering: %@", [error localizedDescription]);
             return;
         }
 
         // TODO Store the deviceToken inside the user prefs so that the app won't keep reregistering
-        NSLog(@"Registered!");
+        RCLog(@"Registered!");
     });
 }
 
