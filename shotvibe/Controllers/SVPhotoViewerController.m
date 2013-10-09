@@ -492,10 +492,14 @@
 																	dateStyle:NSDateFormatterLongStyle
 																	timeStyle:NSDateFormatterShortStyle];
 			str = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.authorNickname, dateFormated];
+			
+			// Hide the trash button for photos that does not belong the the current user
+			self.butTrash.hidden = photo.serverPhoto.authorUserId != [self.albumManager getShotVibeAPI].authData.userId;
 		}
-		
-		// Hide the trash button for photos that does not belong the the current user
-		self.butTrash.hidden = photo.serverPhoto.authorUserId != [self.albumManager getShotVibeAPI].authData.userId;
+		else {
+			// Hide the trash button for photos that does not belong the the current user
+			self.butTrash.hidden = YES;
+		}
 	}
     self.detailLabel.text = str;
 }
