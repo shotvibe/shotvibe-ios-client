@@ -68,9 +68,9 @@
                                                       otherButtonTitles:nil];
                 [alert show];
             }
-            else if (r == AuthorizePhoneNumberError) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:[error description]
+            else /*if (r == AuthorizePhoneNumberError)*/ {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unknown Error"
+                                                                message:@"Possible causes are invalid phone numbers or the server is down"
                                                                delegate:nil
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
