@@ -31,10 +31,13 @@
 	
 	UITapGestureRecognizer *singleTap;
 	UITapGestureRecognizer *doubleTap;
+	
+	UIButton *butTrash;
+	UIButton *butShare;
+	UIButton *butEdit;
 }
 
 @property (nonatomic, strong) UIView *toolbarView;
-@property (nonatomic, strong) UIButton *butTrash;
 @property (nonatomic, strong) UILabel *detailLabel;
 
 - (void)deleteButtonPressed;
@@ -66,18 +69,18 @@
 	self.toolbarView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
 	self.toolbarView.alpha = 0;
 	
-	self.butTrash = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-	[self.butTrash setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
-	[self.butTrash addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-	[self.toolbarView addSubview:self.butTrash];
+	butTrash = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+	[butTrash setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
+	[butTrash addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+	[self.toolbarView addSubview:butTrash];
     
-	UIButton *butShare = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 0, 44, 44)];
+	butShare = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 0, 44, 44)];
 	[butShare setImage:[UIImage imageNamed:@"exportIcon.png"] forState:UIControlStateNormal];
 	[butShare addTarget:self action:@selector(exportButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 	butShare.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 	[self.toolbarView addSubview:butShare];
     
-	UIButton *butEdit = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44-44-10, 0, 44, 44)];
+	butEdit = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44-44-10, 0, 44, 44)];
 	[butEdit setImage:[UIImage imageNamed:@"PencilWhite.png"] forState:UIControlStateNormal];
 	[butEdit addTarget:self action:@selector(displayEditor) forControlEvents:UIControlEventTouchUpInside];
 	butEdit.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
@@ -169,7 +172,7 @@
 	
 		[self.toolbarView removeFromSuperview];
 		self.toolbarView = nil;
-		self.butTrash = nil;
+		butTrash = nil;
 		[self.detailLabel removeFromSuperview];
 		self.detailLabel = nil;
 	}
@@ -494,11 +497,11 @@
 			str = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.authorNickname, dateFormated];
 			
 			// Hide the trash button for photos that does not belong the the current user
-			self.butTrash.hidden = photo.serverPhoto.authorUserId != [self.albumManager getShotVibeAPI].authData.userId;
+			butTrash.hidden = photo.serverPhoto.authorUserId != [self.albumManager getShotVibeAPI].authData.userId;
 		}
 		else {
 			// Hide the trash button for photos that does not belong the the current user
-			self.butTrash.hidden = YES;
+			butTrash.hidden = YES;
 		}
 	}
     self.detailLabel.text = str;
@@ -530,7 +533,7 @@
 
 - (void)deletePictureAtIndex:(int)i {
 	
-	self.butTrash.enabled = NO;
+	butTrash.enabled = NO;
 	
 	int w = self.view.frame.size.width;
 	int h = self.view.frame.size.height;
@@ -564,7 +567,7 @@
 													  cancelButtonTitle:NSLocalizedString(@"Ok", @"")
 													  otherButtonTitles:nil];
 				[alert show];
-				self.butTrash.enabled = YES;
+				butTrash.enabled = YES;
 			}
 			else {
 				// Animate deleted photo to the trashbin
@@ -612,7 +615,7 @@
 														  }
 														  completion:^(BOOL finished){
 															  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[self.photos count], h);
-															  self.butTrash.enabled = YES;
+															  butTrash.enabled = YES;
 															  RCLog(@"finish rearanging left photos %i", cache.count);
 														  }];
 									 }
@@ -628,6 +631,11 @@
 
 - (void)exportButtonPressed
 {
+	// Weird bug on a phone, the buttons are touchable when the sharing screen is open
+	butTrash.enabled = NO;
+	butShare.enabled = NO;
+	butEdit.enabled = NO;
+	
 	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 	RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
 	UIImage *image = cachedImage.image;
@@ -666,15 +674,18 @@
 		
 	}];
 }
--(void)activityDidClose {
+- (void)activityDidClose {
 	RCLog(@"activity did close");
 	if (activity) {
 		activity.controller = nil;
 		activity.delegate = nil;
 		activity = nil;
 	}
+	butTrash.enabled = YES;
+	butShare.enabled = YES;
+	butEdit.enabled = YES;
 }
--(void)activityDidStartSharing {
+- (void)activityDidStartSharing {
 	[activity closeAndClean:NO];
 }
 
