@@ -644,6 +644,7 @@
 		activity = [[SVActivityViewController alloc] initWithNibName:@"SVActivityViewController" bundle:[NSBundle mainBundle]];
 		activity.controller = self;
 		activity.delegate = self;
+		activity.albums = [self.albumManager addAlbumListListener:self];
 		activity.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 		activity.modalPresentationStyle = UIModalPresentationCurrentContext;
 	}
@@ -679,6 +680,7 @@
 	if (activity) {
 		activity.controller = nil;
 		activity.delegate = nil;
+		activity.albums = nil;
 		activity = nil;
 	}
 	butTrash.enabled = YES;

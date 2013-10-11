@@ -32,7 +32,7 @@
 							 [[SVFacebookActivity alloc] init]];
 		self.localActivities = @[
 							 [[SVCopyActivity alloc] init],
-//							 [[SVMoveActivity alloc] init],
+							 [[SVMoveActivity alloc] init],
 							 [[SVLinkActivity alloc] init]];
     }
     return self;
@@ -93,19 +93,39 @@
 	}
 	
 	activity.controller = self.controller;
+	activity.delegate = self;
 	activity.sharingText = self.activityDescription;
 	activity.sharingUrl = self.activityUrl;
 	activity.sharingImage = self.activityImage;
 	[activity performActivity];
 	
-	if ([self.delegate respondsToSelector:@selector(activityDidStartSharing)]) {
+	if ([activity canClose] && [self.delegate respondsToSelector:@selector(activityDidStartSharing)]) {
 		[self.delegate activityDidStartSharing];
 	}
 }
 
 - (IBAction)cancelHandler:(id)sender {
-	RCLog(@"cancel handler");
-	[self closeAndClean:YES];
+	
+	if (self.miniAlbumList != nil) {
+		
+		[UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+			
+			CGRect rect = self.miniAlbumList.frame;
+			
+			self.scrollLocalButtons.alpha = 1;
+			self.scrollLocalButtons.frame = rect;
+			
+			rect.origin.x = 320;
+			self.miniAlbumList.frame = rect;
+			
+		}completion:^(BOOL finished) {
+			[self.miniAlbumList removeFromSuperview];
+			self.miniAlbumList = nil;
+		}];
+	}
+	else {
+		[self closeAndClean:YES];
+	}
 }
 
 - (void)closeAndClean:(BOOL)dispatch {
@@ -125,5 +145,29 @@
 		
 	}];
 }
+
+- (void)openAlbumList {
+	RCLog(@"open album list");
+	// Create albums list
+	self.miniAlbumList = [[SVMiniAlbumList alloc] initWithFrame:CGRectMake(320, self.scrollLocalButtons.frame.origin.y, 320, self.scrollLocalButtons.frame.size.height)];
+	self.miniAlbumList.albums = self.albums;
+	[self.activityView addSubview:self.miniAlbumList];
+	
+	// Hide buttons and show albums
+	[UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+		
+		CGRect rect = self.scrollLocalButtons.frame;
+		
+		self.miniAlbumList.frame = rect;
+		
+		rect.origin.x = -320;
+		self.scrollLocalButtons.alpha = 0;
+		self.scrollLocalButtons.frame = rect;
+		
+	}completion:^(BOOL finished) {
+		
+	}];
+}
+
 
 @end

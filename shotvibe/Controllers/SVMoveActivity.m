@@ -15,7 +15,7 @@
 }
 
 - (NSString *)activityTitle {
-    return NSLocalizedString(@"Move", @"");
+    return NSLocalizedString(@"Move To", @"");
 }
 
 - (UIImage *)activityImage {
@@ -34,7 +34,11 @@
 
 - (void)performActivity
 {
-	
+	[self.delegate openAlbumList];
+}
+
+- (BOOL)canClose {
+	return NO;
 }
 
 @end

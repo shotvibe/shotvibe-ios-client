@@ -21,7 +21,8 @@ UIScrollViewDelegate,
 UIActionSheetDelegate,
 SVActivityViewControllerDelegate,
 AFPhotoEditorControllerDelegate,
-AlbumContentsListener>
+AlbumContentsListener,
+AlbumListListener>
 
 
 #pragma mark - Properties

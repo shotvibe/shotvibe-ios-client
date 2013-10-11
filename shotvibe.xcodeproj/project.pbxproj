@@ -2039,6 +2039,9 @@
 		28E94C2017C2BA3B00874BDE /* Social */ = {
 			isa = PBXGroup;
 			children = (
+				28E94C3817C3507D00874BDE /* SVActivityViewController.h */,
+				28E94C3917C3507D00874BDE /* SVActivityViewController.m */,
+				2849A74F17D716AF0076AFBA /* SVActivityViewController.xib */,
 				2849A77117D775280076AFBA /* SVActivity.h */,
 				2849A77217D775290076AFBA /* SVActivity.m */,
 				28E94C2117C2BA6600874BDE /* SVLinkActivity.h */,
@@ -2055,9 +2058,6 @@
 				2849A76517D75D3E0076AFBA /* SVTumblrActivity.m */,
 				2849A76617D75D3E0076AFBA /* SVTwitterActivity.h */,
 				2849A76717D75D3F0076AFBA /* SVTwitterActivity.m */,
-				28E94C3817C3507D00874BDE /* SVActivityViewController.h */,
-				28E94C3917C3507D00874BDE /* SVActivityViewController.m */,
-				2849A74F17D716AF0076AFBA /* SVActivityViewController.xib */,
 				2849A75117D757F00076AFBA /* SVActivityButton.h */,
 				2849A75217D757F00076AFBA /* SVActivityButton.m */,
 			);

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SVMiniAlbumList.h"
 
 @protocol SVActivityViewControllerDelegate <NSObject>
 @required
@@ -16,6 +17,9 @@
 @end
 
 @interface SVActivityViewController : UIViewController <UIAppearanceContainer>
+
+@property (nonatomic, strong) NSArray *albums;
+@property (nonatomic, strong) SVMiniAlbumList *miniAlbumList;
 
 @property (nonatomic, retain) id<SVActivityViewControllerDelegate> delegate;
 @property (nonatomic, retain) UIViewController *controller;
@@ -33,5 +37,6 @@
 
 - (IBAction)cancelHandler:(id)sender;
 - (void)closeAndClean:(BOOL)dispatch;
+- (void)openAlbumList;
 
 @end

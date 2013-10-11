@@ -10,4 +10,8 @@
 
 @implementation SVActivity
 
+- (BOOL)canClose {
+	return YES;
+}
+
 @end

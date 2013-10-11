@@ -11,6 +11,6 @@
 
 @interface SVMiniAlbumList : UIScrollView <UIScrollViewDelegate>
 
-@property (nonatomic, strong) AlbumManager *albumManager;
+@property (nonatomic, strong) NSArray *albums;
 
 @end
