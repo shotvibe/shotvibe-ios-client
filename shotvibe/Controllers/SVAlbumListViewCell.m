@@ -29,7 +29,7 @@
 	UITouch *touch = [touches anyObject];
 	_originalCenter = [touch locationInView:self];
 	self.backView.backgroundColor = [UIColor colorWithRed:0.63 green:0.85 blue:0.07 alpha:1];
-	self.backImageView.image = [UIImage imageNamed:@"cameraIcon.png"];
+	self.backImageView.image = [UIImage imageNamed:@"cameraRollIcon.png"];
 	[super touchesBegan:touches withEvent:event];
 }
 
@@ -60,14 +60,14 @@
 		
 		if (dx > 160 && _swipeStage == 0) {
 			_swipeStage = 1;
-			self.backImageView.image = [UIImage imageNamed:@"cameraRollIcon.png"];
+			self.backImageView.image = [UIImage imageNamed:@"cameraIcon.png"];
 			[UIView animateWithDuration:0.28 animations:^{
 				self.backView.backgroundColor = [UIColor colorWithRed:1 green:0.44 blue:0.27 alpha:1];
 			}];
 		}
 		else if (dx <= 160 && _swipeStage == 1) {
 			_swipeStage = 0;
-			self.backImageView.image = [UIImage imageNamed:@"cameraIcon.png"];
+			self.backImageView.image = [UIImage imageNamed:@"cameraRollIcon.png"];
 			[UIView animateWithDuration:0.28 animations:^{
 				self.backView.backgroundColor = [UIColor colorWithRed:0.63 green:0.85 blue:0.07 alpha:1];
 			}];
@@ -91,10 +91,10 @@
 		[super touchesCancelled:touches withEvent:event];
 		
 		if (dx > 160 && _swipeStage == 1) {
-			[self.delegate releaseOnLibrary:self];
+			[self.delegate releaseOnCamera:self];
 		}
 		else if (dx <= 160 && _swipeStage == 0) {
-			[self.delegate releaseOnCamera:self];
+			[self.delegate releaseOnLibrary:self];
 		}
 	}
 	

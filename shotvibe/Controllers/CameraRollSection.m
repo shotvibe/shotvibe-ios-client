@@ -16,12 +16,17 @@
     if (self) {
         // Initialization code
 		
-		self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(-1, 9, frame.size.width+2, 26+6)];
+		UIView *bg = [[UIView alloc] initWithFrame:CGRectMake(-1, 9, frame.size.width+2, 26+6)];
+		bg.backgroundColor = [UIColor whiteColor];
+		bg.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
+		bg.layer.borderWidth = 0.6;
+		bg.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+		[self addSubview:bg];
+		
+		self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(26, 9, frame.size.width-30, 26+6)];
 		self.dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
 		self.dateLabel.textColor = [UIColor darkGrayColor];
-		self.dateLabel.backgroundColor = [UIColor whiteColor];
-		self.dateLabel.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
-		self.dateLabel.layer.borderWidth = 0.6;
+		self.dateLabel.backgroundColor = [UIColor clearColor];
 		self.dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		[self addSubview:self.dateLabel];
 		
