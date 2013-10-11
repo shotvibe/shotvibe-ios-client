@@ -29,7 +29,7 @@
 	UITouch *touch = [touches anyObject];
 	_originalCenter = [touch locationInView:self];
 	self.backView.backgroundColor = [UIColor colorWithRed:0.63 green:0.85 blue:0.07 alpha:1];
-	self.backImageView.image = [UIImage imageNamed:@"cameraRollIcon.png"];
+	self.backImageView.image = [UIImage imageNamed:@"SwipePicker.png"];
 	[super touchesBegan:touches withEvent:event];
 }
 
@@ -60,14 +60,14 @@
 		
 		if (dx > 160 && _swipeStage == 0) {
 			_swipeStage = 1;
-			self.backImageView.image = [UIImage imageNamed:@"cameraIcon.png"];
+			self.backImageView.image = [UIImage imageNamed:@"SwipeCamera.png"];
 			[UIView animateWithDuration:0.28 animations:^{
 				self.backView.backgroundColor = [UIColor colorWithRed:1 green:0.44 blue:0.27 alpha:1];
 			}];
 		}
 		else if (dx <= 160 && _swipeStage == 1) {
 			_swipeStage = 0;
-			self.backImageView.image = [UIImage imageNamed:@"cameraRollIcon.png"];
+			self.backImageView.image = [UIImage imageNamed:@"SwipePicker.png"];
 			[UIView animateWithDuration:0.28 animations:^{
 				self.backView.backgroundColor = [UIColor colorWithRed:0.63 green:0.85 blue:0.07 alpha:1];
 			}];

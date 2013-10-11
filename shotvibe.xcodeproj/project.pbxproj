@@ -485,6 +485,10 @@
 		28B30F911805BB5F005C50A4 /* IconCalendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30F8F1805BB5F005C50A4 /* IconCalendar.png */; };
 		28B30F921805BB5F005C50A4 /* IconCalendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30F901805BB5F005C50A4 /* IconCalendar@2x.png */; };
 		28B30F981805E56D005C50A4 /* RCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 28B30F971805E56D005C50A4 /* RCLog.m */; };
+		28B30FA31807EE1E005C50A4 /* SwipeCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30F9F1807EE1E005C50A4 /* SwipeCamera.png */; };
+		28B30FA41807EE1E005C50A4 /* SwipeCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30FA01807EE1E005C50A4 /* SwipeCamera@2x.png */; };
+		28B30FA51807EE1E005C50A4 /* SwipePicker.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30FA11807EE1E005C50A4 /* SwipePicker.png */; };
+		28B30FA61807EE1E005C50A4 /* SwipePicker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30FA21807EE1E005C50A4 /* SwipePicker@2x.png */; };
 		28CFCC7F17A2C247001511EF /* SegmentSeparator.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC7D17A2C247001511EF /* SegmentSeparator.png */; };
 		28CFCC8017A2C247001511EF /* SegmentSeparator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC7E17A2C247001511EF /* SegmentSeparator@2x.png */; };
 		28CFCC8317A30BA2001511EF /* albumEmptyCameraButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC8117A30BA1001511EF /* albumEmptyCameraButton.png */; };
@@ -1142,6 +1146,10 @@
 		28B30F901805BB5F005C50A4 /* IconCalendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconCalendar@2x.png"; sourceTree = "<group>"; };
 		28B30F961805E56D005C50A4 /* RCLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLog.h; sourceTree = "<group>"; };
 		28B30F971805E56D005C50A4 /* RCLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLog.m; sourceTree = "<group>"; };
+		28B30F9F1807EE1E005C50A4 /* SwipeCamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SwipeCamera.png; sourceTree = "<group>"; };
+		28B30FA01807EE1E005C50A4 /* SwipeCamera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SwipeCamera@2x.png"; sourceTree = "<group>"; };
+		28B30FA11807EE1E005C50A4 /* SwipePicker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SwipePicker.png; sourceTree = "<group>"; };
+		28B30FA21807EE1E005C50A4 /* SwipePicker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SwipePicker@2x.png"; sourceTree = "<group>"; };
 		28CF18C917C7C07B00C4BA25 /* SVCameraPickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVCameraPickerDelegate.h; path = shotvibe/Delegates/SVCameraPickerDelegate.h; sourceTree = SOURCE_ROOT; };
 		28CFCC7D17A2C247001511EF /* SegmentSeparator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentSeparator.png; sourceTree = "<group>"; };
 		28CFCC7E17A2C247001511EF /* SegmentSeparator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SegmentSeparator@2x.png"; sourceTree = "<group>"; };
@@ -1394,6 +1402,10 @@
 		043473961705F42300CFE564 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				28B30F9F1807EE1E005C50A4 /* SwipeCamera.png */,
+				28B30FA01807EE1E005C50A4 /* SwipeCamera@2x.png */,
+				28B30FA11807EE1E005C50A4 /* SwipePicker.png */,
+				28B30FA21807EE1E005C50A4 /* SwipePicker@2x.png */,
 				2849A88217EAF0D50076AFBA /* DefaultAvatars */,
 				2849A81D17E6FA2C0076AFBA /* ProfileHeader.png */,
 				2849A81E17E6FA2D0076AFBA /* ProfileHeader@2x.png */,
@@ -3014,6 +3026,10 @@
 				28FC2C3417FAFA5700AE24C3 /* PencilWhite@2x.png in Resources */,
 				28B30F911805BB5F005C50A4 /* IconCalendar.png in Resources */,
 				28B30F921805BB5F005C50A4 /* IconCalendar@2x.png in Resources */,
+				28B30FA31807EE1E005C50A4 /* SwipeCamera.png in Resources */,
+				28B30FA41807EE1E005C50A4 /* SwipeCamera@2x.png in Resources */,
+				28B30FA51807EE1E005C50A4 /* SwipePicker.png in Resources */,
+				28B30FA61807EE1E005C50A4 /* SwipePicker@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
