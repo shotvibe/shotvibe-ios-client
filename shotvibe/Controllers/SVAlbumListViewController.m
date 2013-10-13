@@ -355,16 +355,21 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-	[self.view addSubview:self.tableOverlayView];
-	CGRect r = self.tableOverlayView.frame;
-	r.origin.y = 44;
-	self.tableOverlayView.frame = r;
+	[searchBar setShowsCancelButton:YES animated:YES];
 	
 	[UIView animateWithDuration:0.3 animations:^{
-		self.tableOverlayView.alpha = 1;
-		self.tableOverlayView.hidden = NO;
+		self.tableView.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height-216-20);
 	}];
+	
 	searchShowing = YES;
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+	[searchBar setShowsCancelButton:NO animated:YES];
+	[UIView animateWithDuration:0.2 animations:^{
+		self.tableView.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height-20-44);
+	}];
+	searchShowing = NO;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -376,14 +381,16 @@
 {
     [self searchForAlbumWithTitle:searchBar.text];
     [searchBar resignFirstResponder];
-	
-	[UIView animateWithDuration:0.3 animations:^{
-		
-		self.tableOverlayView.alpha = 0;
-		self.tableOverlayView.hidden = YES;
-	}];
-	
-	searchShowing = NO;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+	[searchBar resignFirstResponder];
+	searchBar.text = @"";
+	[self searchForAlbumWithTitle:nil];
+}
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)bar {
+    return YES;
 }
 
 - (void)searchForAlbumWithTitle:(NSString *)title
@@ -397,6 +404,8 @@
     [self.tableView reloadData];
 	[self.view addSubview:self.tableOverlayView];
 }
+
+
 
 
 
