@@ -154,7 +154,7 @@
 	[photosScrollView removeGestureRecognizer:doubleTap];
 	[photosScrollView removeGestureRecognizer:singleTap];
 	
-	if (!navigatingNext) {
+	if ( ! navigatingNext) {
 		
 		[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
 		self.albumManager = nil;
@@ -162,6 +162,10 @@
 		photosScrollView.delegate = nil;
 		[photosScrollView removeFromSuperview];
 		photosScrollView = nil;
+		
+		if (activity) {
+			[self activityDidClose];
+		}
 		
 		self.photos = nil;
 		cache = nil;
@@ -678,6 +682,7 @@
 - (void)activityDidClose {
 	RCLog(@"activity did close");
 	if (activity) {
+		[self.albumManager removeAlbumListListener:self];
 		activity.controller = nil;
 		activity.delegate = nil;
 		activity.albums = nil;
