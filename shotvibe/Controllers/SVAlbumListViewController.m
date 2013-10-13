@@ -310,7 +310,7 @@
     if (album.latestPhotos.count > 0) {
         AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
         if (latestPhoto.serverPhoto) {
-			cell.author.text = [NSString stringWithFormat:@"Last edited by %@", latestPhoto.serverPhoto.authorNickname];
+			cell.author.text = [NSString stringWithFormat:@"Last added by %@", latestPhoto.serverPhoto.authorNickname];
             NSString *fullsizePhotoUrl = latestPhoto.serverPhoto.url;
             NSString *thumbnailSuffix = @"_thumb75.jpg";
             NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
