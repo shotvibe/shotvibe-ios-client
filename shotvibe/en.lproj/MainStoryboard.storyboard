@@ -1410,14 +1410,6 @@ to register this device</string>
                                     <action selector="changeProfilePicture:" destination="K2n-3B-CQ0" eventType="touchUpInside" id="Jkr-ZA-UQs"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Pencil.png" id="Ll6-SU-NTY">
-                                <rect key="frame" x="92" y="168" width="25" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Pencil.png" id="A3l-M6-HQa">
-                                <rect key="frame" x="285" y="175" width="25" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.92941176470588238" green="0.93333333333333335" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -1872,7 +1864,6 @@ activation code just sent to you</string>
         <image name="AlbumInfoNotificationIcon.png" width="16" height="18"/>
         <image name="AlbumInfoShareIcon.png" width="16" height="14"/>
         <image name="ContactIsMember.png" width="26" height="26"/>
-        <image name="Pencil.png" width="25" height="25"/>
         <image name="ProfileHeader.png" width="320" height="163"/>
         <image name="ProfileIconBackground.png" width="110" height="110"/>
         <image name="US.png" width="48" height="48"/>
