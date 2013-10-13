@@ -30,26 +30,35 @@
     for (AlbumSummary *album in arr) {
 		RCLogO(album);
 		
-		RCImageView *image = [[RCImageView alloc] initWithFrame:CGRectMake(10 + 100*i, 0, 80, 80) delegate:nil];
+		RCImageView *image = [[RCImageView alloc] initWithFrame:CGRectMake(100*i + 15, 0, 60, 60) delegate:nil];
+		image.contentMode = UIViewContentModeScaleAspectFill;
+		image.clipsToBounds = YES;
 		image.image = [UIImage imageNamed:@"placeholderImage"];
 		
-//		if (album.latestPhotos.count > 0) {
-//			AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
-//			if (latestPhoto.serverPhoto) {
-//				NSString *fullsizePhotoUrl = latestPhoto.serverPhoto.url;
-//				NSString *thumbnailSuffix = @"_thumb75.jpg";
-//				NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
-//				//[image loadNetworkImage:[NSURL URLWithString:thumbnailUrl]];
-//			}
-//		}
-//		else {
-//			image.image = [UIImage imageNamed:@"placeholderImage"];
-//		}
+		if (album.latestPhotos.count > 0) {
+			AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
+			
+			if (latestPhoto.serverPhoto) {
+				NSString *fullsizePhotoUrl = latestPhoto.serverPhoto.url;
+				NSString *thumbnailSuffix = @"_thumb75.jpg";
+				NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
+				[image loadNetworkImage:thumbnailUrl];
+			}
+		}
 		
 		[self addSubview:image];
+		
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0 + 100*i, 60, 90, 15)];
+		label.textColor = [UIColor darkGrayColor];
+		label.numberOfLines = 1;
+		label.textAlignment = NSTextAlignmentCenter;
+		label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10];
+		label.text = album.name;
+		[self addSubview:label];
+		
 		i++;
 	}
-	self.contentSize = CGSizeMake(20+100*i, self.frame.size.height);
+	self.contentSize = CGSizeMake(13+100*i, self.frame.size.height);
 }
 
 
