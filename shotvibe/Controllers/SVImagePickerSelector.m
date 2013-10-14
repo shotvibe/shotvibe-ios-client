@@ -185,24 +185,29 @@
 		header.dateLabel.text = sectionsKeys[indexPath.section];
 		header.section = indexPath.section;
 		header.delegate = self;
-		
-		NSArray *arr = [sections objectForKey:sectionsKeys[header.section]];
-		BOOL allPhotosAreSelected = YES;
-		
-		// Check how many assets are already selected
-		for (ALAsset *asset in arr) {
-			if (![selectedPhotos containsObject:asset]) {
-				allPhotosAreSelected = NO;
-				break;
-			}
-		}
-		if (!self.oneImagePicker) {
-			[header selectCheckmark:allPhotosAreSelected];
-		}
+		header.tag = indexPath.section+1000;
+		[self checkSectionHeaderView:header];
 		
 		return header;
 	}
 	return nil;
+}
+
+- (void)checkSectionHeaderView:(CameraRollSection*)header {
+	RCLogO(header);
+	NSArray *arr = [sections objectForKey:sectionsKeys[header.section]];
+	BOOL allPhotosAreSelected = YES;
+	
+	// Check how many assets are already selected
+	for (ALAsset *asset in arr) {
+		if (![selectedPhotos containsObject:asset]) {
+			allPhotosAreSelected = NO;
+			break;
+		}
+	}
+	if (!self.oneImagePicker) {
+		[header selectCheckmark:allPhotosAreSelected];
+	}
 }
 
 
@@ -227,13 +232,16 @@
 		}
 		
 		self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+		
+		CameraRollSection *header = (CameraRollSection*)[collectionView viewWithTag:indexPath.section+1000];
+		[self checkSectionHeaderView:header];
 	}
     else {
 		
 		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 		ALAsset *asset = [arr objectAtIndex:indexPath.row];
 		NSDictionary *dict = [asset valueForProperty:ALAssetPropertyURLs];
-		RCLog(@"dict %@", dict);
+		
 		NSURL *url = [dict objectForKey:@"public.jpeg"];
 		if (url == nil) {
 			url = [dict objectForKey:@"public.png"];
