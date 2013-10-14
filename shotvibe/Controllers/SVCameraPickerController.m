@@ -53,16 +53,25 @@
 - (void)viewDidAppear:(BOOL)animated {
 	
 	[super viewDidAppear:animated];
+	
 	if (self.imagePickerController == nil) {
 		[self showImagePickerForSourceType: UIImagePickerControllerSourceTypeCamera];
 	}
 	
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+	
 	if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
 		self.topBarContainer.hidden = YES;
 		[self performSelector:@selector(hideTopBar) withObject:nil afterDelay:1];
     }
 }
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
 - (void)hideTopBar {
 	
 	self.topBarContainer.frame = CGRectMake(0, -60, 320, 150);
@@ -272,8 +281,7 @@
 #pragma mark - UIImagePickerControllerDelegate
 
 // This method is called when an image has been chosen from the library or taken from the camera.
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	
 	UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
 	if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
@@ -432,7 +440,7 @@
 
 #pragma mark Select photos
 
-- (void) setTakenPhotos:(NSArray *)takenPhotos {
+- (void)setTakenPhotos:(NSArray *)takenPhotos {
 	
 	selectedPhotos = [[NSMutableArray alloc] initWithArray:takenPhotos];
 	
@@ -448,12 +456,10 @@
     return self.capturedImages.count;
 }
 
-
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
 }
-
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -505,9 +511,12 @@
 }
 
 
+#pragma mark Actions
+
 - (void)doneButtonPressed {
 	
 	RCLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
+	RCLogO(@"is dismissing now");
 	
 	// Upload the taken photos
 	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
@@ -517,9 +526,7 @@
 	}
 	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
 	
-	
-	[self.navigationController popViewControllerAnimated:YES];
-	 
+	// Dismiss the controller
 	if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
 		[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
 	}

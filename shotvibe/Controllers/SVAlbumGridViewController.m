@@ -14,12 +14,12 @@
 #import "SVSidebarMemberController.h"
 #import "SVSidebarManagementController.h"
 #import "SVSettingsViewController.h"
-#import "CaptureNavigationController.h"
+#import "SVCameraNavController.h"
 #import "SVCameraPickerController.h"
 #import "SVImagePickerListViewController.h"
 #import "SVAlbumGridViewCell.h"
 #import "SVAddFriendsViewController.h"
-#import "CaptureNavigationController.h"
+#import "SVCameraNavController.h"
 #import "AlbumPhoto.h"
 #import "UIImageView+WebCache.h"
 #import "SVAlbumGridSection.h"
@@ -33,7 +33,7 @@
 	NSMutableArray *sectionsKeys;
 	NSMutableDictionary *sections;
     UIRefreshControl *refresh;
-	CaptureNavigationController *cameraNavController;
+	SVCameraNavController *cameraNavController;
 	SortType sort;
 }
 
@@ -67,7 +67,7 @@
 - (IBAction)takePicturePressed:(id)sender
 {
 	navigatingNext = YES;
-	cameraNavController = [[CaptureNavigationController alloc] init];
+	cameraNavController = [[SVCameraNavController alloc] init];
 	cameraNavController.cameraDelegate = self;
 	cameraNavController.albumId = self.albumId;
 	cameraNavController.albumManager = self.albumManager;
@@ -112,7 +112,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+	
+	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized withou albumId");
+	
 	self.gridView.alwaysBounceVertical = YES;
 	
 	sections = [[NSMutableDictionary alloc] init];
@@ -180,6 +182,16 @@
 		if ([lastController isKindOfClass:[SVCameraPickerController class]])
 			[allViewControllers removeObject:lastController];
 		self.navigationController.viewControllers = allViewControllers;
+	}
+	if (self.scrollToBottom) {
+		self.scrollToBottom = NO;
+		RCLogSize(self.gridView.contentSize);
+		RCLogRect(self.gridView.bounds);
+		[self.gridView scrollRectToVisible:CGRectMake(0,
+													  self.gridView.contentSize.height - self.gridView.bounds.size.height,
+													  self.gridView.bounds.size.width,
+													  self.gridView.bounds.size.height)
+								  animated:NO];
 	}
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;

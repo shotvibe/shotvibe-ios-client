@@ -11,7 +11,7 @@
 #import "SVProfileViewController.h"
 #import "UIImageView+WebCache.h"
 #import "SVDefines.h"
-#import "CaptureNavigationController.h"
+#import "SVCameraNavController.h"
 #import "SVAlbumGridViewController.h"
 #import "SVImagePickerListViewController.h"
 #import "NSDate+Formatting.h"
@@ -24,15 +24,15 @@
 
 @interface SVAlbumListViewController ()
 {
-    NSMutableArray *albumList;
     BOOL searchShowing;
 	BOOL creatingAlbum;
 	BOOL refreshManualy;
+    NSMutableArray *albumList;
+	NSArray *allAlbums;
     NSMutableDictionary *thumbnailCache;
 	UIView *sectionView;
 	NSIndexPath *tappedCell;
-	CaptureNavigationController *cameraNavController;
-	NSArray *allAlbums;
+	SVCameraNavController *cameraNavController;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *sectionHeader;
@@ -45,7 +45,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *takePictureButton;
 
 
-- (void)configureViews;
 - (void)profilePressed;
 - (void)settingsPressed;
 - (void)showDropDown;
@@ -61,6 +60,141 @@
 
 
 @implementation SVAlbumListViewController
+
+
+#pragma mark - Controller lifecycle
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	
+    [self setAlbumList:[self.albumManager addAlbumListListener:self]];
+
+    RCLog(@"##### Initial albumList: %@", albumList);
+	
+	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+		self.takePictureButton.enabled = NO;
+	}
+	
+    thumbnailCache = [[NSMutableDictionary alloc] init];
+	self.searchbar.placeholder = NSLocalizedString(@"Search album", nil);
+	self.dropDownContainer.frame = CGRectMake(8, -134, self.dropDownContainer.frame.size.width, 134);
+	
+	// Setup titleview
+    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
+    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
+    [titleContainer addSubview:titleView];
+    titleContainer.backgroundColor = [UIColor clearColor];
+    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
+    self.navigationItem.titleView = titleContainer;
+    
+    // Setup menu button
+    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconProfile.png"]
+																   style:UIBarButtonItemStyleBordered
+																  target:self
+																  action:@selector(profilePressed)];
+    self.navigationItem.leftBarButtonItem = butProfile;
+    
+    // Setup menu button
+    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSettings.png"]
+																		 style:UIBarButtonItemStyleBordered
+																		target:self
+																		action:@selector(settingsPressed)];
+    self.navigationItem.rightBarButtonItem = managementButton;
+    
+	
+	self.refreshControl = [[UIRefreshControl alloc] init];
+	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	[self.refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
+	
+	[self updateEmptyState];
+	
+	// Set required taps and number of touches
+	UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];
+	[touchOnView setNumberOfTapsRequired:1];
+	[touchOnView setNumberOfTouchesRequired:1];
+	[self.tableOverlayView addGestureRecognizer:touchOnView];
+	
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	[self.albumManager refreshAlbumList];
+	
+	// Update the cell that was tapped and maybe edited
+	if (tappedCell != nil) {
+		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
+		tappedCell = nil;
+	}
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	
+	[super viewDidAppear:animated];
+	
+	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
+	
+	// If we came back from cameraNavController and we took a picture
+	
+//	if (cameraNavController != nil && cameraNavController.selectedAlbum != nil) {
+//		
+//		int i = 0;
+//		NSIndexPath *indexPath;
+//		
+//		for (AlbumSummary *a in albumList) {
+//			
+//			if (a.albumId == cameraNavController.selectedAlbum.albumId) {
+//				
+//				RCLog(@"viewDidAppear. cell for album found at indexPath %@", indexPath);
+//				
+//				[self performSegueWithIdentifier:@"AlbumGridViewSegue"
+//										  sender:[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]];
+//				break;
+//			}
+//			i ++;
+//		}
+//	}
+	cameraNavController = nil;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [thumbnailCache removeAllObjects];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    if (self.albumField.isFirstResponder) {
+        [self.albumField resignFirstResponder];
+    }
+    else if (self.searchbar.isFirstResponder) {
+        [self.searchbar resignFirstResponder];
+    }
+}
+
+- (BOOL)shouldAutorotate
+{
+	return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+
+#pragma mark - Memory Management
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    [thumbnailCache removeAllObjects];
+}
+
+
+
+
 
 
 #pragma mark - Actions
@@ -81,18 +215,19 @@
     [self createNewAlbumWithTitle:name];
     [self hideDropDown];
 }
-//
 - (IBAction)newAlbumButtonPressed:(id)sender {
     [self showDropDown];
-//	ShotVibeAppDelegate *app = [ShotVibeAppDelegate sharedDelegate];
-//	NSDictionary *dic = @{@"aps":@{@"alert":@"Just added few pics to your album"}};
-//	[app application:nil didReceiveRemoteNotification:dic];
+	//	ShotVibeAppDelegate *app = [ShotVibeAppDelegate sharedDelegate];
+	//	NSDictionary *dic = @{@"aps":@{@"alert":@"Just added few pics to your album"}};
+	//	[app application:nil didReceiveRemoteNotification:dic];
 }
 - (IBAction)takePicturePressed:(id)sender {
-	RCLog(@"takePicturePressed");
+	
 	int capacity = 8;
-	NSMutableArray *albums = [[NSMutableArray alloc] initWithCapacity:capacity];
 	int i = 0;
+	
+	NSMutableArray *albums = [[NSMutableArray alloc] initWithCapacity:capacity];
+	
 	for (AlbumSummary *album in albumList) {
 		[albums addObject:album];
 		i++;
@@ -101,9 +236,10 @@
 		}
 	}
 	
-    cameraNavController = [[CaptureNavigationController alloc] init];
+    cameraNavController = [[SVCameraNavController alloc] init];
 	cameraNavController.cameraDelegate = self;
 	cameraNavController.albums = albums;
+	cameraNavController.albumManager = self.albumManager;
     cameraNavController.nav = self.navigationController;// this is set last
 }
 
@@ -148,7 +284,7 @@
 	NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
 	AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 	
-	cameraNavController = [[CaptureNavigationController alloc] init];
+	cameraNavController = [[SVCameraNavController alloc] init];
 	cameraNavController.cameraDelegate = self;
 	cameraNavController.albumId = album.albumId;
 	cameraNavController.albumManager = self.albumManager;
@@ -166,114 +302,18 @@
 #pragma mark camera delegate
 
 - (void)cameraExit {
-	cameraNavController = nil;
+	RCLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> cameraExit");
+	
 }
 
 - (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {
 	
-	RCLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
-	RCLog(@"navigate to gridview");
-	
-	int i = 0;
-	NSIndexPath *indexPath;
-	for (AlbumSummary *a in albumList) {
-		
-		if (a.albumId == selectedAlbum.albumId) {
-			indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-			RCLog(@"found at indexPath %@", indexPath);
-			[self performSegueWithIdentifier:@"AlbumGridViewSegue" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
-			
-			break;
-		}
-		i ++;
-	}
-}
-
-
-#pragma mark - UIViewController Methods
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	
-    RCLog(@"##### albumManager: %@", self.albumManager);
-
-    [self setAlbumList:[self.albumManager addAlbumListListener:self]];
-
-    RCLog(@"##### Initial albumList: %@", albumList);
-	
-	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-		self.takePictureButton.enabled = NO;
-	}
-	
-    thumbnailCache = [[NSMutableDictionary alloc] init];
-	self.searchbar.placeholder = NSLocalizedString(@"Search album", nil);
-	self.dropDownContainer.frame = CGRectMake(8, -134, self.dropDownContainer.frame.size.width, 134);
-	
-    [self configureViews];
-	
-	self.refreshControl = [[UIRefreshControl alloc] init];
-	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-	[self.refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
-	
-	[self updateEmptyState];
+	RCLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> cameraWasDismissedWithAlbum %@", selectedAlbum.name);
 	
 }
 
 
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	[self.albumManager refreshAlbumList];
-	if (tappedCell != nil) {
-		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
-	}
-}
 
-- (void)viewDidAppear:(BOOL)animated {
-	
-	[super viewDidAppear:animated];
-	
-	cameraNavController = nil;
-	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
-}
-
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [thumbnailCache removeAllObjects];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    if (self.albumField.isFirstResponder) {
-        [self.albumField resignFirstResponder];
-    }
-    else if (self.searchbar.isFirstResponder) {
-        [self.searchbar resignFirstResponder];
-    }
-}
-
-
-
-- (BOOL)shouldAutorotate
-{
-	return YES;
-}
-
-- (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
-
-#pragma mark - Memory Management
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    [thumbnailCache removeAllObjects];
-}
 
 
 #pragma mark - UITableViewDataSource Methods
@@ -287,7 +327,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 	return 45;
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return albumList.count;
 }
@@ -339,6 +378,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	tappedCell = [indexPath copy];
+	// The rest of the actions are made through the segue in IB
 }
 
 
@@ -351,10 +391,11 @@
     return YES;
 }
 
+
 #pragma mark - UISearchbarDelegate Methods
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+	
 	[searchBar setShowsCancelButton:YES animated:YES];
 	
 	[UIView animateWithDuration:0.3 animations:^{
@@ -365,10 +406,13 @@
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+	
 	[searchBar setShowsCancelButton:NO animated:YES];
+	
 	[UIView animateWithDuration:0.2 animations:^{
 		self.tableView.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height-20-44);
 	}];
+	
 	searchShowing = NO;
 }
 
@@ -379,8 +423,8 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [self searchForAlbumWithTitle:searchBar.text];
     [searchBar resignFirstResponder];
+    [self searchForAlbumWithTitle:searchBar.text];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
@@ -396,13 +440,13 @@
 - (void)searchForAlbumWithTitle:(NSString *)title
 {
 	albumList = [NSMutableArray arrayWithCapacity:[allAlbums count]];
+	
     for (AlbumSummary *album in [allAlbums reverseObjectEnumerator]) {
 		if (title == nil || [title isEqualToString:@""] || [[album.name lowercaseString] rangeOfString:title].location != NSNotFound) {
 			[albumList addObject:album];
 		}
     }
     [self.tableView reloadData];
-	[self.view addSubview:self.tableOverlayView];
 }
 
 
@@ -410,33 +454,6 @@
 
 
 #pragma mark - Private Methods
-
-- (void)configureViews
-{
-    // Setup titleview
-    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
-    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
-    [titleContainer addSubview:titleView];
-    titleContainer.clipsToBounds = NO;
-    titleContainer.backgroundColor = [UIColor clearColor];
-    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
-    self.navigationItem.titleView = titleContainer;
-    
-    // Setup menu button
-    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconProfile.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(profilePressed)];
-    self.navigationItem.leftBarButtonItem = butProfile;
-    
-    // Setup menu button
-    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSettings.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(settingsPressed)];
-    self.navigationItem.rightBarButtonItem = managementButton;
-    
-	
-	// Set required taps and number of touches
-	UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];
-	[touchOnView setNumberOfTapsRequired:1];
-	[touchOnView setNumberOfTouchesRequired:1];
-	[self.tableOverlayView addGestureRecognizer:touchOnView];
-}
 
 - (void) updateEmptyState
 {
@@ -446,12 +463,10 @@
 		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.takePictureButton.enabled = NO;
 	}
-	else {
-		if ([self.noPhotosView isDescendantOfView:self.view]) {
-			[self.noPhotosView removeFromSuperview];
-			self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-			self.takePictureButton.enabled = YES;
-		}
+	else if ([self.noPhotosView isDescendantOfView:self.view]) {
+		[self.noPhotosView removeFromSuperview];
+		self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+		self.takePictureButton.enabled = YES;
 	}
 }
 
@@ -482,7 +497,9 @@
 	self.takePictureButton.enabled = NO;
 	self.tableView.scrollEnabled = NO;
     
-    NSString *currentDateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle];
+    NSString *currentDateString = [NSDateFormatter localizedStringFromDate:[NSDate date]
+																 dateStyle:NSDateFormatterLongStyle
+																 timeStyle:NSDateFormatterNoStyle];
     self.albumField.text = @"";
 	self.albumField.placeholder = currentDateString;
     
@@ -543,7 +560,8 @@
 				[albumList insertObject:album atIndex:0];
 				
 				[self.tableView beginUpdates];
-				[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+				[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+									  withRowAnimation:UITableViewRowAnimationAutomatic];
 				[self.tableView endUpdates];
 				[self updateEmptyState];
             }
@@ -566,9 +584,9 @@
 
 - (void)beginRefreshing
 {
-    [self.albumManager refreshAlbumList];
 	if (!creatingAlbum) {
 		refreshManualy = YES;
+		[self.albumManager refreshAlbumList];
 		[self.refreshControl beginRefreshing];
 		self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
 	}

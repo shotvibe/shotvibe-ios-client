@@ -84,8 +84,12 @@
 		selectedPhotos = [[NSMutableArray alloc] init];
 	}
     
-    [self.gridView registerClass:[SVSelectionGridCell class] forCellWithReuseIdentifier:@"SVSelectionGridCell"];
-	[self.gridView registerClass:[CameraRollSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"CameraRollSection"];
+    [self.gridView registerClass:[SVSelectionGridCell class]
+	  forCellWithReuseIdentifier:@"SVSelectionGridCell"];
+	
+	[self.gridView registerClass:[CameraRollSection class]
+	  forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+			 withReuseIdentifier:@"CameraRollSection"];
     
     if (self.selectedGroup) {
         self.title = [self.selectedGroup valueForProperty:ALAssetsGroupPropertyName];

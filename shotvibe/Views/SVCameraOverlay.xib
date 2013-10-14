@@ -49,7 +49,6 @@
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
 						<string key="NSFrameSize">{320, 416}</string>
 						<reference key="NSSuperview" ref="896694043"/>
-						<reference key="NSWindow"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="304334730">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
@@ -76,7 +75,6 @@
 				</array>
 				<string key="NSFrame">{{0, 64}, {320, 416}}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="99156507"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="304334730"/>
@@ -116,7 +114,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{320, 60}</string>
 								<reference key="NSSuperview" ref="187000650"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="980699829"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
@@ -131,7 +128,6 @@
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
 								<string key="NSFrame">{{0, 36}, {320, 36}}</string>
 								<reference key="NSSuperview" ref="187000650"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="22088904"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -146,7 +142,6 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrameSize">{320, 30}</string>
 								<reference key="NSSuperview" ref="187000650"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="25080798"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="202707251">
@@ -165,7 +160,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{0, 29}, {320, 21}}</string>
 								<reference key="NSSuperview" ref="187000650"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1005133007"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -198,7 +192,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{10, 70}, {69, 35}}</string>
 								<reference key="NSSuperview" ref="187000650"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="143695402"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -233,7 +226,6 @@
 								<int key="NSvFlags">289</int>
 								<string key="NSFrame">{{240, 70}, {70, 35}}</string>
 								<reference key="NSSuperview" ref="187000650"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="835412967"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -258,7 +250,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{101, 76}, {118, 23}}</string>
 								<reference key="NSSuperview" ref="187000650"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="648031781"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -274,7 +265,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{290, 0}, {30, 60}}</string>
 								<reference key="NSSuperview" ref="187000650"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="726959751"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -299,7 +289,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{30, 60}</string>
 								<reference key="NSSuperview" ref="187000650"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="668405645"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -322,7 +311,6 @@
 						</array>
 						<string key="NSFrameSize">{320, 150}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="947036813"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="202707251"/>
@@ -333,7 +321,6 @@
 						<int key="NSvFlags">-2147483379</int>
 						<string key="NSFrame">{{0, 428}, {320, 80}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="148694906"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -352,7 +339,6 @@
 								<int key="NSvFlags">269</int>
 								<string key="NSFrame">{{109, 12}, {102, 37}}</string>
 								<reference key="NSSuperview" ref="148694906"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="54434764"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -377,7 +363,6 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrameSize">{42, 60}</string>
 								<reference key="NSSuperview" ref="148694906"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="157075122"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -406,7 +391,6 @@
 										<int key="NSvFlags">265</int>
 										<string key="NSFrame">{{5, 8}, {45, 45}}</string>
 										<reference key="NSSuperview" ref="54434764"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="312275870"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -431,7 +415,6 @@
 										<int key="NSvFlags">265</int>
 										<string key="NSFrame">{{12, 13}, {31, 31}}</string>
 										<reference key="NSSuperview" ref="54434764"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1053233513"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -442,7 +425,6 @@
 										<int key="NSvFlags">265</int>
 										<string key="NSFrame">{{30, 2}, {25, 25}}</string>
 										<reference key="NSSuperview" ref="54434764"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="860479937"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -457,7 +439,6 @@
 										<int key="NSvFlags">265</int>
 										<string key="NSFrame">{{30, 2}, {25, 25}}</string>
 										<reference key="NSSuperview" ref="54434764"/>
-										<reference key="NSWindow"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -483,7 +464,6 @@
 								</array>
 								<string key="NSFrame">{{264, 0}, {56, 60}}</string>
 								<reference key="NSSuperview" ref="148694906"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="872235331"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="202707251"/>
@@ -492,7 +472,6 @@
 						</array>
 						<string key="NSFrame">{{0, 508}, {320, 60}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="436328404"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -504,7 +483,6 @@
 				</array>
 				<string key="NSFrameSize">{320, 568}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="187000650"/>
 				<reference key="IBUIBackgroundColor" ref="202707251"/>
 				<object class="IBUIScreenMetrics" key="IBUISimulatedDestinationMetrics">
@@ -2611,168 +2589,7 @@
 			<nil key="sourceID"/>
 			<int key="maxID">742</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">NSLayoutConstraint</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SVCameraOverlay</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/SVCameraOverlay.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SVCameraPickerController</string>
-					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="changeFlashModeButtonPressed:">id</string>
-						<string key="done:">id</string>
-						<string key="exitButtonPressed:">id</string>
-						<string key="goLeft:">id</string>
-						<string key="goRight:">id</string>
-						<string key="shooterPressed:">id</string>
-						<string key="toggleCamera:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="changeFlashModeButtonPressed:">
-							<string key="name">changeFlashModeButtonPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="done:">
-							<string key="name">done:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="exitButtonPressed:">
-							<string key="name">exitButtonPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="goLeft:">
-							<string key="name">goLeft:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="goRight:">
-							<string key="name">goRight:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="shooterPressed:">
-							<string key="name">shooterPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleCamera:">
-							<string key="name">toggleCamera:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="albumPageControl">UIPageControl</string>
-						<string key="albumPreviewImage">UIImageView</string>
-						<string key="albumScrollView">UIScrollView</string>
-						<string key="butFlash">UIButton</string>
-						<string key="butReady">UIButton</string>
-						<string key="butShutter">UIButton</string>
-						<string key="butToggleCamera">UIButton</string>
-						<string key="gridView">UICollectionView</string>
-						<string key="imagePileCounterLabel">UILabel</string>
-						<string key="overlayView">SVCameraOverlay</string>
-						<string key="sliderZoom">UISlider</string>
-						<string key="swipeLabel">UILabel</string>
-						<string key="takeAnotherImage">UIImageView</string>
-						<string key="tileContainer">UIView</string>
-						<string key="topBarContainer">UIView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="albumPageControl">
-							<string key="name">albumPageControl</string>
-							<string key="candidateClassName">UIPageControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="albumPreviewImage">
-							<string key="name">albumPreviewImage</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="albumScrollView">
-							<string key="name">albumScrollView</string>
-							<string key="candidateClassName">UIScrollView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="butFlash">
-							<string key="name">butFlash</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="butReady">
-							<string key="name">butReady</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="butShutter">
-							<string key="name">butShutter</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="butToggleCamera">
-							<string key="name">butToggleCamera</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="gridView">
-							<string key="name">gridView</string>
-							<string key="candidateClassName">UICollectionView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="imagePileCounterLabel">
-							<string key="name">imagePileCounterLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="overlayView">
-							<string key="name">overlayView</string>
-							<string key="candidateClassName">SVCameraOverlay</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="sliderZoom">
-							<string key="name">sliderZoom</string>
-							<string key="candidateClassName">UISlider</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="swipeLabel">
-							<string key="name">swipeLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="takeAnotherImage">
-							<string key="name">takeAnotherImage</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tileContainer">
-							<string key="name">tileContainer</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="topBarContainer">
-							<string key="name">topBarContainer</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/SVCameraPickerController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UICollectionViewFlowLayout</string>
-					<string key="superclassName">UICollectionViewLayout</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/UICollectionViewFlowLayout.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UICollectionViewLayout</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/UICollectionViewLayout.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
