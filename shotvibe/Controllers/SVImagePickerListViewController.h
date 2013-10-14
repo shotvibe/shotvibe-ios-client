@@ -16,6 +16,7 @@
 
 @property (nonatomic) BOOL oneImagePicker;
 @property (nonatomic, retain) id <SVCameraPickerDelegate> delegate;
+@property (nonatomic, strong) UINavigationController *nav;
 
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;

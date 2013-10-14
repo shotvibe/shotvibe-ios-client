@@ -27,20 +27,6 @@
 
 @implementation SVImagePickerListViewController
 
-#pragma mark - Actions
-
-- (IBAction)cancelButtonPressed:(id)sender
-{
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (void)backButtonPressed:(id)sender
-{
-	// When we leave the album set all the photos as viewed
-	
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 
 #pragma mark - View Lifecycle
 
@@ -48,7 +34,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    RCLog(@"SVImagePickerListViewController viewdidload");
+    RCLog(@"viewdidload");
 	
     // Setup back button
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
@@ -61,6 +47,21 @@
 	}
 	
     [self gatherLocalAlbums];
+}
+
+
+#pragma mark - Actions
+
+- (IBAction)cancelButtonPressed:(id)sender
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)backButtonPressed:(id)sender
+{
+	// When we leave the album set all the photos as viewed
+	
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -106,6 +107,7 @@
         selector.selectedGroup = selectedGroup;
 		selector.oneImagePicker = self.oneImagePicker;
 		selector.cropDelegate = self.delegate;
+		selector.nav = self.nav;
         [self.navigationController pushViewController:selector animated:YES];
     }];
 }

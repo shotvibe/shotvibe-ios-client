@@ -273,6 +273,7 @@
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = album.albumId;
         destination.albumManager = self.albumManager;
+		destination.nav = self.navigationController;
     }
 }
 

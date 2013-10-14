@@ -19,6 +19,7 @@ do { \
 #define RCLogRect(rect) RCLog(@"%@", NSStringFromCGRect(rect))
 #define RCLogPoint(point) RCLog(@"%@", NSStringFromCGPoint(point))
 #define RCLogSize(size) RCLog(@"%@", NSStringFromCGSize(size))
+#define RCLogThread() RCLog([NSThread isMainThread] ? @"Log from Main Thread":@"Log from Secondary Thread")
 
 @interface RCLog : NSObject
 

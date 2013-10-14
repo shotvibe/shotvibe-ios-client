@@ -9,6 +9,7 @@
 #import "SVImagePickerSelector.h"
 #import "SVImageCropViewController.h"
 #import "PhotoUploadRequest.h"
+#import "SVAlbumGridViewController.h"
 
 @implementation SVImagePickerSelector
 
@@ -138,8 +139,6 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	RCLog(@"cell %@", indexPath);
-	
     SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionGridCell" forIndexPath:indexPath];
 	__block NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 	
@@ -194,7 +193,7 @@
 }
 
 - (void)checkSectionHeaderView:(CameraRollSection*)header {
-	RCLogO(header);
+	
 	NSArray *arr = [sections objectForKey:sectionsKeys[header.section]];
 	BOOL allPhotosAreSelected = YES;
 	
@@ -313,10 +312,11 @@
 
 - (void)doneButtonPressed {
 	
-	RCLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
+	RCLog(@"====================== 1. Package selected photos");
+	RCLogThread();
 	
 	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		
+	
     //if (self.selectedGroup) {
 	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
 	for (ALAsset *asset in selectedPhotos) {
@@ -326,8 +326,31 @@
 	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
 
 	
+	// Insert the AlbumGrid controller before the CameraPicker controller
+	RCLog(@"--------------------------pickerWasDismissedWithAlbum %lli", self.albumId);
+	
+	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+	SVAlbumGridViewController *controller = (SVAlbumGridViewController*)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
+	controller.albumManager = self.albumManager;
+	controller.albumId = self.albumId;
+	controller.scrollToBottom = YES;
+	
+	//[self.navigationController pushViewController:controller animated:YES];
+	
+	// Should be 2 controllers, SVAlbumListViewController and SVCameraPickerController.
+	NSMutableArray *controllers = [NSMutableArray arrayWithArray:self.nav.viewControllers];
+	RCLogO(controllers);
+//	[controllers insertObject:controller atIndex:1];
+//	[controllers removeLastObject];
+	[controllers addObject:controller];
+	RCLogO(controllers);
+	
+	[self.nav setViewControllers:controllers animated:NO];
+	RCLogO(self);
+	
+	// Dismiss the controller
 	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-		
+		RCLogO(self);
 		if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
 			[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
 		}

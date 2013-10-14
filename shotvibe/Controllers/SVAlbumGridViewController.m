@@ -422,7 +422,7 @@
 
 - (void)setAlbumContents:(AlbumContents *)album
 {
-	RCLog(@"---------------------setAlbumContents after refresh %@", album.photos);
+	RCLog(@"---------------------setAlbumContents after refresh %i", album.photos.count);
     albumContents = album;
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
@@ -473,7 +473,7 @@
 		[arr addObject:photo];
 		[sections setObject:arr forKey:key];
 	}
-	RCLog(@"__________Keys after sorting %@", sectionsKeys);
+	//RCLog(@"__________Keys after sorting %@", sectionsKeys);
 }
 - (void)switchSortHandler:(UISegmentedControl*)control {
 	sort = control.selectedSegmentIndex;

@@ -27,6 +27,7 @@
 
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;
+@property (nonatomic, strong) UINavigationController *nav;
 @property (nonatomic) id <SVCameraPickerDelegate> delegate;
 @property (nonatomic) id cropDelegate;
 @property (nonatomic) BOOL oneImagePicker;
