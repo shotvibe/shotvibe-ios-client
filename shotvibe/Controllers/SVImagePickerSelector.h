@@ -39,7 +39,9 @@
 
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;
+@property (nonatomic, strong) IBOutlet UIView *headerView;
 
 - (void)doneButtonPressed;
+- (IBAction)selectAll:(id)sender;
 
 @end

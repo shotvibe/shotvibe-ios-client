@@ -107,6 +107,9 @@
 		self.navigationItem.rightBarButtonItem = doneButton;
 	}
     
+	self.gridView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+	[self.gridView addSubview:self.headerView];
+	self.headerView.frame = CGRectMake(0, -44, 320, 44);
 }
 
 
@@ -115,6 +118,10 @@
     [self.navigationController setNavigationBarHidden:NO];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	[self.gridView setContentOffset:CGPointMake(0, -44) animated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -308,7 +315,34 @@
 }
 
 
-#pragma mark - Package photos
+- (IBAction)selectAll:(id)sender {
+	
+	int section = 0;
+	for (NSString *key in sectionsKeys) {
+		
+		NSArray *arr = [sections objectForKey:key];
+		int i = 0;
+		
+		for (ALAsset *asset in arr) {
+			
+			SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section]];
+			
+			if (![selectedPhotos containsObject:asset]) {
+				[selectedPhotos addObject:asset];
+				selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+			}
+			
+			i++;
+		}
+		section++;
+	}
+	
+	//[section selectCheckmark:!allPhotosAreSelected];
+	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+}
+
+
+#pragma mark - Upload photos
 
 - (void)doneButtonPressed {
 	

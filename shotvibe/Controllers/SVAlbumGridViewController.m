@@ -58,59 +58,6 @@
 @implementation SVAlbumGridViewController
 
 
-- (IBAction)takeVideoPressed:(id)sender
-{
-    [self takePicturePressed:sender];
-}
-
-
-- (IBAction)takePicturePressed:(id)sender
-{
-	navigatingNext = YES;
-	self.scrollToBottom = YES;
-	
-	cameraNavController = [[SVCameraNavController alloc] init];
-	cameraNavController.cameraDelegate = self;
-	cameraNavController.albumId = self.albumId;
-	cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = self.navigationController;// this is set last
-}
-
-- (void)backButtonPressed:(id)sender
-{
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-	navigatingNext = YES;
-	
-    if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
-		
-        SVSettingsViewController *destinationController = segue.destinationViewController;
-        destinationController.albumManager = self.albumManager;
-    }
-    else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
-		
-        UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
-        
-        SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        destination.albumId = self.albumId;
-        destination.albumManager = self.albumManager;
-		self.scrollToBottom = YES;
-    }
-	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
-		
-		UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
-        SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        destination.albumManager = self.albumManager;
-		destination.albumId = self.albumId;
-    }
-}
-
-
-
-
 #pragma mark - UIViewController Methods
 
 - (void)viewDidLoad
@@ -247,6 +194,59 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark Actions
+
+- (IBAction)takeVideoPressed:(id)sender
+{
+    [self takePicturePressed:sender];
+}
+
+
+- (IBAction)takePicturePressed:(id)sender
+{
+	navigatingNext = YES;
+	self.scrollToBottom = YES;
+	
+	cameraNavController = [[SVCameraNavController alloc] init];
+	cameraNavController.cameraDelegate = self;
+	cameraNavController.albumId = self.albumId;
+	cameraNavController.albumManager = self.albumManager;
+    cameraNavController.nav = self.navigationController;// this is set last
+}
+
+- (void)backButtonPressed:(id)sender
+{
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	navigatingNext = YES;
+	
+    if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
+		
+        SVSettingsViewController *destinationController = segue.destinationViewController;
+        destinationController.albumManager = self.albumManager;
+    }
+    else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
+		
+        UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+        
+        SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+        destination.albumId = self.albumId;
+        destination.albumManager = self.albumManager;
+		self.scrollToBottom = YES;
+    }
+	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
+		
+		UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+        SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+        destination.albumManager = self.albumManager;
+		destination.albumId = self.albumId;
+    }
 }
 
 
