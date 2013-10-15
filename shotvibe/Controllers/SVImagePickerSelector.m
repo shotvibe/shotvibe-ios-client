@@ -325,32 +325,27 @@
 	}
 	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
 
-	
-	// Insert the AlbumGrid controller before the CameraPicker controller
-	RCLog(@"--------------------------pickerWasDismissedWithAlbum %lli", self.albumId);
-	
-	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-	SVAlbumGridViewController *controller = (SVAlbumGridViewController*)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
-	controller.albumManager = self.albumManager;
-	controller.albumId = self.albumId;
-	controller.scrollToBottom = YES;
-	
-	//[self.navigationController pushViewController:controller animated:YES];
-	
-	// Should be 2 controllers, SVAlbumListViewController and SVCameraPickerController.
-	NSMutableArray *controllers = [NSMutableArray arrayWithArray:self.nav.viewControllers];
-	RCLogO(controllers);
-//	[controllers insertObject:controller atIndex:1];
-//	[controllers removeLastObject];
-	[controllers addObject:controller];
-	RCLogO(controllers);
-	
-	[self.nav setViewControllers:controllers animated:NO];
-	RCLogO(self);
+	if (self.nav != nil) {
+		// Insert the AlbumGrid controller before the CameraPicker controller
+		RCLog(@"--------------------------pickerWasDismissedWithAlbum %lli", self.albumId);
+		
+		UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+		SVAlbumGridViewController *controller = (SVAlbumGridViewController*)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
+		controller.albumManager = self.albumManager;
+		controller.albumId = self.albumId;
+		controller.scrollToBottom = YES;
+		
+		// Should be 2 controllers, SVAlbumListViewController and SVCameraPickerController.
+		NSMutableArray *controllers = [NSMutableArray arrayWithArray:self.nav.viewControllers];
+		[controllers addObject:controller];
+		RCLogO(controllers);
+		
+		[self.nav setViewControllers:controllers animated:NO];
+	}
 	
 	// Dismiss the controller
 	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-		RCLogO(self);
+		
 		if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
 			[self.delegate cameraWasDismissedWithAlbum:self.selectedAlbum];
 		}

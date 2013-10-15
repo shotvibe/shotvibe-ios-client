@@ -810,5 +810,8 @@
 - (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId {
 	
 }
+- (void)onAlbumListBeginRefresh{}
+- (void)onAlbumListRefreshComplete:(NSArray *)albums{}
+- (void)onAlbumListRefreshError:(NSError *)error{}
 
 @end

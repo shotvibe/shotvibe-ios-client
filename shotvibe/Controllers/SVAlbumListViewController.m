@@ -134,27 +134,6 @@
 	[super viewDidAppear:animated];
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
-	
-	// If we came back from cameraNavController and we took a picture
-	
-//	if (cameraNavController != nil && cameraNavController.selectedAlbum != nil) {
-//		
-//		int i = 0;
-//		NSIndexPath *indexPath;
-//		
-//		for (AlbumSummary *a in albumList) {
-//			
-//			if (a.albumId == cameraNavController.selectedAlbum.albumId) {
-//				
-//				RCLog(@"viewDidAppear. cell for album found at indexPath %@", indexPath);
-//				
-//				[self performSegueWithIdentifier:@"AlbumGridViewSegue"
-//										  sender:[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]];
-//				break;
-//			}
-//			i ++;
-//		}
-//	}
 	cameraNavController = nil;
 }
 

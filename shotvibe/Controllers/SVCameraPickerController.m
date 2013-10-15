@@ -516,7 +516,6 @@
 - (void)doneButtonPressed {
 	
 	RCLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
-	RCLogO(@"is dismissing now");
 	
 	// Upload the taken photos
 	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];

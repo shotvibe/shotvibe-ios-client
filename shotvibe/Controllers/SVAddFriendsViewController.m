@@ -180,7 +180,7 @@
     cell.titleLabel.text = [NSString stringWithFormat:@"%@", name==nil?@"":name];
     cell.subtitleLabel.text = [NSString stringWithFormat:@"%@", phoneNumber==nil?@"":phoneNumber];
 	
-	if (ABPersonHasImageData(record)) {
+	if (record != nil && ABPersonHasImageData(record)) {
 		NSData *contactImageData = (__bridge_transfer NSData*) ABPersonCopyImageDataWithFormat(record, kABPersonImageFormatThumbnail);
 		[cell.contactIcon cancelImageRequestOperation];
 		cell.contactIcon.image = [[UIImage alloc] initWithData:contactImageData];

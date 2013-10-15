@@ -67,6 +67,8 @@
 - (IBAction)takePicturePressed:(id)sender
 {
 	navigatingNext = YES;
+	self.scrollToBottom = YES;
+	
 	cameraNavController = [[SVCameraNavController alloc] init];
 	cameraNavController.cameraDelegate = self;
 	cameraNavController.albumId = self.albumId;
@@ -82,6 +84,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	navigatingNext = YES;
+	
     if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
 		
         SVSettingsViewController *destinationController = segue.destinationViewController;
@@ -94,6 +97,7 @@
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = self.albumId;
         destination.albumManager = self.albumManager;
+		self.scrollToBottom = YES;
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
 		
@@ -266,6 +270,7 @@
 
 - (void)cameraExit {
 	cameraNavController = nil;
+	self.scrollToBottom = NO;
 }
 
 - (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {
