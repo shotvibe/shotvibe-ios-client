@@ -28,6 +28,8 @@
     int uploadQueueSize_;
     dispatch_queue_t uploadQueue_;
     dispatch_queue_t photosLoadQueue_;
+	
+	UIBackgroundTaskIdentifier _backgroundRenderingID;
 }
 
 - (id)initWithShotVibeAPI:(ShotVibeAPI *)shotvibeAPI listener:(id<PhotosUploadListener>)listener
@@ -52,6 +54,16 @@
 
 - (void)uploadPhotos:(int64_t)albumId photoUploadRequests:(NSArray *)photoUploadRequests
 {
+	
+	// Start a background task
+	
+	_backgroundRenderingID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+		RCLog(@"end background task prematurely, put the encoding on pause");
+		[[UIApplication sharedApplication] endBackgroundTask:_backgroundRenderingID];
+		_backgroundRenderingID = UIBackgroundTaskInvalid;
+	}];
+	
+	
     BOOL isCurrentlyUploading;
 
     NSMutableArray *addedPhotos = [[NSMutableArray alloc] init];
@@ -266,6 +278,12 @@ const NSTimeInterval RETRY_TIME = 5;
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [listener_ photoAlbumAllPhotosUploaded:albumId];
+		
+		// Exit background
+		
+		RCLog(@"Upload finished. Exit the background");
+		[[UIApplication sharedApplication] endBackgroundTask:_backgroundRenderingID];
+		_backgroundRenderingID = UIBackgroundTaskInvalid;
     });
 }
 
