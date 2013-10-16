@@ -33,13 +33,15 @@
 		ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
 			
 			if (granted) {
-				ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook); // or get the source with ABPersonCopySource(somePersonsABRecordRef);
-				CFArrayRef people = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering (addressBook, source, ABPersonGetSortOrdering());
+				//CFArrayRef sources = ABAddressBookCopyArrayOfAllSources(addressBook);
+				//ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook); // or get the source with ABPersonCopySource(somePersonsABRecordRef);
+				//CFArrayRef people = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering (addressBook, sources, ABPersonGetSortOrdering());
+				CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
 				self.allContacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(people)];
 				RCLog(@"Found %i contacts", self.allContacts.count);
 				
 				CFRelease(people);
-				CFRelease(source);
+				//CFRelease(source);
 				
 				if (completionBlock)
                     completionBlock(YES,nil);
@@ -104,6 +106,8 @@
 								CFStringRef lastName = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonLastNameProperty);
 								ABRecordSetValue (persona, kABPersonFirstNameProperty, firstName, nil);
 								ABRecordSetValue (persona, kABPersonLastNameProperty, lastName, nil);
+								if (firstName != NULL) { CFRelease(firstName); firstName = NULL; }
+								if (lastName != NULL) { CFRelease(lastName); lastName = NULL; } 
 								
 								ABMutableMultiValueRef multiPhone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
 								bool didAddPhone = ABMultiValueAddValueAndLabel(multiPhone, (__bridge CFTypeRef)(phoneNumber), kABPersonPhoneMobileLabel, NULL);
@@ -130,7 +134,7 @@
 				CFRelease(phoneNumbers);
 				
 				[self.filteredContacts setObject:arr forKey:key];
-				RCLog(@"%i contacts for key %@", arr.count, key);
+				//RCLog(@"%i contacts for key %@", arr.count, key);
 			}
 		}
 		
