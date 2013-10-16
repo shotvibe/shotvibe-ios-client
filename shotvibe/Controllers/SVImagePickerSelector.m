@@ -315,7 +315,7 @@
 }
 
 
-- (IBAction)selectAll:(id)sender {
+- (void)selectAll:(id)sender {
 	
 	int section = 0;
 	for (NSString *key in sectionsKeys) {

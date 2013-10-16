@@ -333,7 +333,8 @@
 		[self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
 		
 		// Animation not working, TODO
-		[UIView animateWithDuration:0.6 animations:^{
+		[UIView animateWithDuration:0.6
+						 animations:^{
 			CGRect f = self.albumPreviewImage.frame;
 			f.origin.x += self.tileContainer.frame.origin.x;
 			f.origin.y += self.view.frame.size.height - 25;
@@ -399,7 +400,6 @@
         self.selectedAlbum = [self.albums objectAtIndex:0];
 		self.albumId = self.selectedAlbum.albumId;
     }
-	RCLog(@"configureAlbumScrollView %lli", self.albumId);
 }
 - (void)goLeft:(id)sender {
 	NSUInteger pageIndex = self.albumScrollView.contentOffset.x / self.albumScrollView.frame.size.width;
@@ -419,7 +419,6 @@
     self.selectedAlbum = [self.albums objectAtIndex:index];
 	self.albumId = self.selectedAlbum.albumId;
     [self.albumPageControl setCurrentPage:index];
-	RCLog(@"scrollToAlbumAtIndex %lli", self.albumId);
 }
 
 
@@ -431,7 +430,6 @@
     [self.albumPageControl setCurrentPage:pageIndex];
     self.selectedAlbum = [self.albums objectAtIndex:pageIndex];
 	self.albumId = self.selectedAlbum.albumId;
-	RCLog(@"scrollViewDidEndDecelerating %lli", self.albumId);
 }
 
 
