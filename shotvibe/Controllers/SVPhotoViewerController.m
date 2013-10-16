@@ -373,12 +373,15 @@
 }
 - (void)onPhotoComplete:(NSNumber*)nr {
 	RCLog(@"load complete %@", nr);
-	id photo = [cache objectAtIndex:[nr intValue]];
-	if ([photo isKindOfClass:[RCScrollImageView class]]) {
-		RCScrollImageView *cachedImage = photo;
-		cachedImage.contentSize = cachedImage.image.size;
-		[cachedImage loadComplete];
-		[cachedImage setMaxMinZoomScalesForCurrentBounds];
+	int n = [nr intValue];
+	if (n < cache.count) {
+		id photo = [cache objectAtIndex:n];
+		if ([photo isKindOfClass:[RCScrollImageView class]]) {
+			RCScrollImageView *cachedImage = photo;
+			cachedImage.contentSize = cachedImage.image.size;
+			[cachedImage loadComplete];
+			[cachedImage setMaxMinZoomScalesForCurrentBounds];
+		}
 	}
 }
 - (void)onPhotoProgress:(NSNumber*)percentLoaded nr:(NSNumber*)nr{

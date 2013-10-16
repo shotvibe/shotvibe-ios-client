@@ -65,7 +65,8 @@
 		
 		for (id evaluatedObject in self.allContacts) {
 			
-			NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)evaluatedObject);
+			CFStringRef n = ABRecordCopyCompositeName((__bridge ABRecordRef)evaluatedObject);
+			NSString *name = (__bridge_transfer NSString*)n;
 			
 			if (name == nil) {
 				RCLog(@"name is nil. skip this contact");
@@ -117,8 +118,6 @@
 								[arr addObject:(__bridge id)persona];
 								
 								CFRelease(multiPhone);
-								//CFRelease(firstName);
-								//CFRelease(lastName);
 								CFRelease(persona);
 							}
 						}
