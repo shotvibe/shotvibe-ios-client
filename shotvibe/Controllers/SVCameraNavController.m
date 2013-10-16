@@ -15,7 +15,7 @@
 - (void) setNav:(UINavigationController *)nav {
 	
 	NSAssert(self.cameraDelegate != nil, @"SVCameraNavController setNav should be called last");
-	
+	RCLog(@"%lli", self.albumId);
 	_nav = nav;
 	
 	cameraController = [[SVCameraPickerController alloc] initWithNibName:@"SVCameraOverlay" bundle:[NSBundle mainBundle]];

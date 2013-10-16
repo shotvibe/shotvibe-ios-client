@@ -17,7 +17,7 @@
     
     [[ALAssetsLibrary sharedLibrary] enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
         if (group) {
-            RCLog(@"Fetched Album: %@ - %i photos type %@", [group valueForProperty:ALAssetsGroupPropertyName], group.numberOfAssets, [group valueForProperty:ALAssetsGroupPropertyType]);
+            //RCLog(@"Fetched Album: %@ - %i photos type %@", [group valueForProperty:ALAssetsGroupPropertyName], group.numberOfAssets, [group valueForProperty:ALAssetsGroupPropertyType]);
             
 			// Camera roll type
 			if ([[group valueForProperty:ALAssetsGroupPropertyType] intValue] == ALAssetsGroupSavedPhotos) {

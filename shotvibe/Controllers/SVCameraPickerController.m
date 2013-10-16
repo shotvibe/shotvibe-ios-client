@@ -397,7 +397,9 @@
 	
     if (self.albums.count > 0) {
         self.selectedAlbum = [self.albums objectAtIndex:0];
+		self.albumId = self.selectedAlbum.albumId;
     }
+	RCLog(@"configureAlbumScrollView %lli", self.albumId);
 }
 - (void)goLeft:(id)sender {
 	NSUInteger pageIndex = self.albumScrollView.contentOffset.x / self.albumScrollView.frame.size.width;
@@ -415,7 +417,9 @@
 	}
     [self.albumScrollView scrollRectToVisible:CGRectMake(index*self.albumScrollView.frame.size.width, 0, self.albumScrollView.frame.size.width, self.albumScrollView.frame.size.height) animated:YES];
     self.selectedAlbum = [self.albums objectAtIndex:index];
+	self.albumId = self.selectedAlbum.albumId;
     [self.albumPageControl setCurrentPage:index];
+	RCLog(@"scrollToAlbumAtIndex %lli", self.albumId);
 }
 
 
@@ -426,6 +430,8 @@
     NSUInteger pageIndex = scrollView.contentOffset.x / scrollView.frame.size.width;
     [self.albumPageControl setCurrentPage:pageIndex];
     self.selectedAlbum = [self.albums objectAtIndex:pageIndex];
+	self.albumId = self.selectedAlbum.albumId;
+	RCLog(@"scrollViewDidEndDecelerating %lli", self.albumId);
 }
 
 
@@ -515,7 +521,7 @@
 
 - (void)doneButtonPressed {
 	
-	RCLog(@"====================== 1. Package selected photos %@", [NSThread isMainThread] ? @"isMainThread":@"isNotMainThread");
+	RCLog(@"====================== 1. Upload selected photos to albumId %lli", self.albumId);
 	
 	// Upload the taken photos
 	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
