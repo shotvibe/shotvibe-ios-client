@@ -623,6 +623,7 @@
 														  completion:^(BOOL finished){
 															  photosScrollView.contentSize = CGSizeMake((w+GAP_X)*[self.photos count], h);
 															  butTrash.enabled = YES;
+															  [self updateInfoOnScreen];
 															  RCLog(@"finish rearanging left photos %i", cache.count);
 														  }];
 									 }
