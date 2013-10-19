@@ -85,9 +85,35 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 	}
 	
     filePath_ = [PhotoUploadRequest getUploadingPhotoFilename];
-
+	
     ALAssetRepresentation *rep = [asset_ defaultRepresentation];
+	CGImageRef croppedImage = [rep fullScreenImage];
+	NSDictionary *metadata = [rep metadata][@"AdjustmentXMP"];
+	
+	RCLogO(croppedImage);
+	RCLogO(metadata);
+	
+	// Write to disk the cropped image
+	if (metadata) {
+		CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:filePath_];
+		CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
+		CGImageDestinationAddImage(destination, croppedImage, nil);
+		
+		if (!CGImageDestinationFinalize(destination)) {
+			RCLog(@"Failed to write image to %@", filePath_);
+		}
+		else{
+			RCLog(@"write success %@", filePath_);
+		}
+		
+		CFRelease(destination);
+		
+		[FileUtils addSkipBackupAttributeToItemAtURL:filePath_];
+		return;
+	}
 
+	
+	// Write to disk the original image
     if (![[NSFileManager defaultManager] createFileAtPath:filePath_ contents:nil attributes:nil]) {
         RCLog(@"ERROR CREATING FILE: %@", filePath_);
         // TODO Handle error...

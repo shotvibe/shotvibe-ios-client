@@ -1361,6 +1361,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA58FD0116C2361300C49E02 /* MobileCoreServices.framework in Frameworks */,
 				285EB94417F55C8C00A33E5B /* AdSupport.framework in Frameworks */,
 				285EB94217F55C8200A33E5B /* Accelerate.framework in Frameworks */,
 				04204EFB178B45D9001FE127 /* AddressBook.framework in Frameworks */,
@@ -1377,7 +1378,6 @@
 				285EB93F17F55BDA00A33E5B /* libAviarySDK.a in Frameworks */,
 				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
 				285EB94817F55CDD00A33E5B /* libz.1.2.5.dylib in Frameworks */,
-				AA58FD0116C2361300C49E02 /* MobileCoreServices.framework in Frameworks */,
 				0499B911171E4D2900050596 /* MessageUI.framework in Frameworks */,
 				285EB94A17F55CFA00A33E5B /* OpenGLES.framework in Frameworks */,
 				AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */,
