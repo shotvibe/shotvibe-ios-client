@@ -24,6 +24,9 @@
 // Returns an array of `AlbumSummary` objects
 - (NSArray *)getAlbumList;
 
+// Returns a dictionary mapping `NSNumber` values (wrapping `int64_t` values) to `NSString` values
+- (NSDictionary *)getAlbumListEtagValues;
+
 // `albums` must be an array of `AlbumSummary` objects
 - (BOOL)setAlbumListWithAlbums:(NSArray *)albums;
 

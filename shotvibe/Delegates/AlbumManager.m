@@ -143,6 +143,20 @@ enum RefreshStatus
                         RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
                     }
 
+                    // Loop over the new albumsList, and refresh any albums that have
+                    // an updated etag value:
+                    // TODO Right now all of these refresh requests happen in parallel, they should run in sequence
+
+                    NSDictionary *albumEtags = [shotvibeDB getAlbumListEtagValues];
+
+                    for (AlbumSummary *a in latestAlbumsList) {
+                        NSString *newEtag = a.etag;
+                        NSString *oldEtag = [albumEtags objectForKey:[[NSNumber alloc] initWithLongLong:a.albumId]];
+                        if (![newEtag isEqualToString:oldEtag]) {
+                            [self refreshAlbumContents:a.albumId];
+                        }
+                    }
+
                     for(id<AlbumListListener> listener in albumListListeners) {
                         [listener onAlbumListRefreshComplete:latestAlbumsList];
                     }
