@@ -196,7 +196,7 @@
 		//cell.contactIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"default-avatar-0%i.png", rndValue]];
 		[cell.contactIcon setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://shotvibe-avatars-01.s3.amazonaws.com/default-avatar-00%@%i.jpg", i<10?@"0":@"", i]]];
 	}
-	CFRelease(phoneNumbers);
+	if (phoneNumbers != nil) CFRelease(phoneNumbers);
 	
 	BOOL contains = [selectedIds containsObject:(__bridge id)(record)];
 	cell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
