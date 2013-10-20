@@ -439,31 +439,65 @@
     [self.gridView reloadData];
 	[self updateEmptyState];
 }
+
+
+#pragma mark Sorting
+
 - (void)sortThumbsBy:(SortType)sortType {
 	
 	sort = sortType;
 	[sectionsKeys removeAllObjects];
 	[sections removeAllObjects];
 	
+	// This are used by the feed alike sorting
+	NSDate *previousDate = nil;
+	NSString *previousUser = nil;
+	
 	for (AlbumPhoto *photo in albumContents.photos) {
 		
 		NSString *key = @"Uploading now";
 		
-		switch (sortType) {
+		if (photo.serverPhoto) switch (sortType) {
 			case SortByDate:
 			{
-				if (photo.serverPhoto) {
-					key = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
-														 dateStyle:NSDateFormatterLongStyle
-														 timeStyle:NSDateFormatterNoStyle];
-				}
+				key = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
+													dateStyle:NSDateFormatterLongStyle
+													timeStyle:NSDateFormatterNoStyle];
 			}break;
-				
+			
 			case SortByAuthor:
 			{
-				if (photo.serverPhoto) {
-					key = photo.serverPhoto.authorNickname;
+				key = photo.serverPhoto.authorNickname;
+			}break;
+			
+			case SortFeedAlike:
+			{
+				if (previousDate == nil) {
+					previousDate = photo.serverPhoto.dateAdded;
 				}
+				if (previousUser == nil) {
+					previousUser = photo.serverPhoto.authorNickname;
+				}
+				
+				if ([photo.serverPhoto.dateAdded timeIntervalSinceDate:previousDate] < 60 &&
+					 [photo.serverPhoto.authorNickname isEqualToString:previousUser])
+				{
+					key = [NSString stringWithFormat:@"%@ - %@",
+						   previousUser,
+						   [NSDateFormatter localizedStringFromDate:previousDate
+														  dateStyle:NSDateFormatterShortStyle
+														  timeStyle:NSDateFormatterShortStyle]];
+				}
+				else {
+					key = [NSString stringWithFormat:@"%@ - %@",
+						   photo.serverPhoto.authorNickname,
+						   [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
+														  dateStyle:NSDateFormatterShortStyle
+														  timeStyle:NSDateFormatterShortStyle]];
+				}
+				
+				previousDate = photo.serverPhoto.dateAdded;
+				previousUser = photo.serverPhoto.authorNickname;
 			}break;
 		}
 		

@@ -13,7 +13,8 @@
 
 typedef enum {
 	SortByDate=0,
-	SortByAuthor
+	SortByAuthor,
+	SortFeedAlike
 }SortType;
 
 @interface SVAlbumGridViewController : UIViewController <AlbumContentsListener, SVCameraPickerDelegate>
