@@ -23,6 +23,7 @@
 #import "AlbumPhoto.h"
 #import "UIImageView+WebCache.h"
 #import "SVAlbumGridSection.h"
+#import "NSDate+Formatting.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
 {
@@ -90,12 +91,17 @@
 	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
 	self.navigationItem.backBarButtonItem = backButton;
 	
+	// CollectionView
 	[self.gridView registerClass:[SVAlbumGridSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SVAlbumGridSection"];
 	[self.gridView addSubview:self.switchView];
+	
 	self.switchView.frame = CGRectMake(0, 0, 320, 45);
-	self.switchSort.frame = CGRectMake(200, 10, 320-207, 30);
+	self.switchSort.frame = CGRectMake(50, 10, 220, 30);
 	[self.switchSort addTarget:self action:@selector(switchSortHandler:) forControlEvents:UIControlEventValueChanged];
 	self.switchSort.selectedSegmentIndex = sort;
+	
+	//UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout*)self.gridView.collectionViewLayout;
+	//[flow setSectionInset:UIEdgeInsetsMake(45, 0, 0, 0)];
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = self;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
@@ -339,12 +345,30 @@
 																			   forIndexPath:indexPath];
 		
 		// Modify the header
-		[header setType:sort];
+		[header setType:sort section:indexPath.section];
 		
-		header.dateLabel.text = sectionsKeys[indexPath.section];
 		header.dateLabel.backgroundColor = [UIColor clearColor];
+		header.nameLabel.backgroundColor = [UIColor clearColor];
 		
-		if (sort == SortByAuthor) {
+		switch (sort) {
+			case SortFeedAlike:
+			{
+				header.dateLabel.text = sectionsKeys[indexPath.section];
+			}break;
+			
+			case SortByDate:
+			{
+				header.nameLabel.text = sectionsKeys[indexPath.section];
+			}break;
+			
+			case SortByUser:
+			{
+				
+			}break;
+		}
+		
+		if (sort == SortByUser || sort == SortFeedAlike) {
+			
 			NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 			AlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
 			
@@ -352,17 +376,24 @@
 			for (AlbumMember *member in albumContents.members) {
 				if (photo.serverPhoto.authorUserId == member.memberId) {
 					[header.imageView loadNetworkImage:member.avatarUrl];
+					header.nameLabel.text = member.nickname;
 					break;
 				}
 			}
 		}
-		
 		
 		return header;
 	}
 	return nil;
 }
 
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+						layout:(UICollectionViewLayout*)collectionViewLayout
+		insetForSectionAtIndex:(NSInteger)section
+{
+	if (section == 0) return UIEdgeInsetsMake(45, 5, 5, 5);
+	return UIEdgeInsetsMake(5, 5, 5, 5);
+}
 
 
 
@@ -393,7 +424,6 @@
 			break;
 		}
 	}
-	RCLog(@"didSelectItemAtIndexPath %@ %i", indexPath, i);
 	
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumId = self.albumId;
@@ -427,7 +457,6 @@
 
 - (void)setAlbumContents:(AlbumContents *)album
 {
-	RCLog(@"---------------------setAlbumContents after refresh %i", album.photos.count);
     albumContents = album;
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
@@ -458,17 +487,6 @@
 		NSString *key = @"Uploading now";
 		
 		if (photo.serverPhoto) switch (sortType) {
-			case SortByDate:
-			{
-				key = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
-													dateStyle:NSDateFormatterLongStyle
-													timeStyle:NSDateFormatterNoStyle];
-			}break;
-			
-			case SortByAuthor:
-			{
-				key = photo.serverPhoto.authorNickname;
-			}break;
 			
 			case SortFeedAlike:
 			{
@@ -482,22 +500,26 @@
 				if ([photo.serverPhoto.dateAdded timeIntervalSinceDate:previousDate] < 60 &&
 					 [photo.serverPhoto.authorNickname isEqualToString:previousUser])
 				{
-					key = [NSString stringWithFormat:@"%@ - %@",
-						   previousUser,
-						   [NSDateFormatter localizedStringFromDate:previousDate
-														  dateStyle:NSDateFormatterShortStyle
-														  timeStyle:NSDateFormatterShortStyle]];
+					key = [previousDate distanceOfTimeInWords:[NSDate date] shortStyle:YES];
 				}
 				else {
-					key = [NSString stringWithFormat:@"%@ - %@",
-						   photo.serverPhoto.authorNickname,
-						   [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
-														  dateStyle:NSDateFormatterShortStyle
-														  timeStyle:NSDateFormatterShortStyle]];
+					key = [photo.serverPhoto.dateAdded distanceOfTimeInWords:[NSDate date] shortStyle:YES];
 				}
 				
 				previousDate = photo.serverPhoto.dateAdded;
 				previousUser = photo.serverPhoto.authorNickname;
+			}break;
+			
+			case SortByUser:
+			{
+				key = photo.serverPhoto.authorNickname;
+			}break;
+			
+			case SortByDate:
+			{
+				key = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
+													 dateStyle:NSDateFormatterLongStyle
+													 timeStyle:NSDateFormatterNoStyle];
 			}break;
 		}
 		
@@ -512,7 +534,6 @@
 		[arr addObject:photo];
 		[sections setObject:arr forKey:key];
 	}
-	//RCLog(@"__________Keys after sorting %@", sectionsKeys);
 }
 - (void)switchSortHandler:(UISegmentedControl*)control {
 	sort = control.selectedSegmentIndex;
@@ -524,12 +545,11 @@
 
 - (void)onAlbumContentsBeginRefresh:(int64_t)albumId
 {
-	RCLog(@"begin refresh");
+	
 }
 
 - (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
 {
-	RCLog(@"end refresh");
 	if (refreshManualy) {
 		[self endRefreshing];
 	}
@@ -538,7 +558,6 @@
 
 - (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
 {
-	RCLog(@"error refresh");
     [refresh endRefreshing];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	

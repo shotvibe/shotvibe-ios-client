@@ -12,9 +12,10 @@
 
 @interface SVAlbumGridSection : UICollectionReusableView
 
-@property(nonatomic, retain) UILabel *dateLabel;
 @property(nonatomic, retain) RCImageView *imageView;
+@property(nonatomic, retain) UILabel *nameLabel;
+@property(nonatomic, retain) UILabel *dateLabel;
 
-- (void)setType:(int)type;
+- (void)setType:(int)type section:(int)section;
 
 @end

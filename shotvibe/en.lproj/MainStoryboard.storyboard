@@ -362,12 +362,12 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="BWT-xz-n21">
-                                        <rect key="frame" x="127" y="3" width="181" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="74" y="3" width="173" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <segments>
-                                            <segment title="Date"/>
-                                            <segment title="Author"/>
                                             <segment title="Feed"/>
+                                            <segment title="User"/>
+                                            <segment title="Date"/>
                                         </segments>
                                     </segmentedControl>
                                 </subviews>

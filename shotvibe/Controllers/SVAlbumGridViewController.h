@@ -12,9 +12,9 @@
 #import "AlbumManager.h"
 
 typedef enum {
-	SortByDate=0,
-	SortByAuthor,
-	SortFeedAlike
+	SortFeedAlike=0,
+	SortByUser,
+	SortByDate
 }SortType;
 
 @interface SVAlbumGridViewController : UIViewController <AlbumContentsListener, SVCameraPickerDelegate>

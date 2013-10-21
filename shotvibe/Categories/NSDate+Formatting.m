@@ -46,28 +46,29 @@
 }
 
 - (NSString *)distanceOfTimeInWords {
-  return [self distanceOfTimeInWords:[NSDate date]];
+  return [self distanceOfTimeInWords:[NSDate date] shortStyle:NO];
 }
 
-- (NSString *)distanceOfTimeInWords:(NSDate *)date {
-  NSString *Ago      = NSLocalizedString(@"ago", @"Denotes past dates");
+- (NSString *)distanceOfTimeInWords:(NSDate *)date shortStyle:(BOOL)s {
+	
+  NSString *Ago      = NSLocalizedString(s?@"":@"ago", @"Denotes past dates");
   NSString *FromNow  = NSLocalizedString(@"from now", @"Denotes future dates");
   NSString *LessThan = NSLocalizedString(@"Less than", @"Indicates a less-than number");
   NSString *About    = NSLocalizedString(@"About", @"Indicates an approximate number");
   NSString *Over     = NSLocalizedString(@"Over", @"Indicates an exceeding number");
   NSString *Almost   = NSLocalizedString(@"Almost", @"Indicates an approaching number");
   //NSString *Second   = NSLocalizedString(@"second", @"One second in time");
-  NSString *Seconds  = NSLocalizedString(@"seconds", @"More than one second in time");
-  NSString *Minute   = NSLocalizedString(@"minute", @"One minute in time");
-  NSString *Minutes  = NSLocalizedString(@"minutes", @"More than one minute in time");
-  NSString *Hour     = NSLocalizedString(@"hour", @"One hour in time");
-  NSString *Hours    = NSLocalizedString(@"hours", @"More than one hour in time");
-  NSString *Day      = NSLocalizedString(@"day", @"One day in time");
-  NSString *Days     = NSLocalizedString(@"days", @"More than one day in time");
-  NSString *Month    = NSLocalizedString(@"month", @"One month in time");
-  NSString *Months   = NSLocalizedString(@"months", @"More than one month in time");
-  NSString *Year     = NSLocalizedString(@"year", @"One year in time");
-  NSString *Years    = NSLocalizedString(@"years", @"More than one year in time");
+  NSString *Seconds  = NSLocalizedString(s?@"s":@"seconds", @"More than one second in time");
+  NSString *Minute   = NSLocalizedString(s?@"m":@"minute", @"One minute in time");
+  NSString *Minutes  = NSLocalizedString(s?@"m":@"minutes", @"More than one minute in time");
+  NSString *Hour     = NSLocalizedString(s?@"h":@"hour", @"One hour in time");
+  NSString *Hours    = NSLocalizedString(s?@"h":@"hours", @"More than one hour in time");
+  NSString *Day      = NSLocalizedString(s?@"d":@"day", @"One day in time");
+  NSString *Days     = NSLocalizedString(s?@"d":@"days", @"More than one day in time");
+  NSString *Month    = NSLocalizedString(s?@"m":@"month", @"One month in time");
+  NSString *Months   = NSLocalizedString(s?@"m":@"months", @"More than one month in time");
+  NSString *Year     = NSLocalizedString(s?@"y":@"year", @"One year in time");
+  NSString *Years    = NSLocalizedString(s?@"y":@"years", @"More than one year in time");
   
   NSTimeInterval since = [self timeIntervalSinceDate:date];
   NSString *direction = since <= 0.0 ? Ago : FromNow;
