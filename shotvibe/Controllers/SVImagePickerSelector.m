@@ -349,16 +349,17 @@
 	RCLog(@"====================== 1. Package selected photos");
 	RCLogThread();
 	
-	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+	// Send a notification the the main screen to move this album on top of the list
+	NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"album_changed" object:nil userInfo:userInfo];
 	
-    //if (self.selectedGroup) {
 	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
 	for (ALAsset *asset in selectedPhotos) {
 		PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithAsset:asset];
 		[photoUploadRequests addObject:photoUploadRequest];
 	}
 	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
-
+	
 	if (self.nav != nil) {
 		// Insert the AlbumGrid controller before the CameraPicker controller
 		RCLog(@"--------------------------pickerWasDismissedWithAlbum %lli", self.albumId);

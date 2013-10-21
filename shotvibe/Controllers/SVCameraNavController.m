@@ -67,6 +67,9 @@
 	// Dismiss this controller from the main navigation
 	[cameraController.navigationController popViewControllerAnimated:YES];
 	
+	NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"album_changed" object:nil userInfo:userInfo];
+	
 //	if ([self.cameraDelegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
 //		[self.cameraDelegate cameraWasDismissedWithAlbum:album];
 //	}

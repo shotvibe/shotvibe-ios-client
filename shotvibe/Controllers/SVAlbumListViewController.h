@@ -11,6 +11,7 @@
 #import "AlbumListListener.h"
 #import "SVCameraPickerController.h"
 #import "SVAlbumListViewCell.h"
+#import "SVAlbumGridViewController.h"
 
 
 @interface SVAlbumListViewController : UITableViewController <UITableViewDataSource,

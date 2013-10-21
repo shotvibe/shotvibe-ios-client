@@ -12,7 +12,6 @@
 #import "UIImageView+WebCache.h"
 #import "SVDefines.h"
 #import "SVCameraNavController.h"
-#import "SVAlbumGridViewController.h"
 #import "SVImagePickerListViewController.h"
 #import "NSDate+Formatting.h"
 #import "MFSideMenu.h"
@@ -115,6 +114,11 @@
 	[touchOnView setNumberOfTouchesRequired:1];
 	[self.tableOverlayView addGestureRecognizer:touchOnView];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(somethingChangedInAlbumwithId:)
+												 name:@"album_changed"
+											   object:nil];
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -143,7 +147,7 @@
     
     [thumbnailCache removeAllObjects];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self];
     
     if (self.albumField.isFirstResponder) {
         [self.albumField resignFirstResponder];
@@ -222,6 +226,9 @@
     cameraNavController.nav = self.navigationController;// this is set last
 }
 
+
+#pragma mark Segue
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"AlbumGridViewSegue"]) {
@@ -232,7 +239,6 @@
 		
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
-        
         destinationController.albumManager = self.albumManager;
         destinationController.albumId = album.albumId;
     }
@@ -246,14 +252,46 @@
 	}
 	else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
 		
-        UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
-        
 		AlbumSummary *album = (AlbumSummary*)sender;
+		
+        UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = album.albumId;
         destination.albumManager = self.albumManager;
 		destination.nav = self.navigationController;
     }
+}
+
+
+#pragma mark AlbumGrid delegate
+
+- (void)somethingChangedInAlbumwithId:(NSNotification *)notification {
+	
+	NSDictionary *userInfo = notification.userInfo;
+    int64_t albumId = [[userInfo objectForKey:@"albumId"] longLongValue];
+	
+	int i = 0;
+	for (AlbumSummary *album in albumList) {
+		if (album.albumId == albumId) {
+			break;
+		}
+		i++;
+	}
+	
+	AlbumSummary *album = [albumList objectAtIndex:i];
+	AlbumSummary *newAlbum = [[AlbumSummary alloc] initWithAlbumId:album.albumId
+															  etag:album.etag
+															  name:album.name
+													   dateCreated:album.dateCreated
+													   dateUpdated:[NSDate date]
+													  latestPhotos:album.latestPhotos];
+	//album.dateUpdated = [NSDate date];
+	[albumList removeObjectAtIndex:i];
+	[albumList insertObject:newAlbum atIndex:0];
+	
+	[self.tableView reloadData];
+	//[self.tableView beginUpdates];
+	//[self.tableView deleteRowsAtIndexPaths:<#(NSArray *)#> withRowAnimation:<#(UITableViewRowAnimation)#>]
 }
 
 

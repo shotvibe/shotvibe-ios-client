@@ -625,6 +625,10 @@
 															  butTrash.enabled = YES;
 															  [self updateInfoOnScreen];
 															  RCLog(@"finish rearanging left photos %i", cache.count);
+															  
+															  // Send a notification the the main screen to move this album on top of the list
+															  NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
+															  [[NSNotificationCenter defaultCenter] postNotificationName:@"album_changed" object:nil userInfo:userInfo];
 														  }];
 									 }
 								 }];
@@ -750,6 +754,10 @@
 				// Upload the saved photo. This will call the refresh 2 times, one with the local photo and one after the photo is being uploaded
 				PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
 				[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:@[photoUploadRequest]];
+				
+				// Send a notification the the main screen to move this album on top of the list
+				NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"album_changed" object:nil userInfo:userInfo];
 			});
 		}
 	});

@@ -17,6 +17,7 @@ typedef enum {
 	SortByDate
 }SortType;
 
+
 @interface SVAlbumGridViewController : UIViewController <AlbumContentsListener, SVCameraPickerDelegate>
 
 #pragma mark - Properties
