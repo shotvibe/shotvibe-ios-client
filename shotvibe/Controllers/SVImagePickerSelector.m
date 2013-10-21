@@ -241,6 +241,9 @@
 		
 		CameraRollSection *header = (CameraRollSection*)[collectionView viewWithTag:indexPath.section+1000];
 		[self checkSectionHeaderView:header];
+		
+		BOOL allSelected = selectedPhotos.count == _takenPhotos.count;
+		[self.butSelectAll setTitle:allSelected?@"Unselect All":@"Select All" forState:UIControlStateNormal];
 	}
     else {
 		
@@ -317,6 +320,9 @@
 
 - (void)selectAll:(id)sender {
 	
+	BOOL allSelected = selectedPhotos.count == _takenPhotos.count;
+	[self.butSelectAll setTitle:!allSelected?@"Unselect All":@"Select All" forState:UIControlStateNormal];
+	RCLogI(allSelected);
 	int section = 0;
 	for (NSString *key in sectionsKeys) {
 		
@@ -327,9 +333,17 @@
 			
 			SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section]];
 			
-			if (![selectedPhotos containsObject:asset]) {
-				[selectedPhotos addObject:asset];
-				selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+			if (!allSelected) {
+				if (![selectedPhotos containsObject:asset]) {
+					[selectedPhotos addObject:asset];
+					selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+				}
+			}
+			else {
+				if ([selectedPhotos containsObject:asset]) {
+					[selectedPhotos removeObject:asset];
+					selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+				}
 			}
 			
 			i++;
