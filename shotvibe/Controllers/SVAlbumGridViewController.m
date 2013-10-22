@@ -24,7 +24,6 @@
 #import "UIImageView+WebCache.h"
 #import "SVAlbumGridSection.h"
 #import "NSDate+Formatting.h"
-#import "MBProgressHUD.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
 {
@@ -122,7 +121,6 @@
 		//[self setAlbumContents:contents];
 	}
 	[self.albumManager refreshAlbumContents:self.albumId];
-	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -556,14 +554,12 @@
 		[self endRefreshing];
 	}
     [self setAlbumContents:album];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
 {
     [refresh endRefreshing];
 	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId

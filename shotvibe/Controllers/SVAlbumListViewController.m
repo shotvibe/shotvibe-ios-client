@@ -126,8 +126,6 @@
 	[super viewWillAppear:animated];
 	[self.albumManager refreshAlbumList];
 	
-	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	
 	// Update the cell that was tapped and maybe edited
 	if (tappedCell != nil) {
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
@@ -289,9 +287,11 @@
 	[albumList removeObjectAtIndex:i];
 	[albumList insertObject:newAlbum atIndex:0];
 	
-	[self.tableView reloadData];
-	//[self.tableView beginUpdates];
-	//[self.tableView deleteRowsAtIndexPaths:<#(NSArray *)#> withRowAnimation:<#(UITableViewRowAnimation)#>]
+	//[self.tableView reloadData];
+	[self.tableView beginUpdates];
+	[self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+	[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+	[self.tableView endUpdates];
 }
 
 
@@ -633,13 +633,11 @@
 	if (refreshManualy) {
 		[self endRefreshing];
 	}
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)onAlbumListRefreshError:(NSError *)error
 {
     // TODO ...
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 @end
