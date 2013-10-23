@@ -649,8 +649,8 @@
 		043473D31705F49600CFE564 /* placeholderImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholderImage@2x.png"; sourceTree = "<group>"; };
 		0446EEDF1718845D00ED0076 /* albumMemberProfileFrame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumMemberProfileFrame@2x.png"; sourceTree = "<group>"; };
 		0446EEE01718845D00ED0076 /* albumMemberProfileFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumMemberProfileFrame.png; sourceTree = "<group>"; };
-		0446EF001718927B00ED0076 /* SVSidebarAlbumMemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarAlbumMemberCell.h; path = "Custom Controls/SVSidebarAlbumMemberCell.h"; sourceTree = "<group>"; };
-		0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarAlbumMemberCell.m; path = "Custom Controls/SVSidebarAlbumMemberCell.m"; sourceTree = "<group>"; };
+		0446EF001718927B00ED0076 /* SVSidebarAlbumMemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarAlbumMemberCell.h; path = "../Custom Controls/SVSidebarAlbumMemberCell.h"; sourceTree = "<group>"; };
+		0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarAlbumMemberCell.m; path = "../Custom Controls/SVSidebarAlbumMemberCell.m"; sourceTree = "<group>"; };
 		0446EF041718A41700ED0076 /* SVAddFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAddFriendsViewController.h; sourceTree = "<group>"; };
 		0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAddFriendsViewController.m; sourceTree = "<group>"; };
 		04734F2216CEC1B1003F729B /* SVSidebarMemberController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarMemberController.h; path = "../Custom Controls/SVSidebarMemberController.h"; sourceTree = "<group>"; };
@@ -1170,14 +1170,14 @@
 		28CFCC9E17A4ACD3001511EF /* butTransparent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butTransparent@2x.png"; sourceTree = "<group>"; };
 		28CFCCA117A50828001511EF /* SVCountriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCountriesViewController.h; sourceTree = "<group>"; };
 		28CFCCA217A50828001511EF /* SVCountriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVCountriesViewController.m; sourceTree = "<group>"; };
-		28CFCCA417A50C7B001511EF /* SVCountryViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVCountryViewCell.h; path = Controllers/SVCountryViewCell.h; sourceTree = "<group>"; };
-		28CFCCA517A50C7C001511EF /* SVCountryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVCountryViewCell.m; path = Controllers/SVCountryViewCell.m; sourceTree = "<group>"; };
+		28CFCCA417A50C7B001511EF /* SVCountryViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCountryViewCell.h; sourceTree = "<group>"; };
+		28CFCCA517A50C7C001511EF /* SVCountryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVCountryViewCell.m; sourceTree = "<group>"; };
 		28CFCD0217A7D7E2001511EF /* albumTakePicture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumTakePicture.png; sourceTree = "<group>"; };
-		28D475D917AC375400C189AB /* SVSidebarAlbumManagementActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarAlbumManagementActivityCell.h; path = Views/SVSidebarAlbumManagementActivityCell.h; sourceTree = "<group>"; };
-		28D475DA17AC375400C189AB /* SVSidebarAlbumManagementActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarAlbumManagementActivityCell.m; path = Views/SVSidebarAlbumManagementActivityCell.m; sourceTree = "<group>"; };
-		28D475DD17AC45FE00C189AB /* SVSidebarAlbumManagementSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarAlbumManagementSection.h; path = Views/SVSidebarAlbumManagementSection.h; sourceTree = "<group>"; };
-		28D475DE17AC45FE00C189AB /* SVSidebarAlbumManagementSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarAlbumManagementSection.m; path = Views/SVSidebarAlbumManagementSection.m; sourceTree = "<group>"; };
-		28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVSidebarAlbumManagementSection.xib; path = Views/SVSidebarAlbumManagementSection.xib; sourceTree = "<group>"; };
+		28D475D917AC375400C189AB /* SVSidebarAlbumManagementActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarAlbumManagementActivityCell.h; path = ../Views/SVSidebarAlbumManagementActivityCell.h; sourceTree = "<group>"; };
+		28D475DA17AC375400C189AB /* SVSidebarAlbumManagementActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarAlbumManagementActivityCell.m; path = ../Views/SVSidebarAlbumManagementActivityCell.m; sourceTree = "<group>"; };
+		28D475DD17AC45FE00C189AB /* SVSidebarAlbumManagementSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVSidebarAlbumManagementSection.h; path = ../Views/SVSidebarAlbumManagementSection.h; sourceTree = "<group>"; };
+		28D475DE17AC45FE00C189AB /* SVSidebarAlbumManagementSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVSidebarAlbumManagementSection.m; path = ../Views/SVSidebarAlbumManagementSection.m; sourceTree = "<group>"; };
+		28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVSidebarAlbumManagementSection.xib; path = ../Views/SVSidebarAlbumManagementSection.xib; sourceTree = "<group>"; };
 		28D4761617B0F09C00C189AB /* SVSidebarAlbumSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSidebarAlbumSection.h; sourceTree = "<group>"; };
 		28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSidebarAlbumSection.m; sourceTree = "<group>"; };
 		28E94C1D17C25EC400874BDE /* SVSettingsAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSettingsAboutViewController.h; sourceTree = "<group>"; };
@@ -1193,8 +1193,8 @@
 		28E94C2E17C2C4AE00874BDE /* IconMove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IconMove@2x.png"; path = "Activity/IconMove@2x.png"; sourceTree = "<group>"; };
 		28E94C3817C3507D00874BDE /* SVActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVActivityViewController.h; sourceTree = "<group>"; };
 		28E94C3917C3507D00874BDE /* SVActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVActivityViewController.m; sourceTree = "<group>"; };
-		28E94C9117C3B06800874BDE /* SVContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVContactCell.h; path = Views/SVContactCell.h; sourceTree = "<group>"; };
-		28E94C9217C3B06900874BDE /* SVContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVContactCell.m; path = Views/SVContactCell.m; sourceTree = "<group>"; };
+		28E94C9117C3B06800874BDE /* SVContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVContactCell.h; path = ../Views/SVContactCell.h; sourceTree = "<group>"; };
+		28E94C9217C3B06900874BDE /* SVContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVContactCell.m; path = ../Views/SVContactCell.m; sourceTree = "<group>"; };
 		28E94CA117C4B83E00874BDE /* CameraRollSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraRollSection.h; sourceTree = "<group>"; };
 		28E94CA217C4B83F00874BDE /* CameraRollSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraRollSection.m; sourceTree = "<group>"; };
 		28E94CA917C6740C00874BDE /* SVCameraOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVCameraOverlay.xib; path = shotvibe/Views/SVCameraOverlay.xib; sourceTree = SOURCE_ROOT; };
@@ -1753,13 +1753,17 @@
 				2836B78317A934FE008AAB68 /* SVConfirmationCodeViewController.m */,
 				2836B78917A955B7008AAB68 /* SVNoCodeViewController.h */,
 				2836B78A17A955B7008AAB68 /* SVNoCodeViewController.m */,
+				28CFCCA417A50C7B001511EF /* SVCountryViewCell.h */,
+				28CFCCA517A50C7C001511EF /* SVCountryViewCell.m */,
 			);
 			name = Registration;
 			sourceTree = "<group>";
 		};
-		2849A74017D5FEF60076AFBA /* IMAGIN */ = {
+		2849A74017D5FEF60076AFBA /* Ralcr */ = {
 			isa = PBXGroup;
 			children = (
+				28B30F961805E56D005C50A4 /* RCLog.h */,
+				28B30F971805E56D005C50A4 /* RCLog.m */,
 				2849A74417D66ECF0076AFBA /* RCImageView.h */,
 				2849A74517D66ECF0076AFBA /* RCImageView.m */,
 				2849A74617D66ECF0076AFBA /* RCScrollImageView.h */,
@@ -1769,7 +1773,7 @@
 				2849A74117D64E4E0076AFBA /* RCTableImageViewCell.h */,
 				2849A74217D64E4E0076AFBA /* RCTableImageViewCell.m */,
 			);
-			name = IMAGIN;
+			name = Ralcr;
 			sourceTree = "<group>";
 		};
 		2849A77417D9AA410076AFBA /* Camera */ = {
@@ -2085,14 +2089,23 @@
 		28F877B817D240210051F528 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
-				04734F2216CEC1B1003F729B /* SVSidebarMemberController.h */,
-				04734F2316CEC1B1003F729B /* SVSidebarMemberController.m */,
 				041A13EB1706882D00E66B78 /* SVSidebarManagementController.h */,
 				041A13EC1706882D00E66B78 /* SVSidebarManagementController.m */,
+				28D475D917AC375400C189AB /* SVSidebarAlbumManagementActivityCell.h */,
+				28D475DA17AC375400C189AB /* SVSidebarAlbumManagementActivityCell.m */,
+				28D475DD17AC45FE00C189AB /* SVSidebarAlbumManagementSection.h */,
+				28D475DE17AC45FE00C189AB /* SVSidebarAlbumManagementSection.m */,
+				28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */,
 				28D4761617B0F09C00C189AB /* SVSidebarAlbumSection.h */,
 				28D4761717B0F09D00C189AB /* SVSidebarAlbumSection.m */,
+				04734F2216CEC1B1003F729B /* SVSidebarMemberController.h */,
+				04734F2316CEC1B1003F729B /* SVSidebarMemberController.m */,
+				0446EF001718927B00ED0076 /* SVSidebarAlbumMemberCell.h */,
+				0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */,
 				0446EF041718A41700ED0076 /* SVAddFriendsViewController.h */,
 				0446EF051718A41700ED0076 /* SVAddFriendsViewController.m */,
+				28E94C9117C3B06800874BDE /* SVContactCell.h */,
+				28E94C9217C3B06900874BDE /* SVContactCell.m */,
 			);
 			name = SideMenu;
 			sourceTree = "<group>";
@@ -2324,17 +2337,6 @@
 		AA58FB3816C227F500C49E02 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				28CFCCA417A50C7B001511EF /* SVCountryViewCell.h */,
-				28CFCCA517A50C7C001511EF /* SVCountryViewCell.m */,
-				0446EF001718927B00ED0076 /* SVSidebarAlbumMemberCell.h */,
-				0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */,
-				28D475D917AC375400C189AB /* SVSidebarAlbumManagementActivityCell.h */,
-				28D475DA17AC375400C189AB /* SVSidebarAlbumManagementActivityCell.m */,
-				28D475DD17AC45FE00C189AB /* SVSidebarAlbumManagementSection.h */,
-				28D475DE17AC45FE00C189AB /* SVSidebarAlbumManagementSection.m */,
-				28D475E117AC461F00C189AB /* SVSidebarAlbumManagementSection.xib */,
-				28E94C9117C3B06800874BDE /* SVContactCell.h */,
-				28E94C9217C3B06900874BDE /* SVContactCell.m */,
 				AA58FB1216C224E800C49E02 /* MainStoryboard.storyboard */,
 			);
 			name = Views;
@@ -2384,12 +2386,10 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				28B30F961805E56D005C50A4 /* RCLog.h */,
-				28B30F971805E56D005C50A4 /* RCLog.m */,
 				28FC2CAA17FE8F2400AE24C3 /* OBGradientView */,
 				28FC2CA617FE8EE300AE24C3 /* MPNotificationView */,
 				285EB93217F55BDA00A33E5B /* AviarySDK */,
-				2849A74017D5FEF60076AFBA /* IMAGIN */,
+				2849A74017D5FEF60076AFBA /* Ralcr */,
 				AA234835177AA3F600D55918 /* AFNetworking */,
 				04C404DC1730301500973BC0 /* CountryPicker */,
 				3BE0B10B17C2B9E70058CAAD /* FMDB */,
