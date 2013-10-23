@@ -55,7 +55,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1];
 	
 	cache = [[NSMutableArray alloc] initWithCapacity:self.photos.count];
 	for (id photo in self.photos) {
