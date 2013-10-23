@@ -702,8 +702,8 @@
 		04AB0A9F17080A5700C5300B /* albumImageFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumImageFrame.png; sourceTree = "<group>"; };
 		04AB0AB01708114800C5300B /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };
 		04AB0AB11708114800C5300B /* NSDate+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatting.m"; sourceTree = "<group>"; };
-		04AFA7B6177CBEA700E32C6E /* SVAlbumGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumGridViewCell.h; path = Controllers/SVAlbumGridViewCell.h; sourceTree = "<group>"; };
-		04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumGridViewCell.m; path = Controllers/SVAlbumGridViewCell.m; sourceTree = "<group>"; };
+		04AFA7B6177CBEA700E32C6E /* SVAlbumGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumGridViewCell.h; sourceTree = "<group>"; };
+		04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumGridViewCell.m; sourceTree = "<group>"; };
 		04C404DD1730301500973BC0 /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		04C404DE1730301500973BC0 /* CountryPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryPicker.h; sourceTree = "<group>"; };
 		04C404DF1730301500973BC0 /* CountryPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryPicker.m; sourceTree = "<group>"; };
@@ -1209,8 +1209,8 @@
 		28F877B417D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MFSideMenuAdditions.m"; sourceTree = "<group>"; };
 		28F877B917D299F80051F528 /* SVCameraOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVCameraOverlay.h; sourceTree = "<group>"; };
 		28F877BA17D299F80051F528 /* SVCameraOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVCameraOverlay.m; sourceTree = "<group>"; };
-		28FC2C2717F886CC00AE24C3 /* SVAlbumGridSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumGridSection.h; path = Views/SVAlbumGridSection.h; sourceTree = "<group>"; };
-		28FC2C2817F886CC00AE24C3 /* SVAlbumGridSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumGridSection.m; path = Views/SVAlbumGridSection.m; sourceTree = "<group>"; };
+		28FC2C2717F886CC00AE24C3 /* SVAlbumGridSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumGridSection.h; path = ../Views/SVAlbumGridSection.h; sourceTree = "<group>"; };
+		28FC2C2817F886CC00AE24C3 /* SVAlbumGridSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumGridSection.m; path = ../Views/SVAlbumGridSection.m; sourceTree = "<group>"; };
 		28FC2C2D17FAF8F600AE24C3 /* Pencil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pencil.png; sourceTree = "<group>"; };
 		28FC2C2E17FAF8F600AE24C3 /* Pencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pencil@2x.png"; sourceTree = "<group>"; };
 		28FC2C3117FAFA5700AE24C3 /* PencilWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PencilWhite.png; sourceTree = "<group>"; };
@@ -1293,8 +1293,8 @@
 		3BE0B11F17C30F0D0058CAAD /* AlbumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumManager.h; sourceTree = "<group>"; };
 		3BE0B12017C30F0D0058CAAD /* AlbumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumManager.m; sourceTree = "<group>"; };
 		3BE9FA8817C40FBC000F6676 /* AlbumContentsListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlbumContentsListener.h; sourceTree = "<group>"; };
-		AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumListViewCell.h; path = Controllers/SVAlbumListViewCell.h; sourceTree = "<group>"; };
-		AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumListViewCell.m; path = Controllers/SVAlbumListViewCell.m; sourceTree = "<group>"; };
+		AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAlbumListViewCell.h; sourceTree = "<group>"; };
+		AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAlbumListViewCell.m; sourceTree = "<group>"; };
 		AA234836177AA3F600D55918 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		AA234837177AA3F600D55918 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		AA234838177AA3F600D55918 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -2176,10 +2176,16 @@
 			children = (
 				AAF05CD316CB28DD005BCFD3 /* SVAlbumListViewController.h */,
 				AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */,
+				AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */,
+				AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */,
 				28B30FA71807F2AC005C50A4 /* SVMiniAlbumList.h */,
 				28B30FA81807F2AC005C50A4 /* SVMiniAlbumList.m */,
 				AA66828C16CCA7C80005BFFC /* SVAlbumGridViewController.h */,
 				AA66828D16CCA7C80005BFFC /* SVAlbumGridViewController.m */,
+				04AFA7B6177CBEA700E32C6E /* SVAlbumGridViewCell.h */,
+				04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */,
+				28FC2C2717F886CC00AE24C3 /* SVAlbumGridSection.h */,
+				28FC2C2817F886CC00AE24C3 /* SVAlbumGridSection.m */,
 				04CD9CE016CDF15A00FC72B3 /* SVPhotoViewerController.h */,
 				04CD9CE116CDF15A00FC72B3 /* SVPhotoViewerController.m */,
 			);
@@ -2320,12 +2326,6 @@
 			children = (
 				28CFCCA417A50C7B001511EF /* SVCountryViewCell.h */,
 				28CFCCA517A50C7C001511EF /* SVCountryViewCell.m */,
-				AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */,
-				AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */,
-				04AFA7B6177CBEA700E32C6E /* SVAlbumGridViewCell.h */,
-				04AFA7B7177CBEA700E32C6E /* SVAlbumGridViewCell.m */,
-				28FC2C2717F886CC00AE24C3 /* SVAlbumGridSection.h */,
-				28FC2C2817F886CC00AE24C3 /* SVAlbumGridSection.m */,
 				0446EF001718927B00ED0076 /* SVSidebarAlbumMemberCell.h */,
 				0446EF011718927B00ED0076 /* SVSidebarAlbumMemberCell.m */,
 				28D475D917AC375400C189AB /* SVSidebarAlbumManagementActivityCell.h */,

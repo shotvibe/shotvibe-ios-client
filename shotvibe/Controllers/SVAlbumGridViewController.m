@@ -347,13 +347,14 @@
 		// Modify the header
 		[header setType:sort section:indexPath.section];
 		
-		header.dateLabel.backgroundColor = [UIColor clearColor];
+		header.dateButtonLabel.backgroundColor = [UIColor clearColor];
 		header.nameLabel.backgroundColor = [UIColor clearColor];
 		
 		switch (sort) {
 			case SortFeedAlike:
 			{
-				header.dateLabel.text = sectionsKeys[indexPath.section];
+				NSString *key = [NSString stringWithFormat:@" %@", sectionsKeys[indexPath.section]];
+				[header.dateButtonLabel setTitle:key forState:UIControlStateNormal];
 			}break;
 			
 			case SortByDate:

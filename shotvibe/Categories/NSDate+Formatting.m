@@ -53,20 +53,20 @@
 	
   NSString *Ago      = NSLocalizedString(s?@"":@"ago", @"Denotes past dates");
   NSString *FromNow  = NSLocalizedString(@"from now", @"Denotes future dates");
-  NSString *LessThan = NSLocalizedString(@"Less than", @"Indicates a less-than number");
-  NSString *About    = NSLocalizedString(@"About", @"Indicates an approximate number");
-  NSString *Over     = NSLocalizedString(@"Over", @"Indicates an exceeding number");
-  NSString *Almost   = NSLocalizedString(@"Almost", @"Indicates an approaching number");
+  NSString *LessThan = NSLocalizedString(s?@"":@"Less than", @"Indicates a less-than number");
+  NSString *About    = NSLocalizedString(s?@"":@"About", @"Indicates an approximate number");
+  NSString *Over     = NSLocalizedString(s?@"":@"Over", @"Indicates an exceeding number");
+  NSString *Almost   = NSLocalizedString(s?@"":@"Almost", @"Indicates an approaching number");
   //NSString *Second   = NSLocalizedString(@"second", @"One second in time");
   NSString *Seconds  = NSLocalizedString(s?@"s":@"seconds", @"More than one second in time");
-  NSString *Minute   = NSLocalizedString(s?@"m":@"minute", @"One minute in time");
-  NSString *Minutes  = NSLocalizedString(s?@"m":@"minutes", @"More than one minute in time");
+  NSString *Minute   = NSLocalizedString(s?@"min":@"minute", @"One minute in time");
+  NSString *Minutes  = NSLocalizedString(s?@"min":@"minutes", @"More than one minute in time");
   NSString *Hour     = NSLocalizedString(s?@"h":@"hour", @"One hour in time");
   NSString *Hours    = NSLocalizedString(s?@"h":@"hours", @"More than one hour in time");
   NSString *Day      = NSLocalizedString(s?@"d":@"day", @"One day in time");
   NSString *Days     = NSLocalizedString(s?@"d":@"days", @"More than one day in time");
-  NSString *Month    = NSLocalizedString(s?@"m":@"month", @"One month in time");
-  NSString *Months   = NSLocalizedString(s?@"m":@"months", @"More than one month in time");
+  NSString *Month    = NSLocalizedString(s?@"mth":@"month", @"One month in time");
+  NSString *Months   = NSLocalizedString(s?@"mth":@"months", @"More than one month in time");
   NSString *Year     = NSLocalizedString(s?@"y":@"year", @"One year in time");
   NSString *Years    = NSLocalizedString(s?@"y":@"years", @"More than one year in time");
   
@@ -167,6 +167,9 @@
   if ([modifier length] > 0) {
     modifier = [modifier stringByAppendingString:@" "];
   }
+	if (s) {
+		return [NSString stringWithFormat:@"%d%@", number, measure];
+	}
   return [NSString stringWithFormat:@"%@%d %@ %@", modifier, number, measure, direction];
 }
 

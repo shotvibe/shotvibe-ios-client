@@ -14,7 +14,7 @@
 
 @property(nonatomic, retain) RCImageView *imageView;
 @property(nonatomic, retain) UILabel *nameLabel;
-@property(nonatomic, retain) UILabel *dateLabel;
+@property(nonatomic, retain) UIButton *dateButtonLabel;
 
 - (void)setType:(int)type section:(int)section;
 

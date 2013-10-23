@@ -27,12 +27,13 @@
 		self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		[self addSubview:self.nameLabel];
 		
-		self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, frame.size.width-7-7, frame.size.height)];
-		self.dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
-		self.dateLabel.textColor = [UIColor darkGrayColor];
-		self.dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		self.dateLabel.textAlignment = NSTextAlignmentRight;
-		[self addSubview:self.dateLabel];
+		self.dateButtonLabel = [[UIButton alloc] initWithFrame:CGRectMake(7, 0, frame.size.width-7-7, frame.size.height)];
+		[self.dateButtonLabel.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
+		[self.dateButtonLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		self.dateButtonLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+		[self.dateButtonLabel setImage:[UIImage imageNamed:@"clockIcon.png"] forState:UIControlStateNormal];
+		self.dateButtonLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+		[self addSubview:self.dateButtonLabel];
     }
     return self;
 }
@@ -43,14 +44,15 @@
 	int h = self.frame.size.height+y;
 	
 	self.imageView.frame = CGRectMake(7, y+10, self.frame.size.height-20, self.frame.size.height-20);
-	self.dateLabel.frame = CGRectMake(7, y, self.frame.size.width-7-7, h-y);
-	self.dateLabel.text = @"";
+	self.dateButtonLabel.frame = CGRectMake(7, y, self.frame.size.width-7-7, h-y);
+	self.dateButtonLabel.hidden = YES;
 	self.nameLabel.text = @"";
 	
 	switch (type) {
 		case 0:
 			self.nameLabel.frame = CGRectMake(7 + self.frame.size.height - 10, y, self.frame.size.width-7, h-y);
 			self.imageView.hidden = NO;
+			self.dateButtonLabel.hidden = NO;
 			break;
 		case 1:
 			self.nameLabel.frame = CGRectMake(7 + self.frame.size.height - 10, y, self.frame.size.width-7, h-y);
@@ -59,6 +61,7 @@
 		case 2:
 			self.nameLabel.frame = CGRectMake(7, y, self.frame.size.width-7, h-y);
 			self.imageView.hidden = YES;
+			self.dateButtonLabel.hidden = NO;
 			break;
 	}
 }
