@@ -14,25 +14,25 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        CGRect r = CGRectMake(self.bounds.size.width - 30,
+							  self.bounds.size.height - 30,
+							  30,
+							  30);
+		
 		self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-		self.selectionIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"imageUnselected.png"]];
-		self.selectionIcon.userInteractionEnabled = NO;
-		self.selectionIcon.frame = CGRectMake(self.imageView.frame.size.width - self.selectionIcon.bounds.size.width - 5, self.imageView.frame.size.height - self.selectionIcon.bounds.size.height - 5, self.selectionIcon.frame.size.width, self.selectionIcon.frame.size.height);
+		
+		self.selectionButton = [[UIButton alloc] initWithFrame:r];
+		[self.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
+		[self.selectionButton addTarget:self action:@selector(checkmarkTouched:) forControlEvents:UIControlEventTouchUpInside];
 		
 		[self.contentView addSubview:self.imageView];
-		[self.contentView addSubview:self.selectionIcon];
+		[self.contentView addSubview:self.selectionButton];
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (void)checkmarkTouched:(id)sender {
+	[self.delegate cellDidCheck:self];
 }
-*/
 
 @end

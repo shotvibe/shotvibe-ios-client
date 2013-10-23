@@ -37,7 +37,7 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	RCLog(@"touches began");
+	
     [super touchesBegan:touches withEvent:event];
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:self];

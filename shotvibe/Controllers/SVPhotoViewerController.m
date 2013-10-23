@@ -120,7 +120,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];RCLog(@"photos will appear %@", self.photos);
+	[super viewWillAppear:animated];
 	
     self.navigationController.navigationBar.translucent = YES;
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
@@ -135,14 +135,14 @@
 }
 - (void)viewDidAppear:(BOOL)animated
 {
-	[super viewDidAppear:animated];RCLog(@"photos did appear");
+	[super viewDidAppear:animated];
 	
 	//[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
 	[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];RCLog(@"photos will disappear");
+    [super viewWillDisappear:animated];
 	
     self.navigationController.navigationBar.translucent = NO;
     //self.navigationController.toolbar.translucent = NO;
@@ -285,7 +285,6 @@
 				rect.origin.y = 0;
 				cachedImage.frame = rect;
 				[self.view addSubview:cachedImage];
-				RCLog(@"willRotateToInterfaceOrientation %@", NSStringFromCGRect(rect));
 				
 				// The method of animating the frame rather than using autoresizingMasks works better
 				[UIView animateWithDuration:duration animations:^{
@@ -332,7 +331,6 @@
 		
 		cachedImage = rcphoto;
 		
-		RCLog(@"cache photo: %i", i);
 		[cache replaceObjectAtIndex:i withObject:cachedImage];
 		
 		if (photo.serverPhoto) {
@@ -372,7 +370,7 @@
 	}
 }
 - (void)onPhotoComplete:(NSNumber*)nr {
-	RCLog(@"load complete %@", nr);
+	
 	int n = [nr intValue];
 	if (n < cache.count) {
 		id photo = [cache objectAtIndex:n];
@@ -396,8 +394,7 @@
 	CGFloat pageWidth = photosScrollView.frame.size.width;
 	self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	[self updateInfoOnScreen];
-	RCLog(@"----scrollViewDidEndDecelerating %i", self.index);
-	//RCScrollImageView *image =
+	
 	[self loadPhoto:self.index andPreloadNext:YES];
 }
 
@@ -688,7 +685,7 @@
 	}];
 }
 - (void)activityDidClose {
-	RCLog(@"activity did close");
+	
 	if (activity) {
 		[self.albumManager removeAlbumListListener:self];
 		activity.controller = nil;

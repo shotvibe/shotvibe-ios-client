@@ -12,12 +12,13 @@
 #import <MapKit/MapKit.h>
 #import "ALAssetsLibrary+helper.h"
 #import "SVCameraPickerDelegate.h"
-#import "SVSelectionGridCell.h"
+#import "SVSelectionGridCell.h"//+SVSelectionGridCellDelegate
 #import "CameraRollSection.h"
 #import "AlbumManager.h"
 #import "AlbumSummary.h"
+#import "PhotosQuickView.h"
 
-@interface SVImagePickerSelector : UIViewController <CameraRollSectionDelegate> {
+@interface SVImagePickerSelector : UIViewController <CameraRollSectionDelegate, SVSelectionGridCellDelegate, PhotosQuickViewDelegate> {
 	
 	NSMutableArray *sectionsKeys;
 	NSMutableDictionary *sections;

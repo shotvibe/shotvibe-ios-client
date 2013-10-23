@@ -490,6 +490,7 @@
 		28B30FA51807EE1E005C50A4 /* SwipePicker.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30FA11807EE1E005C50A4 /* SwipePicker.png */; };
 		28B30FA61807EE1E005C50A4 /* SwipePicker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30FA21807EE1E005C50A4 /* SwipePicker@2x.png */; };
 		28B30FA91807F2AD005C50A4 /* SVMiniAlbumList.m in Sources */ = {isa = PBXBuildFile; fileRef = 28B30FA81807F2AC005C50A4 /* SVMiniAlbumList.m */; };
+		28B3105B1817B67A005C50A4 /* PhotosQuickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28B3105A1817B67A005C50A4 /* PhotosQuickView.m */; };
 		28CFCC7F17A2C247001511EF /* SegmentSeparator.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC7D17A2C247001511EF /* SegmentSeparator.png */; };
 		28CFCC8017A2C247001511EF /* SegmentSeparator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC7E17A2C247001511EF /* SegmentSeparator@2x.png */; };
 		28CFCC8317A30BA2001511EF /* albumEmptyCameraButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC8117A30BA1001511EF /* albumEmptyCameraButton.png */; };
@@ -1153,6 +1154,8 @@
 		28B30FA21807EE1E005C50A4 /* SwipePicker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SwipePicker@2x.png"; sourceTree = "<group>"; };
 		28B30FA71807F2AC005C50A4 /* SVMiniAlbumList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVMiniAlbumList.h; sourceTree = "<group>"; };
 		28B30FA81807F2AC005C50A4 /* SVMiniAlbumList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVMiniAlbumList.m; sourceTree = "<group>"; };
+		28B310591817B67A005C50A4 /* PhotosQuickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotosQuickView.h; path = ../Views/PhotosQuickView.h; sourceTree = "<group>"; };
+		28B3105A1817B67A005C50A4 /* PhotosQuickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotosQuickView.m; path = ../Views/PhotosQuickView.m; sourceTree = "<group>"; };
 		28CF18C917C7C07B00C4BA25 /* SVCameraPickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVCameraPickerDelegate.h; path = shotvibe/Delegates/SVCameraPickerDelegate.h; sourceTree = SOURCE_ROOT; };
 		28CFCC7D17A2C247001511EF /* SegmentSeparator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentSeparator.png; sourceTree = "<group>"; };
 		28CFCC7E17A2C247001511EF /* SegmentSeparator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SegmentSeparator@2x.png"; sourceTree = "<group>"; };
@@ -1472,6 +1475,8 @@
 				04E287F6173176F00044C17A /* SVImagePickerSelector.xib */,
 				28E94CA117C4B83E00874BDE /* CameraRollSection.h */,
 				28E94CA217C4B83F00874BDE /* CameraRollSection.m */,
+				28B310591817B67A005C50A4 /* PhotosQuickView.h */,
+				28B3105A1817B67A005C50A4 /* PhotosQuickView.m */,
 			);
 			name = Picker;
 			sourceTree = "<group>";
@@ -3201,6 +3206,7 @@
 				28FC2CAD17FE8F2600AE24C3 /* OBGradientView.m in Sources */,
 				28B30F981805E56D005C50A4 /* RCLog.m in Sources */,
 				28B30FA91807F2AD005C50A4 /* SVMiniAlbumList.m in Sources */,
+				28B3105B1817B67A005C50A4 /* PhotosQuickView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

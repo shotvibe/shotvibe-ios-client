@@ -8,9 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class SVSelectionGridCell;
+
+@protocol SVSelectionGridCellDelegate <NSObject>
+@required
+- (void)cellDidCheck:(SVSelectionGridCell*)cell;
+
+@end
+
 @interface SVSelectionGridCell : UICollectionViewCell
 
+@property (nonatomic, strong) id<SVSelectionGridCellDelegate> delegate;
 @property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UIImageView *selectionIcon;
+@property (nonatomic, strong) UIButton *selectionButton;
 
 @end

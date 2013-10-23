@@ -144,9 +144,11 @@
 }
 
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+				  cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionGridCell" forIndexPath:indexPath];
+	cell.delegate = self;
 	__block NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 	
 	dispatch_async(dispatch_get_global_queue(0,0),^{
@@ -162,14 +164,14 @@
 	
 	if (!self.oneImagePicker) {
 		if ([selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
-			cell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+			[cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
 		}
 		else {
-			cell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+			[cell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
 		}
 	}
 	else {
-		cell.selectionIcon.hidden = YES;
+		cell.selectionButton.hidden = YES;
 	}
 	
     return cell;
@@ -225,25 +227,66 @@
     
 	if (!self.oneImagePicker) {
 		
-		SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
 		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 		
 		if (![selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
+			
+			SVSelectionGridCell *cell = (SVSelectionGridCell*)[collectionView cellForItemAtIndexPath:indexPath];
+			[self cellDidCheck:cell];
+			
 			[selectedPhotos addObject:[arr objectAtIndex:indexPath.row]];
-			selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+			[cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
+			
+			self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+			
+			CameraRollSection *header = (CameraRollSection*)[self.gridView viewWithTag:indexPath.section+1000];
+			[self checkSectionHeaderView:header];
+			
+			BOOL allSelected = selectedPhotos.count == _takenPhotos.count;
+			[self.butSelectAll setTitle:allSelected?@"Unselect All":@"Select All" forState:UIControlStateNormal];
 		}
-		else {
-			[selectedPhotos removeObject:[arr objectAtIndex:indexPath.row]];
-			selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+		
+		ALAsset *asset = [arr objectAtIndex:indexPath.row];
+		NSDictionary *dict = [asset valueForProperty:ALAssetPropertyURLs];
+		
+		NSURL *url = [dict objectForKey:@"public.jpeg"];
+		if (url == nil) {
+			url = [dict objectForKey:@"public.png"];
 		}
 		
-		self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+		ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset){
+			ALAssetRepresentation *rep = [myasset defaultRepresentation];
+			CGImageRef iref = [rep fullScreenImage];
+			if (iref) {
+				UIImage *localImage = [UIImage imageWithCGImage:iref];
+				PhotosQuickView *photo = [[PhotosQuickView alloc] initWithFrame:self.view.frame delegate:nil];
+				photo.quickDelegate = self;
+				photo.indexPath = indexPath;
+				[photo setImage:localImage];
+				photo.contentSize = localImage.size;
+				[photo setMaxMinZoomScalesForCurrentBounds];
+				photo.alpha = 0.2;
+				photo.transform = CGAffineTransformMakeScale(0.8, 0.8);
+				[self.view addSubview:photo];
+				[self.view addSubview:photo.selectionButton];
+				
+				[UIView animateWithDuration:0.2 animations:^{
+					photo.alpha = 1;
+					photo.transform = CGAffineTransformMakeScale(1, 1);
+				} completion:^(BOOL finished) {
+					
+				}];
+			}
+			else {
+				RCLog(@"error creating the fullscreen version of the image");
+			}
+		};
+		ALAssetsLibraryAccessFailureBlock failureblock  = ^(NSError *myerror){
+			RCLog(@"Cant get image - %@", [myerror localizedDescription]);
+		};
 		
-		CameraRollSection *header = (CameraRollSection*)[collectionView viewWithTag:indexPath.section+1000];
-		[self checkSectionHeaderView:header];
-		
-		BOOL allSelected = selectedPhotos.count == _takenPhotos.count;
-		[self.butSelectAll setTitle:allSelected?@"Unselect All":@"Select All" forState:UIControlStateNormal];
+		ALAssetsLibrary *assetslibrary = [[ALAssetsLibrary alloc] init];
+		[assetslibrary assetForURL:url resultBlock:resultblock failureBlock:failureblock];
 	}
     else {
 		
@@ -260,7 +303,8 @@
 			ALAssetRepresentation *rep = [myasset defaultRepresentation];
 			CGImageRef iref = [rep fullScreenImage];
 			if (iref) {
-				SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController" bundle:[NSBundle mainBundle]];
+				SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController"
+																										bundle:[NSBundle mainBundle]];
 				cropController.delegate = self.cropDelegate;
 				cropController.image = [UIImage imageWithCGImage:iref];
 				[self.navigationController pushViewController:cropController animated:YES];
@@ -277,6 +321,49 @@
 		[assetslibrary assetForURL:url resultBlock:resultblock failureBlock:failureblock];
 	}
 }
+
+
+- (void)cellDidCheck:(SVSelectionGridCell*)cell {
+	
+	NSIndexPath *indexPath = [self.gridView indexPathForCell:cell];
+	RCLogO(indexPath);
+	NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
+	
+	if (![selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
+		[selectedPhotos addObject:[arr objectAtIndex:indexPath.row]];
+		[cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
+	}
+	else {
+		[selectedPhotos removeObject:[arr objectAtIndex:indexPath.row]];
+		[cell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
+	}
+	
+	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+	
+	CameraRollSection *header = (CameraRollSection*)[self.gridView viewWithTag:indexPath.section+1000];
+	[self checkSectionHeaderView:header];
+	
+	BOOL allSelected = selectedPhotos.count == _takenPhotos.count;
+	[self.butSelectAll setTitle:allSelected?@"Unselect All":@"Select All" forState:UIControlStateNormal];
+}
+
+- (void)photoDidCheck:(NSIndexPath*)indexPath {
+	
+	SVSelectionGridCell *cell = (SVSelectionGridCell*)[self.gridView cellForItemAtIndexPath:indexPath];
+	[self cellDidCheck:cell];
+}
+
+- (void)photoDidClose:(PhotosQuickView*)photo {
+	
+	[UIView animateWithDuration:0.2 animations:^{
+		photo.alpha = 0;
+		photo.transform = CGAffineTransformMakeScale(0.8, 0.8);
+	} completion:^(BOOL finished) {
+		[photo removeFromSuperview];
+		[photo.selectionButton removeFromSuperview];
+	}];
+}
+
 
 - (void)sectionCheckmarkTouched:(CameraRollSection*)section {
 	
@@ -299,13 +386,13 @@
 		if (!allPhotosAreSelected) {
 			if (![selectedPhotos containsObject:asset]) {
 				[selectedPhotos addObject:asset];
-				selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+				[selectedCell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
 			}
 		}
 		else {
 			if ([selectedPhotos containsObject:asset]) {
 				[selectedPhotos removeObject:asset];
-				selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+				[selectedCell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
 			}
 		}
 		
@@ -336,13 +423,13 @@
 			if (!allSelected) {
 				if (![selectedPhotos containsObject:asset]) {
 					[selectedPhotos addObject:asset];
-					selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageSelected.png"];
+					[selectedCell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
 				}
 			}
 			else {
 				if ([selectedPhotos containsObject:asset]) {
 					[selectedPhotos removeObject:asset];
-					selectedCell.selectionIcon.image = [UIImage imageNamed:@"imageUnselected.png"];
+					[selectedCell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
 				}
 			}
 			
