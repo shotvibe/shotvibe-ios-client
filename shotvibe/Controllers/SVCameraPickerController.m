@@ -468,6 +468,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionGridCell" forIndexPath:indexPath];
+	cell.delegate = self;
 	
 	dispatch_async(dispatch_get_global_queue(0,0),^{
 		
@@ -502,17 +503,73 @@
     
     SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
 	
-    if (![selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
+	if (![selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
+		[self cellDidCheck:selectedCell];
+	}
+	
+	dispatch_async(dispatch_get_global_queue(0,0),^{
+		
+		UIImage *localImage = [UIImage imageWithContentsOfFile:self.capturedImages[indexPath.row]];
+		
+		dispatch_async(dispatch_get_main_queue(),^{
+			PhotosQuickView *photo = [[PhotosQuickView alloc] initWithFrame:self.view.frame delegate:nil];
+			photo.quickDelegate = self;
+			photo.indexPath = indexPath;
+			[photo setImage:localImage];
+			photo.contentSize = localImage.size;
+			[photo setMaxMinZoomScalesForCurrentBounds];
+			photo.alpha = 0.2;
+			photo.transform = CGAffineTransformMakeScale(0.8, 0.8);
+			[self.view addSubview:photo];
+			[self.view addSubview:photo.selectionButton];
+			
+			[UIView animateWithDuration:0.2 animations:^{
+				photo.alpha = 1;
+				photo.transform = CGAffineTransformMakeScale(1, 1);
+			} completion:^(BOOL finished) {
+				
+			}];
+		});
+	});
+}
+
+
+- (void)cellDidCheck:(SVSelectionGridCell*)cell {
+	
+	NSIndexPath *indexPath = [self.gridView indexPathForCell:cell];
+	RCLogO(indexPath);
+	RCLogO(self.capturedImages);
+	RCLogO([self.capturedImages objectAtIndex:indexPath.row]);
+	if (![selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
         [selectedPhotos addObject:[self.capturedImages objectAtIndex:indexPath.row]];
-        [selectedCell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
+        [cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
     }
     else {
         [selectedPhotos removeObject:[self.capturedImages objectAtIndex:indexPath.row]];
-        [selectedCell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
+        [cell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
     }
 	
 	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
 }
+
+- (void)photoDidCheck:(NSIndexPath*)indexPath {
+	
+	SVSelectionGridCell *cell = (SVSelectionGridCell*)[self.gridView cellForItemAtIndexPath:indexPath];
+	[self cellDidCheck:cell];
+}
+
+- (void)photoDidClose:(PhotosQuickView*)photo {
+	
+	[UIView animateWithDuration:0.2 animations:^{
+		photo.alpha = 0;
+		photo.transform = CGAffineTransformMakeScale(0.8, 0.8);
+	} completion:^(BOOL finished) {
+		[photo removeFromSuperview];
+		[photo.selectionButton removeFromSuperview];
+	}];
+}
+
+
 
 
 #pragma mark Actions

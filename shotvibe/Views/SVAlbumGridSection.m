@@ -61,7 +61,6 @@
 		case 2:
 			self.nameLabel.frame = CGRectMake(7, y, self.frame.size.width-7, h-y);
 			self.imageView.hidden = YES;
-			self.dateButtonLabel.hidden = NO;
 			break;
 	}
 }

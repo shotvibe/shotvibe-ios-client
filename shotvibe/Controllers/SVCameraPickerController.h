@@ -12,8 +12,9 @@
 #import "SVCameraPickerDelegate.h"
 #import "SVCameraOverlay.h"
 #import "PhotoUploadRequest.h"
+#import "PhotosQuickView.h"
 
-@interface SVCameraPickerController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+@interface SVCameraPickerController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, SVSelectionGridCellDelegate, PhotosQuickViewDelegate> {
 	
 	BOOL isShowingLandscapeView;
 	NSMutableArray *selectedPhotos;
