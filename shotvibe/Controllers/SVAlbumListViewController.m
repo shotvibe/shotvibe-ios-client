@@ -354,7 +354,7 @@
     SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.delegate = self;
-	cell.tableView = self.tableView;
+	cell.parentTableView = self.tableView;
 	
     AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 	NSString *distanceOfTimeInWords = [album.dateUpdated distanceOfTimeInWords];
