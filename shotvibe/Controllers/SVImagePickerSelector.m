@@ -230,20 +230,8 @@
 		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 		
 		if (![selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
-			
 			SVSelectionGridCell *cell = (SVSelectionGridCell*)[collectionView cellForItemAtIndexPath:indexPath];
 			[self cellDidCheck:cell];
-			
-			[selectedPhotos addObject:[arr objectAtIndex:indexPath.row]];
-			[cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
-			
-			self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
-			
-			CameraRollSection *header = (CameraRollSection*)[self.gridView viewWithTag:indexPath.section+1000];
-			[self checkSectionHeaderView:header];
-			
-			BOOL allSelected = selectedPhotos.count == _takenPhotos.count;
-			[self.butSelectAll setTitle:allSelected?@"Unselect All":@"Select All" forState:UIControlStateNormal];
 		}
 		
 		ALAsset *asset = [arr objectAtIndex:indexPath.row];
@@ -326,7 +314,6 @@
 - (void)cellDidCheck:(SVSelectionGridCell*)cell {
 	
 	NSIndexPath *indexPath = [self.gridView indexPathForCell:cell];
-	RCLogO(indexPath);
 	NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 	
 	if (![selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
@@ -355,12 +342,12 @@
 
 - (void)photoDidClose:(PhotosQuickView*)photo {
 	
+	[photo.selectionButton removeFromSuperview];
 	[UIView animateWithDuration:0.2 animations:^{
 		photo.alpha = 0;
 		photo.transform = CGAffineTransformMakeScale(0.8, 0.8);
 	} completion:^(BOOL finished) {
 		[photo removeFromSuperview];
-		[photo.selectionButton removeFromSuperview];
 	}];
 }
 

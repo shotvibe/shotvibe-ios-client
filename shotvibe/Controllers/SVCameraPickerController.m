@@ -501,9 +501,8 @@
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
-    SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
-	
 	if (![selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
+		SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
 		[self cellDidCheck:selectedCell];
 	}
 	
@@ -537,9 +536,7 @@
 - (void)cellDidCheck:(SVSelectionGridCell*)cell {
 	
 	NSIndexPath *indexPath = [self.gridView indexPathForCell:cell];
-	RCLogO(indexPath);
-	RCLogO(self.capturedImages);
-	RCLogO([self.capturedImages objectAtIndex:indexPath.row]);
+	
 	if (![selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
         [selectedPhotos addObject:[self.capturedImages objectAtIndex:indexPath.row]];
         [cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
@@ -560,12 +557,12 @@
 
 - (void)photoDidClose:(PhotosQuickView*)photo {
 	
+	[photo.selectionButton removeFromSuperview];
 	[UIView animateWithDuration:0.2 animations:^{
 		photo.alpha = 0;
 		photo.transform = CGAffineTransformMakeScale(0.8, 0.8);
 	} completion:^(BOOL finished) {
 		[photo removeFromSuperview];
-		[photo.selectionButton removeFromSuperview];
 	}];
 }
 
