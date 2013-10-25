@@ -26,6 +26,7 @@
 
 
 @property (strong, nonatomic) id<SVAlbumListViewCellDelegate> delegate;
+@property (strong, nonatomic) UITableView *tableView;
 
 @property (weak, nonatomic) IBOutlet UIView *backView;
 @property (weak, nonatomic) IBOutlet UIView *frontView;

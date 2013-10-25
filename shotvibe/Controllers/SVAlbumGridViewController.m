@@ -528,8 +528,12 @@
 		
 		if (arr == nil) {
 			arr = [NSMutableArray array];
-			//[sectionsKeys insertObject:key atIndex:0];
-			[sectionsKeys addObject:key];
+			if ([key isEqualToString:@"Uploading now"] && sortType != SortByUser) {
+				[sectionsKeys addObject:key];
+			}
+			else {
+				[sectionsKeys insertObject:key atIndex:0];
+			}
 		}
 		//[arr insertObject:photo atIndex:0];
 		[arr addObject:photo];

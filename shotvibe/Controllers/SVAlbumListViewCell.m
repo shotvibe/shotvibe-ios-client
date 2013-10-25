@@ -35,8 +35,7 @@
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	
-	UITableView *parent = (UITableView *)self.superview;
-    parent.scrollEnabled = NO;
+	self.tableView.scrollEnabled = NO;
 
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:self];
@@ -77,8 +76,7 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	
-	UITableView *parent = (UITableView *)self.superview;
-    parent.scrollEnabled = YES;
+	self.tableView.scrollEnabled = YES;
 	
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:self];
