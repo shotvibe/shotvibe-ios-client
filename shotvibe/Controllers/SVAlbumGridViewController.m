@@ -444,6 +444,7 @@
 
 - (void)toggleMenu
 {
+	[(SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController resignFirstResponder];
     [self.menuContainerViewController toggleRightSideMenuCompletion:^{
 		
 	}];

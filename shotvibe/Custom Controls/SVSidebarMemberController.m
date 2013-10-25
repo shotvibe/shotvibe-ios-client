@@ -18,8 +18,10 @@
 
 @interface SVSidebarMemberController () {
 	ShotVibeAPI *shotvibeAPI;
+	NSMutableArray *members;
 }
 
+@property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
 
@@ -33,8 +35,7 @@
 
 #pragma mark - Actions
 
-- (IBAction)addFriendsButtonPressed:(id)sender
-{
+- (IBAction)addFriendsButtonPressed:(id)sender {
 	// prepareForSegue is called in parentController SVAlbumGridViewController
     [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
 }
@@ -42,26 +43,22 @@
 
 #pragma mark - Properties
 
-- (void)setAlbumContents:(AlbumContents *)albumContents
-{
+- (void)setAlbumContents:(AlbumContents *)albumContents {
     _albumContents = albumContents;
-    [self.tableView reloadData];
+    [self searchForMemberWithName:nil];
 }
 
-- (void)setParentController:(SVAlbumGridViewController *)parentController
-{
+- (void)setParentController:(SVAlbumGridViewController *)parentController {
 	_parentController = parentController;
-	
 	shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
-	
-	[self.tableView reloadData];
+    [self searchForMemberWithName:nil];
 }
 
 
 #pragma mark - View Lifecycle
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+	
     [super viewDidLoad];
     
 	UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
@@ -77,24 +74,19 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.albumContents.members.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return members.count;
 }
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 
-    AlbumMember *member = [self.albumContents.members objectAtIndex:indexPath.row];
+    AlbumMember *member = [members objectAtIndex:indexPath.row];
 	
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
 	[cell.memberLabel setText:member.nickname];
@@ -121,11 +113,11 @@
 
 #pragma mark - UITableViewDelegate Methods
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	AlbumMember *member = [self.albumContents.members objectAtIndex:indexPath.row];
+	AlbumMember *member = [members objectAtIndex:indexPath.row];
 	
 	if (shotvibeAPI.authData.userId == member.memberId) {
 		
@@ -154,5 +146,63 @@
 	}
 }
 
+
+
+#pragma mark - UISearchbarDelegate Methods
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+	
+	CGRect f = self.tableView.frame;
+	f.size.height = [UIScreen mainScreen].bounds.size.height-216-20-104;
+	
+	[UIView animateWithDuration:0.3 animations:^{
+		self.tableView.frame = f;
+	}];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+	
+	CGRect f = self.tableView.frame;
+	f.size.height = [UIScreen mainScreen].bounds.size.height-20-44-104;
+	
+	[UIView animateWithDuration:0.2 animations:^{
+		self.tableView.frame = f;
+	}];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self searchForMemberWithName:searchBar.text];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    [self searchForMemberWithName:searchBar.text];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+	[searchBar resignFirstResponder];
+	searchBar.text = @"";
+	[self searchForMemberWithName:nil];
+}
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)bar {
+    return YES;
+}
+
+- (void)searchForMemberWithName:(NSString *)title
+{
+	members = [NSMutableArray arrayWithCapacity:[_albumContents.members count]];
+	
+    for (AlbumMember *member in _albumContents.members) {
+		if (title == nil || [title isEqualToString:@""] || [[member.nickname lowercaseString] rangeOfString:title].location != NSNotFound) {
+			[members addObject:member];
+		}
+    }
+    [self.tableView reloadData];
+}
+
+- (BOOL) resignFirstResponder {
+	return [self.searchBar resignFirstResponder];
+}
 
 @end
