@@ -54,7 +54,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
 	if (buttonIndex == 1) {
-		RCLog(@"Leave album");
 		ShotVibeAPI *shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
 		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{

@@ -142,7 +142,7 @@
 //	self.maximumZoomScale = 1;
 	[self setZoomScale:self.minimumZoomScale animated:NO];
 	[self setNeedsLayout];
-	RCLog(@"self.minimumZoomScale %f %f", self.minimumZoomScale, self.maximumZoomScale);
+//	RCLog(@"self.minimumZoomScale %f %f", self.minimumZoomScale, self.maximumZoomScale);
 }
 
 
