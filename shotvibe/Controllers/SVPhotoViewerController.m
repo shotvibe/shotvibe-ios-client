@@ -55,7 +55,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
 	
 	cache = [[NSMutableArray alloc] initWithCapacity:self.photos.count];
 	for (id photo in self.photos) {
@@ -120,7 +120,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
+	[super viewWillAppear:animated];RCLog(@"viewWillAppear");
 	
     self.navigationController.navigationBar.translucent = YES;
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
@@ -132,17 +132,22 @@
 	[photosScrollView addGestureRecognizer:singleTap];
 	
 	[self updateInfoOnScreen];
+	
+	butTrash.enabled = YES;
+	butShare.enabled = YES;
+	butEdit.enabled = YES;
+	navigatingNext = NO;
 }
 - (void)viewDidAppear:(BOOL)animated
 {
-	[super viewDidAppear:animated];
+	[super viewDidAppear:animated];RCLog(@"viewDidAppear");
 	
 	//[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
 	[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
+    [super viewWillDisappear:animated];RCLog(@"viewWillDisappear navigatingNext %i", navigatingNext);
 	
     self.navigationController.navigationBar.translucent = NO;
     //self.navigationController.toolbar.translucent = NO;
@@ -334,7 +339,7 @@
 		[cache replaceObjectAtIndex:i withObject:cachedImage];
 		
 		if (photo.serverPhoto) {
-			RCLog(@"load photo: %i", i);
+			
 			NSString *fullsizePhotoUrl = photo.serverPhoto.url;
 			NSString *displaySuffix = @"_r_dvgax.jpg";
 			NSString *finalUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:displaySuffix];
@@ -407,6 +412,7 @@
 #pragma mark Tap gestures
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)sender {
+	
     if (sender.state == UIGestureRecognizerStateEnded) {
 		if (self.toolbarView.alpha == 0) {
 			[self setControlsHidden:NO animated:YES permanent:NO];
@@ -419,6 +425,7 @@
 }
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)sender {
+	
     if (sender.state == UIGestureRecognizerStateEnded) {
 		RCScrollImageView *imageView = [cache objectAtIndex:self.index];
 		[imageView toggleZoom];
@@ -494,7 +501,6 @@
 		AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 		
 		if (photo.serverPhoto) {
-			RCLog(@"name %@", photo.serverPhoto.authorNickname);
 			NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
 																	dateStyle:NSDateFormatterLongStyle
 																	timeStyle:NSDateFormatterShortStyle];
@@ -644,6 +650,7 @@
 	butTrash.enabled = NO;
 	butShare.enabled = NO;
 	butEdit.enabled = NO;
+	navigatingNext = YES;
 	
 	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 	RCScrollImageView *cachedImage = [cache objectAtIndex:self.index];
@@ -668,12 +675,16 @@
 	rect.origin.y = self.view.frame.size.height;
 	activity.activityView.frame = rect;
 	
-	[UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+	[UIView animateWithDuration:0.3
+						  delay:0
+						options:UIViewAnimationOptionCurveEaseInOut
+					 animations:^{
 		rect.origin.y = self.view.frame.size.height - rect.size.height;
 		rect.origin.x = self.view.frame.size.width/2 - rect.size.width/2;
 		activity.view.alpha = 1;
 		activity.activityView.frame = rect;
-	}completion:^(BOOL finished) {
+	}
+					 completion:^(BOOL finished) {
 		
 	}];
 }
@@ -696,6 +707,7 @@
 	butTrash.enabled = YES;
 	butShare.enabled = YES;
 	butEdit.enabled = YES;
+	navigatingNext = NO;
 }
 - (void)activityDidStartSharing {
 	[activity closeAndClean:NO];
@@ -786,8 +798,7 @@
 - (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
 {
 	// TODO: take into account when the refresh is coming from the AlbumGrid and when is coming from the PhotoViewer
-	RCLog(@"---------------end refresh");
-	RCLog(@"---------------photos count %i new photos count %i", self.photos.count, album.photos.count);
+	RCLog(@"---------------end refresh photos count %i new photos count %i", self.photos.count, album.photos.count);
 	
 	if (self.photos.count == album.photos.count - 1) {
 		[self.photos addObject:[album.photos lastObject]];
@@ -812,13 +823,8 @@
 	}
 }
 
-- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
-{
-	RCLog(@"error refresh");
-}
-- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId {
-	
-}
+- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error{}
+- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId{}
 - (void)onAlbumListBeginRefresh{}
 - (void)onAlbumListRefreshComplete:(NSArray *)albums{}
 - (void)onAlbumListRefreshError:(NSError *)error{}
