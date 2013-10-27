@@ -158,6 +158,7 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
 	
+	[self.searchBar setShowsCancelButton:YES animated:YES];
 	CGRect f = self.tableView.frame;
 	f.size.height = [UIScreen mainScreen].bounds.size.height-216-20-44;
 	
@@ -168,6 +169,7 @@
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
 	
+	[self.searchBar setShowsCancelButton:NO animated:YES];
 	CGRect f = self.tableView.frame;
 	f.size.height = [UIScreen mainScreen].bounds.size.height-20-44;
 	

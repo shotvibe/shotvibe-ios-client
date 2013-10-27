@@ -33,7 +33,7 @@
 {
 	SVAddressBook *ab;
 	NSMutableArray *contactsButtons;// list of selected contacts buttons
-	NSMutableArray *selectedIds;// list of ids of the contacts that were selected
+	NSMutableArray *selectedRecords;// list of ids of the contacts that were selected
 	NSMutableArray *favorites;
 	BOOL searching;
 }
@@ -51,7 +51,7 @@
 //	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"favorites"];
 //	[[NSUserDefaults standardUserDefaults] synchronize];
 	contactsButtons = [[NSMutableArray alloc] init];
-	selectedIds = [[NSMutableArray alloc] init];
+	selectedRecords = [[NSMutableArray alloc] init];
 	favorites = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"favorites"]];
 	RCLogO(favorites);
 	if (favorites == nil) {
@@ -147,7 +147,7 @@
 	}
 	if (phoneNumbers != nil) CFRelease(phoneNumbers);
 	
-	BOOL contains = [selectedIds containsObject:(__bridge id)(record)];
+	BOOL contains = [selectedRecords containsObject:(__bridge id)(record)];
 	cell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
     
     return cell;
@@ -232,8 +232,9 @@
 	
 	// Check if the tapped contact is already used.
 	// If yes, remove it
-	
-	BOOL contains = [selectedIds containsObject:(__bridge id)(record)];
+	RCLogO(selectedRecords);
+	RCLogO(record);
+	BOOL contains = [selectedRecords containsObject:(__bridge id)(record)];
 	tappedCell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageUnselected":@"imageSelected"];
 	
 	if (contains) {
@@ -317,7 +318,7 @@
 	[contactsButtons addObject:button];
 	button.alpha = 0;
 	
-	[selectedIds addObject:(__bridge id)(record)];
+	[selectedRecords addObject:(__bridge id)(record)];
     [self updateContacts];
 	
 	// Scroll to right only after we add a new contact not on removal
@@ -339,7 +340,7 @@
 		if (but.tag == [ab idOfRecord:record]) {
 			[contactsButtons removeObject:but];
 			[but removeFromSuperview];
-			[selectedIds removeObject:(__bridge id)(record)];
+			[selectedRecords removeObject:(__bridge id)(record)];
 			[self updateContacts];
 			break;
 		}
@@ -348,9 +349,10 @@
 
 - (void)removeContactFromList:(UIButton *)sender {
 	
-	for (id record in selectedIds) {
+	NSMutableArray *arr = selectedRecords;
+	for (id record in arr) {
 		if ([ab idOfRecord:(__bridge ABRecordRef)(record)] == sender.tag) {
-			[selectedIds removeObject:record];
+			[selectedRecords removeObject:record];
 			break;
 		}
 	}
@@ -406,7 +408,7 @@
 	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
 	NSString *countryCode = [self.albumManager getShotVibeAPI].authData.defaultCountryCode;
 	
-	for (id record in selectedIds) {
+	for (id record in selectedRecords) {
 		
 		ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)(record), kABPersonPhoneProperty);
 		NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(record));
