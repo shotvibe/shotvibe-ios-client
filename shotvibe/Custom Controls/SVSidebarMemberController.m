@@ -68,7 +68,8 @@
 	self.tableView.delegate = self;
 	[self.tableView setAllowsSelection:YES];
 	self.wantsFullScreenLayout = NO;
-	
+	[self.tableView setContentOffset:CGPointMake(0, 44)];
+	[self.searchBar setBackgroundImage:[UIImage imageNamed:@"SearchBlackBg.png"]];
 }
 
 
@@ -97,14 +98,14 @@
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
 		cell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
 		cell.statusLabel.text = @"Leave Album";
-		cell.userInteractionEnabled = YES;
+		//cell.userInteractionEnabled = YES;
 	}
 	else {
 		cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
 		cell.statusImageView.image = [UIImage imageNamed:[member.inviteStatus isEqualToString:@"joined"] ? @"MemberJoined" : @"MemberInvited"];
 		cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
 		cell.statusLabel.text = [member.inviteStatus isEqualToString:@"joined"] ? @"joined" : @"invited";
-		cell.userInteractionEnabled = NO;
+		//cell.userInteractionEnabled = NO;
 	}
 	//RCLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
     return cell;
@@ -116,6 +117,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	if ([self.searchBar isFirstResponder])
+		[self.searchBar resignFirstResponder];
 	
 	AlbumMember *member = [members objectAtIndex:indexPath.row];
 	
@@ -163,7 +166,7 @@
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
 	
 	CGRect f = self.tableView.frame;
-	f.size.height = [UIScreen mainScreen].bounds.size.height-20-44-104;
+	f.size.height = [UIScreen mainScreen].bounds.size.height-20-104;
 	
 	[UIView animateWithDuration:0.2 animations:^{
 		self.tableView.frame = f;

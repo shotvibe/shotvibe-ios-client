@@ -461,6 +461,8 @@
 		285EB94817F55CDD00A33E5B /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94717F55CDD00A33E5B /* libz.1.2.5.dylib */; };
 		285EB94A17F55CFA00A33E5B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94917F55CFA00A33E5B /* OpenGLES.framework */; };
 		285EB94C17F55D0A00A33E5B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94B17F55D0A00A33E5B /* StoreKit.framework */; };
+		2884A808181D0CF0006462BE /* SearchBlackBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884A806181D0CF0006462BE /* SearchBlackBg.png */; };
+		2884A809181D0CF0006462BE /* SearchBlackBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884A807181D0CF0006462BE /* SearchBlackBg@2x.png */; };
 		2884E86117A24CFE00B382D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E85F17A24CFE00B382D9 /* Icon.png */; };
 		2884E86217A24CFE00B382D9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86017A24CFE00B382D9 /* Icon@2x.png */; };
 		2884E86617A24E7F00B382D9 /* SegmentButtonOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */; };
@@ -1123,6 +1125,8 @@
 		285EB94717F55CDD00A33E5B /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		285EB94917F55CFA00A33E5B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		285EB94B17F55D0A00A33E5B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2884A806181D0CF0006462BE /* SearchBlackBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBlackBg.png; sourceTree = "<group>"; };
+		2884A807181D0CF0006462BE /* SearchBlackBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SearchBlackBg@2x.png"; sourceTree = "<group>"; };
 		2884E85F17A24CFE00B382D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2884E86017A24CFE00B382D9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentButtonOutline.png; sourceTree = "<group>"; };
@@ -1442,6 +1446,8 @@
 				2897382217A13DA0003B18D3 /* delimiter@2x.png */,
 				2849A88717EAFE3D0076AFBA /* SearchBg.png */,
 				2849A88817EAFE3E0076AFBA /* SearchBg@2x.png */,
+				2884A806181D0CF0006462BE /* SearchBlackBg.png */,
+				2884A807181D0CF0006462BE /* SearchBlackBg@2x.png */,
 				2849A88917EAFE3E0076AFBA /* searchFieldBg.png */,
 				2849A88A17EAFE3E0076AFBA /* searchFieldBg@2x.png */,
 				2849A88B17EAFE3F0076AFBA /* searchFieldIcon.png */,
@@ -3040,6 +3046,8 @@
 				28B30FA41807EE1E005C50A4 /* SwipeCamera@2x.png in Resources */,
 				28B30FA51807EE1E005C50A4 /* SwipePicker.png in Resources */,
 				28B30FA61807EE1E005C50A4 /* SwipePicker@2x.png in Resources */,
+				2884A808181D0CF0006462BE /* SearchBlackBg.png in Resources */,
+				2884A809181D0CF0006462BE /* SearchBlackBg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,7 +13,7 @@
 
 @interface SVSidebarMemberController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UISearchBarDelegate>
 
-#pragma mark - Properties
+#pragma mark - Public Properties
 
 @property (strong, nonatomic) SVAlbumGridViewController *parentController;
 @property (nonatomic, strong) AlbumContents *albumContents;
