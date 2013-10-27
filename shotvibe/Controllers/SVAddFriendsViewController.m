@@ -20,7 +20,7 @@
 @property (nonatomic, strong) IBOutlet UIView *membersView;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIScrollView *addedContactsScrollView;
-@property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *segmentControl;
 @property (nonatomic, weak) IBOutlet UIView *noContactsView;
 
@@ -34,85 +34,27 @@
 	SVAddressBook *ab;
 	NSMutableArray *contactsButtons;// list of selected contacts buttons
 	NSMutableArray *selectedIds;// list of ids of the contacts that were selected
-}
-
-#pragma mark - Actions
-
-- (IBAction)donePressed:(id)sender {
-    // add members to album
-    //TODO if already shotvibe member just add to album else sent notification to user to join?
-    RCLog(@"contacts to add >> ");
-	
-	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	
-	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
-	NSString *countryCode = [self.albumManager getShotVibeAPI].authData.defaultCountryCode;
-	
-	for (id record in selectedIds) {
-		
-		ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)(record), kABPersonPhoneProperty);
-		NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(record));
-		
-		[contactsToInvite addObject:@{
-		 @"phone_number":(__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0),
-		 @"default_country":countryCode,
-		 @"contact_nickname":name==nil?@"":name}];
-		
-		CFRelease(phoneNumbers);
-	}
-	
-	//[contactsToInvite addObject:@{@"phone_number": @"+40700000002", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
-	//[contactsToInvite addObject:@{@"phone_number": @"(070) 000-0001", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
-	
-	if (contactsToInvite.count > 0) {
-		
-		__block NSDictionary *phoneNumbers = @{@"add_members": contactsToInvite};
-		RCLog(@"contactsToInvite %@", phoneNumbers);
-		
-		// send request
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-			NSError *error;
-			AlbumContents *r = [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId phoneNumbers:contactsToInvite withError:&error];
-			
-			dispatch_async(dispatch_get_main_queue(), ^{
-				RCLog(@"r.members %@", r.members);
-				RCLog(@"invite sent - success/error: %@", error);
-				[MBProgressHUD hideHUDForView:self.view animated:YES];
-				[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-			});
-		});
-	}
-}
-
-
-- (IBAction)cancelPressed:(id)sender
-{
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)segmentChanged:(UISegmentedControl *)sender
-{
-    if (sender.selectedSegmentIndex == 0) {
-        //show shotvibe
-        [self loadShotVibeContacts];
-    }else{
-        //show phone contacts
-        [self loadAddressbookContacts];
-    }
+	NSMutableArray *favorites;
 }
 
 
 #pragma mark - View Lifecycle
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+	
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
 	self.noContactsView.hidden = YES;
-	
+//	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"favorites"];
+//	[[NSUserDefaults standardUserDefaults] synchronize];
 	contactsButtons = [[NSMutableArray alloc] init];
 	selectedIds = [[NSMutableArray alloc] init];
+	favorites = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"favorites"]];
+	RCLogO(favorites);
+	if (favorites == nil) {
+		favorites = [[NSMutableArray alloc] init];
+	}
 	ab = [[SVAddressBook alloc] initWithBlock:^(BOOL granted, NSError *error) {
 		if (granted) {
 			//[self loadShotVibeContacts];
@@ -141,8 +83,8 @@
 	[backButton setTitlePositionAdjustment:UIOffsetMake(-5,2) forBarMetrics:UIBarMetricsDefault];
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(donePressed:)];
-	[doneButton setTitleTextAttributes:att forState:UIControlStateNormal];
-	[doneButton setTitlePositionAdjustment:UIOffsetMake(0,2) forBarMetrics:UIBarMetricsDefault];
+	//[doneButton setTitleTextAttributes:att forState:UIControlStateNormal];
+	//[doneButton setTitlePositionAdjustment:UIOffsetMake(0,2) forBarMetrics:UIBarMetricsDefault];
 	
 	self.navigationItem.leftBarButtonItem = backButton;
 	self.navigationItem.rightBarButtonItem = doneButton;
@@ -156,23 +98,34 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [ab.filteredKeys count];
+    return [ab.filteredKeys count] + (favorites.count>0?1:0);
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSArray *arr = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:section]];
+	if (section == 0 && favorites.count > 0) {
+		return favorites.count;
+	}
+	int dif = favorites.count > 0 ? 1 : 0;
+	NSArray *arr = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:section-dif]];
 	return [arr count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SVContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
     
-	NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section]];
-	ABRecordRef record = (__bridge ABRecordRef)sectionRecords[indexPath.row];
+	ABRecordRef record = nil;
+	
+	if (indexPath.section == 0 && favorites.count > 0) {
+		record = [ab recordOfRecordId:[[favorites objectAtIndex:indexPath.row] integerValue]];
+	}
+	else {
+		int dif = favorites.count > 0 ? 1 : 0;
+		NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section-dif]];
+		record = (__bridge ABRecordRef)sectionRecords[indexPath.row];
+	}
+	
 	NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName(record);
 	ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
 	NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
@@ -186,14 +139,8 @@
 		cell.contactIcon.image = [[UIImage alloc] initWithData:contactImageData];
 	}
 	else {
-//		int lowerBound = 1;
-//		int upperBound = 78;
-//		int rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
 		int i = 1 + indexPath.row;
-		if (i>78) {
-			i = 1 + i%78;
-		}
-		//cell.contactIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"default-avatar-0%i.png", rndValue]];
+		if (i>78) i = 1 + i%78;
 		[cell.contactIcon setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://shotvibe-avatars-01.s3.amazonaws.com/default-avatar-00%@%i.jpg", i<10?@"0":@"", i]]];
 	}
 	if (phoneNumbers != nil) CFRelease(phoneNumbers);
@@ -208,17 +155,14 @@
     cell.backgroundColor = [UIColor whiteColor];
 }
 
-
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-{
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
     return ab.filteredKeys;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	
 	return 26;
 }
+
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	
 	UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 26)];
@@ -230,11 +174,16 @@
 	l.textColor = [UIColor grayColor];
 	l.backgroundColor = [UIColor clearColor];
 	
-	NSArray *arr = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:section]];
-	
-    if ([arr count] > 0) {
-        l.text = [ab.filteredKeys objectAtIndex:section];
-    }
+	if (section == 0 && favorites.count > 0) {
+		l.text = @"Favorites";
+	}
+	else {
+		int dif = favorites.count > 0 ? 1 : 0;
+		NSArray *arr = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:section-dif]];
+		if (arr.count > 0) {
+			l.text = [ab.filteredKeys objectAtIndex:section-dif];
+		}
+	}
 	
 	return v;
 }
@@ -249,8 +198,17 @@
 	
 	SVContactCell *tappedCell = (SVContactCell*)[tableView cellForRowAtIndexPath:indexPath];
 	
-	NSMutableArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section]];
-	ABRecordRef record = (__bridge ABRecordRef)(sectionRecords[indexPath.row]);
+	ABRecordRef record = nil;
+	
+	if (indexPath.section == 0 && favorites.count > 0) {
+		record = [ab recordOfRecordId:[[favorites objectAtIndex:indexPath.row] integerValue]];
+	}
+	else {
+		int dif = favorites.count > 0 ? 1 : 0;
+		NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section-dif]];
+		record = (__bridge ABRecordRef)sectionRecords[indexPath.row];
+	}
+	
 	ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
 	NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
 	NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
@@ -301,7 +259,6 @@
 	}];
 }
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-	
 	if (searchText.length == 0) {
 		[searchBar resignFirstResponder];
     }
@@ -311,7 +268,6 @@
     [searchBar resignFirstResponder];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-	RCLog(@"cancel clicked");
 	[searchBar resignFirstResponder];
 	searchBar.text = @"";
 	[self handleSearchForText:nil];
@@ -321,10 +277,7 @@
 }
 
 
-
 - (void) handleSearchForText:(NSString*)str {
-	RCLog(@"handle search %@", str);
-	
 	[ab filterByKeyword:str completionBlock:^{
 		[self.tableView reloadData];
 	}];
@@ -334,8 +287,7 @@
 
 #pragma mark - Private Methods
 
--(void)addToContactsList:(ABRecordRef)record
-{
+- (void)addToContactsList:(ABRecordRef)record {
 	//CFStringRef firstName = ABRecordCopyValue(record, kABPersonFirstNameProperty);
 	//CFStringRef lastName = ABRecordCopyValue(record, kABPersonLastNameProperty);
 	NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName(record);
@@ -351,7 +303,6 @@
 	[button setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
 	[button setTag:tag];
 	[button sizeToFit];
-	RCLog(@"add %lli", (long long)button.tag);
 	
 	UIImage *baseImage = [UIImage imageNamed:@"butInvitedContacts.png"];
 	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
@@ -377,12 +328,12 @@
 		button.alpha = 1;
 	}];
 }
--(void)removeContactFromTable:(ABRecordRef)record
-{
+
+- (void)removeContactFromTable:(ABRecordRef)record {
+	
 	NSMutableArray *arr = contactsButtons;
 	for (UIButton *but in arr) {
 		if (but.tag == [ab idOfRecord:record]) {
-			RCLog(@"remove 1 %i", but.tag);
 			[contactsButtons removeObject:but];
 			[but removeFromSuperview];
 			[selectedIds removeObject:(__bridge id)(record)];
@@ -392,11 +343,10 @@
 	}
 }
 
--(void)removeContactFromList:(UIButton *)sender
-{
+- (void)removeContactFromList:(UIButton *)sender {
+	
 	for (id record in selectedIds) {
 		if ([ab idOfRecord:(__bridge ABRecordRef)(record)] == sender.tag) {
-			RCLog(@"remove 2 %i", sender.tag);
 			[selectedIds removeObject:record];
 			break;
 		}
@@ -407,6 +357,7 @@
 	[self updateContacts];
 	[self.tableView reloadData];
 }
+
 - (void)updateContacts {
 	
 	int i = 0;
@@ -439,14 +390,85 @@
 }
 
 
--(void)loadShotVibeContacts
-{
+
+#pragma mark - Actions
+
+- (IBAction)donePressed:(id)sender {
+    // add members to album
+    //TODO if already shotvibe member just add to album else sent notification to user to join?
+    RCLog(@"contacts to add >> ");
+	
+	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	
+	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
+	NSString *countryCode = [self.albumManager getShotVibeAPI].authData.defaultCountryCode;
+	
+	for (id record in selectedIds) {
+		
+		ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)(record), kABPersonPhoneProperty);
+		NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(record));
+		
+		[contactsToInvite addObject:@{
+		 @"phone_number":(__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0),
+		 @"default_country":countryCode,
+		 @"contact_nickname":name==nil?@"":name}];
+		
+		NSNumber *id_ = [NSNumber numberWithInteger:ABRecordGetRecordID((__bridge ABRecordRef)(record))];
+		RCLogI([favorites containsObject:id_]);
+		if (![favorites containsObject:id_]) {
+			[favorites addObject:id_];
+		}
+		
+		CFRelease(phoneNumbers);
+	}
+	
+	[[NSUserDefaults standardUserDefaults] setObject:favorites forKey:@"favorites"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	RCLogO(favorites);
+	
+	//[contactsToInvite addObject:@{@"phone_number": @"+40700000002", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
+	//[contactsToInvite addObject:@{@"phone_number": @"(070) 000-0001", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
+	
+	if (contactsToInvite.count > 0) {
+		
+		__block NSDictionary *phoneNumbers = @{@"add_members": contactsToInvite};
+		RCLog(@"contactsToInvite %@", phoneNumbers);
+		
+		// send request
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+			//NSError *error;
+			//AlbumContents *r = [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId phoneNumbers:contactsToInvite withError:&error];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+//				RCLog(@"r.members %@", r.members);
+//				RCLog(@"invite sent - success/error: %@", error);
+				[MBProgressHUD hideHUDForView:self.view animated:YES];
+				[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+			});
+		});
+	}
+}
+
+
+- (IBAction)cancelPressed:(id)sender {
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)segmentChanged:(UISegmentedControl *)sender {
+    if (sender.selectedSegmentIndex == 0) {
+        [self loadShotVibeContacts];
+    }else{
+        [self loadAddressbookContacts];
+    }
+}
+
+- (void)loadShotVibeContacts {
     [self.tableView reloadData];
 }
 
--(void)loadAddressbookContacts
-{
+- (void)loadAddressbookContacts {
 	[self handleSearchForText:nil];
 }
+
 
 @end

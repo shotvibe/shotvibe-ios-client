@@ -195,4 +195,10 @@
 }
 
 
+- (ABRecordRef)recordOfRecordId:(ABRecordID)recordId {
+	
+	ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
+	return ABAddressBookGetPersonWithRecordID (addressBook, recordId);
+}
+
 @end
