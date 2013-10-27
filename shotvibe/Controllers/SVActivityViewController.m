@@ -16,6 +16,7 @@
 #import "SVTumblrActivity.h"
 #import "SVTwitterActivity.h"
 #import "SVActivity.h"
+#import "SVProfilePicActivity.h"
 
 @implementation SVActivityViewController
 
@@ -27,13 +28,15 @@
 		self.activityButtons = [[NSMutableArray alloc] init];
 		
 		self.socialActivities = @[
-							 [[SVMailActivity alloc] init],
-							 [[SVTwitterActivity alloc] init],
-							 [[SVFacebookActivity alloc] init]];
+		[[SVMailActivity alloc] init],
+		[[SVTwitterActivity alloc] init],
+		[[SVFacebookActivity alloc] init]];
+		
 		self.localActivities = @[
-							 [[SVCopyActivity alloc] init],
-//							 [[SVMoveActivity alloc] init],
-							 [[SVLinkActivity alloc] init]];
+		[[SVCopyActivity alloc] init],
+//		[[SVMoveActivity alloc] init],
+		[[SVLinkActivity alloc] init],
+		[[SVProfilePicActivity alloc] init]];
     }
     return self;
 }

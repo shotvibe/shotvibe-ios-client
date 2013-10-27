@@ -35,6 +35,7 @@
 	NSMutableArray *contactsButtons;// list of selected contacts buttons
 	NSMutableArray *selectedIds;// list of ids of the contacts that were selected
 	NSMutableArray *favorites;
+	BOOL searching;
 }
 
 
@@ -46,6 +47,7 @@
 	// Do any additional setup after loading the view.
 	
 	self.noContactsView.hidden = YES;
+	searching = NO;
 //	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"favorites"];
 //	[[NSUserDefaults standardUserDefaults] synchronize];
 	contactsButtons = [[NSMutableArray alloc] init];
@@ -78,9 +80,9 @@
 	
 	// Setup back button
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
-    NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
-	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
-	[backButton setTitlePositionAdjustment:UIOffsetMake(-5,2) forBarMetrics:UIBarMetricsDefault];
+    //NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
+	//[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
+	//[backButton setTitlePositionAdjustment:UIOffsetMake(-5,2) forBarMetrics:UIBarMetricsDefault];
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(donePressed:)];
 	//[doneButton setTitleTextAttributes:att forState:UIControlStateNormal];
@@ -98,15 +100,15 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [ab.filteredKeys count] + (favorites.count>0?1:0);
+    return [ab.filteredKeys count] + ((favorites.count>0 && !searching) ? 1 : 0);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if (section == 0 && favorites.count > 0) {
+	if (section == 0 && favorites.count > 0 && !searching) {
 		return favorites.count;
 	}
-	int dif = favorites.count > 0 ? 1 : 0;
+	int dif = (favorites.count > 0 && !searching) ? 1 : 0;
 	NSArray *arr = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:section-dif]];
 	return [arr count];
 }
@@ -117,11 +119,11 @@
     
 	ABRecordRef record = nil;
 	
-	if (indexPath.section == 0 && favorites.count > 0) {
+	if (indexPath.section == 0 && favorites.count > 0 && !searching) {
 		record = [ab recordOfRecordId:[[favorites objectAtIndex:indexPath.row] integerValue]];
 	}
 	else {
-		int dif = favorites.count > 0 ? 1 : 0;
+		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
 		NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section-dif]];
 		record = (__bridge ABRecordRef)sectionRecords[indexPath.row];
 	}
@@ -174,11 +176,11 @@
 	l.textColor = [UIColor grayColor];
 	l.backgroundColor = [UIColor clearColor];
 	
-	if (section == 0 && favorites.count > 0) {
+	if (section == 0 && favorites.count > 0 && !searching) {
 		l.text = @"Favorites";
 	}
 	else {
-		int dif = favorites.count > 0 ? 1 : 0;
+		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
 		NSArray *arr = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:section-dif]];
 		if (arr.count > 0) {
 			l.text = [ab.filteredKeys objectAtIndex:section-dif];
@@ -200,11 +202,11 @@
 	
 	ABRecordRef record = nil;
 	
-	if (indexPath.section == 0 && favorites.count > 0) {
+	if (indexPath.section == 0 && favorites.count > 0 && !searching) {
 		record = [ab recordOfRecordId:[[favorites objectAtIndex:indexPath.row] integerValue]];
 	}
 	else {
-		int dif = favorites.count > 0 ? 1 : 0;
+		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
 		NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section-dif]];
 		record = (__bridge ABRecordRef)sectionRecords[indexPath.row];
 	}
@@ -278,6 +280,7 @@
 
 
 - (void) handleSearchForText:(NSString*)str {
+	searching = (str != nil && ![str isEqualToString:@""]);
 	[ab filterByKeyword:str completionBlock:^{
 		[self.tableView reloadData];
 	}];
@@ -424,7 +427,6 @@
 	
 	[[NSUserDefaults standardUserDefaults] setObject:favorites forKey:@"favorites"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
-	RCLogO(favorites);
 	
 	//[contactsToInvite addObject:@{@"phone_number": @"+40700000002", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
 	//[contactsToInvite addObject:@{@"phone_number": @"(070) 000-0001", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
@@ -436,12 +438,12 @@
 		
 		// send request
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-			//NSError *error;
-			//AlbumContents *r = [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId phoneNumbers:contactsToInvite withError:&error];
+			NSError *error;
+			AlbumContents *r = [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId phoneNumbers:contactsToInvite withError:&error];
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
-//				RCLog(@"r.members %@", r.members);
-//				RCLog(@"invite sent - success/error: %@", error);
+				RCLog(@"r.members %@", r.members);
+				RCLog(@"invite sent - success/error: %@", error);
 				[MBProgressHUD hideHUDForView:self.view animated:YES];
 				[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 			});

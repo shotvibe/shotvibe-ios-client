@@ -68,8 +68,11 @@
 	self.tableView.delegate = self;
 	[self.tableView setAllowsSelection:YES];
 	self.wantsFullScreenLayout = NO;
-	[self.tableView setContentOffset:CGPointMake(0, 44)];
+	
 	[self.searchBar setBackgroundImage:[UIImage imageNamed:@"SearchBlackBg.png"]];
+	UIImage *search_bg = [UIImage imageNamed:@"searchFieldDarkBg.png"];
+	UIImage *resizable_bg = [search_bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 20, 5, 20) resizingMode:UIImageResizingModeStretch];
+	[self.searchBar setSearchFieldBackgroundImage:resizable_bg forState:UIControlStateNormal];
 }
 
 
@@ -156,7 +159,7 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
 	
 	CGRect f = self.tableView.frame;
-	f.size.height = [UIScreen mainScreen].bounds.size.height-216-20-104;
+	f.size.height = [UIScreen mainScreen].bounds.size.height-216-20-44;
 	
 	[UIView animateWithDuration:0.3 animations:^{
 		self.tableView.frame = f;
@@ -166,7 +169,7 @@
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
 	
 	CGRect f = self.tableView.frame;
-	f.size.height = [UIScreen mainScreen].bounds.size.height-20-104;
+	f.size.height = [UIScreen mainScreen].bounds.size.height-20-44;
 	
 	[UIView animateWithDuration:0.2 animations:^{
 		self.tableView.frame = f;
