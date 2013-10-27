@@ -36,6 +36,7 @@
 	NSMutableArray *selectedRecords;// list of ids of the contacts that were selected
 	NSMutableArray *favorites;
 	BOOL searching;
+	NSIndexPath *tappedIndexPath;
 }
 
 
@@ -197,18 +198,28 @@
 {
 	[self.searchBar resignFirstResponder];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	tappedIndexPath = indexPath;
 	
 	SVContactCell *tappedCell = (SVContactCell*)[tableView cellForRowAtIndexPath:indexPath];
 	
 	ABRecordRef record = nil;
+	BOOL contains = NO;
 	
 	if (indexPath.section == 0 && favorites.count > 0 && !searching) {
 		record = [ab recordOfRecordId:[[favorites objectAtIndex:indexPath.row] integerValue]];
+		for (id r in selectedRecords) {
+			if (ABRecordGetRecordID((__bridge ABRecordRef)(r)) == ABRecordGetRecordID(record)) {
+				record = (__bridge ABRecordRef)(r);
+				contains = YES;
+				break;
+			}
+		}
 	}
 	else {
 		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
 		NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section-dif]];
 		record = (__bridge ABRecordRef)sectionRecords[indexPath.row];
+		contains = [selectedRecords containsObject:(__bridge id)(record)];;
 	}
 	
 	ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
@@ -234,7 +245,7 @@
 	// If yes, remove it
 	RCLogO(selectedRecords);
 	RCLogO(record);
-	BOOL contains = [selectedRecords containsObject:(__bridge id)(record)];
+	
 	tappedCell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageUnselected":@"imageSelected"];
 	
 	if (contains) {
@@ -296,7 +307,10 @@
 	//CFStringRef lastName = ABRecordCopyValue(record, kABPersonLastNameProperty);
 	NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName(record);
 	long long tag = [ab idOfRecord:record];
-	
+//	if (tappedIndexPath.section == 0 && favorites.count > 0 && !searching) {
+//		tag = tag+12345;
+//	}
+	RCLog(@"%lli", tag);
     //create a new dynamic button
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];

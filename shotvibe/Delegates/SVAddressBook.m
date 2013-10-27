@@ -173,7 +173,7 @@
 	//RCLog(@"self.filteredContacts %@ %@", self.filteredKeys, self.filteredContacts);
 
 
-- (int)idOfRecord:(ABRecordRef)record {
+- (int64_t)idOfRecord:(ABRecordRef)record {
 	
 	ABRecordID id_ = ABRecordGetRecordID(record);
 	
@@ -194,11 +194,19 @@
 	return id_;
 }
 
-
+// do not create a new contact because it's instance object is different and will break some comparisons
 - (ABRecordRef)recordOfRecordId:(ABRecordID)recordId {
 	
-	ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
-	return ABAddressBookGetPersonWithRecordID (addressBook, recordId);
+//	ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
+//	ABRecordRef record = ABAddressBookGetPersonWithRecordID (addressBook, recordId);
+	
+	for (id evaluatedObject in self.allContacts) {
+		if (ABRecordGetRecordID((__bridge ABRecordRef)(evaluatedObject)) == recordId) {
+			return (__bridge ABRecordRef)(evaluatedObject);
+		}
+	}
+	
+	return nil;
 }
 
 @end
