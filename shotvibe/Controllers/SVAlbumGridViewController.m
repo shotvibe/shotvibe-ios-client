@@ -353,7 +353,8 @@
 		switch (sort) {
 			case SortFeedAlike:
 			{
-				NSString *key = [NSString stringWithFormat:@" %@", sectionsKeys[indexPath.section]];
+				NSArray *arr = [sectionsKeys[indexPath.section] componentsSeparatedByString:@"--^--"];
+				NSString *key = [NSString stringWithFormat:@" %@", [arr objectAtIndex:0]];
 				[header.dateButtonLabel setTitle:key forState:UIControlStateNormal];
 			}break;
 			
@@ -504,10 +505,10 @@
 				if ([photo.serverPhoto.dateAdded timeIntervalSinceDate:previousDate] < 60 &&
 					 [photo.serverPhoto.authorNickname isEqualToString:previousUser])
 				{
-					key = [previousDate distanceOfTimeInWords:[NSDate date] shortStyle:YES];
+					key = [NSString stringWithFormat:@"%@--^--%@", [previousDate distanceOfTimeInWords:[NSDate date] shortStyle:YES], previousUser];
 				}
 				else {
-					key = [photo.serverPhoto.dateAdded distanceOfTimeInWords:[NSDate date] shortStyle:YES];
+					key = [NSString stringWithFormat:@"%@--^--%@", [photo.serverPhoto.dateAdded distanceOfTimeInWords:[NSDate date] shortStyle:YES], photo.serverPhoto.authorNickname];
 				}
 				
 				previousDate = photo.serverPhoto.dateAdded;

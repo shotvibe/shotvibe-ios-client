@@ -74,7 +74,10 @@
 	UIImage *resizable_bg = [search_bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 20, 5, 20) resizingMode:UIImageResizingModeStretch];
 	[self.searchBar setSearchFieldBackgroundImage:resizable_bg forState:UIControlStateNormal];
 }
-
+-(void)viewDidDisappear:(BOOL)animated{
+	[super viewDidDisappear:animated];
+	RCLog(@"view did disappear");
+}
 
 #pragma mark - Table view data source
 
