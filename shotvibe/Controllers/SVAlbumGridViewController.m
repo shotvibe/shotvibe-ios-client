@@ -404,32 +404,34 @@
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 	
+	NSMutableArray *photos = [NSMutableArray arrayWithCapacity:albumContents.photos.count];
 	int i = 0;
 	int section = 0;
+	BOOL found = NO;
+	
+	// Iterate over sections
 	for (NSString *key in sectionsKeys) {
-		BOOL canBreak = NO;
 		int item = 0;
 		NSArray *arr = [sections objectForKey:key];
+		
+		// Iterate over photos in section
 		for (AlbumPhoto *photo in arr) {
 			if (section == indexPath.section && item == indexPath.item) {
-				canBreak = YES;
-				break;
+				found = YES;
 			}
 			else {
-				i++;
+				if (!found) i++;
 			}
 			item ++;
+			[photos addObject:photo];
 		}
 		section ++;
-		if (canBreak) {
-			break;
-		}
 	}
 	
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumId = self.albumId;
 	detailController.albumManager = self.albumManager;
-	detailController.photos = [NSMutableArray arrayWithArray:albumContents.photos];
+	detailController.photos = photos;
 	detailController.index = i;
 	detailController.title = albumContents.name;
 	detailController.wantsFullScreenLayout = YES;
