@@ -81,7 +81,10 @@
 	}
     
     // Setup tabbar right button
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"]
+																   style:UIBarButtonItemStyleBordered
+																  target:self
+																  action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
     
     // Setup back button

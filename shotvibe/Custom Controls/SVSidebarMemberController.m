@@ -73,10 +73,19 @@
 	UIImage *search_bg = [UIImage imageNamed:@"searchFieldDarkBg.png"];
 	UIImage *resizable_bg = [search_bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 20, 5, 20) resizingMode:UIImageResizingModeStretch];
 	[self.searchBar setSearchFieldBackgroundImage:resizable_bg forState:UIControlStateNormal];
-}
--(void)viewDidDisappear:(BOOL)animated{
-	[super viewDidDisappear:animated];
-	RCLog(@"view did disappear");
+	
+	NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+	[[NSNotificationCenter defaultCenter] addObserverForName:MFSideMenuStateNotificationEvent
+													  object:nil
+													   queue:queue
+												  usingBlock:^(NSNotification *note)
+	{
+		if ([note.userInfo[@"eventType"] integerValue] == 3) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self resignFirstResponder];
+			});
+		}
+	}];
 }
 
 #pragma mark - Table view data source
