@@ -20,10 +20,12 @@
 
 @implementation SVActivityViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    
+	if (self) {
         // Custom initialization
 		self.activityButtons = [[NSMutableArray alloc] init];
 		
@@ -41,8 +43,8 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+	
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
@@ -74,12 +76,6 @@
 		j++;
 	}
 	self.scrollLocalButtons.contentSize = CGSizeMake(12+(61+15)*i, 61+20);
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 

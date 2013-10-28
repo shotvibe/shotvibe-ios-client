@@ -13,8 +13,10 @@
 @implementation SVImageCropViewController
 
 
-- (void)viewDidLoad
-{
+#pragma mark View Lifecycle
+
+- (void)viewDidLoad {
+	
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 	self.title = nil;
@@ -41,6 +43,7 @@
 	
 	[self setMaxMinZoomScalesForCurrentBounds];
 }
+
 - (void)viewDidAppear:(BOOL)animated {
 	
 	[super viewDidAppear:animated];
@@ -48,8 +51,8 @@
 	bottomView.frame = CGRectMake(0, scrollView.frame.origin.y + scrollView.frame.size.height, 320, topView.frame.size.height);
 }
 
-- (BOOL)shouldAutorotate
-{
+
+- (BOOL)shouldAutorotate {
 	return YES;
 }
 
@@ -57,15 +60,15 @@
 	return UIInterfaceOrientationMaskPortrait;
 }
 
-
-
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 	return imageView;
 }
 
 
+#pragma mark Actions
+
 - (void)doneButtonPressed {
-	RCLog(@"doneButtonPressed %@", self.delegate);
+	
 	float scale = 1.0f/scrollView.zoomScale;
 	
 	CGRect visibleRect;

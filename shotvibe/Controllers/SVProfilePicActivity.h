@@ -7,7 +7,9 @@
 //
 
 #import "SVActivity.h"
+#import "SVImageCropViewController.h"
 
-@interface SVProfilePicActivity : SVActivity
+
+@interface SVProfilePicActivity : SVActivity <SVImageCropDelegate>
 
 @end

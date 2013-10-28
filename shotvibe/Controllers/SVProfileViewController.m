@@ -25,61 +25,33 @@
 
 
 
-- (IBAction)changeProfilePicture:(id)sender {
-	[self.nicknameField resignFirstResponder];
-	[self performSegueWithIdentifier:@"ProfilePicSegue" sender:self];
-}
+#pragma mark View lifecycle
 
-
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-	if ([segue.identifier isEqualToString:@"ProfilePicSegue"]) {
-		
-		SVProfilePicViewController *destination = segue.destinationViewController;
-        destination.image = self.userPhoto.image;
-		destination.delegate = self;
-		destination.albumManager = self.albumManager;
-    }
-}
-
-
-#pragma mark 
-
-- (void) didCropImage:(UIImage*)image {
+- (void)viewDidLoad {
 	
-	RCLog(@"image did crop and save");
-	self.userPhoto.image = image;
-	[self.navigationController popToViewController:self animated:YES];
-}
-
-
-
-- (void)viewDidLoad
-{
     [super viewDidLoad];
 	
     NSAssert(self.albumManager, @"SVProfileViewController started without setting albumManager property");
-
+	
     ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
-
+	
     int64_t userId = shotvibeAPI.authData.userId;
-
+	
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
         AlbumMember *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
-
+		
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (!userProfile) {
                 // TODO Better error dialog with Retry option
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-//                                                                message:[error description]
-//                                                               delegate:nil
-//                                                      cancelButtonTitle:@"OK"
-//                                                      otherButtonTitles:nil];
-//                [alert show];
+				//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+				//                                                                message:[error description]
+				//                                                               delegate:nil
+				//                                                      cancelButtonTitle:@"OK"
+				//                                                      otherButtonTitles:nil];
+				//                [alert show];
             }
             else {
                 self.nicknameField.text = userProfile.nickname;
@@ -95,10 +67,40 @@
 	self.userPhoto.image = [UIImage imageWithContentsOfFile:path];
 }
 
+
+#pragma mark Actions
+
+- (IBAction)changeProfilePicture:(id)sender {
+	
+	[self.nicknameField resignFirstResponder];
+	[self performSegueWithIdentifier:@"ProfilePicSegue" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	
+	if ([segue.identifier isEqualToString:@"ProfilePicSegue"]) {
+		
+		SVProfilePicViewController *destination = segue.destinationViewController;
+        destination.image = self.userPhoto.image;
+		destination.delegate = self;
+		destination.albumManager = self.albumManager;
+    }
+}
+
+
+#pragma mark ImageCrop Delegate
+
+- (void) didCropImage:(UIImage*)image {
+	
+	self.userPhoto.image = image;
+	[self.navigationController popToViewController:self animated:YES];
+}
+
+
 #pragma mark - UITextFieldDelegate Method
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+	
     [textField resignFirstResponder];
 	
     NSString *newNickname = [self.nicknameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];

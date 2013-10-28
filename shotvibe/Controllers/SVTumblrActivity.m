@@ -60,10 +60,10 @@
 	
 }
 
-/*
+
 - (id)initWithConsumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret
 {
-    self = [super initWithTitle:NSLocalizedStringFromTable(@"activity.Tumblr.title", @"REActivityViewController", @"Tumblr")
+    /*self = [super initWithTitle:NSLocalizedStringFromTable(@"activity.Tumblr.title", @"REActivityViewController", @"Tumblr")
                           image:[UIImage imageNamed:@"REActivityViewController.bundle/Icon_Tumblr"]
                     actionBlock:nil];
     if (!self)
@@ -91,10 +91,10 @@
             }];
         }
     };
-    
+    */
     return self;
 }
-
+/*
 - (void)showAuthDialogWithActivityViewController:(REActivityViewController *)activityViewController
 {
     __typeof(&*self) __weak weakSelf = self;

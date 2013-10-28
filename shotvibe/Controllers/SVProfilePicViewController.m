@@ -7,7 +7,6 @@
 //
 
 #import "SVProfilePicViewController.h"
-#import "SVImagePickerListViewController.h"
 #import "SVDefines.h"
 #import "MBProgressHUD.h"
 #import "UIImage+Scale.h"
@@ -31,8 +30,7 @@
 }
 
 
-- (BOOL)shouldAutorotate
-{
+- (BOOL)shouldAutorotate {
 	return YES;
 }
 
@@ -157,7 +155,6 @@
 
 - (void) didCropImage:(UIImage*)image {
 	
-	RCLog(@"didCropImage");
 	[self didSelectPhoto:image];
 	[self.navigationController.visibleViewController dismissViewControllerAnimated:YES completion:^{
 		

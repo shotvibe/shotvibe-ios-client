@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AlbumManager.h"
 
 @interface ShotVibeAppDelegate : UIResponder <UIApplicationDelegate>
 
 #pragma mark - Properties
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) AlbumManager *albumManager;
 
 
 #pragma mark - Class Methods

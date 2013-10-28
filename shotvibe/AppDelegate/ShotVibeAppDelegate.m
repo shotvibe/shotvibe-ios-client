@@ -23,7 +23,6 @@
 #import "UserSettings.h"
 #import "ShotVibeAPI.h"
 #import "ShotVibeDB.h"
-#import "AlbumManager.h"
 #import "JSON.h"
 
 @interface ShotVibeAppDelegate ()
@@ -121,7 +120,6 @@ NSDictionary * parseQueryParameters(NSString * query)
 
 @implementation ShotVibeAppDelegate
 {
-    AlbumManager *albumManager;
     SVPushNotificationsManager *pushNotificationsManager;
 }
 
@@ -259,9 +257,9 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
     ShotVibeAPI *shotvibeAPI = [[ShotVibeAPI alloc] initWithAuthData:[UserSettings getAuthData]];
     ShotVibeDB *shotvibeDB = [[ShotVibeDB alloc] init];
 
-    albumManager = [[AlbumManager alloc] initWithShotvibeAPI:shotvibeAPI shotvibeDB:shotvibeDB];
+    self.albumManager = [[AlbumManager alloc] initWithShotvibeAPI:shotvibeAPI shotvibeDB:shotvibeDB];
 
-    pushNotificationsManager = [[SVPushNotificationsManager alloc] initWithAlbumManager:albumManager];
+    pushNotificationsManager = [[SVPushNotificationsManager alloc] initWithAlbumManager:self.albumManager];
 
     // The following casts will work because of the way the MainStoryboard is set up.
 
@@ -270,7 +268,7 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
 	
     NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
-    registrationViewController.albumManager = albumManager;
+    registrationViewController.albumManager = self.albumManager;
     registrationViewController.pushNotificationsManager = pushNotificationsManager;
 
 	// Initialize the sidebar menu
