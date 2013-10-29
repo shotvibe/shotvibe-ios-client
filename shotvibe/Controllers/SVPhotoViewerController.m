@@ -90,20 +90,16 @@ static const int NUM_PHOTO_VIEWS = 3;
 	self.navigationItem.rightBarButtonItem = nil;
 	self.wantsFullScreenLayout = YES;
 	
-	int w = self.view.frame.size.width;
-	int h = self.view.frame.size.height;
-	
-	photosScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, w+GAP_X, h)];
-	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
+    photosScrollView = [[UIScrollView alloc] init];
 	photosScrollView.scrollEnabled = YES;
 	photosScrollView.showsHorizontalScrollIndicator = NO;
 	photosScrollView.showsVerticalScrollIndicator = NO;
 	photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
 	photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 	photosScrollView.delegate = self;// set delegate
-	photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
-	photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
 	[self.view addSubview:photosScrollView];
+
+    [self configurePhotosScrollView];
 
     currentPhotoViewsStartIndex = INT_MAX;
     for (int i = 0; i < NUM_PHOTO_VIEWS; ++i) {
@@ -123,6 +119,16 @@ static const int NUM_PHOTO_VIEWS = 3;
 	singleTap.numberOfTapsRequired = 1;
 	
 	[singleTap requireGestureRecognizerToFail:doubleTap];
+}
+
+- (void)configurePhotosScrollView
+{
+    int w = self.view.frame.size.width;
+    int h = self.view.frame.size.height;
+
+    photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
+    photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
+    photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
 }
 
 - (CGRect)rectForPhotoIndex:(int)i
@@ -241,7 +247,11 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    // TODO ...
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+
+    [self configurePhotosScrollView];
+    currentPhotoViewsStartIndex = INT_MAX;
+    [self setPhotoViewsIndex:MAX(self.index - 1, 0)];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
