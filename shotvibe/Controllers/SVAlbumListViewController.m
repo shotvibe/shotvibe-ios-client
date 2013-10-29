@@ -159,9 +159,9 @@
 			RCLogO(contacts);
 		}
 		
-		NSDictionary *body = @{ @"phone_numbers": contacts, @"default_country": @"RO" };
 		NSError *error = nil;
 		ShotVibeAPI *api = [self.albumManager getShotVibeAPI];
+		NSDictionary *body = @{ @"phone_numbers": contacts, @"default_country": api.authData.defaultCountryCode };
 		NSDictionary *response = [api submitAddressBook:body error:&error];
 		RCLogO(@"response");
 		RCLogO(response);
