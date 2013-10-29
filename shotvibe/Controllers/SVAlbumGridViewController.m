@@ -433,7 +433,6 @@
 	
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumId = self.albumId;
-	detailController.albumManager = self.albumManager;
 	detailController.photos = photos;
 	detailController.index = i;
 	detailController.title = albumContents.name;
