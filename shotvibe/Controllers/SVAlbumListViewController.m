@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <AddressBook/AddressBook.h>
 #import "SVAlbumListViewController.h"
 #import "SVSettingsViewController.h"
 #import "SVProfileViewController.h"
@@ -16,6 +17,7 @@
 #import "NSDate+Formatting.h"
 #import "MFSideMenu.h"
 #import "MBProgressHUD.h"
+#import "SVAddressBook.h"
 
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
@@ -32,6 +34,7 @@
 	UIView *sectionView;
 	NSIndexPath *tappedCell;
 	SVCameraNavController *cameraNavController;
+	SVAddressBook *ab;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *sectionHeader;
@@ -119,6 +122,50 @@
 												 name:@"album_changed"
 											   object:nil];
 	
+	// Upload the contacts to the server
+	
+	ab = [[SVAddressBook alloc] initWithBlock:^(BOOL granted, NSError *error) {
+		if (granted) {
+			[self submitAddressBook];
+		}
+		else {
+			RCLog(@"You have no access to the addressbook");
+		}
+	}];
+}
+
+- (void)submitAddressBook {
+	
+	[ab filterByKeyword:nil completionBlock:^{
+		
+		NSMutableArray *contacts = [NSMutableArray arrayWithCapacity:ab.allContacts.count];
+		
+		for (NSString *key in ab.filteredKeys) {
+			NSArray *sectionRecords = [ab.filteredContacts objectForKey:key];
+			
+			for (id evaluatedObject in sectionRecords) {
+				
+				CFStringRef n = ABRecordCopyCompositeName((__bridge ABRecordRef)evaluatedObject);
+				NSString *name = (__bridge_transfer NSString*)n;
+				
+				ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)(evaluatedObject), kABPersonPhoneProperty);
+				NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+				CFRelease(phoneNumbers);
+				
+				NSDictionary *person = @{  @"phone_number": phoneNumber, @"contact_nickname": name };
+				[contacts addObject:person];
+			}
+			RCLogO(@"contacts");
+			RCLogO(contacts);
+		}
+		
+		NSDictionary *body = @{ @"phone_numbers": contacts, @"default_country": @"RO" };
+		NSError *error = nil;
+		ShotVibeAPI *api = [self.albumManager getShotVibeAPI];
+		NSDictionary *response = [api submitAddressBook:body error:&error];
+		RCLogO(@"response");
+		RCLogO(response);
+	}];
 }
 
 - (void)viewWillAppear:(BOOL)animated

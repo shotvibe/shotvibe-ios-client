@@ -142,7 +142,39 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 }
 
 
-- (BOOL)registerDevicePushWithDeviceToken:(NSString *)deviceToken error:(NSError**)error;
+- (NSDictionary*)submitAddressBook:(NSDictionary *)body error:(NSError**)error {
+	
+    NSError *jsonError;
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
+    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
+	
+    NSError *responseError;
+    Response *response = [self getResponse:@"/query_phone_numbers/" method:@"POST" body:jsonData error:&responseError];
+	
+    if (response == nil) {
+        *error = responseError;
+        return nil;
+    }
+	
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return nil;
+    }
+	
+	id result = [NSJSONSerialization JSONObjectWithData:response.body options:kNilOptions error:&jsonError];
+	if (!result) {
+		@throw [[JSONException alloc] initWithMessage:@"Malformed JSON: %@", [jsonError localizedDescription]];
+	}
+	
+	if (![result isKindOfClass:[NSDictionary class]]) {
+		@throw [[JSONException alloc] initWithMessage:@"Expected a JSON Dictionary, got: %@", [result description]];
+	}
+	
+	return result;
+}
+
+
+- (BOOL)registerDevicePushWithDeviceToken:(NSString *)deviceToken error:(NSError**)error
 {
     NSString* app;
 #if CONFIGURATION_Debug
