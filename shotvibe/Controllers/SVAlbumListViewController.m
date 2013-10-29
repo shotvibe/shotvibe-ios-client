@@ -152,8 +152,10 @@
 				NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
 				CFRelease(phoneNumbers);
 				
-				NSDictionary *person = @{  @"phone_number": phoneNumber, @"contact_nickname": name };
-				[contacts addObject:person];
+				if (name != nil && phoneNumber != nil) {
+					NSDictionary *person = @{  @"phone_number": phoneNumber, @"contact_nickname": name };
+					[contacts addObject:person];
+				}
 			}
 			RCLogO(@"contacts");
 			RCLogO(contacts);
