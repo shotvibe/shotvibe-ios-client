@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RCImageView.h"
 
 
 @interface SVAlbumGridSection : UICollectionReusableView
 
-@property(nonatomic, retain) RCImageView *imageView;
+@property(nonatomic, retain) UIImageView *imageView;
 @property(nonatomic, retain) UILabel *nameLabel;
 @property(nonatomic, retain) UIButton *dateButtonLabel;
 

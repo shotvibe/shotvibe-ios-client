@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RCImageView.h"
 
 @interface SVAlbumGridViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) IBOutlet RCImageView *networkImageView;
+@property (nonatomic, strong) IBOutlet UIImageView *networkImageView;
 @property (nonatomic, strong) IBOutlet UIView *labelNewView;
 @property (nonatomic, strong) IBOutlet UILabel *labelNewLabel;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityView;

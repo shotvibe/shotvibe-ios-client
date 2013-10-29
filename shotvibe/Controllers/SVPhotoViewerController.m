@@ -17,7 +17,6 @@
 #import "MBProgressHUD.h"
 #import "RCImageView.h"
 #import "RCScrollImageView.h"
-#import "RCTableImageViewCell.h"
 #import "SVLinkActivity.h"
 
 @interface SVPhotoViewerController ()

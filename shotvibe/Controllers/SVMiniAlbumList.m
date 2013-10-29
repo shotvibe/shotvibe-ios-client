@@ -9,7 +9,7 @@
 #import "SVMiniAlbumList.h"
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
-#import "RCImageView.h"
+#import "UIImageView+WebCache.h"
 
 @implementation SVMiniAlbumList
 
@@ -30,7 +30,7 @@
     for (AlbumSummary *album in arr) {
 		RCLogO(album);
 		
-		RCImageView *image = [[RCImageView alloc] initWithFrame:CGRectMake(100*i + 15, 0, 60, 60) delegate:nil];
+		UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(100*i + 15, 0, 60, 60)];
 		image.contentMode = UIViewContentModeScaleAspectFill;
 		image.clipsToBounds = YES;
 		image.image = [UIImage imageNamed:@"placeholderImage"];
@@ -42,7 +42,7 @@
 				NSString *fullsizePhotoUrl = latestPhoto.serverPhoto.url;
 				NSString *thumbnailSuffix = @"_thumb75.jpg";
 				NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
-				[image loadNetworkImage:thumbnailUrl];
+				[image setImageWithURL:[[NSURL alloc] initWithString:thumbnailUrl]];
 			}
 		}
 		

@@ -9,7 +9,6 @@
 #import "SVAlbumGridViewController.h"
 #import "MFSideMenu.h"
 #import "SVDefines.h"
-#import "RCImageView.h"
 #import "SVPhotoViewerController.h"
 #import "SVSidebarMemberController.h"
 #import "SVSidebarManagementController.h"
@@ -25,7 +24,7 @@
 #import "SVAlbumGridSection.h"
 #import "NSDate+Formatting.h"
 
-@interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
+@interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
     AlbumContents *albumContents;
     BOOL isMenuShowing;
@@ -320,7 +319,7 @@
         NSString *fullsizePhotoUrl = photo.serverPhoto.url;
         NSString *thumbnailSuffix = @"_thumb75.jpg";
         NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
-		
+
         [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
         cell.uploadProgressView.hidden = YES;
     }
@@ -380,7 +379,7 @@
 			//Search through the members
 			for (AlbumMember *member in albumContents.members) {
 				if (photo.serverPhoto.authorUserId == member.memberId) {
-					[header.imageView loadNetworkImage:member.avatarUrl];
+					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:member.avatarUrl]];
 					header.nameLabel.text = member.nickname;
 					break;
 				}
