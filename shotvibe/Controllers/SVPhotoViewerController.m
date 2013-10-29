@@ -256,7 +256,35 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    // TODO ...
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+
+    UIView *currentPhoto = (self.index == 0)
+        ? photoViews[0]
+        : photoViews[1];
+
+    for (int i = 0; i < NUM_PHOTO_VIEWS; ++i) {
+        photoViews[i].hidden = YES;
+    }
+
+    currentPhoto.hidden = NO;
+
+    int w = self.view.frame.size.height;
+    int h = self.view.frame.size.width;
+
+    [self.view addSubview:currentPhoto];
+
+    CGRect rect = currentPhoto.frame;
+    rect.origin.x = 0;
+    rect.origin.y = 0;
+    currentPhoto.frame = rect;
+
+    [UIView animateWithDuration:duration
+                     animations:^{
+                         currentPhoto.frame = CGRectMake(0, 0, w, h);
+                     }
+                     completion:^(BOOL finished) {
+                         [photosScrollView addSubview:currentPhoto];
+                     }];
 }
 
 
