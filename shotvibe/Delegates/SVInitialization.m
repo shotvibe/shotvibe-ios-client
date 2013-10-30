@@ -134,6 +134,13 @@
     
     //Customize Segment Control
     {
+		
+		
+		//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+		//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+		//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+		
+		
         UIImage *baseImage = [UIImage imageNamed:@"SegmentButtonOutline.png"];
         UIImage *selectedImage = [UIImage imageNamed:@"SegmentButton.png"];
         UIImage *dividerImage = [UIImage imageNamed:@"SegmentSeparator.png"];

@@ -21,11 +21,13 @@
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIScrollView *addedContactsScrollView;
 @property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
-@property (nonatomic, weak) IBOutlet UISegmentedControl *segmentControl;
+@property (nonatomic, weak) IBOutlet UIView *contactsSourceView;
+@property (nonatomic, weak) IBOutlet UISegmentedControl *contactsSourceSelector;
 @property (nonatomic, weak) IBOutlet UIView *noContactsView;
 
-- (IBAction)cancelPressed:(id)sender;
+- (void)cancelPressed:(id)sender;
 - (IBAction)donePressed:(id)sender;
+- (IBAction)contactsSourceChanged:(UISegmentedControl *)sender;
 
 @end
 
@@ -68,26 +70,13 @@
 		}
 	}];
     
-    CGRect segmentFrame = self.segmentControl.frame;
-    segmentFrame.origin.y -= 1.5;
-    self.segmentControl.frame = segmentFrame;
-    self.segmentControl.selectedSegmentIndex = 1;
-	
-	
-//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-	
+	self.contactsSourceView.hidden = YES;
+	self.contactsSourceSelector.frame = CGRectMake(5, 7, 233, 30);
+    self.contactsSourceSelector.selectedSegmentIndex = 1;
 	
 	// Setup back button
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
-    //NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
-	//[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
-	//[backButton setTitlePositionAdjustment:UIOffsetMake(-5,2) forBarMetrics:UIBarMetricsDefault];
-	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(donePressed:)];
-	//[doneButton setTitleTextAttributes:att forState:UIControlStateNormal];
-	//[doneButton setTitlePositionAdjustment:UIOffsetMake(0,2) forBarMetrics:UIBarMetricsDefault];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(donePressed:)];
 	
 	self.navigationItem.leftBarButtonItem = backButton;
 	self.navigationItem.rightBarButtonItem = doneButton;
@@ -262,12 +251,16 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
 	[searchBar setShowsCancelButton:YES animated:YES];
+	self.contactsSourceView.alpha = 0;
+	self.contactsSourceView.hidden = NO;
 	[UIView animateWithDuration:0.3 animations:^{
-		self.tableView.frame = CGRectMake(0, 44, 320, self.view.frame.size.height-44-216);
+		self.tableView.frame = CGRectMake(0, 44+44, 320, self.view.frame.size.height-44-44-216);
+		self.contactsSourceView.alpha = 1;
 	}];
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
 	[searchBar setShowsCancelButton:NO animated:YES];
+	self.contactsSourceView.hidden = YES;
 	[UIView animateWithDuration:0.3 animations:^{
 		self.tableView.frame = CGRectMake(0, 44+75, 320, self.view.frame.size.height-44-75);
 	}];
@@ -468,16 +461,17 @@
 }
 
 
-- (IBAction)cancelPressed:(id)sender {
+- (void)cancelPressed:(id)sender {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)segmentChanged:(UISegmentedControl *)sender {
-    if (sender.selectedSegmentIndex == 0) {
-        [self loadShotVibeContacts];
-    }else{
-        [self loadAddressbookContacts];
-    }
+- (IBAction)contactsSourceChanged:(UISegmentedControl *)sender {
+	RCLog(@"contactsSourceChanged");
+//    if (sender.selectedSegmentIndex == 0) {
+//        [self loadShotVibeContacts];
+//    }else{
+//        [self loadAddressbookContacts];
+//    }
 }
 
 - (void)loadShotVibeContacts {
