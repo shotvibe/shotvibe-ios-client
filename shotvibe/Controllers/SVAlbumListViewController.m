@@ -167,6 +167,13 @@
 		NSDictionary *response = [api submitAddressBook:body error:&error];
 		RCLogO(@"response");
 		RCLogO(response);
+		
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
+														message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
+													   delegate:nil
+											  cancelButtonTitle:@"ok"
+											  otherButtonTitles: nil];
+		[alert show];
 	}];
 }
 

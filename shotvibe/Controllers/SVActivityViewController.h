@@ -26,6 +26,7 @@
 @property (nonatomic, retain) IBOutlet UIView *activityView;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollSocialButtons;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollLocalButtons;
+@property (nonatomic, retain) IBOutlet UIButton *butCancel;
 @property (nonatomic, retain) NSArray *socialActivities;
 @property (nonatomic, retain) NSArray *localActivities;
 @property (nonatomic, retain) NSMutableArray *activityButtons;

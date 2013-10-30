@@ -31,7 +31,7 @@
 		
 		self.socialActivities = @[
 		[[SVMailActivity alloc] init],
-		[[SVTwitterActivity alloc] init],
+//		[[SVTwitterActivity alloc] init],
 		[[SVFacebookActivity alloc] init]];
 		
 		self.localActivities = @[
@@ -76,6 +76,18 @@
 		j++;
 	}
 	self.scrollLocalButtons.contentSize = CGSizeMake(12+(61+15)*i, 61+20);
+	
+	// Make over effect on cancel button
+	
+	UIView *colorView = [[UIView alloc] initWithFrame:CGRectMake (0, 0, self.butCancel.frame.size.width, self.butCancel.frame.size.height)];
+    colorView.backgroundColor = [UIColor darkGrayColor];
+    UIGraphicsBeginImageContext(colorView.bounds.size);
+    [colorView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *colorImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [self.butCancel setBackgroundImage:colorImage forState:UIControlStateHighlighted];
+    colorView = nil;
+    colorImage = nil;
 }
 
 
