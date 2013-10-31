@@ -127,10 +127,7 @@
 	tempDate = [NSDate date];
 	ab = [[SVAddressBook alloc] initWithBlock:^(BOOL granted, NSError *error) {
 		if (granted) {
-			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-				RCLogThread();
-				[self submitAddressBook];
-			});
+			[self submitAddressBook];
 		}
 		else {
 			RCLog(@"You have no access to the addressbook");
@@ -140,7 +137,7 @@
 
 - (void)submitAddressBook {
 	
-	[ab filterByKeyword:nil completionBlock:^{
+	[ab filterByKeyword:nil completionBlock:^{ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		
 		NSMutableArray *contacts = [NSMutableArray arrayWithCapacity:ab.allContacts.count*9];
 		
@@ -176,25 +173,23 @@
 		__block NSError *error = nil;
 		ShotVibeAPI *api = [self.albumManager getShotVibeAPI];
 		NSDictionary *body = @{ @"phone_numbers": contacts, @"default_country": api.authData.defaultCountryCode };
-		RCLogThread();
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-			NSDictionary *response = [api submitAddressBook:body error:&error];
-			RCLogO(@"response");
-			//RCLogO(response);
-			RCLog(@"%f", (double)[tempDate timeIntervalSinceNow]);
-			
-			dispatch_async(dispatch_get_main_queue(), ^{
-				
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
-																message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
-															   delegate:nil
-													  cancelButtonTitle:@"ok"
-													  otherButtonTitles: nil];
-				[alert show];
-			});
-		});
 		
-	}];
+		
+		NSDictionary *response = [api submitAddressBook:body error:&error];
+		RCLogO(@"response");
+		//RCLogO(response);
+		RCLog(@"%f", (double)[tempDate timeIntervalSinceNow]);
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
+															message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
+														   delegate:nil
+												  cancelButtonTitle:@"ok"
+												  otherButtonTitles: nil];
+			[alert show];
+		});
+	});}];
 }
 
 - (void)viewWillAppear:(BOOL)animated
