@@ -147,10 +147,10 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     NSError *jsonError;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
     NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
-	
+	NSDate *start = [NSDate date];
     NSError *responseError;
     Response *response = [self getResponse:@"/query_phone_numbers/" method:@"POST" body:jsonData error:&responseError];
-	
+	RCLog(@"time to get Response %f", (double)[start timeIntervalSinceNow]);
     if (response == nil) {
         *error = responseError;
         return nil;
@@ -169,7 +169,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 	if (![result isKindOfClass:[NSDictionary class]]) {
 		@throw [[JSONException alloc] initWithMessage:@"Expected a JSON Dictionary, got: %@", [result description]];
 	}
-	
+	RCLog(@"time to process json %f", (double)[start timeIntervalSinceNow]);
 	return result;
 }
 

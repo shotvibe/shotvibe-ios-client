@@ -214,7 +214,7 @@
 	ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
 	NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
 	NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
-	CFRelease(phoneNumbers);
+	if (phoneNumbers != nil) CFRelease(phoneNumbers);
 	//RCLog(@"%@ %@", phoneNumber, phoneNumericNumber);
 	
 	// Check if this contact has a phone number

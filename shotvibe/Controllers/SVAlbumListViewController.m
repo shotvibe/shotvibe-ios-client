@@ -35,6 +35,7 @@
 	NSIndexPath *tappedCell;
 	SVCameraNavController *cameraNavController;
 	SVAddressBook *ab;
+	NSDate *tempDate;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *sectionHeader;
@@ -123,7 +124,7 @@
 											   object:nil];
 	
 	// Upload the contacts to the server
-	
+	tempDate = [NSDate date];
 	ab = [[SVAddressBook alloc] initWithBlock:^(BOOL granted, NSError *error) {
 		if (granted) {
 			[self submitAddressBook];
@@ -138,7 +139,7 @@
 	
 	[ab filterByKeyword:nil completionBlock:^{
 		
-		NSMutableArray *contacts = [NSMutableArray arrayWithCapacity:ab.allContacts.count];
+		NSMutableArray *contacts = [NSMutableArray arrayWithCapacity:ab.allContacts.count*9];
 		
 		for (NSString *key in ab.filteredKeys) {
 			NSArray *sectionRecords = [ab.filteredContacts objectForKey:key];
@@ -155,19 +156,27 @@
 				if (name != nil && phoneNumber != nil) {
 					NSDictionary *person = @{  @"phone_number": phoneNumber, @"contact_nickname": name };
 					[contacts addObject:person];
+					[contacts addObject:person];
+					[contacts addObject:person];
+					[contacts addObject:person];
+					[contacts addObject:person];
+					[contacts addObject:person];
+					[contacts addObject:person];
+					[contacts addObject:person];
+					[contacts addObject:person];
 				}
 			}
 			RCLogO(@"contacts");
-			RCLogO(contacts);
+			//RCLogO(contacts);
 		}
-		
+		RCLog(@"%f", (double)[tempDate timeIntervalSinceNow]);
 		NSError *error = nil;
 		ShotVibeAPI *api = [self.albumManager getShotVibeAPI];
 		NSDictionary *body = @{ @"phone_numbers": contacts, @"default_country": api.authData.defaultCountryCode };
 		NSDictionary *response = [api submitAddressBook:body error:&error];
 		RCLogO(@"response");
-		RCLogO(response);
-		
+		//RCLogO(response);
+		RCLog(@"%f", (double)[tempDate timeIntervalSinceNow]);
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
 														message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
 													   delegate:nil
