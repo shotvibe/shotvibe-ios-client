@@ -227,54 +227,8 @@
     
 	if (!self.oneImagePicker) {
 		
-		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
-		
-		if (![selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
-			SVSelectionGridCell *cell = (SVSelectionGridCell*)[collectionView cellForItemAtIndexPath:indexPath];
-			[self cellDidCheck:cell];
-		}
-		
-		ALAsset *asset = [arr objectAtIndex:indexPath.row];
-		NSDictionary *dict = [asset valueForProperty:ALAssetPropertyURLs];
-		
-		NSURL *url = [dict objectForKey:@"public.jpeg"];
-		if (url == nil) {
-			url = [dict objectForKey:@"public.png"];
-		}
-		
-		ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset){
-			ALAssetRepresentation *rep = [myasset defaultRepresentation];
-			CGImageRef iref = [rep fullScreenImage];
-			if (iref) {
-				UIImage *localImage = [UIImage imageWithCGImage:iref];
-				PhotosQuickView *photo = [[PhotosQuickView alloc] initWithFrame:self.view.frame delegate:nil];
-				photo.quickDelegate = self;
-				photo.indexPath = indexPath;
-				[photo setImage:localImage];
-				photo.contentSize = localImage.size;
-				[photo setMaxMinZoomScalesForCurrentBounds];
-				photo.alpha = 0.2;
-				photo.transform = CGAffineTransformMakeScale(0.8, 0.8);
-				[self.view addSubview:photo];
-				[self.view addSubview:photo.selectionButton];
-				
-				[UIView animateWithDuration:0.2 animations:^{
-					photo.alpha = 1;
-					photo.transform = CGAffineTransformMakeScale(1, 1);
-				} completion:^(BOOL finished) {
-					
-				}];
-			}
-			else {
-				RCLog(@"error creating the fullscreen version of the image");
-			}
-		};
-		ALAssetsLibraryAccessFailureBlock failureblock  = ^(NSError *myerror){
-			RCLog(@"Cant get image - %@", [myerror localizedDescription]);
-		};
-		
-		ALAssetsLibrary *assetslibrary = [[ALAssetsLibrary alloc] init];
-		[assetslibrary assetForURL:url resultBlock:resultblock failureBlock:failureblock];
+		SVSelectionGridCell *cell = (SVSelectionGridCell*)[self.gridView cellForItemAtIndexPath:indexPath];
+		[self cellDidCheck:cell];
 	}
     else {
 		
@@ -332,6 +286,59 @@
 	
 	BOOL allSelected = selectedPhotos.count == _takenPhotos.count;
 	[self.butSelectAll setTitle:allSelected?@"Unselect All":@"Select All" forState:UIControlStateNormal];
+}
+
+- (void)cellDidLongPress:(SVSelectionGridCell*)cell {
+	
+	NSIndexPath *indexPath = [self.gridView indexPathForCell:cell];
+	NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
+	
+	if (![selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
+		SVSelectionGridCell *cell = (SVSelectionGridCell*)[self.gridView cellForItemAtIndexPath:indexPath];
+		[self cellDidCheck:cell];
+	}
+	
+	ALAsset *asset = [arr objectAtIndex:indexPath.row];
+	NSDictionary *dict = [asset valueForProperty:ALAssetPropertyURLs];
+	
+	NSURL *url = [dict objectForKey:@"public.jpeg"];
+	if (url == nil) {
+		url = [dict objectForKey:@"public.png"];
+	}
+	
+	ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset){
+		ALAssetRepresentation *rep = [myasset defaultRepresentation];
+		CGImageRef iref = [rep fullScreenImage];
+		if (iref) {
+			UIImage *localImage = [UIImage imageWithCGImage:iref];
+			PhotosQuickView *photo = [[PhotosQuickView alloc] initWithFrame:self.view.frame delegate:nil];
+			photo.quickDelegate = self;
+			photo.indexPath = indexPath;
+			[photo setImage:localImage];
+			photo.contentSize = localImage.size;
+			[photo setMaxMinZoomScalesForCurrentBounds];
+			photo.alpha = 0.2;
+			photo.transform = CGAffineTransformMakeScale(0.8, 0.8);
+			[self.view addSubview:photo];
+			[self.view addSubview:photo.selectionButton];
+			
+			[UIView animateWithDuration:0.2 animations:^{
+				photo.alpha = 1;
+				photo.transform = CGAffineTransformMakeScale(1, 1);
+			} completion:^(BOOL finished) {
+				
+			}];
+		}
+		else {
+			RCLog(@"error creating the fullscreen version of the image");
+		}
+	};
+	ALAssetsLibraryAccessFailureBlock failureblock  = ^(NSError *myerror){
+		RCLog(@"Cant get image - %@", [myerror localizedDescription]);
+	};
+	
+	ALAssetsLibrary *assetslibrary = [[ALAssetsLibrary alloc] init];
+	[assetslibrary assetForURL:url resultBlock:resultblock failureBlock:failureblock];
 }
 
 - (void)photoDidCheck:(NSIndexPath*)indexPath {

@@ -12,11 +12,11 @@
 
 @protocol SVSelectionGridCellDelegate <NSObject>
 @required
-- (void)cellDidCheck:(SVSelectionGridCell*)cell;
+- (void)cellDidLongPress:(SVSelectionGridCell*)cell;
 
 @end
 
-@interface SVSelectionGridCell : UICollectionViewCell
+@interface SVSelectionGridCell : UICollectionViewCell <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) id<SVSelectionGridCellDelegate> delegate;
 @property (nonatomic, strong) UIImageView *imageView;

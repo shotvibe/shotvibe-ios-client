@@ -500,7 +500,32 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    
+	
+	SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
+    [self cellDidCheck:selectedCell];
+}
+
+
+- (void)cellDidCheck:(SVSelectionGridCell*)cell {
+	
+	NSIndexPath *indexPath = [self.gridView indexPathForCell:cell];
+	
+	if (![selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
+        [selectedPhotos addObject:[self.capturedImages objectAtIndex:indexPath.row]];
+        [cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
+    }
+    else {
+        [selectedPhotos removeObject:[self.capturedImages objectAtIndex:indexPath.row]];
+        [cell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
+    }
+	
+	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+}
+
+- (void)cellDidLongPress:(SVSelectionGridCell*)cell {
+	
+	NSIndexPath *indexPath = [self.gridView indexPathForCell:cell];
+	
 	if (![selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
 		SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
 		[self cellDidCheck:selectedCell];
@@ -532,22 +557,6 @@
 	});
 }
 
-
-- (void)cellDidCheck:(SVSelectionGridCell*)cell {
-	
-	NSIndexPath *indexPath = [self.gridView indexPathForCell:cell];
-	
-	if (![selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
-        [selectedPhotos addObject:[self.capturedImages objectAtIndex:indexPath.row]];
-        [cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
-    }
-    else {
-        [selectedPhotos removeObject:[self.capturedImages objectAtIndex:indexPath.row]];
-        [cell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
-    }
-	
-	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
-}
 
 - (void)photoDidCheck:(NSIndexPath*)indexPath {
 	

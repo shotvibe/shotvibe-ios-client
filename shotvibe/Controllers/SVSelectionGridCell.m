@@ -27,12 +27,23 @@
 		
 		[self.contentView addSubview:self.imageView];
 		[self.contentView addSubview:self.selectionButton];
+		
+		UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+																						   action:@selector(handleLongPress:)];
+		lpgr.minimumPressDuration = 0.3; //seconds
+		lpgr.delegate = self;
+		[self addGestureRecognizer:lpgr];
     }
     return self;
 }
 
-- (void)checkmarkTouched:(id)sender {
-	[self.delegate cellDidCheck:self];
+- (void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+	
+	// only when gesture was recognized, not when ended
+	if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
+		[self.delegate cellDidLongPress:self];
+	}
 }
+
 
 @end
