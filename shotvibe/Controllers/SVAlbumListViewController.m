@@ -127,7 +127,10 @@
 	tempDate = [NSDate date];
 	ab = [[SVAddressBook alloc] initWithBlock:^(BOOL granted, NSError *error) {
 		if (granted) {
-			[self submitAddressBook];
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+				RCLogThread();
+				[self submitAddressBook];
+			});
 		}
 		else {
 			RCLog(@"You have no access to the addressbook");
@@ -170,19 +173,27 @@
 			//RCLogO(contacts);
 		}
 		RCLog(@"%f", (double)[tempDate timeIntervalSinceNow]);
-		NSError *error = nil;
+		__block NSError *error = nil;
 		ShotVibeAPI *api = [self.albumManager getShotVibeAPI];
 		NSDictionary *body = @{ @"phone_numbers": contacts, @"default_country": api.authData.defaultCountryCode };
-		NSDictionary *response = [api submitAddressBook:body error:&error];
-		RCLogO(@"response");
-		//RCLogO(response);
-		RCLog(@"%f", (double)[tempDate timeIntervalSinceNow]);
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
-														message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
-													   delegate:nil
-											  cancelButtonTitle:@"ok"
-											  otherButtonTitles: nil];
-		[alert show];
+		RCLogThread();
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+			NSDictionary *response = [api submitAddressBook:body error:&error];
+			RCLogO(@"response");
+			//RCLogO(response);
+			RCLog(@"%f", (double)[tempDate timeIntervalSinceNow]);
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
+																message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
+															   delegate:nil
+													  cancelButtonTitle:@"ok"
+													  otherButtonTitles: nil];
+				[alert show];
+			});
+		});
+		
 	}];
 }
 
