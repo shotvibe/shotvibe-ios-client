@@ -337,6 +337,8 @@
 
     int numActiveDownloads_;
 
+    NSOperationQueue *downloadOperationQueue_;
+
     // Must be aquired only at the top-level. Protects all member variables above except photoLoadObservers_
     NSObject *mainLock;
 
@@ -377,6 +379,8 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
         currentlyDecoding_ = [[NSMutableArray alloc] init];
 
         numActiveDownloads_ = 0;
+
+        downloadOperationQueue_ = [[NSOperationQueue alloc] init];
 
         mainLock = [[NSObject alloc] init];
         observersLock = [[NSObject alloc] init];
@@ -726,7 +730,7 @@ const int MAX_CONCURRENT_DOWNLOADS = 4;
                                                                                   currentlyDownloadingPhoto:currentlyDownloadingPhoto];
 
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:photoDownloadDelegate startImmediately:NO];
-    [connection setDelegateQueue:[[NSOperationQueue alloc] init]];
+    [connection setDelegateQueue:downloadOperationQueue_];
     [connection start];
 }
 
