@@ -204,12 +204,13 @@
 - (NSString *)photoFilePath:(NSString *)photoId photoSize:(PhotoSize *)photoSize;
 - (void)photoDownloadProgress:(CurrentlyDownloadingPhoto *)currentlyDownloadingPhoto;
 - (void)photoDownloadCompleted:(CurrentlyDownloadingPhoto *)currentlyDownloadingPhoto;
+- (void)photoDownloadFailed:(CurrentlyDownloadingPhoto *)currentlyDownloadingPhoto url:(NSURL *)url error:(NSError *)error;
 
 @end
 
 @interface PhotoDownloadDelegate : NSObject<NSURLConnectionDataDelegate>
 
-// TODO ...
+- (id)initWithPhotoFilesManager:(PhotoFilesManager *)photoFilesManager currentlyDownloadingPhoto:(CurrentlyDownloadingPhoto *)currentlyDownloadingPhoto;
 
 @end
 
@@ -232,9 +233,10 @@
         photoFilesManager_ = photoFilesManager;
         currentlyDownloadingPhoto_ = currentlyDownloadingPhoto;
 
+        dataHandle_ = nil;
+
         downloadedContentLength_ = 0;
 
-        // dataHandle_ is opened later
         // expectedContentLength_ is initialized later
     }
 
@@ -275,10 +277,22 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"Download error: %@", error.description);
+    if (dataHandle_) {
+        [dataHandle_ closeFile];
+        dataHandle_ = nil;
 
-    // TODO ...
-    //[photoFilesManager_ photoDownloadFailed:currentlyDownloadingPhoto_];
+        // There was an error downloading, so delete the partially downloaded file
+        NSString *savingFile = [photoFilesManager_ photoFilePath:currentlyDownloadingPhoto_.photoId photoSize:currentlyDownloadingPhoto_.photoSize];
+        NSString *savingFilePart = [savingFile stringByAppendingString:@".part"];
+
+        NSError *error;
+        if (![[NSFileManager defaultManager] removeItemAtPath:savingFilePart error:&error]) {
+            NSLog(@"ERROR DELETING FILE: %@", error.description);
+            // TODO Handle error...
+        }
+    }
+
+    [photoFilesManager_ photoDownloadFailed:currentlyDownloadingPhoto_ url:connection.originalRequest.URL error:error];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -709,20 +723,24 @@ const int MAX_CONCURRENT_DOWNLOADS = 4;
     PhotoJob *job = [downloadQueue_ objectAtIndex:0];
     [downloadQueue_ removeObjectAtIndex:0];
 
+    CurrentlyDownloadingPhoto *currentlyDownloadingPhoto = [[CurrentlyDownloadingPhoto alloc] initWithPhotoJob:job];
+    [currentlyDownloading_ addObject:currentlyDownloadingPhoto];
+
     NSString *photoUrlNoExtension = [job.photoUrl substringToIndex:job.photoUrl.length - 4];
     NSString *ext = [job.photoSize getFullExtension];
 
     NSString *url = [photoUrlNoExtension stringByAppendingString:ext];
 
+    [self startDownload:currentlyDownloadingPhoto url:[[NSURL alloc] initWithString:url]];
+}
+
+- (void)startDownload:(CurrentlyDownloadingPhoto *)currentlyDownloadingPhoto url:(NSURL *)url
+{
     NSLog(@"Downloading photo: %@", url);
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[[NSURL alloc] initWithString:url]];
+    [request setURL:url];
     [request setHTTPMethod:@"GET"];
-
-    CurrentlyDownloadingPhoto *currentlyDownloadingPhoto = [[CurrentlyDownloadingPhoto alloc] initWithPhotoJob:job];
-
-    [currentlyDownloading_ addObject:currentlyDownloadingPhoto];
 
     [self photoDownloadProgress:currentlyDownloadingPhoto];
 
@@ -780,6 +798,22 @@ const int MAX_CONCURRENT_DOWNLOADS = 4;
             [self triggerDownload];
         }
     }
+}
+
+- (void)photoDownloadFailed:(CurrentlyDownloadingPhoto *)currentlyDownloadingPhoto url:(NSURL *)url error:(NSError *)error
+{
+    NSLog(@"DownloadFailed: %@ %@", currentlyDownloadingPhoto.photoId, error.description);
+
+    // TODO report downloadFailed
+
+    const double RETRY_TIME = 5.0;
+
+    double delayInSeconds = RETRY_TIME;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void){
+        currentlyDownloadingPhoto.progress = 0.0f;
+        [self startDownload:currentlyDownloadingPhoto url:url];
+    });
 }
 
 - (void)queuePhotoDownload:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize highPriority:(BOOL)highPriority
