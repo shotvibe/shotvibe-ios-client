@@ -720,6 +720,8 @@ const int MAX_CONCURRENT_DOWNLOADS = 4;
 
     [currentlyDownloading_ addObject:currentlyDownloadingPhoto];
 
+    [self photoDownloadProgress:currentlyDownloadingPhoto];
+
     PhotoDownloadDelegate *photoDownloadDelegate = [[PhotoDownloadDelegate alloc] initWithPhotoFilesManager:self
                                                                                   currentlyDownloadingPhoto:currentlyDownloadingPhoto];
 
