@@ -563,7 +563,10 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
             // Check if the photo is currently downloading
             CurrentlyDownloadingPhoto *currentlyDownloading = [self getCurrentlyDownloadingPhoto:photoJob];
             if (currentlyDownloading) {
-                // TODO report progress
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    PhotoBitmap *bmp = [[PhotoBitmap alloc] initAsDownloading:currentlyDownloading.progress lowQualityBmp:cachedLowQualityImage];
+                    [photoObserver onPhotoLoadUpdate:bmp];
+                });
                 return;
             }
 
@@ -576,6 +579,10 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
                 // ... And move it to the beginning of the queue:
                 [downloadQueue_ insertObject:photoJob atIndex:0];
 
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    PhotoBitmap *bmp = [[PhotoBitmap alloc] initAsQueuedForDownload:cachedLowQualityImage];
+                    [photoObserver onPhotoLoadUpdate:bmp];
+                });
                 return;
             }
 
