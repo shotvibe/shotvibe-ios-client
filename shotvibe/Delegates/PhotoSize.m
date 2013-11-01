@@ -72,5 +72,15 @@ static NSArray *Values;
     return [[NSArray alloc] subarrayWithRange:range];
 }
 
+- (BOOL)isWorseThan:(PhotoSize *)other
+{
+    for (PhotoSize *p in [PhotoSize iteratePhotoSizes:self]) {
+        if (p == other) {
+            return NO;
+        }
+    }
+
+    return YES;
+}
 
 @end

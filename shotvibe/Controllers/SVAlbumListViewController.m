@@ -369,12 +369,8 @@
         AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
         if (latestPhoto.serverPhoto) {
 			cell.author.text = [NSString stringWithFormat:@"Last added by %@", latestPhoto.serverPhoto.authorNickname];
-            NSString *fullsizePhotoUrl = latestPhoto.serverPhoto.url;
-            NSString *thumbnailSuffix = @"_thumb75.jpg";
-            NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
 
-            // TODO Temporarily using SDWebImage library for a quick and easy way to display photos
-            [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
+            [cell.networkImageView setPhoto:latestPhoto.serverPhoto.photoId photoUrl:latestPhoto.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
         }
     }
 	else {

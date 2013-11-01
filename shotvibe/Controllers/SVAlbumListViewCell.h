@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "PhotoView.h"
+
 @protocol SVAlbumListViewCellDelegate <NSObject>
 @required
 - (void)releaseOnCamera:(UITableViewCell*)cell;
@@ -31,7 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIView *frontView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *backImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *networkImageView;
+@property (weak, nonatomic) IBOutlet PhotoView *networkImageView;
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIButton *timestamp;
 @property (weak, nonatomic) IBOutlet UILabel *author;

@@ -9,8 +9,15 @@
 #import <UIKit/UIKit.h>
 
 #import "PhotoBitmap.h"
+#import "PhotoSize.h"
+
+@class PhotoFilesManager;
 
 @interface PhotoView : UIView
+
+- (void)setPhoto:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize manager:(PhotoFilesManager *)photoFilesManager;
+
+- (void)setImage:(UIImage *)image;
 
 - (void)onPhotoLoadUpdate:(PhotoBitmap *)bmp;
 

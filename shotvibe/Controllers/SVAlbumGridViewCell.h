@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "PhotoView.h"
+
 @interface SVAlbumGridViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) IBOutlet UIImageView *networkImageView;
+@property (nonatomic, strong) IBOutlet PhotoView *networkImageView;
 @property (nonatomic, strong) IBOutlet UIView *labelNewView;
 @property (nonatomic, strong) IBOutlet UILabel *labelNewLabel;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityView;

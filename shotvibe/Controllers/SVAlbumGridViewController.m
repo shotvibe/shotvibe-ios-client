@@ -315,12 +315,7 @@
     AlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
 
     if (photo.serverPhoto) {
-		
-        NSString *fullsizePhotoUrl = photo.serverPhoto.url;
-        NSString *thumbnailSuffix = @"_thumb75.jpg";
-        NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
-
-        [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
+        [cell.networkImageView setPhoto:photo.serverPhoto.photoId photoUrl:photo.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
         cell.uploadProgressView.hidden = YES;
     }
     else if (photo.uploadingPhoto) {

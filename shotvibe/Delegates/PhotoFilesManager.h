@@ -9,16 +9,21 @@
 #import <Foundation/Foundation.h>
 
 #import "PhotoSize.h"
-#import "PhotoView.h"
+
+@class PhotoView;
 
 @interface PhotoFilesManager : NSObject
 
 - (id)init;
 
+// Must be called only from the main thread
 - (void)loadBitmap:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize photoObserver:(PhotoView *)photoObserver;
 
+// Must be called only from the main thread
+// If the photoObserver isn't registered then this does nothing
 - (void)removePhotoObserver:(NSString *)photoId photoSize:(PhotoSize *)photoSize photoObserver:(PhotoView *)photoObserver;
 
+// Must be called only from the main thread
 - (void)queuePhotoDownload:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize highPriority:(BOOL)highPriority;
 
 @end
