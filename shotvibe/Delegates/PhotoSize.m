@@ -69,7 +69,12 @@ static NSArray *Values;
     range.location = [Values indexOfObjectIdenticalTo:maxSize];
     range.length = Values.count - range.location;
 
-    return [[NSArray alloc] subarrayWithRange:range];
+    return [Values subarrayWithRange:range];
+}
+
++ (NSArray *)allPhotoSizes
+{
+    return Values;
 }
 
 - (BOOL)isWorseThan:(PhotoSize *)other

@@ -316,6 +316,8 @@
     // The directory in the file system where photos are stored for offline viewing
     NSString *photosDirectory_;
 
+    PhotoSize *deviceDisplayPhotoSize_;
+
     // Dictionary from `NSString` objects to `NSMutableArray` objects
     // The `NSMutableArray` contains objects of type `PhotoLoadObserver`
     //
@@ -362,6 +364,8 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
             }
         }
 
+        [self initDeviceDisplayPhotoSize];
+
         photoLoadObservers_ = [[NSMutableDictionary alloc] init];
 
         photoImageCache_ = [[PhotoImageCache alloc] init];
@@ -379,6 +383,46 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
     }
 
     return self;
+}
+
+- (void)initDeviceDisplayPhotoSize
+{
+    UIScreen *screen = [UIScreen mainScreen];
+    CGRect screenBounds = screen.bounds;
+    CGFloat screenScale = screen.scale;
+
+    int width;
+    int height;
+    if (screenBounds.size.width > screenBounds.size.height) {
+        width = screenBounds.size.width * screenScale;
+        height = screenBounds.size.height * screenScale;
+    }
+    else {
+        width = screenBounds.size.height * screenScale;
+        height = screenBounds.size.width * screenScale;
+    }
+    deviceDisplayPhotoSize_ = [PhotoFilesManager getAppropriatePhotoSizeWithDisplayWidth:width displayHeight:height];
+    NSLog(@"Display Resolution: %d x %d", width, height);
+    NSLog(@"Display Photo Size: %@", deviceDisplayPhotoSize_.extension);
+}
+
++ (PhotoSize *)getAppropriatePhotoSizeWithDisplayWidth:(int)displayWidth displayHeight:(int)displayHeight
+{
+    // [PhotoSize allPhotoSizes] are ordered from best quality to worst
+    // Loop through them in reverse, starting with the worst, until an acceptable one is found
+    for (int i = [PhotoSize allPhotoSizes].count - 1; i >= 0; --i) {
+        PhotoSize *photoSize = [[PhotoSize allPhotoSizes] objectAtIndex:i];
+        if (photoSize.width >= displayWidth && photoSize.height >= displayHeight) {
+            return photoSize;
+        }
+    }
+    // If no acceptable PhotoSize was found, we just return the first one, which is the highest quality available
+    return [[PhotoSize allPhotoSizes] objectAtIndex:0];
+}
+
+- (PhotoSize *)DeviceDisplayPhotoSize
+{
+    return deviceDisplayPhotoSize_;
 }
 
 - (void)registerPhotoLoadObserver:(NSString *)photoId photoSize:(PhotoSize *)photoSize photoObserver:(PhotoView *)photoObserver

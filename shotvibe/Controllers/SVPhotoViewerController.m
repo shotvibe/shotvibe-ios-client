@@ -12,10 +12,10 @@
 #import "AlbumMember.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
-#import "UIImageView+AFNetworking.h"
 #import "ShotVibeAppDelegate.h"
 #import "MBProgressHUD.h"
 #import "SVLinkActivity.h"
+#import "PhotoView.h"
 
 static const int NUM_PHOTO_VIEWS = 3;
 
@@ -36,7 +36,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	UIButton *butEdit;
 
     int currentPhotoViewsStartIndex;
-    UIImageView *photoViews[NUM_PHOTO_VIEWS];
+    PhotoView *photoViews[NUM_PHOTO_VIEWS];
 }
 
 @property (nonatomic, strong) UIView *toolbarView;
@@ -103,7 +103,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 
     currentPhotoViewsStartIndex = INT_MAX;
     for (int i = 0; i < NUM_PHOTO_VIEWS; ++i) {
-        photoViews[i] = [[UIImageView alloc] initWithFrame:[self rectForPhotoIndex:i]];
+        photoViews[i] = [[PhotoView alloc] initWithFrame:[self rectForPhotoIndex:i]];
         photoViews[i].contentMode = UIViewContentModeScaleAspectFit;
         [photosScrollView addSubview:photoViews[i]];
     }
@@ -152,9 +152,10 @@ static const int NUM_PHOTO_VIEWS = 3;
             AlbumPhoto *photo = [self.photos objectAtIndex:index + i];
 
             if (photo.serverPhoto) {
-                NSString *fullUrl = photo.serverPhoto.url;
-                NSString *screenUrl = [[fullUrl substringToIndex:fullUrl.length - 4] stringByAppendingString:@"_r_wxga.jpg"];
-                [photoViews[i] setImageWithURL:[[NSURL alloc] initWithString:screenUrl] placeholderImage:[UIImage  imageNamed:@"clockIcon"]];
+                [photoViews[i] setPhoto:photo.serverPhoto.photoId
+                               photoUrl:photo.serverPhoto.url
+                              photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
+                                manager:self.albumManager.photoFilesManager];
             }
             else if (photo.uploadingPhoto) {
                 // TODO ...

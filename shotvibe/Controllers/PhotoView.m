@@ -17,6 +17,7 @@
 
     UIImageView *imageView_;
     UIActivityIndicatorView *activityIndicatorView_;
+    UIProgressView *progressView_;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -27,13 +28,15 @@
         photoId_ = nil;
         photoSize_ = nil;
 
-        imageView_ = [[UIImageView alloc] initWithFrame:frame];
-        activityIndicatorView_ = [[UIActivityIndicatorView alloc] initWithFrame:frame];
+        imageView_ = [[UIImageView alloc] init];
+        activityIndicatorView_ = [[UIActivityIndicatorView alloc] init];
+        progressView_ = [[UIProgressView alloc] init];
 
         activityIndicatorView_.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
 
         [self addSubview:imageView_];
         [self addSubview:activityIndicatorView_];
+        [self addSubview:progressView_];
     }
     return self;
 }
@@ -42,6 +45,30 @@
 {
     self = [super initWithCoder:aDecoder];
     return [self initWithFrame:[self frame]];
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+
+    NSLog(@"setFrame");
+
+    //[imageView_ setFrame:frame];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    [imageView_ setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    imageView_.contentMode = self.contentMode;
+
+    activityIndicatorView_.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+
+    const CGFloat progressWidth = 100.0f;
+    const CGFloat progressHeight = 2.0f;
+
+    [progressView_ setFrame:CGRectMake((self.frame.size.width / 2.0f) - (progressWidth / 2.0f), (self.frame.size.height / 2.0f) - (progressHeight / 2.0f), progressWidth, progressHeight)];
 }
 
 - (void)setPhoto:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize manager:(PhotoFilesManager *)photoFilesManager
@@ -70,8 +97,9 @@
 {
     [self cancelPrevious];
 
-    [activityIndicatorView_ stopAnimating];
     [imageView_ setImage:image];
+    [activityIndicatorView_ stopAnimating];
+    progressView_.hidden = YES;
 }
 
 - (void)onPhotoLoadUpdate:(PhotoBitmap *)bmp
@@ -81,28 +109,29 @@
             NSLog(@"photoLoadUpdate %@ queued", photoId_);
             [self showLowQuality:bmp.lowQualityBmp];
             [activityIndicatorView_ startAnimating];
-            // TODO ...
+            progressView_.hidden = YES;
             break;
 
         case PhotoBitmapDownloading:
             NSLog(@"photoLoadUpdate %@ downloading", photoId_);
             [self showLowQuality:bmp.lowQualityBmp];
-            [activityIndicatorView_ startAnimating];
-            // TODO ...
+            [activityIndicatorView_ stopAnimating];
+            progressView_.hidden = NO;
+            progressView_.progress = bmp.downloadProgress;
             break;
 
         case PhotoBitmapLoading:
             NSLog(@"photoLoadUpdate %@ loading", photoId_);
             [self showLowQuality:bmp.lowQualityBmp];
             [activityIndicatorView_ startAnimating];
-            // TODO ...
+            progressView_.hidden = YES;
             break;
 
         case PhotoBitmapLoaded:
             NSLog(@"photoLoadUpdate %@ loaded", photoId_);
             [imageView_ setImage:bmp.bmp];
             [activityIndicatorView_ stopAnimating];
-            // TODO ...
+            progressView_.hidden = YES;
             break;
 
         case PhotoBitmapDownloadError:

@@ -26,4 +26,6 @@
 // Must be called only from the main thread
 - (void)queuePhotoDownload:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize highPriority:(BOOL)highPriority;
 
+- (PhotoSize *)DeviceDisplayPhotoSize;
+
 @end

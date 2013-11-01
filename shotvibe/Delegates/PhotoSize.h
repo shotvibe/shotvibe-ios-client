@@ -20,6 +20,8 @@
 
 + (NSArray *)iteratePhotoSizes:(PhotoSize *)maxSize;
 
++ (NSArray *)allPhotoSizes;
+
 - (BOOL)isWorseThan:(PhotoSize *)other;
 
 @end

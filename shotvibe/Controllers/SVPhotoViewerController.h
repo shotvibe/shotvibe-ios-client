@@ -26,6 +26,7 @@ AFPhotoEditorControllerDelegate>
 #pragma mark - Properties
 
 @property (nonatomic, strong) NSMutableArray *photos;// Ordered photos depending on the sortType chosen in 
+@property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, assign) int index;
 
