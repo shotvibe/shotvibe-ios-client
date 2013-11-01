@@ -65,8 +65,8 @@
 
     activityIndicatorView_.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
 
-    const CGFloat progressWidth = 100.0f;
-    const CGFloat progressHeight = 2.0f;
+    const CGFloat progressWidth = 80.0f;
+    const CGFloat progressHeight = 9.0f;
 
     [progressView_ setFrame:CGRectMake((self.frame.size.width / 2.0f) - (progressWidth / 2.0f), (self.frame.size.height / 2.0f) - (progressHeight / 2.0f), progressWidth, progressHeight)];
 }
