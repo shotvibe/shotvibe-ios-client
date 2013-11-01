@@ -245,6 +245,15 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    // There seems to be a rare bug in the platform, where this handler will be
+    // called, as if the download was successful, yet the downloaded file is
+    // actually empty. Check for this scenario:
+    if (downloadedContentLength_ == 0) {
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorZeroByteResource userInfo:nil];
+        [self connection:connection didFailWithError:error];
+        return;
+    }
+
     [dataHandle_ closeFile];
     dataHandle_ = nil;
 
