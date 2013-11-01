@@ -97,6 +97,7 @@
 {
     [self cancelPrevious];
 
+    imageView_.alpha = 1.0f;
     [imageView_ setImage:image];
     [activityIndicatorView_ stopAnimating];
     progressView_.hidden = YES;
@@ -129,6 +130,7 @@
 
         case PhotoBitmapLoaded:
             NSLog(@"photoLoadUpdate %@ loaded", photoId_);
+            imageView_.alpha = 1.0f;
             [imageView_ setImage:bmp.bmp];
             [activityIndicatorView_ stopAnimating];
             progressView_.hidden = YES;
@@ -143,6 +145,7 @@
 
 - (void)showLowQuality:(UIImage *)lowQualityImg
 {
+    imageView_.alpha = 0.5f;
     [imageView_ setImage:lowQualityImg];
 }
 
