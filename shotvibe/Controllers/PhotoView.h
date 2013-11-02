@@ -15,6 +15,8 @@
 
 @interface PhotoView : UIView
 
+- (id)initWithFrame:(CGRect)frame withFullControls:(BOOL)fullControls;
+
 - (void)setPhoto:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize manager:(PhotoFilesManager *)photoFilesManager;
 
 - (void)setImage:(UIImage *)image;

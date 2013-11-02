@@ -103,7 +103,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 
     currentPhotoViewsStartIndex = INT_MAX;
     for (int i = 0; i < NUM_PHOTO_VIEWS; ++i) {
-        photoViews[i] = [[PhotoView alloc] initWithFrame:[self rectForPhotoIndex:i]];
+        photoViews[i] = [[PhotoView alloc] initWithFrame:[self rectForPhotoIndex:i] withFullControls:YES];
         photoViews[i].contentMode = UIViewContentModeScaleAspectFit;
         [photosScrollView addSubview:photoViews[i]];
     }

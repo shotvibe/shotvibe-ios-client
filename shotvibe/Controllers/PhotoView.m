@@ -15,37 +15,53 @@
     NSString *photoId_;
     PhotoSize *photoSize_;
 
+    BOOL fullControls_;
+
     UIImageView *imageView_;
     UIActivityIndicatorView *activityIndicatorView_;
     UIProgressView *progressView_;
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame withFullControls:(BOOL)fullControls
 {
     self = [super initWithFrame:frame];
     if (self) {
+        fullControls_ = fullControls;
+
         prevManager_ = nil;
         photoId_ = nil;
         photoSize_ = nil;
 
         imageView_ = [[UIImageView alloc] init];
-        activityIndicatorView_ = [[UIActivityIndicatorView alloc] init];
-        progressView_ = [[UIProgressView alloc] init];
-
-        const float indicatorSize = 80.0f;
-        const float indicatorCornerRadius = 20.0f;
-        const float indicatorAlpha = 0.75f;
-
-        activityIndicatorView_.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
-        [activityIndicatorView_ setFrame:CGRectMake(0, 0, indicatorSize, indicatorSize)];
-        activityIndicatorView_.backgroundColor = [UIColor colorWithWhite:0.0f alpha:indicatorAlpha];
-        activityIndicatorView_.layer.cornerRadius = indicatorCornerRadius;
-
         [self addSubview:imageView_];
-        [self addSubview:activityIndicatorView_];
-        [self addSubview:progressView_];
+
+        if (fullControls_) {
+            activityIndicatorView_ = [[UIActivityIndicatorView alloc] init];
+            progressView_ = [[UIProgressView alloc] init];
+
+            const float indicatorSize = 80.0f;
+            const float indicatorCornerRadius = 20.0f;
+            const float indicatorAlpha = 0.75f;
+
+            activityIndicatorView_.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+            [activityIndicatorView_ setFrame:CGRectMake(0, 0, indicatorSize, indicatorSize)];
+            activityIndicatorView_.backgroundColor = [UIColor colorWithWhite:0.0f alpha:indicatorAlpha];
+            activityIndicatorView_.layer.cornerRadius = indicatorCornerRadius;
+
+            [self addSubview:activityIndicatorView_];
+            [self addSubview:progressView_];
+        }
+        else {
+            activityIndicatorView_ = nil;
+            progressView_ = nil;
+        }
     }
     return self;
+}
+
+- (id)initWithFrame:(CGRect)frame
+{
+    return [self initWithFrame:frame withFullControls:NO];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -61,12 +77,14 @@
     [imageView_ setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     imageView_.contentMode = self.contentMode;
 
-    activityIndicatorView_.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+    if (fullControls_) {
+        activityIndicatorView_.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
 
-    const CGFloat progressWidth = 80.0f;
-    const CGFloat progressHeight = 9.0f;
+        const CGFloat progressWidth = 80.0f;
+        const CGFloat progressHeight = 9.0f;
 
-    [progressView_ setFrame:CGRectMake((self.frame.size.width / 2.0f) - (progressWidth / 2.0f), (self.frame.size.height / 2.0f) - (progressHeight / 2.0f), progressWidth, progressHeight)];
+        [progressView_ setFrame:CGRectMake((self.frame.size.width / 2.0f) - (progressWidth / 2.0f), (self.frame.size.height / 2.0f) - (progressHeight / 2.0f), progressWidth, progressHeight)];
+    }
 }
 
 - (void)setPhoto:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize manager:(PhotoFilesManager *)photoFilesManager
@@ -97,11 +115,30 @@
 
     imageView_.alpha = 1.0f;
     [imageView_ setImage:image];
-    [activityIndicatorView_ stopAnimating];
-    progressView_.hidden = YES;
+
+    if (fullControls_) {
+        [activityIndicatorView_ stopAnimating];
+        progressView_.hidden = YES;
+    }
 }
 
 - (void)onPhotoLoadUpdate:(PhotoBitmap *)bmp
+{
+    if (fullControls_) {
+        [self updateWithFullControls:bmp];
+    }
+    else {
+        if (bmp.state == PhotoBitmapLoaded) {
+            imageView_.alpha = 1.0f;
+            [imageView_ setImage:bmp.bmp];
+        }
+        else {
+            [self showLowQuality:bmp.lowQualityBmp];
+        }
+    }
+}
+
+- (void) updateWithFullControls:(PhotoBitmap *)bmp
 {
     switch (bmp.state) {
         case PhotoBitmapQueuedForDownload:
