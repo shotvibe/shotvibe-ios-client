@@ -32,7 +32,14 @@
         activityIndicatorView_ = [[UIActivityIndicatorView alloc] init];
         progressView_ = [[UIProgressView alloc] init];
 
-        activityIndicatorView_.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        const float indicatorSize = 80.0f;
+        const float indicatorCornerRadius = 20.0f;
+        const float indicatorAlpha = 0.75f;
+
+        activityIndicatorView_.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+        [activityIndicatorView_ setFrame:CGRectMake(0, 0, indicatorSize, indicatorSize)];
+        activityIndicatorView_.backgroundColor = [UIColor colorWithWhite:0.0f alpha:indicatorAlpha];
+        activityIndicatorView_.layer.cornerRadius = indicatorCornerRadius;
 
         [self addSubview:imageView_];
         [self addSubview:activityIndicatorView_];
