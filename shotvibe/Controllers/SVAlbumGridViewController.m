@@ -465,7 +465,29 @@
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
 	
     self.title = albumContents.name;
-	
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        // First set all the fullscreen photos to download at high priority
+        for (AlbumPhoto *p in albumContents.photos) {
+            if (p.serverPhoto) {
+                [self.albumManager.photoFilesManager queuePhotoDownload:p.serverPhoto.photoId
+                                                               photoUrl:p.serverPhoto.url
+                                                              photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
+                                                           highPriority:YES];
+            }
+        }
+
+        // Now set all the thumbnails to download at high priority, these will now be pushed to download before all of the previously queued fullscreen photos
+        for (AlbumPhoto *p in albumContents.photos) {
+            if (p.serverPhoto) {
+                [self.albumManager.photoFilesManager queuePhotoDownload:p.serverPhoto.photoId
+                                                               photoUrl:p.serverPhoto.url
+                                                              photoSize:[PhotoSize Thumb75]
+                                                           highPriority:YES];
+            }
+        }
+    });
+
 	[self sortThumbsBy:sort];
     [self.gridView reloadData];
 	[self updateEmptyState];

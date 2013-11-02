@@ -591,6 +591,22 @@
 - (void)setAlbumList:(NSArray *)albums
 {
 	allAlbums = albums;
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        // Set all the album thumbnails to download at high priority
+        for (AlbumSummary *a in albums) {
+            if (a.latestPhotos.count > 0) {
+                AlbumPhoto *p = [a.latestPhotos objectAtIndex:0];
+                if (p.serverPhoto) {
+                    [self.albumManager.photoFilesManager queuePhotoDownload:p.serverPhoto.photoId
+                                                                   photoUrl:p.serverPhoto.url
+                                                                  photoSize:[PhotoSize Thumb75]
+                                                               highPriority:YES];
+                }
+            }
+        }
+    });
+
     [self searchForAlbumWithTitle:nil];
 }
 

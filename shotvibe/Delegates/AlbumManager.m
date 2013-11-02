@@ -263,6 +263,22 @@ enum RefreshStatus
                         RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
                     }
 
+                    // Start downloading the photos in the background
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        for (AlbumPhoto *p in albumContents.photos) {
+                            NSString *photoId = p.serverPhoto.photoId;
+                            NSString *photoUrl = p.serverPhoto.url;
+                            [self.photoFilesManager queuePhotoDownload:photoId
+                                                              photoUrl:photoUrl
+                                                             photoSize:[PhotoSize Thumb75]
+                                                          highPriority:YES];
+                            [self.photoFilesManager queuePhotoDownload:photoId
+                                                              photoUrl:photoUrl
+                                                             photoSize:self.photoFilesManager.DeviceDisplayPhotoSize
+                                                          highPriority:NO];
+                        }
+                    });
+
                     // Add the Uploading photos to the end of album:
                     AlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:albumContents uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
 

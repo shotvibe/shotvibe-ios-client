@@ -644,6 +644,67 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
     });
 }
 
+- (void)queuePhotoDownload:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize highPriority:(BOOL)highPriority
+{
+    NSAssert(![NSThread isMainThread], @"queuePhotoDownload should not be called from the main thread");
+
+    NSLog(@"queuePhotoDownload: %@", photoId);
+
+    UIImage *cachedImage = [photoImageCache_ getPhotoImage:photoId photoSize:photoSize];
+    if (cachedImage) {
+        // The photo is in the image cache so it is definitely already downloaded: nothing more needed
+        return;
+    }
+
+    PhotoJob *photoJob = [[PhotoJob alloc] initWithPhotoId:photoId photoSize:photoSize photoUrl:photoUrl];
+
+    @synchronized (mainLock) {
+
+        // Check if the photo is currently downloading
+        CurrentlyDownloadingPhoto *currentlyDownloading = [self getCurrentlyDownloadingPhoto:photoJob];
+        if (currentlyDownloading) {
+            return;
+        }
+
+        // Check if the photo is already in the downloadQueue
+        NSUInteger downloadQueueIndex = [downloadQueue_ indexOfObject:photoJob];
+        if (downloadQueueIndex != NSNotFound) {
+            if (highPriority) {
+                // Remove the old existing PhotoJob from the queue ...
+                [downloadQueue_ removeObjectAtIndex:downloadQueueIndex];
+
+                // ... And move it to the beginning of the queue:
+                [downloadQueue_ insertObject:photoJob atIndex:0];
+            }
+            return;
+        }
+
+        // Check if the photo is already being decoded
+        if ([currentlyDecoding_ containsObject:photoJob]) {
+            return;
+        }
+
+        // Check if the photo has already been downloaded
+        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:[self photoFilePath:photoId photoSize:photoSize]];
+        if (fileExists) {
+            return;
+        }
+        else {
+            NSLog(@"Adding to download queue: %@", photoId);
+            if (highPriority) {
+                // Add the photoJob to the beginning of the download queue
+                [downloadQueue_ insertObject:photoJob atIndex:0];
+            }
+            else {
+                // Add the photoJob to the end of the download queue
+                [downloadQueue_ addObject:photoJob];
+            }
+
+            [self triggerDownload];
+        }
+    }
+}
+
 - (void)decodePhoto:(PhotoJob *)photoJob loadLowQuality:(BOOL)loadLowQuality
 {
     NSLog(@"decodePhoto: %@ %d", photoJob.photoId, loadLowQuality);
@@ -823,17 +884,6 @@ const int MAX_CONCURRENT_DOWNLOADS = 4;
         currentlyDownloadingPhoto.progress = 0.0f;
         [self startDownload:currentlyDownloadingPhoto url:url];
     });
-}
-
-- (void)queuePhotoDownload:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize highPriority:(BOOL)highPriority
-{
-    NSAssert([NSThread isMainThread], @"verify main thread");
-
-    UIImage *cachedImage = [photoImageCache_ getPhotoImage:photoId photoSize:photoSize];
-    if (cachedImage) {
-        // The photo is in the image cache so it is definitely already downloaded: nothing more needed
-        return;
-    }
 }
 
 - (UIImage *)loadBestLocalPhoto:(NSString *)photoId maxSize:(PhotoSize *)maxSize

@@ -23,7 +23,7 @@
 // If the photoObserver isn't registered then this does nothing
 - (void)removePhotoObserver:(NSString *)photoId photoSize:(PhotoSize *)photoSize photoObserver:(PhotoView *)photoObserver;
 
-// Must be called only from the main thread
+// This should be called from a background thread in order to not block the UI
 - (void)queuePhotoDownload:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize highPriority:(BOOL)highPriority;
 
 - (PhotoSize *)DeviceDisplayPhotoSize;
