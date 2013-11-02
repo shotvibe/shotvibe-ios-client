@@ -54,15 +54,6 @@
     return [self initWithFrame:[self frame]];
 }
 
-- (void)setFrame:(CGRect)frame
-{
-    [super setFrame:frame];
-
-    NSLog(@"setFrame");
-
-    //[imageView_ setFrame:frame];
-}
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];
