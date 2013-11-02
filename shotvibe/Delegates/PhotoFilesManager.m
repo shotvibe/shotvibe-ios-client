@@ -623,7 +623,7 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
             if (fileExists) {
                 NSLog(@"fileExists: %@", photoId);
                 [currentlyDecoding_ addObject:photoJob];
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                     [self decodePhoto:photoJob loadLowQuality:NO];
                 });
             }
@@ -859,7 +859,7 @@ const int MAX_CONCURRENT_DOWNLOADS = 4;
         if (observers.count > 0) {
             PhotoJob *photoJob = [[PhotoJob alloc] initWithPhotoId:currentlyDownloadingPhoto.photoId photoSize:currentlyDownloadingPhoto.photoSize photoUrl:nil];
             [currentlyDecoding_ addObject:photoJob];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 [self decodePhoto:photoJob loadLowQuality:NO];
             });
         }
