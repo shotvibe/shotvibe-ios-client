@@ -158,8 +158,8 @@ static const int NUM_PHOTO_VIEWS = 3;
                                 manager:self.albumManager.photoFilesManager];
             }
             else if (photo.uploadingPhoto) {
-                // TODO ...
-                [photoViews[i] setImage:nil];
+                UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[photo.uploadingPhoto getFilename]];
+                [photoViews[i] setImage:localImage];
             }
         }
         else {
