@@ -153,18 +153,23 @@
 				NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
 				CFRelease(phoneNumbers);
 				
-				if (name != nil && phoneNumber != nil) {
-					NSDictionary *person = @{  @"phone_number": phoneNumber, @"contact_nickname": name };
-					[contacts addObject:person];
-					[contacts addObject:person];
-					[contacts addObject:person];
-					[contacts addObject:person];
-					[contacts addObject:person];
-					[contacts addObject:person];
-					[contacts addObject:person];
-					[contacts addObject:person];
-					[contacts addObject:person];
+				if (name != nil || name.length == 0) {
+					name = @"Invalid Name";
 				}
+				if (phoneNumber != nil || phoneNumber.length == 0) {
+					phoneNumber = @"0";
+				}
+				
+				NSDictionary *person = @{  @"phone_number": phoneNumber, @"contact_nickname": name };
+				[contacts addObject:person];
+//					[contacts addObject:person];
+//					[contacts addObject:person];
+//					[contacts addObject:person];
+//					[contacts addObject:person];
+//					[contacts addObject:person];
+//					[contacts addObject:person];
+//					[contacts addObject:person];
+//					[contacts addObject:person];
 			}
 			RCLogO(@"contacts");
 			//RCLogO(contacts);
@@ -176,19 +181,19 @@
 		
 		
 		NSDictionary *response = [api submitAddressBook:body error:&error];
-		RCLogO(@"response");
+		RCLog(@"response uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]);
 		//RCLogO(response);
 		RCLog(@"%f", (double)[tempDate timeIntervalSinceNow]);
 		
-		dispatch_async(dispatch_get_main_queue(), ^{
-			
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
-															message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
-														   delegate:nil
-												  cancelButtonTitle:@"ok"
-												  otherButtonTitles: nil];
-			[alert show];
-		});
+//		dispatch_async(dispatch_get_main_queue(), ^{
+//			
+//			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
+//															message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
+//														   delegate:nil
+//												  cancelButtonTitle:@"ok"
+//												  otherButtonTitles: nil];
+//			[alert show];
+//		});
 	});}];
 }
 
