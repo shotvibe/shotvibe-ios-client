@@ -306,6 +306,17 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+    // Check for an HTTP error code
+    NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
+    if (statusCode >= 400) {
+        [connection cancel];
+
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorResourceUnavailable userInfo:nil];
+        [self connection:connection didFailWithError:error];
+
+        return;
+    }
+
     expectedContentLength_ = response.expectedContentLength;
 
     NSString *savingFile = [photoFilesManager_ photoFilePath:currentlyDownloadingPhoto_.photoId photoSize:currentlyDownloadingPhoto_.photoSize];
