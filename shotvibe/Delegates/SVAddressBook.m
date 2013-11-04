@@ -14,46 +14,53 @@
 
 @implementation SVAddressBook
 
++ (instancetype)sharedBook {
+    static SVAddressBook *_sharedBook = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        _sharedBook = [[self alloc] init];
+    });
+    
+    return _sharedBook;
+}
 
-- (id)initWithBlock:(AddressBookPermissionsBlock)completionBlock {
-	self = [super init];
-	if (self) {
-		//self.alphabet = @[@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z",@"#"];
-		self.filteredKeys = [[NSArray alloc] init];
-		self.filteredContacts = [[NSMutableDictionary alloc] init];
-		self.allContacts = [[NSArray alloc] init];
+- (void)requestAccessWithCompletion:(AddressBookPermissionsBlock)completionBlock {
+	
+	//self.alphabet = @[@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z",@"#"];
+	self.filteredKeys = [[NSArray alloc] init];
+	self.filteredContacts = [[NSMutableDictionary alloc] init];
+	self.allContacts = [[NSArray alloc] init];
+	_granted = NO;
+	
+	abQueue = dispatch_queue_create("abqueue", DISPATCH_QUEUE_SERIAL);
+	dispatch_set_target_queue(abQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+	
+	// Get access to the addressbook
+	ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
+	
+	// This is async
+	ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
 		
-		abQueue = dispatch_queue_create("abqueue", DISPATCH_QUEUE_SERIAL);
-		dispatch_set_target_queue(abQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+		_granted = granted;
 		
-		// Get access to the addressbook
-		ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
-		
-		// This is async
-		ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+		if (granted) {
+			//CFArrayRef sources = ABAddressBookCopyArrayOfAllSources(addressBook);
+			//ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook); // or get the source with ABPersonCopySource(somePersonsABRecordRef);
+			//CFArrayRef people = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering (addressBook, sources, ABPersonGetSortOrdering());
+			CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
+			self.allContacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(people)];
+			CFRelease(people);
+			//CFRelease(source);
 			
-			if (granted) {
-				//CFArrayRef sources = ABAddressBookCopyArrayOfAllSources(addressBook);
-				//ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook); // or get the source with ABPersonCopySource(somePersonsABRecordRef);
-				//CFArrayRef people = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering (addressBook, sources, ABPersonGetSortOrdering());
-				CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
-				self.allContacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(people)];
-				RCLog(@"Found %i contacts", self.allContacts.count);
-				
-				CFRelease(people);
-				//CFRelease(source);
-				
-				if (completionBlock)
-                    completionBlock(YES,nil);
-			}
-			else {
-				RCLog(@"Unfortunately we need access to the contacts list");
-				if (completionBlock)
-                    completionBlock(NO,nil);
-			}
-		});
-	}
-	return self;
+			if (completionBlock)
+				completionBlock(YES,nil);
+		}
+		else {
+			RCLog(@"Unfortunately we need access to the contacts list");
+			if (completionBlock)
+				completionBlock(NO,nil);
+		}
+	});
 }
 
 
@@ -131,7 +138,7 @@
 					}
 				}
 				
-				CFRelease(phoneNumbers);
+				if (phoneNumbers != nil) CFRelease(phoneNumbers);
 				
 				[self.filteredContacts setObject:arr forKey:key];
 				//RCLog(@"%i contacts for key %@", arr.count, key);

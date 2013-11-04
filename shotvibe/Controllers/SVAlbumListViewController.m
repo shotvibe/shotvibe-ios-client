@@ -125,7 +125,8 @@
 	
 	// Upload the contacts to the server
 	tempDate = [NSDate date];
-	ab = [[SVAddressBook alloc] initWithBlock:^(BOOL granted, NSError *error) {
+	ab = [SVAddressBook sharedBook];
+	[ab requestAccessWithCompletion:^(BOOL granted, NSError *error) {
 		if (granted) {
 			[self submitAddressBook];
 		}

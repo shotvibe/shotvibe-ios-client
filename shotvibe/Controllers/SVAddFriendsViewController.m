@@ -60,15 +60,16 @@
 	if (favorites == nil) {
 		favorites = [[NSMutableArray alloc] init];
 	}
-	ab = [[SVAddressBook alloc] initWithBlock:^(BOOL granted, NSError *error) {
-		if (granted) {
-			//[self loadShotVibeContacts];
-			[self loadAddressbookContacts];
-		}
-		else {
-			self.noContactsView.hidden = NO;
-		}
-	}];
+	
+	// Address book contacts was already initialized in SVAlbumListViewController and the contacts were cached
+	ab = [SVAddressBook sharedBook];
+	if (ab.granted) {
+		//[self loadShotVibeContacts];
+		[self loadAddressbookContacts];
+	}
+	else {
+		self.noContactsView.hidden = NO;
+	}
     
 	self.contactsSourceView.hidden = YES;
 	self.contactsSourceSelector.frame = CGRectMake(5, 7, 233, 30);

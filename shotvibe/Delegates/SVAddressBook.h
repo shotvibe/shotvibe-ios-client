@@ -17,11 +17,14 @@ typedef void(^AddressBookSearchCompletionBlock)();
 	dispatch_queue_t abQueue;
 }
 
+@property (nonatomic, readonly) BOOL granted;
 @property (nonatomic, strong) NSArray *allContacts;
 @property (nonatomic, strong) NSMutableDictionary *filteredContacts;// Filtered contacts grouped by alphabet letters
 @property (nonatomic, strong) NSArray *filteredKeys;
 
-- (id)initWithBlock:(AddressBookPermissionsBlock)completionBlock;
++ (instancetype)sharedBook;
+
+- (void)requestAccessWithCompletion:(AddressBookPermissionsBlock)completionBlock;
 - (void)filterByKeyword:(NSString*)keyword completionBlock:(AddressBookSearchCompletionBlock)completionBlock;
 - (int64_t)idOfRecord:(ABRecordRef)record;
 - (ABRecordRef)recordOfRecordId:(ABRecordID)recordId;
