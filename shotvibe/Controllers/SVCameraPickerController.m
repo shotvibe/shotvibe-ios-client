@@ -485,10 +485,10 @@
 	});
 	
 	if ([selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
-		[cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
+		[cell.selectionImage setImage:[UIImage imageNamed:@"imageSelected.png"]];
 	}
 	else {
-		[cell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
+		[cell.selectionImage setImage:[UIImage imageNamed:@"imageUnselected.png"]];
 	}
 	
     return cell;
@@ -512,11 +512,11 @@
 	
 	if (![selectedPhotos containsObject:[self.capturedImages objectAtIndex:indexPath.row]]) {
         [selectedPhotos addObject:[self.capturedImages objectAtIndex:indexPath.row]];
-        [cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
+        [cell.selectionImage setImage:[UIImage imageNamed:@"imageSelected.png"]];
     }
     else {
         [selectedPhotos removeObject:[self.capturedImages objectAtIndex:indexPath.row]];
-        [cell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
+        [cell.selectionImage setImage:[UIImage imageNamed:@"imageUnselected.png"]];
     }
 	
 	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];

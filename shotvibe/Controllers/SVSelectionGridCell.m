@@ -21,12 +21,11 @@
 		
 		self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
 		
-		self.selectionButton = [[UIButton alloc] initWithFrame:r];
-		[self.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
-		[self.selectionButton addTarget:self action:@selector(checkmarkTouched:) forControlEvents:UIControlEventTouchUpInside];
+		self.selectionImage = [[UIImageView alloc] initWithFrame:r];
+		[self.selectionImage setImage:[UIImage imageNamed:@"imageUnselected.png"]];
 		
 		[self.contentView addSubview:self.imageView];
-		[self.contentView addSubview:self.selectionButton];
+		[self.contentView addSubview:self.selectionImage];
 		
 		UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
 																						   action:@selector(handleLongPress:)];

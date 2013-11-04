@@ -20,6 +20,6 @@
 
 @property (nonatomic, strong) id<SVSelectionGridCellDelegate> delegate;
 @property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UIButton *selectionButton;
+@property (nonatomic, strong) UIImageView *selectionImage;
 
 @end

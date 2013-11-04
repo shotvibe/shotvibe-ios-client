@@ -164,14 +164,14 @@
 	
 	if (!self.oneImagePicker) {
 		if ([selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
-			[cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
+			[cell.selectionImage setImage:[UIImage imageNamed:@"imageSelected.png"]];
 		}
 		else {
-			[cell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
+			[cell.selectionImage setImage:[UIImage imageNamed:@"imageUnselected.png"]];
 		}
 	}
 	else {
-		cell.selectionButton.hidden = YES;
+		cell.selectionImage.hidden = YES;
 	}
 	
     return cell;
@@ -272,11 +272,11 @@
 	
 	if (![selectedPhotos containsObject:[arr objectAtIndex:indexPath.row]]) {
 		[selectedPhotos addObject:[arr objectAtIndex:indexPath.row]];
-		[cell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
+		[cell.selectionImage setImage:[UIImage imageNamed:@"imageSelected.png"]];
 	}
 	else {
 		[selectedPhotos removeObject:[arr objectAtIndex:indexPath.row]];
-		[cell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
+		[cell.selectionImage setImage:[UIImage imageNamed:@"imageUnselected.png"]];
 	}
 	
 	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
@@ -380,13 +380,13 @@
 		if (!allPhotosAreSelected) {
 			if (![selectedPhotos containsObject:asset]) {
 				[selectedPhotos addObject:asset];
-				[selectedCell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
+				[selectedCell.selectionImage setImage:[UIImage imageNamed:@"imageSelected.png"]];
 			}
 		}
 		else {
 			if ([selectedPhotos containsObject:asset]) {
 				[selectedPhotos removeObject:asset];
-				[selectedCell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
+				[selectedCell.selectionImage setImage:[UIImage imageNamed:@"imageUnselected.png"]];
 			}
 		}
 		
@@ -417,13 +417,13 @@
 			if (!allSelected) {
 				if (![selectedPhotos containsObject:asset]) {
 					[selectedPhotos addObject:asset];
-					[selectedCell.selectionButton setImage:[UIImage imageNamed:@"imageSelected.png"] forState:UIControlStateNormal];
+					[selectedCell.selectionImage setImage:[UIImage imageNamed:@"imageSelected.png"]];
 				}
 			}
 			else {
 				if ([selectedPhotos containsObject:asset]) {
 					[selectedPhotos removeObject:asset];
-					[selectedCell.selectionButton setImage:[UIImage imageNamed:@"imageUnselected.png"] forState:UIControlStateNormal];
+					[selectedCell.selectionImage setImage:[UIImage imageNamed:@"imageUnselected.png"]];
 				}
 			}
 			
