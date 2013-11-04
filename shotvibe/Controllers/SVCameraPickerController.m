@@ -42,11 +42,10 @@
 		self.title = NSLocalizedString(@"Select To Upload", @"");
 	}
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"")
-																   style:UIBarButtonItemStyleBordered
-																  target:self
-																  action:@selector(doneButtonPressed)];
-    self.navigationItem.rightBarButtonItem = doneButton;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"")
+																			  style:UIBarButtonItemStyleBordered
+																			 target:self
+																			 action:@selector(doneButtonPressed)];
 	self.view.backgroundColor = [UIColor clearColor];
 }
 

@@ -325,6 +325,7 @@
 			[UIView animateWithDuration:0.2 animations:^{
 				photo.alpha = 1;
 				photo.transform = CGAffineTransformMakeScale(1, 1);
+				[self.navigationController.navigationBar setAlpha:0];
 			} completion:^(BOOL finished) {
 				
 			}];
@@ -353,6 +354,7 @@
 	[UIView animateWithDuration:0.2 animations:^{
 		photo.alpha = 0;
 		photo.transform = CGAffineTransformMakeScale(0.8, 0.8);
+		[self.navigationController.navigationBar setAlpha:1];
 	} completion:^(BOOL finished) {
 		[photo removeFromSuperview];
 	}];
