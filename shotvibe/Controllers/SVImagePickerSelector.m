@@ -312,6 +312,7 @@
 		if (iref) {
 			UIImage *localImage = [UIImage imageWithCGImage:iref];
 			PhotosQuickView *photo = [[PhotosQuickView alloc] initWithFrame:self.view.frame delegate:nil];
+			photo.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 			photo.quickDelegate = self;
 			photo.indexPath = indexPath;
 			[photo setImage:localImage];

@@ -461,6 +461,8 @@
 		285EB94817F55CDD00A33E5B /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94717F55CDD00A33E5B /* libz.1.2.5.dylib */; };
 		285EB94A17F55CFA00A33E5B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94917F55CFA00A33E5B /* OpenGLES.framework */; };
 		285EB94C17F55D0A00A33E5B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94B17F55D0A00A33E5B /* StoreKit.framework */; };
+		2865F602182923BE007E5933 /* NoMembers.png in Resources */ = {isa = PBXBuildFile; fileRef = 2865F600182923BE007E5933 /* NoMembers.png */; };
+		2865F603182923BE007E5933 /* NoMembers@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2865F601182923BE007E5933 /* NoMembers@2x.png */; };
 		2884A808181D0CF0006462BE /* SearchBlackBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884A806181D0CF0006462BE /* SearchBlackBg.png */; };
 		2884A809181D0CF0006462BE /* SearchBlackBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884A807181D0CF0006462BE /* SearchBlackBg@2x.png */; };
 		2884A80B181D53EF006462BE /* IconUser@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884A80A181D53EF006462BE /* IconUser@2x.png */; };
@@ -1129,6 +1131,8 @@
 		285EB94717F55CDD00A33E5B /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		285EB94917F55CFA00A33E5B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		285EB94B17F55D0A00A33E5B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2865F600182923BE007E5933 /* NoMembers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NoMembers.png; sourceTree = "<group>"; };
+		2865F601182923BE007E5933 /* NoMembers@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NoMembers@2x.png"; sourceTree = "<group>"; };
 		2884A806181D0CF0006462BE /* SearchBlackBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBlackBg.png; sourceTree = "<group>"; };
 		2884A807181D0CF0006462BE /* SearchBlackBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SearchBlackBg@2x.png"; sourceTree = "<group>"; };
 		2884A80A181D53EF006462BE /* IconUser@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IconUser@2x.png"; path = "Activity/IconUser@2x.png"; sourceTree = "<group>"; };
@@ -2058,6 +2062,8 @@
 				2849A7D817D9AB420076AFBA /* sidebarMenuNavbar@2x.png */,
 				2849A7D917D9AB420076AFBA /* userIcon.png */,
 				2849A7DA17D9AB420076AFBA /* userIcon@2x.png */,
+				2865F600182923BE007E5933 /* NoMembers.png */,
+				2865F601182923BE007E5933 /* NoMembers@2x.png */,
 			);
 			name = Sidemenu;
 			sourceTree = "<group>";
@@ -3065,6 +3071,8 @@
 				2884A80B181D53EF006462BE /* IconUser@2x.png in Resources */,
 				2884A811181D7D7F006462BE /* searchFieldDarkBg.png in Resources */,
 				2884A812181D7D7F006462BE /* searchFieldDarkBg@2x.png in Resources */,
+				2865F602182923BE007E5933 /* NoMembers.png in Resources */,
+				2865F603182923BE007E5933 /* NoMembers@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
