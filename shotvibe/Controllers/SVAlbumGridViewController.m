@@ -9,7 +9,6 @@
 #import "SVAlbumGridViewController.h"
 #import "MFSideMenu.h"
 #import "SVDefines.h"
-#import "RCImageView.h"
 #import "SVPhotoViewerController.h"
 #import "SVSidebarMemberController.h"
 #import "SVSidebarManagementController.h"
@@ -25,7 +24,7 @@
 #import "SVAlbumGridSection.h"
 #import "NSDate+Formatting.h"
 
-@interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RCImageViewDelegate>
+@interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
     AlbumContents *albumContents;
     BOOL isMenuShowing;
@@ -316,12 +315,7 @@
     AlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
 
     if (photo.serverPhoto) {
-		
-        NSString *fullsizePhotoUrl = photo.serverPhoto.url;
-        NSString *thumbnailSuffix = @"_thumb75.jpg";
-        NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
-		
-        [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
+        [cell.networkImageView setPhoto:photo.serverPhoto.photoId photoUrl:photo.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
         cell.uploadProgressView.hidden = YES;
     }
     else if (photo.uploadingPhoto) {
@@ -380,7 +374,7 @@
 			//Search through the members
 			for (AlbumMember *member in albumContents.members) {
 				if (photo.serverPhoto.authorUserId == member.memberId) {
-					[header.imageView loadNetworkImage:member.avatarUrl];
+					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:member.avatarUrl]];
 					header.nameLabel.text = member.nickname;
 					break;
 				}
@@ -434,8 +428,8 @@
 	
 	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumId = self.albumId;
-	detailController.albumManager = self.albumManager;
 	detailController.photos = photos;
+    detailController.albumManager = self.albumManager;
 	detailController.index = i;
 	detailController.title = albumContents.name;
 	detailController.wantsFullScreenLayout = YES;
@@ -471,7 +465,29 @@
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
 	
     self.title = albumContents.name;
-	
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        // First set all the fullscreen photos to download at high priority
+        for (AlbumPhoto *p in albumContents.photos) {
+            if (p.serverPhoto) {
+                [self.albumManager.photoFilesManager queuePhotoDownload:p.serverPhoto.photoId
+                                                               photoUrl:p.serverPhoto.url
+                                                              photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
+                                                           highPriority:YES];
+            }
+        }
+
+        // Now set all the thumbnails to download at high priority, these will now be pushed to download before all of the previously queued fullscreen photos
+        for (AlbumPhoto *p in albumContents.photos) {
+            if (p.serverPhoto) {
+                [self.albumManager.photoFilesManager queuePhotoDownload:p.serverPhoto.photoId
+                                                               photoUrl:p.serverPhoto.url
+                                                              photoSize:[PhotoSize Thumb75]
+                                                           highPriority:YES];
+            }
+        }
+    });
+
 	[self sortThumbsBy:sort];
     [self.gridView reloadData];
 	[self updateEmptyState];

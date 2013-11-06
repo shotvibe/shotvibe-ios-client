@@ -18,7 +18,7 @@
         
 		self.backgroundColor = [UIColor clearColor];
 		
-		self.imageView = [[RCImageView alloc] initWithFrame:CGRectMake(7, 10, frame.size.height-20, frame.size.height-20)];
+		self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(7, 10, frame.size.height-20, frame.size.height-20)];
 		[self addSubview:self.imageView];
 		
 		self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, frame.size.width-7, frame.size.height)];

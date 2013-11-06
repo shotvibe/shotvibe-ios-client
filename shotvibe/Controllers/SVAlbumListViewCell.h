@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RCImageView.h"
+
+#import "PhotoView.h"
 
 @protocol SVAlbumListViewCellDelegate <NSObject>
 @required
@@ -32,7 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIView *frontView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *backImageView;
-@property (weak, nonatomic) IBOutlet RCImageView *networkImageView;
+@property (weak, nonatomic) IBOutlet PhotoView *networkImageView;
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIButton *timestamp;
 @property (weak, nonatomic) IBOutlet UILabel *author;

@@ -458,12 +458,8 @@
         AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
         if (latestPhoto.serverPhoto) {
 			cell.author.text = [NSString stringWithFormat:@"Last added by %@", latestPhoto.serverPhoto.authorNickname];
-            NSString *fullsizePhotoUrl = latestPhoto.serverPhoto.url;
-            NSString *thumbnailSuffix = @"_thumb75.jpg";
-            NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
 
-            // TODO Temporarily using SDWebImage library for a quick and easy way to display photos
-            [cell.networkImageView setImageWithURL:[NSURL URLWithString:thumbnailUrl]];
+            [cell.networkImageView setPhoto:latestPhoto.serverPhoto.photoId photoUrl:latestPhoto.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
         }
     }
 	else {
@@ -684,6 +680,22 @@
 - (void)setAlbumList:(NSArray *)albums
 {
 	allAlbums = albums;
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        // Set all the album thumbnails to download at high priority
+        for (AlbumSummary *a in albums) {
+            if (a.latestPhotos.count > 0) {
+                AlbumPhoto *p = [a.latestPhotos objectAtIndex:0];
+                if (p.serverPhoto) {
+                    [self.albumManager.photoFilesManager queuePhotoDownload:p.serverPhoto.photoId
+                                                                   photoUrl:p.serverPhoto.url
+                                                                  photoSize:[PhotoSize Thumb75]
+                                                               highPriority:YES];
+                }
+            }
+        }
+    });
+
     [self searchForAlbumWithTitle:nil];
 }
 

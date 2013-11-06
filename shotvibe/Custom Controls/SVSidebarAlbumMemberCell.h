@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RCImageView.h"
 
 @interface SVSidebarAlbumMemberCell : UITableViewCell
 
-@property (nonatomic, strong) IBOutlet RCImageView *profileImageView;
+@property (nonatomic, strong) IBOutlet UIImageView *profileImageView;
 @property (nonatomic, strong) IBOutlet UILabel *memberLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *statusImageView;
 @property (nonatomic, strong) IBOutlet UILabel *statusLabel;
