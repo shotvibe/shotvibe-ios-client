@@ -7,15 +7,16 @@
 //
 
 #import "SVAddFriendsViewController.h"
-#import "SVAddressBook.h"
-#import "SVContactCell.h"
 #import "SVDefines.h"
+#import "SVAddressBook.h"
+#import "SVRecord.h"
+#import "SVContactCell.h"
 #import "AlbumContents.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+AFNetworking.h"
 
 
-@interface SVAddFriendsViewController ()<UISearchBarDelegate>
+@interface SVAddFriendsViewController ()
 
 @property (nonatomic, strong) IBOutlet UIView *membersView;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
@@ -31,8 +32,9 @@
 
 @end
 
-@implementation SVAddFriendsViewController
-{
+
+@implementation SVAddFriendsViewController {
+	
 	SVAddressBook *ab;
 	NSMutableArray *contactsButtons;// list of selected contacts buttons
 	NSMutableArray *selectedRecords;// list of ids of the contacts that were selected
@@ -108,7 +110,7 @@
 {
     SVContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
     
-	ABRecordRef record = nil;
+	SVRecord *record = nil;
 	
 	if (indexPath.section == 0 && favorites.count > 0 && !searching) {
 		record = [ab recordOfRecordId:[[favorites objectAtIndex:indexPath.row] integerValue]];
@@ -116,31 +118,25 @@
 	else {
 		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
 		NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section-dif]];
-		record = (__bridge ABRecordRef)sectionRecords[indexPath.row];
+		record = sectionRecords[indexPath.row];
 	}
 	
-	NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName(record);
-	ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
-	NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+    cell.titleLabel.text = record.name;
+    cell.subtitleLabel.text = record.phone;
 	
-    cell.titleLabel.text = [NSString stringWithFormat:@"%@", name==nil?@"":name];
-    cell.subtitleLabel.text = [NSString stringWithFormat:@"%@", phoneNumber==nil?@"":phoneNumber];
-	
-	if (record != nil && ABPersonHasImageData(record)) {
-		NSData *contactImageData = (__bridge_transfer NSData*) ABPersonCopyImageDataWithFormat(record, kABPersonImageFormatThumbnail);
+	if (record != nil && record.iconLocalData != nil) {
 		[cell.contactIcon cancelImageRequestOperation];
-		cell.contactIcon.image = [[UIImage alloc] initWithData:contactImageData];
+		cell.contactIcon.image = [[UIImage alloc] initWithData:record.iconLocalData];
 	}
 	else {
-		int i = 1 + indexPath.row;
-		if (i>78) i = 1 + i%78;
-		[cell.contactIcon setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://shotvibe-avatars-01.s3.amazonaws.com/default-avatar-00%@%i.jpg", i<10?@"0":@"", i]]];
+		[cell.contactIcon setImageWithURL:[NSURL URLWithString:record.iconRemotePath]];
 	}
-	if (phoneNumbers != nil) CFRelease(phoneNumbers);
 	
-	BOOL contains = [selectedRecords containsObject:(__bridge id)(record)];
+	cell.isMemberImage.hidden = record.memberId == 0;
+	
+	BOOL contains = [selectedRecords containsObject:record];
 	cell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
-    
+	
     return cell;
 }
 
@@ -192,14 +188,14 @@
 	
 	SVContactCell *tappedCell = (SVContactCell*)[tableView cellForRowAtIndexPath:indexPath];
 	
-	ABRecordRef record = nil;
+	SVRecord *record = nil;
 	BOOL contains = NO;
 	
 	if (indexPath.section == 0 && favorites.count > 0 && !searching) {
 		record = [ab recordOfRecordId:[[favorites objectAtIndex:indexPath.row] integerValue]];
-		for (id r in selectedRecords) {
-			if (ABRecordGetRecordID((__bridge ABRecordRef)(r)) == ABRecordGetRecordID(record)) {
-				record = (__bridge ABRecordRef)(r);
+		for (SVRecord *selectedRecord in selectedRecords) {
+			if (record.recordId == selectedRecord.recordId) {
+				record = selectedRecord;
 				contains = YES;
 				break;
 			}
@@ -208,18 +204,12 @@
 	else {
 		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
 		NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section-dif]];
-		record = (__bridge ABRecordRef)sectionRecords[indexPath.row];
-		contains = [selectedRecords containsObject:(__bridge id)(record)];;
+		record = sectionRecords[indexPath.row];
+		contains = [selectedRecords containsObject:record];;
 	}
 	
-	ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
-	NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
-	NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
-	if (phoneNumbers != nil) CFRelease(phoneNumbers);
-	//RCLog(@"%@ %@", phoneNumber, phoneNumericNumber);
-	
 	// Check if this contact has a phone number
-	if (phoneNumber == nil || phoneNumericNumber.length == 0) {
+	if (record.phone == nil || record.phone.length == 0) {
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
 														message:NSLocalizedString(@"This user has no mobile phone number, you can't invite him.", @"")
@@ -296,24 +286,17 @@
 
 #pragma mark - Private Methods
 
-- (void)addToContactsList:(ABRecordRef)record {
-	//CFStringRef firstName = ABRecordCopyValue(record, kABPersonFirstNameProperty);
-	//CFStringRef lastName = ABRecordCopyValue(record, kABPersonLastNameProperty);
-	NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName(record);
-	long long tag = [ab idOfRecord:record];
-//	if (tappedIndexPath.section == 0 && favorites.count > 0 && !searching) {
-//		tag = tag+12345;
-//	}
-	RCLog(@"%lli", tag);
+- (void)addToContactsList:(SVRecord*)record {
+	
     //create a new dynamic button
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
 	button.titleLabel.shadowColor = [UIColor clearColor];
-	[button setTitle:(name==nil?@"":name) forState:UIControlStateNormal];
+	[button setTitle:record.name forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[button setImage:[UIImage imageNamed:@"contactsX.png"] forState:UIControlStateNormal];
 	[button setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-	[button setTag:tag];
+	[button setTag:record.recordId];
 	[button sizeToFit];
 	
 	UIImage *baseImage = [UIImage imageNamed:@"butInvitedContacts.png"];
@@ -326,7 +309,7 @@
 	[contactsButtons addObject:button];
 	button.alpha = 0;
 	
-	[selectedRecords addObject:(__bridge id)(record)];
+	[selectedRecords addObject:record];
     [self updateContacts];
 	
 	// Scroll to right only after we add a new contact not on removal
@@ -341,14 +324,14 @@
 	}];
 }
 
-- (void)removeContactFromTable:(ABRecordRef)record {
+- (void)removeContactFromTable:(SVRecord*)record {
 	
 	NSMutableArray *arr = contactsButtons;
 	for (UIButton *but in arr) {
-		if (but.tag == [ab idOfRecord:record]) {
+		if (but.tag == record.recordId) {
 			[contactsButtons removeObject:but];
 			[but removeFromSuperview];
-			[selectedRecords removeObject:(__bridge id)(record)];
+			[selectedRecords removeObject:record];
 			[self updateContacts];
 			break;
 		}
@@ -358,8 +341,8 @@
 - (void)removeContactFromList:(UIButton *)sender {
 	
 	NSMutableArray *arr = selectedRecords;
-	for (id record in arr) {
-		if ([ab idOfRecord:(__bridge ABRecordRef)(record)] == sender.tag) {
+	for (SVRecord *record in arr) {
+		if (record.recordId == sender.tag) {
 			[selectedRecords removeObject:record];
 			break;
 		}
@@ -416,23 +399,17 @@
 	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
 	NSString *countryCode = [self.albumManager getShotVibeAPI].authData.defaultCountryCode;
 	
-	for (id record in selectedRecords) {
-		
-		ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)(record), kABPersonPhoneProperty);
-		NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(record));
+	for (SVRecord *record in selectedRecords) {
 		
 		[contactsToInvite addObject:@{
-		 @"phone_number":(__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0),
+		 @"phone_number":record.phone,
 		 @"default_country":countryCode,
-		 @"contact_nickname":name==nil?@"":name}];
+		 @"contact_nickname":record.name}];
 		
-		NSNumber *id_ = [NSNumber numberWithInteger:ABRecordGetRecordID((__bridge ABRecordRef)(record))];
-		RCLogI([favorites containsObject:id_]);
+		NSNumber *id_ = [NSNumber numberWithInt:record.recordId];
 		if (![favorites containsObject:id_]) {
 			[favorites addObject:id_];
 		}
-		
-		CFRelease(phoneNumbers);
 	}
 	
 	[[NSUserDefaults standardUserDefaults] setObject:favorites forKey:@"favorites"];

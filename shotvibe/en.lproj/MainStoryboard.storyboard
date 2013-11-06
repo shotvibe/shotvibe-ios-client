@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <scenes>
         <!--Album List View Controller-->
         <scene sceneID="siP-ZM-lhe">
             <objects>
                 <tableViewController storyboardIdentifier="SVAlbumListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xK5-VS-ObD" customClass="SVAlbumListViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="h0G-2X-To2">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="h0G-2X-To2">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.94509803921568625" green="0.94901960784313721" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="3hQ-ZC-m4d">
@@ -24,8 +25,8 @@
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="iJo-z3-suy" customClass="SVAlbumListViewCell">
                                 <rect key="frame" x="0.0" y="66" width="320" height="101"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iJo-z3-suy" id="foT-0r-RS2">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" id="v3h-qc-QG9">
@@ -40,7 +41,7 @@
                                             <color key="backgroundColor" red="0.62745098039215685" green="0.84705882352941175" blue="0.066666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
                                         <view contentMode="scaleToFill" id="t4e-X8-o6c">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                            <rect key="frame" x="-2" y="0.0" width="308" height="100"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="bMe-Ho-h9s">
@@ -52,21 +53,21 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mpj-bZ-eJI">
-                                                    <rect key="frame" x="99" y="25" width="160" height="21"/>
+                                                    <rect key="frame" x="96" y="25" width="148" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.22352941179999999" green="0.23921568630000001" blue="0.2784313725" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last added by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d8J-CL-mAU">
-                                                    <rect key="frame" x="99" y="43" width="160" height="21"/>
+                                                    <rect key="frame" x="96" y="43" width="148" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                                     <color key="textColor" red="0.52156862749999999" green="0.54117647059999996" blue="0.59215686270000001" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6fU-xz-I04">
-                                                    <rect key="frame" x="99" y="63" width="160" height="15"/>
+                                                    <rect key="frame" x="96" y="63" width="148" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                                     <inset key="titleEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -79,7 +80,7 @@
                                                     </state>
                                                 </button>
                                                 <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SVE-6G-iDc">
-                                                    <rect key="frame" x="265" y="40" width="27" height="18"/>
+                                                    <rect key="frame" x="252" y="40" width="28" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                                                     <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -95,8 +96,7 @@
                                             <color key="backgroundColor" red="0.94509803921568625" green="0.94901960784313721" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
+                                </tableViewCellContentView>
                                 <connections>
                                     <outlet property="author" destination="d8J-CL-mAU" id="gJn-BU-SD7"/>
                                     <outlet property="backImageView" destination="303-YF-szZ" id="eVp-L2-Kri"/>
@@ -274,15 +274,15 @@
             <objects>
                 <viewController storyboardIdentifier="SVAlbumGridViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="blj-nY-Sj7" customClass="SVAlbumGridViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uwg-JS-qa6">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="AT7-8R-Xbr" userLabel="Gridview container">
-                                <rect key="frame" x="0.0" y="45" width="320" height="503"/>
+                                <rect key="frame" x="0.0" y="45" width="320" height="523"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="D2i-UJ-1Pr">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="503"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="523"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="6" minimumInteritemSpacing="6" id="j06-Ta-80L">
@@ -330,7 +330,7 @@
                                                             <color key="color" red="0.53333333329999999" green="0.68235294120000001" blue="0.37647058820000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         </activityIndicatorView>
                                                         <progressView opaque="NO" contentMode="scaleToFill" progress="0.5" id="pJA-aq-0Bp">
-                                                            <rect key="frame" x="15" y="12" width="73" height="9"/>
+                                                            <rect key="frame" x="15" y="12" width="73" height="2"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </progressView>
                                                     </subviews>
@@ -362,7 +362,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="BWT-xz-n21">
-                                        <rect key="frame" x="74" y="3" width="173" height="44"/>
+                                        <rect key="frame" x="74" y="18" width="173" height="29"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <segments>
                                             <segment title="Feed"/>
@@ -545,27 +545,27 @@
             <objects>
                 <viewController id="Pcu-I1-edh" customClass="SVImagePickerListViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Oih-xy-7Nt">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="S6h-ZR-0sp">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" id="zmy-pd-Gnj" userLabel="View Container">
-                                        <rect key="frame" x="0.0" y="-2" width="320" height="506"/>
+                                        <rect key="frame" x="0.0" y="-2" width="320" height="570"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="mmw-Rt-9T4">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="506"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="570"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <prototypes>
                                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="gKy-nC-Fsg" customClass="SVAlbumListViewCell">
-                                                        <rect key="frame" x="0.0" y="22" width="320" height="101"/>
+                                                        <rect key="frame" x="0.0" y="86" width="320" height="101"/>
                                                         <autoresizingMask key="autoresizingMask"/>
-                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gKy-nC-Fsg" id="7Yi-7K-KDO">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="kxs-T0-7Ne">
@@ -597,12 +597,11 @@
                                                                     </state>
                                                                 </button>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="cellDivider.png" id="G6x-FC-Rzt">
-                                                                    <rect key="frame" x="0.0" y="100" width="320" height="1"/>
+                                                                    <rect key="frame" x="0.0" y="101" width="320" height="1"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                 </imageView>
                                                             </subviews>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        </view>
+                                                        </tableViewCellContentView>
                                                         <connections>
                                                             <outlet property="networkImageView" destination="9rg-Er-UUl" id="bLF-Vz-QL3"/>
                                                             <outlet property="numberNotViewedIndicator" destination="cD5-HP-z47" id="09X-mZ-Juh"/>
@@ -660,7 +659,7 @@
             <objects>
                 <viewController storyboardIdentifier="SVRegistrationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3rg-2I-Dzz" customClass="SVRegistrationViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FhI-zr-HcS">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="yJt-yu-Smt" userLabel="Phone Number Container">
@@ -768,8 +767,8 @@ to register this device</string>
         <scene sceneID="pHl-BF-BqW">
             <objects>
                 <tableViewController id="N4E-mX-u47" customClass="SVSettingsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ETc-Lm-hY8">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ETc-Lm-hY8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
@@ -785,9 +784,6 @@ to register this device</string>
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
                                     <connections>
                                         <action selector="doLogout:" destination="N4E-mX-u47" eventType="touchUpInside" id="i9d-rs-vxZ"/>
                                     </connections>
@@ -801,12 +797,12 @@ to register this device</string>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="csy-C0-mSe" imageView="XK8-ec-Iq9" style="IBUITableViewCellStyleDefault" id="1Ao-TH-QZx">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1Ao-TH-QZx" id="wd3-0R-Q6r">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="csy-C0-mSe">
-                                                    <rect key="frame" x="39" y="0.0" width="251" height="43"/>
+                                                    <rect key="frame" x="49" y="0.0" width="236" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.2627450980392157" green="0.29019607843137252" blue="0.31764705882352939" alpha="1" colorSpace="deviceRGB"/>
@@ -817,8 +813,7 @@ to register this device</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                         <connections>
                                             <segue destination="Y3e-6A-img" kind="push" identifier="SettingsHelpSegue" id="hc8-VF-LIN"/>
                                         </connections>
@@ -826,12 +821,12 @@ to register this device</string>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="ji2-oY-tiu" imageView="n45-Aa-ecN" style="IBUITableViewCellStyleDefault" id="3wS-l7-xRF">
                                         <rect key="frame" x="0.0" y="44" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3wS-l7-xRF" id="5Ly-EM-gah">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ji2-oY-tiu">
-                                                    <rect key="frame" x="39" y="0.0" width="251" height="43"/>
+                                                    <rect key="frame" x="49" y="0.0" width="236" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
@@ -842,8 +837,7 @@ to register this device</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                         <connections>
                                             <segue destination="K2n-3B-CQ0" kind="push" identifier="SettingsProfileSegue" id="wnh-dc-9HX"/>
                                         </connections>
@@ -851,12 +845,12 @@ to register this device</string>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="M1e-TR-5rv" imageView="ymW-eZ-yZi" style="IBUITableViewCellStyleDefault" id="0Yr-N1-aPQ">
                                         <rect key="frame" x="0.0" y="88" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Yr-N1-aPQ" id="6tW-t8-ITh">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="About" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M1e-TR-5rv">
-                                                    <rect key="frame" x="39" y="0.0" width="251" height="43"/>
+                                                    <rect key="frame" x="49" y="0.0" width="236" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
@@ -867,8 +861,7 @@ to register this device</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                         <connections>
                                             <segue destination="CPg-IN-zDw" kind="push" identifier="AboutSegue" id="N3C-3z-g2S"/>
                                         </connections>
@@ -876,12 +869,12 @@ to register this device</string>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="VMY-GF-lhp" imageView="UTK-SB-CtV" style="IBUITableViewCellStyleDefault" id="tSv-0F-neP">
                                         <rect key="frame" x="0.0" y="132" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tSv-0F-neP" id="IGC-cV-1SB">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Contact Support" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VMY-GF-lhp">
-                                                    <rect key="frame" x="39" y="0.0" width="251" height="43"/>
+                                                    <rect key="frame" x="49" y="0.0" width="236" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
@@ -892,8 +885,7 @@ to register this device</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -916,7 +908,7 @@ to register this device</string>
             <objects>
                 <viewController storyboardIdentifier="SidebarMenuView" id="k4U-OQ-1vP" customClass="SVSidebarMemberController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VtU-kk-MMa">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" id="xfG-Eg-O7z">
@@ -934,8 +926,8 @@ to register this device</string>
                                     <outlet property="delegate" destination="k4U-OQ-1vP" id="aX4-9W-7gg"/>
                                 </connections>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="42" sectionHeaderHeight="22" sectionFooterHeight="22" id="zzl-Ln-e03">
-                                <rect key="frame" x="0.0" y="135" width="320" height="413"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="42" sectionHeaderHeight="22" sectionFooterHeight="22" id="zzl-Ln-e03">
+                                <rect key="frame" x="0.0" y="135" width="320" height="433"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.12941176469999999" green="0.15686274510000001" blue="0.1843137255" alpha="0.5" colorSpace="deviceRGB"/>
@@ -959,7 +951,7 @@ to register this device</string>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AlbumMemberCell" id="op5-Xa-UFq" customClass="SVSidebarAlbumMemberCell">
                                         <rect key="frame" x="0.0" y="52" width="320" height="42"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="op5-Xa-UFq" id="sh9-44-fWG">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="41"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -994,8 +986,7 @@ to register this device</string>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                         <connections>
                                             <outlet property="memberLabel" destination="NQV-e8-xms" id="mfl-gx-lgM"/>
                                             <outlet property="profileImageView" destination="Kak-Tk-iE2" id="Ihy-xb-JAR"/>
@@ -1100,7 +1091,7 @@ friends in, so they can give it a glance</string>
             <objects>
                 <viewController title="Invite friends" id="hue-j9-5bn" customClass="SVAddFriendsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JmG-lN-sm5">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="Zaj-7x-zGj">
@@ -1160,7 +1151,7 @@ friends in, so they can give it a glance</string>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="u9V-tV-akp">
-                                        <rect key="frame" x="20" y="0.0" width="280" height="44"/>
+                                        <rect key="frame" x="20" y="0.0" width="280" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <segments>
                                             <segment title="ShotVibe"/>
@@ -1174,15 +1165,15 @@ friends in, so they can give it a glance</string>
                                 </subviews>
                                 <color key="backgroundColor" red="0.84705882352941175" green="0.85098039215686272" blue="0.87058823529411766" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="Csh-Y9-cyY">
-                                <rect key="frame" x="0.0" y="119" width="320" height="385"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="Csh-Y9-cyY">
+                                <rect key="frame" x="0.0" y="119" width="320" height="449"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContactCell" id="Tue-1x-ePc" customClass="SVContactCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tue-1x-ePc" id="m9K-9u-a0T">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -1214,8 +1205,7 @@ friends in, so they can give it a glance</string>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="checkmarkImage" destination="ank-Ot-Lh7" id="sAb-Mj-Kk4"/>
@@ -1269,11 +1259,11 @@ friends in, so they can give it a glance</string>
             <objects>
                 <viewController storyboardIdentifier="SidebarManagementView" id="914-kk-d9M" customClass="SVSidebarManagementController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fw3-11-mN9">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="v0A-fx-VGk">
-                                <rect key="frame" x="0.0" y="44" width="320" height="437"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="v0A-fx-VGk">
+                                <rect key="frame" x="0.0" y="44" width="320" height="457"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.13333333333333333" green="0.15686274509803921" blue="0.1764705882352941" alpha="0.73999999999999999" colorSpace="calibratedRGB"/>
@@ -1342,7 +1332,7 @@ friends in, so they can give it a glance</string>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AlbumManagementActivityCell" id="v2h-Pk-IGF" customClass="SVSidebarAlbumManagementActivityCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v2h-Pk-IGF" id="M02-ml-G98">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -1368,8 +1358,7 @@ friends in, so they can give it a glance</string>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                         <connections>
                                             <outlet property="icon" destination="BKH-WG-3X0" id="sEk-a5-w8G"/>
                                             <outlet property="memberLabel" destination="LIp-f1-aLO" id="ps3-YR-Zf5"/>
@@ -1383,7 +1372,7 @@ friends in, so they can give it a glance</string>
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vAd-El-oTI">
-                                <rect key="frame" x="20" y="489" width="280" height="40"/>
+                                <rect key="frame" x="20" y="509" width="280" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -1424,7 +1413,7 @@ friends in, so they can give it a glance</string>
             <objects>
                 <viewController id="Y3e-6A-img" customClass="SVWebViewController" sceneMemberID="viewController">
                     <webView key="view" contentMode="scaleToFill" id="Obu-FX-hhg">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" name="alternateSelectedControlColor" catalog="System" colorSpace="catalog"/>
                         <connections>
@@ -1448,7 +1437,7 @@ friends in, so they can give it a glance</string>
             <objects>
                 <viewController id="K2n-3B-CQ0" customClass="SVProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gO2-TN-Jny">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="6zt-Kf-ZnC">
@@ -1518,11 +1507,11 @@ friends in, so they can give it a glance</string>
             <objects>
                 <viewController id="lN6-jY-UVA" customClass="SVProfilePicViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kGI-gQ-j8n">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="Mvq-yl-Fyz">
-                                <rect key="frame" x="0.0" y="92" width="320" height="320"/>
+                                <rect key="frame" x="0.0" y="124" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -1543,8 +1532,8 @@ friends in, so they can give it a glance</string>
         <scene sceneID="DRS-hq-iat">
             <objects>
                 <tableViewController id="CPg-IN-zDw" customClass="SVSettingsAboutViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DTG-CH-qgU">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DTG-CH-qgU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
@@ -1559,12 +1548,12 @@ friends in, so they can give it a glance</string>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="541-yf-u2C" imageView="8uv-SL-vE6" style="IBUITableViewCellStyleDefault" id="qZs-M3-pmn">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qZs-M3-pmn" id="yc1-dC-9Y6">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Terms of Service" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="541-yf-u2C">
-                                                    <rect key="frame" x="39" y="0.0" width="251" height="43"/>
+                                                    <rect key="frame" x="49" y="0.0" width="236" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1575,8 +1564,7 @@ friends in, so they can give it a glance</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                         <connections>
                                             <segue destination="Y3e-6A-img" kind="push" identifier="SettingsTermsSegue" id="vb9-kV-1Jh"/>
                                         </connections>
@@ -1584,12 +1572,12 @@ friends in, so they can give it a glance</string>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="D5k-Uo-AnI" imageView="6vL-Cp-auZ" style="IBUITableViewCellStyleDefault" id="fXY-Pm-woh">
                                         <rect key="frame" x="0.0" y="44" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fXY-Pm-woh" id="kes-e4-5ge">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Privacy Policy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D5k-Uo-AnI">
-                                                    <rect key="frame" x="39" y="0.0" width="251" height="43"/>
+                                                    <rect key="frame" x="49" y="0.0" width="236" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1600,8 +1588,7 @@ friends in, so they can give it a glance</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                         <connections>
                                             <segue destination="Y3e-6A-img" kind="push" identifier="SettingsPrivacySegue" id="sFS-LY-DS0"/>
                                         </connections>
@@ -1609,12 +1596,12 @@ friends in, so they can give it a glance</string>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="I2f-D1-7hT" imageView="WVb-FU-clG" style="IBUITableViewCellStyleDefault" id="vIc-Zx-tm8">
                                         <rect key="frame" x="0.0" y="88" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vIc-Zx-tm8" id="ZV4-yL-hFQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Open Source Attributions" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="I2f-D1-7hT">
-                                                    <rect key="frame" x="39" y="0.0" width="251" height="43"/>
+                                                    <rect key="frame" x="49" y="0.0" width="236" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1625,8 +1612,7 @@ friends in, so they can give it a glance</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                         <connections>
                                             <segue destination="Y3e-6A-img" kind="push" identifier="SettingsAttributionsSegue" id="itz-1F-TDT"/>
                                         </connections>
@@ -1652,7 +1638,7 @@ friends in, so they can give it a glance</string>
             <objects>
                 <viewController storyboardIdentifier="SVCountriesViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jY5-rW-NAc" customClass="SVCountriesViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lzq-fZ-3Vc">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" placeholder="Search country" id="ro7-6i-An9">
@@ -1663,8 +1649,8 @@ friends in, so they can give it a glance</string>
                                     <outlet property="delegate" destination="jY5-rW-NAc" id="Win-Hk-YKO"/>
                                 </connections>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="45" sectionHeaderHeight="22" sectionFooterHeight="22" id="a0J-nf-cH4">
-                                <rect key="frame" x="0.0" y="44" width="320" height="460"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="45" sectionHeaderHeight="22" sectionFooterHeight="22" id="a0J-nf-cH4">
+                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.96078431369999995" green="0.96470588239999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1672,7 +1658,7 @@ friends in, so they can give it a glance</string>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVCountryViewCell" rowHeight="45" id="a6y-Xz-0rv" customClass="SVCountryViewCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a6y-Xz-0rv" id="4aB-MI-ILQ">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -1688,8 +1674,7 @@ friends in, so they can give it a glance</string>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="countryImage" destination="A9A-qD-5Nc" id="Pcg-Ce-2eo"/>
@@ -1720,11 +1705,11 @@ friends in, so they can give it a glance</string>
             <objects>
                 <viewController storyboardIdentifier="SVConfirmationCodeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Dlz-oj-oY1" customClass="SVConfirmationCodeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RSE-IF-p6a">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="Pv8-Kb-CHB" userLabel="Reg Code Container">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NPU-6a-aVT">
@@ -1840,11 +1825,11 @@ activation code just sent to you</string>
             <objects>
                 <viewController storyboardIdentifier="SVNoCodeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1tW-Ft-5Bj" customClass="SVNoCodeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fSc-45-f54">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="Trt-7t-YrH" userLabel="Phone Number Container">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="phoneNumberContainer.png" id="C0c-qk-Hlo">
@@ -1868,7 +1853,7 @@ activation code just sent to you</string>
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Pg6-aX-Y2m">
-                                        <rect key="frame" x="86" y="388" width="148" height="41"/>
+                                        <rect key="frame" x="86" y="452" width="148" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -1884,7 +1869,7 @@ activation code just sent to you</string>
                                         </connections>
                                     </button>
                                     <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="We'll call you instead with the activation code!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uJg-ah-qxW">
-                                        <rect key="frame" x="46" y="334" width="229" height="40"/>
+                                        <rect key="frame" x="46" y="398" width="229" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1987,237 +1972,15 @@ activation code just sent to you</string>
         <image name="settingsIcon.png" width="16" height="16"/>
         <image name="videoIcon.png" width="27" height="17"/>
     </resources>
-    <classes>
-        <class className="RCImageView" superclassName="UIImageView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RCImageView.h"/>
-        </class>
-        <class className="SVAddFriendsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAddFriendsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="contactsSourceChanged:" candidateClass="UISegmentedControl"/>
-                <relationship kind="action" name="donePressed:"/>
-                <relationship kind="outlet" name="addedContactsScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="contactsSourceSelector" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="contactsSourceView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="membersView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="noContactsView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumGridViewCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumGridViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="activityView" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="labelNewLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="labelNewView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="networkImageView" candidateClass="RCImageView"/>
-                <relationship kind="outlet" name="uploadProgressView" candidateClass="UIProgressView"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumGridViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumGridViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="takePicturePressed:"/>
-                <relationship kind="action" name="takeVideoPressed:"/>
-                <relationship kind="outlet" name="butTakePicture" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="butTakePicture2" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="butTakeVideo" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="butTakeVideo2" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="gridView" candidateClass="UICollectionView"/>
-                <relationship kind="outlet" name="gridviewContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="noPhotosView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="switchSort" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="switchView" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumListViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="author" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="backImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="backView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="frontView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="networkImageView" candidateClass="RCImageView"/>
-                <relationship kind="outlet" name="numberNotViewedIndicator" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="timestamp" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SVAlbumListViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVAlbumListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="newAlbumButtonPressed:"/>
-                <relationship kind="action" name="newAlbumClose:"/>
-                <relationship kind="action" name="newAlbumDone:"/>
-                <relationship kind="action" name="takePicturePressed:"/>
-                <relationship kind="outlet" name="albumButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="albumField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="dropDownContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="noPhotosView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="searchbar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="sectionHeader" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableOverlayView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="takePictureButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="SVConfirmationCodeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVConfirmationCodeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="confirmButtonPressed:"/>
-                <relationship kind="outlet" name="butSubmit" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="codeField1" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="codeField2" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="codeField3" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="codeField4" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="SVContactCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVContactCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="checkmarkImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="contactIcon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="isMemberImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="subtitleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SVCountriesViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVCountriesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="countriesTable" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="searchbar" candidateClass="UISearchBar"/>
-            </relationships>
-        </class>
-        <class className="SVCountryViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVCountryViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="code" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="countryImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SVImagePickerListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVImagePickerListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelButtonPressed:"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="viewContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVNoCodeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVNoCodeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="callmeButtonPressed:"/>
-                <relationship kind="action" name="countrySelectButtonPressed:"/>
-                <relationship kind="action" name="registerButtonPressed:"/>
-                <relationship kind="outlet" name="butContinue" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="countryFlagView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="phoneNumberField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="phoneNumberPhaseContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVProfilePicViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVProfilePicViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="SVProfileViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVProfileViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="changeProfilePicture:"/>
-                <relationship kind="outlet" name="nicknameField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="userPhoto" candidateClass="RCImageView"/>
-            </relationships>
-        </class>
-        <class className="SVRegistrationViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVRegistrationViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="countrySelectButtonPressed:"/>
-                <relationship kind="action" name="registerButtonPressed:"/>
-                <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="butContinue" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="countryFlagView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="phoneNumberField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="phoneNumberPhaseContainer" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SVSettingsAboutViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsAboutViewController.h"/>
-        </class>
-        <class className="SVSettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doLogout:"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarAlbumManagementActivityCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumManagementActivityCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="icon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="memberLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="profileImageView" candidateClass="RCImageView"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarAlbumMemberCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarAlbumMemberCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="memberLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="profileImageView" candidateClass="RCImageView"/>
-                <relationship kind="outlet" name="statusImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarManagementController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarManagementController.h"/>
-            <relationships>
-                <relationship kind="action" name="leavePressed:"/>
-                <relationship kind="action" name="natificationsPressed:"/>
-                <relationship kind="action" name="settingsButtonPressed:"/>
-                <relationship kind="action" name="sharePressed:"/>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SVSidebarMemberController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVSidebarMemberController.h"/>
-            <relationships>
-                <relationship kind="action" name="addFriendsButtonPressed:"/>
-                <relationship kind="action" name="ownerButtonPressed:"/>
-                <relationship kind="outlet" name="butAddFriends" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="butOwner" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="noMembersView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="sidebarNav" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SVWebViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SVWebViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="UICollectionReusableView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
-        </class>
-        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="FFK-OC-3pt"/>
+        <segue reference="i8y-Zz-QXE"/>
         <segue reference="iIS-e3-EEA"/>
-        <segue reference="oiS-6F-bJN"/>
-        <segue reference="YZf-v8-Yxg"/>
         <segue reference="hc8-VF-LIN"/>
         <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>

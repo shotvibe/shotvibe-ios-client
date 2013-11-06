@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SVRecord.h"
 
 typedef void(^AddressBookPermissionsBlock)(BOOL granted, NSError *error);
 typedef void(^AddressBookSearchCompletionBlock)();
@@ -26,7 +27,6 @@ typedef void(^AddressBookSearchCompletionBlock)();
 
 - (void)requestAccessWithCompletion:(AddressBookPermissionsBlock)completionBlock;
 - (void)filterByKeyword:(NSString*)keyword completionBlock:(AddressBookSearchCompletionBlock)completionBlock;
-- (int64_t)idOfRecord:(ABRecordRef)record;
-- (ABRecordRef)recordOfRecordId:(ABRecordID)recordId;
+- (SVRecord*)recordOfRecordId:(int)recordId;
 
 @end

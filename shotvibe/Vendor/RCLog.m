@@ -17,4 +17,15 @@
 		   [message cStringUsingEncoding:NSStringEncodingConversionAllowLossy]);
 }
 
++ (void)traceTimestamp {
+	
+	static NSDate *lastDate;
+	
+	if (lastDate == nil) {
+		lastDate = [NSDate date];
+	}
+	RCLog(@"Timestamp since last log: %f", (double)[lastDate timeIntervalSinceNow]);
+	lastDate = [NSDate date];
+}
+
 @end

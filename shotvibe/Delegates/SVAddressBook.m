@@ -47,22 +47,86 @@
 			//CFArrayRef sources = ABAddressBookCopyArrayOfAllSources(addressBook);
 			//ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook); // or get the source with ABPersonCopySource(somePersonsABRecordRef);
 			//CFArrayRef people = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering (addressBook, sources, ABPersonGetSortOrdering());
-			CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
-			self.allContacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(people)];
-			CFRelease(people);
 			//CFRelease(source);
 			
-			if (completionBlock)
-				completionBlock(YES,nil);
+			CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
+			NSArray *contacts = [[NSArray alloc] initWithArray:(__bridge NSArray *)(people)];
+			CFRelease(people);
+			
+			// Create SVRecord objects
+			__block NSMutableArray *svRecords = [NSMutableArray array];
+			
+			dispatch_async(abQueue, ^{
+				
+				// Iterate over original contacts
+				
+				for (id evaluatedObject in contacts) {
+					
+					NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(evaluatedObject));
+					
+					if (name == nil) {
+						// Record with no name
+						continue;
+					}
+					
+					ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonPhoneProperty);
+					signed long num = ABMultiValueGetCount(phoneNumbers);
+					
+					if (num == 0) {
+						// Record with no phone number
+						continue;
+//						record.name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(evaluatedObject));
+//						record.phone = @"";
+//						[arr addObject:record];
+					}
+					else {
+						for (CFIndex i = 0; i < num; i++) {
+							
+							NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
+							NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+							
+							if (phoneNumber != nil && phoneNumber.length > 0 && phoneNumericNumber.length > 0) {
+								
+								SVRecord *record = [[SVRecord alloc] init];
+								record.recordId = svRecords.count;
+								record.name = name;
+								record.phone = phoneNumber;
+								RCLog(@"%i %@ %@ -> %@", record.recordId, record.name, record.phone, phoneNumericNumber);
+								
+								if (ABPersonHasImageData((__bridge ABRecordRef)evaluatedObject)) {
+									record.iconLocalData = (__bridge NSData *)(ABPersonCopyImageDataWithFormat((__bridge ABRecordRef)evaluatedObject, kABPersonImageFormatThumbnail));
+								}
+								
+								int i = record.recordId;
+								if (i>78) i = 1 + i%78;
+								record.iconDefaultRemotePath = [NSString stringWithFormat:@"https://shotvibe-avatars-01.s3.amazonaws.com/default-avatar-00%@%i.jpg", i<10?@"0":@"", i];
+								
+								[svRecords addObject:record];
+							}
+						}
+					}
+										
+					if (phoneNumbers != nil) CFRelease(phoneNumbers);
+				}
+				
+				self.allContacts = svRecords;
+				
+				dispatch_async(dispatch_get_main_queue(), ^{
+					
+					[self filterByKeyword:nil completionBlock:^{
+						
+						if (completionBlock)
+							completionBlock(YES,nil);
+					}];
+				});
+			});
 		}
 		else {
-			RCLog(@"Unfortunately we need access to the contacts list");
 			if (completionBlock)
 				completionBlock(NO,nil);
 		}
 	});
 }
-
 
 - (void)filterByKeyword:(NSString*)keyword completionBlock:(AddressBookSearchCompletionBlock)completionBlock {
 	
@@ -72,18 +136,11 @@
 		
 		// Iterate over original contacts
 		
-		for (id evaluatedObject in self.allContacts) {
+		for (SVRecord *record in self.allContacts) {
 			
-			CFStringRef n = ABRecordCopyCompositeName((__bridge ABRecordRef)evaluatedObject);
-			NSString *name = (__bridge_transfer NSString*)n;
-			
-			if (name == nil) {
-				RCLog(@"name is nil. skip this contact");
-				continue;
-			}
-			if (keyword == nil || [[name lowercaseString] rangeOfString:keyword].location != NSNotFound)
-			{
-				NSString *key = [[name substringToIndex:1] uppercaseString];
+			if (keyword == nil || [[record.name lowercaseString] rangeOfString:keyword].location != NSNotFound) {
+				
+				NSString *key = [[record.name substringToIndex:1] uppercaseString];
 				if (key == nil || [key isEqualToString:@"_"]) {
 					key = @"#";
 				}
@@ -91,57 +148,9 @@
 				if (arr == nil) {
 					arr = [[NSMutableArray alloc] init];
 				}
-				
-				ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonPhoneProperty);
-				signed long num = ABMultiValueGetCount(phoneNumbers);
-				
-				if (num == 0) {
-					[arr addObject:evaluatedObject];
-				}
-				else {
-					for (CFIndex i = 0; i < num; i++) {
-						
-						if (i > 0) {
-							// Create a separate contact with the alternative phone numbers of a contact
-							NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
-							NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
-							if (phoneNumber != nil && phoneNumber.length > 0 && phoneNumericNumber.length > 0) {
-								
-								ABRecordRef persona = ABPersonCreate();
-								
-								CFStringRef firstName = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonFirstNameProperty);
-								CFStringRef lastName = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonLastNameProperty);
-								ABRecordSetValue (persona, kABPersonFirstNameProperty, firstName, nil);
-								ABRecordSetValue (persona, kABPersonLastNameProperty, lastName, nil);
-								if (firstName != NULL) { CFRelease(firstName); firstName = NULL; }
-								if (lastName != NULL) { CFRelease(lastName); lastName = NULL; } 
-								
-								ABMutableMultiValueRef multiPhone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-								bool didAddPhone = ABMultiValueAddValueAndLabel(multiPhone, (__bridge CFTypeRef)(phoneNumber), kABPersonPhoneMobileLabel, NULL);
-								if (didAddPhone){
-									ABRecordSetValue(persona, kABPersonPhoneProperty, multiPhone, nil);
-								}
-								
-								if (ABPersonHasImageData((__bridge ABRecordRef)evaluatedObject)) {
-									ABPersonSetImageData(persona, ABPersonCopyImageDataWithFormat((__bridge ABRecordRef)evaluatedObject, kABPersonImageFormatThumbnail), nil);
-								}
-								
-								[arr addObject:(__bridge id)persona];
-								
-								CFRelease(multiPhone);
-								CFRelease(persona);
-							}
-						}
-						else {
-							[arr addObject:evaluatedObject];
-						}
-					}
-				}
-				
-				if (phoneNumbers != nil) CFRelease(phoneNumbers);
+				[arr addObject:record];
 				
 				[self.filteredContacts setObject:arr forKey:key];
-				//RCLog(@"%i contacts for key %@", arr.count, key);
 			}
 		}
 		
@@ -153,63 +162,11 @@
 	});
 }
 
+- (SVRecord*)recordOfRecordId:(int)recordId {
 	
-	// For testing purposes
-	
-//	ABRecordRef persona = ABPersonCreate();
-//	ABRecordSetValue (persona, kABPersonFirstNameProperty, @"", nil);
-//	ABRecordSetValue (persona, kABPersonLastNameProperty, @"", nil);
-//	ABMutableMultiValueRef multiPhone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-//	bool didAddPhone = ABMultiValueAddValueAndLabel(multiPhone, @"Google", kABPersonPhoneMobileLabel, NULL);
-//	if (didAddPhone){
-//		ABRecordSetValue(persona, kABPersonPhoneProperty, multiPhone, nil);
-//	}
-//	
-//	NSMutableArray *arr = [self.filteredContacts objectForKey:@"#"];
-//	if (arr == nil) {
-//		arr = [[NSMutableArray alloc] init];
-//	}
-//	[arr addObject:(__bridge id)(persona)];
-//	[self.filteredContacts setObject:arr forKey:@"#"];
-	
-	//CFRelease(multiPhone);
-	//CFRelease(persona);
-	
-	
-	
-	//RCLog(@"self.filteredContacts %@ %@", self.filteredKeys, self.filteredContacts);
-
-
-- (int64_t)idOfRecord:(ABRecordRef)record {
-	
-	ABRecordID id_ = ABRecordGetRecordID(record);
-	
-	if (id_ == -1) {
-		ABMultiValueRef phoneNumbers = ABRecordCopyValue(record, kABPersonPhoneProperty);
-		NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
-		CFRelease(phoneNumbers);
-		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
-		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
-		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
-		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
-		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
-		phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"*" withString:@""];
-		//phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
-		long long i = [phoneNumber longLongValue];
-		return i/64;
-	}
-	return id_;
-}
-
-// do not create a new contact because it's instance object is different and will break some comparisons
-- (ABRecordRef)recordOfRecordId:(ABRecordID)recordId {
-	
-//	ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
-//	ABRecordRef record = ABAddressBookGetPersonWithRecordID (addressBook, recordId);
-	
-	for (id evaluatedObject in self.allContacts) {
-		if (ABRecordGetRecordID((__bridge ABRecordRef)(evaluatedObject)) == recordId) {
-			return (__bridge ABRecordRef)(evaluatedObject);
+	for (SVRecord *record in self.allContacts) {
+		if (record.recordId == recordId) {
+			return record;
 		}
 	}
 	

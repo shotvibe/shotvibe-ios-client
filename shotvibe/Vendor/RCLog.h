@@ -21,8 +21,14 @@ do { \
 #define RCLogSize(size) RCLog(@"%@", NSStringFromCGSize(size))
 #define RCLogThread() RCLog([NSThread isMainThread] ? @"Log from Main Thread":@"Log from Secondary Thread")
 
+#define RCLogTimestamp()  \
+do { \
+	[RCLog traceTimestamp]; \
+} while(0)
+
 @interface RCLog : NSObject
 
 + (void)traceFile:(NSString*)file line:(int)line message:(NSString*)message;
++ (void)traceTimestamp;
 
 @end
