@@ -9,8 +9,8 @@
 #ifndef shotvibe_SVDefines_h
 #define shotvibe_SVDefines_h
 
-#define IS_IOS6_OR_GREATER ([[UIDevice currentDevice].systemVersion floatValue] >= 6.0)
-#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+#define IS_IOS7 ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0)
+#define BLUE [UIColor colorWithRed:0.15 green:0.4 blue:0.6 alpha:1]
 
 #define kMemberNickname     @"nickname"
 #define kMemberPhone        @"phone"

@@ -136,19 +136,15 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-	if (!IS_IPHONE_5) {
-		CGRect r = self.phoneNumberPhaseContainer.frame;
-		r.origin.y -= 30;
-		self.phoneNumberPhaseContainer.frame = r;
-	}
+	CGRect r = self.phoneNumberPhaseContainer.frame;
+	r.origin.y -= 30;
+	self.phoneNumberPhaseContainer.frame = r;
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-	if (!IS_IPHONE_5) {
-		CGRect r = self.phoneNumberPhaseContainer.frame;
-		r.origin.y = 0;
-		self.phoneNumberPhaseContainer.frame = r;
-	}
+	CGRect r = self.phoneNumberPhaseContainer.frame;
+	r.origin.y = 0;
+	self.phoneNumberPhaseContainer.frame = r;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
