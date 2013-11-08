@@ -26,7 +26,7 @@ typedef void(^AddressBookSearchCompletionBlock)();
 + (instancetype)sharedBook;
 
 - (void)requestAccessWithCompletion:(AddressBookPermissionsBlock)completionBlock;
-- (void)filterByKeyword:(NSString*)keyword completionBlock:(AddressBookSearchCompletionBlock)completionBlock;
+- (void)filterByKeyword:(NSString*)keyword membersOnly:(BOOL)membersOnly completionBlock:(AddressBookSearchCompletionBlock)completionBlock;
 - (SVRecord*)recordOfRecordId:(int)recordId;
 
 @end

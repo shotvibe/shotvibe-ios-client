@@ -63,20 +63,19 @@
 		favorites = [[NSMutableArray alloc] init];
 	}
 	
+	self.contactsSourceView.hidden = YES;
+	self.contactsSourceSelector.frame = CGRectMake(5, 7, 233, 30);
+    self.contactsSourceSelector.selectedSegmentIndex = 1;
+	
 	// Address book contacts was already initialized in SVAlbumListViewController and the contacts were cached
 	ab = [SVAddressBook sharedBook];
 	if (ab.granted) {
-		//[self loadShotVibeContacts];
-		[self loadAddressbookContacts];
+		[self handleSearchForText:nil];
 	}
 	else {
 		self.noContactsView.hidden = NO;
 	}
     
-	self.contactsSourceView.hidden = YES;
-	self.contactsSourceSelector.frame = CGRectMake(5, 7, 233, 30);
-    self.contactsSourceSelector.selectedSegmentIndex = 1;
-	
 	// Setup back button
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(donePressed:)];
@@ -274,10 +273,12 @@
     return YES;
 }
 
-
 - (void) handleSearchForText:(NSString*)str {
+	
 	searching = (str != nil && ![str isEqualToString:@""]);
-	[ab filterByKeyword:str completionBlock:^{
+	BOOL membersOny = self.contactsSourceSelector.selectedSegmentIndex == 0;
+	RCLogI(self.contactsSourceSelector.selectedSegmentIndex);
+	[ab filterByKeyword:str membersOnly:membersOny completionBlock:^{
 		[self.tableView reloadData];
 	}];
 }
@@ -438,26 +439,18 @@
 	}
 }
 
-
 - (void)cancelPressed:(id)sender {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)contactsSourceChanged:(UISegmentedControl *)sender {
-	RCLog(@"contactsSourceChanged");
-//    if (sender.selectedSegmentIndex == 0) {
-//        [self loadShotVibeContacts];
-//    }else{
-//        [self loadAddressbookContacts];
-//    }
-}
-
-- (void)loadShotVibeContacts {
-    [self.tableView reloadData];
-}
-
-- (void)loadAddressbookContacts {
-	[self handleSearchForText:nil];
+	
+    if (sender.selectedSegmentIndex == 2) {
+		
+    }
+	else {
+		[self handleSearchForText:nil];
+    }
 }
 
 

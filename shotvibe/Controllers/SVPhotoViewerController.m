@@ -2,7 +2,7 @@
 //  SVAlbumDetailScrollViewController.m
 //  shotvibe
 //
-//  Created by John Gabelmann on 2/14/13.
+//  Created by Baluta Cristian
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 

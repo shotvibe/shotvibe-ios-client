@@ -113,7 +113,7 @@
 				
 				dispatch_async(dispatch_get_main_queue(), ^{
 					
-					[self filterByKeyword:nil completionBlock:^{
+					[self filterByKeyword:nil membersOnly:NO completionBlock:^{
 						
 						if (completionBlock)
 							completionBlock(YES,nil);
@@ -128,7 +128,7 @@
 	});
 }
 
-- (void)filterByKeyword:(NSString*)keyword completionBlock:(AddressBookSearchCompletionBlock)completionBlock {
+- (void)filterByKeyword:(NSString*)keyword membersOnly:(BOOL)membersOnly completionBlock:(AddressBookSearchCompletionBlock)completionBlock {
 	
 	dispatch_async(abQueue, ^{
 		
@@ -139,6 +139,11 @@
 		for (SVRecord *record in self.allContacts) {
 			
 			if (keyword == nil || [[record.name lowercaseString] rangeOfString:keyword].location != NSNotFound) {
+				
+				// Check if this contacts is a shotvibe member
+				if (record.memberId == 0 && membersOnly) {
+					continue;
+				}
 				
 				NSString *key = [[record.name substringToIndex:1] uppercaseString];
 				if (key == nil || [key isEqualToString:@"_"]) {
