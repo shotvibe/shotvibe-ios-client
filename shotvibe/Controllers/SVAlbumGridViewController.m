@@ -68,11 +68,6 @@
 	
 	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized withou albumId");
 	
-	collection_content_offset_y = IS_IOS7 ? 44 : 0;
-	
-	self.gridView.contentOffset = CGPointMake(0, collection_content_offset_y);
-	self.gridviewContainer.frame = CGRectMake(0, 0, 320, 568);
-	
 	self.gridView.alwaysBounceVertical = YES;
 	
 	sections = [[NSMutableDictionary alloc] init];
@@ -138,7 +133,7 @@
 	
 	if (refresh == nil) {
 		refresh = [[UIRefreshControl alloc] init];
-		refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+		if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 		[refresh addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
 		[self.gridView addSubview:refresh];
 		
@@ -594,7 +589,7 @@
 - (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
 {
     [refresh endRefreshing];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 }
 
 - (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId
@@ -623,13 +618,13 @@
 	refreshManualy = YES;
     [self.albumManager refreshAlbumContents:self.albumId];
 	[refresh beginRefreshing];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing photos..."];
+	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing photos..."];
 }
 - (void)endRefreshing
 {
 	refreshManualy = NO;
 	[refresh endRefreshing];
-	refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 }
 
 @end
