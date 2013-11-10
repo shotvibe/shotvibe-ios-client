@@ -659,7 +659,7 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
 {
     NSAssert(![NSThread isMainThread], @"queuePhotoDownload should not be called from the main thread");
 
-    NSLog(@"queuePhotoDownload: %@", photoId);
+    //NSLog(@"queuePhotoDownload: %@", photoId);
 
     UIImage *cachedImage = [photoImageCache_ getPhotoImage:photoId photoSize:photoSize];
     if (cachedImage) {

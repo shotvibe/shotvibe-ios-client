@@ -36,6 +36,11 @@
 	NSIndexPath *tappedCell;
 	SVCameraNavController *cameraNavController;
 	SVAddressBook *ab;
+	
+	int table_content_offset_y;
+	int total_header_h;
+	int status_bar_h;
+	int dropdown_origin_y;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *sectionHeader;
@@ -75,6 +80,13 @@
 
     RCLog(@"##### Initial albumList: %@", albumList);
 	
+	table_content_offset_y = IS_IOS7 ? 44 : 44;
+	total_header_h = IS_IOS7 ? 0 : 64;
+	status_bar_h = IS_IOS7 ? 0 : 20;
+	dropdown_origin_y = IS_IOS7 ? (45+44+20+45-1) : (45+44);
+	
+	self.tableView.contentOffset = CGPointMake(0, table_content_offset_y);
+	
 	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 		self.takePictureButton.enabled = NO;
 	}
@@ -107,7 +119,7 @@
     
 	
 	self.refreshControl = [[UIRefreshControl alloc] init];
-	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[self.refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
 	
 	[self updateEmptyState];
@@ -243,6 +255,7 @@
         [self.searchbar resignFirstResponder];
     }
 }
+
 
 - (BOOL)shouldAutorotate
 {
@@ -429,6 +442,7 @@
     return 1;
 }
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	self.sectionHeader.frame = CGRectMake(0, 0, 320, 45);
 	return self.sectionHeader;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -503,7 +517,7 @@
 	[searchBar setShowsCancelButton:YES animated:YES];
 	
 	[UIView animateWithDuration:0.3 animations:^{
-		self.tableView.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height-216-20);
+		self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-KEYBOARD_H-status_bar_h);
 	}];
 	
 	searchShowing = YES;
@@ -514,7 +528,7 @@
 	[searchBar setShowsCancelButton:NO animated:YES];
 	
 	[UIView animateWithDuration:0.2 animations:^{
-		self.tableView.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height-20-44);
+		self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-total_header_h);
 	}];
 	
 	searchShowing = NO;
@@ -588,11 +602,11 @@
 
 - (void)showDropDown
 {
-	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
+	[self.tableView setContentOffset:CGPointMake(0,table_content_offset_y) animated:YES];
 	[self.view addSubview:self.tableOverlayView];
 	
 	CGRect r = self.tableOverlayView.frame;
-	r.origin.y = 45+44;
+	r.origin.y = dropdown_origin_y;
 	self.tableOverlayView.frame = r;
 	self.tableOverlayView.alpha = 0;
     self.tableOverlayView.hidden = NO;
@@ -607,7 +621,7 @@
     self.albumField.text = @"";
 	self.albumField.placeholder = currentDateString;
     
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:0.5 animations:^{
         self.tableOverlayView.alpha = 1;
         self.dropDownContainer.frame = CGRectMake(8, -4, self.dropDownContainer.frame.size.width, 134);
     } completion:^(BOOL finished) {
@@ -708,27 +722,26 @@
 		refreshManualy = YES;
 		[self.albumManager refreshAlbumList];
 		[self.refreshControl beginRefreshing];
-		self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
+		if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
 	}
 }
 - (void)endRefreshing
 {
 	refreshManualy = NO;
 	[self.refreshControl endRefreshing];
-	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-	[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
+	if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	//[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 }
 
 
 
 - (void)onAlbumListBeginRefresh
 {
-	RCLog(@"Albums begin refresh");
+	
 }
 
 - (void)onAlbumListRefreshComplete:(NSArray *)albums
 {
-	RCLog(@"Albums end refresh");
 	creatingAlbum = NO;
 	[self setAlbumList:albums];
 	[self updateEmptyState];

@@ -35,6 +35,8 @@
     UIRefreshControl *refresh;
 	SVCameraNavController *cameraNavController;
 	SortType sort;
+	
+	int collection_content_offset_y;
 }
 
 @property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
@@ -65,6 +67,11 @@
     [super viewDidLoad];
 	
 	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized withou albumId");
+	
+	collection_content_offset_y = IS_IOS7 ? 44 : 0;
+	
+	self.gridView.contentOffset = CGPointMake(0, collection_content_offset_y);
+	self.gridviewContainer.frame = CGRectMake(0, 0, 320, 568);
 	
 	self.gridView.alwaysBounceVertical = YES;
 	
