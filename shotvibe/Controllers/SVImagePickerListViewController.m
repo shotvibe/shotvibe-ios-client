@@ -11,6 +11,7 @@
 #import "SVAssets.h"
 #import "SVAlbumListViewCell.h"
 #import "SVImagePickerSelector.h"
+#import "SVDefines.h"
 
 @interface SVImagePickerListViewController ()
 
@@ -44,6 +45,12 @@
 	
 	if (self.oneImagePicker) {
 		//self.navigationItem.leftBarButtonItem = nil;
+	}
+	
+	// IOS7
+	if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
+		self.navigationController.navigationBar.tintColor = [UIColor cyanColor];
+		self.navigationController.navigationBar.barTintColor = BLUE;
 	}
 	
     [self gatherLocalAlbums];
