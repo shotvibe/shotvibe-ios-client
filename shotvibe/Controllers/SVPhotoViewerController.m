@@ -58,6 +58,7 @@ static const int NUM_PHOTO_VIEWS = 3;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
+	toolsVisible = NO;
 	
 	cache = [[NSMutableArray alloc] initWithCapacity:self.photos.count];
 	for (id photo in self.photos) {
@@ -121,14 +122,14 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
-}
+//- (UIStatusBarStyle)preferredStatusBarStyle {
+//	return UIStatusBarStyleLightContent;
+//}
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
 	return UIStatusBarAnimationFade;
 }
 - (BOOL)prefersStatusBarHidden {
-	return YES;
+	return !toolsVisible;
 	// setNeedsStatusBarAppearanceUpdate
 }
 
@@ -349,6 +350,8 @@ static const int NUM_PHOTO_VIEWS = 3;
 // If permanent then we don't set timers to hide again
 - (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent {
     
+	toolsVisible = !hidden;
+	
 	// Status bar and nav bar positioning
     if (!IS_IOS7 && self.wantsFullScreenLayout) {
         

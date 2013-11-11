@@ -48,15 +48,17 @@
 	if (!IS_IOS7) self.wantsFullScreenLayout = NO;
 	
 	// IOS7
-	if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
-		self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-		self.navigationController.navigationBar.barTintColor = BLUE;
+	if (IS_IOS7) {
+		self.sidebarNav.tintColor = [UIColor blackColor];
+		self.sidebarNav.barTintColor = BLUE;
+	}
+	else {
+		UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
+		UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
+		UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
+		[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 	}
 	
-	UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
-	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
-	UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
-	[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 	
 	self.tableView.delegate = self;
 	[self.tableView setAllowsSelection:YES];

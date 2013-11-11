@@ -1044,6 +1044,7 @@ friends in, so they can give it a glance</string>
                         </subviews>
                         <color key="backgroundColor" red="0.1764705882352941" green="0.20392156862745098" blue="0.22745098039215686" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="butAddFriends" destination="FiF-95-PZF" id="1vG-Eb-bme"/>
