@@ -168,13 +168,15 @@ static const int NUM_PHOTO_VIEWS = 3;
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];RCLog(@"viewWillAppear");
+- (void)viewWillAppear:(BOOL)animated {
 	
-    self.navigationController.navigationBar.translucent = YES;
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
-	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+	[super viewWillAppear:animated];
+	
+	if (!IS_IOS7) {
+		self.navigationController.navigationBar.translucent = YES;
+		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
+		[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+	}
 	
 	[self setControlsHidden:YES animated:YES permanent:NO];
 	
@@ -188,23 +190,26 @@ static const int NUM_PHOTO_VIEWS = 3;
 	butEdit.enabled = YES;
 	navigatingNext = NO;
 }
-- (void)viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];RCLog(@"viewDidAppear");
+
+- (void)viewDidAppear:(BOOL)animated {
+	
+	[super viewDidAppear:animated];
 	
 	//[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
 	[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
 }
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];RCLog(@"viewWillDisappear navigatingNext %i", navigatingNext);
+
+- (void)viewWillDisappear:(BOOL)animated {
 	
-    self.navigationController.navigationBar.translucent = NO;
-    //self.navigationController.toolbar.translucent = NO;
-	//[self.navigationController setToolbarHidden:YES animated:YES];
+    [super viewWillDisappear:animated];
 	
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
-	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+	if (!IS_IOS7) {
+		self.navigationController.navigationBar.translucent = NO;
+		//self.navigationController.toolbar.translucent = NO;
+		//[self.navigationController setToolbarHidden:YES animated:YES];
+		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
+		[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+	}
 	
 	[photosScrollView removeGestureRecognizer:doubleTap];
 	[photosScrollView removeGestureRecognizer:singleTap];
@@ -334,7 +339,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 - (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent {
     
 	// Status bar and nav bar positioning
-    if (IS_IOS7 || self.wantsFullScreenLayout) {
+    if (!IS_IOS7 && self.wantsFullScreenLayout) {
         
         // Get status bar height if visible
         CGFloat statusBarHeight = 0;
@@ -364,7 +369,7 @@ static const int NUM_PHOTO_VIEWS = 3;
         [UIView setAnimationDuration:0.35];
     }
     CGFloat alpha = hidden ? 0 : 1;
-	[self.navigationController.navigationBar setAlpha:alpha];
+	if (!IS_IOS7) [self.navigationController.navigationBar setAlpha:alpha];
 	[self.toolbarView setAlpha:alpha];
 	if (animated) [UIView commitAnimations];
 	
@@ -417,8 +422,8 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 #pragma mark - Actions
 
-- (void)deleteButtonPressed
-{
+- (void)deleteButtonPressed {
+	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete picture", @"")
 													message:NSLocalizedString(@"Deleting this picture will delete it from the cloud as well, are you sure you want to continue?", @"")
 												   delegate:self
@@ -426,13 +431,14 @@ static const int NUM_PHOTO_VIEWS = 3;
 										  otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
 	[alert show];
 }
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
 	if (buttonIndex == 1) {
 		[self deletePictureAtIndex:self.index];
 	}
 	else {
-		((UIBarButtonItem*)self.toolbarItems[0]).enabled = YES;
+		//((UIBarButtonItem*)self.toolbarItems[0]).enabled = YES;
 	}
 }
 
