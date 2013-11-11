@@ -91,6 +91,12 @@
 	self.window.rootViewController = self.sideMenu;
 	if (!IS_IOS7) self.window.rootViewController.wantsFullScreenLayout = YES;
 	
+	// IOS7
+	if ([self.sidebarRight.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
+		self.sidebarRight.navigationController.navigationBar.tintColor = [UIColor blackColor];
+		self.sidebarRight.navigationController.navigationBar.barTintColor = BLUE;
+	}
+	
 	
 	SVInitialization *worker = [[SVInitialization alloc] init];
     [worker configureAppearanceProxies];

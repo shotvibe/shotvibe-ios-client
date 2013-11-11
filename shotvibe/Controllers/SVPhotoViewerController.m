@@ -24,7 +24,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	UIScrollView *photosScrollView;
 	NSMutableArray *cache;
 	SVActivityViewController* activity;
-	BOOL toolsVisible;
+	BOOL toolsHidden;
 	BOOL navigatingNext;
 	BOOL uploadingAviaryPicture;//
 	
@@ -58,7 +58,7 @@ static const int NUM_PHOTO_VIEWS = 3;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-	toolsVisible = NO;
+	toolsHidden = YES;
 	
 	cache = [[NSMutableArray alloc] initWithCapacity:self.photos.count];
 	for (id photo in self.photos) {
@@ -122,14 +122,14 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
-//- (UIStatusBarStyle)preferredStatusBarStyle {
-//	return UIStatusBarStyleLightContent;
-//}
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
+}
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
 	return UIStatusBarAnimationFade;
 }
 - (BOOL)prefersStatusBarHidden {
-	return !toolsVisible;
+	return toolsHidden;
 	// setNeedsStatusBarAppearanceUpdate
 }
 
@@ -350,10 +350,13 @@ static const int NUM_PHOTO_VIEWS = 3;
 // If permanent then we don't set timers to hide again
 - (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent {
     
-	toolsVisible = !hidden;
+	toolsHidden = hidden;
 	
 	// Status bar and nav bar positioning
-    if (!IS_IOS7 && self.wantsFullScreenLayout) {
+    if (IS_IOS7) {
+		
+	}
+	else if (self.wantsFullScreenLayout) {
         
         // Get status bar height if visible
         CGFloat statusBarHeight = 0;
@@ -383,7 +386,7 @@ static const int NUM_PHOTO_VIEWS = 3;
         [UIView setAnimationDuration:0.35];
     }
     CGFloat alpha = hidden ? 0 : 1;
-	if (!IS_IOS7) [self.navigationController.navigationBar setAlpha:alpha];
+	[self.navigationController.navigationBar setAlpha:alpha];
 	[self.toolbarView setAlpha:alpha];
 	if (animated) [UIView commitAnimations];
 	
