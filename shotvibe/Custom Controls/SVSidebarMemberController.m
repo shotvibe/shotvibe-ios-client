@@ -45,7 +45,13 @@
 	
     [super viewDidLoad];
     
-	self.wantsFullScreenLayout = NO;
+	if (!IS_IOS7) self.wantsFullScreenLayout = NO;
+	
+	// IOS7
+	if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
+		self.navigationController.navigationBar.tintColor = [UIColor cyanColor];
+		self.navigationController.navigationBar.barTintColor = BLUE;
+	}
 	
 	UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
 	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);

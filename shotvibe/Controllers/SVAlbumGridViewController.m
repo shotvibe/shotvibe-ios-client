@@ -40,12 +40,13 @@
 }
 
 @property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
-@property (nonatomic, strong) IBOutlet UIView *gridviewContainer;
-@property (nonatomic, strong) IBOutlet UICollectionView *gridView;
+@property (nonatomic, strong) IBOutlet UIView *collectionViewContainer;
+@property (nonatomic, strong) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, strong) IBOutlet UIView *headerViewContainer;
 @property (nonatomic, strong) IBOutlet UIView *noPhotosView;
-@property (nonatomic, strong) IBOutlet UIButton *butTakeVideo;
+//@property (nonatomic, strong) IBOutlet UIButton *butTakeVideo;
 @property (nonatomic, strong) IBOutlet UIButton *butTakePicture;
-@property (nonatomic, strong) IBOutlet UIButton *butTakeVideo2;
+//@property (nonatomic, strong) IBOutlet UIButton *butTakeVideo2;
 @property (nonatomic, strong) IBOutlet UIButton *butTakePicture2;
 @property (nonatomic, strong) IBOutlet UIView *switchView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *switchSort;
@@ -68,7 +69,16 @@
 	
 	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized withou albumId");
 	
-	self.gridView.alwaysBounceVertical = YES;
+	self.collectionView.alwaysBounceVertical = YES;
+	//self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+	if (IS_IOS7) {
+		RCLog(@"headerViewContainer frame");
+		RCLogRect(self.headerViewContainer.frame);
+		self.headerViewContainer.frame = CGRectMake(0, 64, 320, 45);
+	}
+	else {
+		self.headerViewContainer.frame = CGRectMake(0, 0, 320, 45);
+	}
 	
 	sections = [[NSMutableDictionary alloc] init];
 	sectionsKeys = [[NSMutableArray alloc] init];
@@ -77,8 +87,8 @@
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 		self.butTakePicture.enabled = NO;
 		self.butTakePicture2.enabled = NO;
-		self.butTakeVideo.enabled = NO;
-		self.butTakeVideo2.enabled = NO;
+//		self.butTakeVideo.enabled = NO;
+//		self.butTakeVideo2.enabled = NO;
 	}
     
     // Setup tabbar right button
@@ -96,15 +106,15 @@
 	self.navigationItem.backBarButtonItem = backButton;
 	
 	// CollectionView
-	[self.gridView registerClass:[SVAlbumGridSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SVAlbumGridSection"];
-	[self.gridView addSubview:self.switchView];
+	[self.collectionView registerClass:[SVAlbumGridSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SVAlbumGridSection"];
+	[self.collectionView addSubview:self.switchView];
 	
 	self.switchView.frame = CGRectMake(0, 0, 320, 45);
 	self.switchSort.frame = CGRectMake(50, 10, 220, 30);
 	[self.switchSort addTarget:self action:@selector(switchSortHandler:) forControlEvents:UIControlEventValueChanged];
 	self.switchSort.selectedSegmentIndex = sort;
 	
-	//UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout*)self.gridView.collectionViewLayout;
+	//UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
 	//[flow setSectionInset:UIEdgeInsetsMake(45, 0, 0, 0)];
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = self;
@@ -135,7 +145,7 @@
 		refresh = [[UIRefreshControl alloc] init];
 		if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 		[refresh addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
-		[self.gridView addSubview:refresh];
+		[self.collectionView addSubview:refresh];
 		
 		// Remove the previous controller from the stack if it's SVCameraPickerController
 		NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
@@ -146,12 +156,12 @@
 	}
 	if (self.scrollToBottom) {
 		self.scrollToBottom = NO;
-		RCLogSize(self.gridView.contentSize);
-		RCLogRect(self.gridView.bounds);
-		[self.gridView scrollRectToVisible:CGRectMake(0,
-													  self.gridView.contentSize.height - self.gridView.bounds.size.height,
-													  self.gridView.bounds.size.width,
-													  self.gridView.bounds.size.height)
+		RCLogSize(self.collectionView.contentSize);
+		RCLogRect(self.collectionView.bounds);
+		[self.collectionView scrollRectToVisible:CGRectMake(0,
+													  self.collectionView.contentSize.height - self.collectionView.bounds.size.height,
+													  self.collectionView.bounds.size.width,
+													  self.collectionView.bounds.size.height)
 								  animated:NO];
 	}
 	
@@ -172,10 +182,10 @@
 		((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = nil;
 		((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = nil;
 		self.sideMenu = nil;
-		self.gridviewContainer = nil;
-		self.gridView = nil;
+		self.collectionViewContainer = nil;
+		self.collectionView = nil;
 		self.noPhotosView = nil;
-		self.butTakeVideo = nil;
+//		self.butTakeVideo = nil;
 		self.butTakePicture = nil;
 		[self.switchSort removeTarget:self action:@selector(switchSortHandler:) forControlEvents:UIControlEventValueChanged];
 		self.switchSort = nil;
@@ -265,10 +275,10 @@
 - (void) updateEmptyState
 {
 	if (albumContents.photos.count == 0) {
-		[self.gridView addSubview:self.noPhotosView];
+		[self.collectionView addSubview:self.noPhotosView];
 		self.switchView.hidden = YES;
 	}
-	else if ([self.noPhotosView isDescendantOfView:self.gridView] || [self.noPhotosView isDescendantOfView:self.view]) {
+	else if ([self.noPhotosView isDescendantOfView:self.collectionView] || [self.noPhotosView isDescendantOfView:self.view]) {
 		[self.noPhotosView removeFromSuperview];
 		self.switchView.hidden = NO;
 	}
@@ -434,7 +444,7 @@
     detailController.albumManager = self.albumManager;
 	detailController.index = i;
 	detailController.title = albumContents.name;
-	detailController.wantsFullScreenLayout = YES;
+	if (!IS_IOS7) detailController.wantsFullScreenLayout = YES;
 	
 	navigatingNext = YES;
     [self.navigationController pushViewController:detailController animated:YES];
@@ -491,7 +501,7 @@
     });
 
 	[self sortThumbsBy:sort];
-    [self.gridView reloadData];
+    [self.collectionView reloadData];
 	[self updateEmptyState];
 }
 
@@ -568,7 +578,7 @@
 - (void)switchSortHandler:(UISegmentedControl*)control {
 	sort = control.selectedSegmentIndex;
 	[self sortThumbsBy:sort];
-	[self.gridView reloadData];
+	[self.collectionView reloadData];
 	[[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -596,8 +606,8 @@
 {
 	// Iterate over visible cells and find the cell with the albumId
 	
-	for (SVAlbumGridViewCell *cell in self.gridView.visibleCells) {
-		NSIndexPath *indexPath = [self.gridView indexPathForCell:cell];
+	for (SVAlbumGridViewCell *cell in self.collectionView.visibleCells) {
+		NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
 		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 		AlbumPhoto *photo = [arr objectAtIndex:indexPath.item];
 		

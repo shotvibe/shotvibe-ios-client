@@ -247,14 +247,16 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
     }
 }
 
+
+
+#pragma mark App did finish loading
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 #if !CONFIGURATION_Debug
     // Initialize Crashlytics
     [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
 #endif
-
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 	
     ShotVibeAPI *shotvibeAPI = [[ShotVibeAPI alloc] initWithAuthData:[UserSettings getAuthData]];
     ShotVibeDB *shotvibeDB = [[ShotVibeDB alloc] init];
@@ -267,6 +269,14 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
 
     NSAssert([self.window.rootViewController isKindOfClass:[UINavigationController class]], @"Error");
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+	
+	// IOS7
+	if ([navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
+		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+		navigationController.navigationBar.tintColor = [UIColor cyanColor];
+		navigationController.navigationBar.barTintColor = BLUE;
+	}
+	
 	
     NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
@@ -283,7 +293,7 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
 	self.sideMenu.panMode = MFSideMenuPanModeNone;
 	//self.sideMenu.shadow.enabled = NO;
 	self.window.rootViewController = self.sideMenu;
-	self.window.rootViewController.wantsFullScreenLayout = YES;
+	if (!IS_IOS7) self.window.rootViewController.wantsFullScreenLayout = YES;
 	
 	SVInitialization *worker = [[SVInitialization alloc] init];
 	

@@ -88,7 +88,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[self.toolbarView addSubview:butEdit];
     
 	self.navigationItem.rightBarButtonItem = nil;
-	self.wantsFullScreenLayout = YES;
+	if (!IS_IOS7) self.wantsFullScreenLayout = YES;
 	
     photosScrollView = [[UIScrollView alloc] init];
 	photosScrollView.scrollEnabled = YES;
@@ -334,7 +334,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 - (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent {
     
 	// Status bar and nav bar positioning
-    if (self.wantsFullScreenLayout) {
+    if (IS_IOS7 || self.wantsFullScreenLayout) {
         
         // Get status bar height if visible
         CGFloat statusBarHeight = 0;

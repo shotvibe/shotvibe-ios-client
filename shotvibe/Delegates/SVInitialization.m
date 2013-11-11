@@ -15,22 +15,17 @@
 
 - (void)configureAppearanceProxies {
 	
-    // Customize appearance of the navigation bar    
-    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont, nil]];
-    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:0.0 forBarMetrics:UIBarMetricsLandscapePhone];
-    
     if (IS_IOS7) {
 		
-		UIView *background = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 568, 44+20)];
-		background.backgroundColor = BLUE;
-		UIGraphicsBeginImageContext(background.frame.size);
-		CGContextRef context = UIGraphicsGetCurrentContext();
-		[background.layer renderInContext:context];
-		UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
-		UIGraphicsEndImageContext();
+//		UIView *background = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 568, 44+20)];
+//		background.backgroundColor = BLUE;
+//		UIGraphicsBeginImageContext(background.frame.size);
+//		CGContextRef context = UIGraphicsGetCurrentContext();
+//		[background.layer renderInContext:context];
+//		UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
+//		UIGraphicsEndImageContext();
 		
-		[[UINavigationBar appearance] setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+		//[[UINavigationBar appearance] setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
 	}
 	else {
         UIImage *baseImage = [UIImage imageNamed:@"navBarBg.png"];
@@ -38,6 +33,9 @@
         UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
         
         [[UINavigationBar appearance] setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
+		[[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont, nil]];
+		[[UINavigationBar appearance] setTitleVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsDefault];
+		[[UINavigationBar appearance] setTitleVerticalPositionAdjustment:0.0 forBarMetrics:UIBarMetricsLandscapePhone];
     }
     
     // Customize back barbuttonitem for nav bar

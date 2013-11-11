@@ -55,7 +55,7 @@
             }
             else {
                 self.nicknameField.text = userProfile.nickname;
-				[self.userPhoto setImageWithURL:userProfile.avatarUrl];
+				[self.userPhoto setImageWithURL:[NSURL URLWithString:userProfile.avatarUrl]];
             }
         });
     });
@@ -67,6 +67,16 @@
 	self.userPhoto.image = [UIImage imageWithContentsOfFile:path];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+	
+	[super viewWillAppear:animated];
+	
+	if (IS_IOS7) {
+		CGRect f = self.view.frame;
+		f.origin.y = 64;
+		self.view.frame = f;
+	}
+}
 
 #pragma mark Actions
 

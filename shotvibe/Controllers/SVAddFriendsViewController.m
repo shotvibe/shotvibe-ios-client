@@ -63,6 +63,16 @@
 		favorites = [[NSMutableArray alloc] init];
 	}
 	
+	
+	// IOS7
+	if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
+		self.navigationController.navigationBar.tintColor = [UIColor cyanColor];
+		self.navigationController.navigationBar.barTintColor = BLUE;
+		self.navigationController.navigationBar.translucent = NO;
+		self.view.frame = CGRectMake(0, 64, 320, 568-64);
+	}
+	
+	
 	self.contactsSourceView.hidden = YES;
 	self.contactsSourceSelector.frame = CGRectMake(5, 7, 233, 30);
     self.contactsSourceSelector.selectedSegmentIndex = 1;
