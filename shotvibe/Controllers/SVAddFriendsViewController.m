@@ -58,7 +58,7 @@
 	contactsButtons = [[NSMutableArray alloc] init];
 	selectedRecords = [[NSMutableArray alloc] init];
 	favorites = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"favorites"]];
-	RCLogO(favorites);
+	
 	if (favorites == nil) {
 		favorites = [[NSMutableArray alloc] init];
 	}
@@ -94,8 +94,13 @@
 	self.navigationItem.rightBarButtonItem = doneButton;
 	self.navigationItem.rightBarButtonItem.enabled = NO;
 	self.title = @"Invite friends";
+	if (IS_IOS7) {
+		[self setNeedsStatusBarAppearanceUpdate];
+	}
 }
-
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
+}
 
 #pragma mark -
 #pragma mark - Table view data source

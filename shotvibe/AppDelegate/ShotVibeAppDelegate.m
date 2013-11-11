@@ -13,12 +13,14 @@
 #import "SVDefines.h"
 #import "SVAlbumListViewController.h"
 #import "SVRegistrationViewController.h"
-#import "MFSideMenu.h"
 #import "SVSidebarManagementController.h"
 #import "SVSidebarMemberController.h"
+#import "SVNavigationController.h"
+
 #import "MPNotificationView.h"
-#import "UIImageView+AFNetworking.h"
+#import "MFSideMenu.h"
 #import "MBProgressHUD.h"
+#import "UIImageView+AFNetworking.h"
 
 #import "RegistrationInfo.h"
 #import "UserSettings.h"
@@ -62,15 +64,8 @@
 
     // The following casts will work because of the way the MainStoryboard is set up.
 
-    NSAssert([self.window.rootViewController isKindOfClass:[UINavigationController class]], @"Error: rootViewController is not UINavigationController");
-    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-	
-	// IOS7
-	if ([navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
-		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-		navigationController.navigationBar.tintColor = [UIColor blackColor];
-		navigationController.navigationBar.barTintColor = BLUE;
-	}
+    NSAssert([self.window.rootViewController isKindOfClass:[SVNavigationController class]], @"Error: rootViewController is not UINavigationController");
+    SVNavigationController *navigationController = (SVNavigationController *)self.window.rootViewController;
 	
 	
     NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error: visibleViewController is not SVRegistrationViewController");

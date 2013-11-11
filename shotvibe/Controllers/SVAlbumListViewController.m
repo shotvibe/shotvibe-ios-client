@@ -149,6 +149,10 @@
 			RCLog(@"You have no access to the addressbook");
 		}
 	}];
+	
+	if (IS_IOS7) {
+		[self setNeedsStatusBarAppearanceUpdate];
+	}
 }
 
 - (void)submitAddressBook {
@@ -255,6 +259,10 @@
     else if (self.searchbar.isFirstResponder) {
         [self.searchbar resignFirstResponder];
     }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
 }
 
 

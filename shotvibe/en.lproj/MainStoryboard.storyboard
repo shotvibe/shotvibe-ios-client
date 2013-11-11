@@ -626,7 +626,7 @@
         <!--Navigation Controller-->
         <scene sceneID="E9K-is-pZC">
             <objects>
-                <navigationController definesPresentationContext="YES" id="TFb-8t-Kdm" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="TFb-8t-Kdm" customClass="SVNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Iog-LR-hvt">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
