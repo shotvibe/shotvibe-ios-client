@@ -31,13 +31,6 @@
 	
     [super viewDidLoad];
 	
-	
-	// IOS7
-	if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
-		self.navigationController.navigationBar.translucent = NO;
-		//self.view.frame = CGRectMake(0, 64, 320, 568-64);
-	}
-	
     NSAssert(self.albumManager, @"SVProfileViewController started without setting albumManager property");
 	
     ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
@@ -79,9 +72,16 @@
 	[super viewWillAppear:animated];
 	
 	if (IS_IOS7) {
-		CGRect f = self.view.frame;
-		f.origin.y = 64;
-		self.view.frame = f;
+		self.navigationController.navigationBar.translucent = NO;
+	}
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+	
+	[super viewWillDisappear:animated];
+	
+	if (IS_IOS7) {
+		self.navigationController.navigationBar.translucent = YES;
 	}
 }
 
