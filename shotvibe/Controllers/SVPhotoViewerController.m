@@ -121,6 +121,17 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
+}
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+	return UIStatusBarAnimationFade;
+}
+- (BOOL)prefersStatusBarHidden {
+	return YES;
+	// setNeedsStatusBarAppearanceUpdate
+}
+
 - (void)configurePhotosScrollView
 {
     int w = self.view.frame.size.width;
@@ -373,6 +384,9 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[self.toolbarView setAlpha:alpha];
 	if (animated) [UIView commitAnimations];
 	
+	if (IS_IOS7) {
+		[self setNeedsStatusBarAppearanceUpdate];
+	}
 }
 
 
