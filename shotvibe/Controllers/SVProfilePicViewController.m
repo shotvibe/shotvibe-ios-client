@@ -27,6 +27,7 @@
 																  action:@selector(editButtonPressed)];
 	self.navigationItem.rightBarButtonItem = doneButton;
 	imageView.image = self.image;
+	
 }
 
 
