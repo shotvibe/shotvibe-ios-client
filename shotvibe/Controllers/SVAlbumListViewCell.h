@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import "PhotoView.h"
+
+#define MIN_SWIPE_X 60
 
 @protocol SVAlbumListViewCellDelegate <NSObject>
 @required

@@ -7,6 +7,7 @@
 //
 
 #import "SVAlbumListViewCell.h"
+#import "SVDefines.h"
 
 @implementation SVAlbumListViewCell
 
@@ -17,7 +18,6 @@
         // Initialization code
 		
 		_swipeStage = 0;
-		RCLog(@"init with style");
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
@@ -46,8 +46,8 @@
 	else {
 		self.frontView.frame = CGRectMake(dx, 0, self.frame.size.width, self.frame.size.height);
 		
-		int dw = 40;
-		if (dx > 40) {
+		int dw = MIN_SWIPE_X;
+		if (dx > MIN_SWIPE_X) {
 			dw = dx;
 			self.backView.alpha = 1;
 		}
@@ -82,8 +82,16 @@
 	CGPoint location = [touch locationInView:self];
 	int dx = location.x - _originalCenter.x;
 	
-	if (self.frontView.frame.origin.x < 40) {
+	if (self.frontView.frame.origin.x < 4) {
 		[super touchesEnded:touches withEvent:event];
+	}
+	else if (self.frontView.frame.origin.x < MIN_SWIPE_X) {
+		if (IS_IOS7) {
+			[super touchesCancelled:touches withEvent:event];
+		}
+		else {
+			[super touchesEnded:touches withEvent:event];
+		}
 	}
 	else {
 		[super touchesCancelled:touches withEvent:event];

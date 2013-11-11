@@ -2203,8 +2203,6 @@
 			children = (
 				AAF05CD316CB28DD005BCFD3 /* SVAlbumListViewController.h */,
 				AAF05CD416CB28DD005BCFD3 /* SVAlbumListViewController.m */,
-				66BF1FC5182147D100AA16A7 /* PhotoView.h */,
-				66BF1FC6182147D100AA16A7 /* PhotoView.m */,
 				AA12880F16CB876A002AC699 /* SVAlbumListViewCell.h */,
 				AA12881016CB876A002AC699 /* SVAlbumListViewCell.m */,
 				28B30FA71807F2AC005C50A4 /* SVMiniAlbumList.h */,
@@ -2217,6 +2215,8 @@
 				28FC2C2817F886CC00AE24C3 /* SVAlbumGridSection.m */,
 				04CD9CE016CDF15A00FC72B3 /* SVPhotoViewerController.h */,
 				04CD9CE116CDF15A00FC72B3 /* SVPhotoViewerController.m */,
+				66BF1FC5182147D100AA16A7 /* PhotoView.h */,
+				66BF1FC6182147D100AA16A7 /* PhotoView.m */,
 			);
 			name = Albums;
 			sourceTree = "<group>";
