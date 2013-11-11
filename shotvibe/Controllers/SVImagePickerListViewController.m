@@ -49,7 +49,7 @@
 	
 	// IOS7
 	if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
-		self.navigationController.navigationBar.tintColor = [UIColor cyanColor];
+		self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 		self.navigationController.navigationBar.barTintColor = BLUE;
 	}
 	

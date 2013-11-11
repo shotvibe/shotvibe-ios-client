@@ -83,7 +83,7 @@
 	table_content_offset_y = IS_IOS7 ? 44 : 44;
 	total_header_h = IS_IOS7 ? 44 : 64;
 	status_bar_h = IS_IOS7 ? 0 : 20;
-	dropdown_origin_y = IS_IOS7 ? (45+44+20+45-1) : (45+44);
+	dropdown_origin_y = IS_IOS7 ? (45+44) : (45+44);
 	
 	//self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
 	self.tableView.contentOffset = CGPointMake(0, 44);
