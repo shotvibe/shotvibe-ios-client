@@ -19,6 +19,7 @@
 
 - (void)setPhoto:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize manager:(PhotoFilesManager *)photoFilesManager;
 
+- (UIImage*)image;
 - (void)setImage:(UIImage *)image;
 
 - (void)onPhotoLoadUpdate:(PhotoBitmap *)bmp;

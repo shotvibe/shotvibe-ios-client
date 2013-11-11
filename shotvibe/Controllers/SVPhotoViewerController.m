@@ -19,9 +19,12 @@
 
 static const int NUM_PHOTO_VIEWS = 3;
 
-@interface SVPhotoViewerController ()
-{
+@interface SVPhotoViewerController () {
+	
 	UIScrollView *photosScrollView;
+	UIView *toolbarView;
+	UILabel *detailLabel;
+	
 	NSMutableArray *cache;
 	SVActivityViewController* activity;
 	BOOL toolsHidden;
@@ -39,24 +42,19 @@ static const int NUM_PHOTO_VIEWS = 3;
     PhotoView *photoViews[NUM_PHOTO_VIEWS];
 }
 
-@property (nonatomic, strong) UIView *toolbarView;
-@property (nonatomic, strong) UILabel *detailLabel;
-
-- (void)deleteButtonPressed;
-- (void)exportButtonPressed;
-- (void)toggleMenu;
-- (void)updateInfoOnScreen;
 @end
+
+
 
 @implementation SVPhotoViewerController
 
 
 #pragma mark - View Lifecycle
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+	
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	
     self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
 	toolsHidden = YES;
 	
@@ -66,27 +64,27 @@ static const int NUM_PHOTO_VIEWS = 3;
 	}
 	
 	// Add custom toolbar
-	self.toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, 320, 44)];
-	self.toolbarView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
-	self.toolbarView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-	self.toolbarView.alpha = 0;
+	toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, 320, 44)];
+	toolbarView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
+	toolbarView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+	toolbarView.alpha = 0;
 	
 	butTrash = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
 	[butTrash setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
 	[butTrash addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-	[self.toolbarView addSubview:butTrash];
+	[toolbarView addSubview:butTrash];
     
 	butShare = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 0, 44, 44)];
 	[butShare setImage:[UIImage imageNamed:@"exportIcon.png"] forState:UIControlStateNormal];
 	[butShare addTarget:self action:@selector(exportButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 	butShare.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-	[self.toolbarView addSubview:butShare];
+	[toolbarView addSubview:butShare];
     
 	butEdit = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44-44-10, 0, 44, 44)];
 	[butEdit setImage:[UIImage imageNamed:@"PencilWhite.png"] forState:UIControlStateNormal];
 	[butEdit addTarget:self action:@selector(displayEditor) forControlEvents:UIControlEventTouchUpInside];
 	butEdit.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-	[self.toolbarView addSubview:butEdit];
+	[toolbarView addSubview:butEdit];
     
 	self.navigationItem.rightBarButtonItem = nil;
 	if (!IS_IOS7) self.wantsFullScreenLayout = YES;
@@ -97,10 +95,10 @@ static const int NUM_PHOTO_VIEWS = 3;
 	photosScrollView.showsVerticalScrollIndicator = NO;
 	photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
 	photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-	photosScrollView.delegate = self;// set delegate
+	photosScrollView.delegate = self;
 	[self.view addSubview:photosScrollView];
 
-    [self configurePhotosScrollView];
+    [self fitScrollViewToOrientation];
 
     currentPhotoViewsStartIndex = INT_MAX;
     for (int i = 0; i < NUM_PHOTO_VIEWS; ++i) {
@@ -122,63 +120,6 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
-}
-- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-	return UIStatusBarAnimationFade;
-}
-- (BOOL)prefersStatusBarHidden {
-	return toolsHidden;
-	// setNeedsStatusBarAppearanceUpdate
-}
-
-- (void)configurePhotosScrollView
-{
-    int w = self.view.frame.size.width;
-    int h = self.view.frame.size.height;
-
-    photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
-    photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
-    photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
-}
-
-- (CGRect)rectForPhotoIndex:(int)i
-{
-    int w = self.view.frame.size.width;
-    int h = self.view.frame.size.height;
-
-    return CGRectMake((w + GAP_X) * i, 0, w, h);
-}
-
-- (void)setPhotoViewsIndex:(int)index
-{
-    if (currentPhotoViewsStartIndex == index) {
-        return;
-    }
-
-    for (int i = 0; i < NUM_PHOTO_VIEWS; ++i) {
-        if (index + i < self.photos.count) {
-            photoViews[i].hidden = NO;
-            [photoViews[i] setFrame:[self rectForPhotoIndex:index + i]];
-            AlbumPhoto *photo = [self.photos objectAtIndex:index + i];
-
-            if (photo.serverPhoto) {
-                [photoViews[i] setPhoto:photo.serverPhoto.photoId
-                               photoUrl:photo.serverPhoto.url
-                              photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
-                                manager:self.albumManager.photoFilesManager];
-            }
-            else if (photo.uploadingPhoto) {
-                UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[photo.uploadingPhoto getFilename]];
-                [photoViews[i] setImage:localImage];
-            }
-        }
-        else {
-            photoViews[i].hidden = YES;
-        }
-    }
-}
 
 - (void)viewWillAppear:(BOOL)animated {
 	
@@ -227,7 +168,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[photosScrollView removeGestureRecognizer:singleTap];
 	
 	if ( ! navigatingNext) {
-
+		
 		photosScrollView.delegate = nil;
 		[photosScrollView removeFromSuperview];
 		photosScrollView = nil;
@@ -242,15 +183,78 @@ static const int NUM_PHOTO_VIEWS = 3;
 		
 		singleTap = nil;
 		doubleTap = nil;
-	
-		[self.toolbarView removeFromSuperview];
-		self.toolbarView = nil;
+		
+		[toolbarView removeFromSuperview];
+		toolbarView = nil;
 		butTrash = nil;
-		[self.detailLabel removeFromSuperview];
-		self.detailLabel = nil;
+		[detailLabel removeFromSuperview];
+		detailLabel = nil;
 	}
 	navigatingNext = NO;
 }
+
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+	return UIStatusBarAnimationFade;
+}
+
+- (BOOL)prefersStatusBarHidden {
+	return toolsHidden;// setNeedsStatusBarAppearanceUpdate
+}
+
+- (void)fitScrollViewToOrientation {
+	
+    int w = self.view.frame.size.width;
+    int h = self.view.frame.size.height;
+	
+    photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
+    photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h-20);
+    photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
+}
+
+- (CGRect)rectForPhotoIndex:(int)i
+{
+    int w = self.view.frame.size.width;
+    int h = self.view.frame.size.height;
+
+    return CGRectMake((w + GAP_X) * i, 0, w, h);
+}
+
+- (void)setPhotoViewsIndex:(int)index
+{
+	RCLog(@"setPhotoViewsIndex %i", index);
+	
+    if (currentPhotoViewsStartIndex == index) {
+        return;
+    }
+
+    for (int i = 0; i < NUM_PHOTO_VIEWS; ++i) {
+        if (index + i < self.photos.count) {
+            photoViews[i].hidden = NO;
+            [photoViews[i] setFrame:[self rectForPhotoIndex:index + i]];
+            AlbumPhoto *photo = [self.photos objectAtIndex:index + i];
+
+            if (photo.serverPhoto) {
+                [photoViews[i] setPhoto:photo.serverPhoto.photoId
+                               photoUrl:photo.serverPhoto.url
+                              photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
+                                manager:self.albumManager.photoFilesManager];
+            }
+            else if (photo.uploadingPhoto) {
+                UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[photo.uploadingPhoto getFilename]];
+                [photoViews[i] setImage:localImage];
+            }
+        }
+        else {
+            photoViews[i].hidden = YES;
+        }
+    }
+}
+
 
 
 #pragma mark Rotation
@@ -267,7 +271,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 
-    [self configurePhotosScrollView];
+    [self fitScrollViewToOrientation];
     currentPhotoViewsStartIndex = INT_MAX;
     [self setPhotoViewsIndex:MAX(self.index - 1, 0)];
 }
@@ -327,9 +331,9 @@ static const int NUM_PHOTO_VIEWS = 3;
 - (void)handleSingleTap:(UITapGestureRecognizer *)sender {
 	
     if (sender.state == UIGestureRecognizerStateEnded) {
-		if (self.toolbarView.alpha == 0) {
+		if (toolsHidden) {
 			[self setControlsHidden:NO animated:YES permanent:NO];
-			[self.view addSubview:self.toolbarView];
+			[self.view addSubview:toolbarView];
 		}
 		else {
 			[self setControlsHidden:YES animated:YES permanent:NO];
@@ -387,7 +391,7 @@ static const int NUM_PHOTO_VIEWS = 3;
     }
     CGFloat alpha = hidden ? 0 : 1;
 	[self.navigationController.navigationBar setAlpha:alpha];
-	[self.toolbarView setAlpha:alpha];
+	[toolbarView setAlpha:alpha];
 	if (animated) [UIView commitAnimations];
 	
 	if (IS_IOS7) {
@@ -398,19 +402,19 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 
 
-- (void)updateInfoOnScreen
-{
-	if (self.detailLabel == nil) {
+- (void)updateInfoOnScreen {
+	
+	if (detailLabel == nil) {
 		
 		// Setup detail label
-		self.detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -57, self.view.frame.size.width, 57)];
-		self.detailLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
-		self.detailLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
-		self.detailLabel.numberOfLines = 2;
-		self.detailLabel.textAlignment = NSTextAlignmentCenter;
-		self.detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
-		self.detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		[self.toolbarView addSubview:self.detailLabel];
+		detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -57, self.view.frame.size.width, 57)];
+		detailLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+		detailLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
+		detailLabel.numberOfLines = 2;
+		detailLabel.textAlignment = NSTextAlignmentCenter;
+		detailLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+		detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+		[toolbarView addSubview:detailLabel];
 	}
 	
 	NSString *str = NSLocalizedString(@"Uploading photo...", @"");
@@ -427,14 +431,14 @@ static const int NUM_PHOTO_VIEWS = 3;
 			
 			// Hide the trash button for photos that does not belong the the current user
             // TODO ...
-			butTrash.hidden = YES;
+			butTrash.hidden = NO;
 		}
 		else {
 			// Hide the trash button for photos that does not belong the the current user
-			butTrash.hidden = YES;
+			butTrash.hidden = NO;
 		}
 	}
-    self.detailLabel.text = str;
+    detailLabel.text = str;
 }
 
 
@@ -480,8 +484,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	navigatingNext = YES;
 	
 	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
-    // TODO load image:
-	UIImage *image = nil;
+    UIImage *image = [photoViews[1] image];
 	
 	if (activity == nil) {
 		activity = [[SVActivityViewController alloc] initWithNibName:@"SVActivityViewController" bundle:[NSBundle mainBundle]];
@@ -546,9 +549,11 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 - (void)displayEditor
 {
+	RCLog(@"display editor %i", self.index);
 	//AlbumPhoto *photo = [photos objectAtIndex:self.index];
     // TODO load image:
-	UIImage *imageToEdit = nil;
+	UIImage *imageToEdit = [photoViews[1] image];
+	RCLogO(imageToEdit);
 	
     AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage:imageToEdit];
     [editorController setDelegate:self];

@@ -121,6 +121,9 @@
         progressView_.hidden = YES;
     }
 }
+- (UIImage*)image {
+	return imageView_.image;
+}
 
 - (void)onPhotoLoadUpdate:(PhotoBitmap *)bmp
 {
@@ -142,14 +145,14 @@
 {
     switch (bmp.state) {
         case PhotoBitmapQueuedForDownload:
-            NSLog(@"photoLoadUpdate %@ queued", photoId_);
+            //NSLog(@"photoLoadUpdate %@ queued", photoId_);
             [self showLowQuality:bmp.lowQualityBmp];
             [activityIndicatorView_ startAnimating];
             progressView_.hidden = YES;
             break;
 
         case PhotoBitmapDownloading:
-            NSLog(@"photoLoadUpdate %@ downloading", photoId_);
+            //NSLog(@"photoLoadUpdate %@ downloading", photoId_);
             [self showLowQuality:bmp.lowQualityBmp];
             [activityIndicatorView_ stopAnimating];
             progressView_.hidden = NO;
@@ -157,14 +160,14 @@
             break;
 
         case PhotoBitmapLoading:
-            NSLog(@"photoLoadUpdate %@ loading", photoId_);
+            //NSLog(@"photoLoadUpdate %@ loading", photoId_);
             [self showLowQuality:bmp.lowQualityBmp];
             [activityIndicatorView_ startAnimating];
             progressView_.hidden = YES;
             break;
 
         case PhotoBitmapLoaded:
-            NSLog(@"photoLoadUpdate %@ loaded", photoId_);
+            //NSLog(@"photoLoadUpdate %@ loaded", photoId_);
             imageView_.alpha = 1.0f;
             [imageView_ setImage:bmp.bmp];
             [activityIndicatorView_ stopAnimating];
@@ -172,7 +175,7 @@
             break;
 
         case PhotoBitmapDownloadError:
-            NSLog(@"photoLoadUpdate %@ downloadError", photoId_);
+            //NSLog(@"photoLoadUpdate %@ downloadError", photoId_);
             // TODO ...
             break;
     }

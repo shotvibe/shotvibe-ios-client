@@ -574,7 +574,7 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
 - (void)loadBitmap:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize photoObserver:(PhotoView *)photoObserver
 {
     NSAssert([NSThread isMainThread], @"verify main thread");
-    NSLog(@"loadBitmap: %@", photoId);
+    //NSLog(@"loadBitmap: %@", photoId);
 
     UIImage *cachedImage = [photoImageCache_ getPhotoImage:photoId photoSize:photoSize];
 
@@ -632,7 +632,7 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
             // Check if the photo has already been downloaded
             BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:[self photoFilePath:photoId photoSize:photoSize]];
             if (fileExists) {
-                NSLog(@"fileExists: %@", photoId);
+                //NSLog(@"fileExists: %@", photoId);
                 [currentlyDecoding_ addObject:photoJob];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                     [self decodePhoto:photoJob loadLowQuality:NO];
@@ -645,7 +645,7 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
                     });
                 }
 
-                NSLog(@"Adding to download queue: %@", photoId);
+                //NSLog(@"Adding to download queue: %@", photoId);
                 // Add the photoJob to the beginning of the download queue
                 [downloadQueue_ insertObject:photoJob atIndex:0];
                 [self triggerDownload];
@@ -701,7 +701,7 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
             return;
         }
         else {
-            NSLog(@"Adding to download queue: %@", photoId);
+            //NSLog(@"Adding to download queue: %@", photoId);
             if (highPriority) {
                 // Add the photoJob to the beginning of the download queue
                 [downloadQueue_ insertObject:photoJob atIndex:0];
@@ -718,7 +718,7 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
 
 - (void)decodePhoto:(PhotoJob *)photoJob loadLowQuality:(BOOL)loadLowQuality
 {
-    NSLog(@"decodePhoto: %@ %d", photoJob.photoId, loadLowQuality);
+    //NSLog(@"decodePhoto: %@ %d", photoJob.photoId, loadLowQuality);
     UIImage *img;
 
     if (!loadLowQuality) {
@@ -817,7 +817,7 @@ const int MAX_CONCURRENT_DOWNLOADS = 4;
 
 - (void)startDownload:(CurrentlyDownloadingPhoto *)currentlyDownloadingPhoto url:(NSURL *)url
 {
-    NSLog(@"Downloading photo: %@", url);
+    //NSLog(@"Downloading photo: %@", url);
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:url];
@@ -857,7 +857,7 @@ const int MAX_CONCURRENT_DOWNLOADS = 4;
 - (void)photoDownloadCompleted:(CurrentlyDownloadingPhoto *)currentlyDownloadingPhoto
 {
     @synchronized (mainLock) {
-        NSLog(@"DownloadCompleted: %@", currentlyDownloadingPhoto.photoId);
+        //NSLog(@"DownloadCompleted: %@", currentlyDownloadingPhoto.photoId);
         numActiveDownloads_--;
 
         [currentlyDownloading_ removeObjectIdenticalTo:currentlyDownloadingPhoto];
@@ -883,7 +883,7 @@ const int MAX_CONCURRENT_DOWNLOADS = 4;
 
 - (void)photoDownloadFailed:(CurrentlyDownloadingPhoto *)currentlyDownloadingPhoto url:(NSURL *)url error:(NSError *)error
 {
-    NSLog(@"DownloadFailed: %@ %@", currentlyDownloadingPhoto.photoId, error.description);
+    //NSLog(@"DownloadFailed: %@ %@", currentlyDownloadingPhoto.photoId, error.description);
 
     // TODO report downloadFailed
 
