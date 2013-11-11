@@ -49,18 +49,12 @@
 @property (nonatomic, strong) IBOutlet UIView *noPhotosView;
 @property (nonatomic, strong) IBOutlet UITextField *albumField;
 @property (nonatomic, strong) IBOutlet UISearchBar *searchbar;
-@property (nonatomic, strong) IBOutlet UIButton *albumButton;
-@property (nonatomic, strong) IBOutlet UIButton *takePictureButton;
+@property (nonatomic, strong) IBOutlet UIButton *butAlbum;
+@property (nonatomic, strong) IBOutlet UIButton *butTakePicture;
 
 
-- (void)profilePressed;
-- (void)settingsPressed;
-- (void)showDropDown;
-- (void)hideDropDown;
-- (void)searchForAlbumWithTitle:(NSString *)title;
-- (void)createNewAlbumWithTitle:(NSString *)title;
-- (IBAction)newAlbumButtonPressed:(id)sender;
-- (IBAction)newAlbumClose:(id)sender;
+- (IBAction)newAlbumPressed:(id)sender;
+- (IBAction)newAlbumClosed:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
 
@@ -89,7 +83,7 @@
 	self.tableView.contentOffset = CGPointMake(0, 44);
 	
 	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-		self.takePictureButton.enabled = NO;
+		self.butTakePicture.enabled = NO;
 	}
 	
     thumbnailCache = [[NSMutableDictionary alloc] init];
@@ -295,24 +289,29 @@
 	tappedCell = nil;
 	[self performSegueWithIdentifier:@"ProfileSegue" sender:nil];
 }
+
 - (void)settingsPressed {
 	tappedCell = nil;
     [self performSegueWithIdentifier:@"SettingsSegue" sender:nil];
 }
-- (IBAction)newAlbumClose:(id)sender {
-    [self hideDropDown];
-}
-- (IBAction)newAlbumDone:(id)sender {
-	NSString *name = self.albumField.text.length == 0 ? self.albumField.placeholder : self.albumField.text;
-    [self createNewAlbumWithTitle:name];
-    [self hideDropDown];
-}
-- (IBAction)newAlbumButtonPressed:(id)sender {
+
+- (IBAction)newAlbumPressed:(id)sender {
     [self showDropDown];
 	//	ShotVibeAppDelegate *app = [ShotVibeAppDelegate sharedDelegate];
 	//	NSDictionary *dic = @{@"aps":@{@"alert":@"Just added few pics to your album"}};
 	//	[app application:nil didReceiveRemoteNotification:dic];
 }
+
+- (IBAction)newAlbumClosed:(id)sender {
+    [self hideDropDown];
+}
+
+- (IBAction)newAlbumDone:(id)sender {
+	NSString *name = self.albumField.text.length == 0 ? self.albumField.placeholder : self.albumField.text;
+    [self createNewAlbumWithTitle:name];
+    [self hideDropDown];
+}
+
 - (IBAction)takePicturePressed:(id)sender {
 	
 	int capacity = 8;
@@ -588,12 +587,12 @@
 		self.noPhotosView.frame = CGRectMake(0, 88, 320, 548);
 		[self.view addSubview:self.noPhotosView];
 		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		self.takePictureButton.enabled = NO;
+		self.butTakePicture.enabled = NO;
 	}
 	else if ([self.noPhotosView isDescendantOfView:self.view]) {
 		[self.noPhotosView removeFromSuperview];
 		self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-		self.takePictureButton.enabled = YES;
+		self.butTakePicture.enabled = YES;
 	}
 }
 
@@ -620,8 +619,8 @@
 	self.tableOverlayView.alpha = 0;
     self.tableOverlayView.hidden = NO;
     self.dropDownContainer.hidden = NO;
-	self.albumButton.enabled = NO;
-	self.takePictureButton.enabled = NO;
+	self.butAlbum.enabled = NO;
+	self.butTakePicture.enabled = NO;
 	self.tableView.scrollEnabled = NO;
     
     NSString *currentDateString = [NSDateFormatter localizedStringFromDate:[NSDate date]
@@ -649,15 +648,14 @@
     } completion:^(BOOL finished) {
         self.tableOverlayView.hidden = YES;
         self.dropDownContainer.hidden = YES;
-		self.albumButton.enabled = YES;
-		self.takePictureButton.enabled = YES;
+		self.butAlbum.enabled = YES;
+		self.butTakePicture.enabled = YES;
 		self.tableView.scrollEnabled = YES;
     }];
 }
 
 
-- (void)createNewAlbumWithTitle:(NSString *)title
-{
+- (void)createNewAlbumWithTitle:(NSString *)title {
 	
 	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
@@ -700,8 +698,8 @@
 
 
 
-- (void)setAlbumList:(NSArray *)albums
-{
+- (void)setAlbumList:(NSArray *)albums {
+	
 	allAlbums = albums;
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{

@@ -72,8 +72,6 @@
 	self.collectionView.alwaysBounceVertical = YES;
 	//self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
 	if (IS_IOS7) {
-		RCLog(@"headerViewContainer frame");
-		RCLogRect(self.headerViewContainer.frame);
 		self.headerViewContainer.frame = CGRectMake(0, 64, 320, 45);
 	}
 	else {
@@ -213,6 +211,18 @@
 - (NSUInteger)supportedInterfaceOrientations {
 	return UIInterfaceOrientationMaskAllButUpsideDown;
 }
+
+//- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+//	
+//	if (IS_IOS7) {
+//		if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+//			self.headerViewContainer.frame = CGRectMake(0, 57, 320, 45);
+//		}
+//		else {
+//			self.headerViewContainer.frame = CGRectMake(0, 64, 320, 45);
+//		}
+//	}
+//}
 
 
 #pragma mark - Memory Management

@@ -155,6 +155,8 @@
 
 - (void)showImagePickerForSourceType:(UIImagePickerControllerSourceType)sourceType {
 	
+	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) return;
+	
 	self.imagePickerController = [[UIImagePickerController alloc] init];
 	self.imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;
 	self.imagePickerController.sourceType = sourceType;
