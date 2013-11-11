@@ -228,7 +228,7 @@
 - (IBAction)takePicturePressed:(id)sender
 {
 	navigatingNext = YES;
-	self.scrollToBottom = YES;
+	//self.scrollToBottom = YES;
 	
 	cameraNavController = [[SVCameraNavController alloc] init];
 	cameraNavController.cameraDelegate = self;
@@ -258,7 +258,7 @@
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = self.albumId;
         destination.albumManager = self.albumManager;
-		self.scrollToBottom = YES;
+		//self.scrollToBottom = YES;
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
 		
@@ -574,7 +574,15 @@
 		[arr addObject:photo];
 		[sections setObject:arr forKey:key];
 	}
+	
+	// Move 'Uploading now' key to top
+	NSString *lastKey = [sectionsKeys lastObject];
+	if ([lastKey isEqualToString:@"Uploading now"] && sortType != SortByUser) {
+		[sectionsKeys removeObject:lastKey];
+		[sectionsKeys insertObject:lastKey atIndex:0];
+	}
 }
+
 - (void)switchSortHandler:(UISegmentedControl*)control {
 	sort = control.selectedSegmentIndex;
 	[self sortThumbsBy:sort];
@@ -583,8 +591,8 @@
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)onAlbumContentsBeginRefresh:(int64_t)albumId
-{
+
+- (void)onAlbumContentsBeginRefresh:(int64_t)albumId {
 	
 }
 
@@ -596,14 +604,13 @@
     [self setAlbumContents:album];
 }
 
-- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error
-{
+- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error {
     [refresh endRefreshing];
 	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 }
 
-- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId
-{
+- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId {
+	
 	// Iterate over visible cells and find the cell with the albumId
 	
 	for (SVAlbumGridViewCell *cell in self.collectionView.visibleCells) {
@@ -623,15 +630,13 @@
 
 #pragma mark UIRefreshView
 
-- (void)beginRefreshing
-{
+- (void)beginRefreshing {
 	refreshManualy = YES;
     [self.albumManager refreshAlbumContents:self.albumId];
 	[refresh beginRefreshing];
 	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing photos..."];
 }
-- (void)endRefreshing
-{
+- (void)endRefreshing {
 	refreshManualy = NO;
 	[refresh endRefreshing];
 	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];

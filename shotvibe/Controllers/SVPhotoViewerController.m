@@ -24,7 +24,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	UIScrollView *photosScrollView;
 	NSMutableArray *cache;
 	SVActivityViewController* activity;
-	BOOL toolVisible;
+	BOOL toolsVisible;
 	BOOL navigatingNext;
 	BOOL uploadingAviaryPicture;//
 	
