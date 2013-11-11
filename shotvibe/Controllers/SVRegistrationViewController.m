@@ -32,20 +32,88 @@
 }
 
 
+#pragma mark - View Lifecycle
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+	
+    if ([self.albumManager getShotVibeAPI].authData)
+    {
+        RCLog(@"SVRegistrationViewController AuthData available");
+		[self handleSuccessfulLogin:NO];
+    }
+	else {
+		[self.phoneNumberField becomeFirstResponder];
+	}
+	if (selectedCountryCode == nil) {
+		[self didSelectCountryWithName:nil regionCode:[[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]];
+	}
+    else {
+        [self didSelectCountryWithName:selectedCountryCode regionCode:selectedCountryCode];
+    }
+}
+
+//- (void) viewWillAppear:(BOOL)animated {
+//	
+//	[super viewWillAppear:animated];
+//	
+//	if (IS_IOS7) {
+//		self.navigationController.navigationBar.translucent = NO;
+//	}
+//}
+//
+//- (void) viewWillDisappear:(BOOL)animated {
+//	
+//	[super viewWillDisappear:animated];
+//	
+//	if (IS_IOS7) {
+//		self.navigationController.navigationBar.translucent = YES;
+//	}
+//}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
+		
+		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
+        destination.delegate = self;
+		destination.regionCode = selectedCountryCode;
+		countries = destination;
+    }
+	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
+		
+		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
+        destination.albumManager = self.albumManager;
+        destination.pushNotificationsManager = self.pushNotificationsManager;
+        destination.selectedCountryCode = selectedCountryCode;
+		destination.phoneNumber = self.phoneNumberField.text;
+	}
+}
+
+
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+
+
 #pragma mark - Actions
 
 - (IBAction)registerButtonPressed:(id)sender
 {
 	[self.phoneNumberField resignFirstResponder];
-
+	
     UIAlertView *activityDialog = [[UIAlertView alloc] initWithTitle:@"Registering..." message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
     [activityDialog show];
-
+	
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     indicator.center = CGPointMake(activityDialog.bounds.size.width / 2, activityDialog.bounds.size.height - 50);
     [indicator startAnimating];
     [activityDialog addSubview:indicator];
-
+	
     NSString *phoneNumber = self.phoneNumberField.text;
     NSString *defaultCountry = selectedCountryCode;
     
@@ -80,7 +148,6 @@
     });
 }
 
-
 - (IBAction)countrySelectButtonPressed:(id)sender
 {
 	// showCountryPicker
@@ -89,55 +156,6 @@
 }
 
 
-
-
-#pragma mark - View Lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-	
-    if ([self.albumManager getShotVibeAPI].authData)
-    {
-        RCLog(@"SVRegistrationViewController AuthData available");
-		[self handleSuccessfulLogin:NO];
-    }
-	else {
-		[self.phoneNumberField becomeFirstResponder];
-	}
-	if (selectedCountryCode == nil) {
-		[self didSelectCountryWithName:nil regionCode:[[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]];
-	}
-    else {
-        [self didSelectCountryWithName:selectedCountryCode regionCode:selectedCountryCode];
-    }
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
-		
-		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
-        destination.delegate = self;
-		destination.regionCode = selectedCountryCode;
-		countries = destination;
-    }
-	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
-		
-		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
-        destination.albumManager = self.albumManager;
-        destination.pushNotificationsManager = self.pushNotificationsManager;
-        destination.selectedCountryCode = selectedCountryCode;
-		destination.phoneNumber = self.phoneNumberField.text;
-	}
-}
-
-
-
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
-}
 
 
 #pragma mark - CountryPickerDelegate Methods
@@ -153,9 +171,11 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-	CGRect r = self.phoneNumberPhaseContainer.frame;
-	r.origin.y -= 30;
-	self.phoneNumberPhaseContainer.frame = r;
+	if ([UIScreen mainScreen].bounds.size.height < 568) {
+		CGRect r = self.phoneNumberPhaseContainer.frame;
+		r.origin.y -= 30;
+		self.phoneNumberPhaseContainer.frame = r;
+	}
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {

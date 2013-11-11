@@ -643,7 +643,7 @@
             <objects>
                 <viewController storyboardIdentifier="SVRegistrationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3rg-2I-Dzz" customClass="SVRegistrationViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FhI-zr-HcS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="yJt-yu-Smt" userLabel="Phone Number Container">
@@ -732,6 +732,7 @@ to register this device</string>
                         </subviews>
                         <color key="backgroundColor" red="0.92941176470588238" green="0.93333333333333335" blue="0.94509803921568625" alpha="1" colorSpace="deviceRGB"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Registration" id="CMi-vA-eun"/>
                     <connections>
                         <outlet property="activityIndicator" destination="qUE-7J-Ebk" id="Wt0-va-cQM"/>
@@ -1628,7 +1629,7 @@ friends in, so they can give it a glance</string>
             <objects>
                 <viewController storyboardIdentifier="SVCountriesViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jY5-rW-NAc" customClass="SVCountriesViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lzq-fZ-3Vc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" placeholder="Search country" id="ro7-6i-An9">
@@ -1640,7 +1641,7 @@ friends in, so they can give it a glance</string>
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="45" sectionHeaderHeight="22" sectionFooterHeight="22" id="a0J-nf-cH4">
-                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.96078431369999995" green="0.96470588239999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1680,6 +1681,7 @@ friends in, so they can give it a glance</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="luh-0S-QKY"/>
                     <connections>
                         <outlet property="countriesTable" destination="a0J-nf-cH4" id="mZm-lL-hcl"/>
@@ -1695,11 +1697,11 @@ friends in, so they can give it a glance</string>
             <objects>
                 <viewController storyboardIdentifier="SVConfirmationCodeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Dlz-oj-oY1" customClass="SVConfirmationCodeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RSE-IF-p6a">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="Pv8-Kb-CHB" userLabel="Reg Code Container">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NPU-6a-aVT">
@@ -1791,6 +1793,7 @@ activation code just sent to you</string>
                         </subviews>
                         <color key="backgroundColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="deviceRGB"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Activation" id="36f-IO-DBg">
                         <barButtonItem key="rightBarButtonItem" title="No Code?" id="Bc0-zr-dSn">
                             <connections>
@@ -1815,11 +1818,11 @@ activation code just sent to you</string>
             <objects>
                 <viewController storyboardIdentifier="SVNoCodeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1tW-Ft-5Bj" customClass="SVNoCodeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fSc-45-f54">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="Trt-7t-YrH" userLabel="Phone Number Container">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="phoneNumberContainer.png" id="C0c-qk-Hlo">
@@ -1843,7 +1846,7 @@ activation code just sent to you</string>
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Pg6-aX-Y2m">
-                                        <rect key="frame" x="86" y="452" width="148" height="41"/>
+                                        <rect key="frame" x="86" y="388" width="148" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -1859,7 +1862,7 @@ activation code just sent to you</string>
                                         </connections>
                                     </button>
                                     <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="We'll call you instead with the activation code!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uJg-ah-qxW">
-                                        <rect key="frame" x="46" y="398" width="229" height="40"/>
+                                        <rect key="frame" x="46" y="334" width="229" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1907,6 +1910,7 @@ activation code just sent to you</string>
                         </subviews>
                         <color key="backgroundColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="deviceRGB"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="No Code?" id="AAl-Hr-12P"/>
                     <connections>
                         <outlet property="butContinue" destination="NwO-Tx-c4d" id="gTh-gi-c9L"/>
