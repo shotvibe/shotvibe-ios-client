@@ -164,6 +164,13 @@
 													  self.collectionView.bounds.size.height)
 								  animated:NO];
 	}
+	else if (self.scrollToTop) {
+		self.scrollToTop = NO;
+		[self.collectionView scrollRectToVisible:CGRectMake(0, -15,
+															self.collectionView.bounds.size.width,
+															self.collectionView.bounds.size.height)
+										animated:NO];
+	}
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 }
@@ -229,6 +236,7 @@
 {
 	navigatingNext = YES;
 	//self.scrollToBottom = YES;
+	self.scrollToTop = YES;
 	
 	cameraNavController = [[SVCameraNavController alloc] init];
 	cameraNavController.cameraDelegate = self;
@@ -259,6 +267,7 @@
         destination.albumId = self.albumId;
         destination.albumManager = self.albumManager;
 		//self.scrollToBottom = YES;
+		self.scrollToTop = YES;
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
 		
@@ -291,6 +300,7 @@
 - (void)cameraExit {
 	cameraNavController = nil;
 	self.scrollToBottom = NO;
+	self.scrollToTop = NO;
 }
 
 - (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {

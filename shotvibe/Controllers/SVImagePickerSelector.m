@@ -460,13 +460,12 @@
 	
 	if (self.nav != nil) {
 		// Insert the AlbumGrid controller before the CameraPicker controller
-		RCLog(@"--------------------------pickerWasDismissedWithAlbum %lli", self.albumId);
 		
 		UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
 		SVAlbumGridViewController *controller = (SVAlbumGridViewController*)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
 		controller.albumManager = self.albumManager;
 		controller.albumId = self.albumId;
-		controller.scrollToBottom = YES;
+		controller.scrollToTop = YES;
 		
 		// Should be 2 controllers, SVAlbumListViewController and SVCameraPickerController.
 		NSMutableArray *controllers = [NSMutableArray arrayWithArray:self.nav.viewControllers];

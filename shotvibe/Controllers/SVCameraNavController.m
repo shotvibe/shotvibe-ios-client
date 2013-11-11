@@ -55,8 +55,7 @@
 	SVAlbumGridViewController *controller = (SVAlbumGridViewController*)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
 	controller.albumManager = self.albumManager;
 	controller.albumId = self.albumId>0?self.albumId:album.albumId;
-	controller.scrollToBottom = YES;
-	RCLog(@"-------------------------- %lli", controller.albumId);
+	controller.scrollToTop = YES;
 	
 	// Should be 2 controllers, SVAlbumListViewController and SVCameraPickerController.
 	NSMutableArray *controllers = [NSMutableArray arrayWithArray:self.nav.viewControllers];

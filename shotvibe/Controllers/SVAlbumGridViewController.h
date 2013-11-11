@@ -25,5 +25,6 @@ typedef enum {
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, assign) BOOL scrollToBottom;
+@property (nonatomic, assign) BOOL scrollToTop;
 
 @end
