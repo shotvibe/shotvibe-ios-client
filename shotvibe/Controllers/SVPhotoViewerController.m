@@ -427,10 +427,10 @@ static const int NUM_PHOTO_VIEWS = 3;
 			NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
 																	dateStyle:NSDateFormatterLongStyle
 																	timeStyle:NSDateFormatterShortStyle];
-			str = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.authorNickname, dateFormated];
+			str = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.author.nickname, dateFormated];
 			
 			// Hide the trash button for photos that does not belong the the current user
-            butTrash.hidden = photo.serverPhoto.authorUserId != [self.albumManager getShotVibeAPI].authData.userId;
+            butTrash.hidden = photo.serverPhoto.author.memberId != [self.albumManager getShotVibeAPI].authData.userId;
 		}
 		else {
 			// Hide the trash button for photos that does not belong the the current user

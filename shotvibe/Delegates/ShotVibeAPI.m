@@ -535,12 +535,15 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         JSONObject *authorObj = [photoObj getJSONObject:@"author"];
         NSNumber *authorId = [authorObj getNumber:@"id"];
         NSString *authorNickname = [authorObj getString:@"nickname"];
+        NSString *authorAvatarUrl = [authorObj getString:@"avatar_url"];
+
+        AlbumUser *author = [[AlbumUser alloc] initWithMemberId:[authorId longLongValue] nickname:authorNickname avatarUrl:authorAvatarUrl];
 
         AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
                                                                                    url:photoUrl
-                                                                          authorUserId:[authorId longLongValue]
-                                                                        authorNickname:authorNickname
+                                                                                author:author
                                                                              dateAdded:photoDateCreated];
+
         AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
         [results addObject:albumPhoto];
     }
