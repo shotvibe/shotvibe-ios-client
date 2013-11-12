@@ -213,7 +213,7 @@ static const int NUM_PHOTO_VIEWS = 3;
     int h = self.view.frame.size.height;
 	
     photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
-    photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h-20);
+    photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h-40);
     photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
 }
 
@@ -227,8 +227,6 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 - (void)setPhotoViewsIndex:(int)index
 {
-	RCLog(@"setPhotoViewsIndex %i", index);
-	
     if (currentPhotoViewsStartIndex == index) {
         return;
     }
@@ -360,7 +358,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	
 	// Status bar and nav bar positioning
     if (IS_IOS7) {
-		[[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
+	
 	}
 	else if (self.wantsFullScreenLayout) {
         
@@ -385,6 +383,9 @@ static const int NUM_PHOTO_VIEWS = 3;
         navBarFrame.origin.y = statusBarHeight;
         self.navigationController.navigationBar.frame = navBarFrame;
     }
+	if (IS_IOS7) {
+		[self setNeedsStatusBarAppearanceUpdate];
+	}
 	
 	// Animate
     if (animated) {
@@ -396,9 +397,6 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[toolbarView setAlpha:alpha];
 	if (animated) [UIView commitAnimations];
 	
-	if (IS_IOS7) {
-		[self setNeedsStatusBarAppearanceUpdate];
-	}
 }
 
 

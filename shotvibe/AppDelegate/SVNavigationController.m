@@ -8,7 +8,7 @@
 
 #import "SVNavigationController.h"
 #import "SVDefines.h"
-
+#import "SVPhotoViewerController.h"
 
 @implementation SVNavigationController
 
@@ -29,7 +29,15 @@
 	return UIStatusBarStyleLightContent;
 }
 
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+	return UIStatusBarAnimationFade;
+}
+
 - (BOOL)prefersStatusBarHidden {
+	
+	if ([[self.viewControllers lastObject] isKindOfClass:[SVPhotoViewerController class]]) {
+		return [[self.viewControllers lastObject] prefersStatusBarHidden];
+	}
 	return NO;// setNeedsStatusBarAppearanceUpdate
 }
 

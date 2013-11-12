@@ -56,6 +56,9 @@ typedef enum {
 - (BOOL)prefersStatusBarHidden {
 	return [self.centerViewController prefersStatusBarHidden];
 }
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+	return [self.centerViewController preferredStatusBarUpdateAnimation];
+}
 
 
 + (MFSideMenuContainerViewController *)containerWithCenterViewController:(id)centerViewController
