@@ -408,7 +408,7 @@
 			
 			//Search through the members
 			for (AlbumMember *member in albumContents.members) {
-				if (photo.serverPhoto.authorUserId == member.user.memberId) {
+				if (photo.serverPhoto.author.memberId == member.user.memberId) {
 					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:member.user.avatarUrl]];
 					header.nameLabel.text = member.user.nickname;
 					break;
@@ -553,25 +553,25 @@
 					previousDate = photo.serverPhoto.dateAdded;
 				}
 				if (previousUser == nil) {
-					previousUser = photo.serverPhoto.authorNickname;
+					previousUser = photo.serverPhoto.author.nickname;
 				}
 				
 				if ([photo.serverPhoto.dateAdded timeIntervalSinceDate:previousDate] < 60 &&
-					 [photo.serverPhoto.authorNickname isEqualToString:previousUser])
+					 [photo.serverPhoto.author.nickname isEqualToString:previousUser])
 				{
 					key = [NSString stringWithFormat:@"%@--^--%@", [previousDate distanceOfTimeInWords:[NSDate date] shortStyle:YES], previousUser];
 				}
 				else {
-					key = [NSString stringWithFormat:@"%@--^--%@", [photo.serverPhoto.dateAdded distanceOfTimeInWords:[NSDate date] shortStyle:YES], photo.serverPhoto.authorNickname];
+					key = [NSString stringWithFormat:@"%@--^--%@", [photo.serverPhoto.dateAdded distanceOfTimeInWords:[NSDate date] shortStyle:YES], photo.serverPhoto.author.nickname];
 				}
 				
 				previousDate = photo.serverPhoto.dateAdded;
-				previousUser = photo.serverPhoto.authorNickname;
+				previousUser = photo.serverPhoto.author.nickname;
 			}break;
 			
 			case SortByUser:
 			{
-				key = photo.serverPhoto.authorNickname;
+				key = photo.serverPhoto.author.nickname;
 			}break;
 			
 			case SortByDate:

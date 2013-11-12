@@ -12,8 +12,7 @@
 
 - (id)initWithPhotoId:(NSString *)photoId
                   url:(NSString *)url
-         authorUserId:(int64_t)authorUserId
-       authorNickname:(NSString *)authorNickname
+               author:(AlbumUser *)author
             dateAdded:(NSDate *)dateAdded
 {
     self = [super init];
@@ -21,8 +20,7 @@
     if (self) {
         _photoId = photoId;
         _url = url;
-        _authorUserId = authorUserId;
-        _authorNickname = authorNickname;
+        _author = author;
         _dateAdded = dateAdded;
     }
 

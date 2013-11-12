@@ -8,18 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+#import "AlbumUser.h"
+
 @interface AlbumServerPhoto : NSObject
 
 - (id)initWithPhotoId:(NSString *)photoId
                   url:(NSString *)url
-         authorUserId:(int64_t)authorUserId
-       authorNickname:(NSString *)authorNickname
+               author:(AlbumUser *)author
             dateAdded:(NSDate *)dateAdded;
 
 @property (nonatomic, readonly, copy) NSString *photoId;
 @property (nonatomic, readonly, copy) NSString *url;
-@property (nonatomic, readonly, assign) int64_t authorUserId;
-@property (nonatomic, readonly, copy) NSString *authorNickname;
+@property (nonatomic, readonly, strong) AlbumUser* author;
 @property (nonatomic, readonly, copy) NSDate *dateAdded;
 
 @end

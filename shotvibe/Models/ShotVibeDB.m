@@ -138,10 +138,11 @@ static const int DATABASE_VERSION = 1;
 - (NSArray *)getLatestPhotos:(int64_t)albumId numPhotos:(int)numPhotos
 {
     FMResultSet* s = [db executeQuery:@
-                      "SELECT photo_id, url, author_id, created"
-                      " FROM photo"
-                      " WHERE photo_album=?"
-                      " ORDER BY num DESC",
+                      "SELECT photo.photo_id, photo.url, photo.created, user.user_id, user.nickname, user.avatar_url FROM photo"
+                      " LEFT OUTER JOIN user"
+                      " ON photo.author_id = user.user_id"
+                      " WHERE photo.photo_album=?"
+                      " ORDER BY photo.num DESC",
                       [NSNumber numberWithLongLong:albumId]];
     if (!s) {
         return nil;
@@ -151,15 +152,20 @@ static const int DATABASE_VERSION = 1;
     while ([s next]) {
         NSString *photoId = [s stringForColumnIndex:0];
         NSString *photoUrl = [s stringForColumnIndex:1];
-        int64_t photoAuthorUserId = [s longLongIntForColumnIndex:2];
-        NSString *photoAuthorNickname = @"TODO"; // TODO
-        NSDate *photoDateAdded = [s dateForColumnIndex:3];
+        NSDate *photoDateAdded = [s dateForColumnIndex:2];
+        int64_t photoAuthorUserId = [s longLongIntForColumnIndex:3];
+        NSString *photoAuthorNickname = [s stringForColumnIndex:4];
+        NSString *photoAuthorAvatarUrl = [s stringForColumnIndex:5];
+
+        AlbumUser *photoAuthor = [[AlbumUser alloc] initWithMemberId:photoAuthorUserId
+                                                            nickname:photoAuthorNickname
+                                                           avatarUrl:photoAuthorAvatarUrl];
 
         AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
-                                                                                  url:photoUrl
-                                                                         authorUserId:photoAuthorUserId
-                                                                       authorNickname:photoAuthorNickname
-                                                                            dateAdded:photoDateAdded];
+                                                                                   url:photoUrl
+                                                                                author:photoAuthor
+                                                                             dateAdded:photoDateAdded];
+
         AlbumPhoto *photo = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
         [results addObject:photo];
     }
@@ -265,27 +271,38 @@ static const int DATABASE_VERSION = 1;
     NSDate *albumLastUpdated = [s dateForColumnIndex:1];
     NSString *etag = nil;
 
-    s = [db executeQuery:@"SELECT photo_id, url, author_id, created FROM photo WHERE photo_album=?", [NSNumber numberWithLongLong:albumId]];
+    s = [db executeQuery:@
+         "SELECT photo.photo_id, photo.url, photo.created, user.user_id, user.nickname, user.avatar_url FROM photo"
+         " LEFT OUTER JOIN user"
+         " ON photo.author_id = user.user_id"
+         " WHERE photo.photo_album=?"
+         " ORDER BY photo.num ASC",
+         [NSNumber numberWithLongLong:albumId]];
 
     NSMutableArray *albumPhotos = [[NSMutableArray alloc] init];
     while ([s next]) {
         NSString *photoId = [s stringForColumnIndex:0];
         NSString *photoUrl = [s stringForColumnIndex:1];
-        int64_t photoAuthorUserId = [s longLongIntForColumnIndex:2];
-        NSString *photoAuthorNickname = @"noname"; // TODO
-        NSDate *photoDateAdded = [s dateForColumnIndex:3];
+        NSDate *photoDateAdded = [s dateForColumnIndex:2];
+        int64_t photoAuthorUserId = [s longLongIntForColumnIndex:3];
+        NSString *photoAuthorNickname = [s stringForColumnIndex:4];
+        NSString *photoAuthorAvatarUrl = [s stringForColumnIndex:5];
+
+        AlbumUser *photoAuthor = [[AlbumUser alloc] initWithMemberId:photoAuthorUserId
+                                                            nickname:photoAuthorNickname
+                                                           avatarUrl:photoAuthorAvatarUrl];
 
         AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
                                                                                    url:photoUrl
-                                                                          authorUserId:photoAuthorUserId
-                                                                        authorNickname:photoAuthorNickname
+                                                                                author:photoAuthor
                                                                              dateAdded:photoDateAdded];
+
         AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
         [albumPhotos addObject:albumPhoto];
     }
 
     s = [db executeQuery:@
-         "SELECT album_member.user_id, user.nickname user.avatar_url FROM album_member"
+         "SELECT album_member.user_id, user.nickname, user.avatar_url FROM album_member"
          " LEFT OUTER JOIN user"
          " ON album_member.user_id = user.user_id"
          " WHERE album_member.album_id=?"
@@ -343,7 +360,7 @@ static const int DATABASE_VERSION = 1;
              [NSNumber numberWithInt:num++],
              photo.photoId,
              photo.url,
-             [NSNumber numberWithLongLong:photo.authorUserId],
+             [NSNumber numberWithLongLong:photo.author.memberId],
              photo.dateAdded]) {
             ABORT_TRANSACTION;
         }
