@@ -23,6 +23,7 @@
 #import "UIImageView+WebCache.h"
 #import "SVAlbumGridSection.h"
 #import "NSDate+Formatting.h"
+#import "AlbumMember.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
@@ -407,9 +408,9 @@
 			
 			//Search through the members
 			for (AlbumMember *member in albumContents.members) {
-				if (photo.serverPhoto.authorUserId == member.memberId) {
-					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:member.avatarUrl]];
-					header.nameLabel.text = member.nickname;
+				if (photo.serverPhoto.authorUserId == member.user.memberId) {
+					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:member.user.avatarUrl]];
+					header.nameLabel.text = member.user.nickname;
 					break;
 				}
 			}

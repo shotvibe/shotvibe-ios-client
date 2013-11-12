@@ -14,11 +14,12 @@
 #import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
 #import "AlbumMember.h"
+#import "AlbumUser.h"
 
 @interface SVSidebarMemberController () {
 	ShotVibeAPI *shotvibeAPI;
 	NSMutableArray *members;
-	AlbumMember *owner;
+	AlbumUser *owner;
 	SVSidebarAlbumMemberCell *ownerCell;
 }
 
@@ -167,10 +168,10 @@
 
     AlbumMember *member = [members objectAtIndex:indexPath.row];
 	
-    [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
-	[cell.memberLabel setText:member.nickname];
-	
-	if (shotvibeAPI.authData.userId == member.memberId) {
+    [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.user.avatarUrl]];
+	[cell.memberLabel setText:member.user.nickname];
+
+	if (shotvibeAPI.authData.userId == member.user.memberId) {
 		
 		cell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
@@ -180,9 +181,24 @@
 	}
 	else {
 		cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
-		cell.statusImageView.image = [UIImage imageNamed:[member.inviteStatus isEqualToString:@"joined"] ? @"MemberJoined" : @"MemberInvited"];
 		cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
-		cell.statusLabel.text = [member.inviteStatus isEqualToString:@"joined"] ? @"joined" : @"invited";
+        switch (member.inviteStatus) {
+            case AlbumMemberInviteStatusUnknown:
+                cell.statusImageView.image = nil;
+                cell.statusLabel.text = @"";
+                break;
+
+            case AlbumMemberJoined:
+                cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
+                cell.statusLabel.text = @"joined";
+                break;
+
+            case AlbumMemberSmsSent:
+            case AlbumMemberInvitationViewed:
+                cell.statusImageView.image = [UIImage imageNamed:@"MemberInvited"];
+                cell.statusLabel.text = @"invited";
+                break;
+        }
 		//cell.userInteractionEnabled = NO;
 	}
 	//RCLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
@@ -201,7 +217,7 @@
 	
 	AlbumMember *member = [members objectAtIndex:indexPath.row];
 	
-	if (shotvibeAPI.authData.userId == member.memberId) {
+	if (shotvibeAPI.authData.userId == member.user.memberId) {
 		
 		// Moved to the Touches code
 	}
@@ -275,10 +291,10 @@
 	members = [NSMutableArray arrayWithCapacity:[_albumContents.members count]];
 	
     for (AlbumMember *member in _albumContents.members) {
-		if (shotvibeAPI.authData.userId == member.memberId) {
-			owner = member;
+		if (shotvibeAPI.authData.userId == member.user.memberId) {
+			owner = member.user;
 		}
-		else if (title == nil || [title isEqualToString:@""] || [[member.nickname lowercaseString] rangeOfString:title].location != NSNotFound) {
+		else if (title == nil || [title isEqualToString:@""] || [[member.user.nickname lowercaseString] rangeOfString:title].location != NSNotFound) {
 			[members addObject:member];
 		}
     }

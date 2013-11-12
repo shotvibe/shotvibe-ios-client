@@ -2,7 +2,7 @@
 //  AlbumMember.m
 //  shotvibe
 //
-//  Created by benny on 8/20/13.
+//  Created by benny on 11/12/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
@@ -10,18 +10,13 @@
 
 @implementation AlbumMember
 
-- (id)initWithMemberId:(int64_t)memberId
-              nickname:(NSString *)nickname
-			 avatarUrl:(NSString *)avatarUrl
-		  inviteStatus:(NSString *)inviteStatus
+- (id)initWithAlbumUser:(AlbumUser *)user inviteStatus:(AlbumMemberInviteStatus)inviteStatus
 {
     self = [super init];
 
     if (self) {
-        _memberId = memberId;
-        _nickname = nickname;
-        _avatarUrl = avatarUrl;
-		_inviteStatus = inviteStatus;
+        _user = user;
+        _inviteStatus = inviteStatus;
     }
 
     return self;

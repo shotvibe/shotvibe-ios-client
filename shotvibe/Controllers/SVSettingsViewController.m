@@ -10,7 +10,7 @@
 #import "SVSettingsViewController.h"
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
-#import "AlbumMember.h"
+#import "AlbumUser.h"
 #import "SVAlbumNotificationSettingsViewController.h"
 #import "SVDefines.h"
 #import "SVSettingsAboutViewController.h"
