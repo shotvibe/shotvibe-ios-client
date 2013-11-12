@@ -71,12 +71,6 @@
 	
 	self.collectionView.alwaysBounceVertical = YES;
 	//self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
-	if (IS_IOS7) {
-		self.headerViewContainer.frame = CGRectMake(0, 64, 320, 45);
-	}
-	else {
-		self.headerViewContainer.frame = CGRectMake(0, 0, 320, 45);
-	}
 	
 	sections = [[NSMutableDictionary alloc] init];
 	sectionsKeys = [[NSMutableArray alloc] init];
@@ -126,6 +120,14 @@
 {
 	[super viewWillAppear:animated];RCLog(@"photos grid will appear");
 	RCLog(@"-------view will appear. ALBUM CONTENTS, album id %lld %@ %@", self.albumId, self.albumManager, albumContents);
+	
+//	if (IS_IOS7) {
+//		self.headerViewContainer.frame = CGRectMake(0, 0, 320, 45);
+//	}
+//	else {
+//		self.headerViewContainer.frame = CGRectMake(0, 0, 320, 45);
+//	}
+	RCLogRect(self.headerViewContainer.frame);
 	
 	if (albumContents == nil) {
 		//AlbumContents *contents;

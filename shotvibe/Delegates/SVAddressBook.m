@@ -91,7 +91,7 @@
 								record.recordId = svRecords.count;
 								record.name = name;
 								record.phone = phoneNumber;
-								RCLog(@"%i %@ %@ -> %@", record.recordId, record.name, record.phone, phoneNumericNumber);
+								//RCLog(@"%i %@ %@ -> %@", record.recordId, record.name, record.phone, phoneNumericNumber);
 								
 								if (ABPersonHasImageData((__bridge ABRecordRef)evaluatedObject)) {
 									record.iconLocalData = (__bridge NSData *)(ABPersonCopyImageDataWithFormat((__bridge ABRecordRef)evaluatedObject, kABPersonImageFormatThumbnail));

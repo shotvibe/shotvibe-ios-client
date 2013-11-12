@@ -191,7 +191,7 @@
 		
 		int i = 0;
 		for (NSDictionary *r in (NSArray*)response[@"phone_number_details"]) {
-			RCLogO(r);
+			//RCLogO(r);
 			if ([r[@"phone_type"] isEqualToString:@"invalid"]) {
 				RCLog(@">>>>>>>>>>>>>>>> INVALID");
 			}
@@ -200,10 +200,9 @@
 				record.iconRemotePath = r[@"avatar_url"];
 				
 				NSString *user_id = r[@"user_id"];
-				RCLog(@"%@", user_id);
+				//RCLog(@"%@", user_id);
 				if (user_id != nil && ![user_id isKindOfClass:[NSNull class]]) {
 					record.memberId = [user_id longLongValue];
-					RCLog(@"%lli %@", record.memberId, r[@"user_id"]);
 				}
 			}
 			i++;

@@ -106,7 +106,12 @@
     
     
     //Customize Segment Control
-    if (!IS_IOS7) {
+    if (IS_IOS7) {
+		
+		[[UISegmentedControl appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:BLUE} forState:UIControlStateSelected];
+		[[UISegmentedControl appearance] setTintColor:[UIColor whiteColor]];
+	}
+	else {
 		
 		//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 		//	[self.segmentControl setDividerImage:[UIImage imageNamed:@"SegmentSeparator.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
@@ -133,7 +138,7 @@
 															  UITextAttributeFont, nil]
 													   forState:UIControlStateNormal];
 		
-		[[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:0.15 green:0.4 blue:0.6 alpha:1],
+		[[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:BLUE,
 																 UITextAttributeTextColor,
 																 [UIColor clearColor],
 																 UITextAttributeTextShadowColor,
