@@ -53,6 +53,10 @@ typedef enum {
 - (UIStatusBarStyle)preferredStatusBarStyle {
 	return [self.centerViewController preferredStatusBarStyle];
 }
+- (BOOL)prefersStatusBarHidden {
+	return [self.centerViewController prefersStatusBarHidden];
+}
+
 
 + (MFSideMenuContainerViewController *)containerWithCenterViewController:(id)centerViewController
                                                   leftMenuViewController:(id)leftMenuViewController

@@ -29,4 +29,8 @@
 	return UIStatusBarStyleLightContent;
 }
 
+- (BOOL)prefersStatusBarHidden {
+	return NO;// setNeedsStatusBarAppearanceUpdate
+}
+
 @end

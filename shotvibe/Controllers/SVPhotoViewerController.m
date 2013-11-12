@@ -194,6 +194,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
+	RCLog(@"preferredStatusBarStyle");
 	return UIStatusBarStyleBlackTranslucent;
 }
 
@@ -202,6 +203,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 }
 
 - (BOOL)prefersStatusBarHidden {
+	RCLog(@"prefersStatusBarHidden %i", toolsHidden);
 	return toolsHidden;// setNeedsStatusBarAppearanceUpdate
 }
 
@@ -358,7 +360,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	
 	// Status bar and nav bar positioning
     if (IS_IOS7) {
-		
+		[[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
 	}
 	else if (self.wantsFullScreenLayout) {
         
@@ -587,12 +589,12 @@ static const int NUM_PHOTO_VIEWS = 3;
 	}];
 }
 
-- (void)toggleMenu
-{
+- (void)toggleMenu {
     [self.menuContainerViewController toggleRightSideMenuCompletion:^{
 		
 	}];
 }
+
 - (void)activityDidClose {
 	
 	if (activity) {
@@ -606,6 +608,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	butEdit.enabled = YES;
 	navigatingNext = NO;
 }
+
 - (void)activityDidStartSharing {
 	[activity closeAndClean:NO];
 }

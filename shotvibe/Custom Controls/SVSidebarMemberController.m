@@ -45,15 +45,18 @@
 - (void)viewDidLoad {
 	
     [super viewDidLoad];
-    
-	if (!IS_IOS7) self.wantsFullScreenLayout = NO;
 	
 	// IOS7
 	if (IS_IOS7) {
 		self.sidebarNav.tintColor = [UIColor blackColor];
 		self.sidebarNav.barTintColor = BLUE;
+		
+		UIView *background = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 568, 20)];
+		background.backgroundColor = BLUE;
+		[self.view addSubview:background];
 	}
 	else {
+		self.wantsFullScreenLayout = NO;
 		UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
 		UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
 		UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];

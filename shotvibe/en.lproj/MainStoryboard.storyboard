@@ -753,7 +753,7 @@ to register this device</string>
             <objects>
                 <tableViewController id="N4E-mX-u47" customClass="SVSettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ETc-Lm-hY8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
@@ -1403,7 +1403,7 @@ friends in, so they can give it a glance</string>
             <objects>
                 <viewController id="Y3e-6A-img" customClass="SVWebViewController" sceneMemberID="viewController">
                     <webView key="view" contentMode="scaleToFill" id="Obu-FX-hhg">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" name="alternateSelectedControlColor" catalog="System" colorSpace="catalog"/>
                         <connections>
@@ -1525,7 +1525,7 @@ friends in, so they can give it a glance</string>
             <objects>
                 <tableViewController id="CPg-IN-zDw" customClass="SVSettingsAboutViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DTG-CH-qgU">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
@@ -1972,10 +1972,10 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="sNb-fh-mhv"/>
+        <segue reference="FFK-OC-3pt"/>
+        <segue reference="i8y-Zz-QXE"/>
         <segue reference="iIS-e3-EEA"/>
-        <segue reference="oiS-6F-bJN"/>
-        <segue reference="YZf-v8-Yxg"/>
         <segue reference="hc8-VF-LIN"/>
+        <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>
 </document>

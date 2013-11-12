@@ -84,14 +84,13 @@
 	self.sideMenu.panMode = MFSideMenuPanModeNone;
 	//self.sideMenu.shadow.enabled = NO;
 	self.window.rootViewController = self.sideMenu;
-	if (!IS_IOS7) self.window.rootViewController.wantsFullScreenLayout = YES;
 	
-	// IOS7
-	if ([self.sidebarRight.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
+	if (IS_IOS7) {
 		self.sidebarRight.navigationController.navigationBar.tintColor = [UIColor blackColor];
-		self.sidebarRight.navigationController.navigationBar.barTintColor = BLUE;
 	}
-	
+	else {
+		self.window.rootViewController.wantsFullScreenLayout = YES;
+	}
 	
 	SVInitialization *worker = [[SVInitialization alloc] init];
     [worker configureAppearanceProxies];

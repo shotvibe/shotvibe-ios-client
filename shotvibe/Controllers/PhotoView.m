@@ -73,7 +73,9 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
+	RCLog(@"layoutSubviews");
+	RCLogRect(self.frame);
+	
     [imageView_ setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     imageView_.contentMode = self.contentMode;
 
