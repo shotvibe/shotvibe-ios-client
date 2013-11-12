@@ -120,7 +120,6 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
-
 - (void)viewWillAppear:(BOOL)animated {
 	
 	[super viewWillAppear:animated];
@@ -136,7 +135,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[photosScrollView addGestureRecognizer:doubleTap];
 	[photosScrollView addGestureRecognizer:singleTap];
 	
-	[self updateInfoOnScreen];
+	[self updateCaption];
 	
 	butTrash.enabled = YES;
 	butShare.enabled = YES;
@@ -195,7 +194,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
+	return UIStatusBarStyleBlackTranslucent;
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
@@ -237,7 +236,8 @@ static const int NUM_PHOTO_VIEWS = 3;
             photoViews[i].hidden = NO;
             [photoViews[i] setFrame:[self rectForPhotoIndex:index + i]];
             AlbumPhoto *photo = [self.photos objectAtIndex:index + i];
-
+			RCLogRect(photoViews[i].frame);
+			
             if (photo.serverPhoto) {
                 [photoViews[i] setPhoto:photo.serverPhoto.photoId
                                photoUrl:photo.serverPhoto.url
@@ -315,7 +315,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 	CGFloat pageWidth = photosScrollView.frame.size.width;
 	self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-	[self updateInfoOnScreen];
+	[self updateCaption];
     [self setPhotoViewsIndex:MAX(self.index - 1, 0)];
 }
 
@@ -402,7 +402,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 
 
-- (void)updateInfoOnScreen {
+- (void)updateCaption {
 	
 	if (detailLabel == nil) {
 		
@@ -430,12 +430,11 @@ static const int NUM_PHOTO_VIEWS = 3;
 			str = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.authorNickname, dateFormated];
 			
 			// Hide the trash button for photos that does not belong the the current user
-            // TODO ...
-			butTrash.hidden = NO;
+            butTrash.hidden = photo.serverPhoto.authorUserId != [self.albumManager getShotVibeAPI].authData.userId;
 		}
 		else {
 			// Hide the trash button for photos that does not belong the the current user
-			butTrash.hidden = NO;
+			butTrash.hidden = YES;
 		}
 	}
     detailLabel.text = str;
@@ -466,9 +465,77 @@ static const int NUM_PHOTO_VIEWS = 3;
 	}
 }
 
-- (void)deletePictureAtIndex:(int)i
-{
-    // TODO Add delete
+- (void)deletePictureAtIndex:(int)i {
+	
+	butTrash.enabled = NO;
+	
+	RCLog(@"delete index %i count %i", self.index, cache.count);
+	
+	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
+	__block PhotoView *image = photoViews[1];
+	
+	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	
+	// send request
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+		
+		// Remove from server
+		NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
+		[photosToDelete addObject:@{@"photo_id":photo.serverPhoto.photoId}];
+		RCLog(@"delete photos %@", photosToDelete);
+		__block NSError *error;
+		[[self.albumManager getShotVibeAPI] deletePhotos:photosToDelete withError:&error];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			
+			[MBProgressHUD hideHUDForView:self.view animated:YES];
+			
+			if (error) {
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error connecting to the server at this time.", @"")
+																message:nil
+															   delegate:nil
+													  cancelButtonTitle:NSLocalizedString(@"Ok", @"")
+													  otherButtonTitles:nil];
+				[alert show];
+				butTrash.enabled = YES;
+			}
+			else {
+				// Animate deleted photo to the trashbin
+				[UIView animateWithDuration:0.5
+								 animations:^{
+									 
+									 CGRect rect = image.frame;
+									 image.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
+								 }
+								 completion:^(BOOL finished){
+									 
+									 [self.photos removeObjectAtIndex:self.index];
+									 image.hidden = YES;
+									 
+									 if (self.photos.count == 0) {
+										 [self.navigationController popViewControllerAnimated:YES];
+									 }
+									 else {
+										 if (self.index >= self.photos.count) {
+											 self.index = self.photos.count - 1;
+											 [self setPhotoViewsIndex:MAX(self.index-1, 0)];
+										 }
+										 else {
+											 [self setPhotoViewsIndex:MAX(self.index + 1 - 1, 0)];
+										 }
+										 [self fitScrollViewToOrientation];
+										 [self updateCaption];
+										 
+										 // Send a notification the the main screen to move this album on top of the list
+										 NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
+										 [[NSNotificationCenter defaultCenter] postNotificationName:@"album_changed" object:nil userInfo:userInfo];
+										 
+									 }
+								 }
+				 ];
+			}
+		});
+	});
 }
 
 
