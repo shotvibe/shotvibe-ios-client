@@ -11,6 +11,7 @@
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
+#import "AlbumMember.h"
 #import "AlbumUser.h"
 
 @interface Response : NSObject
@@ -337,9 +338,8 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSNumber *memberId = [profileObj getNumber:@"id"];
         NSString *nickname = [profileObj getString:@"nickname"];
         NSString *avatarUrl = [profileObj getString:@"avatar_url"];
-        NSString *inviteStatus = [profileObj getString:@"invite_status"];
 
-        return [[AlbumUser alloc] initWithMemberId:[memberId longLongValue] nickname:nickname avatarUrl:avatarUrl inviteStatus:inviteStatus];
+        return [[AlbumUser alloc] initWithMemberId:[memberId longLongValue] nickname:nickname avatarUrl:avatarUrl];
     }
     @catch (JSONException *exception) {
         *error = [ShotVibeAPI createErrorFromJSONException:exception];
@@ -488,14 +488,26 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSNumber *memberId = [memberObj getNumber:@"id"];
         NSString *memberNickname = [memberObj getString:@"nickname"];
         NSString *memberAvatarUrl = [memberObj getString:@"avatar_url"];
-        NSString *memberInviteStatus = [memberObj getString:@"invite_status"];
+        NSString *inviteStatusStr = [memberObj getString:@"invite_status"];
+        AlbumMemberInviteStatus inviteStatus;
+        if ([inviteStatusStr isEqualToString:@"joined"]) {
+            inviteStatus = AlbumMemberJoined;
+        }
+        else if ([inviteStatusStr isEqualToString:@"sms_sent"]) {
+            inviteStatus = AlbumMemberSmsSent;
+        }
+        else if ([inviteStatusStr isEqualToString:@"invitation_viewed"]) {
+            inviteStatus = AlbumMemberInvitationViewed;
+        }
+        else {
+            @throw [[JSONException alloc] initWithMessage:@"Invalid `invite_status` value: %@", inviteStatusStr];
+        }
 
-        AlbumUser *albumMember = [[AlbumUser alloc] initWithMemberId:[memberId longLongValue]
-                                                                nickname:memberNickname
-                                                               avatarUrl:memberAvatarUrl
-															inviteStatus:memberInviteStatus];
+        AlbumUser *user = [[AlbumUser alloc] initWithMemberId:[memberId longLongValue]
+                                                     nickname:memberNickname
+                                                    avatarUrl:memberAvatarUrl];
 
-        [members addObject:albumMember];
+        [members addObject:[[AlbumMember alloc] initWithAlbumUser:user inviteStatus:inviteStatus]];
     }
 
     AlbumContents *albumContents = [[AlbumContents alloc] initWithAlbumId:[albumId longLongValue]

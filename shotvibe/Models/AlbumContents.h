@@ -21,7 +21,7 @@
 // Array of `AlbumPhoto` objects
 @property (nonatomic, strong, readonly) NSArray *photos;
 
-// Array of `AlbumUser` objects
+// Array of `AlbumMember` objects
 @property (nonatomic, strong, readonly) NSArray *members;
 
 @end

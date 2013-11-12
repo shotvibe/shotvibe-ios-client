@@ -574,6 +574,7 @@
 		3BE0B11A17C2C71D0058CAAD /* AlbumSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */; };
 		3BE0B11D17C2F6B60058CAAD /* JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11C17C2F6B60058CAAD /* JSON.m */; };
 		3BE0B12117C30F0E0058CAAD /* AlbumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B12017C30F0D0058CAAD /* AlbumManager.m */; };
+		66159228183273040054471E /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 66159227183273040054471E /* AlbumMember.m */; };
 		66BF1FC418213B3C00AA16A7 /* PhotoFilesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BF1FC318213B3C00AA16A7 /* PhotoFilesManager.m */; };
 		66BF1FC7182147D100AA16A7 /* PhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BF1FC6182147D100AA16A7 /* PhotoView.m */; };
 		66BF1FCA1821487200AA16A7 /* PhotoSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BF1FC91821487200AA16A7 /* PhotoSize.m */; };
@@ -1306,6 +1307,8 @@
 		3BE0B11F17C30F0D0058CAAD /* AlbumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumManager.h; sourceTree = "<group>"; };
 		3BE0B12017C30F0D0058CAAD /* AlbumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumManager.m; sourceTree = "<group>"; };
 		3BE9FA8817C40FBC000F6676 /* AlbumContentsListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlbumContentsListener.h; sourceTree = "<group>"; };
+		66159226183273040054471E /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
+		66159227183273040054471E /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
 		66BF1FC218213B3C00AA16A7 /* PhotoFilesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoFilesManager.h; sourceTree = "<group>"; };
 		66BF1FC318213B3C00AA16A7 /* PhotoFilesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoFilesManager.m; sourceTree = "<group>"; };
 		66BF1FC5182147D100AA16A7 /* PhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoView.h; sourceTree = "<group>"; };
@@ -2499,6 +2502,8 @@
 				3B013BC917C3E83200135869 /* AlbumContents.m */,
 				3B013BCB17C3E84C00135869 /* AlbumUser.h */,
 				3B013BCC17C3E84C00135869 /* AlbumUser.m */,
+				66159226183273040054471E /* AlbumMember.h */,
+				66159227183273040054471E /* AlbumMember.m */,
 				3B87E68D17C99941006483C9 /* AlbumUploadingPhoto.h */,
 				3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */,
 				2884ED0E1830CB430069E202 /* RegistrationInfo.h */,
@@ -3185,6 +3190,7 @@
 				28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */,
 				28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */,
 				3B10035B17C653FD00387408 /* UserSettings.m in Sources */,
+				66159228183273040054471E /* AlbumMember.m in Sources */,
 				28E94CAD17C6776D00874BDE /* SVCameraPickerController.m in Sources */,
 				3B87E68F17C99941006483C9 /* AlbumUploadingPhoto.m in Sources */,
 				3B87E69217C99A0F006483C9 /* PhotoUploadManager.m in Sources */,

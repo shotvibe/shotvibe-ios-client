@@ -13,6 +13,7 @@
 #import "AlbumServerPhoto.h"
 #import "AlbumUser.h"
 #import "AlbumContents.h"
+#import "AlbumMember.h"
 
 @implementation ShotVibeDB
 
@@ -296,10 +297,8 @@ static const int DATABASE_VERSION = 1;
         int64_t memberId = [s longLongIntForColumnIndex:0];
         NSString *memberNickname = [s stringForColumnIndex:1];
         NSString *memberAvatarUrl = [s stringForColumnIndex:2];
-        AlbumUser *albumMember = [[AlbumUser alloc] initWithMemberId:memberId
-                                                                nickname:memberNickname
-                                                               avatarUrl:memberAvatarUrl
-															inviteStatus:nil];
+        AlbumUser *user = [[AlbumUser alloc] initWithMemberId:memberId nickname:memberNickname avatarUrl:memberAvatarUrl];
+        AlbumMember *albumMember = [[AlbumMember alloc] initWithAlbumUser:user inviteStatus:AlbumMemberInviteStatusUnknown];
         [albumMembers addObject:albumMember];
     }
 
@@ -369,19 +368,21 @@ static const int DATABASE_VERSION = 1;
 
     NSMutableSet *memberIds = [[NSMutableSet alloc] init];
 
-    for (AlbumUser *member in albumContents.members) {
-        [memberIds addObject:[NSNumber numberWithLongLong:member.memberId]];
+    for (AlbumMember *member in albumContents.members) {
+        AlbumUser *user = member.user;
+
+        [memberIds addObject:[NSNumber numberWithLongLong:user.memberId]];
 
         if(![db executeUpdate:@"INSERT OR REPLACE INTO album_member (album_id, user_id) VALUES (?, ?)",
              [NSNumber numberWithLongLong:albumId],
-             [NSNumber numberWithLongLong:member.memberId]]) {
+             [NSNumber numberWithLongLong:user.memberId]]) {
             ABORT_TRANSACTION;
         }
 
         if(![db executeUpdate:@"INSERT OR REPLACE INTO user (user_id, nickname, avatar_url) VALUES (?, ?, ?)",
-             [NSNumber numberWithLongLong:member.memberId],
-             member.nickname,
-             member.avatarUrl]) {
+             [NSNumber numberWithLongLong:user.memberId],
+             user.nickname,
+             user.avatarUrl]) {
             ABORT_TRANSACTION;
         }
     }
