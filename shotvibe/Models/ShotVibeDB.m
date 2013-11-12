@@ -11,7 +11,7 @@
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
-#import "AlbumMember.h"
+#import "AlbumUser.h"
 #import "AlbumContents.h"
 
 @implementation ShotVibeDB
@@ -296,7 +296,7 @@ static const int DATABASE_VERSION = 1;
         int64_t memberId = [s longLongIntForColumnIndex:0];
         NSString *memberNickname = [s stringForColumnIndex:1];
         NSString *memberAvatarUrl = [s stringForColumnIndex:2];
-        AlbumMember *albumMember = [[AlbumMember alloc] initWithMemberId:memberId
+        AlbumUser *albumMember = [[AlbumUser alloc] initWithMemberId:memberId
                                                                 nickname:memberNickname
                                                                avatarUrl:memberAvatarUrl
 															inviteStatus:nil];
@@ -369,7 +369,7 @@ static const int DATABASE_VERSION = 1;
 
     NSMutableSet *memberIds = [[NSMutableSet alloc] init];
 
-    for (AlbumMember *member in albumContents.members) {
+    for (AlbumUser *member in albumContents.members) {
         [memberIds addObject:[NSNumber numberWithLongLong:member.memberId]];
 
         if(![db executeUpdate:@"INSERT OR REPLACE INTO album_member (album_id, user_id) VALUES (?, ?)",

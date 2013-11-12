@@ -13,12 +13,12 @@
 #import "SVAddFriendsViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
-#import "AlbumMember.h"
+#import "AlbumUser.h"
 
 @interface SVSidebarMemberController () {
 	ShotVibeAPI *shotvibeAPI;
 	NSMutableArray *members;
-	AlbumMember *owner;
+	AlbumUser *owner;
 	SVSidebarAlbumMemberCell *ownerCell;
 }
 
@@ -165,7 +165,7 @@
 	
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 
-    AlbumMember *member = [members objectAtIndex:indexPath.row];
+    AlbumUser *member = [members objectAtIndex:indexPath.row];
 	
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.avatarUrl]];
 	[cell.memberLabel setText:member.nickname];
@@ -199,7 +199,7 @@
 	if ([self.searchBar isFirstResponder])
 		[self.searchBar resignFirstResponder];
 	
-	AlbumMember *member = [members objectAtIndex:indexPath.row];
+	AlbumUser *member = [members objectAtIndex:indexPath.row];
 	
 	if (shotvibeAPI.authData.userId == member.memberId) {
 		
@@ -274,7 +274,7 @@
 	
 	members = [NSMutableArray arrayWithCapacity:[_albumContents.members count]];
 	
-    for (AlbumMember *member in _albumContents.members) {
+    for (AlbumUser *member in _albumContents.members) {
 		if (shotvibeAPI.authData.userId == member.memberId) {
 			owner = member;
 		}

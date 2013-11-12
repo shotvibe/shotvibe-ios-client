@@ -9,7 +9,7 @@
 #import "SVPhotoViewerController.h"
 #import "SVDefines.h"
 #import "MFSideMenu.h"
-#import "AlbumMember.h"
+#import "AlbumUser.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
 #import "ShotVibeAppDelegate.h"

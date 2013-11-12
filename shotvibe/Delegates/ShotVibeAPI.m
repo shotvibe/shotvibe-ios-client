@@ -11,7 +11,7 @@
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
-#import "AlbumMember.h"
+#import "AlbumUser.h"
 
 @interface Response : NSObject
 
@@ -316,7 +316,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     }
 }
 
-- (AlbumMember *)getUserProfile:(int64_t)userId withError:(NSError **)error
+- (AlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error
 {
     NSError *responseError;
     Response *response = [self getResponse:[NSString stringWithFormat:@"/users/%lld/", userId] method:@"GET" body:nil error:&responseError];
@@ -339,7 +339,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSString *avatarUrl = [profileObj getString:@"avatar_url"];
         NSString *inviteStatus = [profileObj getString:@"invite_status"];
 
-        return [[AlbumMember alloc] initWithMemberId:[memberId longLongValue] nickname:nickname avatarUrl:avatarUrl inviteStatus:inviteStatus];
+        return [[AlbumUser alloc] initWithMemberId:[memberId longLongValue] nickname:nickname avatarUrl:avatarUrl inviteStatus:inviteStatus];
     }
     @catch (JSONException *exception) {
         *error = [ShotVibeAPI createErrorFromJSONException:exception];
@@ -490,7 +490,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSString *memberAvatarUrl = [memberObj getString:@"avatar_url"];
         NSString *memberInviteStatus = [memberObj getString:@"invite_status"];
 
-        AlbumMember *albumMember = [[AlbumMember alloc] initWithMemberId:[memberId longLongValue]
+        AlbumUser *albumMember = [[AlbumUser alloc] initWithMemberId:[memberId longLongValue]
                                                                 nickname:memberNickname
                                                                avatarUrl:memberAvatarUrl
 															inviteStatus:memberInviteStatus];

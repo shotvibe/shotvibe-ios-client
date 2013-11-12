@@ -1,5 +1,5 @@
 //
-//  AlbumMember.h
+//  AlbumUser.h
 //  shotvibe
 //
 //  Created by benny on 8/20/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AlbumMember : NSObject
+@interface AlbumUser : NSObject
 
 - (id)initWithMemberId:(int64_t)memberId
               nickname:(NSString *)nickname

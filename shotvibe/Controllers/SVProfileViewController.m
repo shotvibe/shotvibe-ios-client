@@ -40,7 +40,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
-        AlbumMember *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
+        AlbumUser *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
 		
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];

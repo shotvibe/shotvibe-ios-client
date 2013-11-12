@@ -404,7 +404,7 @@
 			AlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
 			
 			//Search through the members
-			for (AlbumMember *member in albumContents.members) {
+			for (AlbumUser *member in albumContents.members) {
 				if (photo.serverPhoto.authorUserId == member.memberId) {
 					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:member.avatarUrl]];
 					header.nameLabel.text = member.nickname;

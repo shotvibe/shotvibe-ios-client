@@ -541,7 +541,7 @@
 		3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */; };
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
-		3B013BCD17C3E84C00135869 /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BCC17C3E84C00135869 /* AlbumMember.m */; };
+		3B013BCD17C3E84C00135869 /* AlbumUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BCC17C3E84C00135869 /* AlbumUser.m */; };
 		3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */; };
 		3B10035B17C653FD00387408 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B10035A17C653FD00387408 /* UserSettings.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
@@ -1238,8 +1238,8 @@
 		3B013BC617C3E7CA00135869 /* AlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhoto.m; sourceTree = "<group>"; };
 		3B013BC817C3E83200135869 /* AlbumContents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumContents.h; sourceTree = "<group>"; };
 		3B013BC917C3E83200135869 /* AlbumContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumContents.m; sourceTree = "<group>"; };
-		3B013BCB17C3E84C00135869 /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
-		3B013BCC17C3E84C00135869 /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
+		3B013BCB17C3E84C00135869 /* AlbumUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumUser.h; sourceTree = "<group>"; };
+		3B013BCC17C3E84C00135869 /* AlbumUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumUser.m; sourceTree = "<group>"; };
 		3B0A3CED17CB7EBC0058B620 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
 		3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		3B10035917C653FD00387408 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettings.h; sourceTree = "<group>"; };
@@ -2497,8 +2497,8 @@
 				3B013BC617C3E7CA00135869 /* AlbumPhoto.m */,
 				3B013BC817C3E83200135869 /* AlbumContents.h */,
 				3B013BC917C3E83200135869 /* AlbumContents.m */,
-				3B013BCB17C3E84C00135869 /* AlbumMember.h */,
-				3B013BCC17C3E84C00135869 /* AlbumMember.m */,
+				3B013BCB17C3E84C00135869 /* AlbumUser.h */,
+				3B013BCC17C3E84C00135869 /* AlbumUser.m */,
 				3B87E68D17C99941006483C9 /* AlbumUploadingPhoto.h */,
 				3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */,
 				2884ED0E1830CB430069E202 /* RegistrationInfo.h */,
@@ -3181,7 +3181,7 @@
 				3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */,
 				3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */,
 				3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */,
-				3B013BCD17C3E84C00135869 /* AlbumMember.m in Sources */,
+				3B013BCD17C3E84C00135869 /* AlbumUser.m in Sources */,
 				28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */,
 				28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */,
 				3B10035B17C653FD00387408 /* UserSettings.m in Sources */,
