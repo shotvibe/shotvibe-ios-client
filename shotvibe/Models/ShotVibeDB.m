@@ -345,6 +345,12 @@ static const int DATABASE_VERSION = 1;
         ABORT_TRANSACTION;
     }
 
+    // Will be filled with all the users from:
+    //  - The authors of all the photos
+    //  - The album member list
+    // And then will be written to the DB
+    NSMutableDictionary *allUsers = [[NSMutableDictionary alloc] init];
+
     // Keep track of all the new photoIds in an efficient data structure
     NSMutableSet *photoIds = [[NSMutableSet alloc] init];
 
@@ -364,6 +370,9 @@ static const int DATABASE_VERSION = 1;
              photo.dateAdded]) {
             ABORT_TRANSACTION;
         }
+
+        AlbumUser *user = photo.author;
+        [allUsers setObject:user forKey:[[NSNumber alloc] initWithLongLong:user.memberId]];
     }
 
     // Delete any old rows in the database that are not in photoIds:
@@ -396,12 +405,7 @@ static const int DATABASE_VERSION = 1;
             ABORT_TRANSACTION;
         }
 
-        if(![db executeUpdate:@"INSERT OR REPLACE INTO user (user_id, nickname, avatar_url) VALUES (?, ?, ?)",
-             [NSNumber numberWithLongLong:user.memberId],
-             user.nickname,
-             user.avatarUrl]) {
-            ABORT_TRANSACTION;
-        }
+        [allUsers setObject:user forKey:[[NSNumber alloc] initWithLongLong:user.memberId]];
     }
 
     // Delete any old rows in the database that are not in memberIds:
@@ -416,6 +420,17 @@ static const int DATABASE_VERSION = 1;
             if (![db executeUpdate:@"DELETE FROM album_member WHERE album_member.album_id=? AND user_id=?", [NSNumber numberWithLongLong:albumId], [NSNumber numberWithLongLong:mid]]) {
                 ABORT_TRANSACTION;
             }
+        }
+    }
+
+    for (id key in allUsers) {
+        AlbumUser *user = [allUsers objectForKey:key];
+
+        if(![db executeUpdate:@"INSERT OR REPLACE INTO user (user_id, nickname, avatar_url) VALUES (?, ?, ?)",
+             [NSNumber numberWithLongLong:user.memberId],
+             user.nickname,
+             user.avatarUrl]) {
+            ABORT_TRANSACTION;
         }
     }
 
