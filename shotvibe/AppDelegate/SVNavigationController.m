@@ -18,7 +18,7 @@
 	// Do any additional setup after loading the view.
 	if (IS_IOS7) {
 		
-		self.navigationBar.tintColor = [UIColor blackColor];
+		self.navigationBar.tintColor = [UIColor whiteColor];
 		self.navigationBar.barTintColor = BLUE;
 		
 		[self setNeedsStatusBarAppearanceUpdate];

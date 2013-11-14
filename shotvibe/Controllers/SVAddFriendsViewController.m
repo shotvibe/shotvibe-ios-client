@@ -66,15 +66,12 @@
 	
 	// IOS7
 	if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
-		self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-		self.navigationController.navigationBar.barTintColor = BLUE;
 		self.navigationController.navigationBar.translucent = NO;
 		self.view.frame = CGRectMake(0, 64, 320, 568-64);
 	}
 	
-	
 	self.contactsSourceView.hidden = YES;
-	self.contactsSourceSelector.frame = CGRectMake(5, 7, 233, 30);
+	self.contactsSourceSelector.frame = IS_IOS7 ? CGRectMake(8, 7, 239, 30) : CGRectMake(5, 7, 233, 30);
     self.contactsSourceSelector.selectedSegmentIndex = 1;
 	
 	// Address book contacts was already initialized in SVAlbumListViewController and the contacts were cached
@@ -137,7 +134,7 @@
 	
     cell.titleLabel.text = record.name;
     cell.subtitleLabel.text = record.phone;
-	
+	//RCLog(@"record.iconRemotePath %@", record.iconRemotePath);
 	if (record != nil && record.iconLocalData != nil) {
 		[cell.contactIcon cancelImageRequestOperation];
 		cell.contactIcon.image = [[UIImage alloc] initWithData:record.iconLocalData];

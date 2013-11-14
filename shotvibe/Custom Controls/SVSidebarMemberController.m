@@ -74,6 +74,22 @@
 	UIImage *resizable_bg = [search_bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 20, 5, 20) resizingMode:UIImageResizingModeStretch];
 	[self.searchBar setSearchFieldBackgroundImage:resizable_bg forState:UIControlStateNormal];
 	
+	// hack to set the color of the search text to white only in this screen
+	for (UIView *subView in self.searchBar.subviews) {
+		if (IS_IOS7) {
+			for (UIView *ndLeveSubView in subView.subviews) {
+				if ([ndLeveSubView isKindOfClass:[UITextField class]]) {
+					((UITextField *)ndLeveSubView).textColor = [UIColor whiteColor];
+				}
+			}
+		}
+		else {
+			if ([subView isKindOfClass:[UITextField class]]) {
+				((UITextField *)subView).textColor = [UIColor whiteColor];
+			}
+		}
+	}
+	
 	ownerCell = [self.tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 	ownerCell.frame = CGRectMake(0, 0, 320, 42);
 	ownerCell.autoresizingMask = UIViewAutoresizingFlexibleWidth;

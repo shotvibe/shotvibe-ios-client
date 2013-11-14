@@ -31,20 +31,29 @@
 	
     [super viewDidLoad];
 	
+	self.title = @"Profile";
+	
+	NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	path = [path stringByAppendingString:@"/avatar.jpg"];
+	self.userPhoto.image = [UIImage imageWithContentsOfFile:path];
+	
+	
     NSAssert(self.albumManager, @"SVProfileViewController started without setting albumManager property");
 	
     ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
-	
     int64_t userId = shotvibeAPI.authData.userId;
 	
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
         AlbumUser *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
 		
         dispatch_async(dispatch_get_main_queue(), ^{
+			
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (!userProfile) {
+            
+			if (!userProfile) {
                 // TODO Better error dialog with Retry option
 				//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
 				//                                                                message:[error description]
@@ -59,12 +68,6 @@
             }
         });
     });
-	
-	self.title = @"Profile";
-	
-	NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-	path = [path stringByAppendingString:@"/avatar.jpg"];
-	self.userPhoto.image = [UIImage imageWithContentsOfFile:path];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -101,6 +104,10 @@
         destination.image = self.userPhoto.image;
 		destination.delegate = self;
 		destination.albumManager = self.albumManager;
+		
+		// Set the text of the back button of the next screen
+		UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle: @"Back" style: UIBarButtonItemStyleBordered target: nil action: nil];
+		[self.navigationItem setBackBarButtonItem:newBackButton];
     }
 }
 
@@ -134,8 +141,10 @@
         BOOL success = [shotvibeAPI setUserNickname:userId nickname:newNickname withError:&error];
 		
         dispatch_async(dispatch_get_main_queue(), ^{
+			
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (!success) {
+            
+			if (!success) {
                 // TODO Better error dialog with Retry option
 				//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
 				//                                                                message:[error description]

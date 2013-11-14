@@ -191,7 +191,7 @@
 		
 		int i = 0;
 		for (NSDictionary *r in (NSArray*)response[@"phone_number_details"]) {
-			//RCLogO(r);
+			RCLogO(r);
 			if ([r[@"phone_type"] isEqualToString:@"invalid"]) {
 				RCLog(@">>>>>>>>>>>>>>>> INVALID");
 			}

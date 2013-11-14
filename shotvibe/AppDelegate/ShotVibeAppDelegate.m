@@ -86,7 +86,7 @@
 	self.window.rootViewController = self.sideMenu;
 	
 	if (IS_IOS7) {
-		self.sidebarRight.navigationController.navigationBar.tintColor = [UIColor blackColor];
+		
 	}
 	else {
 		self.window.rootViewController.wantsFullScreenLayout = YES;

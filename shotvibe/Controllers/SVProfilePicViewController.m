@@ -28,6 +28,11 @@
 	self.navigationItem.rightBarButtonItem = doneButton;
 	imageView.image = self.image;
 	
+	
+
+}
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
 }
 
 

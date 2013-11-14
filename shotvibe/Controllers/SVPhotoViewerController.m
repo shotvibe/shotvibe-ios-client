@@ -87,7 +87,14 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[toolbarView addSubview:butEdit];
     
 	self.navigationItem.rightBarButtonItem = nil;
-	if (!IS_IOS7) self.wantsFullScreenLayout = YES;
+	if (IS_IOS7) {
+//		self.navigationController.navigationBar.translucent = YES;
+//		if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+//			self.edgesForExtendedLayout = UIRectEdgeNone;
+	}
+	else {
+		self.wantsFullScreenLayout = YES;
+	}
 	
     photosScrollView = [[UIScrollView alloc] init];
 	photosScrollView.scrollEnabled = YES;
@@ -213,8 +220,10 @@ static const int NUM_PHOTO_VIEWS = 3;
     int h = self.view.frame.size.height;
 	
     photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
-    photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h-40);
+    photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h-140);
     photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
+	
+	photosScrollView.backgroundColor = [UIColor yellowColor];
 }
 
 - (CGRect)rectForPhotoIndex:(int)i
@@ -236,7 +245,6 @@ static const int NUM_PHOTO_VIEWS = 3;
             photoViews[i].hidden = NO;
             [photoViews[i] setFrame:[self rectForPhotoIndex:index + i]];
             AlbumPhoto *photo = [self.photos objectAtIndex:index + i];
-			RCLogRect(photoViews[i].frame);
 			
             if (photo.serverPhoto) {
                 [photoViews[i] setPhoto:photo.serverPhoto.photoId
