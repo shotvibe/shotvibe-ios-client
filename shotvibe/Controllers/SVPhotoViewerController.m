@@ -519,6 +519,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 									 
 									 [self.photos removeObjectAtIndex:self.index];
 									 image.hidden = YES;
+									 butTrash.enabled = YES;
 									 
 									 if (self.photos.count == 0) {
 										 [self.navigationController popViewControllerAnimated:YES];
@@ -602,7 +603,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 }
 
 - (void)activityDidClose {
-	
+	RCLog(@"activityDidClose");
 	if (activity) {
 		activity.controller = nil;
 		activity.delegate = nil;
@@ -616,7 +617,8 @@ static const int NUM_PHOTO_VIEWS = 3;
 }
 
 - (void)activityDidStartSharing {
-	[activity closeAndClean:NO];
+	RCLog(@"activityDidStartSharing");
+	[activity closeAndClean:YES];
 }
 
 

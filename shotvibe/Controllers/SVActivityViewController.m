@@ -140,13 +140,15 @@
 }
 
 - (void)closeAndClean:(BOOL)dispatch {
+	RCLog(@"closeAndClean %i", dispatch);
 	__block CGRect rect = self.activityView.frame;
 	
 	[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
 		rect.origin.y = self.view.frame.size.height;
 		self.view.alpha = 0;
 		self.activityView.frame = rect;
-	}completion:^(BOOL finished) {
+	}
+					 completion:^(BOOL finished) {
 		if (dispatch) {
 			[self.view removeFromSuperview];
 			if ([self.delegate respondsToSelector:@selector(activityDidClose)]) {
