@@ -74,35 +74,37 @@
 					
 					if (num == 0) {
 						// Record with no phone number
-						continue;
-//						record.name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(evaluatedObject));
-//						record.phone = @"";
-//						[arr addObject:record];
+						SVRecord *record = [[SVRecord alloc] init];
+						record.recordId = svRecords.count;
+						record.name = name.length == 0 ? @"-" : name;
+						record.phone = @"0";
+						
+						int i = record.recordId;
+						if (i>78) i = 1 + i%78;
+						record.iconDefaultRemotePath = [NSString stringWithFormat:@"https://shotvibe-avatars-01.s3.amazonaws.com/default-avatar-00%@%i.jpg", i<10?@"0":@"", i];
+						
+						[svRecords addObject:record];
 					}
 					else {
 						for (CFIndex i = 0; i < num; i++) {
 							
 							NSString* phoneNumber = (__bridge_transfer NSString*) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
-							NSString* phoneNumericNumber = [phoneNumber stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
 							
-							if (phoneNumber != nil && phoneNumber.length > 0 && phoneNumericNumber.length > 0) {
-								
-								SVRecord *record = [[SVRecord alloc] init];
-								record.recordId = svRecords.count;
-								record.name = name;
-								record.phone = phoneNumber;
-								//RCLog(@"%i %@ %@ -> %@", record.recordId, record.name, record.phone, phoneNumericNumber);
-								
-								if (ABPersonHasImageData((__bridge ABRecordRef)evaluatedObject)) {
-									record.iconLocalData = (__bridge NSData *)(ABPersonCopyImageDataWithFormat((__bridge ABRecordRef)evaluatedObject, kABPersonImageFormatThumbnail));
-								}
-								
-								int i = record.recordId;
-								if (i>78) i = 1 + i%78;
-								record.iconDefaultRemotePath = [NSString stringWithFormat:@"https://shotvibe-avatars-01.s3.amazonaws.com/default-avatar-00%@%i.jpg", i<10?@"0":@"", i];
-								
-								[svRecords addObject:record];
+							SVRecord *record = [[SVRecord alloc] init];
+							record.recordId = svRecords.count;
+							record.name = name.length == 0 ? @"-" : name;
+							record.phone = phoneNumber.length > 0 ? phoneNumber : @"0";
+							//RCLog(@"%i %@ %@ -> %@", record.recordId, record.name, record.phone, phoneNumericNumber);
+							
+							if (ABPersonHasImageData((__bridge ABRecordRef)evaluatedObject)) {
+								record.iconLocalData = (__bridge NSData *)(ABPersonCopyImageDataWithFormat((__bridge ABRecordRef)evaluatedObject, kABPersonImageFormatThumbnail));
 							}
+							
+							int i = record.recordId;
+							if (i>78) i = 1 + i%78;
+							record.iconDefaultRemotePath = [NSString stringWithFormat:@"https://shotvibe-avatars-01.s3.amazonaws.com/default-avatar-00%@%i.jpg", i<10?@"0":@"", i];
+							
+							[svRecords addObject:record];
 						}
 					}
 										

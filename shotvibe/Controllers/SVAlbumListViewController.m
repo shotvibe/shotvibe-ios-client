@@ -159,24 +159,9 @@
 			
 			NSString *name = record.name;
 			NSString *phoneNumber = record.phone;
-				
-			if (name != nil && name.length == 0) {
-				name = @"Invalid Name";
-			}
-			if (phoneNumber != nil && phoneNumber.length == 0) {
-				phoneNumber = @"0";
-			}
 			
 			NSDictionary *person = @{  @"phone_number": phoneNumber, @"contact_nickname": name };
 			[contacts addObject:person];
-//			[contacts addObject:person];
-//			[contacts addObject:person];
-//			[contacts addObject:person];
-//			[contacts addObject:person];
-//			[contacts addObject:person];
-//			[contacts addObject:person];
-//			[contacts addObject:person];
-//			[contacts addObject:person];
 		}
 		
 		__block NSError *error = nil;

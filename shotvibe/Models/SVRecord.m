@@ -14,7 +14,9 @@
 	
 	_phone = phone;
 	
-	NSString *phoneNr = [phone stringByReplacingOccurrencesOfString:@"+" withString:@""];
+	NSString *phoneNr = [phone stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+	
+	phoneNr = [phone stringByReplacingOccurrencesOfString:@"+" withString:@""];
 	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@"-" withString:@""];
 	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@"(" withString:@""];
 	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@")" withString:@""];
