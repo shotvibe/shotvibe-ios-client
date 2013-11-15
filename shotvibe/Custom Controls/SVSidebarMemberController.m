@@ -14,12 +14,11 @@
 #import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
 #import "AlbumMember.h"
-#import "AlbumUser.h"
 
 @interface SVSidebarMemberController () {
 	ShotVibeAPI *shotvibeAPI;
 	NSMutableArray *members;
-	AlbumUser *owner;
+	AlbumMember *owner;
 	SVSidebarAlbumMemberCell *ownerCell;
 }
 
@@ -145,22 +144,29 @@
     [self searchForMemberWithName:nil];
 	
 	if (members.count == 0) {
+		// No members
 		self.noMembersView.hidden = NO;
 		self.tableView.hidden = YES;
+		self.searchBar.userInteractionEnabled = NO;
 		self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
+		
+		ownerCell.hidden = NO;
+		[ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:owner.user.avatarUrl]];
+		[ownerCell.memberLabel setText:owner.user.nickname];
+		ownerCell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
+		ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
+		ownerCell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
+		ownerCell.statusLabel.text = @"Leave Album";
 	}
 	else {
+		// There are some members
 		self.noMembersView.hidden = YES;
 		self.tableView.hidden = NO;
-		self.butAddFriends.frame = CGRectMake(16, 87, 240, 40);
+		self.searchBar.userInteractionEnabled = YES;
+		self.butAddFriends.frame = CGRectMake(16, 54, 240, 40);
+		
+		ownerCell.hidden = YES;
 	}
-	
-	[ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:owner.avatarUrl]];
-	[ownerCell.memberLabel setText:owner.nickname];
-	ownerCell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
-	ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
-	ownerCell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
-	ownerCell.statusLabel.text = @"Leave Album";
 }
 
 - (void)setParentController:(SVAlbumGridViewController *)parentController {
@@ -238,7 +244,7 @@
 	
 	if (shotvibeAPI.authData.userId == member.user.memberId) {
 		
-		// Moved to the Touches code
+		[self ownerButtonPressed:nil];
 	}
 }
 
@@ -309,14 +315,17 @@
 	
 	members = [NSMutableArray arrayWithCapacity:[_albumContents.members count]];
 	
-    for (AlbumMember *member in _albumContents.members) {
-		if (shotvibeAPI.authData.userId == member.user.memberId) {
-			owner = member.user;
+	if (_albumContents.members.count == 1) {
+		owner = _albumContents.members[0];
+	}
+	else {
+		for (AlbumMember *member in _albumContents.members) {
+			if (title == nil || [title isEqualToString:@""] || [[member.user.nickname lowercaseString] rangeOfString:title].location != NSNotFound) {
+				[members addObject:member];
+			}
 		}
-		else if (title == nil || [title isEqualToString:@""] || [[member.user.nickname lowercaseString] rangeOfString:title].location != NSNotFound) {
-			[members addObject:member];
-		}
-    }
+	}
+    
     [self.tableView reloadData];
 }
 
