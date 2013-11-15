@@ -10,4 +10,17 @@
 
 @implementation SVRecord
 
+- (void)setPhone:(NSString *)phone {
+	
+	_phone = phone;
+	
+	NSString *phoneNr = [phone stringByReplacingOccurrencesOfString:@"+" withString:@""];
+	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@"-" withString:@""];
+	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@"(" withString:@""];
+	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@")" withString:@""];
+	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@" " withString:@""];
+	
+	_phoneId = [phoneNr longLongValue];
+}
+
 @end

@@ -167,10 +167,10 @@
 	});
 }
 
-- (SVRecord*)recordOfRecordId:(int)recordId {
+- (SVRecord*)recordOfPhoneId:(int64_t)phoneId {
 	
 	for (SVRecord *record in self.allContacts) {
-		if (record.recordId == recordId) {
+		if (record.phoneId == phoneId) {
 			return record;
 		}
 	}

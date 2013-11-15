@@ -90,7 +90,8 @@
 																  target:self
 																  action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
-    
+	
+	
     // Setup back button
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
     NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};

@@ -75,7 +75,7 @@
     RCLog(@"##### Initial albumList: %@", albumList);
 	
 	table_content_offset_y = IS_IOS7 ? 44 : 44;
-	total_header_h = IS_IOS7 ? 44 : 64;
+	total_header_h = IS_IOS7 ? 0 : 64;
 	status_bar_h = IS_IOS7 ? 0 : 20;
 	dropdown_origin_y = IS_IOS7 ? (45+44) : (45+44);
 	
@@ -200,7 +200,8 @@
 				record.iconRemotePath = r[@"avatar_url"];
 				
 				NSString *user_id = r[@"user_id"];
-				//RCLog(@"%@", user_id);
+				RCLog(@"%lli", record.phoneId);
+				
 				if (user_id != nil && ![user_id isKindOfClass:[NSNull class]]) {
 					record.memberId = [user_id longLongValue];
 				}
@@ -509,10 +510,12 @@
 
 #pragma mark - UITextFieldDelegate Methods
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [self createNewAlbumWithTitle:textField.text];
-    [self textFieldDidEndEditing:textField];
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+	
+	if (textField == self.albumField) {
+		[self createNewAlbumWithTitle:textField.text];
+		[self hideDropDown];
+	}
     return YES;
 }
 
@@ -687,6 +690,9 @@
 				[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
 									  withRowAnimation:UITableViewRowAnimationAutomatic];
 				[self.tableView endUpdates];
+				[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+									  atScrollPosition:UITableViewScrollPositionTop
+											  animated:YES];
 				[self updateEmptyState];
             }
 			[MBProgressHUD hideHUDForView:self.view animated:YES];

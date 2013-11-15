@@ -34,7 +34,7 @@
 }
 
 - (BOOL)prefersStatusBarHidden {
-	
+	RCLog(@"prefersStatusBarHidden in last vc: %@", [self.viewControllers lastObject]);
 	if ([[self.viewControllers lastObject] isKindOfClass:[SVPhotoViewerController class]]) {
 		return [[self.viewControllers lastObject] prefersStatusBarHidden];
 	}

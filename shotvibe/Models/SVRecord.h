@@ -12,6 +12,7 @@
 
 @property (nonatomic) int recordId;
 @property (nonatomic) int64_t memberId;
+@property (nonatomic) int64_t phoneId;// This is the phone number converted to an integer
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *phone;
 @property (nonatomic, retain) NSString *iconDefaultRemotePath;

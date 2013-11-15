@@ -27,6 +27,6 @@ typedef void(^AddressBookSearchCompletionBlock)();
 
 - (void)requestAccessWithCompletion:(AddressBookPermissionsBlock)completionBlock;
 - (void)filterByKeyword:(NSString*)keyword membersOnly:(BOOL)membersOnly completionBlock:(AddressBookSearchCompletionBlock)completionBlock;
-- (SVRecord*)recordOfRecordId:(int)recordId;
+- (SVRecord*)recordOfPhoneId:(int64_t)phoneId;
 
 @end

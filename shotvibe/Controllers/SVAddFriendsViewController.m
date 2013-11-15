@@ -124,7 +124,7 @@
 	SVRecord *record = nil;
 	
 	if (indexPath.section == 0 && favorites.count > 0 && !searching) {
-		record = [ab recordOfRecordId:[[favorites objectAtIndex:indexPath.row] integerValue]];
+		record = [ab recordOfPhoneId:[[favorites objectAtIndex:indexPath.row] longLongValue]];
 	}
 	else {
 		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
@@ -203,9 +203,9 @@
 	BOOL contains = NO;
 	
 	if (indexPath.section == 0 && favorites.count > 0 && !searching) {
-		record = [ab recordOfRecordId:[[favorites objectAtIndex:indexPath.row] integerValue]];
+		record = [ab recordOfPhoneId:[[favorites objectAtIndex:indexPath.row] longLongValue]];
 		for (SVRecord *selectedRecord in selectedRecords) {
-			if (record.recordId == selectedRecord.recordId) {
+			if (record.phoneId == selectedRecord.phoneId) {
 				record = selectedRecord;
 				contains = YES;
 				break;
@@ -301,16 +301,23 @@
 
 - (void)addToContactsList:(SVRecord*)record {
 	
+	NSString *shortName = [[record.name componentsSeparatedByString:@" "] objectAtIndex:0];
+	
     //create a new dynamic button
-	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+	button.frame = CGRectMake(0, 0, 100, 20);
 	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
 	button.titleLabel.shadowColor = [UIColor clearColor];
-	[button setTitle:record.name forState:UIControlStateNormal];
+	[button setTitle:shortName forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[button setImage:[UIImage imageNamed:@"contactsX.png"] forState:UIControlStateNormal];
 	[button setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-	[button setTag:record.recordId];
-	[button sizeToFit];
+	[button setTag:record.phoneId];
+	
+	CGRect f = button.frame;
+	f.size = button.intrinsicContentSize;
+	f.size.width += 20;
+	button.frame = f;
 	
 	UIImage *baseImage = [UIImage imageNamed:@"butInvitedContacts.png"];
 	UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 20);
@@ -341,7 +348,7 @@
 	
 	NSMutableArray *arr = contactsButtons;
 	for (UIButton *but in arr) {
-		if (but.tag == record.recordId) {
+		if (but.tag == record.phoneId) {
 			[contactsButtons removeObject:but];
 			[but removeFromSuperview];
 			[selectedRecords removeObject:record];
@@ -355,7 +362,7 @@
 	
 	NSMutableArray *arr = selectedRecords;
 	for (SVRecord *record in arr) {
-		if (record.recordId == sender.tag) {
+		if (record.phoneId == sender.tag) {
 			[selectedRecords removeObject:record];
 			break;
 		}
@@ -419,7 +426,7 @@
 		 @"default_country":countryCode,
 		 @"contact_nickname":record.name}];
 		
-		NSNumber *id_ = [NSNumber numberWithInt:record.recordId];
+		NSNumber *id_ = [NSNumber numberWithLongLong:record.phoneId];
 		if (![favorites containsObject:id_]) {
 			[favorites addObject:id_];
 		}
