@@ -116,12 +116,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
+    //[self.navigationController setNavigationBarHidden:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	[self.gridView setContentOffset:CGPointMake(0, -44) animated:YES];
+	if (!IS_IOS7) [self.gridView setContentOffset:CGPointMake(0, -44) animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

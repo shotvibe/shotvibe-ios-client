@@ -390,7 +390,6 @@
 	[albumList removeObjectAtIndex:i];
 	[albumList insertObject:newAlbum atIndex:0];
 	
-	//[self.tableView reloadData];
 	[self.tableView beginUpdates];
 	[self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 	[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
