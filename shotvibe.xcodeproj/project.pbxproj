@@ -444,6 +444,7 @@
 		2849A89117EAFE400076AFBA /* searchFieldIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A88B17EAFE3F0076AFBA /* searchFieldIcon.png */; };
 		2849A89217EAFE400076AFBA /* searchFieldIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A88C17EAFE400076AFBA /* searchFieldIcon@2x.png */; };
 		2851FAA4183793F400C094AB /* SVImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2851FAA3183793F400C094AB /* SVImagePickerController.m */; };
+		2851FAA71838171200C094AB /* UIImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = 2851FAA61838171200C094AB /* UIImage+Crop.m */; };
 		285EB93F17F55BDA00A33E5B /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB93C17F55BDA00A33E5B /* libAviarySDK.a */; };
 		285EB94017F55BDB00A33E5B /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 285EB93E17F55BDA00A33E5B /* AviarySDKResources.bundle */; };
 		285EB94217F55C8200A33E5B /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94117F55C8100A33E5B /* Accelerate.framework */; };
@@ -1106,6 +1107,8 @@
 		2849A88C17EAFE400076AFBA /* searchFieldIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchFieldIcon@2x.png"; sourceTree = "<group>"; };
 		2851FAA2183793F400C094AB /* SVImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVImagePickerController.h; sourceTree = "<group>"; };
 		2851FAA3183793F400C094AB /* SVImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVImagePickerController.m; sourceTree = "<group>"; };
+		2851FAA51838171200C094AB /* UIImage+Crop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Crop.h"; sourceTree = "<group>"; };
+		2851FAA61838171200C094AB /* UIImage+Crop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Crop.m"; sourceTree = "<group>"; };
 		285EB93417F55BDA00A33E5B /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
 		285EB93517F55BDA00A33E5B /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
 		285EB93617F55BDA00A33E5B /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
@@ -2480,6 +2483,8 @@
 				AA4115BD177C0451009F400F /* NSFileManager+Helper.m */,
 				2849A80B17DDE61A0076AFBA /* UIImage+Scale.h */,
 				2849A80C17DDE61A0076AFBA /* UIImage+Scale.m */,
+				2851FAA51838171200C094AB /* UIImage+Crop.h */,
+				2851FAA61838171200C094AB /* UIImage+Crop.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -3193,6 +3198,7 @@
 				3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */,
 				3B013BCD17C3E84C00135869 /* AlbumUser.m in Sources */,
 				28E94C9317C3B06A00874BDE /* SVContactCell.m in Sources */,
+				2851FAA71838171200C094AB /* UIImage+Crop.m in Sources */,
 				28E94CA317C4B84000874BDE /* CameraRollSection.m in Sources */,
 				3B10035B17C653FD00387408 /* UserSettings.m in Sources */,
 				2851FAA4183793F400C094AB /* SVImagePickerController.m in Sources */,

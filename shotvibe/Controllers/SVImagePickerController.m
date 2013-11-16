@@ -22,12 +22,10 @@
 }
 
 - (BOOL)prefersStatusBarHidden {
-	RCLog(@"prefersStatusBarHidden");
 	return YES;// setNeedsStatusBarAppearanceUpdate
 }
 
 - (UIViewController *)childViewControllerForStatusBarHidden {
-	RCLog(@"childViewControllerForStatusBarHidden");
     return nil;
 }
 

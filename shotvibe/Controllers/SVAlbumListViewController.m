@@ -408,7 +408,7 @@
 	cameraNavController.cameraDelegate = self;
 	cameraNavController.albumId = album.albumId;
 	cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = self.navigationController;// this is set last
+    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 - (void)releaseOnLibrary:(UITableViewCell*)cell {
 	

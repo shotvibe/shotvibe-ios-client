@@ -62,7 +62,7 @@
 	// Should be 2 controllers, SVAlbumListViewController and SVCameraPickerController.
 	NSMutableArray *controllers = [NSMutableArray arrayWithArray:self.nav.viewControllers];
 	RCLogO(controllers);
-	NSAssert(controllers.count==2, @"SVCameraNavController should be 2 controllers here");
+	NSAssert(controllers.count>=2, @"SVCameraNavController should be 2 or 3 controllers here");
 	
 	[controllers insertObject:controller atIndex:1];
 	

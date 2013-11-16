@@ -9,6 +9,7 @@
 #import "SVCameraPickerController.h"
 #import "SVImageCropViewController.h"
 #import "SVDefines.h"
+#import "UIImage+Crop.h"
 
 @implementation SVCameraPickerController
 
@@ -207,8 +208,8 @@
 
 #pragma mark - Buttons Actions
 
-- (IBAction)toggleCamera:(id)sender
-{
+- (IBAction)toggleCamera:(id)sender {
+	
     // Toggle between cameras when there is more than one
 	if (self.imagePickerController.cameraDevice == UIImagePickerControllerCameraDeviceRear) {
 		self.imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceFront;
@@ -280,7 +281,6 @@
 }
 
 
-
 #pragma mark - UIImagePickerControllerDelegate
 
 // This method is called when an image has been chosen from the library or taken from the camera.
@@ -295,30 +295,49 @@
 	
 	// TODO: save the image at 1600x1200px
     UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
-	if (self.sliderZoom.value > 1) {
-		
+	UIImage *scaledImage = nil;
+	
+	// If the picture was zoomed by the user crop it acordingly
+	if (self.sliderZoom.value > self.sliderZoom.minimumValue) {
+		CGSize scaledSize = originalImage.size;
+		scaledSize.width /= self.sliderZoom.value;
+		scaledSize.height /= self.sliderZoom.value;
+		scaledImage = [originalImage imageByCroppingForSize:scaledSize];
+	}
+	else {
+		scaledImage = originalImage;
 	}
 	
-	if (!self.oneImagePicker) {
+	if (self.oneImagePicker) {
+		// Allow the picker to take only one picture
+		SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController" bundle:[NSBundle mainBundle]];
+		cropController.delegate = self.cropDelegate;
+		cropController.image = scaledImage;
 		
+		[self.imagePickerController dismissViewControllerAnimated:YES completion:^{
+			[self.navigationController pushViewController:cropController animated:YES];
+		}];
+	}
+	else {
+		// Take as many pictures as you want. Save the path and the thumb and the picture
 		__block UIImage *thumbImage;
 		NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", self.capturedImages.count]];
 		NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", self.capturedImages.count]];
 		
 		dispatch_async(dispatch_get_global_queue(0, 0), ^{
 			
-			if ([UIImageJPEGRepresentation(originalImage, 0.9) writeToFile:filePath atomically:YES]) {
+			if ([UIImageJPEGRepresentation(scaledImage, 0.9) writeToFile:filePath atomically:YES]) {
 				
 				CGSize newSize = CGSizeMake(200, 200);
 				
-				float oldWidth = originalImage.size.width;
+				float oldWidth = scaledImage.size.width;
 				float scaleFactor = newSize.width / oldWidth;
 				
-				float newHeight = originalImage.size.height * scaleFactor;
+				float newHeight = scaledImage.size.height * scaleFactor;
 				float newWidth = oldWidth * scaleFactor;
 				
 				UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-				[originalImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+				[scaledImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
 				thumbImage = UIGraphicsGetImageFromCurrentImageContext();
 				UIGraphicsEndImageContext();
 				
@@ -332,7 +351,7 @@
 		
 		// Grab image data
 		UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-		animatedImageView.image = originalImage;
+		animatedImageView.image = scaledImage;
 		[self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
 		
 		// Animation not working, TODO
@@ -353,18 +372,6 @@
 								 [self performSelector:@selector(hideTopBar) withObject:nil afterDelay:0.6];
 							 }
 						 }];
-	}
-    else {
-		
-		SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController" bundle:[NSBundle mainBundle]];
-		cropController.delegate = self.cropDelegate;
-		
-		cropController.image = originalImage;
-		
-		[self.imagePickerController dismissViewControllerAnimated:YES completion:^{
-			[self.navigationController pushViewController:cropController animated:YES];
-		}];
-		
 	}
 }
 
