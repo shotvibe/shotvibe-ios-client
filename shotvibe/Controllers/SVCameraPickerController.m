@@ -8,6 +8,7 @@
 
 #import "SVCameraPickerController.h"
 #import "SVImageCropViewController.h"
+#import "SVDefines.h"
 
 @implementation SVCameraPickerController
 
@@ -69,6 +70,7 @@
 	[super viewWillDisappear:animated];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 
 
 - (void)hideTopBar {
@@ -157,7 +159,7 @@
 	
 	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) return;
 	
-	self.imagePickerController = [[UIImagePickerController alloc] init];
+	self.imagePickerController = [[SVImagePickerController alloc] init];
 	self.imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;
 	self.imagePickerController.sourceType = sourceType;
 	self.imagePickerController.delegate = self;
@@ -338,7 +340,7 @@
 						 animations:^{
 			CGRect f = self.albumPreviewImage.frame;
 			f.origin.x += self.tileContainer.frame.origin.x;
-			f.origin.y += self.view.frame.size.height - 25;
+			f.origin.y += self.view.frame.size.height - 25 - (IS_IOS7 ? 40 : 0);
 			animatedImageView.frame = f;
 		}
 						 completion:^(BOOL finished) {
@@ -446,9 +448,7 @@
 #pragma mark Select photos
 
 - (void)setTakenPhotos:(NSArray *)takenPhotos {
-	
 	selectedPhotos = [[NSMutableArray alloc] initWithArray:takenPhotos];
-	
 }
 
 
@@ -456,18 +456,16 @@
 
 #pragma mark - UICollectionViewDataSource Methods
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.capturedImages.count;
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+	
     SVSelectionGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVSelectionGridCell" forIndexPath:indexPath];
 	cell.delegate = self;
 	
@@ -498,14 +496,16 @@
 
 #pragma mark - UICollectionViewDelegate Methods
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 	
 	SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:indexPath];
     [self cellDidCheck:selectedCell];
 }
 
+
+#pragma mark Cell delegate
 
 - (void)cellDidCheck:(SVSelectionGridCell*)cell {
 	

@@ -537,7 +537,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 										 
 										 // Send a notification the the main screen to move this album on top of the list
 										 NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
-										 [[NSNotificationCenter defaultCenter] postNotificationName:@"album_changed" object:nil userInfo:userInfo];
+										 [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATIONCENTER_ALBUM_CHANGED object:nil userInfo:userInfo];
 										 
 									 }
 								 }
@@ -676,7 +676,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 				
 				// Send a notification the the main screen to move this album on top of the list
 				NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"album_changed" object:nil userInfo:userInfo];
+				[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATIONCENTER_ALBUM_CHANGED object:nil userInfo:userInfo];
 			});
 		}
 	});

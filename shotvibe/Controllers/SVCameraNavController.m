@@ -8,13 +8,14 @@
 
 #import "SVCameraNavController.h"
 #import "SVAlbumGridViewController.h"
+#import "SVDefines.h"
 
 @implementation SVCameraNavController
 
 
-- (void) setNav:(UINavigationController *)nav {
+- (void) setNav:(SVNavigationController *)nav {
 	
-	NSAssert(self.cameraDelegate != nil, @"SVCameraNavController setNav should be called last");
+	NSAssert(self.cameraDelegate != nil, @"SVCameraNavController setNav should be called last, after you set cameraDelegate");
 	RCLog(@"%lli", self.albumId);
 	_nav = nav;
 	
@@ -47,18 +48,22 @@
 	
 	self.selectedAlbum = album;
 	self.imageWasTaken = YES;
+	int64_t albumId = self.albumId > 0 ? self.albumId : album.albumId;
 	
 	// Insert the AlbumGrid controller before the CameraPicker controller
-	RCLog(@"--------------------------cameraWasDismissedWithAlbum %@ %lli %lli", album, album.albumId, self.albumId);
+	RCLog(@"-------------------------- 2. cameraWasDismissedWithAlbum %@ %lli %lli", album, album.albumId, self.albumId);
 	
 	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
 	SVAlbumGridViewController *controller = (SVAlbumGridViewController*)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
 	controller.albumManager = self.albumManager;
-	controller.albumId = self.albumId>0?self.albumId:album.albumId;
+	controller.albumId = albumId;
 	controller.scrollToTop = YES;
 	
 	// Should be 2 controllers, SVAlbumListViewController and SVCameraPickerController.
 	NSMutableArray *controllers = [NSMutableArray arrayWithArray:self.nav.viewControllers];
+	RCLogO(controllers);
+	NSAssert(controllers.count==2, @"SVCameraNavController should be 2 controllers here");
+	
 	[controllers insertObject:controller atIndex:1];
 	
 	[self.nav setViewControllers:controllers];
@@ -66,8 +71,8 @@
 	// Dismiss this controller from the main navigation
 	[cameraController.navigationController popViewControllerAnimated:YES];
 	
-	NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"album_changed" object:nil userInfo:userInfo];
+	NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:albumId]};
+	[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATIONCENTER_ALBUM_CHANGED object:nil userInfo:userInfo];
 	
 //	if ([self.cameraDelegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {
 //		[self.cameraDelegate cameraWasDismissedWithAlbum:album];

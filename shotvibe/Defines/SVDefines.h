@@ -19,4 +19,6 @@
 #define kMemberLastName     @"lastname"
 #define kMemberIcon			@"member_icon"
 
+#define NOTIFICATIONCENTER_ALBUM_CHANGED @"NOTIFICATIONCENTER_ALBUM_CHANGED"
+
 #endif

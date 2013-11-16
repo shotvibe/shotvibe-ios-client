@@ -19,6 +19,7 @@
 #import "SVAlbumGridViewCell.h"
 #import "SVAddFriendsViewController.h"
 #import "SVCameraNavController.h"
+#import "SVNavigationController.h"
 #import "AlbumPhoto.h"
 #import "UIImageView+WebCache.h"
 #import "SVAlbumGridSection.h"
@@ -275,7 +276,7 @@
     }
     else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
 		
-        UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+        SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = self.albumId;
@@ -285,7 +286,7 @@
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
 		
-		UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+		SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumManager = self.albumManager;
 		destination.albumId = self.albumId;

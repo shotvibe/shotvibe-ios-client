@@ -11,6 +11,7 @@
 #import "SVImagePickerSelector.h"
 #import "SVCameraPickerDelegate.h"
 #import "SVCameraOverlay.h"
+#import "SVImagePickerController.h"
 #import "PhotoUploadRequest.h"
 #import "PhotosQuickView.h"
 
@@ -45,7 +46,7 @@
 @property (nonatomic, weak) IBOutlet UIImageView *takeAnotherImage;
 @property (nonatomic, weak) IBOutlet UISlider *sliderZoom;
 
-@property (nonatomic) UIImagePickerController *imagePickerController;
+@property (nonatomic) SVImagePickerController *imagePickerController;
 @property (nonatomic) IBOutlet SVCameraOverlay *overlayView;
 
 @property (nonatomic, strong) IBOutlet UICollectionView *gridView;

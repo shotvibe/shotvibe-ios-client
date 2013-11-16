@@ -9,6 +9,7 @@
 #import "SVNavigationController.h"
 #import "SVDefines.h"
 #import "SVPhotoViewerController.h"
+#import "SVCameraPickerController.h"
 
 @implementation SVNavigationController
 
@@ -34,11 +35,22 @@
 }
 
 - (BOOL)prefersStatusBarHidden {
-	RCLog(@"prefersStatusBarHidden in last vc: %@", [self.viewControllers lastObject]);
-	if ([[self.viewControllers lastObject] isKindOfClass:[SVPhotoViewerController class]]) {
+	
+	if ([[self.viewControllers lastObject] isKindOfClass:[SVCameraPickerController class]]) {
+		return YES;
+	}
+	else if ([[self.viewControllers lastObject] isKindOfClass:[SVPhotoViewerController class]]) {
 		return [[self.viewControllers lastObject] prefersStatusBarHidden];
 	}
 	return NO;// setNeedsStatusBarAppearanceUpdate
 }
+
+- (UIViewController *)childViewControllerForStatusBarHidden {
+//	if ([[self.viewControllers lastObject] isKindOfClass:[SVCameraPickerController class]]) {
+//		return [self.viewControllers lastObject];
+//	}
+    return nil;
+}
+
 
 @end

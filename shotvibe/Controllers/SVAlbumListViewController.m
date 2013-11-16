@@ -19,6 +19,7 @@
 #import "MBProgressHUD.h"
 #import "SVAddressBook.h"
 #import "SVRecord.h"
+#import "SVNavigationController.h"
 
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
@@ -127,7 +128,7 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(somethingChangedInAlbumwithId:)
-												 name:@"album_changed"
+												 name:NOTIFICATIONCENTER_ALBUM_CHANGED
 											   object:nil];
 	
 	// Upload the contacts to the server
@@ -347,7 +348,7 @@
 		
 		AlbumSummary *album = (AlbumSummary*)sender;
 		
-        UINavigationController *destinationNavigationController = (UINavigationController *)segue.destinationViewController;
+        SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = album.albumId;
         destination.albumManager = self.albumManager;
@@ -360,15 +361,22 @@
 
 - (void)somethingChangedInAlbumwithId:(NSNotification *)notification {
 	
+	RCLog(@"somethingChangedInAlbumwithId %@", notification.userInfo);
 	NSDictionary *userInfo = notification.userInfo;
     int64_t albumId = [[userInfo objectForKey:@"albumId"] longLongValue];
 	
 	int i = 0;
 	for (AlbumSummary *album in albumList) {
+		RCLog(@"album.albumId == albumId %lli %lli", album.albumId, albumId);
 		if (album.albumId == albumId) {
 			break;
 		}
 		i++;
+	}
+	
+	if (i >= albumList.count) {
+		RCLog(@"Fatal error, no album with the selected id was found. It might be 0 which means a bug in the code that sent the notification");
+		return;
 	}
 	
 	AlbumSummary *album = [albumList objectAtIndex:i];

@@ -185,7 +185,9 @@ const NSTimeInterval RETRY_TIME = 5;
         RCLog(@"nextPhotoUploadIndex: %d", nextPhotoUploadIndex);
 
         if ([photoIds_ count] == 0) {
+			
             RCLog(@"PhotoUploadManager Requesting Photo IDs");
+				
 
             NSArray *newPhotoIds = nil;
             while (!newPhotoIds) {

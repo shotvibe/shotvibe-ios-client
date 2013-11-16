@@ -59,6 +59,9 @@ typedef enum {
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
 	return [self.centerViewController preferredStatusBarUpdateAnimation];
 }
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    return [self.centerViewController childViewControllerForStatusBarHidden];
+}
 
 
 + (MFSideMenuContainerViewController *)containerWithCenterViewController:(id)centerViewController
