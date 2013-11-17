@@ -257,7 +257,7 @@
 	cameraNavController.cameraDelegate = self;
 	cameraNavController.albumId = self.albumId;
 	cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = self.navigationController;// this is set last
+    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 
 - (void)backButtonPressed:(id)sender
@@ -372,8 +372,8 @@
 		   viewForSupplementaryElementOfKind:(NSString *)kind
 								 atIndexPath:(NSIndexPath *)indexPath {
 	
-	if (kind == UICollectionElementKindSectionHeader)
-	{
+	if (kind == UICollectionElementKindSectionHeader) {
+		
 		SVAlbumGridSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
 																		withReuseIdentifier:@"SVAlbumGridSection"
 																			   forIndexPath:indexPath];
@@ -469,7 +469,6 @@
     detailController.albumManager = self.albumManager;
 	detailController.index = i;
 	detailController.title = albumContents.name;
-	if (!IS_IOS7) detailController.wantsFullScreenLayout = YES;
 	
 	navigatingNext = YES;
     [self.navigationController pushViewController:detailController animated:YES];

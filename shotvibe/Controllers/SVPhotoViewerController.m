@@ -25,7 +25,6 @@ static const int NUM_PHOTO_VIEWS = 3;
 	UIView *toolbarView;
 	UILabel *detailLabel;
 	
-	NSMutableArray *cache;
 	SVActivityViewController* activity;
 	BOOL toolsHidden;
 	BOOL navigatingNext;
@@ -51,17 +50,17 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 #pragma mark - View Lifecycle
 
+- (void)loadView {
+	UIView *v = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+	self.view = v;
+}
+
 - (void)viewDidLoad {
 	
     [super viewDidLoad];
 	
     self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
 	toolsHidden = YES;
-	
-	cache = [[NSMutableArray alloc] initWithCapacity:self.photos.count];
-	for (id photo in self.photos) {
-		[cache addObject:[NSNull null]];
-	}
 	
 	// Add custom toolbar
 	toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, 320, 44)];
@@ -87,9 +86,12 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[toolbarView addSubview:butEdit];
     
 	self.navigationItem.rightBarButtonItem = nil;
+	
 	if (IS_IOS7) {
-//		self.navigationController.navigationBar.translucent = YES;
-//		if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+		self.navigationController.navigationBar.translucent = YES;
+		self.automaticallyAdjustsScrollViewInsets = NO;
+		self.extendedLayoutIncludesOpaqueBars = YES;
+//		if([self respondsToSelector:@selector(edgesForExtendedLayout)])
 //			self.edgesForExtendedLayout = UIRectEdgeNone;
 	}
 	else {
@@ -169,6 +171,12 @@ static const int NUM_PHOTO_VIEWS = 3;
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 		[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 	}
+	else {
+//		if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+//        self.edgesForExtendedLayout = UIRectEdgeNone;
+//		self.navigationController.navigationBar.translucent = YES;
+	}
+	
 	
 	[photosScrollView removeGestureRecognizer:doubleTap];
 	[photosScrollView removeGestureRecognizer:singleTap];
@@ -184,7 +192,6 @@ static const int NUM_PHOTO_VIEWS = 3;
 		}
 		
 		self.photos = nil;
-		cache = nil;
 		activity = nil;
 		
 		singleTap = nil;
@@ -223,7 +230,7 @@ static const int NUM_PHOTO_VIEWS = 3;
     photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h-140);
     photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
 	
-	photosScrollView.backgroundColor = [UIColor yellowColor];
+//	photosScrollView.backgroundColor = [UIColor yellowColor];
 }
 
 - (CGRect)rectForPhotoIndex:(int)i
@@ -366,7 +373,9 @@ static const int NUM_PHOTO_VIEWS = 3;
 	
 	// Status bar and nav bar positioning
     if (IS_IOS7) {
-	
+		[self setNeedsStatusBarAppearanceUpdate];
+		RCLogRect(self.view.frame);
+		RCLogRect(photosScrollView.frame);
 	}
 	else if (self.wantsFullScreenLayout) {
         
@@ -391,9 +400,6 @@ static const int NUM_PHOTO_VIEWS = 3;
         navBarFrame.origin.y = statusBarHeight;
         self.navigationController.navigationBar.frame = navBarFrame;
     }
-	if (IS_IOS7) {
-		[self setNeedsStatusBarAppearanceUpdate];
-	}
 	
 	// Animate
     if (animated) {
@@ -412,9 +418,8 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 - (void)updateCaption {
 	
-	if (detailLabel == nil) {
-		
 		// Setup detail label
+	if (detailLabel == nil) {
 		detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -57, self.view.frame.size.width, 57)];
 		detailLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
 		detailLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
@@ -477,7 +482,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	
 	butTrash.enabled = NO;
 	
-	RCLog(@"delete index %i count %i", self.index, cache.count);
+	RCLog(@"delete index %i", self.index);
 	
 	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 	__block PhotoView *image = photoViews[1];
