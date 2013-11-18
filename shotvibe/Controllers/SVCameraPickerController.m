@@ -359,7 +359,7 @@
 						 animations:^{
 			CGRect f = self.albumPreviewImage.frame;
 			f.origin.x += self.tileContainer.frame.origin.x;
-			f.origin.y += self.view.frame.size.height - 25 - (IS_IOS7 ? 40 : 0);
+			f.origin.y += self.view.frame.size.height - 25 - (IS_IOS7 ? 40 : -25);
 			animatedImageView.frame = f;
 		}
 						 completion:^(BOOL finished) {
