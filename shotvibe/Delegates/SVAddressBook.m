@@ -66,7 +66,7 @@
 					
 					if (name == nil) {
 						// Record with no name
-						continue;
+						name = @"";
 					}
 					
 					ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonPhoneProperty);
@@ -76,8 +76,8 @@
 						// Record with no phone number
 						SVRecord *record = [[SVRecord alloc] init];
 						record.recordId = svRecords.count;
-						record.name = name.length == 0 ? @"-" : name;
-						record.phone = @"0";
+						record.name = name.length == 0 ? @" " : name;
+						record.phone = @" ";
 						
 						int i = record.recordId;
 						if (i>78) i = 1 + i%78;
@@ -92,8 +92,8 @@
 							
 							SVRecord *record = [[SVRecord alloc] init];
 							record.recordId = svRecords.count;
-							record.name = name.length == 0 ? @"-" : name;
-							record.phone = phoneNumber.length > 0 ? phoneNumber : @"0";
+							record.name = name.length == 0 ? @" " : name;
+							record.phone = phoneNumber.length > 0 ? phoneNumber : @" ";
 							//RCLog(@"%i %@ %@ -> %@", record.recordId, record.name, record.phone, phoneNumericNumber);
 							
 							if (ABPersonHasImageData((__bridge ABRecordRef)evaluatedObject)) {

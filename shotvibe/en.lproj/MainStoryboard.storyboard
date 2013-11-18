@@ -550,7 +550,7 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <prototypes>
                                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="gKy-nC-Fsg" customClass="SVAlbumListViewCell">
-                                                        <rect key="frame" x="0.0" y="22" width="320" height="101"/>
+                                                        <rect key="frame" x="0.0" y="86" width="320" height="101"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gKy-nC-Fsg" id="7Yi-7K-KDO">
                                                             <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
@@ -1231,6 +1231,18 @@ friends in, so they can give it a glance</string>
                                     <outlet property="delegate" destination="hue-j9-5bn" id="3GO-ce-6k2"/>
                                 </connections>
                             </searchBar>
+                            <button opaque="NO" alpha="0.20000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4tK-m6-U31">
+                                <rect key="frame" x="0.0" y="88" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="overlayPressed:" destination="hue-j9-5bn" eventType="touchUpInside" id="FoX-7L-yZz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.92941176470588238" green="0.93333333333333335" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="-64" maxX="0.0" maxY="64"/>
@@ -1246,6 +1258,7 @@ friends in, so they can give it a glance</string>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="addedContactsScrollView" destination="dAJ-mE-XY5" id="3hc-tb-li5"/>
+                        <outlet property="butOverlay" destination="4tK-m6-U31" id="NPd-ag-rOa"/>
                         <outlet property="contactsSourceSelector" destination="u9V-tV-akp" id="u3J-MJ-obg"/>
                         <outlet property="contactsSourceView" destination="VBv-9m-HFs" id="8Zc-CV-Pjz"/>
                         <outlet property="membersView" destination="oru-dQ-Y8C" id="eIr-I7-71e"/>
@@ -1556,11 +1569,11 @@ friends in, so they can give it a glance</string>
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qZs-M3-pmn" id="yc1-dC-9Y6">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Terms of Service" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="541-yf-u2C">
-                                                    <rect key="frame" x="39" y="0.0" width="251" height="43"/>
+                                                    <rect key="frame" x="49" y="0.0" width="236" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1580,11 +1593,11 @@ friends in, so they can give it a glance</string>
                                         <rect key="frame" x="0.0" y="44" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fXY-Pm-woh" id="kes-e4-5ge">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Privacy Policy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D5k-Uo-AnI">
-                                                    <rect key="frame" x="39" y="0.0" width="251" height="43"/>
+                                                    <rect key="frame" x="49" y="0.0" width="236" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
@@ -1604,11 +1617,11 @@ friends in, so they can give it a glance</string>
                                         <rect key="frame" x="0.0" y="88" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vIc-Zx-tm8" id="ZV4-yL-hFQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Open Source Attributions" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="I2f-D1-7hT">
-                                                    <rect key="frame" x="39" y="0.0" width="251" height="43"/>
+                                                    <rect key="frame" x="49" y="0.0" width="236" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>

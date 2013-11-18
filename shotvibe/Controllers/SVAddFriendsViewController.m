@@ -25,9 +25,11 @@
 @property (nonatomic, weak) IBOutlet UIView *contactsSourceView;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *contactsSourceSelector;
 @property (nonatomic, weak) IBOutlet UIView *noContactsView;
+@property (nonatomic, weak) IBOutlet UIButton *butOverlay;
 
 - (void)cancelPressed:(id)sender;
 - (IBAction)donePressed:(id)sender;
+- (IBAction)overlayPressed:(id)sender;
 - (IBAction)contactsSourceChanged:(UISegmentedControl *)sender;
 
 @end
@@ -52,6 +54,7 @@
 	// Do any additional setup after loading the view.
 	
 	self.noContactsView.hidden = YES;
+	self.butOverlay.hidden = YES;
 	searching = NO;
 //	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"favorites"];
 //	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -255,14 +258,18 @@
 	[searchBar setShowsCancelButton:YES animated:YES];
 	self.contactsSourceView.alpha = 0;
 	self.contactsSourceView.hidden = NO;
+	self.butOverlay.alpha = 0;
+	self.butOverlay.hidden = NO;
 	[UIView animateWithDuration:0.3 animations:^{
 		self.tableView.frame = CGRectMake(0, 44+44, 320, self.view.frame.size.height-44-44-216);
 		self.contactsSourceView.alpha = 1;
+		self.butOverlay.alpha = 0.2;
 	}];
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
 	[searchBar setShowsCancelButton:NO animated:YES];
 	self.contactsSourceView.hidden = YES;
+	self.butOverlay.hidden = YES;
 	[UIView animateWithDuration:0.3 animations:^{
 		self.tableView.frame = CGRectMake(0, 44+75, 320, self.view.frame.size.height-44-75);
 	}];
@@ -289,7 +296,7 @@
 	
 	searching = (str != nil && ![str isEqualToString:@""]);
 	BOOL membersOny = self.contactsSourceSelector.selectedSegmentIndex == 0;
-	RCLogI(self.contactsSourceSelector.selectedSegmentIndex);
+	
 	[ab filterByKeyword:str membersOnly:membersOny completionBlock:^{
 		[self.tableView reloadData];
 	}];
@@ -472,5 +479,8 @@
     }
 }
 
+- (IBAction)overlayPressed:(id)sender {
+	[self.searchBar resignFirstResponder];
+}
 
 @end
