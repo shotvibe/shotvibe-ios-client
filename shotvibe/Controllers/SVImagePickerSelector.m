@@ -15,71 +15,10 @@
 @implementation SVImagePickerSelector
 
 
-- (void) setLibraryPhotos:(NSArray *)libraryPhotos {
-	
-	selectedPhotos = [[NSMutableArray alloc] init];
-	_takenPhotos = libraryPhotos;
-	geocoder = [[CLGeocoder alloc] init];
-	
-	// Group the photos by date
-	sections = [[NSMutableDictionary alloc] init];
-	sectionsKeys = [[NSMutableArray alloc] init];
-	
-	for (ALAsset *photo in _takenPhotos) {
-		
-		NSString *key = [NSDateFormatter localizedStringFromDate:[photo valueForProperty:ALAssetPropertyDate]
-													   dateStyle:NSDateFormatterLongStyle
-													   timeStyle:NSDateFormatterNoStyle];
-		NSMutableArray *arr = [sections objectForKey:key];
-		
-		if (arr == nil) {
-			arr = [NSMutableArray array];
-			[sectionsKeys insertObject:key atIndex:0];
-		}
-		[arr addObject:photo];
-		[sections setObject:arr forKey:key];
-	}
-	
-	// Group the photos by location
-//	__block int i = 0;
-//	for (ALAsset *photo in _takenPhotos) {
-//		
-//		CLLocation *location = [photo valueForProperty:ALAssetPropertyLocation];
-//		
-//		[geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-//			MKPlacemark *placemark = [placemarks objectAtIndex:0];
-//			RCLog(@"locality:%@, country:%@", placemark.locality, placemark.country);
-//			
-//			NSString *key = placemark.locality;
-//			if (key == nil) {
-//				key = @"Unknown Location";
-//			}
-//			
-//			NSMutableArray *arr = [sections objectForKey:key];
-//			
-//			if (arr == nil) {
-//				arr = [NSMutableArray array];
-//				[sectionsKeys insertObject:key atIndex:0];
-//			}
-//			[arr addObject:photo];
-//			[sections setObject:arr forKey:key];
-//			
-//			i ++;
-//			if (_takenPhotos.count == i) {
-//				RCLog(@"refresh grid");
-//				[self.gridView reloadData];
-//			}
-//		}];
-//	}
-	
-	//RCLog(@"%@", sectionsKeys);
-}
-
-
 #pragma mark - View Lifecycle
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+	
     [super viewDidLoad];
     
 	if (selectedPhotos == nil) {
@@ -111,8 +50,11 @@
 	self.gridView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
 	[self.gridView addSubview:self.headerView];
 	self.headerView.frame = CGRectMake(0, -44, 320, 44);
+	
+	if (IS_IOS7) {
+		self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+	}
 }
-
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -127,6 +69,69 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+
+
+- (void) setLibraryPhotos:(NSArray *)libraryPhotos {
+	
+	selectedPhotos = [[NSMutableArray alloc] init];
+	_takenPhotos = libraryPhotos;
+	geocoder = [[CLGeocoder alloc] init];
+	
+	// Group the photos by date
+	sections = [[NSMutableDictionary alloc] init];
+	sectionsKeys = [[NSMutableArray alloc] init];
+	
+	for (ALAsset *photo in _takenPhotos) {
+		
+		NSString *key = [NSDateFormatter localizedStringFromDate:[photo valueForProperty:ALAssetPropertyDate]
+													   dateStyle:NSDateFormatterLongStyle
+													   timeStyle:NSDateFormatterNoStyle];
+		NSMutableArray *arr = [sections objectForKey:key];
+		
+		if (arr == nil) {
+			arr = [NSMutableArray array];
+			[sectionsKeys insertObject:key atIndex:0];
+		}
+		[arr addObject:photo];
+		[sections setObject:arr forKey:key];
+	}
+	
+	// Group the photos by location
+	//	__block int i = 0;
+	//	for (ALAsset *photo in _takenPhotos) {
+	//
+	//		CLLocation *location = [photo valueForProperty:ALAssetPropertyLocation];
+	//
+	//		[geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+	//			MKPlacemark *placemark = [placemarks objectAtIndex:0];
+	//			RCLog(@"locality:%@, country:%@", placemark.locality, placemark.country);
+	//
+	//			NSString *key = placemark.locality;
+	//			if (key == nil) {
+	//				key = @"Unknown Location";
+	//			}
+	//
+	//			NSMutableArray *arr = [sections objectForKey:key];
+	//
+	//			if (arr == nil) {
+	//				arr = [NSMutableArray array];
+	//				[sectionsKeys insertObject:key atIndex:0];
+	//			}
+	//			[arr addObject:photo];
+	//			[sections setObject:arr forKey:key];
+	//
+	//			i ++;
+	//			if (_takenPhotos.count == i) {
+	//				RCLog(@"refresh grid");
+	//				[self.gridView reloadData];
+	//			}
+	//		}];
+	//	}
+	
+	//RCLog(@"%@", sectionsKeys);
 }
 
 
