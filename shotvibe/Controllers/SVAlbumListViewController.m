@@ -179,7 +179,8 @@
 		for (NSDictionary *r in (NSArray*)response[@"phone_number_details"]) {
 			RCLogO(r);
 			if ([r[@"phone_type"] isEqualToString:@"invalid"]) {
-				RCLog(@">>>>>>>>>>>>>>>> INVALID");
+				SVRecord *record = [ab.allContacts objectAtIndex:i];
+				record.invalid = YES;
 			}
 			else {
 				SVRecord *record = [ab.allContacts objectAtIndex:i];
@@ -207,8 +208,8 @@
 	});
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
+	
 	[super viewWillAppear:animated];
 	[self.albumManager refreshAlbumList];
 	
@@ -227,8 +228,8 @@
 	cameraNavController = nil;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
+	
     [super viewWillDisappear:animated];
     
     [thumbnailCache removeAllObjects];
@@ -246,8 +247,7 @@
 }
 
 
-- (BOOL)shouldAutorotate
-{
+- (BOOL)shouldAutorotate {
 	return YES;
 }
 
@@ -317,7 +317,7 @@
 	cameraNavController.cameraDelegate = self;
 	cameraNavController.albums = albums;
 	cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = self.navigationController;// this is set last
+    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 
 

@@ -78,6 +78,7 @@
 						record.recordId = svRecords.count;
 						record.name = name.length == 0 ? @" " : name;
 						record.phone = @" ";
+						record.invalid = YES;
 						
 						int i = record.recordId;
 						if (i>78) i = 1 + i%78;
@@ -94,6 +95,7 @@
 							record.recordId = svRecords.count;
 							record.name = name.length == 0 ? @" " : name;
 							record.phone = phoneNumber.length > 0 ? phoneNumber : @" ";
+							record.invalid = phoneNumber.length <= 1;
 							//RCLog(@"%i %@ %@ -> %@", record.recordId, record.name, record.phone, phoneNumericNumber);
 							
 							if (ABPersonHasImageData((__bridge ABRecordRef)evaluatedObject)) {

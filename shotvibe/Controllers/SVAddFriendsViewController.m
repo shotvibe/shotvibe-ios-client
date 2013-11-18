@@ -223,7 +223,7 @@
 	}
 	
 	// Check if this contact has a phone number
-	if (record.phone == nil || record.phone.length == 0) {
+	if (record.invalid) {
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
 														message:NSLocalizedString(@"This user has no mobile phone number, you can't invite him.", @"")

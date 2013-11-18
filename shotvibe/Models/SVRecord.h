@@ -18,5 +18,6 @@
 @property (nonatomic, retain) NSString *iconDefaultRemotePath;
 @property (nonatomic, retain) NSString *iconRemotePath;
 @property (nonatomic, retain) NSData *iconLocalData;
+@property (nonatomic) BOOL invalid;
 
 @end
