@@ -91,6 +91,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 		self.navigationController.navigationBar.translucent = YES;
 		self.automaticallyAdjustsScrollViewInsets = NO;
 		self.extendedLayoutIncludesOpaqueBars = YES;
+		// This next lines will pad the y of the view to 44 or 64, depending if the status bar is visible
 //		if([self respondsToSelector:@selector(edgesForExtendedLayout)])
 //			self.edgesForExtendedLayout = UIRectEdgeNone;
 	}
