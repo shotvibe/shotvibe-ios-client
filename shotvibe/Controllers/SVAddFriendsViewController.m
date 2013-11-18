@@ -140,7 +140,7 @@
 		cell.contactIcon.image = [[UIImage alloc] initWithData:record.iconLocalData];
 	}
 	else {
-		[cell.contactIcon setImageWithURL:[NSURL URLWithString:record.iconRemotePath]];
+		[cell.contactIcon setImageWithURL:[NSURL URLWithString:record.iconRemotePath!=nil?record.iconRemotePath:record.iconDefaultRemotePath]];
 	}
 	
 	cell.isMemberImage.hidden = record.memberId == 0;
