@@ -81,9 +81,7 @@
 	self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
 																  leftMenuViewController:nil
 																 rightMenuViewController:self.sidebarRight];
-	//self.sideMenu.panMode = MFSideMenuPanModeNone;
-	//self.sideMenu.panMode = MFSideMenuPanModeSideMenu;
-	//self.sideMenu.shadow.enabled = NO;
+	self.sideMenu.panMode = MFSideMenuPanModeNone;
 	self.window.rootViewController = self.sideMenu;
 	
 	if (IS_IOS7) {

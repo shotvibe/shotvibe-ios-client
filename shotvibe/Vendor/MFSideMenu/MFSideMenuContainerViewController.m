@@ -102,7 +102,7 @@ typedef enum {
     if (self.leftMenuContainer) return;
     
     self.leftMenuContainer = [[UIView alloc] init];
-    self.rightMenuContainer = [[UIView alloc] init];
+    self.rightMenuContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 270, 640)];
     
     self.menuState = MFSideMenuStateClosed;
     self.menuWidth = 270.0f;
@@ -113,7 +113,7 @@ typedef enum {
 }
 
 - (void)setupMenuContainerView {
-	_rightMenuWidth = 270.0f;
+	//_rightMenuWidth = 270.0f;
     if (self.leftMenuContainer.superview && self.rightMenuContainer.superview) return;    
     self.leftMenuContainer.frame = CGRectMake(-self.leftMenuWidth, 0, self.leftMenuWidth, self.view.bounds.size.height);
     [self.view addSubview:self.leftMenuContainer];
@@ -130,9 +130,6 @@ typedef enum {
     if(self.rightMenuViewController && !self.rightMenuViewController.view.superview) {
         [self.rightMenuContainer addSubview:self.rightMenuViewController.view];
     }
-	RCLogF(_rightMenuWidth);
-	RCLogRect(self.view.bounds);
-	RCLogRect(self.rightMenuContainer.frame);
 }
 
 
@@ -267,6 +264,9 @@ typedef enum {
     
     self.rightMenuShadow = [MFSideMenuShadow shadowWithView:self.rightMenuContainer];
     [self.rightMenuShadow draw];
+	RCLog(@"setRightMenuViewController");
+	RCLogRect(self.rightMenuContainer.bounds);
+	RCLogRect(self.rightMenuContainer.frame);
 }
 
 - (void)removeChildViewControllerFromContainer:(UIViewController *)childViewController {
@@ -633,6 +633,10 @@ typedef enum {
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+	
+	if (self.panMode == MFSideMenuPanModeNone) {
+		return NO;
+	}
     if([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]] &&
        self.menuState != MFSideMenuStateClosed) return YES;
     

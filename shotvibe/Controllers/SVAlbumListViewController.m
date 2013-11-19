@@ -150,64 +150,6 @@
 	}
 }
 
-- (void)submitAddressBook {
-	
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		
-		NSMutableArray *contacts = [NSMutableArray arrayWithCapacity:ab.allContacts.count*9];
-		
-		for (SVRecord *record in ab.allContacts) {
-			
-			NSString *name = record.name;
-			NSString *phoneNumber = record.phone;
-			
-			NSDictionary *person = @{ @"phone_number": phoneNumber, @"contact_nickname": name };
-			[contacts addObject:person];
-		}
-		
-		__block NSError *error = nil;
-		ShotVibeAPI *api = [self.albumManager getShotVibeAPI];
-		NSDictionary *body = @{ @"phone_numbers": contacts, @"default_country": api.authData.defaultCountryCode };
-		
-		
-		NSDictionary *response = [api submitAddressBook:body error:&error];
-		RCLog(@"response uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]);
-		
-		RCLogTimestamp();
-		
-		int i = 0;
-		for (NSDictionary *r in (NSArray*)response[@"phone_number_details"]) {
-			//RCLogO(r);
-			if ([r[@"phone_type"] isEqualToString:@"invalid"]) {
-				SVRecord *record = [ab.allContacts objectAtIndex:i];
-				record.invalid = YES;
-			}
-			else {
-				SVRecord *record = [ab.allContacts objectAtIndex:i];
-				record.iconRemotePath = r[@"avatar_url"];
-				
-				NSString *user_id = r[@"user_id"];
-				//RCLog(@"%lli", record.phoneId);
-				
-				if (user_id != nil && ![user_id isKindOfClass:[NSNull class]]) {
-					record.memberId = [user_id longLongValue];
-				}
-			}
-			i++;
-		}
-		
-//		dispatch_async(dispatch_get_main_queue(), ^{
-//			
-//			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
-//															message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
-//														   delegate:nil
-//												  cancelButtonTitle:@"ok"
-//												  otherButtonTitles: nil];
-//			[alert show];
-//		});
-	});
-}
-
 - (void)viewWillAppear:(BOOL)animated {
 	
 	[super viewWillAppear:animated];
@@ -267,6 +209,64 @@
 
 
 
+
+- (void)submitAddressBook {
+	
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+		
+		NSMutableArray *contacts = [NSMutableArray arrayWithCapacity:ab.allContacts.count*9];
+		
+		for (SVRecord *record in ab.allContacts) {
+			
+			NSString *name = record.name;
+			NSString *phoneNumber = record.phone;
+			
+			NSDictionary *person = @{ @"phone_number": phoneNumber, @"contact_nickname": name };
+			[contacts addObject:person];
+		}
+		
+		__block NSError *error = nil;
+		ShotVibeAPI *api = [self.albumManager getShotVibeAPI];
+		NSDictionary *body = @{ @"phone_numbers": contacts, @"default_country": api.authData.defaultCountryCode };
+		
+		
+		NSDictionary *response = [api submitAddressBook:body error:&error];
+		RCLog(@"response uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]);
+		
+		RCLogTimestamp();
+		
+		int i = 0;
+		for (NSDictionary *r in (NSArray*)response[@"phone_number_details"]) {
+			//RCLogO(r);
+			if ([r[@"phone_type"] isEqualToString:@"invalid"]) {
+				SVRecord *record = [ab.allContacts objectAtIndex:i];
+				record.invalid = YES;
+			}
+			else {
+				SVRecord *record = [ab.allContacts objectAtIndex:i];
+				record.iconRemotePath = r[@"avatar_url"];
+				
+				NSString *user_id = r[@"user_id"];
+				//RCLog(@"%lli", record.phoneId);
+				
+				if (user_id != nil && ![user_id isKindOfClass:[NSNull class]]) {
+					record.memberId = [user_id longLongValue];
+				}
+			}
+			i++;
+		}
+		
+		//		dispatch_async(dispatch_get_main_queue(), ^{
+		//
+		//			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
+		//															message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
+		//														   delegate:nil
+		//												  cancelButtonTitle:@"ok"
+		//												  otherButtonTitles: nil];
+		//			[alert show];
+		//		});
+	});
+}
 
 
 #pragma mark - Actions

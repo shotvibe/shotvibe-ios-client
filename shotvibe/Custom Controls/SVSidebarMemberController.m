@@ -109,17 +109,6 @@
 				[self resignFirstResponder];
 			});
 		}
-		dispatch_async(dispatch_get_main_queue(), ^{
-			
-			self.view.frame = CGRectMake(0, 0, 270, inf.size.height);
-			
-			
-			[self.searchBar setBackgroundImage:[UIImage imageNamed:@"SearchBlackBg.png"]];
-			UIImage *search_bg = [UIImage imageNamed:@"searchFieldDarkBg.png"];
-			UIImage *resizable_bg = [search_bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 20, 5, 20) resizingMode:UIImageResizingModeStretch];
-			[self.searchBar setSearchFieldBackgroundImage:resizable_bg forState:UIControlStateNormal];
-			
-		});
 	}];
 }
 
