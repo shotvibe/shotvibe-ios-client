@@ -23,6 +23,10 @@
 		self.navigationBar.barTintColor = BLUE;
 		
 		[self setNeedsStatusBarAppearanceUpdate];
+		
+		// Disable going back by panning the vc to the right
+		// It causes problems when the right side menu is open
+		self.interactivePopGestureRecognizer.delegate = nil;
 	}
 }
 

@@ -906,7 +906,7 @@ to register this device</string>
         <!--Sidebar Member Controller-->
         <scene sceneID="4n2-WB-r5S">
             <objects>
-                <viewController storyboardIdentifier="SidebarMenuView" id="k4U-OQ-1vP" customClass="SVSidebarMemberController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SidebarMembersView" id="k4U-OQ-1vP" customClass="SVSidebarMemberController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VtU-kk-MMa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

@@ -121,16 +121,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];RCLog(@"photos grid will appear");
-	RCLog(@"-------view will appear. ALBUM CONTENTS, album id %lld %@ %@", self.albumId, self.albumManager, albumContents);
-	
-//	if (IS_IOS7) {
-//		self.headerViewContainer.frame = CGRectMake(0, 0, 320, 45);
-//	}
-//	else {
-//		self.headerViewContainer.frame = CGRectMake(0, 0, 320, 45);
-//	}
-	RCLogRect(self.headerViewContainer.frame);
+	[super viewWillAppear:animated];
 	
 	if (albumContents == nil) {
 		//AlbumContents *contents;
@@ -180,7 +171,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];RCLog(@"-----------photos grid will disappear navigatingNext %i", navigatingNext);
+    [super viewWillDisappear:animated];
 	
 	if (!navigatingNext) {
 		

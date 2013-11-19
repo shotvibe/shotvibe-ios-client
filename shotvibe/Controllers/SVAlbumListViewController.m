@@ -73,7 +73,7 @@
 	
     [self setAlbumList:[self.albumManager addAlbumListListener:self]];
 
-    RCLog(@"##### Initial albumList: %@", albumList);
+    //RCLog(@"##### Initial albumList: %@", albumList);
 	
 	table_content_offset_y = IS_IOS7 ? 44 : 44;
 	total_header_h = IS_IOS7 ? 0 : 64;
@@ -161,7 +161,7 @@
 			NSString *name = record.name;
 			NSString *phoneNumber = record.phone;
 			
-			NSDictionary *person = @{  @"phone_number": phoneNumber, @"contact_nickname": name };
+			NSDictionary *person = @{ @"phone_number": phoneNumber, @"contact_nickname": name };
 			[contacts addObject:person];
 		}
 		
@@ -177,7 +177,7 @@
 		
 		int i = 0;
 		for (NSDictionary *r in (NSArray*)response[@"phone_number_details"]) {
-			RCLogO(r);
+			//RCLogO(r);
 			if ([r[@"phone_type"] isEqualToString:@"invalid"]) {
 				SVRecord *record = [ab.allContacts objectAtIndex:i];
 				record.invalid = YES;
@@ -187,7 +187,7 @@
 				record.iconRemotePath = r[@"avatar_url"];
 				
 				NSString *user_id = r[@"user_id"];
-				RCLog(@"%lli", record.phoneId);
+				//RCLog(@"%lli", record.phoneId);
 				
 				if (user_id != nil && ![user_id isKindOfClass:[NSNull class]]) {
 					record.memberId = [user_id longLongValue];

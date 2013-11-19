@@ -76,13 +76,13 @@
 	
 	// Initialize the sidebar menu
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMenuView"];
+	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMembersView"];
 	self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
 	self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
 																  leftMenuViewController:nil
 																 rightMenuViewController:self.sidebarRight];
 	//self.sideMenu.panMode = MFSideMenuPanModeNone;
-	self.sideMenu.panMode = MFSideMenuPanModeSideMenu;
+	//self.sideMenu.panMode = MFSideMenuPanModeSideMenu;
 	//self.sideMenu.shadow.enabled = NO;
 	self.window.rootViewController = self.sideMenu;
 	
@@ -114,7 +114,7 @@
 	
     RegistrationInfo *registrationInfo = [RegistrationInfo RegistrationInfoFromURL:url];
 	
-    if(registrationInfo == nil) {
+    if (registrationInfo == nil) {
         RCLog(@"Error reading RegistrationInfo from url");
     }
     else {

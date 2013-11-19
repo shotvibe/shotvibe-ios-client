@@ -42,7 +42,7 @@
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad {
-	
+	RCLog(@"VIEWDIDLOAD");
     [super viewDidLoad];
 	
 	// IOS7
@@ -62,7 +62,8 @@
 		[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 	}
 	
-	
+	CGRect inf = self.view.frame;
+	self.view.frame = [UIScreen mainScreen].bounds;
 	self.tableView.delegate = self;
 	[self.tableView setAllowsSelection:YES];
 	
@@ -101,12 +102,24 @@
 													   queue:queue
 												  usingBlock:^(NSNotification *note)
 	{
+		RCLog(@"MFSideMenuStateNotificationEvent");
 		// TODO Forgot when is this called, write a comment when you find
 		if ([note.userInfo[@"eventType"] integerValue] == 3) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[self resignFirstResponder];
 			});
 		}
+		dispatch_async(dispatch_get_main_queue(), ^{
+			
+			self.view.frame = CGRectMake(0, 0, 270, inf.size.height);
+			
+			
+			[self.searchBar setBackgroundImage:[UIImage imageNamed:@"SearchBlackBg.png"]];
+			UIImage *search_bg = [UIImage imageNamed:@"searchFieldDarkBg.png"];
+			UIImage *resizable_bg = [search_bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 20, 5, 20) resizingMode:UIImageResizingModeStretch];
+			[self.searchBar setSearchFieldBackgroundImage:resizable_bg forState:UIControlStateNormal];
+			
+		});
 	}];
 }
 
@@ -138,7 +151,7 @@
 #pragma mark - Properties
 
 - (void)setAlbumContents:(AlbumContents *)albumContents {
-	
+	RCLog(@"setAlbumContents ");
     _albumContents = albumContents;
 	
     [self searchForMemberWithName:nil];
@@ -172,6 +185,7 @@
 }
 
 - (void)setParentController:(SVAlbumGridViewController *)parentController {
+	RCLog(@"setParentController %@", parentController);
 	_parentController = parentController;
 	shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
     [self searchForMemberWithName:nil];
@@ -314,7 +328,7 @@
 }
 
 - (void)searchForMemberWithName:(NSString *)title {
-	
+	RCLog(@"search for members with name %@", title);
 	members = [NSMutableArray arrayWithCapacity:[_albumContents.members count]];
 	
 	if (_albumContents.members.count == 1) {
