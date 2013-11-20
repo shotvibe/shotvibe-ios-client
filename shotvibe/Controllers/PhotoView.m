@@ -26,6 +26,23 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+		
+		// Add scrollview stuffs
+		self.delegate = self;
+		self.scrollEnabled = YES;
+		self.showsHorizontalScrollIndicator = NO;
+		self.showsVerticalScrollIndicator = NO;
+		self.autoresizesSubviews = YES;
+		self.pagingEnabled = NO;
+		self.decelerationRate = UIScrollViewDecelerationRateFast;
+		self.minimumZoomScale = 1.0;
+		self.maximumZoomScale = 1.0;
+		//self.backgroundColor = [UIColor orangeColor];
+		//self.layer.borderWidth = 10;
+		//self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+		self.contentSize = frame.size;
+		
+		
         fullControls_ = fullControls;
 
         prevManager_ = nil;
@@ -33,6 +50,8 @@
         photoSize_ = nil;
 
         imageView_ = [[UIImageView alloc] init];
+		[imageView_ setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+		imageView_.contentMode = self.contentMode;
         [self addSubview:imageView_];
 
         if (fullControls_) {
@@ -86,6 +105,30 @@
         [progressView_ setFrame:CGRectMake((self.frame.size.width / 2.0f) - (progressWidth / 2.0f), (self.frame.size.height / 2.0f) - (progressHeight / 2.0f), progressWidth, progressHeight)];
     }
 }
+- (void)layoutSubviews2 {
+	[super layoutSubviews];
+	
+	// Center the image as it becomes smaller than the size of the screen.
+	
+	CGSize boundsSize = self.frame.size;
+	CGRect frameToCenter = imageView_.frame;
+	
+	// Center horizontally.
+	if (frameToCenter.size.width < boundsSize.width) {
+		frameToCenter.origin.x = floorf((boundsSize.width - frameToCenter.size.width) / 2);
+	} else {
+		frameToCenter.origin.x = 0;
+	}
+	
+	// Center vertically.
+	if (frameToCenter.size.height < boundsSize.height) {
+		frameToCenter.origin.y = floorf((boundsSize.height - frameToCenter.size.height) / 2);
+	} else {
+		frameToCenter.origin.y = 0;
+	}
+	
+	imageView_.frame = frameToCenter;
+}
 
 - (void)setPhoto:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize manager:(PhotoFilesManager *)photoFilesManager
 {
@@ -115,6 +158,7 @@
 
     imageView_.alpha = 1.0f;
     [imageView_ setImage:image];
+	[self setMaxMinZoomScalesForCurrentBounds];
 
     if (fullControls_) {
         [activityIndicatorView_ stopAnimating];
@@ -134,6 +178,7 @@
         if (bmp.state == PhotoBitmapLoaded) {
             imageView_.alpha = 1.0f;
             [imageView_ setImage:bmp.bmp];
+			[self setMaxMinZoomScalesForCurrentBounds];
         }
         else {
             [self showLowQuality:bmp.lowQualityBmp];
@@ -171,6 +216,7 @@
             imageView_.alpha = 1.0f;
             [imageView_ setImage:bmp.bmp];
             [activityIndicatorView_ stopAnimating];
+			[self setMaxMinZoomScalesForCurrentBounds];
             progressView_.hidden = YES;
             break;
 
@@ -186,5 +232,44 @@
     imageView_.alpha = 0.5f;
     [imageView_ setImage:lowQualityImg];
 }
+
+
+
+- (void)toggleZoom {
+	[self setZoomScale:(self.zoomScale < self.maximumZoomScale ? self.maximumZoomScale : self.minimumZoomScale) animated:YES];
+}
+
+
+#pragma mark UIScrollView delegate
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+	return imageView_;
+}
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale {
+	[self setNeedsLayout];
+}
+
+
+- (void)setMaxMinZoomScalesForCurrentBounds {
+	
+	CGSize imageSize = imageView_.image.size;
+	
+	// Avoid crashing if the image has no dimensions.
+	if (imageSize.width <= 0 || imageSize.height <= 0) {
+		self.maximumZoomScale = 1;
+		self.minimumZoomScale = 1;
+	}
+	else {
+		float scaleWMin = self.frame.size.width / imageSize.width;
+		float scaleHMin = self.frame.size.height / imageSize.height;
+		self.minimumZoomScale = ((scaleWMin < scaleHMin) ? scaleWMin : scaleHMin);
+	}
+	//	self.maximumZoomScale = 1;
+	[self setZoomScale:self.minimumZoomScale animated:NO];
+	[self setNeedsLayout];
+	RCLog(@"self.minimumZoomScale %f %f", self.minimumZoomScale, self.maximumZoomScale);
+}
+
+
 
 @end

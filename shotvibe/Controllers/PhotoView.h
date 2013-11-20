@@ -13,7 +13,7 @@
 
 @class PhotoFilesManager;
 
-@interface PhotoView : UIView
+@interface PhotoView : UIScrollView <UIScrollViewDelegate>
 
 - (id)initWithFrame:(CGRect)frame withFullControls:(BOOL)fullControls;
 
@@ -23,5 +23,9 @@
 - (void)setImage:(UIImage *)image;
 
 - (void)onPhotoLoadUpdate:(PhotoBitmap *)bmp;
+
+
+- (void)setMaxMinZoomScalesForCurrentBounds;
+- (void)toggleZoom;
 
 @end

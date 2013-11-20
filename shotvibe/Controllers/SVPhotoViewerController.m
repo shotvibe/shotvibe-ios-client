@@ -214,7 +214,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-	return UIStatusBarAnimationFade;
+	return UIStatusBarAnimationSlide;
 }
 
 - (BOOL)prefersStatusBarHidden {

@@ -505,8 +505,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	
 	if (textField == self.albumField) {
-		[self createNewAlbumWithTitle:textField.text];
-		[self hideDropDown];
+		[self newAlbumDone:nil];
 	}
     return YES;
 }
@@ -651,6 +650,7 @@
 
 - (void)createNewAlbumWithTitle:(NSString *)title {
 	
+	RCLog(@"createNewAlbumWithTitle %@", title);
 	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
 	// Write the album to server
