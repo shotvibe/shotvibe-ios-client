@@ -15,30 +15,25 @@
 #import "ShotVibeAppDelegate.h"
 #import "MBProgressHUD.h"
 #import "SVLinkActivity.h"
-#import "PhotoView.h"
+#import "PhotoScrollView.h"
 
-static const int NUM_PHOTO_VIEWS = 3;
 
 @interface SVPhotoViewerController () {
 	
+	UITapGestureRecognizer *singleTap;
+	UITapGestureRecognizer *doubleTap;
 	UIScrollView *photosScrollView;
+	NSMutableArray *cache;
 	UIView *toolbarView;
+	UIButton *butTrash;
+	UIButton *butShare;
+	UIButton *butEdit;
 	UILabel *detailLabel;
 	
 	SVActivityViewController* activity;
 	BOOL toolsHidden;
 	BOOL navigatingNext;
-	BOOL uploadingAviaryPicture;//
-	
-	UITapGestureRecognizer *singleTap;
-	UITapGestureRecognizer *doubleTap;
-	
-	UIButton *butTrash;
-	UIButton *butShare;
-	UIButton *butEdit;
-
-    int currentPhotoViewsStartIndex;
-    PhotoView *photoViews[NUM_PHOTO_VIEWS];
+	BOOL uploadingAviaryPicture;
 }
 
 @end
@@ -61,6 +56,11 @@ static const int NUM_PHOTO_VIEWS = 3;
 	
     self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
 	toolsHidden = YES;
+	
+	cache = [[NSMutableArray alloc] initWithCapacity:self.photos.count];
+	for (id photo in self.photos) {
+		[cache addObject:[NSNull null]];
+	}
 	
 	// Add custom toolbar
 	toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, 320, 44)];
@@ -109,16 +109,8 @@ static const int NUM_PHOTO_VIEWS = 3;
 	[self.view addSubview:photosScrollView];
 
     [self fitScrollViewToOrientation];
-
-    currentPhotoViewsStartIndex = INT_MAX;
-    for (int i = 0; i < NUM_PHOTO_VIEWS; ++i) {
-        photoViews[i] = [[PhotoView alloc] initWithFrame:[self rectForPhotoIndex:i] withFullControls:YES];
-        photoViews[i].contentMode = UIViewContentModeScaleAspectFit;
-        [photosScrollView addSubview:photoViews[i]];
-    }
-
-    [self setPhotoViewsIndex:MAX(self.index - 1, 0)];
-
+    [self setPhotoViewsIndex:self.index];
+	
 	// Add gestures
 	
 	doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
@@ -208,8 +200,48 @@ static const int NUM_PHOTO_VIEWS = 3;
 }
 
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+	RCLog(@"PhotoViewer did receive memory warning %i %@", self.index, cache);
+	
+    // Dispose of any resources that can be recreated.
+    
+	int i = 0;
+	NSArray *cacheIter = [NSArray arrayWithArray:cache];
+	
+	for (id photo in cacheIter) {
+		if ([photo isKindOfClass:[PhotoScrollView class]] && self.index != i) {
+			RCLog(@"remove photo from cache %i", i);
+			PhotoScrollView *cachedImage = photo;
+			cachedImage.delegate = nil;
+			[cachedImage removeFromSuperview];
+			[cache replaceObjectAtIndex:i withObject:[NSNull null]];
+		}
+		i++;
+	}
+}
+
+
+- (void)dealloc {
+	
+	RCLog(@"dealloc SVPhotosViewwerController");
+	
+	for (id photo in cache) {
+		
+		if ([photo isKindOfClass:[PhotoScrollView class]]) {
+			
+			PhotoScrollView *cachedImage = photo;
+			[cachedImage removeFromSuperview];
+			cachedImage.delegate = nil;
+		}
+	}
+	[cache removeAllObjects];
+}
+
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
-	RCLog(@"preferredStatusBarStyle");
+//	RCLog(@"preferredStatusBarStyle");
 	return UIStatusBarStyleBlackTranslucent;
 }
 
@@ -218,7 +250,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 }
 
 - (BOOL)prefersStatusBarHidden {
-	RCLog(@"prefersStatusBarHidden %i", toolsHidden);
+//	RCLog(@"prefersStatusBarHidden %i", toolsHidden);
 	return toolsHidden;// setNeedsStatusBarAppearanceUpdate
 }
 
@@ -228,10 +260,8 @@ static const int NUM_PHOTO_VIEWS = 3;
     int h = self.view.frame.size.height;
 	
     photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
-    photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h-140);
+    photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
     photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
-	
-//	photosScrollView.backgroundColor = [UIColor yellowColor];
 }
 
 - (CGRect)rectForPhotoIndex:(int)i
@@ -244,30 +274,39 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 - (void)setPhotoViewsIndex:(int)index
 {
-    if (currentPhotoViewsStartIndex == index) {
-        return;
-    }
-
-    for (int i = 0; i < NUM_PHOTO_VIEWS; ++i) {
-        if (index + i < self.photos.count) {
-            photoViews[i].hidden = NO;
-            [photoViews[i] setFrame:[self rectForPhotoIndex:index + i]];
-            AlbumPhoto *photo = [self.photos objectAtIndex:index + i];
+	RCLog(@"setPhotoViewsIndex %i", index);
+    for (int i = -1; i < 2; i++) {
+		
+		if (index + i >= 0 && index + i < self.photos.count) {
 			
-            if (photo.serverPhoto) {
-                [photoViews[i] setPhoto:photo.serverPhoto.photoId
-                               photoUrl:photo.serverPhoto.url
-                              photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
-                                manager:self.albumManager.photoFilesManager];
-            }
-            else if (photo.uploadingPhoto) {
-                UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[photo.uploadingPhoto getFilename]];
-                [photoViews[i] setImage:localImage];
-            }
-        }
-        else {
-            photoViews[i].hidden = YES;
-        }
+			id cachedImage = [cache objectAtIndex:index + i];
+			AlbumPhoto *photo = [self.photos objectAtIndex:index + i];
+			
+			if ([cachedImage isKindOfClass:[NSNull class]]) {
+				
+				// If the photo is not in cache load it
+				PhotoScrollView *rcphoto = [[PhotoScrollView alloc] initWithFrame:[self rectForPhotoIndex:index + i] withFullControls:YES];
+				cachedImage = rcphoto;
+				
+				[cache replaceObjectAtIndex:index+i withObject:cachedImage];
+				[photosScrollView addSubview:cachedImage];
+			}
+			
+			if (((PhotoScrollView*)cachedImage).index != index + i) {
+				((PhotoScrollView*)cachedImage).index = index + i;
+				if (photo.serverPhoto) {
+					[cachedImage setPhoto:photo.serverPhoto.photoId
+								 photoUrl:photo.serverPhoto.url
+								photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
+								  manager:self.albumManager.photoFilesManager];
+				}
+				else if (photo.uploadingPhoto) {
+					UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[photo.uploadingPhoto getFilename]];
+					[cachedImage setImage:localImage];
+				}
+			}
+			
+		}
     }
 }
 
@@ -287,42 +326,66 @@ static const int NUM_PHOTO_VIEWS = 3;
 {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 
-    [self fitScrollViewToOrientation];
-    currentPhotoViewsStartIndex = INT_MAX;
-    [self setPhotoViewsIndex:MAX(self.index - 1, 0)];
+    int w = self.view.frame.size.width;
+	int h = self.view.frame.size.height;
+	int i = 0;
+	PhotoScrollView *cachedImage;
+	return;
+	for (id photo in cache) {
+		
+		if ([photo isKindOfClass:[PhotoScrollView class]]) {
+			
+			cachedImage = photo;
+			cachedImage.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
+			[cachedImage setMaxMinZoomScalesForCurrentBounds];
+			cachedImage.hidden = NO;
+			
+			if (cachedImage.index == self.index) {
+				photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
+				photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
+				photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
+				[photosScrollView addSubview:cachedImage];
+			}
+		}
+		i++;
+	}
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-
-    UIView *currentPhoto = (self.index == 0)
-        ? photoViews[0]
-        : photoViews[1];
-
-    for (int i = 0; i < NUM_PHOTO_VIEWS; ++i) {
-        photoViews[i].hidden = YES;
-    }
-
-    currentPhoto.hidden = NO;
-
-    int w = self.view.frame.size.height;
-    int h = self.view.frame.size.width;
-
-    [self.view addSubview:currentPhoto];
-
-    CGRect rect = currentPhoto.frame;
-    rect.origin.x = 0;
-    rect.origin.y = 0;
-    currentPhoto.frame = rect;
-
-    [UIView animateWithDuration:duration
-                     animations:^{
-                         currentPhoto.frame = CGRectMake(0, 0, w, h);
-                     }
-                     completion:^(BOOL finished) {
-                         [photosScrollView addSubview:currentPhoto];
-                     }];
+    __block int w = self.view.frame.size.height;
+	__block int h = self.view.frame.size.width;
+	int i = 0;
+	
+	// Hide all the images except the visible one
+	PhotoScrollView *cachedImage;
+	for (id photo in cache) {
+		if ([photo isKindOfClass:[PhotoScrollView class]]) {
+			
+			cachedImage = photo;
+			
+			if (i == self.index) {
+				
+				cachedImage.hidden = NO;
+				CGRect rect = cachedImage.frame;
+				rect.origin.x = 0;
+				rect.origin.y = 0;
+				cachedImage.frame = rect;
+				[self.view addSubview:cachedImage];
+				
+				// The method of animating the frame rather than using autoresizingMasks works better
+				[UIView animateWithDuration:duration animations:^{
+					cachedImage.frame = CGRectMake(0, 0, w, h);
+				}];
+			}
+			else {
+				cachedImage.hidden = YES;
+			}
+		}
+		i++;
+	}
+	
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 
@@ -338,7 +401,8 @@ static const int NUM_PHOTO_VIEWS = 3;
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     CGFloat pageWidth = photosScrollView.frame.size.width;
     self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    [self setPhotoViewsIndex:MAX(self.index - 1, 0)];
+	RCLog(@"scrollViewWillBeginDragging %i", self.index);
+    //[self setPhotoViewsIndex:MAX(self.index - 1, 0)];
 }
 
 
@@ -359,7 +423,9 @@ static const int NUM_PHOTO_VIEWS = 3;
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
-        // TODO toggle zoom
+        
+		PhotoScrollView *cachedImage = [cache objectAtIndex:self.index];
+		[cachedImage toggleZoom];
     }
 }
 
@@ -374,9 +440,14 @@ static const int NUM_PHOTO_VIEWS = 3;
 	
 	// Status bar and nav bar positioning
     if (IS_IOS7) {
-		[self setNeedsStatusBarAppearanceUpdate];
-		RCLogRect(self.view.frame);
-		RCLogRect(photosScrollView.frame);
+		if (animated) {
+			[UIView animateWithDuration:0.3 animations:^{
+				[self setNeedsStatusBarAppearanceUpdate];
+			}];
+		}
+		else {
+			[self setNeedsStatusBarAppearanceUpdate];
+		}
 	}
 	else if (self.wantsFullScreenLayout) {
         
@@ -486,7 +557,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	RCLog(@"delete index %i", self.index);
 	
 	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
-	__block PhotoView *image = photoViews[1];
+	__block PhotoScrollView *cachedImage = [cache objectAtIndex:self.index];
 	
 	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
@@ -518,13 +589,13 @@ static const int NUM_PHOTO_VIEWS = 3;
 				[UIView animateWithDuration:0.5
 								 animations:^{
 									 
-									 CGRect rect = image.frame;
-									 image.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
+									 CGRect rect = cachedImage.frame;
+									 cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
 								 }
 								 completion:^(BOOL finished){
 									 
 									 [self.photos removeObjectAtIndex:self.index];
-									 image.hidden = YES;
+									 cachedImage.hidden = YES;
 									 butTrash.enabled = YES;
 									 
 									 if (self.photos.count == 0) {
@@ -566,7 +637,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	navigatingNext = YES;
 	
 	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
-    UIImage *image = [photoViews[1] image];
+    UIImage *image = [[cache objectAtIndex:self.index] image];
 	
 	if (activity == nil) {
 		activity = [[SVActivityViewController alloc] initWithNibName:@"SVActivityViewController" bundle:[NSBundle mainBundle]];
@@ -636,7 +707,7 @@ static const int NUM_PHOTO_VIEWS = 3;
 	RCLog(@"display editor %i", self.index);
 	//AlbumPhoto *photo = [photos objectAtIndex:self.index];
     // TODO load image:
-	UIImage *imageToEdit = [photoViews[1] image];
+	UIImage *imageToEdit = [[cache objectAtIndex:self.index] image];
 	RCLogO(imageToEdit);
 	
     AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage:imageToEdit];

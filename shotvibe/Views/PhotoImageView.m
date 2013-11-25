@@ -1,23 +1,23 @@
 //
-//  PhotoView.m
+//  PhotoImageView.m
 //  shotvibe
 //
-//  Created by benny on 10/30/13.
+//  Created by Baluta Cristian on 25/11/2013.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "PhotoView.h"
+#import "PhotoImageView.h"
+
 #import "PhotoFilesManager.h"
 
-@implementation PhotoView
+@implementation PhotoImageView
 {
     PhotoFilesManager *prevManager_;
     NSString *photoId_;
     PhotoSize *photoSize_;
-
+	
     BOOL fullControls_;
-
-    UIImageView *imageView_;
+	
     UIActivityIndicatorView *activityIndicatorView_;
     UIProgressView *progressView_;
 }
@@ -27,29 +27,27 @@
     self = [super initWithFrame:frame];
     if (self) {
         fullControls_ = fullControls;
-
+		
         prevManager_ = nil;
         photoId_ = nil;
         photoSize_ = nil;
-
-        imageView_ = [[UIImageView alloc] init];
-		imageView_.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-		imageView_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [self addSubview:imageView_];
-
+		
+        //self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		//self.backgroundColor = [UIColor yellowColor];
+        
         if (fullControls_) {
             activityIndicatorView_ = [[UIActivityIndicatorView alloc] init];
             progressView_ = [[UIProgressView alloc] init];
-
+			
             const float indicatorSize = 80.0f;
             const float indicatorCornerRadius = 20.0f;
             const float indicatorAlpha = 0.75f;
-
+			
             activityIndicatorView_.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
             [activityIndicatorView_ setFrame:CGRectMake(0, 0, indicatorSize, indicatorSize)];
             activityIndicatorView_.backgroundColor = [UIColor colorWithWhite:0.0f alpha:indicatorAlpha];
             activityIndicatorView_.layer.cornerRadius = indicatorCornerRadius;
-
+			
             [self addSubview:activityIndicatorView_];
             [self addSubview:progressView_];
         }
@@ -76,8 +74,8 @@
 {
     [super layoutSubviews];
 	
-	imageView_.contentMode = self.contentMode;
-	//imageView_.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+	//self.contentMode = self.contentMode;
+	//self.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 	
 	if (fullControls_) {
 		activityIndicatorView_.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
@@ -88,23 +86,34 @@
 		[progressView_ setFrame:CGRectMake((self.frame.size.width / 2.0f) - (progressWidth / 2.0f), (self.frame.size.height / 2.0f) - (progressHeight / 2.0f), progressWidth, progressHeight)];
 	}
 }
+//- (void)scaleToFitImageSize {
+//	
+//	RCLog(@"scaleToFitImageSize");
+//	RCLogRect(self.frame);
+//	RCLogSize(self.image.size);
+//	
+//	self.frame = (CGRect){.size=self.image.size, .origin=self.frame.origin};
+//	
+//	RCLogRect(self.frame);
+//	RCLogSize(self.image.size);
+//}
 
 - (void)setPhoto:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize manager:(PhotoFilesManager *)photoFilesManager
 {
     [self cancelPrevious];
-
+	
     photoId_ = photoId;
     photoSize_ = photoSize;
     prevManager_ = photoFilesManager;
-
-    [photoFilesManager loadBitmap:photoId photoUrl:photoUrl photoSize:photoSize photoObserver:self];
+	
+    [photoFilesManager loadBitmap:photoId photoUrl:photoUrl photoSize:photoSize photoObserver:(PhotoView*)self];
 }
 
 - (void)cancelPrevious
 {
     if (prevManager_) {
-        [prevManager_ removePhotoObserver:photoId_ photoSize:photoSize_ photoObserver:self];
-
+        [prevManager_ removePhotoObserver:photoId_ photoSize:photoSize_ photoObserver:(PhotoView*)self];
+		
         prevManager_ = nil;
         photoId_ = nil;
         photoSize_ = nil;
@@ -114,18 +123,16 @@
 - (void)setImage:(UIImage *)image
 {
     [self cancelPrevious];
-
-    imageView_.alpha = 1.0f;
-    [imageView_ setImage:image];
-
+	
+    //self.alpha = 1.0f;
+    [super setImage:image];
+	
     if (fullControls_) {
         [activityIndicatorView_ stopAnimating];
         progressView_.hidden = YES;
     }
 }
-- (UIImage*)image {
-	return imageView_.image;
-}
+
 
 - (void)onPhotoLoadUpdate:(PhotoBitmap *)bmp
 {
@@ -134,8 +141,8 @@
     }
     else {
         if (bmp.state == PhotoBitmapLoaded) {
-            imageView_.alpha = 1.0f;
-            [imageView_ setImage:bmp.bmp];
+            self.alpha = 1.0f;
+            [self setImage:bmp.bmp];
 			if ([self.delegate respondsToSelector:@selector(onPhotoLoadComplete)]) {
 				[self.delegate performSelector:@selector(onPhotoLoadComplete) withObject:nil];
 			}
@@ -155,7 +162,7 @@
             [activityIndicatorView_ startAnimating];
             progressView_.hidden = YES;
             break;
-
+			
         case PhotoBitmapDownloading:
             //NSLog(@"photoLoadUpdate %@ downloading", photoId_);
             [self showLowQuality:bmp.lowQualityBmp];
@@ -163,25 +170,25 @@
             progressView_.hidden = NO;
             progressView_.progress = bmp.downloadProgress;
             break;
-
+			
         case PhotoBitmapLoading:
             //NSLog(@"photoLoadUpdate %@ loading", photoId_);
             [self showLowQuality:bmp.lowQualityBmp];
             [activityIndicatorView_ startAnimating];
             progressView_.hidden = YES;
             break;
-
+			
         case PhotoBitmapLoaded:
             //NSLog(@"photoLoadUpdate %@ loaded", photoId_);
-            imageView_.alpha = 1.0f;
-            [imageView_ setImage:bmp.bmp];
+            self.alpha = 1.0f;
+            [self setImage:bmp.bmp];
             [activityIndicatorView_ stopAnimating];
             progressView_.hidden = YES;
 			if ([self.delegate respondsToSelector:@selector(onPhotoLoadComplete)]) {
 				[self.delegate performSelector:@selector(onPhotoLoadComplete) withObject:nil];
 			}
             break;
-
+			
         case PhotoBitmapDownloadError:
             //NSLog(@"photoLoadUpdate %@ downloadError", photoId_);
             // TODO ...
@@ -191,8 +198,8 @@
 
 - (void)showLowQuality:(UIImage *)lowQualityImg
 {
-    imageView_.alpha = 0.5f;
-    [imageView_ setImage:lowQualityImg];
+    self.alpha = 0.5f;
+    [self setImage:lowQualityImg];
 }
 
 @end

@@ -1,29 +1,29 @@
 //
-//  PhotoView.h
+//  PhotoScrollView.h
 //  shotvibe
 //
-//  Created by benny on 10/30/13.
+//  Created by Baluta Cristian on 20/11/2013.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "PhotoImageView.h"
 
-#import "PhotoBitmap.h"
-#import "PhotoSize.h"
+@interface PhotoScrollView : UIScrollView <UIScrollViewDelegate> {
+	
+	PhotoImageView *imageView;
+}
 
-@class PhotoFilesManager;
-
-@interface PhotoView : UIView
-
-@property (nonatomic, retain) id delegate;
-
+// PhotoView API
 - (id)initWithFrame:(CGRect)frame withFullControls:(BOOL)fullControls;
-
 - (void)setPhoto:(NSString *)photoId photoUrl:(NSString *)photoUrl photoSize:(PhotoSize *)photoSize manager:(PhotoFilesManager *)photoFilesManager;
-
 - (UIImage*)image;
 - (void)setImage:(UIImage *)image;
 
-- (void)onPhotoLoadUpdate:(PhotoBitmap *)bmp;
+// PhotoScrollView API
+- (void)toggleZoom;
+- (void)setMaxMinZoomScalesForCurrentBounds;
+
+@property (nonatomic) int index;
 
 @end

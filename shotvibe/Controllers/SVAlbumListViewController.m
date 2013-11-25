@@ -494,6 +494,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	[self.searchbar resignFirstResponder];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	tappedCell = [indexPath copy];
 	// The rest of the actions are made through the segue in IB
@@ -517,7 +518,7 @@
 	
 	[searchBar setShowsCancelButton:YES animated:YES];
 	
-	[UIView animateWithDuration:0.3 animations:^{
+	[UIView animateWithDuration:0.4 animations:^{
 		self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-KEYBOARD_H-status_bar_h);
 	}];
 	
@@ -528,9 +529,7 @@
 	
 	[searchBar setShowsCancelButton:NO animated:YES];
 	
-	[UIView animateWithDuration:0.2 animations:^{
-		self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-total_header_h);
-	}];
+	self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-total_header_h);
 	
 	searchShowing = NO;
 }
@@ -714,7 +713,7 @@
         }
     });
 
-    [self searchForAlbumWithTitle:nil];
+    [self searchForAlbumWithTitle:self.searchbar.text];
 }
 
 

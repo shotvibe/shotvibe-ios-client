@@ -26,10 +26,13 @@
 
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	
 	UITouch *touch = [touches anyObject];
 	_originalCenter = [touch locationInView:self];
+	
 	self.backView.backgroundColor = [UIColor colorWithRed:0.63 green:0.85 blue:0.07 alpha:1];
 	self.backImageView.image = [UIImage imageNamed:@"SwipePicker.png"];
+	
 	[super touchesBegan:touches withEvent:event];
 }
 
@@ -87,6 +90,7 @@
 	}
 	else if (self.frontView.frame.origin.x < MIN_SWIPE_X) {
 		if (IS_IOS7) {
+			// On ios7
 			[super touchesCancelled:touches withEvent:event];
 		}
 		else {

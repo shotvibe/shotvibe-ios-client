@@ -333,6 +333,8 @@
 		04E287F7173176F00044C17A /* SVImagePickerSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E287F5173176F00044C17A /* SVImagePickerSelector.m */; };
 		04E287F9173176F00044C17A /* SVImagePickerSelector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E287F6173176F00044C17A /* SVImagePickerSelector.xib */; };
 		04F11575178FA5D200B26C85 /* SVSelectionGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */; };
+		28035687183D2E5D0018A28A /* PhotoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28035686183D2E5D0018A28A /* PhotoScrollView.m */; };
+		2803568A184391050018A28A /* PhotoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28035689184391050018A28A /* PhotoImageView.m */; };
 		280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */; };
 		280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */; };
 		2836B78517A934FE008AAB68 /* SVConfirmationCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B78317A934FE008AAB68 /* SVConfirmationCodeViewController.m */; };
@@ -978,6 +980,10 @@
 		04E287F6173176F00044C17A /* SVImagePickerSelector.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVImagePickerSelector.xib; sourceTree = "<group>"; };
 		04F11573178FA5D200B26C85 /* SVSelectionGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVSelectionGridCell.h; sourceTree = "<group>"; };
 		04F11574178FA5D200B26C85 /* SVSelectionGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVSelectionGridCell.m; sourceTree = "<group>"; };
+		28035685183D2E5D0018A28A /* PhotoScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoScrollView.h; path = shotvibe/Views/PhotoScrollView.h; sourceTree = SOURCE_ROOT; };
+		28035686183D2E5D0018A28A /* PhotoScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoScrollView.m; path = shotvibe/Views/PhotoScrollView.m; sourceTree = SOURCE_ROOT; };
+		28035688184391050018A28A /* PhotoImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoImageView.h; path = shotvibe/Views/PhotoImageView.h; sourceTree = SOURCE_ROOT; };
+		28035689184391050018A28A /* PhotoImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoImageView.m; path = shotvibe/Views/PhotoImageView.m; sourceTree = SOURCE_ROOT; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2836B78217A934FE008AAB68 /* SVConfirmationCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVConfirmationCodeViewController.h; sourceTree = "<group>"; };
@@ -2226,6 +2232,10 @@
 				04CD9CE116CDF15A00FC72B3 /* SVPhotoViewerController.m */,
 				66BF1FC5182147D100AA16A7 /* PhotoView.h */,
 				66BF1FC6182147D100AA16A7 /* PhotoView.m */,
+				28035688184391050018A28A /* PhotoImageView.h */,
+				28035689184391050018A28A /* PhotoImageView.m */,
+				28035685183D2E5D0018A28A /* PhotoScrollView.h */,
+				28035686183D2E5D0018A28A /* PhotoScrollView.m */,
 			);
 			name = Albums;
 			sourceTree = "<group>";
@@ -3154,6 +3164,7 @@
 				AA23484F177AA3F600D55918 /* AFJSONRequestOperation.m in Sources */,
 				041A13ED1706882D00E66B78 /* SVSidebarManagementController.m in Sources */,
 				04AB0AB21708114800C5300B /* NSDate+Formatting.m in Sources */,
+				2803568A184391050018A28A /* PhotoImageView.m in Sources */,
 				0446EF021718927B00ED0076 /* SVSidebarAlbumMemberCell.m in Sources */,
 				0446EF061718A41700ED0076 /* SVAddFriendsViewController.m in Sources */,
 				0499B855171DD27B00050596 /* SVSettingsViewController.m in Sources */,
@@ -3211,6 +3222,7 @@
 				3B3AD15417CB4A9C004D24A9 /* NSData+GIF.m in Sources */,
 				3B3AD15517CB4A9C004D24A9 /* SDImageCache.m in Sources */,
 				3B3AD15617CB4A9C004D24A9 /* SDWebImageCompat.m in Sources */,
+				28035687183D2E5D0018A28A /* PhotoScrollView.m in Sources */,
 				3B3AD15717CB4A9C004D24A9 /* SDWebImageDecoder.m in Sources */,
 				3B3AD15817CB4A9C004D24A9 /* SDWebImageDownloader.m in Sources */,
 				3B3AD15917CB4A9C004D24A9 /* SDWebImageDownloaderOperation.m in Sources */,
