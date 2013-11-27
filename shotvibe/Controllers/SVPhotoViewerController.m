@@ -104,7 +104,7 @@
 	photosScrollView.showsHorizontalScrollIndicator = NO;
 	photosScrollView.showsVerticalScrollIndicator = NO;
 	photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
-	photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+	photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	photosScrollView.delegate = self;
 	[self.view addSubview:photosScrollView];
 
@@ -150,7 +150,7 @@
 	[super viewDidAppear:animated];
 	
 	//[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
-	[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
+	//[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -284,6 +284,7 @@
 			
 			if ([cachedImage isKindOfClass:[NSNull class]]) {
 				
+				RCLog(@"create %i", index+i);
 				// If the photo is not in cache load it
 				PhotoScrollView *rcphoto = [[PhotoScrollView alloc] initWithFrame:[self rectForPhotoIndex:index + i] withFullControls:YES];
 				cachedImage = rcphoto;
@@ -293,6 +294,7 @@
 			}
 			
 			if (((PhotoScrollView*)cachedImage).index != index + i) {
+				RCLog(@"load %i", index+i);
 				((PhotoScrollView*)cachedImage).index = index + i;
 				if (photo.serverPhoto) {
 					[cachedImage setPhoto:photo.serverPhoto.photoId
@@ -330,7 +332,7 @@
 	int h = self.view.frame.size.height;
 	int i = 0;
 	PhotoScrollView *cachedImage;
-	return;
+	
 	for (id photo in cache) {
 		
 		if ([photo isKindOfClass:[PhotoScrollView class]]) {
@@ -341,9 +343,7 @@
 			cachedImage.hidden = NO;
 			
 			if (cachedImage.index == self.index) {
-				photosScrollView.frame = CGRectMake(0, 0, w+GAP_X, h);
-				photosScrollView.contentSize = CGSizeMake((w+GAP_X)*self.photos.count, h);
-				photosScrollView.contentOffset = CGPointMake((w+GAP_X)*self.index, 0);
+				[self fitScrollViewToOrientation];
 				[photosScrollView addSubview:cachedImage];
 			}
 		}
@@ -394,16 +394,15 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 	CGFloat pageWidth = photosScrollView.frame.size.width;
 	self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+	RCLogI(self.index);
 	[self updateCaption];
-    [self setPhotoViewsIndex:MAX(self.index - 1, 0)];
+    [self setPhotoViewsIndex:self.index];
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    CGFloat pageWidth = photosScrollView.frame.size.width;
-    self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-	RCLog(@"scrollViewWillBeginDragging %i", self.index);
-    //[self setPhotoViewsIndex:MAX(self.index - 1, 0)];
-}
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//    CGFloat pageWidth = photosScrollView.frame.size.width;
+//    //self.index = floor((photosScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+//}
 
 
 #pragma mark Tap gestures

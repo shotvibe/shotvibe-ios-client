@@ -137,23 +137,23 @@
 	
 //    self.butShutter.enabled = NO;
 //    
-//	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Low Memory", @"")
-//														message:NSLocalizedString(@"You need to upload some of the pictures you've taken before you can take more!", @"")
-//													   delegate:nil
-//											  cancelButtonTitle:NSLocalizedString(@"OK", @"")
-//											  otherButtonTitles:nil];
-//	
-//	[alertView show];
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Low Memory", @"")
+														message:NSLocalizedString(@"Low Memory, the app might crash.", @"")
+													   delegate:nil
+											  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+											  otherButtonTitles:nil];
+	
+	[alertView show];
 }
 
 
 - (void)tap:(UITapGestureRecognizer *)tapGesture {
 	RCLog(@"add tap");
 }
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	RCLog(@"touches began in controller");
-	[super touchesBegan:touches withEvent:event];
-}
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//	RCLog(@"touches began in controller");
+//	[super touchesBegan:touches withEvent:event];
+//}
 
 
 - (void)showImagePickerForSourceType:(UIImagePickerControllerSourceType)sourceType {
@@ -292,7 +292,7 @@
 	}
 	
 	self.butShutter.enabled = YES;
-	
+	return;
 	// TODO: save the image at 1600x1200px
     UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
 	UIImage *scaledImage = nil;

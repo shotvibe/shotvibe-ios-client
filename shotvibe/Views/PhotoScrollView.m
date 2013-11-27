@@ -28,6 +28,7 @@
 		//self.layer.borderWidth = 1;
 		//self.layer.borderColor = [UIColor redColor].CGColor;
 		self.contentSize = frame.size;
+		self.index = -1;
 		
         // Initialization code
 		imageView = [[PhotoImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) withFullControls:fullControls];
