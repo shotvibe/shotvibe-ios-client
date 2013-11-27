@@ -136,7 +136,7 @@
 	[super didReceiveMemoryWarning];
 	
 //    self.butShutter.enabled = NO;
-//    
+    return;
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Low Memory", @"")
 														message:NSLocalizedString(@"Low Memory, the app might crash.", @"")
 													   delegate:nil
@@ -292,25 +292,26 @@
 	}
 	
 	self.butShutter.enabled = YES;
-	return;
+	
 	// TODO: save the image at 1600x1200px
-    UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
-	UIImage *scaledImage = nil;
+//    UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+//	__block UIImage *scaledImage = nil;
+    __block UIImage *scaledImage = [info valueForKey:UIImagePickerControllerOriginalImage];
 	
 	// If the picture was zoomed by the user crop it acordingly
-	if (self.sliderZoom.value > self.sliderZoom.minimumValue) {
-		CGSize scaledSize = originalImage.size;
-		scaledSize.width /= self.sliderZoom.value;
-		scaledSize.height /= self.sliderZoom.value;
-		scaledImage = [originalImage imageByCroppingForSize:scaledSize];
-	}
-	else {
-		scaledImage = originalImage;
-	}
+//	if (self.sliderZoom.value > self.sliderZoom.minimumValue) {
+//		CGSize scaledSize = originalImage.size;
+//		scaledSize.width /= self.sliderZoom.value;
+//		scaledSize.height /= self.sliderZoom.value;
+//		scaledImage = [originalImage imageByCroppingForSize:scaledSize];
+//	}
+//	else {
+//		scaledImage = originalImage;
+//	}
 	
 	if (self.oneImagePicker) {
 		// Allow the picker to take only one picture
-		SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController" bundle:[NSBundle mainBundle]];
+		__block SVImageCropViewController *cropController = [[SVImageCropViewController alloc] initWithNibName:@"SVImageCropViewController" bundle:[NSBundle mainBundle]];
 		cropController.delegate = self.cropDelegate;
 		cropController.image = scaledImage;
 		
@@ -320,35 +321,37 @@
 	}
 	else {
 		// Take as many pictures as you want. Save the path and the thumb and the picture
-		__block UIImage *thumbImage;
 		NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", self.capturedImages.count]];
 		NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", self.capturedImages.count]];
 		
 		dispatch_async(dispatch_get_global_queue(0, 0), ^{
 			
-			if ([UIImageJPEGRepresentation(scaledImage, 0.9) writeToFile:filePath atomically:YES]) {
-				
-				CGSize newSize = CGSizeMake(200, 200);
-				
-				float oldWidth = scaledImage.size.width;
-				float scaleFactor = newSize.width / oldWidth;
-				
-				float newHeight = scaledImage.size.height * scaleFactor;
-				float newWidth = oldWidth * scaleFactor;
-				
-				UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-				[scaledImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-				thumbImage = UIGraphicsGetImageFromCurrentImageContext();
-				UIGraphicsEndImageContext();
-				
-				[UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
-				
-				dispatch_async(dispatch_get_main_queue(), ^{
-					self.albumPreviewImage.image = thumbImage;
-				});
-			}
+			// Save large image
+			[UIImageJPEGRepresentation(scaledImage, 1.0) writeToFile:filePath atomically:YES];
+			
+			CGSize newSize = CGSizeMake(200, 200);
+			float oldWidth = scaledImage.size.width;
+			float scaleFactor = newSize.width / oldWidth;
+			float newHeight = scaledImage.size.height * scaleFactor;
+			float newWidth = oldWidth * scaleFactor;
+			
+			UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+			[scaledImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+			UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+			UIGraphicsEndImageContext();
+			
+			// Save thumb image
+			[UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				self.albumPreviewImage.image = thumbImage;
+			});
 		});
 		
+		[self.capturedImages addObject:filePath];
+		self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
+		
+		return;
 		// Grab image data
 		UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
 		animatedImageView.image = scaledImage;
