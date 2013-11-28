@@ -321,8 +321,8 @@
 	}
 	else {
 		// Take as many pictures as you want. Save the path and the thumb and the picture
-		NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", self.capturedImages.count]];
-		NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", self.capturedImages.count]];
+		__block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", self.capturedImages.count]];
+		__block NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", self.capturedImages.count]];
 		
 		dispatch_async(dispatch_get_global_queue(0, 0), ^{
 			
@@ -348,16 +348,16 @@
 			});
 		});
 		
-		[self.capturedImages addObject:filePath];
-		self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
-		
-		return;
+//		[self.capturedImages addObject:filePath];
+//		self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
+//		
+//		return;
 		// Grab image data
 		UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
 		animatedImageView.image = scaledImage;
-		[self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
+		if (self.imagePickerController.cameraOverlayView != nil) [self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
 		
-		// Animation not working, TODO
+		// Animate the image to the pile
 		[UIView animateWithDuration:0.6
 						 animations:^{
 			CGRect f = self.albumPreviewImage.frame;
