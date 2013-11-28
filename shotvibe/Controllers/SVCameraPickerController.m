@@ -348,33 +348,39 @@
 			});
 		});
 		
-//		[self.capturedImages addObject:filePath];
-//		self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
-//		
-//		return;
-		// Grab image data
-		UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-		animatedImageView.image = scaledImage;
-		if (self.imagePickerController.cameraOverlayView != nil) [self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
-		
-		// Animate the image to the pile
-		[UIView animateWithDuration:0.6
-						 animations:^{
-			CGRect f = self.albumPreviewImage.frame;
-			f.origin.x += self.tileContainer.frame.origin.x;
-			f.origin.y += self.view.frame.size.height - 25 - (IS_IOS7 ? 40 : -25);
-			animatedImageView.frame = f;
-		}
-						 completion:^(BOOL finished) {
-							 
-							 [self.capturedImages addObject:filePath];
-							 self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
-							 [animatedImageView removeFromSuperview];
-							 
-							 if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
-								 [self performSelector:@selector(hideTopBar) withObject:nil afterDelay:0.6];
+		if (IS_IOS7) {
+			// Grab image data
+			UIImageView *animatedImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+			animatedImageView.image = scaledImage;
+			if (self.imagePickerController.cameraOverlayView != nil) [self.imagePickerController.cameraOverlayView addSubview:animatedImageView];
+			
+			// Animate the image to the pile
+			[UIView animateWithDuration:0.6
+							 animations:^{
+								 CGRect f = self.albumPreviewImage.frame;
+								 f.origin.x += self.tileContainer.frame.origin.x;
+								 f.origin.y += self.view.frame.size.height - 25 - (IS_IOS7 ? 40 : -25);
+								 animatedImageView.frame = f;
 							 }
-						 }];
+							 completion:^(BOOL finished) {
+								 
+								 [self.capturedImages addObject:filePath];
+								 self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
+								 [animatedImageView removeFromSuperview];
+								 
+								 if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
+									 [self performSelector:@selector(hideTopBar) withObject:nil afterDelay:0.6];
+								 }
+							 }];
+		}
+		else {
+			[self.capturedImages addObject:filePath];
+			self.imagePileCounterLabel.text = [NSString stringWithFormat:@"%i", self.capturedImages.count];
+			if (UIDeviceOrientationIsLandscape(deviceOrientation) || self.albums.count <= 1) {
+				[self performSelector:@selector(hideTopBar) withObject:nil afterDelay:0.6];
+			}
+		}
+		
 	}
 }
 
