@@ -294,20 +294,20 @@
 	self.butShutter.enabled = YES;
 	
 	// TODO: save the image at 1600x1200px
-//    UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
-//	__block UIImage *scaledImage = nil;
-    __block UIImage *scaledImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+    UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+	__block UIImage *scaledImage = nil;
+    //__block UIImage *scaledImage = [info valueForKey:UIImagePickerControllerOriginalImage];
 	
 	// If the picture was zoomed by the user crop it acordingly
-//	if (self.sliderZoom.value > self.sliderZoom.minimumValue) {
-//		CGSize scaledSize = originalImage.size;
-//		scaledSize.width /= self.sliderZoom.value;
-//		scaledSize.height /= self.sliderZoom.value;
-//		scaledImage = [originalImage imageByCroppingForSize:scaledSize];
-//	}
-//	else {
-//		scaledImage = originalImage;
-//	}
+	if (self.sliderZoom.value > self.sliderZoom.minimumValue) {
+		CGSize scaledSize = originalImage.size;
+		scaledSize.width /= self.sliderZoom.value;
+		scaledSize.height /= self.sliderZoom.value;
+		scaledImage = [originalImage imageByCroppingForSize:scaledSize];
+	}
+	else {
+		scaledImage = originalImage;
+	}
 	
 	if (self.oneImagePicker) {
 		// Allow the picker to take only one picture
