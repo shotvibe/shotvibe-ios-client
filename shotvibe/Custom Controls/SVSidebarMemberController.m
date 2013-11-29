@@ -69,7 +69,7 @@
 	
 	self.noMembersView.hidden = YES;
 	
-	[self.searchBar setBackgroundImage:[UIImage imageNamed:@"SearchBlackBg.png"]];
+	self.searchBar.backgroundImage = [UIImage imageNamed:@"SearchBlackBg.png"];
 	UIImage *search_bg = [UIImage imageNamed:@"searchFieldDarkBg.png"];
 	UIImage *resizable_bg = [search_bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 20, 5, 20) resizingMode:UIImageResizingModeStretch];
 	[self.searchBar setSearchFieldBackgroundImage:resizable_bg forState:UIControlStateNormal];

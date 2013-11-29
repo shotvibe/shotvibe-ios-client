@@ -163,7 +163,7 @@
 				}
 				
 				NSString *key = [[record.fullname substringToIndex:1] uppercaseString];
-				if (key == nil || [key isEqualToString:@"_"]) {
+				if (key == nil || [key isEqualToString:@"_"] || [key isEqualToString:@" "]) {
 					key = @"#";
 				}
 				NSMutableArray *arr = [self.filteredContacts objectForKey:key];
@@ -177,6 +177,15 @@
 		}
 		
 		self.filteredKeys = [[self.filteredContacts allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+		
+		// Put the # group at the end
+		NSString *firstKey = [self.filteredKeys firstObject];
+		if ([firstKey isEqualToString:@"#"]) {
+			NSMutableArray *k = [NSMutableArray arrayWithArray:self.filteredKeys];
+			[k removeObject:firstKey];
+			[k addObject:firstKey];
+			self.filteredKeys = [NSArray arrayWithArray:k];
+		}
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			completionBlock();
