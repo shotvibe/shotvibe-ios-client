@@ -53,21 +53,23 @@
 	// Insert the AlbumGrid controller before the CameraPicker controller
 	RCLog(@"-------------------------- 2. cameraWasDismissedWithAlbum %@ %lli %lli", album, album.albumId, self.albumId);
 	
-//	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-//	SVAlbumGridViewController *controller = (SVAlbumGridViewController*)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
-//	controller.albumManager = self.albumManager;
-//	controller.albumId = albumId;
-//	controller.scrollToTop = YES;
+	
 	
 	// Should be 2 controllers, SVAlbumListViewController and SVCameraPickerController.
 	NSMutableArray *controllers = [NSMutableArray arrayWithArray:self.nav.viewControllers];
 	RCLogO(controllers);
 	NSAssert(controllers.count>=2, @"SVCameraNavController should be 2 or 3 controllers here");
 	
-	//[controllers insertObject:controller atIndex:1];
-	
-	//[self.nav setViewControllers:controllers];
-	//RCLogO(controllers);
+	if (controllers.count == 2) {
+		
+		UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+		SVAlbumGridViewController *controller = (SVAlbumGridViewController*)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
+		controller.albumManager = self.albumManager;
+		controller.albumId = albumId;
+		controller.scrollToTop = YES;
+		[controllers insertObject:controller atIndex:1];
+		[self.nav setViewControllers:controllers];
+	}
 	
 	// Dismiss SVCameraPickerController from the main navigation
 	[cameraController.navigationController popViewControllerAnimated:YES];
