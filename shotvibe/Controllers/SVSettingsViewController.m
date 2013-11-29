@@ -55,6 +55,10 @@
             [mailController setSubject:NSLocalizedString(@"ShotVibe Support Request", @"")];
             [mailController setToRecipients:@[@"apple-support@shotvibe.com"]];
             mailController.mailComposeDelegate = self;
+			
+			if (IS_IOS7) {
+				[mailController.navigationBar setTintColor:[UIColor blackColor]];
+			}
             
             [self presentViewController:mailController animated:YES completion:NULL];
         }

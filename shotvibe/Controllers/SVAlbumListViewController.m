@@ -218,7 +218,7 @@
 		
 		for (SVRecord *record in ab.allContacts) {
 			
-			NSString *name = record.name;
+			NSString *name = record.fullname;
 			NSString *phoneNumber = record.phone;
 			
 			NSDictionary *person = @{ @"phone_number": phoneNumber, @"contact_nickname": name };

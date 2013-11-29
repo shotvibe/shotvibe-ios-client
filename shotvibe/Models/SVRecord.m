@@ -23,6 +23,10 @@
 	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@" " withString:@""];
 	
 	_phoneId = [phoneNr longLongValue];
+	
+	if (_phoneId < 1) {
+		self.invalid = YES;
+	}
 }
 
 @end

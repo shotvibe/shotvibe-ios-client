@@ -135,7 +135,7 @@
 		record = sectionRecords[indexPath.row];
 	}
 	
-    cell.titleLabel.text = record.name;
+    cell.titleLabel.text = record.fullname;
     cell.subtitleLabel.text = record.phone;
 	//RCLog(@"record.iconRemotePath %@", record.iconRemotePath);
 	if (record != nil && record.iconLocalData != nil) {
@@ -308,7 +308,7 @@
 
 - (void)addToContactsList:(SVRecord*)record {
 	
-	NSString *shortName = [[record.name componentsSeparatedByString:@" "] objectAtIndex:0];
+	NSString *shortName = [[record.fullname componentsSeparatedByString:@" "] objectAtIndex:0];
 	
     //create a new dynamic button
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -431,7 +431,7 @@
 		[contactsToInvite addObject:@{
 		 @"phone_number":record.phone,
 		 @"default_country":countryCode,
-		 @"contact_nickname":record.name}];
+		 @"contact_nickname":record.fullname}];
 		
 		NSNumber *id_ = [NSNumber numberWithLongLong:record.phoneId];
 		if (![favorites containsObject:id_]) {

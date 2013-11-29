@@ -62,7 +62,7 @@
 		[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 	}
 	
-	CGRect inf = self.view.frame;
+	//CGRect inf = self.view.frame;
 	self.view.frame = [UIScreen mainScreen].bounds;
 	self.tableView.delegate = self;
 	[self.tableView setAllowsSelection:YES];

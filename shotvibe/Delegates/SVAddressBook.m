@@ -62,12 +62,21 @@
 				
 				for (id evaluatedObject in contacts) {
 					
-					NSString *name = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(evaluatedObject));
+					//NSString *fullname = (__bridge_transfer NSString*) ABRecordCopyCompositeName((__bridge ABRecordRef)(evaluatedObject));
+					//NSString *surname = (__bridge_transfer NSString*) ABRecordCopyValue(<#ABRecordRef record#>, ABProperty)((__bridge ABRecordRef)(evaluatedObject));
+					NSString *firstName = (__bridge NSString *)ABRecordCopyValue((__bridge ABRecordRef)(evaluatedObject), kABPersonFirstNameProperty);
+					NSString *lastName = (__bridge NSString *)ABRecordCopyValue((__bridge ABRecordRef)(evaluatedObject), kABPersonLastNameProperty);
+					NSString *surname = @"";
 					
-					if (name == nil) {
-						// Record with no name
-						name = @"";
+					if (!lastName) {
+						lastName = @"";
+						surname = firstName;
 					}
+					if (!firstName) {
+						firstName = @"";
+						surname = firstName;
+					}
+					NSString *fullname = [NSString stringWithFormat:@"%@ %@", lastName, firstName];
 					
 					ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonPhoneProperty);
 					signed long num = ABMultiValueGetCount(phoneNumbers);
@@ -76,7 +85,8 @@
 						// Record with no phone number
 						SVRecord *record = [[SVRecord alloc] init];
 						record.recordId = svRecords.count;
-						record.name = name.length == 0 ? @" " : name;
+						record.fullname = fullname;
+						record.surname = surname;
 						record.phone = @" ";
 						record.invalid = YES;
 						
@@ -93,7 +103,8 @@
 							
 							SVRecord *record = [[SVRecord alloc] init];
 							record.recordId = svRecords.count;
-							record.name = name.length == 0 ? @" " : name;
+							record.fullname = fullname;
+							record.surname = surname;
 							record.phone = phoneNumber.length > 0 ? phoneNumber : @" ";
 							record.invalid = phoneNumber.length <= 1;
 							//RCLog(@"%i %@ %@ -> %@", record.recordId, record.name, record.phone, phoneNumericNumber);
@@ -142,14 +153,14 @@
 		
 		for (SVRecord *record in self.allContacts) {
 			
-			if (keyword == nil || [[record.name lowercaseString] rangeOfString:keyword].location != NSNotFound) {
+			if (keyword == nil || [[record.fullname lowercaseString] rangeOfString:keyword].location != NSNotFound) {
 				
 				// Check if this contacts is a shotvibe member
 				if (record.memberId == 0 && membersOnly) {
 					continue;
 				}
 				
-				NSString *key = [[record.name substringToIndex:1] uppercaseString];
+				NSString *key = [[record.fullname substringToIndex:1] uppercaseString];
 				if (key == nil || [key isEqualToString:@"_"]) {
 					key = @"#";
 				}
