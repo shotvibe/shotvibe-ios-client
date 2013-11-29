@@ -76,7 +76,9 @@
 						firstName = @"";
 						surname = firstName;
 					}
-					NSString *fullname = [NSString stringWithFormat:@"%@%@%@", lastName, lastName.length==0?@"":@" ", firstName];
+					
+					// Make sure the fullname has a minimum length of 1
+					NSString *fullname = [NSString stringWithFormat:@"%@%@%@", lastName, (lastName.length==0 && firstName.length>0)?@"":@" ", firstName];
 					
 					ABMultiValueRef phoneNumbers = ABRecordCopyValue((__bridge ABRecordRef)evaluatedObject, kABPersonPhoneProperty);
 					signed long num = ABMultiValueGetCount(phoneNumbers);
