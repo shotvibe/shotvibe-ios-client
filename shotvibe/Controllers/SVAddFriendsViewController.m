@@ -132,9 +132,10 @@
 	else {
 		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
 		NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section-dif]];
-		if (indexPath.row < sectionRecords.count) {
-			record = sectionRecords[indexPath.row];
+		if (indexPath.row >= sectionRecords.count) {
+			return cell;
 		}
+		record = sectionRecords[indexPath.row];
 	}
 	
     cell.titleLabel.text = record.fullname;
@@ -431,7 +432,7 @@
 	for (SVRecord *record in selectedRecords) {
 		
 		[contactsToInvite addObject:@{
-		 @"phone_number":@"0700000000",// record.phone,
+		 @"phone_number":record.phone,
 		 @"default_country":countryCode,
 		 @"contact_nickname":record.fullname}];
 		
