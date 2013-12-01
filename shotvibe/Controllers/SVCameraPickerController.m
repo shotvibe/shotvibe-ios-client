@@ -130,6 +130,10 @@
     }
 }
 
+- (BOOL)prefersStatusBarHidden {
+	return !doneWithCamera;
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -147,9 +151,9 @@
 }
 
 
-- (void)tap:(UITapGestureRecognizer *)tapGesture {
-	RCLog(@"add tap");
-}
+//- (void)tap:(UITapGestureRecognizer *)tapGesture {
+//	RCLog(@"add tap");
+//}
 //- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 //	RCLog(@"touches began in controller");
 //	[super touchesBegan:touches withEvent:event];
@@ -250,6 +254,12 @@
 
 - (IBAction)done:(id)sender {
 	
+	if (IS_IOS7) {
+		doneWithCamera = YES;
+		[UIView animateWithDuration:0.3 animations:^{
+			[self setNeedsStatusBarAppearanceUpdate];
+		}];
+	}
 	if (self.capturedImages.count > 0) {
 		[self.imagePickerController dismissViewControllerAnimated:YES completion:^{
 			

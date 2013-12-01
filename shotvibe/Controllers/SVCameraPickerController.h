@@ -18,6 +18,7 @@
 @interface SVCameraPickerController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, SVSelectionGridCellDelegate, PhotosQuickViewDelegate> {
 	
 	BOOL isShowingLandscapeView;
+	BOOL doneWithCamera;
 	NSMutableArray *selectedPhotos;
 	UITapGestureRecognizer *tapGesture;
 }
