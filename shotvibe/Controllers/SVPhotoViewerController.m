@@ -175,7 +175,7 @@
 	[photosScrollView removeGestureRecognizer:singleTap];
 	
 	if ( ! navigatingNext) {
-		
+		RCLog(@"viewWillDisappear !navigatingNext");
 		photosScrollView.delegate = nil;
 		[photosScrollView removeFromSuperview];
 		photosScrollView = nil;
@@ -408,7 +408,7 @@
 #pragma mark Tap gestures
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)sender {
-	
+	RCLog(@"single tap");
     if (sender.state == UIGestureRecognizerStateEnded) {
 		if (toolsHidden) {
 			[self setControlsHidden:NO animated:YES permanent:NO];
@@ -680,6 +680,7 @@
 
 - (void)activityDidClose {
 	RCLog(@"activityDidClose");
+	
 	if (activity) {
 		activity.controller = nil;
 		activity.delegate = nil;
@@ -689,7 +690,14 @@
 	butTrash.enabled = YES;
 	butShare.enabled = YES;
 	butEdit.enabled = YES;
-	navigatingNext = NO;
+	
+	// viewdiddisappear is called before activityDidClose and is causing the scrollview to disappear
+	// do not set navigatingNext to NO yet
+	//navigatingNext = NO;
+	
+	if (IS_IOS7) {
+		[self setControlsHidden:YES animated:YES permanent:NO];
+	}
 }
 
 - (void)activityDidStartSharing {

@@ -141,12 +141,13 @@
 
 - (void)closeAndClean:(BOOL)dispatch {
 	RCLog(@"closeAndClean %i", dispatch);
+	
 	__block CGRect rect = self.activityView.frame;
+	rect.origin.y = self.view.frame.size.height;
 	
 	[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-		rect.origin.y = self.view.frame.size.height;
-		self.view.alpha = 0;
 		self.activityView.frame = rect;
+		//self.view.alpha = 0;
 	}
 					 completion:^(BOOL finished) {
 		if (dispatch) {
@@ -155,7 +156,6 @@
 				[self.delegate activityDidClose];
 			}
 		}
-		
 	}];
 }
 
