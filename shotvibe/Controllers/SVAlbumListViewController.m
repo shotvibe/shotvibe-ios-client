@@ -75,7 +75,7 @@
 
     //RCLog(@"##### Initial albumList: %@", albumList);
 	
-	table_content_offset_y = IS_IOS7 ? 44 : 44;
+	table_content_offset_y = IS_IOS7 ? -20 : 44;
 	total_header_h = IS_IOS7 ? 0 : 64;
 	status_bar_h = IS_IOS7 ? 0 : 20;
 	dropdown_origin_y = IS_IOS7 ? (45+44) : (45+44);
@@ -155,7 +155,7 @@
 	[super viewWillAppear:animated];
 	[self.albumManager refreshAlbumList];
 	
-	// Update the cell that was tapped and maybe edited
+	// Update the cell that was last tapped and maybe edited
 	if (tappedCell != nil) {
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 		tappedCell = nil;
@@ -255,16 +255,6 @@
 			}
 			i++;
 		}
-		
-		//		dispatch_async(dispatch_get_main_queue(), ^{
-		//
-		//			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uploaded contacts"
-		//															message:[NSString stringWithFormat:@"uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]]
-		//														   delegate:nil
-		//												  cancelButtonTitle:@"ok"
-		//												  otherButtonTitles: nil];
-		//			[alert show];
-		//		});
 	});
 }
 
