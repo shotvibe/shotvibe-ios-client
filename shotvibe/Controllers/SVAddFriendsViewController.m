@@ -202,7 +202,7 @@
 	[self.searchBar resignFirstResponder];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	tappedIndexPath = indexPath;
-	
+	RCLog(@"-----didSelect %@", tappedIndexPath);
 	SVContactCell *tappedCell = (SVContactCell*)[tableView cellForRowAtIndexPath:indexPath];
 	
 	SVRecord *record = nil;
@@ -229,7 +229,7 @@
 	if (record.invalid) {
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
-														message:NSLocalizedString(@"This user has no mobile phone number, you can't invite him.", @"")
+														message:NSLocalizedString(@"This user does not have a valid phone number, you can't invite him.", @"")
 													   delegate:self
 											  cancelButtonTitle:NSLocalizedString(@"Ok", @"")
 											  otherButtonTitles:nil];
@@ -242,6 +242,7 @@
 	// If yes, remove it
 	RCLogO(selectedRecords);
 	RCLogO(record);
+	RCLog(@"phoneId %lli", record.phoneId);
 	
 	tappedCell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageUnselected":@"imageSelected"];
 	

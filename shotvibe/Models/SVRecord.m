@@ -21,8 +21,12 @@
 	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@"(" withString:@""];
 	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@")" withString:@""];
 	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@" " withString:@""];
+//	RCLogS(phoneNr);
+//	RCLogI(MAX((int)phoneNr.length-7, 0));
 	
-	_phoneId = [phoneNr longLongValue];
+	NSString *lastDigits = phoneNr.length > 0 ? [phoneNr substringFromIndex:MAX((int)phoneNr.length-7, 0)] : phoneNr;
+	
+	_phoneId = [lastDigits longLongValue];
 	
 	if (_phoneId < 1) {
 		self.invalid = YES;
