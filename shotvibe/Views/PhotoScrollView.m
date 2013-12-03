@@ -56,9 +56,6 @@
 
 
 
-
-
-
 - (void)layoutSubviews {
 	[super layoutSubviews];
 	[self centerScrollViewContents];
@@ -71,10 +68,13 @@
 #pragma mark PhotoView delegate
 
 - (void)onPhotoLoadComplete {
-	//[imageView scaleToFitImageSize];
-	imageView.frame = (CGRect){.size=imageView.image.size, .origin=self.frame.origin};
-	RCLog(@"onPhotoLoadComplete %i", self.index);
+	
+	o_size = imageView.image.size;
+	imageView.frame = (CGRect){.size=o_size, .origin=self.frame.origin};
+	self.contentSize = o_size;
+	
 	[self setMaxMinZoomScalesForCurrentBounds];
+	loaded = YES;
 }
 
 
@@ -91,12 +91,8 @@
 
 - (void)setMaxMinZoomScalesForCurrentBounds {
 	
-	CGSize imageSize = imageView.frame.size;
-	self.contentSize = imageSize;
-	
-    CGRect scrollViewFrame = self.frame;
-    CGFloat scaleWidth = scrollViewFrame.size.width / self.contentSize.width;
-    CGFloat scaleHeight = scrollViewFrame.size.height / self.contentSize.height;
+    CGFloat scaleWidth = self.frame.size.width / o_size.width;
+    CGFloat scaleHeight = self.frame.size.height / o_size.height;
     CGFloat minScale = MIN(scaleWidth, scaleHeight);
     self.minimumZoomScale = minScale;
     self.maximumZoomScale = 1.0f;

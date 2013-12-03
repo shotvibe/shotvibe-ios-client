@@ -149,8 +149,8 @@
 	
 	[super viewDidAppear:animated];
 	
-	//[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
-	//[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
+	[self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
+	[self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -324,35 +324,10 @@
 	return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-
-    int w = self.view.frame.size.width;
-	int h = self.view.frame.size.height;
-	int i = 0;
-	PhotoScrollView *cachedImage;
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 	
-	for (id photo in cache) {
-		
-		if ([photo isKindOfClass:[PhotoScrollView class]]) {
-			
-			cachedImage = photo;
-			cachedImage.frame = CGRectMake((w+GAP_X)*i, 0, w, h);
-			[cachedImage setMaxMinZoomScalesForCurrentBounds];
-			cachedImage.hidden = NO;
-			
-			if (cachedImage.index == self.index) {
-				[self fitScrollViewToOrientation];
-				[photosScrollView addSubview:cachedImage];
-			}
-		}
-		i++;
-	}
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	
     __block int w = self.view.frame.size.height;
 	__block int h = self.view.frame.size.width;
 	int i = 0;
@@ -384,8 +359,31 @@
 		}
 		i++;
 	}
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	
-	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+	
+	int i = 0;
+	PhotoScrollView *cachedImage;
+	
+	for (id photo in cache) {
+		
+		if ([photo isKindOfClass:[PhotoScrollView class]]) {
+			
+			cachedImage = photo;
+			cachedImage.frame = [self rectForPhotoIndex:i];
+			[cachedImage setMaxMinZoomScalesForCurrentBounds];
+			cachedImage.hidden = NO;
+			
+			if (cachedImage.index == self.index) {
+				[self fitScrollViewToOrientation];
+				[photosScrollView addSubview:cachedImage];
+			}
+		}
+		i++;
+	}
 }
 
 
@@ -696,7 +694,7 @@
 	//navigatingNext = NO;
 	
 	if (IS_IOS7) {
-		[self setControlsHidden:YES animated:YES permanent:NO];
+		[self setControlsHidden:NO animated:YES permanent:NO];
 	}
 }
 

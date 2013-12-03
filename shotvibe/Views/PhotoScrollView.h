@@ -12,6 +12,8 @@
 @interface PhotoScrollView : UIScrollView <UIScrollViewDelegate> {
 	
 	PhotoImageView *imageView;
+	BOOL loaded;
+	CGSize o_size;
 }
 
 // PhotoView API

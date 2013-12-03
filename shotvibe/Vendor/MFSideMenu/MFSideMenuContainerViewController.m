@@ -190,21 +190,21 @@ typedef enum {
     return UIInterfaceOrientationPortrait;
 }
 
--(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
-    [self.contentShadow shadowedViewWillRotate];
-    [self.leftMenuShadow shadowedViewWillRotate];
-    [self.rightMenuShadow shadowedViewWillRotate];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    
-    [self.contentShadow shadowedViewDidRotate];
-    [self.leftMenuShadow shadowedViewDidRotate];
-    [self.rightMenuShadow shadowedViewDidRotate];
-}
+//-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+//    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+//    
+//    [self.contentShadow shadowedViewWillRotate];
+//    [self.leftMenuShadow shadowedViewWillRotate];
+//    [self.rightMenuShadow shadowedViewWillRotate];
+//}
+//
+//- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+//    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+//    
+//    [self.contentShadow shadowedViewDidRotate];
+//    [self.leftMenuShadow shadowedViewDidRotate];
+//    [self.rightMenuShadow shadowedViewDidRotate];
+//}
 
 
 #pragma mark -
