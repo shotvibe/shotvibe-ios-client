@@ -447,6 +447,7 @@
 		2849A89217EAFE400076AFBA /* searchFieldIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A88C17EAFE400076AFBA /* searchFieldIcon@2x.png */; };
 		2851FAA4183793F400C094AB /* SVImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2851FAA3183793F400C094AB /* SVImagePickerController.m */; };
 		2851FAA71838171200C094AB /* UIImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = 2851FAA61838171200C094AB /* UIImage+Crop.m */; };
+		285C90D518507CF3009C1F6C /* icon_120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = 285C90D418507CF3009C1F6C /* icon_120x120.png */; };
 		285EB93F17F55BDA00A33E5B /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB93C17F55BDA00A33E5B /* libAviarySDK.a */; };
 		285EB94017F55BDB00A33E5B /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 285EB93E17F55BDA00A33E5B /* AviarySDKResources.bundle */; };
 		285EB94217F55C8200A33E5B /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94117F55C8100A33E5B /* Accelerate.framework */; };
@@ -463,8 +464,8 @@
 		2884A80E181D544D006462BE /* SVProfilePicActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 2884A80D181D544D006462BE /* SVProfilePicActivity.m */; };
 		2884A811181D7D7F006462BE /* searchFieldDarkBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884A80F181D7D7F006462BE /* searchFieldDarkBg.png */; };
 		2884A812181D7D7F006462BE /* searchFieldDarkBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884A810181D7D7F006462BE /* searchFieldDarkBg@2x.png */; };
-		2884E86117A24CFE00B382D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E85F17A24CFE00B382D9 /* Icon.png */; };
-		2884E86217A24CFE00B382D9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86017A24CFE00B382D9 /* Icon@2x.png */; };
+		2884E86117A24CFE00B382D9 /* icon_57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E85F17A24CFE00B382D9 /* icon_57x57.png */; };
+		2884E86217A24CFE00B382D9 /* icon_114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86017A24CFE00B382D9 /* icon_114x114.png */; };
 		2884E86617A24E7F00B382D9 /* SegmentButtonOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */; };
 		2884E86717A24E7F00B382D9 /* SegmentButtonOutline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2884E86517A24E7F00B382D9 /* SegmentButtonOutline@2x.png */; };
 		2884ED101830CB430069E202 /* RegistrationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2884ED0F1830CB430069E202 /* RegistrationInfo.m */; };
@@ -1115,6 +1116,7 @@
 		2851FAA3183793F400C094AB /* SVImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVImagePickerController.m; sourceTree = "<group>"; };
 		2851FAA51838171200C094AB /* UIImage+Crop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Crop.h"; sourceTree = "<group>"; };
 		2851FAA61838171200C094AB /* UIImage+Crop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Crop.m"; sourceTree = "<group>"; };
+		285C90D418507CF3009C1F6C /* icon_120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_120x120.png; sourceTree = "<group>"; };
 		285EB93417F55BDA00A33E5B /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
 		285EB93517F55BDA00A33E5B /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
 		285EB93617F55BDA00A33E5B /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
@@ -1140,8 +1142,8 @@
 		2884A80D181D544D006462BE /* SVProfilePicActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProfilePicActivity.m; sourceTree = "<group>"; };
 		2884A80F181D7D7F006462BE /* searchFieldDarkBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchFieldDarkBg.png; sourceTree = "<group>"; };
 		2884A810181D7D7F006462BE /* searchFieldDarkBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchFieldDarkBg@2x.png"; sourceTree = "<group>"; };
-		2884E85F17A24CFE00B382D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		2884E86017A24CFE00B382D9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		2884E85F17A24CFE00B382D9 /* icon_57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_57x57.png; sourceTree = "<group>"; };
+		2884E86017A24CFE00B382D9 /* icon_114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_114x114.png; sourceTree = "<group>"; };
 		2884E86417A24E7F00B382D9 /* SegmentButtonOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SegmentButtonOutline.png; sourceTree = "<group>"; };
 		2884E86517A24E7F00B382D9 /* SegmentButtonOutline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SegmentButtonOutline@2x.png"; sourceTree = "<group>"; };
 		2884ED0E1830CB430069E202 /* RegistrationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationInfo.h; sourceTree = "<group>"; };
@@ -2343,8 +2345,9 @@
 				AA58FB0C16C224E800C49E02 /* Default.png */,
 				AA58FB0E16C224E800C49E02 /* Default@2x.png */,
 				AA58FB1016C224E800C49E02 /* Default-568h@2x.png */,
-				2884E85F17A24CFE00B382D9 /* Icon.png */,
-				2884E86017A24CFE00B382D9 /* Icon@2x.png */,
+				2884E85F17A24CFE00B382D9 /* icon_57x57.png */,
+				2884E86017A24CFE00B382D9 /* icon_114x114.png */,
+				285C90D418507CF3009C1F6C /* icon_120x120.png */,
 				AAEB9CDD171648A000439939 /* Config.xcconfig */,
 			);
 			name = "Supporting Files";
@@ -2706,6 +2709,7 @@
 				04C406211730303600973BC0 /* BT.png in Resources */,
 				04C406231730303600973BC0 /* BV.png in Resources */,
 				04C406251730303600973BC0 /* BW.png in Resources */,
+				285C90D518507CF3009C1F6C /* icon_120x120.png in Resources */,
 				04C406271730303600973BC0 /* BY.png in Resources */,
 				04C406291730303600973BC0 /* BZ.png in Resources */,
 				04C4062B1730303600973BC0 /* CA.png in Resources */,
@@ -2946,8 +2950,8 @@
 				2897384517A2422F003B18D3 /* albumNewIcon.png in Resources */,
 				2897384617A2422F003B18D3 /* albumNewIcon@2x.png in Resources */,
 				2897384717A2422F003B18D3 /* albumTakePicture@2x.png in Resources */,
-				2884E86117A24CFE00B382D9 /* Icon.png in Resources */,
-				2884E86217A24CFE00B382D9 /* Icon@2x.png in Resources */,
+				2884E86117A24CFE00B382D9 /* icon_57x57.png in Resources */,
+				2884E86217A24CFE00B382D9 /* icon_114x114.png in Resources */,
 				2884E86617A24E7F00B382D9 /* SegmentButtonOutline.png in Resources */,
 				2884E86717A24E7F00B382D9 /* SegmentButtonOutline@2x.png in Resources */,
 				28CFCC7F17A2C247001511EF /* SegmentSeparator.png in Resources */,
@@ -3136,7 +3140,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/ruby;
-			shellScript = "#!/usr/bin/ruby\n# xcode-git-cfbundleversion.rb\n# Update CFBundleVersion in Info.plist file with short Git revision string\n# http://github.com/guicocoa/xcode-git-cfbundleversion/\n#\n# This is based on\n# http://github.com/digdog/xcode-git-cfbundleversion/\n# http://github.com/jsallis/xcode-git-versioner\n# http://github.com/juretta/iphone-project-tools/tree/v1.0.3\n\nrequire 'rubygems'\nbegin\nrequire 'Plist'\nrescue LoadError => e\nputs \"You need to install the 'Plist' gem: [sudo] gem install plist\"\nexit 1\nend\n\nraise \"Must be run from Xcode\" unless ENV['XCODE_VERSION_ACTUAL']\n\nGIT = \"/usr/bin/git\"\nPRODUCT_PLIST = File.join(ENV['BUILT_PRODUCTS_DIR'], ENV['INFOPLIST_PATH'])\nDSYM_PLIST = File.join(ENV['DWARF_DSYM_FOLDER_PATH'], ENV['DWARF_DSYM_FILE_NAME'], \"Contents/Info.plist\")\nREVISION = `#{GIT} log --pretty=format:'' | wc -l`.scan(/\\d/).to_s\nBUNDLE_VERSION = \"CFBundleVersion\"\n\nif File.file?(PRODUCT_PLIST) and REVISION\n\n# update product plist\n`/usr/bin/plutil -convert xml1 \\\"#{PRODUCT_PLIST}\\\"`\ninfo = Plist::parse_xml(PRODUCT_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(PRODUCT_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{PRODUCT_PLIST}\\\"`\n\n# update dSYM plist\n`/usr/bin/plutil -convert xml1 \\\"#{DSYM_PLIST}\\\"`\ninfo = Plist::parse_xml(DSYM_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(DSYM_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{DSYM_PLIST}\\\"`\n\n# log\nputs \"updated #{BUNDLE_VERSION} to #{REVISION}\"\n\nend";
+			shellScript = "#!/usr/bin/ruby\n# xcode-git-cfbundleversion.rb\n# Update CFBundleVersion in Info.plist file with short Git revision string\n# http://github.com/guicocoa/xcode-git-cfbundleversion/\n#\n# This is based on\n# http://github.com/digdog/xcode-git-cfbundleversion/\n# http://github.com/jsallis/xcode-git-versioner\n# http://github.com/juretta/iphone-project-tools/tree/v1.0.3\n\nrequire 'rubygems'\nbegin\nrequire 'Plist'\nrescue LoadError => e\nputs \"You need to install the 'Plist' gem: [sudo] gem install plist\"\nexit 1\nend\n\nraise \"Must be run from Xcode\" unless ENV['XCODE_VERSION_ACTUAL']\n\nGIT = \"/usr/bin/git\"\nPRODUCT_PLIST = File.join(ENV['BUILT_PRODUCTS_DIR'], ENV['INFOPLIST_PATH'])\nDSYM_PLIST = File.join(ENV['DWARF_DSYM_FOLDER_PATH'], ENV['DWARF_DSYM_FILE_NAME'], \"Contents/Info.plist\")\nREVISION = `#{GIT} log --pretty=format:'' | wc -l`.scan(/\\d/).to_s\nREVISION = '827'\nBUNDLE_VERSION = \"CFBundleVersion\"\n\nif File.file?(PRODUCT_PLIST) and REVISION\n\n# update product plist\n`/usr/bin/plutil -convert xml1 \\\"#{PRODUCT_PLIST}\\\"`\ninfo = Plist::parse_xml(PRODUCT_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(PRODUCT_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{PRODUCT_PLIST}\\\"`\n\n# update dSYM plist\n`/usr/bin/plutil -convert xml1 \\\"#{DSYM_PLIST}\\\"`\ninfo = Plist::parse_xml(DSYM_PLIST)\nif info\ninfo[BUNDLE_VERSION] = REVISION\ninfo.save_plist(DSYM_PLIST)\nend\n`/usr/bin/plutil -convert binary1 \\\"#{DSYM_PLIST}\\\"`\n\n# log\nputs \"updated #{BUNDLE_VERSION} to #{REVISION}\"\n\nend";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3349,8 +3353,8 @@
 		3B23863317AD4FAF00D5BA8D /* AdHoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -3368,6 +3372,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = ShotVibe;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3462,7 +3467,7 @@
 		AA58FB3016C224E800C49E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3484,6 +3489,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = ShotVibe;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
@@ -3493,8 +3499,8 @@
 		AA58FB3116C224E800C49E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -3512,7 +3518,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = ShotVibe;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4C62F609-A0FC-4DB2-8490-CB88DA12E661";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
