@@ -11,7 +11,6 @@
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 #import "AlbumUser.h"
-#import "SVAlbumNotificationSettingsViewController.h"
 #import "SVDefines.h"
 #import "SVSettingsAboutViewController.h"
 #import "SVProfileViewController.h"
