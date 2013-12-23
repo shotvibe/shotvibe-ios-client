@@ -2560,6 +2560,7 @@
 				AA58FAF416C224E800C49E02 /* Frameworks */,
 				AA58FAF516C224E800C49E02 /* Resources */,
 				3B1E4D2A17AD6C8800CACE80 /* ShellScript */,
+				66D58347186858C200EAC842 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3114,6 +3115,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    ./Crashlytics.framework/run 7f25f8f82f6578b40464674ed500ef0c60435027\nfi";
+		};
+		66D58347186858C200EAC842 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" == \"Debug\" ]; then\n    ./tools/style_check_xcode.sh\nfi";
 		};
 		AA58FB1B16C224E800C49E02 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
