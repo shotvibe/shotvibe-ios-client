@@ -318,10 +318,6 @@
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
 		280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */; };
 		280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */; };
-		2849A74317D64E4E0076AFBA /* RCTableImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A74217D64E4E0076AFBA /* RCTableImageViewCell.m */; };
-		2849A74A17D66ECF0076AFBA /* RCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A74517D66ECF0076AFBA /* RCImageView.m */; };
-		2849A74B17D66ECF0076AFBA /* RCScrollImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A74717D66ECF0076AFBA /* RCScrollImageView.m */; };
-		2849A74C17D66ECF0076AFBA /* RCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2849A74917D66ECF0076AFBA /* RCScrollView.m */; };
 		2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2849A74D17D7111A0076AFBA /* Social.framework */; };
 		2849A75817D758410076AFBA /* IconFacebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A75417D758410076AFBA /* IconFacebook@2x.png */; };
 		2849A75917D758410076AFBA /* IconFlickr@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A75517D758410076AFBA /* IconFlickr@2x.png */; };
@@ -452,7 +448,6 @@
 		2897384717A2422F003B18D3 /* albumTakePicture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2897384317A2422F003B18D3 /* albumTakePicture@2x.png */; };
 		28B30F911805BB5F005C50A4 /* IconCalendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30F8F1805BB5F005C50A4 /* IconCalendar.png */; };
 		28B30F921805BB5F005C50A4 /* IconCalendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30F901805BB5F005C50A4 /* IconCalendar@2x.png */; };
-		28B30F981805E56D005C50A4 /* RCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 28B30F971805E56D005C50A4 /* RCLog.m */; };
 		28B30FA31807EE1E005C50A4 /* SwipeCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30F9F1807EE1E005C50A4 /* SwipeCamera.png */; };
 		28B30FA41807EE1E005C50A4 /* SwipeCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30FA01807EE1E005C50A4 /* SwipeCamera@2x.png */; };
 		28B30FA51807EE1E005C50A4 /* SwipePicker.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B30FA11807EE1E005C50A4 /* SwipePicker.png */; };
@@ -589,6 +584,11 @@
 		66278D161867CAD500D23F34 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66278D151867CAD500D23F34 /* MainStoryboard.storyboard */; };
 		66278D201867CDC100D23F34 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66278D1F1867CDC100D23F34 /* libAviarySDK.a */; };
 		66278D221867CDEC00D23F34 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */; };
+		66D5833C1867D66B00EAC842 /* RCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583331867D66B00EAC842 /* RCImageView.m */; };
+		66D5833D1867D66B00EAC842 /* RCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583351867D66B00EAC842 /* RCLog.m */; };
+		66D5833E1867D66B00EAC842 /* RCScrollImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583371867D66B00EAC842 /* RCScrollImageView.m */; };
+		66D5833F1867D66B00EAC842 /* RCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583391867D66B00EAC842 /* RCScrollView.m */; };
+		66D583401867D66B00EAC842 /* RCTableImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D5833B1867D66B00EAC842 /* RCTableImageViewCell.m */; };
 		AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234837177AA3F600D55918 /* AFHTTPClient.m */; };
 		AA23484B177AA3F600D55918 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234839177AA3F600D55918 /* AFHTTPRequestOperation.m */; };
 		AA23484D177AA3F600D55918 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA23483B177AA3F600D55918 /* AFImageRequestOperation.m */; };
@@ -950,14 +950,6 @@
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
-		2849A74117D64E4E0076AFBA /* RCTableImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTableImageViewCell.h; path = IMAGIN/RCTableImageViewCell.h; sourceTree = "<group>"; };
-		2849A74217D64E4E0076AFBA /* RCTableImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTableImageViewCell.m; path = IMAGIN/RCTableImageViewCell.m; sourceTree = "<group>"; };
-		2849A74417D66ECF0076AFBA /* RCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageView.h; path = IMAGIN/RCImageView.h; sourceTree = "<group>"; };
-		2849A74517D66ECF0076AFBA /* RCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageView.m; path = IMAGIN/RCImageView.m; sourceTree = "<group>"; };
-		2849A74617D66ECF0076AFBA /* RCScrollImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCScrollImageView.h; path = IMAGIN/RCScrollImageView.h; sourceTree = "<group>"; };
-		2849A74717D66ECF0076AFBA /* RCScrollImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCScrollImageView.m; path = IMAGIN/RCScrollImageView.m; sourceTree = "<group>"; };
-		2849A74817D66ECF0076AFBA /* RCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCScrollView.h; path = IMAGIN/RCScrollView.h; sourceTree = "<group>"; };
-		2849A74917D66ECF0076AFBA /* RCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCScrollView.m; path = IMAGIN/RCScrollView.m; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		2849A75417D758410076AFBA /* IconFacebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IconFacebook@2x.png"; path = "Activity/IconFacebook@2x.png"; sourceTree = "<group>"; };
 		2849A75517D758410076AFBA /* IconFlickr@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IconFlickr@2x.png"; path = "Activity/IconFlickr@2x.png"; sourceTree = "<group>"; };
@@ -1092,8 +1084,6 @@
 		2897384317A2422F003B18D3 /* albumTakePicture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumTakePicture@2x.png"; sourceTree = "<group>"; };
 		28B30F8F1805BB5F005C50A4 /* IconCalendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconCalendar.png; sourceTree = "<group>"; };
 		28B30F901805BB5F005C50A4 /* IconCalendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconCalendar@2x.png"; sourceTree = "<group>"; };
-		28B30F961805E56D005C50A4 /* RCLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLog.h; sourceTree = "<group>"; };
-		28B30F971805E56D005C50A4 /* RCLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLog.m; sourceTree = "<group>"; };
 		28B30F9F1807EE1E005C50A4 /* SwipeCamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SwipeCamera.png; sourceTree = "<group>"; };
 		28B30FA01807EE1E005C50A4 /* SwipeCamera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SwipeCamera@2x.png"; sourceTree = "<group>"; };
 		28B30FA11807EE1E005C50A4 /* SwipePicker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SwipePicker.png; sourceTree = "<group>"; };
@@ -1341,6 +1331,16 @@
 		66278D1E1867CD9B00D23F34 /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPhotoEditorSession.h; path = shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorSession.h; sourceTree = SOURCE_ROOT; };
 		66278D1F1867CDC100D23F34 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAviarySDK.a; path = shotvibe/Vendor/AviarySDK/libAviarySDK.a; sourceTree = SOURCE_ROOT; };
 		66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AviarySDKResources.bundle; path = shotvibe/Vendor/AviarySDK/Resources/AviarySDKResources.bundle; sourceTree = SOURCE_ROOT; };
+		66D583321867D66B00EAC842 /* RCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageView.h; path = Ralcr/RCImageView.h; sourceTree = "<group>"; };
+		66D583331867D66B00EAC842 /* RCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageView.m; path = Ralcr/RCImageView.m; sourceTree = "<group>"; };
+		66D583341867D66B00EAC842 /* RCLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCLog.h; path = Ralcr/RCLog.h; sourceTree = "<group>"; };
+		66D583351867D66B00EAC842 /* RCLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCLog.m; path = Ralcr/RCLog.m; sourceTree = "<group>"; };
+		66D583361867D66B00EAC842 /* RCScrollImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCScrollImageView.h; path = Ralcr/RCScrollImageView.h; sourceTree = "<group>"; };
+		66D583371867D66B00EAC842 /* RCScrollImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCScrollImageView.m; path = Ralcr/RCScrollImageView.m; sourceTree = "<group>"; };
+		66D583381867D66B00EAC842 /* RCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCScrollView.h; path = Ralcr/RCScrollView.h; sourceTree = "<group>"; };
+		66D583391867D66B00EAC842 /* RCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCScrollView.m; path = Ralcr/RCScrollView.m; sourceTree = "<group>"; };
+		66D5833A1867D66B00EAC842 /* RCTableImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTableImageViewCell.h; path = Ralcr/RCTableImageViewCell.h; sourceTree = "<group>"; };
+		66D5833B1867D66B00EAC842 /* RCTableImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTableImageViewCell.m; path = Ralcr/RCTableImageViewCell.m; sourceTree = "<group>"; };
 		AA234836177AA3F600D55918 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		AA234837177AA3F600D55918 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		AA234838177AA3F600D55918 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -1805,16 +1805,16 @@
 		2849A74017D5FEF60076AFBA /* Ralcr */ = {
 			isa = PBXGroup;
 			children = (
-				28B30F961805E56D005C50A4 /* RCLog.h */,
-				28B30F971805E56D005C50A4 /* RCLog.m */,
-				2849A74417D66ECF0076AFBA /* RCImageView.h */,
-				2849A74517D66ECF0076AFBA /* RCImageView.m */,
-				2849A74617D66ECF0076AFBA /* RCScrollImageView.h */,
-				2849A74717D66ECF0076AFBA /* RCScrollImageView.m */,
-				2849A74817D66ECF0076AFBA /* RCScrollView.h */,
-				2849A74917D66ECF0076AFBA /* RCScrollView.m */,
-				2849A74117D64E4E0076AFBA /* RCTableImageViewCell.h */,
-				2849A74217D64E4E0076AFBA /* RCTableImageViewCell.m */,
+				66D583341867D66B00EAC842 /* RCLog.h */,
+				66D583351867D66B00EAC842 /* RCLog.m */,
+				66D583321867D66B00EAC842 /* RCImageView.h */,
+				66D583331867D66B00EAC842 /* RCImageView.m */,
+				66D583361867D66B00EAC842 /* RCScrollImageView.h */,
+				66D583371867D66B00EAC842 /* RCScrollImageView.m */,
+				66D583381867D66B00EAC842 /* RCScrollView.h */,
+				66D583391867D66B00EAC842 /* RCScrollView.m */,
+				66D5833A1867D66B00EAC842 /* RCTableImageViewCell.h */,
+				66D5833B1867D66B00EAC842 /* RCTableImageViewCell.m */,
 			);
 			name = Ralcr;
 			sourceTree = "<group>";
@@ -3178,6 +3178,7 @@
 				66278C631867C17800D23F34 /* SVSidebarAlbumMemberCell.m in Sources */,
 				66278C8E1867C38300D23F34 /* SVAlbumGridViewCell.m in Sources */,
 				04C404E21730301500973BC0 /* CountryPicker.m in Sources */,
+				66D5833C1867D66B00EAC842 /* RCImageView.m in Sources */,
 				AA23484D177AA3F600D55918 /* AFImageRequestOperation.m in Sources */,
 				2884ED101830CB430069E202 /* RegistrationInfo.m in Sources */,
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
@@ -3188,6 +3189,7 @@
 				66278CC71867C57300D23F34 /* SVWebViewController.m in Sources */,
 				66278D081867C94900D23F34 /* PhotoFilesManager.m in Sources */,
 				28D41F43182A21BA00A31C76 /* SVRecord.m in Sources */,
+				66D5833F1867D66B00EAC842 /* RCScrollView.m in Sources */,
 				66278C911867C38300D23F34 /* SVAlbumListViewController.m in Sources */,
 				66278CC31867C57300D23F34 /* SVProfilePicViewController.m in Sources */,
 				66278D091867C94900D23F34 /* PhotoSize.m in Sources */,
@@ -3220,7 +3222,9 @@
 				3B87E68F17C99941006483C9 /* AlbumUploadingPhoto.m in Sources */,
 				66278CE81867C62300D23F34 /* SVProfilePicActivity.m in Sources */,
 				66278CE01867C62300D23F34 /* SVActivityButton.m in Sources */,
+				66D583401867D66B00EAC842 /* RCTableImageViewCell.m in Sources */,
 				66278CE51867C62300D23F34 /* SVLinkActivity.m in Sources */,
+				66D5833D1867D66B00EAC842 /* RCLog.m in Sources */,
 				66278D071867C94900D23F34 /* PhotoBitmap.m in Sources */,
 				66278C901867C38300D23F34 /* SVAlbumListViewCell.m in Sources */,
 				66278C601867C17800D23F34 /* SVSidebarAlbumManagementActivityCell.m in Sources */,
@@ -3237,6 +3241,7 @@
 				3B3AD15817CB4A9C004D24A9 /* SDWebImageDownloader.m in Sources */,
 				3B3AD15917CB4A9C004D24A9 /* SDWebImageDownloaderOperation.m in Sources */,
 				3B3AD15A17CB4A9C004D24A9 /* SDWebImageManager.m in Sources */,
+				66D5833E1867D66B00EAC842 /* RCScrollImageView.m in Sources */,
 				3B3AD15B17CB4A9C004D24A9 /* SDWebImagePrefetcher.m in Sources */,
 				3B3AD15C17CB4A9C004D24A9 /* UIButton+WebCache.m in Sources */,
 				3B3AD15D17CB4A9C004D24A9 /* UIImage+GIF.m in Sources */,
@@ -3252,12 +3257,8 @@
 				66278D0A1867C94900D23F34 /* PhotoUploadManager.m in Sources */,
 				66278CE41867C62300D23F34 /* SVFacebookActivity.m in Sources */,
 				28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */,
-				2849A74317D64E4E0076AFBA /* RCTableImageViewCell.m in Sources */,
-				2849A74A17D66ECF0076AFBA /* RCImageView.m in Sources */,
-				2849A74B17D66ECF0076AFBA /* RCScrollImageView.m in Sources */,
 				66278C8F1867C38300D23F34 /* SVAlbumGridViewController.m in Sources */,
 				66278CC11867C57300D23F34 /* SVImageCropViewController.m in Sources */,
-				2849A74C17D66ECF0076AFBA /* RCScrollView.m in Sources */,
 				66278CEA1867C62300D23F34 /* SVTwitterActivity.m in Sources */,
 				2849A80D17DDE61A0076AFBA /* UIImage+Scale.m in Sources */,
 				66278C8A1867C38300D23F34 /* PhotoImageView.m in Sources */,
@@ -3265,7 +3266,6 @@
 				28FC2CA917FE8EE400AE24C3 /* MPNotificationView.m in Sources */,
 				66278C721867C2AD00D23F34 /* SVCountriesViewController.m in Sources */,
 				28FC2CAD17FE8F2600AE24C3 /* OBGradientView.m in Sources */,
-				28B30F981805E56D005C50A4 /* RCLog.m in Sources */,
 				66278D131867CA1400D23F34 /* SVAddressBook.m in Sources */,
 				66278C751867C2AD00D23F34 /* SVRegistrationViewController.m in Sources */,
 				66278D0E1867C94900D23F34 /* UserSettings.m in Sources */,
