@@ -1572,15 +1572,37 @@ to register this device</string>
                         <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="8mo-5p-uWH">
-                            <rect key="frame" x="0.0" y="132" width="320" height="137"/>
+                            <rect key="frame" x="0.0" y="240" width="320" height="137"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <sections>
                             <tableViewSection id="K5n-vQ-FiY">
                                 <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="iEb-R6-eLo" style="IBUITableViewCellStyleDefault" id="KyB-X8-TBS">
+                                        <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KyB-X8-TBS" id="i6P-pL-ypF">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="version" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iEb-R6-eLo">
+                                                    <rect key="frame" x="20" y="0.0" width="285" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                    <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" id="m8f-Uc-nHa" userLabel="Separator">
+                                                    <rect key="frame" x="0.0" y="43" width="353" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="541-yf-u2C" imageView="8uv-SL-vE6" style="IBUITableViewCellStyleDefault" id="qZs-M3-pmn">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="108" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qZs-M3-pmn" id="yc1-dC-9Y6">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
@@ -1609,7 +1631,7 @@ to register this device</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="D5k-Uo-AnI" imageView="6vL-Cp-auZ" style="IBUITableViewCellStyleDefault" id="fXY-Pm-woh">
-                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="152" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fXY-Pm-woh" id="kes-e4-5ge">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
@@ -1638,7 +1660,7 @@ to register this device</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="I2f-D1-7hT" imageView="WVb-FU-clG" style="IBUITableViewCellStyleDefault" id="vIc-Zx-tm8">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="196" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vIc-Zx-tm8" id="ZV4-yL-hFQ">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
@@ -1677,6 +1699,9 @@ to register this device</string>
                     <navigationItem key="navigationItem" title="General Notification Settings" id="bDo-Ad-Gon">
                         <barButtonItem key="backBarButtonItem" title="Back" id="462-Oc-zz9"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="versionLabel" destination="iEb-R6-eLo" id="X3s-KX-gpD"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CR7-dc-E2E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
