@@ -1,0 +1,16 @@
+uncrustify
+
+    This is a compiled executable from:
+
+    https://github.com/bengardner/uncrustify
+
+    git commit: 8039738f68530f36a4edbaa254b2bdc0824ae594
+
+
+diffstyle.py
+
+    This is a script taken from:
+
+    https://github.com/bitc/diffstyle
+
+    git commit: 4f7ffe230dbfb8df4ed097f7cb5ecd8a39632dd8
