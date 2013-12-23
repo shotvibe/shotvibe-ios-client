@@ -414,8 +414,6 @@
 		2849A89217EAFE400076AFBA /* searchFieldIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2849A88C17EAFE400076AFBA /* searchFieldIcon@2x.png */; };
 		2851FAA71838171200C094AB /* UIImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = 2851FAA61838171200C094AB /* UIImage+Crop.m */; };
 		285C90D518507CF3009C1F6C /* icon_120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = 285C90D418507CF3009C1F6C /* icon_120x120.png */; };
-		285EB93F17F55BDA00A33E5B /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB93C17F55BDA00A33E5B /* libAviarySDK.a */; };
-		285EB94017F55BDB00A33E5B /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 285EB93E17F55BDA00A33E5B /* AviarySDKResources.bundle */; };
 		285EB94217F55C8200A33E5B /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94117F55C8100A33E5B /* Accelerate.framework */; };
 		285EB94417F55C8C00A33E5B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94317F55C8C00A33E5B /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		285EB94617F55CA500A33E5B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285EB94517F55CA500A33E5B /* CoreText.framework */; };
@@ -589,6 +587,8 @@
 		66278D131867CA1400D23F34 /* SVAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D101867CA1400D23F34 /* SVAddressBook.m */; };
 		66278D141867CA1400D23F34 /* SVAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D121867CA1400D23F34 /* SVAssets.m */; };
 		66278D161867CAD500D23F34 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66278D151867CAD500D23F34 /* MainStoryboard.storyboard */; };
+		66278D201867CDC100D23F34 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66278D1F1867CDC100D23F34 /* libAviarySDK.a */; };
+		66278D221867CDEC00D23F34 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */; };
 		AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234837177AA3F600D55918 /* AFHTTPClient.m */; };
 		AA23484B177AA3F600D55918 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234839177AA3F600D55918 /* AFHTTPRequestOperation.m */; };
 		AA23484D177AA3F600D55918 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA23483B177AA3F600D55918 /* AFImageRequestOperation.m */; };
@@ -1052,16 +1052,6 @@
 		2851FAA51838171200C094AB /* UIImage+Crop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Crop.h"; sourceTree = "<group>"; };
 		2851FAA61838171200C094AB /* UIImage+Crop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Crop.m"; sourceTree = "<group>"; };
 		285C90D418507CF3009C1F6C /* icon_120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_120x120.png; sourceTree = "<group>"; };
-		285EB93417F55BDA00A33E5B /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
-		285EB93517F55BDA00A33E5B /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
-		285EB93617F55BDA00A33E5B /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
-		285EB93717F55BDA00A33E5B /* AFPhotoEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorController.h; sourceTree = "<group>"; };
-		285EB93817F55BDA00A33E5B /* AFPhotoEditorControllerOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorControllerOptions.h; sourceTree = "<group>"; };
-		285EB93917F55BDA00A33E5B /* AFPhotoEditorCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorCustomization.h; sourceTree = "<group>"; };
-		285EB93A17F55BDA00A33E5B /* AFPhotoEditorProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorProduct.h; sourceTree = "<group>"; };
-		285EB93B17F55BDA00A33E5B /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorSession.h; sourceTree = "<group>"; };
-		285EB93C17F55BDA00A33E5B /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAviarySDK.a; sourceTree = "<group>"; };
-		285EB93E17F55BDA00A33E5B /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
 		285EB94117F55C8100A33E5B /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		285EB94317F55C8C00A33E5B /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		285EB94517F55CA500A33E5B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -1341,6 +1331,16 @@
 		66278D111867CA1400D23F34 /* SVAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAssets.h; sourceTree = "<group>"; };
 		66278D121867CA1400D23F34 /* SVAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAssets.m; sourceTree = "<group>"; };
 		66278D151867CAD500D23F34 /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MainStoryboard.storyboard; path = Views/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		66278D171867CD9B00D23F34 /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFOpenGLManager.h; path = shotvibe/Vendor/AviarySDK/Headers/AFOpenGLManager.h; sourceTree = SOURCE_ROOT; };
+		66278D181867CD9B00D23F34 /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPhotoEditorContext.h; path = shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorContext.h; sourceTree = SOURCE_ROOT; };
+		66278D191867CD9B00D23F34 /* AFPhotoEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPhotoEditorController.h; path = shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorController.h; sourceTree = SOURCE_ROOT; };
+		66278D1A1867CD9B00D23F34 /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AFPhotoEditorController+InAppPurchase.h"; path = "shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorController+InAppPurchase.h"; sourceTree = SOURCE_ROOT; };
+		66278D1B1867CD9B00D23F34 /* AFPhotoEditorControllerOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPhotoEditorControllerOptions.h; path = shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorControllerOptions.h; sourceTree = SOURCE_ROOT; };
+		66278D1C1867CD9B00D23F34 /* AFPhotoEditorCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPhotoEditorCustomization.h; path = shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorCustomization.h; sourceTree = SOURCE_ROOT; };
+		66278D1D1867CD9B00D23F34 /* AFPhotoEditorProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPhotoEditorProduct.h; path = shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorProduct.h; sourceTree = SOURCE_ROOT; };
+		66278D1E1867CD9B00D23F34 /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPhotoEditorSession.h; path = shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorSession.h; sourceTree = SOURCE_ROOT; };
+		66278D1F1867CDC100D23F34 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAviarySDK.a; path = shotvibe/Vendor/AviarySDK/libAviarySDK.a; sourceTree = SOURCE_ROOT; };
+		66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AviarySDKResources.bundle; path = shotvibe/Vendor/AviarySDK/Resources/AviarySDKResources.bundle; sourceTree = SOURCE_ROOT; };
 		AA234836177AA3F600D55918 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		AA234837177AA3F600D55918 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		AA234838177AA3F600D55918 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -1413,10 +1413,10 @@
 				AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */,
 				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
 				0426B6701724EBC4007BAABC /* ImageIO.framework in Frameworks */,
-				285EB93F17F55BDA00A33E5B /* libAviarySDK.a in Frameworks */,
 				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
 				285EB94817F55CDD00A33E5B /* libz.1.2.5.dylib in Frameworks */,
 				0499B911171E4D2900050596 /* MessageUI.framework in Frameworks */,
+				66278D201867CDC100D23F34 /* libAviarySDK.a in Frameworks */,
 				285EB94A17F55CFA00A33E5B /* OpenGLES.framework in Frameworks */,
 				AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */,
 				2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */,
@@ -1907,7 +1907,7 @@
 			isa = PBXGroup;
 			children = (
 				285EB93317F55BDA00A33E5B /* Headers */,
-				285EB93C17F55BDA00A33E5B /* libAviarySDK.a */,
+				66278D1F1867CDC100D23F34 /* libAviarySDK.a */,
 				285EB93D17F55BDA00A33E5B /* Resources */,
 			);
 			path = AviarySDK;
@@ -1916,14 +1916,14 @@
 		285EB93317F55BDA00A33E5B /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				285EB93417F55BDA00A33E5B /* AFOpenGLManager.h */,
-				285EB93517F55BDA00A33E5B /* AFPhotoEditorContext.h */,
-				285EB93617F55BDA00A33E5B /* AFPhotoEditorController+InAppPurchase.h */,
-				285EB93717F55BDA00A33E5B /* AFPhotoEditorController.h */,
-				285EB93817F55BDA00A33E5B /* AFPhotoEditorControllerOptions.h */,
-				285EB93917F55BDA00A33E5B /* AFPhotoEditorCustomization.h */,
-				285EB93A17F55BDA00A33E5B /* AFPhotoEditorProduct.h */,
-				285EB93B17F55BDA00A33E5B /* AFPhotoEditorSession.h */,
+				66278D171867CD9B00D23F34 /* AFOpenGLManager.h */,
+				66278D181867CD9B00D23F34 /* AFPhotoEditorContext.h */,
+				66278D1A1867CD9B00D23F34 /* AFPhotoEditorController+InAppPurchase.h */,
+				66278D191867CD9B00D23F34 /* AFPhotoEditorController.h */,
+				66278D1B1867CD9B00D23F34 /* AFPhotoEditorControllerOptions.h */,
+				66278D1C1867CD9B00D23F34 /* AFPhotoEditorCustomization.h */,
+				66278D1D1867CD9B00D23F34 /* AFPhotoEditorProduct.h */,
+				66278D1E1867CD9B00D23F34 /* AFPhotoEditorSession.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -1931,7 +1931,7 @@
 		285EB93D17F55BDA00A33E5B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				285EB93E17F55BDA00A33E5B /* AviarySDKResources.bundle */,
+				66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -3040,6 +3040,7 @@
 				2849A7F017D9AB420076AFBA /* AlbumActivityVideoIcon@2x.png in Resources */,
 				2849A7F117D9AB420076AFBA /* AlbumInfoButton.png in Resources */,
 				2849A7F217D9AB420076AFBA /* AlbumInfoButton@2x.png in Resources */,
+				66278D221867CDEC00D23F34 /* AviarySDKResources.bundle in Resources */,
 				2849A7F317D9AB420076AFBA /* AlbumInfoIcon.png in Resources */,
 				2849A7F417D9AB420076AFBA /* AlbumInfoIcon@2x.png in Resources */,
 				2849A7F517D9AB420076AFBA /* AlbumInfoLeaveIcon.png in Resources */,
@@ -3071,7 +3072,6 @@
 				2849A89217EAFE400076AFBA /* searchFieldIcon@2x.png in Resources */,
 				280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */,
 				280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */,
-				285EB94017F55BDB00A33E5B /* AviarySDKResources.bundle in Resources */,
 				28FC2C2F17FAF8F600AE24C3 /* Pencil.png in Resources */,
 				28FC2C3017FAF8F600AE24C3 /* Pencil@2x.png in Resources */,
 				28FC2C3317FAFA5700AE24C3 /* PencilWhite.png in Resources */,
@@ -3355,7 +3355,7 @@
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AviarySDK\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/AviarySDK\"",
 				);
 				LLVM_LTO = NO;
 				ONLY_ACTIVE_ARCH = NO;
@@ -3471,7 +3471,7 @@
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AviarySDK\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/AviarySDK\"",
 				);
 				LLVM_LTO = NO;
 				ONLY_ACTIVE_ARCH = NO;
@@ -3499,7 +3499,7 @@
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AviarySDK\"",
+					"\"$(SRCROOT)/shotvibe/Vendor/AviarySDK\"",
 				);
 				LLVM_LTO = NO;
 				ONLY_ACTIVE_ARCH = NO;
