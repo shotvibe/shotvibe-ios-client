@@ -17,6 +17,23 @@
 	// Do any additional setup after loading the view.
 	
 	self.title = @"About";
+
+    // Set the version label
+
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *name = [infoDict objectForKey:@"CFBundleDisplayName"];
+    NSString *version = [infoDict objectForKey:@"CFBundleShortVersionString"];
+
+    NSString *versionString;
+
+#if CONFIGURATION_Release
+    versionString = [NSString stringWithFormat:@"%@: %@", name, version];
+#else
+    NSString *build = [infoDict objectForKey:@"CFBundleVersion"];
+    versionString = [NSString stringWithFormat:@"%@: %@ (%@)", name, version, build];
+#endif
+
+    self.versionLabel.text = versionString;
 }
 
 
