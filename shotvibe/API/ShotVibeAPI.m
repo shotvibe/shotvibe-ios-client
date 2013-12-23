@@ -805,6 +805,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:url]]];
     [request setHTTPMethod:method];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
 
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 
