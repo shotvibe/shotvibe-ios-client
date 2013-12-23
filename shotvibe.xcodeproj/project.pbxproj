@@ -1506,15 +1506,15 @@
 		0493ABE81732D6EC005ABCE7 /* Picker */ = {
 			isa = PBXGroup;
 			children = (
+				66278C941867C44600D23F34 /* CameraRollSection.h */,
+				66278C951867C44600D23F34 /* CameraRollSection.m */,
+				66278C961867C44600D23F34 /* PhotosQuickView.h */,
+				66278C971867C44600D23F34 /* PhotosQuickView.m */,
 				66278C981867C44600D23F34 /* SVImagePickerListViewController.h */,
 				66278C991867C44600D23F34 /* SVImagePickerListViewController.m */,
 				66278C9A1867C44600D23F34 /* SVImagePickerSelector.h */,
 				66278C9B1867C44600D23F34 /* SVImagePickerSelector.m */,
 				66278C9C1867C44600D23F34 /* SVImagePickerSelector.xib */,
-				66278C941867C44600D23F34 /* CameraRollSection.h */,
-				66278C951867C44600D23F34 /* CameraRollSection.m */,
-				66278C961867C44600D23F34 /* PhotosQuickView.h */,
-				66278C971867C44600D23F34 /* PhotosQuickView.m */,
 			);
 			name = Picker;
 			sourceTree = "<group>";
@@ -1788,16 +1788,16 @@
 		04C407E517303E9200973BC0 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
-				66278C6F1867C2AD00D23F34 /* SVRegistrationViewController.h */,
-				66278C701867C2AD00D23F34 /* SVRegistrationViewController.m */,
-				66278C691867C2AD00D23F34 /* SVCountriesViewController.h */,
-				66278C6A1867C2AD00D23F34 /* SVCountriesViewController.m */,
 				66278C671867C2AD00D23F34 /* SVConfirmationCodeViewController.h */,
 				66278C681867C2AD00D23F34 /* SVConfirmationCodeViewController.m */,
-				66278C6D1867C2AD00D23F34 /* SVNoCodeViewController.h */,
-				66278C6E1867C2AD00D23F34 /* SVNoCodeViewController.m */,
+				66278C691867C2AD00D23F34 /* SVCountriesViewController.h */,
+				66278C6A1867C2AD00D23F34 /* SVCountriesViewController.m */,
 				66278C6B1867C2AD00D23F34 /* SVCountryViewCell.h */,
 				66278C6C1867C2AD00D23F34 /* SVCountryViewCell.m */,
+				66278C6D1867C2AD00D23F34 /* SVNoCodeViewController.h */,
+				66278C6E1867C2AD00D23F34 /* SVNoCodeViewController.m */,
+				66278C6F1867C2AD00D23F34 /* SVRegistrationViewController.h */,
+				66278C701867C2AD00D23F34 /* SVRegistrationViewController.m */,
 			);
 			name = Registration;
 			sourceTree = "<group>";
@@ -1805,10 +1805,10 @@
 		2849A74017D5FEF60076AFBA /* Ralcr */ = {
 			isa = PBXGroup;
 			children = (
-				66D583341867D66B00EAC842 /* RCLog.h */,
-				66D583351867D66B00EAC842 /* RCLog.m */,
 				66D583321867D66B00EAC842 /* RCImageView.h */,
 				66D583331867D66B00EAC842 /* RCImageView.m */,
+				66D583341867D66B00EAC842 /* RCLog.h */,
+				66D583351867D66B00EAC842 /* RCLog.m */,
 				66D583361867D66B00EAC842 /* RCScrollImageView.h */,
 				66D583371867D66B00EAC842 /* RCScrollImageView.m */,
 				66D583381867D66B00EAC842 /* RCScrollView.h */,
@@ -2071,29 +2071,29 @@
 		28E94C2017C2BA3B00874BDE /* Social */ = {
 			isa = PBXGroup;
 			children = (
+				66278CC81867C62300D23F34 /* SVActivity.h */,
+				66278CC91867C62300D23F34 /* SVActivity.m */,
+				66278CCA1867C62300D23F34 /* SVActivityButton.h */,
+				66278CCB1867C62300D23F34 /* SVActivityButton.m */,
 				66278CCC1867C62300D23F34 /* SVActivityViewController.h */,
 				66278CCD1867C62300D23F34 /* SVActivityViewController.m */,
 				66278CCE1867C62300D23F34 /* SVActivityViewController.xib */,
-				66278CC81867C62300D23F34 /* SVActivity.h */,
-				66278CC91867C62300D23F34 /* SVActivity.m */,
-				66278CD31867C62300D23F34 /* SVLinkActivity.h */,
-				66278CD41867C62300D23F34 /* SVLinkActivity.m */,
 				66278CCF1867C62300D23F34 /* SVCopyActivity.h */,
 				66278CD01867C62300D23F34 /* SVCopyActivity.m */,
-				66278CD71867C62300D23F34 /* SVMoveActivity.h */,
-				66278CD81867C62300D23F34 /* SVMoveActivity.m */,
 				66278CD11867C62300D23F34 /* SVFacebookActivity.h */,
 				66278CD21867C62300D23F34 /* SVFacebookActivity.m */,
+				66278CD31867C62300D23F34 /* SVLinkActivity.h */,
+				66278CD41867C62300D23F34 /* SVLinkActivity.m */,
 				66278CD51867C62300D23F34 /* SVMailActivity.h */,
 				66278CD61867C62300D23F34 /* SVMailActivity.m */,
+				66278CD71867C62300D23F34 /* SVMoveActivity.h */,
+				66278CD81867C62300D23F34 /* SVMoveActivity.m */,
+				66278CD91867C62300D23F34 /* SVProfilePicActivity.h */,
+				66278CDA1867C62300D23F34 /* SVProfilePicActivity.m */,
 				66278CDB1867C62300D23F34 /* SVTumblrActivity.h */,
 				66278CDC1867C62300D23F34 /* SVTumblrActivity.m */,
 				66278CDD1867C62300D23F34 /* SVTwitterActivity.h */,
 				66278CDE1867C62300D23F34 /* SVTwitterActivity.m */,
-				66278CD91867C62300D23F34 /* SVProfilePicActivity.h */,
-				66278CDA1867C62300D23F34 /* SVProfilePicActivity.m */,
-				66278CCA1867C62300D23F34 /* SVActivityButton.h */,
-				66278CCB1867C62300D23F34 /* SVActivityButton.m */,
 			);
 			name = Social;
 			sourceTree = "<group>";
@@ -2120,23 +2120,23 @@
 		28F877B817D240210051F528 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
-				66278C5A1867C17800D23F34 /* SVSidebarManagementController.h */,
-				66278C5B1867C17800D23F34 /* SVSidebarManagementController.m */,
+				66278C4D1867C17800D23F34 /* SVAddFriendsViewController.h */,
+				66278C4E1867C17800D23F34 /* SVAddFriendsViewController.m */,
+				66278C4F1867C17800D23F34 /* SVContactCell.h */,
+				66278C501867C17800D23F34 /* SVContactCell.m */,
 				66278C511867C17800D23F34 /* SVSidebarAlbumManagementActivityCell.h */,
 				66278C521867C17800D23F34 /* SVSidebarAlbumManagementActivityCell.m */,
 				66278C531867C17800D23F34 /* SVSidebarAlbumManagementSection.h */,
 				66278C541867C17800D23F34 /* SVSidebarAlbumManagementSection.m */,
 				66278C551867C17800D23F34 /* SVSidebarAlbumManagementSection.xib */,
-				66278C581867C17800D23F34 /* SVSidebarAlbumSection.h */,
-				66278C591867C17800D23F34 /* SVSidebarAlbumSection.m */,
-				66278C5C1867C17800D23F34 /* SVSidebarMemberController.h */,
-				66278C5D1867C17800D23F34 /* SVSidebarMemberController.m */,
 				66278C561867C17800D23F34 /* SVSidebarAlbumMemberCell.h */,
 				66278C571867C17800D23F34 /* SVSidebarAlbumMemberCell.m */,
-				66278C4D1867C17800D23F34 /* SVAddFriendsViewController.h */,
-				66278C4E1867C17800D23F34 /* SVAddFriendsViewController.m */,
-				66278C4F1867C17800D23F34 /* SVContactCell.h */,
-				66278C501867C17800D23F34 /* SVContactCell.m */,
+				66278C581867C17800D23F34 /* SVSidebarAlbumSection.h */,
+				66278C591867C17800D23F34 /* SVSidebarAlbumSection.m */,
+				66278C5A1867C17800D23F34 /* SVSidebarManagementController.h */,
+				66278C5B1867C17800D23F34 /* SVSidebarManagementController.m */,
+				66278C5C1867C17800D23F34 /* SVSidebarMemberController.h */,
+				66278C5D1867C17800D23F34 /* SVSidebarMemberController.m */,
 			);
 			name = SideMenu;
 			sourceTree = "<group>";
@@ -2218,26 +2218,26 @@
 		AA12881316CB8774002AC699 /* Albums */ = {
 			isa = PBXGroup;
 			children = (
-				66278C841867C38300D23F34 /* SVAlbumListViewController.h */,
-				66278C851867C38300D23F34 /* SVAlbumListViewController.m */,
-				66278C821867C38300D23F34 /* SVAlbumListViewCell.h */,
-				66278C831867C38300D23F34 /* SVAlbumListViewCell.m */,
-				66278C861867C38300D23F34 /* SVMiniAlbumList.h */,
-				66278C871867C38300D23F34 /* SVMiniAlbumList.m */,
-				66278C801867C38300D23F34 /* SVAlbumGridViewController.h */,
-				66278C811867C38300D23F34 /* SVAlbumGridViewController.m */,
-				66278C7E1867C38300D23F34 /* SVAlbumGridViewCell.h */,
-				66278C7F1867C38300D23F34 /* SVAlbumGridViewCell.m */,
-				66278C7C1867C38300D23F34 /* SVAlbumGridSection.h */,
-				66278C7D1867C38300D23F34 /* SVAlbumGridSection.m */,
-				66278C881867C38300D23F34 /* SVPhotoViewerController.h */,
-				66278C891867C38300D23F34 /* SVPhotoViewerController.m */,
-				66278C7A1867C38300D23F34 /* PhotoView.h */,
-				66278C7B1867C38300D23F34 /* PhotoView.m */,
 				66278C761867C38300D23F34 /* PhotoImageView.h */,
 				66278C771867C38300D23F34 /* PhotoImageView.m */,
 				66278C781867C38300D23F34 /* PhotoScrollView.h */,
 				66278C791867C38300D23F34 /* PhotoScrollView.m */,
+				66278C7A1867C38300D23F34 /* PhotoView.h */,
+				66278C7B1867C38300D23F34 /* PhotoView.m */,
+				66278C7C1867C38300D23F34 /* SVAlbumGridSection.h */,
+				66278C7D1867C38300D23F34 /* SVAlbumGridSection.m */,
+				66278C7E1867C38300D23F34 /* SVAlbumGridViewCell.h */,
+				66278C7F1867C38300D23F34 /* SVAlbumGridViewCell.m */,
+				66278C801867C38300D23F34 /* SVAlbumGridViewController.h */,
+				66278C811867C38300D23F34 /* SVAlbumGridViewController.m */,
+				66278C821867C38300D23F34 /* SVAlbumListViewCell.h */,
+				66278C831867C38300D23F34 /* SVAlbumListViewCell.m */,
+				66278C841867C38300D23F34 /* SVAlbumListViewController.h */,
+				66278C851867C38300D23F34 /* SVAlbumListViewController.m */,
+				66278C861867C38300D23F34 /* SVMiniAlbumList.h */,
+				66278C871867C38300D23F34 /* SVMiniAlbumList.m */,
+				66278C881867C38300D23F34 /* SVPhotoViewerController.h */,
+				66278C891867C38300D23F34 /* SVPhotoViewerController.m */,
 			);
 			name = Albums;
 			sourceTree = "<group>";
@@ -2271,10 +2271,10 @@
 		AA58FAEE16C224E800C49E02 = {
 			isa = PBXGroup;
 			children = (
-				AA58FB0016C224E800C49E02 /* shotvibe */,
-				AA58FB2416C224E800C49E02 /* shotvibeTests */,
 				AA58FAF916C224E800C49E02 /* Frameworks */,
 				AA58FAF816C224E800C49E02 /* Products */,
+				AA58FB0016C224E800C49E02 /* shotvibe */,
+				AA58FB2416C224E800C49E02 /* shotvibeTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2290,31 +2290,31 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				285EB94B17F55D0A00A33E5B /* StoreKit.framework */,
-				285EB94917F55CFA00A33E5B /* OpenGLES.framework */,
-				285EB94717F55CDD00A33E5B /* libz.1.2.5.dylib */,
-				285EB94517F55CA500A33E5B /* CoreText.framework */,
-				285EB94317F55C8C00A33E5B /* AdSupport.framework */,
 				285EB94117F55C8100A33E5B /* Accelerate.framework */,
-				AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */,
-				AA58FAFC16C224E800C49E02 /* Foundation.framework */,
-				AA58FAFA16C224E800C49E02 /* UIKit.framework */,
-				2849A74D17D7111A0076AFBA /* Social.framework */,
-				3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */,
 				04204EFA178B45D9001FE127 /* AddressBook.framework */,
-				0426B6821724F3B5007BAABC /* CoreMedia.framework */,
+				285EB94317F55C8C00A33E5B /* AdSupport.framework */,
 				0426B6721724EBD9007BAABC /* AssetsLibrary.framework */,
-				0426B66F1724EBC4007BAABC /* ImageIO.framework */,
-				0499B90F171E4D1800050596 /* MessageUI.framework */,
 				AA58FCFE16C235FD00C49E02 /* CFNetwork.framework */,
 				AACB11E416C457DC00BAC7E1 /* CoreData.framework */,
-				AA58FD0416C2364B00C49E02 /* CoreLocation.framework */,
 				AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */,
+				AA58FD0416C2364B00C49E02 /* CoreLocation.framework */,
+				0426B6821724F3B5007BAABC /* CoreMedia.framework */,
+				285EB94517F55CA500A33E5B /* CoreText.framework */,
+				3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */,
+				AA58FAFC16C224E800C49E02 /* Foundation.framework */,
+				0426B66F1724EBC4007BAABC /* ImageIO.framework */,
+				AA58FD0616C2365C00C49E02 /* libsqlite3.dylib */,
+				285EB94717F55CDD00A33E5B /* libz.1.2.5.dylib */,
+				0499B90F171E4D1800050596 /* MessageUI.framework */,
 				AA58FD0016C2361300C49E02 /* MobileCoreServices.framework */,
+				285EB94917F55CFA00A33E5B /* OpenGLES.framework */,
 				AA58FB8616C2314500C49E02 /* QuartzCore.framework */,
 				AACB11E616C457F000BAC7E1 /* Security.framework */,
 				AA58FB1E16C224E800C49E02 /* SenTestingKit.framework */,
+				2849A74D17D7111A0076AFBA /* Social.framework */,
+				285EB94B17F55D0A00A33E5B /* StoreKit.framework */,
 				AA58FB8816C2315100C49E02 /* SystemConfiguration.framework */,
+				AA58FAFA16C224E800C49E02 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2322,15 +2322,15 @@
 		AA58FB0016C224E800C49E02 /* shotvibe */ = {
 			isa = PBXGroup;
 			children = (
+				AA58FB6D16C22B0400C49E02 /* API */,
 				AA58FB6416C22B0400C49E02 /* AppDelegate */,
 				AACB11C316C453E600BAC7E1 /* Categories */,
 				AAF05CD216CB287F005BCFD3 /* Controllers */,
-				AA58FB6D16C22B0400C49E02 /* API */,
 				AACB11C616C4543700BAC7E1 /* Models */,
-				AA58FB7516C22B0400C49E02 /* Vendor */,
-				AA58FB3816C227F500C49E02 /* Views */,
 				043473961705F42300CFE564 /* Resources */,
 				AA58FB0116C224E800C49E02 /* Supporting Files */,
+				AA58FB7516C22B0400C49E02 /* Vendor */,
+				AA58FB3816C227F500C49E02 /* Views */,
 			);
 			path = shotvibe;
 			sourceTree = "<group>";
@@ -2338,17 +2338,17 @@
 		AA58FB0116C224E800C49E02 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AA58FB0216C224E800C49E02 /* shotvibe-Info.plist */,
-				AA58FB0316C224E800C49E02 /* InfoPlist.strings */,
-				AA58FB0616C224E800C49E02 /* main.m */,
-				AA58FB0816C224E800C49E02 /* shotvibe-Prefix.pch */,
+				AAEB9CDD171648A000439939 /* Config.xcconfig */,
+				AA58FB1016C224E800C49E02 /* Default-568h@2x.png */,
 				AA58FB0C16C224E800C49E02 /* Default.png */,
 				AA58FB0E16C224E800C49E02 /* Default@2x.png */,
-				AA58FB1016C224E800C49E02 /* Default-568h@2x.png */,
-				2884E85F17A24CFE00B382D9 /* icon_57x57.png */,
 				2884E86017A24CFE00B382D9 /* icon_114x114.png */,
 				285C90D418507CF3009C1F6C /* icon_120x120.png */,
-				AAEB9CDD171648A000439939 /* Config.xcconfig */,
+				2884E85F17A24CFE00B382D9 /* icon_57x57.png */,
+				AA58FB0316C224E800C49E02 /* InfoPlist.strings */,
+				AA58FB0616C224E800C49E02 /* main.m */,
+				AA58FB0216C224E800C49E02 /* shotvibe-Info.plist */,
+				AA58FB0816C224E800C49E02 /* shotvibe-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2366,8 +2366,8 @@
 		AA58FB2516C224E800C49E02 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AA58FB2616C224E800C49E02 /* shotvibeTests-Info.plist */,
 				AA58FB2716C224E800C49E02 /* InfoPlist.strings */,
+				AA58FB2616C224E800C49E02 /* shotvibeTests-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2383,15 +2383,15 @@
 		AA58FB6416C22B0400C49E02 /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
-				66278C461867B16E00D23F34 /* SVDefines.h */,
-				AA58FB6516C22B0400C49E02 /* ShotVibeAppDelegate.h */,
-				AA58FB6616C22B0400C49E02 /* ShotVibeAppDelegate.m */,
-				2884ED111830F4B40069E202 /* SVNavigationController.h */,
-				2884ED121830F4B40069E202 /* SVNavigationController.m */,
-				66278C491867B23800D23F34 /* SVInitialization.h */,
-				66278C4A1867B23800D23F34 /* SVInitialization.m */,
 				66278C471867B23800D23F34 /* FileUtils.h */,
 				66278C481867B23800D23F34 /* FileUtils.m */,
+				AA58FB6516C22B0400C49E02 /* ShotVibeAppDelegate.h */,
+				AA58FB6616C22B0400C49E02 /* ShotVibeAppDelegate.m */,
+				66278C461867B16E00D23F34 /* SVDefines.h */,
+				66278C491867B23800D23F34 /* SVInitialization.h */,
+				66278C4A1867B23800D23F34 /* SVInitialization.m */,
+				2884ED111830F4B40069E202 /* SVNavigationController.h */,
+				2884ED121830F4B40069E202 /* SVNavigationController.m */,
 			);
 			path = AppDelegate;
 			sourceTree = "<group>";
@@ -2399,31 +2399,31 @@
 		AA58FB6D16C22B0400C49E02 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				66278D001867C94900D23F34 /* SVPushNotificationsManager.h */,
-				66278D011867C94900D23F34 /* SVPushNotificationsManager.m */,
-				66278CFE1867C94900D23F34 /* ShotVibeAPI.h */,
-				66278CFF1867C94900D23F34 /* ShotVibeAPI.m */,
+				66278CEB1867C94900D23F34 /* AlbumContentsListener.h */,
+				66278CEC1867C94900D23F34 /* AlbumListListener.h */,
+				66278CED1867C94900D23F34 /* AlbumManager.h */,
+				66278CEE1867C94900D23F34 /* AlbumManager.m */,
 				66278CEF1867C94900D23F34 /* AuthData.h */,
 				66278CF01867C94900D23F34 /* AuthData.m */,
 				66278CF11867C94900D23F34 /* JSON.h */,
 				66278CF21867C94900D23F34 /* JSON.m */,
-				66278CEC1867C94900D23F34 /* AlbumListListener.h */,
-				66278CEB1867C94900D23F34 /* AlbumContentsListener.h */,
-				66278CED1867C94900D23F34 /* AlbumManager.h */,
-				66278CEE1867C94900D23F34 /* AlbumManager.m */,
-				66278D021867C94900D23F34 /* UserSettings.h */,
-				66278D031867C94900D23F34 /* UserSettings.m */,
-				66278CFA1867C94900D23F34 /* PhotoUploadManager.h */,
-				66278CFB1867C94900D23F34 /* PhotoUploadManager.m */,
-				66278CF91867C94900D23F34 /* PhotosUploadListener.h */,
-				66278CFC1867C94900D23F34 /* PhotoUploadRequest.h */,
-				66278CFD1867C94900D23F34 /* PhotoUploadRequest.m */,
+				66278CF31867C94900D23F34 /* PhotoBitmap.h */,
+				66278CF41867C94900D23F34 /* PhotoBitmap.m */,
 				66278CF51867C94900D23F34 /* PhotoFilesManager.h */,
 				66278CF61867C94900D23F34 /* PhotoFilesManager.m */,
 				66278CF71867C94900D23F34 /* PhotoSize.h */,
 				66278CF81867C94900D23F34 /* PhotoSize.m */,
-				66278CF31867C94900D23F34 /* PhotoBitmap.h */,
-				66278CF41867C94900D23F34 /* PhotoBitmap.m */,
+				66278CF91867C94900D23F34 /* PhotosUploadListener.h */,
+				66278CFA1867C94900D23F34 /* PhotoUploadManager.h */,
+				66278CFB1867C94900D23F34 /* PhotoUploadManager.m */,
+				66278CFC1867C94900D23F34 /* PhotoUploadRequest.h */,
+				66278CFD1867C94900D23F34 /* PhotoUploadRequest.m */,
+				66278CFE1867C94900D23F34 /* ShotVibeAPI.h */,
+				66278CFF1867C94900D23F34 /* ShotVibeAPI.m */,
+				66278D001867C94900D23F34 /* SVPushNotificationsManager.h */,
+				66278D011867C94900D23F34 /* SVPushNotificationsManager.m */,
+				66278D021867C94900D23F34 /* UserSettings.h */,
+				66278D031867C94900D23F34 /* UserSettings.m */,
 			);
 			name = API;
 			path = Delegates;
@@ -2432,15 +2432,15 @@
 		AA58FB7516C22B0400C49E02 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				28FC2CAA17FE8F2400AE24C3 /* OBGradientView */,
-				28FC2CA617FE8EE300AE24C3 /* MPNotificationView */,
-				285EB93217F55BDA00A33E5B /* AviarySDK */,
-				2849A74017D5FEF60076AFBA /* Ralcr */,
 				AA234835177AA3F600D55918 /* AFNetworking */,
+				285EB93217F55BDA00A33E5B /* AviarySDK */,
 				04C404DC1730301500973BC0 /* CountryPicker */,
 				3BE0B10B17C2B9E70058CAAD /* FMDB */,
-				04734F2A16CF104F003F729B /* MFSideMenu */,
 				3B0A3CEC17CB7E640058B620 /* MBProgressHUD */,
+				04734F2A16CF104F003F729B /* MFSideMenu */,
+				28FC2CA617FE8EE300AE24C3 /* MPNotificationView */,
+				28FC2CAA17FE8F2400AE24C3 /* OBGradientView */,
+				2849A74017D5FEF60076AFBA /* Ralcr */,
 				3B3AD13417CB4A3F004D24A9 /* SDWebImage */,
 			);
 			path = Vendor;
@@ -2449,16 +2449,16 @@
 		AA78D2B617172C26006E1240 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
-				66278CA91867C4D400D23F34 /* SVCameraPickerDelegate.h */,
 				66278CA21867C4D400D23F34 /* SVCameraNavController.h */,
 				66278CA31867C4D400D23F34 /* SVCameraNavController.m */,
-				66278CA71867C4D400D23F34 /* SVCameraPickerController.h */,
-				66278CA81867C4D400D23F34 /* SVCameraPickerController.m */,
-				66278CAA1867C4D400D23F34 /* SVImagePickerController.h */,
-				66278CAB1867C4D400D23F34 /* SVImagePickerController.m */,
 				66278CA41867C4D400D23F34 /* SVCameraOverlay.h */,
 				66278CA51867C4D400D23F34 /* SVCameraOverlay.m */,
 				66278CA61867C4D400D23F34 /* SVCameraOverlay.xib */,
+				66278CA71867C4D400D23F34 /* SVCameraPickerController.h */,
+				66278CA81867C4D400D23F34 /* SVCameraPickerController.m */,
+				66278CA91867C4D400D23F34 /* SVCameraPickerDelegate.h */,
+				66278CAA1867C4D400D23F34 /* SVImagePickerController.h */,
+				66278CAB1867C4D400D23F34 /* SVImagePickerController.m */,
 				66278CAC1867C4D400D23F34 /* SVSelectionGridCell.h */,
 				66278CAD1867C4D400D23F34 /* SVSelectionGridCell.m */,
 			);
@@ -2468,19 +2468,19 @@
 		AA78D2B717172C2B006E1240 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				66278CBD1867C57300D23F34 /* SVSettingsViewController.h */,
-				66278CBE1867C57300D23F34 /* SVSettingsViewController.m */,
-				66278CBB1867C57300D23F34 /* SVSettingsAboutViewController.h */,
-				66278CBC1867C57300D23F34 /* SVSettingsAboutViewController.m */,
-				66278CBF1867C57300D23F34 /* SVWebViewController.h */,
-				66278CC01867C57300D23F34 /* SVWebViewController.m */,
-				66278CB91867C57300D23F34 /* SVProfileViewController.h */,
-				66278CBA1867C57300D23F34 /* SVProfileViewController.m */,
-				66278CB71867C57300D23F34 /* SVProfilePicViewController.h */,
-				66278CB81867C57300D23F34 /* SVProfilePicViewController.m */,
 				66278CB41867C57300D23F34 /* SVImageCropViewController.h */,
 				66278CB51867C57300D23F34 /* SVImageCropViewController.m */,
 				66278CB61867C57300D23F34 /* SVImageCropViewController.xib */,
+				66278CB71867C57300D23F34 /* SVProfilePicViewController.h */,
+				66278CB81867C57300D23F34 /* SVProfilePicViewController.m */,
+				66278CB91867C57300D23F34 /* SVProfileViewController.h */,
+				66278CBA1867C57300D23F34 /* SVProfileViewController.m */,
+				66278CBB1867C57300D23F34 /* SVSettingsAboutViewController.h */,
+				66278CBC1867C57300D23F34 /* SVSettingsAboutViewController.m */,
+				66278CBD1867C57300D23F34 /* SVSettingsViewController.h */,
+				66278CBE1867C57300D23F34 /* SVSettingsViewController.m */,
+				66278CBF1867C57300D23F34 /* SVWebViewController.h */,
+				66278CC01867C57300D23F34 /* SVWebViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2494,10 +2494,10 @@
 				04AB0AB11708114800C5300B /* NSDate+Formatting.m */,
 				AA4115BC177C0451009F400F /* NSFileManager+Helper.h */,
 				AA4115BD177C0451009F400F /* NSFileManager+Helper.m */,
-				2849A80B17DDE61A0076AFBA /* UIImage+Scale.h */,
-				2849A80C17DDE61A0076AFBA /* UIImage+Scale.m */,
 				2851FAA51838171200C094AB /* UIImage+Crop.h */,
 				2851FAA61838171200C094AB /* UIImage+Crop.m */,
+				2849A80B17DDE61A0076AFBA /* UIImage+Scale.h */,
+				2849A80C17DDE61A0076AFBA /* UIImage+Scale.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -2505,32 +2505,32 @@
 		AACB11C616C4543700BAC7E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				66278D111867CA1400D23F34 /* SVAssets.h */,
-				66278D121867CA1400D23F34 /* SVAssets.m */,
-				66278D0F1867CA1400D23F34 /* SVAddressBook.h */,
-				66278D101867CA1400D23F34 /* SVAddressBook.m */,
-				28D41F41182A21BA00A31C76 /* SVRecord.h */,
-				28D41F42182A21BA00A31C76 /* SVRecord.m */,
-				3BE0B10517C24D150058CAAD /* ShotVibeDB.h */,
-				3BE0B10617C24D150058CAAD /* ShotVibeDB.m */,
 				3BE0B11517C2C5520058CAAD /* AlbumBase.h */,
 				3BE0B11617C2C5520058CAAD /* AlbumBase.m */,
-				3BE0B11817C2C71D0058CAAD /* AlbumSummary.h */,
-				3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */,
-				3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */,
-				3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */,
-				3B013BC517C3E7CA00135869 /* AlbumPhoto.h */,
-				3B013BC617C3E7CA00135869 /* AlbumPhoto.m */,
 				3B013BC817C3E83200135869 /* AlbumContents.h */,
 				3B013BC917C3E83200135869 /* AlbumContents.m */,
-				3B013BCB17C3E84C00135869 /* AlbumUser.h */,
-				3B013BCC17C3E84C00135869 /* AlbumUser.m */,
 				66159226183273040054471E /* AlbumMember.h */,
 				66159227183273040054471E /* AlbumMember.m */,
+				3B013BC517C3E7CA00135869 /* AlbumPhoto.h */,
+				3B013BC617C3E7CA00135869 /* AlbumPhoto.m */,
+				3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */,
+				3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */,
+				3BE0B11817C2C71D0058CAAD /* AlbumSummary.h */,
+				3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */,
 				3B87E68D17C99941006483C9 /* AlbumUploadingPhoto.h */,
 				3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */,
+				3B013BCB17C3E84C00135869 /* AlbumUser.h */,
+				3B013BCC17C3E84C00135869 /* AlbumUser.m */,
 				2884ED0E1830CB430069E202 /* RegistrationInfo.h */,
 				2884ED0F1830CB430069E202 /* RegistrationInfo.m */,
+				3BE0B10517C24D150058CAAD /* ShotVibeDB.h */,
+				3BE0B10617C24D150058CAAD /* ShotVibeDB.m */,
+				66278D0F1867CA1400D23F34 /* SVAddressBook.h */,
+				66278D101867CA1400D23F34 /* SVAddressBook.m */,
+				66278D111867CA1400D23F34 /* SVAssets.h */,
+				66278D121867CA1400D23F34 /* SVAssets.m */,
+				28D41F41182A21BA00A31C76 /* SVRecord.h */,
+				28D41F42182A21BA00A31C76 /* SVRecord.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2538,12 +2538,12 @@
 		AAF05CD216CB287F005BCFD3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				28F877B817D240210051F528 /* SideMenu */,
-				04C407E517303E9200973BC0 /* Registration */,
 				AA12881316CB8774002AC699 /* Albums */,
-				0493ABE81732D6EC005ABCE7 /* Picker */,
 				AA78D2B617172C26006E1240 /* Camera */,
+				0493ABE81732D6EC005ABCE7 /* Picker */,
+				04C407E517303E9200973BC0 /* Registration */,
 				AA78D2B717172C2B006E1240 /* Settings */,
+				28F877B817D240210051F528 /* SideMenu */,
 				28E94C2017C2BA3B00874BDE /* Social */,
 			);
 			path = Controllers;
