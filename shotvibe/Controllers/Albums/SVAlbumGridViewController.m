@@ -69,7 +69,7 @@
 {
     [super viewDidLoad];
 	
-	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized withou albumId");
+	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized without albumId");
 	
 	self.collectionView.alwaysBounceVertical = YES;
 	//self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
