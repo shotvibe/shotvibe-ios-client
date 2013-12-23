@@ -827,7 +827,6 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
             return nil;
         }
     }
-    RCLog(@"getResponse: query %@ %@\nresponse %@",url, method, [[NSString alloc] initWithData:httpResponseData encoding:NSUTF8StringEncoding]);
 
     Response *response = [[Response alloc] init];
     response.responseCode = [httpResponse statusCode];
