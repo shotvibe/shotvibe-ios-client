@@ -477,6 +477,9 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	cell.backgroundColor = [UIColor whiteColor];
+
+    if (creatingAlbum) // Navigate to the newly created album
+        [self performSegueWithIdentifier: @"AlbumGridViewSegue" sender: cell];
 }
 
 
@@ -484,10 +487,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[self.searchbar resignFirstResponder];
+    [self.searchbar resignFirstResponder];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-	tappedCell = [indexPath copy];
-	// The rest of the actions are made through the segue in IB
+    tappedCell = [indexPath copy];
+    // The rest of the actions are made through the segue in IB
 }
 
 
