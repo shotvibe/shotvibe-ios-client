@@ -47,4 +47,6 @@
 
 - (void)reportAlbumUpdate:(int64_t)albumId;
 
+- (void)markAlbumAsViewed:(AlbumContents *)album;
+
 @end

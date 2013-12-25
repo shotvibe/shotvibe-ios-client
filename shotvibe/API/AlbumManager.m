@@ -377,6 +377,42 @@ enum RefreshStatus
     [self refreshAlbumContents:albumId];
 }
 
+// Set lastAccess to the timestamp of the most recent server photo in both the cache and the server,
+// and trigger refresh for album list and albumContents.
+- (void)markAlbumAsViewed:(AlbumContents *)album
+{
+    if (album.photos.count > 0) {
+        RCLog(@"Album #%lld being marked as viewed.", album.albumId);
+        NSDate *mostRecentPhotoDate = nil;
+        for (int i=1; i<album.photos.count; i++) {
+            AlbumServerPhoto *photo = ((AlbumPhoto *)album.photos[i]).serverPhoto;
+            
+            if (photo) { // don't do this if album.photos[i] is not a serverPhoto
+                mostRecentPhotoDate = !mostRecentPhotoDate ? photo.dateAdded
+                                                           : [mostRecentPhotoDate laterDate:photo.dateAdded];
+                NSLog(@"photo: %@ most recent:%@", photo.dateAdded, mostRecentPhotoDate);
+            }
+        }
+        
+        NSDate *lastAccess = mostRecentPhotoDate;
+        NSError *error;
+        BOOL success = [shotvibeAPI markAlbumAsViewed:album.albumId lastAccess:lastAccess withError:&error];
+
+        if (!success)
+            NSLog(@"### AlbumManager.markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", [error localizedDescription]);
+        // TODO: handle error
+        
+        if (![shotvibeDB markAlbumAsViewed:album.albumId lastAccess:lastAccess]) {
+            RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
+        }
+        
+        AlbumContents *testContents = [shotvibeDB getAlbumContents:album.albumId];
+        NSLog(@"testContents.lastAccess: %@", testContents.lastAccess);
+    }
+    
+    [self reportAlbumUpdate:album.albumId]; // trigger refreshes
+}
+
 - (void)photoUploadAdditions:(int64_t)albumId
 {
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
