@@ -253,6 +253,7 @@
 
 - (void)backButtonPressed:(id)sender
 {
+    [self.albumManager markAlbumAsViewed:albumContents]; // TODO: apparently this method is not called when pressing Back
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -461,7 +462,9 @@
 	detailController.index = i;
 	detailController.title = albumContents.name;
 	
-	navigatingNext = YES;
+    [self.albumManager markAlbumAsViewed:albumContents];
+     
+    navigatingNext = YES;
     [self.navigationController pushViewController:detailController animated:YES];
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 }
