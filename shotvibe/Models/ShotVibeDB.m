@@ -450,4 +450,21 @@ static const int DATABASE_VERSION = 1;
     return YES;
 }
 
+- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(NSDate *)lastAccess
+{
+    if (![db beginTransaction]) {
+        return NO;
+    }
+
+    if(![db executeUpdate:@"UPDATE album SET last_access=? WHERE album_id=?",
+         lastAccess,
+         [NSNumber numberWithLongLong:albumId]]) {
+    }
+    
+    if (![db commit]) {
+        ABORT_TRANSACTION;
+    }
+    return YES;
+}
+
 @end
