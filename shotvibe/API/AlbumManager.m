@@ -125,7 +125,8 @@ enum RefreshStatus
                     refreshStatus = IDLE;
                 });
 
-                RCLog(@"##### Error!");
+                NSLog(@"### AlbumManager.refreshAlbumList: ERROR in shotvibeAPI getAlbumsWithError:\n%@", [error localizedDescription]);
+
                 // TODO Schedule to retry soon
                 return;
             }
@@ -246,7 +247,7 @@ enum RefreshStatus
                     [self cleanAlbumContentsListeners:albumId];
                 });
 
-                RCLog(@"##### Error!");
+                NSLog(@"### AlbumManager.refreshAlbumContents: ERROR in shotvibeAPI getAlbumContents for %@:\n%@", albumId,[error localizedDescription]);
                 // TODO Schedule to retry soon
                 return;
             }
