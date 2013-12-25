@@ -21,10 +21,6 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
 
 static const int DATABASE_VERSION = 1;
 
-// Constants for column indices:
-
-static const int INDEX_ALBUM_LASTACCESS = 2;
-// TODO: use constants for other column indices
 
 - (id)init
 {
@@ -102,7 +98,7 @@ static const int INDEX_ALBUM_LASTACCESS = 2;
 
 - (NSArray *)getAlbumList
 {
-    FMResultSet* s = [db executeQuery:@"SELECT album_id, name, last_updated FROM album ORDER BY last_updated ASC"];
+    FMResultSet* s = [db executeQuery:@"SELECT album_id, name, last_updated, last_access FROM album ORDER BY last_updated ASC"];
     if (!s) {
         return nil;
     }
@@ -117,7 +113,7 @@ static const int INDEX_ALBUM_LASTACCESS = 2;
 
         NSDate *lastUpdated = [s dateForColumnIndex:2];
 
-        NSDate *lastAccess = [s dateForColumnIndex:INDEX_ALBUM_LASTACCESS];
+        NSDate *lastAccess = [s dateForColumnIndex:3];
 
         // TODO hm...
         NSString *etag = nil;
@@ -278,7 +274,7 @@ static const int INDEX_ALBUM_LASTACCESS = 2;
 
     NSString *albumName = [s stringForColumnIndex:0];
     NSDate *albumLastUpdated = [s dateForColumnIndex:1];
-    NSDate *albumLastAccess = [s dateForColumnIndex:INDEX_ALBUM_LASTACCESS];
+    NSDate *albumLastAccess = [s dateForColumnIndex:2];
     NSString *etag = nil;
 
     s = [db executeQuery:@
