@@ -448,6 +448,41 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return results;
 }
 
+- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(NSDate *)lastAccess withError:(NSError **)error
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+    
+    NSString *lastAccessStr = [dateFormatter stringFromDate:lastAccess];
+    NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
+                          lastAccessStr, @"timestamp",
+                          nil];
+
+    NSError *jsonError;
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
+    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
+    
+    NSError *responseError;
+    Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/view/", albumId]
+                                    method:@"POST"
+                                      body:jsonData
+                                     error:&responseError];
+    
+    if (!response) {
+        *error = responseError;
+        return NO;
+    }
+    
+    if ([response isError]) {
+        *error = [ShotVibeAPI createErrorFromResponse:response];
+        return NO;
+    }
+    
+    return YES;
+}
+
+
 - (AlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error
 {
     NSError *responseError;
