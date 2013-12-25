@@ -14,12 +14,14 @@
                  etag:(NSString *)etag
                  name:(NSString *)name
           dateCreated:(NSDate *)dateCreated
-          dateUpdated:(NSDate *)dateUpdated;
+          dateUpdated:(NSDate *)dateUpdated
+           lastAccess:(NSDate *)lastAccess;
 
 @property (nonatomic, readonly, assign) int64_t albumId;
 @property (nonatomic, readonly, copy) NSString *etag;
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, copy) NSDate *dateCreated;
 @property (nonatomic, readonly, copy) NSDate *dateUpdated;
+@property (nonatomic, readonly, copy) NSDate *lastAccess;
 
 @end

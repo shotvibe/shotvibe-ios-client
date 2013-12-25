@@ -329,6 +329,7 @@ enum RefreshStatus
                                                  name:(NSString *)albumContents.name
                                           dateCreated:(NSDate *)albumContents.dateCreated
                                           dateUpdated:(NSDate *)albumContents.dateUpdated
+                                           lastAccess:(NSDate *)albumContents.lastAccess
                                                photos:combinedPhotos
                                               members:(NSArray *)albumContents.members];
     }
@@ -356,6 +357,7 @@ enum RefreshStatus
                                              name:(NSString *)albumContents.name
                                       dateCreated:(NSDate *)albumContents.dateCreated
                                       dateUpdated:(NSDate *)albumContents.dateUpdated
+                                       lastAccess:(NSDate *)albumContents.lastAccess
                                            photos:combinedPhotos
                                           members:(NSArray *)albumContents.members];
 }

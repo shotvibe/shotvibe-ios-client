@@ -417,6 +417,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
     @try {
         JSONArray *albumsArray = [[JSONArray alloc] initWithData:response.body];
+        //RCLog(@"\n\nresponse.body:\n%@", [[NSString alloc] initWithData:response.body encoding:NSUTF8StringEncoding]);
         for (int i = 0; i < [albumsArray count]; ++i) {
             JSONObject *albumObj = [albumsArray getJSONObject:i];
 
@@ -424,7 +425,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
             NSNumber *albumId = [albumObj getNumber:@"id"];
             NSString *name = [albumObj getString:@"name"];
             NSDate *dateUpdated = [albumObj getDate:@"last_updated"];
+            NSDate *lastAccess = [albumObj getDate:@"last_access"];
 
+            RCLog(@"Fetched album #%@ (\"%@\") from server: dateUpdated: %@, lastAccess: %@", albumId, name, dateUpdated, lastAccess);
             NSArray *latestPhotos = [ShotVibeAPI parsePhotoList:[albumObj getJSONArray:@"latest_photos"]];
 
             AlbumSummary *albumSummary = [[AlbumSummary alloc] initWithAlbumId:[albumId longLongValue]
@@ -432,6 +435,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
                                                                           name:name
                                                                    dateCreated:nil
                                                                    dateUpdated:dateUpdated
+                                                                    lastAccess:lastAccess
                                                                   latestPhotos:latestPhotos];
             [results addObject:albumSummary];
         }
@@ -477,6 +481,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     NSString *name = [obj getString:@"name"];
     NSDate *dateCreated = [obj getDate:@"date_created"];
     NSDate *dateUpdated = [obj getDate:@"last_updated"];
+    NSDate *lastAccess = [obj getDate:@"last_access"];
 
     JSONArray *membersArray = [obj getJSONArray:@"members"];
 
@@ -515,6 +520,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
                                                                      name:name
                                                               dateCreated:dateCreated
                                                               dateUpdated:dateUpdated
+                                                               lastAccess:lastAccess
                                                                    photos:photos
                                                                   members:members];
 

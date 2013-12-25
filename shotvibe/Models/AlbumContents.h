@@ -15,6 +15,7 @@
                  name:(NSString *)name
           dateCreated:(NSDate *)dateCreated
           dateUpdated:(NSDate *)dateUpdated
+           lastAccess:(NSDate *)lastAccess
                photos:(NSArray *)photos
               members:(NSArray *)members;
 

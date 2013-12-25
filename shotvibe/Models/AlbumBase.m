@@ -15,6 +15,7 @@
                  name:(NSString *)name
           dateCreated:(NSDate *)dateCreated
           dateUpdated:(NSDate *)dateUpdated
+           lastAccess:(NSDate *)lastAccess
 {
     self = [super init];
 
@@ -24,6 +25,7 @@
         _name = name;
         _dateCreated = dateCreated;
         _dateUpdated = dateUpdated;
+        _lastAccess = lastAccess;
     }
 
     return self;

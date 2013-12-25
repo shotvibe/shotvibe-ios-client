@@ -64,6 +64,9 @@ static NSNumber *toNumber(id value)
 
 static NSDate *toDate(id value)
 {
+    if (value == [NSNull null]) // Don't try to parse a date if value is null
+        return nil;
+
     if (![value isKindOfClass:[NSString class]]) {
         @throw [[JSONException alloc] initWithMessage:@"Expected a JSON Date, got: %@", [value description]];
     }

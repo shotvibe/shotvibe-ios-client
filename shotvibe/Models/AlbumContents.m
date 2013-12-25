@@ -15,10 +15,11 @@
                  name:(NSString *)name
           dateCreated:(NSDate *)dateCreated
           dateUpdated:(NSDate *)dateUpdated
+           lastAccess:(NSDate *)lastAccess
                photos:(NSArray *)photos
               members:(NSArray *)members
 {
-    self = [super initWithAlbumId:albumId etag:etag name:name dateCreated:dateCreated dateUpdated:dateUpdated];
+    self = [super initWithAlbumId:albumId etag:etag name:name dateCreated:dateCreated dateUpdated:dateUpdated lastAccess:lastAccess];
 
     if (self) {
         _photos = photos;

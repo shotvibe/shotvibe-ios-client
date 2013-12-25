@@ -10,6 +10,7 @@ album_id INTEGER PRIMARY KEY,
 name TEXT NOT NULL,
 
 last_updated DATETIME NOT NULL,
+last_access DATETIME NULL,
 
 -- The value from the HTTP ETag header for the album 
 last_etag TEXT

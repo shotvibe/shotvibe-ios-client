@@ -15,6 +15,7 @@
                  name:(NSString *)name
           dateCreated:(NSDate *)dateCreated
           dateUpdated:(NSDate *)dateUpdated
+           lastAccess:(NSDate *)lastAccess
          latestPhotos:(NSArray *)latestPhotos;
 
 // Array of `AlbumPhoto` objects
