@@ -382,7 +382,6 @@ enum RefreshStatus
 - (void)markAlbumAsViewed:(AlbumContents *)album
 {
     if (album.photos.count > 0) {
-        RCLog(@"Album #%lld being marked as viewed.", album.albumId);
         NSDate *mostRecentPhotoDate = nil;
         for (int i=1; i<album.photos.count; i++) {
             AlbumServerPhoto *photo = ((AlbumPhoto *)album.photos[i]).serverPhoto;
@@ -390,7 +389,6 @@ enum RefreshStatus
             if (photo) { // don't do this if album.photos[i] is not a serverPhoto
                 mostRecentPhotoDate = !mostRecentPhotoDate ? photo.dateAdded
                                                            : [mostRecentPhotoDate laterDate:photo.dateAdded];
-                NSLog(@"photo: %@ most recent:%@", photo.dateAdded, mostRecentPhotoDate);
             }
         }
         
@@ -405,9 +403,6 @@ enum RefreshStatus
         if (![shotvibeDB markAlbumAsViewed:album.albumId lastAccess:lastAccess]) {
             RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
         }
-        
-        AlbumContents *testContents = [shotvibeDB getAlbumContents:album.albumId];
-        NSLog(@"testContents.lastAccess: %@", testContents.lastAccess);
     }
     
     [self reportAlbumUpdate:album.albumId]; // trigger refreshes
