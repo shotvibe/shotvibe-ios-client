@@ -16,6 +16,11 @@
 #import "AlbumMember.h"
 
 @implementation ShotVibeDB
+{
+    // Used to store the SQLite error string, before running a "rollback", since the rollback command will overwrite the SQLite error state.
+    NSString *prevSQLiteError_;
+}
+
 
 static NSString * const DATABASE_FILE = @"shotvibe.db";
 
@@ -25,6 +30,8 @@ static const int DATABASE_VERSION = 1;
 - (id)init
 {
     self = [super init];
+
+    prevSQLiteError_ = nil;
 
     NSString *databaseDirectory = [FileUtils getApplicationSupportDirectory];
     NSString *databasePath = [databaseDirectory stringByAppendingPathComponent:DATABASE_FILE];
@@ -87,14 +94,37 @@ static const int DATABASE_VERSION = 1;
     }
 }
 
+
 - (NSString *)lastErrorMessage
 {
-    return [db lastErrorMessage];
+    // The string that SQLite returns when there is no error
+    NSString *notErrorString = @"not an error";
+
+    NSString *sqliteLastError = [db lastErrorMessage];
+
+    if (!prevSQLiteError_ || [prevSQLiteError_ isEqualToString:notErrorString]) {
+        // No previous error before DB "rollback"
+        return sqliteLastError;
+    }
+
+    if ([sqliteLastError isEqualToString:notErrorString]) {
+        // Only error was previous error before DB "rollback"
+        return prevSQLiteError_;
+    }
+
+    // Previous error before DB "rollback" as well as error during "rollback"
+    return [NSString stringWithFormat:@"Original Error: \"%@\" Rollback Error: \"%@\"", prevSQLiteError_, sqliteLastError];
 }
+
 
 #pragma mark Data Store methods
 
-#define ABORT_TRANSACTION [db rollback]; return NO;
+
+#define ABORT_TRANSACTION                     \
+    prevSQLiteError_ = [db lastErrorMessage]; \
+    [db rollback];                            \
+    return NO;
+
 
 - (NSArray *)getAlbumList
 {
