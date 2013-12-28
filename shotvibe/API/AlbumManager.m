@@ -247,7 +247,7 @@ enum RefreshStatus
                     [self cleanAlbumContentsListeners:albumId];
                 });
 
-                NSLog(@"### AlbumManager.refreshAlbumContents: ERROR in shotvibeAPI getAlbumContents for %@:\n%@", albumId,[error localizedDescription]);
+                NSLog(@"### AlbumManager.refreshAlbumContents: ERROR in shotvibeAPI getAlbumContents for %lld:\n%@", albumId,[error localizedDescription]);
                 // TODO Schedule to retry soon
                 return;
             }
@@ -329,6 +329,7 @@ enum RefreshStatus
                                                  name:(NSString *)albumContents.name
                                           dateCreated:(NSDate *)albumContents.dateCreated
                                           dateUpdated:(NSDate *)albumContents.dateUpdated
+                                           numNewPhotos:(int64_t)albumContents.numNewPhotos
                                            lastAccess:(NSDate *)albumContents.lastAccess
                                                photos:combinedPhotos
                                               members:(NSArray *)albumContents.members];
@@ -357,6 +358,7 @@ enum RefreshStatus
                                              name:(NSString *)albumContents.name
                                       dateCreated:(NSDate *)albumContents.dateCreated
                                       dateUpdated:(NSDate *)albumContents.dateUpdated
+                                     numNewPhotos:(int64_t)albumContents.numNewPhotos
                                        lastAccess:(NSDate *)albumContents.lastAccess
                                            photos:combinedPhotos
                                           members:(NSArray *)albumContents.members];

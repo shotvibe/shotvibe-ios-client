@@ -375,7 +375,8 @@
 															  name:album.name
 													   dateCreated:album.dateCreated
 													   dateUpdated:[NSDate date]
-                                                        lastAccess:album.lastAccess // TODO check this
+                                                      numNewPhotos:(int64_t)album.numNewPhotos
+                                                        lastAccess:album.lastAccess
 													  latestPhotos:album.latestPhotos];
 	//album.dateUpdated = [NSDate date];
 	[albumList removeObjectAtIndex:i];
@@ -665,6 +666,7 @@
 																	   name:albumContents.name
 																dateCreated:albumContents.dateCreated
 																dateUpdated:albumContents.dateUpdated
+                                                               numNewPhotos:(int64_t)albumContents.numNewPhotos
                                                                  lastAccess:albumContents.lastAccess
 															   latestPhotos:[NSArray array]];
 				[albumList insertObject:album atIndex:0];
