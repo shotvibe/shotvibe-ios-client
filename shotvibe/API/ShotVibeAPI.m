@@ -398,6 +398,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return YES;
 }
 
+
 - (NSArray *)getAlbumsWithError:(NSError **)error
 {
     NSError *responseError;
