@@ -30,4 +30,10 @@
     return self;
 }
 
+// Return YES if the photo was added after its album was last accessed.
+- (BOOL)isNew
+{
+    return self.lastAccess ? [self.dateAdded compare:self.lastAccess] == NSOrderedDescending : YES;
+} // TODO: take into account user id
+
 @end
