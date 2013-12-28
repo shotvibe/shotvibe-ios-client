@@ -342,25 +342,30 @@
 {
     SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVAlbumGridViewCell" forIndexPath:indexPath];
     __block NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
-	
-	[cell.networkImageView setImage:nil];
-	
+
+    [cell.networkImageView setImage:nil];
+
     AlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
 
     if (photo.serverPhoto) {
         [cell.networkImageView setPhoto:photo.serverPhoto.photoId photoUrl:photo.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
         cell.uploadProgressView.hidden = YES;
-    }
-    else if (photo.uploadingPhoto) {
-		
+
+        RCLog(@"cellForItemAtPath url:%@ added:%@ access:%@", photo.serverPhoto.url, photo.serverPhoto.dateAdded, photo.serverPhoto.lastAccess);
+
+        cell.labelNewView.hidden = ![photo.serverPhoto isNew];
+    } else if (photo.uploadingPhoto) {
         [cell.networkImageView setImage:[photo.uploadingPhoto getThumbnail]];
-		
+
         cell.uploadProgressView.hidden = NO;
         cell.uploadProgressView.progress = 0.0f;
+
+        cell.labelNewView.hidden = YES;
     }
-    
+
     return cell;
 }
+
 
 // Section headers
 
