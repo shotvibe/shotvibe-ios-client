@@ -98,7 +98,7 @@ static const int DATABASE_VERSION = 2;
 
 - (NSArray *)getAlbumList
 {
-    FMResultSet* s = [db executeQuery:@"SELECT album_id, name, last_updated, num_new_photos, last_access FROM album ORDER BY last_updated ASC"];
+    FMResultSet *s = [db executeQuery:@"SELECT album_id, name, last_updated, num_new_photos, last_access FROM album ORDER BY last_updated ASC"];
     if (!s) {
         return nil;
     }
@@ -210,18 +210,18 @@ static const int DATABASE_VERSION = 2;
     // Keep track of all the new albumIds in an efficient data structure
     NSMutableSet *albumIds = [[NSMutableSet alloc] init];
 
-    for(AlbumSummary *album in albums) {
+    for (AlbumSummary *album in albums) {
         [albumIds addObject:[NSNumber numberWithLongLong:album.albumId]];
 
         NSLog(@"Updating: setAlbumList");
         // First try updating an existing row, in order to not erase an existing etag value
-        if(![db executeUpdate:@"UPDATE album SET album_id=?, name=?, last_updated=?, num_new_photos=?, last_access=? WHERE album_id=?",
-             [NSNumber numberWithLongLong:album.albumId],
-             album.name,
-             album.dateUpdated,
-             [NSNumber numberWithLongLong:album.numNewPhotos],
-             album.lastAccess,
-             [NSNumber numberWithLongLong:album.albumId]]) {
+        if (![db executeUpdate:@"UPDATE album SET album_id=?, name=?, last_updated=?, num_new_photos=?, last_access=? WHERE album_id=?",
+              [NSNumber numberWithLongLong:album.albumId],
+              album.name,
+              album.dateUpdated,
+              [NSNumber numberWithLongLong:album.numNewPhotos],
+              album.lastAccess,
+              [NSNumber numberWithLongLong:album.albumId]]) {
             ABORT_TRANSACTION;
         }
 
@@ -270,7 +270,7 @@ static const int DATABASE_VERSION = 2;
 
 - (AlbumContents *)getAlbumContents:(int64_t)albumId
 {
-    FMResultSet* s = [db executeQuery:@"SELECT name, last_updated, num_new_photos, last_access FROM album WHERE album_id=?", [NSNumber numberWithLongLong:albumId]];
+    FMResultSet *s = [db executeQuery:@"SELECT name, last_updated, num_new_photos, last_access FROM album WHERE album_id=?", [NSNumber numberWithLongLong:albumId]];
     if (!s) {
         return nil;
     }
@@ -348,6 +348,7 @@ static const int DATABASE_VERSION = 2;
     return albumContents;
 }
 
+
 - (BOOL)setAlbumContents:(int64_t)albumId withContents:(AlbumContents *)albumContents
 {
     if (![db beginTransaction]) {
@@ -355,13 +356,13 @@ static const int DATABASE_VERSION = 2;
     }
     RCLog(@"setAlbumContents: name:%@ last_updated:%@ num_new_photos:%lld last_access:%@ last_etag:%@", albumContents.name, albumContents.dateUpdated, albumContents.numNewPhotos, albumContents.lastAccess, albumContents.etag);
 
-    if(![db executeUpdate:@"INSERT OR REPLACE INTO album (album_id, name, last_updated, num_new_photos, last_access, last_etag) VALUES (?, ?, ?, ?, ?, ?)",
-         [NSNumber numberWithLongLong:albumContents.albumId],
-         albumContents.name,
-         albumContents.dateUpdated,
-         [NSNumber numberWithLongLong:albumContents.numNewPhotos],
-         albumContents.lastAccess,
-         albumContents.etag]) {
+    if (![db executeUpdate:@"INSERT OR REPLACE INTO album (album_id, name, last_updated, num_new_photos, last_access, last_etag) VALUES (?, ?, ?, ?, ?, ?)",
+          [NSNumber numberWithLongLong:albumContents.albumId],
+          albumContents.name,
+          albumContents.dateUpdated,
+          [NSNumber numberWithLongLong:albumContents.numNewPhotos],
+          albumContents.lastAccess,
+          albumContents.etag]) {
         ABORT_TRANSACTION;
     }
 

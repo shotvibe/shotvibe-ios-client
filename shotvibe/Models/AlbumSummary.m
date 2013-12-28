@@ -16,7 +16,7 @@
           dateCreated:(NSDate *)dateCreated
           dateUpdated:(NSDate *)dateUpdated
          numNewPhotos:(int64_t)numNewPhotos
-          lastAccess:(NSDate *)lastAccess
+           lastAccess:(NSDate *)lastAccess
          latestPhotos:(NSArray *)latestPhotos
 {
     self = [super initWithAlbumId:albumId etag:etag name:name dateCreated:dateCreated dateUpdated:dateUpdated numNewPhotos:numNewPhotos lastAccess:lastAccess];
@@ -27,5 +27,6 @@
 
     return self;
 }
+
 
 @end
