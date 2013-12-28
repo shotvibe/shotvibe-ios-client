@@ -15,11 +15,13 @@
 - (id)initWithPhotoId:(NSString *)photoId
                   url:(NSString *)url
                author:(AlbumUser *)author
-            dateAdded:(NSDate *)dateAdded;
+            dateAdded:(NSDate *)dateAdded
+           lastAccess:(NSDate *)lastAccess;
 
 @property (nonatomic, readonly, copy) NSString *photoId;
 @property (nonatomic, readonly, copy) NSString *url;
 @property (nonatomic, readonly, strong) AlbumUser* author;
 @property (nonatomic, readonly, copy) NSDate *dateAdded;
+@property (nonatomic, readonly, copy) NSDate *lastAccess;
 
 @end

@@ -14,6 +14,8 @@
                   url:(NSString *)url
                author:(AlbumUser *)author
             dateAdded:(NSDate *)dateAdded
+           lastAccess:(NSDate *)lastAccess
+
 {
     self = [super init];
 
@@ -22,6 +24,7 @@
         _url = url;
         _author = author;
         _dateAdded = dateAdded;
+        _lastAccess = lastAccess;
     }
 
     return self;
