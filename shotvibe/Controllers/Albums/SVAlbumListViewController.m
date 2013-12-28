@@ -450,12 +450,16 @@
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.delegate = self;
 	cell.parentTableView = self.tableView;
-	
+
     AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+
+    NSString *poorMansBadge = album.numNewPhotos > 0 ? [NSString stringWithFormat:@"    (%lld)", album.numNewPhotos] : @"";
+    // TODO: rather than appending this string to the album name, we need a fancy badge
+
 	NSString *distanceOfTimeInWords = [album.dateUpdated distanceOfTimeInWords];
-    
+
     cell.tag = indexPath.row;
-	cell.title.text = album.name;
+	cell.title.text = [album.name stringByAppendingString:poorMansBadge];
 	[cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
 
     [cell.networkImageView setImage:nil];
