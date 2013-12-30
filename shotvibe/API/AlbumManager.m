@@ -386,13 +386,11 @@ enum RefreshStatus
 {
     if (album.photos.count > 0) {
         NSDate *mostRecentPhotoDate = nil;
-        for (int i = 1; i < album.photos.count; i++) {
-            AlbumServerPhoto *photo = ((AlbumPhoto *)album.photos[i]).serverPhoto;
-
-            if (photo) { // don't do this if album.photos[i] is not a serverPhoto
+        for (AlbumPhoto *photo in album.photos) {
+            if (photo.serverPhoto) { // don't do this if album.photos[i] is not a serverPhoto
                 mostRecentPhotoDate = !mostRecentPhotoDate
-                    ? photo.dateAdded
-                    : [mostRecentPhotoDate laterDate:photo.dateAdded];
+                    ? photo.serverPhoto.dateAdded
+                    : [mostRecentPhotoDate laterDate:photo.serverPhoto.dateAdded];
             }
         }
 
