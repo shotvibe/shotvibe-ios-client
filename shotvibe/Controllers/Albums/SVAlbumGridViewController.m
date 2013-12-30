@@ -353,7 +353,7 @@
 
         RCLog(@"cellForItemAtPath url:%@ added:%@ access:%@", photo.serverPhoto.url, photo.serverPhoto.dateAdded, photo.serverPhoto.lastAccess);
 
-        cell.labelNewView.hidden = ![photo.serverPhoto isNew];
+        cell.labelNewView.hidden = ![photo.serverPhoto isNewForMember:self.albumManager.getShotVibeAPI.authData.userId];
     } else if (photo.uploadingPhoto) {
         [cell.networkImageView setImage:[photo.uploadingPhoto getThumbnail]];
 

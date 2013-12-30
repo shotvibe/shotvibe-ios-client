@@ -30,10 +30,13 @@
     return self;
 }
 
-// Return YES if the photo was added after its album was last accessed.
-- (BOOL)isNew
+// Return YES if the photo was added after its album was last accessed and memberId is not the author.
+- (BOOL)isNewForMember:(int64_t)memberId
 {
-    return self.lastAccess ? [self.dateAdded compare:self.lastAccess] == NSOrderedDescending : YES;
-} // TODO: take into account user id
+    if (self.author.memberId == memberId)
+        return NO;
+    else
+        return self.lastAccess ? [self.dateAdded compare:self.lastAccess] == NSOrderedDescending : YES;
+}
 
 @end

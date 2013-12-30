@@ -24,6 +24,6 @@
             dateAdded:(NSDate *)dateAdded
            lastAccess:(NSDate *)lastAccess;
 
-- (BOOL)isNew;
+- (BOOL)isNewForMember:(int64_t)memberId;
 
 @end
