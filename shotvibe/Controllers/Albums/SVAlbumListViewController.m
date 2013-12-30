@@ -453,13 +453,17 @@
 
     AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 
-    NSString *poorMansBadge = album.numNewPhotos > 0 ? [NSString stringWithFormat:@"    (%lld)", album.numNewPhotos] : @"";
-    // TODO: rather than appending this string to the album name, we need a fancy badge
+    if (album.numNewPhotos > 0) {
+        cell.numberNotViewedIndicator.titleLabel.text = [NSString stringWithFormat:@"%lld", album.numNewPhotos];
+        cell.numberNotViewedIndicator.hidden = NO;
+    } else
+        cell.numberNotViewedIndicator.hidden = YES;
+
 
 	NSString *distanceOfTimeInWords = [album.dateUpdated distanceOfTimeInWords];
 
     cell.tag = indexPath.row;
-	cell.title.text = [album.name stringByAppendingString:poorMansBadge];
+	cell.title.text = album.name;
 	[cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
 
     [cell.networkImageView setImage:nil];
