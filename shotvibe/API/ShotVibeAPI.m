@@ -427,7 +427,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
             NSString *name = [albumObj getString:@"name"];
             NSDate *dateUpdated = [albumObj getDate:@"last_updated"];
             NSNumber *numNewPhotos = [albumObj getNumber:@"num_new_photos"];
-            NSDate *lastAccess = [albumObj getDate:@"last_access"];
+            NSDate *lastAccess = [albumObj isNull:@"last_access"] ? nil : [albumObj getDate:@"last_access"];
 
             RCLog(@"Fetched album #%@ (\"%@\") from server: dateUpdated: %@, numNewPhotos: %@, lastAccess: %@", albumId, name, dateUpdated, numNewPhotos, lastAccess);
             NSArray *latestPhotos = [ShotVibeAPI parsePhotoList:[albumObj getJSONArray:@"latest_photos"]];
@@ -521,7 +521,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     NSDate *dateCreated = [obj getDate:@"date_created"];
     NSDate *dateUpdated = [obj getDate:@"last_updated"];
     NSNumber *numNewPhotos = [obj getNumber:@"num_new_photos"];
-    NSDate *lastAccess = [obj getDate:@"last_access"];
+    NSDate *lastAccess = [obj isNull:@"last_access"] ? nil : [obj getDate:@"last_access"];
 
     JSONArray *membersArray = [obj getJSONArray:@"members"];
 

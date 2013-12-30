@@ -26,6 +26,7 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
+- (BOOL)isNull:(NSString *)key;
 - (NSString *)getString:(NSString *)key;
 - (NSNumber *)getNumber:(NSString *)key;
 - (NSDate *)getDate:(NSString *)key;
