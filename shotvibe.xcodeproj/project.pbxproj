@@ -3127,7 +3127,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" == \"Debug\" ]; then\n    ./tools/style_check_xcode.sh\nfi";
+			shellScript = "if [ \"${CONFIGURATION}\" == \"Debug\" ]; then\n    ./tools/style_check_xcode_only_new.py\nfi";
 		};
 		AA58FB1B16C224E800C49E02 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

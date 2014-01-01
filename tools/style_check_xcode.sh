@@ -5,28 +5,19 @@
 #
 # http://briancoyner.github.io/blog/2013/06/20/generating-xcode-errors/
 
+UNCRUSTIFY=./tools/uncrustify
 
-# The following is a hack to only check the currently open file in Xcode. This
-# is done since Xcode only shows up to 200 warnings, and we currently have much
-# more than this in the project. By only checking the current file, we make
-# sure that all warnings in the file are shown
+export UNCRUSTIFY
 
-path=$(osascript <<APPLESCRIPT
+run_uncrustify() {
+  $UNCRUSTIFY -c uncrustify.cfg -l OC -f "$1" | ./tools/diffstyle.py --msg-template="{path}:{line}:{col}: warning: {msg}" "$1"
+  return 0
+}
 
-tell application "Xcode"
-    set current_document to last source document
-    set current_document_path to path of current_document
-end tell
+export -f run_uncrustify
 
-APPLESCRIPT
-)
-
-
-# Only check if the file is an Objective-C source code file
-if [[ $path =~ (.m|.h)$ ]]
-then
-  ./tools/uncrustify -c uncrustify.cfg -l OC -f "$path" | ./tools/diffstyle.py --msg-template="{path}:{line}:{col}: warning: {msg}" "$path"
-fi
+# Skip the "Vendor" Directory
+find shotvibe -path shotvibe/Vendor -prune -o -name '*.[mh]' -print0 | xargs -0 -P 4 -n 1 -I {} $BASH -c 'run_uncrustify {}'
 
 # Always return success in order to not cause the build to fail
 true
