@@ -17,7 +17,7 @@ run_uncrustify() {
 export -f run_uncrustify
 
 # Skip the "Vendor" Directory
-find shotvibe -path shotvibe/Vendor -prune -o -name '*.[mh]' -print0 | xargs -0 -n 1 -I {} $BASH -c 'run_uncrustify {}'
+find shotvibe -path shotvibe/Vendor -prune -o -name '*.[mh]' -print0 | xargs -0 -P 4 -n 1 -I {} $BASH -c 'run_uncrustify {}'
 
 # Always return success in order to not cause the build to fail
 true
