@@ -470,7 +470,7 @@ static const int DATABASE_VERSION = 2;
         return NO;
     }
 
-    if(![db executeUpdate:@"UPDATE album SET last_access=? WHERE album_id=?",
+    if(![db executeUpdate:@"UPDATE album SET last_access=?, num_new_photos=0 WHERE album_id=?",
          lastAccess,
          [NSNumber numberWithLongLong:albumId]]) {
     }
