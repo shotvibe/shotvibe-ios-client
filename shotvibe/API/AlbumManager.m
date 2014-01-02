@@ -395,12 +395,16 @@ enum RefreshStatus
         }
 
         NSDate *lastAccess = mostRecentPhotoDate;
-        NSError *error;
-        BOOL success = [shotvibeAPI markAlbumAsViewed:album.albumId lastAccess:lastAccess withError:&error];
 
-        if (!success) {
-            NSLog(@"### AlbumManager.markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", [error localizedDescription]);
-        } // TODO: handle error
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSError *error;
+
+            BOOL success = [shotvibeAPI markAlbumAsViewed:album.albumId lastAccess:lastAccess withError:&error];
+
+            if (!success) {
+                NSLog(@"### AlbumManager.markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", [error localizedDescription]);
+            } // TODO: handle error
+        });
 
         if (![shotvibeDB markAlbumAsViewed:album.albumId lastAccess:lastAccess]) {
             RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
