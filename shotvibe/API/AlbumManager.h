@@ -49,4 +49,8 @@
 
 - (void)markAlbumAsViewed:(AlbumContents *)album;
 
+- (void)refreshAlbumListFromDb;
+
+- (void)refreshAlbumContentsFromDb:(int64_t)albumId;
+
 @end

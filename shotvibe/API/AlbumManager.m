@@ -409,9 +409,41 @@ enum RefreshStatus
         if (![shotvibeDB markAlbumAsViewed:album.albumId lastAccess:lastAccess]) {
             RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
         }
-    }
 
-    [self reportAlbumUpdate:album.albumId]; // trigger refreshes
+        [self refreshAlbumListFromDb];
+        [self refreshAlbumContentsFromDb:album.albumId];
+    }
+}
+
+
+// Update album list with database version for all listeners
+- (void)refreshAlbumListFromDb
+{
+    NSArray *albumListFromDb = [shotvibeDB getAlbumList];
+
+    if (albumListFromDb) { // TODO: handle error
+        for(id<AlbumListListener> listener in albumListListeners) {
+            [listener onAlbumListBeginRefresh];
+            [listener onAlbumListRefreshComplete:albumListFromDb];
+        }
+    }
+}
+
+// Update album contents with contents from database for all its listeners
+- (void)refreshAlbumContentsFromDb:(int64_t)albumId
+{
+    AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
+
+    if (data) {
+        AlbumContents *albumContentsFromDb = [shotvibeDB getAlbumContents:albumId];
+
+        if (albumContentsFromDb) { // TODO: handle error
+            for (id<AlbumContentsListener> listener in data.listeners) {
+                [listener onAlbumContentsBeginRefresh:albumId];
+                [listener onAlbumContentsRefreshComplete:albumId albumContents:albumContentsFromDb];
+            }
+        }
+    }
 }
 
 
