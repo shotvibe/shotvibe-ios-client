@@ -12,9 +12,9 @@
 + (void)traceFile:(NSString*)file line:(int)line message:(NSString*)message {
 	
 	printf("%s:%s: %s\n",
-		   [file cStringUsingEncoding:NSStringEncodingConversionAllowLossy],
-		   [[NSString stringWithFormat:@"%i", line] cStringUsingEncoding:NSStringEncodingConversionAllowLossy],
-		   [message cStringUsingEncoding:NSStringEncodingConversionAllowLossy]);
+		   [file cStringUsingEncoding:NSUTF8StringEncoding],
+		   [[NSString stringWithFormat:@"%i", line] cStringUsingEncoding:NSUTF8StringEncoding],
+		   [message cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
 + (void)traceTimestamp {
