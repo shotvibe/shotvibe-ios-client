@@ -51,8 +51,25 @@ static const int DATABASE_VERSION = 1;
         if ([resultSet next]) {
             version = [resultSet intForColumnIndex:0];
         }
+        RCLog(@"Existing database version: %d, required version: %d", version, DATABASE_VERSION);
+
         if (version < DATABASE_VERSION) {
-            // TODO Perform database migration
+            RCLog(@"Existing database version (%d) is lower than required (%d), migration started.", version, DATABASE_VERSION);
+            [db close];
+            NSError *error;
+            if ([[NSFileManager defaultManager] removeItemAtPath:databasePath error:&error] != YES) {
+                NSAssert(@"Unable to delete old database: %@", [error localizedDescription]);
+            }
+
+            // TODO: Perform actual database migration, rather than deleting the old database and creating a new one
+
+            db = [FMDatabase databaseWithPath:databasePath];
+            if (![db open]) {
+                NSAssert(false, @"Error Opening database: %@", [db lastErrorMessage]);
+            }
+            [FileUtils addSkipBackupAttributeToItemAtURL:databasePath];
+
+            [self createNewEmptyDatabase];
         }
     }
     else {
