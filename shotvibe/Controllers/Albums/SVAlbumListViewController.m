@@ -454,7 +454,7 @@
     AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 
     if (album.numNewPhotos > 0) {
-        cell.numberNotViewedIndicator.titleLabel.text = [NSString stringWithFormat:@"%lld", album.numNewPhotos];
+        [cell.numberNotViewedIndicator setTitle:album.numNewPhotos > 99 ? @"99+" : [NSString stringWithFormat:@"%lld", album.numNewPhotos] forState:UIControlStateNormal];
         cell.numberNotViewedIndicator.hidden = NO;
     } else
         cell.numberNotViewedIndicator.hidden = YES;
