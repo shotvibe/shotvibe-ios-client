@@ -260,13 +260,12 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
-// TODO: this code is never called
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	navigatingNext = YES;
 
     if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
-		
+		// TODO: Not called, Settings is not reachable from this view
         SVSettingsViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
     }
@@ -281,7 +280,7 @@
 		self.scrollToTop = YES;
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
-
+        // TODO: Not called when going to AddFriends
 		SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumManager = self.albumManager;
