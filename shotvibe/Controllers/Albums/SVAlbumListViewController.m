@@ -454,7 +454,8 @@
     
     cell.tag = indexPath.row;
 	cell.title.text = album.name;
-	[cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
+    cell.author.text = @"";
+    cell.timestamp.hidden = YES;
 
     [cell.networkImageView setImage:nil];
 	// TODO: ltestPhotos might be nil if we insert an AlbumContents instead AlbumSummary
@@ -464,11 +465,13 @@
 			cell.author.text = [NSString stringWithFormat:@"Last added by %@", latestPhoto.serverPhoto.author.nickname];
 
             [cell.networkImageView setPhoto:latestPhoto.serverPhoto.photoId photoUrl:latestPhoto.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
+            [cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
+            cell.timestamp.hidden = NO;
         }
     }
 	else {
 		[cell.networkImageView setImage:[UIImage imageNamed:@"placeholderImage"]];
-		cell.author.text = @"";
+        cell.author.text = [NSString stringWithFormat:@"Empty album"];
 	}
 
     return cell;
