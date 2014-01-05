@@ -2676,6 +2676,7 @@
 				AA58FAF516C224E800C49E02 /* Resources */,
 				3B1E4D2A17AD6C8800CACE80 /* ShellScript */,
 				66D58347186858C200EAC842 /* ShellScript */,
+				10D366C41879EF8200E6FF4C /* Run Script: set git info in target Info.plist */,
 			);
 			buildRules = (
 			);
@@ -3229,6 +3230,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		10D366C41879EF8200E6FF4C /* Run Script: set git info in target Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script: set git info in target Info.plist";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "tools/genGitInfo.sh\n";
+		};
 		3B1E4D2A17AD6C8800CACE80 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
