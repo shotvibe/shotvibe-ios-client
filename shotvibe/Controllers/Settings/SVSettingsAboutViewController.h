@@ -12,5 +12,6 @@
 @interface SVSettingsAboutViewController : UITableViewController
 
 @property (nonatomic, weak) IBOutlet UILabel *versionLabel;
+@property (nonatomic, weak) IBOutlet UILabel *gitInfoLabel;
 
 @end
