@@ -15,6 +15,8 @@
                  name:(NSString *)name
           dateCreated:(NSDate *)dateCreated
           dateUpdated:(NSDate *)dateUpdated
+         numNewPhotos:(int64_t)numNewPhotos
+           lastAccess:(NSDate *)lastAccess
 {
     self = [super init];
 
@@ -24,6 +26,8 @@
         _name = name;
         _dateCreated = dateCreated;
         _dateUpdated = dateUpdated;
+        _numNewPhotos = numNewPhotos;
+        _lastAccess = lastAccess;
     }
 
     return self;

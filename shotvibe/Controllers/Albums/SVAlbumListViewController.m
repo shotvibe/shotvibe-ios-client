@@ -375,6 +375,8 @@
 															  name:album.name
 													   dateCreated:album.dateCreated
 													   dateUpdated:[NSDate date]
+                                                      numNewPhotos:(int64_t)album.numNewPhotos
+                                                        lastAccess:album.lastAccess
 													  latestPhotos:album.latestPhotos];
 	//album.dateUpdated = [NSDate date];
 	[albumList removeObjectAtIndex:i];
@@ -448,10 +450,18 @@
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.delegate = self;
 	cell.parentTableView = self.tableView;
-	
+
     AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+
+    if (album.numNewPhotos > 0) {
+        cell.numberNotViewedIndicator.titleLabel.text = [NSString stringWithFormat:@"%lld", album.numNewPhotos];
+        cell.numberNotViewedIndicator.hidden = NO;
+    } else
+        cell.numberNotViewedIndicator.hidden = YES;
+
+
 	NSString *distanceOfTimeInWords = [album.dateUpdated distanceOfTimeInWords];
-    
+
     cell.tag = indexPath.row;
 	cell.title.text = album.name;
     cell.author.text = @"";
@@ -670,6 +680,8 @@
 																	   name:albumContents.name
 																dateCreated:albumContents.dateCreated
 																dateUpdated:albumContents.dateUpdated
+                                                               numNewPhotos:(int64_t)albumContents.numNewPhotos
+                                                                 lastAccess:albumContents.lastAccess
 															   latestPhotos:[NSArray array]];
 				[albumList insertObject:album atIndex:0];
 				

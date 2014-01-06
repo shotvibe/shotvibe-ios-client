@@ -62,7 +62,8 @@ static NSNumber *toNumber(id value)
     return value;
 }
 
-static NSDate *toDate(id value)
+
+static NSDate * toDate(id value)
 {
     if (![value isKindOfClass:[NSString class]]) {
         @throw [[JSONException alloc] initWithMessage:@"Expected a JSON Date, got: %@", [value description]];
@@ -90,9 +91,10 @@ static NSDate *toDate(id value)
             @throw [[JSONException alloc] initWithMessage:@"Could not parse JSON Date: %@", [value description]];
         }
     }
-    
+
     return date;
 }
+
 
 @implementation JSONObject
 
@@ -138,6 +140,13 @@ static NSDate *toDate(id value)
 
     return result;
 }
+
+
+- (BOOL) isNull:(NSString *)key
+{
+    return [self getValue:key] == [NSNull null];
+}
+
 
 - (JSONArray *)getJSONArray:(NSString *)key
 {

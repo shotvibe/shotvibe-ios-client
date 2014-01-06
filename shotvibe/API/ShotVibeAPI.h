@@ -51,6 +51,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 // Returns an array of `AlbumSummary` objects
 - (NSArray *)getAlbumsWithError:(NSError **)error;
 
+- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(NSDate *)lastAccess withError:(NSError **)error;
+
 - (AlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error;
 
 - (AlbumContents *)createNewBlankAlbum:(NSString *)albumName withError:(NSError **)error;

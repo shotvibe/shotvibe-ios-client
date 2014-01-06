@@ -34,4 +34,6 @@
 
 - (BOOL)setAlbumContents:(int64_t)albumId withContents:(AlbumContents *)albumContents;
 
+- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(NSDate *)lastAccess;
+
 @end

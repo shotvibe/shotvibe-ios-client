@@ -169,10 +169,13 @@
 	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 }
 
+
 - (void)viewWillDisappear:(BOOL)animated
-{
+{ // TODO: this code is strange. Why not do this in viewDidDisappear and viewDidUnload?
     [super viewWillDisappear:animated];
-	
+
+    [self.albumManager markAlbumAsViewed:albumContents]; // TODO: move to viewDidDisappear after fixing this method
+
 	if (!navigatingNext) {
 		
 		[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
@@ -253,13 +256,15 @@
 
 - (void)backButtonPressed:(id)sender
 {
+    // TODO: apparently this method is not called when pressing Back
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
+// TODO: this code is never called
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	navigatingNext = YES;
-	
+
     if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
 		
         SVSettingsViewController *destinationController = segue.destinationViewController;
@@ -276,7 +281,7 @@
 		self.scrollToTop = YES;
     }
 	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
-		
+
 		SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumManager = self.albumManager;
@@ -461,7 +466,7 @@
 	detailController.index = i;
 	detailController.title = albumContents.name;
 	
-	navigatingNext = YES;
+    navigatingNext = YES;
     [self.navigationController pushViewController:detailController animated:YES];
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 }
