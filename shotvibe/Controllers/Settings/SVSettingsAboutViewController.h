@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SVWebViewController.h"
+#include "GeneratedGitInfo.h"
 
 @interface SVSettingsAboutViewController : UITableViewController
 
