@@ -55,7 +55,7 @@ def process_diff_file(lines):
             current_line += 1
 
         else:
-            raise ValueError('Strange line: "' + l + '"')
+            raise ValueError(dst_filename+': Strange line: "' + l + '"')
 
 
 def parse_dst_starting_line_num(line):
