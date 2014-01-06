@@ -49,13 +49,17 @@ def process_diff_file(lines):
         elif l.startswith("-"):
             # Ignore
             pass
+            
+        elif l.startswith("\\"):
+            # Ignore
+            pass
 
         elif l.startswith("+"):
             lines_set.add(current_line)
             current_line += 1
 
         else:
-            raise ValueError('Strange line: "' + l + '"')
+            raise ValueError(dst_filename+': Strange line: "' + l + '"')
 
 
 def parse_dst_starting_line_num(line):
