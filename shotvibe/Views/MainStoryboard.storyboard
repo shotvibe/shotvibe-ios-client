@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
@@ -81,10 +81,12 @@
                                                     </state>
                                                 </button>
                                                 <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SVE-6G-iDc">
-                                                    <rect key="frame" x="297" y="40" width="28" height="18"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                    <rect key="frame" x="283" y="41" width="28" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
+                                                    </accessibility>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
-                                                    <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     <state key="normal" title="0" backgroundImage="newPhotosIndicator.png">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2055,9 +2057,9 @@ activation code just sent to you</string>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="iIS-e3-EEA"/>
-        <segue reference="FFK-OC-3pt"/>
         <segue reference="i8y-Zz-QXE"/>
+        <segue reference="FFK-OC-3pt"/>
         <segue reference="vb9-kV-1Jh"/>
-        <segue reference="sNb-fh-mhv"/>
+        <segue reference="v3l-bV-OEi"/>
     </inferredMetricsTieBreakers>
 </document>

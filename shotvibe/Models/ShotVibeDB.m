@@ -168,7 +168,7 @@ static const int DATABASE_VERSION = 2;
         NSString *etag = nil;
 
         const int NUM_LATEST_PHOTOS = 2;
-        NSArray *latestPhotos = [self getLatestPhotos:albumId numPhotos:NUM_LATEST_PHOTOS];
+        NSArray *latestPhotos = [self getLatestPhotos:albumId numPhotos:NUM_LATEST_PHOTOS albumLastAccess:lastAccess];
         if (!latestPhotos) {
             return nil;
         }
@@ -188,7 +188,7 @@ static const int DATABASE_VERSION = 2;
 }
 
 // Returns a list of `AlbumPhoto` objects
-- (NSArray *)getLatestPhotos:(int64_t)albumId numPhotos:(int)numPhotos
+- (NSArray *)getLatestPhotos:(int64_t)albumId numPhotos:(int)numPhotos albumLastAccess:(NSDate *)albumLastAccess;
 {
     FMResultSet* s = [db executeQuery:@
                       "SELECT photo.photo_id, photo.url, photo.created, user.user_id, user.nickname, user.avatar_url FROM photo"
@@ -200,7 +200,7 @@ static const int DATABASE_VERSION = 2;
     if (!s) {
         return nil;
     }
-
+    
     NSMutableArray *results = [[NSMutableArray alloc] init];
     while ([s next]) {
         NSString *photoId = [s stringForColumnIndex:0];
@@ -217,7 +217,8 @@ static const int DATABASE_VERSION = 2;
         AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
                                                                                    url:photoUrl
                                                                                 author:photoAuthor
-                                                                             dateAdded:photoDateAdded];
+                                                                             dateAdded:photoDateAdded
+                                                                            lastAccess:albumLastAccess];
 
         AlbumPhoto *photo = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
         [results addObject:photo];
@@ -357,7 +358,8 @@ static const int DATABASE_VERSION = 2;
         AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
                                                                                    url:photoUrl
                                                                                 author:photoAuthor
-                                                                             dateAdded:photoDateAdded];
+                                                                             dateAdded:photoDateAdded
+                                                                            lastAccess:albumLastAccess];
 
         AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
         [albumPhotos addObject:albumPhoto];
@@ -515,7 +517,7 @@ static const int DATABASE_VERSION = 2;
         return NO;
     }
 
-    if(![db executeUpdate:@"UPDATE album SET last_access=? WHERE album_id=?",
+    if(![db executeUpdate:@"UPDATE album SET last_access=?, num_new_photos=0 WHERE album_id=?",
          lastAccess,
          [NSNumber numberWithLongLong:albumId]]) {
     }

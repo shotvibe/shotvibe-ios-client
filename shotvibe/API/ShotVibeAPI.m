@@ -430,7 +430,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
             NSDate *lastAccess = [albumObj isNull:@"last_access"] ? nil : [albumObj getDate:@"last_access"];
 
             RCLog(@"Fetched album #%@ (\"%@\") from server: dateUpdated: %@, numNewPhotos: %@, lastAccess: %@", albumId, name, dateUpdated, numNewPhotos, lastAccess);
-            NSArray *latestPhotos = [ShotVibeAPI parsePhotoList:[albumObj getJSONArray:@"latest_photos"]];
+            NSArray *latestPhotos = [ShotVibeAPI parsePhotoList:[albumObj getJSONArray:@"latest_photos"] albumLastAccess:lastAccess];
 
             AlbumSummary *albumSummary = [[AlbumSummary alloc] initWithAlbumId:[albumId longLongValue]
                                                                           etag:etag
@@ -525,7 +525,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
     JSONArray *membersArray = [obj getJSONArray:@"members"];
 
-    NSArray *photos = [ShotVibeAPI parsePhotoList:[obj getJSONArray:@"photos"]];
+    NSArray *photos = [ShotVibeAPI parsePhotoList:[obj getJSONArray:@"photos"] albumLastAccess:lastAccess];
 
     NSMutableArray *members = [[NSMutableArray alloc] init];
     for (int i = 0; i < membersArray.count; ++i) {
@@ -569,7 +569,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 }
 
 // May throw a JSONException!
-+ (NSArray *)parsePhotoList:(JSONArray *)photosArray
++ (NSArray *)parsePhotoList:(JSONArray *)photosArray albumLastAccess:(NSDate *)albumLastAccess
 {
     NSMutableArray *results = [[NSMutableArray alloc] init];
 
@@ -589,7 +589,8 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
                                                                                    url:photoUrl
                                                                                 author:author
-                                                                             dateAdded:photoDateCreated];
+                                                                             dateAdded:photoDateCreated
+                                                                            lastAccess:albumLastAccess];
 
         AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
         [results addObject:albumPhoto];

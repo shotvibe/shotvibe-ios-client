@@ -12,14 +12,18 @@
 
 @interface AlbumServerPhoto : NSObject
 
-- (id)initWithPhotoId:(NSString *)photoId
-                  url:(NSString *)url
-               author:(AlbumUser *)author
-            dateAdded:(NSDate *)dateAdded;
-
 @property (nonatomic, readonly, copy) NSString *photoId;
 @property (nonatomic, readonly, copy) NSString *url;
 @property (nonatomic, readonly, strong) AlbumUser* author;
 @property (nonatomic, readonly, copy) NSDate *dateAdded;
+@property (nonatomic, readonly, copy) NSDate *lastAccess;
+
+- (id)initWithPhotoId:(NSString *)photoId
+                  url:(NSString *)url
+               author:(AlbumUser *)author
+            dateAdded:(NSDate *)dateAdded
+           lastAccess:(NSDate *)lastAccess;
+
+- (BOOL)isNewForMember:(int64_t)memberId;
 
 @end

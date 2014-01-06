@@ -386,30 +386,64 @@ enum RefreshStatus
 {
     if (album.photos.count > 0) {
         NSDate *mostRecentPhotoDate = nil;
-        for (int i = 1; i < album.photos.count; i++) {
-            AlbumServerPhoto *photo = ((AlbumPhoto *)album.photos[i]).serverPhoto;
-
-            if (photo) { // don't do this if album.photos[i] is not a serverPhoto
+        for (AlbumPhoto *photo in album.photos) {
+            if (photo.serverPhoto) { // don't do this if album.photos[i] is not a serverPhoto
                 mostRecentPhotoDate = !mostRecentPhotoDate
-                    ? photo.dateAdded
-                    : [mostRecentPhotoDate laterDate:photo.dateAdded];
+                    ? photo.serverPhoto.dateAdded
+                    : [mostRecentPhotoDate laterDate:photo.serverPhoto.dateAdded];
             }
         }
 
         NSDate *lastAccess = mostRecentPhotoDate;
-        NSError *error;
-        BOOL success = [shotvibeAPI markAlbumAsViewed:album.albumId lastAccess:lastAccess withError:&error];
 
-        if (!success) {
-            NSLog(@"### AlbumManager.markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", [error localizedDescription]);
-        } // TODO: handle error
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSError *error;
+
+            BOOL success = [shotvibeAPI markAlbumAsViewed:album.albumId lastAccess:lastAccess withError:&error];
+
+            if (!success) {
+                NSLog(@"### AlbumManager.markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", [error localizedDescription]);
+            } // TODO: handle error
+        });
 
         if (![shotvibeDB markAlbumAsViewed:album.albumId lastAccess:lastAccess]) {
             RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
         }
-    }
 
-    [self reportAlbumUpdate:album.albumId]; // trigger refreshes
+        [self refreshAlbumListFromDb];
+        [self refreshAlbumContentsFromDb:album.albumId];
+    }
+}
+
+
+// Update album list with database version for all listeners
+- (void)refreshAlbumListFromDb
+{
+    NSArray *albumListFromDb = [shotvibeDB getAlbumList];
+
+    if (albumListFromDb) { // TODO: handle error
+        for(id<AlbumListListener> listener in albumListListeners) {
+            [listener onAlbumListBeginRefresh];
+            [listener onAlbumListRefreshComplete:albumListFromDb];
+        }
+    }
+}
+
+// Update album contents with contents from database for all its listeners
+- (void)refreshAlbumContentsFromDb:(int64_t)albumId
+{
+    AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
+
+    if (data) {
+        AlbumContents *albumContentsFromDb = [shotvibeDB getAlbumContents:albumId];
+
+        if (albumContentsFromDb) { // TODO: handle error
+            for (id<AlbumContentsListener> listener in data.listeners) {
+                [listener onAlbumContentsBeginRefresh:albumId];
+                [listener onAlbumContentsRefreshComplete:albumId albumContents:albumContentsFromDb];
+            }
+        }
+    }
 }
 
 
