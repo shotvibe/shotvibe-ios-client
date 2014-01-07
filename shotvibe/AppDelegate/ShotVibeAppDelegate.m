@@ -338,8 +338,10 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
         NSURL* url = [NSURL URLWithString:shotvibeAppInitUrl];
         NSAssert(url != nil, @"Error construction NSURL from string %@", shotvibeAppInitUrl);
 		
-        BOOL success = [application openURL:url];
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            BOOL success = [application openURL:url]; // call openURL: asynchronously to prevent deadlock
         NSAssert(success, @"Error opening url: %@", [url description]);
+        });
     }
     else {
         // Skip the autologin, just use the country code
