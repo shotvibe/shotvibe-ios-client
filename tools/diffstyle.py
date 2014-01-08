@@ -220,7 +220,11 @@ if __name__ == "__main__":
 
     for v in violations:
         v.filename = original_filename
-        print(v.format_msg(options.msg_template))
+
+        # Write entire lines to the output in one shot, so that output from
+        # parallel runs can be mixed
+        sys.stdout.write(v.format_msg(options.msg_template) + "\n")
+        sys.stdout.flush()
 
     if len(violations) == 0:
         # No violtaions: success!
