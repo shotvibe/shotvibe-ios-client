@@ -97,7 +97,7 @@ if __name__ == "__main__":
     warnings = bytes.decode(warnings_b, encoding='utf-8')
 
     for w in warnings.splitlines():
-        m = re.match(r"(?P<path>[^:]*):(?P<line>[^:]*):", w)
+        m = re.match(r"^(?P<path>[^:]*):(?P<line>[^:]*):", w)
         path = m.group('path')
         line = int(m.group('line'))
 
