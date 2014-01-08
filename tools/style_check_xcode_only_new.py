@@ -93,16 +93,10 @@ if __name__ == "__main__":
     warnings = bytes.decode(warnings_b, encoding='utf-8')
 
     for w in warnings.splitlines():
-        try:
-            m = re.match(r"(?P<path>[^:]*):(?P<line>[^:]*):", w)
-            path = m.group('path')
-            line = int(m.group('line'))
-    
-            line_changes = changes.get(os.path.normpath(path), set())
-            if line in line_changes:
-                print(w)
-        except Exception as e:
-            # style_check_xcode.hs uses xargs -P to parallellize style checking, which sometimes interleaves the output from
-            # several parallel calls on a single line. In this case matching will fail, so we catch exceptions here.
-            # We will miss a warning, but this is not a huge problem since it will be generated on another run.
-            print "Exception during script execution: (probably harmless, due to interleaving of output from xargs -P 4)\n" + str(e)
+        m = re.match(r"(?P<path>[^:]*):(?P<line>[^:]*):", w)
+        path = m.group('path')
+        line = int(m.group('line'))
+
+        line_changes = changes.get(os.path.normpath(path), set())
+        if line in line_changes:
+            print(w)
