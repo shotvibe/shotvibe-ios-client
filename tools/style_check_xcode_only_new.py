@@ -54,6 +54,14 @@ def process_diff_file(lines):
             lines_set.add(current_line)
             current_line += 1
 
+        elif l.startswith("\\"):
+            # Line of type:
+            #
+            #     \ No newline at end of file
+            #
+            # We just ignore it
+            pass
+
         else:
             raise ValueError('Strange line: "' + l + '"')
 
