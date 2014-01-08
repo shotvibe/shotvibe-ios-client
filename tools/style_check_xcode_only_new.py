@@ -49,10 +49,6 @@ def process_diff_file(lines):
         elif l.startswith("-"):
             # Ignore
             pass
-            
-        elif l.startswith("\\"):
-            # Ignore
-            pass
 
         elif l.startswith("+"):
             lines_set.add(current_line)
