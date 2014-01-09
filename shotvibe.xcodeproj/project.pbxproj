@@ -566,7 +566,7 @@
 		6601325A187F4E670042047B /* JreMemDebugStrongReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601321E187F4E670042047B /* JreMemDebugStrongReference.m */; };
 		6601325B187F4E670042047B /* NSObject+JavaObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013220187F4E670042047B /* NSObject+JavaObject.m */; };
 		6601325C187F4E670042047B /* NSString+JavaString.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013222187F4E670042047B /* NSString+JavaString.m */; };
-		6601325D187F4E670042047B /* objc-sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013224187F4E670042047B /* objc-sync.m */; };
+		6601325D187F4E670042047B /* objc-sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013224187F4E670042047B /* objc-sync.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		66159228183273040054471E /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 66159227183273040054471E /* AlbumMember.m */; };
 		66278C4B1867B23800D23F34 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C481867B23800D23F34 /* FileUtils.m */; };
 		66278C4C1867B23800D23F34 /* SVInitialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C4A1867B23800D23F34 /* SVInitialization.m */; };
