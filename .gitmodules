@@ -1,0 +1,3 @@
+[submodule "shotvibelib"]
+	path = shotvibelib
+	url = git@github.com:shotvibe/shotvibe-clientlib.git

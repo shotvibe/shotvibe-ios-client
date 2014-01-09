@@ -1,0 +1,7 @@
+Code taken from minijobjc: https://github.com/shotvibe/minijobjc
+
+This code is taken from revision: 20e445a6f29ccc8d5e66a7b0fe534271cd27c424
+
+From the `minijobjc_dist` directory, after running:
+
+    make minijobjc_dist
