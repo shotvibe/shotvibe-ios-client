@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) IBOutlet UITextField *nicknameField;
 @property (nonatomic, strong) IBOutlet UIImageView *userPhoto;
+@property (nonatomic, strong) IBOutlet UILabel *promptLabel;
 
 - (IBAction)changeProfilePicture:(id)sender;
 
@@ -79,6 +80,7 @@
 	}
 
     if ([self shouldPrompt]) { // Prompt the user for a nick change and don't allow him to go back until he does
+        self.promptLabel.hidden = NO;
         [self.nicknameField becomeFirstResponder];
     }
 }
