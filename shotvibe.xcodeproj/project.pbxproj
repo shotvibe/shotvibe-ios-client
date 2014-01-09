@@ -3733,7 +3733,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "CONFIGURATION_$(CONFIGURATION)";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/shotvibe/Vendor/minijobjc_dist\"";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3849,7 +3849,7 @@
 					"CONFIGURATION_$(CONFIGURATION)",
 					"DEBUG=1",
 				);
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/shotvibe/Vendor/minijobjc_dist\"";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3877,7 +3877,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "CONFIGURATION_$(CONFIGURATION)";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/shotvibe/Vendor/minijobjc_dist\"";
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
