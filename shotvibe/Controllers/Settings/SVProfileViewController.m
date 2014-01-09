@@ -82,6 +82,7 @@
 	}
 
     if ([self shouldPrompt]) { // Prompt the user for a nick change and don't allow him to go back until he does
+        self.navigationItem.hidesBackButton = YES;
         self.promptLabel.hidden = NO;
         self.nicknameField.text = @"";
         [self.nicknameField becomeFirstResponder];
@@ -190,9 +191,12 @@
 	return YES;
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	[self.nicknameField resignFirstResponder];
-	self.navigationItem.rightBarButtonItem = nil;
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (!self.shouldPrompt) { // if we prompted the user for a change, don't allow touches to end editing
+        [self.nicknameField resignFirstResponder];
+        self.navigationItem.rightBarButtonItem = nil;
+    }
 }
 
 @end
