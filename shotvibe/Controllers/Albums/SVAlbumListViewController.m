@@ -335,11 +335,11 @@
 	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
 		SVProfileViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
-	} else if ([segue.identifier isEqualToString:@"PromptNickChangeSegue"]) {
-		SVProfileViewController *destinationController = segue.destinationViewController;
+    } else if ([segue.identifier isEqualToString:@"PromptNickChangeSegue"]) {
+        SVProfileViewController *destinationController = segue.destinationViewController;
         destinationController.shouldPrompt = YES;
         destinationController.albumManager = self.albumManager;
-	} else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
+    } else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
 		
 		AlbumSummary *album = (AlbumSummary*)sender;
 		
