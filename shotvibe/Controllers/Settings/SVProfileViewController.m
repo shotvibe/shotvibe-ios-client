@@ -130,26 +130,36 @@
 #pragma mark - UITextFieldDelegate Method
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	
     [textField resignFirstResponder];
-	
+    return YES;
+}
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+}
+
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+
     NSString *newNickname = [self.nicknameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	
+
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	
+
     ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
-	
+
     int64_t userId = shotvibeAPI.authData.userId;
-	
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		// Save nickname
         NSError *error;
         BOOL success = [shotvibeAPI setUserNickname:userId nickname:newNickname withError:&error];
-		
+
         dispatch_async(dispatch_get_main_queue(), ^{
-			
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
+
 			if (!success) {
                 // TODO Better error dialog with Retry option
 				//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -165,13 +175,8 @@
             }
         });
     });
-	
-    return YES;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-	
-}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	return YES;
