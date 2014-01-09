@@ -148,8 +148,6 @@
 	if (IS_IOS7) {
 		[self setNeedsStatusBarAppearanceUpdate];
 	}
-
-    [self promptNickChange];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -170,6 +168,8 @@
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 	cameraNavController = nil;
+
+    [self promptNickChange];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -749,7 +749,6 @@
             RCLog(@"Retrieved user nickname: %@", userProfile.nickname);
             if ([userProfile.nickname isEqualToString:@"noname"]) { // TODO: this is a rather poor check
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    // TODO: this segue fails if there is a modal dialog showing (e.g. the access to contacts dialog)
                     [self performSegueWithIdentifier:@"PromptNickChangeSegue" sender:nil];
                 });
             }
