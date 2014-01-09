@@ -64,24 +64,28 @@
 				//                [alert show];
             }
             else {
-                self.nicknameField.text = userProfile.nickname;
+                if (!self.shouldPrompt) // don't set the nickname asynchronously when we're prompting the user to change it
+                    self.nicknameField.text = userProfile.nickname;
 				[self.userPhoto setImageWithURL:[NSURL URLWithString:userProfile.avatarUrl]];
             }
         });
     });
 }
 
-- (void) viewWillAppear:(BOOL)animated {
 
+- (void)viewWillAppear:(BOOL)animated
+{
 	[super viewWillAppear:animated];
 
-	if (IS_IOS7) {
+    if (IS_IOS7) {
 		self.navigationController.navigationBar.translucent = NO;
 	}
 
     if ([self shouldPrompt]) { // Prompt the user for a nick change and don't allow him to go back until he does
         self.promptLabel.hidden = NO;
+        self.nicknameField.text = @"";
         [self.nicknameField becomeFirstResponder];
+        self.nicknameField.enablesReturnKeyAutomatically = YES;
     }
 }
 
