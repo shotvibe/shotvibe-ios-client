@@ -335,8 +335,11 @@
 	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
 		SVProfileViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
-	}
-	else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
+	} else if ([segue.identifier isEqualToString:@"PromptNickChangeSegue"]) {
+		SVProfileViewController *destinationController = segue.destinationViewController;
+        destinationController.shouldPrompt = YES;
+        destinationController.albumManager = self.albumManager;
+	} else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
 		
 		AlbumSummary *album = (AlbumSummary*)sender;
 		
@@ -734,6 +737,7 @@
     ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
     int64_t userId = shotvibeAPI.authData.userId;
 
+    // TODO: we already have this info from the registration process, so no delay is necessary here.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
         AlbumUser *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
@@ -745,7 +749,8 @@
             RCLog(@"Retrieved user nickname: %@", userProfile.nickname);
             if ([userProfile.nickname isEqualToString:@"noname"]) { // TODO: this is a rather poor check
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"ProfileSegue" sender:nil];
+                    // TODO: this segue fails if there is a modal dialog showing (e.g. the access to contacts dialog)
+                    [self performSegueWithIdentifier:@"PromptNickChangeSegue" sender:nil];
                 });
             }
         }
