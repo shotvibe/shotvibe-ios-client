@@ -338,9 +338,11 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
         NSURL* url = [NSURL URLWithString:shotvibeAppInitUrl];
         NSAssert(url != nil, @"Error construction NSURL from string %@", shotvibeAppInitUrl);
 		
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            BOOL success = [application openURL:url]; // call openURL: asynchronously to prevent deadlock
-        NSAssert(success, @"Error opening url: %@", [url description]);
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+            // The openURL causes iOS to execute code on the main thread and blocks while waiting for the result.
+            // To prevent this deadlock, we execute it on a background thread.
+            BOOL success = [application openURL:url];
+            NSAssert(success, @"Error opening url: %@", [url description]);
         });
     }
     else {
