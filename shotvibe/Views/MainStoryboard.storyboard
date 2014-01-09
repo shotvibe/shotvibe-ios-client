@@ -131,6 +131,7 @@
                         <segue destination="N4E-mX-u47" kind="push" identifier="SettingsSegue" id="FFK-OC-3pt"/>
                         <segue destination="K2n-3B-CQ0" kind="push" identifier="ProfileSegue" id="iIS-e3-EEA"/>
                         <segue destination="4g5-BF-Tej" kind="modal" identifier="AlbumsToImagePickerSegue" id="i8y-Zz-QXE"/>
+                        <segue destination="K2n-3B-CQ0" kind="push" identifier="PromptNickChangeSegue" id="sO9-n0-6uB"/>
                     </connections>
                 </tableViewController>
                 <view contentMode="scaleToFill" id="RaB-Wv-rg9" userLabel="album empty">
@@ -2056,9 +2057,9 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="iIS-e3-EEA"/>
-        <segue reference="i8y-Zz-QXE"/>
+        <segue reference="sO9-n0-6uB"/>
         <segue reference="FFK-OC-3pt"/>
+        <segue reference="i8y-Zz-QXE"/>
         <segue reference="vb9-kV-1Jh"/>
         <segue reference="v3l-bV-OEi"/>
     </inferredMetricsTieBreakers>
