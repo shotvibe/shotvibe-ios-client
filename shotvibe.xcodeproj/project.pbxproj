@@ -2882,6 +2882,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA58FB2F16C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibe" */;
 			buildPhases = (
+				6601325F187F51990042047B /* ShellScript */,
 				AA58FAF316C224E800C49E02 /* Sources */,
 				AA58FAF416C224E800C49E02 /* Frameworks */,
 				AA58FAF516C224E800C49E02 /* Resources */,
@@ -3441,6 +3442,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    ./Crashlytics.framework/run 7f25f8f82f6578b40464674ed500ef0c60435027\nfi";
+		};
+		6601325F187F51990042047B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd shotvibelib\n./build_xcode.py";
 		};
 		66D58347186858C200EAC842 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
