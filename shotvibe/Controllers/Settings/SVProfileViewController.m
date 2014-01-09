@@ -175,6 +175,10 @@
             }
         });
     });
+
+    if (self.shouldPrompt) { // if we prompted the user for a change, we leave after the keyboard was dismissed
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 
