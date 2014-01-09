@@ -71,12 +71,16 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-	
+
 	[super viewWillAppear:animated];
-	
+
 	if (IS_IOS7) {
 		self.navigationController.navigationBar.translucent = NO;
 	}
+
+    if ([self shouldPrompt]) { // Prompt the user for a nick change and don't allow him to go back until he does
+        [self.nicknameField becomeFirstResponder];
+    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
