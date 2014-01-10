@@ -131,6 +131,7 @@
                                                         authToken:registrationInfo.authToken
                                                defaultCountryCode:registrationInfo.countryCode];
 			
+            [self.albumManager getShotVibeAPI].authData = authData;
             [UserSettings setAuthData:authData];
 			
             [pushNotificationsManager setup];
