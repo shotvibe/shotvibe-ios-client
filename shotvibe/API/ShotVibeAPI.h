@@ -34,6 +34,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 
 - (id)initWithAuthData:(AuthData *)authData;
 
+- (void)logout;
+
 - (BOOL)registerDevicePushWithDeviceToken:(NSString *)deviceToken error:(NSError**)error;
 
 - (NSDictionary*)submitAddressBook:(NSDictionary *)dictionary error:(NSError**)error;

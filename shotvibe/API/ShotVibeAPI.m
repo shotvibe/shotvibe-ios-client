@@ -143,6 +143,12 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 }
 
 
+- (void)logout
+{
+    _authData = [[AuthData alloc] initWithUserID:0 authToken:nil defaultCountryCode:nil];
+    [UserSettings setAuthData:_authData];
+}
+
 - (NSDictionary*)submitAddressBook:(NSDictionary *)body error:(NSError**)error {
 	
     NSError *jsonError;
