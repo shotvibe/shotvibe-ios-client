@@ -317,6 +317,35 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     }
 }
 
+
+- (BOOL)authenticateWithURL:(NSURL *)url
+{
+    RegistrationInfo *registrationInfo = [RegistrationInfo RegistrationInfoFromURL:url];
+
+    if (registrationInfo == nil) {
+        RCLog(@"Error reading RegistrationInfo from url");
+    }
+    else {
+
+        if (registrationInfo.startWithAuth) {
+            AuthData *authData = [[AuthData alloc] initWithUserID:registrationInfo.userId
+                                                        authToken:registrationInfo.authToken
+                                               defaultCountryCode:registrationInfo.countryCode];
+
+            self.authData = authData;
+            [UserSettings setAuthData:authData];
+
+            return YES;
+        }
+        else {
+            return NO;
+        }
+    }
+
+    return NO;
+}
+
+
 - (AlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error
 {
     NSError *responseError;

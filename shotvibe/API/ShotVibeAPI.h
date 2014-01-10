@@ -11,6 +11,8 @@
 #import "AuthData.h"
 #import "AlbumContents.h"
 #import "AlbumUser.h"
+#import "RegistrationInfo.h"
+#import "UserSettings.h"
 
 typedef NS_ENUM(NSInteger, AuthorizePhoneNumberResult) {
     AuthorizePhoneNumberError,
@@ -41,6 +43,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
                deviceDeviceDescription:(NSString *)deviceDescription
                     defaultCountryCode:(NSString *)defaultCountryCode
                                  error:(NSError **)error;
+
+- (BOOL)authenticateWithURL:(NSURL *)url;
 
 - (AlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error;
 
