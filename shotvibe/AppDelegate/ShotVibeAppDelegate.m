@@ -339,6 +339,9 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
         shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"cache_buster", [[NSNumber numberWithDouble:currentTime] stringValue]);
 		
         NSURL* url = [NSURL URLWithString:shotvibeAppInitUrl];
+
+        // Use this url for easy testing of invitation-cookie auto login process (make sure auth_token and user_id are valid)
+        //NSURL* url = [NSURL URLWithString:@"shotvibe.debug://shotvibe/start_with_auth/?country_code=31&auth_token=d161c5523fed23a75100b0ffb986ccaecfc86610&user_id=675085580"];
         NSAssert(url != nil, @"Error construction NSURL from string %@", shotvibeAppInitUrl);
 		
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
