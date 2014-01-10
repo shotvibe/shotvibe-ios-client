@@ -15,7 +15,6 @@
 #import "SVSettingsAboutViewController.h"
 #import "SVProfileViewController.h"
 #import "SVRegistrationViewController.h"
-#import "UserSettings.h"
 #import "AuthData.h"
 
 

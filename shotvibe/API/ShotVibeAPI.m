@@ -13,6 +13,8 @@
 #import "AlbumServerPhoto.h"
 #import "AlbumMember.h"
 #import "AlbumUser.h"
+#import "UserSettings.h"
+
 
 @interface Response : NSObject
 

@@ -12,7 +12,6 @@
 #import "AlbumContents.h"
 #import "AlbumUser.h"
 #import "RegistrationInfo.h"
-#import "UserSettings.h"
 
 typedef NS_ENUM(NSInteger, AuthorizePhoneNumberResult) {
     AuthorizePhoneNumberError,
