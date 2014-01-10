@@ -309,6 +309,8 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSString *authToken = [responseObj getString:@"auth_token"];
 
         _authData = [[AuthData alloc] initWithUserID:userId authToken:authToken defaultCountryCode:defaultCountryCode];
+        [UserSettings setAuthData:_authData];
+
         return ConfirmSMSCodeOk;
     }
     @catch (JSONException *exception) {
