@@ -324,9 +324,8 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
     if (registrationInfo == nil) {
         RCLog(@"Error reading RegistrationInfo from url");
-    }
-    else {
-
+        return NO;
+    } else {
         if (registrationInfo.startWithAuth) {
             AuthData *authData = [[AuthData alloc] initWithUserID:registrationInfo.userId
                                                         authToken:registrationInfo.authToken
@@ -336,13 +335,10 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
             [UserSettings setAuthData:authData];
 
             return YES;
-        }
-        else {
+        } else {
             return NO;
         }
     }
-
-    return NO;
 }
 
 
