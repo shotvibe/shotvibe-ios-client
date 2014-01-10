@@ -11,6 +11,7 @@
 @interface RegistrationInfo : NSObject
 
 + (RegistrationInfo *)RegistrationInfoFromURL:(NSURL *)url;
++ (NSString *)countryCodeFromURL:(NSURL *)url;
 
 @property (nonatomic) BOOL startWithAuth;
 @property (nonatomic, copy) NSString *countryCode;

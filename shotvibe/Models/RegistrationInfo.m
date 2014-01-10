@@ -53,6 +53,17 @@
 }
 
 
++ (NSString *)countryCodeFromURL:(NSURL *)url {
+    NSDictionary* queryParameters = parseQueryParameters([url query]);
+    NSString *countryCode = [queryParameters objectForKey:@"country_code"];
+    if(countryCode == nil) {
+        RCLog(@"Error: No country_code query parameter found in %@", [url description]);
+        return nil;
+    }
+    return countryCode;
+}
+
+
 NSDictionary * parseQueryParameters(NSString * query)
 {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
