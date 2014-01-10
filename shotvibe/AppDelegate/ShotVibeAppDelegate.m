@@ -122,6 +122,8 @@
         MFSideMenuContainerViewController *sideMenu = (MFSideMenuContainerViewController *)self.window.rootViewController;
 		UINavigationController *nav = (UINavigationController*)sideMenu.centerViewController;
         NSAssert([nav.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
+        // TODO: DANGEROUS: this assert may fail when opening a shotvibe url while the app is running.
+
         SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)nav.visibleViewController;
 		
         if (registrationInfo.startWithAuth) {
