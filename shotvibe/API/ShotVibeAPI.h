@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 
 @interface ShotVibeAPI : NSObject
 
-@property (nonatomic, retain) AuthData *authData;
+@property (nonatomic, strong, readonly) AuthData *authData;
 
 - (id)init;
 

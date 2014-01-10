@@ -332,7 +332,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
                                                         authToken:registrationInfo.authToken
                                                defaultCountryCode:registrationInfo.countryCode];
 
-            self.authData = authData;
+            _authData = authData;
             [UserSettings setAuthData:authData];
 
             return YES;
