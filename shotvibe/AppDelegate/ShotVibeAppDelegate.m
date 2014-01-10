@@ -109,38 +109,26 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     RCLog(@"openURL: %@", [url description]);
-	
-    RegistrationInfo *registrationInfo = [RegistrationInfo RegistrationInfoFromURL:url];
-	
-    if (registrationInfo == nil) {
-        RCLog(@"Error reading RegistrationInfo from url");
-    }
-    else {
-        // The following casts will work because of the way the MainStoryboard is set up.
-		
-        NSAssert([self.window.rootViewController isKindOfClass:[MFSideMenuContainerViewController class]], @"Error");
-        MFSideMenuContainerViewController *sideMenu = (MFSideMenuContainerViewController *)self.window.rootViewController;
-		UINavigationController *nav = (UINavigationController*)sideMenu.centerViewController;
-        NSAssert([nav.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
-        // TODO: DANGEROUS: this assert may fail when opening a shotvibe url while the app is running.
+    // TODO: probably want to skip this if we have authInfo (although you'd need an explicit url to get here in that case)
 
-        SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)nav.visibleViewController;
-		
-        if (registrationInfo.startWithAuth) {
-            AuthData *authData = [[AuthData alloc] initWithUserID:registrationInfo.userId
-                                                        authToken:registrationInfo.authToken
-                                               defaultCountryCode:registrationInfo.countryCode];
-			
-            [self.albumManager getShotVibeAPI].authData = authData;
-            [UserSettings setAuthData:authData];
-			
-            [pushNotificationsManager setup];
-			
-            [registrationViewController skipRegistration];
-        }
-        else {
-            [registrationViewController selectCountry:registrationInfo.countryCode];
-        }
+    // The following casts will work because of the way the MainStoryboard is set up.
+
+    NSAssert([self.window.rootViewController isKindOfClass:[MFSideMenuContainerViewController class]], @"Error");
+    MFSideMenuContainerViewController *sideMenu = (MFSideMenuContainerViewController *)self.window.rootViewController;
+    UINavigationController *nav = (UINavigationController *)sideMenu.centerViewController;
+    NSAssert([nav.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
+    // TODO: DANGEROUS: this assert may fail when opening a shotvibe url while the app is running.
+
+    SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)nav.visibleViewController;
+
+    if ([[self.albumManager getShotVibeAPI] authenticateWithURL:url]) {
+        [pushNotificationsManager setup];
+
+        [registrationViewController skipRegistration];
+    } else {
+        NSString *countryCode = [RegistrationInfo countryCodeFromURL:url];
+
+        [registrationViewController selectCountry:countryCode];
     }
 	
     return YES;
