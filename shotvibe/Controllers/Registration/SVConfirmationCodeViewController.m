@@ -8,7 +8,6 @@
 
 #import "SVConfirmationCodeViewController.h"
 #import "SVPushNotificationsManager.h"
-#import "UserSettings.h"
 
 
 @implementation SVConfirmationCodeViewController
@@ -76,10 +75,6 @@ static NSString * deviceDescription()
         dispatch_async(dispatch_get_main_queue(), ^{
             [activityDialog dismissWithClickedButtonIndex:0 animated:YES];
             if (r == ConfirmSMSCodeOk) {
-                AuthData *authData = [self.albumManager getShotVibeAPI].authData;
-
-                [UserSettings setAuthData:authData];
-
                 [self handleSuccessfulLogin:YES];
             }
             else if (r == ConfirmSMSCodeIncorrectCode) {

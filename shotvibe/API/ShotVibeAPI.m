@@ -13,6 +13,8 @@
 #import "AlbumServerPhoto.h"
 #import "AlbumMember.h"
 #import "AlbumUser.h"
+#import "UserSettings.h"
+
 
 @interface Response : NSObject
 
@@ -142,6 +144,12 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return self;
 }
 
+
+- (void)logout
+{
+    _authData = [[AuthData alloc] initWithUserID:0 authToken:nil defaultCountryCode:nil];
+    [UserSettings setAuthData:_authData];
+}
 
 - (NSDictionary*)submitAddressBook:(NSDictionary *)body error:(NSError**)error {
 	
@@ -309,6 +317,8 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSString *authToken = [responseObj getString:@"auth_token"];
 
         _authData = [[AuthData alloc] initWithUserID:userId authToken:authToken defaultCountryCode:defaultCountryCode];
+        [UserSettings setAuthData:_authData];
+
         return ConfirmSMSCodeOk;
     }
     @catch (JSONException *exception) {
@@ -316,6 +326,31 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         return ConfirmSMSCodeError;
     }
 }
+
+
+- (BOOL)authenticateWithURL:(NSURL *)url
+{
+    RegistrationInfo *registrationInfo = [RegistrationInfo RegistrationInfoFromURL:url];
+
+    if (registrationInfo == nil) {
+        RCLog(@"Error reading RegistrationInfo from url");
+        return NO;
+    } else {
+        if (registrationInfo.startWithAuth) {
+            AuthData *authData = [[AuthData alloc] initWithUserID:registrationInfo.userId
+                                                        authToken:registrationInfo.authToken
+                                               defaultCountryCode:registrationInfo.countryCode];
+
+            _authData = authData;
+            [UserSettings setAuthData:authData];
+
+            return YES;
+        } else {
+            return NO;
+        }
+    }
+}
+
 
 - (AlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error
 {

@@ -11,6 +11,7 @@
 #import "AuthData.h"
 #import "AlbumContents.h"
 #import "AlbumUser.h"
+#import "RegistrationInfo.h"
 
 typedef NS_ENUM(NSInteger, AuthorizePhoneNumberResult) {
     AuthorizePhoneNumberError,
@@ -26,11 +27,13 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 
 @interface ShotVibeAPI : NSObject
 
-@property (nonatomic, copy, readonly) AuthData *authData;
+@property (nonatomic, strong, readonly) AuthData *authData;
 
 - (id)init;
 
 - (id)initWithAuthData:(AuthData *)authData;
+
+- (void)logout;
 
 - (BOOL)registerDevicePushWithDeviceToken:(NSString *)deviceToken error:(NSError**)error;
 
@@ -41,6 +44,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
                deviceDeviceDescription:(NSString *)deviceDescription
                     defaultCountryCode:(NSString *)defaultCountryCode
                                  error:(NSError **)error;
+
+- (BOOL)authenticateWithURL:(NSURL *)url;
 
 - (AlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error;
 

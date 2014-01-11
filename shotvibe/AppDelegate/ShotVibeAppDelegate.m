@@ -109,35 +109,26 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     RCLog(@"openURL: %@", [url description]);
-	
-    RegistrationInfo *registrationInfo = [RegistrationInfo RegistrationInfoFromURL:url];
-	
-    if (registrationInfo == nil) {
-        RCLog(@"Error reading RegistrationInfo from url");
-    }
-    else {
-        // The following casts will work because of the way the MainStoryboard is set up.
-		
-        NSAssert([self.window.rootViewController isKindOfClass:[MFSideMenuContainerViewController class]], @"Error");
-        MFSideMenuContainerViewController *sideMenu = (MFSideMenuContainerViewController *)self.window.rootViewController;
-		UINavigationController *nav = (UINavigationController*)sideMenu.centerViewController;
-        NSAssert([nav.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
-        SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)nav.visibleViewController;
-		
-        if (registrationInfo.startWithAuth) {
-            AuthData *authData = [[AuthData alloc] initWithUserID:registrationInfo.userId
-                                                        authToken:registrationInfo.authToken
-                                               defaultCountryCode:registrationInfo.countryCode];
-			
-            [UserSettings setAuthData:authData];
-			
-            [pushNotificationsManager setup];
-			
-            [registrationViewController skipRegistration];
-        }
-        else {
-            [registrationViewController selectCountry:registrationInfo.countryCode];
-        }
+    // TODO: probably want to skip this if we have authInfo (although you'd need an explicit url to get here in that case)
+
+    // The following casts will work because of the way the MainStoryboard is set up.
+
+    NSAssert([self.window.rootViewController isKindOfClass:[MFSideMenuContainerViewController class]], @"Error");
+    MFSideMenuContainerViewController *sideMenu = (MFSideMenuContainerViewController *)self.window.rootViewController;
+    UINavigationController *nav = (UINavigationController *)sideMenu.centerViewController;
+    NSAssert([nav.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error");
+    // TODO: DANGEROUS: this assert may fail when opening a shotvibe url while the app is running.
+
+    SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)nav.visibleViewController;
+
+    if ([[self.albumManager getShotVibeAPI] authenticateWithURL:url]) {
+        [pushNotificationsManager setup];
+
+        [registrationViewController skipRegistration];
+    } else {
+        NSString *countryCode = [RegistrationInfo countryCodeFromURL:url];
+
+        [registrationViewController selectCountry:countryCode];
     }
 	
     return YES;
@@ -336,6 +327,9 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
         shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"cache_buster", [[NSNumber numberWithDouble:currentTime] stringValue]);
 		
         NSURL* url = [NSURL URLWithString:shotvibeAppInitUrl];
+
+        // Use this url for easy testing of invitation-cookie auto login process (make sure auth_token and user_id are valid)
+        //NSURL* url = [NSURL URLWithString:@"shotvibe.debug://shotvibe/start_with_auth/?country_code=31&auth_token=d161c5523fed23a75100b0ffb986ccaecfc86610&user_id=675085580"];
         NSAssert(url != nil, @"Error construction NSURL from string %@", shotvibeAppInitUrl);
 		
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
