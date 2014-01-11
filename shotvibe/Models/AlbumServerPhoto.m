@@ -12,7 +12,7 @@
 
 - (id)initWithPhotoId:(NSString *)photoId
                   url:(NSString *)url
-               author:(AlbumUser *)author
+               author:(SLAlbumUser *)author
             dateAdded:(NSDate *)dateAdded
            lastAccess:(NSDate *)lastAccess
 
@@ -33,7 +33,7 @@
 // Return YES if the photo was added after its album was last accessed and memberId is not the author.
 - (BOOL)isNewForMember:(int64_t)memberId
 {
-    if (self.author.memberId == memberId)
+    if ([self.author getMemberId] == memberId)
         return NO;
     else
         return self.lastAccess ? [self.dateAdded compare:self.lastAccess] == NSOrderedDescending : YES;

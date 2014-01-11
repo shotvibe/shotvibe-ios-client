@@ -47,7 +47,7 @@
 	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
-        AlbumUser *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
+        SLAlbumUser *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
 		
         dispatch_async(dispatch_get_main_queue(), ^{
 			
@@ -63,8 +63,8 @@
 				//                [alert show];
             }
             else {
-                self.nicknameField.text = userProfile.nickname;
-				[self.userPhoto setImageWithURL:[NSURL URLWithString:userProfile.avatarUrl]];
+                self.nicknameField.text = [userProfile getMemberNickname];
+                [self.userPhoto setImageWithURL:[NSURL URLWithString:[userProfile getMemberAvatarUrl]]];
             }
         });
     });

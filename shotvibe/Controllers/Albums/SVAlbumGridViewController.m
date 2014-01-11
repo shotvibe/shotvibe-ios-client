@@ -24,7 +24,7 @@
 #import "UIImageView+WebCache.h"
 #import "SVAlbumGridSection.h"
 #import "NSDate+Formatting.h"
-#import "AlbumMember.h"
+#import "SL/AlbumMember.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
@@ -409,10 +409,10 @@
 			AlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
 			
 			//Search through the members
-			for (AlbumMember *member in albumContents.members) {
-				if (photo.serverPhoto.author.memberId == member.user.memberId) {
-					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:member.user.avatarUrl]];
-					header.nameLabel.text = member.user.nickname;
+			for (SLAlbumMember *member in albumContents.members) {
+				if ([photo.serverPhoto.author getMemberId] == [[member getUser] getMemberId]) {
+					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:[[member getUser] getMemberAvatarUrl]]];
+					header.nameLabel.text = [[member getUser] getMemberNickname];
 					break;
 				}
 			}
@@ -554,25 +554,25 @@
 					previousDate = photo.serverPhoto.dateAdded;
 				}
 				if (previousUser == nil) {
-					previousUser = photo.serverPhoto.author.nickname;
+					previousUser = [photo.serverPhoto.author getMemberNickname];
 				}
 				
 				if ([photo.serverPhoto.dateAdded timeIntervalSinceDate:previousDate] < 60 &&
-					 [photo.serverPhoto.author.nickname isEqualToString:previousUser])
+					 [[photo.serverPhoto.author getMemberNickname] isEqualToString:previousUser])
 				{
 					key = [NSString stringWithFormat:@"%@--^--%@", [previousDate distanceOfTimeInWords:[NSDate date] shortStyle:YES], previousUser];
 				}
 				else {
-					key = [NSString stringWithFormat:@"%@--^--%@", [photo.serverPhoto.dateAdded distanceOfTimeInWords:[NSDate date] shortStyle:YES], photo.serverPhoto.author.nickname];
+					key = [NSString stringWithFormat:@"%@--^--%@", [photo.serverPhoto.dateAdded distanceOfTimeInWords:[NSDate date] shortStyle:YES], [photo.serverPhoto.author getMemberNickname]];
 				}
 				
 				previousDate = photo.serverPhoto.dateAdded;
-				previousUser = photo.serverPhoto.author.nickname;
+				previousUser = [photo.serverPhoto.author getMemberNickname];
 			}break;
 			
 			case SortByUser:
 			{
-				key = photo.serverPhoto.author.nickname;
+				key = [photo.serverPhoto.author getMemberNickname];
 			}break;
 			
 			case SortByDate:

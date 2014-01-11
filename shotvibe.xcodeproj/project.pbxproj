@@ -487,7 +487,6 @@
 		3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */; };
 		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
 		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
-		3B013BCD17C3E84C00135869 /* AlbumUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BCC17C3E84C00135869 /* AlbumUser.m */; };
 		3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B3AD15417CB4A9C004D24A9 /* NSData+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3AD13917CB4A9C004D24A9 /* NSData+GIF.m */; };
@@ -567,7 +566,6 @@
 		6601325B187F4E670042047B /* NSObject+JavaObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013220187F4E670042047B /* NSObject+JavaObject.m */; };
 		6601325C187F4E670042047B /* NSString+JavaString.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013222187F4E670042047B /* NSString+JavaString.m */; };
 		6601325D187F4E670042047B /* objc-sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013224187F4E670042047B /* objc-sync.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66159228183273040054471E /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 66159227183273040054471E /* AlbumMember.m */; };
 		66278C4B1867B23800D23F34 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C481867B23800D23F34 /* FileUtils.m */; };
 		66278C4C1867B23800D23F34 /* SVInitialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C4A1867B23800D23F34 /* SVInitialization.m */; };
 		66278C5E1867C17800D23F34 /* SVAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C4E1867C17800D23F34 /* SVAddFriendsViewController.m */; };
@@ -1190,8 +1188,6 @@
 		3B013BC617C3E7CA00135869 /* AlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhoto.m; sourceTree = "<group>"; };
 		3B013BC817C3E83200135869 /* AlbumContents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumContents.h; sourceTree = "<group>"; };
 		3B013BC917C3E83200135869 /* AlbumContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumContents.m; sourceTree = "<group>"; };
-		3B013BCB17C3E84C00135869 /* AlbumUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumUser.h; sourceTree = "<group>"; };
-		3B013BCC17C3E84C00135869 /* AlbumUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumUser.m; sourceTree = "<group>"; };
 		3B0A3CED17CB7EBC0058B620 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
 		3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -1352,8 +1348,6 @@
 		66013222187F4E670042047B /* NSString+JavaString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JavaString.m"; sourceTree = "<group>"; };
 		66013223187F4E670042047B /* objc-sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "objc-sync.h"; sourceTree = "<group>"; };
 		66013224187F4E670042047B /* objc-sync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "objc-sync.m"; sourceTree = "<group>"; };
-		66159226183273040054471E /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
-		66159227183273040054471E /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
 		66278C461867B16E00D23F34 /* SVDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDefines.h; sourceTree = "<group>"; };
 		66278C471867B23800D23F34 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
 		66278C481867B23800D23F34 /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
@@ -2839,8 +2833,6 @@
 				3BE0B11617C2C5520058CAAD /* AlbumBase.m */,
 				3B013BC817C3E83200135869 /* AlbumContents.h */,
 				3B013BC917C3E83200135869 /* AlbumContents.m */,
-				66159226183273040054471E /* AlbumMember.h */,
-				66159227183273040054471E /* AlbumMember.m */,
 				3B013BC517C3E7CA00135869 /* AlbumPhoto.h */,
 				3B013BC617C3E7CA00135869 /* AlbumPhoto.m */,
 				3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */,
@@ -2849,8 +2841,6 @@
 				3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */,
 				3B87E68D17C99941006483C9 /* AlbumUploadingPhoto.h */,
 				3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */,
-				3B013BCB17C3E84C00135869 /* AlbumUser.h */,
-				3B013BCC17C3E84C00135869 /* AlbumUser.m */,
 				2884ED0E1830CB430069E202 /* RegistrationInfo.h */,
 				2884ED0F1830CB430069E202 /* RegistrationInfo.m */,
 				3BE0B10517C24D150058CAAD /* ShotVibeDB.h */,
@@ -3597,12 +3587,10 @@
 				66013250187F4E670042047B /* RuntimeException.m in Sources */,
 				3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */,
 				3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */,
-				3B013BCD17C3E84C00135869 /* AlbumUser.m in Sources */,
 				66278CC51867C57300D23F34 /* SVSettingsAboutViewController.m in Sources */,
 				2851FAA71838171200C094AB /* UIImage+Crop.m in Sources */,
 				66278CC41867C57300D23F34 /* SVProfileViewController.m in Sources */,
 				66013235187F4E670042047B /* IOSReflection.m in Sources */,
-				66159228183273040054471E /* AlbumMember.m in Sources */,
 				3B87E68F17C99941006483C9 /* AlbumUploadingPhoto.m in Sources */,
 				66013247187F4E670042047B /* IllegalStateException.m in Sources */,
 				66278CE81867C62300D23F34 /* SVProfilePicActivity.m in Sources */,

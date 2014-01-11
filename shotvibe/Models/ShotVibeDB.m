@@ -11,9 +11,9 @@
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
-#import "AlbumUser.h"
+#import "SL/AlbumUser.h"
 #import "AlbumContents.h"
-#import "AlbumMember.h"
+#import "SL/AlbumMember.h"
 
 @implementation ShotVibeDB
 {
@@ -210,9 +210,9 @@ static const int DATABASE_VERSION = 2;
         NSString *photoAuthorNickname = [s stringForColumnIndex:4];
         NSString *photoAuthorAvatarUrl = [s stringForColumnIndex:5];
 
-        AlbumUser *photoAuthor = [[AlbumUser alloc] initWithMemberId:photoAuthorUserId
-                                                            nickname:photoAuthorNickname
-                                                           avatarUrl:photoAuthorAvatarUrl];
+        SLAlbumUser *photoAuthor = [[SLAlbumUser alloc] initWithLong:photoAuthorUserId
+                                                        withNSString:photoAuthorNickname
+                                                        withNSString:photoAuthorAvatarUrl];
 
         AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
                                                                                    url:photoUrl
@@ -351,9 +351,9 @@ static const int DATABASE_VERSION = 2;
         NSString *photoAuthorNickname = [s stringForColumnIndex:4];
         NSString *photoAuthorAvatarUrl = [s stringForColumnIndex:5];
 
-        AlbumUser *photoAuthor = [[AlbumUser alloc] initWithMemberId:photoAuthorUserId
-                                                            nickname:photoAuthorNickname
-                                                           avatarUrl:photoAuthorAvatarUrl];
+        SLAlbumUser *photoAuthor = [[SLAlbumUser alloc] initWithLong:photoAuthorUserId
+                                                        withNSString:photoAuthorNickname
+                                                        withNSString:photoAuthorAvatarUrl];
 
         AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
                                                                                    url:photoUrl
@@ -378,8 +378,11 @@ static const int DATABASE_VERSION = 2;
         int64_t memberId = [s longLongIntForColumnIndex:0];
         NSString *memberNickname = [s stringForColumnIndex:1];
         NSString *memberAvatarUrl = [s stringForColumnIndex:2];
-        AlbumUser *user = [[AlbumUser alloc] initWithMemberId:memberId nickname:memberNickname avatarUrl:memberAvatarUrl];
-        AlbumMember *albumMember = [[AlbumMember alloc] initWithAlbumUser:user inviteStatus:AlbumMemberInviteStatusUnknown];
+        SLAlbumUser *user = [[SLAlbumUser alloc] initWithLong:memberId
+                                                 withNSString:memberNickname
+                                                 withNSString:memberAvatarUrl];
+        SLAlbumMember *albumMember = [[SLAlbumMember alloc] initWithSLAlbumUser:user
+                                             withSLAlbumMember_InviteStatusEnum:nil];
         [albumMembers addObject:albumMember];
     }
 
@@ -436,13 +439,13 @@ static const int DATABASE_VERSION = 2;
              [NSNumber numberWithInt:num++],
              photo.photoId,
              photo.url,
-             [NSNumber numberWithLongLong:photo.author.memberId],
+             [NSNumber numberWithLongLong:[photo.author getMemberId]],
              photo.dateAdded]) {
             ABORT_TRANSACTION;
         }
 
-        AlbumUser *user = photo.author;
-        [allUsers setObject:user forKey:[[NSNumber alloc] initWithLongLong:user.memberId]];
+        SLAlbumUser *user = photo.author;
+        [allUsers setObject:user forKey:[[NSNumber alloc] initWithLongLong:[user getMemberId]]];
     }
 
     // Delete any old rows in the database that are not in photoIds:
@@ -464,18 +467,18 @@ static const int DATABASE_VERSION = 2;
 
     NSMutableSet *memberIds = [[NSMutableSet alloc] init];
 
-    for (AlbumMember *member in albumContents.members) {
-        AlbumUser *user = member.user;
+    for (SLAlbumMember *member in albumContents.members) {
+        SLAlbumUser *user = [member getUser];
 
-        [memberIds addObject:[NSNumber numberWithLongLong:user.memberId]];
+        [memberIds addObject:[NSNumber numberWithLongLong:[user getMemberId]]];
 
         if(![db executeUpdate:@"INSERT OR REPLACE INTO album_member (album_id, user_id) VALUES (?, ?)",
              [NSNumber numberWithLongLong:albumId],
-             [NSNumber numberWithLongLong:user.memberId]]) {
+             [NSNumber numberWithLongLong:[user getMemberId]]]) {
             ABORT_TRANSACTION;
         }
 
-        [allUsers setObject:user forKey:[[NSNumber alloc] initWithLongLong:user.memberId]];
+        [allUsers setObject:user forKey:[[NSNumber alloc] initWithLongLong:[user getMemberId]]];
     }
 
     // Delete any old rows in the database that are not in memberIds:
@@ -494,12 +497,12 @@ static const int DATABASE_VERSION = 2;
     }
 
     for (id key in allUsers) {
-        AlbumUser *user = [allUsers objectForKey:key];
+        SLAlbumUser *user = [allUsers objectForKey:key];
 
         if(![db executeUpdate:@"INSERT OR REPLACE INTO user (user_id, nickname, avatar_url) VALUES (?, ?, ?)",
-             [NSNumber numberWithLongLong:user.memberId],
-             user.nickname,
-             user.avatarUrl]) {
+             [NSNumber numberWithLongLong:[user getMemberId]],
+             [user getMemberNickname],
+             [user getMemberAvatarUrl]]) {
             ABORT_TRANSACTION;
         }
     }

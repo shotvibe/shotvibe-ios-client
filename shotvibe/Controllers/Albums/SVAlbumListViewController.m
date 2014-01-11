@@ -472,7 +472,7 @@
     if (album.latestPhotos.count > 0) {
         AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
         if (latestPhoto.serverPhoto) {
-			cell.author.text = [NSString stringWithFormat:@"Last added by %@", latestPhoto.serverPhoto.author.nickname];
+			cell.author.text = [NSString stringWithFormat:@"Last added by %@", [latestPhoto.serverPhoto.author getMemberNickname]];
 
             [cell.networkImageView setPhoto:latestPhoto.serverPhoto.photoId photoUrl:latestPhoto.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
             [cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];

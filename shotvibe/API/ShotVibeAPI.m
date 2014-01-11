@@ -11,8 +11,8 @@
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
-#import "AlbumMember.h"
-#import "AlbumUser.h"
+#import "SL/AlbumMember.h"
+#import "SL/AlbumUser.h"
 
 @interface Response : NSObject
 
@@ -317,7 +317,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     }
 }
 
-- (AlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error
+- (SLAlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error
 {
     NSError *responseError;
     Response *response = [self getResponse:[NSString stringWithFormat:@"/users/%lld/", userId] method:@"GET" body:nil error:&responseError];
@@ -339,7 +339,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSString *nickname = [profileObj getString:@"nickname"];
         NSString *avatarUrl = [profileObj getString:@"avatar_url"];
 
-        return [[AlbumUser alloc] initWithMemberId:[memberId longLongValue] nickname:nickname avatarUrl:avatarUrl];
+        return [[SLAlbumUser alloc] initWithLong:[memberId longLongValue] withNSString:nickname withNSString:avatarUrl];
     }
     @catch (JSONException *exception) {
         *error = [ShotVibeAPI createErrorFromJSONException:exception];
@@ -534,25 +534,25 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSString *memberNickname = [memberObj getString:@"nickname"];
         NSString *memberAvatarUrl = [memberObj getString:@"avatar_url"];
         NSString *inviteStatusStr = [memberObj getString:@"invite_status"];
-        AlbumMemberInviteStatus inviteStatus;
+        SLAlbumMember_InviteStatusEnum *inviteStatus;
         if ([inviteStatusStr isEqualToString:@"joined"]) {
-            inviteStatus = AlbumMemberJoined;
+            inviteStatus = [SLAlbumMember_InviteStatusEnum JOINED];
         }
         else if ([inviteStatusStr isEqualToString:@"sms_sent"]) {
-            inviteStatus = AlbumMemberSmsSent;
+            inviteStatus = [SLAlbumMember_InviteStatusEnum SMS_SENT];
         }
         else if ([inviteStatusStr isEqualToString:@"invitation_viewed"]) {
-            inviteStatus = AlbumMemberInvitationViewed;
+            inviteStatus = [SLAlbumMember_InviteStatusEnum INVITATION_VIEWED];
         }
         else {
             @throw [[JSONException alloc] initWithMessage:@"Invalid `invite_status` value: %@", inviteStatusStr];
         }
 
-        AlbumUser *user = [[AlbumUser alloc] initWithMemberId:[memberId longLongValue]
-                                                     nickname:memberNickname
-                                                    avatarUrl:memberAvatarUrl];
+        SLAlbumUser *user = [[SLAlbumUser alloc] initWithLong:[memberId longLongValue]
+                                                 withNSString:memberNickname
+                                                 withNSString:memberAvatarUrl];
 
-        [members addObject:[[AlbumMember alloc] initWithAlbumUser:user inviteStatus:inviteStatus]];
+        [members addObject:[[SLAlbumMember alloc] initWithSLAlbumUser:user withSLAlbumMember_InviteStatusEnum:inviteStatus]];
     }
 
     AlbumContents *albumContents = [[AlbumContents alloc] initWithAlbumId:[albumId longLongValue]
@@ -584,7 +584,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         NSString *authorNickname = [authorObj getString:@"nickname"];
         NSString *authorAvatarUrl = [authorObj getString:@"avatar_url"];
 
-        AlbumUser *author = [[AlbumUser alloc] initWithMemberId:[authorId longLongValue] nickname:authorNickname avatarUrl:authorAvatarUrl];
+        SLAlbumUser *author = [[SLAlbumUser alloc] initWithLong:[authorId longLongValue] withNSString:authorNickname withNSString:authorAvatarUrl];
 
         AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
                                                                                    url:photoUrl

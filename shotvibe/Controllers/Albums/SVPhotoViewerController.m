@@ -9,7 +9,7 @@
 #import "SVPhotoViewerController.h"
 #import "SVDefines.h"
 #import "MFSideMenu.h"
-#import "AlbumUser.h"
+#import "SL/AlbumUser.h"
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
 #import "ShotVibeAppDelegate.h"
@@ -509,10 +509,10 @@
 			NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
 																	dateStyle:NSDateFormatterLongStyle
 																	timeStyle:NSDateFormatterShortStyle];
-			str = [NSString stringWithFormat:@"%@\n%@", photo.serverPhoto.author.nickname, dateFormated];
+			str = [NSString stringWithFormat:@"%@\n%@", [photo.serverPhoto.author getMemberNickname], dateFormated];
 			
 			// Hide the trash button for photos that does not belong the the current user
-            butTrash.hidden = photo.serverPhoto.author.memberId != [self.albumManager getShotVibeAPI].authData.userId;
+            butTrash.hidden = [photo.serverPhoto.author getMemberId] != [self.albumManager getShotVibeAPI].authData.userId;
 		}
 		else {
 			// Hide the trash button for photos that does not belong the the current user

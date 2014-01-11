@@ -13,12 +13,12 @@
 #import "SVAddFriendsViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
-#import "AlbumMember.h"
+#import "SL/AlbumMember.h"
 
 @interface SVSidebarMemberController () {
 	ShotVibeAPI *shotvibeAPI;
 	NSMutableArray *members;
-	AlbumMember *owner;
+	SLAlbumMember *owner;
 	SVSidebarAlbumMemberCell *ownerCell;
 }
 
@@ -154,8 +154,8 @@
 		self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
 		
 		ownerCell.hidden = NO;
-		[ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:owner.user.avatarUrl]];
-		[ownerCell.memberLabel setText:owner.user.nickname];
+		[ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
+		[ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
 		ownerCell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
 		ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
 		ownerCell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
@@ -196,12 +196,12 @@
 	
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 
-    AlbumMember *member = [members objectAtIndex:indexPath.row];
+    SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
-    [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.user.avatarUrl]];
-	[cell.memberLabel setText:member.user.nickname];
+    [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
+	[cell.memberLabel setText:[[member getUser] getMemberNickname]];
 
-	if (shotvibeAPI.authData.userId == member.user.memberId) {
+	if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
 		
 		cell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
@@ -212,22 +212,22 @@
 	else {
 		cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
 		cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
-        switch (member.inviteStatus) {
-            case AlbumMemberInviteStatusUnknown:
-                cell.statusImageView.image = nil;
-                cell.statusLabel.text = @"";
-                break;
+        if (![member getInviteStatus]) {
+            cell.statusImageView.image = nil;
+            cell.statusLabel.text = @"";
+        } else {
+            switch ([member getInviteStatus].ordinal) {
+                case SLAlbumMember_InviteStatus_JOINED:
+                    cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
+                    cell.statusLabel.text = @"joined";
+                    break;
 
-            case AlbumMemberJoined:
-                cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
-                cell.statusLabel.text = @"joined";
-                break;
-
-            case AlbumMemberSmsSent:
-            case AlbumMemberInvitationViewed:
-                cell.statusImageView.image = [UIImage imageNamed:@"MemberInvited"];
-                cell.statusLabel.text = @"invited";
-                break;
+                case SLAlbumMember_InviteStatus_SMS_SENT:
+                case SLAlbumMember_InviteStatus_INVITATION_VIEWED:
+                    cell.statusImageView.image = [UIImage imageNamed:@"MemberInvited"];
+                    cell.statusLabel.text = @"invited";
+                    break;
+            }
         }
 		//cell.userInteractionEnabled = NO;
 	}
@@ -245,9 +245,9 @@
 	if ([self.searchBar isFirstResponder])
 		[self.searchBar resignFirstResponder];
 	
-	AlbumMember *member = [members objectAtIndex:indexPath.row];
+	SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
-	if (shotvibeAPI.authData.userId == member.user.memberId) {
+	if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
 		
 		[self ownerButtonPressed:nil];
 	}
@@ -324,8 +324,8 @@
 		owner = _albumContents.members[0];
 	}
 	else {
-		for (AlbumMember *member in _albumContents.members) {
-			if (title == nil || [title isEqualToString:@""] || [[member.user.nickname lowercaseString] rangeOfString:title].location != NSNotFound) {
+		for (SLAlbumMember *member in _albumContents.members) {
+			if (title == nil || [title isEqualToString:@""] || [[[[member getUser] getMemberNickname] lowercaseString] rangeOfString:title].location != NSNotFound) {
 				[members addObject:member];
 			}
 		}

@@ -9,7 +9,7 @@
 #import <AddressBook/AddressBook.h>
 #import "SVAddressBook.h"
 #import "SVDefines.h"
-#import "AlbumUser.h"
+#import "SL/AlbumUser.h"
 
 
 @implementation SVAddressBook

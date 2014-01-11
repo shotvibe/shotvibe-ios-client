@@ -10,7 +10,7 @@
 #import "SVSettingsViewController.h"
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
-#import "AlbumUser.h"
+#import "SL/AlbumUser.h"
 #import "SVDefines.h"
 #import "SVSettingsAboutViewController.h"
 #import "SVProfileViewController.h"

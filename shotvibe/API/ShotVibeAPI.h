@@ -10,7 +10,7 @@
 
 #import "AuthData.h"
 #import "AlbumContents.h"
-#import "AlbumUser.h"
+#import "SL/AlbumUser.h"
 
 typedef NS_ENUM(NSInteger, AuthorizePhoneNumberResult) {
     AuthorizePhoneNumberError,
@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
                     defaultCountryCode:(NSString *)defaultCountryCode
                                  error:(NSError **)error;
 
-- (AlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error;
+- (SLAlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error;
 
 - (BOOL)setUserNickname:(int64_t)userId nickname:(NSString *)nickname withError:(NSError **)error;
 
