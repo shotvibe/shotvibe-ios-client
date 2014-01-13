@@ -13,6 +13,20 @@
 static NSString * const AUTH_TOKEN = @"auth_token";
 static NSString * const USER_ID = @"user_id";
 static NSString * const DEFAULT_COUNTRY_CODE = @"default_country_code";
+static NSString *const NICKNAME_SET = @"nickname_set";
+
+
+// Utility function to retrieve a BOOL value from the standard user defaults.
++ (bool)getPersistentBoolForKey:(NSString *)key withDefault:(bool)defaultVal
+{
+    NSString *str = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    if (str == nil) {
+        return defaultVal;
+    } else {
+        return [str boolValue];
+    }
+}
+
 
 + (AuthData *)getAuthData
 {
@@ -36,5 +50,19 @@ static NSString * const DEFAULT_COUNTRY_CODE = @"default_country_code";
 
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
+
++ (BOOL)isNicknameSet
+{
+    return [UserSettings getPersistentBoolForKey:NICKNAME_SET withDefault:NO];
+}
+
+
++ (void)setNicknameSet:(BOOL)nickNameSet
+{
+    [[NSUserDefaults standardUserDefaults] setBool:nickNameSet forKey:NICKNAME_SET];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 @end
