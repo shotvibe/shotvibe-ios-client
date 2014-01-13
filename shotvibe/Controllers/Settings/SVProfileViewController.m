@@ -200,6 +200,7 @@
             }
         });
     });
+    [UserSettings setNicknameSet:YES];
 }
 
 
