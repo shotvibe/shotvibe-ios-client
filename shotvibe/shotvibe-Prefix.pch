@@ -15,5 +15,6 @@
     #import <MobileCoreServices/MobileCoreServices.h>
     #import <QuartzCore/QuartzCore.h>
 	#import "RCLog.h"
+    #import "Util.h"
     #import <NewRelicAgent/NewRelic.h>
 #endif
