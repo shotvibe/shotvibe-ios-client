@@ -455,7 +455,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
     @try {
         JSONArray *albumsArray = [[JSONArray alloc] initWithData:response.body];
-        //RCLog(@"\n\nresponse.body:\n%@", [[NSString alloc] initWithData:response.body encoding:NSUTF8StringEncoding]);
+        //RCLog(@"\n\nresponse.body:\n%@", showNSData(response.body));
         for (int i = 0; i < [albumsArray count]; ++i) {
             JSONObject *albumObj = [albumsArray getJSONObject:i];
 
