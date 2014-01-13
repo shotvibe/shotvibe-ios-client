@@ -17,6 +17,7 @@
 @property (nonatomic, strong) IBOutlet UITextField *nicknameField;
 @property (nonatomic, strong) IBOutlet UIImageView *userPhoto;
 @property (nonatomic, strong) IBOutlet UILabel *promptLabel;
+@property (nonatomic, strong) IBOutlet UIButton *continueButton;
 
 - (IBAction)changeProfilePicture:(id)sender;
 

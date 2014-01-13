@@ -735,7 +735,7 @@
 // Check if the user has already set their nickname, and if not, prompt them to do this.
 - (void)promptNickChange
 {
-    if ([UserSettings isNicknameSet]) {
+    if (NO&&[UserSettings isNicknameSet]) {
         RCLog(@"Nickname was already set");
     } else {
         // TODO: Check with the server if the nickname really was not set yet, since now we will prompt also after a reinstall.
