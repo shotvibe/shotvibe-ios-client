@@ -17,4 +17,5 @@
 	#import "RCLog.h"
     #import "Util.h"
     #import <NewRelicAgent/NewRelic.h>
+    #import "Mixpanel.h"
 #endif
