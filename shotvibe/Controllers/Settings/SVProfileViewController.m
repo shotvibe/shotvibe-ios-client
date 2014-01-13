@@ -21,6 +21,8 @@
 
 - (IBAction)changeProfilePicture:(id)sender;
 
+- (IBAction)handleContinueButtonPressed:(id)sender;
+
 @end
 
 
@@ -89,8 +91,8 @@
         self.navigationItem.title = @"Set your profile";
         self.navigationItem.hidesBackButton = YES;
         self.promptLabel.hidden = NO;
-        self.nicknameField.text = @"";
         self.nicknameField.enablesReturnKeyAutomatically = YES;
+        self.continueButton.hidden = NO;
     }
 }
 
@@ -110,6 +112,17 @@
 	[self.nicknameField resignFirstResponder];
 	[self performSegueWithIdentifier:@"ProfilePicSegue" sender:self];
 }
+
+
+- (IBAction)handleContinueButtonPressed:(id)sender
+{
+    // TODO: Having to press this after pressing Done on the keyboard is awkward, but
+    // when improving this behavior, we have to make sure the nickname is always first
+    // responder, except before the server update is received. (which may happen while in
+    // the profile pic selection screen)
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	
@@ -187,11 +200,6 @@
             }
         });
     });
-
-    if (self.shouldPrompt) { // if we prompted the user for a change, we leave after the keyboard was dismissed
-        [UserSettings setNicknameSet:YES];
-        [self.navigationController popViewControllerAnimated:YES];
-    }
 }
 
 
@@ -201,10 +209,8 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (!self.shouldPrompt) { // if we prompted the user for a change, don't allow touches to end editing
-        [self.nicknameField resignFirstResponder];
-        self.navigationItem.rightBarButtonItem = nil;
-    }
+    [self.nicknameField resignFirstResponder];
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 @end
