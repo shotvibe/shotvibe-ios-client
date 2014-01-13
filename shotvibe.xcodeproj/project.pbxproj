@@ -319,6 +319,7 @@
 		108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF051884083200757E36 /* NewRelicAgent.framework */; };
 		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
 		108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF091884087A00757E36 /* libz.dylib */; };
+		108CDF10188417AE00757E36 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF0F188417AE00757E36 /* Util.m */; };
 		280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */; };
 		280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */; };
 		2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2849A74D17D7111A0076AFBA /* Social.framework */; };
@@ -954,6 +955,8 @@
 		108CDF051884083200757E36 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
 		108CDF071884085D00757E36 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		108CDF091884087A00757E36 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		108CDF0E188417AE00757E36 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		108CDF0F188417AE00757E36 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -2404,6 +2407,8 @@
 				66278C4A1867B23800D23F34 /* SVInitialization.m */,
 				2884ED111830F4B40069E202 /* SVNavigationController.h */,
 				2884ED121830F4B40069E202 /* SVNavigationController.m */,
+				108CDF0E188417AE00757E36 /* Util.h */,
+				108CDF0F188417AE00757E36 /* Util.m */,
 			);
 			path = AppDelegate;
 			sourceTree = "<group>";
@@ -3169,6 +3174,7 @@
 				66278D041867C94900D23F34 /* AlbumManager.m in Sources */,
 				66278C9D1867C44600D23F34 /* CameraRollSection.m in Sources */,
 				66278D0B1867C94900D23F34 /* PhotoUploadRequest.m in Sources */,
+				108CDF10188417AE00757E36 /* Util.m in Sources */,
 				66278C9F1867C44600D23F34 /* SVImagePickerListViewController.m in Sources */,
 				66278CE91867C62300D23F34 /* SVTumblrActivity.m in Sources */,
 				66278C5E1867C17800D23F34 /* SVAddFriendsViewController.m in Sources */,
