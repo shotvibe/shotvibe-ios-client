@@ -559,7 +559,6 @@
 		66013254187F4E670042047B /* JavaLangReflectTypeVariableImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013213187F4E670042047B /* JavaLangReflectTypeVariableImpl.m */; };
 		66013255187F4E670042047B /* JavaLangThrowable.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013214187F4E670042047B /* JavaLangThrowable.m */; };
 		66013256187F4E670042047B /* JavaMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013216187F4E670042047B /* JavaMetadata.m */; };
-		66013257187F4E670042047B /* JavaUtilArrayList.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013218187F4E670042047B /* JavaUtilArrayList.m */; };
 		66013258187F4E670042047B /* JreEmulation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601321A187F4E670042047B /* JreEmulation.m */; };
 		66013259187F4E670042047B /* JreMemDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601321C187F4E670042047B /* JreMemDebug.m */; };
 		6601325A187F4E670042047B /* JreMemDebugStrongReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601321E187F4E670042047B /* JreMemDebugStrongReference.m */; };
@@ -1335,7 +1334,6 @@
 		66013215187F4E670042047B /* JavaMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JavaMetadata.h; sourceTree = "<group>"; };
 		66013216187F4E670042047B /* JavaMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JavaMetadata.m; sourceTree = "<group>"; };
 		66013217187F4E670042047B /* JavaObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JavaObject.h; sourceTree = "<group>"; };
-		66013218187F4E670042047B /* JavaUtilArrayList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JavaUtilArrayList.m; sourceTree = "<group>"; };
 		66013219187F4E670042047B /* JreEmulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JreEmulation.h; sourceTree = "<group>"; };
 		6601321A187F4E670042047B /* JreEmulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JreEmulation.m; sourceTree = "<group>"; };
 		6601321B187F4E670042047B /* JreMemDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JreMemDebug.h; sourceTree = "<group>"; };
@@ -2426,7 +2424,6 @@
 				66013215187F4E670042047B /* JavaMetadata.h */,
 				66013216187F4E670042047B /* JavaMetadata.m */,
 				66013217187F4E670042047B /* JavaObject.h */,
-				66013218187F4E670042047B /* JavaUtilArrayList.m */,
 				66013219187F4E670042047B /* JreEmulation.h */,
 				6601321A187F4E670042047B /* JreEmulation.m */,
 				6601321B187F4E670042047B /* JreMemDebug.h */,
@@ -3490,7 +3487,6 @@
 				AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */,
 				6601324E187F4E670042047B /* Type.m in Sources */,
 				66278D041867C94900D23F34 /* AlbumManager.m in Sources */,
-				66013257187F4E670042047B /* JavaUtilArrayList.m in Sources */,
 				66013228187F4E670042047B /* IOSBooleanArray.m in Sources */,
 				66278C9D1867C44600D23F34 /* CameraRollSection.m in Sources */,
 				66013244187F4E670042047B /* Float.m in Sources */,
