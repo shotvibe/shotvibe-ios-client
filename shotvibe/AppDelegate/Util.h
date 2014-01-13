@@ -10,6 +10,9 @@
 
 @interface Util : NSObject
 
-NSString *showBool(BOOL b);
+NSString * showBool(BOOL b);
+
+// For example for showing the result of NSURLConnection requests
+NSString * showNSData(NSData *d);
 
 @end

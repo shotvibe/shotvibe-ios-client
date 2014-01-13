@@ -10,8 +10,14 @@
 
 @implementation Util
 
-NSString *showBool(BOOL b) {
+NSString *showBool(BOOL b)
+{
 	return b ? @"YES" : @"NO";
+}
+
+NSString *showNSData(NSData *d)
+{
+    return [[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding];
 }
 
 @end
