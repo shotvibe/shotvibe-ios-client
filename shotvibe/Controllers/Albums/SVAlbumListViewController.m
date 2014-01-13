@@ -24,6 +24,7 @@
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 #import "ShotVibeAppDelegate.h"
+#import "UserSettings.h"
 
 @interface SVAlbumListViewController ()
 {
@@ -734,26 +735,12 @@
 // Check if the user has already set their nickname, and if not, prompt them to do this.
 - (void)promptNickChange
 {
-    ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
-    int64_t userId = shotvibeAPI.authData.userId;
-
-    // TODO: we already have this info from the registration process, so no delay is necessary here.
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSError *error;
-        AlbumUser *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
-
-        if (!userProfile) {
-            // if we can't get the profile, we won't bother the user with a name change prompt now
-            // TODO: schedule a retry?
-        } else {
-            RCLog(@"Retrieved user nickname: %@", userProfile.nickname);
-            if ([userProfile.nickname isEqualToString:@"noname"]) { // TODO: this is a rather poor check
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"PromptNickChangeSegue" sender:nil];
-                });
-            }
-        }
-    });
+    if ([UserSettings isNicknameSet]) {
+        RCLog(@"Nickname was already set");
+    } else {
+        // TODO: Check with the server if the nickname really was not set yet, since now we will prompt also after a reinstall.
+        [self performSegueWithIdentifier:@"PromptNickChangeSegue" sender:nil];
+    }
 }
 
 #pragma mark UIRefreshView
