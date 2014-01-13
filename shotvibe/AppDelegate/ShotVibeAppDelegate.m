@@ -49,8 +49,10 @@
 
 #pragma mark - UIApplicationDelegate Methods
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
 	[NewRelicAgent startWithApplicationToken:@"AAea0623ed205b8e4119889914a4605318944a6535"];
+    [Mixpanel sharedInstanceWithToken:@"8d72e5fa36faafefbf0b63a7a2cc306e"];
 #if !CONFIGURATION_Debug
     [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
 #endif
