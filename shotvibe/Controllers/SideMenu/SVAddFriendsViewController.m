@@ -11,7 +11,7 @@
 #import "SVAddressBook.h"
 #import "SVRecord.h"
 #import "SVContactCell.h"
-#import "AlbumContents.h"
+#import "SL/AlbumContents.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+AFNetworking.h"
 
@@ -457,10 +457,10 @@
 		// send request
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 			NSError *error;
-			AlbumContents *r = [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId phoneNumbers:contactsToInvite withError:&error];
+            SLAlbumContents *r = [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId phoneNumbers:contactsToInvite withError:&error];
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
-				RCLog(@"r.members %@", r.members);
+                RCLog(@"r.members %@", [r getMembers]);
 				RCLog(@"invite sent - success/error: %@", error);
 				[MBProgressHUD hideHUDForView:self.view animated:YES];
 				[self.navigationController dismissViewControllerAnimated:YES completion:nil];

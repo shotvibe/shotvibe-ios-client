@@ -7,10 +7,15 @@
 //
 
 #import "AlbumManager.h"
-#import "AlbumSummary.h"
-#import "AlbumContents.h"
+#import "SL/AlbumSummary.h"
+#import "SL/AlbumContents.h"
 #import "PhotoUploadManager.h"
-#import "AlbumPhoto.h"
+#import "SL/AlbumPhoto.h"
+#import "SL/ArrayList.h"
+#import "SL/AlbumServerPhoto.h"
+#import "SL/AlbumUploadingPhoto.h"
+#import "AlbumUploadingPhoto.h"
+#import "SL/DateTime.h"
 
 enum RefreshStatus
 {
@@ -132,9 +137,15 @@ enum RefreshStatus
             }
 
             latestAlbumsList = [latestAlbumsList sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-                AlbumSummary *lhs = a;
-                AlbumSummary *rhs = b;
-                return [lhs.dateUpdated compare:rhs.dateUpdated];
+                SLAlbumSummary *lhs = a;
+                SLAlbumSummary *rhs = b;
+                if ([[lhs getDateUpdated] getTimeStamp] < [[rhs getDateUpdated] getTimeStamp]) {
+                    return NSOrderedAscending;
+                }
+                if ([[lhs getDateUpdated] getTimeStamp] > [[rhs getDateUpdated] getTimeStamp]) {
+                    return NSOrderedDescending;
+                }
+                return NSOrderedSame;
             }];
 
             RCLog(@"##### LATEST ALBUM LIST: %d", [latestAlbumsList count]);
@@ -151,11 +162,11 @@ enum RefreshStatus
 
                     NSDictionary *albumEtags = [shotvibeDB getAlbumListEtagValues];
 
-                    for (AlbumSummary *a in latestAlbumsList) {
-                        NSString *newEtag = a.etag;
-                        NSString *oldEtag = [albumEtags objectForKey:[[NSNumber alloc] initWithLongLong:a.albumId]];
+                    for (SLAlbumSummary *a in latestAlbumsList) {
+                        NSString *newEtag = [a getEtag];
+                        NSString *oldEtag = [albumEtags objectForKey:[[NSNumber alloc] initWithLongLong:[a getId]]];
                         if (![newEtag isEqualToString:oldEtag]) {
-                            [self refreshAlbumContents:a.albumId];
+                            [self refreshAlbumContents:[a getId]];
                         }
                     }
 
@@ -175,9 +186,9 @@ enum RefreshStatus
     });
 }
 
-- (AlbumContents *)addAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener
+- (SLAlbumContents *)addAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener
 {
-    AlbumContents *cachedAlbum = [shotvibeDB getAlbumContents:albumId];
+    SLAlbumContents *cachedAlbum = [shotvibeDB getAlbumContents:albumId];
 	
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
     if (!data) {
@@ -235,7 +246,7 @@ enum RefreshStatus
 
         while (!done) {
             NSError *error;
-            AlbumContents *albumContents = [shotvibeAPI getAlbumContents:albumId withError:&error];
+            SLAlbumContents *albumContents = [shotvibeAPI getAlbumContents:albumId withError:&error];
             if (!albumContents) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
@@ -254,7 +265,7 @@ enum RefreshStatus
 
             // TODO Sort members by nickname
 
-            RCLog(@"##### ALBUM CONTENTS %lld Number of photos: %d", albumId, albumContents.photos.count);
+            RCLog(@"##### ALBUM CONTENTS %lld Number of photos: %d", albumId, [albumContents getPhotos].array.count);
 
             dispatch_sync(dispatch_get_main_queue(), ^{
                 AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
@@ -266,9 +277,9 @@ enum RefreshStatus
 
                     // Start downloading the photos in the background
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                        for (AlbumPhoto *p in albumContents.photos) {
-                            NSString *photoId = p.serverPhoto.photoId;
-                            NSString *photoUrl = p.serverPhoto.url;
+                        for (SLAlbumPhoto *p in [albumContents getPhotos].array) {
+                            NSString *photoId = [[p getServerPhoto] getId];
+                            NSString *photoUrl = [[p getServerPhoto] getUrl];
                             [self.photoFilesManager queuePhotoDownload:photoId
                                                               photoUrl:photoUrl
                                                              photoSize:[PhotoSize Thumb75]
@@ -281,7 +292,7 @@ enum RefreshStatus
                     });
 
                     // Add the Uploading photos to the end of album:
-                    AlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:albumContents uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+                    SLAlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:albumContents uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
 
                     for(id<AlbumContentsListener> listener in data.listeners) {
                         [listener onAlbumContentsRefreshComplete:albumId albumContents:updatedContents];
@@ -300,7 +311,7 @@ enum RefreshStatus
     });
 }
 
-+ (AlbumContents *)addUploadingPhotosToAlbumContents:(AlbumContents *)albumContents uploadingPhotos:(NSArray *)uploadingPhotos
++ (SLAlbumContents *)addUploadingPhotosToAlbumContents:(SLAlbumContents *)albumContents uploadingPhotos:(NSArray *)uploadingPhotos
 {
     // Bail out early if there are no uploadingPhotos
     if (uploadingPhotos.count == 0) {
@@ -316,52 +327,56 @@ enum RefreshStatus
     // being isAddingToAlbum, then there can be no duplicates, so just
     // add them all
     BOOL foundAddingToAlbum = NO;
-    for (AlbumPhoto *u in uploadingPhotos) {
-        if ([u.uploadingPhoto isAddingToAlbum]) {
+    for (SLAlbumPhoto *u in uploadingPhotos) {
+        AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[u getUploadingPhoto];
+        if ([uploadingPhoto isAddingToAlbum]) {
             foundAddingToAlbum = YES;
         }
     }
     if (!foundAddingToAlbum) {
-        NSArray *currentPhotos = albumContents.photos;
-        NSArray *combinedPhotos = [currentPhotos arrayByAddingObjectsFromArray:uploadingPhotos];
-        return [[AlbumContents alloc] initWithAlbumId:(int64_t)albumContents.albumId
-                                                 etag:(NSString *)albumContents.etag
-                                                 name:(NSString *)albumContents.name
-                                          dateCreated:(NSDate *)albumContents.dateCreated
-                                          dateUpdated:(NSDate *)albumContents.dateUpdated
-                                         numNewPhotos:(int64_t)albumContents.numNewPhotos
-                                           lastAccess:(NSDate *)albumContents.lastAccess
-                                               photos:combinedPhotos
-                                              members:(NSArray *)albumContents.members];
+        NSMutableArray *currentPhotos = [albumContents getPhotos].array;
+        NSMutableArray *combinedPhotos = [NSMutableArray arrayWithArray:currentPhotos];
+        [combinedPhotos addObjectsFromArray:uploadingPhotos];
+
+        return [[SLAlbumContents alloc] initWithLong:[albumContents getId]
+                                        withNSString:[albumContents getEtag]
+                                        withNSString:[albumContents getName]
+                                      withSLDateTime:[albumContents getDateCreated]
+                                      withSLDateTime:[albumContents getDateUpdated]
+                                            withLong:[albumContents getNumNewPhotos]
+                                      withSLDateTime:[albumContents getLastAccess]
+                                     withSLArrayList:[[SLArrayList alloc] initWithInitialArray:combinedPhotos]
+                                     withSLArrayList:[albumContents getMembers]];
     }
 
     // Keep track of all the server photo ids in an appropriate efficient data
     // structure, so that duplicates can be found:
     NSMutableSet *serverPhotoIds = [[NSMutableSet alloc] init];
-    for (AlbumPhoto *p in albumContents.photos) {
-        if (p.serverPhoto) {
-            [serverPhotoIds addObject:p.serverPhoto.photoId];
+    for (SLAlbumPhoto *p in [albumContents getPhotos].array) {
+        if ([p getServerPhoto]) {
+            [serverPhotoIds addObject:[[p getServerPhoto] getId]];
         }
     }
 
     // Add only the uploading photos that don't appear in the server photos
-    NSMutableArray *combinedPhotos = [NSMutableArray arrayWithArray:albumContents.photos];
-    for (AlbumPhoto *u in uploadingPhotos) {
+    NSMutableArray *combinedPhotos = [NSMutableArray arrayWithArray:[albumContents getPhotos].array];
+    for (SLAlbumPhoto *u in uploadingPhotos) {
+        AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[u getUploadingPhoto];
 
-        if (![u.uploadingPhoto isAddingToAlbum] || ![serverPhotoIds containsObject:u.uploadingPhoto.photoId]) {
+        if (![uploadingPhoto isAddingToAlbum] || ![serverPhotoIds containsObject:uploadingPhoto.photoId]) {
             [combinedPhotos addObject:u];
         }
     }
 
-    return [[AlbumContents alloc] initWithAlbumId:(int64_t)albumContents.albumId
-                                             etag:(NSString *)albumContents.etag
-                                             name:(NSString *)albumContents.name
-                                      dateCreated:(NSDate *)albumContents.dateCreated
-                                      dateUpdated:(NSDate *)albumContents.dateUpdated
-                                     numNewPhotos:(int64_t)albumContents.numNewPhotos
-                                       lastAccess:(NSDate *)albumContents.lastAccess
-                                           photos:combinedPhotos
-                                          members:(NSArray *)albumContents.members];
+    return [[SLAlbumContents alloc] initWithLong:[albumContents getId]
+                                    withNSString:[albumContents getEtag]
+                                    withNSString:[albumContents getName]
+                                  withSLDateTime:[albumContents getDateCreated]
+                                  withSLDateTime:[albumContents getDateUpdated]
+                                        withLong:[albumContents getNumNewPhotos]
+                                  withSLDateTime:[albumContents getLastAccess]
+                                 withSLArrayList:[[SLArrayList alloc] initWithInitialArray:combinedPhotos]
+                                 withSLArrayList:[albumContents getMembers]];
 }
 
 - (void)cleanAlbumContentsListeners:(int64_t)albumId
@@ -382,36 +397,41 @@ enum RefreshStatus
 
 // Set lastAccess to the timestamp of the most recent server photo in both the cache and the server,
 // and trigger refresh for album list and albumContents.
-- (void)markAlbumAsViewed:(AlbumContents *)album
+- (void)markAlbumAsViewed:(SLAlbumContents *)album
 {
-    if (album.photos.count > 0) {
-        NSDate *mostRecentPhotoDate = nil;
-        for (AlbumPhoto *photo in album.photos) {
-            if (photo.serverPhoto) { // don't do this if album.photos[i] is not a serverPhoto
-                mostRecentPhotoDate = !mostRecentPhotoDate
-                    ? photo.serverPhoto.dateAdded
-                    : [mostRecentPhotoDate laterDate:photo.serverPhoto.dateAdded];
+    if ([album getPhotos].array.count > 0) {
+        SLDateTime *mostRecentPhotoDate = nil;
+        for (SLAlbumPhoto *photo in [album getPhotos]) {
+            if ([photo getServerPhoto]) { // don't do this if album.photos[i] is not a serverPhoto
+                if (!mostRecentPhotoDate) {
+                    mostRecentPhotoDate = [[photo getServerPhoto] getDateAdded];
+                } else {
+                    long long photoTimestamp = [[[photo getServerPhoto] getDateAdded] getTimeStamp];
+                    if ([mostRecentPhotoDate getTimeStamp] < photoTimestamp) {
+                        mostRecentPhotoDate = [[photo getServerPhoto] getDateAdded];
+                    }
+                }
             }
         }
 
-        NSDate *lastAccess = mostRecentPhotoDate;
+        SLDateTime *lastAccess = mostRecentPhotoDate;
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSError *error;
 
-            BOOL success = [shotvibeAPI markAlbumAsViewed:album.albumId lastAccess:lastAccess withError:&error];
+            BOOL success = [shotvibeAPI markAlbumAsViewed:[album getId] lastAccess:lastAccess withError:&error];
 
             if (!success) {
                 NSLog(@"### AlbumManager.markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", [error localizedDescription]);
             } // TODO: handle error
         });
 
-        if (![shotvibeDB markAlbumAsViewed:album.albumId lastAccess:lastAccess]) {
+        if (![shotvibeDB markAlbumAsViewed:[album getId] lastAccess:lastAccess]) {
             RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
         }
 
         [self refreshAlbumListFromDb];
-        [self refreshAlbumContentsFromDb:album.albumId];
+        [self refreshAlbumContentsFromDb:[album getId]];
     }
 }
 
@@ -435,7 +455,7 @@ enum RefreshStatus
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
 
     if (data) {
-        AlbumContents *albumContentsFromDb = [shotvibeDB getAlbumContents:albumId];
+        SLAlbumContents *albumContentsFromDb = [shotvibeDB getAlbumContents:albumId];
 
         if (albumContentsFromDb) { // TODO: handle error
             for (id<AlbumContentsListener> listener in data.listeners) {
@@ -454,10 +474,10 @@ enum RefreshStatus
         return;
     }
 
-    AlbumContents *cachedAlbum = [shotvibeDB getAlbumContents:albumId];
+    SLAlbumContents *cachedAlbum = [shotvibeDB getAlbumContents:albumId];
 
     // Add the Uploading photos to the end of album:
-    AlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+    SLAlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
 
     for(id<AlbumContentsListener> listener in data.listeners) {
         [listener onAlbumContentsRefreshComplete:albumId albumContents:updatedContents];

@@ -415,8 +415,8 @@
             albumLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
             albumLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
             
-            AlbumSummary *currentAlbum = [self.albums objectAtIndex:index];
-            albumLabel.text = currentAlbum.name;
+            SLAlbumSummary *currentAlbum = [self.albums objectAtIndex:index];
+            albumLabel.text = [currentAlbum getName];
             
             [self.albumScrollView addSubview:albumLabel];
         }
@@ -427,7 +427,7 @@
 	
     if (self.albums.count > 0) {
         self.selectedAlbum = [self.albums objectAtIndex:0];
-		self.albumId = self.selectedAlbum.albumId;
+        self.albumId = [self.selectedAlbum getId];
     }
 }
 - (void)goLeft:(id)sender {
@@ -446,7 +446,7 @@
 	}
     [self.albumScrollView scrollRectToVisible:CGRectMake(index*self.albumScrollView.frame.size.width, 0, self.albumScrollView.frame.size.width, self.albumScrollView.frame.size.height) animated:YES];
     self.selectedAlbum = [self.albums objectAtIndex:index];
-	self.albumId = self.selectedAlbum.albumId;
+    self.albumId = [self.selectedAlbum getId];
     [self.albumPageControl setCurrentPage:index];
 }
 
@@ -458,7 +458,7 @@
     NSUInteger pageIndex = scrollView.contentOffset.x / scrollView.frame.size.width;
     [self.albumPageControl setCurrentPage:pageIndex];
     self.selectedAlbum = [self.albums objectAtIndex:pageIndex];
-	self.albumId = self.selectedAlbum.albumId;
+    self.albumId = [self.selectedAlbum getId];
 }
 
 

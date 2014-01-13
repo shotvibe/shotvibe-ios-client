@@ -8,12 +8,14 @@
 
 #import "ShotVibeDB.h"
 #import "FileUtils.h"
-#import "AlbumSummary.h"
-#import "AlbumPhoto.h"
-#import "AlbumServerPhoto.h"
+#import "SL/AlbumSummary.h"
+#import "SL/AlbumPhoto.h"
+#import "SL/AlbumServerPhoto.h"
 #import "SL/AlbumUser.h"
-#import "AlbumContents.h"
+#import "SL/AlbumContents.h"
 #import "SL/AlbumMember.h"
+#import "SL/ArrayList.h"
+#import "SL/DateTime.h"
 
 @implementation ShotVibeDB
 {
@@ -143,6 +145,13 @@ static const int DATABASE_VERSION = 2;
     return NO;
 
 
+static SLDateTime * getDateForColumnIndex(FMResultSet *s, int index)
+{
+    long long timestamp = [s longLongIntForColumnIndex:index];
+    return [SLDateTime FromTimeStampWithLong:timestamp];
+}
+
+
 - (NSArray *)getAlbumList
 {
     FMResultSet *s = [db executeQuery:@"SELECT album_id, name, last_updated, num_new_photos, last_access FROM album ORDER BY last_updated ASC"];
@@ -156,31 +165,32 @@ static const int DATABASE_VERSION = 2;
         NSString *name = [s stringForColumnIndex:1];
 
         // TODO:
-        NSDate *dateCreated = nil;
+        SLDateTime *dummyDateCreated = [SLDateTime ParseISO8601WithNSString:@"2000-01-01T00:00:00Z"];
 
-        NSDate *lastUpdated = [s dateForColumnIndex:2];
+        SLDateTime *lastUpdated = getDateForColumnIndex(s, 2);
 
         int64_t numNewPhotos = [s longLongIntForColumnIndex:3];
 
-        NSDate *lastAccess = [s dateForColumnIndex:4];
+        SLDateTime *lastAccess = getDateForColumnIndex(s, 4);
 
         // TODO hm...
         NSString *etag = nil;
 
         const int NUM_LATEST_PHOTOS = 2;
-        NSArray *latestPhotos = [self getLatestPhotos:albumId numPhotos:NUM_LATEST_PHOTOS albumLastAccess:lastAccess];
+        NSMutableArray *latestPhotos = [self getLatestPhotos:albumId numPhotos:NUM_LATEST_PHOTOS albumLastAccess:lastAccess];
         if (!latestPhotos) {
             return nil;
         }
 
-        AlbumSummary *albumSummary = [[AlbumSummary alloc] initWithAlbumId:albumId
-                                                                      etag:etag
-                                                                      name:name
-                                                               dateCreated:dateCreated
-                                                               dateUpdated:lastUpdated
-                                                              numNewPhotos:numNewPhotos
-                                                                lastAccess:lastAccess
-                                                              latestPhotos:latestPhotos];
+        SLAlbumSummary *albumSummary = [[SLAlbumSummary alloc] initWithLong:albumId
+                                                               withNSString:etag
+                                                               withNSString:name
+                                                             withSLDateTime:dummyDateCreated
+                                                             withSLDateTime:lastUpdated
+                                                                   withLong:numNewPhotos
+                                                             withSLDateTime:lastAccess
+                                                            withSLArrayList:[[SLArrayList alloc] initWithInitialArray:latestPhotos]];
+
         [results addObject:albumSummary];
     }
 
@@ -188,7 +198,7 @@ static const int DATABASE_VERSION = 2;
 }
 
 // Returns a list of `AlbumPhoto` objects
-- (NSArray *)getLatestPhotos:(int64_t)albumId numPhotos:(int)numPhotos albumLastAccess:(NSDate *)albumLastAccess;
+- (NSMutableArray *)getLatestPhotos:(int64_t)albumId numPhotos:(int)numPhotos albumLastAccess:(SLDateTime *)albumLastAccess;
 {
     FMResultSet* s = [db executeQuery:@
                       "SELECT photo.photo_id, photo.url, photo.created, user.user_id, user.nickname, user.avatar_url FROM photo"
@@ -200,12 +210,12 @@ static const int DATABASE_VERSION = 2;
     if (!s) {
         return nil;
     }
-    
+
     NSMutableArray *results = [[NSMutableArray alloc] init];
     while ([s next]) {
         NSString *photoId = [s stringForColumnIndex:0];
         NSString *photoUrl = [s stringForColumnIndex:1];
-        NSDate *photoDateAdded = [s dateForColumnIndex:2];
+        SLDateTime *photoDateAdded = getDateForColumnIndex(s, 2);
         int64_t photoAuthorUserId = [s longLongIntForColumnIndex:3];
         NSString *photoAuthorNickname = [s stringForColumnIndex:4];
         NSString *photoAuthorAvatarUrl = [s stringForColumnIndex:5];
@@ -214,13 +224,12 @@ static const int DATABASE_VERSION = 2;
                                                         withNSString:photoAuthorNickname
                                                         withNSString:photoAuthorAvatarUrl];
 
-        AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
-                                                                                   url:photoUrl
-                                                                                author:photoAuthor
-                                                                             dateAdded:photoDateAdded
-                                                                            lastAccess:albumLastAccess];
+        SLAlbumServerPhoto *albumServerPhoto = [[SLAlbumServerPhoto alloc] initWithNSString:photoId
+                                                                               withNSString:photoUrl
+                                                                            withSLAlbumUser:photoAuthor
+                                                                             withSLDateTime:photoDateAdded];
 
-        AlbumPhoto *photo = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
+        SLAlbumPhoto *photo = [[SLAlbumPhoto alloc] initWithSLAlbumServerPhoto:albumServerPhoto];
         [results addObject:photo];
     }
 
@@ -258,18 +267,18 @@ static const int DATABASE_VERSION = 2;
     // Keep track of all the new albumIds in an efficient data structure
     NSMutableSet *albumIds = [[NSMutableSet alloc] init];
 
-    for (AlbumSummary *album in albums) {
-        [albumIds addObject:[NSNumber numberWithLongLong:album.albumId]];
+    for (SLAlbumSummary *album in albums) {
+        [albumIds addObject:[NSNumber numberWithLongLong:[album getId]]];
 
         NSLog(@"Updating: setAlbumList");
         // First try updating an existing row, in order to not erase an existing etag value
         if (![db executeUpdate:@"UPDATE album SET album_id=?, name=?, last_updated=?, num_new_photos=?, last_access=? WHERE album_id=?",
-              [NSNumber numberWithLongLong:album.albumId],
-              album.name,
-              album.dateUpdated,
-              [NSNumber numberWithLongLong:album.numNewPhotos],
-              album.lastAccess,
-              [NSNumber numberWithLongLong:album.albumId]]) {
+              [NSNumber numberWithLongLong:[album getId]],
+              [album getName],
+              [album getDateUpdated],
+              [NSNumber numberWithLongLong:[album getNumNewPhotos]],
+              [album getLastAccess],
+              [NSNumber numberWithLongLong:[album getId]]]) {
             ABORT_TRANSACTION;
         }
 
@@ -283,11 +292,11 @@ static const int DATABASE_VERSION = 2;
             NSLog(@"Updating: setAlbumList, did not exist");
 
             if (![db executeUpdate:@"INSERT OR REPLACE INTO album (album_id, name, last_updated, num_new_photos, last_access) VALUES (?, ?, ?, ?, ?)",
-                  [NSNumber numberWithLongLong:album.albumId],
-                  album.name,
-                  album.dateUpdated,
-                  [NSNumber numberWithLongLong:album.numNewPhotos],
-                  album.lastAccess]) {
+                  [NSNumber numberWithLongLong:[album getId]],
+                  [album getName],
+                  [album getDateUpdated],
+                  [NSNumber numberWithLongLong:[album getNumNewPhotos]],
+                  [album getLastAccess]]) {
                 ABORT_TRANSACTION;
             }
         }
@@ -316,7 +325,7 @@ static const int DATABASE_VERSION = 2;
 }
 
 
-- (AlbumContents *)getAlbumContents:(int64_t)albumId
+- (SLAlbumContents *)getAlbumContents:(int64_t)albumId
 {
     FMResultSet *s = [db executeQuery:@"SELECT name, last_updated, num_new_photos, last_access FROM album WHERE album_id=?", [NSNumber numberWithLongLong:albumId]];
     if (!s) {
@@ -329,9 +338,9 @@ static const int DATABASE_VERSION = 2;
     }
 
     NSString *albumName = [s stringForColumnIndex:0];
-    NSDate *albumLastUpdated = [s dateForColumnIndex:1];
+    SLDateTime *albumLastUpdated = getDateForColumnIndex(s, 1);
     int64_t albumNumNewPhotos = [s longLongIntForColumnIndex:2];
-    NSDate *albumLastAccess = [s dateForColumnIndex:3];
+    SLDateTime *albumLastAccess = getDateForColumnIndex(s, 3);
     NSString *etag = nil;
 
     s = [db executeQuery:@
@@ -346,7 +355,7 @@ static const int DATABASE_VERSION = 2;
     while ([s next]) {
         NSString *photoId = [s stringForColumnIndex:0];
         NSString *photoUrl = [s stringForColumnIndex:1];
-        NSDate *photoDateAdded = [s dateForColumnIndex:2];
+        SLDateTime *photoDateAdded = getDateForColumnIndex(s, 2);
         int64_t photoAuthorUserId = [s longLongIntForColumnIndex:3];
         NSString *photoAuthorNickname = [s stringForColumnIndex:4];
         NSString *photoAuthorAvatarUrl = [s stringForColumnIndex:5];
@@ -355,13 +364,12 @@ static const int DATABASE_VERSION = 2;
                                                         withNSString:photoAuthorNickname
                                                         withNSString:photoAuthorAvatarUrl];
 
-        AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
-                                                                                   url:photoUrl
-                                                                                author:photoAuthor
-                                                                             dateAdded:photoDateAdded
-                                                                            lastAccess:albumLastAccess];
+        SLAlbumServerPhoto *albumServerPhoto = [[SLAlbumServerPhoto alloc] initWithNSString:photoId
+                                                                               withNSString:photoUrl
+                                                                            withSLAlbumUser:photoAuthor
+                                                                             withSLDateTime:photoDateAdded];
 
-        AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
+        SLAlbumPhoto *albumPhoto = [[SLAlbumPhoto alloc] initWithSLAlbumServerPhoto:albumServerPhoto];
         [albumPhotos addObject:albumPhoto];
     }
 
@@ -386,35 +394,37 @@ static const int DATABASE_VERSION = 2;
         [albumMembers addObject:albumMember];
     }
 
+    // TODO:
+    SLDateTime *dummyDateCreated = [SLDateTime ParseISO8601WithNSString:@"2000-01-01T00:00:00Z"];
 
-    AlbumContents *albumContents = [[AlbumContents alloc] initWithAlbumId:albumId
-                                                                     etag:etag
-                                                                     name:albumName
-                                                              dateCreated:[[NSDate alloc] init] // TODO: use database
-                                                              dateUpdated:albumLastUpdated
-                                                             numNewPhotos:albumNumNewPhotos
-                                                               lastAccess:albumLastAccess
-                                                                   photos:albumPhotos
-                                                                  members:albumMembers];
+    SLAlbumContents *albumContents = [[SLAlbumContents alloc] initWithLong:albumId
+                                                              withNSString:etag
+                                                              withNSString:albumName
+                                                            withSLDateTime:dummyDateCreated
+                                                            withSLDateTime:albumLastUpdated
+                                                                  withLong:albumNumNewPhotos
+                                                            withSLDateTime:albumLastAccess
+                                                           withSLArrayList:[[SLArrayList alloc] initWithInitialArray:albumPhotos]
+                                                           withSLArrayList:[[SLArrayList alloc] initWithInitialArray:albumMembers]];
 
     return albumContents;
 }
 
 
-- (BOOL)setAlbumContents:(int64_t)albumId withContents:(AlbumContents *)albumContents
+- (BOOL)setAlbumContents:(int64_t)albumId withContents:(SLAlbumContents *)albumContents
 {
     if (![db beginTransaction]) {
         return NO;
     }
-    RCLog(@"setAlbumContents: name:%@ last_updated:%@ num_new_photos:%lld last_access:%@ last_etag:%@", albumContents.name, albumContents.dateUpdated, albumContents.numNewPhotos, albumContents.lastAccess, albumContents.etag);
+    RCLog(@"setAlbumContents: name:%@ last_updated:%@ num_new_photos:%lld last_access:%@ last_etag:%@", [albumContents getName], [albumContents getDateUpdated], [albumContents getNumNewPhotos], [albumContents getLastAccess], [albumContents getEtag]);
 
     if (![db executeUpdate:@"INSERT OR REPLACE INTO album (album_id, name, last_updated, num_new_photos, last_access, last_etag) VALUES (?, ?, ?, ?, ?, ?)",
-          [NSNumber numberWithLongLong:albumContents.albumId],
-          albumContents.name,
-          albumContents.dateUpdated,
-          [NSNumber numberWithLongLong:albumContents.numNewPhotos],
-          albumContents.lastAccess,
-          albumContents.etag]) {
+          [NSNumber numberWithLongLong:[albumContents getId]],
+          [albumContents getName],
+          [albumContents getDateUpdated],
+          [NSNumber numberWithLongLong:[albumContents getNumNewPhotos]],
+          [albumContents getLastAccess],
+          [albumContents getEtag]]) {
         ABORT_TRANSACTION;
     }
 
@@ -428,23 +438,23 @@ static const int DATABASE_VERSION = 2;
     NSMutableSet *photoIds = [[NSMutableSet alloc] init];
 
     int num = 0;
-    for (AlbumPhoto *albumPhoto in albumContents.photos) {
-        AlbumServerPhoto *photo = albumPhoto.serverPhoto;
+    for (SLAlbumPhoto *albumPhoto in [albumContents getPhotos].array) {
+        SLAlbumServerPhoto *photo = [albumPhoto getServerPhoto];
         NSAssert(photo, @"albumContents must contain only photos of type AlbumServerPhoto");
 
-        [photoIds addObject:photo.photoId];
+        [photoIds addObject:[photo getId]];
 
-        if(![db executeUpdate:@"INSERT OR REPLACE INTO photo (photo_album, num, photo_id, url, author_id, created) VALUES (?, ?, ?, ?, ?, ?)",
-             [NSNumber numberWithLongLong:albumId],
-             [NSNumber numberWithInt:num++],
-             photo.photoId,
-             photo.url,
-             [NSNumber numberWithLongLong:[photo.author getMemberId]],
-             photo.dateAdded]) {
+        if (![db executeUpdate:@"INSERT OR REPLACE INTO photo (photo_album, num, photo_id, url, author_id, created) VALUES (?, ?, ?, ?, ?, ?)",
+              [NSNumber numberWithLongLong:albumId],
+              [NSNumber numberWithInt:num++],
+              [photo getId],
+              [photo getUrl],
+              [NSNumber numberWithLongLong:[[photo getAuthor] getMemberId]],
+              [photo getDateAdded]]) {
             ABORT_TRANSACTION;
         }
 
-        SLAlbumUser *user = photo.author;
+        SLAlbumUser *user = [photo getAuthor];
         [allUsers setObject:user forKey:[[NSNumber alloc] initWithLongLong:[user getMemberId]]];
     }
 
@@ -467,7 +477,7 @@ static const int DATABASE_VERSION = 2;
 
     NSMutableSet *memberIds = [[NSMutableSet alloc] init];
 
-    for (SLAlbumMember *member in albumContents.members) {
+    for (SLAlbumMember *member in [albumContents getMembers].array) {
         SLAlbumUser *user = [member getUser];
 
         [memberIds addObject:[NSNumber numberWithLongLong:[user getMemberId]]];
@@ -514,7 +524,7 @@ static const int DATABASE_VERSION = 2;
     return YES;
 }
 
-- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(NSDate *)lastAccess
+- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess
 {
     if (![db beginTransaction]) {
         return NO;

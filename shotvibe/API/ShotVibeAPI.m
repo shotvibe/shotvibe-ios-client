@@ -8,11 +8,13 @@
 
 #import "ShotVibeAPI.h"
 #import "JSON.h"
-#import "AlbumSummary.h"
-#import "AlbumPhoto.h"
-#import "AlbumServerPhoto.h"
+#import "SL/AlbumSummary.h"
+#import "SL/AlbumPhoto.h"
+#import "SL/AlbumServerPhoto.h"
 #import "SL/AlbumMember.h"
 #import "SL/AlbumUser.h"
+#import "SL/ArrayList.h"
+#import "SL/DateTime.h"
 
 @interface Response : NSObject
 
@@ -425,21 +427,25 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
             NSString *etag = [albumObj getString:@"etag"];
             NSNumber *albumId = [albumObj getNumber:@"id"];
             NSString *name = [albumObj getString:@"name"];
-            NSDate *dateUpdated = [albumObj getDate:@"last_updated"];
+            SLDateTime *dateUpdated = [albumObj getDate:@"last_updated"];
             NSNumber *numNewPhotos = [albumObj getNumber:@"num_new_photos"];
-            NSDate *lastAccess = [albumObj isNull:@"last_access"] ? nil : [albumObj getDate:@"last_access"];
+            SLDateTime *lastAccess = [albumObj isNull:@"last_access"] ? nil : [albumObj getDate:@"last_access"];
 
             RCLog(@"Fetched album #%@ (\"%@\") from server: dateUpdated: %@, numNewPhotos: %@, lastAccess: %@", albumId, name, dateUpdated, numNewPhotos, lastAccess);
-            NSArray *latestPhotos = [ShotVibeAPI parsePhotoList:[albumObj getJSONArray:@"latest_photos"] albumLastAccess:lastAccess];
+            NSMutableArray *latestPhotos = [ShotVibeAPI parsePhotoList:[albumObj getJSONArray:@"latest_photos"] albumLastAccess:lastAccess];
 
-            AlbumSummary *albumSummary = [[AlbumSummary alloc] initWithAlbumId:[albumId longLongValue]
-                                                                          etag:etag
-                                                                          name:name
-                                                                   dateCreated:nil
-                                                                   dateUpdated:dateUpdated
-                                                                  numNewPhotos:[numNewPhotos longLongValue]
-                                                                    lastAccess:lastAccess
-                                                                  latestPhotos:latestPhotos];
+            // TODO:
+            SLDateTime *dummyDateCreated = [SLDateTime ParseISO8601WithNSString:@"2000-01-01T00:00:00Z"];
+
+            SLAlbumSummary *albumSummary = [[SLAlbumSummary alloc] initWithLong:[albumId longLongValue]
+                                                                   withNSString:etag
+                                                                   withNSString:name
+                                                                 withSLDateTime:dummyDateCreated
+                                                                 withSLDateTime:dateUpdated
+                                                                       withLong:[numNewPhotos longLongValue]
+                                                                 withSLDateTime:lastAccess
+                                                                withSLArrayList:[[SLArrayList alloc] initWithInitialArray:latestPhotos]];
+
             [results addObject:albumSummary];
         }
     }
@@ -452,13 +458,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 }
 
 
-- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(NSDate *)lastAccess withError:(NSError **)error
+- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess withError:(NSError **)error
 {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
-    
-    NSString *lastAccessStr = [dateFormatter stringFromDate:lastAccess];
+    NSString *lastAccessStr = [lastAccess formatISO8601];
     NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
                           lastAccessStr, @"timestamp",
                           nil];
@@ -487,7 +489,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 }
 
 
-- (AlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error
+- (SLAlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error
 {
     NSError *responseError;
     Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/", albumId] method:@"GET" body:nil error:&responseError];
@@ -513,19 +515,19 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 }
 
 // May throw a JSONException!
-+ (AlbumContents *)parseAlbumContents:(JSONObject *)obj etag:(NSString *)etag
++ (SLAlbumContents *)parseAlbumContents:(JSONObject *)obj etag:(NSString *)etag
 {
     NSNumber *albumId = [obj getNumber:@"id"];
 
     NSString *name = [obj getString:@"name"];
-    NSDate *dateCreated = [obj getDate:@"date_created"];
-    NSDate *dateUpdated = [obj getDate:@"last_updated"];
+    SLDateTime *dateCreated = [obj getDate:@"date_created"];
+    SLDateTime *dateUpdated = [obj getDate:@"last_updated"];
     NSNumber *numNewPhotos = [obj getNumber:@"num_new_photos"];
-    NSDate *lastAccess = [obj isNull:@"last_access"] ? nil : [obj getDate:@"last_access"];
+    SLDateTime *lastAccess = [obj isNull:@"last_access"] ? nil : [obj getDate:@"last_access"];
 
     JSONArray *membersArray = [obj getJSONArray:@"members"];
 
-    NSArray *photos = [ShotVibeAPI parsePhotoList:[obj getJSONArray:@"photos"] albumLastAccess:lastAccess];
+    NSMutableArray *photos = [ShotVibeAPI parsePhotoList:[obj getJSONArray:@"photos"] albumLastAccess:lastAccess];
 
     NSMutableArray *members = [[NSMutableArray alloc] init];
     for (int i = 0; i < membersArray.count; ++i) {
@@ -555,21 +557,21 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         [members addObject:[[SLAlbumMember alloc] initWithSLAlbumUser:user withSLAlbumMember_InviteStatusEnum:inviteStatus]];
     }
 
-    AlbumContents *albumContents = [[AlbumContents alloc] initWithAlbumId:[albumId longLongValue]
-                                                                     etag:etag
-                                                                     name:name
-                                                              dateCreated:dateCreated
-                                                              dateUpdated:dateUpdated
-                                                             numNewPhotos:[numNewPhotos longLongValue]
-                                                               lastAccess:lastAccess
-                                                                   photos:photos
-                                                                  members:members];
+    SLAlbumContents *albumContents = [[SLAlbumContents alloc] initWithLong:[albumId longLongValue]
+                                                              withNSString:etag
+                                                              withNSString:name
+                                                            withSLDateTime:dateCreated
+                                                            withSLDateTime:dateUpdated
+                                                                  withLong:[numNewPhotos longLongValue]
+                                                            withSLDateTime:lastAccess
+                                                           withSLArrayList:[[SLArrayList alloc] initWithInitialArray:photos]
+                                                           withSLArrayList:[[SLArrayList alloc] initWithInitialArray:members]];
 
     return albumContents;
 }
 
 // May throw a JSONException!
-+ (NSArray *)parsePhotoList:(JSONArray *)photosArray albumLastAccess:(NSDate *)albumLastAccess
++ (NSMutableArray *)parsePhotoList:(JSONArray *)photosArray albumLastAccess:(SLDateTime *)albumLastAccess
 {
     NSMutableArray *results = [[NSMutableArray alloc] init];
 
@@ -577,7 +579,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         JSONObject *photoObj = [photosArray getJSONObject:i];
         NSString *photoId = [photoObj getString:@"photo_id"];
         NSString *photoUrl = [photoObj getString:@"photo_url"];
-        NSDate *photoDateCreated = [photoObj getDate:@"date_created"];
+        SLDateTime *photoDateCreated = [photoObj getDate:@"date_created"];
 
         JSONObject *authorObj = [photoObj getJSONObject:@"author"];
         NSNumber *authorId = [authorObj getNumber:@"id"];
@@ -586,20 +588,19 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
         SLAlbumUser *author = [[SLAlbumUser alloc] initWithLong:[authorId longLongValue] withNSString:authorNickname withNSString:authorAvatarUrl];
 
-        AlbumServerPhoto *albumServerPhoto = [[AlbumServerPhoto alloc] initWithPhotoId:photoId
-                                                                                   url:photoUrl
-                                                                                author:author
-                                                                             dateAdded:photoDateCreated
-                                                                            lastAccess:albumLastAccess];
+        SLAlbumServerPhoto *albumServerPhoto = [[SLAlbumServerPhoto alloc] initWithNSString:photoId
+                                                                               withNSString:photoUrl
+                                                                            withSLAlbumUser:author
+                                                                             withSLDateTime:photoDateCreated];
 
-        AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumServerPhoto:albumServerPhoto];
+        SLAlbumPhoto *albumPhoto = [[SLAlbumPhoto alloc] initWithSLAlbumServerPhoto:albumServerPhoto];
         [results addObject:albumPhoto];
     }
 
     return results;
 }
 
-- (AlbumContents *)createNewBlankAlbum:(NSString *)albumName withError:(NSError **)error
+- (SLAlbumContents *)createNewBlankAlbum:(NSString *)albumName withError:(NSError **)error
 {
     NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
                           albumName, @"album_name",
@@ -698,7 +699,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return YES;
 }
 
-- (AlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(NSArray *)photoIds withError:(NSError **)error
+- (SLAlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(NSArray *)photoIds withError:(NSError **)error
 {
     NSMutableArray *photosArray = [[NSMutableArray alloc] init];
     for (NSString *photoId in photoIds) {
@@ -741,7 +742,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     }
 }
 
-- (AlbumContents *)albumAddMembers:(int64_t)albumId phoneNumbers:(NSArray *)phoneNumbers withError:(NSError **)error
+- (SLAlbumContents *)albumAddMembers:(int64_t)albumId phoneNumbers:(NSArray *)phoneNumbers withError:(NSError **)error
 {
     NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
                           phoneNumbers, @"add_members",

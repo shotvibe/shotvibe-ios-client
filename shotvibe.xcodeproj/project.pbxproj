@@ -484,9 +484,6 @@
 		28FC2C3417FAFA5700AE24C3 /* PencilWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28FC2C3217FAFA5700AE24C3 /* PencilWhite@2x.png */; };
 		28FC2CA917FE8EE400AE24C3 /* MPNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2CA817FE8EE400AE24C3 /* MPNotificationView.m */; };
 		28FC2CAD17FE8F2600AE24C3 /* OBGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FC2CAC17FE8F2600AE24C3 /* OBGradientView.m */; };
-		3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */; };
-		3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC617C3E7CA00135869 /* AlbumPhoto.m */; };
-		3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B013BC917C3E83200135869 /* AlbumContents.m */; };
 		3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */; };
 		3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */; };
 		3B3AD15417CB4A9C004D24A9 /* NSData+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3AD13917CB4A9C004D24A9 /* NSData+GIF.m */; };
@@ -508,8 +505,6 @@
 		3BE0B10E17C2BA3E0058CAAD /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */; };
 		3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11017C2BFA20058CAAD /* FMResultSet.m */; };
 		3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */; };
-		3BE0B11717C2C5530058CAAD /* AlbumBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11617C2C5520058CAAD /* AlbumBase.m */; };
-		3BE0B11A17C2C71D0058CAAD /* AlbumSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */; };
 		66013226187F4E670042047B /* IOSArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131AF187F4E670042047B /* IOSArray.m */; };
 		66013227187F4E670042047B /* IOSArrayClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131B1187F4E670042047B /* IOSArrayClass.m */; };
 		66013228187F4E670042047B /* IOSBooleanArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131B3187F4E670042047B /* IOSBooleanArray.m */; };
@@ -1181,12 +1176,6 @@
 		28FC2CA817FE8EE400AE24C3 /* MPNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPNotificationView.m; sourceTree = "<group>"; };
 		28FC2CAB17FE8F2600AE24C3 /* OBGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBGradientView.h; sourceTree = "<group>"; };
 		28FC2CAC17FE8F2600AE24C3 /* OBGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBGradientView.m; sourceTree = "<group>"; };
-		3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumServerPhoto.h; sourceTree = "<group>"; };
-		3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumServerPhoto.m; sourceTree = "<group>"; };
-		3B013BC517C3E7CA00135869 /* AlbumPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumPhoto.h; sourceTree = "<group>"; };
-		3B013BC617C3E7CA00135869 /* AlbumPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumPhoto.m; sourceTree = "<group>"; };
-		3B013BC817C3E83200135869 /* AlbumContents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumContents.h; sourceTree = "<group>"; };
-		3B013BC917C3E83200135869 /* AlbumContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumContents.m; sourceTree = "<group>"; };
 		3B0A3CED17CB7EBC0058B620 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
 		3B0A3CEE17CB7EBC0058B620 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		3B1E4D2C17AD6E8D00CACE80 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -1228,10 +1217,6 @@
 		3BE0B11017C2BFA20058CAAD /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = FMDB/FMResultSet.m; sourceTree = "<group>"; };
 		3BE0B11217C2BFE60058CAAD /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = FMDB/FMDatabasePool.h; sourceTree = "<group>"; };
 		3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = FMDB/FMDatabasePool.m; sourceTree = "<group>"; };
-		3BE0B11517C2C5520058CAAD /* AlbumBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumBase.h; sourceTree = "<group>"; };
-		3BE0B11617C2C5520058CAAD /* AlbumBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumBase.m; sourceTree = "<group>"; };
-		3BE0B11817C2C71D0058CAAD /* AlbumSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumSummary.h; sourceTree = "<group>"; };
-		3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumSummary.m; sourceTree = "<group>"; };
 		660131AE187F4E670042047B /* IOSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArray.h; sourceTree = "<group>"; };
 		660131AF187F4E670042047B /* IOSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSArray.m; sourceTree = "<group>"; };
 		660131B0187F4E670042047B /* IOSArrayClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArrayClass.h; sourceTree = "<group>"; };
@@ -2826,16 +2811,6 @@
 		AACB11C616C4543700BAC7E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3BE0B11517C2C5520058CAAD /* AlbumBase.h */,
-				3BE0B11617C2C5520058CAAD /* AlbumBase.m */,
-				3B013BC817C3E83200135869 /* AlbumContents.h */,
-				3B013BC917C3E83200135869 /* AlbumContents.m */,
-				3B013BC517C3E7CA00135869 /* AlbumPhoto.h */,
-				3B013BC617C3E7CA00135869 /* AlbumPhoto.m */,
-				3B013BC117C3E6F600135869 /* AlbumServerPhoto.h */,
-				3B013BC217C3E6F600135869 /* AlbumServerPhoto.m */,
-				3BE0B11817C2C71D0058CAAD /* AlbumSummary.h */,
-				3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */,
 				3B87E68D17C99941006483C9 /* AlbumUploadingPhoto.h */,
 				3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */,
 				2884ED0E1830CB430069E202 /* RegistrationInfo.h */,
@@ -3564,8 +3539,6 @@
 				66013258187F4E670042047B /* JreEmulation.m in Sources */,
 				3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */,
 				66013232187F4E670042047B /* IOSObjectArray.m in Sources */,
-				3BE0B11717C2C5530058CAAD /* AlbumBase.m in Sources */,
-				3BE0B11A17C2C71D0058CAAD /* AlbumSummary.m in Sources */,
 				66013233187F4E670042047B /* IOSPrimitiveClass.m in Sources */,
 				66278CB31867C4D400D23F34 /* SVSelectionGridCell.m in Sources */,
 				6601324B187F4E670042047B /* Long.m in Sources */,
@@ -3579,10 +3552,7 @@
 				6601322B187F4E670042047B /* IOSClass.m in Sources */,
 				66013251187F4E670042047B /* Short.m in Sources */,
 				66278CE71867C62300D23F34 /* SVMoveActivity.m in Sources */,
-				3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */,
 				66013250187F4E670042047B /* RuntimeException.m in Sources */,
-				3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */,
-				3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */,
 				66278CC51867C57300D23F34 /* SVSettingsAboutViewController.m in Sources */,
 				2851FAA71838171200C094AB /* UIImage+Crop.m in Sources */,
 				66278CC41867C57300D23F34 /* SVProfileViewController.m in Sources */,

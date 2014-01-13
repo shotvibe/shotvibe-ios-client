@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AlbumSummary.h"
+#import "SL/AlbumSummary.h"
 #import "SVImagePickerSelector.h"
 #import "SVCameraPickerDelegate.h"
 #import "SVCameraOverlay.h"
@@ -25,7 +25,7 @@
 
 @property (nonatomic, strong) NSArray *albums;
 @property (nonatomic) NSMutableArray *capturedImages;
-@property (nonatomic, strong) AlbumSummary *selectedAlbum;
+@property (nonatomic, strong) SLAlbumSummary *selectedAlbum;
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, strong) id <SVCameraPickerDelegate> delegate;

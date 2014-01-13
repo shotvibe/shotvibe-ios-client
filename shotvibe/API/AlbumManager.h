@@ -39,7 +39,7 @@
 
 - (void)refreshAlbumList;
 
-- (AlbumContents *)addAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener;
+- (SLAlbumContents *)addAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener;
 
 - (void)removeAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener;
 
@@ -47,7 +47,7 @@
 
 - (void)reportAlbumUpdate:(int64_t)albumId;
 
-- (void)markAlbumAsViewed:(AlbumContents *)album;
+- (void)markAlbumAsViewed:(SLAlbumContents *)album;
 
 - (void)refreshAlbumListFromDb;
 

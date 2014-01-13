@@ -10,12 +10,14 @@
 #import "SVDefines.h"
 #import "MFSideMenu.h"
 #import "SL/AlbumUser.h"
-#import "AlbumPhoto.h"
-#import "AlbumServerPhoto.h"
+#import "SL/AlbumPhoto.h"
+#import "SL/AlbumServerPhoto.h"
+#import "AlbumUploadingPhoto.h"
 #import "ShotVibeAppDelegate.h"
 #import "MBProgressHUD.h"
 #import "SVLinkActivity.h"
 #import "PhotoScrollView.h"
+#import "SL/DateTime.h"
 
 
 @interface SVPhotoViewerController () {
@@ -280,7 +282,7 @@
 		if (index + i >= 0 && index + i < self.photos.count) {
 			
 			id cachedImage = [cache objectAtIndex:index + i];
-			AlbumPhoto *photo = [self.photos objectAtIndex:index + i];
+            SLAlbumPhoto *photo = [self.photos objectAtIndex:index + i];
 			
 			if ([cachedImage isKindOfClass:[NSNull class]]) {
 				
@@ -296,14 +298,14 @@
 			if (((PhotoScrollView*)cachedImage).index != index + i) {
 				RCLog(@"load %i", index+i);
 				((PhotoScrollView*)cachedImage).index = index + i;
-				if (photo.serverPhoto) {
-					[cachedImage setPhoto:photo.serverPhoto.photoId
-								 photoUrl:photo.serverPhoto.url
+                if ([photo getServerPhoto]) {
+                    [cachedImage setPhoto:[[photo getServerPhoto] getId]
+                                 photoUrl:[[photo getServerPhoto] getUrl]
 								photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
 								  manager:self.albumManager.photoFilesManager];
-				}
-				else if (photo.uploadingPhoto) {
-					UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[photo.uploadingPhoto getFilename]];
+                } else if ([photo getUploadingPhoto]) {
+                    AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
+                    UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[uploadingPhoto getFilename]];
 					[cachedImage setImage:localImage];
 				}
 			}
@@ -503,16 +505,18 @@
 	
 	if (self.photos.count > self.index) {
 		
-		AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
+        SLAlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 		
-		if (photo.serverPhoto) {
-			NSString *dateFormated = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
+        if ([photo getServerPhoto]) {
+            long long seconds = [[[photo getServerPhoto] getDateAdded] getTimeStamp] / 1000000LL;
+            NSDate *dateAdded = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
+            NSString *dateFormated = [NSDateFormatter localizedStringFromDate:dateAdded
 																	dateStyle:NSDateFormatterLongStyle
 																	timeStyle:NSDateFormatterShortStyle];
-			str = [NSString stringWithFormat:@"%@\n%@", [photo.serverPhoto.author getMemberNickname], dateFormated];
+            str = [NSString stringWithFormat:@"%@\n%@", [[[photo getServerPhoto] getAuthor] getMemberNickname], dateFormated];
 			
 			// Hide the trash button for photos that does not belong the the current user
-            butTrash.hidden = [photo.serverPhoto.author getMemberId] != [self.albumManager getShotVibeAPI].authData.userId;
+            butTrash.hidden = [[[photo getServerPhoto] getAuthor] getMemberId] != [self.albumManager getShotVibeAPI].authData.userId;
 		}
 		else {
 			// Hide the trash button for photos that does not belong the the current user
@@ -553,7 +557,7 @@
 	
 	RCLog(@"delete index %i", self.index);
 	
-	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
+    SLAlbumPhoto *photo = [self.photos objectAtIndex:self.index];
 	__block PhotoScrollView *cachedImage = [cache objectAtIndex:self.index];
 	
 	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -563,7 +567,8 @@
 		
 		// Remove from server
 		NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
-		[photosToDelete addObject:@{@"photo_id":photo.serverPhoto.photoId}];
+        [photosToDelete addObject:@{ @"photo_id" : [[photo getServerPhoto] getId] }];
+
 		RCLog(@"delete photos %@", photosToDelete);
 		__block NSError *error;
 		[[self.albumManager getShotVibeAPI] deletePhotos:photosToDelete withError:&error];
@@ -633,7 +638,7 @@
 	butEdit.enabled = NO;
 	navigatingNext = YES;
 	
-	AlbumPhoto *photo = [self.photos objectAtIndex:self.index];
+    SLAlbumPhoto *photo = [self.photos objectAtIndex:self.index];
     UIImage *image = [[cache objectAtIndex:self.index] image];
 	
 	if (activity == nil) {
@@ -646,7 +651,7 @@
 		activity.modalPresentationStyle = UIModalPresentationCurrentContext;
 	}
     activity.activityDescription = NSLocalizedString(@"This is the text that goes with the sharing!", nil);
-	activity.activityUrl = [NSURL URLWithString:photo.serverPhoto.url];
+    activity.activityUrl = [NSURL URLWithString:[[photo getServerPhoto] getUrl]];
 	activity.activityImage = image;
 	
 	[self.view addSubview:activity.view];

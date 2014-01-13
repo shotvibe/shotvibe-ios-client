@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class SLDateTime;
 
 @interface JSONException : NSException;
 
@@ -29,7 +30,7 @@
 - (BOOL)isNull:(NSString *)key;
 - (NSString *)getString:(NSString *)key;
 - (NSNumber *)getNumber:(NSString *)key;
-- (NSDate *)getDate:(NSString *)key;
+- (SLDateTime *)getDate:(NSString *)key;
 - (JSONArray *)getJSONArray:(NSString *)key;
 - (JSONObject *)getJSONObject:(NSString *)key;
 

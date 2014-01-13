@@ -44,14 +44,16 @@
 	cameraController = nil;
 }
 
-- (void)cameraWasDismissedWithAlbum:(AlbumSummary*)album {
+
+- (void)cameraWasDismissedWithAlbum:(SLAlbumSummary *)album
+{
 	
 	self.selectedAlbum = album;
 	self.imageWasTaken = YES;
-	int64_t albumId = self.albumId > 0 ? self.albumId : album.albumId;
+    int64_t albumId = self.albumId > 0 ? self.albumId : [album getId];
 	
 	// Insert the AlbumGrid controller before the CameraPicker controller
-	RCLog(@"-------------------------- 2. cameraWasDismissedWithAlbum %@ %lli %lli", album, album.albumId, self.albumId);
+    RCLog(@"-------------------------- 2. cameraWasDismissedWithAlbum %@ %lli %lli", album, [album getId], self.albumId);
 	
 	
 	

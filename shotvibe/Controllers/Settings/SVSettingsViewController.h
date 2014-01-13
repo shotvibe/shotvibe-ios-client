@@ -11,8 +11,6 @@
 #import "SVWebViewController.h"
 #import "AlbumManager.h"
 
-@class AlbumSummary;
-
 @interface SVSettingsViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) AlbumManager *albumManager;

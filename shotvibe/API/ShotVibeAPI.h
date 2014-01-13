@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "AuthData.h"
-#import "AlbumContents.h"
+#import "SL/AlbumContents.h"
 #import "SL/AlbumUser.h"
 
 typedef NS_ENUM(NSInteger, AuthorizePhoneNumberResult) {
@@ -51,11 +51,11 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 // Returns an array of `AlbumSummary` objects
 - (NSArray *)getAlbumsWithError:(NSError **)error;
 
-- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(NSDate *)lastAccess withError:(NSError **)error;
+- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess withError:(NSError **)error;
 
-- (AlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error;
+- (SLAlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error;
 
-- (AlbumContents *)createNewBlankAlbum:(NSString *)albumName withError:(NSError **)error;
+- (SLAlbumContents *)createNewBlankAlbum:(NSString *)albumName withError:(NSError **)error;
 
 // Returns an array of `NSString` objects
 - (NSArray *)photosUploadRequest:(int)numPhotos withError:(NSError **)error;
@@ -65,8 +65,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 /**
  @param photoIds Array of `NSString` objects
  */
-- (AlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(NSArray *)photoIds withError:(NSError **)error;
-- (AlbumContents *)albumAddMembers:(int64_t)albumId phoneNumbers:(NSArray *)phoneNumbers withError:(NSError **)error;
+- (SLAlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(NSArray *)photoIds withError:(NSError **)error;
+- (SLAlbumContents *)albumAddMembers:(int64_t)albumId phoneNumbers:(NSArray *)phoneNumbers withError:(NSError **)error;
 - (BOOL)deletePhotos:(NSArray *)photos withError:(NSError **)error;
 
 - (BOOL)leaveAlbumWithId:(int64_t)albumId;

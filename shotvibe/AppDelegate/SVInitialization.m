@@ -5,7 +5,7 @@
 //  Created by Fredrick Gabelmann on 1/23/13.
 //
 
-#import "AlbumSummary.h"
+#import "SL/AlbumSummary.h"
 #import "SVInitialization.h"
 #import "SVDefines.h"
 

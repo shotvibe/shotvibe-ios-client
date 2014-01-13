@@ -9,7 +9,7 @@
 #import "PhotoUploadManager.h"
 #import "ShotVibeAPI.h"
 #import "AlbumUploadingPhoto.h"
-#import "AlbumPhoto.h"
+#import "SL/AlbumPhoto.h"
 #import "PhotosUploadListener.h"
 
 @implementation PhotoUploadManager
@@ -110,7 +110,7 @@
         }
 
         for (AlbumUploadingPhoto *upload in uploads) {
-            AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumUploadingPhoto:upload];
+            SLAlbumPhoto *albumPhoto = [[SLAlbumPhoto alloc] initWithSLAlbumUploadingPhoto:upload];
             [result addObject:albumPhoto];
         }
     }
