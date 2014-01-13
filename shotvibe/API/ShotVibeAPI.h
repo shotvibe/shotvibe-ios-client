@@ -11,6 +11,7 @@
 #import "AuthData.h"
 #import "SL/AlbumContents.h"
 #import "SL/AlbumUser.h"
+#import "RegistrationInfo.h"
 
 typedef NS_ENUM(NSInteger, AuthorizePhoneNumberResult) {
     AuthorizePhoneNumberError,
@@ -26,11 +27,13 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 
 @interface ShotVibeAPI : NSObject
 
-@property (nonatomic, copy, readonly) AuthData *authData;
+@property (nonatomic, strong, readonly) AuthData *authData;
 
 - (id)init;
 
 - (id)initWithAuthData:(AuthData *)authData;
+
+- (void)logout;
 
 - (BOOL)registerDevicePushWithDeviceToken:(NSString *)deviceToken error:(NSError**)error;
 
@@ -41,6 +44,12 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
                deviceDeviceDescription:(NSString *)deviceDescription
                     defaultCountryCode:(NSString *)defaultCountryCode
                                  error:(NSError **)error;
+
+/**
+ Set authorization data according to information in the url. The process is as follows: the user clicks an invitation link in an sms; the shotvibe server sets a cookie in Safari; possibly after first installing, the user opens the app, which uses openURL to have Safari request "/app_init?" from the server; the server redirects the request to a "shotvibe:/" url containing appropriate authentication info (taken from the cookie), which is redirected by Safari to the app (yielding a call to -[ShotVibeAppDelegate application: openURL: ..]); the received url is sent to this method.
+ @param url The "shotvibe://" url received from Safari, stemming from the redirected app_init request.
+ */
+- (BOOL)authenticateWithURL:(NSURL *)url;
 
 - (SLAlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error;
 

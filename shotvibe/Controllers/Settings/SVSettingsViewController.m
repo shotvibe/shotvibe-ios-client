@@ -15,7 +15,6 @@
 #import "SVSettingsAboutViewController.h"
 #import "SVProfileViewController.h"
 #import "SVRegistrationViewController.h"
-#import "UserSettings.h"
 #import "AuthData.h"
 
 
@@ -117,10 +116,8 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
 	if (buttonIndex == 1) {
-		
-		AuthData *authdata = [[AuthData alloc] initWithUserID:0 authToken:nil defaultCountryCode:nil];
-		[UserSettings setAuthData:authdata];
-		
+        [[self.albumManager getShotVibeAPI] logout];
+        
 		// Grab the storyboard
 		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
 		

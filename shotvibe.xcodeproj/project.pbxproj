@@ -316,6 +316,10 @@
 		04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D6173032B200973BC0 /* phoneNumberContainer.png */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
+		108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF051884083200757E36 /* NewRelicAgent.framework */; };
+		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
+		108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF091884087A00757E36 /* libz.dylib */; };
+		108CDF10188417AE00757E36 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF0F188417AE00757E36 /* Util.m */; };
 		280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */; };
 		280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */; };
 		2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2849A74D17D7111A0076AFBA /* Social.framework */; };
@@ -997,6 +1001,11 @@
 		04C407D6173032B200973BC0 /* phoneNumberContainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoneNumberContainer.png; sourceTree = "<group>"; };
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
+		108CDF051884083200757E36 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
+		108CDF071884085D00757E36 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		108CDF091884087A00757E36 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		108CDF0E188417AE00757E36 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		108CDF0F188417AE00757E36 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -1550,7 +1559,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				66CBB07F187F57A10057FBAA /* current_shotvibelib.a in Frameworks */,
+				108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */,
+				AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */,
+				108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */,
 				AA58FD0116C2361300C49E02 /* MobileCoreServices.framework in Frameworks */,
+				108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */,
 				285EB94417F55C8C00A33E5B /* AdSupport.framework in Frameworks */,
 				285EB94217F55C8200A33E5B /* Accelerate.framework in Frameworks */,
 				04204EFB178B45D9001FE127 /* AddressBook.framework in Frameworks */,
@@ -1573,7 +1586,6 @@
 				2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */,
 				285EB94C17F55D0A00A33E5B /* StoreKit.framework in Frameworks */,
 				AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */,
-				AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */,
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2595,6 +2607,9 @@
 			isa = PBXGroup;
 			children = (
 				66CBB07E187F57A10057FBAA /* current_shotvibelib.a */,
+				108CDF091884087A00757E36 /* libz.dylib */,
+				108CDF071884085D00757E36 /* CoreTelephony.framework */,
+				108CDF051884083200757E36 /* NewRelicAgent.framework */,
 				285EB94117F55C8100A33E5B /* Accelerate.framework */,
 				04204EFA178B45D9001FE127 /* AddressBook.framework */,
 				285EB94317F55C8C00A33E5B /* AdSupport.framework */,
@@ -2697,6 +2712,8 @@
 				66278C4A1867B23800D23F34 /* SVInitialization.m */,
 				2884ED111830F4B40069E202 /* SVNavigationController.h */,
 				2884ED121830F4B40069E202 /* SVNavigationController.m */,
+				108CDF0E188417AE00757E36 /* Util.h */,
+				108CDF0F188417AE00757E36 /* Util.m */,
 			);
 			path = AppDelegate;
 			sourceTree = "<group>";
@@ -3468,6 +3485,7 @@
 				66013255187F4E670042047B /* JavaLangThrowable.m in Sources */,
 				66278D0B1867C94900D23F34 /* PhotoUploadRequest.m in Sources */,
 				66013254187F4E670042047B /* JavaLangReflectTypeVariableImpl.m in Sources */,
+				108CDF10188417AE00757E36 /* Util.m in Sources */,
 				66278C9F1867C44600D23F34 /* SVImagePickerListViewController.m in Sources */,
 				6601322E187F4E670042047B /* IOSFloatArray.m in Sources */,
 				66278CE91867C62300D23F34 /* SVTumblrActivity.m in Sources */,
@@ -3701,7 +3719,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
+					"/Users/martijn/svn/ShotVibe/shotvibe-ios-client",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "CONFIGURATION_$(CONFIGURATION)";
@@ -3817,7 +3838,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
+					"/Users/martijn/svn/ShotVibe/shotvibe-ios-client",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3851,7 +3875,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
+					"/Users/martijn/svn/ShotVibe/shotvibe-ios-client",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "CONFIGURATION_$(CONFIGURATION)";
