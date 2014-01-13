@@ -10,6 +10,7 @@
 #import "SVDefines.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
+#import "UserSettings.h"
 
 @interface SVProfileViewController ()
 
@@ -66,8 +67,9 @@
             else {
                 self.nicknameField.text = userProfile.nickname;
 				[self.userPhoto setImageWithURL:[NSURL URLWithString:userProfile.avatarUrl]];
-                if (self.shouldPrompt) // If we're prompting, focus on the name after it has been set
+                if (self.shouldPrompt) { // If we're prompting, focus on the name after it has been set
                     [self.nicknameField becomeFirstResponder];
+                }
             }
         });
     });
@@ -173,6 +175,9 @@
 				//                                                      cancelButtonTitle:@"OK"
 				//                                                      otherButtonTitles:nil];
 				//                [alert show];
+                if (self.shouldPrompt) {
+                    [UserSettings setNicknameSet:NO]; // since the update failed, we revert this setting, so the user will be prompted again later
+                }
             }
             else {
 				//self.navigationItem.rightBarButtonItem = nil;
@@ -182,6 +187,7 @@
     });
 
     if (self.shouldPrompt) { // if we prompted the user for a change, we leave after the keyboard was dismissed
+        [UserSettings setNicknameSet:YES];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
