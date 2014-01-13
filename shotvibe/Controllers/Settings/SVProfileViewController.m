@@ -64,9 +64,10 @@
 				//                [alert show];
             }
             else {
-                if (!self.shouldPrompt) // don't set the nickname asynchronously when we're prompting the user to change it
-                    self.nicknameField.text = userProfile.nickname;
+                self.nicknameField.text = userProfile.nickname;
 				[self.userPhoto setImageWithURL:[NSURL URLWithString:userProfile.avatarUrl]];
+                if (self.shouldPrompt) // If we're prompting, focus on the name after it has been set
+                    [self.nicknameField becomeFirstResponder];
             }
         });
     });
@@ -85,7 +86,6 @@
         self.navigationItem.hidesBackButton = YES;
         self.promptLabel.hidden = NO;
         self.nicknameField.text = @"";
-        [self.nicknameField becomeFirstResponder];
         self.nicknameField.enablesReturnKeyAutomatically = YES;
     }
 }
