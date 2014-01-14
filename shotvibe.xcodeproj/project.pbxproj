@@ -340,6 +340,9 @@
 		108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF5E18846B9000757E36 /* UIImage+MPAverageColor.m */; };
 		108CDF7518846B9000757E36 /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */; };
 		108CDF7618846B9000757E36 /* UIView+MPSnapshotImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */; };
+		10F1A2D6188540410051E267 /* Appsee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D5188540410051E267 /* Appsee.framework */; };
+		10F1A2D8188540B40051E267 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D7188540B40051E267 /* AVFoundation.framework */; };
+		10F1A2DA1885411E0051E267 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D91885411E0051E267 /* CoreVideo.framework */; };
 		280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */; };
 		280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */; };
 		2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2849A74D17D7111A0076AFBA /* Social.framework */; };
@@ -1006,6 +1009,9 @@
 		108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MPImageEffects.m"; sourceTree = "<group>"; };
 		108CDF6118846B9000757E36 /* UIView+MPSnapshotImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MPSnapshotImage.h"; sourceTree = "<group>"; };
 		108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPSnapshotImage.m"; sourceTree = "<group>"; };
+		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
+		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		10F1A2D91885411E0051E267 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -1457,22 +1463,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */,
+				10F1A2DA1885411E0051E267 /* CoreVideo.framework in Frameworks */,
 				AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */,
+				AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */,
+				0426B6831724F3B5007BAABC /* CoreMedia.framework in Frameworks */,
+				AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */,
+				10F1A2D8188540B40051E267 /* AVFoundation.framework in Frameworks */,
+				108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */,
 				108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */,
 				AA58FD0116C2361300C49E02 /* MobileCoreServices.framework in Frameworks */,
 				108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */,
 				285EB94417F55C8C00A33E5B /* AdSupport.framework in Frameworks */,
+				10F1A2D6188540410051E267 /* Appsee.framework in Frameworks */,
 				285EB94217F55C8200A33E5B /* Accelerate.framework in Frameworks */,
 				04204EFB178B45D9001FE127 /* AddressBook.framework in Frameworks */,
 				0426B6741724EBE2007BAABC /* AssetsLibrary.framework in Frameworks */,
 				3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */,
-				0426B6831724F3B5007BAABC /* CoreMedia.framework in Frameworks */,
 				AA58FCFF16C235FD00C49E02 /* CFNetwork.framework in Frameworks */,
 				AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */,
 				285EB94617F55CA500A33E5B /* CoreText.framework in Frameworks */,
 				AA58FD0516C2364B00C49E02 /* CoreLocation.framework in Frameworks */,
-				AA58FAFF16C224E800C49E02 /* CoreGraphics.framework in Frameworks */,
 				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
 				0426B6701724EBC4007BAABC /* ImageIO.framework in Frameworks */,
 				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
@@ -1480,7 +1490,6 @@
 				0499B911171E4D2900050596 /* MessageUI.framework in Frameworks */,
 				66278D201867CDC100D23F34 /* libAviarySDK.a in Frameworks */,
 				285EB94A17F55CFA00A33E5B /* OpenGLES.framework in Frameworks */,
-				AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */,
 				2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */,
 				285EB94C17F55D0A00A33E5B /* StoreKit.framework in Frameworks */,
 				AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */,
@@ -2387,7 +2396,10 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				10F1A2D91885411E0051E267 /* CoreVideo.framework */,
+				10F1A2D7188540B40051E267 /* AVFoundation.framework */,
 				108CDF091884087A00757E36 /* libz.dylib */,
+				10F1A2D5188540410051E267 /* Appsee.framework */,
 				108CDF071884085D00757E36 /* CoreTelephony.framework */,
 				108CDF051884083200757E36 /* NewRelicAgent.framework */,
 				285EB94117F55C8100A33E5B /* Accelerate.framework */,
