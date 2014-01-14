@@ -340,6 +340,7 @@
 		108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF5E18846B9000757E36 /* UIImage+MPAverageColor.m */; };
 		108CDF7518846B9000757E36 /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */; };
 		108CDF7618846B9000757E36 /* UIView+MPSnapshotImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */; };
+		10F1A2D6188540410051E267 /* Appsee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D5188540410051E267 /* Appsee.framework */; };
 		280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */; };
 		280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */; };
 		2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2849A74D17D7111A0076AFBA /* Social.framework */; };
@@ -1006,6 +1007,7 @@
 		108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MPImageEffects.m"; sourceTree = "<group>"; };
 		108CDF6118846B9000757E36 /* UIView+MPSnapshotImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MPSnapshotImage.h"; sourceTree = "<group>"; };
 		108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPSnapshotImage.m"; sourceTree = "<group>"; };
+		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -1463,6 +1465,7 @@
 				AA58FD0116C2361300C49E02 /* MobileCoreServices.framework in Frameworks */,
 				108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */,
 				285EB94417F55C8C00A33E5B /* AdSupport.framework in Frameworks */,
+				10F1A2D6188540410051E267 /* Appsee.framework in Frameworks */,
 				285EB94217F55C8200A33E5B /* Accelerate.framework in Frameworks */,
 				04204EFB178B45D9001FE127 /* AddressBook.framework in Frameworks */,
 				0426B6741724EBE2007BAABC /* AssetsLibrary.framework in Frameworks */,
@@ -2388,6 +2391,7 @@
 			isa = PBXGroup;
 			children = (
 				108CDF091884087A00757E36 /* libz.dylib */,
+				10F1A2D5188540410051E267 /* Appsee.framework */,
 				108CDF071884085D00757E36 /* CoreTelephony.framework */,
 				108CDF051884083200757E36 /* NewRelicAgent.framework */,
 				285EB94117F55C8100A33E5B /* Accelerate.framework */,
