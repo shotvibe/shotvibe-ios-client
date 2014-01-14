@@ -17,4 +17,9 @@
 
 + (void)setAuthData:(AuthData *)authData;
 
+// Returns YES if the user has updated his nickname since installing the app
++ (BOOL)isNicknameSet;
+
++ (void)setNicknameSet:(BOOL)nickNameSet;
+
 @end

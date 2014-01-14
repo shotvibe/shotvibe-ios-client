@@ -24,6 +24,7 @@
 #import "AlbumSummary.h"
 #import "AlbumPhoto.h"
 #import "ShotVibeAppDelegate.h"
+#import "UserSettings.h"
 
 @interface SVAlbumListViewController ()
 {
@@ -168,6 +169,8 @@
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 	cameraNavController = nil;
+
+    [self promptNickChange];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -333,8 +336,11 @@
 	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
 		SVProfileViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
-	}
-	else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
+    } else if ([segue.identifier isEqualToString:@"PromptNickChangeSegue"]) {
+        SVProfileViewController *destinationController = segue.destinationViewController;
+        destinationController.shouldPrompt = YES;
+        destinationController.albumManager = self.albumManager;
+    } else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
 		
 		AlbumSummary *album = (AlbumSummary*)sender;
 		
@@ -724,6 +730,18 @@
     [self searchForAlbumWithTitle:self.searchbar.text];
 }
 
+#pragma Prompt nickname change
+
+// Check if the user has already set their nickname, and if not, prompt them to do this.
+- (void)promptNickChange
+{
+    if ([UserSettings isNicknameSet]) {
+        RCLog(@"Nickname was already set");
+    } else {
+        // TODO: Check with the server if the nickname really was not set yet, since now we will prompt also after a reinstall.
+        [self performSegueWithIdentifier:@"PromptNickChangeSegue" sender:nil];
+    }
+}
 
 #pragma mark UIRefreshView
 

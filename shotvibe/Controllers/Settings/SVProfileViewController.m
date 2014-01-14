@@ -10,13 +10,18 @@
 #import "SVDefines.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
+#import "UserSettings.h"
 
 @interface SVProfileViewController ()
 
 @property (nonatomic, strong) IBOutlet UITextField *nicknameField;
 @property (nonatomic, strong) IBOutlet UIImageView *userPhoto;
+@property (nonatomic, strong) IBOutlet UILabel *promptLabel;
+@property (nonatomic, strong) IBOutlet UIButton *continueButton;
 
 - (IBAction)changeProfilePicture:(id)sender;
+
+- (IBAction)handleContinueButtonPressed:(id)sender;
 
 @end
 
@@ -65,18 +70,30 @@
             else {
                 self.nicknameField.text = userProfile.nickname;
 				[self.userPhoto setImageWithURL:[NSURL URLWithString:userProfile.avatarUrl]];
+                if (self.shouldPrompt) { // If we're prompting, focus on the name after it has been set
+                    [self.nicknameField becomeFirstResponder];
+                }
             }
         });
     });
 }
 
-- (void) viewWillAppear:(BOOL)animated {
-	
+
+- (void)viewWillAppear:(BOOL)animated
+{
 	[super viewWillAppear:animated];
-	
-	if (IS_IOS7) {
+
+    if (IS_IOS7) {
 		self.navigationController.navigationBar.translucent = NO;
 	}
+
+    if ([self shouldPrompt]) { // Prompt the user for a nick change and don't allow him to go back until he does
+        self.navigationItem.title = @"Set your profile";
+        self.navigationItem.hidesBackButton = YES;
+        self.promptLabel.hidden = NO;
+        self.nicknameField.enablesReturnKeyAutomatically = YES;
+        self.continueButton.hidden = NO;
+    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -95,6 +112,17 @@
 	[self.nicknameField resignFirstResponder];
 	[self performSegueWithIdentifier:@"ProfilePicSegue" sender:self];
 }
+
+
+- (IBAction)handleContinueButtonPressed:(id)sender
+{
+    // TODO: Having to press this after pressing Done on the keyboard is awkward, but
+    // when improving this behavior, we have to make sure the nickname is always first
+    // responder, except before the server update is received. (which may happen while in
+    // the profile pic selection screen)
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	
@@ -124,26 +152,36 @@
 #pragma mark - UITextFieldDelegate Method
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	
     [textField resignFirstResponder];
-	
+    return YES;
+}
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+}
+
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+
     NSString *newNickname = [self.nicknameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	
+
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	
+
     ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
-	
+
     int64_t userId = shotvibeAPI.authData.userId;
-	
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		// Save nickname
         NSError *error;
         BOOL success = [shotvibeAPI setUserNickname:userId nickname:newNickname withError:&error];
-		
+
         dispatch_async(dispatch_get_main_queue(), ^{
-			
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
+
 			if (!success) {
                 // TODO Better error dialog with Retry option
 				//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -152,6 +190,9 @@
 				//                                                      cancelButtonTitle:@"OK"
 				//                                                      otherButtonTitles:nil];
 				//                [alert show];
+                if (self.shouldPrompt) {
+                    [UserSettings setNicknameSet:NO]; // since the update failed, we revert this setting, so the user will be prompted again later
+                }
             }
             else {
 				//self.navigationItem.rightBarButtonItem = nil;
@@ -159,21 +200,18 @@
             }
         });
     });
-	
-    return YES;
+    [UserSettings setNicknameSet:YES];
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-	
-}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	return YES;
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	[self.nicknameField resignFirstResponder];
-	self.navigationItem.rightBarButtonItem = nil;
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.nicknameField resignFirstResponder];
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 @end
