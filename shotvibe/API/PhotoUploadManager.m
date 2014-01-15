@@ -205,7 +205,7 @@ const NSTimeInterval RETRY_TIME = 5;
         }
 
         nextPhotoUpload.photoId = [photoIds_ objectAtIndex:0];
-        [photoIds_ removeObjectAtIndex:0];
+        [photoIds_ removeObjectAtIndex:0]; // TODO: Not thread safe
 
         RCLog(@"About to upload photo (photoId: %@)", nextPhotoUpload.photoId);
 
@@ -213,17 +213,16 @@ const NSTimeInterval RETRY_TIME = 5;
         BOOL photoSuccesfullyUploaded = NO;
         while (!photoSuccesfullyUploaded) {
             NSError *error;
-            if (![shotvibeAPI_ photoUpload:nextPhotoUpload.photoId filePath:filename uploadProgress:^(int bytesUploaded, int bytesTotal){
+            photoSuccesfullyUploaded = [shotvibeAPI_ photoUpload:nextPhotoUpload.photoId filePath:filename uploadProgress:^(int bytesUploaded, int bytesTotal) {
                 [nextPhotoUpload reportUploadProgress:bytesUploaded bytesTotal:bytesTotal];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [listener_ photoUploadProgress:albumId];
                 });
-            } withError:&error]) {
+            } withError:&error];
+
+            if (!photoSuccesfullyUploaded) {
                 RCLog(@"Error uploading photo (photoId: %@):\n%@", nextPhotoUpload.photoId, [error description]);
                 [NSThread sleepForTimeInterval:RETRY_TIME];
-            }
-            else {
-                photoSuccesfullyUploaded = YES;
             }
         }
 
@@ -234,7 +233,7 @@ const NSTimeInterval RETRY_TIME = 5;
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoUploadComplete:albumId];
         });
-    }
+    } // end of while (YES)
 
     NSMutableArray *addPhotoIds = [[NSMutableArray alloc] init];
     @synchronized (lock_) {
@@ -259,7 +258,7 @@ const NSTimeInterval RETRY_TIME = 5;
         }
     }
 
-    RCLog(@"Completely done uploading photos to album!");
+    RCLog(@"Completely done uploading photos to album: %lld!", albumId);
 
     // Delete from uploadingPhotos_ the photos that were added to the album
     @synchronized (lock_) {
