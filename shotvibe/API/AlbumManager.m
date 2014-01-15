@@ -447,6 +447,8 @@ enum RefreshStatus
 }
 
 
+#pragma mark - PhotosUploadListener Methods
+
 - (void)photoUploadAdditions:(int64_t)albumId
 {
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
