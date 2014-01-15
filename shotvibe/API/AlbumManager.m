@@ -462,6 +462,7 @@ enum RefreshStatus
     AlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
 
     for(id<AlbumContentsListener> listener in data.listeners) {
+        [listener onAlbumContentsBeginRefresh:albumId];
         [listener onAlbumContentsRefreshComplete:albumId albumContents:updatedContents];
     }
 }
