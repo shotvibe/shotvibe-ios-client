@@ -207,7 +207,7 @@ const NSTimeInterval RETRY_TIME = 5;
         nextPhotoUpload.photoId = [photoIds_ objectAtIndex:0];
         [photoIds_ removeObjectAtIndex:0];
 
-        RCLog(@"Next photoId: %@", nextPhotoUpload.photoId);
+        RCLog(@"About to upload photo (photoId: %@)", nextPhotoUpload.photoId);
 
         NSString *filename = [nextPhotoUpload getFilename];
         BOOL photoSuccesfullyUploaded = NO;
@@ -219,7 +219,7 @@ const NSTimeInterval RETRY_TIME = 5;
                     [listener_ photoUploadProgress:albumId];
                 });
             } withError:&error]) {
-                RCLog(@"Error uploading photo: %@", [error description]);
+                RCLog(@"Error uploading photo (photoId: %@):\n%@", nextPhotoUpload.photoId, [error description]);
                 [NSThread sleepForTimeInterval:RETRY_TIME];
             }
             else {
@@ -227,7 +227,7 @@ const NSTimeInterval RETRY_TIME = 5;
             }
         }
 
-        RCLog(@"Succesfully uploaded photo");
+        RCLog(@"Succesfully uploaded photo (photoId: %@)", nextPhotoUpload.photoId);
 
         [nextPhotoUpload reportUploadComplete];
 
