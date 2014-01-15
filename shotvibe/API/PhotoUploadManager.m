@@ -249,12 +249,10 @@ const NSTimeInterval RETRY_TIME = 5;
 
     while (!photosSuccesfullyAdded) {
         NSError *error;
-        if (![shotvibeAPI_ albumAddPhotos:albumId photoIds:addPhotoIds withError:&error]) {
+        photosSuccesfullyAdded = [shotvibeAPI_ albumAddPhotos:albumId photoIds:addPhotoIds withError:&error] != nil;
+        if (!photosSuccesfullyAdded) {
             RCLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
             [NSThread sleepForTimeInterval:RETRY_TIME];
-        }
-        else {
-            photosSuccesfullyAdded = YES;
         }
     }
 
