@@ -67,14 +67,14 @@
 
     BOOL isCurrentlyUploading;
 
-    NSMutableArray *addedPhotos = [[NSMutableArray alloc] init];
+    NSMutableArray *newAlbumUploadingPhotos = [[NSMutableArray alloc] init];
 
     @synchronized (lock_) {
         isCurrentlyUploading = uploadingPhotos_.count > 0;
 
         for (PhotoUploadRequest *photoUploadRequest in photoUploadRequests) {
             AlbumUploadingPhoto *newUpload = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:photoUploadRequest album:albumId];
-            [addedPhotos addObject:newUpload];
+            [newAlbumUploadingPhotos addObject:newUpload];
 
             NSMutableArray *albumPhotoQueue = [uploadingPhotos_ objectForKey:[NSNumber numberWithLongLong:albumId]];
             if (!albumPhotoQueue) {
@@ -91,7 +91,7 @@
         [listener_ photoUploadAdditions:albumId];
     });
 
-    for (AlbumUploadingPhoto *p in addedPhotos) {
+    for (AlbumUploadingPhoto *p in newAlbumUploadingPhotos) {
         [p prepareTmpFile:photosLoadQueue_];
     }
 
