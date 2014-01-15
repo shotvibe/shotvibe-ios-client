@@ -62,8 +62,9 @@
 		[[UIApplication sharedApplication] endBackgroundTask:_backgroundRenderingID];
 		_backgroundRenderingID = UIBackgroundTaskInvalid;
 	}];
-	
-	
+    RCLog(@"End background task (id: #%d)", _backgroundRenderingID);
+
+
     BOOL isCurrentlyUploading;
 
     NSMutableArray *addedPhotos = [[NSMutableArray alloc] init];
@@ -94,6 +95,8 @@
         [p prepareTmpFile:photosLoadQueue_];
     }
 
+    // TODO: DANGEROUS. If a thread was uploading when isCurrentlyUploading was set, but has finished
+    // now, no new upload will be started. (rare case)
     if (!isCurrentlyUploading) {
         [self startProcessingUploads];
     }
@@ -283,7 +286,7 @@ const NSTimeInterval RETRY_TIME = 5;
 		
 		// Exit background
 		
-		RCLog(@"Upload finished. Exit the background");
+        RCLog(@"End background task (id: #%d)", _backgroundRenderingID);
 		[[UIApplication sharedApplication] endBackgroundTask:_backgroundRenderingID];
 		_backgroundRenderingID = UIBackgroundTaskInvalid;
     });
