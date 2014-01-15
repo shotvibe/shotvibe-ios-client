@@ -161,23 +161,22 @@ const NSTimeInterval RETRY_TIME = 5;
         int currentUploadQueueSize;
         @synchronized (lock_) {
             NSArray *albumUploads = [uploadingPhotos_ objectForKey:[NSNumber numberWithLongLong:albumId]];
-            int i;
-            for (i = 0; i < albumUploads.count; ++i) {
-                if (![[albumUploads objectAtIndex:i] isUploadComplete]) {
-                    break;
-                }
-            }
-            if(i == albumUploads.count) {
+
+            int indexOfFirstNotUploaded = [albumUploads indexOfObjectPassingTest:^BOOL (id albumUpload, NSUInteger idx, BOOL *stop) {
+                return ![albumUpload isUploadComplete];
+            }];
+
+            if (indexOfFirstNotUploaded == NSNotFound) {
                 // All of the uploading photos in the album have completed uploading
                 // Prepare to add them to the album:
                 for(AlbumUploadingPhoto *u in albumUploads) {
                     [u reportAddingToAlbum];
                 }
-                break;
+                break; // break from the YES loop, since all albums have been uploaded
             }
             else {
-                nextPhotoUploadIndex = i;
-                nextPhotoUpload = [albumUploads objectAtIndex:i];
+                nextPhotoUploadIndex = indexOfFirstNotUploaded;
+                nextPhotoUpload = [albumUploads objectAtIndex:indexOfFirstNotUploaded];
                 uploadQueueSize_--;
             }
 
