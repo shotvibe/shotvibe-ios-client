@@ -42,7 +42,7 @@
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad {
-	RCLog(@"VIEWDIDLOAD");
+	
     [super viewDidLoad];
 	
 	// IOS7
@@ -102,9 +102,8 @@
 													   queue:queue
 												  usingBlock:^(NSNotification *note)
 	{
-		RCLog(@"MFSideMenuStateNotificationEvent");
-		// TODO Forgot when is this called, write a comment when you find
-		if ([note.userInfo[@"eventType"] integerValue] == 3) {
+        // This is called when you open and close the side menu
+        if ([note.userInfo[@"eventType"] integerValue] == MFSideMenuStateEventMenuDidClose) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[self resignFirstResponder];
 			});

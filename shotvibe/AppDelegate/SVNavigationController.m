@@ -10,50 +10,66 @@
 #import "SVDefines.h"
 #import "SVPhotoViewerController.h"
 #import "SVCameraPickerController.h"
+#import "MFSideMenu.h"
 
 @implementation SVNavigationController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-	if (IS_IOS7) {
-		
-		self.navigationBar.tintColor = [UIColor whiteColor];
-		self.navigationBar.barTintColor = BLUE;
-		
-		[self setNeedsStatusBarAppearanceUpdate];
-		
-		// Disable going back by panning the vc to the right
-		// It causes problems when the right side menu is open
-		self.interactivePopGestureRecognizer.delegate = nil;
-	}
+    if (IS_IOS7) {
+        self.navigationBar.tintColor = [UIColor whiteColor];
+        self.navigationBar.barTintColor = BLUE;
+        
+        [self setNeedsStatusBarAppearanceUpdate];
+        
+        // Disable going back by panning the vc to the right
+        // It causes problems when the right side menu is open
+        
+        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserverForName:MFSideMenuStateNotificationEvent
+                                                          object:nil
+                                                           queue:queue
+                                                      usingBlock:^(NSNotification *note)
+         {
+             if ([note.userInfo[@"eventType"] integerValue] == MFSideMenuStateEventMenuDidOpen) {
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     self.interactivePopGestureRecognizer.enabled = NO;
+                 });
+             }
+             else if ([note.userInfo[@"eventType"] integerValue] == MFSideMenuStateEventMenuDidClose) {
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     self.interactivePopGestureRecognizer.enabled = YES;
+                 });
+             }
+         }];
+    }
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleLightContent;
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-	return UIStatusBarAnimationFade;
+    return UIStatusBarAnimationFade;
 }
 
 - (BOOL)prefersStatusBarHidden {
-	//RCLog(@"prefersStatusBarHidden %@", [self.viewControllers lastObject]);
-	if ([[self.viewControllers lastObject] isKindOfClass:[SVCameraPickerController class]]) {
-		SVCameraPickerController *controller = [self.viewControllers lastObject];
-		return [controller prefersStatusBarHidden];
-	}
-	else if ([[self.viewControllers lastObject] isKindOfClass:[SVPhotoViewerController class]]) {
-		return [[self.viewControllers lastObject] prefersStatusBarHidden];
-	}
-	return NO;// setNeedsStatusBarAppearanceUpdate
+    //RCLog(@"prefersStatusBarHidden %@", [self.viewControllers lastObject]);
+    if ([[self.viewControllers lastObject] isKindOfClass:[SVCameraPickerController class]]) {
+        SVCameraPickerController *controller = [self.viewControllers lastObject];
+        return [controller prefersStatusBarHidden];
+    } else if ([[self.viewControllers lastObject] isKindOfClass:[SVPhotoViewerController class]]) {
+        return [[self.viewControllers lastObject] prefersStatusBarHidden];
+    }
+    return NO;
+    // setNeedsStatusBarAppearanceUpdate
 }
 
 - (UIViewController *)childViewControllerForStatusBarHidden {
-//	if ([[self.viewControllers lastObject] isKindOfClass:[SVCameraPickerController class]]) {
-//		return [self.viewControllers lastObject];
-//	}
+//  if ([[self.viewControllers lastObject] isKindOfClass:[SVCameraPickerController class]]) {
+//      return [self.viewControllers lastObject];
+//  }
     return nil;
 }
 
