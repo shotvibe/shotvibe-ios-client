@@ -78,7 +78,7 @@ enum RefreshStatus
 
 - (NSArray *)addAlbumListListener:(id<AlbumListListener>)listener
 {
-    NSArray *cachedAlbums = [shotvibeDB getAlbumList];
+    NSArray *cachedAlbums = [shotvibeDB getAlbumList].array;
     if (!cachedAlbums) {
         RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
     }
@@ -439,7 +439,7 @@ enum RefreshStatus
 // Update album list with database version for all listeners
 - (void)refreshAlbumListFromDb
 {
-    NSArray *albumListFromDb = [shotvibeDB getAlbumList];
+    NSArray *albumListFromDb = [shotvibeDB getAlbumList].array;
 
     if (albumListFromDb) { // TODO: handle error
         for(id<AlbumListListener> listener in albumListListeners) {

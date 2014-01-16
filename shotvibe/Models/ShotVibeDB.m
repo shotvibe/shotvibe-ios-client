@@ -17,10 +17,16 @@
 #import "SL/ArrayList.h"
 #import "SL/DateTime.h"
 
+#import "IosSQLConnection.h"
+
+#import "SL/ShotVibeDB.h"
+
 @implementation ShotVibeDB
 {
     // Used to store the SQLite error string, before running a "rollback", since the rollback command will overwrite the SQLite error state.
     NSString *prevSQLiteError_;
+
+    SLShotVibeDB *mDBActions_;
 }
 
 
@@ -77,6 +83,9 @@ static const int DATABASE_VERSION = 2;
     else {
         [self createNewEmptyDatabase];
     }
+
+    IosSQLConnection *conn = [[IosSQLConnection alloc] initWithDatabase:db];
+    mDBActions_ = [[SLShotVibeDB alloc] initWithSLSQLConnection:conn];
 
     return self;
 }
@@ -152,89 +161,11 @@ static SLDateTime * getDateForColumnIndex(FMResultSet *s, int index)
 }
 
 
-- (NSArray *)getAlbumList
+- (SLArrayList *)getAlbumList
 {
-    FMResultSet *s = [db executeQuery:@"SELECT album_id, name, last_updated, num_new_photos, last_access FROM album ORDER BY last_updated ASC"];
-    if (!s) {
-        return nil;
-    }
-
-    NSMutableArray *results = [[NSMutableArray alloc] init];
-    while ([s next]) {
-        int64_t albumId = [s longLongIntForColumnIndex:0];
-        NSString *name = [s stringForColumnIndex:1];
-
-        // TODO:
-        SLDateTime *dummyDateCreated = [SLDateTime ParseISO8601WithNSString:@"2000-01-01T00:00:00Z"];
-
-        SLDateTime *lastUpdated = getDateForColumnIndex(s, 2);
-
-        int64_t numNewPhotos = [s longLongIntForColumnIndex:3];
-
-        SLDateTime *lastAccess = getDateForColumnIndex(s, 4);
-
-        // TODO hm...
-        NSString *etag = nil;
-
-        const int NUM_LATEST_PHOTOS = 2;
-        NSMutableArray *latestPhotos = [self getLatestPhotos:albumId numPhotos:NUM_LATEST_PHOTOS albumLastAccess:lastAccess];
-        if (!latestPhotos) {
-            return nil;
-        }
-
-        SLAlbumSummary *albumSummary = [[SLAlbumSummary alloc] initWithLong:albumId
-                                                               withNSString:etag
-                                                               withNSString:name
-                                                             withSLDateTime:dummyDateCreated
-                                                             withSLDateTime:lastUpdated
-                                                                   withLong:numNewPhotos
-                                                             withSLDateTime:lastAccess
-                                                            withSLArrayList:[[SLArrayList alloc] initWithInitialArray:latestPhotos]];
-
-        [results addObject:albumSummary];
-    }
-
-    return results;
+    return [mDBActions_ getAlbumList];
 }
 
-// Returns a list of `AlbumPhoto` objects
-- (NSMutableArray *)getLatestPhotos:(int64_t)albumId numPhotos:(int)numPhotos albumLastAccess:(SLDateTime *)albumLastAccess;
-{
-    FMResultSet* s = [db executeQuery:@
-                      "SELECT photo.photo_id, photo.url, photo.created, user.user_id, user.nickname, user.avatar_url FROM photo"
-                      " LEFT OUTER JOIN user"
-                      " ON photo.author_id = user.user_id"
-                      " WHERE photo.photo_album=?"
-                      " ORDER BY photo.num DESC",
-                      [NSNumber numberWithLongLong:albumId]];
-    if (!s) {
-        return nil;
-    }
-
-    NSMutableArray *results = [[NSMutableArray alloc] init];
-    while ([s next]) {
-        NSString *photoId = [s stringForColumnIndex:0];
-        NSString *photoUrl = [s stringForColumnIndex:1];
-        SLDateTime *photoDateAdded = getDateForColumnIndex(s, 2);
-        int64_t photoAuthorUserId = [s longLongIntForColumnIndex:3];
-        NSString *photoAuthorNickname = [s stringForColumnIndex:4];
-        NSString *photoAuthorAvatarUrl = [s stringForColumnIndex:5];
-
-        SLAlbumUser *photoAuthor = [[SLAlbumUser alloc] initWithLong:photoAuthorUserId
-                                                        withNSString:photoAuthorNickname
-                                                        withNSString:photoAuthorAvatarUrl];
-
-        SLAlbumServerPhoto *albumServerPhoto = [[SLAlbumServerPhoto alloc] initWithNSString:photoId
-                                                                               withNSString:photoUrl
-                                                                            withSLAlbumUser:photoAuthor
-                                                                             withSLDateTime:photoDateAdded];
-
-        SLAlbumPhoto *photo = [[SLAlbumPhoto alloc] initWithSLAlbumServerPhoto:albumServerPhoto];
-        [results addObject:photo];
-    }
-
-    return results;
-}
 
 - (NSDictionary *)getAlbumListEtagValues
 {

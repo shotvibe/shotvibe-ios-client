@@ -22,7 +22,7 @@
 - (NSString *)lastErrorMessage;
 
 // Returns an array of `AlbumSummary` objects
-- (NSArray *)getAlbumList;
+- (SLArrayList *)getAlbumList;
 
 // Returns a dictionary mapping `NSNumber` values (wrapping `int64_t` values) to `NSString` values
 - (NSDictionary *)getAlbumListEtagValues;

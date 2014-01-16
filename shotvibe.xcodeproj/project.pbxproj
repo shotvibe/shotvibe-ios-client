@@ -643,6 +643,8 @@
 		66D5833F1867D66B00EAC842 /* RCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583391867D66B00EAC842 /* RCScrollView.m */; };
 		66D583401867D66B00EAC842 /* RCTableImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D5833B1867D66B00EAC842 /* RCTableImageViewCell.m */; };
 		66E7889D188736470037ACF3 /* JavaLangIterable.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E7889C188736470037ACF3 /* JavaLangIterable.m */; };
+		66E788A21887377A0037ACF3 /* IosSQLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788A11887377A0037ACF3 /* IosSQLConnection.m */; };
+		66E788A51887384B0037ACF3 /* IosSQLCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788A41887384B0037ACF3 /* IosSQLCursor.m */; };
 		AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234837177AA3F600D55918 /* AFHTTPClient.m */; };
 		AA23484B177AA3F600D55918 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234839177AA3F600D55918 /* AFHTTPRequestOperation.m */; };
 		AA23484D177AA3F600D55918 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA23483B177AA3F600D55918 /* AFImageRequestOperation.m */; };
@@ -1503,6 +1505,10 @@
 		66D5833B1867D66B00EAC842 /* RCTableImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTableImageViewCell.m; path = Ralcr/RCTableImageViewCell.m; sourceTree = "<group>"; };
 		66E7889C188736470037ACF3 /* JavaLangIterable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JavaLangIterable.m; sourceTree = "<group>"; };
 		66E7889E188736940037ACF3 /* Iterable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Iterable.h; sourceTree = "<group>"; };
+		66E788A01887377A0037ACF3 /* IosSQLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosSQLConnection.h; path = Database/IosSQLConnection.h; sourceTree = "<group>"; };
+		66E788A11887377A0037ACF3 /* IosSQLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosSQLConnection.m; path = Database/IosSQLConnection.m; sourceTree = "<group>"; };
+		66E788A31887384B0037ACF3 /* IosSQLCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosSQLCursor.h; path = Database/IosSQLCursor.h; sourceTree = "<group>"; };
+		66E788A41887384B0037ACF3 /* IosSQLCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosSQLCursor.m; path = Database/IosSQLCursor.m; sourceTree = "<group>"; };
 		AA234836177AA3F600D55918 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		AA234837177AA3F600D55918 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		AA234838177AA3F600D55918 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -2536,6 +2542,17 @@
 			path = reflect;
 			sourceTree = "<group>";
 		};
+		66E7889F188737210037ACF3 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				66E788A01887377A0037ACF3 /* IosSQLConnection.h */,
+				66E788A11887377A0037ACF3 /* IosSQLConnection.m */,
+				66E788A31887384B0037ACF3 /* IosSQLCursor.h */,
+				66E788A41887384B0037ACF3 /* IosSQLCursor.m */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
 		AA12881316CB8774002AC699 /* Albums */ = {
 			isa = PBXGroup;
 			children = (
@@ -2651,6 +2668,7 @@
 				AA58FB6416C22B0400C49E02 /* AppDelegate */,
 				AACB11C316C453E600BAC7E1 /* Categories */,
 				AAF05CD216CB287F005BCFD3 /* Controllers */,
+				66E7889F188737210037ACF3 /* Database */,
 				AACB11C616C4543700BAC7E1 /* Models */,
 				043473961705F42300CFE564 /* Resources */,
 				AA58FB0116C224E800C49E02 /* Supporting Files */,
@@ -3565,6 +3583,7 @@
 				66013233187F4E670042047B /* IOSPrimitiveClass.m in Sources */,
 				66278CB31867C4D400D23F34 /* SVSelectionGridCell.m in Sources */,
 				6601324B187F4E670042047B /* Long.m in Sources */,
+				66E788A21887377A0037ACF3 /* IosSQLConnection.m in Sources */,
 				66278CAF1867C4D400D23F34 /* SVCameraOverlay.m in Sources */,
 				66013240187F4E670042047B /* Double.m in Sources */,
 				66278C4C1867B23800D23F34 /* SVInitialization.m in Sources */,
@@ -3634,6 +3653,7 @@
 				28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				66278C8F1867C38300D23F34 /* SVAlbumGridViewController.m in Sources */,
 				66278CC11867C57300D23F34 /* SVImageCropViewController.m in Sources */,
+				66E788A51887384B0037ACF3 /* IosSQLCursor.m in Sources */,
 				66278CEA1867C62300D23F34 /* SVTwitterActivity.m in Sources */,
 				2849A80D17DDE61A0076AFBA /* UIImage+Scale.m in Sources */,
 				66278C8A1867C38300D23F34 /* PhotoImageView.m in Sources */,
