@@ -149,4 +149,36 @@ static NSArray * valuesToArray(SLSQLValues *sqlValues)
 }
 
 
+- (void)executeSQLScriptWithNSString:(NSString *)filename
+{
+    NSString *path = [filename stringByDeletingPathExtension];
+    NSString *ext = [filename pathExtension];
+
+    NSString *scriptFilePath = [[NSBundle mainBundle] pathForResource:path ofType:ext inDirectory:@""];
+    NSLog(@"Executing SQL script: %@", scriptFilePath);
+
+    NSError *error;
+    NSString *contents = [NSString stringWithContentsOfFile:scriptFilePath encoding:NSUTF8StringEncoding error:&error];
+    if (!contents) {
+        @throw [[SLSQLException alloc] initWithNSString:[NSString stringWithFormat:@"Error reading file %@: %@", scriptFilePath, error.description]];
+    }
+
+    char *errmsg = 0;
+    if (sqlite3_exec([db_ sqliteHandle], [contents UTF8String], 0, 0, &errmsg) != SQLITE_OK) {
+        NSString *errString = [[NSString alloc] initWithCString:errmsg encoding:NSUTF8StringEncoding];
+        sqlite3_free(errmsg);
+
+        @throw [[SLSQLException alloc] initWithNSString:[NSString stringWithFormat:@"Error executing script %@: %@", scriptFilePath, errString]];
+    }
+    sqlite3_free(errmsg);
+}
+
+
+- (void)clearDatabase
+{
+    // TODO!
+    @throw [[JavaLangIllegalStateException alloc] initWithNSString:@"Not implemented yet!"];
+}
+
+
 @end

@@ -20,6 +20,7 @@
 #import "IosSQLConnection.h"
 
 #import "SL/ShotVibeDB.h"
+#import "SL/SQLException.h"
 
 @implementation ShotVibeDB
 {
@@ -31,8 +32,6 @@
 
 
 static NSString * const DATABASE_FILE = @"shotvibe.db";
-
-static const int DATABASE_VERSION = 2;
 
 
 - (id)init
@@ -51,75 +50,68 @@ static const int DATABASE_VERSION = 2;
         NSAssert(false, @"Error Opening database: %@", [db lastErrorMessage]);
     }
 
+    IosSQLConnection *conn = [[IosSQLConnection alloc] initWithDatabase:db];
+
     [FileUtils addSkipBackupAttributeToItemAtURL:databasePath];
 
     if (databaseExists) {
         FMResultSet *resultSet = [db executeQuery:@"PRAGMA user_version"];
-        int version = 0;
+        int oldVersion = 0;
         if ([resultSet next]) {
-            version = [resultSet intForColumnIndex:0];
+            oldVersion = [resultSet intForColumnIndex:0];
         }
-        RCLog(@"Existing database version: %d, required version: %d", version, DATABASE_VERSION);
 
-        if (version < DATABASE_VERSION) {
-            RCLog(@"Existing database version (%d) is lower than required (%d), migration started.", version, DATABASE_VERSION);
-            [db close];
-            NSError *error;
-            if ([[NSFileManager defaultManager] removeItemAtPath:databasePath error:&error] != YES) {
-                NSAssert(@"Unable to delete old database: %@", [error localizedDescription]);
+        if (oldVersion < [SLShotVibeDB DATABASE_VERSION]) {
+            NSLog(@"Upgrading database from version %d to %d", oldVersion, [SLShotVibeDB DATABASE_VERSION]);
+            [conn beginTransaction];
+            @try {
+                [SLShotVibeDB upgradeDBWithSLSQLConnection:conn withInt:oldVersion];
+                [self writeDatabaseVersion:[SLShotVibeDB DATABASE_VERSION]];
+
+                [conn setTransactionSuccesful];
+            } @finally {
+                [conn endTransaction];
             }
-
-            // TODO: Perform actual database migration, rather than deleting the old database and creating a new one
-
-            db = [FMDatabase databaseWithPath:databasePath];
-            if (![db open]) {
-                NSAssert(false, @"Error Opening database: %@", [db lastErrorMessage]);
-            }
-            [FileUtils addSkipBackupAttributeToItemAtURL:databasePath];
-
-            [self createNewEmptyDatabase];
+        } else if (oldVersion > [SLShotVibeDB DATABASE_VERSION]) {
+            // An old verson of the app must have been installed over a newer database version.
+            //
+            // We don't support reverse migrations
+            @throw [[SLSQLException alloc] initWithNSString:[NSString stringWithFormat:
+                                                             @"Incompatible database version: %d. Required: %d", oldVersion, [SLShotVibeDB DATABASE_VERSION]]];
         }
     }
     else {
-        [self createNewEmptyDatabase];
+        NSLog(@"Creating new database version %d", [SLShotVibeDB DATABASE_VERSION]);
+        [conn beginTransaction];
+        @try {
+            [SLShotVibeDB populateNewDBWithSLSQLConnection:conn];
+            [self writeDatabaseVersion:[SLShotVibeDB DATABASE_VERSION]];
+
+            [conn setTransactionSuccesful];
+        } @finally {
+            [conn endTransaction];
+        }
     }
 
-    IosSQLConnection *conn = [[IosSQLConnection alloc] initWithDatabase:db];
-    mDBActions_ = [[SLShotVibeDB alloc] initWithSLSQLConnection:conn];
+    mDBActions_ = [SLShotVibeDB openWithSLSQLConnection:conn];
 
     return self;
 }
 
-- (void)createNewEmptyDatabase
+
+- (void)writeDatabaseVersion:(int)version
 {
-    NSString *scriptFilePath = [[NSBundle mainBundle] pathForResource:@"create" ofType:@"sql" inDirectory:@""];
-    RCLog(@"Creating new database according to script %@", scriptFilePath);
-
-    NSError *error;
-    NSString *contents = [NSString stringWithContentsOfFile:scriptFilePath encoding:NSUTF8StringEncoding error:&error];
-    if (!contents) {
-        NSAssert(false, @"Error reading file %@: %@", scriptFilePath, [error localizedDescription]);
-    }
-
-    if(![db beginTransaction]) {
-        NSAssert(false, @"Error beginning transaction: %@", [db lastErrorMessage]);
-    }
-
     char *errmsg = 0;
-    if (sqlite3_exec([db sqliteHandle], [contents UTF8String], 0, 0, &errmsg) != SQLITE_OK) {
-        NSAssert(false, @"Error creating database: %s", errmsg);
+    if (sqlite3_exec([db sqliteHandle],
+                     [[NSString stringWithFormat:@"PRAGMA user_version = %d", version] UTF8String],
+                     NULL,
+                     acl_get_qualifier,
+                     &errmsg) != SQLITE_OK) {
+        NSString *errString = [[NSString alloc] initWithCString:errmsg encoding:NSUTF8StringEncoding];
+        sqlite3_free(errmsg);
+        @throw [[SLSQLException alloc] initWithNSString:[NSString stringWithFormat:@"Error setting DB version: %@", errString]];
     }
     sqlite3_free(errmsg);
-
-    errmsg = 0;
-    if (sqlite3_exec([db sqliteHandle], [[NSString stringWithFormat:@"PRAGMA user_version = %d", DATABASE_VERSION] UTF8String], NULL,acl_get_qualifier , &errmsg) != SQLITE_OK) {
-        NSAssert(false, @"Error creating database: %s", errmsg);
-    }
-    sqlite3_free(errmsg);
-
-    if(![db commit]) {
-        NSAssert(false, @"Error committing transaction: %@", [db lastErrorMessage]);
-    }
 }
 
 
