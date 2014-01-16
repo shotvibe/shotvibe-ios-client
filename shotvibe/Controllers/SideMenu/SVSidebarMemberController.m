@@ -103,8 +103,6 @@
 												  usingBlock:^(NSNotification *note)
 	{
         // This is called when you open and close the side menu
-        // 1 = did open
-        // 3 = did close
         if ([note.userInfo[@"eventType"] integerValue] == MFSideMenuStateEventMenuDidClose) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[self resignFirstResponder];
