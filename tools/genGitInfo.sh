@@ -6,7 +6,7 @@ kCurrentBranch=`git rev-parse --abbrev-ref HEAD`
 # A bit verbose, but doesn't fail for missing remotes
 kRemoteTracking=`git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)`
 
-kBuildTime=`date`
+kBuildTime=`date "+%d-%b %H:%M:%S"`
 
 git diff --quiet
 if [ $? -ne 0 ]; then
