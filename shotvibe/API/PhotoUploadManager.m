@@ -97,6 +97,7 @@
 
     // TODO: DANGEROUS. If a thread was uploading when isCurrentlyUploading was set, but has finished
     // now, no new upload will be started. (rare case)
+    // it may also lead to two uploading threads (also rare)
     if (!isCurrentlyUploading) {
         [self startProcessingUploads];
     }
