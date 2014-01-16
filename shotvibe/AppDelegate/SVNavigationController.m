@@ -10,13 +10,14 @@
 #import "SVDefines.h"
 #import "SVPhotoViewerController.h"
 #import "SVCameraPickerController.h"
+#import "MFSideMenu.h"
 
 @implementation SVNavigationController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	
 	if (IS_IOS7) {
 		
 		self.navigationBar.tintColor = [UIColor whiteColor];
@@ -26,7 +27,27 @@
 		
 		// Disable going back by panning the vc to the right
 		// It causes problems when the right side menu is open
-		self.interactivePopGestureRecognizer.delegate = nil;
+		
+		NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+		[[NSNotificationCenter defaultCenter] addObserverForName:MFSideMenuStateNotificationEvent
+														  object:nil
+														   queue:queue
+													  usingBlock:^(NSNotification *note)
+		 {
+			 // This is called when you open and close the side menu
+			 // 1 = did open
+			 // 3 = did close
+			 if ([note.userInfo[@"eventType"] integerValue] == 1) {
+				 dispatch_async(dispatch_get_main_queue(), ^{
+					 self.interactivePopGestureRecognizer.enabled = NO;
+				 });
+			 }
+			 else if ([note.userInfo[@"eventType"] integerValue] == 3) {
+				 dispatch_async(dispatch_get_main_queue(), ^{
+					 self.interactivePopGestureRecognizer.enabled = YES;
+				 });
+			 }
+		 }];
 	}
 }
 
