@@ -32,9 +32,8 @@
     NSString *build = [infoDict objectForKey:@"CFBundleVersion"];
     versionString = [NSString stringWithFormat:@"%@: %@ (%@)", name, version, build];
 
-    NSString *gitInfo = [NSString stringWithFormat:@"%@:%@:#%@%@,%@", kCurrentBranch, kRemoteTracking, kShortSHA, kIsDirty, kBuildTime];
 
-    self.gitInfoLabel.text = [NSString stringWithFormat:@"git: %@", gitInfo];
+    self.gitInfoLabel.text = [NSString stringWithFormat:@"[%@]%@:%@:%@  %@", kShortSHA, (kIsDirty ? @"*" : @""), kCurrentBranch, kRemoteTracking, kBuildTime];
     self.gitInfoLabel.hidden = NO;
 #endif
 
