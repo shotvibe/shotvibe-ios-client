@@ -645,6 +645,12 @@
 		66E7889D188736470037ACF3 /* JavaLangIterable.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E7889C188736470037ACF3 /* JavaLangIterable.m */; };
 		66E788A21887377A0037ACF3 /* IosSQLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788A11887377A0037ACF3 /* IosSQLConnection.m */; };
 		66E788A51887384B0037ACF3 /* IosSQLCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788A41887384B0037ACF3 /* IosSQLCursor.m */; };
+		66E788B31889EB870037ACF3 /* Collection.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788A81889EB870037ACF3 /* Collection.m */; };
+		66E788B41889EB870037ACF3 /* Iterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788AA1889EB870037ACF3 /* Iterator.m */; };
+		66E788B51889EB870037ACF3 /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788AC1889EB870037ACF3 /* List.m */; };
+		66E788B61889EB870037ACF3 /* ListIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788AE1889EB870037ACF3 /* ListIterator.m */; };
+		66E788B71889EB870037ACF3 /* Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788B01889EB870037ACF3 /* Map.m */; };
+		66E788B81889EB870037ACF3 /* Set.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788B21889EB870037ACF3 /* Set.m */; };
 		AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234837177AA3F600D55918 /* AFHTTPClient.m */; };
 		AA23484B177AA3F600D55918 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234839177AA3F600D55918 /* AFHTTPRequestOperation.m */; };
 		AA23484D177AA3F600D55918 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA23483B177AA3F600D55918 /* AFImageRequestOperation.m */; };
@@ -1509,6 +1515,18 @@
 		66E788A11887377A0037ACF3 /* IosSQLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosSQLConnection.m; path = Database/IosSQLConnection.m; sourceTree = "<group>"; };
 		66E788A31887384B0037ACF3 /* IosSQLCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosSQLCursor.h; path = Database/IosSQLCursor.h; sourceTree = "<group>"; };
 		66E788A41887384B0037ACF3 /* IosSQLCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosSQLCursor.m; path = Database/IosSQLCursor.m; sourceTree = "<group>"; };
+		66E788A71889EB870037ACF3 /* Collection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collection.h; sourceTree = "<group>"; };
+		66E788A81889EB870037ACF3 /* Collection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Collection.m; sourceTree = "<group>"; };
+		66E788A91889EB870037ACF3 /* Iterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Iterator.h; sourceTree = "<group>"; };
+		66E788AA1889EB870037ACF3 /* Iterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Iterator.m; sourceTree = "<group>"; };
+		66E788AB1889EB870037ACF3 /* List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		66E788AC1889EB870037ACF3 /* List.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
+		66E788AD1889EB870037ACF3 /* ListIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListIterator.h; sourceTree = "<group>"; };
+		66E788AE1889EB870037ACF3 /* ListIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListIterator.m; sourceTree = "<group>"; };
+		66E788AF1889EB870037ACF3 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
+		66E788B01889EB870037ACF3 /* Map.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Map.m; sourceTree = "<group>"; };
+		66E788B11889EB870037ACF3 /* Set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Set.h; sourceTree = "<group>"; };
+		66E788B21889EB870037ACF3 /* Set.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Set.m; sourceTree = "<group>"; };
 		AA234836177AA3F600D55918 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		AA234837177AA3F600D55918 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		AA234838177AA3F600D55918 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -2452,6 +2470,7 @@
 			children = (
 				660131D1187F4E670042047B /* io */,
 				660131D3187F4E670042047B /* lang */,
+				66E788A61889EB870037ACF3 /* util */,
 			);
 			path = java;
 			sourceTree = "<group>";
@@ -2551,6 +2570,25 @@
 				66E788A41887384B0037ACF3 /* IosSQLCursor.m */,
 			);
 			name = Database;
+			sourceTree = "<group>";
+		};
+		66E788A61889EB870037ACF3 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				66E788A71889EB870037ACF3 /* Collection.h */,
+				66E788A81889EB870037ACF3 /* Collection.m */,
+				66E788A91889EB870037ACF3 /* Iterator.h */,
+				66E788AA1889EB870037ACF3 /* Iterator.m */,
+				66E788AB1889EB870037ACF3 /* List.h */,
+				66E788AC1889EB870037ACF3 /* List.m */,
+				66E788AD1889EB870037ACF3 /* ListIterator.h */,
+				66E788AE1889EB870037ACF3 /* ListIterator.m */,
+				66E788AF1889EB870037ACF3 /* Map.h */,
+				66E788B01889EB870037ACF3 /* Map.m */,
+				66E788B11889EB870037ACF3 /* Set.h */,
+				66E788B21889EB870037ACF3 /* Set.m */,
+			);
+			path = util;
 			sourceTree = "<group>";
 		};
 		AA12881316CB8774002AC699 /* Albums */ = {
@@ -3527,6 +3565,7 @@
 				66278C4B1867B23800D23F34 /* FileUtils.m in Sources */,
 				04AB0AB21708114800C5300B /* NSDate+Formatting.m in Sources */,
 				6601325A187F4E670042047B /* JreMemDebugStrongReference.m in Sources */,
+				66E788B81889EB870037ACF3 /* Set.m in Sources */,
 				66278C661867C17800D23F34 /* SVSidebarMemberController.m in Sources */,
 				66013248187F4E670042047B /* IndexOutOfBoundsException.m in Sources */,
 				66278C611867C17800D23F34 /* SVSidebarAlbumManagementSection.m in Sources */,
@@ -3564,6 +3603,7 @@
 				66278D0D1867C94900D23F34 /* SVPushNotificationsManager.m in Sources */,
 				66013252187F4E670042047B /* StackTraceElement.m in Sources */,
 				66278C741867C2AD00D23F34 /* SVNoCodeViewController.m in Sources */,
+				66E788B71889EB870037ACF3 /* Map.m in Sources */,
 				3BE0B10E17C2BA3E0058CAAD /* FMDatabase.m in Sources */,
 				6601323E187F4E670042047B /* ClassNotFoundException.m in Sources */,
 				6601323C187F4E670042047B /* Character.m in Sources */,
@@ -3600,6 +3640,7 @@
 				66278CC41867C57300D23F34 /* SVProfileViewController.m in Sources */,
 				66013235187F4E670042047B /* IOSReflection.m in Sources */,
 				3B87E68F17C99941006483C9 /* AlbumUploadingPhoto.m in Sources */,
+				66E788B51889EB870037ACF3 /* List.m in Sources */,
 				66013247187F4E670042047B /* IllegalStateException.m in Sources */,
 				66278CE81867C62300D23F34 /* SVProfilePicActivity.m in Sources */,
 				66013253187F4E670042047B /* StringIndexOutOfBoundsException.m in Sources */,
@@ -3644,6 +3685,7 @@
 				3B3AD16017CB4A9C004D24A9 /* UIImageView+WebCache.m in Sources */,
 				66013243187F4E670042047B /* Exception.m in Sources */,
 				3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */,
+				66E788B31889EB870037ACF3 /* Collection.m in Sources */,
 				28F877B517D1BB4B0051F528 /* MFSideMenuContainerViewController.m in Sources */,
 				28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */,
 				6601322D187F4E670042047B /* IOSDoubleArray.m in Sources */,
@@ -3652,6 +3694,7 @@
 				66278CE41867C62300D23F34 /* SVFacebookActivity.m in Sources */,
 				28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				66278C8F1867C38300D23F34 /* SVAlbumGridViewController.m in Sources */,
+				66E788B61889EB870037ACF3 /* ListIterator.m in Sources */,
 				66278CC11867C57300D23F34 /* SVImageCropViewController.m in Sources */,
 				66E788A51887384B0037ACF3 /* IosSQLCursor.m in Sources */,
 				66278CEA1867C62300D23F34 /* SVTwitterActivity.m in Sources */,
@@ -3659,6 +3702,7 @@
 				66278C8A1867C38300D23F34 /* PhotoImageView.m in Sources */,
 				6601323A187F4E670042047B /* Boolean.m in Sources */,
 				66278CA01867C44600D23F34 /* SVImagePickerSelector.m in Sources */,
+				66E788B41889EB870037ACF3 /* Iterator.m in Sources */,
 				28FC2CA917FE8EE400AE24C3 /* MPNotificationView.m in Sources */,
 				66013245187F4E670042047B /* IllegalArgumentException.m in Sources */,
 				66278C721867C2AD00D23F34 /* SVCountriesViewController.m in Sources */,
