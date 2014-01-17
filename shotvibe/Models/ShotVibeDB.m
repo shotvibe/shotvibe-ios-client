@@ -181,70 +181,9 @@ static SLDateTime * getDateForColumnIndex(FMResultSet *s, int index)
     return results;
 }
 
-- (BOOL)setAlbumListWithAlbums:(NSArray *)albums
+- (void)setAlbumListWithAlbums:(NSMutableArray *)albums
 {
-    if (![db beginTransaction]) {
-        return NO;
-    }
-
-    // Keep track of all the new albumIds in an efficient data structure
-    NSMutableSet *albumIds = [[NSMutableSet alloc] init];
-
-    for (SLAlbumSummary *album in albums) {
-        [albumIds addObject:[NSNumber numberWithLongLong:[album getId]]];
-
-        NSLog(@"Updating: setAlbumList");
-        // First try updating an existing row, in order to not erase an existing etag value
-        if (![db executeUpdate:@"UPDATE album SET album_id=?, name=?, last_updated=?, num_new_photos=?, last_access=? WHERE album_id=?",
-              [NSNumber numberWithLongLong:[album getId]],
-              [album getName],
-              [album getDateUpdated],
-              [NSNumber numberWithLongLong:[album getNumNewPhotos]],
-              [album getLastAccess],
-              [NSNumber numberWithLongLong:[album getId]]]) {
-            ABORT_TRANSACTION;
-        }
-
-        if ([db changes] == 0) {
-            // A row didn't exist for the album, this will insert a new row
-            // (while also not failing in the case of a rare race condition
-            // where a row actually was just now added -- if that actually
-            // does happen then we will unfortunately overwrite the etag
-            // with a null value, but that won't cause much harm, it will
-            // just cause the album to be unnecessary refreshed one more time)
-            NSLog(@"Updating: setAlbumList, did not exist");
-
-            if (![db executeUpdate:@"INSERT OR REPLACE INTO album (album_id, name, last_updated, num_new_photos, last_access) VALUES (?, ?, ?, ?, ?)",
-                  [NSNumber numberWithLongLong:[album getId]],
-                  [album getName],
-                  [album getDateUpdated],
-                  [NSNumber numberWithLongLong:[album getNumNewPhotos]],
-                  [album getLastAccess]]) {
-                ABORT_TRANSACTION;
-            }
-        }
-    }
-
-    // Delete any old rows in the database that are not in albums:
-    FMResultSet* s = [db executeQuery:@"SELECT album_id FROM album"];
-    if (!s) {
-        ABORT_TRANSACTION;
-    }
-
-    while ([s next]) {
-        int64_t albumId = [s longLongIntForColumnIndex:0];
-        if (![albumIds containsObject:[NSNumber numberWithLongLong:albumId]]) {
-            if (![db executeUpdate:@"DELETE FROM album WHERE album_id=?", [NSNumber numberWithLongLong:albumId]]) {
-                ABORT_TRANSACTION;
-            }
-        }
-    }
-
-    if (![db commit]) {
-        ABORT_TRANSACTION;
-    }
-
-    return YES;
+    [mDBActions_ setAlbumListWithSLArrayList:[[SLArrayList alloc] initWithInitialArray:albums]];
 }
 
 

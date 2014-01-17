@@ -28,7 +28,7 @@
 - (NSDictionary *)getAlbumListEtagValues;
 
 // `albums` must be an array of `AlbumSummary` objects
-- (BOOL)setAlbumListWithAlbums:(NSArray *)albums;
+- (void)setAlbumListWithAlbums:(NSMutableArray *)albums;
 
 - (SLAlbumContents *)getAlbumContents:(int64_t)albumId;
 

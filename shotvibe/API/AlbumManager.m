@@ -79,6 +79,12 @@ enum RefreshStatus
 - (NSArray *)addAlbumListListener:(id<AlbumListListener>)listener
 {
     NSArray *cachedAlbums = [shotvibeDB getAlbumList].array;
+
+    // TODO
+    // The view code is expecting the albums to be returned in reverse order.
+    // The view code should be corrected, but this is a quick fix for now.
+    cachedAlbums = [[cachedAlbums reverseObjectEnumerator] allObjects];
+
     if (!cachedAlbums) {
         RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
     }
@@ -152,9 +158,7 @@ enum RefreshStatus
 
             dispatch_sync(dispatch_get_main_queue(), ^{
                 if (refreshStatus == REFRESHING) {
-                    if (![shotvibeDB setAlbumListWithAlbums:latestAlbumsList]) {
-                        RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
-                    }
+                    [shotvibeDB setAlbumListWithAlbums:[[NSMutableArray alloc] initWithArray:latestAlbumsList]];
 
                     // Loop over the new albumsList, and refresh any albums that have
                     // an updated etag value:
@@ -440,6 +444,11 @@ enum RefreshStatus
 - (void)refreshAlbumListFromDb
 {
     NSArray *albumListFromDb = [shotvibeDB getAlbumList].array;
+
+    // TODO
+    // The view code is expecting the albums to be returned in reverse order.
+    // The view code should be corrected, but this is a quick fix for now.
+    albumListFromDb = [[albumListFromDb reverseObjectEnumerator] allObjects];
 
     if (albumListFromDb) { // TODO: handle error
         for(id<AlbumListListener> listener in albumListListeners) {

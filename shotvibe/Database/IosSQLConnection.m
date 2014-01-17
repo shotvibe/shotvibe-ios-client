@@ -149,6 +149,12 @@ static NSArray * valuesToArray(SLSQLValues *sqlValues)
 }
 
 
+- (int)changes
+{
+    return [db_ changes];
+}
+
+
 - (void)executeSQLScriptWithNSString:(NSString *)filename
 {
     NSString *path = [filename stringByDeletingPathExtension];
