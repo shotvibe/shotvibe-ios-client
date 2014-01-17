@@ -52,7 +52,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [NewRelicAgent startWithApplicationToken:@"AAea0623ed205b8e4119889914a4605318944a6535"];
+    //[NewRelicAgent startWithApplicationToken:@"AAea0623ed205b8e4119889914a4605318944a6535"];
     [Mixpanel sharedInstanceWithToken:@"8d72e5fa36faafefbf0b63a7a2cc306e"];
     [Appsee start:@"215369473db946c39b7ae4276adf3e5b"];
 
