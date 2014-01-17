@@ -2673,7 +2673,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA58FB2F16C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibe" */;
 			buildPhases = (
-				10D366C41879EF8200E6FF4C /* Run Script: set git info in target Info.plist */,
+				10D366C41879EF8200E6FF4C /* Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h */,
 				AA58FAF316C224E800C49E02 /* Sources */,
 				AA58FAF416C224E800C49E02 /* Frameworks */,
 				AA58FAF516C224E800C49E02 /* Resources */,
@@ -3232,19 +3232,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		10D366C41879EF8200E6FF4C /* Run Script: set git info in target Info.plist */ = {
+		10D366C41879EF8200E6FF4C /* Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script: set git info in target Info.plist";
+			name = "Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "tools/genGitInfo.sh\n";
+			shellScript = "tools/generateGitInfo.sh\n";
 		};
 		3B1E4D2A17AD6C8800CACE80 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
