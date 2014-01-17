@@ -3622,7 +3622,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = ShotVibe;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EB7BB31-B33A-4E4F-9EB6-72DCA1073334";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
 			};
