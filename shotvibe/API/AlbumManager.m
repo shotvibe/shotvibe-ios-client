@@ -16,6 +16,8 @@
 #import "SL/AlbumUploadingPhoto.h"
 #import "AlbumUploadingPhoto.h"
 #import "SL/DateTime.h"
+#import "SL/HashMap.h"
+#import "java/lang/Long.h"
 
 enum RefreshStatus
 {
@@ -164,11 +166,11 @@ enum RefreshStatus
                     // an updated etag value:
                     // TODO Right now all of these refresh requests happen in parallel, they should run in sequence
 
-                    NSDictionary *albumEtags = [shotvibeDB getAlbumListEtagValues];
+                    SLHashMap *albumEtags = [shotvibeDB getAlbumListEtagValues];
 
                     for (SLAlbumSummary *a in latestAlbumsList) {
                         NSString *newEtag = [a getEtag];
-                        NSString *oldEtag = [albumEtags objectForKey:[[NSNumber alloc] initWithLongLong:[a getId]]];
+                        NSString *oldEtag = [albumEtags getWithId:[[JavaLangLong alloc] initWithLong:[a getId]]];
                         if (![newEtag isEqualToString:oldEtag]) {
                             [self refreshAlbumContents:[a getId]];
                         }

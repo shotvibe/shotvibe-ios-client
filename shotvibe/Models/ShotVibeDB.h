@@ -11,6 +11,8 @@
 #import "FMDatabase.h"
 #import "SL/AlbumContents.h"
 
+@class SLHashMap;
+
 @interface ShotVibeDB : NSObject
 {
     FMDatabase *db;
@@ -25,7 +27,7 @@
 - (SLArrayList *)getAlbumList;
 
 // Returns a dictionary mapping `NSNumber` values (wrapping `int64_t` values) to `NSString` values
-- (NSDictionary *)getAlbumListEtagValues;
+- (SLHashMap *)getAlbumListEtagValues;
 
 // `albums` must be an array of `AlbumSummary` objects
 - (void)setAlbumListWithAlbums:(NSMutableArray *)albums;

@@ -159,26 +159,9 @@ static SLDateTime * getDateForColumnIndex(FMResultSet *s, int index)
 }
 
 
-- (NSDictionary *)getAlbumListEtagValues
+- (SLHashMap *)getAlbumListEtagValues
 {
-    FMResultSet* s = [db executeQuery:@"SELECT album_id, last_etag FROM album"];
-    if (!s) {
-        return nil;
-    }
-
-    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
-
-    while ([s next]) {
-        int64_t albumId = [s longLongIntForColumnIndex:0];
-        NSString *etag = [s stringForColumnIndex:1];
-
-        // etag may be NULL if the full album hasn't been loaded yet
-        if (etag) {
-            [results setObject:etag forKey:[[NSNumber alloc] initWithLongLong:albumId]];
-        }
-    }
-
-    return results;
+    return [mDBActions_ getAlbumListEtagValues];
 }
 
 - (void)setAlbumListWithAlbums:(NSMutableArray *)albums
