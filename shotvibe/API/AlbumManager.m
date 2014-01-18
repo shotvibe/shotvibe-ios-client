@@ -277,9 +277,7 @@ enum RefreshStatus
                 AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
 
                 if (data.refreshStatus == REFRESHING) {
-                    if (![shotvibeDB setAlbumContents:albumId withContents:albumContents]) {
-                        RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
-                    }
+                    [shotvibeDB setAlbumContents:albumId withContents:albumContents];
 
                     // Start downloading the photos in the background
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
