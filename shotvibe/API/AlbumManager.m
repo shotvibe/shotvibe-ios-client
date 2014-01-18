@@ -87,10 +87,6 @@ enum RefreshStatus
     // The view code should be corrected, but this is a quick fix for now.
     cachedAlbums = [[cachedAlbums reverseObjectEnumerator] allObjects];
 
-    if (!cachedAlbums) {
-        RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
-    }
-
     [albumListListeners addObject:listener];
 
     if (refreshStatus == REFRESHING || refreshStatus == REFRESHING_UPDATE) {

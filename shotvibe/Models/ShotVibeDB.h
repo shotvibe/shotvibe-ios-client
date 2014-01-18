@@ -20,9 +20,6 @@
 
 - (id)init;
 
-// Call this after any failed method
-- (NSString *)lastErrorMessage;
-
 // Returns an array of `AlbumSummary` objects
 - (SLArrayList *)getAlbumList;
 

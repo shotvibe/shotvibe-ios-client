@@ -115,42 +115,7 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
 }
 
 
-- (NSString *)lastErrorMessage
-{
-    // The string that SQLite returns when there is no error
-    NSString *notErrorString = @"not an error";
-
-    NSString *sqliteLastError = [db lastErrorMessage];
-
-    if (!prevSQLiteError_ || [prevSQLiteError_ isEqualToString:notErrorString]) {
-        // No previous error before DB "rollback"
-        return sqliteLastError;
-    }
-
-    if ([sqliteLastError isEqualToString:notErrorString]) {
-        // Only error was previous error before DB "rollback"
-        return prevSQLiteError_;
-    }
-
-    // Previous error before DB "rollback" as well as error during "rollback"
-    return [NSString stringWithFormat:@"Original Error: \"%@\" Rollback Error: \"%@\"", prevSQLiteError_, sqliteLastError];
-}
-
-
 #pragma mark Data Store methods
-
-
-#define ABORT_TRANSACTION                     \
-    prevSQLiteError_ = [db lastErrorMessage]; \
-    [db rollback];                            \
-    return NO;
-
-
-static SLDateTime * getDateForColumnIndex(FMResultSet *s, int index)
-{
-    long long timestamp = [s longLongIntForColumnIndex:index];
-    return [SLDateTime FromTimeStampWithLong:timestamp];
-}
 
 
 - (SLArrayList *)getAlbumList
