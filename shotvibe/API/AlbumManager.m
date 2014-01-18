@@ -430,9 +430,7 @@ enum RefreshStatus
             } // TODO: handle error
         });
 
-        if (![shotvibeDB markAlbumAsViewed:[album getId] lastAccess:lastAccess]) {
-            RCLog(@"DATABASE ERROR: %@", [shotvibeDB lastErrorMessage]);
-        }
+        [shotvibeDB markAlbumAsViewed:[album getId] lastAccess:lastAccess];
 
         [self refreshAlbumListFromDb];
         [self refreshAlbumContentsFromDb:[album getId]];

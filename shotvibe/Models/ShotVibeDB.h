@@ -36,6 +36,6 @@
 
 - (void)setAlbumContents:(int64_t)albumId withContents:(SLAlbumContents *)albumContents;
 
-- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess;
+- (void)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess;
 
 @end

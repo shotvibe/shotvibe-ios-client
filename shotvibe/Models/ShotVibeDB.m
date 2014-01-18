@@ -182,21 +182,9 @@ static SLDateTime * getDateForColumnIndex(FMResultSet *s, int index)
 }
 
 
-- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess
+- (void)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess
 {
-    if (![db beginTransaction]) {
-        return NO;
-    }
-
-    if(![db executeUpdate:@"UPDATE album SET last_access=?, num_new_photos=0 WHERE album_id=?",
-         lastAccess,
-         [NSNumber numberWithLongLong:albumId]]) {
-    }
-    
-    if (![db commit]) {
-        ABORT_TRANSACTION;
-    }
-    return YES;
+    [mDBActions_ setAlbumLastAccessWithLong:albumId withSLDateTime:lastAccess];
 }
 
 @end
