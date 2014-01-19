@@ -416,6 +416,12 @@
 	[self performSegueWithIdentifier:@"AlbumsToImagePickerSegue" sender:album];
 }
 
+- (void)selectCell:(UITableViewCell*)cell {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+    [self performSegueWithIdentifier: @"AlbumGridViewSegue" sender: cell];
+}
 
 #pragma mark camera delegate
 
@@ -752,6 +758,8 @@
 		[self.albumManager refreshAlbumList];
 		[self.refreshControl beginRefreshing];
 		if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
+        // Need to call this whenever we scroll our table view programmatically
+        [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:self.tableView];
 	}
 }
 - (void)endRefreshing
@@ -783,5 +791,21 @@
 {
     // TODO ...
 }
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    // Need to do this to keep the view in a consistent state (layoutSubviews in the cell expects itself to be "closed")
+    [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:self.tableView];
+}
+
+
+#pragma UIScrollViewDelegate Methods
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:scrollView];
+}
+
 
 @end
