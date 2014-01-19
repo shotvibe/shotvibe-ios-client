@@ -15,10 +15,13 @@
 @required
 - (void)releaseOnCamera:(UITableViewCell*)cell;
 - (void)releaseOnLibrary:(UITableViewCell*)cell;
+- (void)selectCell:(UITableViewCell*)cell;
+
 @end
 
+extern NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification;
 
-@interface SVAlbumListViewCell : UITableViewCell <UIGestureRecognizerDelegate> {
+@interface SVAlbumListViewCell : UITableViewCell {
 	
 	CGPoint _originalCenter;
 	int _swipeStage;
@@ -39,4 +42,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *timestamp;
 @property (weak, nonatomic) IBOutlet UILabel *author;
 @property (weak, nonatomic) IBOutlet UIButton *numberNotViewedIndicator;
+
+@property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
+
+- (IBAction)CameraButton:(id)sender;
+- (IBAction)PickerButton:(id)sender;
+
 @end

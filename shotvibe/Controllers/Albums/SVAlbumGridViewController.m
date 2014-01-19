@@ -174,11 +174,11 @@
 }
 
 
-- (void)viewWillDisappear:(BOOL)animated
-{ // TODO: this code is strange. Why not do this in viewDidDisappear and viewDidUnload?
-    [super viewWillDisappear:animated];
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
 
-    [self.albumManager markAlbumAsViewed:albumContents]; // TODO: move to viewDidDisappear after fixing this method
+    [self.albumManager markAlbumAsViewed:albumContents];
 
 	if (!navigatingNext) {
 		

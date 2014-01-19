@@ -13,6 +13,7 @@
 #import "SVAddFriendsViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
+#import "SVAddressBook.h"
 #import "SL/AlbumMember.h"
 #import "SL/ArrayList.h"
 
@@ -43,7 +44,7 @@
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad {
-	RCLog(@"VIEWDIDLOAD");
+	
     [super viewDidLoad];
 	
 	// IOS7
@@ -103,9 +104,8 @@
 													   queue:queue
 												  usingBlock:^(NSNotification *note)
 	{
-		RCLog(@"MFSideMenuStateNotificationEvent");
-		// TODO Forgot when is this called, write a comment when you find
-		if ([note.userInfo[@"eventType"] integerValue] == 3) {
+        // This is called when you open and close the side menu
+        if ([note.userInfo[@"eventType"] integerValue] == MFSideMenuStateEventMenuDidClose) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[self resignFirstResponder];
 			});
@@ -117,9 +117,16 @@
 
 #pragma mark - Actions
 
-- (IBAction)addFriendsButtonPressed:(id)sender {
-	// prepareForSegue is called in parentController SVAlbumGridViewController
-    [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
+- (IBAction)addFriendsButtonPressed:(id)sender
+{
+    // Address book contacts was already initialized in SVAlbumListViewController and the contacts were cached
+	if ([SVAddressBook sharedBook].granted) {
+        // prepareForSegue is called in parentController SVAlbumGridViewController
+        [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
+	} else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"In order to invite people we need access to your contacts list.\nTo enable it go to Settings/Privacy/Contacts" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+	}
 }
 
 - (IBAction)ownerButtonPressed:(id)sender {

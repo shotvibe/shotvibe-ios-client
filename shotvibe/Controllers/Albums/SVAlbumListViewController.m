@@ -27,6 +27,7 @@
 #import "SL/ArrayList.h"
 #import "SL/DateTime.h"
 #import "ShotVibeAppDelegate.h"
+#import "UserSettings.h"
 
 @interface SVAlbumListViewController ()
 {
@@ -171,6 +172,8 @@
 	
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 	cameraNavController = nil;
+
+    [self promptNickChange];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -336,11 +339,14 @@
 	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
 		SVProfileViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
-	}
-	else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
-
-        SLAlbumSummary *album = (SLAlbumSummary*)sender;
-
+    } else if ([segue.identifier isEqualToString:@"PromptNickChangeSegue"]) {
+        SVProfileViewController *destinationController = segue.destinationViewController;
+        destinationController.shouldPrompt = YES;
+        destinationController.albumManager = self.albumManager;
+    } else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
+		
+		SLAlbumSummary *album = (SLAlbumSummary*)sender;
+		
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = [album getId];
@@ -418,6 +424,12 @@
 	[self performSegueWithIdentifier:@"AlbumsToImagePickerSegue" sender:album];
 }
 
+- (void)selectCell:(UITableViewCell*)cell {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+    [self performSegueWithIdentifier: @"AlbumGridViewSegue" sender: cell];
+}
 
 #pragma mark camera delegate
 
@@ -737,6 +749,18 @@
     [self searchForAlbumWithTitle:self.searchbar.text];
 }
 
+#pragma Prompt nickname change
+
+// Check if the user has already set their nickname, and if not, prompt them to do this.
+- (void)promptNickChange
+{
+    if ([UserSettings isNicknameSet]) {
+        RCLog(@"Nickname was already set");
+    } else {
+        // TODO: Check with the server if the nickname really was not set yet, since now we will prompt also after a reinstall.
+        [self performSegueWithIdentifier:@"PromptNickChangeSegue" sender:nil];
+    }
+}
 
 #pragma mark UIRefreshView
 
@@ -747,6 +771,8 @@
 		[self.albumManager refreshAlbumList];
 		[self.refreshControl beginRefreshing];
 		if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
+        // Need to call this whenever we scroll our table view programmatically
+        [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:self.tableView];
 	}
 }
 - (void)endRefreshing
@@ -778,5 +804,21 @@
 {
     // TODO ...
 }
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    // Need to do this to keep the view in a consistent state (layoutSubviews in the cell expects itself to be "closed")
+    [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:self.tableView];
+}
+
+
+#pragma UIScrollViewDelegate Methods
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:scrollView];
+}
+
 
 @end

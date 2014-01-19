@@ -8,6 +8,9 @@
 
 #import "RegistrationInfo.h"
 
+// TODO Hack. See header for info
+NSString *globalInviteURLCustomPayload = nil;
+
 @implementation RegistrationInfo
 
 + (RegistrationInfo *)RegistrationInfoFromURL:(NSURL *)url
@@ -60,6 +63,13 @@
         RCLog(@"Error: No country_code query parameter found in %@", [url description]);
         return nil;
     }
+
+    // TODO This is an ugly hack for now
+    NSString *customPayload = [queryParameters objectForKey:@"custom_payload"];
+    if (customPayload) {
+        globalInviteURLCustomPayload = customPayload;
+    }
+
     return countryCode;
 }
 

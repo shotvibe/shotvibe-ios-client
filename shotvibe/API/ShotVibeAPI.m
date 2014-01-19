@@ -281,8 +281,17 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
     NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
 
+    // TODO This is ugly hacky code for sending custom payload set from a special invite URL
+    NSString *endPoint;
+    if (globalInviteURLCustomPayload) {
+        NSString *escapedPayload = [globalInviteURLCustomPayload stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        endPoint = [NSString stringWithFormat:@"/auth/confirm_sms_code/%@/?custom_payload=%@", authConfirmationKey, escapedPayload];
+    } else {
+        endPoint = [NSString stringWithFormat:@"/auth/confirm_sms_code/%@/", authConfirmationKey];
+    }
+
     NSError *responseError;
-    Response *response = [self getResponse:[NSString stringWithFormat:@"/auth/confirm_sms_code/%@/", authConfirmationKey]
+    Response *response = [self getResponse:endPoint
                                     method:@"POST"
                                       body:jsonData
                                      error:&responseError];
@@ -355,6 +364,8 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
 - (SLAlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error
 {
+    [[Mixpanel sharedInstance] track:@"getUserProfile" properties:@{ @"userId" : [NSString stringWithFormat:@"%lld", userId] }];
+
     NSError *responseError;
     Response *response = [self getResponse:[NSString stringWithFormat:@"/users/%lld/", userId] method:@"GET" body:nil error:&responseError];
 
@@ -454,7 +465,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 
     @try {
         JSONArray *albumsArray = [[JSONArray alloc] initWithData:response.body];
-        //RCLog(@"\n\nresponse.body:\n%@", [[NSString alloc] initWithData:response.body encoding:NSUTF8StringEncoding]);
+        //RCLog(@"\n\nresponse.body:\n%@", showNSData(response.body));
         for (int i = 0; i < [albumsArray count]; ++i) {
             JSONObject *albumObj = [albumsArray getJSONObject:i];
 

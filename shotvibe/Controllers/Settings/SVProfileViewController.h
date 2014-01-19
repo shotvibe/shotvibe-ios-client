@@ -15,5 +15,6 @@
 @interface SVProfileViewController : UIViewController <UITextFieldDelegate, SVImageCropDelegate>
 
 @property (nonatomic, strong) AlbumManager *albumManager;
+@property (nonatomic, assign) BOOL shouldPrompt; // if YES, prompt the user to change the nickname and avatar
 
 @end

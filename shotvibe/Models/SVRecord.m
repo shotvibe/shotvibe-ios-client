@@ -14,16 +14,9 @@
 	
 	_phone = phone;
 	
-	NSString *phoneNr = [phone stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *phoneNr = [[phone componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
 	
-	phoneNr = [phone stringByReplacingOccurrencesOfString:@"+" withString:@""];
-	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@"-" withString:@""];
-	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@"(" withString:@""];
-	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@")" withString:@""];
-	phoneNr = [phoneNr stringByReplacingOccurrencesOfString:@" " withString:@""];
-//	RCLogS(phoneNr);
-//	RCLogI(MAX((int)phoneNr.length-7, 0));
-	
+    // Get only the last 7 digits and store them in phoneId. This unique id is used to mark the contact as a favourite
 	NSString *lastDigits = phoneNr.length > 0 ? [phoneNr substringFromIndex:MAX((int)phoneNr.length-7, 0)] : phoneNr;
 	
 	_phoneId = [lastDigits longLongValue];
