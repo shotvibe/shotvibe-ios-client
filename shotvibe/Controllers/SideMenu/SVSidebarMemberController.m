@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
 #import "AlbumMember.h"
+#import "SVAddressBook.h"
 
 @interface SVSidebarMemberController () {
 	ShotVibeAPI *shotvibeAPI;
@@ -115,9 +116,16 @@
 
 #pragma mark - Actions
 
-- (IBAction)addFriendsButtonPressed:(id)sender {
-	// prepareForSegue is called in parentController SVAlbumGridViewController
-    [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
+- (IBAction)addFriendsButtonPressed:(id)sender
+{
+    // Address book contacts was already initialized in SVAlbumListViewController and the contacts were cached
+	if ([SVAddressBook sharedBook].granted) {
+        // prepareForSegue is called in parentController SVAlbumGridViewController
+        [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
+	} else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"In order to invite people we need access to your contacts list.\nTo enable it go to Settings/Privacy/Contacts" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+	}
 }
 
 - (IBAction)ownerButtonPressed:(id)sender {
