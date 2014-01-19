@@ -19,3 +19,9 @@
 @property (nonatomic, assign) int64_t userId;
 
 @end
+
+// TODO
+// This is an ugly hack for now.
+// Stores a custom value set from the invite URL.
+// It is then sent to the server during the initial login.
+extern NSString *globalInviteURLCustomPayload;

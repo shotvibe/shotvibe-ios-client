@@ -280,8 +280,17 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
     NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
 
+    // TODO This is ugly hacky code for sending custom payload set from a special invite URL
+    NSString *endPoint;
+    if (globalInviteURLCustomPayload) {
+        NSString *escapedPayload = [globalInviteURLCustomPayload stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        endPoint = [NSString stringWithFormat:@"/auth/confirm_sms_code/%@/?custom_payload=%@", authConfirmationKey, escapedPayload];
+    } else {
+        endPoint = [NSString stringWithFormat:@"/auth/confirm_sms_code/%@/", authConfirmationKey];
+    }
+
     NSError *responseError;
-    Response *response = [self getResponse:[NSString stringWithFormat:@"/auth/confirm_sms_code/%@/", authConfirmationKey]
+    Response *response = [self getResponse:endPoint
                                     method:@"POST"
                                       body:jsonData
                                      error:&responseError];
