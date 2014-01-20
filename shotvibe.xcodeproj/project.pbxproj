@@ -1012,6 +1012,7 @@
 		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		10F1A2D91885411E0051E267 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -2450,6 +2451,7 @@
 		AA58FB0116C224E800C49E02 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */,
 				AAEB9CDD171648A000439939 /* Config.xcconfig */,
 				AA58FB1016C224E800C49E02 /* Default-568h@2x.png */,
 				AA58FB0C16C224E800C49E02 /* Default.png */,
@@ -2671,6 +2673,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA58FB2F16C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibe" */;
 			buildPhases = (
+				10D366C41879EF8200E6FF4C /* Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h */,
 				AA58FAF316C224E800C49E02 /* Sources */,
 				AA58FAF416C224E800C49E02 /* Frameworks */,
 				AA58FAF516C224E800C49E02 /* Resources */,
@@ -3229,6 +3232,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		10D366C41879EF8200E6FF4C /* Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "tools/generateGitInfo.sh\n";
+		};
 		3B1E4D2A17AD6C8800CACE80 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;

@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "SVWebViewController.h"
+#include "GeneratedGitInfo.h"
 
 @interface SVSettingsAboutViewController : UITableViewController
 
 @property (nonatomic, weak) IBOutlet UILabel *versionLabel;
+@property (nonatomic, weak) IBOutlet UILabel *gitInfoLabel;
 
 @end
