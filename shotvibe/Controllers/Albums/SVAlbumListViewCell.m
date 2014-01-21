@@ -34,6 +34,11 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
 
 - (void)setup
 {
+    // We need the tap gesture as the scrollView is intercepting all the touches, and it would be impossible
+    // to select a cell;
+    // We set the backview (camera/picture buttons) within the scrollView, and not behind, for the same reason,
+    // it would have been untouchable
+    
     self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.contentView.bounds) + CGRectGetWidth(self.backView.bounds), CGRectGetHeight(self.contentView.bounds) - 2);
     self.scrollView.showsHorizontalScrollIndicator = NO;
 
@@ -43,51 +48,41 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
     [self.scrollView addGestureRecognizer:recognizer];
 }
 
-
-- (IBAction)Select:(id)sender
-{
+- (void)slideBackToOriginalPosition {
     double delayInSeconds = 1.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
         [self.scrollView setContentOffset:CGPointZero animated:NO];
     }
-
-
+                   
+                   
                    );
+}
+
+- (IBAction)Select:(id)sender
+{
+    [self slideBackToOriginalPosition];
     [self.delegate selectCell:self];
 }
 
 
 - (IBAction)CameraButton:(id)sender
 {
-    double delayInSeconds = 1.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-        [self.scrollView setContentOffset:CGPointZero animated:NO];
-    }
-
-
-                   );
-    [self.delegate releaseOnCamera:self];
+    [self slideBackToOriginalPosition];
+    [self.delegate cameraButtonTapped:self];
 }
 
 
 - (IBAction)PickerButton:(id)sender
 {
-    double delayInSeconds = 1.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-        [self.scrollView setContentOffset:CGPointZero animated:NO];
-    }
-
-
-                   );
-    [self.delegate releaseOnLibrary:self];
+    [self slideBackToOriginalPosition];
+    [self.delegate libraryButtonTapped:self];
 }
 
 
 - (void)enclosingTableViewDidScroll:(NSNotification *)notification
 {
+    //This notification is sent by the table view, when scrolled we want to close the cells
     if ([notification object] != self) {
         [self.scrollView setContentOffset:CGPointZero animated:YES];
     }
@@ -106,6 +101,7 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+    //Let's close all the other cells when opening a new one
     [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:self];
 }
 
