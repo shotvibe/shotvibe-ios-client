@@ -316,6 +316,8 @@
 		04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D6173032B200973BC0 /* phoneNumberContainer.png */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
+		10685733188EF28700B2FC03 /* NewPhotoUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 10685732188EF28700B2FC03 /* NewPhotoUploadManager.m */; };
+		10685736188EF76900B2FC03 /* NewShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 10685735188EF76900B2FC03 /* NewShotVibeAPI.m */; };
 		108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF051884083200757E36 /* NewRelicAgent.framework */; };
 		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
 		108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF091884087A00757E36 /* libz.dylib */; };
@@ -975,6 +977,10 @@
 		04C407D6173032B200973BC0 /* phoneNumberContainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoneNumberContainer.png; sourceTree = "<group>"; };
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
+		10685731188EF28700B2FC03 /* NewPhotoUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewPhotoUploadManager.h; path = shotvibe/API/NewPhotoUploadManager.h; sourceTree = SOURCE_ROOT; };
+		10685732188EF28700B2FC03 /* NewPhotoUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewPhotoUploadManager.m; path = shotvibe/API/NewPhotoUploadManager.m; sourceTree = SOURCE_ROOT; };
+		10685734188EF76900B2FC03 /* NewShotVibeAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewShotVibeAPI.h; path = shotvibe/API/NewShotVibeAPI.h; sourceTree = SOURCE_ROOT; };
+		10685735188EF76900B2FC03 /* NewShotVibeAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewShotVibeAPI.m; path = shotvibe/API/NewShotVibeAPI.m; sourceTree = SOURCE_ROOT; };
 		108CDF051884083200757E36 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
 		108CDF071884085D00757E36 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		108CDF091884087A00757E36 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -2530,6 +2536,10 @@
 				66278CF71867C94900D23F34 /* PhotoSize.h */,
 				66278CF81867C94900D23F34 /* PhotoSize.m */,
 				66278CF91867C94900D23F34 /* PhotosUploadListener.h */,
+				10685734188EF76900B2FC03 /* NewShotVibeAPI.h */,
+				10685735188EF76900B2FC03 /* NewShotVibeAPI.m */,
+				10685731188EF28700B2FC03 /* NewPhotoUploadManager.h */,
+				10685732188EF28700B2FC03 /* NewPhotoUploadManager.m */,
 				66278CFA1867C94900D23F34 /* PhotoUploadManager.h */,
 				66278CFB1867C94900D23F34 /* PhotoUploadManager.m */,
 				66278CFC1867C94900D23F34 /* PhotoUploadRequest.h */,
@@ -3357,6 +3367,7 @@
 				66278CB31867C4D400D23F34 /* SVSelectionGridCell.m in Sources */,
 				66278CAF1867C4D400D23F34 /* SVCameraOverlay.m in Sources */,
 				66278C4C1867B23800D23F34 /* SVInitialization.m in Sources */,
+				10685733188EF28700B2FC03 /* NewPhotoUploadManager.m in Sources */,
 				66278D141867CA1400D23F34 /* SVAssets.m in Sources */,
 				66278D061867C94900D23F34 /* JSON.m in Sources */,
 				66278CE71867C62300D23F34 /* SVMoveActivity.m in Sources */,
@@ -3378,6 +3389,7 @@
 				66D5833D1867D66B00EAC842 /* RCLog.m in Sources */,
 				66278D071867C94900D23F34 /* PhotoBitmap.m in Sources */,
 				66278C901867C38300D23F34 /* SVAlbumListViewCell.m in Sources */,
+				10685736188EF76900B2FC03 /* NewShotVibeAPI.m in Sources */,
 				66278C601867C17800D23F34 /* SVSidebarAlbumManagementActivityCell.m in Sources */,
 				66278CB11867C4D400D23F34 /* SVCameraPickerController.m in Sources */,
 				66278C8C1867C38300D23F34 /* PhotoView.m in Sources */,
