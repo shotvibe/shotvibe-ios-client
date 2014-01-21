@@ -15,7 +15,10 @@
 #import "SL/AlbumUser.h"
 #import "SL/ArrayList.h"
 #import "SL/DateTime.h"
+#import "SL/ShotVibeAPI.h"
+#import "SL/AuthData.h"
 #import "UserSettings.h"
+#import "IosHTTPLib.h"
 
 @interface Response : NSObject
 
@@ -123,6 +126,7 @@
 @implementation ShotVibeAPI
 {
     NSString *authConfirmationKey;
+    SLShotVibeAPI *libShotVibeAPI_;
 }
 
 static NSString * const BASE_URL = @"https://api.shotvibe.com";
@@ -139,10 +143,23 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 {
     self = [super init];
 
-    _authData = authData;
+    libShotVibeAPI_ = nil;
+    [self setAuthData:authData];
     authConfirmationKey = nil;
 
     return self;
+}
+
+
+- (void)setAuthData:(AuthData *)authData
+{
+    _authData = authData;
+
+    if (authData && authData.authToken && authData.defaultCountryCode) {
+        id<SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
+        SLAuthData *slAuthData = [[SLAuthData alloc] initWithLong:authData.userId withNSString:authData.authToken withNSString:authData.defaultCountryCode];
+        libShotVibeAPI_ = [[SLShotVibeAPI alloc] initWithSLHTTPLib:httpLib withSLAuthData:slAuthData];
+    }
 }
 
 
@@ -326,8 +343,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         int64_t userId = [[responseObj getNumber:@"user_id"] longLongValue];
         NSString *authToken = [responseObj getString:@"auth_token"];
 
-        _authData = [[AuthData alloc] initWithUserID:userId authToken:authToken defaultCountryCode:defaultCountryCode];
-        [UserSettings setAuthData:_authData];
+        AuthData *authData = [[AuthData alloc] initWithUserID:userId authToken:authToken defaultCountryCode:defaultCountryCode];
+        [self setAuthData:authData];
+        [UserSettings setAuthData:authData];
 
         return ConfirmSMSCodeOk;
     }
@@ -351,7 +369,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
                                                         authToken:registrationInfo.authToken
                                                defaultCountryCode:registrationInfo.countryCode];
 
-            _authData = authData;
+            [self setAuthData:authData];
             [UserSettings setAuthData:authData];
 
             return YES;
@@ -682,44 +700,11 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     }
 }
 
-- (NSArray *)photosUploadRequest:(int)numPhotos withError:(NSError **)error
+- (NSArray *)photosUploadRequest:(int)numPhotos
 {
-    NSAssert(numPhotos >= 1, @"Invalid argument");
+    SLArrayList *result = [libShotVibeAPI_ photosUploadRequestWithInt:numPhotos];
 
-    NSError *responseError;
-    Response *response = [self getResponse:[NSString stringWithFormat:@"/photos/upload_request/?num_photos=%d", numPhotos]
-                                    method:@"POST"
-                                      body:nil
-                                     error:&responseError];
-
-    if (!response) {
-        *error = responseError;
-        return nil;
-    }
-
-    if ([response isError]) {
-        *error = [ShotVibeAPI createErrorFromResponse:response];
-        return nil;
-    }
-
-    NSMutableArray *results = [[NSMutableArray alloc] init];
-
-    @try {
-        JSONArray *responseArray = [[JSONArray alloc] initWithData:response.body];
-        for (int i = 0; i < [responseArray count]; ++i) {
-            JSONObject *photoUploadRequestObj = [responseArray getJSONObject:i];
-
-            NSString *photoId = [photoUploadRequestObj getString:@"photo_id"];
-
-            [results addObject:photoId];
-        }
-    }
-    @catch (JSONException *exception) {
-        *error = [ShotVibeAPI createErrorFromJSONException:exception];
-        return nil;
-    }
-
-    return results;
+    return result.array;
 }
 
 - (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error

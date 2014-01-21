@@ -67,7 +67,7 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 - (SLAlbumContents *)createNewBlankAlbum:(NSString *)albumName withError:(NSError **)error;
 
 // Returns an array of `NSString` objects
-- (NSArray *)photosUploadRequest:(int)numPhotos withError:(NSError **)error;
+- (NSArray *)photosUploadRequest:(int)numPhotos;
 
 - (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error;
 

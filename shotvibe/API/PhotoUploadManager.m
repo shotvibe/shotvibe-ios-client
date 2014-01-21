@@ -11,6 +11,7 @@
 #import "AlbumUploadingPhoto.h"
 #import "SL/AlbumPhoto.h"
 #import "PhotosUploadListener.h"
+#import "SL/APIException.h"
 
 @implementation PhotoUploadManager
 {
@@ -191,10 +192,10 @@ const NSTimeInterval RETRY_TIME = 5;
 
             NSArray *newPhotoIds = nil;
             while (!newPhotoIds) {
-                NSError *error;
-                newPhotoIds = [shotvibeAPI_ photosUploadRequest:currentUploadQueueSize + 1 withError:&error];
-                if (!newPhotoIds) {
-                    RCLog(@"Error requesting photo IDS: %@", [error description]);
+                @try {
+                    newPhotoIds = [shotvibeAPI_ photosUploadRequest:currentUploadQueueSize + 1];
+                } @catch (SLAPIException *exception) {
+                    RCLog(@"Error requesting photo IDS: %@", exception.description);
                     [NSThread sleepForTimeInterval:RETRY_TIME];
                 }
             }

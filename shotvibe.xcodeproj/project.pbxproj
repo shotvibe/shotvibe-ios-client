@@ -659,6 +659,8 @@
 		66278D161867CAD500D23F34 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66278D151867CAD500D23F34 /* MainStoryboard.storyboard */; };
 		66278D201867CDC100D23F34 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66278D1F1867CDC100D23F34 /* libAviarySDK.a */; };
 		66278D221867CDEC00D23F34 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */; };
+		664F4700188DBA69009F4776 /* IosHTTPLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 664F46FF188DBA69009F4776 /* IosHTTPLib.m */; };
+		664F4703188DBB76009F4776 /* IosHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 664F4702188DBB76009F4776 /* IosHTTPResponse.m */; };
 		66CBB07F187F57A10057FBAA /* current_shotvibelib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CBB07E187F57A10057FBAA /* current_shotvibelib.a */; };
 		66D5833C1867D66B00EAC842 /* RCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583331867D66B00EAC842 /* RCImageView.m */; };
 		66D5833D1867D66B00EAC842 /* RCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583351867D66B00EAC842 /* RCLog.m */; };
@@ -1553,6 +1555,10 @@
 		66278D1E1867CD9B00D23F34 /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPhotoEditorSession.h; path = shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorSession.h; sourceTree = SOURCE_ROOT; };
 		66278D1F1867CDC100D23F34 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAviarySDK.a; path = shotvibe/Vendor/AviarySDK/libAviarySDK.a; sourceTree = SOURCE_ROOT; };
 		66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AviarySDKResources.bundle; path = shotvibe/Vendor/AviarySDK/Resources/AviarySDKResources.bundle; sourceTree = SOURCE_ROOT; };
+		664F46FE188DBA69009F4776 /* IosHTTPLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosHTTPLib.h; path = shotvibe/API/IosHTTPLib.h; sourceTree = SOURCE_ROOT; };
+		664F46FF188DBA69009F4776 /* IosHTTPLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosHTTPLib.m; path = shotvibe/API/IosHTTPLib.m; sourceTree = SOURCE_ROOT; };
+		664F4701188DBB76009F4776 /* IosHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosHTTPResponse.h; path = shotvibe/API/IosHTTPResponse.h; sourceTree = SOURCE_ROOT; };
+		664F4702188DBB76009F4776 /* IosHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosHTTPResponse.m; path = shotvibe/API/IosHTTPResponse.m; sourceTree = SOURCE_ROOT; };
 		66CBB07E187F57A10057FBAA /* current_shotvibelib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = current_shotvibelib.a; path = shotvibelib/build/current_shotvibelib.a; sourceTree = "<group>"; };
 		66D583321867D66B00EAC842 /* RCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageView.h; path = Ralcr/RCImageView.h; sourceTree = "<group>"; };
 		66D583331867D66B00EAC842 /* RCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageView.m; path = Ralcr/RCImageView.m; sourceTree = "<group>"; };
@@ -2886,6 +2892,10 @@
 				66278CEE1867C94900D23F34 /* AlbumManager.m */,
 				66278CEF1867C94900D23F34 /* AuthData.h */,
 				66278CF01867C94900D23F34 /* AuthData.m */,
+				664F46FE188DBA69009F4776 /* IosHTTPLib.h */,
+				664F46FF188DBA69009F4776 /* IosHTTPLib.m */,
+				664F4701188DBB76009F4776 /* IosHTTPResponse.h */,
+				664F4702188DBB76009F4776 /* IosHTTPResponse.m */,
 				66278CF11867C94900D23F34 /* JSON.h */,
 				66278CF21867C94900D23F34 /* JSON.m */,
 				66278CF31867C94900D23F34 /* PhotoBitmap.h */,
@@ -3649,6 +3659,7 @@
 				AA234855177AA3F600D55918 /* AFURLConnectionOperation.m in Sources */,
 				AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */,
 				6601324E187F4E670042047B /* Type.m in Sources */,
+				664F4703188DBB76009F4776 /* IosHTTPResponse.m in Sources */,
 				108CDF7618846B9000757E36 /* UIView+MPSnapshotImage.m in Sources */,
 				66278D041867C94900D23F34 /* AlbumManager.m in Sources */,
 				66013228187F4E670042047B /* IOSBooleanArray.m in Sources */,
@@ -3756,7 +3767,6 @@
 				66278CC41867C57300D23F34 /* SVProfileViewController.m in Sources */,
 				66013235187F4E670042047B /* IOSReflection.m in Sources */,
 				108CDF7018846B9000757E36 /* MPSurveyNavigationController.m in Sources */,
-				66159228183273040054471E /* AlbumMember.m in Sources */,
 				3B87E68F17C99941006483C9 /* AlbumUploadingPhoto.m in Sources */,
 				66E788B51889EB870037ACF3 /* List.m in Sources */,
 				66013247187F4E670042047B /* IllegalStateException.m in Sources */,
@@ -3765,6 +3775,7 @@
 				66278CE01867C62300D23F34 /* SVActivityButton.m in Sources */,
 				66013227187F4E670042047B /* IOSArrayClass.m in Sources */,
 				66D583401867D66B00EAC842 /* RCTableImageViewCell.m in Sources */,
+				664F4700188DBA69009F4776 /* IosHTTPLib.m in Sources */,
 				66278CE51867C62300D23F34 /* SVLinkActivity.m in Sources */,
 				66D5833D1867D66B00EAC842 /* RCLog.m in Sources */,
 				66278D071867C94900D23F34 /* PhotoBitmap.m in Sources */,
