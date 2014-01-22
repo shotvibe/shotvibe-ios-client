@@ -147,11 +147,11 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
 
     if (self) {
         baseURL_ = baseURL;
-        
+
         UploadSessionDelegate *uploadListener = [[UploadSessionDelegate alloc] init];
 
-        //NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfiguration:kSessionId];
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfiguration:kSessionId];
+        //NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
 
         NSString *authToken = [@"Token " stringByAppendingString:oldShotVibeAPI.authData.authToken];
         config.HTTPAdditionalHeaders = @{
