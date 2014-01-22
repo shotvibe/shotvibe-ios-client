@@ -12,6 +12,8 @@
 #import "SVRecord.h"
 #import "SVContactCell.h"
 #import "SL/AlbumContents.h"
+#import "SL/ArrayList.h"
+#import "SL/ShotVibeAPI.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+AFNetworking.h"
 
@@ -427,15 +429,15 @@
 	
 	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
-	NSMutableArray *contactsToInvite = [[NSMutableArray alloc] init];
-	NSString *countryCode = [self.albumManager getShotVibeAPI].authData.defaultCountryCode;
+    NSString *defaultCountryCode = [self.albumManager getShotVibeAPI].authData.defaultCountryCode;
+
+    NSMutableArray *memberAddRequests = [[NSMutableArray alloc] init];
 	
 	for (SVRecord *record in selectedRecords) {
-		
-		[contactsToInvite addObject:@{
-		 @"phone_number":record.phone,
-		 @"default_country":countryCode,
-		 @"contact_nickname":record.fullname}];
+        SLShotVibeAPI_MemberAddRequest *request = [[SLShotVibeAPI_MemberAddRequest alloc] initWithNSString:record.fullname
+                                                                                              withNSString:record.phone];
+
+        [memberAddRequests addObject:request];
 		
 		NSNumber *id_ = [NSNumber numberWithLongLong:record.phoneId];
 		if (![favorites containsObject:id_]) {
@@ -449,19 +451,22 @@
 	//[contactsToInvite addObject:@{@"phone_number": @"+40700000002", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
 	//[contactsToInvite addObject:@{@"phone_number": @"(070) 000-0001", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
 	
-	if (contactsToInvite.count > 0) {
-		
-		__block NSDictionary *phoneNumbers = @{@"add_members": contactsToInvite};
-		RCLog(@"contactsToInvite %@", phoneNumbers);
-		
+    if (memberAddRequests.count > 0) {
 		// send request
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-			NSError *error;
-            SLAlbumContents *r = [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId phoneNumbers:contactsToInvite withError:&error];
-			
+            SLAPIException *apiException = nil;
+            @try {
+                // TODO
+                // - If any "MemberAddFailure" are returned, then show dialog to user with the details
+
+                [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId
+                                              withMemberAddRequests:[[SLArrayList alloc] initWithInitialArray:memberAddRequests]
+                                                 withDefaultCountry:defaultCountryCode];
+            } @catch (SLAPIException *exception) {
+                apiException = exception;
+            }
+
 			dispatch_async(dispatch_get_main_queue(), ^{
-                RCLog(@"r.members %@", [r getMembers]);
-				RCLog(@"invite sent - success/error: %@", error);
 				[MBProgressHUD hideHUDForView:self.view animated:YES];
 				[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 			});

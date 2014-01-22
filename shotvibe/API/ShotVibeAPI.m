@@ -632,39 +632,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return [libShotVibeAPI_ albumAddPhotosWithLong:albumId withJavaLangIterable:photoIds];
 }
 
-- (SLAlbumContents *)albumAddMembers:(int64_t)albumId phoneNumbers:(NSArray *)phoneNumbers withError:(NSError **)error
+- (SLArrayList *)albumAddMembers:(int64_t)albumId withMemberAddRequests:(id<JavaUtilList>)memberAddRequests withDefaultCountry:(NSString *)defaultCountry
 {
-    NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
-                          phoneNumbers, @"add_members",
-                          nil];
-	
-    NSError *jsonError;
-	
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
-	
-    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
-	
-    NSError *responseError;
-    Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/", albumId] method:@"POST" body:jsonData error:&responseError];
-	
-    if (response == nil) {
-        *error = responseError;
-        return nil;
-    }
-	
-    if ([response isError]) {
-        *error = [ShotVibeAPI createErrorFromResponse:response];
-        return nil;
-    }
-	
-    @try {
-        return [ShotVibeAPI parseAlbumContents:[[JSONObject alloc] initWithData:response.body]
-                                          etag:[ShotVibeAPI responseGetEtag:response]];
-    }
-    @catch (JSONException *exception) {
-        *error = [ShotVibeAPI createErrorFromJSONException:exception];
-        return nil;
-    }
+    return [libShotVibeAPI_ albumAddMembersWithLong:albumId withJavaUtilList:memberAddRequests withNSString:defaultCountry];
 }
 
 

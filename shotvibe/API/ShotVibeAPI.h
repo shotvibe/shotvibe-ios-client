@@ -13,6 +13,8 @@
 #import "SL/AlbumUser.h"
 #import "RegistrationInfo.h"
 
+@protocol JavaUtilList;
+
 typedef NS_ENUM(NSInteger, AuthorizePhoneNumberResult) {
     AuthorizePhoneNumberError,
     AuthorizePhoneNumberOk,
@@ -76,7 +78,11 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
  */
 - (SLAlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(SLArrayList *)photoIds;
 
-- (SLAlbumContents *)albumAddMembers:(int64_t)albumId phoneNumbers:(NSArray *)phoneNumbers withError:(NSError **)error;
+/**
+ @param memberAddRequests List of SLShotVibeAPI_MemberAddRequest objects
+ */
+- (SLArrayList *)albumAddMembers:(int64_t)albumId withMemberAddRequests:(id<JavaUtilList>)memberAddRequests withDefaultCountry:(NSString *)defaultCountry;
+
 - (BOOL)deletePhotos:(NSArray *)photos withError:(NSError **)error;
 
 - (BOOL)leaveAlbumWithId:(int64_t)albumId;
