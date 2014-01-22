@@ -171,6 +171,13 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
 
         _uploadNSURLSession = [NSURLSession sessionWithConfiguration:config delegate:uploadListener delegateQueue:nil];
         // TODO: set queue?
+
+        [_uploadNSURLSession getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
+            RCLog(@"NSURLSession with id %@, nr of current upload tasks: %d\n", kSessionId, [uploadTasks count]);
+            for (NSURLSessionUploadTask *task in uploadTasks) {
+                RCLog(@"  UploadTask #%d", task.taskIdentifier);
+            }
+        }];
     }
     return self;
 }
