@@ -11,17 +11,18 @@
 #import "PhotoUploadRequest.h"
 #import "AlbumUploadingPhoto.h"
 #import "PhotosUploadListener.h"
+#import "AlbumPhoto.h"
 
 // TODO different name for class and methods, since this is not a queue
 @interface PhotoQueue : NSObject
 
--(void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId;
+- (void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId;
 
--(NSArray *)getPhotosForAlbum:(int64_t)albumId;
+- (NSArray *)getPhotosForAlbum:(int64_t)albumId;
 
--(NSArray *)getAllAlbumIds;
+- (NSArray *)getAllAlbumIds;
 
--(NSArray *)getAllPhotos;
+- (NSArray *)getAllPhotos;
 
 @end
 
@@ -39,7 +40,7 @@
     return self;
 }
 
--(void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
+- (void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
 {
     NSMutableArray *photosAlreadyInQueue = [photosIndexedByAlbum_ objectForKey:[NSNumber numberWithLongLong:albumId]];
 
@@ -51,7 +52,7 @@
     [photosAlreadyInQueue addObject:photo];
 }
 
--(BOOL)removePhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
+- (BOOL)removePhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
 {
     NSMutableArray *photosInQueue = [photosIndexedByAlbum_ objectForKey:[NSNumber numberWithLongLong:albumId]];
 
@@ -67,40 +68,52 @@
     }
 }
 
--(NSArray *)getPhotosForAlbum:(int64_t)albumId
+
+- (NSArray *)getPhotosForAlbum:(int64_t)albumId
 { // return a non-mutable array for safety
     return [NSArray arrayWithArray:[photosIndexedByAlbum_ objectForKey:[NSNumber numberWithLongLong:albumId]]];
 }
 
--(void)removePhotosForAlbum:(int64_t)albumId
+
+- (void)removePhotosForAlbum:(int64_t)albumId
 {
     [photosIndexedByAlbum_ removeObjectForKey:[NSNumber numberWithLongLong:albumId]];
 }
 
--(NSArray *)getAllAlbumIds
+
+- (NSArray *)getAllAlbumIds
 {
     return photosIndexedByAlbum_.allKeys;
 }
 
--(NSArray *)getAllPhotos
+
+// Return AlbumUploadingPhotos for all albums
+- (NSArray *)getAllPhotos
 {
-    return photosIndexedByAlbum_.allValues;
+    NSMutableArray *allPhotos = [[NSMutableArray alloc] init];
+
+    for (NSNumber *albumId in photosIndexedByAlbum_.allKeys) {
+        [allPhotos addObjectsFromArray:[photosIndexedByAlbum_ objectForKey:albumId]];
+    }
+
+    return [NSArray arrayWithArray:allPhotos];
 }
 
--(NSString *)description
+
+- (NSString *)description
 {
     NSString *str = @"PhotoQueue:";
     for (NSNumber *albumId in photosIndexedByAlbum_.allKeys) {
-        str = [NSString stringWithFormat:@"%@ (album:%@, #photos:%lu)", str, albumId, [[photosIndexedByAlbum_ objectForKey:albumId] count]];
+        str = [NSString stringWithFormat:@"%@ (album:%@, #photos:%lu)", str, albumId, (unsigned long)[[photosIndexedByAlbum_ objectForKey:albumId] count]];
     }
 
     return str;
 }
+
+
 @end
 
-
-
-@interface NewPhotoUploadManager()
+@interface NewPhotoUploadManager ()
 
 @end
 
@@ -182,7 +195,9 @@ static const NSTimeInterval RETRY_TIME = 5;
         [photo prepareTmpFile:photosLoadQueue_];
         [uploadingPhotos_ addPhoto:photo album:albumId];
 
-        [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:[photo getFilename] progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend){
+        NSString *filePath = [photo getFilename];
+        
+        [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend){
             //NSLog(@"Task progress: photo %@ %.2f", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend);
             [photo reportUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -200,10 +215,10 @@ static const NSTimeInterval RETRY_TIME = 5;
     }
 }
 
+
 // Note: Cannot run for more than 30 seconds because it may be called from a background session.
--(void)photoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
+- (void)photoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
 {
-    
     // TODO: uploadingPhoto.setComplete // maybe, if we want this flag to survive
     //NSLog(@"uploadingPhotos_: %@", [uploadingPhotos_ description]);
     //NSLog(@"uploadedPhotos_: %@", [uploadedPhotos_ description]);
@@ -249,16 +264,28 @@ static const NSTimeInterval RETRY_TIME = 5;
     }
 }
 
+
 - (NSArray *)getUploadingPhotos:(int64_t)albumId
 {
-    return [uploadingPhotos_ getAllPhotos];
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+
+    @synchronized(uploadingPhotos_) {
+        NSArray *uploads = [uploadingPhotos_ getAllPhotos];
+
+        for (AlbumUploadingPhoto *upload in uploads) {
+            AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumUploadingPhoto:upload];
+            [result addObject:albumPhoto];
+        }
+    }
+
+    return [NSArray arrayWithArray:result];
 }
 
 
 #pragma mark - Utility functions
 
 
-NSString *showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
+NSString * showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
 {
     NSString *str = @"Photo id's:";
     for (AlbumUploadingPhoto *photo in albumUploadingPhotos) {
@@ -266,4 +293,6 @@ NSString *showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
     }
     return str;
 }
+
+
 @end
