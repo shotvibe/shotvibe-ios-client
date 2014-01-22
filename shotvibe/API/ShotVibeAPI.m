@@ -643,21 +643,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 }
 
 
-- (BOOL)leaveAlbumWithId:(int64_t)albumId
+- (void)leaveAlbumWithId:(int64_t)albumId
 {
-	NSDictionary *body = [[NSDictionary alloc] init];
-	NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:NULL];
-	NSError *responseError;
-    Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/leave/", albumId]
-									method:@"POST"
-									  body:jsonData
-									 error:&responseError];
-	
-	//RCLog(@"albumId %lli, response %i, %@ %@", albumId, response.responseCode, response.body, responseError);
-	if (response.responseCode == 204) {
-		return YES;
-	}
-	return NO;
+    [libShotVibeAPI_ leaveAlbumWithLong:albumId];
 }
 
 + (NSError *)createErrorFromResponse:(Response *)response

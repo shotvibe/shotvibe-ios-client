@@ -57,8 +57,12 @@
 		ShotVibeAPI *shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
 		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            [shotvibeAPI leaveAlbumWithId:[self.albumContents getId]];
-			
+            @try {
+                [shotvibeAPI leaveAlbumWithId:[self.albumContents getId]];
+            } @catch (SLAPIException *exception) {
+                // Ignore
+            }
+
 			dispatch_async(dispatch_get_main_queue(), ^{
 				
 			});

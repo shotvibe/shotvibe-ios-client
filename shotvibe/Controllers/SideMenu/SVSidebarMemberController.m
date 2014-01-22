@@ -270,12 +270,23 @@
 	if (buttonIndex == 1) {
 		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            BOOL success = [shotvibeAPI leaveAlbumWithId:[self.albumContents getId]];
-			
-			if (success) dispatch_async(dispatch_get_main_queue(), ^{
-				[self.parentController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-				[self.parentController.navigationController popViewControllerAnimated:YES];
-			});
+            // TODO
+            // - Show spinner while loading
+            // - If failed, then show dialog with "retry" button
+
+            SLAPIException *apiException;
+            @try {
+                [shotvibeAPI leaveAlbumWithId:[self.albumContents getId]];
+            } @catch (SLAPIException *exception) {
+                apiException = exception;
+            }
+
+            if (!apiException) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.parentController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+                    [self.parentController.navigationController popViewControllerAnimated:YES];
+                });
+            }
 		});
 	}
 }

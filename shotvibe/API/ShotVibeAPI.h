@@ -85,6 +85,6 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 
 - (BOOL)deletePhotos:(NSArray *)photos withError:(NSError **)error;
 
-- (BOOL)leaveAlbumWithId:(int64_t)albumId;
+- (void)leaveAlbumWithId:(int64_t)albumId;
 
 @end
