@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 // Returns an array of `AlbumSummary` objects
 - (NSArray *)getAlbums;
 
-- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess withError:(NSError **)error;
+- (void)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess;
 
 - (SLAlbumContents *)getAlbumContents:(int64_t)albumId;
 

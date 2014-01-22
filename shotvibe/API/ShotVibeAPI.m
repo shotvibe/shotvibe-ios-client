@@ -471,34 +471,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 }
 
 
-- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess withError:(NSError **)error
+- (void)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess
 {
-    NSString *lastAccessStr = [lastAccess formatISO8601];
-    NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
-                          lastAccessStr, @"timestamp",
-                          nil];
-
-    NSError *jsonError;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
-    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
-    
-    NSError *responseError;
-    Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/view/", albumId]
-                                    method:@"POST"
-                                      body:jsonData
-                                     error:&responseError];
-
-    if (!response) {
-        *error = responseError;
-        return NO;
-    }
-
-    if ([response isError]) {
-        *error = [ShotVibeAPI createErrorFromResponse:response];
-        return NO;
-    }
-
-    return YES;
+    [libShotVibeAPI_ markAlbumAsViewedWithLong:albumId withSLDateTime:lastAccess];
 }
 
 
