@@ -18,6 +18,7 @@
 #import "SVLinkActivity.h"
 #import "PhotoScrollView.h"
 #import "SL/DateTime.h"
+#import "SL/ArrayList.h"
 
 
 @interface SVPhotoViewerController () {
@@ -567,17 +568,21 @@
 		
 		// Remove from server
 		NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
-        [photosToDelete addObject:@{ @"photo_id" : [[photo getServerPhoto] getId] }];
+        [photosToDelete addObject:[[photo getServerPhoto] getId]];
 
 		RCLog(@"delete photos %@", photosToDelete);
-		__block NSError *error;
-		[[self.albumManager getShotVibeAPI] deletePhotos:photosToDelete withError:&error];
-		
+        SLAPIException *apiException = nil;
+        @try {
+            [[self.albumManager getShotVibeAPI] deletePhotos:[[SLArrayList alloc] initWithInitialArray:photosToDelete]];
+        } @catch (SLAPIException *exception) {
+            apiException = exception;
+        }
+
 		dispatch_async(dispatch_get_main_queue(), ^{
 			
 			[MBProgressHUD hideHUDForView:self.view animated:YES];
 			
-			if (error) {
+            if (apiException) {
 				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error connecting to the server at this time.", @"")
 																message:nil
 															   delegate:nil

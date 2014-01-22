@@ -83,7 +83,10 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
  */
 - (SLArrayList *)albumAddMembers:(int64_t)albumId withMemberAddRequests:(id<JavaUtilList>)memberAddRequests withDefaultCountry:(NSString *)defaultCountry;
 
-- (BOOL)deletePhotos:(NSArray *)photos withError:(NSError **)error;
+/**
+ @param photos List of `NSString` objects (photoIds)
+ */
+- (void)deletePhotos:(SLArrayList *)photos;
 
 - (void)leaveAlbumWithId:(int64_t)albumId;
 
