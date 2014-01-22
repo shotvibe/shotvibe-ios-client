@@ -136,7 +136,7 @@
 static const NSTimeInterval RETRY_TIME = 5;
 
 
-- (id)initWithShotVibeAPI:(ShotVibeAPI *)shotVibeAPI listener:(id<PhotosUploadListener>)listener
+- (id)initWithBaseURL:(NSString *)baseURL shotVibeAPI:(ShotVibeAPI *)shotVibeAPI listener:(id<PhotosUploadListener>)listener
 {
     self = [super init];
 
@@ -144,7 +144,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         shotVibeAPI_ = shotVibeAPI;
         listener_ = listener;
 
-        newShotVibeAPI_ = [[NewShotVibeAPI alloc] initWithOldShotVibeAPI:shotVibeAPI];
+        newShotVibeAPI_ = [[NewShotVibeAPI alloc] initWithBaseURL:(NSString *)baseURL oldShotVibeAPI:shotVibeAPI];
 
         photosLoadQueue_ = dispatch_queue_create(NULL, NULL);
 

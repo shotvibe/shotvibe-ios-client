@@ -135,20 +135,19 @@
 @end
 
 
-@implementation NewShotVibeAPI
-
-// Duplicated, since it is not accessible from ShotVibeAPI.m
-static NSString *const BASE_URL = @"https://api.shotvibe.com";
-//static NSString *const BASE_URL = @"http://oblomov.local:8250";
-//static NSString *const BASE_URL = @"http://localhost:8250";
+@implementation NewShotVibeAPI {
+    NSString *baseURL_;
+}
 
 static NSString *const kSessionId = @"shotvibe.uploadSession";
 
-- (id)initWithOldShotVibeAPI:(ShotVibeAPI *)oldShotVibeAPI
+- (id)initWithBaseURL:(NSString *)baseURL oldShotVibeAPI:(ShotVibeAPI *)oldShotVibeAPI
 {
     self = [super init];
 
     if (self) {
+        baseURL_ = baseURL;
+        
         UploadSessionDelegate *uploadListener = [[UploadSessionDelegate alloc] init];
 
         //NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfiguration:kSessionId];
@@ -170,7 +169,7 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
 - (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
 {
     NSLog(@"%@", filePath);
-    NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/", BASE_URL, photoId]];
+    NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/", baseURL_, photoId]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
     [request setHTTPMethod:@"PUT"];
     NSURL *photoFileUrl = [NSURL fileURLWithPath:filePath];

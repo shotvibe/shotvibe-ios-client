@@ -14,7 +14,7 @@ typedef void (^CompletionHandlerType)();
 
 @interface NewShotVibeAPI : NSObject
 
-- (id)initWithOldShotVibeAPI:(ShotVibeAPI *)oldShotVibeAPI;
+- (id)initWithBaseURL:(NSString *)baseURL oldShotVibeAPI:(ShotVibeAPI *)oldShotVibeAPI;
 
 - (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler;
 
