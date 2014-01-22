@@ -38,14 +38,13 @@
 
 @interface UploadSessionDelegate : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
--(void) setDelegateForTask:(NSURLSessionTask *)task progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler;
+- (void)setDelegateForTask:(NSURLSessionTask *)task progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler;
 
--(UploadTaskDelegate *)getDelegateForTask:(NSURLSessionTask *)task;
+- (UploadTaskDelegate *)getDelegateForTask:(NSURLSessionTask *)task;
 
 @end
 
 @implementation UploadSessionDelegate {
-
     NSMutableDictionary *taskSpecificDelegates_; // (NSUInteger)taskIdentifier -> UploadTaskDelegate
     // Dictionary to store the task-specific delegates, indexed by the task identifier
 }
@@ -61,23 +60,23 @@
 }
 
 
--(void) setDelegateForTask:(NSURLSessionTask *)task progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
+- (void)setDelegateForTask:(NSURLSessionTask *)task progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
 {
     UploadTaskDelegate *taskDelegate = [[UploadTaskDelegate alloc] initWithProgress:progressHandler completion:completionHandler];
     [taskSpecificDelegates_ setObject:taskDelegate forKey:[NSNumber numberWithLongLong:task.taskIdentifier]];
 }
 
--(UploadTaskDelegate *)getDelegateForTask:(NSURLSessionTask *)task
+
+- (UploadTaskDelegate *)getDelegateForTask:(NSURLSessionTask *)task
 {
     return [taskSpecificDelegates_ objectForKey:[NSNumber numberWithLongLong:task.taskIdentifier]];
-}
-// TODO: synchronize, remove after task, and remove all after session tasks finish (thread safe?)
+} // TODO: synchronize, remove after task, and remove all after session tasks finish (thread safe?)
 
 
 #pragma mark - NSURLSessionTaskDelegate Methods
 
 
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
     //NSLog(@"Session handler: task %lu completed", (unsigned long)task.taskIdentifier);
 
@@ -87,17 +86,18 @@
     if (delegateForTask) {
         delegateForTask.completionHandler();
     }
-    
+
     if (error) {
-        NSLog(@"Error in task %lu\n%@", (unsigned long)task.taskIdentifier,[error localizedDescription]);
+        NSLog(@"Error in task %lu\n%@", (unsigned long)task.taskIdentifier, [error localizedDescription]);
     }
 }
 
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
 {
     [self getDelegateForTask:task].progressHandler(totalBytesSent, totalBytesExpectedToSend);
-
 }
+
 
 #pragma mark - NSURLSessionDelegate Methods
 
@@ -128,10 +128,9 @@
 
 
 
+@interface NewShotVibeAPI ()
 
-@interface NewShotVibeAPI()
-
-@property (atomic,strong) NSURLSession *uploadNSURLSession;
+@property (atomic, strong) NSURLSession *uploadNSURLSession;
 
 @end
 
@@ -139,11 +138,11 @@
 @implementation NewShotVibeAPI
 
 // Duplicated, since it is not accessible from ShotVibeAPI.m
-static NSString * const BASE_URL = @"https://api.shotvibe.com";
+static NSString *const BASE_URL = @"https://api.shotvibe.com";
 //static NSString *const BASE_URL = @"http://oblomov.local:8250";
 //static NSString *const BASE_URL = @"http://localhost:8250";
 
-static NSString * const kSessionId = @"shotvibe.uploadSession";
+static NSString *const kSessionId = @"shotvibe.uploadSession";
 
 - (id)initWithOldShotVibeAPI:(ShotVibeAPI *)oldShotVibeAPI
 {
@@ -167,7 +166,6 @@ static NSString * const kSessionId = @"shotvibe.uploadSession";
 }
 
 
-
 // TODO: handle for iOS < 7
 - (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
 {
@@ -176,13 +174,12 @@ static NSString * const kSessionId = @"shotvibe.uploadSession";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
     [request setHTTPMethod:@"PUT"];
     NSURL *photoFileUrl = [NSURL fileURLWithPath:filePath];
-    NSURLSessionUploadTask *uploadTask = [self.uploadNSURLSession uploadTaskWithRequest:request fromFile:photoFileUrl ];
+    NSURLSessionUploadTask *uploadTask = [self.uploadNSURLSession uploadTaskWithRequest:request fromFile:photoFileUrl];
 
-    [((UploadSessionDelegate *)[self.uploadNSURLSession delegate]) setDelegateForTask:uploadTask progressHandler:progressHandler completionHandler:completionHandler];
+    [((UploadSessionDelegate *)[self.uploadNSURLSession delegate])setDelegateForTask:uploadTask progressHandler:progressHandler completionHandler:completionHandler];
     // TODO: need to access delegate type safe. Maybe subclass uploadTask?
     [uploadTask resume];
 }
-
 
 
 @end

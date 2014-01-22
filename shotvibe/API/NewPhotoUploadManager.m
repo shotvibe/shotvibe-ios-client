@@ -40,6 +40,7 @@
     return self;
 }
 
+
 - (void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
 {
     NSMutableArray *photosAlreadyInQueue = [photosIndexedByAlbum_ objectForKey:[NSNumber numberWithLongLong:albumId]];
@@ -51,6 +52,7 @@
 
     [photosAlreadyInQueue addObject:photo];
 }
+
 
 - (BOOL)removePhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
 {
@@ -118,7 +120,6 @@
 @end
 
 @implementation NewPhotoUploadManager {
-
     ShotVibeAPI *shotVibeAPI_;
     NewShotVibeAPI *newShotVibeAPI_;
 
@@ -130,7 +131,6 @@
 
     PhotoQueue *uploadingPhotos_; // contains the AlbumUploadingPhotos that are currently uploading to the server
     PhotoQueue *uploadedPhotos_; // contains the AlbumUploadingPhotos that have been uploaded, but not added to the album yet
-
 }
 
 static const NSTimeInterval RETRY_TIME = 5;
@@ -160,7 +160,6 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     // Request new ids if there are not enough
     if ([photoIds_ count] < [photoUploadRequests count]) {
-
         NSLog(@"PhotoUploadManager Requesting Photo IDs");
 
         NSArray *newPhotoIds = nil;
@@ -184,20 +183,20 @@ static const NSTimeInterval RETRY_TIME = 5;
     //        [listener_ photoUploadAdditions:albumId];
     //    });
 
-    for (int i=0; i< [photoUploadRequests count]; i++) {
+    for (int i = 0; i < [photoUploadRequests count]; i++) {
         PhotoUploadRequest *req = [photoUploadRequests objectAtIndex:i];
 
         AlbumUploadingPhoto *photo = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:req album:albumId];
 
         [photo setPhotoId:[photoIds_ objectAtIndex:0]];
         [photoIds_ removeObjectAtIndex:0];
-        
+
         [photo prepareTmpFile:photosLoadQueue_];
         [uploadingPhotos_ addPhoto:photo album:albumId];
 
         NSString *filePath = [photo getFilename];
-        
-        [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend){
+
+        [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
             //NSLog(@"Task progress: photo %@ %.2f", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend);
             [photo reportUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -252,8 +251,7 @@ static const NSTimeInterval RETRY_TIME = 5;
             if (![shotVibeAPI_ albumAddPhotos:albumId photoIds:photoIdsToAdd withError:&error]) {
                 NSLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
                 [NSThread sleepForTimeInterval:RETRY_TIME];
-            }
-            else {
+            } else {
                 photosSuccesfullyAdded = YES;
             }
         }
