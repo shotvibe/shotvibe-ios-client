@@ -85,6 +85,9 @@
 
     if (delegateForTask) {
         delegateForTask.completionHandler();
+    } else {
+        RCLog(@"No task-specific delegate for task %d:%@", task.taskIdentifier, task.taskDescription);
+        // TODO: need to restore these on app init
     }
 
     if (error) {
@@ -95,7 +98,14 @@
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
 {
-    [self getDelegateForTask:task].progressHandler(totalBytesSent, totalBytesExpectedToSend);
+    UploadTaskDelegate *delegateForTask = [self getDelegateForTask:task];
+
+    if (delegateForTask) {
+        delegateForTask.progressHandler(totalBytesSent, totalBytesExpectedToSend);
+    } else {
+        RCLog(@"No task-specific delegate for task %d:%@", task.taskIdentifier, task.taskDescription);
+        // TODO: need to restore these on app init
+    }
 }
 
 
