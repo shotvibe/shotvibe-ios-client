@@ -640,7 +640,8 @@
     [self setAlbumContents:album];
 }
 
-- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error {
+- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(SLAPIException *)error
+{
     [refresh endRefreshing];
 	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 }

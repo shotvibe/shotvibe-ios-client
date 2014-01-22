@@ -59,6 +59,7 @@
 
 - (NSString *)getHeaderValueWithNSString:(NSString *)headerName
 {
+    // headers_ is a special dictionary from NSHTTPURLResponse.allHeaderFields that treats the key as case-insensitive
     return [headers_ objectForKey:headerName];
 }
 

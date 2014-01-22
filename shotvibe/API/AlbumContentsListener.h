@@ -10,6 +10,8 @@
 
 #import "SL/AlbumContents.h"
 
+@class SLAPIException;
+
 @protocol AlbumContentsListener <NSObject>
 
 @required
@@ -20,7 +22,7 @@
  */
 - (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(SLAlbumContents *)album;
 
-- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error;
+- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(SLAPIException *)error;
 
 - (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId;
 

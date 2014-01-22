@@ -26,6 +26,7 @@
 #import "SL/AlbumServerPhoto.h"
 #import "SL/ArrayList.h"
 #import "SL/DateTime.h"
+#import "SL/APIException.h"
 #import "ShotVibeAppDelegate.h"
 #import "UserSettings.h"
 
@@ -686,13 +687,18 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		
 		creatingAlbum = YES;
-        NSError *error;
-        SLAlbumContents *albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title withError:&error];
+        SLAlbumContents *albumContents = nil;
+        SLAPIException *apiException = nil;
+        @try {
+            albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title];
+        } @catch (SLAPIException *exception) {
+            apiException = exception;
+        }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (error) {
+            if (apiException) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Creating Album"
-                                                                message:[error description]
+                                                                message:apiException.description
                                                                delegate:nil
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
@@ -800,7 +806,7 @@
 	}
 }
 
-- (void)onAlbumListRefreshError:(NSError *)error
+- (void)onAlbumListRefreshError:(SLAPIException *)exception
 {
     // TODO ...
 }

@@ -464,60 +464,10 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 }
 
 
-- (NSArray *)getAlbumsWithError:(NSError **)error
+- (NSArray *)getAlbums
 {
-    NSError *responseError;
-    Response *response = [self getResponse:@"/albums/" method:@"GET" body:nil error:&responseError];
-
-    if (!response) {
-        *error = responseError;
-        return nil;
-    }
-
-    if ([response isError]) {
-        *error = [ShotVibeAPI createErrorFromResponse:response];
-        return nil;
-    }
-
-    NSMutableArray *results = [[NSMutableArray alloc] init];
-
-    @try {
-        JSONArray *albumsArray = [[JSONArray alloc] initWithData:response.body];
-        //RCLog(@"\n\nresponse.body:\n%@", showNSData(response.body));
-        for (int i = 0; i < [albumsArray count]; ++i) {
-            JSONObject *albumObj = [albumsArray getJSONObject:i];
-
-            NSString *etag = [albumObj getString:@"etag"];
-            NSNumber *albumId = [albumObj getNumber:@"id"];
-            NSString *name = [albumObj getString:@"name"];
-            SLDateTime *dateUpdated = [albumObj getDate:@"last_updated"];
-            NSNumber *numNewPhotos = [albumObj getNumber:@"num_new_photos"];
-            SLDateTime *lastAccess = [albumObj isNull:@"last_access"] ? nil : [albumObj getDate:@"last_access"];
-
-            RCLog(@"Fetched album #%@ (\"%@\") from server: dateUpdated: %@, numNewPhotos: %@, lastAccess: %@", albumId, name, dateUpdated, numNewPhotos, lastAccess);
-            NSMutableArray *latestPhotos = [ShotVibeAPI parsePhotoList:[albumObj getJSONArray:@"latest_photos"] albumLastAccess:lastAccess];
-
-            // TODO:
-            SLDateTime *dummyDateCreated = [SLDateTime ParseISO8601WithNSString:@"2000-01-01T00:00:00Z"];
-
-            SLAlbumSummary *albumSummary = [[SLAlbumSummary alloc] initWithLong:[albumId longLongValue]
-                                                                   withNSString:etag
-                                                                   withNSString:name
-                                                                 withSLDateTime:dummyDateCreated
-                                                                 withSLDateTime:dateUpdated
-                                                                       withLong:[numNewPhotos longLongValue]
-                                                                 withSLDateTime:lastAccess
-                                                                withSLArrayList:[[SLArrayList alloc] initWithInitialArray:latestPhotos]];
-
-            [results addObject:albumSummary];
-        }
-    }
-    @catch (JSONException *exception) {
-        *error = [ShotVibeAPI createErrorFromJSONException:exception];
-        return nil;
-    }
-
-    return results;
+    SLArrayList *albums = [libShotVibeAPI_ getAlbums];
+    return albums.array;
 }
 
 
@@ -552,29 +502,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 }
 
 
-- (SLAlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error
+- (SLAlbumContents *)getAlbumContents:(int64_t)albumId
 {
-    NSError *responseError;
-    Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/", albumId] method:@"GET" body:nil error:&responseError];
-
-    if (!response) {
-        *error = responseError;
-        return nil;
-    }
-
-    if ([response isError]) {
-        *error = [ShotVibeAPI createErrorFromResponse:response];
-        return nil;
-    }
-
-    @try {
-        return [ShotVibeAPI parseAlbumContents:[[JSONObject alloc] initWithData:response.body]
-                                          etag:[ShotVibeAPI responseGetEtag:response]];
-    }
-    @catch (JSONException *exception) {
-        *error = [ShotVibeAPI createErrorFromJSONException:exception];
-        return nil;
-    }
+    return [libShotVibeAPI_ getAlbumContentsWithLong:albumId];
 }
 
 // May throw a JSONException!
@@ -663,41 +593,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return results;
 }
 
-- (SLAlbumContents *)createNewBlankAlbum:(NSString *)albumName withError:(NSError **)error
+- (SLAlbumContents *)createNewBlankAlbum:(NSString *)albumName
 {
-    NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
-                          albumName, @"album_name",
-                          [[NSArray alloc] init], @"photos",
-                          [[NSArray alloc] init], @"members",
-                          nil];
-
-    NSError *jsonError;
-
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
-
-    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
-
-    NSError *responseError;
-    Response *response = [self getResponse:@"/albums/" method:@"POST" body:jsonData error:&responseError];
-
-    if (response == nil) {
-        *error = responseError;
-        return nil;
-    }
-
-    if ([response isError]) {
-        *error = [ShotVibeAPI createErrorFromResponse:response];
-        return nil;
-    }
-
-    @try {
-        return [ShotVibeAPI parseAlbumContents:[[JSONObject alloc] initWithData:response.body]
-                                          etag:[ShotVibeAPI responseGetEtag:response]];
-    }
-    @catch (JSONException *exception) {
-        *error = [ShotVibeAPI createErrorFromJSONException:exception];
-        return nil;
-    }
+    return [libShotVibeAPI_ createNewBlankAlbumWithNSString:albumName];
 }
 
 - (NSArray *)photosUploadRequest:(int)numPhotos
@@ -729,47 +627,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return YES;
 }
 
-- (SLAlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(NSArray *)photoIds withError:(NSError **)error
+- (SLAlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(SLArrayList *)photoIds
 {
-    NSMutableArray *photosArray = [[NSMutableArray alloc] init];
-    for (NSString *photoId in photoIds) {
-        NSDictionary *photoObj = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  photoId, @"photo_id",
-                                  nil];
-        [photosArray addObject:photoObj];
-    }
-
-    NSDictionary *body = [NSDictionary dictionaryWithObjectsAndKeys:
-                          photosArray, @"add_photos",
-                          nil];
-
-    NSError *jsonError;
-
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
-
-    NSAssert(jsonData != nil, @"Error serializing JSON data: %@", [jsonError localizedDescription]);
-
-    NSError *responseError;
-    Response *response = [self getResponse:[NSString stringWithFormat:@"/albums/%lld/", albumId] method:@"POST" body:jsonData error:&responseError];
-
-    if (response == nil) {
-        *error = responseError;
-        return nil;
-    }
-
-    if ([response isError]) {
-        *error = [ShotVibeAPI createErrorFromResponse:response];
-        return nil;
-    }
-
-    @try {
-        return [ShotVibeAPI parseAlbumContents:[[JSONObject alloc] initWithData:response.body]
-                                          etag:[ShotVibeAPI responseGetEtag:response]];
-    }
-    @catch (JSONException *exception) {
-        *error = [ShotVibeAPI createErrorFromJSONException:exception];
-        return nil;
-    }
+    return [libShotVibeAPI_ albumAddPhotosWithLong:albumId withJavaLangIterable:photoIds];
 }
 
 - (SLAlbumContents *)albumAddMembers:(int64_t)albumId phoneNumbers:(NSArray *)phoneNumbers withError:(NSError **)error

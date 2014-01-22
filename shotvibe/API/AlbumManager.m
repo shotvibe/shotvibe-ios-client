@@ -17,6 +17,7 @@
 #import "AlbumUploadingPhoto.h"
 #import "SL/DateTime.h"
 #import "SL/HashMap.h"
+#import "SL/APIException.h"
 #import "java/lang/Long.h"
 
 enum RefreshStatus
@@ -124,17 +125,18 @@ enum RefreshStatus
         __block BOOL done = NO;
 
         while (!done) {
-            NSError *error;
-            NSArray *latestAlbumsList = [shotvibeAPI getAlbumsWithError:&error];
-            if (!latestAlbumsList) {
+            NSArray *latestAlbumsList;
+            @try {
+                latestAlbumsList = [shotvibeAPI getAlbums];
+            } @catch (SLAPIException *exception) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     for(id<AlbumListListener> listener in albumListListeners) {
-                        [listener onAlbumListRefreshError:error];
+                        [listener onAlbumListRefreshError:exception];
                     }
                     refreshStatus = IDLE;
                 });
 
-                NSLog(@"### AlbumManager.refreshAlbumList: ERROR in shotvibeAPI getAlbumsWithError:\n%@", [error localizedDescription]);
+                NSLog(@"### AlbumManager.refreshAlbumList: ERROR in shotvibeAPI getAlbumsWithError:\n%@", exception.description);
 
                 // TODO Schedule to retry soon
                 return;
@@ -247,20 +249,21 @@ enum RefreshStatus
         __block BOOL done = NO;
 
         while (!done) {
-            NSError *error;
-            SLAlbumContents *albumContents = [shotvibeAPI getAlbumContents:albumId withError:&error];
-            if (!albumContents) {
+            SLAlbumContents *albumContents;
+            @try {
+                albumContents = [shotvibeAPI getAlbumContents:albumId];
+            } @catch (SLAPIException *exception) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
                     for(id<AlbumContentsListener> listener in data.listeners) {
-                        [listener onAlbumContentsRefreshError:albumId error:error];
+                        [listener onAlbumContentsRefreshError:albumId error:exception];
                     }
 
                     data.refreshStatus = IDLE;
                     [self cleanAlbumContentsListeners:albumId];
                 });
 
-                NSLog(@"### AlbumManager.refreshAlbumContents: ERROR in shotvibeAPI getAlbumContents for %lld:\n%@", albumId, [error localizedDescription]);
+                NSLog(@"### AlbumManager.refreshAlbumContents: ERROR in shotvibeAPI getAlbumContents for %lld:\n%@", albumId, exception.description);
                 // TODO Schedule to retry soon
                 return;
             }

@@ -58,13 +58,13 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 - (BOOL)uploadUserAvatar:(int64_t)userId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error;
 
 // Returns an array of `AlbumSummary` objects
-- (NSArray *)getAlbumsWithError:(NSError **)error;
+- (NSArray *)getAlbums;
 
 - (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess withError:(NSError **)error;
 
-- (SLAlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error;
+- (SLAlbumContents *)getAlbumContents:(int64_t)albumId;
 
-- (SLAlbumContents *)createNewBlankAlbum:(NSString *)albumName withError:(NSError **)error;
+- (SLAlbumContents *)createNewBlankAlbum:(NSString *)albumName;
 
 // Returns an array of `NSString` objects
 - (NSArray *)photosUploadRequest:(int)numPhotos;
@@ -74,7 +74,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 /**
  @param photoIds Array of `NSString` objects
  */
-- (SLAlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(NSArray *)photoIds withError:(NSError **)error;
+- (SLAlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(SLArrayList *)photoIds;
+
 - (SLAlbumContents *)albumAddMembers:(int64_t)albumId phoneNumbers:(NSArray *)phoneNumbers withError:(NSError **)error;
 - (BOOL)deletePhotos:(NSArray *)photos withError:(NSError **)error;
 
