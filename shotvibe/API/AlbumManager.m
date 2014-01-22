@@ -9,7 +9,7 @@
 #import "AlbumManager.h"
 #import "AlbumSummary.h"
 #import "AlbumContents.h"
-#import "PhotoUploadManager.h"
+#import "NewPhotoUploadManager.h"
 #import "AlbumPhoto.h"
 
 enum RefreshStatus
@@ -59,7 +59,7 @@ enum RefreshStatus
         albumListListeners = [[NSMutableArray alloc] init];
         albumContentsObjs = [[NSMutableDictionary alloc] init];
 
-        _photoUploadManager = [[PhotoUploadManager alloc] initWithShotVibeAPI:shotvibeAPI listener:self];
+        _photoUploadManager = [[NewPhotoUploadManager alloc] initWithShotVibeAPI:shotvibeAPI listener:self];
         _photoFilesManager = [[PhotoFilesManager alloc] init];
     }
 
