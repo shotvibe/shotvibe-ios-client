@@ -8,7 +8,6 @@
 
 #import "NewShotVibeAPI.h"
 
-
 @interface UploadTaskDelegate : NSObject
 
 @property (nonatomic, copy) ProgressHandlerType progressHandler;
@@ -32,6 +31,7 @@
 
     return self;
 }
+
 
 @end
 
@@ -81,8 +81,13 @@
 {
     //NSLog(@"Session handler: task %lu completed", (unsigned long)task.taskIdentifier);
 
-    [self getDelegateForTask:task].completionHandler();
 
+    UploadTaskDelegate *delegateForTask = [self getDelegateForTask:task];
+
+    if (delegateForTask) {
+        delegateForTask.completionHandler();
+    }
+    
     if (error) {
         NSLog(@"Error in task %lu\n%@", (unsigned long)task.taskIdentifier,[error localizedDescription]);
     }
@@ -100,20 +105,24 @@
 // TODO: implement these
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
 {
-
+    NSLog(@"didBecomeInvalidWithError");
 }
 
 
 - (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler
 {
-
+    NSLog(@"didReceiveChallenge");
+    // TODO: handle authentication here?
+    completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, NULL);
 }
+
 
 // TODO: also implement background method in AppDelegate
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
 {
-
+    NSLog(@"URLSessionDidFinishEventsForBackgroundURLSession");
 }
+
 
 @end
 
@@ -130,12 +139,13 @@
 @implementation NewShotVibeAPI
 
 // Duplicated, since it is not accessible from ShotVibeAPI.m
-static NSString *const BASE_URL = @"http://oblomov.local:8250";
+static NSString * const BASE_URL = @"https://api.shotvibe.com";
+//static NSString *const BASE_URL = @"http://oblomov.local:8250";
 //static NSString *const BASE_URL = @"http://localhost:8250";
 
 static NSString * const kSessionId = @"shotvibe.uploadSession";
 
-- (id)init
+- (id)initWithOldShotVibeAPI:(ShotVibeAPI *)oldShotVibeAPI
 {
     self = [super init];
 
@@ -145,7 +155,10 @@ static NSString * const kSessionId = @"shotvibe.uploadSession";
         //NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfiguration:kSessionId];
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
 
-        config.HTTPAdditionalHeaders = @{@"Authorization": @"<auth token>"}; // todo: set authorization
+        NSString *authToken = [@"Token " stringByAppendingString:oldShotVibeAPI.authData.authToken];
+        config.HTTPAdditionalHeaders = @{
+            @"Authorization" : authToken
+        };
 
         _uploadNSURLSession = [NSURLSession sessionWithConfiguration:config delegate:uploadListener delegateQueue:nil];
         // TODO: set queue?

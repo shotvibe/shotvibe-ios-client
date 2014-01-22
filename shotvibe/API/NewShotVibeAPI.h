@@ -14,6 +14,7 @@ typedef void (^ProgressHandlerType)(int64_t, int64_t);
 
 typedef void (^CompletionHandlerType)();
 
+- (id)initWithOldShotVibeAPI:(ShotVibeAPI *)oldShotVibeAPI;
 
 - (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler;
 

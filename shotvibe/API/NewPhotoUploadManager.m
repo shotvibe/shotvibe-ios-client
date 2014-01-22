@@ -129,7 +129,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     if (self) {
         shotVibeAPI_ = shotVibeAPI;
-        newShotVibeAPI_ = [[NewShotVibeAPI alloc] init];
+        newShotVibeAPI_ = [[NewShotVibeAPI alloc] initWithOldShotVibeAPI:shotVibeAPI];
 
         photosLoadQueue_ = dispatch_queue_create(NULL, NULL);
 
