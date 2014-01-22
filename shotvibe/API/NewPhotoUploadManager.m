@@ -207,6 +207,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         } completionHandler:^{
             // TODO: error handling
             NSLog(@"Task completion: photo %@ %@", photo.photoId, [req getFilename]);
+            [photo reportUploadComplete];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [listener_ photoUploadComplete:albumId];
             });
@@ -242,6 +243,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         NSMutableArray *photoIdsToAdd = [[NSMutableArray alloc] init];
 
         for (AlbumUploadingPhoto *photo in photosToAdd) {
+            [photo reportAddingToAlbum]; // TODO: this state is no longer used
             [photoIdsToAdd addObject:photo.photoId];
         }
 
