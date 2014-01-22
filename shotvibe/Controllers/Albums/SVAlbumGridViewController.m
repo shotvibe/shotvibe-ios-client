@@ -345,7 +345,7 @@
         [cell.networkImageView setPhoto:photo.serverPhoto.photoId photoUrl:photo.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
         cell.uploadProgressView.hidden = YES;
 
-        RCLog(@"cellForItemAtPath url:%@ added:%@ access:%@", photo.serverPhoto.url, photo.serverPhoto.dateAdded, photo.serverPhoto.lastAccess);
+        //RCLog(@"cellForItemAtPath url:%@ added:%@ access:%@", photo.serverPhoto.url, photo.serverPhoto.dateAdded, photo.serverPhoto.lastAccess);
 
         cell.labelNewView.hidden = ![photo.serverPhoto isNewForMember:self.albumManager.getShotVibeAPI.authData.userId];
     } else if (photo.uploadingPhoto) {
