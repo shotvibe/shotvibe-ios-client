@@ -163,6 +163,7 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfiguration:kSessionId];
         //NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
 
+        // TODO: Put authorization in tasks because session may be created before app is authorized.
         NSString *authToken = [@"Token " stringByAppendingString:oldShotVibeAPI.authData.authToken];
         config.HTTPAdditionalHeaders = @{
             @"Authorization" : authToken
