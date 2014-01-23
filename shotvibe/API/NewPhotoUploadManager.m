@@ -123,11 +123,11 @@
     ShotVibeAPI *shotVibeAPI_;
     NewShotVibeAPI *newShotVibeAPI_;
 
-    id<PhotosUploadListener> listener_;
+    id<PhotosUploadListener> listener_; // This is the AlbumManager
 
     dispatch_queue_t photosLoadQueue_;
 
-    NSMutableArray *photoIds_; // Elements are `NSString`
+    NSMutableArray *photoIds_; // A list of available photo ids, elements are `NSString`
 
     PhotoQueue *uploadingPhotos_; // contains the AlbumUploadingPhotos that are currently uploading to the server
     PhotoQueue *uploadedPhotos_; // contains the AlbumUploadingPhotos that have been uploaded, but not added to the album yet
@@ -179,12 +179,6 @@ static const NSTimeInterval RETRY_TIME = 5;
         [photoIds_ addObjectsFromArray:newPhotoIds];
     }
 
-    // TODO: check if all albumUpload report actions have been performed
-    // TODO: inform this listener
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    //        [listener_ photoUploadAdditions:albumId];
-    //    });
-
     for (int i = 0; i < [photoUploadRequests count]; i++) {
         PhotoUploadRequest *req = [photoUploadRequests objectAtIndex:i];
 
@@ -215,6 +209,12 @@ static const NSTimeInterval RETRY_TIME = 5;
             [self photoWasUploaded:photo album:albumId];
         }];
     }
+
+    // Show the newly created UploadingAlbumPhotos in the UI.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [listener_ photoUploadAdditions:albumId];
+    });
+
 }
 
 
@@ -233,6 +233,8 @@ static const NSTimeInterval RETRY_TIME = 5;
     NSArray *photosToAdd = nil;
     @synchronized(uploadingPhotos_) {
         if ([uploadingPhotos_ getPhotosForAlbum:albumId].count == 0) {
+            // Only when there are no other photos for this album currently uploading, we
+            // will add the photos to the album. This way only one push notification will be sent.
             photosToAdd = [uploadedPhotos_ getPhotosForAlbum:albumId];
 
             [uploadedPhotos_ removePhotosForAlbum:albumId];
