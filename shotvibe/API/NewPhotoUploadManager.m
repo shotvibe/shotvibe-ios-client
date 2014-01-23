@@ -275,15 +275,17 @@ static const NSTimeInterval RETRY_TIME = 5;
 }
 
 
-// Called by AlbumManager to get the uploading photos that need to be inserted in the album contents
+// Called by AlbumManager to get the uploading photos that need to be inserted in the album contents.
+// This includes the photos that have been uploaded but not yet added to an album (because more photos for
+// that album are currently uploading.)
 - (NSArray *)getUploadingPhotos:(int64_t)albumId
 {
     NSMutableArray *result = [[NSMutableArray alloc] init];
 
     @synchronized(uploadingPhotos_) {
-        NSArray *uploads = [uploadingPhotos_ getAllPhotos];
-
-        for (AlbumUploadingPhoto *upload in uploads) {
+        NSArray *uploading = [uploadingPhotos_ getAllPhotos];
+        NSArray *uploadingAndUploaded = [uploading arrayByAddingObjectsFromArray:[uploadedPhotos_ getAllPhotos]];
+        for (AlbumUploadingPhoto *upload in uploadingAndUploaded) {
             AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumUploadingPhoto:upload];
             [result addObject:albumPhoto];
         }
