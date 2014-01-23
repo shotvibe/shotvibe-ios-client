@@ -2,8 +2,8 @@
 //  NewShotVibeAPI.m
 //  ShotVibeUploadTest
 //
-//  Created by martijn on 21-01-14.
-//  Copyright (c) 2014 Oblomov Systems. All rights reserved.
+//  Created by Oblosys on 21-01-14.
+//  Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
 //
 
 #import "NewShotVibeAPI.h"

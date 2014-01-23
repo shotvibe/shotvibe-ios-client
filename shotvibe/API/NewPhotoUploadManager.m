@@ -2,8 +2,8 @@
 //  UploadManager.m
 //  ViewControllerExperiments
 //
-//  Created by martijn on 20-01-14.
-//  Copyright (c) 2014 Oblomov Systems. All rights reserved.
+//  Created by Oblosys on 20-01-14.
+//  Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
 //
 
 #import "NewPhotoUploadManager.h"
@@ -221,7 +221,6 @@ static const NSTimeInterval RETRY_TIME = 5;
 // Note: Cannot run for more than 30 seconds because it may be called from a background session.
 - (void)photoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
 {
-    // TODO: uploadingPhoto.setComplete // maybe, if we want this flag to survive
     //RCLog(@"uploadingPhotos_: %@", [uploadingPhotos_ description]);
     //RCLog(@"uploadedPhotos_: %@", [uploadedPhotos_ description]);
     [photo setUploadComplete];
