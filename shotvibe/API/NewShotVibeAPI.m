@@ -1,6 +1,6 @@
 //
 //  NewShotVibeAPI.m
-//  ShotVibeUploadTest
+//  shotvibe
 //
 //  Created by Oblosys on 21-01-14.
 //  Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
@@ -178,13 +178,15 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
 }
 
 
-const NSTimeInterval RETRY_TIME = 5;
+static const NSTimeInterval RETRY_TIME = 5;
 
 - (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
 {
     if (!self.uploadNSURLSession) { // if there's no session, we're on iOS < 7
+        RCLog(@"Starting asynchronous upload task as UIBackgroundTask (max 10 minutes)");
         [self photoUploadAsyncNoSession:photoId filePath:filePath progressHandler:progressHandler completionHandler:completionHandler];
     } else {
+        RCLog(@"Starting asynchronous upload task in NSURLSession");
         NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/", baseURL_, photoId]];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
         [request setHTTPMethod:@"PUT"];

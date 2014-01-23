@@ -141,6 +141,7 @@
 
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler
 {
+    // Note: this is called when
     RCLog(@"handleEventsForBackgroundURLSession");
     // TODO: re-create task delegates
     completionHandler();

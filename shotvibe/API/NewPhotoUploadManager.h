@@ -1,8 +1,8 @@
 //
 //  UploadManager.h
-//  ViewControllerExperiments
+//  shotvibe
 //
-//  Created by Oblosys on 20-01-14.
+//  Created by martijn on 20-01-14.
 //  Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
 //
 
@@ -14,9 +14,16 @@
 
 - (id)initWithBaseURL:(NSString *)baseURL shotVibeAPI:(ShotVibeAPI *)shotVibeAPI listener:(id<PhotosUploadListener>)listener;
 
+/**
+ @param photoUploadRequests Array of `PhotoUploadRequest` objects
+ */
 - (void)uploadPhotos:(int64_t)albumId photoUploadRequests:(NSArray *)photoUploadRequests;
 
-// Returns an array of `AlbumPhoto` objects
+/**
+ Return all photos that are currently uploading or have been uploaded but yet added to an album (because other photos for
+ that album are still uploading.)
+ @result Array of `AlbumPhoto` objects
+ */
 - (NSArray *)getUploadingPhotos:(int64_t)albumId;
 
 @end

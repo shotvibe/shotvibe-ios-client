@@ -1,6 +1,6 @@
 //
 //  UploadManager.m
-//  ViewControllerExperiments
+//  shotvibe
 //
 //  Created by Oblosys on 20-01-14.
 //  Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
@@ -182,34 +182,8 @@ static const NSTimeInterval RETRY_TIME = 5;
         [photoIds_ addObjectsFromArray:newPhotoIds];
     }
 
-    for (int i = 0; i < [photoUploadRequests count]; i++) {
-        PhotoUploadRequest *req = [photoUploadRequests objectAtIndex:i];
-
-        AlbumUploadingPhoto *photo = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:req album:albumId];
-
-        [photo setPhotoId:[photoIds_ objectAtIndex:0]];
-        [photoIds_ removeObjectAtIndex:0];
-
-        [photo prepareTmpFile:photoSaveQueue_];
-        [uploadingPhotos_ addPhoto:photo album:albumId];
-
-        NSString *filePath = [photo getFilename]; // Will block until the photo has been saved
-
-        // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
-        [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-            //RCLog(@"Task progress: photo %@ %.2f", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend);
-            [photo setUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [listener_ photoUploadProgress:albumId];
-            });
-        } completionHandler:^{
-            //RCLog(@"Task completion: photo %@ %@", photo.photoId, [req getFilename]);
-
-            // TODO: error handling
-
-            [self photoWasUploaded:photo album:albumId];
-        }];
-        // *INDENT-ON*
+    for (PhotoUploadRequest *req in photoUploadRequests) {
+        [self uploadPhoto:albumId photoUploadRequest:req];
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -218,8 +192,45 @@ static const NSTimeInterval RETRY_TIME = 5;
 }
 
 
-// Note: Cannot run for more than 30 seconds because it may be called from a background session.
-- (void)photoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
+// *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
+- (void)uploadPhoto:(int64_t)albumId photoUploadRequest:(PhotoUploadRequest *)req
+{
+    // Create a background task for iOS < 7.
+    __block UIBackgroundTaskIdentifier legacyBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        RCLog(@"background task ended");
+        [[UIApplication sharedApplication] endBackgroundTask:legacyBackgroundTaskID];
+    }];
+
+    AlbumUploadingPhoto *photo = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:req album:albumId];
+
+    [photo setPhotoId:[photoIds_ objectAtIndex:0]];
+    [photoIds_ removeObjectAtIndex:0];
+
+    [photo prepareTmpFile:photoSaveQueue_];
+    [uploadingPhotos_ addPhoto:photo album:albumId];
+
+    NSString *filePath = [photo getFilename]; // Will block until the photo has been saved
+
+    [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        //RCLog(@"Task progress: photo %@ %.2f", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend);
+        [photo setUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [listener_ photoUploadProgress:albumId];
+        });
+    } completionHandler:^{
+        //RCLog(@"Task completion: photo %@ %@", photo.photoId, [req getFilename]);
+
+        // TODO: error handling
+
+        [self photoWasUploaded:photo album:albumId legacyBackgroundTaskID:legacyBackgroundTaskID];
+    }];
+}
+// *INDENT-ON*
+
+
+/* Completion handler that is called when upload task succeeds. On iOS 7, this is run within an NSURLSession, meaning that it may not execute for more than 30 seconds. On iOS < 7 it is run as a background task that is allowed to run for 10 minutes. For iOS 7, this background task is also active, but since completion may occur well after the 10 minute interval has passed, we need to stay within the 30 seconds limit.
+ */
+- (void)photoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId legacyBackgroundTaskID:(UIBackgroundTaskIdentifier)legacyBackgroundTaskID
 {
     //RCLog(@"uploadingPhotos_: %@", [uploadingPhotos_ description]);
     //RCLog(@"uploadedPhotos_: %@", [uploadedPhotos_ description]);
@@ -266,17 +277,19 @@ static const NSTimeInterval RETRY_TIME = 5;
         }
         RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
 
+        __block UIBackgroundTaskIdentifier blockLegacyBackgroundTaskID = legacyBackgroundTaskID;
+
         // Notify album manager that all photos are uploaded, causing a server refresh
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoAlbumAllPhotosUploaded:albumId];
+            RCLog(@"End background task (id: #%d)", blockLegacyBackgroundTaskID);
+            [[UIApplication sharedApplication] endBackgroundTask:blockLegacyBackgroundTaskID];
         });
     }
 }
 
 
 // Called by AlbumManager to get the uploading photos that need to be inserted in the album contents.
-// This includes the photos that have been uploaded but not yet added to an album (because more photos for
-// that album are currently uploading.)
 - (NSArray *)getUploadingPhotos:(int64_t)albumId
 {
     NSMutableArray *result = [[NSMutableArray alloc] init];
