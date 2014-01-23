@@ -162,7 +162,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     // Request new ids if there are not enough
     if ([photoIds_ count] < [photoUploadRequests count]) {
-        NSLog(@"PhotoUploadManager Requesting Photo IDs");
+        RCLog(@"PhotoUploadManager Requesting Photo IDs");
 
         NSArray *newPhotoIds = nil;
         while (!newPhotoIds) {
@@ -171,7 +171,7 @@ static const NSTimeInterval RETRY_TIME = 5;
             // maybe not worth it since when calling this, usually all existing uploads will already have ids
             newPhotoIds = [shotVibeAPI_ photosUploadRequest:(int)[photoUploadRequests count] + 1 withError:&error];
             if (!newPhotoIds) {
-                NSLog(@"Error requesting photo IDS: %@", [error description]);
+                RCLog(@"Error requesting photo IDS: %@", [error description]);
                 [NSThread sleepForTimeInterval:RETRY_TIME];
             }
         }
@@ -199,14 +199,14 @@ static const NSTimeInterval RETRY_TIME = 5;
         NSString *filePath = [photo getFilename];
 
         [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-            //NSLog(@"Task progress: photo %@ %.2f", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend);
+            //RCLog(@"Task progress: photo %@ %.2f", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend);
             [photo reportUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [listener_ photoUploadProgress:albumId];
             });
         } completionHandler:^{
             // TODO: error handling
-            NSLog(@"Task completion: photo %@ %@", photo.photoId, [req getFilename]);
+            RCLog(@"Task completion: photo %@ %@", photo.photoId, [req getFilename]);
             [photo reportUploadComplete];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [listener_ photoUploadComplete:albumId];
@@ -222,8 +222,8 @@ static const NSTimeInterval RETRY_TIME = 5;
 - (void)photoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
 {
     // TODO: uploadingPhoto.setComplete // maybe, if we want this flag to survive
-    //NSLog(@"uploadingPhotos_: %@", [uploadingPhotos_ description]);
-    //NSLog(@"uploadedPhotos_: %@", [uploadedPhotos_ description]);
+    //RCLog(@"uploadingPhotos_: %@", [uploadingPhotos_ description]);
+    //RCLog(@"uploadedPhotos_: %@", [uploadedPhotos_ description]);
 
     @synchronized(uploadingPhotos_) {
         [uploadingPhotos_ removePhoto:photo album:albumId];
@@ -253,13 +253,13 @@ static const NSTimeInterval RETRY_TIME = 5;
         while (!photosSuccesfullyAdded) {
             NSError *error;
             if (![shotVibeAPI_ albumAddPhotos:albumId photoIds:photoIdsToAdd withError:&error]) {
-                NSLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
+                RCLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
                 [NSThread sleepForTimeInterval:RETRY_TIME];
             } else {
                 photosSuccesfullyAdded = YES;
             }
         }
-        NSLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
+        RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoAlbumAllPhotosUploaded:albumId];
         });

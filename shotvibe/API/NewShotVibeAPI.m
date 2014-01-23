@@ -78,7 +78,7 @@
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
-    //NSLog(@"Session handler: task %lu completed", (unsigned long)task.taskIdentifier);
+    //RCLog(@"Session handler: task %lu completed", (unsigned long)task.taskIdentifier);
 
 
     UploadTaskDelegate *delegateForTask = [self getDelegateForTask:task];
@@ -91,7 +91,7 @@
     }
 
     if (error) {
-        NSLog(@"Error in task %lu\n%@", (unsigned long)task.taskIdentifier, [error localizedDescription]);
+        RCLog(@"Error in task %lu\n%@", (unsigned long)task.taskIdentifier, [error localizedDescription]);
     }
 }
 
@@ -115,7 +115,7 @@
 // TODO: implement these
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
 {
-    NSLog(@"didBecomeInvalidWithError");
+    RCLog(@"didBecomeInvalidWithError");
 }
 
 
@@ -125,7 +125,7 @@
 // TODO: also implement background method in AppDelegate
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
 {
-    NSLog(@"URLSessionDidFinishEventsForBackgroundURLSession");
+    RCLog(@"URLSessionDidFinishEventsForBackgroundURLSession");
 }
 
 
@@ -177,7 +177,7 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
 // TODO: handle for iOS < 7
 - (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
 {
-    NSLog(@"%@", filePath);
+    RCLog(@"%@", filePath);
     NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/", baseURL_, photoId]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
     [request setHTTPMethod:@"PUT"];
