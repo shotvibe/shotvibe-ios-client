@@ -13,8 +13,13 @@
 #import "PhotosUploadListener.h"
 #import "AlbumPhoto.h"
 
-// TODO different name for class and methods, since this is not a queue
-@interface PhotoQueue : NSObject
+@interface PhotoDictionary : NSObject
+
+/*
+ * Dictionary for keeping lists of AlbumUploadingPhotos indexed by an album id.
+ *
+ * NOTE: this code is not thread safe
+ */
 
 - (void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId;
 
@@ -26,7 +31,7 @@
 
 @end
 
-@implementation PhotoQueue {
+@implementation PhotoDictionary {
     NSMutableDictionary *photosIndexedByAlbum_; // (int64_t)albumId -> NSMutableArray of (PhotoUploadRequest *)
 }
 
@@ -115,9 +120,7 @@
 
 @end
 
-@interface NewPhotoUploadManager ()
 
-@end
 
 @implementation NewPhotoUploadManager {
     ShotVibeAPI *shotVibeAPI_;
@@ -125,12 +128,12 @@
 
     id<PhotosUploadListener> listener_; // This is the AlbumManager
 
-    dispatch_queue_t photosLoadQueue_;
+    dispatch_queue_t photoSaveQueue_; // Used for saving photos to temp files.
 
-    NSMutableArray *photoIds_; // A list of available photo ids, elements are `NSString`
+    NSMutableArray *photoIds_; // A list of available photo ids for uploading, elements are `NSString`
 
-    PhotoQueue *uploadingPhotos_; // contains the AlbumUploadingPhotos that are currently uploading to the server
-    PhotoQueue *uploadedPhotos_; // contains the AlbumUploadingPhotos that have been uploaded, but not added to the album yet
+    PhotoDictionary *uploadingPhotos_; // contains the AlbumUploadingPhotos that are currently uploading to the server
+    PhotoDictionary *uploadedPhotos_; // contains the AlbumUploadingPhotos that have been uploaded, but not added to the album yet
 }
 
 static const NSTimeInterval RETRY_TIME = 5;
@@ -146,12 +149,12 @@ static const NSTimeInterval RETRY_TIME = 5;
 
         newShotVibeAPI_ = [[NewShotVibeAPI alloc] initWithBaseURL:(NSString *)baseURL oldShotVibeAPI:shotVibeAPI];
 
-        photosLoadQueue_ = dispatch_queue_create(NULL, NULL);
+        photoSaveQueue_ = dispatch_queue_create(NULL, NULL);
 
         photoIds_ = [[NSMutableArray alloc] init];
 
-        uploadingPhotos_ = [[PhotoQueue alloc] init];
-        uploadedPhotos_ = [[PhotoQueue alloc] init];
+        uploadingPhotos_ = [[PhotoDictionary alloc] init];
+        uploadedPhotos_ = [[PhotoDictionary alloc] init];
     }
 
     return self;
@@ -187,10 +190,10 @@ static const NSTimeInterval RETRY_TIME = 5;
         [photo setPhotoId:[photoIds_ objectAtIndex:0]];
         [photoIds_ removeObjectAtIndex:0];
 
-        [photo prepareTmpFile:photosLoadQueue_];
+        [photo prepareTmpFile:photoSaveQueue_];
         [uploadingPhotos_ addPhoto:photo album:albumId];
 
-        NSString *filePath = [photo getFilename];
+        NSString *filePath = [photo getFilename]; // Will block until the photo has been saved
 
         [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
             //RCLog(@"Task progress: photo %@ %.2f", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend);
@@ -200,7 +203,7 @@ static const NSTimeInterval RETRY_TIME = 5;
             });
         } completionHandler:^{
             // TODO: error handling
-            RCLog(@"Task completion: photo %@ %@", photo.photoId, [req getFilename]);
+            //RCLog(@"Task completion: photo %@ %@", photo.photoId, [req getFilename]);
             [photo reportUploadComplete];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [listener_ photoUploadComplete:albumId];
@@ -210,11 +213,9 @@ static const NSTimeInterval RETRY_TIME = 5;
         }];
     }
 
-    // Show the newly created UploadingAlbumPhotos in the UI.
     dispatch_async(dispatch_get_main_queue(), ^{
-        [listener_ photoUploadAdditions:albumId];
+        [listener_ photoUploadAdditions:albumId]; // Show the newly created UploadingAlbumPhotos in the UI.
     });
-
 }
 
 
@@ -268,7 +269,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     }
 }
 
-
+// Called by AlbumManager to get the uploading photos that need to be inserted in the album contents
 - (NSArray *)getUploadingPhotos:(int64_t)albumId
 {
     NSMutableArray *result = [[NSMutableArray alloc] init];
