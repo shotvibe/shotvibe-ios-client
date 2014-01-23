@@ -43,7 +43,13 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
         [_uploadNSURLSession getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
             RCLog(@"NSURLSession with id %@, nr of current upload tasks: %d\n", kSessionId, [uploadTasks count]);
             for (NSURLSessionUploadTask *task in uploadTasks) {
-                RCLog(@"  UploadTask #%d", task.taskIdentifier);
+                RCLog(@"Cancelling upload task #%d", task.taskIdentifier);
+                [task cancel];
+                /* We currently don't support tasks that persist after the app was terminated, as this requires us to restore the task-specific delegates and upload and uploaded queues.
+                 For now, background tasks finishing while the app was terminated, or that were still running when the
+                 app started will be canceled.
+                 TODO: provide a fail safe similar to Android, or resurrect the previous tasks
+                 */
             }
         }];
         // *INDENT-ON*
