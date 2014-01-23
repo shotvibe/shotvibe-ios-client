@@ -9,117 +9,10 @@
 #import "NewPhotoUploadManager.h"
 #import "NewShotVibeAPI.h"
 #import "PhotoUploadRequest.h"
-#import "AlbumUploadingPhoto.h"
 #import "PhotosUploadListener.h"
 #import "AlbumPhoto.h"
-
-@interface PhotoDictionary : NSObject
-
-/*
- * Dictionary for keeping lists of AlbumUploadingPhotos indexed by an album id.
- *
- * NOTE: this code is not thread safe
- */
-
-- (void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId;
-
-- (NSArray *)getPhotosForAlbum:(int64_t)albumId;
-
-- (NSArray *)getAllAlbumIds;
-
-- (NSArray *)getAllPhotos;
-
-@end
-
-@implementation PhotoDictionary {
-    NSMutableDictionary *photosIndexedByAlbum_; // (int64_t)albumId -> NSMutableArray of (PhotoUploadRequest *)
-}
-
-- (id)init
-{
-    self = [super init];
-
-    if (self) {
-        photosIndexedByAlbum_ = [[NSMutableDictionary alloc] init];
-    }
-    return self;
-}
-
-
-- (void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
-{
-    NSMutableArray *photosAlreadyInQueue = [photosIndexedByAlbum_ objectForKey:[NSNumber numberWithLongLong:albumId]];
-
-    if (!photosAlreadyInQueue) {
-        photosAlreadyInQueue = [[NSMutableArray alloc] init];
-        [photosIndexedByAlbum_ setObject:photosAlreadyInQueue forKey:[NSNumber numberWithLongLong:albumId]];
-    }
-
-    [photosAlreadyInQueue addObject:photo];
-}
-
-
-- (BOOL)removePhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
-{
-    NSMutableArray *photosInQueue = [photosIndexedByAlbum_ objectForKey:[NSNumber numberWithLongLong:albumId]];
-
-    if (photosInQueue && [photosInQueue containsObject:photo]) {
-        [photosInQueue removeObject:photo];
-
-        if ([photosInQueue count] == 0) {
-            [photosIndexedByAlbum_ removeObjectForKey:[NSNumber numberWithLongLong:albumId]];
-        }
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
-
-- (NSArray *)getPhotosForAlbum:(int64_t)albumId
-{ // return a non-mutable array for safety
-    return [NSArray arrayWithArray:[photosIndexedByAlbum_ objectForKey:[NSNumber numberWithLongLong:albumId]]];
-}
-
-
-- (void)removePhotosForAlbum:(int64_t)albumId
-{
-    [photosIndexedByAlbum_ removeObjectForKey:[NSNumber numberWithLongLong:albumId]];
-}
-
-
-- (NSArray *)getAllAlbumIds
-{
-    return photosIndexedByAlbum_.allKeys;
-}
-
-
-// Return AlbumUploadingPhotos for all albums
-- (NSArray *)getAllPhotos
-{
-    NSMutableArray *allPhotos = [[NSMutableArray alloc] init];
-
-    for (NSNumber *albumId in photosIndexedByAlbum_.allKeys) {
-        [allPhotos addObjectsFromArray:[photosIndexedByAlbum_ objectForKey:albumId]];
-    }
-
-    return [NSArray arrayWithArray:allPhotos];
-}
-
-
-- (NSString *)description
-{
-    NSString *str = @"PhotoQueue:";
-    for (NSNumber *albumId in photosIndexedByAlbum_.allKeys) {
-        str = [NSString stringWithFormat:@"%@ (album:%@, #photos:%lu)", str, albumId, (unsigned long)[[photosIndexedByAlbum_ objectForKey:albumId] count]];
-    }
-
-    return str;
-}
-
-
-@end
-
+#import "AlbumUploadingPhoto.h"
+#import "PhotoDictionary.h"
 
 
 @implementation NewPhotoUploadManager {
@@ -251,7 +144,7 @@ static const NSTimeInterval RETRY_TIME = 5;
             // will add the photos to the album. This way only one push notification will be sent.
             photosToAdd = [uploadedPhotos_ getPhotosForAlbum:albumId];
 
-            [uploadedPhotos_ removePhotosForAlbum:albumId];
+            [uploadedPhotos_ removeAllPhotosForAlbum:albumId];
         }
     }
 

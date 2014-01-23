@@ -316,6 +316,7 @@
 		04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D6173032B200973BC0 /* phoneNumberContainer.png */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
+		1054076D18917F600075C473 /* PhotoDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1054076C18917F600075C473 /* PhotoDictionary.m */; };
 		10685733188EF28700B2FC03 /* NewPhotoUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 10685732188EF28700B2FC03 /* NewPhotoUploadManager.m */; };
 		10685736188EF76900B2FC03 /* NewShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 10685735188EF76900B2FC03 /* NewShotVibeAPI.m */; };
 		108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF051884083200757E36 /* NewRelicAgent.framework */; };
@@ -977,6 +978,8 @@
 		04C407D6173032B200973BC0 /* phoneNumberContainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoneNumberContainer.png; sourceTree = "<group>"; };
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
+		1054076B18917F600075C473 /* PhotoDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoDictionary.h; path = shotvibe/API/PhotoDictionary.h; sourceTree = SOURCE_ROOT; };
+		1054076C18917F600075C473 /* PhotoDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoDictionary.m; path = shotvibe/API/PhotoDictionary.m; sourceTree = SOURCE_ROOT; };
 		10685731188EF28700B2FC03 /* NewPhotoUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewPhotoUploadManager.h; path = shotvibe/API/NewPhotoUploadManager.h; sourceTree = SOURCE_ROOT; };
 		10685732188EF28700B2FC03 /* NewPhotoUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewPhotoUploadManager.m; path = shotvibe/API/NewPhotoUploadManager.m; sourceTree = SOURCE_ROOT; };
 		10685734188EF76900B2FC03 /* NewShotVibeAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewShotVibeAPI.h; path = shotvibe/API/NewShotVibeAPI.h; sourceTree = SOURCE_ROOT; };
@@ -1015,10 +1018,10 @@
 		108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MPImageEffects.m"; sourceTree = "<group>"; };
 		108CDF6118846B9000757E36 /* UIView+MPSnapshotImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MPSnapshotImage.h"; sourceTree = "<group>"; };
 		108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPSnapshotImage.m"; sourceTree = "<group>"; };
+		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		10F1A2D91885411E0051E267 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -2531,6 +2534,8 @@
 				66278CF21867C94900D23F34 /* JSON.m */,
 				66278CF31867C94900D23F34 /* PhotoBitmap.h */,
 				66278CF41867C94900D23F34 /* PhotoBitmap.m */,
+				1054076B18917F600075C473 /* PhotoDictionary.h */,
+				1054076C18917F600075C473 /* PhotoDictionary.m */,
 				66278CF51867C94900D23F34 /* PhotoFilesManager.h */,
 				66278CF61867C94900D23F34 /* PhotoFilesManager.m */,
 				66278CF71867C94900D23F34 /* PhotoSize.h */,
@@ -3399,6 +3404,7 @@
 				66278CC61867C57300D23F34 /* SVSettingsViewController.m in Sources */,
 				3B3AD15617CB4A9C004D24A9 /* SDWebImageCompat.m in Sources */,
 				66278C8B1867C38300D23F34 /* PhotoScrollView.m in Sources */,
+				1054076D18917F600075C473 /* PhotoDictionary.m in Sources */,
 				66278CE31867C62300D23F34 /* SVCopyActivity.m in Sources */,
 				3B3AD15717CB4A9C004D24A9 /* SDWebImageDecoder.m in Sources */,
 				3B3AD15817CB4A9C004D24A9 /* SDWebImageDownloader.m in Sources */,
