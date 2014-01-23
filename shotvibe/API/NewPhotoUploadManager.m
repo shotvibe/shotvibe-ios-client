@@ -195,6 +195,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
         NSString *filePath = [photo getFilename]; // Will block until the photo has been saved
 
+        // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
         [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
             //RCLog(@"Task progress: photo %@ %.2f", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend);
             [photo setUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
@@ -208,6 +209,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
             [self photoWasUploaded:photo album:albumId];
         }];
+        // *INDENT-ON*
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{

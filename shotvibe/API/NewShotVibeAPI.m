@@ -142,6 +142,9 @@
 
 @implementation NewShotVibeAPI {
     NSString *baseURL_;
+    ShotVibeAPI *oldShotVibeAPI_;
+
+    dispatch_queue_t uploadQueue_;
 }
 
 static NSString *const kSessionId = @"shotvibe.uploadSession";
@@ -152,8 +155,7 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
 
     if (self) {
         baseURL_ = baseURL;
-
-        _authData = oldShotVibeAPI.authData;
+        oldShotVibeAPI_ = oldShotVibeAPI;
 
         UploadSessionDelegate *uploadListener = [[UploadSessionDelegate alloc] init];
 
@@ -162,37 +164,68 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
 
         _uploadNSURLSession = [NSURLSession sessionWithConfiguration:config delegate:uploadListener delegateQueue:nil];
         // TODO: set queue?
-
+        // *INDENT-OFF* Uncrustify @""/cast problem https://github.com/shotvibe/shotvibe-ios-client/issues/260
         [_uploadNSURLSession getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
             RCLog(@"NSURLSession with id %@, nr of current upload tasks: %d\n", kSessionId, [uploadTasks count]);
             for (NSURLSessionUploadTask *task in uploadTasks) {
                 RCLog(@"  UploadTask #%d", task.taskIdentifier);
             }
         }];
+        // *INDENT-ON*
+        uploadQueue_ = dispatch_queue_create(NULL, NULL);
     }
     return self;
 }
 
 
-// TODO: handle for iOS < 7
+const NSTimeInterval RETRY_TIME = 5;
+
 - (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
 {
-    RCLog(@"%@", filePath);
-    NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/", baseURL_, photoId]];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
-    [request setHTTPMethod:@"PUT"];
-    if (self.authData != nil) {
-        [request setValue:[@"Token " stringByAppendingString:self.authData.authToken] forHTTPHeaderField:@"Authorization"];
-    } else { // This is a serious error; it should not be possible to start tasks without authentication.
-        RCLog(@"ERROR: upload task started without authentication.\nFile: %@", filePath);
+    if (!self.uploadNSURLSession) { // if there's no session, we're on iOS < 7
+        [self photoUploadAsyncNoSession:photoId filePath:filePath progressHandler:progressHandler completionHandler:completionHandler];
+    } else {
+        NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/", baseURL_, photoId]];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
+        [request setHTTPMethod:@"PUT"];
+        if (oldShotVibeAPI_.authData != nil) {
+            [request setValue:[@"Token " stringByAppendingString : oldShotVibeAPI_.authData.authToken] forHTTPHeaderField:@"Authorization"];
+        } else { // This is a serious error; it should not be possible to start tasks without authentication.
+            RCLog(@"ERROR: upload task started without authentication.\nFile: %@", filePath);
+        }
+
+        NSURL *photoFileUrl = [NSURL fileURLWithPath:filePath];
+
+        NSURLSessionUploadTask *uploadTask = [self.uploadNSURLSession uploadTaskWithRequest:request fromFile:photoFileUrl];
+
+        [((UploadSessionDelegate *)[self.uploadNSURLSession delegate])setDelegateForTask : uploadTask progressHandler : progressHandler completionHandler : completionHandler];
+        // TODO: need to access delegate type safe. Maybe subclass uploadTask?
+        [uploadTask resume];
     }
+}
 
-    NSURL *photoFileUrl = [NSURL fileURLWithPath:filePath];
-    NSURLSessionUploadTask *uploadTask = [self.uploadNSURLSession uploadTaskWithRequest:request fromFile:photoFileUrl];
 
-    [((UploadSessionDelegate *)[self.uploadNSURLSession delegate])setDelegateForTask:uploadTask progressHandler:progressHandler completionHandler:completionHandler];
-    // TODO: need to access delegate type safe. Maybe subclass uploadTask?
-    [uploadTask resume];
+// Asynchronous upload for iOS <7, when NSURLSession is not available
+// Note: callee must guarantee this function can execute in the background
+- (void)photoUploadAsyncNoSession:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
+{
+    // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
+    dispatch_async(uploadQueue_, ^{ // TODO: also want parallelism here?
+        BOOL photoSuccesfullyUploaded = NO;
+        while (!photoSuccesfullyUploaded) {
+            NSError *error;
+            photoSuccesfullyUploaded = [oldShotVibeAPI_ photoUpload:photoId filePath:filePath uploadProgress:^(int bytesUploaded, int bytesTotal) {
+                progressHandler(bytesUploaded, bytesTotal);
+            } withError:&error];
+
+            if (!photoSuccesfullyUploaded) {
+                RCLog(@"Error uploading photo (photoId: %@):\n%@", photoId, [error description]);
+                [NSThread sleepForTimeInterval:RETRY_TIME];
+            }
+        }
+        completionHandler();
+    });
+    // *INDENT-ON*
 }
 
 
