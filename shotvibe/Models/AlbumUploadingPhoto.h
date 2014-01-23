@@ -18,15 +18,15 @@
 
 - (BOOL)isUploadComplete;
 
-- (void)reportUploadComplete;
+- (void)setUploadComplete;
 
 - (BOOL)isAddingToAlbum;
 
-- (void)reportAddingToAlbum;
+- (void)setAddingToAlbum;
 
 - (float)getUploadProgress;
 
-- (void)reportUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal;
+- (void)setUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal;
 
 - (void)prepareTmpFile:(dispatch_queue_t)dispatchQueue;
 

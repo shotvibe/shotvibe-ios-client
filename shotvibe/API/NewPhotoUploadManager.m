@@ -197,14 +197,14 @@ static const NSTimeInterval RETRY_TIME = 5;
 
         [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
             //RCLog(@"Task progress: photo %@ %.2f", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend);
-            [photo reportUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
+            [photo setUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [listener_ photoUploadProgress:albumId];
             });
         } completionHandler:^{
             // TODO: error handling
             //RCLog(@"Task completion: photo %@ %@", photo.photoId, [req getFilename]);
-            [photo reportUploadComplete];
+            [photo setUploadComplete];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [listener_ photoUploadComplete:albumId];
             });
@@ -246,7 +246,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         NSMutableArray *photoIdsToAdd = [[NSMutableArray alloc] init];
 
         for (AlbumUploadingPhoto *photo in photosToAdd) {
-            [photo reportAddingToAlbum]; // TODO: this state is no longer used
+            [photo setAddingToAlbum]; // TODO: this state is no longer used
             [photoIdsToAdd addObject:photo.photoId];
         }
 

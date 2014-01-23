@@ -171,7 +171,7 @@ const NSTimeInterval RETRY_TIME = 5;
                 // All of the uploading photos in the album have completed uploading
                 // Prepare to add them to the album:
                 for(AlbumUploadingPhoto *u in albumUploads) {
-                    [u reportAddingToAlbum];
+                    [u setAddingToAlbum];
                 }
                 break; // break from the YES loop, since all albums have been uploaded
             }
@@ -215,7 +215,7 @@ const NSTimeInterval RETRY_TIME = 5;
         while (!photoSuccesfullyUploaded) {
             NSError *error;
             photoSuccesfullyUploaded = [shotvibeAPI_ photoUpload:nextPhotoUpload.photoId filePath:filename uploadProgress:^(int bytesUploaded, int bytesTotal) {
-                [nextPhotoUpload reportUploadProgress:bytesUploaded bytesTotal:bytesTotal];
+                [nextPhotoUpload setUploadProgress:bytesUploaded bytesTotal:bytesTotal];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [listener_ photoUploadProgress:albumId];
                 });
@@ -229,7 +229,7 @@ const NSTimeInterval RETRY_TIME = 5;
 
         RCLog(@"Succesfully uploaded photo (photoId: %@)", nextPhotoUpload.photoId);
 
-        [nextPhotoUpload reportUploadComplete];
+        [nextPhotoUpload setUploadComplete];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoUploadComplete:albumId];

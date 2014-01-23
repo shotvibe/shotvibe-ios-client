@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
     }
 }
 
-- (void)reportUploadComplete
+- (void)setUploadComplete
 {
     @synchronized (lock_) {
         uploadStatus_ = UploadStatusComplete;
@@ -66,7 +66,7 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
     }
 }
 
-- (void)reportAddingToAlbum
+- (void)setAddingToAlbum
 {
     @synchronized (lock_) {
         uploadStatus_ = UploadStatusAddingToAlbum;
@@ -80,7 +80,7 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
     }
 }
 
-- (void)reportUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal
+- (void)setUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal
 {
     @synchronized (lock_) {
         uploadStatus_ = UploadStatusUploading;
