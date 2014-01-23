@@ -119,12 +119,7 @@
 }
 
 
-- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler
-{
-    NSLog(@"didReceiveChallenge");
-    // TODO: handle authentication here?
-    completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, NULL);
-}
+// No need for didReceiveChallenge: since we set the authentication token in the url request for the upload task
 
 
 // TODO: also implement background method in AppDelegate
@@ -140,7 +135,7 @@
 
 @interface NewShotVibeAPI ()
 
-@property (atomic, strong) NSURLSession *uploadNSURLSession;
+@property (nonatomic, strong) NSURLSession *uploadNSURLSession;
 
 @end
 
@@ -158,16 +153,12 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
     if (self) {
         baseURL_ = baseURL;
 
+        _authData = oldShotVibeAPI.authData;
+
         UploadSessionDelegate *uploadListener = [[UploadSessionDelegate alloc] init];
 
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfiguration:kSessionId];
         //NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-
-        // TODO: Put authorization in tasks because session may be created before app is authorized.
-        NSString *authToken = [@"Token " stringByAppendingString:oldShotVibeAPI.authData.authToken];
-        config.HTTPAdditionalHeaders = @{
-            @"Authorization" : authToken
-        };
 
         _uploadNSURLSession = [NSURLSession sessionWithConfiguration:config delegate:uploadListener delegateQueue:nil];
         // TODO: set queue?
@@ -190,6 +181,12 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
     NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/", baseURL_, photoId]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
     [request setHTTPMethod:@"PUT"];
+    if (self.authData != nil) {
+        [request setValue:[@"Token " stringByAppendingString:self.authData.authToken] forHTTPHeaderField:@"Authorization"];
+    } else { // This is a serious error; it should not be possible to start tasks without authentication.
+        RCLog(@"ERROR: upload task started without authentication.\nFile: %@", filePath);
+    }
+
     NSURL *photoFileUrl = [NSURL fileURLWithPath:filePath];
     NSURLSessionUploadTask *uploadTask = [self.uploadNSURLSession uploadTaskWithRequest:request fromFile:photoFileUrl];
 
