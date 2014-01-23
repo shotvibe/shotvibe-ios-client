@@ -202,12 +202,9 @@ static const NSTimeInterval RETRY_TIME = 5;
                 [listener_ photoUploadProgress:albumId];
             });
         } completionHandler:^{
-            // TODO: error handling
             //RCLog(@"Task completion: photo %@ %@", photo.photoId, [req getFilename]);
-            [photo setUploadComplete];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [listener_ photoUploadComplete:albumId];
-            });
+
+            // TODO: error handling
 
             [self photoWasUploaded:photo album:albumId];
         }];
@@ -225,8 +222,12 @@ static const NSTimeInterval RETRY_TIME = 5;
     // TODO: uploadingPhoto.setComplete // maybe, if we want this flag to survive
     //RCLog(@"uploadingPhotos_: %@", [uploadingPhotos_ description]);
     //RCLog(@"uploadedPhotos_: %@", [uploadedPhotos_ description]);
+    [photo setUploadComplete];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [listener_ photoUploadComplete:albumId]; // Remove progress bars in the UI
+    });
 
-    @synchronized(uploadingPhotos_) {
+    @synchronized(uploadingPhotos_) { // move photo from uploading to uploaded
         [uploadingPhotos_ removePhoto:photo album:albumId];
         [uploadedPhotos_ addPhoto:photo album:albumId];
     }
@@ -253,7 +254,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         BOOL photosSuccesfullyAdded = NO;
         // TODO: this loop is not okay for background thread
 
-        while (!photosSuccesfullyAdded) {
+        while (!photosSuccesfullyAdded) { // continuously try an add-to-album request, until success
             NSError *error;
             if (![shotVibeAPI_ albumAddPhotos:albumId photoIds:photoIdsToAdd withError:&error]) {
                 RCLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
@@ -263,11 +264,14 @@ static const NSTimeInterval RETRY_TIME = 5;
             }
         }
         RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
+
+        // Notify album manager that all photos are uploaded, causing a server refresh
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoAlbumAllPhotosUploaded:albumId];
         });
     }
 }
+
 
 // Called by AlbumManager to get the uploading photos that need to be inserted in the album contents
 - (NSArray *)getUploadingPhotos:(int64_t)albumId
