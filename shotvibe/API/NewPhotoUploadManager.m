@@ -88,12 +88,8 @@ static const NSTimeInterval RETRY_TIME = 5;
 // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
 - (void)uploadPhoto:(int64_t)albumId photoUploadRequest:(PhotoUploadRequest *)req
 {
-    // Create a background task for iOS < 7.
-    __block UIBackgroundTaskIdentifier legacyBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        RCLog(@"background task ended");
-        [[UIApplication sharedApplication] endBackgroundTask:legacyBackgroundTaskID];
-    }];
-
+    // On iOS < 7, the entire upload process will be in a background task, and needs to finish within 10 minutes.
+    UIBackgroundTaskIdentifier legacyBackgroundTaskID = [self beginLegacyBackgroundSession];
     AlbumUploadingPhoto *photo = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:req album:albumId];
 
     [photo setPhotoId:[photoIds_ objectAtIndex:0]];
@@ -176,10 +172,10 @@ static const NSTimeInterval RETRY_TIME = 5;
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoAlbumAllPhotosUploaded:albumId];
             RCLog(@"End background task (id: #%d)", blockLegacyBackgroundTaskID);
-            [[UIApplication sharedApplication] endBackgroundTask:blockLegacyBackgroundTaskID];
+            [self endLegacyBackgroundSession:blockLegacyBackgroundTaskID];
         });
     } else {
-        [[UIApplication sharedApplication] endBackgroundTask:legacyBackgroundTaskID];
+        [self endLegacyBackgroundSession:legacyBackgroundTaskID];
     }
 }
 
@@ -203,6 +199,28 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 
 #pragma mark - Utility functions
+
+// Start a background session if we're on iOS <7 where there's no NSURLSession
+- (UIBackgroundTaskIdentifier)beginLegacyBackgroundSession
+{
+    if ([NSURLSession class]) {
+        return UIBackgroundTaskInvalid;
+    } else {
+        __block UIBackgroundTaskIdentifier legacyBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            RCLog(@"background task ended");
+            [[UIApplication sharedApplication] endBackgroundTask:legacyBackgroundTaskID];
+        }];
+        return legacyBackgroundTaskID;
+    }
+}
+
+
+- (void)endLegacyBackgroundSession:(UIBackgroundTaskIdentifier)legacyBackgroundTaskID
+{
+    if (legacyBackgroundTaskID != UIBackgroundTaskInvalid) {
+        [[UIApplication sharedApplication] endBackgroundTask:legacyBackgroundTaskID];
+    }
+}
 
 
 NSString * showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
