@@ -178,13 +178,11 @@ static const NSTimeInterval RETRY_TIME = 5;
         [newShotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^{
             RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
 
-            __block UIBackgroundTaskIdentifier blockLegacyBackgroundTaskID = legacyBackgroundTaskID;
-
             // Notify album manager that all photos are uploaded, causing a server refresh
             dispatch_async(dispatch_get_main_queue(), ^{
                 [listener_ photoAlbumAllPhotosUploaded:albumId];
-                RCLog(@"End background task (id: #%d)", blockLegacyBackgroundTaskID);
-                [self endLegacyBackgroundSession:blockLegacyBackgroundTaskID];
+                RCLog(@"End background task (id: #%d)", legacyBackgroundTaskID);
+                [self endLegacyBackgroundSession:legacyBackgroundTaskID];
             });
         }];
     } else {
