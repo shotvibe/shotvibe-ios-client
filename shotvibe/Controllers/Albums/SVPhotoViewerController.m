@@ -753,7 +753,7 @@
 				uploadingAviaryPicture = YES;
 				
 				// Upload the saved photo. This will call the refresh 2 times, one with the local photo and one after the photo is being uploaded
-				PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
+                //PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
                 // TODO upload photoUploadRequest to photoUploadManager
 				
 				// Send a notification the the main screen to move this album on top of the list
