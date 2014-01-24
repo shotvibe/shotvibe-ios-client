@@ -16,6 +16,8 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) AlbumManager *albumManager;
 
+@property (copy) void (^ uploadSessionCompletionHandler)(); //stored by handleEventsForBackgroundURLSession for later use
+
 
 #pragma mark - Class Methods
 

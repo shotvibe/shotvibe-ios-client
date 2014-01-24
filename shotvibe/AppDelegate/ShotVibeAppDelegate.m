@@ -17,6 +17,7 @@
 #import "SVSidebarManagementController.h"
 #import "SVSidebarMemberController.h"
 #import "SVNavigationController.h"
+#import "PhotoUploadManager.h"
 
 #import "MPNotificationView.h"
 #import "MFSideMenu.h"
@@ -141,10 +142,18 @@
 
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler
 {
-    // Note: this is called when
     RCLog(@"handleEventsForBackgroundURLSession");
-    // TODO: re-create task delegates
-    completionHandler();
+    // This is called when a background task finishes or requires authentication. There are two possible situations:
+    //  - The app was suspended but still running
+    //  - The app has been launched to handle the background events
+    // After handling the events, the completionHandler needs to be called
+
+    // Store the completion handler for the appropriate NSURLSession (currently we only have one: the upload session)
+    if ([identifier isEqualToString:kUploadSessionId]) {
+        self.uploadSessionCompletionHandler = completionHandler;
+    } else {
+        RCLog(@"ERROR: request to handle background events for unknown NSURLSession: %@",identifier);
+    }
 }
 
 

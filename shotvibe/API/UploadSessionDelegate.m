@@ -7,6 +7,7 @@
 //
 
 #import "UploadSessionDelegate.h"
+#import "ShotVibeAppDelegate.h"
 
 @interface UploadTaskDelegate : NSObject
 
@@ -105,7 +106,7 @@
 #pragma mark - NSURLSessionDelegate Methods
 
 
-// TODO: implement these
+// TODO: implement this
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
 {
     RCLog(@"didBecomeInvalidWithError");
@@ -114,11 +115,19 @@
 
 // No need for didReceiveChallenge: since we set the authentication token in the url request for the upload task
 
-
-// TODO: also implement background method in AppDelegate
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
 {
     RCLog(@"URLSessionDidFinishEventsForBackgroundURLSession");
+    ShotVibeAppDelegate *appDelegate = [ShotVibeAppDelegate sharedDelegate];
+
+    if (appDelegate.uploadSessionCompletionHandler) {
+        // In case the app was not in the foreground, after the task delegate calls have been completed,
+        // call the completion handler that was set by the ShotVibeAppDelegate on handleEventsForBackgroundURLSession
+        RCLog(@"Calling stored completion handler");
+        void (^ completionHandler)() = appDelegate.uploadSessionCompletionHandler;
+        appDelegate.uploadSessionCompletionHandler = nil;
+        completionHandler();
+    }
 }
 
 
