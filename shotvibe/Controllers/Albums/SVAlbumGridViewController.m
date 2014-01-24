@@ -249,15 +249,18 @@
 	//self.scrollToBottom = YES;
 	self.scrollToTop = YES;
 	
-//    SVPickerController *manager = [[SVPickerController alloc] init];
-//    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
-//    [self presentViewController:nc animated:NO completion:nil];
+    SVPickerController *manager = [[SVPickerController alloc] init];
+    manager.albumManager = self.albumManager;
+    manager.albumId = self.albumId;
 
-	cameraNavController = [[SVCameraNavController alloc] init];
-	cameraNavController.cameraDelegate = self;
-	cameraNavController.albumId = self.albumId;
-	cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
+    [self presentViewController:nc animated:NO completion:nil];
+
+//	cameraNavController = [[SVCameraNavController alloc] init];
+//	cameraNavController.cameraDelegate = self;
+//	cameraNavController.albumId = self.albumId;
+//	cameraNavController.albumManager = self.albumManager;
+//    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 
 - (void)backButtonPressed:(id)sender

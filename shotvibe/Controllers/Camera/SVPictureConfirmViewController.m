@@ -9,22 +9,16 @@
 #import "SVPictureConfirmViewController.h"
 #import "SVPickerController.h"
 #import "PhotoUploadRequest.h"
+#import "SVDefines.h"
 
 @interface SVPictureConfirmViewController ()
 
 @property (nonatomic) BOOL scrolling;
+@property (nonatomic) BOOL currentPage;
 
 @end
 
 @implementation SVPictureConfirmViewController
-
-- (void)setImages:(NSArray *)images
-{
-    _images = images;
-    [self.collectionView reloadData];
-    [self populateScrollView];
-}
-
 
 - (void)viewDidLoad
 {
@@ -43,9 +37,33 @@
 
     [self.collectionView registerClass:[SVPickerCell class] forCellWithReuseIdentifier:@"PickerCell"];
 
-    self.title = [NSString stringWithFormat:@"%d/%d", 1, self.images.count];
+    if (IS_IOS7) {
+        [self prefersStatusBarHidden];
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+}
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    self.currentPage = [self.images count];
+    [self.collectionView reloadData];
     [self populateScrollView];
+    [self fixTitle];
+}
+
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES; // setNeedsStatusBarAppearanceUpdate
+}
+
+
+- (UIViewController *)childViewControllerForStatusBarHidden
+{
+    return nil;
 }
 
 
@@ -92,8 +110,8 @@
     }
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * i, self.scrollView.frame.size.height);
     if (self.images.count > 0) {
-        [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * ([self.images count] - 1), 0) animated:NO];
-        [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:[self.images count] - 1 inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * (self.currentPage - 1), 0) animated:NO];
+        [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:self.currentPage - 1 inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     }
 }
 
@@ -125,9 +143,13 @@
 - (void)deletePicture:(id)sender
 {
     if ([self.images count] > 1) {
-        NSMutableArray *array = [self.images mutableCopy];
-        [array removeObjectAtIndex:[sender tag]];
-        self.images = array;
+        [self.images removeObjectAtIndex:[sender tag]];
+        if (self.currentPage > [self.images count]) {
+            self.currentPage = self.currentPage - 1;
+        }
+        [self.collectionView reloadData];
+        [self populateScrollView];
+        [self fixTitle];
     } else {
         [self cancel:nil];
     }
@@ -143,6 +165,12 @@
 #pragma mark UIScrollViewDelegate
 //To sync the collectionView and the scrollView
 
+- (void)fixTitle
+{
+    self.title = [NSString stringWithFormat:@"%d/%d", self.currentPage, self.images.count];
+}
+
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (!self.scrolling) {
@@ -150,6 +178,8 @@
         float fractionalPage = self.scrollView.contentOffset.x / pageWidth;
         NSInteger page = lround(fractionalPage);
         [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:page inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+        self.currentPage = page + 1;
+        [self fixTitle];
     }
 }
 
@@ -202,6 +232,8 @@
         //Scroll to the selected image
         self.scrolling = YES;
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * indexPath.row, 0) animated:YES];
+        self.currentPage = indexPath.row + 1;
+        [self fixTitle];
     } else {
         //Add a new image
         SVPickerController *manager = [[SVPickerController alloc] init];

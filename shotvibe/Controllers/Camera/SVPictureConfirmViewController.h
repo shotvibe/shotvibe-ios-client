@@ -12,7 +12,7 @@
 
 @interface SVPictureConfirmViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (nonatomic, strong) NSArray *images;
+@property (nonatomic, strong) NSMutableArray *images;
 @property (nonatomic) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;
 

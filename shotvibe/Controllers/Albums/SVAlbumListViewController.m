@@ -309,18 +309,18 @@
 		}
 	}
 	
-    SVPickerController *manager = [[SVPickerController alloc] init];
-    manager.albumManager = self.albumManager;
-    manager.albumId = [[albumList firstObject] albumId];
+//    SVPickerController *manager = [[SVPickerController alloc] init];
+//    manager.albumManager = self.albumManager;
+//    manager.albumId = [[albumList firstObject] albumId];
+//
+//    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
+//    [self presentViewController:nc animated:NO completion:nil];
 
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
-    [self presentViewController:nc animated:NO completion:nil];
-
-//    cameraNavController = [[SVCameraNavController alloc] init];
-//	cameraNavController.cameraDelegate = self;
-//	cameraNavController.albums = albums;
-//	cameraNavController.albumManager = self.albumManager;
-//    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
+    cameraNavController = [[SVCameraNavController alloc] init];
+	cameraNavController.cameraDelegate = self;
+	cameraNavController.albums = albums;
+	cameraNavController.albumManager = self.albumManager;
+    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 
 
@@ -415,6 +415,7 @@
     SVPickerController *manager = [[SVPickerController alloc] init];
     manager.albumManager = self.albumManager;
     manager.albumId = album.albumId;
+    
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
     [self presentViewController:nc animated:NO completion:nil];
 

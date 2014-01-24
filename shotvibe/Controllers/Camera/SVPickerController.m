@@ -8,6 +8,7 @@
 
 #import "SVPickerController.h"
 #import "SVPictureConfirmViewController.h"
+#import "SVImagePickerController.h"
 
 @interface SVPickerController ()
 
@@ -40,7 +41,7 @@
 
     if (self.shouldShowPicker) {
         //When dismissing a picker, we don't want to show it again
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        SVImagePickerController *picker = [[SVImagePickerController alloc] init];
 
 #if (TARGET_IPHONE_SIMULATOR)
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -71,17 +72,12 @@
 // This method is called when an image has been chosen from the library or taken from the camera.
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    NSMutableArray *array = [NSMutableArray array];
-    [array addObjectsFromArray:self.container.images];
-
     UIImage *originalImage = [info valueForKey:UIImagePickerControllerOriginalImage];
     UIImage *scaledImage = originalImage;
 
     // Take as many pictures as you want. Save the path and the thumb and the picture
-    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", array.count]];
-    __block NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", array.count]];
-
-    [array addObject:filePath];
+    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", self.container.images.count]];
+    __block NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", self.container.images.count]];
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         // Save large image
@@ -111,7 +107,7 @@
 
     if (self.container) {
         //This code is called when we're taking subsequent images
-        self.container.images = array;
+        [self.container.images addObject:filePath];
         self.shouldShowPicker = NO;
         [self dismissViewControllerAnimated:YES completion:^{
             [self.presentingViewController dismissViewControllerAnimated:NO completion:nil];
@@ -122,7 +118,7 @@
     } else {
         //This code is called when we're taking the first image
         SVPictureConfirmViewController *c = [[SVPictureConfirmViewController alloc] init];
-        c.images = array;
+        c.images = [NSMutableArray arrayWithObject:filePath];
         c.albumId = self.albumId;
         c.albumManager = self.albumManager;
 
@@ -146,6 +142,16 @@
 
 
     ];
+}
+
+
+@end
+
+
+@implementation UINavigationController (StatusBarStyle)
+- (UIViewController *)childViewControllerForStatusBarStyle
+{
+    return self.topViewController;
 }
 
 
