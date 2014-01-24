@@ -178,6 +178,8 @@ static const NSTimeInterval RETRY_TIME = 5;
             RCLog(@"End background task (id: #%d)", blockLegacyBackgroundTaskID);
             [[UIApplication sharedApplication] endBackgroundTask:blockLegacyBackgroundTaskID];
         });
+    } else {
+        [[UIApplication sharedApplication] endBackgroundTask:legacyBackgroundTaskID];
     }
 }
 
