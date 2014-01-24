@@ -72,7 +72,7 @@
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
-    //RCLog(@"Session handler: task %lu completed", (unsigned long)task.taskIdentifier);
+    //RCLog(@"Session handler: task %d completed", task.taskIdentifier);
 
 
     UploadTaskDelegate *delegateForTask = [self getDelegateForTask:task];
@@ -85,7 +85,14 @@
     }
 
     if (error) {
-        RCLog(@"Error in task %lu\n%@", (unsigned long)task.taskIdentifier, [error localizedDescription]);
+        RCLog(@"ERROR: Client-side error in task %d\n%@", task.taskIdentifier, [error localizedDescription]);
+    }
+
+    // No kidding, the only way to get server-side errors (which are not reported through `error`)
+    // is to cast the response and access the statusCode..
+    NSInteger statusCode = ((NSHTTPURLResponse *)task.response).statusCode;
+    if (statusCode != 200) {
+        RCLog(@"ERROR: Server-side error %d in task %d", statusCode, task.taskIdentifier);
     }
 }
 
@@ -97,7 +104,7 @@
     if (delegateForTask) {
         delegateForTask.progressHandler(totalBytesSent, totalBytesExpectedToSend);
     } else {
-        RCLog(@"No task-specific delegate for task %d:%@", task.taskIdentifier, task.taskDescription);
+        RCLog(@"ERROR: No task-specific delegate for task %d:%@", task.taskIdentifier, task.taskDescription);
         // TODO: need to restore these on app init
     }
 }
@@ -106,10 +113,9 @@
 #pragma mark - NSURLSessionDelegate Methods
 
 
-// TODO: implement this
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
 {
-    RCLog(@"didBecomeInvalidWithError");
+    RCLog(@"ERROR: didBecomeInvalidWithError"); // this should not occur
 }
 
 
