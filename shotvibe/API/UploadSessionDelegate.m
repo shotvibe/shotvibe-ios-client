@@ -74,11 +74,12 @@
 {
     //RCLog(@"Session handler: task %d completed", task.taskIdentifier);
 
-
     UploadTaskDelegate *delegateForTask = [self getDelegateForTask:task];
 
     if (delegateForTask) {
-        delegateForTask.completionHandler();
+        if (delegateForTask.completionHandler) { // could be nil, if there's no completionHandler handler for this task
+            delegateForTask.completionHandler();
+        }
     } else {
         RCLog(@"No task-specific delegate for task %d:%@", task.taskIdentifier, task.taskDescription);
         // TODO: need to restore these on app init
@@ -102,7 +103,9 @@
     UploadTaskDelegate *delegateForTask = [self getDelegateForTask:task];
 
     if (delegateForTask) {
-        delegateForTask.progressHandler(totalBytesSent, totalBytesExpectedToSend);
+        if (delegateForTask.progressHandler) { // could be nil, if there's no progress handler for this task
+            delegateForTask.progressHandler(totalBytesSent, totalBytesExpectedToSend);
+        }
     } else {
         RCLog(@"ERROR: No task-specific delegate for task %d:%@", task.taskIdentifier, task.taskDescription);
         // TODO: need to restore these on app init
