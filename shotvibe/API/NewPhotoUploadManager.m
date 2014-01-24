@@ -150,7 +150,7 @@ static const NSTimeInterval RETRY_TIME = 5;
             [photo setAddingToAlbum]; // TODO: this state is no longer used
             [photoIdsToAdd addObject:photo.photoId];
         }
-
+/* old way to call albumAddPhotos
         BOOL photosSuccesfullyAdded = NO;
         // TODO: this loop is not okay for background thread
 
@@ -173,6 +173,20 @@ static const NSTimeInterval RETRY_TIME = 5;
             RCLog(@"End background task (id: #%d)", blockLegacyBackgroundTaskID);
             [self endLegacyBackgroundSession:blockLegacyBackgroundTaskID];
         });
+*/
+        // TODO: may suffer from a delay after photos were uploaded, when called from the backround.
+        [newShotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^{
+            RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
+
+            __block UIBackgroundTaskIdentifier blockLegacyBackgroundTaskID = legacyBackgroundTaskID;
+
+            // Notify album manager that all photos are uploaded, causing a server refresh
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [listener_ photoAlbumAllPhotosUploaded:albumId];
+                RCLog(@"End background task (id: #%d)", blockLegacyBackgroundTaskID);
+                [self endLegacyBackgroundSession:blockLegacyBackgroundTaskID];
+            });
+        }];
     } else {
         [self endLegacyBackgroundSession:legacyBackgroundTaskID];
     }
