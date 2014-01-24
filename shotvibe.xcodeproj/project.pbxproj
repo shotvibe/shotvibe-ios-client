@@ -538,6 +538,11 @@
 		3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */; };
 		3BE0B11717C2C5530058CAAD /* AlbumBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11617C2C5520058CAAD /* AlbumBase.m */; };
 		3BE0B11A17C2C71D0058CAAD /* AlbumSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */; };
+		3E759FDE188FFEFD00CAB82D /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E759FD6188FFEFD00CAB82D /* plus.png */; };
+		3E759FDF188FFEFD00CAB82D /* SVPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759FD8188FFEFD00CAB82D /* SVPickerCell.m */; };
+		3E759FE0188FFEFD00CAB82D /* SVPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759FDA188FFEFD00CAB82D /* SVPickerController.m */; };
+		3E759FE1188FFEFD00CAB82D /* SVPictureConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759FDC188FFEFD00CAB82D /* SVPictureConfirmViewController.m */; };
+		3E759FE2188FFEFD00CAB82D /* SVPictureConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */; };
 		66159228183273040054471E /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 66159227183273040054471E /* AlbumMember.m */; };
 		66278C4B1867B23800D23F34 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C481867B23800D23F34 /* FileUtils.m */; };
 		66278C4C1867B23800D23F34 /* SVInitialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C4A1867B23800D23F34 /* SVInitialization.m */; };
@@ -1009,10 +1014,10 @@
 		108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MPImageEffects.m"; sourceTree = "<group>"; };
 		108CDF6118846B9000757E36 /* UIView+MPSnapshotImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MPSnapshotImage.h"; sourceTree = "<group>"; };
 		108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPSnapshotImage.m"; sourceTree = "<group>"; };
+		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		10F1A2D91885411E0051E267 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -1245,6 +1250,14 @@
 		3BE0B11617C2C5520058CAAD /* AlbumBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumBase.m; sourceTree = "<group>"; };
 		3BE0B11817C2C71D0058CAAD /* AlbumSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumSummary.h; sourceTree = "<group>"; };
 		3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumSummary.m; sourceTree = "<group>"; };
+		3E759FD6188FFEFD00CAB82D /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = Camera/plus.png; sourceTree = "<group>"; };
+		3E759FD7188FFEFD00CAB82D /* SVPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPickerCell.h; path = Camera/SVPickerCell.h; sourceTree = "<group>"; };
+		3E759FD8188FFEFD00CAB82D /* SVPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPickerCell.m; path = Camera/SVPickerCell.m; sourceTree = "<group>"; };
+		3E759FD9188FFEFD00CAB82D /* SVPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPickerController.h; path = Camera/SVPickerController.h; sourceTree = "<group>"; };
+		3E759FDA188FFEFD00CAB82D /* SVPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPickerController.m; path = Camera/SVPickerController.m; sourceTree = "<group>"; };
+		3E759FDB188FFEFD00CAB82D /* SVPictureConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPictureConfirmViewController.h; path = Camera/SVPictureConfirmViewController.h; sourceTree = "<group>"; };
+		3E759FDC188FFEFD00CAB82D /* SVPictureConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPictureConfirmViewController.m; path = Camera/SVPictureConfirmViewController.m; sourceTree = "<group>"; };
+		3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVPictureConfirmViewController.xib; path = Camera/SVPictureConfirmViewController.xib; sourceTree = "<group>"; };
 		66159226183273040054471E /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
 		66159227183273040054471E /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
 		66278C461867B16E00D23F34 /* SVDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDefines.h; sourceTree = "<group>"; };
@@ -2566,6 +2579,14 @@
 		AA78D2B617172C26006E1240 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				3E759FD6188FFEFD00CAB82D /* plus.png */,
+				3E759FD7188FFEFD00CAB82D /* SVPickerCell.h */,
+				3E759FD8188FFEFD00CAB82D /* SVPickerCell.m */,
+				3E759FD9188FFEFD00CAB82D /* SVPickerController.h */,
+				3E759FDA188FFEFD00CAB82D /* SVPickerController.m */,
+				3E759FDB188FFEFD00CAB82D /* SVPictureConfirmViewController.h */,
+				3E759FDC188FFEFD00CAB82D /* SVPictureConfirmViewController.m */,
+				3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */,
 				66278CA21867C4D400D23F34 /* SVCameraNavController.h */,
 				66278CA31867C4D400D23F34 /* SVCameraNavController.m */,
 				66278CA41867C4D400D23F34 /* SVCameraOverlay.h */,
@@ -2932,6 +2953,7 @@
 				04C406E91730303600973BC0 /* LT.png in Resources */,
 				04C406EB1730303600973BC0 /* LU.png in Resources */,
 				108CDF6718846B9000757E36 /* MPArrowRight@2x.png in Resources */,
+				3E759FDE188FFEFD00CAB82D /* plus.png in Resources */,
 				04C406ED1730303600973BC0 /* LV.png in Resources */,
 				04C406EF1730303600973BC0 /* LY.png in Resources */,
 				04C406F11730303600973BC0 /* MA.png in Resources */,
@@ -3161,6 +3183,7 @@
 				2849A7E817D9AB420076AFBA /* AlbumActivityDeleteIcon@2x.png in Resources */,
 				2849A7E917D9AB420076AFBA /* AlbumActivityIcon.png in Resources */,
 				2849A7EA17D9AB420076AFBA /* AlbumActivityIcon@2x.png in Resources */,
+				3E759FE2188FFEFD00CAB82D /* SVPictureConfirmViewController.xib in Resources */,
 				2849A7EB17D9AB420076AFBA /* AlbumActivityJoinedIcon.png in Resources */,
 				2849A7EC17D9AB420076AFBA /* AlbumActivityJoinedIcon@2x.png in Resources */,
 				2849A7ED17D9AB420076AFBA /* AlbumActivityPicsIcon.png in Resources */,
@@ -3349,6 +3372,7 @@
 				66278CAE1867C4D400D23F34 /* SVCameraNavController.m in Sources */,
 				108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */,
 				66278CE11867C62300D23F34 /* SVActivityViewController.m in Sources */,
+				3E759FE1188FFEFD00CAB82D /* SVPictureConfirmViewController.m in Sources */,
 				3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */,
 				66278D0C1867C94900D23F34 /* ShotVibeAPI.m in Sources */,
 				3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */,
@@ -3388,9 +3412,11 @@
 				3B3AD15617CB4A9C004D24A9 /* SDWebImageCompat.m in Sources */,
 				66278C8B1867C38300D23F34 /* PhotoScrollView.m in Sources */,
 				66278CE31867C62300D23F34 /* SVCopyActivity.m in Sources */,
+				3E759FE0188FFEFD00CAB82D /* SVPickerController.m in Sources */,
 				3B3AD15717CB4A9C004D24A9 /* SDWebImageDecoder.m in Sources */,
 				3B3AD15817CB4A9C004D24A9 /* SDWebImageDownloader.m in Sources */,
 				3B3AD15917CB4A9C004D24A9 /* SDWebImageDownloaderOperation.m in Sources */,
+				3E759FDF188FFEFD00CAB82D /* SVPickerCell.m in Sources */,
 				3B3AD15A17CB4A9C004D24A9 /* SDWebImageManager.m in Sources */,
 				66D5833E1867D66B00EAC842 /* RCScrollImageView.m in Sources */,
 				3B3AD15B17CB4A9C004D24A9 /* SDWebImagePrefetcher.m in Sources */,

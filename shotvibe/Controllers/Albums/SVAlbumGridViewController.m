@@ -13,12 +13,14 @@
 #import "SVSidebarMemberController.h"
 #import "SVSidebarManagementController.h"
 #import "SVSettingsViewController.h"
+
 #import "SVCameraNavController.h"
+#import "SVPickerController.h"
+
 #import "SVCameraPickerController.h"
 #import "SVImagePickerListViewController.h"
 #import "SVAlbumGridViewCell.h"
 #import "SVAddFriendsViewController.h"
-#import "SVCameraNavController.h"
 #import "SVNavigationController.h"
 #import "AlbumPhoto.h"
 #import "UIImageView+WebCache.h"
@@ -247,6 +249,10 @@
 	//self.scrollToBottom = YES;
 	self.scrollToTop = YES;
 	
+//    SVPickerController *manager = [[SVPickerController alloc] init];
+//    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
+//    [self presentViewController:nc animated:NO completion:nil];
+
 	cameraNavController = [[SVCameraNavController alloc] init];
 	cameraNavController.cameraDelegate = self;
 	cameraNavController.albumId = self.albumId;
@@ -303,7 +309,7 @@
 #pragma mark camera delegate
 
 - (void)cameraExit {
-	cameraNavController = nil;
+	//cameraNavController = nil;
 	self.scrollToBottom = NO;
 	self.scrollToTop = NO;
 }

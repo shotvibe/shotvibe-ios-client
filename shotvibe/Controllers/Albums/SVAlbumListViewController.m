@@ -12,7 +12,10 @@
 #import "SVProfileViewController.h"
 #import "UIImageView+WebCache.h"
 #import "SVDefines.h"
+
 #import "SVCameraNavController.h"
+#import "SVPickerController.h"
+
 #import "SVImagePickerListViewController.h"
 #import "NSDate+Formatting.h"
 #import "MFSideMenu.h"
@@ -306,11 +309,18 @@
 		}
 	}
 	
-    cameraNavController = [[SVCameraNavController alloc] init];
-	cameraNavController.cameraDelegate = self;
-	cameraNavController.albums = albums;
-	cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
+    SVPickerController *manager = [[SVPickerController alloc] init];
+    manager.albumManager = self.albumManager;
+    manager.albumId = [[albumList firstObject] albumId];
+
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
+    [self presentViewController:nc animated:NO completion:nil];
+
+//    cameraNavController = [[SVCameraNavController alloc] init];
+//	cameraNavController.cameraDelegate = self;
+//	cameraNavController.albums = albums;
+//	cameraNavController.albumManager = self.albumManager;
+//    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 
 
@@ -402,11 +412,17 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 
-    cameraNavController = [[SVCameraNavController alloc] init];
-    cameraNavController.cameraDelegate = self;
-    cameraNavController.albumId = album.albumId;
-    cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = (SVNavigationController *)self.navigationController; // this is set last
+    SVPickerController *manager = [[SVPickerController alloc] init];
+    manager.albumManager = self.albumManager;
+    manager.albumId = album.albumId;
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
+    [self presentViewController:nc animated:NO completion:nil];
+
+    //	cameraNavController = [[SVCameraNavController alloc] init];
+    //	cameraNavController.cameraDelegate = self;
+    //	cameraNavController.albumId = album.albumId;
+    //	cameraNavController.albumManager = self.albumManager;
+    //    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 
 
