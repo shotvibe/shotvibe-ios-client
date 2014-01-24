@@ -19,7 +19,9 @@
     NSString *baseURL_;
     ShotVibeAPI *oldShotVibeAPI_;
 
-    dispatch_queue_t uploadQueue_;
+    dispatch_queue_t uploadQueue_; // Queue for uploading photos on iOS < 7, where NSURLSession is not available
+
+    NSOperationQueue *completionQueue_; // Operation queue for executing NSURLSession completion handlers
 }
 
 static NSString *const kSessionId = @"shotvibe.uploadSession";
@@ -37,8 +39,10 @@ static NSString *const kSessionId = @"shotvibe.uploadSession";
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfiguration:kSessionId];
         //NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
 
-        _uploadNSURLSession = [NSURLSession sessionWithConfiguration:config delegate:uploadListener delegateQueue:nil];
-        // TODO: set queue?
+        completionQueue_ = [[NSOperationQueue alloc] init];
+
+        _uploadNSURLSession = [NSURLSession sessionWithConfiguration:config delegate:uploadListener delegateQueue:completionQueue_];
+
         // *INDENT-OFF* Uncrustify @""/cast problem https://github.com/shotvibe/shotvibe-ios-client/issues/260
         [_uploadNSURLSession getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
             RCLog(@"NSURLSession with id %@, nr of current upload tasks: %d\n", kSessionId, [uploadTasks count]);
