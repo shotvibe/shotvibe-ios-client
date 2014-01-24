@@ -50,6 +50,10 @@
 
     self.currentPage = [self.images count];
     [self.collectionView reloadData];
+
+    NSIndexPath *lastIndexPath = [NSIndexPath indexPathForItem:[self.images count] inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:lastIndexPath atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
+
     [self populateScrollView];
     [self fixTitle];
 }
