@@ -63,8 +63,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         NSArray *newPhotoIds = nil;
         while (!newPhotoIds) {
             NSError *error;
-            // TODO: optimize this by requesting ids for all pending uploads? (prob. need different list for that)
-            // maybe not worth it since when calling this, usually all existing uploads will already have ids
+
             newPhotoIds = [shotVibeAPI_ photosUploadRequest:(int)[photoUploadRequests count] + 1 withError:&error];
             if (!newPhotoIds) {
                 RCLog(@"Error requesting photo IDS: %@", [error description]);
