@@ -56,6 +56,18 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 - (void)uploadPhotos:(int64_t)albumId photoUploadRequests:(NSArray *)photoUploadRequests
 {
+    NSMutableArray *newAlbumUploadingPhotos = [[NSMutableArray alloc] init];
+    for (PhotoUploadRequest *req in photoUploadRequests) {
+        AlbumUploadingPhoto *photo = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:req album:albumId];
+        [newAlbumUploadingPhotos addObject:photo];
+        [uploadingPhotos_ addPhoto:photo album:albumId];
+    }
+    // TODO: store the new AlbumUploadingPhotos persistently, so uploads can be restarted after a crash.
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [listener_ photoUploadAdditions:albumId]; // Show the newly created UploadingAlbumPhotos in the UI.
+    });
+
     // Request new ids if there are not enough
     if ([photoIds_ count] < [photoUploadRequests count]) {
         RCLog(@"PhotoUploadManager Requesting Photo IDs");
@@ -74,28 +86,22 @@ static const NSTimeInterval RETRY_TIME = 5;
         [photoIds_ addObjectsFromArray:newPhotoIds];
     }
 
-    for (PhotoUploadRequest *req in photoUploadRequests) {
-        [self uploadPhoto:albumId photoUploadRequest:req];
+    for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
+        [self uploadPhoto:albumId photo:photo];
     }
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [listener_ photoUploadAdditions:albumId]; // Show the newly created UploadingAlbumPhotos in the UI.
-    });
 }
 
 
 // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
-- (void)uploadPhoto:(int64_t)albumId photoUploadRequest:(PhotoUploadRequest *)req
+- (void)uploadPhoto:(int64_t)albumId photo:(AlbumUploadingPhoto *)photo
 {
     // On iOS < 7, the entire upload process will be in a background task, and needs to finish within 10 minutes.
     UIBackgroundTaskIdentifier legacyBackgroundTaskID = [self beginLegacyBackgroundSession];
-    AlbumUploadingPhoto *photo = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:req album:albumId];
 
     [photo setPhotoId:[photoIds_ objectAtIndex:0]];
     [photoIds_ removeObjectAtIndex:0];
 
     [photo prepareTmpFile:photoSaveQueue_];
-    [uploadingPhotos_ addPhoto:photo album:albumId];
 
     NSString *filePath = [photo getFilename]; // Will block until the photo has been saved
 
