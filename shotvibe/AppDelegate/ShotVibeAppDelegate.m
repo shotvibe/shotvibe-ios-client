@@ -152,7 +152,7 @@
     if ([identifier isEqualToString:kUploadSessionId]) {
         self.uploadSessionCompletionHandler = completionHandler;
     } else {
-        RCLog(@"ERROR: request to handle background events for unknown NSURLSession: %@",identifier);
+        RCLog(@"ERROR: request to handle background events for unknown NSURLSession: %@", identifier);
     }
 }
 

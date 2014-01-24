@@ -11,7 +11,7 @@
 
 @interface NewShotVibeAPI : NSObject
 
-extern NSString *const kUploadSessionId;
+    extern NSString *const kUploadSessionId;
 
 - (id)initWithBaseURL:(NSString *)baseURL oldShotVibeAPI:(ShotVibeAPI *)oldShotVibeAPI;
 

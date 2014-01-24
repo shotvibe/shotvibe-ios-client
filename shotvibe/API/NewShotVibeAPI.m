@@ -8,13 +8,6 @@
 
 #import "NewShotVibeAPI.h"
 
-@interface NewShotVibeAPI ()
-
-@property (nonatomic, strong) NSURLSession *uploadNSURLSession;
-
-@end
-
-
 @implementation NewShotVibeAPI {
     NSString *baseURL_;
     ShotVibeAPI *oldShotVibeAPI_;
@@ -22,6 +15,8 @@
     dispatch_queue_t uploadQueue_; // Queue for uploading photos on iOS < 7, where NSURLSession is not available
 
     NSOperationQueue *completionQueue_; // Operation queue for executing NSURLSession completion handlers
+
+    NSURLSession *uploadNSURLSession_;
 }
 
 NSString *const kUploadSessionId = @"shotvibe.uploadSession";
@@ -41,10 +36,10 @@ NSString *const kUploadSessionId = @"shotvibe.uploadSession";
 
         completionQueue_ = [[NSOperationQueue alloc] init];
 
-        _uploadNSURLSession = [NSURLSession sessionWithConfiguration:config delegate:uploadListener delegateQueue:completionQueue_];
+        uploadNSURLSession_ = [NSURLSession sessionWithConfiguration:config delegate:uploadListener delegateQueue:completionQueue_];
 
         // *INDENT-OFF* Uncrustify @""/cast problem https://github.com/shotvibe/shotvibe-ios-client/issues/260
-        [_uploadNSURLSession getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
+        [uploadNSURLSession_ getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
             RCLog(@"NSURLSession with id %@, nr of current upload tasks: %d\n", kUploadSessionId, [uploadTasks count]);
             for (NSURLSessionUploadTask *task in uploadTasks) {
                 RCLog(@"Cancelling upload task #%d", task.taskIdentifier);
@@ -67,7 +62,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 - (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
 {
-    if (!self.uploadNSURLSession) { // if there's no session, we're on iOS < 7
+    if (!uploadNSURLSession_) { // if there's no session, we're on iOS < 7
         RCLog(@"Starting asynchronous upload task as UIBackgroundTask (max 10 minutes)");
         [self photoUploadAsyncNoSession:photoId filePath:filePath progressHandler:progressHandler completionHandler:completionHandler];
     } else {
@@ -83,10 +78,10 @@ static const NSTimeInterval RETRY_TIME = 5;
 
         NSURL *photoFileUrl = [NSURL fileURLWithPath:filePath];
 
-        NSURLSessionUploadTask *uploadTask = [self.uploadNSURLSession uploadTaskWithRequest:request fromFile:photoFileUrl];
+        NSURLSessionUploadTask *uploadTask = [uploadNSURLSession_ uploadTaskWithRequest:request fromFile:photoFileUrl];
 
-        [((UploadSessionDelegate *)[self.uploadNSURLSession delegate])setDelegateForTask : uploadTask progressHandler : progressHandler completionHandler : completionHandler];
-        // TODO: need to access delegate type safe. Maybe subclass uploadTask?
+        [((UploadSessionDelegate *)[uploadNSURLSession_ delegate])setDelegateForTask : uploadTask progressHandler : progressHandler completionHandler : completionHandler];
+
         [uploadTask resume];
     }
 }
