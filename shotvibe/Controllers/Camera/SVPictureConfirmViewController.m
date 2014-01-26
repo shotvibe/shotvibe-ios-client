@@ -24,7 +24,9 @@
 {
     [super viewDidLoad];
 
-    [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
+    if (IS_IOS7) {
+        [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
+    }
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     [self.navigationController.navigationBar setTranslucent:NO];
 
