@@ -26,5 +26,6 @@ typedef enum {
 @property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, assign) BOOL scrollToBottom;
 @property (nonatomic, assign) BOOL scrollToTop;
+@property (nonatomic, assign) BOOL newAlbum;
 
 @end

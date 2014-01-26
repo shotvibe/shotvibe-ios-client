@@ -603,6 +603,7 @@
 		6601325B187F4E670042047B /* NSObject+JavaObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013220187F4E670042047B /* NSObject+JavaObject.m */; };
 		6601325C187F4E670042047B /* NSString+JavaString.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013222187F4E670042047B /* NSString+JavaString.m */; };
 		6601325D187F4E670042047B /* objc-sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013224187F4E670042047B /* objc-sync.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3E0F92251892B8D80084B14F /* Bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0F92241892B8D80084B14F /* Bubble@2x.png */; };
 		66278C4B1867B23800D23F34 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C481867B23800D23F34 /* FileUtils.m */; };
 		66278C4C1867B23800D23F34 /* SVInitialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C4A1867B23800D23F34 /* SVInitialization.m */; };
 		66278C5E1867C17800D23F34 /* SVAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C4E1867C17800D23F34 /* SVAddFriendsViewController.m */; };
@@ -1557,6 +1558,7 @@
 		66013222187F4E670042047B /* NSString+JavaString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JavaString.m"; sourceTree = "<group>"; };
 		66013223187F4E670042047B /* objc-sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "objc-sync.h"; sourceTree = "<group>"; };
 		66013224187F4E670042047B /* objc-sync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "objc-sync.m"; sourceTree = "<group>"; };
+		3E0F92241892B8D80084B14F /* Bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bubble@2x.png"; sourceTree = "<group>"; };
 		66278C461867B16E00D23F34 /* SVDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDefines.h; sourceTree = "<group>"; };
 		66278C471867B23800D23F34 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
 		66278C481867B23800D23F34 /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
@@ -1849,6 +1851,7 @@
 		043473961705F42300CFE564 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E0F92241892B8D80084B14F /* Bubble@2x.png */,
 				28B30F9F1807EE1E005C50A4 /* SwipeCamera.png */,
 				28B30FA01807EE1E005C50A4 /* SwipeCamera@2x.png */,
 				28B30FA11807EE1E005C50A4 /* SwipePicker.png */,
@@ -3629,6 +3632,7 @@
 				04C407191730303600973BC0 /* MX.png in Resources */,
 				04C4071B1730303600973BC0 /* MY.png in Resources */,
 				04C4071D1730303600973BC0 /* MZ.png in Resources */,
+				3E0F92251892B8D80084B14F /* Bubble@2x.png in Resources */,
 				66278CB01867C4D400D23F34 /* SVCameraOverlay.xib in Resources */,
 				04C4071F1730303600973BC0 /* NA.png in Resources */,
 				04C407211730303600973BC0 /* NC.png in Resources */,

@@ -329,6 +329,7 @@
 
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
+        destinationController.newAlbum = creatingAlbum;
         destinationController.albumManager = self.albumManager;
         destinationController.albumId = [album getId];
     } else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {

@@ -59,6 +59,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *butTakePicture2;
 @property (nonatomic, strong) IBOutlet UIView *switchView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *switchSort;
+@property (nonatomic, strong) IBOutlet UIView *tutorialScreen;
 
 @property (nonatomic, strong) UIImage *userPicture;
 @property (nonatomic, strong) NSString *userNickName;
@@ -67,6 +68,7 @@
 - (void)toggleManagement;
 - (IBAction)takeVideoPressed:(id)sender;
 - (IBAction)takePicturePressed:(id)sender;
+- (IBAction)closeTutorial:(id)sender;
 
 @end
 
@@ -127,6 +129,22 @@
 	
     SLAlbumContents *contents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
 	[self setAlbumContents:contents];
+    
+    if (self.newAlbum) {
+        self.tutorialScreen.hidden = NO;
+        [self performSelector:@selector(closeTutorial:) withObject:nil afterDelay:5];
+    }
+}
+
+- (IBAction)closeTutorial:(id)sender {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(closeTutorial:) object:nil];
+    if (self.tutorialScreen.hidden == NO) {
+        [UIView animateWithDuration:.5 animations:^{
+            self.tutorialScreen.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.tutorialScreen.hidden = YES;
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -532,6 +550,7 @@
 - (void)toggleMenu
 {
 	[(SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController resignFirstResponder];
+    [self closeTutorial:nil];
     [self.menuContainerViewController toggleRightSideMenuCompletion:^{
 		
 	}];
