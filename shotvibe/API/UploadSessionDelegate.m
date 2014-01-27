@@ -124,18 +124,24 @@
 
 // No need for didReceiveChallenge: since we set the authentication token in the url request for the upload task
 
+// In case the app was not in the foreground, this is called after the task delegate calls have completed.
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
 {
     RCLog(@"URLSessionDidFinishEventsForBackgroundURLSession");
     ShotVibeAppDelegate *appDelegate = [ShotVibeAppDelegate sharedDelegate];
 
     if (appDelegate.uploadSessionCompletionHandler) {
-        // In case the app was not in the foreground, after the task delegate calls have been completed,
-        // call the completion handler that was set by the ShotVibeAppDelegate on handleEventsForBackgroundURLSession
-        RCLog(@"Calling stored completion handler");
-        void (^ completionHandler)() = appDelegate.uploadSessionCompletionHandler;
-        appDelegate.uploadSessionCompletionHandler = nil;
-        completionHandler();
+        //RCLog(@"Calling stored completion handler");
+        //void (^ completionHandler)() = appDelegate.uploadSessionCompletionHandler;
+        //appDelegate.uploadSessionCompletionHandler = nil;
+        //completionHandler();
+
+        /* TODO: We can't call the completionHandler here, since other threads may still be working when this method is called (e.g. album refresh after photos have been added). The proper way to handle this would be to call the handler when all activity is done, which is tricky.
+
+         For now, we simply don't call it. This has two consequences:
+           - iOS doesn't take a snapshot of the updated UI, so the task manager still shows a screen with progress bars, and when reactivating the app, we very briefly see the progress bars. This is not a big problem.
+           - The app may be terminated by iOS while in the background, although this probably won't happen, since all threads become inactive rather quickly (documentation is unclear about when apps are terminated). This won't be a huge problem as lost uploads will be restarted anyway.
+         */
     }
 }
 
