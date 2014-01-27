@@ -264,12 +264,7 @@
 {
 	navigatingNext = YES;
 
-    if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
-		// TODO: Not called, Settings is not reachable from this view
-        SVSettingsViewController *destinationController = segue.destinationViewController;
-        destinationController.albumManager = self.albumManager;
-    }
-    else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
+    if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
 		
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         
