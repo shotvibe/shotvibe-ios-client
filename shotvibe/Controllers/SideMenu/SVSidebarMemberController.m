@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <AddressBook/AddressBook.h>
+
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "SVSidebarAlbumMemberCell.h"
@@ -13,9 +15,9 @@
 #import "SVAddFriendsViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
-#import "SVAddressBook.h"
 #import "SL/AlbumMember.h"
 #import "SL/ArrayList.h"
+#import "MBProgressHUD.h"
 
 @interface SVSidebarMemberController () {
 	ShotVibeAPI *shotvibeAPI;
@@ -117,16 +119,56 @@
 
 #pragma mark - Actions
 
+
+- (void)navigateToAddFriends:(id)sender
+{
+    // prepareForSegue is called in parentController SVAlbumGridViewController
+    [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
+}
+
+
 - (IBAction)addFriendsButtonPressed:(id)sender
 {
-    // Address book contacts was already initialized in SVAlbumListViewController and the contacts were cached
-	if ([SVAddressBook sharedBook].granted) {
-        // prepareForSegue is called in parentController SVAlbumGridViewController
-        [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
-	} else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"In order to invite people we need access to your contacts list.\nTo enable it go to Settings/Privacy/Contacts" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-	}
+    NSLog(@"contacts auth status: %ld", ABAddressBookGetAuthorizationStatus());
+
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
+        [self navigateToAddFriends:sender];
+    } else {
+        CFErrorRef error;
+        ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+        NSLog(@"addressBook: %@", addressBook);
+
+        // This is needed to block the UI until the completion block is called (prevents a possible race condition)
+        MBProgressHUD *invisibleBlockingHUD = [MBProgressHUD showHUDAddedTo:self.view.window animated:NO];
+        invisibleBlockingHUD.mode = MBProgressHUDModeText; // This gets rid of the default activity indicator
+        invisibleBlockingHUD.opacity = 0.0f;
+
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+            NSLog(@"complete addressBook: %@", addressBook);
+            NSLog(@"complete granted: %d", granted);
+            NSLog(@"complete error: %@", error);
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Unblock the UI:
+                [invisibleBlockingHUD hide:NO];
+
+                if (granted) {
+                    [self navigateToAddFriends:sender];
+                } else {
+                    NSString *errorMessage =
+                        @"In order to invite people we need access to your contacts list.\n\n"
+                        @"To enable it go to Settings/Privacy/Contacts";
+
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                    message:errorMessage
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+            });
+        });
+    }
 }
 
 - (IBAction)ownerButtonPressed:(id)sender {

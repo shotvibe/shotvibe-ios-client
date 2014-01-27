@@ -19,6 +19,10 @@
 #import "SL/HashMap.h"
 #import "SL/APIException.h"
 #import "java/lang/Long.h"
+#import "SL/ShotVibeAPI.h"
+#import "SL/AuthData.h"
+#import "IosHTTPLib.h"
+#import "IosDevicePhoneContactsLib.h"
 
 enum RefreshStatus
 {
@@ -69,6 +73,11 @@ enum RefreshStatus
 
         _photoUploadManager = [[PhotoUploadManager alloc] initWithShotVibeAPI:shotvibeAPI listener:self];
         _photoFilesManager = [[PhotoFilesManager alloc] init];
+
+        _phoneContactsManager = nil;
+        if (shotvibeAPI.authData) {
+            [self initPhoneContactsManager];
+        }
     }
 
     return self;
@@ -78,6 +87,28 @@ enum RefreshStatus
 {
     return shotvibeAPI;
 }
+
+- (void)authDataUpdated
+{
+    [self initPhoneContactsManager];
+}
+
+
+- (void)initPhoneContactsManager
+{
+    SLAuthData *authData2 = [[SLAuthData alloc] initWithLong:shotvibeAPI.authData.userId
+                                                withNSString:shotvibeAPI.authData.authToken
+                                                withNSString:shotvibeAPI.authData.defaultCountryCode];
+
+    id <SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
+    SLShotVibeAPI *shotvibeAPI2 = [[SLShotVibeAPI alloc] initWithSLHTTPLib:httpLib
+                                                            withSLAuthData:authData2];
+    id <SLDevicePhoneContactsLib> devicePhoneContactsLib = [[IosDevicePhoneContactsLib alloc] init];
+
+    _phoneContactsManager = [[SLPhoneContactsManager alloc] initWithSLDevicePhoneContactsLib:devicePhoneContactsLib
+                                                                           withSLShotVibeAPI:shotvibeAPI2];
+}
+
 
 - (NSArray *)addAlbumListListener:(id<AlbumListListener>)listener
 {

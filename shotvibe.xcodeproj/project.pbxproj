@@ -494,7 +494,6 @@
 		28CFCC9F17A4ACD3001511EF /* butTransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC9D17A4ACD3001511EF /* butTransparent.png */; };
 		28CFCCA017A4ACD3001511EF /* butTransparent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCC9E17A4ACD3001511EF /* butTransparent@2x.png */; };
 		28CFCD0317A7D7E5001511EF /* albumTakePicture.png in Resources */ = {isa = PBXBuildFile; fileRef = 28CFCD0217A7D7E2001511EF /* albumTakePicture.png */; };
-		28D41F43182A21BA00A31C76 /* SVRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D41F42182A21BA00A31C76 /* SVRecord.m */; };
 		28E94C2F17C2C4AE00874BDE /* IconCopy.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2817C2C4AE00874BDE /* IconCopy.png */; };
 		28E94C3017C2C4AE00874BDE /* IconCopy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2917C2C4AE00874BDE /* IconCopy@2x.png */; };
 		28E94C3117C2C4AE00874BDE /* IconLink.png in Resources */ = {isa = PBXBuildFile; fileRef = 28E94C2A17C2C4AE00874BDE /* IconLink.png */; };
@@ -654,13 +653,13 @@
 		66278D0C1867C94900D23F34 /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CFF1867C94900D23F34 /* ShotVibeAPI.m */; };
 		66278D0D1867C94900D23F34 /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D011867C94900D23F34 /* SVPushNotificationsManager.m */; };
 		66278D0E1867C94900D23F34 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D031867C94900D23F34 /* UserSettings.m */; };
-		66278D131867CA1400D23F34 /* SVAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D101867CA1400D23F34 /* SVAddressBook.m */; };
 		66278D141867CA1400D23F34 /* SVAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D121867CA1400D23F34 /* SVAssets.m */; };
 		66278D161867CAD500D23F34 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66278D151867CAD500D23F34 /* MainStoryboard.storyboard */; };
 		66278D201867CDC100D23F34 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66278D1F1867CDC100D23F34 /* libAviarySDK.a */; };
 		66278D221867CDEC00D23F34 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */; };
 		664F4700188DBA69009F4776 /* IosHTTPLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 664F46FF188DBA69009F4776 /* IosHTTPLib.m */; };
 		664F4703188DBB76009F4776 /* IosHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 664F4702188DBB76009F4776 /* IosHTTPResponse.m */; };
+		664F4706189568B1009F4776 /* IosDevicePhoneContactsLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 664F4705189568B1009F4776 /* IosDevicePhoneContactsLib.m */; };
 		66CBB07F187F57A10057FBAA /* current_shotvibelib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CBB07E187F57A10057FBAA /* current_shotvibelib.a */; };
 		66D5833C1867D66B00EAC842 /* RCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583331867D66B00EAC842 /* RCImageView.m */; };
 		66D5833D1867D66B00EAC842 /* RCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583351867D66B00EAC842 /* RCLog.m */; };
@@ -1228,8 +1227,6 @@
 		28CFCC9D17A4ACD3001511EF /* butTransparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = butTransparent.png; sourceTree = "<group>"; };
 		28CFCC9E17A4ACD3001511EF /* butTransparent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butTransparent@2x.png"; sourceTree = "<group>"; };
 		28CFCD0217A7D7E2001511EF /* albumTakePicture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumTakePicture.png; sourceTree = "<group>"; };
-		28D41F41182A21BA00A31C76 /* SVRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRecord.h; sourceTree = "<group>"; };
-		28D41F42182A21BA00A31C76 /* SVRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRecord.m; sourceTree = "<group>"; };
 		28E94C2817C2C4AE00874BDE /* IconCopy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IconCopy.png; path = Activity/IconCopy.png; sourceTree = "<group>"; };
 		28E94C2917C2C4AE00874BDE /* IconCopy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IconCopy@2x.png"; path = "Activity/IconCopy@2x.png"; sourceTree = "<group>"; };
 		28E94C2A17C2C4AE00874BDE /* IconLink.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IconLink.png; path = Activity/IconLink.png; sourceTree = "<group>"; };
@@ -1541,8 +1538,6 @@
 		66278D011867C94900D23F34 /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPushNotificationsManager.m; path = shotvibe/API/SVPushNotificationsManager.m; sourceTree = SOURCE_ROOT; };
 		66278D021867C94900D23F34 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSettings.h; path = shotvibe/API/UserSettings.h; sourceTree = SOURCE_ROOT; };
 		66278D031867C94900D23F34 /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserSettings.m; path = shotvibe/API/UserSettings.m; sourceTree = SOURCE_ROOT; };
-		66278D0F1867CA1400D23F34 /* SVAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAddressBook.h; sourceTree = "<group>"; };
-		66278D101867CA1400D23F34 /* SVAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAddressBook.m; sourceTree = "<group>"; };
 		66278D111867CA1400D23F34 /* SVAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVAssets.h; sourceTree = "<group>"; };
 		66278D121867CA1400D23F34 /* SVAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVAssets.m; sourceTree = "<group>"; };
 		66278D151867CAD500D23F34 /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MainStoryboard.storyboard; path = Views/MainStoryboard.storyboard; sourceTree = "<group>"; };
@@ -1560,6 +1555,8 @@
 		664F46FF188DBA69009F4776 /* IosHTTPLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosHTTPLib.m; path = shotvibe/API/IosHTTPLib.m; sourceTree = SOURCE_ROOT; };
 		664F4701188DBB76009F4776 /* IosHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosHTTPResponse.h; path = shotvibe/API/IosHTTPResponse.h; sourceTree = SOURCE_ROOT; };
 		664F4702188DBB76009F4776 /* IosHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosHTTPResponse.m; path = shotvibe/API/IosHTTPResponse.m; sourceTree = SOURCE_ROOT; };
+		664F4704189568B1009F4776 /* IosDevicePhoneContactsLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosDevicePhoneContactsLib.h; sourceTree = "<group>"; };
+		664F4705189568B1009F4776 /* IosDevicePhoneContactsLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IosDevicePhoneContactsLib.m; sourceTree = "<group>"; };
 		66CBB07E187F57A10057FBAA /* current_shotvibelib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = current_shotvibelib.a; path = shotvibelib/build/current_shotvibelib.a; sourceTree = "<group>"; };
 		66D583321867D66B00EAC842 /* RCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageView.h; path = Ralcr/RCImageView.h; sourceTree = "<group>"; };
 		66D583331867D66B00EAC842 /* RCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageView.m; path = Ralcr/RCImageView.m; sourceTree = "<group>"; };
@@ -2881,6 +2878,8 @@
 				2884ED121830F4B40069E202 /* SVNavigationController.m */,
 				108CDF0E188417AE00757E36 /* Util.h */,
 				108CDF0F188417AE00757E36 /* Util.m */,
+				664F4704189568B1009F4776 /* IosDevicePhoneContactsLib.h */,
+				664F4705189568B1009F4776 /* IosDevicePhoneContactsLib.m */,
 			);
 			path = AppDelegate;
 			sourceTree = "<group>";
@@ -3006,12 +3005,8 @@
 				2884ED0F1830CB430069E202 /* RegistrationInfo.m */,
 				3BE0B10517C24D150058CAAD /* ShotVibeDB.h */,
 				3BE0B10617C24D150058CAAD /* ShotVibeDB.m */,
-				66278D0F1867CA1400D23F34 /* SVAddressBook.h */,
-				66278D101867CA1400D23F34 /* SVAddressBook.m */,
 				66278D111867CA1400D23F34 /* SVAssets.h */,
 				66278D121867CA1400D23F34 /* SVAssets.m */,
-				28D41F41182A21BA00A31C76 /* SVRecord.h */,
-				28D41F42182A21BA00A31C76 /* SVRecord.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3721,6 +3716,7 @@
 				66013241187F4E670042047B /* Enum.m in Sources */,
 				2884ED101830CB430069E202 /* RegistrationInfo.m in Sources */,
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
+				664F4706189568B1009F4776 /* IosDevicePhoneContactsLib.m in Sources */,
 				66278D051867C94900D23F34 /* AuthData.m in Sources */,
 				66278C711867C2AD00D23F34 /* SVConfirmationCodeViewController.m in Sources */,
 				6601323B187F4E670042047B /* Byte.m in Sources */,
@@ -3730,7 +3726,6 @@
 				AA4115BE177C0451009F400F /* NSFileManager+Helper.m in Sources */,
 				66278CC71867C57300D23F34 /* SVWebViewController.m in Sources */,
 				66278D081867C94900D23F34 /* PhotoFilesManager.m in Sources */,
-				28D41F43182A21BA00A31C76 /* SVRecord.m in Sources */,
 				6601324D187F4E670042047B /* GenericDeclaration.m in Sources */,
 				108CDF6E18846B9000757E36 /* MPSurvey.m in Sources */,
 				66D5833F1867D66B00EAC842 /* RCScrollView.m in Sources */,
@@ -3855,7 +3850,6 @@
 				66278C721867C2AD00D23F34 /* SVCountriesViewController.m in Sources */,
 				28FC2CAD17FE8F2600AE24C3 /* OBGradientView.m in Sources */,
 				66013237187F4E670042047B /* ArrayIndexOutOfBoundsException.m in Sources */,
-				66278D131867CA1400D23F34 /* SVAddressBook.m in Sources */,
 				66278C751867C2AD00D23F34 /* SVRegistrationViewController.m in Sources */,
 				108CDF7318846B9000757E36 /* NSData+MPBase64.m in Sources */,
 				66278D0E1867C94900D23F34 /* UserSettings.m in Sources */,

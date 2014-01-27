@@ -17,8 +17,6 @@
 #import "NSDate+Formatting.h"
 #import "MFSideMenu.h"
 #import "MBProgressHUD.h"
-#import "SVAddressBook.h"
-#import "SVRecord.h"
 #import "SVNavigationController.h"
 
 #import "SL/AlbumSummary.h"
@@ -41,8 +39,6 @@
 	UIView *sectionView;
 	NSIndexPath *tappedCell;
 	SVCameraNavController *cameraNavController;
-	SVAddressBook *ab;
-	
 	int table_content_offset_y;
 	int total_header_h;
 	int status_bar_h;
@@ -136,19 +132,7 @@
 												 name:NOTIFICATIONCENTER_ALBUM_CHANGED
 											   object:nil];
 	
-	// Upload the contacts to the server
-	
 	RCLogTimestamp();
-	
-	ab = [SVAddressBook sharedBook];
-	[ab requestAccessWithCompletion:^(BOOL granted, NSError *error) {
-		if (granted) {
-			[self submitAddressBook];
-		}
-		else {
-			RCLog(@"You have no access to the addressbook");
-		}
-	}];
 	
 	if (IS_IOS7) {
 		[self setNeedsStatusBarAppearanceUpdate];
@@ -211,58 +195,6 @@
 {
     [super didReceiveMemoryWarning];
     [thumbnailCache removeAllObjects];
-}
-
-
-
-
-
-- (void)submitAddressBook {
-	
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		
-		NSMutableArray *contacts = [NSMutableArray arrayWithCapacity:ab.allContacts.count*9];
-		
-		for (SVRecord *record in ab.allContacts) {
-			
-			NSString *name = record.fullname;
-			NSString *phoneNumber = record.phone;
-			
-			NSDictionary *person = @{ @"phone_number": phoneNumber, @"contact_nickname": name };
-			[contacts addObject:person];
-		}
-		
-		__block NSError *error = nil;
-		ShotVibeAPI *api = [self.albumManager getShotVibeAPI];
-		NSDictionary *body = @{ @"phone_numbers": contacts, @"default_country": api.authData.defaultCountryCode };
-		
-		
-		NSDictionary *response = [api submitAddressBook:body error:&error];
-		RCLog(@"response uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]);
-		
-		RCLogTimestamp();
-		
-		int i = 0;
-		for (NSDictionary *r in (NSArray*)response[@"phone_number_details"]) {
-			//RCLogO(r);
-			if ([r[@"phone_type"] isEqualToString:@"invalid"]) {
-				SVRecord *record = [ab.allContacts objectAtIndex:i];
-				record.invalid = YES;
-			}
-			else {
-				SVRecord *record = [ab.allContacts objectAtIndex:i];
-				record.iconRemotePath = r[@"avatar_url"];
-				
-				NSString *user_id = r[@"user_id"];
-				//RCLog(@"%lli", record.phoneId);
-				
-				if (user_id != nil && ![user_id isKindOfClass:[NSNull class]]) {
-					record.memberId = [user_id longLongValue];
-				}
-			}
-			i++;
-		}
-	});
 }
 
 

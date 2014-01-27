@@ -8,14 +8,16 @@
 
 #import "SVAddFriendsViewController.h"
 #import "SVDefines.h"
-#import "SVAddressBook.h"
-#import "SVRecord.h"
 #import "SVContactCell.h"
 #import "SL/AlbumContents.h"
 #import "SL/ArrayList.h"
 #import "SL/ShotVibeAPI.h"
 #import "MBProgressHUD.h"
-#import "UIImageView+AFNetworking.h"
+#import "UIImageView+WebCache.h"
+#import "SL/ArrayList.h"
+#import "SL/PhoneContactsManager.h"
+#import "SL/PhoneContact.h"
+#import "SL/PhoneContactDisplayData.h"
 
 
 @interface SVAddFriendsViewController ()
@@ -39,12 +41,20 @@
 
 @implementation SVAddFriendsViewController {
 	
-	SVAddressBook *ab;
 	NSMutableArray *contactsButtons;// list of selected contacts buttons
-	NSMutableArray *selectedRecords;// list of ids of the contacts that were selected
-	NSMutableArray *favorites;
-	BOOL searching;
-	NSIndexPath *tappedIndexPath;
+
+    NSArray *allContacts_;
+    NSArray *searchFilteredContacts_;
+
+    NSString *searchString_;
+
+    NSInteger numSections_;
+    NSArray *sectionRowCounts_;
+    NSArray *sectionIndexTitles_;
+    NSArray *sectionStartIndexes_;
+
+    NSMutableArray *checkedContactsList_;
+    NSHashTable *checkedContactsSet_;
 }
 
 
@@ -57,17 +67,8 @@
 	
 	self.noContactsView.hidden = YES;
 	self.butOverlay.hidden = YES;
-	searching = NO;
-//	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"favorites"];
 //	[[NSUserDefaults standardUserDefaults] synchronize];
 	contactsButtons = [[NSMutableArray alloc] init];
-	selectedRecords = [[NSMutableArray alloc] init];
-	favorites = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"favorites"]];
-	
-	if (favorites == nil) {
-		favorites = [[NSMutableArray alloc] init];
-	}
-	
 	
 	// IOS7
 	if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
@@ -79,12 +80,8 @@
 	self.contactsSourceSelector.frame = IS_IOS7 ? CGRectMake(8, 7, 239, 30) : CGRectMake(5, 7, 233, 30);
     self.contactsSourceSelector.selectedSegmentIndex = 1;
 	
-	// Address book contacts was already initialized in SVAlbumListViewController and the contacts were cached
-	ab = [SVAddressBook sharedBook];
-	if (ab.granted) {
-		[self handleSearchForText:nil];
-	}
-	else {
+    BOOL permissionGranted = YES;
+    if (!permissionGranted) {
 		self.noContactsView.hidden = NO;
 	}
     
@@ -99,7 +96,18 @@
 	if (IS_IOS7) {
 		[self setNeedsStatusBarAppearanceUpdate];
 	}
+
+    checkedContactsList_ = [[NSMutableArray alloc] init];
+    NSUInteger defaultCapacity = 16;
+    checkedContactsSet_ = [[NSHashTable alloc] initWithOptions:NSHashTableStrongMemory capacity:defaultCapacity];
+
+    searchString_ = @"";
+
+    [self setAllContacts:[[NSArray alloc] init]];
+
+    [self.albumManager.phoneContactsManager setListenerWithSLPhoneContactsManager_Listener:self];
 }
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
 	return UIStatusBarStyleLightContent;
 }
@@ -109,53 +117,71 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [ab.filteredKeys count] + ((favorites.count>0 && !searching) ? 1 : 0);
+    return numSections_;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if (section == 0 && favorites.count > 0 && !searching) {
-		return favorites.count;
-	}
-	int dif = (favorites.count > 0 && !searching) ? 1 : 0;
-	NSArray *arr = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:section-dif]];
-	return [arr count];
+    return [[sectionRowCounts_ objectAtIndex:section] integerValue];
 }
+
+
+- (SLPhoneContactDisplayData *)getContactForIndexPath:(NSIndexPath *)indexPath
+{
+    NSNumber *sectionStart = [sectionStartIndexes_ objectAtIndex:indexPath.section];
+    NSInteger index = [sectionStart integerValue] + indexPath.row;
+    return [searchFilteredContacts_ objectAtIndex:index];
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SVContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
-    
-	SVRecord *record = nil;
-	
-	if (indexPath.section == 0 && favorites.count > 0 && !searching) {
-		record = [ab recordOfPhoneId:[[favorites objectAtIndex:indexPath.row] longLongValue]];
-	}
-	else {
-		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
-		NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section-dif]];
-		if (indexPath.row >= sectionRecords.count) {
-			return cell;
-		}
-		record = sectionRecords[indexPath.row];
-	}
-	
-    cell.titleLabel.text = record.fullname;
-    cell.subtitleLabel.text = record.phone;
-	//RCLog(@"record.iconRemotePath %@", record.iconRemotePath);
-	if (record != nil && record.iconLocalData != nil) {
-		[cell.contactIcon cancelImageRequestOperation];
-		cell.contactIcon.image = [[UIImage alloc] initWithData:record.iconLocalData];
-	}
-	else {
-		[cell.contactIcon setImageWithURL:[NSURL URLWithString:record.iconRemotePath!=nil?record.iconRemotePath:record.iconDefaultRemotePath]];
-	}
-	
-	cell.isMemberImage.hidden = record.memberId == 0;
-	
-	BOOL contains = [selectedRecords containsObject:record];
-	cell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageSelected":@"imageUnselected"];
-	
+
+    SLPhoneContactDisplayData *phoneContactDisplayData = [self getContactForIndexPath:indexPath];
+
+    NSString *firstName = [[phoneContactDisplayData getPhoneContact] getFirstName];
+    NSString *lastName = [[phoneContactDisplayData getPhoneContact] getLastName];
+
+    NSString *fullName;
+    NSRange boldRange;
+    if (firstName.length == 0) {
+        fullName = lastName;
+        boldRange = NSMakeRange(0, lastName.length);
+    } else if (lastName.length == 0) {
+        fullName = firstName;
+        boldRange = NSMakeRange(0, firstName.length);
+    } else {
+        fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+        boldRange = NSMakeRange(firstName.length + 1, lastName.length);
+    }
+    NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] initWithString:fullName];
+    UIFont *boldFont = [UIFont boldSystemFontOfSize:cell.titleLabel.font.pointSize];
+    [attributedName setAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:boldFont, NSFontAttributeName, nil]
+                            range:boldRange];
+    cell.titleLabel.attributedText = attributedName;
+
+    cell.subtitleLabel.text = [[phoneContactDisplayData getPhoneContact] getPhoneNumber];
+
+    [cell.contactIcon cancelCurrentImageLoad];
+
+    if ([phoneContactDisplayData isLoading]) {
+        [cell.loadingSpinner startAnimating];
+        cell.contactIcon.hidden = YES;
+        cell.isMemberImage.hidden = YES;
+    } else {
+        [cell.loadingSpinner stopAnimating];
+        cell.contactIcon.hidden = NO;
+        [cell.contactIcon setImageWithURL:[[NSURL alloc] initWithString:[phoneContactDisplayData getAvatarUrl]]];
+        cell.isMemberImage.hidden = [phoneContactDisplayData getUserId] == nil;
+    }
+
+    if ([checkedContactsSet_ containsObject:[phoneContactDisplayData getPhoneContact]]) {
+        cell.checkmarkImage.image = [UIImage imageNamed:@"imageSelected"];
+    } else {
+        cell.checkmarkImage.image = [UIImage imageNamed:@"imageUnselected"];
+    }
+
     return cell;
 }
 
@@ -164,7 +190,7 @@
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    return ab.filteredKeys;
+    return sectionIndexTitles_;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -182,17 +208,8 @@
 	l.textColor = [UIColor grayColor];
 	l.backgroundColor = [UIColor clearColor];
 	
-	if (section == 0 && favorites.count > 0 && !searching) {
-		l.text = @"Favorites";
-	}
-	else {
-		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
-		NSArray *arr = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:section-dif]];
-		if (arr.count > 0) {
-			l.text = [ab.filteredKeys objectAtIndex:section-dif];
-		}
-	}
-	
+    l.text = [sectionIndexTitles_ objectAtIndex:section];
+
 	return v;
 }
 
@@ -203,57 +220,25 @@
 {
 	[self.searchBar resignFirstResponder];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-	tappedIndexPath = indexPath;
-	RCLog(@"-----didSelect %@", tappedIndexPath);
-	SVContactCell *tappedCell = (SVContactCell*)[tableView cellForRowAtIndexPath:indexPath];
-	
-	SVRecord *record = nil;
-	BOOL contains = NO;
-	
-	if (indexPath.section == 0 && favorites.count > 0 && !searching) {
-		record = [ab recordOfPhoneId:[[favorites objectAtIndex:indexPath.row] longLongValue]];
-		for (SVRecord *selectedRecord in selectedRecords) {
-			if (record.phoneId == selectedRecord.phoneId) {
-				record = selectedRecord;
-				contains = YES;
-				break;
-			}
-		}
-	}
-	else {
-		int dif = (favorites.count > 0 && !searching) ? 1 : 0;
-		NSArray *sectionRecords = [ab.filteredContacts objectForKey:[ab.filteredKeys objectAtIndex:indexPath.section-dif]];
-		record = sectionRecords[indexPath.row];
-		contains = [selectedRecords containsObject:record];;
-	}
-	
-	// Check if this contact has a phone number
-	if (record.invalid) {
-		
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"")
-														message:NSLocalizedString(@"This user does not have a valid phone number, you can't invite him.", @"")
-													   delegate:self
-											  cancelButtonTitle:NSLocalizedString(@"Ok", @"")
-											  otherButtonTitles:nil];
-		[alert show];
-		
-		return;
-	}
-	
-	// Check if the tapped contact is already used.
-	// If yes, remove it
-	RCLogO(selectedRecords);
-	RCLogO(record);
-	RCLog(@"phoneId %lli", record.phoneId);
-	
-	tappedCell.checkmarkImage.image = [UIImage imageNamed:contains?@"imageUnselected":@"imageSelected"];
-	
-	if (contains) {
-		[self removeContactFromTable:record];
-	}
-	else {
-        [self addToContactsList:record];
-	}
+
+    SLPhoneContactDisplayData *phoneContactDisplayData = [self getContactForIndexPath:indexPath];
+
+    SLPhoneContact *phoneContact = [phoneContactDisplayData getPhoneContact];
+
+    if ([checkedContactsSet_ containsObject:phoneContact]) {
+        NSInteger index = [checkedContactsList_ indexOfObject:phoneContact];
+        [self removeButtonFromContactListWithIndex:index];
+
+        [checkedContactsList_ removeObjectAtIndex:index];
+        [checkedContactsSet_ removeObject:phoneContact];
+    } else {
+        [checkedContactsSet_ addObject:phoneContact];
+        [checkedContactsList_ addObject:phoneContact];
+
+        [self addButtonToContactsList:phoneContact withIndex:checkedContactsList_.count - 1];
+    }
+
+    [self.tableView reloadData];
 }
 
 
@@ -284,7 +269,8 @@
 	if (searchText.length == 0) {
 		[searchBar resignFirstResponder];
     }
-	[self handleSearchForText: searchText.length == 0 ? nil : searchText];
+    searchString_ = searchText;
+    [self filterContactsBySearch];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
@@ -292,30 +278,30 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
 	[searchBar resignFirstResponder];
 	searchBar.text = @"";
-	[self handleSearchForText:nil];
+    searchString_ = @"";
+    self.contactsSourceSelector.selectedSegmentIndex = 1;
+    [self filterContactsBySearch];
 }
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)bar {
     return YES;
 }
 
-- (void) handleSearchForText:(NSString*)str {
-	
-	searching = (str != nil && ![str isEqualToString:@""]);
-	BOOL membersOny = self.contactsSourceSelector.selectedSegmentIndex == 0;
-	
-	[ab filterByKeyword:str membersOnly:membersOny completionBlock:^{
-		[self.tableView reloadData];
-	}];
-}
 
+- (BOOL)displayOnlyShotVibeUsers
+{
+    return self.contactsSourceSelector.selectedSegmentIndex == 0;
+}
 
 
 #pragma mark - Private Methods
 
-- (void)addToContactsList:(SVRecord*)record {
-	
-	NSString *shortName = [[record.fullname componentsSeparatedByString:@" "] objectAtIndex:0];
-	
+- (void)addButtonToContactsList:(SLPhoneContact *)phoneContact withIndex:(NSInteger)index
+{
+    NSString *shortName = [phoneContact getFirstName];
+    if (shortName.length == 0) {
+        shortName = [phoneContact getLastName];
+    }
+
     //create a new dynamic button
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 0, 100, 20);
@@ -325,7 +311,6 @@
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[button setImage:[UIImage imageNamed:@"contactsX.png"] forState:UIControlStateNormal];
 	[button setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-	[button setTag:record.phoneId];
 	
 	CGRect f = button.frame;
 	f.size = button.intrinsicContentSize;
@@ -337,12 +322,11 @@
 	UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
 	
 	[button setBackgroundImage:resizableImage forState:UIControlStateNormal];
-	[button addTarget:self action:@selector(removeContactFromList:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(contactButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 	[self.addedContactsScrollView addSubview:button];
 	[contactsButtons addObject:button];
 	button.alpha = 0;
 	
-	[selectedRecords addObject:record];
     [self updateContacts];
 	
 	// Scroll to right only after we add a new contact not on removal
@@ -357,33 +341,36 @@
 	}];
 }
 
-- (void)removeContactFromTable:(SVRecord*)record {
-	
-	NSMutableArray *arr = contactsButtons;
-	for (UIButton *but in arr) {
-		if (but.tag == record.phoneId) {
-			[contactsButtons removeObject:but];
-			[but removeFromSuperview];
-			[selectedRecords removeObject:record];
-			[self updateContacts];
-			break;
-		}
-	}
+- (void)removeButtonFromContactListWithIndex:(NSInteger)index
+{
+    UIButton *but = [contactsButtons objectAtIndex:index];
+
+    [but removeFromSuperview];
+
+    [contactsButtons removeObjectAtIndex:index];
+
+    [self updateContacts];
 }
 
-- (void)removeContactFromList:(UIButton *)sender {
-	
-	NSMutableArray *arr = selectedRecords;
-	for (SVRecord *record in arr) {
-		if (record.phoneId == sender.tag) {
-			[selectedRecords removeObject:record];
-			break;
-		}
-	}
-	
-	[sender removeFromSuperview];
-	[contactsButtons removeObject:sender];
-	[self updateContacts];
+- (void)contactButtonPressed:(UIButton *)sender
+{
+    // Find the index of the sender
+    NSInteger index = 0;
+    for (UIButton *button in contactsButtons) {
+        if (button == sender) {
+            break;
+        }
+        index++;
+    }
+    NSAssert(index != contactsButtons.count, @"sender not found");
+
+    [self removeButtonFromContactListWithIndex:index];
+
+    SLPhoneContact *phoneContact = [checkedContactsList_ objectAtIndex:index];
+
+    [checkedContactsList_ removeObjectAtIndex:index];
+    [checkedContactsSet_ removeObject:phoneContact];
+
 	[self.tableView reloadData];
 }
 
@@ -433,20 +420,12 @@
 
     NSMutableArray *memberAddRequests = [[NSMutableArray alloc] init];
 	
-	for (SVRecord *record in selectedRecords) {
-        SLShotVibeAPI_MemberAddRequest *request = [[SLShotVibeAPI_MemberAddRequest alloc] initWithNSString:record.fullname
-                                                                                              withNSString:record.phone];
+    for (SLPhoneContact *phoneContact in checkedContactsList_) {
+        SLShotVibeAPI_MemberAddRequest *request = [[SLShotVibeAPI_MemberAddRequest alloc] initWithNSString:[phoneContact getFullName]
+                                                                                              withNSString:[phoneContact getPhoneNumber]];
 
         [memberAddRequests addObject:request];
-		
-		NSNumber *id_ = [NSNumber numberWithLongLong:record.phoneId];
-		if (![favorites containsObject:id_]) {
-			[favorites addObject:id_];
-		}
 	}
-	
-	[[NSUserDefaults standardUserDefaults] setObject:favorites forKey:@"favorites"];
-	[[NSUserDefaults standardUserDefaults] synchronize];
 	
 	//[contactsToInvite addObject:@{@"phone_number": @"+40700000002", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
 	//[contactsToInvite addObject:@{@"phone_number": @"(070) 000-0001", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
@@ -475,21 +454,157 @@
 }
 
 - (void)cancelPressed:(id)sender {
+    [self.albumManager.phoneContactsManager unsetListener];
+
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)contactsSourceChanged:(UISegmentedControl *)sender {
-	
-    if (sender.selectedSegmentIndex == 2) {
-		
-    }
-	else {
-		[self handleSearchForText:nil];
-    }
+    [self filterContactsBySearch];
 }
 
 - (IBAction)overlayPressed:(id)sender {
 	[self.searchBar resignFirstResponder];
 }
+
+
+// This is called from a background thread
+- (void)phoneContactsUpdatedWithSLArrayList:(SLArrayList *)phoneContacts
+{
+    NSLog(@"phoneContacts size: %d", [phoneContacts size]);
+
+    [phoneContacts.array sortUsingComparator:^NSComparisonResult (id obj1, id obj2) {
+        SLPhoneContact *c1 = [(SLPhoneContactDisplayData *)obj1 getPhoneContact];
+        SLPhoneContact *c2 = [(SLPhoneContactDisplayData *)obj2 getPhoneContact];
+
+        NSComparisonResult r;
+        if ([c1 getLastName].length == 0 && [c2 getLastName].length > 0) {
+            r = [[c1 getFirstName] compare:[c2 getLastName] options:NSCaseInsensitiveSearch];
+        } else if ([c1 getLastName].length > 0 && [c2 getLastName].length == 0) {
+            r = [[c1 getLastName] compare:[c2 getFirstName] options:NSCaseInsensitiveSearch];
+        } else {
+            r = [[c1 getLastName] compare:[c2 getLastName] options:NSCaseInsensitiveSearch];
+        }
+
+        if (r != NSOrderedSame) {
+            return r;
+        }
+
+        r = [[c1 getFirstName] compare:[c2 getFirstName] options:NSCaseInsensitiveSearch];
+
+        if (r != NSOrderedSame) {
+            return r;
+        }
+
+        return [[c1 getPhoneNumber] compare:[c2 getPhoneNumber]];
+    }];
+
+    NSLog(@"sort complete");
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setAllContacts:phoneContacts.array];
+    });
+}
+
+
+static inline NSString * contactFirstLetter(SLPhoneContact *phoneContact)
+{
+    if ([phoneContact getLastName].length > 0) {
+        return [[[phoneContact getLastName] substringToIndex:1] uppercaseString];
+    } else {
+        return [[[phoneContact getFirstName] substringToIndex:1] uppercaseString];
+    }
+}
+
+
+- (void)setAllContacts:(NSArray *)contacts
+{
+    allContacts_ = contacts;
+
+    [self filterContactsBySearch];
+}
+
+
+- (void)filterContactsBySearch
+{
+    if (searchString_.length == 0 && ![self displayOnlyShotVibeUsers]) {
+        searchFilteredContacts_ = allContacts_;
+
+        [self computeSections];
+        return;
+    }
+
+    NSMutableArray *searchFilteredContacts = [[NSMutableArray alloc] init];
+    for (SLPhoneContactDisplayData *phoneContactDisplayData in allContacts_) {
+        SLPhoneContact *phoneContact = [phoneContactDisplayData getPhoneContact];
+
+        BOOL contactContainsSearchString;
+        if (searchString_.length == 0) {
+            contactContainsSearchString = YES;
+        } else {
+            if ([[phoneContact getFullName] rangeOfString:searchString_ options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                contactContainsSearchString = YES;
+            } else if ([[phoneContact getPhoneNumber] rangeOfString:searchString_ options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                contactContainsSearchString = YES;
+            } else {
+                contactContainsSearchString = NO;
+            }
+        }
+
+        if (contactContainsSearchString) {
+            if ([self displayOnlyShotVibeUsers]) {
+                if (![phoneContactDisplayData isLoading] && [phoneContactDisplayData getUserId] != nil) {
+                    [searchFilteredContacts addObject:phoneContactDisplayData];
+                }
+            } else {
+                [searchFilteredContacts addObject:phoneContactDisplayData];
+            }
+        }
+    }
+
+    searchFilteredContacts_ = searchFilteredContacts;
+
+    [self computeSections];
+}
+
+
+- (void)computeSections
+{
+    NSUInteger initialCapacity = 32; // Enough for the alphabet
+    NSMutableArray *sectionTitles = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+
+    NSMutableArray *sectionRowCounts = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+    NSMutableArray *sectionStartIndexes = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+
+    int i = 0;
+    int k = 0;
+    for (SLPhoneContactDisplayData *p in searchFilteredContacts_) {
+        NSString *firstLetter = contactFirstLetter([p getPhoneContact]);
+        if (i == 0 || ![firstLetter isEqualToString:[sectionTitles objectAtIndex:sectionTitles.count - 1]]) {
+            [sectionStartIndexes addObject:[[NSNumber alloc] initWithInteger:i]];
+            [sectionTitles addObject:firstLetter];
+
+            if (i != 0) {
+                [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
+                k = 0;
+            }
+        }
+
+        k++;
+        i++;
+    }
+    [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
+
+    sectionRowCounts_ = sectionRowCounts;
+
+    sectionIndexTitles_ = sectionTitles;
+
+    numSections_ = sectionIndexTitles_.count;
+
+    sectionStartIndexes_ = sectionStartIndexes;
+
+    [self.tableView reloadData];
+}
+
 
 @end
