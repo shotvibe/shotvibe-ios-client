@@ -38,7 +38,7 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
     // to select a cell;
     // We set the backview (camera/picture buttons) within the scrollView, and not behind, for the same reason,
     // it would have been untouchable
-    
+
     self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.contentView.bounds) + CGRectGetWidth(self.backView.bounds), CGRectGetHeight(self.contentView.bounds) - 2);
     self.scrollView.showsHorizontalScrollIndicator = NO;
 
@@ -48,16 +48,18 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
     [self.scrollView addGestureRecognizer:recognizer];
 }
 
-- (void)slideBackToOriginalPosition {
+
+- (void)slideBackToOriginalPosition
+{
     double delayInSeconds = 1.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
         [self.scrollView setContentOffset:CGPointZero animated:NO];
-    }
-                   
-                   
-                   );
+    });
+    // *INDENT-ON*
 }
+
 
 - (IBAction)Select:(id)sender
 {
