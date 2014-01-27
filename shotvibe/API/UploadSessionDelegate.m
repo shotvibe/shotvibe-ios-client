@@ -1,5 +1,5 @@
 //
-//  UploadDelegate.m
+//  UploadSessionDelegate.m
 //  shotvibe
 //
 //  Created by martijn on 23-01-14.

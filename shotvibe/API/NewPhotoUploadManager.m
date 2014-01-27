@@ -156,7 +156,7 @@ static const NSTimeInterval RETRY_TIME = 5;
             [photo setAddingToAlbum]; // TODO: this state is no longer used
             [photoIdsToAdd addObject:photo.photoId];
         }
-/* old way to call albumAddPhotos
+/* old way to call albumAddPhotos, can be removed if adding as an upload task is responsive enough.
         BOOL photosSuccesfullyAdded = NO;
         // TODO: this loop is not okay for background thread
 

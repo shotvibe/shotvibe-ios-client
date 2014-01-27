@@ -214,13 +214,14 @@ const NSTimeInterval RETRY_TIME = 5;
         BOOL photoSuccesfullyUploaded = NO;
         while (!photoSuccesfullyUploaded) {
             NSError *error;
+            // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
             photoSuccesfullyUploaded = [shotvibeAPI_ photoUpload:nextPhotoUpload.photoId filePath:filename uploadProgress:^(int bytesUploaded, int bytesTotal) {
                 [nextPhotoUpload setUploadProgress:bytesUploaded bytesTotal:bytesTotal];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [listener_ photoUploadProgress:albumId];
                 });
             } withError:&error];
-
+            // *INDENT-ON*
             if (!photoSuccesfullyUploaded) {
                 RCLog(@"Error uploading photo (photoId: %@):\n%@", nextPhotoUpload.photoId, [error description]);
                 [NSThread sleepForTimeInterval:RETRY_TIME];
