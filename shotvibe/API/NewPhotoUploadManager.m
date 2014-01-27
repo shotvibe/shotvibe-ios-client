@@ -68,15 +68,26 @@ static const NSTimeInterval RETRY_TIME = 5;
         [listener_ photoUploadAdditions:albumId]; // Show the newly created UploadingAlbumPhotos in the UI.
     });
 
-    // Request new ids if there are not enough
-    if ([photoIds_ count] < [photoUploadRequests count]) {
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [self requestIdsForNewUploads:[photoUploadRequests count]];
+        for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
+            [self uploadPhoto:albumId photo:photo];
+        }
+    });
+}
+
+
+- (void)requestIdsForNewUploads:(NSUInteger)nrOfNewUploads
+{
+    if ([photoIds_ count] < nrOfNewUploads) { // Request new ids if there are not enough
         RCLog(@"PhotoUploadManager Requesting Photo IDs");
 
         NSArray *newPhotoIds = nil;
         while (!newPhotoIds) {
             NSError *error;
 
-            newPhotoIds = [shotVibeAPI_ photosUploadRequest:(int)[photoUploadRequests count] + 1 withError:&error];
+            newPhotoIds = [shotVibeAPI_ photosUploadRequest:nrOfNewUploads + 1 withError:&error];
             if (!newPhotoIds) {
                 RCLog(@"Error requesting photo IDS: %@", [error description]);
                 [NSThread sleepForTimeInterval:RETRY_TIME];
@@ -84,10 +95,6 @@ static const NSTimeInterval RETRY_TIME = 5;
         }
 
         [photoIds_ addObjectsFromArray:newPhotoIds];
-    }
-
-    for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
-        [self uploadPhoto:albumId photo:photo];
     }
 }
 
