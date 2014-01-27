@@ -311,8 +311,9 @@
 
 #pragma mark camera delegate
 
-- (void)cameraExit {
-	//cameraNavController = nil;
+- (void)cameraExit
+{
+    //cameraNavController = nil;
 	self.scrollToBottom = NO;
 	self.scrollToTop = NO;
 }
