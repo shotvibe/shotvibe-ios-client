@@ -406,23 +406,25 @@
 
 #pragma mark Cell delegate
 
-- (void)releaseOnCamera:(UITableViewCell*)cell {
-	
-	NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+- (void)cameraButtonTapped:(UITableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
-	
-	cameraNavController = [[SVCameraNavController alloc] init];
-	cameraNavController.cameraDelegate = self;
+
+    cameraNavController = [[SVCameraNavController alloc] init];
+    cameraNavController.cameraDelegate = self;
     cameraNavController.albumId = [album getId];
-	cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
+    cameraNavController.albumManager = self.albumManager;
+    cameraNavController.nav = (SVNavigationController *)self.navigationController; // this is set last
 }
-- (void)releaseOnLibrary:(UITableViewCell*)cell {
-	
-	NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+
+
+- (void)libraryButtonTapped:(UITableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
-	
-	[self performSegueWithIdentifier:@"AlbumsToImagePickerSegue" sender:album];
+
+    [self performSegueWithIdentifier:@"AlbumsToImagePickerSegue" sender:album];
 }
 
 - (void)selectCell:(UITableViewCell*)cell {

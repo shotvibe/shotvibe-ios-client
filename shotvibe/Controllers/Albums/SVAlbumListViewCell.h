@@ -13,8 +13,8 @@
 
 @protocol SVAlbumListViewCellDelegate <NSObject>
 @required
-- (void)releaseOnCamera:(UITableViewCell*)cell;
-- (void)releaseOnLibrary:(UITableViewCell*)cell;
+- (void)cameraButtonTapped:(UITableViewCell *)cell;
+- (void)libraryButtonTapped:(UITableViewCell *)cell;
 - (void)selectCell:(UITableViewCell*)cell;
 
 @end

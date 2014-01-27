@@ -268,12 +268,7 @@
 {
 	navigatingNext = YES;
 
-    if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
-		// TODO: Not called, Settings is not reachable from this view
-        SVSettingsViewController *destinationController = segue.destinationViewController;
-        destinationController.albumManager = self.albumManager;
-    }
-    else if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
+    if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
 		
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         
@@ -370,7 +365,7 @@
         [cell.networkImageView setImage:[uploadingPhoto getThumbnail]];
 
         cell.uploadProgressView.hidden = NO;
-        cell.uploadProgressView.progress = 0.0f;
+        [cell.uploadProgressView setProgress:[photo.uploadingPhoto getUploadProgress] animated:NO];
 
         cell.labelNewView.hidden = YES;
     }

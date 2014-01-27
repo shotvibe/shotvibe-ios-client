@@ -10,7 +10,7 @@
 #import "SVDefines.h"
 #import "MBProgressHUD.h"
 #import "UIImage+Scale.h"
-
+#import "AlbumSummary.h"
 
 @implementation SVProfilePicViewController
 
@@ -165,6 +165,20 @@
 	[self.navigationController.visibleViewController dismissViewControllerAnimated:YES completion:^{
 		
 	}];
+}
+
+
+#pragma mark camera delegate
+
+- (void)cameraExit
+{
+    RCLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> cameraExit");
+}
+
+
+- (void)cameraWasDismissedWithAlbum:(AlbumSummary *)selectedAlbum
+{
+    RCLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> cameraWasDismissedWithAlbum %@", selectedAlbum.name);
 }
 
 
