@@ -410,6 +410,8 @@
 #pragma mark - Actions
 
 - (IBAction)donePressed:(id)sender {
+    [self.albumManager.phoneContactsManager unsetListener];
+
     // add members to album
     //TODO if already shotvibe member just add to album else sent notification to user to join?
     RCLog(@"contacts to add >> ");
