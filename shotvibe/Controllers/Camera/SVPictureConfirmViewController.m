@@ -132,17 +132,28 @@
 - (IBAction)share:(id)sender
 {
     NSLog(@"share");
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
-    RCLog(@"====================== 1. Upload selected photos to albumId %lli", self.albumId);
+    if (self.albumId != 0) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
-    // Upload the taken photos
-    NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
-    for (NSString *selectedPhotoPath in self.images) {
-        PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:selectedPhotoPath];
-        [photoUploadRequests addObject:photoUploadRequest];
+        RCLog(@"====================== 1. Upload selected photos to albumId %lli", self.albumId);
+
+        // Upload the taken photos
+        NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
+        for (NSString *selectedPhotoPath in self.images) {
+            PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:selectedPhotoPath];
+            [photoUploadRequests addObject:photoUploadRequest];
+        }
+        [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
+    } else {
+        [self.presentingViewController dismissViewControllerAnimated:NO completion:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVPickAlbumToUpload" object:nil userInfo:@{ @"images" : self.images }
+            ];
+        }
+
+
+        ];
     }
-    [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
 }
 
 
@@ -246,6 +257,7 @@
         manager.container = self;
         manager.albumManager = self.albumManager;
         manager.albumId = self.albumId;
+
         [self presentViewController:manager animated:NO completion:nil];
     }
 }
