@@ -33,7 +33,7 @@
 {
     NSMutableArray *photosAlreadyInQueue = [photosIndexedByAlbum_ objectForKey:[NSNumber numberWithLongLong:albumId]];
 
-    if (!photosAlreadyInQueue) {
+    if (!photosAlreadyInQueue) { // create a new album entry, if necessary
         photosAlreadyInQueue = [[NSMutableArray alloc] init];
         [photosIndexedByAlbum_ setObject:photosAlreadyInQueue forKey:[NSNumber numberWithLongLong:albumId]];
     }
@@ -41,19 +41,24 @@
 }
 
 
-- (BOOL)removePhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
+// Does nothing if photo is not stored under key albumId
+- (void)removePhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
+{
+    [self removePhotos:@[photo] album:albumId];
+}
+
+
+// Does nothing for photos that are not stored under key albumId
+- (void)removePhotos:(NSArray *)photos album:(int64_t)albumId
 {
     NSMutableArray *photosInQueue = [photosIndexedByAlbum_ objectForKey:[NSNumber numberWithLongLong:albumId]];
 
-    if (photosInQueue && [photosInQueue containsObject:photo]) {
-        [photosInQueue removeObject:photo];
+    if (photosInQueue) {
+        [photosInQueue removeObjectsInArray:photos]; // removeObjectsInArray ignores photos not in photosQueue
 
-        if ([photosInQueue count] == 0) {
+        if ([photosInQueue count] == 0) { // get rid of the album entry if this removal made it empty
             [photosIndexedByAlbum_ removeObjectForKey:[NSNumber numberWithLongLong:albumId]];
         }
-        return YES;
-    } else {
-        return NO;
     }
 }
 
