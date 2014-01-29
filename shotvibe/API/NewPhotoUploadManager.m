@@ -26,7 +26,11 @@
     NSMutableArray *photoIds_; // A list of available photo ids for uploading, elements are `NSString`
 
     PhotoDictionary *uploadingPhotos_; // contains the AlbumUploadingPhotos that are currently uploading to the server
-    PhotoDictionary *uploadedPhotos_; // contains the AlbumUploadingPhotos that have been uploaded, but not added to the album yet
+    PhotoDictionary *uploadedPhotos_; // contains the AlbumUploadingPhotos that have been uploaded, but for which no add request has been sent (because other photos for that album are still uploading)
+
+    PhotoDictionary *addingPhotos_; // contains the AlbumUploadingPhotos for which an add request has been sent
+
+    // Using just one queue instead of the two separate uploaded and adding queues will pose a problem in the (extremely hypothetical) situion that a photo is queued and completely uploaded while other photos for the same album are in the process of being added. (We wouldn't be able to determine which photos should be put in the add request for the single photo)
 }
 
 static const NSTimeInterval RETRY_TIME = 5;
@@ -48,6 +52,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
         uploadingPhotos_ = [[PhotoDictionary alloc] init];
         uploadedPhotos_ = [[PhotoDictionary alloc] init];
+        addingPhotos_ = [[PhotoDictionary alloc] init];
     }
 
     return self;
@@ -156,7 +161,8 @@ static const NSTimeInterval RETRY_TIME = 5;
             // will add the photos to the album. This way only one push notification will be sent.
             photosToAdd = [uploadedPhotos_ getPhotosForAlbum:albumId];
 
-            [uploadedPhotos_ removeAllPhotosForAlbum:albumId];
+            [uploadedPhotos_ removePhotos:photosToAdd album:albumId];
+            [addingPhotos_ addPhotos:photosToAdd album:albumId];
         }
     }
 
@@ -184,6 +190,10 @@ static const NSTimeInterval RETRY_TIME = 5;
 
         // Notify album manager that all photos are uploaded, causing a server refresh
         dispatch_async(dispatch_get_main_queue(), ^{
+            @synchronized(uploadingPhotos_) {
+                [addingPhotos_ removePhotos:photosToAdd album:albumId];
+            }
+
             [listener_ photoAlbumAllPhotosUploaded:albumId];
             RCLog(@"Background task %d ended", backgroundTaskID);
             [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
@@ -195,6 +205,10 @@ static const NSTimeInterval RETRY_TIME = 5;
 
             // Notify album manager that all photos are uploaded, causing a server refresh
             dispatch_async(dispatch_get_main_queue(), ^{
+                @synchronized(uploadingPhotos_) {
+                    [addingPhotos_ removePhotos:photosToAdd album:albumId];
+                }
+
                 [listener_ photoAlbumAllPhotosUploaded:albumId];
                 RCLog(@"Background task %d ended", backgroundTaskID);
                 [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
@@ -214,8 +228,10 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     @synchronized(uploadingPhotos_) {
         NSArray *uploading = [uploadingPhotos_ getAllPhotos];
-        NSArray *uploadingAndUploaded = [uploading arrayByAddingObjectsFromArray:[uploadedPhotos_ getAllPhotos]];
-        for (AlbumUploadingPhoto *upload in uploadingAndUploaded) {
+        NSArray *uploaded = [uploadedPhotos_ getAllPhotos];
+        NSArray *adding = [addingPhotos_ getAllPhotos];
+        NSArray *all = [[uploading arrayByAddingObjectsFromArray:uploaded] arrayByAddingObjectsFromArray:adding];
+        for (AlbumUploadingPhoto *upload in all) {
             AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumUploadingPhoto:upload];
             [result addObject:albumPhoto];
         }
