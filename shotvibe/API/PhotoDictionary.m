@@ -25,14 +25,19 @@
 
 - (void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId
 {
+    [self addPhotos:@[photo] album:albumId];
+}
+
+
+- (void)addPhotos:(NSArray *)photos album:(int64_t)albumId
+{
     NSMutableArray *photosAlreadyInQueue = [photosIndexedByAlbum_ objectForKey:[NSNumber numberWithLongLong:albumId]];
 
     if (!photosAlreadyInQueue) {
         photosAlreadyInQueue = [[NSMutableArray alloc] init];
         [photosIndexedByAlbum_ setObject:photosAlreadyInQueue forKey:[NSNumber numberWithLongLong:albumId]];
     }
-
-    [photosAlreadyInQueue addObject:photo];
+    [photosAlreadyInQueue addObjectsFromArray:photos];
 }
 
 

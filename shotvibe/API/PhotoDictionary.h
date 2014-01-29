@@ -20,6 +20,8 @@
 
 - (void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId;
 
+- (void)addPhotos:(NSArray *)photos album:(int64_t)albumId;
+
 - (BOOL)removePhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId;
 
 - (NSArray *)getPhotosForAlbum:(int64_t)albumId;
