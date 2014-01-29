@@ -351,7 +351,7 @@
     } else if (photo.uploadingPhoto) {
         [cell.networkImageView setImage:[photo.uploadingPhoto getThumbnail]];
 
-        cell.uploadProgressView.hidden = NO;
+        cell.uploadProgressView.hidden = [photo.uploadingPhoto isUploadComplete];
         [cell.uploadProgressView setProgress:[photo.uploadingPhoto getUploadProgress] animated:NO];
 
         cell.labelNewView.hidden = YES;
