@@ -312,7 +312,7 @@
 //	}
 
     SVPickerController *manager = [[SVPickerController alloc] init];
-    manager.albumManager = self.albumManager;    
+    manager.albumManager = self.albumManager;
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
     [self presentViewController:nc animated:NO completion:nil];
 
