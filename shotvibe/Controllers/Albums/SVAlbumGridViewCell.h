@@ -6,9 +6,8 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "PhotoView.h"
+#import "FancyProgressView.h"
 
 @interface SVAlbumGridViewCell : UICollectionViewCell
 
@@ -17,5 +16,6 @@
 @property (nonatomic, strong) IBOutlet UILabel *labelNewLabel;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityView;
 @property (nonatomic, strong) IBOutlet UIProgressView *uploadProgressView;
+@property (nonatomic, strong) FancyProgressView *fancyUploadProgressView;
 
 @end

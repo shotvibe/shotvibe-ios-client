@@ -697,6 +697,8 @@
             AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
             cell.uploadProgressView.hidden = [uploadingPhoto isUploadComplete];
             cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
+            cell.fancyUploadProgressView.hidden = [uploadingPhoto isUploadComplete];
+            cell.fancyUploadProgressView.progress = [uploadingPhoto getUploadProgress];
 		}
 	}
 }
