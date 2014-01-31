@@ -367,6 +367,7 @@
                               photoSize:[PhotoSize Thumb75]
                                 manager:self.albumManager.photoFilesManager];
         cell.uploadProgressView.hidden = YES;
+        cell.fancyUploadProgressView.hidden = YES;
 
         //RCLog(@"cellForItemAtPath url:%@ added:%@ access:%@", photo.serverPhoto.url, photo.serverPhoto.dateAdded, photo.serverPhoto.lastAccess);
 
@@ -379,6 +380,8 @@
 
         cell.uploadProgressView.hidden = [uploadingPhoto isUploadComplete];
         [cell.uploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
+        [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
+        cell.fancyUploadProgressView.hidden = NO;
 
         cell.labelNewView.hidden = YES;
     }
@@ -698,6 +701,7 @@
             cell.uploadProgressView.hidden = [uploadingPhoto isUploadComplete];
             cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
             cell.fancyUploadProgressView.hidden = [uploadingPhoto isUploadComplete];
+            RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
             cell.fancyUploadProgressView.progress = [uploadingPhoto getUploadProgress];
 		}
 	}

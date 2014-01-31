@@ -10,10 +10,15 @@
 
 @interface FancyProgressView : UIView
 
-- (void)start;
+- (void)appear;
 
-- (void)stop;
+- (void)flyIn;
+
+- (void)setProgress:(float)progress animated:(BOOL)animated;
+
+- (void)flyOut;
 
 @property (nonatomic) float progress; // between 0.0 and 1.0, values outside are clipped
+// Setting progress with property is not animated.
 
 @end
