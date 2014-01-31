@@ -702,7 +702,7 @@
             cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
             cell.fancyUploadProgressView.hidden = [uploadingPhoto isUploadComplete];
             RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
-            cell.fancyUploadProgressView.progress = [uploadingPhoto getUploadProgress];
+            [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:YES];
 		}
 	}
 }

@@ -19,7 +19,7 @@ static float const kInset = 4; // space around the progress pie chart
 
 static float const kAppearanceTime = 0.3;
 static float const kFlyInTime = 0.3;
-static float const kProgressSpeed = 0.3; // progress increase animation per second
+static float const kProgressSpeed = 0.1; // max progress increase per second
 static float const kFlyOutTime = 0.2;
 
 - (id)initWithFrame:(CGRect)frame
@@ -32,7 +32,9 @@ static float const kFlyOutTime = 0.2;
         progressLayer_ = [CAShapeLayer layer];
         progressLayer_.fillRule = kCAFillRuleEvenOdd;
         progressLayer_.fillColor = [UIColor blackColor].CGColor;
+        progressLayer_.backgroundColor = [UIColor whiteColor].CGColor;
         progressLayer_.opacity = 0.0;
+        progressLayer_.frame = self.bounds;
         [self.layer addSublayer:progressLayer_];
 
 
@@ -44,8 +46,10 @@ static float const kFlyOutTime = 0.2;
         CGPathRelease(path);
         self.layer.mask = maskLayer;
 
-        [self appear];
-        [self flyIn];
+        progressLayer_.opacity = kAlpha;
+
+        //[self appear];
+        //[self flyIn];
     }
     return self;
 }
@@ -88,13 +92,18 @@ static float const kFlyOutTime = 0.2;
     float oldProgress = _progress;
     _progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
 
-    NSLog(@"Progress from %.2f to %.2f", oldProgress, _progress);
-    [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:_progress];
+    if (NO /*animated*/) {
+        NSLog(@"Progress from %.2f to %.2f", oldProgress, _progress);
+        [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:_progress];
+    } else {
+        progressLayer_.path = [self createProgressPathWithProgress:_progress];
+    }
 }
 
 
 - (void)flyOut
 {
+    [progressLayer_ removeAllAnimations];
     float width = self.bounds.size.width;
     float height = self.bounds.size.height;
     float surroundingRadius = sqrt(width * width + height * height) / 2 + 1;
@@ -191,11 +200,11 @@ CGRect makeCenteredRect(CGRect rect, float width, float height)
 {
     CGPoint center = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
     return (CGRect) {
-               {
-                   center.x - width / 2, center.y - height / 2
-               }, {
-                   width, height
-               }
+        {
+            center.x - width / 2, center.y - height / 2
+        }, {
+            width, height
+        }
     };
 }
 
