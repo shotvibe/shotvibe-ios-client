@@ -332,7 +332,8 @@
 
     NSArray *images = [notification userInfo][@"images"];
 
-    SVMultiplePicturesViewController *controller = [[SVMultiplePicturesViewController alloc] init];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+	SVMultiplePicturesViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"MultiplePicturesViewController"];
     controller.images = images;
     controller.albumManager = self.albumManager;
     controller.albums = albumList;

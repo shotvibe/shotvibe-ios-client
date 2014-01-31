@@ -13,12 +13,13 @@
 #import "SVDefines.h"
 #import "SVAlbumGridViewController.h"
 #import "MBProgressHUD.h"
+#import "NSDate+Formatting.h"
 
 @interface SVMultiplePicturesViewController ()
 
 @property (nonatomic) int64_t albumId;
 
-@property (nonatomic, strong) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIView *createNewAlbumTitleView;
 @property (nonatomic, strong) IBOutlet UITextField *albumField;
 
@@ -42,7 +43,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.collectionView registerClass:[SVAlbumCell class] forCellWithReuseIdentifier:@"AlbumCell"];
 
     // Setup titleview
     UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
@@ -68,47 +68,82 @@
 }
 
 
-#pragma mark - UICollectionView Datasource
+#pragma mark - UITableViewDataSource Methods
 
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
-{
-    return [self.albums count] + 1;
-}
-
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    SVAlbumCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"AlbumCell" forIndexPath:indexPath];
-    //    cell.delegate = self;
+    return [self.albums count] + 1;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.delegate = self;
+    cell.parentTableView = self.tableView;
+    cell.scrollView.scrollEnabled = NO;
 
     if (indexPath.row == 0) {
         [cell.networkImageView setImage:[UIImage imageNamed:@"plus"]];
+        cell.title.text = @"New Album";
+        cell.author.text = @"";
+        cell.timestamp.hidden = YES;
     } else {
         AlbumSummary *album = self.albums[indexPath.row - 1];
+
+        if (album.numNewPhotos > 0) {
+            [cell.numberNotViewedIndicator setTitle:album.numNewPhotos > 99 ? @"99+":[NSString stringWithFormat:@"%lld", album.numNewPhotos] forState:UIControlStateNormal];
+            cell.numberNotViewedIndicator.hidden = NO;
+        } else {
+            cell.numberNotViewedIndicator.hidden = YES;
+        }
+
+        NSString *distanceOfTimeInWords = [album.dateUpdated distanceOfTimeInWords];
+
+        cell.tag = indexPath.row;
+        cell.title.text = album.name;
+        cell.author.text = @"";
+        cell.timestamp.hidden = YES;
 
         [cell.networkImageView setImage:nil];
         // TODO: latestPhotos might be nil if we insert an AlbumContents instead AlbumSummary
         if (album.latestPhotos.count > 0) {
             AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
             if (latestPhoto.serverPhoto) {
+                cell.author.text = [NSString stringWithFormat:@"Last added by %@", latestPhoto.serverPhoto.author.nickname];
+
                 [cell.networkImageView setPhoto:latestPhoto.serverPhoto.photoId photoUrl:latestPhoto.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
+                [cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
+                cell.timestamp.hidden = NO;
             }
         } else {
             [cell.networkImageView setImage:[UIImage imageNamed:@"placeholderImage"]];
+            cell.author.text = [NSString stringWithFormat:@"Empty album"];
         }
     }
+
     return cell;
 }
 
 
-#pragma mark - UICollectionViewDelegate
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)selectCell:(UITableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+}
+
+
+#pragma mark - UITableViewDelegate Methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
         [self showDropDown];
@@ -168,20 +203,6 @@
 }
 
 
-#pragma mark – UICollectionViewDelegateFlowLayout
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return CGSizeMake(100, 100);
-}
-
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsMake(0, 4, 0, 4);
-}
-
-
 - (IBAction)newAlbumClosed:(id)sender
 {
     [self hideDropDown:YES];
@@ -219,7 +240,6 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self hideDropDown:NO];
             [self uploadPhotos];
-
         }
 
 
@@ -241,7 +261,7 @@
     self.albumField.text = @"";
     self.albumField.placeholder = currentDateString;
 
-    self.collectionView.userInteractionEnabled = NO;
+    self.tableView.userInteractionEnabled = NO;
     [UIView animateWithDuration:0.3 animations:^{
         CGRect frame = self.createNewAlbumTitleView.frame;
         frame.origin.y = self.navigationController.navigationBar.frame.size.height + 20;
@@ -268,19 +288,19 @@
             frame.origin.y = self.navigationController.navigationBar.frame.size.height + 20 - frame.size.height;
             self.createNewAlbumTitleView.frame = frame;
         }
-         
-         
+
+
                          completion:^(BOOL finished) {
-                             self.collectionView.userInteractionEnabled = YES;
-                         }
-         
-         
-         ];
+            self.tableView.userInteractionEnabled = YES;
+        }
+
+
+        ];
     } else {
         CGRect frame = self.createNewAlbumTitleView.frame;
         frame.origin.y = self.navigationController.navigationBar.frame.size.height + 20 - frame.size.height;
         self.createNewAlbumTitleView.frame = frame;
-        self.collectionView.userInteractionEnabled = YES;
+        self.tableView.userInteractionEnabled = YES;
     }
 }
 

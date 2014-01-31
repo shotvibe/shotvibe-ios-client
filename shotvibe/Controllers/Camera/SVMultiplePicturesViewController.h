@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "AlbumManager.h"
+#import "SVAlbumListViewCell.h"
 
-@interface SVMultiplePicturesViewController : UIViewController
+@interface SVMultiplePicturesViewController : UIViewController <SVAlbumListViewCellDelegate>
 
 @property (nonatomic, strong) NSArray *images;
 @property (nonatomic, strong) AlbumManager *albumManager;

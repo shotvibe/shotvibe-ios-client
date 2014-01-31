@@ -1,9 +1,9 @@
 //
 //  SVPickerCell.m
-//  test
+//  shotvibe
 //
 //  Created by Salvatore Balzano on 20/01/14.
-//  Copyright (c) 2014 MobiApps. All rights reserved.
+//  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
 #import "SVPickerCell.h"

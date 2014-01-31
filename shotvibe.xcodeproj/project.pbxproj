@@ -544,7 +544,6 @@
 		3E759FE1188FFEFD00CAB82D /* SVPictureConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759FDC188FFEFD00CAB82D /* SVPictureConfirmViewController.m */; };
 		3E759FE2188FFEFD00CAB82D /* SVPictureConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */; };
 		3E7B14901896A54300A691F2 /* SVMultiplePicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B148E1896A54300A691F2 /* SVMultiplePicturesViewController.m */; };
-		3E7B14911896A54300A691F2 /* SVMultiplePicturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B148F1896A54300A691F2 /* SVMultiplePicturesViewController.xib */; };
 		3E7B14941896AC5B00A691F2 /* SVAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B14931896AC5B00A691F2 /* SVAlbumCell.m */; };
 		66159228183273040054471E /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 66159227183273040054471E /* AlbumMember.m */; };
 		66278C4B1867B23800D23F34 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C481867B23800D23F34 /* FileUtils.m */; };
@@ -1263,7 +1262,6 @@
 		3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVPictureConfirmViewController.xib; path = Camera/SVPictureConfirmViewController.xib; sourceTree = "<group>"; };
 		3E7B148D1896A54300A691F2 /* SVMultiplePicturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVMultiplePicturesViewController.h; path = Camera/SVMultiplePicturesViewController.h; sourceTree = "<group>"; };
 		3E7B148E1896A54300A691F2 /* SVMultiplePicturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVMultiplePicturesViewController.m; path = Camera/SVMultiplePicturesViewController.m; sourceTree = "<group>"; };
-		3E7B148F1896A54300A691F2 /* SVMultiplePicturesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVMultiplePicturesViewController.xib; path = Camera/SVMultiplePicturesViewController.xib; sourceTree = "<group>"; };
 		3E7B14921896AC5B00A691F2 /* SVAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumCell.h; path = Camera/SVAlbumCell.h; sourceTree = "<group>"; };
 		3E7B14931896AC5B00A691F2 /* SVAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumCell.m; path = Camera/SVAlbumCell.m; sourceTree = "<group>"; };
 		66159226183273040054471E /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
@@ -2597,7 +2595,6 @@
 				3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */,
 				3E7B148D1896A54300A691F2 /* SVMultiplePicturesViewController.h */,
 				3E7B148E1896A54300A691F2 /* SVMultiplePicturesViewController.m */,
-				3E7B148F1896A54300A691F2 /* SVMultiplePicturesViewController.xib */,
 				3E7B14921896AC5B00A691F2 /* SVAlbumCell.h */,
 				3E7B14931896AC5B00A691F2 /* SVAlbumCell.m */,
 				66278CA21867C4D400D23F34 /* SVCameraNavController.h */,
@@ -3199,7 +3196,6 @@
 				3E759FE2188FFEFD00CAB82D /* SVPictureConfirmViewController.xib in Resources */,
 				2849A7EB17D9AB420076AFBA /* AlbumActivityJoinedIcon.png in Resources */,
 				2849A7EC17D9AB420076AFBA /* AlbumActivityJoinedIcon@2x.png in Resources */,
-				3E7B14911896A54300A691F2 /* SVMultiplePicturesViewController.xib in Resources */,
 				2849A7ED17D9AB420076AFBA /* AlbumActivityPicsIcon.png in Resources */,
 				2849A7EE17D9AB420076AFBA /* AlbumActivityPicsIcon@2x.png in Resources */,
 				2849A7EF17D9AB420076AFBA /* AlbumActivityVideoIcon.png in Resources */,

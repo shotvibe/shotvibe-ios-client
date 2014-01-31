@@ -13,10 +13,10 @@
 
 @protocol SVAlbumListViewCellDelegate <NSObject>
 @required
+- (void)selectCell:(UITableViewCell*)cell;
+@optional
 - (void)cameraButtonTapped:(UITableViewCell *)cell;
 - (void)libraryButtonTapped:(UITableViewCell *)cell;
-- (void)selectCell:(UITableViewCell*)cell;
-
 @end
 
 extern NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification;
