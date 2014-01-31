@@ -8,18 +8,56 @@
 
 #import "FancyProgressView.h"
 
+
+@interface AnimationDelegate : NSObject
+
+- (id)initWithCompletion:(void (^)(void))completion;
+
+@end
+
+
+@implementation AnimationDelegate {
+    void (^ completion_)();
+}
+
+- (id)initWithCompletion:(void (^)(void))completion
+{
+    self = [super init];
+    if (self) {
+        completion_ = [completion copy];
+    }
+    return self;
+}
+
+
+- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
+{
+    NSLog(@"Animation finished");
+    completion_();
+}
+
+
+@end
+
+typedef NS_ENUM (NSInteger, FancyProgressViewStatus) {
+    FancyProgressViewBeforeFlyIn,
+    FancyProgressViewDuringFlyIn,
+    FancyProgressViewAfterFlyIn,
+    FancyProgressViewAfterFlyOut
+};
+
 @implementation FancyProgressView {
     CAShapeLayer *progressLayer_;
-    CAShapeLayer *progress2Layer_;
+    FancyProgressViewStatus status_;
 }
 
 static float const kAlpha = 0.5;
 static float const kRadius = 25;
 static float const kInset = 4; // space around the progress pie chart
 
-static float const kAppearanceTime = 0.3;
+static float const kAppearanceTime = 0.2;
 static float const kFlyInTime = 0.3;
-static float const kProgressSpeed = 0.1; // max progress increase per second
+static float const kProgressSpeed = 0.4; // max progress increase per second
 static float const kFlyOutTime = 0.2;
 
 - (id)initWithFrame:(CGRect)frame
@@ -28,6 +66,7 @@ static float const kFlyOutTime = 0.2;
     self = [super initWithFrame:frame];
     if (self) {
         _progress = 0.0;
+        status_ = FancyProgressViewBeforeFlyIn;
 
         progressLayer_ = [CAShapeLayer layer];
         progressLayer_.fillRule = kCAFillRuleEvenOdd;
@@ -46,10 +85,7 @@ static float const kFlyOutTime = 0.2;
         CGPathRelease(path);
         self.layer.mask = maskLayer;
 
-        progressLayer_.opacity = kAlpha;
-
-        //[self appear];
-        //[self flyIn];
+        [self appear]; // todo: get this animation (but not if the progress view was created from a refresh)
     }
     return self;
 }
@@ -76,7 +112,14 @@ static float const kFlyOutTime = 0.2;
 
 - (void)flyIn
 {
-    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:0 hasInnerDisk:YES] toPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:YES] duration:kFlyInTime timingFunctionName:kCAMediaTimingFunctionEaseInEaseOut];
+    [self flyInWithCompletion:nil];
+}
+
+
+- (void)flyInWithCompletion:(void (^)(void))completion
+{
+    NSLog(@"Flying in");
+    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:0 hasInnerDisk:YES] toPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:YES] duration:kFlyInTime timingFunctionName:kCAMediaTimingFunctionEaseInEaseOut completion:completion];
 }
 
 
@@ -85,29 +128,83 @@ static float const kFlyOutTime = 0.2;
     [self setProgress:progress animated:NO];
 }
 
-
-// TODO: take animated into account
+// tricky bits:
+// - queueing the different animations when events come quickly
+// - the fact that on a refresh the progress view is recreated due to the architecture of update notifications
+// Perhaps we can make things a bit more elegant by adding more events.
 - (void)setProgress:(float)progress animated:(BOOL)animated
 {
+    progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
     float oldProgress = _progress;
-    _progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
+    _progress = progress;
+    NSLog(@"SetProgress from %.2f to %.2f (%@animated)", oldProgress, progress, animated ? @"" : @"not ");
 
-    if (NO /*animated*/) {
-        NSLog(@"Progress from %.2f to %.2f", oldProgress, _progress);
-        [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:_progress];
-    } else {
-        progressLayer_.path = [self createProgressPathWithProgress:_progress];
+    // TODO synchronize
+    if (animated) {
+        if (progress < 0.00001) {
+            //
+        } else if (progress < 0.99999) {
+            if (status_ == FancyProgressViewBeforeFlyIn) {
+                status_ = FancyProgressViewDuringFlyIn;
+                [self flyInWithCompletion:^{
+                    if (status_ != FancyProgressViewAfterFlyOut) { // otherwise the view is flying out already
+                        status_ = FancyProgressViewAfterFlyIn;
+                        [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:_progress];
+                    }
+                }
+
+
+                ];
+            } else { // we ignore updates during fly in (they won't be 100% anyway)
+                NSLog(@"Progress from %.2f to %.2f", oldProgress, _progress);
+                if (status_ != FancyProgressViewDuringFlyIn) {
+                    [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:_progress];
+                }
+            }
+        } else {
+            NSLog(@"Fly out");
+            if (status_ != FancyProgressViewAfterFlyOut) {
+                status_ = FancyProgressViewAfterFlyOut;
+                [self flyOut];
+            }
+        }
+    } else { // not animated
+        if (progress < 0.00001) {
+            status_ = FancyProgressViewBeforeFlyIn;
+        } else if (progress < 0.99999) {
+            status_ = FancyProgressViewAfterFlyIn;
+            progressLayer_.path = [self createProgressPathWithProgress:_progress];
+        } else {
+            status_ = FancyProgressViewAfterFlyOut;
+            progressLayer_.opacity = kAlpha;
+            // hide
+        }
     }
 }
 
 
 - (void)flyOut
 {
-    [progressLayer_ removeAllAnimations];
+    NSLog(@"Flying out");
+    //[progressLayer_ removeAllAnimations];
     float width = self.bounds.size.width;
     float height = self.bounds.size.height;
     float surroundingRadius = sqrt(width * width + height * height) / 2 + 1;
-    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:NO] toPath:[self createDisksPathWithRadius:surroundingRadius hasInnerDisk:NO] duration:kFlyOutTime timingFunctionName:kCAMediaTimingFunctionEaseIn];
+    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:NO] toPath:[self createDisksPathWithRadius:surroundingRadius hasInnerDisk:NO] duration:kFlyOutTime timingFunctionName:kCAMediaTimingFunctionEaseIn completion:nil];
+
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:kFlyOutTime * 3];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    progressLayer_.opacity = 0.0;
+    [CATransaction commit];
+}
+
+
+- (void)test
+{
+    CAAnimation *currentAnimation = [progressLayer_ animationForKey:@"progress"];
+    NSLog(@"%f %f ", CACurrentMediaTime(), currentAnimation.beginTime);
+    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:0 hasInnerDisk:YES] toPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:YES] duration:kFlyInTime timingFunctionName:kCAMediaTimingFunctionEaseInEaseOut completion:nil];
 }
 
 
@@ -118,13 +215,16 @@ static float const kFlyOutTime = 0.2;
 }
 
 
-- (void)animateLayer:(CAShapeLayer *)layer fromPath:(CGPathRef)fromPath toPath:(CGPathRef)toPath duration:(float)duration timingFunctionName:(NSString *)timingFunctionName
+- (void)animateLayer:(CAShapeLayer *)layer fromPath:(CGPathRef)fromPath toPath:(CGPathRef)toPath duration:(float)duration timingFunctionName:(NSString *)timingFunctionName completion:(void (^)(void))completion
 {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"path"];
     animation.duration = duration;
     animation.fromValue = (__bridge id)fromPath;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:timingFunctionName];
-    [layer addAnimation:animation forKey:animation.keyPath];
+    if (completion) {
+        animation.delegate = [[AnimationDelegate alloc] initWithCompletion:completion];
+    }
+    [layer addAnimation:animation forKey:nil];
 
     layer.path = toPath;
 }
@@ -200,11 +300,11 @@ CGRect makeCenteredRect(CGRect rect, float width, float height)
 {
     CGPoint center = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
     return (CGRect) {
-        {
-            center.x - width / 2, center.y - height / 2
-        }, {
-            width, height
-        }
+               {
+                   center.x - width / 2, center.y - height / 2
+               }, {
+                   width, height
+               }
     };
 }
 
