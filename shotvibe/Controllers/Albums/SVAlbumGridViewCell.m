@@ -14,8 +14,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    _fancyUploadProgressView = [[FancyProgressView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-
+    _fancyUploadProgressView = [[FancyProgressView alloc] initWithFrame:self.networkImageView.bounds];
 
     [self.networkImageView addSubview:_fancyUploadProgressView];
 }
