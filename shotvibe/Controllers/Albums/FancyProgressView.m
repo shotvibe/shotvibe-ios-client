@@ -64,11 +64,10 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 - (void)reset
 {
     [progressLayer_ removeAllAnimations];
-    @synchronized(progressLayer_) {
-        uniqueAnimationKeyCounter_ = 0;
-    }
     progressLayer_.opacity = 0.0;
     progressLayer_.path = [self createBackgroundRectangle].CGPath;
+
+    uniqueAnimationKeyCounter_ = 0;
 
     _progress = 0.0;
 }
@@ -85,7 +84,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     progressLayer_.opacity = kOpacity;
     [progressLayer_ addAnimation:opacityAnimation forKey:[self createUniqueAnimationKey]];
 
-    // Need to animate the path as well, or the next animation interferes. Not exactly clear why
+    // Need to animate the path as well, or the next animation interferes. Not exactly clear why.
     CABasicAnimation *constantBackgroundAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
     constantBackgroundAnimation.duration = kAppearanceTime;
     constantBackgroundAnimation.fromValue = (__bridge id)[self createBackgroundRectangle].CGPath;
@@ -102,7 +101,6 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 
 // tricky bits:
-// - queueing the different animations when events come quickly
 // - the fact that on a refresh the progress view is recreated due to the architecture of update notifications
 // Perhaps we can make things a bit more elegant by adding more events.
 - (void)setProgress:(float)progress animated:(BOOL)animated
@@ -285,13 +283,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // Unfortunately, the only way to access all animations is through a list of keys, so every animation needs a unique key.
 - (NSString *)createUniqueAnimationKey
 {
-    NSString *uniqueName;
-
-    @synchronized(progressLayer_) {
-        uniqueName = [NSString stringWithFormat:@"animation-%lld", uniqueAnimationKeyCounter_++];
-    }
-
-    return uniqueName;
+    return [NSString stringWithFormat:@"animation-%lld", uniqueAnimationKeyCounter_++];
 }
 
 
