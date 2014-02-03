@@ -698,7 +698,7 @@
 
         if ([photo getUploadingPhoto]) {
             AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
-            cell.uploadProgressView.hidden = [uploadingPhoto isUploadComplete];
+            cell.uploadProgressView.hidden = YES;
             cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
             cell.fancyUploadProgressView.hidden = [uploadingPhoto isUploadComplete];
             RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
