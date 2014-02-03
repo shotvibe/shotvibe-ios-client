@@ -49,6 +49,9 @@ typedef NS_ENUM (NSInteger, FancyProgressViewStatus) {
 @implementation FancyProgressView {
     CAShapeLayer *progressLayer_;
     FancyProgressViewStatus status_;
+
+    float queuedFromProgress_;
+    float queuedToProgress_;
 }
 
 static float const kAlpha = 0.5;
@@ -60,9 +63,12 @@ static float const kFlyInTime = 0.3;
 static float const kProgressSpeed = 0.4; // max progress increase per second
 static float const kFlyOutTime = 0.2;
 
+static NSString * const kProgressAnimationKey = @"progressAnimationKey";
+
 - (id)initWithFrame:(CGRect)frame
 {
     NSLog(@"Init fancy progress view");
+    NSLog(@"%@", showRect(frame));
     self = [super initWithFrame:frame];
     if (self) {
         _progress = 0.0;
@@ -102,11 +108,11 @@ static float const kFlyOutTime = 0.2;
 {
     progressLayer_.path = [self createDisksPathWithRadius:0 hasInnerDisk:YES];
 
-    [CATransaction begin];
-    [CATransaction setAnimationDuration:kAppearanceTime];
-    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    //   [CATransaction begin];
+    //   [CATransaction setAnimationDuration:kAppearanceTime];
+    //   [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     progressLayer_.opacity = kAlpha;
-    [CATransaction commit];
+    //   [CATransaction commit];
 }
 
 
@@ -128,6 +134,7 @@ static float const kFlyOutTime = 0.2;
     [self setProgress:progress animated:NO];
 }
 
+
 // tricky bits:
 // - queueing the different animations when events come quickly
 // - the fact that on a refresh the progress view is recreated due to the architecture of update notifications
@@ -139,33 +146,59 @@ static float const kFlyOutTime = 0.2;
     _progress = progress;
     NSLog(@"SetProgress from %.2f to %.2f (%@animated)", oldProgress, progress, animated ? @"" : @"not ");
 
+    if (progress == oldProgress) {
+        NSLog(@"empty update");
+        return;
+    }
+
+    // TODO: when things go really quickly, the alpha animation on flyout is wrong
     // TODO synchronize
     if (animated) {
         if (progress < 0.00001) {
             //
         } else if (progress < 0.99999) {
-            if (status_ == FancyProgressViewBeforeFlyIn) {
+            NSLog(@"Animation keys: %@", [progressLayer_ animationKeys]);
+            // NOTE we check for queued progress on the to, since the from may be 0
+
+            if (status_ == FancyProgressViewBeforeFlyIn) { // If we haven't flown in, queue process and fly in
                 status_ = FancyProgressViewDuringFlyIn;
+                queuedFromProgress_ = oldProgress;
+                queuedToProgress_ = progress;
                 [self flyInWithCompletion:^{
-                    if (status_ != FancyProgressViewAfterFlyOut) { // otherwise the view is flying out already
-                        status_ = FancyProgressViewAfterFlyIn;
-                        [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:_progress];
+                    [self progressAnimationDone];
+                }];
+
+            } else {
+                if ([progressLayer_ animationKeys]) { // we're still animating, so queue the progress
+                    if (queuedToProgress_ < 0.00001) { // only store the 'from' if there is no queued progress yet.
+                        queuedFromProgress_ = oldProgress;
                     }
+                    queuedToProgress_ = progress;
+                } else { // not animating
+                    if (queuedToProgress_ > 0.0) { // if there was queued progress use its fromProgress as we already have a more recent toProgress
+                        oldProgress = queuedFromProgress_;
+                        queuedFromProgress_ = 0.0;
+                        queuedToProgress_ = 0.0;
+                    }
+                    NSLog(@"Starting animation from %.2f to %.2f", oldProgress, progress);
+                    [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:progress completion:^{
+                        [self progressAnimationDone];
+                    }];
+
                 }
 
-
-                ];
-            } else { // we ignore updates during fly in (they won't be 100% anyway)
-                NSLog(@"Progress from %.2f to %.2f", oldProgress, _progress);
-                if (status_ != FancyProgressViewDuringFlyIn) {
-                    [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:_progress];
-                }
             }
-        } else {
+        } else { // > 0.99999
             NSLog(@"Fly out");
-            if (status_ != FancyProgressViewAfterFlyOut) {
+            if (status_ != FancyProgressViewAfterFlyOut) { // only flyout once
                 status_ = FancyProgressViewAfterFlyOut;
-                [self flyOut];
+                if (![progressLayer_ animationKeys]) {
+                    [self flyOut];
+                } else {
+                    queuedFromProgress_ = oldProgress;
+                    queuedToProgress_ = 1.0;
+                }
+
             }
         }
     } else { // not animated
@@ -176,10 +209,44 @@ static float const kFlyOutTime = 0.2;
             progressLayer_.path = [self createProgressPathWithProgress:_progress];
         } else {
             status_ = FancyProgressViewAfterFlyOut;
-            progressLayer_.opacity = kAlpha;
+            progressLayer_.opacity = 0.0;
             // hide
         }
     }
+}
+
+
+// problems.
+// When an update arrives during animation, it is not performed when the animation is done, only when a new update arrives
+//When the last update was done while still animating, no flyout is performed
+// on 1.0 the animation is not allowed to complete
+- (void)progressAnimationDone
+{
+    NSLog(@"Animation done");
+
+    if (queuedToProgress_ < 0.00001) {
+        return;
+    }
+
+    if (queuedToProgress_ > 0.0) { // if there was queued progress use its fromProgress
+        float fromProgress = queuedFromProgress_;
+        float toProgress = queuedToProgress_;
+        queuedFromProgress_ = 0.0;
+        queuedToProgress_ = 0.0;
+        [self keyFrameAnimateLayer:progressLayer_ fromProgress:fromProgress toProgress:toProgress completion:^{
+            [self progressAnimationDone];
+        }];
+    }
+
+    /*else if (queuedToProgress_ > 0.0001) {
+     if (queuedToProgress_ > 0.0) { // if there was queued progress use its fromProgress
+     oldProgress = queuedFromProgress_;
+     queuedFromProgress_ = 0.0;
+     queuedToProgress_ = 0.0;
+     }
+     [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:progress completion:^{
+     [self progressAnimationDone];
+     }];*/
 }
 
 
@@ -224,7 +291,7 @@ static float const kFlyOutTime = 0.2;
     if (completion) {
         animation.delegate = [[AnimationDelegate alloc] initWithCompletion:completion];
     }
-    [layer addAnimation:animation forKey:nil];
+    [layer addAnimation:animation forKey:kProgressAnimationKey];
 
     layer.path = toPath;
 }
@@ -232,7 +299,7 @@ static float const kFlyOutTime = 0.2;
 
 // For the pie chart, we cannot use a basic animation, as the interpolation doesn't work very well here.
 // A key-frame animation solves the problem.
-- (void)keyFrameAnimateLayer:(CAShapeLayer *)layer fromProgress:(float)fromProgress toProgress:(float)toProgress
+- (void)keyFrameAnimateLayer:(CAShapeLayer *)layer fromProgress:(float)fromProgress toProgress:(float)toProgress completion:(void (^)(void))completion
 {
     float progressDelta = toProgress - fromProgress;
     int nrOfFrames = progressDelta / 0.01;
@@ -249,7 +316,11 @@ static float const kFlyOutTime = 0.2;
     animation.values = values;
     animation.duration = progressDelta / kProgressSpeed;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    [layer addAnimation:animation forKey:nil];
+    if (completion) {
+        animation.delegate = [[AnimationDelegate alloc] initWithCompletion:completion];
+    }
+
+    [layer addAnimation:animation forKey:kProgressAnimationKey];
 
     layer.path = [self createProgressPathWithProgress:toProgress];
 }
@@ -300,11 +371,11 @@ CGRect makeCenteredRect(CGRect rect, float width, float height)
 {
     CGPoint center = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
     return (CGRect) {
-               {
-                   center.x - width / 2, center.y - height / 2
-               }, {
-                   width, height
-               }
+        {
+            center.x - width / 2, center.y - height / 2
+        }, {
+            width, height
+        }
     };
 }
 
