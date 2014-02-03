@@ -26,6 +26,9 @@ static float const kProgressSpeed = 0.8; // Max progress increase per second
 static float const kFlyOutTime = 0.3; // Time for the outer disk to disappear to the edges
 static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white background to fade out
 
+
+// NOTE: For ShotVibe photo uploads, new progress views may cut off animations,
+//       see issue 278: https://github.com/shotvibe/shotvibe-ios-client/issues/278
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -59,7 +62,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
  */
 
 
-// Clear everything, for init or reuse
+// Clear everything, for init or reuse.
 - (void)reset
 {
     [progressLayer_ removeAllAnimations];
@@ -73,6 +76,8 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 
 // Let the dark foreground fade in.
+// NOTE: Cannot be called for ShotVibe photo uploads,
+//       see issue 278: https://github.com/shotvibe/shotvibe-ios-client/issues/278
 - (void)appear
 {
     CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
@@ -99,9 +104,6 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 }
 
 
-// tricky bits:
-// - the fact that on a refresh the progress view is recreated due to the architecture of update notifications
-// Perhaps we can make things a bit more elegant by adding more events.
 - (void)setProgress:(float)progress animated:(BOOL)animated
 {
     progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
