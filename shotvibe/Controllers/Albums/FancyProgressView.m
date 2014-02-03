@@ -130,7 +130,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
         if (progress < 0.000001) {
             [self executeWithoutImplicitAnimation:^{
                 progressLayer_.opacity = kOpacity;
-                progressLayer_.path = [self createDisksPathWithRadius:0 hasInnerDisk:YES];
+                progressLayer_.path = [self createBackgroundRectangle].CGPath;
             }];
         } else if (progress < 0.999999) {
             [self executeWithoutImplicitAnimation:^{
