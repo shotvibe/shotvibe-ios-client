@@ -19,4 +19,12 @@
     [self.networkImageView addSubview:_fancyUploadProgressView];
 }
 
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    [self.fancyUploadProgressView reset];
+}
+
+
 @end

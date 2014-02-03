@@ -2,23 +2,20 @@
 //  FancyProgressView.h
 //  shotvibe
 //
-//  Created by martijn on 30-01-14.
+//  Created by Oblosys on 30-01-14.
 //  Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "Util.h"
 
 @interface FancyProgressView : UIView
 
+@property (nonatomic) float progress; // Between 0.0 and 1.0, values outside are clipped. Setting progress with the property is not animated.
+
+- (void)reset;
+
 - (void)appear;
 
-- (void)flyIn;
-
 - (void)setProgress:(float)progress animated:(BOOL)animated;
-
-- (void)flyOut;
-
-@property (nonatomic) float progress; // between 0.0 and 1.0, values outside are clipped
-// Setting progress with property is not animated.
 
 @end

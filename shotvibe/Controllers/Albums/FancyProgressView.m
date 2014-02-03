@@ -2,86 +2,42 @@
 //  FancyProgressView.m
 //  shotvibe
 //
-//  Created by martijn on 30-01-14.
+//  Created by Oblosys on 30-01-14.
 //  Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
 //
 
 #import "FancyProgressView.h"
 
 
-@interface AnimationDelegate : NSObject
-
-- (id)initWithCompletion:(void (^)(void))completion;
-
-@end
-
-
-@implementation AnimationDelegate {
-    void (^ completion_)();
-}
-
-- (id)initWithCompletion:(void (^)(void))completion
-{
-    self = [super init];
-    if (self) {
-        completion_ = [completion copy];
-    }
-    return self;
-}
-
-
-- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
-{
-    NSLog(@"Animation finished");
-    completion_();
-}
-
-
-@end
-
-typedef NS_ENUM (NSInteger, FancyProgressViewStatus) {
-    FancyProgressViewBeforeFlyIn,
-    FancyProgressViewDuringFlyIn,
-    FancyProgressViewAfterFlyIn,
-    FancyProgressViewAfterFlyOut
-};
-
 @implementation FancyProgressView {
     CAShapeLayer *progressLayer_;
-    FancyProgressViewStatus status_;
 
-    float queuedFromProgress_;
-    float queuedToProgress_;
+    long long uniqueAnimationKeyCounter_;
 }
 
-static float const kAlpha = 0.5;
-static float const kRadius = 25;
+static float const kOpacity = 0.5;
+static float const kRadius = 17; // radius of the progress pie chart
+static float const kBounceRadius = kRadius + 3; // radius before bouncing back
 static float const kInset = 4; // space around the progress pie chart
 
-static float const kAppearanceTime = 0.2;
-static float const kFlyInTime = 0.3;
-static float const kProgressSpeed = 0.4; // max progress increase per second
-static float const kFlyOutTime = 0.2;
-
-static NSString * const kProgressAnimationKey = @"progressAnimationKey";
+static float const kAppearanceTime = 0.5; // Time for the grey background to appear
+static float const kFlyInTime = 0.3; // Time for the disks to appear from the center
+static float const kBounceTime = 0.10; // Time for the disks to bounce back
+static float const kProgressSpeed = 0.8; // Max progress increase per second
+static float const kFlyOutTime = 0.3; // Time for the outer disk to disappear to the edges
+static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white background to fade out
 
 - (id)initWithFrame:(CGRect)frame
 {
-    NSLog(@"Init fancy progress view");
-    NSLog(@"%@", showRect(frame));
     self = [super initWithFrame:frame];
     if (self) {
-        _progress = 0.0;
-        status_ = FancyProgressViewBeforeFlyIn;
-
         progressLayer_ = [CAShapeLayer layer];
         progressLayer_.fillRule = kCAFillRuleEvenOdd;
         progressLayer_.fillColor = [UIColor blackColor].CGColor;
         progressLayer_.backgroundColor = [UIColor whiteColor].CGColor;
-        progressLayer_.opacity = 0.0;
+
         progressLayer_.frame = self.bounds;
         [self.layer addSublayer:progressLayer_];
-
 
         // Use a mask to hide the growing circle on the disappear animation
         CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
@@ -91,7 +47,7 @@ static NSString * const kProgressAnimationKey = @"progressAnimationKey";
         CGPathRelease(path);
         self.layer.mask = maskLayer;
 
-        [self appear]; // todo: get this animation (but not if the progress view was created from a refresh)
+        [self reset];
     }
     return self;
 }
@@ -104,28 +60,38 @@ static NSString * const kProgressAnimationKey = @"progressAnimationKey";
  */
 
 
+// Clear everything, for init or reuse
+- (void)reset
+{
+    [progressLayer_ removeAllAnimations];
+    @synchronized(progressLayer_) {
+        uniqueAnimationKeyCounter_ = 0;
+    }
+    progressLayer_.opacity = 0.0;
+    progressLayer_.path = [self createBackgroundRectangle].CGPath;
+
+    _progress = 0.0;
+}
+
+
+// Let the dark foreground fade in
 - (void)appear
 {
-    progressLayer_.path = [self createDisksPathWithRadius:0 hasInnerDisk:YES];
+    CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    opacityAnimation.duration = kAppearanceTime;
+    opacityAnimation.fromValue = @0.0;
+    opacityAnimation.toValue = @(kOpacity);
+    opacityAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    progressLayer_.opacity = kOpacity;
+    [progressLayer_ addAnimation:opacityAnimation forKey:[self createUniqueAnimationKey]];
 
-    //   [CATransaction begin];
-    //   [CATransaction setAnimationDuration:kAppearanceTime];
-    //   [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    progressLayer_.opacity = kAlpha;
-    //   [CATransaction commit];
-}
-
-
-- (void)flyIn
-{
-    [self flyInWithCompletion:nil];
-}
-
-
-- (void)flyInWithCompletion:(void (^)(void))completion
-{
-    NSLog(@"Flying in");
-    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:0 hasInnerDisk:YES] toPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:YES] duration:kFlyInTime timingFunctionName:kCAMediaTimingFunctionEaseInEaseOut completion:completion];
+    // Need to animate the path as well, or the next animation interferes. Not exactly clear why
+    CABasicAnimation *constantBackgroundAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+    constantBackgroundAnimation.duration = kAppearanceTime;
+    constantBackgroundAnimation.fromValue = (__bridge id)[self createBackgroundRectangle].CGPath;
+    constantBackgroundAnimation.toValue = (__bridge id)[self createBackgroundRectangle].CGPath;
+    [progressLayer_ addAnimation:constantBackgroundAnimation forKey:[self createUniqueAnimationKey]];
+    progressLayer_.path = [self createBackgroundRectangle].CGPath;
 }
 
 
@@ -146,152 +112,92 @@ static NSString * const kProgressAnimationKey = @"progressAnimationKey";
     _progress = progress;
     NSLog(@"SetProgress from %.2f to %.2f (%@animated)", oldProgress, progress, animated ? @"" : @"not ");
 
-    if (progress == oldProgress) {
-        NSLog(@"empty update");
-        return;
-    }
 
-    // TODO: when things go really quickly, the alpha animation on flyout is wrong
-    // TODO synchronize
     if (animated) {
-        if (progress < 0.00001) {
-            //
-        } else if (progress < 0.99999) {
-            NSLog(@"Animation keys: %@", [progressLayer_ animationKeys]);
-            // NOTE we check for queued progress on the to, since the from may be 0
+        if (fequal(progress, oldProgress)) {
+            return;
+        }
 
-            if (status_ == FancyProgressViewBeforeFlyIn) { // If we haven't flown in, queue process and fly in
-                status_ = FancyProgressViewDuringFlyIn;
-                queuedFromProgress_ = oldProgress;
-                queuedToProgress_ = progress;
-                [self flyInWithCompletion:^{
-                    [self progressAnimationDone];
-                }];
-
-            } else {
-                if ([progressLayer_ animationKeys]) { // we're still animating, so queue the progress
-                    if (queuedToProgress_ < 0.00001) { // only store the 'from' if there is no queued progress yet.
-                        queuedFromProgress_ = oldProgress;
-                    }
-                    queuedToProgress_ = progress;
-                } else { // not animating
-                    if (queuedToProgress_ > 0.0) { // if there was queued progress use its fromProgress as we already have a more recent toProgress
-                        oldProgress = queuedFromProgress_;
-                        queuedFromProgress_ = 0.0;
-                        queuedToProgress_ = 0.0;
-                    }
-                    NSLog(@"Starting animation from %.2f to %.2f", oldProgress, progress);
-                    [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:progress completion:^{
-                        [self progressAnimationDone];
-                    }];
-
-                }
-
-            }
-        } else { // > 0.99999
-            NSLog(@"Fly out");
-            if (status_ != FancyProgressViewAfterFlyOut) { // only flyout once
-                status_ = FancyProgressViewAfterFlyOut;
-                if (![progressLayer_ animationKeys]) {
-                    [self flyOut];
-                } else {
-                    queuedFromProgress_ = oldProgress;
-                    queuedToProgress_ = 1.0;
-                }
-
-            }
+        // 0.0 will not occur, since oldProgress will also be 0.0
+        if (oldProgress < 0.000001) {
+            [self flyIn];
+        }
+        [self progressFrom:oldProgress to:progress];
+        if (progress > 0.999999) {
+            [self flyOut];
         }
     } else { // not animated
-        if (progress < 0.00001) {
-            status_ = FancyProgressViewBeforeFlyIn;
-        } else if (progress < 0.99999) {
-            status_ = FancyProgressViewAfterFlyIn;
-            progressLayer_.path = [self createProgressPathWithProgress:_progress];
+        [progressLayer_ removeAllAnimations];
+
+        if (progress < 0.000001) {
+            [self executeWithoutImplicitAnimation:^{
+                progressLayer_.opacity = kOpacity;
+                progressLayer_.path = [self createDisksPathWithRadius:0 hasInnerDisk:YES];
+            }];
+        } else if (progress < 0.999999) {
+            [self executeWithoutImplicitAnimation:^{
+                progressLayer_.opacity = kOpacity;
+                progressLayer_.path = [self createProgressPathWithProgress:_progress];
+            }];
         } else {
-            status_ = FancyProgressViewAfterFlyOut;
-            progressLayer_.opacity = 0.0;
-            // hide
+            [self executeWithoutImplicitAnimation:^{
+                progressLayer_.opacity = 0.0;
+            }];
         }
     }
 }
 
 
-// problems.
-// When an update arrives during animation, it is not performed when the animation is done, only when a new update arrives
-//When the last update was done while still animating, no flyout is performed
-// on 1.0 the animation is not allowed to complete
-- (void)progressAnimationDone
+#pragma mark - Animations
+
+
+
+- (void)flyIn
 {
-    NSLog(@"Animation done");
+    NSLog(@"Flying in");
+    // start with inner of kInset so the line doesn't get too thin
+    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:0 hasInnerDisk:YES] toPath:[self createDisksPathWithRadius:kBounceRadius hasInnerDisk:YES] duration:kFlyInTime timingFunctionName:kCAMediaTimingFunctionDefault];
+    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:kBounceRadius hasInnerDisk:YES] toPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:YES] duration:kBounceTime timingFunctionName:kCAMediaTimingFunctionDefault];
+}
 
-    if (queuedToProgress_ < 0.00001) {
-        return;
-    }
 
-    if (queuedToProgress_ > 0.0) { // if there was queued progress use its fromProgress
-        float fromProgress = queuedFromProgress_;
-        float toProgress = queuedToProgress_;
-        queuedFromProgress_ = 0.0;
-        queuedToProgress_ = 0.0;
-        [self keyFrameAnimateLayer:progressLayer_ fromProgress:fromProgress toProgress:toProgress completion:^{
-            [self progressAnimationDone];
-        }];
-    }
-
-    /*else if (queuedToProgress_ > 0.0001) {
-     if (queuedToProgress_ > 0.0) { // if there was queued progress use its fromProgress
-     oldProgress = queuedFromProgress_;
-     queuedFromProgress_ = 0.0;
-     queuedToProgress_ = 0.0;
-     }
-     [self keyFrameAnimateLayer:progressLayer_ fromProgress:oldProgress toProgress:progress completion:^{
-     [self progressAnimationDone];
-     }];*/
+- (void)progressFrom:(float)fromProgress to:(float)toProgress
+{
+    NSLog(@"Progressing from %.2f to %.2f", fromProgress, toProgress);
+    [self keyFrameAnimateLayer:progressLayer_ fromProgress:fromProgress toProgress:toProgress];
 }
 
 
 - (void)flyOut
 {
     NSLog(@"Flying out");
-    //[progressLayer_ removeAllAnimations];
-    float width = self.bounds.size.width;
-    float height = self.bounds.size.height;
-    float surroundingRadius = sqrt(width * width + height * height) / 2 + 1;
-    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:NO] toPath:[self createDisksPathWithRadius:surroundingRadius hasInnerDisk:NO] duration:kFlyOutTime timingFunctionName:kCAMediaTimingFunctionEaseIn completion:nil];
+    float surroundingRadius = sqrt(square(self.bounds.size.width) + square(self.bounds.size.height)) / 2 + 1;
+    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:NO] toPath:[self createDisksPathWithRadius:surroundingRadius hasInnerDisk:NO] duration:kFlyOutTime timingFunctionName:kCAMediaTimingFunctionEaseIn];
 
-    [CATransaction begin];
-    [CATransaction setAnimationDuration:kFlyOutTime * 3];
-    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    // fade out the entire view, otherwise the white background remains visible
+    CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    opacityAnimation.duration = kFadeOutTime;
+    opacityAnimation.beginTime = [self currentAnimationsEndTime];
+    opacityAnimation.fromValue = @(kOpacity);
+    opacityAnimation.toValue = @0.0;
+    opacityAnimation.fillMode = kCAFillModeBackwards;
+    opacityAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    [progressLayer_ addAnimation:opacityAnimation forKey:[self createUniqueAnimationKey]];
     progressLayer_.opacity = 0.0;
-    [CATransaction commit];
 }
 
 
-- (void)test
-{
-    CAAnimation *currentAnimation = [progressLayer_ animationForKey:@"progress"];
-    NSLog(@"%f %f ", CACurrentMediaTime(), currentAnimation.beginTime);
-    [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:0 hasInnerDisk:YES] toPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:YES] duration:kFlyInTime timingFunctionName:kCAMediaTimingFunctionEaseInEaseOut completion:nil];
-}
-
-
-// only need to call this if we want to reuse the progress view
-- (void)disappear
-{
-    progressLayer_.opacity = kAlpha; // no need to animate, as nothing is visible after flyOut
-}
-
-
-- (void)animateLayer:(CAShapeLayer *)layer fromPath:(CGPathRef)fromPath toPath:(CGPathRef)toPath duration:(float)duration timingFunctionName:(NSString *)timingFunctionName completion:(void (^)(void))completion
+- (void)animateLayer:(CAShapeLayer *)layer fromPath:(CGPathRef)fromPath toPath:(CGPathRef)toPath duration:(float)duration timingFunctionName:(NSString *)timingFunctionName
 {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"path"];
+    animation.beginTime = [self currentAnimationsEndTime];
     animation.duration = duration;
+    // animation.fillMode = kCAFillModeBoth;
     animation.fromValue = (__bridge id)fromPath;
+    animation.toValue = (__bridge id)toPath;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:timingFunctionName];
-    if (completion) {
-        animation.delegate = [[AnimationDelegate alloc] initWithCompletion:completion];
-    }
-    [layer addAnimation:animation forKey:kProgressAnimationKey];
+
+    [progressLayer_ addAnimation:animation forKey:[self createUniqueAnimationKey]];
 
     layer.path = toPath;
 }
@@ -299,11 +205,11 @@ static NSString * const kProgressAnimationKey = @"progressAnimationKey";
 
 // For the pie chart, we cannot use a basic animation, as the interpolation doesn't work very well here.
 // A key-frame animation solves the problem.
-- (void)keyFrameAnimateLayer:(CAShapeLayer *)layer fromProgress:(float)fromProgress toProgress:(float)toProgress completion:(void (^)(void))completion
+- (void)keyFrameAnimateLayer:(CAShapeLayer *)layer fromProgress:(float)fromProgress toProgress:(float)toProgress
 {
     float progressDelta = toProgress - fromProgress;
-    int nrOfFrames = progressDelta / 0.01;
-    // nr of frames needs to be at least 1 per 4 degrees animated, so we take 1 per 0.01 progress (= 3.6 degrees)
+    int nrOfFrames = MAX(4, progressDelta / 0.01);
+    // nr of frames needs to be at least 1 per 4 degrees animated, so we take 1 per 0.01 progress (= 3.6 degrees), but at least 4, to prevent problems on small changes
 
     NSMutableArray *values = [NSMutableArray array];
     for (int i = 0; i < nrOfFrames + 1; i++) {
@@ -312,34 +218,42 @@ static NSString * const kProgressAnimationKey = @"progressAnimationKey";
         [values addObject:(__bridge id)[self createProgressPathWithProgress:progress]];
     }
 
+    [CATransaction begin];
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"path"];
     animation.values = values;
     animation.duration = progressDelta / kProgressSpeed;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    if (completion) {
-        animation.delegate = [[AnimationDelegate alloc] initWithCompletion:completion];
-    }
+    animation.beginTime = [self currentAnimationsEndTime];
+    animation.fillMode = kCAFillModeForwards;
 
-    [layer addAnimation:animation forKey:kProgressAnimationKey];
-
-    layer.path = [self createProgressPathWithProgress:toProgress];
+    [layer addAnimation:animation forKey:[self createUniqueAnimationKey]];
+    layer.path = (__bridge CGPathRef)[values lastObject];
 }
 
 
-// Used for flying the disks in and out.
-- (CGPathRef)createDisksPathWithRadius:(float)radius hasInnerDisk:(BOOL)hasInnerDisk
+#pragma mark - Path creation
+
+- (UIBezierPath *)createBackgroundRectangle
 {
     UIBezierPath *path = [UIBezierPath bezierPath];
 
     // outer rectangle
     [path appendPath:[UIBezierPath bezierPathWithRect:makeCenteredRect(self.bounds, self.bounds.size.width, self.bounds.size.height)]];
 
+    return path;
+}
+
+
+// Used for flying the disks in and out.
+- (CGPathRef)createDisksPathWithRadius:(float)radius hasInnerDisk:(BOOL)hasInnerDisk
+{
+    UIBezierPath *path = [self createBackgroundRectangle];
+
     // outer disk
-    [path appendPath:[UIBezierPath bezierPathWithOvalInRect:makeCenteredRect(self.bounds, radius * 2, radius * 2)]];
+    [path appendPath:[UIBezierPath bezierPathWithOvalInRect:makeCenteredRect(self.bounds, (radius + kInset) * 2, (radius + kInset) * 2)]];
 
     if (hasInnerDisk) {
-        float innerRadius = MAX(0.0, 2 * (radius - kInset));
-        [path appendPath:[UIBezierPath bezierPathWithOvalInRect:makeCenteredRect(self.bounds, innerRadius, innerRadius)]];
+        [path appendPath:[UIBezierPath bezierPathWithOvalInRect:makeCenteredRect(self.bounds, radius * 2, radius * 2)]];
     }
     return path.CGPath;
 }
@@ -348,35 +262,69 @@ static NSString * const kProgressAnimationKey = @"progressAnimationKey";
 // Used for drawing the progress pie.
 - (CGPathRef)createProgressPathWithProgress:(float)progress
 {
-    UIBezierPath *progressPath = [UIBezierPath bezierPath];
-    [progressPath appendPath:[UIBezierPath bezierPathWithRect:makeCenteredRect(self.bounds, self.bounds.size.width, self.bounds.size.height)]];
-    [progressPath appendPath:[UIBezierPath bezierPathWithOvalInRect:makeCenteredRect(self.bounds, kRadius * 2, kRadius * 2)]];
+    UIBezierPath *path = [self createBackgroundRectangle];
 
+    [path appendPath:[UIBezierPath bezierPathWithOvalInRect:makeCenteredRect(self.bounds, (kRadius + kInset) * 2, (kRadius + kInset) * 2)]];
 
-    if (progress < 1.0) { // an arc of length 2*M_PI has length 0, so we don't draw in that case
-        float radius = MAX(0.0, kRadius - kInset);
+    if (progress < 0.999999) { // an arc of length 2*M_PI has length 0, so we don't draw in that case
         float angle = progress * 2 * M_PI;
 
         CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-        [progressPath moveToPoint:center];
-        [progressPath addArcWithCenter:center radius:radius startAngle:angle - M_PI_2 endAngle:3 * M_PI_2 clockwise:YES];
-        [progressPath addLineToPoint:center];
+        [path moveToPoint:center];
+        [path addArcWithCenter:center radius:kRadius startAngle:angle - M_PI_2 endAngle:3 * M_PI_2 clockwise:YES];
+        [path addLineToPoint:center];
     }
 
-    return progressPath.CGPath;
+    return path.CGPath;
+}
+
+
+#pragma mark - Util
+
+
+// Unfortunately, the only way to access all animations is through a list of keys, so every animation needs a unique key.
+- (NSString *)createUniqueAnimationKey
+{
+    NSString *uniqueName;
+
+    @synchronized(progressLayer_) {
+        uniqueName = [NSString stringWithFormat:@"animation-%lld", uniqueAnimationKeyCounter_++];
+    }
+
+    return uniqueName;
+}
+
+
+// Return the time at which all current animations end.
+- (CFTimeInterval)currentAnimationsEndTime
+{
+    CFTimeInterval endTime = 0.0;
+
+    for (NSString *key in progressLayer_.animationKeys) {
+        CAAnimation *anim = [progressLayer_ animationForKey:key];
+        CFTimeInterval beginTime = anim.beginTime ? : CACurrentMediaTime(); // if there's no begin time, the animation is about to be started
+        NSLog(@"Animation Key:%@ begin:%f duration:%f ends in:%.2fs", key, anim.beginTime, anim.duration, anim.duration - (CACurrentMediaTime() - anim.beginTime));
+        endTime = MAX(endTime, beginTime + anim.duration);
+    }
+
+    return endTime;
+}
+
+
+// Opacity is animated by default, and there seems no easy way to disable it without also disabling any other animations we set on it.
+- (void)executeWithoutImplicitAnimation:(void (^)(void))layerChange
+{
+    [CATransaction begin];
+    [CATransaction setValue:[NSNumber numberWithBool:YES] forKey:kCATransactionDisableActions];
+    layerChange();
+    [CATransaction commit];
 }
 
 
 CGRect makeCenteredRect(CGRect rect, float width, float height)
 {
     CGPoint center = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
-    return (CGRect) {
-        {
-            center.x - width / 2, center.y - height / 2
-        }, {
-            width, height
-        }
-    };
+    return CGRectMake(center.x - width / 2, center.y - height / 2, width, height);
 }
 
 

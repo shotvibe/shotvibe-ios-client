@@ -378,7 +378,7 @@
 
         [cell.networkImageView setImage:[uploadingPhoto getThumbnail]];
 
-        cell.uploadProgressView.hidden = [uploadingPhoto isUploadComplete];
+        cell.uploadProgressView.hidden = YES;
         [cell.uploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
         [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
         cell.fancyUploadProgressView.hidden = NO;
