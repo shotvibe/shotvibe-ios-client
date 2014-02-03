@@ -8,7 +8,6 @@
 
 #import "FancyProgressView.h"
 
-
 @implementation FancyProgressView {
     CAShapeLayer *progressLayer_;
 
@@ -73,7 +72,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 }
 
 
-// Let the dark foreground fade in
+// Let the dark foreground fade in.
 - (void)appear
 {
     CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
@@ -108,7 +107,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
     float oldProgress = _progress;
     _progress = progress;
-    NSLog(@"SetProgress from %.2f to %.2f (%@animated)", oldProgress, progress, animated ? @"" : @"not ");
+    //RCLog(@"SetProgress from %.2f to %.2f (%@animated)", oldProgress, progress, animated ? @"" : @"not ");
 
 
     if (animated) {
@@ -152,7 +151,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 - (void)flyIn
 {
-    NSLog(@"Flying in");
+    //RCLog(@"Flying in");
     // start with inner of kInset so the line doesn't get too thin
     [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:0 hasInnerDisk:YES] toPath:[self createDisksPathWithRadius:kBounceRadius hasInnerDisk:YES] duration:kFlyInTime timingFunctionName:kCAMediaTimingFunctionDefault];
     [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:kBounceRadius hasInnerDisk:YES] toPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:YES] duration:kBounceTime timingFunctionName:kCAMediaTimingFunctionDefault];
@@ -161,14 +160,14 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 - (void)progressFrom:(float)fromProgress to:(float)toProgress
 {
-    NSLog(@"Progressing from %.2f to %.2f", fromProgress, toProgress);
+    //RCLog(@"Progressing from %.2f to %.2f", fromProgress, toProgress);
     [self keyFrameAnimateLayer:progressLayer_ fromProgress:fromProgress toProgress:toProgress];
 }
 
 
 - (void)flyOut
 {
-    NSLog(@"Flying out");
+    //RCLog(@"Flying out");
     float surroundingRadius = sqrt(square(self.bounds.size.width) + square(self.bounds.size.height)) / 2 + 1;
     [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:NO] toPath:[self createDisksPathWithRadius:surroundingRadius hasInnerDisk:NO] duration:kFlyOutTime timingFunctionName:kCAMediaTimingFunctionEaseIn];
 
@@ -295,7 +294,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     for (NSString *key in progressLayer_.animationKeys) {
         CAAnimation *anim = [progressLayer_ animationForKey:key];
         CFTimeInterval beginTime = anim.beginTime ? : CACurrentMediaTime(); // if there's no begin time, the animation is about to be started
-        NSLog(@"Animation Key:%@ begin:%f duration:%f ends in:%.2fs", key, anim.beginTime, anim.duration, anim.duration - (CACurrentMediaTime() - anim.beginTime));
+        //RCLog(@"Animation Key:%@ begin:%f duration:%f ends in:%.2fs", key, anim.beginTime, anim.duration, anim.duration - (CACurrentMediaTime() - anim.beginTime));
         endTime = MAX(endTime, beginTime + anim.duration);
     }
 
