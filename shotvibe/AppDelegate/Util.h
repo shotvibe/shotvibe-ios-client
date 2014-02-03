@@ -2,7 +2,7 @@
 //  Util.h
 //  shotvibe
 //
-//  Created by martijn on 13-01-14.
+//  Created by Oblosys on 13-01-14.
 //  Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
 //
 
