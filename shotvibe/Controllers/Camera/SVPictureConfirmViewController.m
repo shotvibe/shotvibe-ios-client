@@ -177,15 +177,9 @@
         [self populateScrollView];
         [self fixTitle];
     } else {
-        [self cancel:nil];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
-
-
-//- (void)approvePicture:(id)sender
-//{
-//    NSLog(@"close and go ahead");
-//}
 
 
 #pragma mark UIScrollViewDelegate

@@ -22,6 +22,7 @@
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIView *createNewAlbumTitleView;
 @property (nonatomic, strong) IBOutlet UITextField *albumField;
+@property (nonatomic) BOOL shouldNotPostNotificationWhenClose;
 
 - (IBAction)newAlbumClosed:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
@@ -159,19 +160,23 @@
 }
 
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
-    //http://stackoverflow.com/questions/1214965/setting-action-for-back-button-in-navigation-controller
-    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-        // back button was pressed.  We know this is true because self is no longer in the navigation stack.
-        [[self.navigationController.viewControllers lastObject] view].hidden = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVPickAlbumCancel" object:nil];
+    if (!self.shouldNotPostNotificationWhenClose) {
+        //http://stackoverflow.com/questions/1214965/setting-action-for-back-button-in-navigation-controller
+        if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+            // back button was pressed.  We know this is true because self is no longer in the navigation stack.
+            [[self.navigationController.viewControllers lastObject] view].hidden = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVPickAlbumCancel" object:nil];
+        }
     }
-    [super viewWillDisappear:animated];
+    [super viewDidDisappear:animated];
 }
+
 
 - (void)uploadPhotos
 {
+    self.shouldNotPostNotificationWhenClose = YES;
     NSMutableArray *controllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
     if (controllers.count == 2) {
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
