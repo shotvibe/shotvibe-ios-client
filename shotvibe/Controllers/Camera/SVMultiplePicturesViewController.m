@@ -45,12 +45,13 @@
     [super viewDidLoad];
 
     // Setup titleview
-    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
-    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
-    [titleContainer addSubview:titleView];
-    titleContainer.backgroundColor = [UIColor clearColor];
-    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
-    self.navigationItem.titleView = titleContainer;
+//    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
+//    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
+//    [titleContainer addSubview:titleView];
+//    titleContainer.backgroundColor = [UIColor clearColor];
+//    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
+//    self.navigationItem.titleView = titleContainer;
+    self.title = @"Select an album";
 }
 
 
@@ -151,11 +152,23 @@
         AlbumSummary *album = self.albums[indexPath.row - 1];
         self.albumId = album.albumId;
 
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"are you sure you want to upload/move/copy the photos to this album?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        NSString *s = [NSString stringWithFormat:@"are you sure you want to upload the photos to %@?", album.name];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:s delegate:self cancelButtonTitle:NSLocalizedString(@"No", @"") otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
         [alert show];
     }
 }
 
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    //http://stackoverflow.com/questions/1214965/setting-action-for-back-button-in-navigation-controller
+    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+        // back button was pressed.  We know this is true because self is no longer in the navigation stack.
+        [[self.navigationController.viewControllers lastObject] view].hidden = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVPickAlbumCancel" object:nil];
+    }
+    [super viewWillDisappear:animated];
+}
 
 - (void)uploadPhotos
 {

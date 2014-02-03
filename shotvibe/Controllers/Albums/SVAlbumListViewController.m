@@ -59,6 +59,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *butAlbum;
 @property (nonatomic, strong) IBOutlet UIButton *butTakePicture;
 
+@property (nonatomic, strong) UINavigationController *pickerController;
 
 - (IBAction)newAlbumPressed:(id)sender;
 - (IBAction)newAlbumClosed:(id)sender;
@@ -317,12 +318,26 @@
     [self presentViewController:nc animated:NO completion:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumSelector:) name:@"kSVPickAlbumToUpload" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelAlbumSelector:) name:@"kSVPickAlbumCancel" object:nil];
 
+    self.pickerController = nc;
 //    cameraNavController = [[SVCameraNavController alloc] init];
 //	cameraNavController.cameraDelegate = self;
 //	cameraNavController.albums = albums;
 //	cameraNavController.albumManager = self.albumManager;
 //    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
+}
+
+
+- (void)cancelAlbumSelector:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumSelector:) name:@"kSVPickAlbumToUpload" object:nil];
+    double delayInSeconds = 0.5;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+        self.view.hidden = NO;
+        [self presentViewController:self.pickerController animated:NO completion:nil];
+    });
 }
 
 
@@ -333,7 +348,7 @@
     NSArray *images = [notification userInfo][@"images"];
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-	SVMultiplePicturesViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"MultiplePicturesViewController"];
+    SVMultiplePicturesViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"MultiplePicturesViewController"];
     controller.images = images;
     controller.albumManager = self.albumManager;
     controller.albums = albumList;
