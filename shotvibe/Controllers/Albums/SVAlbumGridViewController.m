@@ -46,6 +46,8 @@
 	SortType sort;
 	
 	int collection_content_offset_y;
+
+    NSMutableSet *appearedUploadingPhotos_; // Set of UploadingAlbumPhotos for which the appearance animation in the progress view has been shown (see issue #278)
 }
 
 @property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
@@ -80,7 +82,9 @@
     [super viewDidLoad];
 	
 	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized without albumId");
-	
+
+    appearedUploadingPhotos_ = [[NSMutableSet alloc] init];
+
 	self.collectionView.alwaysBounceVertical = YES;
 	//self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
 	
@@ -380,8 +384,14 @@
 
         cell.uploadProgressView.hidden = YES;
         [cell.uploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
-        [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
+
         cell.fancyUploadProgressView.hidden = NO;
+        if ([appearedUploadingPhotos_ containsObject:uploadingPhoto]) {
+            [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
+        } else {
+            [appearedUploadingPhotos_ addObject:uploadingPhoto];
+            [cell.fancyUploadProgressView appear];
+        }
 
         cell.labelNewView.hidden = YES;
     }
@@ -550,7 +560,17 @@
 - (void)setAlbumContents:(SLAlbumContents *)album
 {
     albumContents = album;
-	
+
+    // Remove all elements from appearedUploadingPhotos that are no longer albumUploadingPhotos
+    NSMutableSet *uploadingPhotos = [[NSMutableSet alloc] init];
+    for (SLAlbumPhoto *albumPhoto in [albumContents getPhotos]) {
+        SLAlbumUploadingPhoto *uploadingPhoto = [albumPhoto getUploadingPhoto];
+        if (uploadingPhoto) {
+            [uploadingPhotos addObject:uploadingPhoto];
+        }
+    }
+    [appearedUploadingPhotos_ intersectSet:uploadingPhotos];
+
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
 	
