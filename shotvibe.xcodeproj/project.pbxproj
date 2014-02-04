@@ -538,6 +538,10 @@
 		3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */; };
 		3BE0B11717C2C5530058CAAD /* AlbumBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11617C2C5520058CAAD /* AlbumBase.m */; };
 		3BE0B11A17C2C71D0058CAAD /* AlbumSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */; };
+		3E1F716B18A03EC400773A20 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1F716918A03EC400773A20 /* close.png */; };
+		3E1F716C18A03EC400773A20 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1F716A18A03EC400773A20 /* close@2x.png */; };
+		3E1F716F18A03F3B00773A20 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1F716D18A03F3B00773A20 /* camera.png */; };
+		3E1F717018A03F3B00773A20 /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1F716E18A03F3B00773A20 /* camera@2x.png */; };
 		3E759FDE188FFEFD00CAB82D /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E759FD6188FFEFD00CAB82D /* plus.png */; };
 		3E759FDF188FFEFD00CAB82D /* SVPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759FD8188FFEFD00CAB82D /* SVPickerCell.m */; };
 		3E759FE0188FFEFD00CAB82D /* SVPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759FDA188FFEFD00CAB82D /* SVPickerController.m */; };
@@ -1252,6 +1256,10 @@
 		3BE0B11617C2C5520058CAAD /* AlbumBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumBase.m; sourceTree = "<group>"; };
 		3BE0B11817C2C71D0058CAAD /* AlbumSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumSummary.h; sourceTree = "<group>"; };
 		3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumSummary.m; sourceTree = "<group>"; };
+		3E1F716918A03EC400773A20 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
+		3E1F716A18A03EC400773A20 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		3E1F716D18A03F3B00773A20 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		3E1F716E18A03F3B00773A20 /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
 		3E759FD6188FFEFD00CAB82D /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = Camera/plus.png; sourceTree = "<group>"; };
 		3E759FD7188FFEFD00CAB82D /* SVPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPickerCell.h; path = Camera/SVPickerCell.h; sourceTree = "<group>"; };
 		3E759FD8188FFEFD00CAB82D /* SVPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPickerCell.m; path = Camera/SVPickerCell.m; sourceTree = "<group>"; };
@@ -1948,6 +1956,10 @@
 		2849A77417D9AA410076AFBA /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				3E1F716D18A03F3B00773A20 /* camera.png */,
+				3E1F716E18A03F3B00773A20 /* camera@2x.png */,
+				3E1F716918A03EC400773A20 /* close.png */,
+				3E1F716A18A03EC400773A20 /* close@2x.png */,
 				2849A80917D9ABE90076AFBA /* imagePile.png */,
 				0426B62D1724D7CC007BAABC /* imagePile@2x.png */,
 				2849A77517D9AA580076AFBA /* ButNavLeft.png */,
@@ -2783,6 +2795,7 @@
 				043473F61705F49600CFE564 /* albumDivider@2x.png in Resources */,
 				043473F81705F49600CFE564 /* albumDivider.png in Resources */,
 				043473FA1705F49600CFE564 /* placeholderImage@2x.png in Resources */,
+				3E1F717018A03F3B00773A20 /* camera@2x.png in Resources */,
 				04AB0A701707D80100C5300B /* exportIcon.png in Resources */,
 				04AB0A721707D80100C5300B /* exportIcon@2x.png in Resources */,
 				04AB0A761707D80600C5300B /* trashIcon@2x.png in Resources */,
@@ -2790,6 +2803,7 @@
 				04AB0A821707D99700C5300B /* navbarBackButton@2x.png in Resources */,
 				04AB0A841707D99700C5300B /* navbarBackButton.png in Resources */,
 				04AB0A8A1707F95700C5300B /* Logo@2x.png in Resources */,
+				3E1F716B18A03EC400773A20 /* close.png in Resources */,
 				04AB0A8C1707F95700C5300B /* Logo.png in Resources */,
 				04AB0AA017080A5700C5300B /* newPhotosIndicator.png in Resources */,
 				04AB0AA217080A5700C5300B /* newPhotosIndicator@2x.png in Resources */,
@@ -3023,6 +3037,7 @@
 				04C4075B1730303600973BC0 /* RS.png in Resources */,
 				04C4075D1730303600973BC0 /* RU.png in Resources */,
 				66278CC21867C57300D23F34 /* SVImageCropViewController.xib in Resources */,
+				3E1F716F18A03F3B00773A20 /* camera.png in Resources */,
 				108CDF6C18846B9000757E36 /* MPLogo.png in Resources */,
 				04C4075F1730303600973BC0 /* RW.png in Resources */,
 				04C407611730303600973BC0 /* SA.png in Resources */,
@@ -3157,6 +3172,7 @@
 				66278D161867CAD500D23F34 /* MainStoryboard.storyboard in Resources */,
 				2849A79F17D9AA580076AFBA /* cameraFlashAuto@2x.png in Resources */,
 				2849A7A017D9AA580076AFBA /* cameraFlashOff.png in Resources */,
+				3E1F716C18A03EC400773A20 /* close@2x.png in Resources */,
 				2849A7A117D9AA580076AFBA /* cameraFlashOff@2x.png in Resources */,
 				2849A7A217D9AA580076AFBA /* cameraFlashOn.png in Resources */,
 				2849A7A317D9AA580076AFBA /* cameraFlashOn@2x.png in Resources */,

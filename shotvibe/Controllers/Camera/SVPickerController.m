@@ -98,31 +98,7 @@
         [UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.container) {
-                //This code is called when we're taking subsequent images
-                [self.container.images addObject:filePath];
-                self.shouldShowPicker = NO;
-                [self dismissViewControllerAnimated:YES completion:^{
-                    [self.presentingViewController dismissViewControllerAnimated:NO completion:nil];
-                }
-
-
-                ];
-            } else {
-                //This code is called when we're taking the first image
-                SVPictureConfirmViewController *c = [[SVPictureConfirmViewController alloc] init];
-                c.images = [NSMutableArray arrayWithObject:filePath];
-                c.albumId = self.albumId;
-                c.albumManager = self.albumManager;
-
-                self.shouldShowPicker = NO;
-                [self dismissViewControllerAnimated:NO completion:^{
-                    [self.navigationController pushViewController:c animated:YES];
-                }
-
-
-                ];
-            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kPickedImageSaved" object:nil];
         }
 
 
@@ -131,6 +107,37 @@
 
 
                    );
+
+    if (self.container) {
+        //This code is called when we're taking subsequent images
+        [self.container.images addObject:filePath];
+        self.container.mostRecentImage = scaledImage;
+        self.container.waitForImageToBeSaved = YES;
+
+        self.shouldShowPicker = NO;
+        [self dismissViewControllerAnimated:NO completion:^{
+            [self.presentingViewController dismissViewControllerAnimated:NO completion:nil];
+        }
+
+
+        ];
+    } else {
+        //This code is called when we're taking the first image
+        SVPictureConfirmViewController *c = [[SVPictureConfirmViewController alloc] init];
+        c.images = [NSMutableArray arrayWithObject:filePath];
+        c.mostRecentImage = scaledImage;
+        c.albumId = self.albumId;
+        c.albumManager = self.albumManager;
+        c.waitForImageToBeSaved = YES;
+
+        self.shouldShowPicker = NO;
+        [self dismissViewControllerAnimated:NO completion:^{
+            [self.navigationController pushViewController:c animated:NO];
+        }
+
+
+        ];
+    }
 }
 
 

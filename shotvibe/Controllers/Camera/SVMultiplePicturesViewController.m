@@ -164,7 +164,7 @@
 {
     if (!self.shouldNotPostNotificationWhenClose) {
         //http://stackoverflow.com/questions/1214965/setting-action-for-back-button-in-navigation-controller
-        if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+        if (([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) || ([self.navigationController.viewControllers count] == 0)) {
             // back button was pressed.  We know this is true because self is no longer in the navigation stack.
             [[self.navigationController.viewControllers lastObject] view].hidden = YES;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVPickAlbumCancel" object:nil];

@@ -30,10 +30,6 @@
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     [self.navigationController.navigationBar setTranslucent:NO];
 
-    UIBarButtonItem *share = [[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStyleDone target:self action:@selector(share:)];
-    share.tintColor = [UIColor yellowColor];
-    self.navigationItem.rightBarButtonItem = share;
-
     UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
     self.navigationItem.leftBarButtonItem = cancel;
 
@@ -43,6 +39,14 @@
         [self prefersStatusBarHidden];
         [self setNeedsStatusBarAppearanceUpdate];
     }
+}
+
+
+- (void)showShare:(NSNotification *)notification
+{
+    UIBarButtonItem *share = [[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStyleDone target:self action:@selector(share:)];
+    share.tintColor = [UIColor yellowColor];
+    self.navigationItem.rightBarButtonItem = share;
 }
 
 
@@ -58,6 +62,13 @@
 
     [self populateScrollView];
     [self fixTitle];
+
+    if (self.waitForImageToBeSaved) {
+        self.navigationItem.rightBarButtonItem = nil;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showShare:) name:@"kPickedImageSaved" object:nil];
+    } else {
+        [self showShare:nil];
+    }
 }
 
 
@@ -88,16 +99,21 @@
     int x = 0;
     for (UIImage *image in self.images) {
         UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(x + 60, 20, 200, 200)];
-        iv.image = [UIImage imageWithContentsOfFile:self.images[i]];
+        if ((self.mostRecentImage) && (self.images.count == i)) {
+            iv.image = self.mostRecentImage;
+        } else {
+            iv.image = [UIImage imageWithContentsOfFile:self.images[i]];
+        }
         [self.scrollView addSubview:iv];
 
         //"Remove" top left button
         UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
         button1.frame = CGRectMake(x + 41, 0, 40, 40);
         button1.tag = i;
-        button1.backgroundColor = [UIColor whiteColor];
-        [button1 setTitle:@"x" forState:UIControlStateNormal];
-        [button1 setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//        button1.backgroundColor = [UIColor whiteColor];
+//        [button1 setTitle:@"x" forState:UIControlStateNormal];
+//        [button1 setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [button1 setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
         [button1 addTarget:self action:@selector(deletePicture:) forControlEvents:UIControlEventTouchUpInside];
         [self.scrollView addSubview:button1];
 
@@ -119,6 +135,12 @@
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * (self.currentPage - 1), 0) animated:NO];
         [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:self.currentPage - 1 inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     }
+}
+
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self populateScrollView];
 }
 
 
@@ -170,6 +192,7 @@
 {
     if ([self.images count] > 1) {
         [self.images removeObjectAtIndex:[sender tag]];
+        self.mostRecentImage = nil;
         if (self.currentPage > [self.images count]) {
             self.currentPage = self.currentPage - 1;
         }
@@ -229,7 +252,9 @@
     SVPickerCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"PickerCell" forIndexPath:indexPath];
 //    cell.delegate = self;
 
-    if (indexPath.row < self.images.count) {
+    if ((indexPath.row == self.images.count - 1) && self.mostRecentImage) {
+        cell.imageView.image = self.mostRecentImage;
+    } else if (indexPath.row < self.images.count) {
         NSMutableString *thumbPath = [NSMutableString stringWithString:self.images[indexPath.row]];
         [thumbPath replaceOccurrencesOfString:@".jpg"
                                    withString:@"_thumb.jpg"
@@ -239,7 +264,7 @@
 
         cell.imageView.image = thumbImage;
     } else {
-        cell.imageView.image = [UIImage imageNamed:@"plus"];
+        cell.imageView.image = [UIImage imageNamed:@"camera"];
     }
     return cell;
 }

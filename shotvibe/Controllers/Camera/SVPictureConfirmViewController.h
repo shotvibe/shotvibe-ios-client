@@ -13,6 +13,8 @@
 @interface SVPictureConfirmViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *images;
+@property (nonatomic, strong) UIImage *mostRecentImage;
+@property (nonatomic) BOOL waitForImageToBeSaved;
 @property (nonatomic) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;
 
