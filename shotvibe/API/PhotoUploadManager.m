@@ -94,7 +94,7 @@
     });
 
     for (AlbumUploadingPhoto *p in newAlbumUploadingPhotos) {
-        [p prepareTmpFile:photosLoadQueue_];
+        [p prepareTmpFiles:photosLoadQueue_];
     }
 
     // TODO: DANGEROUS. If a thread was uploading when isCurrentlyUploading was set, but has finished
@@ -212,7 +212,7 @@ const NSTimeInterval RETRY_TIME = 5;
 
         RCLog(@"About to upload photo (photoId: %@)", nextPhotoUpload.photoId);
 
-        NSString *filename = [nextPhotoUpload getFilename];
+        NSString *filename = [nextPhotoUpload getFullResFilename];
         BOOL photoSuccesfullyUploaded = NO;
         while (!photoSuccesfullyUploaded) {
             NSError *error;

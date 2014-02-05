@@ -30,9 +30,10 @@
 
 - (void)setUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal;
 
-- (void)prepareTmpFile:(dispatch_queue_t)dispatchQueue;
+- (void)prepareTmpFiles:(dispatch_queue_t)dispatchQueue;
 
-- (NSString *)getFilename;
+- (NSString *)getLowResFilename;
+- (NSString *)getFullResFilename;
 
 - (UIImage *)getThumbnail;
 

@@ -130,12 +130,12 @@ static const NSTimeInterval RETRY_TIME = 5;
     [photo setPhotoId:[photoIds_ objectAtIndex:0]];
     [photoIds_ removeObjectAtIndex:0];
 
-    [photo prepareTmpFile:photoSaveQueue_];
+    [photo prepareTmpFiles:photoSaveQueue_];
 
-    NSString *filePath = [photo getFilename]; // Will block until the photo has been saved
+    NSString *filePath = [photo getFullResFilename]; // Will block until the photo has been saved
 
     [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-        //RCLog(@"Task progress: photo %@ %.2f", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend);
+        RCLog(@"Task progress: photo %@ %.2f %.1fk", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend, totalBytesExpectedToSend/1024.0);
         [photo setUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoUploadProgress:albumId];

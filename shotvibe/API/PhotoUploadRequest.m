@@ -12,8 +12,11 @@
 @implementation PhotoUploadRequest
 {
     ALAsset *asset_;
-    NSString *filePath_;
+    NSString *lowResFilePath_;
+    NSString *fullResFilePath_;
 }
+
+static const CGFloat kLowResJPEGQuality = 0.01;
 
 - (id)initWithAsset:(ALAsset *)asset
 {
@@ -21,7 +24,8 @@
 
     if (self) {
         asset_ = asset;
-        filePath_ = nil;
+        lowResFilePath_ = nil;
+        fullResFilePath_ = nil;
     }
 
     return self;
@@ -33,7 +37,8 @@
 	
     if (self) {
         asset_ = nil;
-        filePath_ = path;
+        lowResFilePath_ = nil;
+        fullResFilePath_ = path;
     }
 	
     return self;
@@ -45,7 +50,7 @@
 		return [UIImage imageWithCGImage:asset_.thumbnail];
 	}
 	
-	NSMutableString *thumbPath = [NSMutableString stringWithString:filePath_];
+    NSMutableString *thumbPath = [NSMutableString stringWithString:fullResFilePath_];
 	[thumbPath replaceOccurrencesOfString:@".jpg"
 							   withString:@"_thumb.jpg"
 								  options:NSLiteralSearch
@@ -56,7 +61,7 @@
 
 static NSString * const UPLOADS_DIRECTORY = @"uploads";
 
-+ (NSString *)getUploadingPhotoFilename
++ (NSString *)createUniqueUploadFilePath
 {
     NSString *applicationSupportDirectory = [FileUtils getApplicationSupportDirectory];
 
@@ -77,50 +82,57 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
     return [uploadsDirectory stringByAppendingPathComponent:fileName];
 }
 
-- (void)saveToFile
+- (void)saveToFiles
+{
+    [self saveToFileLowRes];
+    [self saveToFileFullRes];
+}
+
+
+- (void)saveToFileFullRes
 {
 	// If the path already exists skip this step
-	if (filePath_) {
+    if (fullResFilePath_) {
 		return;
 	}
 	
-    filePath_ = [PhotoUploadRequest getUploadingPhotoFilename];
+    fullResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePath];
 	
     ALAssetRepresentation *rep = [asset_ defaultRepresentation];
     CGImageRef croppedImage = [rep fullResolutionImage];
-	NSDictionary *metadata = [rep metadata][@"AdjustmentXMP"];
-		
-	// Write to disk the cropped image
+    NSDictionary *metadata = [rep metadata][@"AdjustmentXMP"];
+
+    // Write to disk the cropped image
 	if (metadata) {
-		CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:filePath_];
+        CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:fullResFilePath_];
 		CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
 		CGImageDestinationAddImage(destination, croppedImage, nil);
 		
 		if (!CGImageDestinationFinalize(destination)) {
-			RCLog(@"Failed to write image to %@", filePath_);
+            RCLog(@"Failed to write image to %@", fullResFilePath_);
 		}
 		else{
-			RCLog(@"write success %@", filePath_);
+            RCLog(@"write success %@", fullResFilePath_);
 		}
 		
 		CFRelease(destination);
 		
-		[FileUtils addSkipBackupAttributeToItemAtURL:filePath_];
+        [FileUtils addSkipBackupAttributeToItemAtURL:fullResFilePath_];
 		return;
 	}
 
 	
 	// Write to disk the original image
-    if (![[NSFileManager defaultManager] createFileAtPath:filePath_ contents:nil attributes:nil]) {
-        RCLog(@"ERROR CREATING FILE: %@", filePath_);
+    if (![[NSFileManager defaultManager] createFileAtPath:fullResFilePath_ contents:nil attributes:nil]) {
+        RCLog(@"ERROR CREATING FILE: %@", fullResFilePath_);
         // TODO Handle error...
         return;
     }
 
-    NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:filePath_];
+    NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:fullResFilePath_];
 
     if (!handle) {
-        RCLog(@"ERROR OPENING FILE: %@", filePath_);
+        RCLog(@"ERROR OPENING FILE: %@", fullResFilePath_);
         // TODO Handle error...
         return;
     }
@@ -150,12 +162,38 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
     [handle closeFile];
     handle = nil;
 
-    [FileUtils addSkipBackupAttributeToItemAtURL:filePath_];
+    [FileUtils addSkipBackupAttributeToItemAtURL:fullResFilePath_];
 }
 
-- (NSString *)getFilename
+
+- (void)saveToFileLowRes
 {
-    return filePath_;
+    UIImage *highResImage;
+
+    if (fullResFilePath_) { // if there's no file, then this request was initialized with an asset (coming from image picker)
+        highResImage = [UIImage imageWithContentsOfFile:fullResFilePath_];
+    } else {
+        ALAssetRepresentation *rep = [asset_ defaultRepresentation];
+        CGImageRef croppedImage = [rep fullScreenImage];
+        highResImage = [UIImage imageWithCGImage:croppedImage];
+    }
+
+    // TODO: even with the low JPEG compression the filesize is still quite high, so we will probably also need to lower the resolution.
+
+    lowResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePath];
+    [UIImageJPEGRepresentation(highResImage, kLowResJPEGQuality) writeToFile:lowResFilePath_ atomically:YES];
+}
+
+
+- (NSString *)getLowResFilename
+{
+    return lowResFilePath_;
+}
+
+
+- (NSString *)getFullResFilename
+{
+    return fullResFilePath_;
 }
 
 @end

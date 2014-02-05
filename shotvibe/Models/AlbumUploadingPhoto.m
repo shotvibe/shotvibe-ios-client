@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
 @implementation AlbumUploadingPhoto
 {
     PhotoUploadRequest *photoUploadRequest_;
-    dispatch_semaphore_t tmpFileSaved;
+    dispatch_semaphore_t tmpFilesSaved;
 
     NSObject *lock_;
     UploadStatus uploadStatus_;
@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
         _photoId = nil;
 
         photoUploadRequest_ = photoUploadRequest;
-        tmpFileSaved = dispatch_semaphore_create(0);
+        tmpFilesSaved = dispatch_semaphore_create(0);
 
         lock_ = [[NSObject alloc] init];
         uploadStatus_ = UploadStatusQueued;
@@ -88,22 +88,33 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
     }
 }
 
-- (void)prepareTmpFile:(dispatch_queue_t)dispatchQueue
+- (void)prepareTmpFiles:(dispatch_queue_t)dispatchQueue
 {
     dispatch_async(dispatchQueue, ^{
-        [photoUploadRequest_ saveToFile];
-        dispatch_semaphore_signal(tmpFileSaved);
+        [photoUploadRequest_ saveToFiles];
+        dispatch_semaphore_signal(tmpFilesSaved);
     });
 }
 
-- (NSString *)getFilename
+- (NSString *)getFullResFilename
 {
-    dispatch_semaphore_wait(tmpFileSaved, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(tmpFilesSaved, DISPATCH_TIME_FOREVER);
 
     // Put back the semaphore so that the next call to `getFilename` will succeed
-    dispatch_semaphore_signal(tmpFileSaved);
+    dispatch_semaphore_signal(tmpFilesSaved);
 
-    return [photoUploadRequest_ getFilename];
+    return [photoUploadRequest_ getFullResFilename];
+}
+
+
+- (NSString *)getLowResFilename
+{
+    dispatch_semaphore_wait(tmpFilesSaved, DISPATCH_TIME_FOREVER);
+
+    // Put back the semaphore so that the next call to `getFilename` will succeed
+    dispatch_semaphore_signal(tmpFilesSaved);
+
+    return [photoUploadRequest_ getLowResFilename];
 }
 
 - (UIImage *)getThumbnail
