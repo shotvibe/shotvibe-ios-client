@@ -91,24 +91,51 @@
 }
 
 
+- (UIImage *)resizedImage:(UIImage *)image toSize:(CGSize)size
+{
+    CGSize newSize = CGSizeMake(size.width*[[UIScreen mainScreen] scale], size.height*[[UIScreen mainScreen] scale]);
+    float oldWidth = image.size.width;
+    float scaleFactor = newSize.width / oldWidth;
+    float newHeight = image.size.height * scaleFactor;
+    float newWidth = oldWidth * scaleFactor;
+
+    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+    [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+    UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return thumbImage;
+}
+
+
 - (void)populateScrollView
 {
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, 320);
+    } else {
+        self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, 200);
+    }
+
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
     int i = 0;
     int x = 0;
     for (UIImage *image in self.images) {
-        UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(x + 60, 20, 200, 200)];
-        if ((self.mostRecentImage) && (self.images.count == i)) {
-            iv.image = self.mostRecentImage;
+        int imageHeight = self.scrollView.frame.size.height - 40;
+        UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(x + (self.scrollView.frame.size.width - imageHeight) / 2, 20, imageHeight, imageHeight)];
+        UIImage *image = nil;
+        if ((self.mostRecentImage) && (self.images.count - 1 == i)) {
+            image = self.mostRecentImage;
         } else {
-            iv.image = [UIImage imageWithContentsOfFile:self.images[i]];
+            image = [UIImage imageWithContentsOfFile:self.images[i]];
         }
+        iv.image = [self resizedImage:image toSize:iv.frame.size];
+
         [self.scrollView addSubview:iv];
 
         //"Remove" top left button
         UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        button1.frame = CGRectMake(x + 41, 0, 40, 40);
+        button1.frame = CGRectMake(iv.frame.origin.x - 15, 5, 30, 30);
         button1.tag = i;
 //        button1.backgroundColor = [UIColor whiteColor];
 //        [button1 setTitle:@"x" forState:UIControlStateNormal];
@@ -138,7 +165,7 @@
 }
 
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self populateScrollView];
 }
@@ -260,7 +287,8 @@
                                    withString:@"_thumb.jpg"
                                       options:NSLiteralSearch
                                         range:NSMakeRange(0, [thumbPath length])];
-        UIImage *thumbImage = [UIImage imageWithContentsOfFile:thumbPath];
+        UIImage *thumbImage = [self resizedImage:[UIImage imageWithContentsOfFile:thumbPath] toSize:CGSizeMake(50, 50)];
+        //UIImage *thumbImage = [UIImage imageWithContentsOfFile:thumbPath];
 
         cell.imageView.image = thumbImage;
     } else {
@@ -276,7 +304,12 @@
     if (indexPath.row < [self.images count]) {
         //Scroll to the selected image
         self.scrolling = YES;
-        [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * indexPath.row, 0) animated:YES];
+        [UIView animateWithDuration:0.3f delay:0.0f options:0 animations:^{
+            [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * indexPath.row, 0) animated:NO];
+        }
+
+
+                         completion:nil];
         self.currentPage = indexPath.row + 1;
         [self fixTitle];
     } else {
