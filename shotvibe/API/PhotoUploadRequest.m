@@ -104,7 +104,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
     ALAssetRepresentation *rep = [asset_ defaultRepresentation];
     CGImageRef croppedImage = [rep fullResolutionImage];
     NSDictionary *metadata = [rep metadata][@"AdjustmentXMP"];
-
+	
     // Write to disk the cropped image
 	if (metadata) {
         CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:fullResFilePath_];
