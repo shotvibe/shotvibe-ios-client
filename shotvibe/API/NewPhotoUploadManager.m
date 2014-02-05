@@ -61,13 +61,23 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 - (void)uploadPhotos:(int64_t)albumId photoUploadRequests:(NSArray *)photoUploadRequests
 {
+    // Use a background task to initiate the uploads, in case the application is closed while requesting photo id's.
+    // The uploads themselves have their own background task.
+    __block UIBackgroundTaskIdentifier initiateUploadsBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        RCLog(@"Background task %d was forced to end", initiateUploadsBackgroundTaskID);
+        [[UIApplication sharedApplication] endBackgroundTask:initiateUploadsBackgroundTaskID];
+    }];
+    RCLog(@"Background task %d started", initiateUploadsBackgroundTaskID);
+
     NSMutableArray *newAlbumUploadingPhotos = [[NSMutableArray alloc] init];
     for (PhotoUploadRequest *req in photoUploadRequests) {
         AlbumUploadingPhoto *photo = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:req album:albumId];
         [newAlbumUploadingPhotos addObject:photo];
         [uploadingPhotos_ addPhoto:photo album:albumId];
     }
-    // TODO: store the new AlbumUploadingPhotos persistently, so uploads can be restarted after a crash.
+    // TODO: at this point, store new AlbumUploadingPhotos in ShotVibeDB, before any networking is done (with
+    // possible loops and termination after 10 minutes)
+    // We probably need to pull the prepareTmpFile forward, to ensure we have a filename for every AlbumUploadingPhoto
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [listener_ photoUploadAdditions:albumId]; // Show the newly created UploadingAlbumPhotos in the UI.
@@ -78,6 +88,8 @@ static const NSTimeInterval RETRY_TIME = 5;
         for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
             [self uploadPhoto:albumId photo:photo];
         }
+        RCLog(@"Background task %d ended", initiateUploadsBackgroundTaskID);
+        [[UIApplication sharedApplication] endBackgroundTask:initiateUploadsBackgroundTaskID];
     });
 }
 
@@ -108,11 +120,11 @@ static const NSTimeInterval RETRY_TIME = 5;
 - (void)uploadPhoto:(int64_t)albumId photo:(AlbumUploadingPhoto *)photo
 {
     // On iOS < 7, the entire upload process will be in a background task, and needs to finish within 10 minutes.
-    __block UIBackgroundTaskIdentifier backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        RCLog(@"Background task %d was forced to end", backgroundTaskID);
-        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+    __block UIBackgroundTaskIdentifier photoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        RCLog(@"Background task %d was forced to end", photoUploadBackgroundTaskID);
+        [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
     }];
-    RCLog(@"Background task %d started", backgroundTaskID);
+    RCLog(@"Background task %d started", photoUploadBackgroundTaskID);
 
     [photo setPhotoId:[photoIds_ objectAtIndex:0]];
     [photoIds_ removeObjectAtIndex:0];
@@ -132,7 +144,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
         // TODO: error handling
 
-        [self photoWasUploaded:photo album:albumId backgroundTaskID:backgroundTaskID];
+        [self photoWasUploaded:photo album:albumId backgroundTaskID:photoUploadBackgroundTaskID];
     }];
 }
 // *INDENT-ON*
@@ -140,10 +152,13 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 /* Completion handler that is called when upload task succeeds. On iOS 7, this is run within an NSURLSession, meaning that it may not execute for more than 30 seconds. On iOS < 7 it is run as a background task that is allowed to run for 10 minutes. For iOS 7, this background task is also active, but since completion may occur well after the 10 minute interval has passed, we need to stay within the 30 seconds limit.
  */
-- (void)photoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId backgroundTaskID:(UIBackgroundTaskIdentifier)backgroundTaskID
+- (void)photoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
 {
     //RCLog(@"uploadingPhotos_: %@", [uploadingPhotos_ description]);
     //RCLog(@"uploadedPhotos_: %@", [uploadedPhotos_ description]);
+
+    // TODO: at this point, mark the AlbumUploadingPhoto in ShotVibeDB as Uploaded (but not yet added)
+
     [photo setUploadComplete];
     dispatch_async(dispatch_get_main_queue(), ^{
         [listener_ photoUploadComplete:albumId]; // Remove progress bars in the UI
@@ -188,6 +203,8 @@ static const NSTimeInterval RETRY_TIME = 5;
         }
         RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
 
+        // TODO: at this point, remove the AlbumUploadingPhotos from ShotVibeDB
+
         // Notify album manager that all photos are uploaded, causing a server refresh
         dispatch_async(dispatch_get_main_queue(), ^{
             @synchronized(uploadingPhotos_) {
@@ -195,13 +212,15 @@ static const NSTimeInterval RETRY_TIME = 5;
             }
 
             [listener_ photoAlbumAllPhotosUploaded:albumId];
-            RCLog(@"Background task %d ended", backgroundTaskID);
-            [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+            RCLog(@"Background task %d ended", photoUploadBackgroundTaskID);
+            [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
         });
 */
         // TODO: may suffer from a delay after photos were uploaded, when called from the backround.
         [newShotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^{
             RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
+
+            // TODO: at this point, remove the AlbumUploadingPhotos from ShotVibeDB
 
             // Notify album manager that all photos are uploaded, causing a server refresh
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -210,13 +229,13 @@ static const NSTimeInterval RETRY_TIME = 5;
                 }
 
                 [listener_ photoAlbumAllPhotosUploaded:albumId];
-                RCLog(@"Background task %d ended", backgroundTaskID);
-                [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+                RCLog(@"Background task %d ended", photoUploadBackgroundTaskID);
+                [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
             });
         }];
     } else {
-        RCLog(@"Background task %d ended", backgroundTaskID);
-        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+        RCLog(@"Background task %d ended", photoUploadBackgroundTaskID);
+        [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
     }
 }
 
