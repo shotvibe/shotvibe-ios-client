@@ -1034,6 +1034,52 @@
 		04C407D6173032B200973BC0 /* phoneNumberContainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoneNumberContainer.png; sourceTree = "<group>"; };
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
+		1077E30E18A2768A00E9E9C5 /* AlbumBase.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumBase.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumBase.java; sourceTree = SOURCE_ROOT; };
+		1077E30F18A276BF00E9E9C5 /* AlbumContents.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumContents.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumContents.java; sourceTree = SOURCE_ROOT; };
+		1077E31018A276BF00E9E9C5 /* AlbumMember.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumMember.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumMember.java; sourceTree = SOURCE_ROOT; };
+		1077E31118A276BF00E9E9C5 /* AlbumPhoto.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumPhoto.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumPhoto.java; sourceTree = SOURCE_ROOT; };
+		1077E31218A276BF00E9E9C5 /* AlbumServerPhoto.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumServerPhoto.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumServerPhoto.java; sourceTree = SOURCE_ROOT; };
+		1077E31318A276BF00E9E9C5 /* AlbumSummary.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumSummary.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumSummary.java; sourceTree = SOURCE_ROOT; };
+		1077E31418A276BF00E9E9C5 /* AlbumUploadingPhoto.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumUploadingPhoto.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumUploadingPhoto.java; sourceTree = SOURCE_ROOT; };
+		1077E31518A276BF00E9E9C5 /* AlbumUser.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumUser.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumUser.java; sourceTree = SOURCE_ROOT; };
+		1077E31618A276BF00E9E9C5 /* APIException.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = APIException.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/APIException.java; sourceTree = SOURCE_ROOT; };
+		1077E31818A276EA00E9E9C5 /* ArrayList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ArrayList.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ArrayList.h; sourceTree = SOURCE_ROOT; };
+		1077E31918A276EA00E9E9C5 /* ArrayList.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ArrayList.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ArrayList.java; sourceTree = SOURCE_ROOT; };
+		1077E31A18A276EA00E9E9C5 /* ArrayList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ArrayList.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ArrayList.m; sourceTree = SOURCE_ROOT; };
+		1077E31B18A276EA00E9E9C5 /* AuthData.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AuthData.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AuthData.java; sourceTree = SOURCE_ROOT; };
+		1077E31C18A276EA00E9E9C5 /* DateTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DateTime.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/DateTime.h; sourceTree = SOURCE_ROOT; };
+		1077E31D18A276EA00E9E9C5 /* DateTime.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = DateTime.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/DateTime.java; sourceTree = SOURCE_ROOT; };
+		1077E31E18A276EA00E9E9C5 /* DateTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DateTime.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/DateTime.m; sourceTree = SOURCE_ROOT; };
+		1077E31F18A276EA00E9E9C5 /* DevicePhoneContactsLib.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = DevicePhoneContactsLib.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/DevicePhoneContactsLib.java; sourceTree = SOURCE_ROOT; };
+		1077E32018A276EA00E9E9C5 /* HashMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HashMap.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashMap.h; sourceTree = SOURCE_ROOT; };
+		1077E32118A276EA00E9E9C5 /* HashMap.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = HashMap.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashMap.java; sourceTree = SOURCE_ROOT; };
+		1077E32218A276EA00E9E9C5 /* HashMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HashMap.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashMap.m; sourceTree = SOURCE_ROOT; };
+		1077E32318A276EA00E9E9C5 /* HashSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HashSet.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashSet.h; sourceTree = SOURCE_ROOT; };
+		1077E32418A276EA00E9E9C5 /* HashSet.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = HashSet.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashSet.java; sourceTree = SOURCE_ROOT; };
+		1077E32518A276EA00E9E9C5 /* HashSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HashSet.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashSet.m; sourceTree = SOURCE_ROOT; };
+		1077E32618A276EA00E9E9C5 /* HTTPException.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = HTTPException.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HTTPException.java; sourceTree = SOURCE_ROOT; };
+		1077E32718A276EA00E9E9C5 /* HTTPLib.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = HTTPLib.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HTTPLib.java; sourceTree = SOURCE_ROOT; };
+		1077E32818A276EA00E9E9C5 /* HTTPResponse.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = HTTPResponse.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HTTPResponse.java; sourceTree = SOURCE_ROOT; };
+		1077E32918A276EA00E9E9C5 /* JSONArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JSONArray.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONArray.h; sourceTree = SOURCE_ROOT; };
+		1077E32A18A276EA00E9E9C5 /* JSONArray.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = JSONArray.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONArray.java; sourceTree = SOURCE_ROOT; };
+		1077E32B18A276EA00E9E9C5 /* JSONArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JSONArray.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONArray.m; sourceTree = SOURCE_ROOT; };
+		1077E32C18A276EA00E9E9C5 /* JSONException.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = JSONException.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONException.java; sourceTree = SOURCE_ROOT; };
+		1077E32D18A276EA00E9E9C5 /* JSONObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JSONObject.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONObject.h; sourceTree = SOURCE_ROOT; };
+		1077E32E18A276EA00E9E9C5 /* JSONObject.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = JSONObject.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONObject.java; sourceTree = SOURCE_ROOT; };
+		1077E32F18A276EA00E9E9C5 /* JSONObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JSONObject.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONObject.m; sourceTree = SOURCE_ROOT; };
+		1077E33018A276EA00E9E9C5 /* PhoneContact.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = PhoneContact.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/PhoneContact.java; sourceTree = SOURCE_ROOT; };
+		1077E33118A276EA00E9E9C5 /* PhoneContactDisplayData.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = PhoneContactDisplayData.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/PhoneContactDisplayData.java; sourceTree = SOURCE_ROOT; };
+		1077E33218A276EA00E9E9C5 /* PhoneContactServerResult.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = PhoneContactServerResult.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/PhoneContactServerResult.java; sourceTree = SOURCE_ROOT; };
+		1077E33318A276EA00E9E9C5 /* PhoneContactsManager.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = PhoneContactsManager.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/PhoneContactsManager.java; sourceTree = SOURCE_ROOT; };
+		1077E33418A276EA00E9E9C5 /* ShotVibeAPI.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ShotVibeAPI.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ShotVibeAPI.java; sourceTree = SOURCE_ROOT; };
+		1077E33518A276EA00E9E9C5 /* ShotVibeDB.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ShotVibeDB.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ShotVibeDB.java; sourceTree = SOURCE_ROOT; };
+		1077E33618A276EA00E9E9C5 /* SQLConnection.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = SQLConnection.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/SQLConnection.java; sourceTree = SOURCE_ROOT; };
+		1077E33718A276EA00E9E9C5 /* SQLCursor.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = SQLCursor.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/SQLCursor.java; sourceTree = SOURCE_ROOT; };
+		1077E33818A276EA00E9E9C5 /* SQLException.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = SQLException.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/SQLException.java; sourceTree = SOURCE_ROOT; };
+		1077E33918A276EA00E9E9C5 /* SQLValues.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = SQLValues.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/SQLValues.java; sourceTree = SOURCE_ROOT; };
+		1077E33A18A276EA00E9E9C5 /* ThreadUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ThreadUtil.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ThreadUtil.h; sourceTree = SOURCE_ROOT; };
+		1077E33B18A276EA00E9E9C5 /* ThreadUtil.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ThreadUtil.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ThreadUtil.java; sourceTree = SOURCE_ROOT; };
+		1077E33C18A276EA00E9E9C5 /* ThreadUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ThreadUtil.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ThreadUtil.m; sourceTree = SOURCE_ROOT; };
 		108CDF051884083200757E36 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
 		108CDF071884085D00757E36 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		108CDF091884087A00757E36 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -1068,10 +1114,10 @@
 		108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MPImageEffects.m"; sourceTree = "<group>"; };
 		108CDF6118846B9000757E36 /* UIView+MPSnapshotImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MPSnapshotImage.h"; sourceTree = "<group>"; };
 		108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPSnapshotImage.m"; sourceTree = "<group>"; };
+		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		10F1A2D91885411E0051E267 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -2055,6 +2101,59 @@
 			name = Registration;
 			sourceTree = "<group>";
 		};
+		1077E30B18A275B800E9E9C5 /* Client Lib Java */ = {
+			isa = PBXGroup;
+			children = (
+				1077E30E18A2768A00E9E9C5 /* AlbumBase.java */,
+				1077E30F18A276BF00E9E9C5 /* AlbumContents.java */,
+				1077E31018A276BF00E9E9C5 /* AlbumMember.java */,
+				1077E31118A276BF00E9E9C5 /* AlbumPhoto.java */,
+				1077E31218A276BF00E9E9C5 /* AlbumServerPhoto.java */,
+				1077E31318A276BF00E9E9C5 /* AlbumSummary.java */,
+				1077E31418A276BF00E9E9C5 /* AlbumUploadingPhoto.java */,
+				1077E31518A276BF00E9E9C5 /* AlbumUser.java */,
+				1077E31618A276BF00E9E9C5 /* APIException.java */,
+				1077E31818A276EA00E9E9C5 /* ArrayList.h */,
+				1077E31918A276EA00E9E9C5 /* ArrayList.java */,
+				1077E31A18A276EA00E9E9C5 /* ArrayList.m */,
+				1077E31B18A276EA00E9E9C5 /* AuthData.java */,
+				1077E31C18A276EA00E9E9C5 /* DateTime.h */,
+				1077E31D18A276EA00E9E9C5 /* DateTime.java */,
+				1077E31E18A276EA00E9E9C5 /* DateTime.m */,
+				1077E31F18A276EA00E9E9C5 /* DevicePhoneContactsLib.java */,
+				1077E32018A276EA00E9E9C5 /* HashMap.h */,
+				1077E32118A276EA00E9E9C5 /* HashMap.java */,
+				1077E32218A276EA00E9E9C5 /* HashMap.m */,
+				1077E32318A276EA00E9E9C5 /* HashSet.h */,
+				1077E32418A276EA00E9E9C5 /* HashSet.java */,
+				1077E32518A276EA00E9E9C5 /* HashSet.m */,
+				1077E32618A276EA00E9E9C5 /* HTTPException.java */,
+				1077E32718A276EA00E9E9C5 /* HTTPLib.java */,
+				1077E32818A276EA00E9E9C5 /* HTTPResponse.java */,
+				1077E32918A276EA00E9E9C5 /* JSONArray.h */,
+				1077E32A18A276EA00E9E9C5 /* JSONArray.java */,
+				1077E32B18A276EA00E9E9C5 /* JSONArray.m */,
+				1077E32C18A276EA00E9E9C5 /* JSONException.java */,
+				1077E32D18A276EA00E9E9C5 /* JSONObject.h */,
+				1077E32E18A276EA00E9E9C5 /* JSONObject.java */,
+				1077E32F18A276EA00E9E9C5 /* JSONObject.m */,
+				1077E33018A276EA00E9E9C5 /* PhoneContact.java */,
+				1077E33118A276EA00E9E9C5 /* PhoneContactDisplayData.java */,
+				1077E33218A276EA00E9E9C5 /* PhoneContactServerResult.java */,
+				1077E33318A276EA00E9E9C5 /* PhoneContactsManager.java */,
+				1077E33418A276EA00E9E9C5 /* ShotVibeAPI.java */,
+				1077E33518A276EA00E9E9C5 /* ShotVibeDB.java */,
+				1077E33618A276EA00E9E9C5 /* SQLConnection.java */,
+				1077E33718A276EA00E9E9C5 /* SQLCursor.java */,
+				1077E33818A276EA00E9E9C5 /* SQLException.java */,
+				1077E33918A276EA00E9E9C5 /* SQLValues.java */,
+				1077E33A18A276EA00E9E9C5 /* ThreadUtil.h */,
+				1077E33B18A276EA00E9E9C5 /* ThreadUtil.java */,
+				1077E33C18A276EA00E9E9C5 /* ThreadUtil.m */,
+			);
+			name = "Client Lib Java";
+			sourceTree = "<group>";
+		};
 		108CDF4518846B8F00757E36 /* Mixpanel */ = {
 			isa = PBXGroup;
 			children = (
@@ -2814,6 +2913,7 @@
 				AA58FB0116C224E800C49E02 /* Supporting Files */,
 				AA58FB7516C22B0400C49E02 /* Vendor */,
 				AA58FB3816C227F500C49E02 /* Views */,
+				1077E30B18A275B800E9E9C5 /* Client Lib Java */,
 			);
 			path = shotvibe;
 			sourceTree = "<group>";
