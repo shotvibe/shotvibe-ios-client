@@ -26,7 +26,7 @@
 
 - (void)removePhotos:(NSArray *)photos album:(int64_t)albumId;
 
-- (NSArray *)getPhotosForAlbum:(int64_t)albumId;
+- (NSArray *)getAllPhotosForAlbum:(int64_t)albumId;
 
 - (void)removeAllPhotosForAlbum:(int64_t)albumId;
 

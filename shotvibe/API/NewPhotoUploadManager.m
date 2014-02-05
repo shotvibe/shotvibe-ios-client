@@ -171,10 +171,10 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     NSArray *photosToAdd = nil;
     @synchronized(uploadingPhotos_) {
-        if ([uploadingPhotos_ getPhotosForAlbum:albumId].count == 0) {
+        if ([uploadingPhotos_ getAllPhotosForAlbum:albumId].count == 0) {
             // Only when there are no other photos for this album currently uploading, we
             // will add the photos to the album. This way only one push notification will be sent.
-            photosToAdd = [uploadedPhotos_ getPhotosForAlbum:albumId];
+            photosToAdd = [uploadedPhotos_ getAllPhotosForAlbum:albumId];
 
             [uploadedPhotos_ removePhotos:photosToAdd album:albumId];
             [addingPhotos_ addPhotos:photosToAdd album:albumId];
