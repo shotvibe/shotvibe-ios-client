@@ -75,6 +75,10 @@
 @implementation SVAlbumGridViewController
 
 
+static NSString *const kCellReuseIdentifier = @"SVAlbumGridViewCell"; // registered in the storyboard
+static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
+
+
 #pragma mark - UIViewController Methods
 
 - (void)viewDidLoad
@@ -115,7 +119,7 @@
 	self.navigationItem.backBarButtonItem = backButton;
 	
 	// CollectionView
-	[self.collectionView registerClass:[SVAlbumGridSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SVAlbumGridSection"];
+    [self.collectionView registerClass:[SVAlbumGridSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSectionReuseIdentifier];
 	[self.collectionView addSubview:self.switchView];
 	
 	self.switchView.frame = CGRectMake(0, 0, 320, 45);
@@ -358,7 +362,9 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVAlbumGridViewCell" forIndexPath:indexPath];
+    SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
+
+    //RCLog(@"Dequeued cell: %@", cell);
     __block NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 
     [cell.networkImageView setImage:nil];
@@ -408,7 +414,7 @@
 {
     if (kind == UICollectionElementKindSectionHeader) {
         SVAlbumGridSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-                                                                        withReuseIdentifier:@"SVAlbumGridSection"
+                                                                        withReuseIdentifier:kSectionReuseIdentifier
                                                                                forIndexPath:indexPath];
 
         // Modify the header
@@ -721,7 +727,7 @@
             cell.uploadProgressView.hidden = YES;
             cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
             cell.fancyUploadProgressView.hidden = [uploadingPhoto isUploadComplete];
-            RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
+            //RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
             [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:YES];
 		}
 	}
