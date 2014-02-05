@@ -3033,12 +3033,12 @@
 			buildConfigurationList = AA58FB2F16C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibe" */;
 			buildPhases = (
 				10D366C41879EF8200E6FF4C /* Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h */,
-				6601325F187F51990042047B /* ShellScript */,
+				6601325F187F51990042047B /* Run Script: Generate client lib with j2objc */,
 				AA58FAF316C224E800C49E02 /* Sources */,
 				AA58FAF416C224E800C49E02 /* Frameworks */,
 				AA58FAF516C224E800C49E02 /* Resources */,
-				3B1E4D2A17AD6C8800CACE80 /* ShellScript */,
-				66D58347186858C200EAC842 /* ShellScript */,
+				3B1E4D2A17AD6C8800CACE80 /* Run Script: Crashlytics script */,
+				66D58347186858C200EAC842 /* Run Script: Uncrustify for modified lines */,
 			);
 			buildRules = (
 			);
@@ -3606,39 +3606,42 @@
 			shellPath = /bin/sh;
 			shellScript = "tools/generateGitInfo.sh\n";
 		};
-		3B1E4D2A17AD6C8800CACE80 /* ShellScript */ = {
+		3B1E4D2A17AD6C8800CACE80 /* Run Script: Crashlytics script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script: Crashlytics script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    ./Crashlytics.framework/run 7f25f8f82f6578b40464674ed500ef0c60435027\nfi";
 		};
-		6601325F187F51990042047B /* ShellScript */ = {
+		6601325F187F51990042047B /* Run Script: Generate client lib with j2objc */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script: Generate client lib with j2objc";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd shotvibelib\n./build_xcode.py";
+			shellScript = "cd shotvibelib\n./xcodeJ2objcWrapper.sh ./build_xcode.py shotvibelib/";
 		};
-		66D58347186858C200EAC842 /* ShellScript */ = {
+		66D58347186858C200EAC842 /* Run Script: Uncrustify for modified lines */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script: Uncrustify for modified lines";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
