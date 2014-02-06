@@ -22,6 +22,7 @@
 
 - (void)prepareForReuse
 {
+    RCLog(@"Preparing for reuse");
     [super prepareForReuse];
     [self.fancyUploadProgressView reset];
 }
