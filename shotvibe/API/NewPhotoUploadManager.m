@@ -31,7 +31,11 @@
 
     PhotoDictionary *addingPhotos_; // contains the AlbumUploadingPhotos for which an add request has been sent
 
-    // Using just one queue instead of the two separate uploaded and adding queues will pose a problem in the (extremely hypothetical) situion that a photo is queued and completely uploaded while other photos for the same album are in the process of being added. (We wouldn't be able to determine which photos should be put in the add request for the single photo)
+    // Using just one queue instead of the two separate uploaded and adding queues will pose a problem in the (extremely hypothetical) situation that a photo is queued and completely uploaded while other photos for the same album are in the process of being added. (We wouldn't be able to determine which photos should be put in the add request for the single photo)
+
+    NSMutableArray *pendingSecondStagePhotos_; // AlbumUploadingPhotos that have been low-res uploaded and added, but are pending full res upload
+
+    // In ShotVibeDB, photos will progress through these states: Stage1Uploading -> AddingToAlbum -> Stage2Pending
 }
 
 static const NSTimeInterval RETRY_TIME = 5;
@@ -54,6 +58,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         uploadingPhotos_ = [[PhotoDictionary alloc] init];
         uploadedPhotos_ = [[PhotoDictionary alloc] init];
         addingPhotos_ = [[PhotoDictionary alloc] init];
+        pendingSecondStagePhotos_ = [[NSMutableArray alloc] init];
     }
 
     return self;
@@ -65,10 +70,10 @@ static const NSTimeInterval RETRY_TIME = 5;
     // Use a background task to initiate the uploads, in case the application is closed while requesting photo id's.
     // The uploads themselves have their own background task.
     __block UIBackgroundTaskIdentifier initiateUploadsBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        RCLog(@"Background task %d was forced to end", initiateUploadsBackgroundTaskID);
+        RCLog(@"Initiate-uploads background task %d was forced to end", initiateUploadsBackgroundTaskID);
         [[UIApplication sharedApplication] endBackgroundTask:initiateUploadsBackgroundTaskID];
     }];
-    RCLog(@"Background task %d started", initiateUploadsBackgroundTaskID);
+    RCLog(@"Initiate-uploads background task %d started", initiateUploadsBackgroundTaskID);
 
     NSMutableArray *newAlbumUploadingPhotos = [[NSMutableArray alloc] init];
     for (PhotoUploadRequest *req in photoUploadRequests) {
@@ -76,7 +81,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         [newAlbumUploadingPhotos addObject:photo];
         [uploadingPhotos_ addPhoto:photo album:albumId];
     }
-    // TODO: at this point, store new AlbumUploadingPhotos in ShotVibeDB, before any networking is done (with
+    // TODO: at this point, store new AlbumUploadingPhotos as Stage1Pending in ShotVibeDB, before any networking is done (with
     // possible loops and termination after 10 minutes)
     // We probably need to pull the prepareTmpFile forward, to ensure we have a filename for every AlbumUploadingPhoto
 
@@ -89,7 +94,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
             [self uploadPhoto:albumId photo:photo];
         }
-        RCLog(@"Background task %d ended", initiateUploadsBackgroundTaskID);
+        RCLog(@"Initiate-uploads background task %d ended", initiateUploadsBackgroundTaskID);
         [[UIApplication sharedApplication] endBackgroundTask:initiateUploadsBackgroundTaskID];
     });
 }
@@ -122,30 +127,33 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     // On iOS < 7, the entire upload process will be in a background task, and needs to finish within 10 minutes.
     __block UIBackgroundTaskIdentifier photoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        RCLog(@"Background task %d was forced to end", photoUploadBackgroundTaskID);
+        RCLog(@"Photo-upload background task %d was forced to end", photoUploadBackgroundTaskID);
         [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
     }];
-    RCLog(@"Background task %d started", photoUploadBackgroundTaskID);
+    RCLog(@"Photo-upload background task %d started", photoUploadBackgroundTaskID);
 
     [photo setPhotoId:[photoIds_ objectAtIndex:0]];
     [photoIds_ removeObjectAtIndex:0];
 
     [photo prepareTmpFiles:photoSaveQueue_];
 
-    NSString *filePath = [photo getFullResFilename]; // Will block until the photo has been saved
+    NSString *filePath = [photo getLowResFilename]; // Will block until the photo has been saved
 
+    RCLog(@"START first-stage upload for %@", showShortPhotoId(photo.photoId));
+
+    // Stage 1, upload low-res version of photo
     [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-        RCLog(@"Task progress: photo %@ %.2f %.1fk", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend, totalBytesExpectedToSend/1024.0);
+        //RCLog(@"Task progress: photo %@ %.2f %.1fk", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend, totalBytesExpectedToSend/1024.0);
         [photo setUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoUploadProgress:albumId];
         });
     } completionHandler:^{
-        //RCLog(@"Task completion: photo %@ %@", photo.photoId, [req getFilename]);
+        //RCLog(@"Task completion: photo %@ %@", showShortPhotoId(photo.photoId), [req getFilename]);
 
         // TODO: error handling
 
-        [self photoWasUploaded:photo album:albumId backgroundTaskID:photoUploadBackgroundTaskID];
+        [self lowResPhotoWasUploaded:photo album:albumId backgroundTaskID:photoUploadBackgroundTaskID];
     }];
 }
 // *INDENT-ON*
@@ -153,12 +161,13 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 /* Completion handler that is called when upload task succeeds. On iOS 7, this is run within an NSURLSession, meaning that it may not execute for more than 30 seconds. On iOS < 7 it is run as a background task that is allowed to run for 10 minutes. For iOS 7, this background task is also active, but since completion may occur well after the 10 minute interval has passed, we need to stay within the 30 seconds limit.
  */
-- (void)photoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
+- (void)lowResPhotoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
 {
     //RCLog(@"uploadingPhotos_: %@", [uploadingPhotos_ description]);
     //RCLog(@"uploadedPhotos_: %@", [uploadedPhotos_ description]);
 
-    // TODO: at this point, mark the AlbumUploadingPhoto in ShotVibeDB as Uploaded (but not yet added)
+    RCLog(@"FINISH first-stage upload for %@", showShortPhotoId(photo.photoId));
+    // TODO: at this point, mark the AlbumUploadingPhoto as AddingToAlbum in ShotVibeDB
 
     [photo setUploadComplete];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -182,61 +191,103 @@ static const NSTimeInterval RETRY_TIME = 5;
         }
     }
 
-    if (photosToAdd) {
+    if (!photosToAdd) {
+        RCLog(@"Photo-upload background task %d ended", photoUploadBackgroundTaskID);
+        [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
+    } else {
         NSMutableArray *photoIdsToAdd = [[NSMutableArray alloc] init];
 
         for (AlbumUploadingPhoto *photo in photosToAdd) {
             [photo setAddingToAlbum]; // TODO: this state is no longer used
             [photoIdsToAdd addObject:photo.photoId];
         }
-/* old way to call albumAddPhotos, can be removed if adding as an upload task is responsive enough.
-        BOOL photosSuccesfullyAdded = NO;
-        // TODO: this loop is not okay for background thread
+        /* old way to call albumAddPhotos, can be removed if adding as an upload task is responsive enough.
+         BOOL photosSuccesfullyAdded = NO;
+         // TODO: this loop is not okay for background thread
 
-        while (!photosSuccesfullyAdded) { // continuously try an add-to-album request, until success
-            NSError *error;
-            if (![shotVibeAPI_ albumAddPhotos:albumId photoIds:photoIdsToAdd withError:&error]) {
-                RCLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
-                [NSThread sleepForTimeInterval:RETRY_TIME];
-            } else {
-                photosSuccesfullyAdded = YES;
-            }
-        }
-        RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
+         while (!photosSuccesfullyAdded) { // continuously try an add-to-album request, until success
+         NSError *error;
+         if (![shotVibeAPI_ albumAddPhotos:albumId photoIds:photoIdsToAdd withError:&error]) {
+         RCLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
+         [NSThread sleepForTimeInterval:RETRY_TIME];
+         } else {
+         photosSuccesfullyAdded = YES;
+         }
+         }
+         RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
 
-        // TODO: at this point, remove the AlbumUploadingPhotos from ShotVibeDB
+         [self photosWereAdded:photosToAdd albumId:albumId];
 
-        // Notify album manager that all photos are uploaded, causing a server refresh
-        dispatch_async(dispatch_get_main_queue(), ^{
-            @synchronized(uploadingPhotos_) {
-                [addingPhotos_ removePhotos:photosToAdd album:albumId];
-            }
+         // Notify album manager that all photos are uploaded, causing a server refresh
+         dispatch_async(dispatch_get_main_queue(), ^{
+         @synchronized(uploadingPhotos_) {
+         [addingPhotos_ removePhotos:photosToAdd album:albumId];
+         }
 
-            [listener_ photoAlbumAllPhotosUploaded:albumId];
-            RCLog(@"Background task %d ended", photoUploadBackgroundTaskID);
-            [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
-        });
-*/
+         [listener_ photoAlbumAllPhotosUploaded:albumId];
+         RCLog(@"Background task %d ended", photoUploadBackgroundTaskID);
+         [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
+         });
+         */
+        RCLog(@"Adding %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
+
         // TODO: may suffer from a delay after photos were uploaded, when called from the backround.
         [newShotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^{
             RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
 
-            // TODO: at this point, remove the AlbumUploadingPhotos from ShotVibeDB
+            [self photosWereAdded:photosToAdd albumId:albumId];
 
             // Notify album manager that all photos are uploaded, causing a server refresh
             dispatch_async(dispatch_get_main_queue(), ^{
-                @synchronized(uploadingPhotos_) {
-                    [addingPhotos_ removePhotos:photosToAdd album:albumId];
-                }
-
                 [listener_ photoAlbumAllPhotosUploaded:albumId];
-                RCLog(@"Background task %d ended", photoUploadBackgroundTaskID);
+                RCLog(@"Photo-upload background task %d ended", photoUploadBackgroundTaskID);
                 [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
             });
         }];
-    } else {
-        RCLog(@"Background task %d ended", photoUploadBackgroundTaskID);
-        [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
+    }
+}
+
+
+// NSArray photos has elements of type AlbumUploadingPhoto
+- (void)photosWereAdded:(NSArray *)addedPhotos albumId:(int64_t)albumId
+{
+    // TODO: at this point, mark addedPhotos as Stage2Pending in ShotVibeDB
+
+    NSMutableArray *newSecondStageUploads = [[NSMutableArray alloc] init];
+
+    @synchronized(uploadingPhotos_) {
+        [addingPhotos_ removePhotos:addedPhotos album:albumId];
+
+        int nrOfUnfinishedPhotos = [uploadingPhotos_ getAllPhotos].count + [uploadedPhotos_ getAllPhotos].count + [addingPhotos_  getAllPhotos].count;
+
+        if (nrOfUnfinishedPhotos == 0) {
+            newSecondStageUploads = pendingSecondStagePhotos_; // all low res photos have been uploaded and added, so we can start the full res uploads
+            pendingSecondStagePhotos_ = [[NSMutableArray alloc] init];
+        } else {
+            [pendingSecondStagePhotos_ arrayByAddingObjectsFromArray:addedPhotos];
+        }
+
+        // TODO: if new photos are added once the full res uploads have started, they will run in parallel and not get priority.
+        // There does not seem to be a straightforward way to prioritize iOS 7 background tasks, so perhaps we need to schedule them ourselves.
+
+        for (AlbumUploadingPhoto *newSecondStageUpload in addedPhotos) {
+            __block UIBackgroundTaskIdentifier secondStageUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+                RCLog(@"Second-stage upload background task %d was forced to end", secondStageUploadBackgroundTaskID);
+                [[UIApplication sharedApplication] endBackgroundTask:secondStageUploadBackgroundTaskID];
+            }];
+            RCLog(@"Second-stage upload background task %d started", secondStageUploadBackgroundTaskID);
+
+            RCLog(@"START second-stage upload for %@", showShortPhotoId(newSecondStageUpload.photoId));
+
+            // Dummy 10 second delay TODO: start asynchronous upload here
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                RCLog(@"FINISH second-stage upload for %@", showShortPhotoId(newSecondStageUpload.photoId));
+                // TODO: at this point, remove the photo newSecondStageUpload from ShotVibeDB
+
+                RCLog(@"Second-stage upload background task %d ended", secondStageUploadBackgroundTaskID);
+                [[UIApplication sharedApplication] endBackgroundTask:secondStageUploadBackgroundTaskID];
+            });
+        }
     }
 }
 
@@ -267,7 +318,7 @@ NSString * showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
 {
     NSString *str = @"Photo id's:";
     for (AlbumUploadingPhoto *photo in albumUploadingPhotos) {
-        str = [NSString stringWithFormat:@"%@ %@", str, photo.photoId];
+        str = [NSString stringWithFormat:@"%@ %@", str, showShortPhotoId(photo.photoId)];
     }
     return str;
 }
