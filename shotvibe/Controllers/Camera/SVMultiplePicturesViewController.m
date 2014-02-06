@@ -44,7 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Setup titleview
 //    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
 //    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
@@ -60,6 +60,12 @@
 {
     [super viewWillAppear:animated];
     [self hideDropDown:NO];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
 }
 
 
@@ -280,9 +286,19 @@
     self.albumField.placeholder = currentDateString;
 
     self.tableView.userInteractionEnabled = NO;
+
+    CGRect frame = self.createNewAlbumTitleView.frame;
+    frame.origin.y = self.tableView.frame.origin.y - frame.size.height;
+    self.createNewAlbumTitleView.frame = frame;
+    self.createNewAlbumTitleView.hidden = NO;
+    
     [UIView animateWithDuration:0.3 animations:^{
         CGRect frame = self.createNewAlbumTitleView.frame;
-        frame.origin.y = self.navigationController.navigationBar.frame.size.height + 20;
+        if (IS_IOS7) {
+            frame.origin.y = self.tableView.frame.origin.y + self.navigationController.navigationBar.bounds.size.height;
+        } else {
+            frame.origin.y = self.tableView.frame.origin.y;
+        }
         self.createNewAlbumTitleView.frame = frame;
     }
 
@@ -303,7 +319,7 @@
     if (animated) {
         [UIView animateWithDuration:0.3 animations:^{
             CGRect frame = self.createNewAlbumTitleView.frame;
-            frame.origin.y = self.navigationController.navigationBar.frame.size.height + 20 - frame.size.height;
+            frame.origin.y = self.tableView.frame.origin.y - frame.size.height;
             self.createNewAlbumTitleView.frame = frame;
         }
 
@@ -316,7 +332,7 @@
         ];
     } else {
         CGRect frame = self.createNewAlbumTitleView.frame;
-        frame.origin.y = self.navigationController.navigationBar.frame.size.height + 20 - frame.size.height;
+        frame.origin.y = self.tableView.frame.origin.y - frame.size.height;
         self.createNewAlbumTitleView.frame = frame;
         self.tableView.userInteractionEnabled = YES;
     }

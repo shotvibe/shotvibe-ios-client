@@ -14,11 +14,11 @@
 
 @property (nonatomic, strong) NSMutableArray *images;
 @property (nonatomic, strong) UIImage *mostRecentImage;
-@property (nonatomic) BOOL waitForImageToBeSaved;
 @property (nonatomic) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, weak) IBOutlet UILabel *tapLabel;
 
 @end

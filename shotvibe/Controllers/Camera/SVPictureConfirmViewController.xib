@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="collectionView" destination="usN-qM-Mkm" id="P1d-cf-KQ9"/>
                 <outlet property="scrollView" destination="8VU-rr-8uD" id="CkY-13-1mN"/>
+                <outlet property="tapLabel" destination="XN9-QM-xHl" id="1ux-8m-YDS"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -46,7 +47,7 @@
                     </connections>
                 </collectionView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap camera to take another photo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XN9-QM-xHl">
-                    <rect key="frame" x="20" y="411" width="280" height="21"/>
+                    <rect key="frame" x="20" y="410" width="280" height="21"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

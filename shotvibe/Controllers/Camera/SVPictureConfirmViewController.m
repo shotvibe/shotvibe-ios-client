@@ -44,8 +44,8 @@
 
 - (void)showShare:(NSNotification *)notification
 {
-    UIBarButtonItem *share = [[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStyleDone target:self action:@selector(share:)];
-    share.tintColor = [UIColor yellowColor];
+    UIBarButtonItem *share = [[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStylePlain target:self action:@selector(share:)];
+//    share.tintColor = [UIColor yellowColor];
     self.navigationItem.rightBarButtonItem = share;
 }
 
@@ -63,7 +63,7 @@
     [self populateScrollView];
     [self fixTitle];
 
-    if (self.waitForImageToBeSaved) {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[self.images lastObject]]) {
         self.navigationItem.rightBarButtonItem = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showShare:) name:@"kPickedImageSaved" object:nil];
     } else {
@@ -93,7 +93,7 @@
 
 - (UIImage *)resizedImage:(UIImage *)image toSize:(CGSize)size
 {
-    CGSize newSize = CGSizeMake(size.width*[[UIScreen mainScreen] scale], size.height*[[UIScreen mainScreen] scale]);
+    CGSize newSize = CGSizeMake(size.width *[[UIScreen mainScreen] scale], size.height *[[UIScreen mainScreen] scale]);
     float oldWidth = image.size.width;
     float scaleFactor = newSize.width / oldWidth;
     float newHeight = image.size.height * scaleFactor;
@@ -108,12 +108,23 @@
 }
 
 
+- (CGSize)constrainedSize:(UIImage *)image toSize:(CGSize)constraint
+{
+    float widthRatio = constraint.width / image.size.width;
+    float heightRatio = constraint.height / image.size.height;
+    float scale = MIN(widthRatio, heightRatio);
+    float imageWidth = scale * image.size.width;
+    float imageHeight = scale * image.size.height;
+    return CGSizeMake(imageWidth, imageHeight);
+}
+
+
 - (void)populateScrollView
 {
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-        self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, 320);
+        self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.tapLabel.frame.origin.y);
     } else {
-        self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, 200);
+        self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.tapLabel.frame.origin.y);
     }
 
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -121,8 +132,11 @@
     int i = 0;
     int x = 0;
     for (UIImage *image in self.images) {
-        int imageHeight = self.scrollView.frame.size.height - 40;
-        UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(x + (self.scrollView.frame.size.width - imageHeight) / 2, 20, imageHeight, imageHeight)];
+        int imageWidth = self.view.frame.size.width;
+        int imageHeight = self.tapLabel.frame.origin.y;
+        //UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(x + (self.scrollView.frame.size.width - imageHeight) / 2, 20, imageWidth, imageHeight)];
+        UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(x, 0, imageWidth, imageHeight)];
+        iv.contentMode = UIViewContentModeScaleAspectFit;
         UIImage *image = nil;
         if ((self.mostRecentImage) && (self.images.count - 1 == i)) {
             image = self.mostRecentImage;
@@ -131,11 +145,17 @@
         }
         iv.image = [self resizedImage:image toSize:iv.frame.size];
 
+        CGSize constrainedSize = [self constrainedSize:image toSize:iv.bounds.size];
         [self.scrollView addSubview:iv];
 
         //"Remove" top left button
         UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        button1.frame = CGRectMake(iv.frame.origin.x - 15, 5, 30, 30);
+        //button1.frame = CGRectMake(iv.frame.origin.x - 15, 5, 30, 30);
+        if (constrainedSize.width < iv.bounds.size.width) {
+            button1.frame = CGRectMake((iv.bounds.size.width - constrainedSize.width) / 2, 0, 30, 30);
+        } else {
+            button1.frame = CGRectMake(0, (iv.bounds.size.height - constrainedSize.height) / 2, 30, 30);
+        }
         button1.tag = i;
 //        button1.backgroundColor = [UIColor whiteColor];
 //        [button1 setTitle:@"x" forState:UIControlStateNormal];

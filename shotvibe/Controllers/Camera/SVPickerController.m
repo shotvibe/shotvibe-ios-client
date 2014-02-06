@@ -112,7 +112,6 @@
         //This code is called when we're taking subsequent images
         [self.container.images addObject:filePath];
         self.container.mostRecentImage = scaledImage;
-        self.container.waitForImageToBeSaved = YES;
 
         self.shouldShowPicker = NO;
         [self dismissViewControllerAnimated:NO completion:^{
@@ -128,7 +127,6 @@
         c.mostRecentImage = scaledImage;
         c.albumId = self.albumId;
         c.albumManager = self.albumManager;
-        c.waitForImageToBeSaved = YES;
 
         self.shouldShowPicker = NO;
         [self dismissViewControllerAnimated:NO completion:^{

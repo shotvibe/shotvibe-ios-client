@@ -331,14 +331,26 @@
 
 - (void)cancelAlbumSelector:(NSNotification *)notification
 {
-//    self.view.hidden = YES;
+    self.view.hidden = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumSelector:) name:@"kSVPickAlbumToUpload" object:nil];
-//    double delayInSeconds = 0.5;
-//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-//        self.view.hidden = NO;
-        [self presentViewController:self.pickerController animated:NO completion:nil];
-//    });
+
+    @try {
+        [self presentViewController:self.pickerController animated:NO completion:^{
+            self.view.hidden = NO;
+        }
+
+
+        ];
+    } @catch (NSException *exception) {
+        double delayInSeconds = 0.25;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            [self cancelAlbumSelector:nil];
+        }
+
+
+                       );
+    }
 }
 
 
