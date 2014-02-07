@@ -549,6 +549,7 @@
 		3E759FE2188FFEFD00CAB82D /* SVPictureConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */; };
 		3E7B14901896A54300A691F2 /* SVMultiplePicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B148E1896A54300A691F2 /* SVMultiplePicturesViewController.m */; };
 		3E7B14941896AC5B00A691F2 /* SVAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B14931896AC5B00A691F2 /* SVAlbumCell.m */; };
+		3EEDD0AF18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EEDD0AE18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m */; };
 		66159228183273040054471E /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 66159227183273040054471E /* AlbumMember.m */; };
 		66278C4B1867B23800D23F34 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C481867B23800D23F34 /* FileUtils.m */; };
 		66278C4C1867B23800D23F34 /* SVInitialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C4A1867B23800D23F34 /* SVInitialization.m */; };
@@ -1272,6 +1273,8 @@
 		3E7B148E1896A54300A691F2 /* SVMultiplePicturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVMultiplePicturesViewController.m; path = Camera/SVMultiplePicturesViewController.m; sourceTree = "<group>"; };
 		3E7B14921896AC5B00A691F2 /* SVAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumCell.h; path = Camera/SVAlbumCell.h; sourceTree = "<group>"; };
 		3E7B14931896AC5B00A691F2 /* SVAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumCell.m; path = Camera/SVAlbumCell.m; sourceTree = "<group>"; };
+		3EEDD0AD18A521600048C514 /* SVNonRotatingNavigationControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVNonRotatingNavigationControllerViewController.h; path = Camera/SVNonRotatingNavigationControllerViewController.h; sourceTree = "<group>"; };
+		3EEDD0AE18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVNonRotatingNavigationControllerViewController.m; path = Camera/SVNonRotatingNavigationControllerViewController.m; sourceTree = "<group>"; };
 		66159226183273040054471E /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
 		66159227183273040054471E /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
 		66278C461867B16E00D23F34 /* SVDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDefines.h; sourceTree = "<group>"; };
@@ -2602,6 +2605,8 @@
 				3E759FD8188FFEFD00CAB82D /* SVPickerCell.m */,
 				3E759FD9188FFEFD00CAB82D /* SVPickerController.h */,
 				3E759FDA188FFEFD00CAB82D /* SVPickerController.m */,
+				3EEDD0AD18A521600048C514 /* SVNonRotatingNavigationControllerViewController.h */,
+				3EEDD0AE18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m */,
 				3E759FDB188FFEFD00CAB82D /* SVPictureConfirmViewController.h */,
 				3E759FDC188FFEFD00CAB82D /* SVPictureConfirmViewController.m */,
 				3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */,
@@ -3448,6 +3453,7 @@
 				66D5833E1867D66B00EAC842 /* RCScrollImageView.m in Sources */,
 				3E7B14901896A54300A691F2 /* SVMultiplePicturesViewController.m in Sources */,
 				3B3AD15B17CB4A9C004D24A9 /* SDWebImagePrefetcher.m in Sources */,
+				3EEDD0AF18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m in Sources */,
 				3B3AD15C17CB4A9C004D24A9 /* UIButton+WebCache.m in Sources */,
 				3B3AD15D17CB4A9C004D24A9 /* UIImage+GIF.m in Sources */,
 				3B3AD15E17CB4A9C004D24A9 /* UIImage+MultiFormat.m in Sources */,

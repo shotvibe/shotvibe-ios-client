@@ -67,6 +67,20 @@
 }
 
 
+- (UIImage *)copyImage:(UIImage *)image
+{
+    //We need to copy the image, to avoid retaining the picker and the camera that's always hanging the CPU at 40%
+    CGSize newSize = CGSizeMake(image.size.width * image.scale, image.size.height * image.scale);
+
+    UIGraphicsBeginImageContext(CGSizeMake(newSize.width, newSize.height));
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return newImage;
+}
+
+
 #pragma mark - UIImagePickerControllerDelegate
 
 // This method is called when an image has been chosen from the library or taken from the camera.
@@ -108,10 +122,11 @@
 
                    );
 
+
     if (self.container) {
         //This code is called when we're taking subsequent images
         [self.container.images addObject:filePath];
-        self.container.mostRecentImage = scaledImage;
+        self.container.mostRecentImage = [self copyImage:scaledImage];
 
         self.shouldShowPicker = NO;
         [self dismissViewControllerAnimated:NO completion:^{
@@ -124,7 +139,7 @@
         //This code is called when we're taking the first image
         SVPictureConfirmViewController *c = [[SVPictureConfirmViewController alloc] init];
         c.images = [NSMutableArray arrayWithObject:filePath];
-        c.mostRecentImage = scaledImage;
+        c.mostRecentImage = [self copyImage:scaledImage];
         c.albumId = self.albumId;
         c.albumManager = self.albumManager;
 

@@ -93,7 +93,7 @@
 
 - (UIImage *)resizedImage:(UIImage *)image toSize:(CGSize)size
 {
-    CGSize newSize = CGSizeMake(size.width *[[UIScreen mainScreen] scale], size.height *[[UIScreen mainScreen] scale]);
+    CGSize newSize = CGSizeMake(size.width * image.scale, size.height * image.scale);
     float oldWidth = image.size.width;
     float scaleFactor = newSize.width / oldWidth;
     float newHeight = image.size.height * scaleFactor;
@@ -152,9 +152,9 @@
         UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
         //button1.frame = CGRectMake(iv.frame.origin.x - 15, 5, 30, 30);
         if (constrainedSize.width < iv.bounds.size.width) {
-            button1.frame = CGRectMake((iv.bounds.size.width - constrainedSize.width) / 2, 0, 30, 30);
+            button1.frame = CGRectMake(iv.frame.origin.x + (iv.bounds.size.width - constrainedSize.width) / 2, 0, 30, 30);
         } else {
-            button1.frame = CGRectMake(0, (iv.bounds.size.height - constrainedSize.height) / 2, 30, 30);
+            button1.frame = CGRectMake(iv.frame.origin.x, (iv.bounds.size.height - constrainedSize.height) / 2, 30, 30);
         }
         button1.tag = i;
 //        button1.backgroundColor = [UIColor whiteColor];

@@ -30,6 +30,7 @@
 #import "UserSettings.h"
 
 #import "SVMultiplePicturesViewController.h"
+#import "SVNonRotatingNavigationControllerViewController.h"
 
 @interface SVAlbumListViewController ()
 {
@@ -314,7 +315,7 @@
 
     SVPickerController *manager = [[SVPickerController alloc] init];
     manager.albumManager = self.albumManager;
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
+    SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
     [self presentViewController:nc animated:NO completion:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumSelector:) name:@"kSVPickAlbumToUpload" object:nil];
@@ -331,7 +332,6 @@
 
 - (void)cancelAlbumSelector:(NSNotification *)notification
 {
-    self.view.hidden = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumSelector:) name:@"kSVPickAlbumToUpload" object:nil];
 
     @try {
@@ -457,7 +457,7 @@
     manager.albumManager = self.albumManager;
     manager.albumId = album.albumId;
 
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
+    SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
     [self presentViewController:nc animated:NO completion:nil];
 
     //	cameraNavController = [[SVCameraNavController alloc] init];

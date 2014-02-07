@@ -44,7 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     // Setup titleview
 //    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
 //    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
@@ -63,9 +63,9 @@
 }
 
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
-
 }
 
 
@@ -166,7 +166,7 @@
 }
 
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
     if (!self.shouldNotPostNotificationWhenClose) {
         //http://stackoverflow.com/questions/1214965/setting-action-for-back-button-in-navigation-controller
@@ -176,7 +176,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVPickAlbumCancel" object:nil];
         }
     }
-    [super viewDidDisappear:animated];
+    [super viewWillDisappear:animated];
 }
 
 
@@ -291,7 +291,7 @@
     frame.origin.y = self.tableView.frame.origin.y - frame.size.height;
     self.createNewAlbumTitleView.frame = frame;
     self.createNewAlbumTitleView.hidden = NO;
-    
+
     [UIView animateWithDuration:0.3 animations:^{
         CGRect frame = self.createNewAlbumTitleView.frame;
         if (IS_IOS7) {

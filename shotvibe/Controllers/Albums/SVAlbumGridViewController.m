@@ -27,6 +27,7 @@
 #import "SVAlbumGridSection.h"
 #import "NSDate+Formatting.h"
 #import "AlbumMember.h"
+#import "SVNonRotatingNavigationControllerViewController.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
@@ -253,7 +254,7 @@
     manager.albumManager = self.albumManager;
     manager.albumId = self.albumId;
 
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:manager];
+    SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
     [self presentViewController:nc animated:NO completion:nil];
 
 //	cameraNavController = [[SVCameraNavController alloc] init];
