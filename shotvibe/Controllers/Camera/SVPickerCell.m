@@ -29,4 +29,12 @@
 }
 
 
+- (void)prepareForReuse
+{
+    self.imageView.image = nil;
+    self.tag = 0;
+    self.selected = NO;
+}
+
+
 @end

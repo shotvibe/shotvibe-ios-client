@@ -18,6 +18,8 @@
 
 @end
 
+#define kMostRecentTag 12345
+
 @implementation SVPictureConfirmViewController
 
 - (void)viewDidLoad
@@ -42,11 +44,30 @@
 }
 
 
-- (void)showShare:(NSNotification *)notification
+- (void)pickedImageSaved:(NSNotification *)notification
 {
+    self.waitingForMostRecentImage = NO;
     UIBarButtonItem *share = [[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStylePlain target:self action:@selector(share:)];
 //    share.tintColor = [UIColor yellowColor];
     self.navigationItem.rightBarButtonItem = share;
+
+    UIImageView *iv = (UIImageView *)[self.scrollView viewWithTag:kMostRecentTag];
+    if (iv) {
+        iv.tag = 0;
+        [self populateImageView:iv atIndex:self.images.count - 1];
+        UIActivityIndicatorView *av = (UIActivityIndicatorView *)[iv viewWithTag:kMostRecentTag + 1];
+        [av stopAnimating];
+        [av removeFromSuperview];
+    }
+
+    SVPickerCell *cell = (SVPickerCell *)[self.collectionView viewWithTag:kMostRecentTag];
+    if (cell) {
+        cell.tag = 0;
+        [self populateCell:cell atIndex:self.images.count - 1];
+        UIActivityIndicatorView *av = (UIActivityIndicatorView *)[cell viewWithTag:kMostRecentTag + 1];
+        [av stopAnimating];
+        [av removeFromSuperview];
+    }
 }
 
 
@@ -63,11 +84,11 @@
     [self populateScrollView];
     [self fixTitle];
 
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[self.images lastObject]]) {
+    if (self.waitingForMostRecentImage) {
         self.navigationItem.rightBarButtonItem = nil;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showShare:) name:@"kPickedImageSaved" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pickedImageSaved:) name:@"kPickedImageSaved" object:nil];
     } else {
-        [self showShare:nil];
+        [self pickedImageSaved:nil];
     }
 }
 
@@ -119,6 +140,45 @@
 }
 
 
+- (void)populateImageView:(UIImageView *)iv atIndex:(int)i
+{
+    if ((self.waitingForMostRecentImage) && (self.images.count - 1 == i)) {
+        iv.tag = kMostRecentTag;
+
+        UIActivityIndicatorView *av = [[UIActivityIndicatorView alloc] initWithFrame:iv.bounds];
+        [av startAnimating];
+        av.tag = kMostRecentTag + 1;
+        [iv addSubview:av];
+    } else {
+        //imageWithContentsOfFile hangs the CPU, see http://stackoverflow.com/questions/10149165/uiimage-decompression-causing-scrolling-lag
+        NSData *imageFileData = [[NSData alloc] initWithContentsOfFile:self.images[i]];
+        UIImage *image = [self resizedImage:[[UIImage alloc] initWithData:imageFileData] toSize:iv.bounds.size];
+
+        if (image) {
+            iv.image = image;
+
+            CGSize constrainedSize = [self constrainedSize:image toSize:iv.bounds.size];
+
+            //"Remove" top left button
+            UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
+            //button1.frame = CGRectMake(iv.frame.origin.x - 15, 5, 30, 30);
+            if (constrainedSize.width < iv.bounds.size.width) {
+                button1.frame = CGRectMake(iv.frame.origin.x + (iv.bounds.size.width - constrainedSize.width) / 2, 0, 30, 30);
+            } else {
+                button1.frame = CGRectMake(iv.frame.origin.x, (iv.bounds.size.height - constrainedSize.height) / 2, 30, 30);
+            }
+            button1.tag = i;
+            //        button1.backgroundColor = [UIColor whiteColor];
+            //        [button1 setTitle:@"x" forState:UIControlStateNormal];
+            //        [button1 setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+            [button1 setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+            [button1 addTarget:self action:@selector(deletePicture:) forControlEvents:UIControlEventTouchUpInside];
+            [self.scrollView addSubview:button1];
+        }
+    }
+}
+
+
 - (void)populateScrollView
 {
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
@@ -137,41 +197,9 @@
         //UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(x + (self.scrollView.frame.size.width - imageHeight) / 2, 20, imageWidth, imageHeight)];
         UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(x, 0, imageWidth, imageHeight)];
         iv.contentMode = UIViewContentModeScaleAspectFit;
-        UIImage *image = nil;
-        if ((self.mostRecentImage) && (self.images.count - 1 == i)) {
-            image = self.mostRecentImage;
-        } else {
-            image = [UIImage imageWithContentsOfFile:self.images[i]];
-        }
-        iv.image = [self resizedImage:image toSize:iv.frame.size];
-
-        CGSize constrainedSize = [self constrainedSize:image toSize:iv.bounds.size];
         [self.scrollView addSubview:iv];
 
-        //"Remove" top left button
-        UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        //button1.frame = CGRectMake(iv.frame.origin.x - 15, 5, 30, 30);
-        if (constrainedSize.width < iv.bounds.size.width) {
-            button1.frame = CGRectMake(iv.frame.origin.x + (iv.bounds.size.width - constrainedSize.width) / 2, 0, 30, 30);
-        } else {
-            button1.frame = CGRectMake(iv.frame.origin.x, (iv.bounds.size.height - constrainedSize.height) / 2, 30, 30);
-        }
-        button1.tag = i;
-//        button1.backgroundColor = [UIColor whiteColor];
-//        [button1 setTitle:@"x" forState:UIControlStateNormal];
-//        [button1 setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [button1 setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
-        [button1 addTarget:self action:@selector(deletePicture:) forControlEvents:UIControlEventTouchUpInside];
-        [self.scrollView addSubview:button1];
-
-//        UIButton *button2 = [UIButton buttonWithType:UIButtonTypeCustom];
-//        button2.frame = CGRectMake(x + 239, 0, 40, 40);
-//        button2.tag = i;
-//        button2.backgroundColor = [UIColor whiteColor];
-//        [button2 setTitle:@"v" forState:UIControlStateNormal];
-//        [button2 setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-//        [button2 addTarget:self action:@selector(approvePicture:) forControlEvents:UIControlEventTouchUpInside];
-//        [self.scrollView addSubview:button2];
+        [self populateImageView:iv atIndex:i];
 
         i++;
 
@@ -239,7 +267,7 @@
 {
     if ([self.images count] > 1) {
         [self.images removeObjectAtIndex:[sender tag]];
-        self.mostRecentImage = nil;
+        self.waitingForMostRecentImage = NO;
         if (self.currentPage > [self.images count]) {
             self.currentPage = self.currentPage - 1;
         }
@@ -294,23 +322,36 @@
 }
 
 
+- (void)populateCell:(SVPickerCell *)cell atIndex:(int)i
+{
+    NSMutableString *thumbPath = [NSMutableString stringWithString:self.images[i]];
+    [thumbPath replaceOccurrencesOfString:@".jpg"
+                               withString:@"_thumb.jpg"
+                                  options:NSLiteralSearch
+                                    range:NSMakeRange(0, [thumbPath length])];
+    
+    //imageWithContentsOfFile hangs the CPU, see http://stackoverflow.com/questions/10149165/uiimage-decompression-causing-scrolling-lag
+    NSData *imageFileData = [[NSData alloc] initWithContentsOfFile:thumbPath];
+    UIImage *thumbImage = [[UIImage alloc] initWithData:imageFileData];
+
+    cell.imageView.image = thumbImage;
+}
+
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SVPickerCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"PickerCell" forIndexPath:indexPath];
 //    cell.delegate = self;
 
-    if ((indexPath.row == self.images.count - 1) && self.mostRecentImage) {
-        cell.imageView.image = self.mostRecentImage;
-    } else if (indexPath.row < self.images.count) {
-        NSMutableString *thumbPath = [NSMutableString stringWithString:self.images[indexPath.row]];
-        [thumbPath replaceOccurrencesOfString:@".jpg"
-                                   withString:@"_thumb.jpg"
-                                      options:NSLiteralSearch
-                                        range:NSMakeRange(0, [thumbPath length])];
-        UIImage *thumbImage = [self resizedImage:[UIImage imageWithContentsOfFile:thumbPath] toSize:CGSizeMake(50, 50)];
-        //UIImage *thumbImage = [UIImage imageWithContentsOfFile:thumbPath];
+    if ((indexPath.row == self.images.count - 1) && self.waitingForMostRecentImage) {
+        cell.tag = kMostRecentTag;
 
-        cell.imageView.image = thumbImage;
+        UIActivityIndicatorView *av = [[UIActivityIndicatorView alloc] initWithFrame:cell.contentView.bounds];
+        [av startAnimating];
+        av.tag = kMostRecentTag + 1;
+        [cell.contentView addSubview:av];
+    } else if (indexPath.row < self.images.count) {
+        [self populateCell:cell atIndex:indexPath.row];
     } else {
         cell.imageView.image = [UIImage imageNamed:@"camera"];
     }
