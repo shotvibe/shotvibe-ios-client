@@ -152,12 +152,8 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
         scrollView.contentOffset = CGPointZero;
     }
 
-    NSLog(@"%@", NSStringFromCGRect(self.bounds));
-    
     self.backView.frame = CGRectMake(scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - self.backView.frame.size.width), 0.0f, self.backView.frame.size.width, CGRectGetHeight(self.bounds));
     
-    NSLog(@"%@", NSStringFromCGRect(self.backView.bounds));
-
 }
 
 
