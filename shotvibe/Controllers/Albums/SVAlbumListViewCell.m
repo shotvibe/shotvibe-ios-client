@@ -32,6 +32,22 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
 }
 
 
+- (void)dealloc
+{
+    @try {
+        [self removeObserver:self forKeyPath:@"scrollView.frame"];
+    }
+    @catch (NSException *exception) {
+    }
+}
+
+
+- (void)adjustScrollViewContentSize
+{
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.contentView.bounds) + CGRectGetWidth(self.backView.bounds), CGRectGetHeight(self.contentView.bounds) - 2);
+}
+
+
 - (void)setup
 {
     // We need the tap gesture as the scrollView is intercepting all the touches, and it would be impossible
@@ -39,8 +55,10 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
     // We set the backview (camera/picture buttons) within the scrollView, and not behind, for the same reason,
     // it would have been untouchable
 
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.contentView.bounds) + CGRectGetWidth(self.backView.bounds), CGRectGetHeight(self.contentView.bounds) - 2);
+    [self adjustScrollViewContentSize];
     self.scrollView.showsHorizontalScrollIndicator = NO;
+
+    [self addObserver:self forKeyPath:@"scrollView.frame" options:NSKeyValueObservingOptionNew context:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enclosingTableViewDidScroll:) name:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:nil];
 
@@ -134,7 +152,20 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
         scrollView.contentOffset = CGPointZero;
     }
 
+    NSLog(@"%@", NSStringFromCGRect(self.bounds));
+    
     self.backView.frame = CGRectMake(scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - self.backView.frame.size.width), 0.0f, self.backView.frame.size.width, CGRectGetHeight(self.bounds));
+    
+    NSLog(@"%@", NSStringFromCGRect(self.backView.bounds));
+
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"scrollView.frame"] && (object == self)) {
+        [self adjustScrollViewContentSize];
+    }
 }
 
 
