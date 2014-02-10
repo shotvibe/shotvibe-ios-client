@@ -523,8 +523,8 @@
 - (void)searchForAlbumWithTitle:(NSString *)title
 {
 	albumList = [NSMutableArray arrayWithCapacity:[allAlbums count]];
-	
-    for (SLAlbumSummary *album in [allAlbums reverseObjectEnumerator]) {
+
+    for (SLAlbumSummary *album in allAlbums) {
         if (title == nil || [title isEqualToString:@""] || [[[album getName] lowercaseString] rangeOfString:title].location != NSNotFound) {
 			[albumList addObject:album];
 		}
