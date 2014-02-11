@@ -36,8 +36,7 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
 {
     @try {
         [self removeObserver:self forKeyPath:@"scrollView.frame"];
-    }
-    @catch (NSException *exception) {
+    } @catch (NSException *exception) {
     }
 }
 
@@ -153,7 +152,6 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
     }
 
     self.backView.frame = CGRectMake(scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - self.backView.frame.size.width), 0.0f, self.backView.frame.size.width, CGRectGetHeight(self.bounds));
-    
 }
 
 
