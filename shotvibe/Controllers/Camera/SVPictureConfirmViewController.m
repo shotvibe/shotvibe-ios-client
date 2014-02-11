@@ -329,7 +329,7 @@
                                withString:@"_thumb.jpg"
                                   options:NSLiteralSearch
                                     range:NSMakeRange(0, [thumbPath length])];
-    
+
     //imageWithContentsOfFile hangs the CPU, see http://stackoverflow.com/questions/10149165/uiimage-decompression-causing-scrolling-lag
     NSData *imageFileData = [[NSData alloc] initWithContentsOfFile:thumbPath];
     UIImage *thumbImage = [[UIImage alloc] initWithData:imageFileData];

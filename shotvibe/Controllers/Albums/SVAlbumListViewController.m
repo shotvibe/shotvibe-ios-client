@@ -540,7 +540,7 @@
     cell.timestamp.hidden = YES;
 
     [cell.networkImageView setImage:nil];
-	// TODO: latestPhotos might be nil if we insert an AlbumContents instead AlbumSummary
+    // TODO: latestPhotos might be nil if we insert an AlbumContents instead AlbumSummary
     if (album.latestPhotos.count > 0) {
         AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
         if (latestPhoto.serverPhoto) {
