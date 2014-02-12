@@ -549,6 +549,8 @@
 		3E759FE2188FFEFD00CAB82D /* SVPictureConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */; };
 		3E7B14901896A54300A691F2 /* SVMultiplePicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B148E1896A54300A691F2 /* SVMultiplePicturesViewController.m */; };
 		3E7B14941896AC5B00A691F2 /* SVAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B14931896AC5B00A691F2 /* SVAlbumCell.m */; };
+		3ED948D118AAC54E006792F2 /* NewAlbum.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED948CF18AAC54E006792F2 /* NewAlbum.png */; };
+		3ED948D218AAC54E006792F2 /* NewAlbum@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED948D018AAC54E006792F2 /* NewAlbum@2x.png */; };
 		3EEDD0AF18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EEDD0AE18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m */; };
 		66159228183273040054471E /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 66159227183273040054471E /* AlbumMember.m */; };
 		66278C4B1867B23800D23F34 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C481867B23800D23F34 /* FileUtils.m */; };
@@ -1273,6 +1275,8 @@
 		3E7B148E1896A54300A691F2 /* SVMultiplePicturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVMultiplePicturesViewController.m; path = Camera/SVMultiplePicturesViewController.m; sourceTree = "<group>"; };
 		3E7B14921896AC5B00A691F2 /* SVAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumCell.h; path = Camera/SVAlbumCell.h; sourceTree = "<group>"; };
 		3E7B14931896AC5B00A691F2 /* SVAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumCell.m; path = Camera/SVAlbumCell.m; sourceTree = "<group>"; };
+		3ED948CF18AAC54E006792F2 /* NewAlbum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewAlbum.png; sourceTree = "<group>"; };
+		3ED948D018AAC54E006792F2 /* NewAlbum@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NewAlbum@2x.png"; sourceTree = "<group>"; };
 		3EEDD0AD18A521600048C514 /* SVNonRotatingNavigationControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVNonRotatingNavigationControllerViewController.h; path = Camera/SVNonRotatingNavigationControllerViewController.h; sourceTree = "<group>"; };
 		3EEDD0AE18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVNonRotatingNavigationControllerViewController.m; path = Camera/SVNonRotatingNavigationControllerViewController.m; sourceTree = "<group>"; };
 		66159226183273040054471E /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
@@ -1959,6 +1963,8 @@
 		2849A77417D9AA410076AFBA /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				3ED948CF18AAC54E006792F2 /* NewAlbum.png */,
+				3ED948D018AAC54E006792F2 /* NewAlbum@2x.png */,
 				3E1F716D18A03F3B00773A20 /* camera.png */,
 				3E1F716E18A03F3B00773A20 /* camera@2x.png */,
 				3E1F716918A03EC400773A20 /* close.png */,
@@ -2839,6 +2845,7 @@
 				0499B8AD171DD6DE00050596 /* emailIcon.png in Resources */,
 				0499B8B3171DD6DE00050596 /* aboutIcon@2x.png in Resources */,
 				108CDF6B18846B9000757E36 /* MPDismissKeyboard@2x.png in Resources */,
+				3ED948D218AAC54E006792F2 /* NewAlbum@2x.png in Resources */,
 				0499B8B5171DD6DE00050596 /* aboutIcon.png in Resources */,
 				0499B8B9171DD78200050596 /* attributesIcon@2x.png in Resources */,
 				0499B8BB171DD78200050596 /* attributesIcon.png in Resources */,
@@ -3243,6 +3250,7 @@
 				2849A80717D9AB970076AFBA /* IconSettings.png in Resources */,
 				2849A80817D9AB970076AFBA /* IconSettings@2x.png in Resources */,
 				2849A80A17D9ABE90076AFBA /* imagePile.png in Resources */,
+				3ED948D118AAC54E006792F2 /* NewAlbum.png in Resources */,
 				2849A81B17E6F0CE0076AFBA /* ProfileIconBackground.png in Resources */,
 				2849A81C17E6F0CE0076AFBA /* ProfileIconBackground@2x.png in Resources */,
 				2849A81F17E6FA2D0076AFBA /* ProfileHeader.png in Resources */,

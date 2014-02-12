@@ -92,17 +92,19 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
+    NSString *cellIdentifier = (indexPath.row == 0) ? @"SVAlbumListTopCell" : @"SVAlbumListCell";
+    SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delegate = self;
     cell.parentTableView = self.tableView;
     cell.scrollView.scrollEnabled = NO;
 
     if (indexPath.row == 0) {
-        [cell.networkImageView setImage:[UIImage imageNamed:@"plus"]];
-        cell.title.text = @"New Album";
-        cell.author.text = @"";
-        cell.timestamp.hidden = YES;
+        [cell.networkImageView setImage:[UIImage imageNamed:@"NewAlbum"]];
+        cell.title.text = @"Create New Album";
+        cell.title.font = [UIFont fontWithName:cell.title.font.fontName size:17];
+        cell.title.textColor = [UIColor colorWithWhite:132.0 / 255 alpha:1];
+        cell.title.frame = CGRectMake(cell.title.frame.origin.x, 0, cell.title.frame.size.width, cell.contentView.bounds.size.height - 4);
     } else {
         AlbumSummary *album = self.albums[indexPath.row - 1];
 
@@ -136,7 +138,6 @@
             cell.author.text = [NSString stringWithFormat:@"Empty album"];
         }
     }
-
     return cell;
 }
 
