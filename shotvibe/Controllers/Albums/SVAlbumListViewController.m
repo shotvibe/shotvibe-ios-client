@@ -282,13 +282,6 @@
 }
 
 - (IBAction)newAlbumPressed:(id)sender {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    SVMultiplePicturesViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"MultiplePicturesViewController"];
-    controller.images = nil;
-    controller.albumManager = self.albumManager;
-    controller.albums = albumList;
-    [self.navigationController pushViewController:controller animated:YES];
-    return;
     [self showDropDown];
 	//	ShotVibeAppDelegate *app = [ShotVibeAppDelegate sharedDelegate];
 	//	NSDictionary *dic = @{@"aps":@{@"alert":@"Just added few pics to your album"}};
