@@ -159,21 +159,17 @@
 
             CGSize constrainedSize = [self constrainedSize:image toSize:iv.bounds.size];
 
-            //"Remove" top left button
-            UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
+            UIButton *deletePhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
             //button1.frame = CGRectMake(iv.frame.origin.x - 15, 5, 30, 30);
             if (constrainedSize.width < iv.bounds.size.width) {
-                button1.frame = CGRectMake(iv.frame.origin.x + (iv.bounds.size.width - constrainedSize.width) / 2, 0, 30, 30);
+                deletePhotoButton.frame = CGRectMake(iv.frame.origin.x + (iv.bounds.size.width - constrainedSize.width) / 2, 0, 30, 30);
             } else {
-                button1.frame = CGRectMake(iv.frame.origin.x, (iv.bounds.size.height - constrainedSize.height) / 2, 30, 30);
+                deletePhotoButton.frame = CGRectMake(iv.frame.origin.x, (iv.bounds.size.height - constrainedSize.height) / 2, 30, 30);
             }
-            button1.tag = i;
-            //        button1.backgroundColor = [UIColor whiteColor];
-            //        [button1 setTitle:@"x" forState:UIControlStateNormal];
-            //        [button1 setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-            [button1 setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
-            [button1 addTarget:self action:@selector(deletePicture:) forControlEvents:UIControlEventTouchUpInside];
-            [self.scrollView addSubview:button1];
+            deletePhotoButton.tag = i;
+            [deletePhotoButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+            [deletePhotoButton addTarget:self action:@selector(deletePicture:) forControlEvents:UIControlEventTouchUpInside];
+            [self.scrollView addSubview:deletePhotoButton];
         }
     }
 }
