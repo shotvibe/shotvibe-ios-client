@@ -160,7 +160,7 @@
         AlbumSummary *album = self.albums[indexPath.row - 1];
         self.albumId = album.albumId;
 
-        NSString *s = [NSString stringWithFormat:@"are you sure you want to upload the photos to %@?", album.name];
+        NSString *s = [NSString stringWithFormat:@"Are you sure you want to upload the photos to %@?", album.name];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:s delegate:self cancelButtonTitle:NSLocalizedString(@"No", @"") otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
         [alert show];
     }

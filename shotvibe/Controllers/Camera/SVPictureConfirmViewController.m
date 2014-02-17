@@ -221,7 +221,7 @@
 
 - (IBAction)cancel:(id)sender
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"are you sure? The photos will be deleted" delegate:self cancelButtonTitle:NSLocalizedString(@"No", @"") otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Are you sure? The photos will be deleted." delegate:self cancelButtonTitle:NSLocalizedString(@"No", @"") otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
     [alert show];
 }
 
