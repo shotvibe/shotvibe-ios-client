@@ -16,7 +16,10 @@
     NSString *fullResFilePath_;
 }
 
-static const CGFloat kLowResJPEGQuality = 0.01;
+static const CGFloat kLowResJPEGQuality = 0.75;
+static const CGSize kLowResImageSize = {
+    100, 50
+};
 
 - (id)initWithAsset:(ALAsset *)asset
 {
@@ -178,10 +181,10 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
         highResImage = [UIImage imageWithCGImage:croppedImage];
     }
 
-    // TODO: even with the low JPEG compression the filesize is still quite high, so we will probably also need to lower the resolution.
+    UIImage *lowResImage = [self fit:kLowResImageSize image:highResImage];
 
     lowResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePath];
-    [UIImageJPEGRepresentation(highResImage, kLowResJPEGQuality) writeToFile:lowResFilePath_ atomically:YES];
+    [UIImageJPEGRepresentation(lowResImage, kLowResJPEGQuality) writeToFile:lowResFilePath_ atomically:YES];
 }
 
 
@@ -195,5 +198,47 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 {
     return fullResFilePath_;
 }
+
+
+#pragma mark - Utility functions
+
+
+// Return a UIImage that fits inside either targetSize or tilted targetSize (swapping width and height)
+- (UIImage *)fit:(CGSize)targetSize image:(UIImage *)photo
+{
+    CGSize newSize = shrinkToFitTilted(targetSize, photo.size);
+
+    UIGraphicsBeginImageContext(newSize);
+    [photo drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return resizedImage;
+}
+
+
+// Shrink photoSize (if necessary) so it fits within either targetSize or tilted targetSize, whichever yields the largest size (this will be the targetSize with the same landscape/portrait orientation as photoSize)
+CGSize shrinkToFitTilted(CGSize targetSize, CGSize photoSize)
+{
+    CGSize resizedToOriginalContainer = shrinkToFit(targetSize, photoSize);
+    CGSize resizedToTiltedContainer = shrinkToFit(CGSizeMake(targetSize.height, targetSize.width), photoSize);
+    return resizedToTiltedContainer.width > resizedToOriginalContainer.width ? resizedToTiltedContainer : resizedToOriginalContainer;
+}
+
+
+// Shrink photoSize (if necessary) so it fits within targetSize, while maintaining photoSize's aspect ratio
+CGSize shrinkToFit(CGSize targetSize, CGSize photoSize)
+{
+    if (photoSize.width <= targetSize.width && photoSize.height <= targetSize.height) {
+        return photoSize; // photoSize already fits
+    } else {
+        if (photoSize.width * targetSize.height > targetSize.width * photoSize.height) { // == photoSize.width/photoSize.height > targetSize.width/targetSize.height
+            return CGSizeMake(targetSize.width, photoSize.height * targetSize.width / photoSize.width); // photo is wider than frame, so use max frame width
+        } else {
+            return CGSizeMake(photoSize.width * targetSize.height / photoSize.height, targetSize.height); // photo is higher than frame, so use max frame height
+        }
+    }
+}
+
 
 @end
