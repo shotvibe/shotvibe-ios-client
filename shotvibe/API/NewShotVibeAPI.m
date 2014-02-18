@@ -64,14 +64,14 @@ NSString *const kUploadSessionId = @"shotvibe.uploadSession";
 
 static const NSTimeInterval RETRY_TIME = 5;
 
-- (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
+- (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
 {
     if (!uploadNSURLSession_) { // if there's no session, we're on iOS < 7
         RCLog(@"Starting asynchronous upload task as UIBackgroundTask (max 10 minutes)");
-        [self photoUploadAsyncNoSession:photoId filePath:filePath progressHandler:progressHandler completionHandler:completionHandler];
+        [self photoUploadAsyncNoSession:photoId filePath:filePath isFullRes:isFullRes progressHandler:progressHandler completionHandler:completionHandler];
     } else {
         RCLog(@"Starting asynchronous upload task in NSURLSession");
-        NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/", baseURL_, photoId]];
+        NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@%@", baseURL_, photoId, isFullRes ? @"/original":@""]];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
         [request setHTTPMethod:@"PUT"];
         if (oldShotVibeAPI_.authData != nil) {
@@ -93,14 +93,14 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 // Asynchronous upload for iOS <7, when NSURLSession is not available
 // Note: callee must guarantee this function can execute in the background
-- (void)photoUploadAsyncNoSession:(NSString *)photoId filePath:(NSString *)filePath progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
+- (void)photoUploadAsyncNoSession:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
 {
     // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
     dispatch_async(uploadQueue_, ^{ // TODO: also want parallelism here?
         BOOL photoSuccesfullyUploaded = NO;
         while (!photoSuccesfullyUploaded) {
             NSError *error;
-            photoSuccesfullyUploaded = [oldShotVibeAPI_ photoUpload:photoId filePath:filePath uploadProgress:^(int bytesUploaded, int bytesTotal) {
+            photoSuccesfullyUploaded = [oldShotVibeAPI_ photoUpload:photoId filePath:filePath isFullRes:(BOOL)isFullRes uploadProgress:^(int bytesUploaded, int bytesTotal) {
                 progressHandler(bytesUploaded, bytesTotal);
             } withError:&error];
 

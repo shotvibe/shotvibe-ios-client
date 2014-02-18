@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 // Returns an array of `NSString` objects
 - (NSArray *)photosUploadRequest:(int)numPhotos;
 
-- (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error;
+- (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error;
 
 /**
  @param photoIds Array of `NSString` objects

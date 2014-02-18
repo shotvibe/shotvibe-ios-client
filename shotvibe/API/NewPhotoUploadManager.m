@@ -137,13 +137,13 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     [photo prepareTmpFiles:photoSaveQueue_];
 
-    NSString *filePath = [photo getFullResFilename]; // Will block until the photo has been saved
+    NSString *lowResFilePath = [photo getLowResFilename]; // Will block until the photo has been saved
 
     RCLog(@"START first-stage upload for %@", showShortPhotoId(photo.photoId));
 
     // Stage 1, upload low-res version of photo
-    [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:filePath progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-        //RCLog(@"Task progress: photo %@ %.2f %.1fk", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend, totalBytesExpectedToSend/1024.0);
+    [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:lowResFilePath isFullRes:NO progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        RCLog(@"Task progress: photo %@ %.2f %.1fk", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend, totalBytesExpectedToSend/1024.0);
         [photo setUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoUploadProgress:albumId];
@@ -256,7 +256,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     // TODO: at this point, mark addedPhotos as Stage2Pending in ShotVibeDB
 
-    NSArray *newSecondStageUploads = @[];
+    NSArray *newSecondStagePhotos = @[];
 
     @synchronized(self) {
         [addingPhotos_ removePhotos:addedPhotos album:albumId]; // move from adding to pending second stage
@@ -272,31 +272,34 @@ static const NSTimeInterval RETRY_TIME = 5;
 
         if (nrOfUnfinishedPhotos == 0) { // all low res photos have been uploaded and added, so we can start the full res uploads
             RCLog(@"All queues empty, initiating second-stage uploads");
-            newSecondStageUploads = pendingSecondStagePhotos_;
+            newSecondStagePhotos = pendingSecondStagePhotos_;
             pendingSecondStagePhotos_ = [[NSMutableArray alloc] init];
         }
     }
 
-    // TODO: if new photos are added once the full res uploads have started, they will run in parallel and not get priority.
+    // TODO: if new photos are added once the full res uploads have started, they will run in parallel and not get priority. Is that a problem?
     // There does not seem to be a straightforward way to prioritize iOS 7 background tasks, so perhaps we need to schedule them ourselves.
 
-    for (AlbumUploadingPhoto *newSecondStageUpload in newSecondStageUploads) {
+    for (AlbumUploadingPhoto *newSecondStagePhoto in newSecondStagePhotos) {
         __block UIBackgroundTaskIdentifier secondStageUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             RCLog(@"Second-stage upload background task %d was forced to end", secondStageUploadBackgroundTaskID);
             [[UIApplication sharedApplication] endBackgroundTask:secondStageUploadBackgroundTaskID];
         }];
         RCLog(@"Second-stage upload background task %d started", secondStageUploadBackgroundTaskID);
 
-        RCLog(@"START second-stage upload for %@", showShortPhotoId(newSecondStageUpload.photoId));
+        RCLog(@"START second-stage upload for %@", showShortPhotoId(newSecondStagePhoto.photoId));
 
-        // Dummy 10 second delay TODO: start asynchronous upload here
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            RCLog(@"FINISH second-stage upload for %@", showShortPhotoId(newSecondStageUpload.photoId));
+        NSString *fullResFilePath = [newSecondStagePhoto getFullResFilename];
+
+        [newShotVibeAPI_ photoUploadAsync:newSecondStagePhoto.photoId filePath:fullResFilePath isFullRes:YES progressHandler:nil completionHandler:^{
+            // TODO: error handling
+
+            RCLog(@"FINISH second-stage upload for %@", showShortPhotoId(newSecondStagePhoto.photoId));
             // TODO: at this point, remove the photo newSecondStageUpload from ShotVibeDB
 
             RCLog(@"Second-stage upload background task %d ended", secondStageUploadBackgroundTaskID);
             [[UIApplication sharedApplication] endBackgroundTask:secondStageUploadBackgroundTaskID];
-        });
+        }];
     }
 }
 
