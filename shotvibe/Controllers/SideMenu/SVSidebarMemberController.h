@@ -9,13 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class SVAlbumGridViewController;
-@class AlbumSummary;
 
 @interface SVSidebarMemberController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UISearchBarDelegate>
 
 #pragma mark - Public Properties
 
 @property (strong, nonatomic) SVAlbumGridViewController *parentController;
-@property (nonatomic, strong) AlbumContents *albumContents;
+@property (nonatomic, strong) SLAlbumContents *albumContents;
 
 @end

@@ -134,6 +134,9 @@ static NSString * deviceDescription()
 {
 	RCLog(@"handleSuccessfulLogin");
     //[[SVDownloadSyncEngine sharedEngine] startSync];
+
+    // Now that AuthData is available this should be done:
+    [self.albumManager authDataUpdated];
     
     // Grab the storyboard
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];

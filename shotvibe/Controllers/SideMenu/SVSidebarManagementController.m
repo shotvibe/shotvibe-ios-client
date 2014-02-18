@@ -7,7 +7,7 @@
 //
 
 #import "SVSidebarManagementController.h"
-#import "AlbumContents.h"
+#import "SL/AlbumContents.h"
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "MFSideMenu.h"
@@ -57,8 +57,12 @@
 		ShotVibeAPI *shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
 		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-			[shotvibeAPI leaveAlbumWithId:self.albumContents.albumId];
-			
+            @try {
+                [shotvibeAPI leaveAlbumWithId:[self.albumContents getId]];
+            } @catch (SLAPIException *exception) {
+                // Ignore
+            }
+
 			dispatch_async(dispatch_get_main_queue(), ^{
 				
 			});
@@ -99,10 +103,10 @@
 
 #pragma mark - Properties
 
-- (void)setAlbumContents:(AlbumContents *)albumContents
+- (void)setAlbumContents:(SLAlbumContents *)albumContents
 {
     _albumContents = albumContents;
-	self.sidebarNav.topItem.title = _albumContents.name;
+    self.sidebarNav.topItem.title = [_albumContents getName];
 	
 	/*
      Check whether the section info array has been created, and if so whether the section count still matches the current section count.
@@ -125,11 +129,11 @@
 		
 		// Section 2
         
-		NSMutableArray *arr2 = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"Name: %@", _albumContents.name],
-								[NSString stringWithFormat:@"Date Created: %@", [NSDateFormatter localizedStringFromDate:_albumContents.dateCreated dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle]],
+        NSMutableArray *arr2 = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"Name: %@", [_albumContents getName]],
+                                [NSString stringWithFormat:@"Date Created: %@", @"TODO"],
 								//[NSString stringWithFormat:@"Created by: %@", @""],
-								[NSString stringWithFormat:@"Total Members: %i", _albumContents.members.count],
-								[NSString stringWithFormat:@"Total Pictures: %i", _albumContents.photos.count], nil];
+                                [NSString stringWithFormat:@"Total Members: TODO"],
+                                [NSString stringWithFormat:@"Total Pictures: TODO"], nil];
         
 		
 		SVSidebarAlbumSection *sectionInfo2 = [[SVSidebarAlbumSection alloc] init];
