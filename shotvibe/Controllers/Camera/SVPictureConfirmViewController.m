@@ -10,6 +10,9 @@
 #import "SVPickerController.h"
 #import "PhotoUploadRequest.h"
 #import "SVDefines.h"
+#import "AlbumSummary.h"
+#import "SVAlbumGridViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface SVPictureConfirmViewController ()
 
@@ -47,7 +50,7 @@
 - (void)pickedImageSaved:(NSNotification *)notification
 {
     self.waitingForMostRecentImage = NO;
-    UIBarButtonItem *share = [[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStylePlain target:self action:@selector(share:)];
+    UIBarButtonItem *share = [[UIBarButtonItem alloc] initWithTitle:(self.albumId == 0) ? @"Choose Album":@"Share" style:UIBarButtonItemStylePlain target:self action:@selector(share:)];
 //    share.tintColor = [UIColor yellowColor];
     self.navigationItem.rightBarButtonItem = share;
 
@@ -159,17 +162,28 @@
 
             CGSize constrainedSize = [self constrainedSize:image toSize:iv.bounds.size];
 
+            iv.superview.frame = CGRectMake((self.scrollView.frame.size.width - constrainedSize.width) / 2 + i * self.scrollView.frame.size.width, (self.scrollView.frame.size.height - constrainedSize.height) / 2, constrainedSize.width, constrainedSize.height);
+            iv.frame = iv.superview.bounds;
+
             UIButton *deletePhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
             //button1.frame = CGRectMake(iv.frame.origin.x - 15, 5, 30, 30);
-            if (constrainedSize.width < iv.bounds.size.width) {
-                deletePhotoButton.frame = CGRectMake(iv.frame.origin.x + (iv.bounds.size.width - constrainedSize.width) / 2, 0, 30, 30);
-            } else {
-                deletePhotoButton.frame = CGRectMake(iv.frame.origin.x, (iv.bounds.size.height - constrainedSize.height) / 2, 30, 30);
-            }
+//            if (constrainedSize.width < iv.bounds.size.width) {
+//                deletePhotoButton.frame = CGRectMake(iv.superview.frame.origin.x + (iv.bounds.size.width - constrainedSize.width) / 2, 0, 30, 30);
+//            } else {
+//                deletePhotoButton.frame = CGRectMake(iv.superview.frame.origin.x, (iv.bounds.size.height - constrainedSize.height) / 2, 30, 30);
+//            }
+            deletePhotoButton.frame = CGRectMake(iv.superview.frame.origin.x - 20, iv.superview.frame.origin.y - 20, 40, 40);
             deletePhotoButton.tag = i;
             [deletePhotoButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
             [deletePhotoButton addTarget:self action:@selector(deletePicture:) forControlEvents:UIControlEventTouchUpInside];
             [self.scrollView addSubview:deletePhotoButton];
+
+            UIButton *editPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            editPhotoButton.frame = CGRectMake(iv.superview.frame.origin.x + iv.superview.frame.size.width - 20, iv.superview.frame.origin.y - 20, 40, 40);
+            editPhotoButton.tag = i;
+            [editPhotoButton setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
+            [editPhotoButton addTarget:self action:@selector(editPicture:) forControlEvents:UIControlEventTouchUpInside];
+            [self.scrollView addSubview:editPhotoButton];
         }
     }
 }
@@ -186,14 +200,20 @@
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
     int i = 0;
-    int x = 0;
+    int x = 20;
     for (UIImage *image in self.images) {
-        int imageWidth = self.view.frame.size.width;
+        int imageWidth = self.view.frame.size.width - 2 * 20;
         int imageHeight = self.tapLabel.frame.origin.y;
         //UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(x + (self.scrollView.frame.size.width - imageHeight) / 2, 20, imageWidth, imageHeight)];
-        UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(x, 0, imageWidth, imageHeight)];
+
+        UIView *v = [[UIView alloc] initWithFrame:CGRectMake(x, 20, imageWidth, imageHeight - 20 * 2)];
+        UIImageView *iv = [[UIImageView alloc] initWithFrame:v.bounds];
+        v.backgroundColor = [UIColor clearColor];
         iv.contentMode = UIViewContentModeScaleAspectFit;
-        [self.scrollView addSubview:iv];
+        v.layer.cornerRadius = 4.0;
+        v.clipsToBounds = YES;
+        [v addSubview:iv];
+        [self.scrollView addSubview:v];
 
         [self populateImageView:iv atIndex:i];
 
@@ -236,7 +256,13 @@
     NSLog(@"share");
 
     if (self.albumId != 0) {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVShowAlbum" object:nil userInfo:@{ @"albumId" : @(self.albumId) }
+            ];
+        }
+
+
+        ];
 
         RCLog(@"====================== 1. Upload selected photos to albumId %lli", self.albumId);
 
@@ -256,6 +282,85 @@
 
         ];
     }
+}
+
+
+#pragma mark Aviary sdk
+#pragma mark Photo editing tool
+
+- (void)editPicture:(id)sender
+{
+    NSLog(@"%d", [sender tag]);
+    NSData *imageFileData = [[NSData alloc] initWithContentsOfFile:self.images[[sender tag]]];
+    UIImage *imageToEdit = [[UIImage alloc] initWithData:imageFileData];
+    RCLogO(imageToEdit);
+
+    AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage:imageToEdit];
+    [editorController setDelegate:self];
+
+    [self presentViewController:editorController animated:YES completion:nil];
+}
+
+
+- (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
+{
+    // Save the image to disk
+    NSString *imagePath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto.jpg"];
+    NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto_thumb.jpg"];
+
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        if ([UIImageJPEGRepresentation(image, 0.9) writeToFile:imagePath atomically:YES]) {
+            CGSize newSize = CGSizeMake(200, 200);
+
+            float oldWidth = image.size.width;
+            float scaleFactor = newSize.width / oldWidth;
+
+            float newHeight = image.size.height * scaleFactor;
+            float newWidth = oldWidth * scaleFactor;
+
+            UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+            [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+            UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+
+            [UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
+
+            NSLog(@"%d", self.currentPage);
+            NSLog(@"%@", self.images);
+            [self.images replaceObjectAtIndex:self.currentPage - 1 withObject:imagePath];
+            NSLog(@"%@", self.images);
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.collectionView reloadData];
+                [self populateScrollView];
+                [self fixTitle];
+            }
+
+
+                           );
+        }
+    }
+
+
+                   );
+
+
+    [editor dismissViewControllerAnimated:YES completion:^{
+        [editor setDelegate:nil];
+    }
+
+
+    ];
+}
+
+
+- (void)photoEditorCanceled:(AFPhotoEditorController *)editor
+{
+    [editor dismissViewControllerAnimated:YES completion:^{
+    }
+
+
+    ];
 }
 
 
@@ -281,7 +386,7 @@
 
 - (void)fixTitle
 {
-    self.title = [NSString stringWithFormat:@"%d/%d", self.currentPage, self.images.count];
+    self.title = [NSString stringWithFormat:@"%d of %d", self.currentPage, self.images.count];
 }
 
 
@@ -342,13 +447,15 @@
     if ((indexPath.row == self.images.count - 1) && self.waitingForMostRecentImage) {
         cell.tag = kMostRecentTag;
 
-        UIActivityIndicatorView *av = [[UIActivityIndicatorView alloc] initWithFrame:cell.contentView.bounds];
+        UIActivityIndicatorView *av = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        av.frame = cell.contentView.bounds;
         [av startAnimating];
         av.tag = kMostRecentTag + 1;
         [cell.contentView addSubview:av];
     } else if (indexPath.row < self.images.count) {
         [self populateCell:cell atIndex:indexPath.row];
     } else {
+        //cell.imageView.frame = cell.imageView.superview.bounds;
         cell.imageView.image = [UIImage imageNamed:@"camera"];
     }
     return cell;

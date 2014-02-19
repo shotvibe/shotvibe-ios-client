@@ -354,6 +354,19 @@
 }
 
 
+- (void)showAlbumDetails:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kSVShowAlbum" object:nil];
+
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    SVAlbumGridViewController *controller = (SVAlbumGridViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
+    controller.albumManager = self.albumManager;
+    controller.albumId = [[notification userInfo][@"albumId"] integerValue];
+    controller.scrollToTop = YES;
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+
 - (void)showAlbumSelector:(NSNotification *)notification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kSVPickAlbumToUpload" object:nil];
@@ -456,6 +469,9 @@
     SVPickerController *manager = [[SVPickerController alloc] init];
     manager.albumManager = self.albumManager;
     manager.albumId = album.albumId;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumDetails:) name:@"kSVShowAlbum" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelAlbumSelector:) name:@"kSVPickAlbumCancel" object:nil];
 
     SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
     [self presentViewController:nc animated:NO completion:nil];

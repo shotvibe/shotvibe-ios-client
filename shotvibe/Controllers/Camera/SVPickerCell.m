@@ -14,13 +14,14 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
 
-        UIView *selectedView = [[UIView alloc] initWithFrame:self.bounds];
-        selectedView.backgroundColor = [UIColor blueColor];
+        UIImageView *selectedView = [[UIImageView alloc] initWithFrame:self.bounds];
+        selectedView.image = [UIImage imageNamed:@"frame_selected"];
         self.selectedBackgroundView = selectedView;
 
-        self.imageView = [[UIImageView alloc] initWithFrame:CGRectInset(self.bounds, 4, 4)];
+        self.imageView = [[UIImageView alloc] initWithFrame:CGRectInset(self.bounds, 1, 1)];
+        self.imageView.layer.cornerRadius = 2.0;
         self.imageView.clipsToBounds = YES;
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:self.imageView];
@@ -31,6 +32,7 @@
 
 - (void)prepareForReuse
 {
+    self.imageView.frame = CGRectInset(self.bounds, 1, 1);
     self.imageView.image = nil;
     self.tag = 0;
     self.selected = NO;
