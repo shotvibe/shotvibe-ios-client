@@ -129,9 +129,9 @@
     SLShotVibeAPI *libShotVibeAPI_;
 }
 
-static NSString * const BASE_URL = @"https://api.shotvibe.com";
 NSString *const UPLOAD_BASE_URL = @"https://upload.shotvibe.com";
 // TODO: UPLOAD_BASE_URL is temporary, until we use the urls from photosUploadRequest
+
 static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.ShotVibeAPI.ErrorDomain";
 
 - (id)init
@@ -569,7 +569,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 - (Response *)getResponse:(NSString *)url method:(NSString *)method body:(NSData *)body error:(NSError **)error
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:url]]];
+    [request setURL:[NSURL URLWithString:[[SLShotVibeAPI BASE_URL] stringByAppendingString:url]]];
     [request setHTTPMethod:method];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
 
@@ -608,7 +608,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     // TODO Some refactoring is in order to eliminate the duplicate code from the getResponse method
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:url]]];
+    [request setURL:[NSURL URLWithString:[[SLShotVibeAPI BASE_URL] stringByAppendingString:url]]];
     [request setHTTPMethod:@"PUT"];
     [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
     if (self.authData != nil) {

@@ -27,6 +27,7 @@
 #import "RegistrationInfo.h"
 #import "UserSettings.h"
 #import "ShotVibeAPI.h"
+#import "SL/ShotVibeAPI.h"
 #import "ShotVibeDB.h"
 #import "JSON.h"
 
@@ -244,8 +245,8 @@ static NSString *const appCountryLookupVersion = @"2";
 
 NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString *, NSString *))
 {
-    NSString* shotvibeCountryLookupURL = @"https://api.shotvibe.com/auth/country_lookup/?";
-	
+    NSString* shotvibeCountryLookupURL = [[SLShotVibeAPI BASE_URL] stringByAppendingString: @"/auth/country_lookup/?"];
+	RCLog(@"shotvibeCountryLookupURL %@",shotvibeCountryLookupURL);
     shotvibeCountryLookupURL = appendQueryParameter(shotvibeCountryLookupURL, @"version", version);
 	
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
