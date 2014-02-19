@@ -31,6 +31,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 
 @property (nonatomic, strong, readonly) AuthData *authData;
 
+extern NSString *const UPLOAD_BASE_URL;
+
 - (id)init;
 
 - (id)initWithAuthData:(AuthData *)authData;

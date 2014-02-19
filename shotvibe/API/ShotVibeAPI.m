@@ -130,7 +130,8 @@
 }
 
 static NSString * const BASE_URL = @"https://api.shotvibe.com";
-
+NSString *const UPLOAD_BASE_URL = @"https://upload.shotvibe.com";
+// TODO: UPLOAD_BASE_URL is temporary, until we use the urls from photosUploadRequest
 static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.ShotVibeAPI.ErrorDomain";
 
 - (id)init
@@ -446,6 +447,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     NSError *responseError;
     Response *response = [self putFile:[NSString stringWithFormat:@"/users/%lld/avatar/", userId]
                               filePath:filePath
+                         isPhotoUpload:NO
                            contentType:@"application/octet-stream"
                         uploadProgress:uploadProgress
                              withError:&responseError];
@@ -500,6 +502,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     NSError *responseError;
     Response *response = [self putFile:[NSString stringWithFormat:@"/photos/upload/%@/%@", photoId, isFullRes ? @"original/":@""]
                               filePath:filePath
+                          isPhotoUpload:YES
                            contentType:@"application/octet-stream"
                         uploadProgress:uploadProgress
                              withError:&responseError];
@@ -599,7 +602,8 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return response;
 }
 
-- (Response *)putFile:(NSString *)url filePath:(NSString *)filePath contentType:(NSString *)contentType uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
+// TODO: isPhotoUpload parameter is temporary, until we use the urls from photosUploadRequest
+- (Response *)putFile:(NSString *)url filePath:(NSString *)filePath isPhotoUpload:(BOOL)isPhotoUpload contentType:(NSString *)contentType uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
 {
     // TODO Some refactoring is in order to eliminate the duplicate code from the getResponse method
 
