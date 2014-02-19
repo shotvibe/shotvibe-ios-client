@@ -316,6 +316,8 @@
 		04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D6173032B200973BC0 /* phoneNumberContainer.png */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
+		1073F55E18B5001500FB9306 /* FancyProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073F55D18B5001500FB9306 /* FancyProgressView.m */; };
+		1073F55F18B5001500FB9306 /* FancyProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073F55D18B5001500FB9306 /* FancyProgressView.m */; };
 		108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF051884083200757E36 /* NewRelicAgent.framework */; };
 		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
 		108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF091884087A00757E36 /* libz.dylib */; };
@@ -1056,6 +1058,8 @@
 		04C407D6173032B200973BC0 /* phoneNumberContainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoneNumberContainer.png; sourceTree = "<group>"; };
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
+		1073F55C18B5001500FB9306 /* FancyProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FancyProgressView.h; path = Albums/FancyProgressView.h; sourceTree = "<group>"; };
+		1073F55D18B5001500FB9306 /* FancyProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FancyProgressView.m; path = Albums/FancyProgressView.m; sourceTree = "<group>"; };
 		1077E30E18A2768A00E9E9C5 /* AlbumBase.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumBase.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumBase.java; sourceTree = SOURCE_ROOT; };
 		1077E30F18A276BF00E9E9C5 /* AlbumContents.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumContents.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumContents.java; sourceTree = SOURCE_ROOT; };
 		1077E31018A276BF00E9E9C5 /* AlbumMember.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumMember.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumMember.java; sourceTree = SOURCE_ROOT; };
@@ -2994,6 +2998,8 @@
 		AA12881316CB8774002AC699 /* Albums */ = {
 			isa = PBXGroup;
 			children = (
+				1073F55C18B5001500FB9306 /* FancyProgressView.h */,
+				1073F55D18B5001500FB9306 /* FancyProgressView.m */,
 				66278C761867C38300D23F34 /* PhotoImageView.h */,
 				66278C771867C38300D23F34 /* PhotoImageView.m */,
 				66278C781867C38300D23F34 /* PhotoScrollView.h */,
@@ -4148,6 +4154,7 @@
 				3E0CC9E018B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m in Sources */,
 				3B3AD15A17CB4A9C004D24A9 /* SDWebImageManager.m in Sources */,
 				66D5833E1867D66B00EAC842 /* RCScrollImageView.m in Sources */,
+				1073F55E18B5001500FB9306 /* FancyProgressView.m in Sources */,
 				3B3AD15B17CB4A9C004D24A9 /* SDWebImagePrefetcher.m in Sources */,
 				66013239187F4E670042047B /* AssertionError.m in Sources */,
 				3B3AD15C17CB4A9C004D24A9 /* UIButton+WebCache.m in Sources */,
@@ -4204,6 +4211,7 @@
 				10C2DAC618B4E80600F3C28A /* PhotoUploadManager.m in Sources */,
 				10C2DACC18B4E82E00F3C28A /* UploadSessionDelegate.m in Sources */,
 				AA58FB2C16C224E800C49E02 /* shotvibeTests.m in Sources */,
+				1073F55F18B5001500FB9306 /* FancyProgressView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
