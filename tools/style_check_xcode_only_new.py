@@ -25,9 +25,13 @@ def process_diff_file(lines):
     Eats the first line of the next file
     """
     # Skip the first 3 lines of the diff output (header lines that we don't
-    while not next(lines).startswith("---"):
-        pass
-
+    try:
+        while not next(lines).startswith("---"):
+           pass
+    except StopIteration: # if the last diff is a binary, there's no line starting with '---'
+        return "", set(), False
+      
+            
     dst_line = next(lines)
     dst_header = "+++ b/"
     dst_filename = dst_line[len(dst_header):]
