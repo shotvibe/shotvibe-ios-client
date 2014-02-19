@@ -7,8 +7,10 @@
 //
 
 #import "SVMiniAlbumList.h"
-#import "AlbumSummary.h"
-#import "AlbumPhoto.h"
+#import "SL/AlbumSummary.h"
+#import "SL/AlbumPhoto.h"
+#import "SL/ArrayList.h"
+#import "SL/AlbumServerPhoto.h"
 #import "UIImageView+WebCache.h"
 
 @implementation SVMiniAlbumList
@@ -27,7 +29,7 @@
 - (void)setAlbums:(NSArray*)arr
 {
 	int i = 0;
-    for (AlbumSummary *album in arr) {
+    for (SLAlbumSummary *album in arr) {
 		RCLogO(album);
 		
 		UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(100*i + 15, 0, 60, 60)];
@@ -35,11 +37,11 @@
 		image.clipsToBounds = YES;
 		image.image = [UIImage imageNamed:@"placeholderImage"];
 		
-		if (album.latestPhotos.count > 0) {
-			AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
-			
-			if (latestPhoto.serverPhoto) {
-				NSString *fullsizePhotoUrl = latestPhoto.serverPhoto.url;
+        if ([album getLatestPhotos].array.count > 0) {
+            SLAlbumPhoto *latestPhoto = [[album getLatestPhotos].array objectAtIndex:0];
+
+            if ([latestPhoto getServerPhoto]) {
+                NSString *fullsizePhotoUrl = [[latestPhoto getServerPhoto] getUrl];
 				NSString *thumbnailSuffix = @"_thumb75.jpg";
 				NSString *thumbnailUrl = [[fullsizePhotoUrl stringByDeletingPathExtension] stringByAppendingString:thumbnailSuffix];
 				[image setImageWithURL:[[NSURL alloc] initWithString:thumbnailUrl]];
@@ -53,7 +55,7 @@
 		label.numberOfLines = 1;
 		label.textAlignment = NSTextAlignmentCenter;
 		label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10];
-		label.text = album.name;
+        label.text = [album getName];
 		[self addSubview:label];
 		
 		i++;

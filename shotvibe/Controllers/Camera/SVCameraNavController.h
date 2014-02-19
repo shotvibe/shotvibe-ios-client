@@ -10,7 +10,7 @@
 #import "SVCameraPickerDelegate.h"
 #import "SVCameraPickerController.h"
 #import "SVNavigationController.h"
-#import "AlbumSummary.h"
+#import "SL/AlbumSummary.h"
 
 @interface SVCameraNavController : NSObject <SVCameraPickerDelegate> {
 	
@@ -26,6 +26,6 @@
 @property (nonatomic, strong) AlbumManager *albumManager;
 
 @property (nonatomic, strong) NSArray *albums;
-@property (nonatomic, strong) AlbumSummary *selectedAlbum;
+@property (nonatomic, strong) SLAlbumSummary *selectedAlbum;
 
 @end

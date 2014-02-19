@@ -8,12 +8,17 @@
 
 #import "SVMultiplePicturesViewController.h"
 #import "SVAlbumCell.h"
-#import "AlbumSummary.h"
-#import "AlbumPhoto.h"
+#import "SL/AlbumSummary.h"
+#import "SL/AlbumPhoto.h"
+#import "SL/AlbumServerPhoto.h"
+#import "SL/ArrayList.h"
+#import "SL/DateTime.h"
+#import "SL/APIException.h"
 #import "SVDefines.h"
 #import "SVAlbumGridViewController.h"
 #import "MBProgressHUD.h"
 #import "NSDate+Formatting.h"
+#import "PhotoUploadRequest.h"
 
 @interface SVMultiplePicturesViewController ()
 
@@ -106,30 +111,32 @@
         cell.title.textColor = [UIColor colorWithWhite:132.0 / 255 alpha:1];
         cell.title.frame = CGRectMake(cell.title.frame.origin.x, 0, cell.title.frame.size.width, cell.contentView.bounds.size.height - 4);
     } else {
-        AlbumSummary *album = self.albums[indexPath.row - 1];
+        SLAlbumSummary *album = self.albums[indexPath.row - 1];
 
-        if (album.numNewPhotos > 0) {
-            [cell.numberNotViewedIndicator setTitle:album.numNewPhotos > 99 ? @"99+":[NSString stringWithFormat:@"%lld", album.numNewPhotos] forState:UIControlStateNormal];
+        if ([album getNumNewPhotos] > 0) {
+            [cell.numberNotViewedIndicator setTitle:[album getNumNewPhotos] > 99 ? @"99+":[NSString stringWithFormat:@"%lld", [album getNumNewPhotos]] forState:UIControlStateNormal];
             cell.numberNotViewedIndicator.hidden = NO;
         } else {
             cell.numberNotViewedIndicator.hidden = YES;
         }
 
-        NSString *distanceOfTimeInWords = [album.dateUpdated distanceOfTimeInWords];
+        long long seconds = [[album getDateUpdated] getTimeStamp] / 1000000LL;
+        NSDate *dateUpdated = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
+        NSString *distanceOfTimeInWords = [dateUpdated distanceOfTimeInWords];
 
         cell.tag = indexPath.row;
-        cell.title.text = album.name;
+        cell.title.text = [album getName];
         cell.author.text = @"";
         cell.timestamp.hidden = YES;
 
         [cell.networkImageView setImage:nil];
         // TODO: latestPhotos might be nil if we insert an AlbumContents instead AlbumSummary
-        if (album.latestPhotos.count > 0) {
-            AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
-            if (latestPhoto.serverPhoto) {
-                cell.author.text = [NSString stringWithFormat:@"Last added by %@", latestPhoto.serverPhoto.author.nickname];
+        if ([album getLatestPhotos].array.count > 0) {
+            SLAlbumPhoto *latestPhoto = [[album getLatestPhotos].array objectAtIndex:0];
+            if ([latestPhoto getServerPhoto]) {
+                cell.author.text = [NSString stringWithFormat:@"Last added by %@", [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
 
-                [cell.networkImageView setPhoto:latestPhoto.serverPhoto.photoId photoUrl:latestPhoto.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
+                [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId] photoUrl:[[latestPhoto getServerPhoto] getUrl] photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
                 [cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
                 cell.timestamp.hidden = NO;
             }
@@ -157,10 +164,10 @@
     if (indexPath.row == 0) {
         [self showDropDown];
     } else {
-        AlbumSummary *album = self.albums[indexPath.row - 1];
-        self.albumId = album.albumId;
+        SLAlbumSummary *album = self.albums[indexPath.row - 1];
+        self.albumId = [album getId];
 
-        NSString *s = [NSString stringWithFormat:@"Are you sure you want to upload the photos to %@?", album.name];
+        NSString *s = [NSString stringWithFormat:@"Are you sure you want to upload the photos to %@?", [album getName]];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:s delegate:self cancelButtonTitle:NSLocalizedString(@"No", @"") otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
         [alert show];
     }
@@ -249,7 +256,7 @@
     // Write the album to server
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
-        AlbumContents *albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title withError:&error];
+        SLAlbumContents *albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
@@ -260,7 +267,7 @@
                                                       otherButtonTitles:nil];
                 [alert show];
             } else {
-                self.albumId = albumContents.albumId;
+                self.albumId = [albumContents getId];
             }
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self hideDropDown:NO];

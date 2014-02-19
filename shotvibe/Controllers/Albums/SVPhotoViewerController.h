@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AlbumContents.h"
+#import "SL/AlbumContents.h"
 #import "AlbumManager.h"
 #import "AlbumContentsListener.h"
 #import "SVActivityViewController.h"

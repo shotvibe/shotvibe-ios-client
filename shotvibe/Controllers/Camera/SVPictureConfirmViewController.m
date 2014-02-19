@@ -10,7 +10,7 @@
 #import "SVPickerController.h"
 #import "PhotoUploadRequest.h"
 #import "SVDefines.h"
-#import "AlbumSummary.h"
+#import "SL/AlbumSummary.h"
 #import "SVAlbumGridViewController.h"
 #import <QuartzCore/QuartzCore.h>
 

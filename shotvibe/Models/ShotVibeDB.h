@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 
 #import "FMDatabase.h"
-#import "AlbumContents.h"
+#import "SL/AlbumContents.h"
+
+@class SLHashMap;
 
 @interface ShotVibeDB : NSObject
 {
@@ -18,22 +20,19 @@
 
 - (id)init;
 
-// Call this after any failed method
-- (NSString *)lastErrorMessage;
-
 // Returns an array of `AlbumSummary` objects
-- (NSArray *)getAlbumList;
+- (SLArrayList *)getAlbumList;
 
 // Returns a dictionary mapping `NSNumber` values (wrapping `int64_t` values) to `NSString` values
-- (NSDictionary *)getAlbumListEtagValues;
+- (SLHashMap *)getAlbumListEtagValues;
 
 // `albums` must be an array of `AlbumSummary` objects
-- (BOOL)setAlbumListWithAlbums:(NSArray *)albums;
+- (void)setAlbumListWithAlbums:(NSMutableArray *)albums;
 
-- (AlbumContents *)getAlbumContents:(int64_t)albumId;
+- (SLAlbumContents *)getAlbumContents:(int64_t)albumId;
 
-- (BOOL)setAlbumContents:(int64_t)albumId withContents:(AlbumContents *)albumContents;
+- (void)setAlbumContents:(int64_t)albumId withContents:(SLAlbumContents *)albumContents;
 
-- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(NSDate *)lastAccess;
+- (void)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess;
 
 @end

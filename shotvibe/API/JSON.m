@@ -8,6 +8,8 @@
 
 #import "JSON.h"
 
+#import "SL/DateTime.h"
+
 @implementation JSONException
 
 - (id)initWithMessage:(NSString *)format, ...
@@ -63,36 +65,13 @@ static NSNumber *toNumber(id value)
 }
 
 
-static NSDate * toDate(id value)
+static SLDateTime * toDate(id value)
 {
     if (![value isKindOfClass:[NSString class]]) {
         @throw [[JSONException alloc] initWithMessage:@"Expected a JSON Date, got: %@", [value description]];
     }
 
-    static NSDateFormatter *dateFormatter1 = nil;
-    if (!dateFormatter1) {
-        dateFormatter1 = [[NSDateFormatter alloc] init];
-        [dateFormatter1 setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
-        [dateFormatter1 setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-    }
-
-    NSDateFormatter *dateFormatter2 = nil;
-    if (!dateFormatter2) {
-        dateFormatter2 = [[NSDateFormatter alloc] init];
-        [dateFormatter2 setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
-        [dateFormatter2 setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
-    }
-
-    NSDate *date = [dateFormatter1 dateFromString:value];
-
-    if (!date) {
-        date = [dateFormatter2 dateFromString:value];
-        if (!date) {
-            @throw [[JSONException alloc] initWithMessage:@"Could not parse JSON Date: %@", [value description]];
-        }
-    }
-
-    return date;
+    return [SLDateTime ParseISO8601WithNSString:value];
 }
 
 
@@ -168,7 +147,7 @@ static NSDate * toDate(id value)
     return toNumber([self getValue:key]);
 }
 
-- (NSDate *)getDate:(NSString *)key
+- (SLDateTime *)getDate:(NSString *)key
 {
     return toDate([self getValue:key]);
 }

@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AlbumContents.h"
+#import "SL/AlbumContents.h"
+
+@class SLAPIException;
 
 @protocol AlbumContentsListener <NSObject>
 
@@ -18,9 +20,9 @@
 /**
  Is called on the main thread when a refresh is complete
  */
-- (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album;
+- (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(SLAlbumContents *)album;
 
-- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error;
+- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(SLAPIException *)error;
 
 - (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId;
 

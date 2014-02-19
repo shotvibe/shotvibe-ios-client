@@ -10,6 +10,7 @@
 
 @interface SVContactCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpinner;
 @property (nonatomic, retain) IBOutlet UIImageView *isMemberImage;
 @property (nonatomic, retain) IBOutlet UIImageView *contactIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *checkmarkImage;
