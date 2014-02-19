@@ -114,11 +114,6 @@ enum RefreshStatus
 {
     NSArray *cachedAlbums = [shotvibeDB getAlbumList].array;
 
-    // TODO
-    // The view code is expecting the albums to be returned in reverse order.
-    // The view code should be corrected, but this is a quick fix for now.
-    cachedAlbums = [[cachedAlbums reverseObjectEnumerator] allObjects];
-
     [albumListListeners addObject:listener];
 
     if (refreshStatus == REFRESHING || refreshStatus == REFRESHING_UPDATE) {
@@ -173,14 +168,15 @@ enum RefreshStatus
                 return;
             }
 
+            // Sort in descending order (most-recently updated first), just like [shotvibeDB getAlbumList]
             latestAlbumsList = [latestAlbumsList sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
                 SLAlbumSummary *lhs = a;
                 SLAlbumSummary *rhs = b;
-                if ([[lhs getDateUpdated] getTimeStamp] < [[rhs getDateUpdated] getTimeStamp]) {
-                    return NSOrderedAscending;
-                }
                 if ([[lhs getDateUpdated] getTimeStamp] > [[rhs getDateUpdated] getTimeStamp]) {
-                    return NSOrderedDescending;
+                    return NSOrderedAscending; // NOTE: descending order, so l > r yields NSOrderedAscending
+                }
+                if ([[lhs getDateUpdated] getTimeStamp] < [[rhs getDateUpdated] getTimeStamp]) {
+                    return NSOrderedDescending; // NOTE: descending order, so l < r yields NSOrderedDescending
                 }
                 return NSOrderedSame;
             }];
@@ -471,11 +467,6 @@ enum RefreshStatus
 - (void)refreshAlbumListFromDb
 {
     NSArray *albumListFromDb = [shotvibeDB getAlbumList].array;
-
-    // TODO
-    // The view code is expecting the albums to be returned in reverse order.
-    // The view code should be corrected, but this is a quick fix for now.
-    albumListFromDb = [[albumListFromDb reverseObjectEnumerator] allObjects];
 
     if (albumListFromDb) { // TODO: handle error
         for(id<AlbumListListener> listener in albumListListeners) {
