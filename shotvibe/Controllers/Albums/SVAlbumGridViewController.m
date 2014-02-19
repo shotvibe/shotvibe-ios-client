@@ -429,8 +429,8 @@
 			//Search through the members
             for (SLAlbumMember *member in [albumContents getMembers].array) {
                 if ([[[photo getServerPhoto] getAuthor] getMemberId] == [[member getUser] getMemberId]) {
-                                        [header.imageView setImageWithURL:[[NSURL alloc] initWithString:[[member getUser] getMemberAvatarUrl]]];
-                                        header.nameLabel.text = [[member getUser] getMemberNickname];
+                    [header.imageView setImageWithURL:[[NSURL alloc] initWithString:[[member getUser] getMemberAvatarUrl]]];
+                    header.nameLabel.text = [[member getUser] getMemberNickname];
 					break;
 				}
 			}

@@ -342,7 +342,9 @@
         destinationController.shouldPrompt = YES;
         destinationController.albumManager = self.albumManager;
     } else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
+		
         SLAlbumSummary *album = (SLAlbumSummary *)sender;
+		
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = [album getId];
