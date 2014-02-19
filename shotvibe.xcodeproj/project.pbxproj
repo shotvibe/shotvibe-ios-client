@@ -340,6 +340,14 @@
 		108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF5E18846B9000757E36 /* UIImage+MPAverageColor.m */; };
 		108CDF7518846B9000757E36 /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */; };
 		108CDF7618846B9000757E36 /* UIView+MPSnapshotImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */; };
+		10C2DAC518B4E80600F3C28A /* NewPhotoUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C2DAC218B4E80600F3C28A /* NewPhotoUploadManager.m */; };
+		10C2DAC618B4E80600F3C28A /* NewPhotoUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C2DAC218B4E80600F3C28A /* NewPhotoUploadManager.m */; };
+		10C2DAC718B4E80600F3C28A /* NewShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C2DAC418B4E80600F3C28A /* NewShotVibeAPI.m */; };
+		10C2DAC818B4E80600F3C28A /* NewShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C2DAC418B4E80600F3C28A /* NewShotVibeAPI.m */; };
+		10C2DACB18B4E82E00F3C28A /* UploadSessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C2DACA18B4E82E00F3C28A /* UploadSessionDelegate.m */; };
+		10C2DACC18B4E82E00F3C28A /* UploadSessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C2DACA18B4E82E00F3C28A /* UploadSessionDelegate.m */; };
+		10C2DACF18B4E83C00F3C28A /* PhotoDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C2DACE18B4E83C00F3C28A /* PhotoDictionary.m */; };
+		10C2DAD018B4E83C00F3C28A /* PhotoDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C2DACE18B4E83C00F3C28A /* PhotoDictionary.m */; };
 		10F1A2D6188540410051E267 /* Appsee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D5188540410051E267 /* Appsee.framework */; };
 		10F1A2D8188540B40051E267 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D7188540B40051E267 /* AVFoundation.framework */; };
 		10F1A2DA1885411E0051E267 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D91885411E0051E267 /* CoreVideo.framework */; };
@@ -1178,6 +1186,14 @@
 		108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MPImageEffects.m"; sourceTree = "<group>"; };
 		108CDF6118846B9000757E36 /* UIView+MPSnapshotImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MPSnapshotImage.h"; sourceTree = "<group>"; };
 		108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPSnapshotImage.m"; sourceTree = "<group>"; };
+		10C2DAC118B4E80600F3C28A /* NewPhotoUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewPhotoUploadManager.h; path = shotvibe/API/NewPhotoUploadManager.h; sourceTree = SOURCE_ROOT; };
+		10C2DAC218B4E80600F3C28A /* NewPhotoUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewPhotoUploadManager.m; path = shotvibe/API/NewPhotoUploadManager.m; sourceTree = SOURCE_ROOT; };
+		10C2DAC318B4E80600F3C28A /* NewShotVibeAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewShotVibeAPI.h; path = shotvibe/API/NewShotVibeAPI.h; sourceTree = SOURCE_ROOT; };
+		10C2DAC418B4E80600F3C28A /* NewShotVibeAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewShotVibeAPI.m; path = shotvibe/API/NewShotVibeAPI.m; sourceTree = SOURCE_ROOT; };
+		10C2DAC918B4E82E00F3C28A /* UploadSessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadSessionDelegate.h; path = shotvibe/API/UploadSessionDelegate.h; sourceTree = SOURCE_ROOT; };
+		10C2DACA18B4E82E00F3C28A /* UploadSessionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadSessionDelegate.m; path = shotvibe/API/UploadSessionDelegate.m; sourceTree = SOURCE_ROOT; };
+		10C2DACD18B4E83C00F3C28A /* PhotoDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoDictionary.h; path = shotvibe/API/PhotoDictionary.h; sourceTree = SOURCE_ROOT; };
+		10C2DACE18B4E83C00F3C28A /* PhotoDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoDictionary.m; path = shotvibe/API/PhotoDictionary.m; sourceTree = SOURCE_ROOT; };
 		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -3135,8 +3151,14 @@
 				664F4702188DBB76009F4776 /* IosHTTPResponse.m */,
 				66278CF11867C94900D23F34 /* JSON.h */,
 				66278CF21867C94900D23F34 /* JSON.m */,
+				10C2DAC118B4E80600F3C28A /* NewPhotoUploadManager.h */,
+				10C2DAC218B4E80600F3C28A /* NewPhotoUploadManager.m */,
+				10C2DAC318B4E80600F3C28A /* NewShotVibeAPI.h */,
+				10C2DAC418B4E80600F3C28A /* NewShotVibeAPI.m */,
 				66278CF31867C94900D23F34 /* PhotoBitmap.h */,
 				66278CF41867C94900D23F34 /* PhotoBitmap.m */,
+				10C2DACD18B4E83C00F3C28A /* PhotoDictionary.h */,
+				10C2DACE18B4E83C00F3C28A /* PhotoDictionary.m */,
 				66278CF51867C94900D23F34 /* PhotoFilesManager.h */,
 				66278CF61867C94900D23F34 /* PhotoFilesManager.m */,
 				66278CF71867C94900D23F34 /* PhotoSize.h */,
@@ -3150,6 +3172,8 @@
 				66278CFF1867C94900D23F34 /* ShotVibeAPI.m */,
 				66278D001867C94900D23F34 /* SVPushNotificationsManager.h */,
 				66278D011867C94900D23F34 /* SVPushNotificationsManager.m */,
+				10C2DAC918B4E82E00F3C28A /* UploadSessionDelegate.h */,
+				10C2DACA18B4E82E00F3C28A /* UploadSessionDelegate.m */,
 				66278D021867C94900D23F34 /* UserSettings.h */,
 				66278D031867C94900D23F34 /* UserSettings.m */,
 			);
@@ -3965,6 +3989,7 @@
 				AA4115BE177C0451009F400F /* NSFileManager+Helper.m in Sources */,
 				66278CC71867C57300D23F34 /* SVWebViewController.m in Sources */,
 				66278D081867C94900D23F34 /* PhotoFilesManager.m in Sources */,
+				10C2DAC518B4E80600F3C28A /* NewPhotoUploadManager.m in Sources */,
 				6601324D187F4E670042047B /* GenericDeclaration.m in Sources */,
 				108CDF6E18846B9000757E36 /* MPSurvey.m in Sources */,
 				66D5833F1867D66B00EAC842 /* RCScrollView.m in Sources */,
@@ -4010,7 +4035,9 @@
 				66013231187F4E670042047B /* IOSMappedClass.m in Sources */,
 				6601322B187F4E670042047B /* IOSClass.m in Sources */,
 				66013251187F4E670042047B /* Short.m in Sources */,
+				10C2DAC718B4E80600F3C28A /* NewShotVibeAPI.m in Sources */,
 				66278CE71867C62300D23F34 /* SVMoveActivity.m in Sources */,
+				10C2DACB18B4E82E00F3C28A /* UploadSessionDelegate.m in Sources */,
 				66013250187F4E670042047B /* RuntimeException.m in Sources */,
 				66278CC51867C57300D23F34 /* SVSettingsAboutViewController.m in Sources */,
 				2851FAA71838171200C094AB /* UIImage+Crop.m in Sources */,
@@ -4041,6 +4068,7 @@
 				66278C931867C38300D23F34 /* SVPhotoViewerController.m in Sources */,
 				66278CC61867C57300D23F34 /* SVSettingsViewController.m in Sources */,
 				3B3AD15617CB4A9C004D24A9 /* SDWebImageCompat.m in Sources */,
+				10C2DACF18B4E83C00F3C28A /* PhotoDictionary.m in Sources */,
 				66278C8B1867C38300D23F34 /* PhotoScrollView.m in Sources */,
 				66278CE31867C62300D23F34 /* SVCopyActivity.m in Sources */,
 				3B3AD15717CB4A9C004D24A9 /* SDWebImageDecoder.m in Sources */,
@@ -4099,6 +4127,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10C2DAC818B4E80600F3C28A /* NewShotVibeAPI.m in Sources */,
+				10C2DAD018B4E83C00F3C28A /* PhotoDictionary.m in Sources */,
+				10C2DAC618B4E80600F3C28A /* NewPhotoUploadManager.m in Sources */,
+				10C2DACC18B4E82E00F3C28A /* UploadSessionDelegate.m in Sources */,
 				AA58FB2C16C224E800C49E02 /* shotvibeTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
