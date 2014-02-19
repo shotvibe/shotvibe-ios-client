@@ -11,7 +11,7 @@
 #import "SL/APIException.h"
 
 @implementation NewShotVibeAPI {
-    NSString *baseURL_;
+    NSString *baseURL_; // We keep a separate baseURL here so we can check the uploading on a test server, without having to support the full ShotVibe API
     ShotVibeAPI *oldShotVibeAPI_;
 
     dispatch_queue_t uploadQueue_; // Queue for uploading photos on iOS < 7, where NSURLSession is not available
