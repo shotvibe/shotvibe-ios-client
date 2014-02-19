@@ -326,13 +326,12 @@
         // Get the selected Album
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
-		
+
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
         destinationController.albumId = [album getId];
-    }
-    else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
+    } else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
         SVSettingsViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
     } else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
@@ -343,7 +342,7 @@
         destinationController.shouldPrompt = YES;
         destinationController.albumManager = self.albumManager;
     } else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
-		SLAlbumSummary *album = (SLAlbumSummary*)sender;
+        SLAlbumSummary *album = (SLAlbumSummary *)sender;
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = [album getId];

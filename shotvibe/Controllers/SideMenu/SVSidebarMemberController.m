@@ -20,10 +20,10 @@
 #import "MBProgressHUD.h"
 
 @interface SVSidebarMemberController () {
-	ShotVibeAPI *shotvibeAPI;
-	NSMutableArray *members;
-	SLAlbumMember *owner;
-	SVSidebarAlbumMemberCell *ownerCell;
+    ShotVibeAPI *shotvibeAPI;
+    NSMutableArray *members;
+    SLAlbumMember *owner;
+    SVSidebarAlbumMemberCell *ownerCell;
 }
 
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
@@ -191,37 +191,36 @@
 
 - (void)setAlbumContents:(SLAlbumContents *)albumContents
 {
-	RCLog(@"setAlbumContents ");
+    RCLog(@"setAlbumContents ");
     _albumContents = albumContents;
-	
+
     [self searchForMemberWithName:nil];
-	
-	if (members.count == 0) {
-		// No members
-		self.noMembersView.hidden = NO;
-		self.tableView.hidden = YES;
-		self.searchBar.userInteractionEnabled = NO;
-		self.butOwner.enabled = YES;
-		self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
-		
-		ownerCell.hidden = NO;
-		[ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
-		[ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
-		ownerCell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
-		ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
-		ownerCell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
-		ownerCell.statusLabel.text = @"Leave Album";
-	}
-	else {
-		// There are some members
-		self.noMembersView.hidden = YES;
-		self.tableView.hidden = NO;
-		self.searchBar.userInteractionEnabled = YES;
-		self.butOwner.enabled = NO;
-		self.butAddFriends.frame = CGRectMake(16, 54, 240, 40);
-		
-		ownerCell.hidden = YES;
-	}
+
+    if (members.count == 0) {
+        // No members
+        self.noMembersView.hidden = NO;
+        self.tableView.hidden = YES;
+        self.searchBar.userInteractionEnabled = NO;
+        self.butOwner.enabled = YES;
+        self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
+
+        ownerCell.hidden = NO;
+        [ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
+        [ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
+        ownerCell.statusImageView.frame = CGRectMake(204 - 34, 14, 13, 13);
+        ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
+        ownerCell.statusLabel.frame = CGRectMake(220 - 34, 0, 70, 41);
+        ownerCell.statusLabel.text = @"Leave Album";
+    } else {
+        // There are some members
+        self.noMembersView.hidden = YES;
+        self.tableView.hidden = NO;
+        self.searchBar.userInteractionEnabled = YES;
+        self.butOwner.enabled = NO;
+        self.butAddFriends.frame = CGRectMake(16, 54, 240, 40);
+
+        ownerCell.hidden = YES;
+    }
 }
 
 - (void)setParentController:(SVAlbumGridViewController *)parentController {
@@ -243,26 +242,24 @@
     return members.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 
     SLAlbumMember *member = [members objectAtIndex:indexPath.row];
-	
-    [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
-	[cell.memberLabel setText:[[member getUser] getMemberNickname]];
 
-	if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
-		
-		cell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
-		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
-		cell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
-		cell.statusLabel.text = @"Leave Album";
-		//cell.userInteractionEnabled = YES;
-	}
-	else {
-		cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
-		cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
+    [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
+    [cell.memberLabel setText:[[member getUser] getMemberNickname]];
+
+    if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
+        cell.statusImageView.frame = CGRectMake(204 - 34, 14, 13, 13);
+        cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
+        cell.statusLabel.frame = CGRectMake(220 - 34, 0, 70, 41);
+        cell.statusLabel.text = @"Leave Album";
+        //cell.userInteractionEnabled = YES;
+    } else {
+        cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
+        cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
         if (![member getInviteStatus]) {
             cell.statusImageView.image = nil;
             cell.statusLabel.text = @"";
@@ -280,30 +277,29 @@
                     break;
             }
         }
-		//cell.userInteractionEnabled = NO;
-	}
-	//RCLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
+        //cell.userInteractionEnabled = NO;
+    }
+    //RCLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
     return cell;
 }
 
 
 #pragma mark - UITableViewDelegate Methods
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-	
-	if ([self.searchBar isFirstResponder])
-		[self.searchBar resignFirstResponder];
-	
-	SLAlbumMember *member = [members objectAtIndex:indexPath.row];
-	
-	if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
-		
-		[self ownerButtonPressed:nil];
-	}
-}
 
+    if ([self.searchBar isFirstResponder]) {
+        [self.searchBar resignFirstResponder];
+    }
+
+    SLAlbumMember *member = [members objectAtIndex:indexPath.row];
+
+    if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
+        [self ownerButtonPressed:nil];
+    }
+}
 
 #pragma mark UIAlertView delegate
 
@@ -378,21 +374,21 @@
     return YES;
 }
 
-- (void)searchForMemberWithName:(NSString *)title {
-	RCLog(@"search for members with name %@", title);
+- (void)searchForMemberWithName:(NSString *)title
+{
+    RCLog(@"search for members with name %@", title);
     members = [NSMutableArray arrayWithCapacity:[_albumContents getMembers].array.count];
-	
+
     if ([_albumContents getMembers].array.count == 1) {
         owner = [_albumContents getMembers].array[0];
-	}
-	else {
+    } else {
         for (SLAlbumMember *member in [_albumContents getMembers].array) {
-			if (title == nil || [title isEqualToString:@""] || [[[[member getUser] getMemberNickname] lowercaseString] rangeOfString:title].location != NSNotFound) {
-				[members addObject:member];
-			}
-		}
-	}
-    
+            if (title == nil || [title isEqualToString:@""] || [[[[member getUser] getMemberNickname] lowercaseString] rangeOfString:title].location != NSNotFound) {
+                [members addObject:member];
+            }
+        }
+    }
+
     [self.tableView reloadData];
 }
 

@@ -369,7 +369,6 @@
 
         cell.labelNewView.hidden = ![[photo getServerPhoto] isNewWithSLDateTime:[albumContents getLastAccess]
                                                                        withLong:self.albumManager.getShotVibeAPI.authData.userId];
-
     } else if ([photo getUploadingPhoto]) {
         AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
 
@@ -430,8 +429,8 @@
 			//Search through the members
             for (SLAlbumMember *member in [albumContents getMembers].array) {
                 if ([[[photo getServerPhoto] getAuthor] getMemberId] == [[member getUser] getMemberId]) {
-					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:[[member getUser] getMemberAvatarUrl]]];
-					header.nameLabel.text = [[member getUser] getMemberNickname];
+                                        [header.imageView setImageWithURL:[[NSURL alloc] initWithString:[[member getUser] getMemberAvatarUrl]]];
+                                        header.nameLabel.text = [[member getUser] getMemberNickname];
 					break;
 				}
 			}
