@@ -316,7 +316,6 @@
 		04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D6173032B200973BC0 /* phoneNumberContainer.png */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
-		10617E57189ABFC2006983E1 /* FancyProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10617E56189ABFC2006983E1 /* FancyProgressView.m */; };
 		108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF051884083200757E36 /* NewRelicAgent.framework */; };
 		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
 		108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF091884087A00757E36 /* libz.dylib */; };
@@ -3015,8 +3014,6 @@
 				66278C871867C38300D23F34 /* SVMiniAlbumList.m */,
 				66278C881867C38300D23F34 /* SVPhotoViewerController.h */,
 				66278C891867C38300D23F34 /* SVPhotoViewerController.m */,
-				10617E55189ABFC2006983E1 /* FancyProgressView.h */,
-				10617E56189ABFC2006983E1 /* FancyProgressView.m */,
 			);
 			name = Albums;
 			sourceTree = "<group>";
@@ -4112,11 +4109,6 @@
 				66278CE71867C62300D23F34 /* SVMoveActivity.m in Sources */,
 				10C2DACB18B4E82E00F3C28A /* UploadSessionDelegate.m in Sources */,
 				66013250187F4E670042047B /* RuntimeException.m in Sources */,
-				3B013BC317C3E6F600135869 /* AlbumServerPhoto.m in Sources */,
-				3B013BC717C3E7CA00135869 /* AlbumPhoto.m in Sources */,
-				3B013BCA17C3E83200135869 /* AlbumContents.m in Sources */,
-				3B013BCD17C3E84C00135869 /* AlbumUser.m in Sources */,
-				10617E57189ABFC2006983E1 /* FancyProgressView.m in Sources */,
 				66278CC51867C57300D23F34 /* SVSettingsAboutViewController.m in Sources */,
 				2851FAA71838171200C094AB /* UIImage+Crop.m in Sources */,
 				108CDF7518846B9000757E36 /* UIImage+MPImageEffects.m in Sources */,
