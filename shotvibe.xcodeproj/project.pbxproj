@@ -1034,6 +1034,116 @@
 		04C407D6173032B200973BC0 /* phoneNumberContainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoneNumberContainer.png; sourceTree = "<group>"; };
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
+		1077E30E18A2768A00E9E9C5 /* AlbumBase.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumBase.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumBase.java; sourceTree = SOURCE_ROOT; };
+		1077E30F18A276BF00E9E9C5 /* AlbumContents.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumContents.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumContents.java; sourceTree = SOURCE_ROOT; };
+		1077E31018A276BF00E9E9C5 /* AlbumMember.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumMember.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumMember.java; sourceTree = SOURCE_ROOT; };
+		1077E31118A276BF00E9E9C5 /* AlbumPhoto.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumPhoto.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumPhoto.java; sourceTree = SOURCE_ROOT; };
+		1077E31218A276BF00E9E9C5 /* AlbumServerPhoto.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumServerPhoto.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumServerPhoto.java; sourceTree = SOURCE_ROOT; };
+		1077E31318A276BF00E9E9C5 /* AlbumSummary.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumSummary.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumSummary.java; sourceTree = SOURCE_ROOT; };
+		1077E31418A276BF00E9E9C5 /* AlbumUploadingPhoto.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumUploadingPhoto.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumUploadingPhoto.java; sourceTree = SOURCE_ROOT; };
+		1077E31518A276BF00E9E9C5 /* AlbumUser.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumUser.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumUser.java; sourceTree = SOURCE_ROOT; };
+		1077E31618A276BF00E9E9C5 /* APIException.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = APIException.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/APIException.java; sourceTree = SOURCE_ROOT; };
+		1077E31818A276EA00E9E9C5 /* ArrayList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ArrayList.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ArrayList.h; sourceTree = SOURCE_ROOT; };
+		1077E31918A276EA00E9E9C5 /* ArrayList.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ArrayList.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ArrayList.java; sourceTree = SOURCE_ROOT; };
+		1077E31A18A276EA00E9E9C5 /* ArrayList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ArrayList.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ArrayList.m; sourceTree = SOURCE_ROOT; };
+		1077E31B18A276EA00E9E9C5 /* AuthData.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AuthData.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AuthData.java; sourceTree = SOURCE_ROOT; };
+		1077E31C18A276EA00E9E9C5 /* DateTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DateTime.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/DateTime.h; sourceTree = SOURCE_ROOT; };
+		1077E31D18A276EA00E9E9C5 /* DateTime.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = DateTime.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/DateTime.java; sourceTree = SOURCE_ROOT; };
+		1077E31E18A276EA00E9E9C5 /* DateTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DateTime.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/DateTime.m; sourceTree = SOURCE_ROOT; };
+		1077E31F18A276EA00E9E9C5 /* DevicePhoneContactsLib.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = DevicePhoneContactsLib.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/DevicePhoneContactsLib.java; sourceTree = SOURCE_ROOT; };
+		1077E32018A276EA00E9E9C5 /* HashMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HashMap.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashMap.h; sourceTree = SOURCE_ROOT; };
+		1077E32118A276EA00E9E9C5 /* HashMap.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = HashMap.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashMap.java; sourceTree = SOURCE_ROOT; };
+		1077E32218A276EA00E9E9C5 /* HashMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HashMap.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashMap.m; sourceTree = SOURCE_ROOT; };
+		1077E32318A276EA00E9E9C5 /* HashSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HashSet.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashSet.h; sourceTree = SOURCE_ROOT; };
+		1077E32418A276EA00E9E9C5 /* HashSet.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = HashSet.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashSet.java; sourceTree = SOURCE_ROOT; };
+		1077E32518A276EA00E9E9C5 /* HashSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HashSet.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HashSet.m; sourceTree = SOURCE_ROOT; };
+		1077E32618A276EA00E9E9C5 /* HTTPException.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = HTTPException.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HTTPException.java; sourceTree = SOURCE_ROOT; };
+		1077E32718A276EA00E9E9C5 /* HTTPLib.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = HTTPLib.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HTTPLib.java; sourceTree = SOURCE_ROOT; };
+		1077E32818A276EA00E9E9C5 /* HTTPResponse.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = HTTPResponse.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/HTTPResponse.java; sourceTree = SOURCE_ROOT; };
+		1077E32918A276EA00E9E9C5 /* JSONArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JSONArray.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONArray.h; sourceTree = SOURCE_ROOT; };
+		1077E32A18A276EA00E9E9C5 /* JSONArray.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = JSONArray.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONArray.java; sourceTree = SOURCE_ROOT; };
+		1077E32B18A276EA00E9E9C5 /* JSONArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JSONArray.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONArray.m; sourceTree = SOURCE_ROOT; };
+		1077E32C18A276EA00E9E9C5 /* JSONException.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = JSONException.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONException.java; sourceTree = SOURCE_ROOT; };
+		1077E32D18A276EA00E9E9C5 /* JSONObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JSONObject.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONObject.h; sourceTree = SOURCE_ROOT; };
+		1077E32E18A276EA00E9E9C5 /* JSONObject.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = JSONObject.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONObject.java; sourceTree = SOURCE_ROOT; };
+		1077E32F18A276EA00E9E9C5 /* JSONObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JSONObject.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/JSONObject.m; sourceTree = SOURCE_ROOT; };
+		1077E33018A276EA00E9E9C5 /* PhoneContact.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = PhoneContact.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/PhoneContact.java; sourceTree = SOURCE_ROOT; };
+		1077E33118A276EA00E9E9C5 /* PhoneContactDisplayData.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = PhoneContactDisplayData.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/PhoneContactDisplayData.java; sourceTree = SOURCE_ROOT; };
+		1077E33218A276EA00E9E9C5 /* PhoneContactServerResult.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = PhoneContactServerResult.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/PhoneContactServerResult.java; sourceTree = SOURCE_ROOT; };
+		1077E33318A276EA00E9E9C5 /* PhoneContactsManager.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = PhoneContactsManager.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/PhoneContactsManager.java; sourceTree = SOURCE_ROOT; };
+		1077E33418A276EA00E9E9C5 /* ShotVibeAPI.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ShotVibeAPI.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ShotVibeAPI.java; sourceTree = SOURCE_ROOT; };
+		1077E33518A276EA00E9E9C5 /* ShotVibeDB.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ShotVibeDB.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ShotVibeDB.java; sourceTree = SOURCE_ROOT; };
+		1077E33618A276EA00E9E9C5 /* SQLConnection.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = SQLConnection.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/SQLConnection.java; sourceTree = SOURCE_ROOT; };
+		1077E33718A276EA00E9E9C5 /* SQLCursor.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = SQLCursor.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/SQLCursor.java; sourceTree = SOURCE_ROOT; };
+		1077E33818A276EA00E9E9C5 /* SQLException.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = SQLException.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/SQLException.java; sourceTree = SOURCE_ROOT; };
+		1077E33918A276EA00E9E9C5 /* SQLValues.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = SQLValues.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/SQLValues.java; sourceTree = SOURCE_ROOT; };
+		1077E33A18A276EA00E9E9C5 /* ThreadUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ThreadUtil.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ThreadUtil.h; sourceTree = SOURCE_ROOT; };
+		1077E33B18A276EA00E9E9C5 /* ThreadUtil.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ThreadUtil.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ThreadUtil.java; sourceTree = SOURCE_ROOT; };
+		1077E33C18A276EA00E9E9C5 /* ThreadUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ThreadUtil.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/ThreadUtil.m; sourceTree = SOURCE_ROOT; };
+		1077E33E18A277B800E9E9C5 /* AlbumBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AlbumBase.h; path = shotvibelib/build/SL/AlbumBase.h; sourceTree = SOURCE_ROOT; };
+		1077E33F18A277B800E9E9C5 /* AlbumBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AlbumBase.m; path = shotvibelib/build/SL/AlbumBase.m; sourceTree = SOURCE_ROOT; };
+		1077E34018A2782400E9E9C5 /* AlbumContents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AlbumContents.h; path = shotvibelib/build/SL/AlbumContents.h; sourceTree = SOURCE_ROOT; };
+		1077E34118A2782400E9E9C5 /* AlbumContents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AlbumContents.m; path = shotvibelib/build/SL/AlbumContents.m; sourceTree = SOURCE_ROOT; };
+		1077E34218A2782400E9E9C5 /* AlbumMember.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AlbumMember.h; path = shotvibelib/build/SL/AlbumMember.h; sourceTree = SOURCE_ROOT; };
+		1077E34318A2782400E9E9C5 /* AlbumMember.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AlbumMember.m; path = shotvibelib/build/SL/AlbumMember.m; sourceTree = SOURCE_ROOT; };
+		1077E34418A2782400E9E9C5 /* AlbumPhoto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AlbumPhoto.h; path = shotvibelib/build/SL/AlbumPhoto.h; sourceTree = SOURCE_ROOT; };
+		1077E34518A2782400E9E9C5 /* AlbumPhoto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AlbumPhoto.m; path = shotvibelib/build/SL/AlbumPhoto.m; sourceTree = SOURCE_ROOT; };
+		1077E34618A2782400E9E9C5 /* AlbumServerPhoto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AlbumServerPhoto.h; path = shotvibelib/build/SL/AlbumServerPhoto.h; sourceTree = SOURCE_ROOT; };
+		1077E34718A2782400E9E9C5 /* AlbumServerPhoto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AlbumServerPhoto.m; path = shotvibelib/build/SL/AlbumServerPhoto.m; sourceTree = SOURCE_ROOT; };
+		1077E34818A2782400E9E9C5 /* AlbumSummary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AlbumSummary.h; path = shotvibelib/build/SL/AlbumSummary.h; sourceTree = SOURCE_ROOT; };
+		1077E34918A2782400E9E9C5 /* AlbumSummary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AlbumSummary.m; path = shotvibelib/build/SL/AlbumSummary.m; sourceTree = SOURCE_ROOT; };
+		1077E34A18A2782400E9E9C5 /* AlbumUploadingPhoto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AlbumUploadingPhoto.h; path = shotvibelib/build/SL/AlbumUploadingPhoto.h; sourceTree = SOURCE_ROOT; };
+		1077E34B18A2782400E9E9C5 /* AlbumUploadingPhoto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AlbumUploadingPhoto.m; path = shotvibelib/build/SL/AlbumUploadingPhoto.m; sourceTree = SOURCE_ROOT; };
+		1077E34C18A2782400E9E9C5 /* AlbumUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AlbumUser.h; path = shotvibelib/build/SL/AlbumUser.h; sourceTree = SOURCE_ROOT; };
+		1077E34D18A2782400E9E9C5 /* AlbumUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AlbumUser.m; path = shotvibelib/build/SL/AlbumUser.m; sourceTree = SOURCE_ROOT; };
+		1077E34E18A2782400E9E9C5 /* APIException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = APIException.h; path = shotvibelib/build/SL/APIException.h; sourceTree = SOURCE_ROOT; };
+		1077E34F18A2782400E9E9C5 /* APIException.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = APIException.m; path = shotvibelib/build/SL/APIException.m; sourceTree = SOURCE_ROOT; };
+		1077E35018A2782400E9E9C5 /* ArrayList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ArrayList.h; path = shotvibelib/build/SL/ArrayList.h; sourceTree = SOURCE_ROOT; };
+		1077E35118A2782400E9E9C5 /* ArrayList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ArrayList.m; path = shotvibelib/build/SL/ArrayList.m; sourceTree = SOURCE_ROOT; };
+		1077E35218A2782400E9E9C5 /* AuthData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AuthData.h; path = shotvibelib/build/SL/AuthData.h; sourceTree = SOURCE_ROOT; };
+		1077E35318A2782400E9E9C5 /* AuthData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AuthData.m; path = shotvibelib/build/SL/AuthData.m; sourceTree = SOURCE_ROOT; };
+		1077E35418A2782400E9E9C5 /* DateTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DateTime.h; path = shotvibelib/build/SL/DateTime.h; sourceTree = SOURCE_ROOT; };
+		1077E35518A2782400E9E9C5 /* DateTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DateTime.m; path = shotvibelib/build/SL/DateTime.m; sourceTree = SOURCE_ROOT; };
+		1077E35618A2782400E9E9C5 /* DevicePhoneContactsLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DevicePhoneContactsLib.h; path = shotvibelib/build/SL/DevicePhoneContactsLib.h; sourceTree = SOURCE_ROOT; };
+		1077E35718A2782400E9E9C5 /* DevicePhoneContactsLib.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DevicePhoneContactsLib.m; path = shotvibelib/build/SL/DevicePhoneContactsLib.m; sourceTree = SOURCE_ROOT; };
+		1077E35818A2782400E9E9C5 /* HashMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HashMap.h; path = shotvibelib/build/SL/HashMap.h; sourceTree = SOURCE_ROOT; };
+		1077E35918A2782400E9E9C5 /* HashMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HashMap.m; path = shotvibelib/build/SL/HashMap.m; sourceTree = SOURCE_ROOT; };
+		1077E35A18A2782400E9E9C5 /* HashSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HashSet.h; path = shotvibelib/build/SL/HashSet.h; sourceTree = SOURCE_ROOT; };
+		1077E35B18A2782400E9E9C5 /* HashSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HashSet.m; path = shotvibelib/build/SL/HashSet.m; sourceTree = SOURCE_ROOT; };
+		1077E35C18A2782400E9E9C5 /* HTTPException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTTPException.h; path = shotvibelib/build/SL/HTTPException.h; sourceTree = SOURCE_ROOT; };
+		1077E35D18A2782400E9E9C5 /* HTTPException.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HTTPException.m; path = shotvibelib/build/SL/HTTPException.m; sourceTree = SOURCE_ROOT; };
+		1077E35E18A2782400E9E9C5 /* HTTPLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTTPLib.h; path = shotvibelib/build/SL/HTTPLib.h; sourceTree = SOURCE_ROOT; };
+		1077E35F18A2782400E9E9C5 /* HTTPLib.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HTTPLib.m; path = shotvibelib/build/SL/HTTPLib.m; sourceTree = SOURCE_ROOT; };
+		1077E36018A2782400E9E9C5 /* HTTPResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTTPResponse.h; path = shotvibelib/build/SL/HTTPResponse.h; sourceTree = SOURCE_ROOT; };
+		1077E36118A2782400E9E9C5 /* HTTPResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HTTPResponse.m; path = shotvibelib/build/SL/HTTPResponse.m; sourceTree = SOURCE_ROOT; };
+		1077E36218A2782400E9E9C5 /* JSONArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JSONArray.h; path = shotvibelib/build/SL/JSONArray.h; sourceTree = SOURCE_ROOT; };
+		1077E36318A2782400E9E9C5 /* JSONArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JSONArray.m; path = shotvibelib/build/SL/JSONArray.m; sourceTree = SOURCE_ROOT; };
+		1077E36418A2782400E9E9C5 /* JSONException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JSONException.h; path = shotvibelib/build/SL/JSONException.h; sourceTree = SOURCE_ROOT; };
+		1077E36518A2782400E9E9C5 /* JSONException.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JSONException.m; path = shotvibelib/build/SL/JSONException.m; sourceTree = SOURCE_ROOT; };
+		1077E36618A2782400E9E9C5 /* JSONObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JSONObject.h; path = shotvibelib/build/SL/JSONObject.h; sourceTree = SOURCE_ROOT; };
+		1077E36718A2782400E9E9C5 /* JSONObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JSONObject.m; path = shotvibelib/build/SL/JSONObject.m; sourceTree = SOURCE_ROOT; };
+		1077E36818A2782400E9E9C5 /* PhoneContact.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PhoneContact.h; path = shotvibelib/build/SL/PhoneContact.h; sourceTree = SOURCE_ROOT; };
+		1077E36918A2782400E9E9C5 /* PhoneContact.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PhoneContact.m; path = shotvibelib/build/SL/PhoneContact.m; sourceTree = SOURCE_ROOT; };
+		1077E36A18A2782400E9E9C5 /* PhoneContactDisplayData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PhoneContactDisplayData.h; path = shotvibelib/build/SL/PhoneContactDisplayData.h; sourceTree = SOURCE_ROOT; };
+		1077E36B18A2782400E9E9C5 /* PhoneContactDisplayData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PhoneContactDisplayData.m; path = shotvibelib/build/SL/PhoneContactDisplayData.m; sourceTree = SOURCE_ROOT; };
+		1077E36C18A2782400E9E9C5 /* PhoneContactServerResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PhoneContactServerResult.h; path = shotvibelib/build/SL/PhoneContactServerResult.h; sourceTree = SOURCE_ROOT; };
+		1077E36D18A2782400E9E9C5 /* PhoneContactServerResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PhoneContactServerResult.m; path = shotvibelib/build/SL/PhoneContactServerResult.m; sourceTree = SOURCE_ROOT; };
+		1077E36E18A2782400E9E9C5 /* PhoneContactsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PhoneContactsManager.h; path = shotvibelib/build/SL/PhoneContactsManager.h; sourceTree = SOURCE_ROOT; };
+		1077E36F18A2782400E9E9C5 /* PhoneContactsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PhoneContactsManager.m; path = shotvibelib/build/SL/PhoneContactsManager.m; sourceTree = SOURCE_ROOT; };
+		1077E37018A2782400E9E9C5 /* ShotVibeAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ShotVibeAPI.h; path = shotvibelib/build/SL/ShotVibeAPI.h; sourceTree = SOURCE_ROOT; };
+		1077E37118A2782400E9E9C5 /* ShotVibeAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ShotVibeAPI.m; path = shotvibelib/build/SL/ShotVibeAPI.m; sourceTree = SOURCE_ROOT; };
+		1077E37218A2782400E9E9C5 /* ShotVibeDB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ShotVibeDB.h; path = shotvibelib/build/SL/ShotVibeDB.h; sourceTree = SOURCE_ROOT; };
+		1077E37318A2782400E9E9C5 /* ShotVibeDB.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ShotVibeDB.m; path = shotvibelib/build/SL/ShotVibeDB.m; sourceTree = SOURCE_ROOT; };
+		1077E37418A2782400E9E9C5 /* SQLConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SQLConnection.h; path = shotvibelib/build/SL/SQLConnection.h; sourceTree = SOURCE_ROOT; };
+		1077E37518A2782400E9E9C5 /* SQLConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SQLConnection.m; path = shotvibelib/build/SL/SQLConnection.m; sourceTree = SOURCE_ROOT; };
+		1077E37618A2782400E9E9C5 /* SQLCursor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SQLCursor.h; path = shotvibelib/build/SL/SQLCursor.h; sourceTree = SOURCE_ROOT; };
+		1077E37718A2782400E9E9C5 /* SQLCursor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SQLCursor.m; path = shotvibelib/build/SL/SQLCursor.m; sourceTree = SOURCE_ROOT; };
+		1077E37818A2782400E9E9C5 /* SQLException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SQLException.h; path = shotvibelib/build/SL/SQLException.h; sourceTree = SOURCE_ROOT; };
+		1077E37918A2782400E9E9C5 /* SQLException.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SQLException.m; path = shotvibelib/build/SL/SQLException.m; sourceTree = SOURCE_ROOT; };
+		1077E37A18A2782400E9E9C5 /* SQLValues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SQLValues.h; path = shotvibelib/build/SL/SQLValues.h; sourceTree = SOURCE_ROOT; };
+		1077E37B18A2782400E9E9C5 /* SQLValues.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SQLValues.m; path = shotvibelib/build/SL/SQLValues.m; sourceTree = SOURCE_ROOT; };
+		1077E37C18A2782400E9E9C5 /* ThreadUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ThreadUtil.h; path = shotvibelib/build/SL/ThreadUtil.h; sourceTree = SOURCE_ROOT; };
+		1077E37D18A2782400E9E9C5 /* ThreadUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ThreadUtil.m; path = shotvibelib/build/SL/ThreadUtil.m; sourceTree = SOURCE_ROOT; };
 		108CDF051884083200757E36 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
 		108CDF071884085D00757E36 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		108CDF091884087A00757E36 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -1068,10 +1178,10 @@
 		108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MPImageEffects.m"; sourceTree = "<group>"; };
 		108CDF6118846B9000757E36 /* UIView+MPSnapshotImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MPSnapshotImage.h"; sourceTree = "<group>"; };
 		108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPSnapshotImage.m"; sourceTree = "<group>"; };
+		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		10F1A2D91885411E0051E267 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -2055,6 +2165,130 @@
 			name = Registration;
 			sourceTree = "<group>";
 		};
+		1077E30B18A275B800E9E9C5 /* Client Lib Java */ = {
+			isa = PBXGroup;
+			children = (
+				1077E30E18A2768A00E9E9C5 /* AlbumBase.java */,
+				1077E30F18A276BF00E9E9C5 /* AlbumContents.java */,
+				1077E31018A276BF00E9E9C5 /* AlbumMember.java */,
+				1077E31118A276BF00E9E9C5 /* AlbumPhoto.java */,
+				1077E31218A276BF00E9E9C5 /* AlbumServerPhoto.java */,
+				1077E31318A276BF00E9E9C5 /* AlbumSummary.java */,
+				1077E31418A276BF00E9E9C5 /* AlbumUploadingPhoto.java */,
+				1077E31518A276BF00E9E9C5 /* AlbumUser.java */,
+				1077E31618A276BF00E9E9C5 /* APIException.java */,
+				1077E31818A276EA00E9E9C5 /* ArrayList.h */,
+				1077E31918A276EA00E9E9C5 /* ArrayList.java */,
+				1077E31A18A276EA00E9E9C5 /* ArrayList.m */,
+				1077E31B18A276EA00E9E9C5 /* AuthData.java */,
+				1077E31C18A276EA00E9E9C5 /* DateTime.h */,
+				1077E31D18A276EA00E9E9C5 /* DateTime.java */,
+				1077E31E18A276EA00E9E9C5 /* DateTime.m */,
+				1077E31F18A276EA00E9E9C5 /* DevicePhoneContactsLib.java */,
+				1077E32018A276EA00E9E9C5 /* HashMap.h */,
+				1077E32118A276EA00E9E9C5 /* HashMap.java */,
+				1077E32218A276EA00E9E9C5 /* HashMap.m */,
+				1077E32318A276EA00E9E9C5 /* HashSet.h */,
+				1077E32418A276EA00E9E9C5 /* HashSet.java */,
+				1077E32518A276EA00E9E9C5 /* HashSet.m */,
+				1077E32618A276EA00E9E9C5 /* HTTPException.java */,
+				1077E32718A276EA00E9E9C5 /* HTTPLib.java */,
+				1077E32818A276EA00E9E9C5 /* HTTPResponse.java */,
+				1077E32918A276EA00E9E9C5 /* JSONArray.h */,
+				1077E32A18A276EA00E9E9C5 /* JSONArray.java */,
+				1077E32B18A276EA00E9E9C5 /* JSONArray.m */,
+				1077E32C18A276EA00E9E9C5 /* JSONException.java */,
+				1077E32D18A276EA00E9E9C5 /* JSONObject.h */,
+				1077E32E18A276EA00E9E9C5 /* JSONObject.java */,
+				1077E32F18A276EA00E9E9C5 /* JSONObject.m */,
+				1077E33018A276EA00E9E9C5 /* PhoneContact.java */,
+				1077E33118A276EA00E9E9C5 /* PhoneContactDisplayData.java */,
+				1077E33218A276EA00E9E9C5 /* PhoneContactServerResult.java */,
+				1077E33318A276EA00E9E9C5 /* PhoneContactsManager.java */,
+				1077E33418A276EA00E9E9C5 /* ShotVibeAPI.java */,
+				1077E33518A276EA00E9E9C5 /* ShotVibeDB.java */,
+				1077E33618A276EA00E9E9C5 /* SQLConnection.java */,
+				1077E33718A276EA00E9E9C5 /* SQLCursor.java */,
+				1077E33818A276EA00E9E9C5 /* SQLException.java */,
+				1077E33918A276EA00E9E9C5 /* SQLValues.java */,
+				1077E33A18A276EA00E9E9C5 /* ThreadUtil.h */,
+				1077E33B18A276EA00E9E9C5 /* ThreadUtil.java */,
+				1077E33C18A276EA00E9E9C5 /* ThreadUtil.m */,
+			);
+			name = "Client Lib Java";
+			sourceTree = "<group>";
+		};
+		1077E33D18A2777A00E9E9C5 /* SL (Generated Client Lib) */ = {
+			isa = PBXGroup;
+			children = (
+				1077E33E18A277B800E9E9C5 /* AlbumBase.h */,
+				1077E33F18A277B800E9E9C5 /* AlbumBase.m */,
+				1077E34018A2782400E9E9C5 /* AlbumContents.h */,
+				1077E34118A2782400E9E9C5 /* AlbumContents.m */,
+				1077E34218A2782400E9E9C5 /* AlbumMember.h */,
+				1077E34318A2782400E9E9C5 /* AlbumMember.m */,
+				1077E34418A2782400E9E9C5 /* AlbumPhoto.h */,
+				1077E34518A2782400E9E9C5 /* AlbumPhoto.m */,
+				1077E34618A2782400E9E9C5 /* AlbumServerPhoto.h */,
+				1077E34718A2782400E9E9C5 /* AlbumServerPhoto.m */,
+				1077E34818A2782400E9E9C5 /* AlbumSummary.h */,
+				1077E34918A2782400E9E9C5 /* AlbumSummary.m */,
+				1077E34A18A2782400E9E9C5 /* AlbumUploadingPhoto.h */,
+				1077E34B18A2782400E9E9C5 /* AlbumUploadingPhoto.m */,
+				1077E34C18A2782400E9E9C5 /* AlbumUser.h */,
+				1077E34D18A2782400E9E9C5 /* AlbumUser.m */,
+				1077E34E18A2782400E9E9C5 /* APIException.h */,
+				1077E34F18A2782400E9E9C5 /* APIException.m */,
+				1077E35018A2782400E9E9C5 /* ArrayList.h */,
+				1077E35118A2782400E9E9C5 /* ArrayList.m */,
+				1077E35218A2782400E9E9C5 /* AuthData.h */,
+				1077E35318A2782400E9E9C5 /* AuthData.m */,
+				1077E35418A2782400E9E9C5 /* DateTime.h */,
+				1077E35518A2782400E9E9C5 /* DateTime.m */,
+				1077E35618A2782400E9E9C5 /* DevicePhoneContactsLib.h */,
+				1077E35718A2782400E9E9C5 /* DevicePhoneContactsLib.m */,
+				1077E35818A2782400E9E9C5 /* HashMap.h */,
+				1077E35918A2782400E9E9C5 /* HashMap.m */,
+				1077E35A18A2782400E9E9C5 /* HashSet.h */,
+				1077E35B18A2782400E9E9C5 /* HashSet.m */,
+				1077E35C18A2782400E9E9C5 /* HTTPException.h */,
+				1077E35D18A2782400E9E9C5 /* HTTPException.m */,
+				1077E35E18A2782400E9E9C5 /* HTTPLib.h */,
+				1077E35F18A2782400E9E9C5 /* HTTPLib.m */,
+				1077E36018A2782400E9E9C5 /* HTTPResponse.h */,
+				1077E36118A2782400E9E9C5 /* HTTPResponse.m */,
+				1077E36218A2782400E9E9C5 /* JSONArray.h */,
+				1077E36318A2782400E9E9C5 /* JSONArray.m */,
+				1077E36418A2782400E9E9C5 /* JSONException.h */,
+				1077E36518A2782400E9E9C5 /* JSONException.m */,
+				1077E36618A2782400E9E9C5 /* JSONObject.h */,
+				1077E36718A2782400E9E9C5 /* JSONObject.m */,
+				1077E36818A2782400E9E9C5 /* PhoneContact.h */,
+				1077E36918A2782400E9E9C5 /* PhoneContact.m */,
+				1077E36A18A2782400E9E9C5 /* PhoneContactDisplayData.h */,
+				1077E36B18A2782400E9E9C5 /* PhoneContactDisplayData.m */,
+				1077E36C18A2782400E9E9C5 /* PhoneContactServerResult.h */,
+				1077E36D18A2782400E9E9C5 /* PhoneContactServerResult.m */,
+				1077E36E18A2782400E9E9C5 /* PhoneContactsManager.h */,
+				1077E36F18A2782400E9E9C5 /* PhoneContactsManager.m */,
+				1077E37018A2782400E9E9C5 /* ShotVibeAPI.h */,
+				1077E37118A2782400E9E9C5 /* ShotVibeAPI.m */,
+				1077E37218A2782400E9E9C5 /* ShotVibeDB.h */,
+				1077E37318A2782400E9E9C5 /* ShotVibeDB.m */,
+				1077E37418A2782400E9E9C5 /* SQLConnection.h */,
+				1077E37518A2782400E9E9C5 /* SQLConnection.m */,
+				1077E37618A2782400E9E9C5 /* SQLCursor.h */,
+				1077E37718A2782400E9E9C5 /* SQLCursor.m */,
+				1077E37818A2782400E9E9C5 /* SQLException.h */,
+				1077E37918A2782400E9E9C5 /* SQLException.m */,
+				1077E37A18A2782400E9E9C5 /* SQLValues.h */,
+				1077E37B18A2782400E9E9C5 /* SQLValues.m */,
+				1077E37C18A2782400E9E9C5 /* ThreadUtil.h */,
+				1077E37D18A2782400E9E9C5 /* ThreadUtil.m */,
+			);
+			name = "SL (Generated Client Lib)";
+			sourceTree = "<group>";
+		};
 		108CDF4518846B8F00757E36 /* Mixpanel */ = {
 			isa = PBXGroup;
 			children = (
@@ -2814,6 +3048,8 @@
 				AA58FB0116C224E800C49E02 /* Supporting Files */,
 				AA58FB7516C22B0400C49E02 /* Vendor */,
 				AA58FB3816C227F500C49E02 /* Views */,
+				1077E33D18A2777A00E9E9C5 /* SL (Generated Client Lib) */,
+				1077E30B18A275B800E9E9C5 /* Client Lib Java */,
 			);
 			path = shotvibe;
 			sourceTree = "<group>";
@@ -3033,12 +3269,12 @@
 			buildConfigurationList = AA58FB2F16C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibe" */;
 			buildPhases = (
 				10D366C41879EF8200E6FF4C /* Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h */,
-				6601325F187F51990042047B /* ShellScript */,
+				6601325F187F51990042047B /* Run Script: Generate client lib with j2objc */,
 				AA58FAF316C224E800C49E02 /* Sources */,
 				AA58FAF416C224E800C49E02 /* Frameworks */,
 				AA58FAF516C224E800C49E02 /* Resources */,
-				3B1E4D2A17AD6C8800CACE80 /* ShellScript */,
-				66D58347186858C200EAC842 /* ShellScript */,
+				3B1E4D2A17AD6C8800CACE80 /* Run Script: Crashlytics script */,
+				66D58347186858C200EAC842 /* Run Script: Uncrustify for modified lines */,
 			);
 			buildRules = (
 			);
@@ -3606,39 +3842,42 @@
 			shellPath = /bin/sh;
 			shellScript = "tools/generateGitInfo.sh\n";
 		};
-		3B1E4D2A17AD6C8800CACE80 /* ShellScript */ = {
+		3B1E4D2A17AD6C8800CACE80 /* Run Script: Crashlytics script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script: Crashlytics script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    ./Crashlytics.framework/run 7f25f8f82f6578b40464674ed500ef0c60435027\nfi";
 		};
-		6601325F187F51990042047B /* ShellScript */ = {
+		6601325F187F51990042047B /* Run Script: Generate client lib with j2objc */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script: Generate client lib with j2objc";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd shotvibelib\n./build_xcode.py";
+			shellScript = "cd shotvibelib\n./xcodeJ2objcWrapper.sh ./build_xcode.py shotvibelib/";
 		};
-		66D58347186858C200EAC842 /* ShellScript */ = {
+		66D58347186858C200EAC842 /* Run Script: Uncrustify for modified lines */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script: Uncrustify for modified lines";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
