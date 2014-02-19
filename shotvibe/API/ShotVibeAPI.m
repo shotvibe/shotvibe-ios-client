@@ -498,7 +498,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 - (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
 {
     NSError *responseError;
-    Response *response = [self putFile:[NSString stringWithFormat:@"/photos/upload/%@%@", photoId, isFullRes ? @"/original":@""]
+    Response *response = [self putFile:[NSString stringWithFormat:@"/photos/upload/%@/%@", photoId, isFullRes ? @"original/":@""]
                               filePath:filePath
                            contentType:@"application/octet-stream"
                         uploadProgress:uploadProgress

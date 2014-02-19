@@ -71,7 +71,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         [self photoUploadAsyncNoSession:photoId filePath:filePath isFullRes:isFullRes progressHandler:progressHandler completionHandler:completionHandler];
     } else {
         RCLog(@"Starting asynchronous upload task in NSURLSession");
-        NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@%@", baseURL_, photoId, isFullRes ? @"/original":@""]];
+        NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/%@", baseURL_, photoId, isFullRes ? @"original/":@""]];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
         [request setHTTPMethod:@"PUT"];
         if (oldShotVibeAPI_.authData != nil) {
