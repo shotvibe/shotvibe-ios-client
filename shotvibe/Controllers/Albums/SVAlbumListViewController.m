@@ -278,7 +278,7 @@
         destinationController.albumManager = self.albumManager;
     } else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
 		
-		SLAlbumSummary *album = (SLAlbumSummary*)sender;
+        SLAlbumSummary *album = (SLAlbumSummary *)sender;
 		
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];

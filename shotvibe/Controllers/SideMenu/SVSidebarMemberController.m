@@ -22,7 +22,7 @@
 @interface SVSidebarMemberController () {
 	ShotVibeAPI *shotvibeAPI;
 	NSMutableArray *members;
-	SLAlbumMember *owner;
+    SLAlbumMember *owner;
 	SVSidebarAlbumMemberCell *ownerCell;
 }
 
@@ -205,8 +205,8 @@
 		self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
 		
 		ownerCell.hidden = NO;
-		[ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
-		[ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
+        [ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
+        [ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
 		ownerCell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
 		ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
 		ownerCell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
@@ -250,9 +250,9 @@
     SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
-	[cell.memberLabel setText:[[member getUser] getMemberNickname]];
+    [cell.memberLabel setText:[[member getUser] getMemberNickname]];
 
-	if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
+    if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
 		
 		cell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
@@ -296,9 +296,9 @@
 	if ([self.searchBar isFirstResponder])
 		[self.searchBar resignFirstResponder];
 	
-	SLAlbumMember *member = [members objectAtIndex:indexPath.row];
+    SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
-	if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
+    if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
 		
 		[self ownerButtonPressed:nil];
 	}
@@ -387,7 +387,7 @@
 	}
 	else {
         for (SLAlbumMember *member in [_albumContents getMembers].array) {
-			if (title == nil || [title isEqualToString:@""] || [[[[member getUser] getMemberNickname] lowercaseString] rangeOfString:title].location != NSNotFound) {
+            if (title == nil || [title isEqualToString:@""] || [[[[member getUser] getMemberNickname] lowercaseString] rangeOfString:title].location != NSNotFound) {
 				[members addObject:member];
 			}
 		}

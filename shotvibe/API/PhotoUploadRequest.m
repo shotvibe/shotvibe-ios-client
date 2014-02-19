@@ -87,7 +87,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
     filePath_ = [PhotoUploadRequest getUploadingPhotoFilename];
 	
     ALAssetRepresentation *rep = [asset_ defaultRepresentation];
-	CGImageRef croppedImage = [rep fullResolutionImage];
+    CGImageRef croppedImage = [rep fullResolutionImage];
 	NSDictionary *metadata = [rep metadata][@"AdjustmentXMP"];
 		
 	// Write to disk the cropped image
