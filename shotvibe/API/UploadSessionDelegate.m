@@ -76,24 +76,23 @@
 
     UploadTaskDelegate *delegateForTask = [self getDelegateForTask:task];
 
-    if (delegateForTask) {
-        if (delegateForTask.completionHandler) { // could be nil, if there's no completionHandler handler for this task
-            delegateForTask.completionHandler();
-        }
-    } else {
-        RCLog(@"No task-specific delegate for task %d:%@", task.taskIdentifier, task.taskDescription);
-        // TODO: need to restore these on app init
-    }
-
-    if (error) {
-        RCLog(@"ERROR: Client-side error in task %d\n%@", task.taskIdentifier, [error localizedDescription]);
-    }
-
     // No kidding, the only way to get server-side errors (which are not reported through `error`)
     // is to cast the response and access the statusCode..
     NSInteger statusCode = ((NSHTTPURLResponse *)task.response).statusCode;
     if (statusCode != 200) {
         RCLog(@"ERROR: Server-side error %d in task %d", statusCode, task.taskIdentifier);
+    } // TODO: check what is reported in `error` when we have a server error
+
+    if (delegateForTask) {
+        if (delegateForTask.completionHandler) { // could be nil, if there's no completionHandler handler for this task
+            if (error) {
+                RCLog(@"ERROR: Client-side error in task %d\n%@", task.taskIdentifier, [error localizedDescription]);
+            }
+
+            delegateForTask.completionHandler(error);
+        }
+    } else {
+        RCLog(@"No task-specific delegate for task %d:%@", task.taskIdentifier, task.taskDescription);
     }
 }
 

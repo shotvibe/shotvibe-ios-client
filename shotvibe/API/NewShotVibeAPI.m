@@ -97,19 +97,12 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
     dispatch_async(uploadQueue_, ^{ // TODO: also want parallelism here?
-        BOOL photoSuccesfullyUploaded = NO;
-        while (!photoSuccesfullyUploaded) {
-            NSError *error;
-            photoSuccesfullyUploaded = [oldShotVibeAPI_ photoUpload:photoId filePath:filePath isFullRes:(BOOL)isFullRes uploadProgress:^(int bytesUploaded, int bytesTotal) {
-                progressHandler(bytesUploaded, bytesTotal);
-            } withError:&error];
+        NSError *error;
+        [oldShotVibeAPI_ photoUpload:photoId filePath:filePath isFullRes:(BOOL)isFullRes uploadProgress:^(int bytesUploaded, int bytesTotal) {
+            progressHandler(bytesUploaded, bytesTotal);
+        } withError:&error];
 
-            if (!photoSuccesfullyUploaded) {
-                RCLog(@"Error uploading photo (photoId: %@):\n%@", photoId, [error description]);
-                [NSThread sleepForTimeInterval:RETRY_TIME];
-            }
-        }
-        completionHandler();
+        completionHandler(error);
     });
     // *INDENT-ON*
 }
@@ -173,23 +166,17 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
     dispatch_async(uploadQueue_, ^{ // TODO: also want parallelism here?
-        BOOL photosSuccesfullyAdded = NO;
-        // TODO: this loop is not okay for background thread
-
-
-        while (!photosSuccesfullyAdded) {
-            @try {
-                [oldShotVibeAPI_ albumAddPhotos:albumId photoIds:[[SLArrayList alloc] initWithInitialArray:[NSMutableArray arrayWithArray:photoIds]]];
-                photosSuccesfullyAdded = YES;
-            }
-            @catch (SLAPIException *exception) {
-                RCLog(@"Error adding photos to album: %lld %@", albumId, exception.description);
-                [NSThread sleepForTimeInterval:RETRY_TIME];
-            }
+        @try {
+            [oldShotVibeAPI_ albumAddPhotos:albumId photoIds:[[SLArrayList alloc] initWithInitialArray:[NSMutableArray arrayWithArray:photoIds]]];
+            completionHandler(nil);
         }
+        @catch (SLAPIException *exception) {
+            RCLog(@"Error adding photos to album: %lld %@", albumId, exception.description);
+            // TODO: we need to figure out whether to use exceptions or errors
+            NSError *errorForException = [[NSError alloc] initWithDomain:@"com.shotvibe.shotvibe.TemporaryErrorDomain" code:43 userInfo:@{NSLocalizedDescriptionKey: exception.description}];
 
-
-        completionHandler();
+            completionHandler(errorForException);
+        }
     });
     // *INDENT-ON*
 }

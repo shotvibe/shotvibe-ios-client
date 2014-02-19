@@ -10,7 +10,7 @@
 
 typedef void (^ProgressHandlerType) (int64_t, int64_t);
 
-typedef void (^CompletionHandlerType)();
+typedef void (^CompletionHandlerType)(NSError *);
 
 
 /**

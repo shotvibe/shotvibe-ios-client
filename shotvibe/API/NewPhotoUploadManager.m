@@ -148,10 +148,10 @@ static const NSTimeInterval RETRY_TIME = 5;
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoUploadProgress:albumId];
         });
-    } completionHandler:^{
+    } completionHandler:^(NSError *error) {
         //RCLog(@"Task completion: photo %@ %@", showShortPhotoId(photo.photoId), [req getFilename]);
 
-        // TODO: error handling
+        // TODO: handle error
 
         [self lowResPhotoWasUploaded:photo album:albumId backgroundTaskID:photoUploadBackgroundTaskID];
     }];
@@ -235,7 +235,8 @@ static const NSTimeInterval RETRY_TIME = 5;
         RCLog(@"Adding %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
 
         // TODO: may suffer from a delay after photos were uploaded, when called from the backround.
-        [newShotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^{
+        [newShotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^(NSError *error) {
+            // TODO: handle error
             RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
 
             [self photosWereAdded:photosToAdd albumId:albumId];
@@ -291,8 +292,8 @@ static const NSTimeInterval RETRY_TIME = 5;
 
         NSString *fullResFilePath = [newSecondStagePhoto getFullResFilename];
 
-        [newShotVibeAPI_ photoUploadAsync:newSecondStagePhoto.photoId filePath:fullResFilePath isFullRes:YES progressHandler:nil completionHandler:^{
-            // TODO: error handling
+        [newShotVibeAPI_ photoUploadAsync:newSecondStagePhoto.photoId filePath:fullResFilePath isFullRes:YES progressHandler:nil completionHandler:^(NSError *error) {
+            // TODO: handle error
 
             RCLog(@"FINISH second-stage upload for %@", showShortPhotoId(newSecondStagePhoto.photoId));
             // TODO: at this point, remove the photo newSecondStageUpload from ShotVibeDB
