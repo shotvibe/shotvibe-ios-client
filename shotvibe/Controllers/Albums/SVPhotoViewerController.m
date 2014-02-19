@@ -306,7 +306,7 @@
 								  manager:self.albumManager.photoFilesManager];
                 } else if ([photo getUploadingPhoto]) {
                     AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
-					UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[photo.uploadingPhoto getFullResFilename]];
+                    UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[uploadingPhoto getFullResFilename]];
 					[cachedImage setImage:localImage];
 				}
 			}
