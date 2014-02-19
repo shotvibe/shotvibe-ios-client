@@ -316,9 +316,6 @@
 		04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D6173032B200973BC0 /* phoneNumberContainer.png */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
-		1054076D18917F600075C473 /* PhotoDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1054076C18917F600075C473 /* PhotoDictionary.m */; };
-		10685733188EF28700B2FC03 /* NewPhotoUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 10685732188EF28700B2FC03 /* NewPhotoUploadManager.m */; };
-		10685736188EF76900B2FC03 /* NewShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 10685735188EF76900B2FC03 /* NewShotVibeAPI.m */; };
 		108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF051884083200757E36 /* NewRelicAgent.framework */; };
 		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
 		108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF091884087A00757E36 /* libz.dylib */; };
@@ -343,7 +340,6 @@
 		108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF5E18846B9000757E36 /* UIImage+MPAverageColor.m */; };
 		108CDF7518846B9000757E36 /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */; };
 		108CDF7618846B9000757E36 /* UIView+MPSnapshotImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */; };
-		10E90C651891834300C77D1E /* UploadSessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E90C641891834300C77D1E /* UploadSessionDelegate.m */; };
 		10F1A2D6188540410051E267 /* Appsee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D5188540410051E267 /* Appsee.framework */; };
 		10F1A2D8188540B40051E267 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D7188540B40051E267 /* AVFoundation.framework */; };
 		10F1A2DA1885411E0051E267 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D91885411E0051E267 /* CoreVideo.framework */; };
@@ -1038,12 +1034,6 @@
 		04C407D6173032B200973BC0 /* phoneNumberContainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoneNumberContainer.png; sourceTree = "<group>"; };
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
-		1054076B18917F600075C473 /* PhotoDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoDictionary.h; path = shotvibe/API/PhotoDictionary.h; sourceTree = SOURCE_ROOT; };
-		1054076C18917F600075C473 /* PhotoDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoDictionary.m; path = shotvibe/API/PhotoDictionary.m; sourceTree = SOURCE_ROOT; };
-		10685731188EF28700B2FC03 /* NewPhotoUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewPhotoUploadManager.h; path = shotvibe/API/NewPhotoUploadManager.h; sourceTree = SOURCE_ROOT; };
-		10685732188EF28700B2FC03 /* NewPhotoUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewPhotoUploadManager.m; path = shotvibe/API/NewPhotoUploadManager.m; sourceTree = SOURCE_ROOT; };
-		10685734188EF76900B2FC03 /* NewShotVibeAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewShotVibeAPI.h; path = shotvibe/API/NewShotVibeAPI.h; sourceTree = SOURCE_ROOT; };
-		10685735188EF76900B2FC03 /* NewShotVibeAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewShotVibeAPI.m; path = shotvibe/API/NewShotVibeAPI.m; sourceTree = SOURCE_ROOT; };
 		1077E30E18A2768A00E9E9C5 /* AlbumBase.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumBase.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumBase.java; sourceTree = SOURCE_ROOT; };
 		1077E30F18A276BF00E9E9C5 /* AlbumContents.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumContents.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumContents.java; sourceTree = SOURCE_ROOT; };
 		1077E31018A276BF00E9E9C5 /* AlbumMember.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumMember.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumMember.java; sourceTree = SOURCE_ROOT; };
@@ -1189,8 +1179,6 @@
 		108CDF6118846B9000757E36 /* UIView+MPSnapshotImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MPSnapshotImage.h"; sourceTree = "<group>"; };
 		108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPSnapshotImage.m"; sourceTree = "<group>"; };
 		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
-		10E90C631891834300C77D1E /* UploadSessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadSessionDelegate.h; path = shotvibe/API/UploadSessionDelegate.h; sourceTree = SOURCE_ROOT; };
-		10E90C641891834300C77D1E /* UploadSessionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadSessionDelegate.m; path = shotvibe/API/UploadSessionDelegate.m; sourceTree = SOURCE_ROOT; };
 		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		10F1A2D91885411E0051E267 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -3149,17 +3137,11 @@
 				66278CF21867C94900D23F34 /* JSON.m */,
 				66278CF31867C94900D23F34 /* PhotoBitmap.h */,
 				66278CF41867C94900D23F34 /* PhotoBitmap.m */,
-				1054076B18917F600075C473 /* PhotoDictionary.h */,
-				1054076C18917F600075C473 /* PhotoDictionary.m */,
 				66278CF51867C94900D23F34 /* PhotoFilesManager.h */,
 				66278CF61867C94900D23F34 /* PhotoFilesManager.m */,
 				66278CF71867C94900D23F34 /* PhotoSize.h */,
 				66278CF81867C94900D23F34 /* PhotoSize.m */,
 				66278CF91867C94900D23F34 /* PhotosUploadListener.h */,
-				10685734188EF76900B2FC03 /* NewShotVibeAPI.h */,
-				10685735188EF76900B2FC03 /* NewShotVibeAPI.m */,
-				10685731188EF28700B2FC03 /* NewPhotoUploadManager.h */,
-				10685732188EF28700B2FC03 /* NewPhotoUploadManager.m */,
 				66278CFA1867C94900D23F34 /* PhotoUploadManager.h */,
 				66278CFB1867C94900D23F34 /* PhotoUploadManager.m */,
 				66278CFC1867C94900D23F34 /* PhotoUploadRequest.h */,
@@ -3169,8 +3151,6 @@
 				66278D001867C94900D23F34 /* SVPushNotificationsManager.h */,
 				66278D011867C94900D23F34 /* SVPushNotificationsManager.m */,
 				66278D021867C94900D23F34 /* UserSettings.h */,
-				10E90C631891834300C77D1E /* UploadSessionDelegate.h */,
-				10E90C641891834300C77D1E /* UploadSessionDelegate.m */,
 				66278D031867C94900D23F34 /* UserSettings.m */,
 			);
 			name = API;
@@ -4009,14 +3989,6 @@
 				108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */,
 				66278CE11867C62300D23F34 /* SVActivityViewController.m in Sources */,
 				3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */,
-				66278D0C1867C94900D23F34 /* ShotVibeAPI.m in Sources */,
-				3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */,
-				3BE0B11717C2C5530058CAAD /* AlbumBase.m in Sources */,
-				3BE0B11A17C2C71D0058CAAD /* AlbumSummary.m in Sources */,
-				66278CB31867C4D400D23F34 /* SVSelectionGridCell.m in Sources */,
-				66278CAF1867C4D400D23F34 /* SVCameraOverlay.m in Sources */,
-				66278C4C1867B23800D23F34 /* SVInitialization.m in Sources */,
-				10685733188EF28700B2FC03 /* NewPhotoUploadManager.m in Sources */,
 				6601322C187F4E670042047B /* IOSConcreteClass.m in Sources */,
 				66278D0C1867C94900D23F34 /* ShotVibeAPI.m in Sources */,
 				66013236187F4E670042047B /* IOSShortArray.m in Sources */,
@@ -4044,13 +4016,6 @@
 				2851FAA71838171200C094AB /* UIImage+Crop.m in Sources */,
 				108CDF7518846B9000757E36 /* UIImage+MPImageEffects.m in Sources */,
 				66278CC41867C57300D23F34 /* SVProfileViewController.m in Sources */,
-				108CDF7018846B9000757E36 /* MPSurveyNavigationController.m in Sources */,
-				66159228183273040054471E /* AlbumMember.m in Sources */,
-				3B87E68F17C99941006483C9 /* AlbumUploadingPhoto.m in Sources */,
-				66278CE81867C62300D23F34 /* SVProfilePicActivity.m in Sources */,
-				10E90C651891834300C77D1E /* UploadSessionDelegate.m in Sources */,
-				66278CE01867C62300D23F34 /* SVActivityButton.m in Sources */,
-				66D583401867D66B00EAC842 /* RCTableImageViewCell.m in Sources */,
 				66013235187F4E670042047B /* IOSReflection.m in Sources */,
 				108CDF7018846B9000757E36 /* MPSurveyNavigationController.m in Sources */,
 				3B87E68F17C99941006483C9 /* AlbumUploadingPhoto.m in Sources */,
@@ -4066,7 +4031,6 @@
 				66D5833D1867D66B00EAC842 /* RCLog.m in Sources */,
 				66278D071867C94900D23F34 /* PhotoBitmap.m in Sources */,
 				66278C901867C38300D23F34 /* SVAlbumListViewCell.m in Sources */,
-				10685736188EF76900B2FC03 /* NewShotVibeAPI.m in Sources */,
 				66278C601867C17800D23F34 /* SVSidebarAlbumManagementActivityCell.m in Sources */,
 				66278CB11867C4D400D23F34 /* SVCameraPickerController.m in Sources */,
 				66278C8C1867C38300D23F34 /* PhotoView.m in Sources */,
@@ -4078,7 +4042,6 @@
 				66278CC61867C57300D23F34 /* SVSettingsViewController.m in Sources */,
 				3B3AD15617CB4A9C004D24A9 /* SDWebImageCompat.m in Sources */,
 				66278C8B1867C38300D23F34 /* PhotoScrollView.m in Sources */,
-				1054076D18917F600075C473 /* PhotoDictionary.m in Sources */,
 				66278CE31867C62300D23F34 /* SVCopyActivity.m in Sources */,
 				3B3AD15717CB4A9C004D24A9 /* SDWebImageDecoder.m in Sources */,
 				6601325C187F4E670042047B /* NSString+JavaString.m in Sources */,
