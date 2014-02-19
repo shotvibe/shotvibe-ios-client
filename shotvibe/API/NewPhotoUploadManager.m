@@ -13,6 +13,7 @@
 #import "AlbumPhoto.h"
 #import "AlbumUploadingPhoto.h"
 #import "PhotoDictionary.h"
+#import "SL/APIException.h"
 
 
 @implementation NewPhotoUploadManager {
@@ -101,12 +102,12 @@ static const NSTimeInterval RETRY_TIME = 5;
         RCLog(@"PhotoUploadManager Requesting Photo IDs");
 
         NSArray *newPhotoIds = nil;
-        while (!newPhotoIds) {
-            NSError *error;
 
-            newPhotoIds = [shotVibeAPI_ photosUploadRequest:nrOfNewUploads + 1 withError:&error];
-            if (!newPhotoIds) {
-                RCLog(@"Error requesting photo IDS: %@", [error description]);
+        while (!newPhotoIds) {
+            @try {
+                newPhotoIds = [shotVibeAPI_ photosUploadRequest:nrOfNewUploads + 1];
+            } @catch (SLAPIException *exception) {
+                RCLog(@"Error requesting photo IDS: %@", exception.description);
                 [NSThread sleepForTimeInterval:RETRY_TIME];
             }
         }
@@ -251,7 +252,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         NSArray *adding = [addingPhotos_ getAllPhotos];
         NSArray *all = [[uploading arrayByAddingObjectsFromArray:uploaded] arrayByAddingObjectsFromArray:adding];
         for (AlbumUploadingPhoto *upload in all) {
-            AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumUploadingPhoto:upload];
+            SLAlbumPhoto *albumPhoto = [[SLAlbumPhoto alloc] initWithSLAlbumUploadingPhoto:upload];
             [result addObject:albumPhoto];
         }
     }

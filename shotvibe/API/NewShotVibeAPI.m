@@ -7,6 +7,8 @@
 //
 
 #import "NewShotVibeAPI.h"
+#import "SL/ArrayList.h"
+#import "SL/APIException.h"
 
 @implementation NewShotVibeAPI {
     NSString *baseURL_;
@@ -174,15 +176,19 @@ static const NSTimeInterval RETRY_TIME = 5;
         BOOL photosSuccesfullyAdded = NO;
         // TODO: this loop is not okay for background thread
 
-        while (!photosSuccesfullyAdded) { // continuously try an add-to-album request, until success
-            NSError *error;
-            if (![oldShotVibeAPI_ albumAddPhotos:albumId photoIds:photoIds withError:&error]) {
-                RCLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
-                [NSThread sleepForTimeInterval:RETRY_TIME];
-            } else {
+
+        while (!photosSuccesfullyAdded) {
+            @try {
+                [oldShotVibeAPI_ albumAddPhotos:albumId photoIds:[[SLArrayList alloc] initWithInitialArray:[NSMutableArray arrayWithArray:photoIds]]];
                 photosSuccesfullyAdded = YES;
             }
+            @catch (SLAPIException *exception) {
+                RCLog(@"Error adding photos to album: %lld %@", albumId, exception.description);
+                [NSThread sleepForTimeInterval:RETRY_TIME];
+            }
         }
+
+
         completionHandler();
     });
     // *INDENT-ON*
