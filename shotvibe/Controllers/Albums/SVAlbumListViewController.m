@@ -17,12 +17,14 @@
 #import "NSDate+Formatting.h"
 #import "MFSideMenu.h"
 #import "MBProgressHUD.h"
-#import "SVAddressBook.h"
-#import "SVRecord.h"
 #import "SVNavigationController.h"
 
-#import "AlbumSummary.h"
-#import "AlbumPhoto.h"
+#import "SL/AlbumSummary.h"
+#import "SL/AlbumPhoto.h"
+#import "SL/AlbumServerPhoto.h"
+#import "SL/ArrayList.h"
+#import "SL/DateTime.h"
+#import "SL/APIException.h"
 #import "ShotVibeAppDelegate.h"
 #import "UserSettings.h"
 
@@ -37,8 +39,6 @@
 	UIView *sectionView;
 	NSIndexPath *tappedCell;
 	SVCameraNavController *cameraNavController;
-	SVAddressBook *ab;
-	
 	int table_content_offset_y;
 	int total_header_h;
 	int status_bar_h;
@@ -132,19 +132,7 @@
 												 name:NOTIFICATIONCENTER_ALBUM_CHANGED
 											   object:nil];
 	
-	// Upload the contacts to the server
-	
 	RCLogTimestamp();
-	
-	ab = [SVAddressBook sharedBook];
-	[ab requestAccessWithCompletion:^(BOOL granted, NSError *error) {
-		if (granted) {
-			[self submitAddressBook];
-		}
-		else {
-			RCLog(@"You have no access to the addressbook");
-		}
-	}];
 	
 	if (IS_IOS7) {
 		[self setNeedsStatusBarAppearanceUpdate];
@@ -210,58 +198,6 @@
 }
 
 
-
-
-
-- (void)submitAddressBook {
-	
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		
-		NSMutableArray *contacts = [NSMutableArray arrayWithCapacity:ab.allContacts.count*9];
-		
-		for (SVRecord *record in ab.allContacts) {
-			
-			NSString *name = record.fullname;
-			NSString *phoneNumber = record.phone;
-			
-			NSDictionary *person = @{ @"phone_number": phoneNumber, @"contact_nickname": name };
-			[contacts addObject:person];
-		}
-		
-		__block NSError *error = nil;
-		ShotVibeAPI *api = [self.albumManager getShotVibeAPI];
-		NSDictionary *body = @{ @"phone_numbers": contacts, @"default_country": api.authData.defaultCountryCode };
-		
-		
-		NSDictionary *response = [api submitAddressBook:body error:&error];
-		RCLog(@"response uploaded %i, received %i", contacts.count, [response[@"phone_number_details"] count]);
-		
-		RCLogTimestamp();
-		
-		int i = 0;
-		for (NSDictionary *r in (NSArray*)response[@"phone_number_details"]) {
-			//RCLogO(r);
-			if ([r[@"phone_type"] isEqualToString:@"invalid"]) {
-				SVRecord *record = [ab.allContacts objectAtIndex:i];
-				record.invalid = YES;
-			}
-			else {
-				SVRecord *record = [ab.allContacts objectAtIndex:i];
-				record.iconRemotePath = r[@"avatar_url"];
-				
-				NSString *user_id = r[@"user_id"];
-				//RCLog(@"%lli", record.phoneId);
-				
-				if (user_id != nil && ![user_id isKindOfClass:[NSNull class]]) {
-					record.memberId = [user_id longLongValue];
-				}
-			}
-			i++;
-		}
-	});
-}
-
-
 #pragma mark - Actions
 
 - (void)profilePressed {
@@ -298,7 +234,7 @@
 	
 	NSMutableArray *albums = [[NSMutableArray alloc] initWithCapacity:capacity];
 	
-	for (AlbumSummary *album in albumList) {
+    for (SLAlbumSummary *album in albumList) {
 		[albums addObject:album];
 		i++;
 		if (i>=capacity) {
@@ -322,12 +258,12 @@
         
         // Get the selected Album
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+        SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 		
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
-        destinationController.albumId = album.albumId;
+        destinationController.albumId = [album getId];
     }
     else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
         SVSettingsViewController *destinationController = segue.destinationViewController;
@@ -342,11 +278,11 @@
         destinationController.albumManager = self.albumManager;
     } else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
 		
-		AlbumSummary *album = (AlbumSummary*)sender;
+		SLAlbumSummary *album = (SLAlbumSummary*)sender;
 		
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        destination.albumId = album.albumId;
+        destination.albumId = [album getId];
         destination.albumManager = self.albumManager;
 		destination.nav = self.navigationController;
     }
@@ -362,9 +298,9 @@
     int64_t albumId = [[userInfo objectForKey:@"albumId"] longLongValue];
 	
 	int i = 0;
-	for (AlbumSummary *album in albumList) {
-		RCLog(@"album.albumId == albumId %lli %lli", album.albumId, albumId);
-		if (album.albumId == albumId) {
+    for (SLAlbumSummary *album in albumList) {
+        RCLog(@"album.albumId == albumId %lli %lli", [album getId], albumId);
+        if ([album getId] == albumId) {
 			break;
 		}
 		i++;
@@ -375,15 +311,20 @@
 		return;
 	}
 	
-	AlbumSummary *album = [albumList objectAtIndex:i];
-	AlbumSummary *newAlbum = [[AlbumSummary alloc] initWithAlbumId:album.albumId
-															  etag:album.etag
-															  name:album.name
-													   dateCreated:album.dateCreated
-													   dateUpdated:[NSDate date]
-                                                      numNewPhotos:(int64_t)album.numNewPhotos
-                                                        lastAccess:album.lastAccess
-													  latestPhotos:album.latestPhotos];
+    SLAlbumSummary *album = [albumList objectAtIndex:i];
+
+    // TODO:
+    SLDateTime *dummyDateCreated = [SLDateTime ParseISO8601WithNSString:@"2000-01-01T00:00:00Z"];
+
+    SLAlbumSummary *newAlbum = [[SLAlbumSummary alloc] initWithLong:[album getId]
+                                                       withNSString:[album getEtag]
+                                                       withNSString:[album getName]
+                                                     withSLDateTime:[album getDateCreated]
+                                                     withSLDateTime:dummyDateCreated
+                                                           withLong:[album getNumNewPhotos]
+                                                     withSLDateTime:[album getLastAccess]
+                                                    withSLArrayList:[album getLatestPhotos]];
+
 	//album.dateUpdated = [NSDate date];
 	[albumList removeObjectAtIndex:i];
 	[albumList insertObject:newAlbum atIndex:0];
@@ -400,11 +341,11 @@
 - (void)cameraButtonTapped:(UITableViewCell *)cell
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+    SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 
     cameraNavController = [[SVCameraNavController alloc] init];
     cameraNavController.cameraDelegate = self;
-    cameraNavController.albumId = album.albumId;
+    cameraNavController.albumId = [album getId];
     cameraNavController.albumManager = self.albumManager;
     cameraNavController.nav = (SVNavigationController *)self.navigationController; // this is set last
 }
@@ -413,7 +354,7 @@
 - (void)libraryButtonTapped:(UITableViewCell *)cell
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+    SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 
     [self performSegueWithIdentifier:@"AlbumsToImagePickerSegue" sender:album];
 }
@@ -432,13 +373,11 @@
 	
 }
 
-- (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {
-	
-	RCLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> cameraWasDismissedWithAlbum %@", selectedAlbum.name);
-	
+
+- (void)cameraWasDismissedWithAlbum:(SLAlbumSummary *)selectedAlbum
+{
+    RCLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> cameraWasDismissedWithAlbum %@", [selectedAlbum getName]);
 }
-
-
 
 
 
@@ -465,30 +404,36 @@
 	cell.delegate = self;
 	cell.parentTableView = self.tableView;
 
-    AlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+    SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 
-    if (album.numNewPhotos > 0) {
-        [cell.numberNotViewedIndicator setTitle:album.numNewPhotos > 99 ? @"99+" : [NSString stringWithFormat:@"%lld", album.numNewPhotos] forState:UIControlStateNormal];
+    if ([album getNumNewPhotos] > 0) {
+        NSString *title = [album getNumNewPhotos] > 99 ? @"99+" : [NSString stringWithFormat:@"%lld", [album getNumNewPhotos]];
+        [cell.numberNotViewedIndicator setTitle:title forState:UIControlStateNormal];
         cell.numberNotViewedIndicator.hidden = NO;
     } else
         cell.numberNotViewedIndicator.hidden = YES;
 
 
-	NSString *distanceOfTimeInWords = [album.dateUpdated distanceOfTimeInWords];
+    long long seconds = [[album getDateUpdated] getTimeStamp] / 1000000LL;
+    NSDate *dateUpdated = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
+    NSString *distanceOfTimeInWords = [dateUpdated distanceOfTimeInWords];
 
     cell.tag = indexPath.row;
-	cell.title.text = album.name;
+    cell.title.text = [album getName];
     cell.author.text = @"";
     cell.timestamp.hidden = YES;
 
     [cell.networkImageView setImage:nil];
 	// TODO: ltestPhotos might be nil if we insert an AlbumContents instead AlbumSummary
-    if (album.latestPhotos.count > 0) {
-        AlbumPhoto *latestPhoto = [album.latestPhotos objectAtIndex:0];
-        if (latestPhoto.serverPhoto) {
-			cell.author.text = [NSString stringWithFormat:@"Last added by %@", latestPhoto.serverPhoto.author.nickname];
+    if ([album getLatestPhotos].array.count > 0) {
+        SLAlbumPhoto *latestPhoto = [[album getLatestPhotos].array objectAtIndex:0];
+        if ([latestPhoto getServerPhoto]) {
+            cell.author.text = [NSString stringWithFormat:@"Last added by %@", [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
 
-            [cell.networkImageView setPhoto:latestPhoto.serverPhoto.photoId photoUrl:latestPhoto.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
+            [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId]
+                                   photoUrl:[[latestPhoto getServerPhoto] getUrl]
+                                  photoSize:[PhotoSize Thumb75]
+                                    manager:self.albumManager.photoFilesManager];
             [cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
             cell.timestamp.hidden = NO;
         }
@@ -578,9 +523,9 @@
 - (void)searchForAlbumWithTitle:(NSString *)title
 {
 	albumList = [NSMutableArray arrayWithCapacity:[allAlbums count]];
-	
-    for (AlbumSummary *album in [allAlbums reverseObjectEnumerator]) {
-		if (title == nil || [title isEqualToString:@""] || [[album.name lowercaseString] rangeOfString:title].location != NSNotFound) {
+
+    for (SLAlbumSummary *album in allAlbums) {
+        if (title == nil || [title isEqualToString:@""] || [[[album getName] lowercaseString] rangeOfString:title].location != NSNotFound) {
 			[albumList addObject:album];
 		}
     }
@@ -676,27 +621,33 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		
 		creatingAlbum = YES;
-        NSError *error;
-        AlbumContents *albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title withError:&error];
+        SLAlbumContents *albumContents = nil;
+        SLAPIException *apiException = nil;
+        @try {
+            albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title];
+        } @catch (SLAPIException *exception) {
+            apiException = exception;
+        }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (error) {
+            if (apiException) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Creating Album"
-                                                                message:[error description]
+                                                                message:apiException.description
                                                                delegate:nil
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
                 [alert show];
             }
             else {
-				AlbumSummary *album = [[AlbumSummary alloc] initWithAlbumId:albumContents.albumId
-																	   etag:albumContents.etag
-																	   name:albumContents.name
-																dateCreated:albumContents.dateCreated
-																dateUpdated:albumContents.dateUpdated
-                                                               numNewPhotos:(int64_t)albumContents.numNewPhotos
-                                                                 lastAccess:albumContents.lastAccess
-															   latestPhotos:[NSArray array]];
+                SLAlbumSummary *album = [[SLAlbumSummary alloc] initWithLong:[albumContents getId]
+                                                                withNSString:[albumContents getEtag]
+                                                                withNSString:[albumContents getName]
+                                                              withSLDateTime:[albumContents getDateCreated]
+                                                              withSLDateTime:[albumContents getDateUpdated]
+                                                                    withLong:[albumContents getNumNewPhotos]
+                                                              withSLDateTime:[albumContents getLastAccess]
+                                                             withSLArrayList:[[SLArrayList alloc] init]];
+
 				[albumList insertObject:album atIndex:0];
 				
 				[self.tableView beginUpdates];
@@ -722,12 +673,12 @@
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         // Set all the album thumbnails to download at high priority
-        for (AlbumSummary *a in albums) {
-            if (a.latestPhotos.count > 0) {
-                AlbumPhoto *p = [a.latestPhotos objectAtIndex:0];
-                if (p.serverPhoto) {
-                    [self.albumManager.photoFilesManager queuePhotoDownload:p.serverPhoto.photoId
-                                                                   photoUrl:p.serverPhoto.url
+        for (SLAlbumSummary *a in albums) {
+            if ([a getLatestPhotos].array.count > 0) {
+                SLAlbumPhoto *p = [[a getLatestPhotos].array objectAtIndex:0];
+                if ([p getServerPhoto]) {
+                    [self.albumManager.photoFilesManager queuePhotoDownload:[[p getServerPhoto] getId]
+                                                                   photoUrl:[[p getServerPhoto] getUrl]
                                                                   photoSize:[PhotoSize Thumb75]
                                                                highPriority:YES];
                 }
@@ -789,7 +740,7 @@
 	}
 }
 
-- (void)onAlbumListRefreshError:(NSError *)error
+- (void)onAlbumListRefreshError:(SLAPIException *)exception
 {
     // TODO ...
 }

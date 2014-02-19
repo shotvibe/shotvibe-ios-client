@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class SLAPIException;
+
 @protocol AlbumListListener <NSObject>
 
 @required
@@ -20,6 +22,6 @@
  */
 - (void)onAlbumListRefreshComplete:(NSArray *)albums;
 
-- (void)onAlbumListRefreshError:(NSError *)error;
+- (void)onAlbumListRefreshError:(SLAPIException *)exception;
 
 @end

@@ -10,7 +10,7 @@
 #import "SVCameraPickerDelegate.h"
 #import "AlbumManager.h"
 
-@class AlbumSummary;
+@class SLAlbumSummary;
 
 @interface SVImagePickerListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
@@ -20,6 +20,6 @@
 
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, strong) AlbumManager *albumManager;
-@property (nonatomic, strong) AlbumSummary *selectedAlbum;
+@property (nonatomic, strong) SLAlbumSummary *selectedAlbum;
 
 @end

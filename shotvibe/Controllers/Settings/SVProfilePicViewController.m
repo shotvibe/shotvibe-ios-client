@@ -10,7 +10,7 @@
 #import "SVDefines.h"
 #import "MBProgressHUD.h"
 #import "UIImage+Scale.h"
-#import "AlbumSummary.h"
+#import "SL/AlbumSummary.h"
 
 @implementation SVProfilePicViewController
 
@@ -176,9 +176,9 @@
 }
 
 
-- (void)cameraWasDismissedWithAlbum:(AlbumSummary *)selectedAlbum
+- (void)cameraWasDismissedWithAlbum:(SLAlbumSummary *)selectedAlbum
 {
-    RCLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> cameraWasDismissedWithAlbum %@", selectedAlbum.name);
+    RCLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> cameraWasDismissedWithAlbum %@", [selectedAlbum getName]);
 }
 
 

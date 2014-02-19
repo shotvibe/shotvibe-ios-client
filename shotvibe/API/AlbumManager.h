@@ -13,6 +13,7 @@
 #import "AlbumContentsListener.h"
 #import "NewPhotoUploadManager.h"
 #import "PhotoFilesManager.h"
+#import "SL/PhoneContactsManager.h"
 
 @interface AlbumManager : NSObject <PhotosUploadListener>
 {
@@ -27,10 +28,13 @@
 
 @property (nonatomic, readonly, strong) NewPhotoUploadManager *photoUploadManager;
 @property (nonatomic, readonly, strong) PhotoFilesManager *photoFilesManager;
+@property (nonatomic, readonly, strong) SLPhoneContactsManager *phoneContactsManager;
 
 - (id)initWithShotvibeAPI:(ShotVibeAPI *)api shotvibeDB:(ShotVibeDB *)db;
 
 - (ShotVibeAPI *)getShotVibeAPI;
+
+- (void)authDataUpdated;
 
 // Returns an array of `AlbumSummary` objects, which is the current cached AlbumList
 - (NSArray *)addAlbumListListener:(id<AlbumListListener>)listener;
@@ -39,7 +43,7 @@
 
 - (void)refreshAlbumList;
 
-- (AlbumContents *)addAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener;
+- (SLAlbumContents *)addAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener;
 
 - (void)removeAlbumContentsListener:(int64_t)albumId listener:(id<AlbumContentsListener>)listener;
 
@@ -47,7 +51,7 @@
 
 - (void)reportAlbumUpdate:(int64_t)albumId;
 
-- (void)markAlbumAsViewed:(AlbumContents *)album;
+- (void)markAlbumAsViewed:(SLAlbumContents *)album;
 
 - (void)refreshAlbumListFromDb;
 

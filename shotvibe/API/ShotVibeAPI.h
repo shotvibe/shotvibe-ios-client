@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 
 #import "AuthData.h"
-#import "AlbumContents.h"
-#import "AlbumUser.h"
+#import "SL/AlbumContents.h"
+#import "SL/AlbumUser.h"
 #import "RegistrationInfo.h"
+
+@protocol JavaUtilList;
 
 typedef NS_ENUM(NSInteger, AuthorizePhoneNumberResult) {
     AuthorizePhoneNumberError,
@@ -51,33 +53,41 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
  */
 - (BOOL)authenticateWithURL:(NSURL *)url;
 
-- (AlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error;
+- (SLAlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error;
 
 - (BOOL)setUserNickname:(int64_t)userId nickname:(NSString *)nickname withError:(NSError **)error;
 
 - (BOOL)uploadUserAvatar:(int64_t)userId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error;
 
 // Returns an array of `AlbumSummary` objects
-- (NSArray *)getAlbumsWithError:(NSError **)error;
+- (NSArray *)getAlbums;
 
-- (BOOL)markAlbumAsViewed:(int64_t)albumId lastAccess:(NSDate *)lastAccess withError:(NSError **)error;
+- (void)markAlbumAsViewed:(int64_t)albumId lastAccess:(SLDateTime *)lastAccess;
 
-- (AlbumContents *)getAlbumContents:(int64_t)albumId withError:(NSError **)error;
+- (SLAlbumContents *)getAlbumContents:(int64_t)albumId;
 
-- (AlbumContents *)createNewBlankAlbum:(NSString *)albumName withError:(NSError **)error;
+- (SLAlbumContents *)createNewBlankAlbum:(NSString *)albumName;
 
 // Returns an array of `NSString` objects
-- (NSArray *)photosUploadRequest:(int)numPhotos withError:(NSError **)error;
+- (NSArray *)photosUploadRequest:(int)numPhotos;
 
 - (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error;
 
 /**
  @param photoIds Array of `NSString` objects
  */
-- (AlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(NSArray *)photoIds withError:(NSError **)error;
-- (AlbumContents *)albumAddMembers:(int64_t)albumId phoneNumbers:(NSArray *)phoneNumbers withError:(NSError **)error;
-- (BOOL)deletePhotos:(NSArray *)photos withError:(NSError **)error;
+- (SLAlbumContents *)albumAddPhotos:(int64_t)albumId photoIds:(SLArrayList *)photoIds;
 
-- (BOOL)leaveAlbumWithId:(int64_t)albumId;
+/**
+ @param memberAddRequests List of SLShotVibeAPI_MemberAddRequest objects
+ */
+- (SLArrayList *)albumAddMembers:(int64_t)albumId withMemberAddRequests:(id<JavaUtilList>)memberAddRequests withDefaultCountry:(NSString *)defaultCountry;
+
+/**
+ @param photos List of `NSString` objects (photoIds)
+ */
+- (void)deletePhotos:(SLArrayList *)photos;
+
+- (void)leaveAlbumWithId:(int64_t)albumId;
 
 @end

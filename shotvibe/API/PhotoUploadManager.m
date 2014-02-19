@@ -9,8 +9,10 @@
 #import "PhotoUploadManager.h"
 #import "ShotVibeAPI.h"
 #import "AlbumUploadingPhoto.h"
-#import "AlbumPhoto.h"
+#import "SL/AlbumPhoto.h"
 #import "PhotosUploadListener.h"
+#import "SL/ArrayList.h"
+#import "SL/APIException.h"
 
 @implementation PhotoUploadManager
 {
@@ -114,7 +116,7 @@
         }
 
         for (AlbumUploadingPhoto *upload in uploads) {
-            AlbumPhoto *albumPhoto = [[AlbumPhoto alloc] initWithAlbumUploadingPhoto:upload];
+            SLAlbumPhoto *albumPhoto = [[SLAlbumPhoto alloc] initWithSLAlbumUploadingPhoto:upload];
             [result addObject:albumPhoto];
         }
     }
@@ -194,10 +196,10 @@ const NSTimeInterval RETRY_TIME = 5;
 
             NSArray *newPhotoIds = nil;
             while (!newPhotoIds) {
-                NSError *error;
-                newPhotoIds = [shotvibeAPI_ photosUploadRequest:currentUploadQueueSize + 1 withError:&error];
-                if (!newPhotoIds) {
-                    RCLog(@"Error requesting photo IDS: %@", [error description]);
+                @try {
+                    newPhotoIds = [shotvibeAPI_ photosUploadRequest:currentUploadQueueSize + 1];
+                } @catch (SLAPIException *exception) {
+                    RCLog(@"Error requesting photo IDS: %@", exception.description);
                     [NSThread sleepForTimeInterval:RETRY_TIME];
                 }
             }
@@ -250,10 +252,12 @@ const NSTimeInterval RETRY_TIME = 5;
     BOOL photosSuccesfullyAdded = NO;
 
     while (!photosSuccesfullyAdded) {
-        NSError *error;
-        photosSuccesfullyAdded = [shotvibeAPI_ albumAddPhotos:albumId photoIds:addPhotoIds withError:&error] != nil;
-        if (!photosSuccesfullyAdded) {
-            RCLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
+        @try {
+            [shotvibeAPI_ albumAddPhotos:albumId photoIds:[[SLArrayList alloc] initWithInitialArray:addPhotoIds]];
+            photosSuccesfullyAdded = YES;
+        }
+        @catch (SLAPIException *exception) {
+            RCLog(@"Error adding photos to album: %lld %@", albumId, exception.description);
             [NSThread sleepForTimeInterval:RETRY_TIME];
         }
     }

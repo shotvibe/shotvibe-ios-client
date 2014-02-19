@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SL/AlbumUploadingPhoto.h"
+
 #import "PhotoUploadRequest.h"
 
-@interface AlbumUploadingPhoto : NSObject
+@interface AlbumUploadingPhoto : SLAlbumUploadingPhoto
 
 @property (atomic, copy) NSString *photoId;
 

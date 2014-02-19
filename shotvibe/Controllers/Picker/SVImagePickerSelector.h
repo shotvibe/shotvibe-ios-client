@@ -15,7 +15,7 @@
 #import "SVSelectionGridCell.h"//+SVSelectionGridCellDelegate
 #import "CameraRollSection.h"
 #import "AlbumManager.h"
-#import "AlbumSummary.h"
+#import "SL/AlbumSummary.h"
 #import "PhotosQuickView.h"
 
 @interface SVImagePickerSelector : UIViewController <CameraRollSectionDelegate, SVSelectionGridCellDelegate, PhotosQuickViewDelegate> {
@@ -35,7 +35,7 @@
 
 @property (nonatomic, strong) NSArray *takenPhotos;// Set only one of this options
 @property (nonatomic, strong) NSArray *libraryPhotos;
-@property (nonatomic, strong) AlbumSummary *selectedAlbum;
+@property (nonatomic, strong) SLAlbumSummary *selectedAlbum;
 @property (nonatomic, strong) ALAssetsGroup *selectedGroup;
 
 @property (nonatomic, strong) IBOutlet UIView *gridviewContainer;

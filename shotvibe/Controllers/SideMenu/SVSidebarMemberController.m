@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <AddressBook/AddressBook.h>
+
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "SVSidebarAlbumMemberCell.h"
@@ -13,13 +15,14 @@
 #import "SVAddFriendsViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
-#import "AlbumMember.h"
-#import "SVAddressBook.h"
+#import "SL/AlbumMember.h"
+#import "SL/ArrayList.h"
+#import "MBProgressHUD.h"
 
 @interface SVSidebarMemberController () {
 	ShotVibeAPI *shotvibeAPI;
 	NSMutableArray *members;
-	AlbumMember *owner;
+	SLAlbumMember *owner;
 	SVSidebarAlbumMemberCell *ownerCell;
 }
 
@@ -116,16 +119,56 @@
 
 #pragma mark - Actions
 
+
+- (void)navigateToAddFriends:(id)sender
+{
+    // prepareForSegue is called in parentController SVAlbumGridViewController
+    [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
+}
+
+
 - (IBAction)addFriendsButtonPressed:(id)sender
 {
-    // Address book contacts was already initialized in SVAlbumListViewController and the contacts were cached
-	if ([SVAddressBook sharedBook].granted) {
-        // prepareForSegue is called in parentController SVAlbumGridViewController
-        [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
-	} else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"In order to invite people we need access to your contacts list.\nTo enable it go to Settings/Privacy/Contacts" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-	}
+    NSLog(@"contacts auth status: %ld", ABAddressBookGetAuthorizationStatus());
+
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
+        [self navigateToAddFriends:sender];
+    } else {
+        CFErrorRef error;
+        ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+        NSLog(@"addressBook: %@", addressBook);
+
+        // This is needed to block the UI until the completion block is called (prevents a possible race condition)
+        MBProgressHUD *invisibleBlockingHUD = [MBProgressHUD showHUDAddedTo:self.view.window animated:NO];
+        invisibleBlockingHUD.mode = MBProgressHUDModeText; // This gets rid of the default activity indicator
+        invisibleBlockingHUD.opacity = 0.0f;
+
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+            NSLog(@"complete addressBook: %@", addressBook);
+            NSLog(@"complete granted: %d", granted);
+            NSLog(@"complete error: %@", error);
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Unblock the UI:
+                [invisibleBlockingHUD hide:NO];
+
+                if (granted) {
+                    [self navigateToAddFriends:sender];
+                } else {
+                    NSString *errorMessage =
+                        @"In order to invite people we need access to your contacts list.\n\n"
+                        @"To enable it go to Settings/Privacy/Contacts";
+
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                    message:errorMessage
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+            });
+        });
+    }
 }
 
 - (IBAction)ownerButtonPressed:(id)sender {
@@ -146,7 +189,8 @@
 
 #pragma mark - Properties
 
-- (void)setAlbumContents:(AlbumContents *)albumContents {
+- (void)setAlbumContents:(SLAlbumContents *)albumContents
+{
 	RCLog(@"setAlbumContents ");
     _albumContents = albumContents;
 	
@@ -161,8 +205,8 @@
 		self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
 		
 		ownerCell.hidden = NO;
-		[ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:owner.user.avatarUrl]];
-		[ownerCell.memberLabel setText:owner.user.nickname];
+		[ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
+		[ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
 		ownerCell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
 		ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
 		ownerCell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
@@ -203,12 +247,12 @@
 	
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 
-    AlbumMember *member = [members objectAtIndex:indexPath.row];
+    SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
-    [cell.profileImageView setImageWithURL:[NSURL URLWithString:member.user.avatarUrl]];
-	[cell.memberLabel setText:member.user.nickname];
+    [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
+	[cell.memberLabel setText:[[member getUser] getMemberNickname]];
 
-	if (shotvibeAPI.authData.userId == member.user.memberId) {
+	if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
 		
 		cell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
@@ -219,22 +263,22 @@
 	else {
 		cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
 		cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
-        switch (member.inviteStatus) {
-            case AlbumMemberInviteStatusUnknown:
-                cell.statusImageView.image = nil;
-                cell.statusLabel.text = @"";
-                break;
+        if (![member getInviteStatus]) {
+            cell.statusImageView.image = nil;
+            cell.statusLabel.text = @"";
+        } else {
+            switch ([member getInviteStatus].ordinal) {
+                case SLAlbumMember_InviteStatus_JOINED:
+                    cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
+                    cell.statusLabel.text = @"joined";
+                    break;
 
-            case AlbumMemberJoined:
-                cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
-                cell.statusLabel.text = @"joined";
-                break;
-
-            case AlbumMemberSmsSent:
-            case AlbumMemberInvitationViewed:
-                cell.statusImageView.image = [UIImage imageNamed:@"MemberInvited"];
-                cell.statusLabel.text = @"invited";
-                break;
+                case SLAlbumMember_InviteStatus_SMS_SENT:
+                case SLAlbumMember_InviteStatus_INVITATION_VIEWED:
+                    cell.statusImageView.image = [UIImage imageNamed:@"MemberInvited"];
+                    cell.statusLabel.text = @"invited";
+                    break;
+            }
         }
 		//cell.userInteractionEnabled = NO;
 	}
@@ -252,9 +296,9 @@
 	if ([self.searchBar isFirstResponder])
 		[self.searchBar resignFirstResponder];
 	
-	AlbumMember *member = [members objectAtIndex:indexPath.row];
+	SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
-	if (shotvibeAPI.authData.userId == member.user.memberId) {
+	if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
 		
 		[self ownerButtonPressed:nil];
 	}
@@ -268,12 +312,23 @@
 	if (buttonIndex == 1) {
 		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-			BOOL success = [shotvibeAPI leaveAlbumWithId:self.albumContents.albumId];
-			
-			if (success) dispatch_async(dispatch_get_main_queue(), ^{
-				[self.parentController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-				[self.parentController.navigationController popViewControllerAnimated:YES];
-			});
+            // TODO
+            // - Show spinner while loading
+            // - If failed, then show dialog with "retry" button
+
+            SLAPIException *apiException;
+            @try {
+                [shotvibeAPI leaveAlbumWithId:[self.albumContents getId]];
+            } @catch (SLAPIException *exception) {
+                apiException = exception;
+            }
+
+            if (!apiException) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.parentController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+                    [self.parentController.navigationController popViewControllerAnimated:YES];
+                });
+            }
 		});
 	}
 }
@@ -325,14 +380,14 @@
 
 - (void)searchForMemberWithName:(NSString *)title {
 	RCLog(@"search for members with name %@", title);
-	members = [NSMutableArray arrayWithCapacity:[_albumContents.members count]];
+    members = [NSMutableArray arrayWithCapacity:[_albumContents getMembers].array.count];
 	
-	if (_albumContents.members.count == 1) {
-		owner = _albumContents.members[0];
+    if ([_albumContents getMembers].array.count == 1) {
+        owner = [_albumContents getMembers].array[0];
 	}
 	else {
-		for (AlbumMember *member in _albumContents.members) {
-			if (title == nil || [title isEqualToString:@""] || [[member.user.nickname lowercaseString] rangeOfString:title].location != NSNotFound) {
+        for (SLAlbumMember *member in [_albumContents getMembers].array) {
+			if (title == nil || [title isEqualToString:@""] || [[[[member getUser] getMemberNickname] lowercaseString] rangeOfString:title].location != NSNotFound) {
 				[members addObject:member];
 			}
 		}

@@ -20,15 +20,19 @@
 #import "SVAddFriendsViewController.h"
 #import "SVCameraNavController.h"
 #import "SVNavigationController.h"
-#import "AlbumPhoto.h"
+#import "SL/AlbumPhoto.h"
 #import "UIImageView+WebCache.h"
 #import "SVAlbumGridSection.h"
 #import "NSDate+Formatting.h"
-#import "AlbumMember.h"
+#import "SL/AlbumServerPhoto.h"
+#import "SL/AlbumMember.h"
+#import "SL/ArrayList.h"
+#import "AlbumUploadingPhoto.h"
+#import "SL/DateTime.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
-    AlbumContents *albumContents;
+    SLAlbumContents *albumContents;
     BOOL isMenuShowing;
 	BOOL refreshManualy;
 	BOOL navigatingNext;
@@ -115,7 +119,7 @@
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = self;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
 	
-	AlbumContents *contents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
+    SLAlbumContents *contents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
 	[self setAlbumContents:contents];
 }
 
@@ -288,7 +292,7 @@
 
 - (void) updateEmptyState
 {
-	if (albumContents.photos.count == 0) {
+    if ([albumContents getPhotos].array.count == 0) {
 		[self.collectionView addSubview:self.noPhotosView];
 		self.switchView.hidden = YES;
 	}
@@ -308,7 +312,9 @@
 	self.scrollToTop = NO;
 }
 
-- (void) cameraWasDismissedWithAlbum:(AlbumSummary*)selectedAlbum {
+
+- (void)cameraWasDismissedWithAlbum:(SLAlbumSummary *)selectedAlbum
+{
 	
 	RCLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
 	
@@ -339,20 +345,27 @@
 
     [cell.networkImageView setImage:nil];
 
-    AlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
+    SLAlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
 
-    if (photo.serverPhoto) {
-        [cell.networkImageView setPhoto:photo.serverPhoto.photoId photoUrl:photo.serverPhoto.url photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
+    if ([photo getServerPhoto]) {
+        [cell.networkImageView setPhoto:[[photo getServerPhoto] getId]
+                               photoUrl:[[photo getServerPhoto] getUrl]
+                              photoSize:[PhotoSize Thumb75]
+                                manager:self.albumManager.photoFilesManager];
         cell.uploadProgressView.hidden = YES;
 
         //RCLog(@"cellForItemAtPath url:%@ added:%@ access:%@", photo.serverPhoto.url, photo.serverPhoto.dateAdded, photo.serverPhoto.lastAccess);
 
-        cell.labelNewView.hidden = ![photo.serverPhoto isNewForMember:self.albumManager.getShotVibeAPI.authData.userId];
-    } else if (photo.uploadingPhoto) {
-        [cell.networkImageView setImage:[photo.uploadingPhoto getThumbnail]];
+        cell.labelNewView.hidden = ![[photo getServerPhoto] isNewWithSLDateTime:[albumContents getLastAccess]
+                                                                       withLong:self.albumManager.getShotVibeAPI.authData.userId];
+
+    } else if ([photo getUploadingPhoto]) {
+        AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
+
+        [cell.networkImageView setImage:[uploadingPhoto getThumbnail]];
 
         cell.uploadProgressView.hidden = [photo.uploadingPhoto isUploadComplete];
-        [cell.uploadProgressView setProgress:[photo.uploadingPhoto getUploadProgress] animated:NO];
+        [cell.uploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
 
         cell.labelNewView.hidden = YES;
     }
@@ -401,13 +414,13 @@
 		if (sort == SortByUser || sort == SortFeedAlike) {
 			
 			NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
-			AlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
+            SLAlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
 			
 			//Search through the members
-			for (AlbumMember *member in albumContents.members) {
-				if (photo.serverPhoto.author.memberId == member.user.memberId) {
-					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:member.user.avatarUrl]];
-					header.nameLabel.text = member.user.nickname;
+            for (SLAlbumMember *member in [albumContents getMembers].array) {
+                if ([[[photo getServerPhoto] getAuthor] getMemberId] == [[member getUser] getMemberId]) {
+					[header.imageView setImageWithURL:[[NSURL alloc] initWithString:[[member getUser] getMemberAvatarUrl]]];
+					header.nameLabel.text = [[member getUser] getMemberNickname];
 					break;
 				}
 			}
@@ -434,7 +447,7 @@
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 	
-	NSMutableArray *photos = [NSMutableArray arrayWithCapacity:albumContents.photos.count];
+    NSMutableArray *photos = [NSMutableArray arrayWithCapacity:[albumContents getPhotos].array.count];
 	int i = 0;
 	int section = 0;
 	BOOL found = NO;
@@ -445,7 +458,7 @@
 		NSArray *arr = [sections objectForKey:key];
 		
 		// Iterate over photos in section
-		for (AlbumPhoto *photo in arr) {
+        for (SLAlbumPhoto *photo in arr) {
 			if (section == indexPath.section && item == indexPath.item) {
 				found = YES;
 			}
@@ -463,7 +476,7 @@
 	detailController.photos = photos;
     detailController.albumManager = self.albumManager;
 	detailController.index = i;
-	detailController.title = albumContents.name;
+    detailController.title = [albumContents getName];
 	
     navigatingNext = YES;
     [self.navigationController pushViewController:detailController animated:YES];
@@ -488,31 +501,31 @@
 	}];
 }
 
-- (void)setAlbumContents:(AlbumContents *)album
+- (void)setAlbumContents:(SLAlbumContents *)album
 {
     albumContents = album;
 	
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
 	
-    self.title = albumContents.name;
+    self.title = [albumContents getName];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         // First set all the fullscreen photos to download at high priority
-        for (AlbumPhoto *p in albumContents.photos) {
-            if (p.serverPhoto) {
-                [self.albumManager.photoFilesManager queuePhotoDownload:p.serverPhoto.photoId
-                                                               photoUrl:p.serverPhoto.url
+        for (SLAlbumPhoto *p in [albumContents getPhotos]) {
+            if ([p getServerPhoto]) {
+                [self.albumManager.photoFilesManager queuePhotoDownload:[[p getServerPhoto] getId]
+                                                               photoUrl:[[p getServerPhoto] getUrl]
                                                               photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
                                                            highPriority:YES];
             }
         }
 
         // Now set all the thumbnails to download at high priority, these will now be pushed to download before all of the previously queued fullscreen photos
-        for (AlbumPhoto *p in albumContents.photos) {
-            if (p.serverPhoto) {
-                [self.albumManager.photoFilesManager queuePhotoDownload:p.serverPhoto.photoId
-                                                               photoUrl:p.serverPhoto.url
+        for (SLAlbumPhoto *p in [albumContents getPhotos].array) {
+            if ([p getServerPhoto]) {
+                [self.albumManager.photoFilesManager queuePhotoDownload:[[p getServerPhoto] getId]
+                                                               photoUrl:[[p getServerPhoto] getUrl]
                                                               photoSize:[PhotoSize Thumb75]
                                                            highPriority:YES];
             }
@@ -537,45 +550,44 @@
 	NSDate *previousDate = nil;
 	NSString *previousUser = nil;
 	
-	for (AlbumPhoto *photo in albumContents.photos) {
+    for (SLAlbumPhoto *photo in [albumContents getPhotos].array) {
 		
 		NSString *key = @"Uploading now";
 		
-		if (photo.serverPhoto) switch (sortType) {
-			
-			case SortFeedAlike:
-			{
-				if (previousDate == nil) {
-					previousDate = photo.serverPhoto.dateAdded;
-				}
-				if (previousUser == nil) {
-					previousUser = photo.serverPhoto.author.nickname;
-				}
-				
-				if ([photo.serverPhoto.dateAdded timeIntervalSinceDate:previousDate] < 60 &&
-					 [photo.serverPhoto.author.nickname isEqualToString:previousUser])
-				{
-					key = [NSString stringWithFormat:@"%@--^--%@", [previousDate distanceOfTimeInWords:[NSDate date] shortStyle:YES], previousUser];
-				}
-				else {
-					key = [NSString stringWithFormat:@"%@--^--%@", [photo.serverPhoto.dateAdded distanceOfTimeInWords:[NSDate date] shortStyle:YES], photo.serverPhoto.author.nickname];
-				}
-				
-				previousDate = photo.serverPhoto.dateAdded;
-				previousUser = photo.serverPhoto.author.nickname;
-			}break;
-			
-			case SortByUser:
-			{
-				key = photo.serverPhoto.author.nickname;
-			}break;
-			
-			case SortByDate:
-			{
-				key = [NSDateFormatter localizedStringFromDate:photo.serverPhoto.dateAdded
-													 dateStyle:NSDateFormatterLongStyle
-													 timeStyle:NSDateFormatterNoStyle];
-			}break;
+        if ([photo getServerPhoto]) {
+            long long seconds = [[[photo getServerPhoto] getDateAdded] getTimeStamp] / 1000000LL;
+            NSDate *photoDateAdded = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
+
+            switch (sortType) {
+                case SortFeedAlike:
+                    if (previousDate == nil) {
+                        previousDate = photoDateAdded;
+                    }
+                    if (previousUser == nil) {
+                        previousUser = [[[photo getServerPhoto] getAuthor] getMemberNickname];
+                    }
+
+                    if ([photoDateAdded timeIntervalSinceDate:previousDate] < 60 &&
+                        [[[[photo getServerPhoto] getAuthor] getMemberNickname] isEqualToString:previousUser]) {
+                        key = [NSString stringWithFormat:@"%@--^--%@", [previousDate distanceOfTimeInWords:[NSDate date] shortStyle:YES], previousUser];
+                    } else {
+                        key = [NSString stringWithFormat:@"%@--^--%@", [photoDateAdded distanceOfTimeInWords:[NSDate date] shortStyle:YES], [[[photo getServerPhoto] getAuthor] getMemberNickname]];
+                    }
+
+                    previousDate = photoDateAdded;
+                    previousUser = [[[photo getServerPhoto] getAuthor] getMemberNickname];
+                    break;
+
+                case SortByUser:
+                    key = [[[photo getServerPhoto] getAuthor] getMemberNickname];
+                    break;
+
+                case SortByDate:
+                    key = [NSDateFormatter localizedStringFromDate:photoDateAdded
+                                                         dateStyle:NSDateFormatterLongStyle
+                                                         timeStyle:NSDateFormatterNoStyle];
+                    break;
+            }
 		}
 		
 		NSMutableArray *arr = [sections objectForKey:key];
@@ -615,7 +627,7 @@
 	
 }
 
-- (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(AlbumContents *)album
+- (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(SLAlbumContents *)album
 {
 	if (refreshManualy) {
 		[self endRefreshing];
@@ -623,7 +635,8 @@
     [self setAlbumContents:album];
 }
 
-- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(NSError *)error {
+- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(SLAPIException *)error
+{
     [refresh endRefreshing];
 	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 }
@@ -635,11 +648,12 @@
 	for (SVAlbumGridViewCell *cell in self.collectionView.visibleCells) {
 		NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
 		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
-		AlbumPhoto *photo = [arr objectAtIndex:indexPath.item];
-		
-		if (photo.uploadingPhoto) {
-			cell.uploadProgressView.hidden = [photo.uploadingPhoto isUploadComplete];
-			cell.uploadProgressView.progress = [photo.uploadingPhoto getUploadProgress];
+        SLAlbumPhoto *photo = [arr objectAtIndex:indexPath.item];
+
+        if ([photo getUploadingPhoto]) {
+            AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
+            cell.uploadProgressView.hidden = [uploadingPhoto isUploadComplete];
+            cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
 		}
 	}
 }
