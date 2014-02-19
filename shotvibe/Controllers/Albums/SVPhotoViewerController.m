@@ -776,6 +776,7 @@
 	
 	[editor dismissViewControllerAnimated:YES completion:^{
 		[editor setDelegate:nil];
+        [self setControlsHidden:NO animated:NO permanent:YES];
         [self.navigationController popViewControllerAnimated:YES];
 	}];
 }
