@@ -20,10 +20,10 @@
 #import "MBProgressHUD.h"
 
 @interface SVSidebarMemberController () {
-	ShotVibeAPI *shotvibeAPI;
-	NSMutableArray *members;
+    ShotVibeAPI *shotvibeAPI;
+    NSMutableArray *members;
     SLAlbumMember *owner;
-	SVSidebarAlbumMemberCell *ownerCell;
+    SVSidebarAlbumMemberCell *ownerCell;
 }
 
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
@@ -195,7 +195,6 @@
     _albumContents = albumContents;
 
     [self searchForMemberWithName:nil];
-<<<<<<< HEAD
 
     if (members.count == 0) {
         // No members
@@ -222,35 +221,6 @@
 
         ownerCell.hidden = YES;
     }
-=======
-	
-	if (members.count == 0) {
-		// No members
-		self.noMembersView.hidden = NO;
-		self.tableView.hidden = YES;
-		self.searchBar.userInteractionEnabled = NO;
-		self.butOwner.enabled = YES;
-		self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
-		
-		ownerCell.hidden = NO;
-        [ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
-        [ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
-		ownerCell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
-		ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
-		ownerCell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
-		ownerCell.statusLabel.text = @"Leave Album";
-	}
-	else {
-		// There are some members
-		self.noMembersView.hidden = YES;
-		self.tableView.hidden = NO;
-		self.searchBar.userInteractionEnabled = YES;
-		self.butOwner.enabled = NO;
-		self.butAddFriends.frame = CGRectMake(16, 54, 240, 40);
-		
-		ownerCell.hidden = YES;
-	}
->>>>>>> 6f14fdc... Fix uncrustify warnings
 }
 
 - (void)setParentController:(SVAlbumGridViewController *)parentController {
@@ -277,7 +247,6 @@
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 
     SLAlbumMember *member = [members objectAtIndex:indexPath.row];
-<<<<<<< HEAD
 
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
     [cell.memberLabel setText:[[member getUser] getMemberNickname]];
@@ -291,23 +260,6 @@
     } else {
         cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
         cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
-=======
-	
-    [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
-    [cell.memberLabel setText:[[member getUser] getMemberNickname]];
-
-    if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
-		
-		cell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
-		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
-		cell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
-		cell.statusLabel.text = @"Leave Album";
-		//cell.userInteractionEnabled = YES;
-	}
-	else {
-		cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
-		cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
->>>>>>> 6f14fdc... Fix uncrustify warnings
         if (![member getInviteStatus]) {
             cell.statusImageView.image = nil;
             cell.statusLabel.text = @"";
@@ -337,20 +289,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-<<<<<<< HEAD
-=======
-	
-	if ([self.searchBar isFirstResponder])
-		[self.searchBar resignFirstResponder];
-	
-    SLAlbumMember *member = [members objectAtIndex:indexPath.row];
-	
-    if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
-		
-		[self ownerButtonPressed:nil];
-	}
-}
->>>>>>> 6f14fdc... Fix uncrustify warnings
 
     if ([self.searchBar isFirstResponder]) {
         [self.searchBar resignFirstResponder];
@@ -446,19 +384,11 @@
     } else {
         for (SLAlbumMember *member in [_albumContents getMembers].array) {
             if (title == nil || [title isEqualToString:@""] || [[[[member getUser] getMemberNickname] lowercaseString] rangeOfString:title].location != NSNotFound) {
-<<<<<<< HEAD
                 [members addObject:member];
             }
         }
     }
 
-=======
-				[members addObject:member];
-			}
-		}
-	}
-    
->>>>>>> 6f14fdc... Fix uncrustify warnings
     [self.tableView reloadData];
 }
 
