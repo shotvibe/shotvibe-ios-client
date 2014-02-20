@@ -166,12 +166,6 @@
             iv.frame = iv.superview.bounds;
 
             UIButton *deletePhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            //button1.frame = CGRectMake(iv.frame.origin.x - 15, 5, 30, 30);
-//            if (constrainedSize.width < iv.bounds.size.width) {
-//                deletePhotoButton.frame = CGRectMake(iv.superview.frame.origin.x + (iv.bounds.size.width - constrainedSize.width) / 2, 0, 30, 30);
-//            } else {
-//                deletePhotoButton.frame = CGRectMake(iv.superview.frame.origin.x, (iv.bounds.size.height - constrainedSize.height) / 2, 30, 30);
-//            }
             deletePhotoButton.frame = CGRectMake(iv.superview.frame.origin.x - 20, iv.superview.frame.origin.y - 20, 40, 40);
             deletePhotoButton.tag = i;
             [deletePhotoButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
@@ -253,8 +247,6 @@
 
 - (IBAction)share:(id)sender
 {
-    NSLog(@"share");
-
     if (self.albumId != 0) {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVShowAlbum" object:nil userInfo:@{ @"albumId" : @(self.albumId) }
@@ -290,7 +282,6 @@
 
 - (void)editPicture:(id)sender
 {
-    NSLog(@"%d", [sender tag]);
     NSData *imageFileData = [[NSData alloc] initWithContentsOfFile:self.images[[sender tag]]];
     UIImage *imageToEdit = [[UIImage alloc] initWithData:imageFileData];
     RCLogO(imageToEdit);
@@ -325,10 +316,7 @@
 
             [UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
 
-            NSLog(@"%d", self.currentPage);
-            NSLog(@"%@", self.images);
             [self.images replaceObjectAtIndex:self.currentPage - 1 withObject:imagePath];
-            NSLog(@"%@", self.images);
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
