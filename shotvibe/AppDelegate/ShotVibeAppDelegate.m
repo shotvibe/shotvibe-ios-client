@@ -245,8 +245,8 @@ static NSString *const appCountryLookupVersion = @"2";
 
 NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString *, NSString *))
 {
-    NSString* shotvibeCountryLookupURL = [[SLShotVibeAPI BASE_URL] stringByAppendingString: @"/auth/country_lookup/?"];
-	RCLog(@"shotvibeCountryLookupURL %@",shotvibeCountryLookupURL);
+    NSString *shotvibeCountryLookupURL = [[SLShotVibeAPI BASE_URL] stringByAppendingString:@"/auth/country_lookup/?"];
+    RCLog(@"shotvibeCountryLookupURL %@", shotvibeCountryLookupURL);
     shotvibeCountryLookupURL = appendQueryParameter(shotvibeCountryLookupURL, @"version", version);
 	
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];

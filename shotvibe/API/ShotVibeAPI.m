@@ -446,11 +446,11 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 {
     NSError *responseError;
     Response *response = [self putFile:[NSString stringWithFormat:@"/users/%lld/avatar/", userId]
-                              filePath:filePath
-                         isPhotoUpload:NO
-                           contentType:@"application/octet-stream"
-                        uploadProgress:uploadProgress
-                             withError:&responseError];
+                                filePath:filePath
+                           isPhotoUpload:NO
+                             contentType:@"application/octet-stream"
+                          uploadProgress:uploadProgress
+                               withError:&responseError];
 
     if (!response) {
         *error = responseError;
@@ -501,11 +501,11 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 {
     NSError *responseError;
     Response *response = [self putFile:[NSString stringWithFormat:@"/photos/upload/%@/%@", photoId, isFullRes ? @"original/":@""]
-                              filePath:filePath
-                          isPhotoUpload:YES
-                           contentType:@"application/octet-stream"
-                        uploadProgress:uploadProgress
-                             withError:&responseError];
+                                filePath:filePath
+                           isPhotoUpload:YES
+                             contentType:@"application/octet-stream"
+                          uploadProgress:uploadProgress
+                               withError:&responseError];
 
     if (!response) {
         *error = responseError;
