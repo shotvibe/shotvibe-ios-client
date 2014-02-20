@@ -43,10 +43,12 @@
     }
     return self;
 }
+
+
 @end
 
 
-@interface  FancyProgressView()
+@interface  FancyProgressView ()
 
 @property (nonatomic, getter = isDisabled) BOOL disabled;
 
@@ -157,6 +159,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     [self getCachedProgressModel].didFlyOut = didFlyOut;
 }
 
+
 - (float)getCachedProgress
 {
     return [self getCachedProgressModel].progress;
@@ -167,6 +170,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 {
     [self getCachedProgressModel].progress = cachedProgress;
 }
+
 
 // PROBLEM: waiting for animation, everything is blocked, and then certain items complete and on reload they
 // are not albumUploadingPhotos anymore.
@@ -268,7 +272,6 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // Clear everything, for init or reuse.
 - (void)reset
 {
-
     RCLog(@"\n\n\n\n\nRESET\n\n");
     [progressLayer_ removeAllAnimations];
     progressLayer_.opacity = 0.0;
@@ -279,6 +282,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     _progress = 0.0;
 }
 
+
 // TODO: call this one setup or something, maybe combine with reset
 - (void)appearWithProgressObject:(id)progressObject
 {
@@ -287,8 +291,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     if (![self didAppear]) {
         [self animateAppear];
         [self setDidAppear:YES];
-    }
-    else {
+    } else {
         progressLayer_.opacity = kOpacity;
         progressLayer_.path = [self createProgressPathWithProgress:[self getCachedProgress]];
     }
@@ -318,10 +321,10 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 - (void)setProgress:(float)progress
 {
-    if (![ self isDisabled]) {
+    if (![self isDisabled]) {
         progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
         RCLog(@"SetProgress from %.2f to %.2f", [self getCachedProgress], progress);
-        RCLog(@"%d %d %d",[self didAppear],[self didFlyIn],[self didFlyOut]);
+        RCLog(@"%d %d %d", [self didAppear], [self didFlyIn], [self didFlyOut]);
         if (![self didAppear]) {
             [self animateAppear];
             [self setDidAppear:YES];

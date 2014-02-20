@@ -85,7 +85,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 	
 	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized without albumId");
 
-	self.collectionView.alwaysBounceVertical = YES;
+    self.collectionView.alwaysBounceVertical = YES;
 	//self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
 	
 	sections = [[NSMutableDictionary alloc] init];
@@ -389,7 +389,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
         cell.fancyUploadProgressView.hidden = NO;
         [cell.fancyUploadProgressView appearWithProgressObject:uploadingPhoto];
-         // TODO: set progress here
+        // TODO: set progress here
 
         cell.labelNewView.hidden = YES;
     }
