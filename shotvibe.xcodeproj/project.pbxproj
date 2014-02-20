@@ -531,26 +531,23 @@
 		3BE0B10E17C2BA3E0058CAAD /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */; };
 		3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11017C2BFA20058CAAD /* FMResultSet.m */; };
 		3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */; };
-		3BE0B11717C2C5530058CAAD /* AlbumBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11617C2C5520058CAAD /* AlbumBase.m */; };
-		3BE0B11A17C2C71D0058CAAD /* AlbumSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */; };
-		3E0215D018B3CFA300C682B3 /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0215CC18B3CFA300C682B3 /* camera@2x.png */; };
-		3E0215D118B3CFA300C682B3 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0215CD18B3CFA300C682B3 /* close@2x.png */; };
-		3E0215D218B3CFA300C682B3 /* edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0215CE18B3CFA300C682B3 /* edit@2x.png */; };
-		3E0215D318B3CFA300C682B3 /* frame_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0215CF18B3CFA300C682B3 /* frame_selected@2x.png */; };
-		3E0215D818B3CFC300C682B3 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0215D418B3CFC300C682B3 /* camera.png */; };
-		3E0215D918B3CFC300C682B3 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0215D518B3CFC300C682B3 /* close.png */; };
-		3E0215DA18B3CFC300C682B3 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0215D618B3CFC300C682B3 /* edit.png */; };
-		3E0215DB18B3CFC300C682B3 /* frame_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0215D718B3CFC300C682B3 /* frame_selected.png */; };
-		3E759FDF188FFEFD00CAB82D /* SVPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759FD8188FFEFD00CAB82D /* SVPickerCell.m */; };
-		3E759FE0188FFEFD00CAB82D /* SVPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759FDA188FFEFD00CAB82D /* SVPickerController.m */; };
-		3E759FE1188FFEFD00CAB82D /* SVPictureConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759FDC188FFEFD00CAB82D /* SVPictureConfirmViewController.m */; };
-		3E759FE2188FFEFD00CAB82D /* SVPictureConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */; };
-		3E7B14901896A54300A691F2 /* SVMultiplePicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B148E1896A54300A691F2 /* SVMultiplePicturesViewController.m */; };
-		3E7B14941896AC5B00A691F2 /* SVAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B14931896AC5B00A691F2 /* SVAlbumCell.m */; };
-		3ED948D118AAC54E006792F2 /* NewAlbum.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED948CF18AAC54E006792F2 /* NewAlbum.png */; };
-		3ED948D218AAC54E006792F2 /* NewAlbum@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED948D018AAC54E006792F2 /* NewAlbum@2x.png */; };
-		3EEDD0AF18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EEDD0AE18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m */; };
-		66159228183273040054471E /* AlbumMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 66159227183273040054471E /* AlbumMember.m */; };
+		3E0CC9C718B63DEC00F6089A /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9BD18B63DEC00F6089A /* camera.png */; };
+		3E0CC9C818B63DEC00F6089A /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9BE18B63DEC00F6089A /* camera@2x.png */; };
+		3E0CC9C918B63DEC00F6089A /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9BF18B63DEC00F6089A /* close.png */; };
+		3E0CC9CA18B63DEC00F6089A /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C018B63DEC00F6089A /* close@2x.png */; };
+		3E0CC9CB18B63DEC00F6089A /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C118B63DEC00F6089A /* edit.png */; };
+		3E0CC9CC18B63DEC00F6089A /* edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C218B63DEC00F6089A /* edit@2x.png */; };
+		3E0CC9CD18B63DEC00F6089A /* frame_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C318B63DEC00F6089A /* frame_selected.png */; };
+		3E0CC9CE18B63DEC00F6089A /* frame_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C418B63DEC00F6089A /* frame_selected@2x.png */; };
+		3E0CC9CF18B63DEC00F6089A /* NewAlbum.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C518B63DEC00F6089A /* NewAlbum.png */; };
+		3E0CC9D018B63DEC00F6089A /* NewAlbum@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C618B63DEC00F6089A /* NewAlbum@2x.png */; };
+		3E0CC9DE18B63E1F00F6089A /* SVAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9D218B63E1F00F6089A /* SVAlbumCell.m */; };
+		3E0CC9DF18B63E1F00F6089A /* SVMultiplePicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9D418B63E1F00F6089A /* SVMultiplePicturesViewController.m */; };
+		3E0CC9E018B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9D618B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m */; };
+		3E0CC9E118B63E1F00F6089A /* SVPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9D818B63E1F00F6089A /* SVPickerCell.m */; };
+		3E0CC9E218B63E1F00F6089A /* SVPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DA18B63E1F00F6089A /* SVPickerController.m */; };
+		3E0CC9E318B63E1F00F6089A /* SVPictureConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DC18B63E1F00F6089A /* SVPictureConfirmViewController.m */; };
+		3E0CC9E418B63E1F00F6089A /* SVPictureConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DD18B63E1F00F6089A /* SVPictureConfirmViewController.xib */; };
 		66013226187F4E670042047B /* IOSArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131AF187F4E670042047B /* IOSArray.m */; };
 		66013227187F4E670042047B /* IOSArrayClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131B1187F4E670042047B /* IOSArrayClass.m */; };
 		66013228187F4E670042047B /* IOSBooleanArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131B3187F4E670042047B /* IOSBooleanArray.m */; };
@@ -1420,35 +1417,29 @@
 		3BE0B11017C2BFA20058CAAD /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = FMDB/FMResultSet.m; sourceTree = "<group>"; };
 		3BE0B11217C2BFE60058CAAD /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = FMDB/FMDatabasePool.h; sourceTree = "<group>"; };
 		3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = FMDB/FMDatabasePool.m; sourceTree = "<group>"; };
-		3BE0B11517C2C5520058CAAD /* AlbumBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumBase.h; sourceTree = "<group>"; };
-		3BE0B11617C2C5520058CAAD /* AlbumBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumBase.m; sourceTree = "<group>"; };
-		3BE0B11817C2C71D0058CAAD /* AlbumSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumSummary.h; sourceTree = "<group>"; };
-		3BE0B11917C2C71D0058CAAD /* AlbumSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumSummary.m; sourceTree = "<group>"; };
-		3E0215CC18B3CFA300C682B3 /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
-		3E0215CD18B3CFA300C682B3 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
-		3E0215CE18B3CFA300C682B3 /* edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit@2x.png"; sourceTree = "<group>"; };
-		3E0215CF18B3CFA300C682B3 /* frame_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame_selected@2x.png"; sourceTree = "<group>"; };
-		3E0215D418B3CFC300C682B3 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
-		3E0215D518B3CFC300C682B3 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
-		3E0215D618B3CFC300C682B3 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
-		3E0215D718B3CFC300C682B3 /* frame_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame_selected.png; sourceTree = "<group>"; };
-		3E759FD7188FFEFD00CAB82D /* SVPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPickerCell.h; path = Camera/SVPickerCell.h; sourceTree = "<group>"; };
-		3E759FD8188FFEFD00CAB82D /* SVPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPickerCell.m; path = Camera/SVPickerCell.m; sourceTree = "<group>"; };
-		3E759FD9188FFEFD00CAB82D /* SVPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPickerController.h; path = Camera/SVPickerController.h; sourceTree = "<group>"; };
-		3E759FDA188FFEFD00CAB82D /* SVPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPickerController.m; path = Camera/SVPickerController.m; sourceTree = "<group>"; };
-		3E759FDB188FFEFD00CAB82D /* SVPictureConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPictureConfirmViewController.h; path = Camera/SVPictureConfirmViewController.h; sourceTree = "<group>"; };
-		3E759FDC188FFEFD00CAB82D /* SVPictureConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPictureConfirmViewController.m; path = Camera/SVPictureConfirmViewController.m; sourceTree = "<group>"; };
-		3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVPictureConfirmViewController.xib; path = Camera/SVPictureConfirmViewController.xib; sourceTree = "<group>"; };
-		3E7B148D1896A54300A691F2 /* SVMultiplePicturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVMultiplePicturesViewController.h; path = Camera/SVMultiplePicturesViewController.h; sourceTree = "<group>"; };
-		3E7B148E1896A54300A691F2 /* SVMultiplePicturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVMultiplePicturesViewController.m; path = Camera/SVMultiplePicturesViewController.m; sourceTree = "<group>"; };
-		3E7B14921896AC5B00A691F2 /* SVAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumCell.h; path = Camera/SVAlbumCell.h; sourceTree = "<group>"; };
-		3E7B14931896AC5B00A691F2 /* SVAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumCell.m; path = Camera/SVAlbumCell.m; sourceTree = "<group>"; };
-		3ED948CF18AAC54E006792F2 /* NewAlbum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewAlbum.png; sourceTree = "<group>"; };
-		3ED948D018AAC54E006792F2 /* NewAlbum@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NewAlbum@2x.png"; sourceTree = "<group>"; };
-		3EEDD0AD18A521600048C514 /* SVNonRotatingNavigationControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVNonRotatingNavigationControllerViewController.h; path = Camera/SVNonRotatingNavigationControllerViewController.h; sourceTree = "<group>"; };
-		3EEDD0AE18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVNonRotatingNavigationControllerViewController.m; path = Camera/SVNonRotatingNavigationControllerViewController.m; sourceTree = "<group>"; };
-		66159226183273040054471E /* AlbumMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMember.h; sourceTree = "<group>"; };
-		66159227183273040054471E /* AlbumMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMember.m; sourceTree = "<group>"; };
+		3E0CC9BD18B63DEC00F6089A /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		3E0CC9BE18B63DEC00F6089A /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
+		3E0CC9BF18B63DEC00F6089A /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
+		3E0CC9C018B63DEC00F6089A /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		3E0CC9C118B63DEC00F6089A /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
+		3E0CC9C218B63DEC00F6089A /* edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit@2x.png"; sourceTree = "<group>"; };
+		3E0CC9C318B63DEC00F6089A /* frame_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame_selected.png; sourceTree = "<group>"; };
+		3E0CC9C418B63DEC00F6089A /* frame_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame_selected@2x.png"; sourceTree = "<group>"; };
+		3E0CC9C518B63DEC00F6089A /* NewAlbum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewAlbum.png; sourceTree = "<group>"; };
+		3E0CC9C618B63DEC00F6089A /* NewAlbum@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NewAlbum@2x.png"; sourceTree = "<group>"; };
+		3E0CC9D118B63E1F00F6089A /* SVAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumCell.h; path = Camera/SVAlbumCell.h; sourceTree = "<group>"; };
+		3E0CC9D218B63E1F00F6089A /* SVAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumCell.m; path = Camera/SVAlbumCell.m; sourceTree = "<group>"; };
+		3E0CC9D318B63E1F00F6089A /* SVMultiplePicturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVMultiplePicturesViewController.h; path = Camera/SVMultiplePicturesViewController.h; sourceTree = "<group>"; };
+		3E0CC9D418B63E1F00F6089A /* SVMultiplePicturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVMultiplePicturesViewController.m; path = Camera/SVMultiplePicturesViewController.m; sourceTree = "<group>"; };
+		3E0CC9D518B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVNonRotatingNavigationControllerViewController.h; path = Camera/SVNonRotatingNavigationControllerViewController.h; sourceTree = "<group>"; };
+		3E0CC9D618B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVNonRotatingNavigationControllerViewController.m; path = Camera/SVNonRotatingNavigationControllerViewController.m; sourceTree = "<group>"; };
+		3E0CC9D718B63E1F00F6089A /* SVPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPickerCell.h; path = Camera/SVPickerCell.h; sourceTree = "<group>"; };
+		3E0CC9D818B63E1F00F6089A /* SVPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPickerCell.m; path = Camera/SVPickerCell.m; sourceTree = "<group>"; };
+		3E0CC9D918B63E1F00F6089A /* SVPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPickerController.h; path = Camera/SVPickerController.h; sourceTree = "<group>"; };
+		3E0CC9DA18B63E1F00F6089A /* SVPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPickerController.m; path = Camera/SVPickerController.m; sourceTree = "<group>"; };
+		3E0CC9DB18B63E1F00F6089A /* SVPictureConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPictureConfirmViewController.h; path = Camera/SVPictureConfirmViewController.h; sourceTree = "<group>"; };
+		3E0CC9DC18B63E1F00F6089A /* SVPictureConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPictureConfirmViewController.m; path = Camera/SVPictureConfirmViewController.m; sourceTree = "<group>"; };
+		3E0CC9DD18B63E1F00F6089A /* SVPictureConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVPictureConfirmViewController.xib; path = Camera/SVPictureConfirmViewController.xib; sourceTree = "<group>"; };
 		660131AE187F4E670042047B /* IOSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArray.h; sourceTree = "<group>"; };
 		660131AF187F4E670042047B /* IOSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSArray.m; sourceTree = "<group>"; };
 		660131B0187F4E670042047B /* IOSArrayClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArrayClass.h; sourceTree = "<group>"; };
@@ -2394,16 +2385,16 @@
 		2849A77417D9AA410076AFBA /* Camera */ = {
 			isa = PBXGroup;
 			children = (
-				3E0215D418B3CFC300C682B3 /* camera.png */,
-				3E0215CC18B3CFA300C682B3 /* camera@2x.png */,
-				3E0215D518B3CFC300C682B3 /* close.png */,
-				3E0215CD18B3CFA300C682B3 /* close@2x.png */,
-				3E0215D618B3CFC300C682B3 /* edit.png */,
-				3E0215CE18B3CFA300C682B3 /* edit@2x.png */,
-				3E0215D718B3CFC300C682B3 /* frame_selected.png */,
-				3E0215CF18B3CFA300C682B3 /* frame_selected@2x.png */,
-				3ED948CF18AAC54E006792F2 /* NewAlbum.png */,
-				3ED948D018AAC54E006792F2 /* NewAlbum@2x.png */,
+				3E0CC9BD18B63DEC00F6089A /* camera.png */,
+				3E0CC9BE18B63DEC00F6089A /* camera@2x.png */,
+				3E0CC9BF18B63DEC00F6089A /* close.png */,
+				3E0CC9C018B63DEC00F6089A /* close@2x.png */,
+				3E0CC9C118B63DEC00F6089A /* edit.png */,
+				3E0CC9C218B63DEC00F6089A /* edit@2x.png */,
+				3E0CC9C318B63DEC00F6089A /* frame_selected.png */,
+				3E0CC9C418B63DEC00F6089A /* frame_selected@2x.png */,
+				3E0CC9C518B63DEC00F6089A /* NewAlbum.png */,
+				3E0CC9C618B63DEC00F6089A /* NewAlbum@2x.png */,
 				2849A80917D9ABE90076AFBA /* imagePile.png */,
 				0426B62D1724D7CC007BAABC /* imagePile@2x.png */,
 				2849A77517D9AA580076AFBA /* ButNavLeft.png */,
@@ -3238,19 +3229,19 @@
 		AA78D2B617172C26006E1240 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
-				3E759FD7188FFEFD00CAB82D /* SVPickerCell.h */,
-				3E759FD8188FFEFD00CAB82D /* SVPickerCell.m */,
-				3E759FD9188FFEFD00CAB82D /* SVPickerController.h */,
-				3E759FDA188FFEFD00CAB82D /* SVPickerController.m */,
-				3EEDD0AD18A521600048C514 /* SVNonRotatingNavigationControllerViewController.h */,
-				3EEDD0AE18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m */,
-				3E759FDB188FFEFD00CAB82D /* SVPictureConfirmViewController.h */,
-				3E759FDC188FFEFD00CAB82D /* SVPictureConfirmViewController.m */,
-				3E759FDD188FFEFD00CAB82D /* SVPictureConfirmViewController.xib */,
-				3E7B148D1896A54300A691F2 /* SVMultiplePicturesViewController.h */,
-				3E7B148E1896A54300A691F2 /* SVMultiplePicturesViewController.m */,
-				3E7B14921896AC5B00A691F2 /* SVAlbumCell.h */,
-				3E7B14931896AC5B00A691F2 /* SVAlbumCell.m */,
+				3E0CC9D118B63E1F00F6089A /* SVAlbumCell.h */,
+				3E0CC9D218B63E1F00F6089A /* SVAlbumCell.m */,
+				3E0CC9D318B63E1F00F6089A /* SVMultiplePicturesViewController.h */,
+				3E0CC9D418B63E1F00F6089A /* SVMultiplePicturesViewController.m */,
+				3E0CC9D518B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.h */,
+				3E0CC9D618B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m */,
+				3E0CC9D718B63E1F00F6089A /* SVPickerCell.h */,
+				3E0CC9D818B63E1F00F6089A /* SVPickerCell.m */,
+				3E0CC9D918B63E1F00F6089A /* SVPickerController.h */,
+				3E0CC9DA18B63E1F00F6089A /* SVPickerController.m */,
+				3E0CC9DB18B63E1F00F6089A /* SVPictureConfirmViewController.h */,
+				3E0CC9DC18B63E1F00F6089A /* SVPictureConfirmViewController.m */,
+				3E0CC9DD18B63E1F00F6089A /* SVPictureConfirmViewController.xib */,
 				66278CA21867C4D400D23F34 /* SVCameraNavController.h */,
 				66278CA31867C4D400D23F34 /* SVCameraNavController.m */,
 				66278CA41867C4D400D23F34 /* SVCameraOverlay.h */,
@@ -3427,11 +3418,14 @@
 				04AB0A821707D99700C5300B /* navbarBackButton@2x.png in Resources */,
 				04AB0A841707D99700C5300B /* navbarBackButton.png in Resources */,
 				04AB0A8A1707F95700C5300B /* Logo@2x.png in Resources */,
+				3E0CC9C918B63DEC00F6089A /* close.png in Resources */,
 				04AB0A8C1707F95700C5300B /* Logo.png in Resources */,
 				04AB0AA017080A5700C5300B /* newPhotosIndicator.png in Resources */,
 				04AB0AA217080A5700C5300B /* newPhotosIndicator@2x.png in Resources */,
 				04AB0AA417080A5700C5300B /* clockIcon@2x.png in Resources */,
+				3E0CC9C718B63DEC00F6089A /* camera.png in Resources */,
 				04AB0AA617080A5700C5300B /* clockIcon.png in Resources */,
+				3E0CC9CB18B63DEC00F6089A /* edit.png in Resources */,
 				04AB0AA817080A5700C5300B /* cellDivider@2x.png in Resources */,
 				04AB0AAA17080A5700C5300B /* cellDivider.png in Resources */,
 				04AB0AAC17080A5700C5300B /* albumImageFrame@2x.png in Resources */,
@@ -3455,9 +3449,9 @@
 				0499B8A9171DD6DE00050596 /* generalNotificationSettingIcon@2x.png in Resources */,
 				0499B8AB171DD6DE00050596 /* emailIcon@2x.png in Resources */,
 				0499B8AD171DD6DE00050596 /* emailIcon.png in Resources */,
+				3E0CC9E418B63E1F00F6089A /* SVPictureConfirmViewController.xib in Resources */,
 				0499B8B3171DD6DE00050596 /* aboutIcon@2x.png in Resources */,
 				108CDF6B18846B9000757E36 /* MPDismissKeyboard@2x.png in Resources */,
-				3ED948D218AAC54E006792F2 /* NewAlbum@2x.png in Resources */,
 				0499B8B5171DD6DE00050596 /* aboutIcon.png in Resources */,
 				0499B8B9171DD78200050596 /* attributesIcon@2x.png in Resources */,
 				0499B8BB171DD78200050596 /* attributesIcon.png in Resources */,
@@ -3492,6 +3486,7 @@
 				04C406151730303600973BC0 /* BJ.png in Resources */,
 				04C406171730303600973BC0 /* BM.png in Resources */,
 				04C406191730303600973BC0 /* BN.png in Resources */,
+				3E0CC9D018B63DEC00F6089A /* NewAlbum@2x.png in Resources */,
 				04C4061B1730303600973BC0 /* BO.png in Resources */,
 				04C4061D1730303600973BC0 /* BR.png in Resources */,
 				04C4061F1730303600973BC0 /* BS.png in Resources */,
@@ -3500,14 +3495,15 @@
 				04C406251730303600973BC0 /* BW.png in Resources */,
 				285C90D518507CF3009C1F6C /* icon_120x120.png in Resources */,
 				04C406271730303600973BC0 /* BY.png in Resources */,
+				3E0CC9CE18B63DEC00F6089A /* frame_selected@2x.png in Resources */,
 				04C406291730303600973BC0 /* BZ.png in Resources */,
 				04C4062B1730303600973BC0 /* CA.png in Resources */,
 				04C4062D1730303600973BC0 /* CC.png in Resources */,
-				3E0215D818B3CFC300C682B3 /* camera.png in Resources */,
 				04C4062F1730303600973BC0 /* CD.png in Resources */,
 				04C406311730303600973BC0 /* CF.png in Resources */,
 				04C406331730303600973BC0 /* CG.png in Resources */,
 				04C406351730303600973BC0 /* CH.png in Resources */,
+				3E0CC9CD18B63DEC00F6089A /* frame_selected.png in Resources */,
 				04C406371730303600973BC0 /* CI.png in Resources */,
 				04C406391730303600973BC0 /* CK.png in Resources */,
 				04C4063B1730303600973BC0 /* CL.png in Resources */,
@@ -3579,7 +3575,6 @@
 				04C406BD1730303600973BC0 /* JE.png in Resources */,
 				04C406BF1730303600973BC0 /* JM.png in Resources */,
 				04C406C11730303600973BC0 /* JO.png in Resources */,
-				3E0215D018B3CFA300C682B3 /* camera@2x.png in Resources */,
 				04C406C31730303600973BC0 /* JP.png in Resources */,
 				04C406C51730303600973BC0 /* KE.png in Resources */,
 				04C406C71730303600973BC0 /* KG.png in Resources */,
@@ -3609,7 +3604,6 @@
 				04C406F31730303600973BC0 /* MC.png in Resources */,
 				04C406F51730303600973BC0 /* MD.png in Resources */,
 				04C406F71730303600973BC0 /* ME.png in Resources */,
-				3E0215DB18B3CFC300C682B3 /* frame_selected.png in Resources */,
 				04C406F91730303600973BC0 /* MF.png in Resources */,
 				04C406FB1730303600973BC0 /* MG.png in Resources */,
 				04C406FD1730303600973BC0 /* MH.png in Resources */,
@@ -3652,7 +3646,6 @@
 				04C407451730303600973BC0 /* PL.png in Resources */,
 				04C407471730303600973BC0 /* PM.png in Resources */,
 				04C407491730303600973BC0 /* PN.png in Resources */,
-				3E0215D118B3CFA300C682B3 /* close@2x.png in Resources */,
 				04C4074B1730303600973BC0 /* PR.png in Resources */,
 				04C4074D1730303600973BC0 /* PS.png in Resources */,
 				04C4074F1730303600973BC0 /* PT.png in Resources */,
@@ -3661,6 +3654,7 @@
 				04C407551730303600973BC0 /* QA.png in Resources */,
 				04C407571730303600973BC0 /* RE.png in Resources */,
 				04C407591730303600973BC0 /* RO.png in Resources */,
+				3E0CC9CF18B63DEC00F6089A /* NewAlbum.png in Resources */,
 				04C4075B1730303600973BC0 /* RS.png in Resources */,
 				04C4075D1730303600973BC0 /* RU.png in Resources */,
 				66278CC21867C57300D23F34 /* SVImageCropViewController.xib in Resources */,
@@ -3673,7 +3667,6 @@
 				04C407691730303600973BC0 /* SE.png in Resources */,
 				04C4076B1730303600973BC0 /* SG.png in Resources */,
 				04C4076D1730303600973BC0 /* SH.png in Resources */,
-				3E0215DA18B3CFC300C682B3 /* edit.png in Resources */,
 				04C4076F1730303600973BC0 /* SI.png in Resources */,
 				04C407711730303600973BC0 /* SJ.png in Resources */,
 				04C407731730303600973BC0 /* SK.png in Resources */,
@@ -3710,7 +3703,6 @@
 				04C407AF1730303600973BC0 /* UY.png in Resources */,
 				04C407B11730303600973BC0 /* UZ.png in Resources */,
 				04C407B31730303600973BC0 /* VA.png in Resources */,
-				3E0215D318B3CFA300C682B3 /* frame_selected@2x.png in Resources */,
 				04C407B51730303600973BC0 /* VC.png in Resources */,
 				04C407B71730303600973BC0 /* VE.png in Resources */,
 				04C407B91730303600973BC0 /* VG.png in Resources */,
@@ -3748,7 +3740,6 @@
 				2897383B17A1C2C5003B18D3 /* albumVideoIconSmall.png in Resources */,
 				2897383C17A1C2C5003B18D3 /* albumVideoIconSmall@2x.png in Resources */,
 				2897383F17A1C2C5003B18D3 /* contactsX.png in Resources */,
-				3E0215D218B3CFA300C682B3 /* edit@2x.png in Resources */,
 				2897384017A1C2C5003B18D3 /* contactsX@2x.png in Resources */,
 				2897384517A2422F003B18D3 /* albumNewIcon.png in Resources */,
 				2897384617A2422F003B18D3 /* albumNewIcon@2x.png in Resources */,
@@ -3783,13 +3774,13 @@
 				28E94C3417C2C4AE00874BDE /* IconMail@2x.png in Resources */,
 				28E94C3517C2C4AE00874BDE /* IconMove@2x.png in Resources */,
 				2849A75817D758410076AFBA /* IconFacebook@2x.png in Resources */,
+				3E0CC9CC18B63DEC00F6089A /* edit@2x.png in Resources */,
 				2849A75917D758410076AFBA /* IconFlickr@2x.png in Resources */,
 				2849A75A17D758410076AFBA /* IconTumblr@2x.png in Resources */,
 				2849A75B17D758410076AFBA /* IconTwitter@2x.png in Resources */,
 				2849A79417D9AA580076AFBA /* ButNavLeft.png in Resources */,
 				2849A79517D9AA580076AFBA /* ButNavLeft@2x.png in Resources */,
 				2849A79617D9AA580076AFBA /* ButNavRight.png in Resources */,
-				3E0215D918B3CFC300C682B3 /* close.png in Resources */,
 				2849A79717D9AA580076AFBA /* ButNavRight@2x.png in Resources */,
 				2849A79817D9AA580076AFBA /* cameraCancelButton.png in Resources */,
 				2849A79917D9AA580076AFBA /* cameraCancelButton@2x.png in Resources */,
@@ -3802,6 +3793,7 @@
 				66278D161867CAD500D23F34 /* MainStoryboard.storyboard in Resources */,
 				2849A79F17D9AA580076AFBA /* cameraFlashAuto@2x.png in Resources */,
 				2849A7A017D9AA580076AFBA /* cameraFlashOff.png in Resources */,
+				3E0CC9CA18B63DEC00F6089A /* close@2x.png in Resources */,
 				2849A7A117D9AA580076AFBA /* cameraFlashOff@2x.png in Resources */,
 				2849A7A217D9AA580076AFBA /* cameraFlashOn.png in Resources */,
 				2849A7A317D9AA580076AFBA /* cameraFlashOn@2x.png in Resources */,
@@ -3820,6 +3812,7 @@
 				2849A7AF17D9AA580076AFBA /* notificationBubble@2x.png in Resources */,
 				2849A7B017D9AA580076AFBA /* slider-cap@2x.png in Resources */,
 				2849A7B117D9AA580076AFBA /* slider-track-fill@2x.png in Resources */,
+				3E0CC9C818B63DEC00F6089A /* camera@2x.png in Resources */,
 				2849A7B217D9AA580076AFBA /* slider-track@2x.png in Resources */,
 				2849A7DB17D9AB420076AFBA /* addFriendsButtonBg.png in Resources */,
 				2849A7DC17D9AB420076AFBA /* addFriendsButtonBg@2x.png in Resources */,
@@ -3838,7 +3831,6 @@
 				2849A7E817D9AB420076AFBA /* AlbumActivityDeleteIcon@2x.png in Resources */,
 				2849A7E917D9AB420076AFBA /* AlbumActivityIcon.png in Resources */,
 				2849A7EA17D9AB420076AFBA /* AlbumActivityIcon@2x.png in Resources */,
-				3E759FE2188FFEFD00CAB82D /* SVPictureConfirmViewController.xib in Resources */,
 				2849A7EB17D9AB420076AFBA /* AlbumActivityJoinedIcon.png in Resources */,
 				2849A7EC17D9AB420076AFBA /* AlbumActivityJoinedIcon@2x.png in Resources */,
 				2849A7ED17D9AB420076AFBA /* AlbumActivityPicsIcon.png in Resources */,
@@ -3867,7 +3859,6 @@
 				2849A80717D9AB970076AFBA /* IconSettings.png in Resources */,
 				2849A80817D9AB970076AFBA /* IconSettings@2x.png in Resources */,
 				2849A80A17D9ABE90076AFBA /* imagePile.png in Resources */,
-				3ED948D118AAC54E006792F2 /* NewAlbum.png in Resources */,
 				2849A81B17E6F0CE0076AFBA /* ProfileIconBackground.png in Resources */,
 				2849A81C17E6F0CE0076AFBA /* ProfileIconBackground@2x.png in Resources */,
 				2849A81F17E6FA2D0076AFBA /* ProfileHeader.png in Resources */,
@@ -4001,6 +3992,7 @@
 				66013244187F4E670042047B /* Float.m in Sources */,
 				66013255187F4E670042047B /* JavaLangThrowable.m in Sources */,
 				66278D0B1867C94900D23F34 /* PhotoUploadRequest.m in Sources */,
+				3E0CC9E218B63E1F00F6089A /* SVPickerController.m in Sources */,
 				66013254187F4E670042047B /* JavaLangReflectTypeVariableImpl.m in Sources */,
 				108CDF10188417AE00757E36 /* Util.m in Sources */,
 				66278C9F1867C44600D23F34 /* SVImagePickerListViewController.m in Sources */,
@@ -4040,6 +4032,7 @@
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				664F4706189568B1009F4776 /* IosDevicePhoneContactsLib.m in Sources */,
 				66278D051867C94900D23F34 /* AuthData.m in Sources */,
+				3E0CC9E318B63E1F00F6089A /* SVPictureConfirmViewController.m in Sources */,
 				66278C711867C2AD00D23F34 /* SVConfirmationCodeViewController.m in Sources */,
 				6601323B187F4E670042047B /* Byte.m in Sources */,
 				66278CE61867C62300D23F34 /* SVMailActivity.m in Sources */,
@@ -4071,7 +4064,6 @@
 				6601322F187F4E670042047B /* IOSIntArray.m in Sources */,
 				108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */,
 				66278CE11867C62300D23F34 /* SVActivityViewController.m in Sources */,
-				3E759FE1188FFEFD00CAB82D /* SVPictureConfirmViewController.m in Sources */,
 				3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */,
 				6601322C187F4E670042047B /* IOSConcreteClass.m in Sources */,
 				66278D0C1867C94900D23F34 /* ShotVibeAPI.m in Sources */,
@@ -4112,7 +4104,6 @@
 				66D583401867D66B00EAC842 /* RCTableImageViewCell.m in Sources */,
 				664F4700188DBA69009F4776 /* IosHTTPLib.m in Sources */,
 				66278CE51867C62300D23F34 /* SVLinkActivity.m in Sources */,
-				3E7B14941896AC5B00A691F2 /* SVAlbumCell.m in Sources */,
 				66D5833D1867D66B00EAC842 /* RCLog.m in Sources */,
 				66278D071867C94900D23F34 /* PhotoBitmap.m in Sources */,
 				66278C901867C38300D23F34 /* SVAlbumListViewCell.m in Sources */,
@@ -4128,21 +4119,19 @@
 				3B3AD15617CB4A9C004D24A9 /* SDWebImageCompat.m in Sources */,
 				66278C8B1867C38300D23F34 /* PhotoScrollView.m in Sources */,
 				66278CE31867C62300D23F34 /* SVCopyActivity.m in Sources */,
-				3E759FE0188FFEFD00CAB82D /* SVPickerController.m in Sources */,
 				3B3AD15717CB4A9C004D24A9 /* SDWebImageDecoder.m in Sources */,
 				6601325C187F4E670042047B /* NSString+JavaString.m in Sources */,
 				3B3AD15817CB4A9C004D24A9 /* SDWebImageDownloader.m in Sources */,
 				3B3AD15917CB4A9C004D24A9 /* SDWebImageDownloaderOperation.m in Sources */,
-				3E759FDF188FFEFD00CAB82D /* SVPickerCell.m in Sources */,
+				3E0CC9E018B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m in Sources */,
 				3B3AD15A17CB4A9C004D24A9 /* SDWebImageManager.m in Sources */,
 				66D5833E1867D66B00EAC842 /* RCScrollImageView.m in Sources */,
-				3E7B14901896A54300A691F2 /* SVMultiplePicturesViewController.m in Sources */,
 				3B3AD15B17CB4A9C004D24A9 /* SDWebImagePrefetcher.m in Sources */,
-				3EEDD0AF18A521600048C514 /* SVNonRotatingNavigationControllerViewController.m in Sources */,
 				66013239187F4E670042047B /* AssertionError.m in Sources */,
 				3B3AD15C17CB4A9C004D24A9 /* UIButton+WebCache.m in Sources */,
 				6601324A187F4E670042047B /* InternalError.m in Sources */,
 				3B3AD15D17CB4A9C004D24A9 /* UIImage+GIF.m in Sources */,
+				3E0CC9DF18B63E1F00F6089A /* SVMultiplePicturesViewController.m in Sources */,
 				66013259187F4E670042047B /* JreMemDebug.m in Sources */,
 				66013229187F4E670042047B /* IOSByteArray.m in Sources */,
 				3B3AD15E17CB4A9C004D24A9 /* UIImage+MultiFormat.m in Sources */,
@@ -4158,6 +4147,7 @@
 				108CDF7218846B9000757E36 /* MPSurveyQuestionViewController.m in Sources */,
 				28F877B517D1BB4B0051F528 /* MFSideMenuContainerViewController.m in Sources */,
 				28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */,
+				3E0CC9DE18B63E1F00F6089A /* SVAlbumCell.m in Sources */,
 				6601322D187F4E670042047B /* IOSDoubleArray.m in Sources */,
 				66278D0A1867C94900D23F34 /* PhotoUploadManager.m in Sources */,
 				6601323D187F4E670042047B /* ClassCastException.m in Sources */,
@@ -4166,6 +4156,7 @@
 				66278C8F1867C38300D23F34 /* SVAlbumGridViewController.m in Sources */,
 				66E788B61889EB870037ACF3 /* ListIterator.m in Sources */,
 				66278CC11867C57300D23F34 /* SVImageCropViewController.m in Sources */,
+				3E0CC9E118B63E1F00F6089A /* SVPickerCell.m in Sources */,
 				66E788A51887384B0037ACF3 /* IosSQLCursor.m in Sources */,
 				66278CEA1867C62300D23F34 /* SVTwitterActivity.m in Sources */,
 				2849A80D17DDE61A0076AFBA /* UIImage+Scale.m in Sources */,
