@@ -79,20 +79,28 @@ static const NSTimeInterval RETRY_TIME = 5;
     for (PhotoUploadRequest *req in photoUploadRequests) {
         AlbumUploadingPhoto *photo = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:req album:albumId];
         [newAlbumUploadingPhotos addObject:photo];
-        [uploadingPhotos_ addPhoto:photo album:albumId];
+
+        [photo prepareTmpFiles:photoSaveQueue_]; // asynchronous
     }
-    // TODO: at this point, store new AlbumUploadingPhotos as Stage1Pending in ShotVibeDB, before any networking is done (with
-    // possible loops and termination after 10 minutes)
-    // We probably need to pull the prepareTmpFile forward, to ensure we have a filename for every AlbumUploadingPhoto
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [listener_ photoUploadAdditions:albumId]; // Show the newly created UploadingAlbumPhotos in the UI.
     });
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
+            if ([photo getLowResFilename] && [photo getLowResFilename]) { // force save, won't fail, just block
+                // TODO: at this point, store new AlbumUploadingPhotos as IdPending in ShotVibeDB
+
+                [uploadingPhotos_ addPhoto:photo album:albumId];
+            } else {
+                RCLog(@"INTERNAL ERROR: tmp file(s) empty");
+            }
+        }
+
         [self requestIdsForNewUploads:[photoUploadRequests count]];
         for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
-            [self uploadPhoto:albumId photo:photo];
+            [self uploadPhotoWithoutId:albumId photo:photo];
         }
         RCLog(@"Initiate-uploads background task %d ended", initiateUploadsBackgroundTaskID);
         [[UIApplication sharedApplication] endBackgroundTask:initiateUploadsBackgroundTaskID];
@@ -129,7 +137,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 }
 
 
-- (void)uploadPhoto:(int64_t)albumId photo:(AlbumUploadingPhoto *)photo
+- (void)uploadPhotoWithoutId:(int64_t)albumId photo:(AlbumUploadingPhoto *)photo
 {
     // On iOS < 7, the entire upload process will be in a background task, and needs to finish within 10 minutes.
     __block UIBackgroundTaskIdentifier photoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
@@ -143,7 +151,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         [photoIds_ removeObjectAtIndex:0];
     }
 
-    [photo prepareTmpFiles:photoSaveQueue_]; // TODO: if this is moved forward, then we can merge uploadPhoto & startFirstStagePhotoUpload
+    // TODO: at this point, store new AlbumUploadingPhotos as Stage1Pending in ShotVibeDB
 
     [self startFirstStagePhotoUpload:albumId photo:photo backgroundTaskID:photoUploadBackgroundTaskID];
 }
