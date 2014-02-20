@@ -173,7 +173,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         @catch (SLAPIException *exception) {
             RCLog(@"Error adding photos to album: %lld %@", albumId, exception.description);
             // TODO: we need to figure out whether to use exceptions or errors
-            NSError *errorForException = [[NSError alloc] initWithDomain:@"com.shotvibe.shotvibe.TemporaryErrorDomain" code:43 userInfo:@{NSLocalizedDescriptionKey: exception.description}];
+            NSError *errorForException = [[NSError alloc] initWithDomain:@"com.shotvibe.shotvibe.TemporaryErrorDomain" code:44 userInfo:@{NSLocalizedDescriptionKey: exception.description}];
 
             completionHandler(errorForException);
         }

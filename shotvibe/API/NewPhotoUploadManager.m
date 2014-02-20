@@ -166,7 +166,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     } completionHandler:^(NSError *error) {
         //RCLog(@"Task completion: photo %@ %@", showShortPhotoId(photo.photoId), [req getFilename]);
         if (error) {
-            RCLog(@"ERROR %@\nduring first-stage upload for %@\nRetrying..", error.description, showShortPhotoId(photo.photoId));
+            RCLog(@"ERROR %@\nduring first-stage upload for %@\nRetrying..", [error localizedDescription], showShortPhotoId(photo.photoId));
             [self startFirstStagePhotoUpload:albumId photo:photo backgroundTaskID:photoUploadBackgroundTaskID];
         } else {
             [self lowResPhotoWasUploaded:photo album:albumId backgroundTaskID:photoUploadBackgroundTaskID];
@@ -222,8 +222,8 @@ static const NSTimeInterval RETRY_TIME = 5;
     }
 }
 
-- (void)startAddToAlbumTask:(NSArray *)photosToAdd album:(int64_t)albumId backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
 
+- (void)startAddToAlbumTask:(NSArray *)photosToAdd album:(int64_t)albumId backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
 {
     RCLog(@"Adding %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
     NSMutableArray *photoIdsToAdd = [[NSMutableArray alloc] init];
@@ -265,7 +265,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     // TODO: may suffer from a delay after photos were uploaded, when called from the backround.
     [newShotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^(NSError *error) {
         if (error) {
-            RCLog(@"ERROR: %@\nwhile adding %d photo(s) to album %lld: %@", error.description, (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
+            RCLog(@"ERROR: %@\nwhile adding %d photo(s) to album %lld: %@", [error localizedDescription], (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
             [self startAddToAlbumTask:photosToAdd album:albumId backgroundTaskID:photoUploadBackgroundTaskID];
         } else {
             RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
@@ -331,7 +331,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:fullResFilePath isFullRes:YES progressHandler:nil completionHandler:^(NSError *error) {
         if (error) {
-            RCLog(@"ERROR %@\nduring second-stage upload for %@\nRetrying..", error.description, showShortPhotoId(photo.photoId));
+            RCLog(@"ERROR %@\nduring second-stage upload for %@\nRetrying..", [error localizedDescription], showShortPhotoId(photo.photoId));
             [self startSecondStageUploadTask:photo];
         } else {
             RCLog(@"FINISH second-stage upload for %@", showShortPhotoId(photo.photoId));
