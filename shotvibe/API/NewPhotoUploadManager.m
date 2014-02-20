@@ -79,8 +79,11 @@ static const NSTimeInterval RETRY_TIME = 5;
     for (PhotoUploadRequest *req in photoUploadRequests) {
         AlbumUploadingPhoto *photo = [[AlbumUploadingPhoto alloc] initWithPhotoUploadRequest:req album:albumId];
         [newAlbumUploadingPhotos addObject:photo];
-
         [photo prepareTmpFiles:photoSaveQueue_]; // asynchronous
+
+        @synchronized(self) {
+            [uploadingPhotos_ addPhoto:photo album:albumId];
+        }
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -92,8 +95,6 @@ static const NSTimeInterval RETRY_TIME = 5;
             if ([photo getLowResFilename] && [photo getLowResFilename]) { // force save, won't fail, just block
                 [photo setUploadStatus:NewUploader_UploadStatus_WaitingForId];
                 // TODO: at this point, store new AlbumUploadingPhotos as WaitingForId in ShotVibeDB
-
-                [uploadingPhotos_ addPhoto:photo album:albumId];
             } else {
                 RCLog(@"INTERNAL ERROR: tmp file(s) empty");
             }
@@ -378,7 +379,7 @@ static const NSTimeInterval RETRY_TIME = 5;
             [result addObject:albumPhoto];
         }
     }
-
+    RCLog(@"getUploadingPhotos: %d uploading photos", result.count);
     return [NSArray arrayWithArray:result];
 }
 
