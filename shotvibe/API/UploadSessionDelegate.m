@@ -76,19 +76,21 @@
 
     UploadTaskDelegate *delegateForTask = [self getDelegateForTask:task];
 
+    if (error) {
+        RCLog(@"ERROR: Client-side error in task %d:\n%@", task.taskIdentifier, [error localizedDescription]);
+    }
+
     // No kidding, the only way to get server-side errors (which are not reported through `error`)
     // is to cast the response and access the statusCode..
     NSInteger statusCode = ((NSHTTPURLResponse *)task.response).statusCode;
-    if (statusCode != 200) {
-        RCLog(@"ERROR: Server-side error %d in task %d", statusCode, task.taskIdentifier);
-    } // TODO: check what is reported in `error` when we have a server error
+
+    if (statusCode != 200) { // client error should be nil in this case, so we overwrite it with the server error
+        error = [[NSError alloc] initWithDomain:@"com.shotvibe.shotvibe.TemporaryErrorDomain" code:45 userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Server error (HTTP Status Code: %d)", statusCode] }];
+        RCLog(@"ERROR: Server-side error in task %d:\n%@", task.taskIdentifier, [error localizedDescription]);
+    }
 
     if (delegateForTask) {
         if (delegateForTask.completionHandler) { // could be nil, if there's no completionHandler handler for this task
-            if (error) {
-                RCLog(@"ERROR: Client-side error in task %d\n%@", task.taskIdentifier, [error localizedDescription]);
-            }
-
             delegateForTask.completionHandler(error);
         }
     } else {
