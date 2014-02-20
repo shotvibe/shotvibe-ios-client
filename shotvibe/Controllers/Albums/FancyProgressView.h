@@ -12,10 +12,10 @@
 
 @property (nonatomic) float progress; // Between 0.0 and 1.0, values outside are clipped. Setting progress with the property is not animated.
 
++ (void)disableProgressViewsWithCompletion:(void (^)())completionBlock;
+
 - (void)reset;
 
-- (void)appear;
-
-- (void)setProgress:(float)progress animated:(BOOL)animated;
+- (void)appearWithProgressObject:(id)progressObject;
 
 @end

@@ -8,10 +8,56 @@
 
 #import "FancyProgressView.h"
 
+@interface CachedProgressModel : NSObject
+
+@property (nonatomic, assign) BOOL didAppear;
+@property (nonatomic, assign) BOOL didFlyIn;
+@property (nonatomic, assign) BOOL didFlyOut;
+@property (nonatomic, assign) float progress;
+
+@end
+
+@implementation CachedProgressModel
+
+// TODO: explain
++ (id)sharedProgressCache
+{
+    static dispatch_once_t onceQueue;
+    static NSMapTable *progressCache = nil;
+
+    dispatch_once(&onceQueue, ^{
+        progressCache = [NSMapTable weakToStrongObjectsMapTable];
+    });
+    return progressCache;
+}
+
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _didAppear = NO;
+        _didFlyIn = NO;
+        _didFlyOut = NO;
+        _progress = 0.0;
+    }
+    return self;
+}
+@end
+
+
+@interface  FancyProgressView()
+
+@property (nonatomic, getter = isDisabled) BOOL disabled;
+
+@end
+
+
 @implementation FancyProgressView {
+    long long uniqueAnimationKeyCounter_;
     CAShapeLayer *progressLayer_;
 
-    long long uniqueAnimationKeyCounter_;
+    __weak id progressObject_;
 }
 
 static float const kOpacity = 0.5;
@@ -27,12 +73,167 @@ static float const kFlyOutTime = 0.3; // Time for the outer disk to disappear to
 static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white background to fade out
 
 
-// NOTE: For ShotVibe photo uploads, new progress views may cut off animations,
-//       see issue 278: https://github.com/shotvibe/shotvibe-ios-client/issues/278
+// contains all active progress views, for stopping animations
++ (id)sharedAllProgressViews
+{
+    static dispatch_once_t onceQueue;
+    static NSHashTable *allProgressViews = nil;
+
+    dispatch_once(&onceQueue, ^{
+        allProgressViews = [NSHashTable weakObjectsHashTable];
+    });
+    return allProgressViews;
+}
+
+
++ (void)disableProgressViewsWithCompletion:(void (^)())completionBlock
+{
+    CFTimeInterval animationsEndMediaTime = 0.0;
+
+    for (FancyProgressView *fpv in [FancyProgressView sharedAllProgressViews]) {
+        fpv.disabled = YES;
+
+        animationsEndMediaTime = MAX(animationsEndMediaTime, [fpv currentAnimationsEndTime]);
+    }
+
+    CFTimeInterval animationsEndTime = MAX(0, animationsEndMediaTime - CACurrentMediaTime());
+    RCLog(@"Animations end in %.2fs", animationsEndTime);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, animationsEndTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        completionBlock();
+    });
+}
+
+
+#pragma mark - Progress cache
+
+
+- (CachedProgressModel *)getCachedProgressModel
+{
+    CachedProgressModel *cachedProgress = [[CachedProgressModel sharedProgressCache] objectForKey:progressObject_];
+    if (!cachedProgress) {
+        cachedProgress = [[CachedProgressModel alloc] init];
+        if (progressObject_) {
+            [[CachedProgressModel sharedProgressCache] setObject:cachedProgress forKey:progressObject_];
+        } else {
+            RCLog(@"No progress object has been set.");
+        }
+    }
+    return cachedProgress;
+}
+
+
+- (BOOL)didAppear
+{
+    return [self getCachedProgressModel].didAppear;
+}
+
+
+- (void)setDidAppear:(BOOL)didAppear
+{
+    [self getCachedProgressModel].didAppear = didAppear;
+}
+
+
+- (BOOL)didFlyIn
+{
+    return [self getCachedProgressModel].didFlyIn;
+}
+
+
+- (void)setDidFlyIn:(BOOL)didFlyIn
+{
+    [self getCachedProgressModel].didFlyIn = didFlyIn;
+}
+
+
+- (BOOL)didFlyOut
+{
+    return [self getCachedProgressModel].didFlyOut;
+}
+
+
+- (void)setDidFlyOut:(BOOL)didFlyOut
+{
+    [self getCachedProgressModel].didFlyOut = didFlyOut;
+}
+
+- (float)getCachedProgress
+{
+    return [self getCachedProgressModel].progress;
+}
+
+
+- (void)setCachedProgress:(float)cachedProgress
+{
+    [self getCachedProgressModel].progress = cachedProgress;
+}
+
+// PROBLEM: waiting for animation, everything is blocked, and then certain items complete and on reload they
+// are not albumUploadingPhotos anymore.
+
+// TODO: Check if appearance on init always works, or we need to call a specific appear method from the controller. (test in Button 12 doesn't seem to allow animation (even though we don't need one there)
+
+
+// TODO: check weak property and cover case that it is null/nil (shouldn't occur)
+// TODO: remove NSSet from gridviewcontroller
+// TODO: explain that we assume one active view controller. otherwise need to group progress views on controller
+// TODO: check if weak hash table works as expected (objects are removed after releasing them)
+// TODO: check reuse and reset
+
+// TODO: on completion in uploader, set to 100%
+
+// on setProgress, check appear and flyIn
+
+// get old progress from ProgressCache use it to compute animation. No need for oldProgress anymore?
+// probably could use this to do flyin flyout on init (flyout is whan view was disabled just before animation)
+
+// Issues:
+// need didFlyIn?
+// what is fp.progress  Return cached progress, or do we need to keep a property as well?
+
+
+/*
+
+ TODO
+ Set progress at 1.0 on complete
+ Look at cell init again. Apparently I changed it to awakeFromNib in commit 360f6e5e56dc88376b0709761a2f48fa25c46094
+
+ maybe upload is complete before progress is 1.0?
+
+ Difference with Omer is that he has many album and lots of pictures that produce download traffic. Still weird that the refresh comes exactly when the animation should finish.
+
+ Idea progressCache: PhotoID -> shownProgress   to survive new views for same photo and missed events
+ Use instead of oldProgress
+ purgeCache  (Set PhotoID)    remove all photos except ones in set
+
+ +stop
+ for each progressview: animationEndTime = stop progressView
+ return max animationEndTime
+
+ Global, only one viewcontroller is possible, otherwise use dictionary
+
+ ViewController
+ on reloadData: purge
+ endtime <- stop
+ wait until endtime to [super reload]
+ if already waiting, compute new endtime (maybe with some max)
+
+ Crappy: p1 is < 100% on reload but was finished after reload and is removed from cache
+ -- solvable by always finishing animations for elements disappearing from cache
+
+
+ */
+
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _disabled = NO;
+
+        uniqueAnimationKeyCounter_ = 0;
+        progressObject_ = nil;
+
         progressLayer_ = [CAShapeLayer layer];
         progressLayer_.fillRule = kCAFillRuleEvenOdd;
         progressLayer_.fillColor = [UIColor blackColor].CGColor;
@@ -48,8 +249,10 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
         maskLayer.path = path;
         CGPathRelease(path);
         self.layer.mask = maskLayer;
-
         [self reset];
+
+        // TODO: thread safe
+        [[FancyProgressView sharedAllProgressViews] addObject:self];
     }
     return self;
 }
@@ -65,6 +268,8 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // Clear everything, for init or reuse.
 - (void)reset
 {
+
+    RCLog(@"\n\n\n\n\nRESET\n\n");
     [progressLayer_ removeAllAnimations];
     progressLayer_.opacity = 0.0;
     progressLayer_.path = [self createBackgroundRectangle].CGPath;
@@ -74,11 +279,114 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     _progress = 0.0;
 }
 
+// TODO: call this one setup or something, maybe combine with reset
+- (void)appearWithProgressObject:(id)progressObject
+{
+    progressObject_ = progressObject;
+    RCLog(@"Appear:\n%@ %d", progressObject_, [self didAppear]);
+    if (![self didAppear]) {
+        [self animateAppear];
+        [self setDidAppear:YES];
+    }
+    else {
+        progressLayer_.opacity = kOpacity;
+        progressLayer_.path = [self createProgressPathWithProgress:[self getCachedProgress]];
+    }
+    // TODO: no flyin, only do that on setProgress
+    // what happens if there's no flyin, but progress was set to 1 already?
+
+    // Maybe need to keep setting cachedProgress even when disabled, otherwise we may miss updates to 1.0
+
+    /*
+     Possible situations:
+     notAppear (fresh)
+     appeared, no progress (so no flyin)
+     progress between 0 and 0.999
+     ..
+     flown out
+
+     */
+    if ([self getCachedProgress] < 0.999999 && [self didFlyIn]) {
+        progressLayer_.opacity = kOpacity;
+        progressLayer_.path = [self createProgressPathWithProgress:[self getCachedProgress]];
+    } else if ([self getCachedProgress] > 0.999999 && ![self didFlyOut]) {
+        [self animateFlyOut];
+        [self setDidFlyOut:YES];
+    }
+}
+
+
+- (void)setProgress:(float)progress
+{
+    if (![ self isDisabled]) {
+        progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
+        RCLog(@"SetProgress from %.2f to %.2f", [self getCachedProgress], progress);
+        RCLog(@"%d %d %d",[self didAppear],[self didFlyIn],[self didFlyOut]);
+        if (![self didAppear]) {
+            [self animateAppear];
+            [self setDidAppear:YES];
+        }
+        if (![self didFlyIn]) {
+            [self animateFlyIn];
+            [self setDidFlyIn:YES];
+        }
+
+        if (![self didFlyOut]) {
+            [self animateProgressFrom:[self getCachedProgress] to:progress];
+            [self setCachedProgress:progress];
+
+            if (progress > 0.999999) {
+                [self animateFlyOut];
+                [self setDidFlyOut:YES];
+            }
+        }
+
+
+        /*
+         float oldProgress = _progress;
+         _progress = progress;
+         if (animated) {
+         if (fequal(progress, oldProgress)) {
+         return;
+         }
+
+         // 0.0 will not occur, since oldProgress will also be 0.0
+         if (oldProgress < 0.000001) {
+         [self animateFlyIn];
+         }
+         [self animateProgressFrom:oldProgress to:progress];
+         if (progress > 0.999999) {
+         [self animateFlyOut];
+         }
+         } else { // not animated
+         [progressLayer_ removeAllAnimations];
+
+         if (progress < 0.000001) {
+         [self executeWithoutImplicitAnimation:^{
+         progressLayer_.opacity = kOpacity;
+         progressLayer_.path = [self createBackgroundRectangle].CGPath;
+         }];
+         } else if (progress < 0.999999) {
+         [self executeWithoutImplicitAnimation:^{
+         progressLayer_.opacity = kOpacity;
+         progressLayer_.path = [self createProgressPathWithProgress:_progress];
+         }];
+         } else {
+         [self executeWithoutImplicitAnimation:^{
+         progressLayer_.opacity = 0.0;
+         }];
+         }
+         }
+         */
+    }
+}
+
+
+#pragma mark - Animations
+
 
 // Let the dark foreground fade in.
-// NOTE: Cannot be called for ShotVibe photo uploads,
-//       see issue 278: https://github.com/shotvibe/shotvibe-ios-client/issues/278
-- (void)appear
+- (void)animateAppear
 {
     CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
     opacityAnimation.duration = kAppearanceTime;
@@ -98,60 +406,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 }
 
 
-- (void)setProgress:(float)progress
-{
-    [self setProgress:progress animated:NO];
-}
-
-
-- (void)setProgress:(float)progress animated:(BOOL)animated
-{
-    progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
-    float oldProgress = _progress;
-    _progress = progress;
-    //RCLog(@"SetProgress from %.2f to %.2f (%@animated)", oldProgress, progress, animated ? @"" : @"not ");
-
-
-    if (animated) {
-        if (fequal(progress, oldProgress)) {
-            return;
-        }
-
-        // 0.0 will not occur, since oldProgress will also be 0.0
-        if (oldProgress < 0.000001) {
-            [self flyIn];
-        }
-        [self progressFrom:oldProgress to:progress];
-        if (progress > 0.999999) {
-            [self flyOut];
-        }
-    } else { // not animated
-        [progressLayer_ removeAllAnimations];
-
-        if (progress < 0.000001) {
-            [self executeWithoutImplicitAnimation:^{
-                progressLayer_.opacity = kOpacity;
-                progressLayer_.path = [self createBackgroundRectangle].CGPath;
-            }];
-        } else if (progress < 0.999999) {
-            [self executeWithoutImplicitAnimation:^{
-                progressLayer_.opacity = kOpacity;
-                progressLayer_.path = [self createProgressPathWithProgress:_progress];
-            }];
-        } else {
-            [self executeWithoutImplicitAnimation:^{
-                progressLayer_.opacity = 0.0;
-            }];
-        }
-    }
-}
-
-
-#pragma mark - Animations
-
-
-
-- (void)flyIn
+- (void)animateFlyIn
 {
     //RCLog(@"Flying in");
     // start with inner of kInset so the line doesn't get too thin
@@ -160,14 +415,14 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 }
 
 
-- (void)progressFrom:(float)fromProgress to:(float)toProgress
+- (void)animateProgressFrom:(float)fromProgress to:(float)toProgress
 {
     //RCLog(@"Progressing from %.2f to %.2f", fromProgress, toProgress);
     [self keyFrameAnimateLayer:progressLayer_ fromProgress:fromProgress toProgress:toProgress];
 }
 
 
-- (void)flyOut
+- (void)animateFlyOut
 {
     //RCLog(@"Flying out");
     float surroundingRadius = sqrt(square(self.bounds.size.width) + square(self.bounds.size.height)) / 2 + 1;

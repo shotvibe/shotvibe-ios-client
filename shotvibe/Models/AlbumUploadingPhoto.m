@@ -49,6 +49,7 @@
 
 - (void)setUploadStatus:(UploadStatus)newStatus
 {
+    uploadProgress_ = 1.0;
     uploadStatus_ = newStatus;
 }
 

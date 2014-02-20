@@ -46,8 +46,6 @@
 	SortType sort;
 	
 	int collection_content_offset_y;
-
-    NSMutableSet *appearedUploadingPhotos_; // Set of UploadingAlbumPhotos for which the appearance animation in the progress view has been shown (see issue #278)
 }
 
 @property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
@@ -86,8 +84,6 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     [super viewDidLoad];
 	
 	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized without albumId");
-
-    appearedUploadingPhotos_ = [[NSMutableSet alloc] init];
 
 	self.collectionView.alwaysBounceVertical = YES;
 	//self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
@@ -364,7 +360,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 {
     SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
 
-    //RCLog(@"Dequeued cell: %@", cell);
+    RCLog(@"Dequeued cell: %@", cell);
     __block NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 
     [cell.networkImageView setImage:nil];
@@ -392,12 +388,8 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         [cell.uploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
 
         cell.fancyUploadProgressView.hidden = NO;
-        if ([appearedUploadingPhotos_ containsObject:uploadingPhoto]) {
-            [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
-        } else {
-            [appearedUploadingPhotos_ addObject:uploadingPhoto];
-            [cell.fancyUploadProgressView appear];
-        }
+        [cell.fancyUploadProgressView appearWithProgressObject:uploadingPhoto];
+         // TODO: set progress here
 
         cell.labelNewView.hidden = YES;
     }
@@ -548,6 +540,17 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 #pragma mark - Private Methods
 
+- (void)reloadAfterDisablingProgress
+{
+    [FancyProgressView disableProgressViewsWithCompletion:^() {
+        RCLog(@"Delayed reload");
+        // TODO: we may queue up a couple of reloads that could be optimized to one
+        [self.collectionView reloadData];
+        [self updateEmptyState];
+    }];
+}
+
+
 - (void)toggleMenu
 {
 	[(SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController resignFirstResponder];
@@ -566,16 +569,6 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 - (void)setAlbumContents:(SLAlbumContents *)album
 {
     albumContents = album;
-
-    // Remove all elements from appearedUploadingPhotos that are no longer albumUploadingPhotos
-    NSMutableSet *uploadingPhotos = [[NSMutableSet alloc] init];
-    for (SLAlbumPhoto *albumPhoto in [albumContents getPhotos]) {
-        SLAlbumUploadingPhoto *uploadingPhoto = [albumPhoto getUploadingPhoto];
-        if (uploadingPhoto) {
-            [uploadingPhotos addObject:uploadingPhoto];
-        }
-    }
-    [appearedUploadingPhotos_ intersectSet:uploadingPhotos];
 
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
@@ -605,8 +598,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     });
 
 	[self sortThumbsBy:sort];
-    [self.collectionView reloadData];
-	[self updateEmptyState];
+    [self reloadAfterDisablingProgress];
 }
 
 
@@ -689,9 +681,10 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 - (void)switchSortHandler:(UISegmentedControl*)control {
 	sort = control.selectedSegmentIndex;
 	[self sortThumbsBy:sort];
-	[self.collectionView reloadData];
 	[[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
+
+    [self reloadAfterDisablingProgress];
 }
 
 
@@ -727,8 +720,8 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
             cell.uploadProgressView.hidden = YES;
             cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
             cell.fancyUploadProgressView.hidden = [uploadingPhoto isUploadComplete];
-            //RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
-            [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:YES];
+            RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
+            [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress]];
 		}
 	}
 }
