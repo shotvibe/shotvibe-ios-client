@@ -90,7 +90,8 @@ static const NSTimeInterval RETRY_TIME = 5;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
             if ([photo getLowResFilename] && [photo getLowResFilename]) { // force save, won't fail, just block
-                // TODO: at this point, store new AlbumUploadingPhotos as IdPending in ShotVibeDB
+                [photo setUploadStatus:NewUploader_UploadStatus_WaitingForId];
+                // TODO: at this point, store new AlbumUploadingPhotos as WaitingForId in ShotVibeDB
 
                 [uploadingPhotos_ addPhoto:photo album:albumId];
             } else {
@@ -151,6 +152,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         [photoIds_ removeObjectAtIndex:0];
     }
 
+    [photo setUploadStatus:NewUploader_UploadStatus_Stage1Pending];
     // TODO: at this point, store new AlbumUploadingPhotos as Stage1Pending in ShotVibeDB
 
     [self startFirstStagePhotoUpload:albumId photo:photo backgroundTaskID:photoUploadBackgroundTaskID];
@@ -190,7 +192,9 @@ static const NSTimeInterval RETRY_TIME = 5;
 - (void)lowResPhotoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
 {
     RCLog(@"FINISH first-stage upload for %@", showShortPhotoId(photo.photoId));
-    // TODO: at this point, mark the AlbumUploadingPhoto as AddingToAlbum in ShotVibeDB
+
+    [photo setUploadStatus:NewUploader_UploadStatus_AddingToAlbum];
+    // TODO: at this point, store new AlbumUploadingPhotos as AddingToAlbum in ShotVibeDB
 
     [photo setUploadComplete];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -297,7 +301,10 @@ static const NSTimeInterval RETRY_TIME = 5;
 // NSArray photos has elements of type AlbumUploadingPhoto
 - (void)photosWereAdded:(NSArray *)addedPhotos albumId:(int64_t)albumId
 {
-    // TODO: at this point, mark addedPhotos as Stage2Pending in ShotVibeDB
+    for (AlbumUploadingPhoto *photo in addedPhotos) {
+        [photo setUploadStatus:NewUploader_UploadStatus_Stage2Pending];
+        // TODO: at this point, store new AlbumUploadingPhotos as Stage2Pending in ShotVibeDB
+    }
 
     NSArray *newSecondStagePhotos = @[];
 

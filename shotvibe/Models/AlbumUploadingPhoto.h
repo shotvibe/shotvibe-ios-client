@@ -12,11 +12,27 @@
 
 #import "PhotoUploadRequest.h"
 
+typedef NS_ENUM (NSInteger, UploadStatus) {
+    UploadStatusQueued,
+    UploadStatusUploading,
+    UploadStatusComplete,
+    UploadStatusAddingToAlbum,
+    NewUploader_UploadStatus_WaitingForId,
+    NewUploader_UploadStatus_Stage1Pending,
+    NewUploader_UploadStatus_AddingToAlbum,
+    NewUploader_UploadStatus_Stage2Pending
+};
+
+
 @interface AlbumUploadingPhoto : SLAlbumUploadingPhoto
 
 @property (atomic, copy) NSString *photoId;
 
 - (id)initWithPhotoUploadRequest:(PhotoUploadRequest *)photoUploadRequest album:(int64_t)album;
+
+- (UploadStatus)getUploadStatus;
+
+- (void)setUploadStatus:(UploadStatus)newStatus;
 
 - (BOOL)isUploadComplete;
 

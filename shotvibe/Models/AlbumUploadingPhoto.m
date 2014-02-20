@@ -8,13 +8,6 @@
 
 #import "AlbumUploadingPhoto.h"
 
-typedef NS_ENUM(NSInteger, UploadStatus) {
-    UploadStatusQueued,
-    UploadStatusUploading,
-    UploadStatusComplete,
-    UploadStatusAddingToAlbum
-};
-
 @implementation AlbumUploadingPhoto
 {
     PhotoUploadRequest *photoUploadRequest_;
@@ -45,10 +38,25 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
     return self;
 }
 
+
+// TODO: maybe make property for uploadStatus
+- (UploadStatus)getUploadStatus
+{
+    return uploadStatus_;
+}
+
+
+- (void)setUploadStatus:(UploadStatus)newStatus
+{
+    uploadStatus_ = newStatus;
+}
+
+
+// used to show/hide upload progress in gui
 - (BOOL)isUploadComplete
 {
     @synchronized (lock_) {
-        return uploadStatus_ == UploadStatusComplete || uploadStatus_ == UploadStatusAddingToAlbum;
+        return uploadStatus_ == UploadStatusComplete || uploadStatus_ == UploadStatusAddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_AddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_Stage2Pending;
     }
 }
 
