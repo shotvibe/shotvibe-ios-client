@@ -105,14 +105,14 @@
 													  object:nil
 													   queue:queue
 												  usingBlock:^(NSNotification *note)
-     {
-         // This is called when you open and close the side menu
-         if ([note.userInfo[@"eventType"] integerValue] == MFSideMenuStateEventMenuDidClose) {
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [self resignFirstResponder];
-             });
-         }
-     }];
+	{
+        // This is called when you open and close the side menu
+        if ([note.userInfo[@"eventType"] integerValue] == MFSideMenuStateEventMenuDidClose) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self resignFirstResponder];
+			});
+		}
+	}];
 }
 
 
@@ -130,35 +130,35 @@
 - (IBAction)addFriendsButtonPressed:(id)sender
 {
     NSLog(@"contacts auth status: %ld", ABAddressBookGetAuthorizationStatus());
-    
+
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
         [self navigateToAddFriends:sender];
     } else {
         CFErrorRef error;
         ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
         NSLog(@"addressBook: %@", addressBook);
-        
+
         // This is needed to block the UI until the completion block is called (prevents a possible race condition)
         MBProgressHUD *invisibleBlockingHUD = [MBProgressHUD showHUDAddedTo:self.view.window animated:NO];
         invisibleBlockingHUD.mode = MBProgressHUDModeText; // This gets rid of the default activity indicator
         invisibleBlockingHUD.opacity = 0.0f;
-        
+
         ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
             NSLog(@"complete addressBook: %@", addressBook);
             NSLog(@"complete granted: %d", granted);
             NSLog(@"complete error: %@", error);
-            
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 // Unblock the UI:
                 [invisibleBlockingHUD hide:NO];
-                
+
                 if (granted) {
                     [self navigateToAddFriends:sender];
                 } else {
                     NSString *errorMessage =
-                    @"In order to invite people we need access to your contacts list.\n\n"
-                    @"To enable it go to Settings/Privacy/Contacts";
-                    
+                        @"In order to invite people we need access to your contacts list.\n\n"
+                        @"To enable it go to Settings/Privacy/Contacts";
+
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
                                                                     message:errorMessage
                                                                    delegate:nil
@@ -246,12 +246,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
-    
+
     SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
     [cell.memberLabel setText:[[member getUser] getMemberNickname]];
-    
+
     if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
 		
 		cell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
@@ -272,7 +272,7 @@
                     cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
                     cell.statusLabel.text = @"joined";
                     break;
-                    
+
                 case SLAlbumMember_InviteStatus_SMS_SENT:
                 case SLAlbumMember_InviteStatus_INVITATION_VIEWED:
                     cell.statusImageView.image = [UIImage imageNamed:@"MemberInvited"];
@@ -315,14 +315,14 @@
             // TODO
             // - Show spinner while loading
             // - If failed, then show dialog with "retry" button
-            
+
             SLAPIException *apiException;
             @try {
                 [shotvibeAPI leaveAlbumWithId:[self.albumContents getId]];
             } @catch (SLAPIException *exception) {
                 apiException = exception;
             }
-            
+
             if (!apiException) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.parentController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
