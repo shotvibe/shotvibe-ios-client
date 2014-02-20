@@ -129,7 +129,7 @@
     SLShotVibeAPI *libShotVibeAPI_;
 }
 
-NSString *const UPLOAD_BASE_URL = @"https://upload.shotvibe.com";
+NSString *const UPLOAD_BASE_URL = @"https://api.shotvibe.com";
 // TODO: UPLOAD_BASE_URL is temporary, until we use the urls from photosUploadRequest
 
 static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.ShotVibeAPI.ErrorDomain";
