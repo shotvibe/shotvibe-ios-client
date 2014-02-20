@@ -10,7 +10,7 @@
 #import "AlbumManager.h"
 #import "SVAlbumListViewCell.h"
 
-@interface SVMultiplePicturesViewController : UIViewController <SVAlbumListViewCellDelegate>
+@interface SVMultiplePicturesViewController : UIViewController <SVAlbumListViewCellDelegate, AlbumListListener>
 
 @property (nonatomic, strong) NSArray *images;
 @property (nonatomic, strong) AlbumManager *albumManager;

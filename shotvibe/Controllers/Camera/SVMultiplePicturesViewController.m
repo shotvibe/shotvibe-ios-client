@@ -255,23 +255,28 @@
 
     // Write the album to server
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSError *error;
-        SLAlbumContents *albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title];
+        SLAlbumContents *albumContents = nil;
+        SLAPIException *apiException = nil;
+        @try {
+            albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title];
+        } @catch (SLAPIException *exception) {
+            apiException = exception;
+        }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (error) {
+            if (apiException) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Creating Album"
-                                                                message:[error description]
+                                                                message:apiException.description
                                                                delegate:nil
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
                 [alert show];
             } else {
                 self.albumId = [albumContents getId];
+                [self.albumManager refreshAlbumList];
+
+                [self.albumManager addAlbumListListener:self];
             }
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self hideDropDown:NO];
-            [self uploadPhotos];
         }
 
 
@@ -280,6 +285,31 @@
 
 
                    );
+}
+
+
+- (void)onAlbumListBeginRefresh
+{
+}
+
+
+- (void)onAlbumListRefreshComplete:(NSArray *)albums
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+    [self hideDropDown:NO];
+    [self uploadPhotos];
+
+    [self.albumManager removeAlbumListListener:self];
+}
+
+
+- (void)onAlbumListRefreshError:(SLAPIException *)exception
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+    [self hideDropDown:NO];
+    [self.albumManager removeAlbumListListener:self];
 }
 
 
