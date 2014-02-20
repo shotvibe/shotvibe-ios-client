@@ -103,7 +103,12 @@ static const NSTimeInterval RETRY_TIME = 5;
 // TODO: will loop on network failure and may be canceled after 10 minutes in the background.
 - (void)requestIdsForNewUploads:(NSUInteger)nrOfNewUploads
 {
-    if ([photoIds_ count] < nrOfNewUploads) { // Request new ids if there are not enough
+    NSUInteger remainingPhotoIds;
+    @synchronized(photoIds_) {
+        remainingPhotoIds = [photoIds_ count]; // probably not necessary to synchronize this, but it doesn't hurt
+    }
+
+    if (remainingPhotoIds < nrOfNewUploads) { // Request new ids if there are not enough
         RCLog(@"PhotoUploadManager Requesting Photo IDs");
 
         NSArray *newPhotoIds = nil;
@@ -117,7 +122,9 @@ static const NSTimeInterval RETRY_TIME = 5;
             }
         }
 
-        [photoIds_ addObjectsFromArray:newPhotoIds];
+        @synchronized(photoIds_) {
+            [photoIds_ addObjectsFromArray:newPhotoIds];
+        }
     }
 }
 
@@ -132,8 +139,10 @@ static const NSTimeInterval RETRY_TIME = 5;
     }];
     RCLog(@"Photo-upload background task %d started", photoUploadBackgroundTaskID);
 
-    [photo setPhotoId:[photoIds_ objectAtIndex:0]];
-    [photoIds_ removeObjectAtIndex:0];
+    @synchronized(photoIds_) {
+        [photo setPhotoId:[photoIds_ objectAtIndex:0]];
+        [photoIds_ removeObjectAtIndex:0];
+    }
 
     [photo prepareTmpFiles:photoSaveQueue_];
 
