@@ -427,10 +427,13 @@ static const NSTimeInterval RETRY_TIME = 5;
         switch ([unfinishedUpload getUploadStatus]) {
             case NewUploader_UploadStatus_WaitingForId:
                 break;
+
             case NewUploader_UploadStatus_Stage1Pending:
                 break;
+
             case NewUploader_UploadStatus_AddingToAlbum:
                 break;
+
             case NewUploader_UploadStatus_Stage2Pending:
                 break;
 
