@@ -16,6 +16,53 @@
 #import "SL/APIException.h"
 
 
+// TODO: temporary code for storing the AlbumUploadingPhotos in a file
+@implementation AlbumUploadingPhoto (NSCoding)
+
++ (NSString *)getUnfinishedUploadsFilePath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    return [NSString stringWithFormat:@"%@/UnfinishedUploads.plist", documentsDirectory];
+}
+
+
+- (id)initWithCoder:(NSCoder *)coder
+{
+    NSString *photoId = [coder decodeObjectForKey:@"photoId"];
+    int64_t albumId = [coder decodeInt64ForKey:@"albumId"];
+    NSString *fullResFilePath = [coder decodeObjectForKey:@"fullResFilePath"];
+    UploadStatus uploadStatus = [coder decodeIntForKey:@"uploadStatus"];
+
+    self = [self initWithPhotoUploadRequest:[[PhotoUploadRequest alloc] initWithPath:fullResFilePath] album:albumId];
+
+    [self prepareTmpFiles:dispatch_queue_create(NULL, NULL)]; // TODO: hacky, but we can't store paths in AlbumUploadingPhoto
+    [self setUploadStatus:uploadStatus];
+    self.photoId = photoId;
+    self.albumId = albumId;
+
+    return self;
+}
+
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    NSString *photoId = self.photoId;
+    int64_t albumId = self.albumId;
+    NSString *fullResFilePath = [self getFullResFilename];
+    UploadStatus uploadStatus = [self getUploadStatus];
+
+    [coder encodeObject:photoId forKey:@"photoId"];
+    [coder encodeInt64:albumId forKey:@"albumId"];
+    [coder encodeInt:uploadStatus forKey:@"uploadStatus"];
+    [coder encodeObject:fullResFilePath forKey:@"fullResFilePath"];
+}
+
+
+@end
+// End of temporary code
+
+
 @implementation NewPhotoUploadManager {
     ShotVibeAPI *shotVibeAPI_;
     NewShotVibeAPI *newShotVibeAPI_;
@@ -61,6 +108,10 @@ static const NSTimeInterval RETRY_TIME = 5;
         pendingSecondStagePhotos_ = [[NSMutableArray alloc] init];
     }
 
+    NSArray *unfinishedUploads = [self loadUnfinishedUploads];
+    RCLog(@"Found %d unfinished uploads", unfinishedUploads.count);
+    logUploads(unfinishedUploads);
+
     return self;
 }
 
@@ -94,7 +145,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
             if ([photo getLowResFilename] && [photo getLowResFilename]) { // force save, won't fail, just block
                 [photo setUploadStatus:NewUploader_UploadStatus_WaitingForId];
-                // TODO: at this point, store new AlbumUploadingPhotos as WaitingForId in ShotVibeDB
+                [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as WaitingForId in ShotVibeDB
             } else {
                 RCLog(@"INTERNAL ERROR: tmp file(s) empty");
             }
@@ -154,7 +205,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     }
 
     [photo setUploadStatus:NewUploader_UploadStatus_Stage1Pending];
-    // TODO: at this point, store new AlbumUploadingPhotos as Stage1Pending in ShotVibeDB
+    [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as Stage1Pending in ShotVibeDB
 
     [self startFirstStagePhotoUpload:albumId photo:photo backgroundTaskID:photoUploadBackgroundTaskID];
 }
@@ -195,7 +246,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     RCLog(@"FINISH first-stage upload for %@", showShortPhotoId(photo.photoId));
 
     [photo setUploadStatus:NewUploader_UploadStatus_AddingToAlbum];
-    // TODO: at this point, store new AlbumUploadingPhotos as AddingToAlbum in ShotVibeDB
+    [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as AddingToAlbum in ShotVibeDB
 
     [photo setUploadComplete];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -239,7 +290,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 - (void)startAddToAlbumTask:(NSArray *)photosToAdd album:(int64_t)albumId backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
 {
-    RCLog(@"Adding %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
+    RCLog(@"Adding %d photo(s) to album %lld: %@", photosToAdd.count, albumId, showAlbumUploadingPhotoIds(photosToAdd));
     NSMutableArray *photoIdsToAdd = [[NSMutableArray alloc] init];
 
     for (AlbumUploadingPhoto *photo in photosToAdd) {
@@ -259,7 +310,7 @@ static const NSTimeInterval RETRY_TIME = 5;
      photosSuccesfullyAdded = YES;
      }
      }
-     RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
+     RCLog(@"Added %d photo(s) to album %lld: %@", photosToAdd.count, albumId, showAlbumUploadingPhotoIds(photosToAdd));
 
      [self photosWereAdded:photosToAdd albumId:albumId];
 
@@ -279,12 +330,12 @@ static const NSTimeInterval RETRY_TIME = 5;
     // TODO: may suffer from a delay after photos were uploaded, when called from the background.
     [newShotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^(NSError *error) {
         if (error) {
-            RCLog(@"ERROR: %@\nwhile adding %d photo(s) to album %lld: %@\nRetrying in %.1f seconds.", [error localizedDescription], (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd), RETRY_TIME);
+            RCLog(@"ERROR: %@\nwhile adding %d photo(s) to album %lld: %@\nRetrying in %.1f seconds.", [error localizedDescription], photosToAdd.count, albumId, showAlbumUploadingPhotoIds(photosToAdd), RETRY_TIME);
             [NSThread sleepForTimeInterval:RETRY_TIME];
 
             [self startAddToAlbumTask:photosToAdd album:albumId backgroundTaskID:photoUploadBackgroundTaskID];
         } else {
-            RCLog(@"Added %d photo(s) to album %lld: %@", (int)[photosToAdd count], albumId, showAlbumUploadingPhotoIds(photosToAdd));
+            RCLog(@"Added %d photo(s) to album %lld: %@", photosToAdd.count, albumId, showAlbumUploadingPhotoIds(photosToAdd));
 
             [self photosWereAdded:photosToAdd albumId:albumId];
 
@@ -304,7 +355,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     for (AlbumUploadingPhoto *photo in addedPhotos) {
         [photo setUploadStatus:NewUploader_UploadStatus_Stage2Pending];
-        // TODO: at this point, store new AlbumUploadingPhotos as Stage2Pending in ShotVibeDB
+        [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as Stage2Pending in ShotVibeDB
     }
 
     NSArray *newSecondStagePhotos = @[];
@@ -355,7 +406,7 @@ static const NSTimeInterval RETRY_TIME = 5;
             [self startSecondStageUploadTask:photo];
         } else {
             RCLog(@"FINISH second-stage upload for %@", showShortPhotoId(photo.photoId));
-            // TODO: at this point, remove the photo newSecondStageUpload from ShotVibeDB
+            [self storeUnfinishedUploads]; // TODO: at this point, remove the photo newSecondStageUpload from ShotVibeDB
 
             RCLog(@"Second-stage upload background task %d ended", secondStageUploadBackgroundTaskID);
             [[UIApplication sharedApplication] endBackgroundTask:secondStageUploadBackgroundTaskID];
@@ -403,6 +454,29 @@ NSString * showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
         str = [NSString stringWithFormat:@"%@ %@", str, showShortPhotoId(photo.photoId)];
     }
     return str;
+}
+
+
+- (void)storeUnfinishedUploads
+{
+    NSArray *albumUploadingPhotos = [self getAllUploadingPhotos];
+    RCLog(@"Storing unfinished uploads:");
+    logUploads(albumUploadingPhotos);
+    [NSKeyedArchiver archiveRootObject:albumUploadingPhotos toFile:[AlbumUploadingPhoto getUnfinishedUploadsFilePath]];
+}
+
+
+- (NSArray *)loadUnfinishedUploads
+{
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:[AlbumUploadingPhoto getUnfinishedUploadsFilePath]];
+}
+
+
+static void logUploads(NSArray *albumUploadingPhotos)
+{
+    for (AlbumUploadingPhoto *photo in albumUploadingPhotos) {
+        RCLog(@"Upload: %@ in album %lld, state %d file:%@", showShortPhotoId(photo.photoId), photo.albumId, [photo getUploadStatus], [photo getFullResFilename]);
+    }
 }
 
 
