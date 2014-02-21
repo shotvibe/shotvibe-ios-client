@@ -365,22 +365,32 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 
 // Called by AlbumManager to get the uploading photos that need to be inserted in the album contents.
-- (NSArray *)getUploadingPhotos:(int64_t)albumId
+// Note: the returned array contains AlbumPhotos, not AlbumUploadingPhotos
+- (NSArray *)getUploadingAlbumPhotos:(int64_t)albumId
 {
-    NSMutableArray *result = [[NSMutableArray alloc] init];
+    NSMutableArray *uploadingPhotosForAlbum = [[NSMutableArray alloc] init];
+    for (AlbumUploadingPhoto *photo in [self getAllUploadingPhotos]) {
+        if (photo.albumId == albumId) {
+            SLAlbumPhoto *albumPhoto = [[SLAlbumPhoto alloc] initWithSLAlbumUploadingPhoto:photo];
+            [uploadingPhotosForAlbum addObject:albumPhoto];
+        }
+    }
+    return uploadingPhotosForAlbum;
+}
+
+
+- (NSArray *)getAllUploadingPhotos
+{
+    NSArray *result;
 
     @synchronized(self) {
         NSArray *uploading = [uploadingPhotos_ getAllPhotos];
         NSArray *uploaded = [uploadedPhotos_ getAllPhotos];
         NSArray *adding = [addingPhotos_ getAllPhotos];
-        NSArray *all = [[uploading arrayByAddingObjectsFromArray:uploaded] arrayByAddingObjectsFromArray:adding];
-        for (AlbumUploadingPhoto *upload in all) {
-            SLAlbumPhoto *albumPhoto = [[SLAlbumPhoto alloc] initWithSLAlbumUploadingPhoto:upload];
-            [result addObject:albumPhoto];
-        }
+        result = [[uploading arrayByAddingObjectsFromArray:uploaded] arrayByAddingObjectsFromArray:adding];
     }
     RCLog(@"getUploadingPhotos: %d uploading photos", result.count);
-    return [NSArray arrayWithArray:result];
+    return result;
 }
 
 

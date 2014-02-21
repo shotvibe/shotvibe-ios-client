@@ -24,6 +24,6 @@
  that album are still uploading.)
  @result Array of `AlbumPhoto` objects
  */
-- (NSArray *)getUploadingPhotos:(int64_t)albumId;
+- (NSArray *)getUploadingAlbumPhotos:(int64_t)albumId;
 
 @end

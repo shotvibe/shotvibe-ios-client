@@ -238,7 +238,7 @@ enum RefreshStatus
     }
 
     // Add the Uploading photos to the end of album:
-    cachedAlbum = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+    cachedAlbum = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingAlbumPhotos:albumId]];
 
     return cachedAlbum;
 }
@@ -326,7 +326,7 @@ enum RefreshStatus
                     });
 
                     // Add the Uploading photos to the end of album:
-                    SLAlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:albumContents uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+                    SLAlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:albumContents uploadingPhotos:[self.photoUploadManager getUploadingAlbumPhotos:albumId]];
 
                     for(id<AlbumContentsListener> listener in data.listeners) {
                         [listener onAlbumContentsRefreshComplete:albumId albumContents:updatedContents];
@@ -510,7 +510,7 @@ enum RefreshStatus
     SLAlbumContents *cachedAlbum = [shotvibeDB getAlbumContents:albumId];
 
     // Add the Uploading photos to the end of album:
-    SLAlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+    SLAlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingAlbumPhotos:albumId]];
 
     for(id<AlbumContentsListener> listener in data.listeners) {
         [listener onAlbumContentsBeginRefresh:albumId];
