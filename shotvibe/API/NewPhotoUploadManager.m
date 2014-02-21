@@ -82,7 +82,9 @@
 
     NSArray *pendingSecondStagePhotos_; // AlbumUploadingPhotos that have been low-res uploaded and added, but are pending full res upload
 
-    // In ShotVibeDB, photos will progress through these states: Stage1Uploading -> AddingToAlbum -> Stage2Pending
+    // TODO: keep track of uploadingSecondStagePhotos, so we can store them in unfinishedUploads. Perhaps not necessary anymore once we store uploads in the database
+
+    // In ShotVibeDB, photos will progress through these states: WaitingForId -> Stage1Uploading -> AddingToAlbum -> Stage2Pending
 }
 
 static const NSTimeInterval RETRY_TIME = 5;
@@ -108,10 +110,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         pendingSecondStagePhotos_ = [[NSMutableArray alloc] init];
     }
 
-    NSArray *unfinishedUploads = [self loadUnfinishedUploads];
-    RCLog(@"Found %d unfinished uploads", unfinishedUploads.count);
-    logUploads(unfinishedUploads);
-
+    [self resumeUnfinishedUploads];
     return self;
 }
 
@@ -406,12 +405,40 @@ static const NSTimeInterval RETRY_TIME = 5;
             [self startSecondStageUploadTask:photo];
         } else {
             RCLog(@"FINISH second-stage upload for %@", showShortPhotoId(photo.photoId));
-            [self storeUnfinishedUploads]; // TODO: at this point, remove the photo newSecondStageUpload from ShotVibeDB
+            [self storeUnfinishedUploads]; // TODO: at this point, remove the AlbumUploadingPhoto photo from ShotVibeDB
 
             RCLog(@"Second-stage upload background task %d ended", secondStageUploadBackgroundTaskID);
             [[UIApplication sharedApplication] endBackgroundTask:secondStageUploadBackgroundTaskID];
         }
     }];
+}
+
+
+// On init, resume any uploads that hadn't finished when the app last terminated or crashed.
+- (void)resumeUnfinishedUploads
+{
+    NSArray *unfinishedUploads = [self loadUnfinishedUploads];
+    RCLog(@"Found %d unfinished uploads", unfinishedUploads.count);
+    logUploads(unfinishedUploads);
+
+    // TODO: add uploads to corresponding dictionaries / arrays
+    //       and restart tasks
+    for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploads) {
+        switch ([unfinishedUpload getUploadStatus]) {
+            case NewUploader_UploadStatus_WaitingForId:
+                break;
+            case NewUploader_UploadStatus_Stage1Pending:
+                break;
+            case NewUploader_UploadStatus_AddingToAlbum:
+                break;
+            case NewUploader_UploadStatus_Stage2Pending:
+                break;
+
+            default:
+                RCLog(@"INTERNAL ERROR: incorrect uploadStatus %d", [unfinishedUpload getUploadStatus]);
+                break;
+        }
+    }
 }
 
 
