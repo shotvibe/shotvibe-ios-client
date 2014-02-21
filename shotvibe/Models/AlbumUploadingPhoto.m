@@ -19,12 +19,13 @@
     float uploadProgress_;
 }
 
-- (id)initWithPhotoUploadRequest:(PhotoUploadRequest *)photoUploadRequest album:(int64_t)album
+- (id)initWithPhotoUploadRequest:(PhotoUploadRequest *)photoUploadRequest album:(int64_t)albumId
 {
     self = [super init];
 
     if (self) {
         _photoId = nil;
+        _albumId = albumId;
 
         photoUploadRequest_ = photoUploadRequest;
         tmpFilesSaved = dispatch_semaphore_create(0);

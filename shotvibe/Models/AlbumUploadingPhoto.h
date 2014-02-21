@@ -27,8 +27,9 @@ typedef NS_ENUM (NSInteger, UploadStatus) {
 @interface AlbumUploadingPhoto : SLAlbumUploadingPhoto
 
 @property (atomic, copy) NSString *photoId;
+@property (nonatomic, assign) int64_t albumId;
 
-- (id)initWithPhotoUploadRequest:(PhotoUploadRequest *)photoUploadRequest album:(int64_t)album;
+- (id)initWithPhotoUploadRequest:(PhotoUploadRequest *)photoUploadRequest album:(int64_t)albumId;
 
 - (UploadStatus)getUploadStatus;
 
