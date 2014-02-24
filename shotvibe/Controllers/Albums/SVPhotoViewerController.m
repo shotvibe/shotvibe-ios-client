@@ -763,9 +763,10 @@
 				uploadingAviaryPicture = YES;
 				
 				// Upload the saved photo. This will call the refresh 2 times, one with the local photo and one after the photo is being uploaded
-                //PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
-                // TODO upload photoUploadRequest to photoUploadManager
 				
+                PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
+                [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:@[photoUploadRequest]];
+
 				// Send a notification the the main screen to move this album on top of the list
 				NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
 				[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATIONCENTER_ALBUM_CHANGED object:nil userInfo:userInfo];
@@ -773,9 +774,10 @@
 		}
 	});
 	
-	
 	[editor dismissViewControllerAnimated:YES completion:^{
 		[editor setDelegate:nil];
+        [self setControlsHidden:NO animated:NO permanent:YES];
+        [self.navigationController popViewControllerAnimated:YES];
 	}];
 }
 
