@@ -150,23 +150,19 @@ static const NSTimeInterval RETRY_TIME = 5;
             }
         }
 
-        [self requestIdsForNewUploads:[photoUploadRequests count]];
-        for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
-            [self uploadPhotoWithoutId:albumId photo:photo];
-        }
+        [self uploadPhotosWithoutIds:albumId photos:newAlbumUploadingPhotos];
+
         RCLog(@"Initiate-uploads background task %d ended", initiateUploadsBackgroundTaskID);
         [[UIApplication sharedApplication] endBackgroundTask:initiateUploadsBackgroundTaskID];
     });
 }
 
 
-// TODO: will loop on network failure and may be canceled after 10 minutes in the background.
+// NOTE: Not thread safe, so should only be called from a synchronized block
 - (void)requestIdsForNewUploads:(NSUInteger)nrOfNewUploads
 {
     NSUInteger remainingPhotoIds;
-    @synchronized(photoIds_) {
-        remainingPhotoIds = [photoIds_ count]; // probably not necessary to synchronize this, but it doesn't hurt
-    }
+    remainingPhotoIds = [photoIds_ count]; // probably not necessary to synchronize this, but it doesn't hurt
 
     if (remainingPhotoIds < nrOfNewUploads) { // Request new ids if there are not enough
         RCLog(@"PhotoUploadManager Requesting Photo IDs");
@@ -182,31 +178,36 @@ static const NSTimeInterval RETRY_TIME = 5;
             }
         }
 
-        @synchronized(photoIds_) {
-            [photoIds_ addObjectsFromArray:newPhotoIds];
-        }
+        [photoIds_ addObjectsFromArray:newPhotoIds];
     }
 }
 
 
-- (void)uploadPhotoWithoutId:(int64_t)albumId photo:(AlbumUploadingPhoto *)photo
+- (void)uploadPhotosWithoutIds:(int64_t)albumId photos:(NSArray *)photos
 {
-    // On iOS < 7, the entire upload process will be in a background task, and needs to finish within 10 minutes.
-    __block UIBackgroundTaskIdentifier photoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        RCLog(@"Photo-upload background task %d was forced to end", photoUploadBackgroundTaskID);
-        [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
-    }];
-    RCLog(@"Photo-upload background task %d started", photoUploadBackgroundTaskID);
-
     @synchronized(photoIds_) {
-        [photo setPhotoId:[photoIds_ objectAtIndex:0]];
-        [photoIds_ removeObjectAtIndex:0];
+        [self requestIdsForNewUploads:[photos count]];
+
+        for (AlbumUploadingPhoto *photo in photos) {
+            [photo setPhotoId:[photoIds_ objectAtIndex:0]];
+            [photoIds_ removeObjectAtIndex:0];
+
+            [photo setUploadStatus:NewUploader_UploadStatus_Stage1Pending];
+            [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as Stage1Pending in ShotVibeDB
+        }
     }
 
-    [photo setUploadStatus:NewUploader_UploadStatus_Stage1Pending];
-    [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as Stage1Pending in ShotVibeDB
+    for (AlbumUploadingPhoto *photo in photos) {
+        // On iOS < 7, the entire upload process will be in a background task, and needs to finish within 10 minutes.
+        __block UIBackgroundTaskIdentifier photoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            RCLog(@"Photo-upload background task %d was forced to end", photoUploadBackgroundTaskID);
+            [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
+        }];
+        RCLog(@"Photo-upload background task %d started", photoUploadBackgroundTaskID);
 
-    [self startFirstStagePhotoUpload:albumId photo:photo backgroundTaskID:photoUploadBackgroundTaskID];
+
+        [self startFirstStagePhotoUpload:albumId photo:photo backgroundTaskID:photoUploadBackgroundTaskID];
+    }
 }
 
 
@@ -421,8 +422,13 @@ static const NSTimeInterval RETRY_TIME = 5;
     RCLog(@"Found %d unfinished uploads", unfinishedUploads.count);
     logUploads(unfinishedUploads);
 
+    // todo: maybe move set db actions to end of calling function
+
+    // notify listeners
     // TODO: add uploads to corresponding dictionaries / arrays
     //       and restart tasks
+
+    // maybe not a switch, but several for loops. depending on whether we need to do the same things for different statuses.
     for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploads) {
         switch ([unfinishedUpload getUploadStatus]) {
             case NewUploader_UploadStatus_WaitingForId:
