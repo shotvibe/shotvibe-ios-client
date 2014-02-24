@@ -84,7 +84,7 @@
     // is to cast the response and access the statusCode..
     NSInteger statusCode = ((NSHTTPURLResponse *)task.response).statusCode;
 
-    if (statusCode != 200) { // client error should be nil in this case, so we overwrite it with the server error
+    if (statusCode >= 400) { // client error should be nil in this case, so we overwrite it with the server error
         error = [[NSError alloc] initWithDomain:@"com.shotvibe.shotvibe.TemporaryErrorDomain" code:45 userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Server error (HTTP Status Code: %d)", statusCode] }];
         RCLog(@"ERROR: Server-side error in task %d:\n%@", task.taskIdentifier, [error localizedDescription]);
     }
