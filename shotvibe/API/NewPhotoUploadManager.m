@@ -436,9 +436,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     // todo: maybe move set db actions to end of calling function
 
-    // notify listeners
-
-
+    // No need to notify listeners, since this method is called on init, before any listeners will be present.
     NSMutableArray *unfinishedUploadsWaitingForId = [[NSMutableArray alloc] init];
     NSMutableArray *unfinishedUploadsStage1Uploading = [[NSMutableArray alloc] init];
     NSMutableArray *unfinishedUploadsAddingToAlbum = [[NSMutableArray alloc] init];
@@ -472,36 +470,50 @@ static const NSTimeInterval RETRY_TIME = 5;
     // 1 Resume photos that did not complete the album addition
     // This one is handled first because activity from the resume code below may in very rare cases interfere with it
     @synchronized(self) { // add all photos to dictionary before calling photosWere added to prevent multiple additions per album
-        for (AlbumUploadingPhoto *photo in unfinishedUploadsStage2PendingOrUploading) {
+        for (AlbumUploadingPhoto *photo in unfinishedUploadsAddingToAlbum) {
             [uploadingStage1Photos_ addPhoto:photo album:photo.albumId];
         }
     }
-    for (AlbumUploadingPhoto *photo in unfinishedUploadsStage2PendingOrUploading) {
-        [self photosWereAdded:@[photo] albumId:photo.albumId]; // instead of grouping per album, we simply do this with singleton arrays
+    for (AlbumUploadingPhoto *photo in unfinishedUploadsAddingToAlbum) {
+        RCLog(@"Resume add to album for photo %@", showShortPhotoId(photo.photoId));
+
+        __block UIBackgroundTaskIdentifier resumedPhotoAdditionBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            RCLog(@"Resumed add-to-album background task %d was forced to end", resumedPhotoAdditionBackgroundTaskID);
+            [[UIApplication sharedApplication] endBackgroundTask:resumedPhotoAdditionBackgroundTaskID];
+        }];
+        RCLog(@"Resumed add-to-album background task %d started", resumedPhotoAdditionBackgroundTaskID);
+
+        [self lowResPhotoWasUploaded:photo backgroundTaskID:resumedPhotoAdditionBackgroundTaskID];
     }
 
     // 2 Resume photos that did not get an id yet
     @synchronized(self) {
-        for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploadsWaitingForId) {
-            [uploadingStage1Photos_ addPhoto:unfinishedUpload album:unfinishedUpload.albumId];
+        for (AlbumUploadingPhoto *photo in unfinishedUploadsWaitingForId) {
+            [uploadingStage1Photos_ addPhoto:photo album:photo.albumId];
+            RCLog(@"Resume request upload id for photo %@", showShortPhotoId(photo.photoId));
         }
     }
-    if (unfinishedUploadsWaitingForId) {
+    if ([unfinishedUploadsWaitingForId count]) {
         [self uploadPhotosWithoutIds:unfinishedUploadsWaitingForId];
     }
 
     // 3 Resume photos that did not complete the stage 1 upload
-    for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploadsStage1Uploading) {
+    for (AlbumUploadingPhoto *photo in unfinishedUploadsStage1Uploading) {
+        RCLog(@"Resume first-stage upload for photo %@", showShortPhotoId(photo.photoId));
+
         __block UIBackgroundTaskIdentifier resumedPhotoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             RCLog(@"Resumed first-stage upload background task %d was forced to end", resumedPhotoUploadBackgroundTaskID);
             [[UIApplication sharedApplication] endBackgroundTask:resumedPhotoUploadBackgroundTaskID];
         }];
         RCLog(@"Resumed first-stage upload background task %d started", resumedPhotoUploadBackgroundTaskID);
 
-        [self startFirstStagePhotoUpload:unfinishedUpload backgroundTaskID:resumedPhotoUploadBackgroundTaskID];
+        [self startFirstStagePhotoUpload:photo backgroundTaskID:resumedPhotoUploadBackgroundTaskID];
     }
 
     // 4 Resume photos that did not complete the stage 2 upload
+    for (AlbumUploadingPhoto *photo in unfinishedUploadsStage2PendingOrUploading) {
+        RCLog(@"Resume second-stage upload for photo %@", showShortPhotoId(photo.photoId));
+    }
     @synchronized(self) {
         [pendingStage2Photos_ addObjectsFromArray:unfinishedUploadsStage2PendingOrUploading];
     }
