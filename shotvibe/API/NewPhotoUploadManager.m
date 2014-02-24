@@ -85,7 +85,7 @@
     NSMutableArray *uploadingStage2Photos_; // AlbumUploadingPhotos for which the full-res version is currently uploading to the server
     // TODO: we need to keep track of these uploadingStage2Photos_, so we can store them in unfinishedUploads. Perhaps not necessary anymore once we store uploads in the database
 
-    // In ShotVibeDB, photos will progress through these states: WaitingForId -> Stage1Uploading -> AddingToAlbum -> Stage2Pending
+    // In ShotVibeDB, photos will progress through these states: WaitingForId -> Stage1Uploading -> AddingToAlbum -> Stage2PendingOrUploading
 }
 
 static const NSTimeInterval RETRY_TIME = 5;
@@ -136,6 +136,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         @synchronized(self) {
             [uploadingStage1Photos_ addPhoto:photo album:albumId];
         }
+        [photo setUploadStatus:NewUploader_UploadStatus_WaitingForId]; // set status here, before notifying.
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -145,7 +146,6 @@ static const NSTimeInterval RETRY_TIME = 5;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
             if ([photo getLowResFilename] && [photo getLowResFilename]) { // force save, won't fail, just block
-                [photo setUploadStatus:NewUploader_UploadStatus_WaitingForId];
                 [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as WaitingForId in ShotVibeDB
             } else {
                 RCLog(@"INTERNAL ERROR: tmp file(s) empty");
@@ -354,16 +354,25 @@ static const NSTimeInterval RETRY_TIME = 5;
 - (void)photosWereAdded:(NSArray *)addedPhotos albumId:(int64_t)albumId
 {
     for (AlbumUploadingPhoto *photo in addedPhotos) {
-        [photo setUploadStatus:NewUploader_UploadStatus_Stage2Pending];
+        [photo setUploadStatus:NewUploader_UploadStatus_Stage2PendingOrUploading];
         [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as Stage2Pending in ShotVibeDB
     }
-
-    NSArray *newSecondStagePhotos = @[];
 
     @synchronized(self) {
         [addingToAlbumPhotos_ removePhotos:addedPhotos album:albumId]; // move from adding to pending second stage
         [pendingStage2Photos_ addObjectsFromArray:addedPhotos];
+    }
 
+    [self initiateSecondStateUploadsIfIdle];
+}
+
+
+// In case all low-res photos have been uploaded and added, start uploading the pending stage-2 uploads
+- (void)initiateSecondStateUploadsIfIdle
+{
+    NSArray *newSecondStagePhotos = @[];
+
+    @synchronized(self) {
         RCLog(@"photosWereAdded:");
         RCLog(@"uploadingPhotos_: %@", [uploadingStage1Photos_ description]);
         RCLog(@"uploadedPhotos_: %@", [uploadedStage1Photos_ description]);
@@ -401,20 +410,21 @@ static const NSTimeInterval RETRY_TIME = 5;
     RCLog(@"START second-stage upload for %@", showShortPhotoId(photo.photoId));
     NSString *fullResFilePath = [photo getFullResFilename];
 
-    [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:fullResFilePath isFullRes:YES progressHandler:nil completionHandler:^(NSError *error) {
-        if (error) {
-            RCLog(@"ERROR %@\nduring second-stage upload for %@\nRetrying in %.1f seconds.", [error localizedDescription], showShortPhotoId(photo.photoId), RETRY_TIME);
-            [NSThread sleepForTimeInterval:RETRY_TIME];
-            [self startSecondStageUploadTask:photo];
-        } else {
+    // Temporarily disable 2nd stage because server is not available
+//    [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:fullResFilePath isFullRes:YES progressHandler:nil completionHandler:^(NSError *error) {
+//        if (error) {
+//            RCLog(@"ERROR %@\nduring second-stage upload for %@\nRetrying in %.1f seconds.", [error localizedDescription], showShortPhotoId(photo.photoId), RETRY_TIME);
+//            [NSThread sleepForTimeInterval:RETRY_TIME];
+//            [self startSecondStageUploadTask:photo];
+//        } else {
             RCLog(@"FINISH second-stage upload for %@", showShortPhotoId(photo.photoId));
             [uploadingStage2Photos_ removeObject:photo];
             [self storeUnfinishedUploads]; // TODO: at this point, remove the AlbumUploadingPhoto photo from ShotVibeDB
 
             RCLog(@"Second-stage upload background task %d ended", secondStageUploadBackgroundTaskID);
             [[UIApplication sharedApplication] endBackgroundTask:secondStageUploadBackgroundTaskID];
-        }
-    }];
+//        }
+//    }];
 }
 
 
@@ -433,53 +443,31 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     // maybe not a switch, but several for loops. depending on whether we need to do the same things for different statuses.
 
-    NSMutableArray *unfinishedUploadsWithoutIds = [[NSMutableArray alloc] init];
-    for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploads) {
-        if ([unfinishedUpload getUploadStatus] == NewUploader_UploadStatus_WaitingForId) {
-            [unfinishedUploadsWithoutIds addObject:unfinishedUpload];
-            @synchronized(self) {
-                [uploadingStage1Photos_ addPhoto:unfinishedUpload album:unfinishedUpload.albumId];
-            }
-        }
-    }
-
-    [self uploadPhotosWithoutIds:unfinishedUploadsWithoutIds];
 
 
 
-
-
-    // TODO: wait with uploading until no activity. can we use existing functions for this?
-
-    for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploads) {
-        if ([unfinishedUpload getUploadStatus] == NewUploader_UploadStatus_Stage2Pending) {
-            [self startSecondStageUploadTask:unfinishedUpload];
-        }
-    }
-
-
-// TODO use switch?
+    // TODO use switch?
+    NSMutableArray *unfinishedUploadsWaitingForId = [[NSMutableArray alloc] init];
+    NSMutableArray *unfinishedUploadsStage1Uploading = [[NSMutableArray alloc] init];
+    NSMutableArray *unfinishedUploadsAddingToAlbum = [[NSMutableArray alloc] init];
+    NSMutableArray *unfinishedUploadsStage2PendingOrUploading = [[NSMutableArray alloc] init];
 
     for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploads) {
         switch ([unfinishedUpload getUploadStatus]) {
-            // NewUploader_UploadStatus_WaitingForId: already handled
-
-            case NewUploader_UploadStatus_Stage1Uploading: {
-                __block UIBackgroundTaskIdentifier resumedPhotoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-                    RCLog(@"Resumed first-stage upload background task %d was forced to end", resumedPhotoUploadBackgroundTaskID);
-                    [[UIApplication sharedApplication] endBackgroundTask:resumedPhotoUploadBackgroundTaskID];
-                }];
-
-                RCLog(@"Resumed first-stage upload background task %d started", resumedPhotoUploadBackgroundTaskID);
-
-                [self startFirstStagePhotoUpload:unfinishedUpload backgroundTaskID:resumedPhotoUploadBackgroundTaskID];
+            case NewUploader_UploadStatus_WaitingForId:
+                [unfinishedUploadsWaitingForId addObject:unfinishedUpload];
                 break;
-            }
+
+            case NewUploader_UploadStatus_Stage1Uploading:
+                [unfinishedUploadsStage1Uploading addObject:unfinishedUpload];
+                break;
 
             case NewUploader_UploadStatus_AddingToAlbum:
+                [unfinishedUploadsAddingToAlbum addObject:unfinishedUpload];
                 break;
 
-            case NewUploader_UploadStatus_Stage2Pending:
+            case NewUploader_UploadStatus_Stage2PendingOrUploading:
+                [unfinishedUploadsStage2PendingOrUploading addObject:unfinishedUpload];
                 break;
 
             default:
@@ -487,6 +475,35 @@ static const NSTimeInterval RETRY_TIME = 5;
                 break;
         }
     }
+
+    // Resume photos that did not get an id yet
+    @synchronized(self) {
+        for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploadsWaitingForId) {
+            [uploadingStage1Photos_ addPhoto:unfinishedUpload album:unfinishedUpload.albumId];
+        }
+    }
+    [self uploadPhotosWithoutIds:unfinishedUploadsWaitingForId];
+
+    // Resume photos that did not complete the stage 1 upload
+    for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploadsStage1Uploading) {
+        __block UIBackgroundTaskIdentifier resumedPhotoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            RCLog(@"Resumed first-stage upload background task %d was forced to end", resumedPhotoUploadBackgroundTaskID);
+            [[UIApplication sharedApplication] endBackgroundTask:resumedPhotoUploadBackgroundTaskID];
+        }];
+        RCLog(@"Resumed first-stage upload background task %d started", resumedPhotoUploadBackgroundTaskID);
+
+        [self startFirstStagePhotoUpload:unfinishedUpload backgroundTaskID:resumedPhotoUploadBackgroundTaskID];
+    }
+
+    // Resume photos that did not complete the album addition
+    
+
+
+    // Resume photos that did not complete the stage 2 upload
+    @synchronized(self) {
+        [pendingStage2Photos_ addObjectsFromArray:unfinishedUploadsStage2PendingOrUploading];
+    }
+    [self initiateSecondStateUploadsIfIdle];
 }
 
 
@@ -498,7 +515,8 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     NSMutableArray *uploadingPhotosForAlbum = [[NSMutableArray alloc] init];
     for (AlbumUploadingPhoto *photo in [self getAllUploadingPhotos]) {
-        if (photo.albumId == albumId && (photo.getUploadStatus == NewUploader_UploadStatus_WaitingForId || photo.getUploadStatus == NewUploader_UploadStatus_Stage1Uploading || photo.getUploadStatus == NewUploader_UploadStatus_AddingToAlbum)) {
+        RCLog(@"status is %d", [photo getUploadStatus]);
+        if (photo.albumId == albumId && ([photo getUploadStatus] == NewUploader_UploadStatus_WaitingForId || [photo getUploadStatus] == NewUploader_UploadStatus_Stage1Uploading || [photo getUploadStatus] == NewUploader_UploadStatus_AddingToAlbum)) {
             SLAlbumPhoto *albumPhoto = [[SLAlbumPhoto alloc] initWithSLAlbumUploadingPhoto:photo];
             [uploadingPhotosForAlbum addObject:albumPhoto];
         }

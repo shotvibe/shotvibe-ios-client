@@ -54,10 +54,11 @@
 
 
 // used to show/hide upload progress in gui
+// TODO: change name to reflect it's proper meaning
 - (BOOL)isUploadComplete
 {
     @synchronized (lock_) {
-        return uploadStatus_ == UploadStatusComplete || uploadStatus_ == UploadStatusAddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_AddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_Stage2Pending;
+        return uploadStatus_ == UploadStatusComplete || uploadStatus_ == UploadStatusAddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_AddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_Stage2PendingOrUploading;
     }
 }
 
