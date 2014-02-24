@@ -477,9 +477,8 @@ static const NSTimeInterval RETRY_TIME = 5;
         }
     }
     for (AlbumUploadingPhoto *photo in unfinishedUploadsStage2PendingOrUploading) {
-        [self photosWereAdded:@[photo] albumId:photo.albumId];
+        [self photosWereAdded:@[photo] albumId:photo.albumId]; // instead of grouping per album, we simply do this with singleton arrays
     }
-
 
     // 2 Resume photos that did not get an id yet
     @synchronized(self) {
@@ -487,7 +486,9 @@ static const NSTimeInterval RETRY_TIME = 5;
             [uploadingStage1Photos_ addPhoto:unfinishedUpload album:unfinishedUpload.albumId];
         }
     }
-    [self uploadPhotosWithoutIds:unfinishedUploadsWaitingForId];
+    if (unfinishedUploadsWaitingForId) {
+        [self uploadPhotosWithoutIds:unfinishedUploadsWaitingForId];
+    }
 
     // 3 Resume photos that did not complete the stage 1 upload
     for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploadsStage1Uploading) {
