@@ -13,10 +13,10 @@
 
 @protocol SVAlbumListViewCellDelegate <NSObject>
 @required
+- (void)selectCell:(UITableViewCell*)cell;
+@optional
 - (void)cameraButtonTapped:(UITableViewCell *)cell;
 - (void)libraryButtonTapped:(UITableViewCell *)cell;
-- (void)selectCell:(UITableViewCell*)cell;
-
 @end
 
 extern NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification;
@@ -37,7 +37,10 @@ extern NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingN
 @property (weak, nonatomic) IBOutlet UIView *frontView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *backImageView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *photoFrame;
 @property (weak, nonatomic) IBOutlet PhotoView *networkImageView;
+
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIButton *timestamp;
 @property (weak, nonatomic) IBOutlet UILabel *author;

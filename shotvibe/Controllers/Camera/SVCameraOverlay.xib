@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
@@ -335,7 +335,7 @@
         <image name="ButNavLeft.png" width="10" height="15"/>
         <image name="ButNavRight.png" width="10" height="15"/>
         <image name="CameraTakeAnotherPicture.png" width="320" height="80"/>
-        <image name="cameraCancelButton.png" width="40" height="40"/>
+        <image name="cameraCancelButton.png" width="20" height="20"/>
         <image name="cameraCaptureButton.png" width="102" height="37"/>
         <image name="cameraFlashAuto.png" width="69" height="35"/>
         <image name="cameraFlip.png" width="70" height="35"/>

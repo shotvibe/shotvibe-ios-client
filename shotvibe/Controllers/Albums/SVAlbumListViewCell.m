@@ -17,7 +17,6 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
 {
     [super awakeFromNib];
     [self setup];
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 
@@ -26,7 +25,6 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self setup];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
 }
@@ -63,6 +61,9 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
 
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(Select:)];
     [self.scrollView addGestureRecognizer:recognizer];
+
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.accessoryType = UITableViewCellAccessoryNone;
 }
 
 
@@ -88,14 +89,18 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
 - (IBAction)CameraButton:(id)sender
 {
     [self slideBackToOriginalPosition];
-    [self.delegate cameraButtonTapped:self];
+    if ([self.delegate respondsToSelector:@selector(cameraButtonTapped:)]) {
+        [self.delegate cameraButtonTapped:self];
+    }
 }
 
 
 - (IBAction)PickerButton:(id)sender
 {
     [self slideBackToOriginalPosition];
-    [self.delegate libraryButtonTapped:self];
+    if ([self.delegate respondsToSelector:@selector(libraryButtonTapped:)]) {
+        [self.delegate libraryButtonTapped:self];
+    }
 }
 
 

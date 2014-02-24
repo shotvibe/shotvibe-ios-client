@@ -143,6 +143,7 @@
                                     <outlet property="frontView" destination="t4e-X8-o6c" id="Txp-RP-lYN"/>
                                     <outlet property="networkImageView" destination="edK-Ep-za9" id="jl0-QL-i2r"/>
                                     <outlet property="numberNotViewedIndicator" destination="SVE-6G-iDc" id="RYr-SO-rza"/>
+                                    <outlet property="photoFrame" destination="bMe-Ho-h9s" id="v0c-wD-MGF"/>
                                     <outlet property="scrollView" destination="Fet-Wj-C0F" id="31D-O7-yjS"/>
                                     <outlet property="timestamp" destination="6fU-xz-I04" id="ZIv-pj-cDW"/>
                                     <outlet property="title" destination="mpj-bZ-eJI" id="2BY-Lk-UMS"/>
@@ -313,6 +314,352 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bLW-Db-pDX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-637" y="51"/>
+        </scene>
+        <!--Multiple Pictures View Controller-->
+        <scene sceneID="zoG-Fn-T78">
+            <objects>
+                <viewController storyboardIdentifier="MultiplePicturesViewController" id="2MF-Mg-mjb" customClass="SVMultiplePicturesViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AqK-iO-UNl">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="ryf-6v-gdi">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListTopCell" id="CAD-P8-aPC" customClass="SVAlbumListViewCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="101"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CAD-P8-aPC" id="NU0-52-6ZM">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="Mnp-J1-cfe">
+                                                    <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" id="D9W-Mr-81j">
+                                                            <rect key="frame" x="160" y="0.0" width="127" height="100"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="center" image="SwipeCamera.png" id="LAi-aV-Myo">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" red="1" green="0.43921568630000002" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7hH-ff-07b">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <state key="normal">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="CameraButton:" destination="CAD-P8-aPC" eventType="touchUpInside" id="BHN-UX-1mh"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <imageView userInteractionEnabled="NO" contentMode="center" image="SwipePicker.png" id="KNc-e5-lpi">
+                                                                    <rect key="frame" x="80" y="0.0" width="80" height="100"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" red="0.63137254899999995" green="0.85098039219999999" blue="0.070588235289999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ob1-Y4-gga">
+                                                                    <rect key="frame" x="80" y="0.0" width="80" height="100"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <state key="normal">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="PickerButton:" destination="CAD-P8-aPC" eventType="touchUpInside" id="JoO-m2-jZY"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                        </view>
+                                                        <view contentMode="scaleToFill" id="kCN-fx-5O9">
+                                                            <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="Fp1-yu-vKs">
+                                                                    <rect key="frame" x="9" y="10" width="82" height="79"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                </imageView>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="NewAlbum.png" id="E4t-Pk-NTl" customClass="PhotoView">
+                                                                    <rect key="frame" x="19" y="20" width="62" height="60"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                </imageView>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OCq-t2-DIa">
+                                                                    <rect key="frame" x="96" y="25" width="127" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                                    <color key="textColor" red="0.22352941179999999" green="0.23921568630000001" blue="0.2784313725" alpha="1" colorSpace="deviceRGB"/>
+                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </label>
+                                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last added by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lFk-2J-zAS">
+                                                                    <rect key="frame" x="96" y="43" width="127" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                                                    <color key="textColor" red="0.52156862749999999" green="0.54117647059999996" blue="0.59215686270000001" alpha="1" colorSpace="deviceRGB"/>
+                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </label>
+                                                                <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vU0-PG-aMp">
+                                                                    <rect key="frame" x="96" y="63" width="127" height="15"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                                                    <inset key="titleEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                                    <state key="normal" title="x time ago" image="clockIcon.png">
+                                                                        <color key="titleColor" red="0.51372549020000002" green="0.5450980392" blue="0.58823529409999997" alpha="1" colorSpace="deviceRGB"/>
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <state key="highlighted">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                </button>
+                                                                <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="y61-6d-Nf4">
+                                                                    <rect key="frame" x="283" y="41" width="28" height="18"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                                    <accessibility key="accessibilityConfiguration">
+                                                                        <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
+                                                                    </accessibility>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                                                                    <state key="normal" title="0" backgroundImage="newPhotosIndicator.png">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <state key="highlighted">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </view>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="CAD-P8-aPC" id="Y0n-Nd-bFj"/>
+                                                    </connections>
+                                                </scrollView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="author" destination="lFk-2J-zAS" id="1ic-Hl-dCT"/>
+                                            <outlet property="backImageView" destination="LAi-aV-Myo" id="1J2-Zl-sTa"/>
+                                            <outlet property="backView" destination="D9W-Mr-81j" id="bER-Q6-LcL"/>
+                                            <outlet property="frontView" destination="kCN-fx-5O9" id="v0c-LA-haX"/>
+                                            <outlet property="networkImageView" destination="E4t-Pk-NTl" id="e1w-Ok-Vvs"/>
+                                            <outlet property="numberNotViewedIndicator" destination="y61-6d-Nf4" id="z7H-YN-a4T"/>
+                                            <outlet property="photoFrame" destination="Fp1-yu-vKs" id="I4Q-sJ-96J"/>
+                                            <outlet property="scrollView" destination="Mnp-J1-cfe" id="gAW-G3-Smm"/>
+                                            <outlet property="timestamp" destination="vU0-PG-aMp" id="oOh-pj-Xbs"/>
+                                            <outlet property="title" destination="OCq-t2-DIa" id="tfO-Kd-dK9"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="9K4-uS-3vZ" customClass="SVAlbumListViewCell">
+                                        <rect key="frame" x="0.0" y="123" width="320" height="101"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9K4-uS-3vZ" id="22b-Dc-WX3">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="Cvd-51-l0B">
+                                                    <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" id="m05-x1-TWv">
+                                                            <rect key="frame" x="160" y="0.0" width="127" height="100"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="center" image="SwipeCamera.png" id="hZK-bL-t9C">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" red="1" green="0.43921568630000002" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oyY-8O-J6E">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <state key="normal">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="CameraButton:" destination="9K4-uS-3vZ" eventType="touchUpInside" id="gVy-VC-Pe9"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <imageView userInteractionEnabled="NO" contentMode="center" image="SwipePicker.png" id="X8m-oN-DAd">
+                                                                    <rect key="frame" x="80" y="0.0" width="80" height="100"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" red="0.63137254899999995" green="0.85098039219999999" blue="0.070588235289999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WHg-H3-EVD">
+                                                                    <rect key="frame" x="80" y="0.0" width="80" height="100"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <state key="normal">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="PickerButton:" destination="9K4-uS-3vZ" eventType="touchUpInside" id="UFz-Gg-pSu"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                        </view>
+                                                        <view contentMode="scaleToFill" id="wDq-sh-2E5">
+                                                            <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="jxs-50-UXy">
+                                                                    <rect key="frame" x="9" y="10" width="82" height="79"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                </imageView>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="8Qw-3D-bH8" customClass="PhotoView">
+                                                                    <rect key="frame" x="19" y="20" width="62" height="60"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                </imageView>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qmz-su-kgF">
+                                                                    <rect key="frame" x="96" y="25" width="127" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                                    <color key="textColor" red="0.22352941179999999" green="0.23921568630000001" blue="0.2784313725" alpha="1" colorSpace="deviceRGB"/>
+                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </label>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last added by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rDE-2M-ctm">
+                                                                    <rect key="frame" x="96" y="43" width="127" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                                                    <color key="textColor" red="0.52156862749999999" green="0.54117647059999996" blue="0.59215686270000001" alpha="1" colorSpace="deviceRGB"/>
+                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </label>
+                                                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Hq6-uX-CKe">
+                                                                    <rect key="frame" x="96" y="63" width="127" height="15"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                                                    <inset key="titleEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                                    <state key="normal" title="x time ago" image="clockIcon.png">
+                                                                        <color key="titleColor" red="0.51372549020000002" green="0.5450980392" blue="0.58823529409999997" alpha="1" colorSpace="deviceRGB"/>
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <state key="highlighted">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                </button>
+                                                                <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Dbu-T5-boh">
+                                                                    <rect key="frame" x="283" y="41" width="28" height="18"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                                    <accessibility key="accessibilityConfiguration">
+                                                                        <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
+                                                                    </accessibility>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                                                                    <state key="normal" title="0" backgroundImage="newPhotosIndicator.png">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <state key="highlighted">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </view>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="9K4-uS-3vZ" id="Be5-gT-MrE"/>
+                                                    </connections>
+                                                </scrollView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="author" destination="rDE-2M-ctm" id="qeC-dz-5Be"/>
+                                            <outlet property="backImageView" destination="hZK-bL-t9C" id="ES4-Pj-hJd"/>
+                                            <outlet property="backView" destination="m05-x1-TWv" id="Ccd-kZ-A8H"/>
+                                            <outlet property="frontView" destination="wDq-sh-2E5" id="blp-0p-T9q"/>
+                                            <outlet property="networkImageView" destination="8Qw-3D-bH8" id="T7q-q2-Fjl"/>
+                                            <outlet property="numberNotViewedIndicator" destination="Dbu-T5-boh" id="QRx-e4-TEG"/>
+                                            <outlet property="photoFrame" destination="jxs-50-UXy" id="amp-ib-IvJ"/>
+                                            <outlet property="scrollView" destination="Cvd-51-l0B" id="6xt-On-hcF"/>
+                                            <outlet property="timestamp" destination="Hq6-uX-CKe" id="4w4-4L-jw9"/>
+                                            <outlet property="title" destination="Qmz-su-kgF" id="QdR-LQ-KyT"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="2MF-Mg-mjb" id="cm0-ia-VD0"/>
+                                    <outlet property="delegate" destination="2MF-Mg-mjb" id="tFA-bg-CEb"/>
+                                </connections>
+                            </tableView>
+                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" id="W9J-3r-SI8" userLabel="Overlay">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="130"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="Eph-mm-F0H" userLabel="Drop Down Container">
+                                        <rect key="frame" x="5" y="0.0" width="310" height="130"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="dropDownField.png" id="LAa-Tw-iE9">
+                                                <rect key="frame" x="0.0" y="0.0" width="310" height="130"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="L0L-3c-dbW">
+                                                <rect key="frame" x="0.0" y="84" width="155" height="42"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                                <size key="titleShadowOffset" width="0.0" height="1"/>
+                                                <state key="normal" title="Cancel">
+                                                    <color key="titleColor" red="0.4823529412" green="0.49803921569999998" blue="0.54901960780000003" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="0.090196078430000007" green="0.43529411759999997" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="newAlbumClosed:" destination="2MF-Mg-mjb" eventType="touchUpInside" id="NI1-Bg-mye"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HjF-ci-Rrw">
+                                                <rect key="frame" x="155" y="84" width="155" height="42"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                                <size key="titleShadowOffset" width="0.0" height="1"/>
+                                                <state key="normal" title="Done">
+                                                    <color key="titleColor" red="0.090196078430000007" green="0.43529411759999997" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="0.090196078430000007" green="0.43529411759999997" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="newAlbumDone:" destination="2MF-Mg-mjb" eventType="touchUpInside" id="0Tv-j7-gfW"/>
+                                                </connections>
+                                            </button>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Album Name" minimumFontSize="17" clearButtonMode="whileEditing" id="1ro-XK-MDC">
+                                                <rect key="frame" x="20" y="36" width="270" height="37"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="deviceRGB"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="2MF-Mg-mjb" id="POB-yn-Cyb"/>
+                                                </connections>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="albumField" destination="1ro-XK-MDC" id="j7d-3N-cKD"/>
+                        <outlet property="createNewAlbumTitleView" destination="W9J-3r-SI8" id="IbW-B0-e8Q"/>
+                        <outlet property="tableView" destination="ryf-6v-gdi" id="geJ-YO-Rcg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ucv-s4-WD3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1153" y="857"/>
         </scene>
         <!--Album Grid View Controller-->
         <scene sceneID="XL3-YY-UGG">
@@ -2087,6 +2434,7 @@ activation code just sent to you</string>
         <image name="AlbumInfoNotificationIcon.png" width="16" height="18"/>
         <image name="AlbumInfoShareIcon.png" width="16" height="14"/>
         <image name="ContactIsMember.png" width="26" height="26"/>
+        <image name="NewAlbum.png" width="74" height="74"/>
         <image name="NoMembers.png" width="155" height="78"/>
         <image name="ProfileHeader.png" width="320" height="163"/>
         <image name="ProfileIconBackground.png" width="110" height="110"/>

@@ -13,17 +13,20 @@
 #import "SVSidebarMemberController.h"
 #import "SVSidebarManagementController.h"
 #import "SVSettingsViewController.h"
+
 #import "SVCameraNavController.h"
+#import "SVPickerController.h"
+
 #import "SVCameraPickerController.h"
 #import "SVImagePickerListViewController.h"
 #import "SVAlbumGridViewCell.h"
 #import "SVAddFriendsViewController.h"
-#import "SVCameraNavController.h"
 #import "SVNavigationController.h"
 #import "SL/AlbumPhoto.h"
 #import "UIImageView+WebCache.h"
 #import "SVAlbumGridSection.h"
 #import "NSDate+Formatting.h"
+#import "SVNonRotatingNavigationControllerViewController.h"
 #import "SL/AlbumServerPhoto.h"
 #import "SL/AlbumMember.h"
 #import "SL/ArrayList.h"
@@ -251,11 +254,18 @@
 	//self.scrollToBottom = YES;
 	self.scrollToTop = YES;
 	
-	cameraNavController = [[SVCameraNavController alloc] init];
-	cameraNavController.cameraDelegate = self;
-	cameraNavController.albumId = self.albumId;
-	cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
+    SVPickerController *manager = [[SVPickerController alloc] init];
+    manager.albumManager = self.albumManager;
+    manager.albumId = self.albumId;
+
+    SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
+    [self presentViewController:nc animated:NO completion:nil];
+
+//	cameraNavController = [[SVCameraNavController alloc] init];
+//	cameraNavController.cameraDelegate = self;
+//	cameraNavController.albumId = self.albumId;
+//	cameraNavController.albumManager = self.albumManager;
+//    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 
 - (void)backButtonPressed:(id)sender
@@ -306,8 +316,9 @@
 
 #pragma mark camera delegate
 
-- (void)cameraExit {
-	cameraNavController = nil;
+- (void)cameraExit
+{
+    //cameraNavController = nil;
 	self.scrollToBottom = NO;
 	self.scrollToTop = NO;
 }
@@ -358,7 +369,6 @@
 
         cell.labelNewView.hidden = ![[photo getServerPhoto] isNewWithSLDateTime:[albumContents getLastAccess]
                                                                        withLong:self.albumManager.getShotVibeAPI.authData.userId];
-
     } else if ([photo getUploadingPhoto]) {
         AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
 
