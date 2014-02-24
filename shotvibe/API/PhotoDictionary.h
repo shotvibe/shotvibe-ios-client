@@ -16,6 +16,7 @@
  *
  * NOTE: this code is not thread safe
  *
+ * TODO: AlbumUploadingPhotos now have an albumId property, so we can remove it as a parameter in the methods below
  */
 
 - (void)addPhoto:(AlbumUploadingPhoto *)photo album:(int64_t)albumId;
