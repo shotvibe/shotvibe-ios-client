@@ -250,7 +250,6 @@ static const NSTimeInterval RETRY_TIME = 5;
     [photo setUploadStatus:NewUploader_UploadStatus_AddingToAlbum];
     [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as AddingToAlbum in ShotVibeDB
 
-    [photo setUploadComplete];
     dispatch_async(dispatch_get_main_queue(), ^{
         [listener_ photoUploadComplete:photo.albumId]; // Remove progress bars in the UI
     });
@@ -438,15 +437,8 @@ static const NSTimeInterval RETRY_TIME = 5;
     // todo: maybe move set db actions to end of calling function
 
     // notify listeners
-    // TODO: add uploads to corresponding dictionaries / arrays
-    //       and restart tasks
-
-    // maybe not a switch, but several for loops. depending on whether we need to do the same things for different statuses.
 
 
-
-
-    // TODO use switch?
     NSMutableArray *unfinishedUploadsWaitingForId = [[NSMutableArray alloc] init];
     NSMutableArray *unfinishedUploadsStage1Uploading = [[NSMutableArray alloc] init];
     NSMutableArray *unfinishedUploadsAddingToAlbum = [[NSMutableArray alloc] init];
@@ -476,7 +468,20 @@ static const NSTimeInterval RETRY_TIME = 5;
         }
     }
 
-    // Resume photos that did not get an id yet
+
+    // 1 Resume photos that did not complete the album addition
+    // This one is handled first because activity from the resume code below may in very rare cases interfere with it
+    @synchronized(self) { // add all photos to dictionary before calling photosWere added to prevent multiple additions per album
+        for (AlbumUploadingPhoto *photo in unfinishedUploadsStage2PendingOrUploading) {
+            [uploadingStage1Photos_ addPhoto:photo album:photo.albumId];
+        }
+    }
+    for (AlbumUploadingPhoto *photo in unfinishedUploadsStage2PendingOrUploading) {
+        [self photosWereAdded:@[photo] albumId:photo.albumId];
+    }
+
+
+    // 2 Resume photos that did not get an id yet
     @synchronized(self) {
         for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploadsWaitingForId) {
             [uploadingStage1Photos_ addPhoto:unfinishedUpload album:unfinishedUpload.albumId];
@@ -484,7 +489,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     }
     [self uploadPhotosWithoutIds:unfinishedUploadsWaitingForId];
 
-    // Resume photos that did not complete the stage 1 upload
+    // 3 Resume photos that did not complete the stage 1 upload
     for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploadsStage1Uploading) {
         __block UIBackgroundTaskIdentifier resumedPhotoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             RCLog(@"Resumed first-stage upload background task %d was forced to end", resumedPhotoUploadBackgroundTaskID);
@@ -495,11 +500,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         [self startFirstStagePhotoUpload:unfinishedUpload backgroundTaskID:resumedPhotoUploadBackgroundTaskID];
     }
 
-    // Resume photos that did not complete the album addition
-    
-
-
-    // Resume photos that did not complete the stage 2 upload
+    // 4 Resume photos that did not complete the stage 2 upload
     @synchronized(self) {
         [pendingStage2Photos_ addObjectsFromArray:unfinishedUploadsStage2PendingOrUploading];
     }
