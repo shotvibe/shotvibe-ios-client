@@ -121,11 +121,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     // Use a background task to initiate the uploads, in case the application is closed while requesting photo id's.
     // The uploads themselves have their own background task.
-    __block UIBackgroundTaskIdentifier initiateUploadsBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        RCLog(@"Initiate-uploads background task %d was forced to end", initiateUploadsBackgroundTaskID);
-        [[UIApplication sharedApplication] endBackgroundTask:initiateUploadsBackgroundTaskID];
-    }];
-    RCLog(@"Initiate-uploads background task %d started", initiateUploadsBackgroundTaskID);
+    UIBackgroundTaskIdentifier initiateUploadsBackgroundTaskID = [self beginBackgroundTaskWithDescription:@"Initiate-uploads"];
 
     NSMutableArray *newAlbumUploadingPhotos = [[NSMutableArray alloc] init];
     for (PhotoUploadRequest *req in photoUploadRequests) {
@@ -201,12 +197,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     for (AlbumUploadingPhoto *photo in photos) {
         // On iOS < 7, the entire upload process will be in a background task, and needs to finish within 10 minutes.
-        __block UIBackgroundTaskIdentifier photoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-            RCLog(@"First-stage upload background task %d was forced to end", photoUploadBackgroundTaskID);
-            [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
-        }];
-        RCLog(@"First-stage upload background task %d started", photoUploadBackgroundTaskID);
-
+        UIBackgroundTaskIdentifier photoUploadBackgroundTaskID = [self beginBackgroundTaskWithDescription:@"First-stage upload"];
 
         [self startFirstStagePhotoUpload:photo backgroundTaskID:photoUploadBackgroundTaskID];
     }
@@ -400,11 +391,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 - (void)startSecondStageUploadTask:(AlbumUploadingPhoto *)photo
 {
-    __block UIBackgroundTaskIdentifier secondStageUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        RCLog(@"Second-stage upload background task %d was forced to end", secondStageUploadBackgroundTaskID);
-        [[UIApplication sharedApplication] endBackgroundTask:secondStageUploadBackgroundTaskID];
-    }];
-    RCLog(@"Second-stage upload background task %d started", secondStageUploadBackgroundTaskID);
+    UIBackgroundTaskIdentifier secondStageUploadBackgroundTaskID = [self beginBackgroundTaskWithDescription:@"Second-stage upload"];
 
     RCLog(@"START second-stage upload for %@", showShortPhotoId(photo.photoId));
     NSString *fullResFilePath = [photo getFullResFilename];
@@ -477,11 +464,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     for (AlbumUploadingPhoto *photo in unfinishedUploadsAddingToAlbum) {
         RCLog(@"Resume add to album for photo %@", showShortPhotoId(photo.photoId));
 
-        __block UIBackgroundTaskIdentifier resumedPhotoAdditionBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-            RCLog(@"Resumed add-to-album background task %d was forced to end", resumedPhotoAdditionBackgroundTaskID);
-            [[UIApplication sharedApplication] endBackgroundTask:resumedPhotoAdditionBackgroundTaskID];
-        }];
-        RCLog(@"Resumed add-to-album background task %d started", resumedPhotoAdditionBackgroundTaskID);
+        UIBackgroundTaskIdentifier resumedPhotoAdditionBackgroundTaskID = [self beginBackgroundTaskWithDescription:@"Resumed add-to-album"];
 
         [self lowResPhotoWasUploaded:photo backgroundTaskID:resumedPhotoAdditionBackgroundTaskID];
     }
@@ -501,11 +484,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     for (AlbumUploadingPhoto *photo in unfinishedUploadsStage1Uploading) {
         RCLog(@"Resume first-stage upload for photo %@", showShortPhotoId(photo.photoId));
 
-        __block UIBackgroundTaskIdentifier resumedPhotoUploadBackgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-            RCLog(@"Resumed first-stage upload background task %d was forced to end", resumedPhotoUploadBackgroundTaskID);
-            [[UIApplication sharedApplication] endBackgroundTask:resumedPhotoUploadBackgroundTaskID];
-        }];
-        RCLog(@"Resumed first-stage upload background task %d started", resumedPhotoUploadBackgroundTaskID);
+        UIBackgroundTaskIdentifier resumedPhotoUploadBackgroundTaskID = [self beginBackgroundTaskWithDescription:@"Resumed first-stage upload"];
 
         [self startFirstStagePhotoUpload:photo backgroundTaskID:resumedPhotoUploadBackgroundTaskID];
     }
@@ -557,6 +536,17 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 
 #pragma mark - Utility functions
+
+- (UIBackgroundTaskIdentifier)beginBackgroundTaskWithDescription:(NSString *)description
+{
+    __block UIBackgroundTaskIdentifier backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        RCLog(@"%@ background task %d was forced to end", description, backgroundTaskID);
+        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+    }];
+    RCLog(@"%@ background task %d started", description, backgroundTaskID);
+    return backgroundTaskID;
+}
+
 
 NSString * showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
 {
