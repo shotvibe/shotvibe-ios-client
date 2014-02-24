@@ -517,7 +517,9 @@ static const NSTimeInterval RETRY_TIME = 5;
     @synchronized(self) {
         [pendingStage2Photos_ addObjectsFromArray:unfinishedUploadsStage2PendingOrUploading];
     }
-    [self initiateSecondStateUploadsIfIdle];
+    if ([unfinishedUploadsStage2PendingOrUploading count]) {
+        [self initiateSecondStateUploadsIfIdle];
+    }
 }
 
 
