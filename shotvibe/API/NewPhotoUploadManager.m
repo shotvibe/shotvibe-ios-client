@@ -150,7 +150,7 @@ static const NSTimeInterval RETRY_TIME = 5;
             }
         }
 
-        [self uploadPhotosWithoutIds:albumId photos:newAlbumUploadingPhotos];
+        [self uploadPhotosWithoutIds:newAlbumUploadingPhotos];
 
         RCLog(@"Initiate-uploads background task %d ended", initiateUploadsBackgroundTaskID);
         [[UIApplication sharedApplication] endBackgroundTask:initiateUploadsBackgroundTaskID];
@@ -162,7 +162,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 - (void)requestIdsForNewUploads:(NSUInteger)nrOfNewUploads
 {
     NSUInteger remainingPhotoIds;
-    remainingPhotoIds = [photoIds_ count]; // probably not necessary to synchronize this, but it doesn't hurt
+    remainingPhotoIds = [photoIds_ count];
 
     if (remainingPhotoIds < nrOfNewUploads) { // Request new ids if there are not enough
         RCLog(@"PhotoUploadManager Requesting Photo IDs");
@@ -183,7 +183,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 }
 
 
-- (void)uploadPhotosWithoutIds:(int64_t)albumId photos:(NSArray *)photos
+- (void)uploadPhotosWithoutIds:(NSArray *)photos
 {
     @synchronized(photoIds_) {
         [self requestIdsForNewUploads:[photos count]];
@@ -206,13 +206,13 @@ static const NSTimeInterval RETRY_TIME = 5;
         RCLog(@"Photo-upload background task %d started", photoUploadBackgroundTaskID);
 
 
-        [self startFirstStagePhotoUpload:albumId photo:photo backgroundTaskID:photoUploadBackgroundTaskID];
+        [self startFirstStagePhotoUpload:photo backgroundTaskID:photoUploadBackgroundTaskID];
     }
 }
 
 
 // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
-- (void)startFirstStagePhotoUpload:(int64_t)albumId photo:(AlbumUploadingPhoto *)photo backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
+- (void)startFirstStagePhotoUpload:(AlbumUploadingPhoto *)photo backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
 {
     RCLog(@"START first-stage upload for %@", showShortPhotoId(photo.photoId));
 
@@ -223,16 +223,16 @@ static const NSTimeInterval RETRY_TIME = 5;
         RCLog(@"Task progress: photo %@ %.2f %.1fk", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend, totalBytesExpectedToSend / 1024.0);
         [photo setUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [listener_ photoUploadProgress:albumId];
+            [listener_ photoUploadProgress:photo.albumId];
         });
     } completionHandler:^(NSError *error) {
         //RCLog(@"Task completion: photo %@ %@", showShortPhotoId(photo.photoId), [req getFilename]);
         if (error) {
             RCLog(@"ERROR %@\nduring first-stage upload for %@\nRetrying in %.1f seconds.", [error localizedDescription], showShortPhotoId(photo.photoId), RETRY_TIME);
             [NSThread sleepForTimeInterval:RETRY_TIME];
-            [self startFirstStagePhotoUpload:albumId photo:photo backgroundTaskID:photoUploadBackgroundTaskID];
+            [self startFirstStagePhotoUpload:photo backgroundTaskID:photoUploadBackgroundTaskID];
         } else {
-            [self lowResPhotoWasUploaded:photo album:albumId backgroundTaskID:photoUploadBackgroundTaskID];
+            [self lowResPhotoWasUploaded:photo backgroundTaskID:photoUploadBackgroundTaskID];
         }
     }];
 }
@@ -241,7 +241,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 /* Completion handler that is called when upload task succeeds. On iOS 7, this is run within an NSURLSession, meaning that it may not execute for more than 30 seconds. On iOS < 7 it is run as a background task that is allowed to run for 10 minutes. For iOS 7, this background task is also active, but since completion may occur well after the 10 minute interval has passed, we need to stay within the 30 seconds limit.
  */
-- (void)lowResPhotoWasUploaded:(AlbumUploadingPhoto *)photo album:(int64_t)albumId backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
+- (void)lowResPhotoWasUploaded:(AlbumUploadingPhoto *)photo backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
 {
     RCLog(@"FINISH first-stage upload for %@", showShortPhotoId(photo.photoId));
 
@@ -250,12 +250,12 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     [photo setUploadComplete];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [listener_ photoUploadComplete:albumId]; // Remove progress bars in the UI
+        [listener_ photoUploadComplete:photo.albumId]; // Remove progress bars in the UI
     });
 
     @synchronized(self) { // move photo from uploading to uploaded
-        [uploadingPhotos_ removePhoto:photo album:albumId];
-        [uploadedPhotos_ addPhoto:photo album:albumId];
+        [uploadingPhotos_ removePhoto:photo album:photo.albumId];
+        [uploadedPhotos_ addPhoto:photo album:photo.albumId];
     }
 
     RCLog(@"lowResPhotoWasUploaded:");
@@ -266,13 +266,13 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     NSArray *photosToAdd = nil;
     @synchronized(self) {
-        if ([uploadingPhotos_ getAllPhotosForAlbum:albumId].count == 0) {
+        if ([uploadingPhotos_ getAllPhotosForAlbum:photo.albumId].count == 0) {
             // Only when there are no other photos for this album currently uploading, we
             // will add the photos to the album. This way only one push notification will be sent.
-            photosToAdd = [uploadedPhotos_ getAllPhotosForAlbum:albumId];
+            photosToAdd = [uploadedPhotos_ getAllPhotosForAlbum:photo.albumId];
 
-            [uploadedPhotos_ removePhotos:photosToAdd album:albumId];
-            [addingPhotos_ addPhotos:photosToAdd album:albumId];
+            [uploadedPhotos_ removePhotos:photosToAdd album:photo.albumId];
+            [addingPhotos_ addPhotos:photosToAdd album:photo.albumId];
         }
     }
 
@@ -280,10 +280,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         RCLog(@"Photo-upload background task %d ended", photoUploadBackgroundTaskID);
         [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
     } else {
-        for (AlbumUploadingPhoto *photo in photosToAdd) {
-            [photo setAddingToAlbum]; // TODO: this state is no longer used
-        }
-        [self startAddToAlbumTask:photosToAdd album:albumId backgroundTaskID:photoUploadBackgroundTaskID];
+        [self startAddToAlbumTask:photosToAdd album:photo.albumId backgroundTaskID:photoUploadBackgroundTaskID];
     }
 }
 
@@ -429,12 +426,21 @@ static const NSTimeInterval RETRY_TIME = 5;
     //       and restart tasks
 
     // maybe not a switch, but several for loops. depending on whether we need to do the same things for different statuses.
+/*
+    NSMutableArray *unfinishedUploadsWithoutIds = [[NSMutableArray alloc] init];
+    for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploads) {
+        if ([unfinishedUpload getUploadStatus] == NewUploader_UploadStatus_WaitingForId) {
+            [unfinishedUploadsWithoutIds addObject:unfinishedUpload];
+        }
+    }
+//   per album
+
     for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploads) {
         switch ([unfinishedUpload getUploadStatus]) {
-            case NewUploader_UploadStatus_WaitingForId:
-                break;
+            // NewUploader_UploadStatus_WaitingForId: already handled
 
             case NewUploader_UploadStatus_Stage1Pending:
+                startFirstStagePhotoUpload:unfinishedUpload.albumId photo:photo backgroundTaskID:nilphotoUploadBackgroundTaskID
                 break;
 
             case NewUploader_UploadStatus_AddingToAlbum:
@@ -448,6 +454,7 @@ static const NSTimeInterval RETRY_TIME = 5;
                 break;
         }
     }
+ */
 }
 
 
