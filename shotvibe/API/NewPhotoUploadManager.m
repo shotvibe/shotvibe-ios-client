@@ -576,7 +576,7 @@ NSString * showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
 static void logUploads(NSArray *albumUploadingPhotos)
 {
     for (AlbumUploadingPhoto *photo in albumUploadingPhotos) {
-        RCLog(@"Upload: %@ in album %lld, state %d file:%@", showShortPhotoId(photo.photoId), photo.albumId, [photo getUploadStatus], [photo getFullResFilename]);
+        RCLog(@"Upload: %@ in album %lld, state %d file:%@", photo.photoId ? showShortPhotoId(photo.photoId) : @"Photo_with_no_ID_yet", photo.albumId, [photo getUploadStatus], [photo getFullResFilename]);
     }
 }
 
