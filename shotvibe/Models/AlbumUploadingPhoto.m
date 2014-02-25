@@ -31,7 +31,7 @@
         tmpFilesSaved = dispatch_semaphore_create(0);
 
         lock_ = [[NSObject alloc] init];
-        uploadStatus_ = UploadStatusQueued;
+        uploadStatus_ = NewUploader_UploadStatus_WaitingForId;
 
         uploadProgress_ = 0.0f;
     }
@@ -58,28 +58,14 @@
 - (BOOL)isUploadComplete
 {
     @synchronized (lock_) {
-        return uploadStatus_ == UploadStatusComplete || uploadStatus_ == UploadStatusAddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_AddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_Stage2PendingOrUploading;
-    }
-}
-
-- (void)setUploadComplete
-{
-    @synchronized (lock_) {
-        uploadStatus_ = UploadStatusComplete;
+        return uploadStatus_ == NewUploader_UploadStatus_AddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_Stage2PendingOrUploading;
     }
 }
 
 - (BOOL)isAddingToAlbum
 {
     @synchronized (lock_) {
-        return uploadStatus_ == UploadStatusAddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_AddingToAlbum;
-    }
-}
-
-- (void)setAddingToAlbum
-{
-    @synchronized (lock_) {
-        uploadStatus_ = UploadStatusAddingToAlbum;
+        return uploadStatus_ == NewUploader_UploadStatus_AddingToAlbum;
     }
 }
 
@@ -93,7 +79,6 @@
 - (void)setUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal
 {
     @synchronized (lock_) {
-        uploadStatus_ = UploadStatusUploading;
         uploadProgress_ = (float)bytesUploaded / (float)bytesTotal;
     }
 }

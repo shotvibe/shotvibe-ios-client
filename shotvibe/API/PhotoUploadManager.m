@@ -132,7 +132,6 @@ static const NSTimeInterval RETRY_TIME = 5;
         @synchronized(self) {
             [uploadingStage1Photos_ addPhoto:photo album:albumId];
         }
-        [photo setUploadStatus:NewUploader_UploadStatus_WaitingForId]; // set status here, before notifying.
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
