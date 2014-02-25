@@ -72,7 +72,7 @@
 - (BOOL)isAddingToAlbum
 {
     @synchronized (lock_) {
-        return uploadStatus_ == UploadStatusAddingToAlbum;
+        return uploadStatus_ == UploadStatusAddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_AddingToAlbum;
     }
 }
 
