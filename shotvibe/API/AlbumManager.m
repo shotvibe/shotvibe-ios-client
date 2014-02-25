@@ -13,7 +13,6 @@
 #import "AlbumPhoto.h"
 #import "SL/AlbumSummary.h"
 #import "SL/AlbumContents.h"
-#import "PhotoUploadManager.h"
 #import "SL/AlbumPhoto.h"
 #import "SL/ArrayList.h"
 #import "SL/AlbumServerPhoto.h"

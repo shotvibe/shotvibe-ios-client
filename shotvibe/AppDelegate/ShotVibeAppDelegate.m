@@ -17,7 +17,6 @@
 #import "SVSidebarManagementController.h"
 #import "SVSidebarMemberController.h"
 #import "SVNavigationController.h"
-#import "PhotoUploadManager.h"
 
 #import "MPNotificationView.h"
 #import "MFSideMenu.h"

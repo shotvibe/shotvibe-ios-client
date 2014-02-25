@@ -656,7 +656,6 @@
 		66278D071867C94900D23F34 /* PhotoBitmap.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CF41867C94900D23F34 /* PhotoBitmap.m */; };
 		66278D081867C94900D23F34 /* PhotoFilesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CF61867C94900D23F34 /* PhotoFilesManager.m */; };
 		66278D091867C94900D23F34 /* PhotoSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CF81867C94900D23F34 /* PhotoSize.m */; };
-		66278D0A1867C94900D23F34 /* PhotoUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CFB1867C94900D23F34 /* PhotoUploadManager.m */; };
 		66278D0B1867C94900D23F34 /* PhotoUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CFD1867C94900D23F34 /* PhotoUploadRequest.m */; };
 		66278D0C1867C94900D23F34 /* ShotVibeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CFF1867C94900D23F34 /* ShotVibeAPI.m */; };
 		66278D0D1867C94900D23F34 /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D011867C94900D23F34 /* SVPushNotificationsManager.m */; };
@@ -1654,8 +1653,6 @@
 		66278CF71867C94900D23F34 /* PhotoSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoSize.h; path = shotvibe/API/PhotoSize.h; sourceTree = SOURCE_ROOT; };
 		66278CF81867C94900D23F34 /* PhotoSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoSize.m; path = shotvibe/API/PhotoSize.m; sourceTree = SOURCE_ROOT; };
 		66278CF91867C94900D23F34 /* PhotosUploadListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotosUploadListener.h; path = shotvibe/API/PhotosUploadListener.h; sourceTree = SOURCE_ROOT; };
-		66278CFA1867C94900D23F34 /* PhotoUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoUploadManager.h; path = shotvibe/API/PhotoUploadManager.h; sourceTree = SOURCE_ROOT; };
-		66278CFB1867C94900D23F34 /* PhotoUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoUploadManager.m; path = shotvibe/API/PhotoUploadManager.m; sourceTree = SOURCE_ROOT; };
 		66278CFC1867C94900D23F34 /* PhotoUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoUploadRequest.h; path = shotvibe/API/PhotoUploadRequest.h; sourceTree = SOURCE_ROOT; };
 		66278CFD1867C94900D23F34 /* PhotoUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoUploadRequest.m; path = shotvibe/API/PhotoUploadRequest.m; sourceTree = SOURCE_ROOT; };
 		66278CFE1867C94900D23F34 /* ShotVibeAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShotVibeAPI.h; path = shotvibe/API/ShotVibeAPI.h; sourceTree = SOURCE_ROOT; };
@@ -3164,8 +3161,6 @@
 				66278CF71867C94900D23F34 /* PhotoSize.h */,
 				66278CF81867C94900D23F34 /* PhotoSize.m */,
 				66278CF91867C94900D23F34 /* PhotosUploadListener.h */,
-				66278CFA1867C94900D23F34 /* PhotoUploadManager.h */,
-				66278CFB1867C94900D23F34 /* PhotoUploadManager.m */,
 				66278CFC1867C94900D23F34 /* PhotoUploadRequest.h */,
 				66278CFD1867C94900D23F34 /* PhotoUploadRequest.m */,
 				66278CFE1867C94900D23F34 /* ShotVibeAPI.h */,
@@ -4098,7 +4093,6 @@
 				28F877B517D1BB4B0051F528 /* MFSideMenuContainerViewController.m in Sources */,
 				28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */,
 				6601322D187F4E670042047B /* IOSDoubleArray.m in Sources */,
-				66278D0A1867C94900D23F34 /* PhotoUploadManager.m in Sources */,
 				6601323D187F4E670042047B /* ClassCastException.m in Sources */,
 				66278CE41867C62300D23F34 /* SVFacebookActivity.m in Sources */,
 				28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */,
