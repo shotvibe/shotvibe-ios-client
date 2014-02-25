@@ -357,7 +357,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 }
 
 
-// In case all low-res photos have been uploaded and added, start uploading the pending stage-2 uploads
+// In case all low-res photos have been uploaded and added, start uploading the pending stage-2 uploads.
 - (void)initiateSecondStateUploadsIfIdle
 {
     NSArray *newSecondStagePhotos = @[];
