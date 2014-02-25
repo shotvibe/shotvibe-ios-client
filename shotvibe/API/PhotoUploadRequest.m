@@ -18,8 +18,7 @@
 
 static const CGFloat kLowResJPEGQuality = 0.75;
 static const CGSize kLowResImageSize = {
-    100, 50
-    // TODO: use correct low-res size: 1920, 1080
+    1920, 1080
 };
 
 - (id)initWithAsset:(ALAsset *)asset
