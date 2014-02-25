@@ -31,7 +31,7 @@
         tmpFilesSaved = dispatch_semaphore_create(0);
 
         lock_ = [[NSObject alloc] init];
-        uploadStatus_ = NewUploader_UploadStatus_WaitingForId;
+        uploadStatus_ = UploadStatus_WaitingForId;
 
         uploadProgress_ = 0.0f;
     }
@@ -58,14 +58,14 @@
 - (BOOL)isUploadComplete
 {
     @synchronized (lock_) {
-        return uploadStatus_ == NewUploader_UploadStatus_AddingToAlbum || uploadStatus_ == NewUploader_UploadStatus_Stage2PendingOrUploading;
+        return uploadStatus_ == UploadStatus_AddingToAlbum || uploadStatus_ == UploadStatus_Stage2PendingOrUploading;
     }
 }
 
 - (BOOL)isAddingToAlbum
 {
     @synchronized (lock_) {
-        return uploadStatus_ == NewUploader_UploadStatus_AddingToAlbum;
+        return uploadStatus_ == UploadStatus_AddingToAlbum;
     }
 }
 

@@ -13,10 +13,10 @@
 #import "PhotoUploadRequest.h"
 
 typedef NS_ENUM (NSInteger, UploadStatus) {
-    NewUploader_UploadStatus_WaitingForId,
-    NewUploader_UploadStatus_Stage1Uploading,
-    NewUploader_UploadStatus_AddingToAlbum,
-    NewUploader_UploadStatus_Stage2PendingOrUploading
+    UploadStatus_WaitingForId,
+    UploadStatus_Stage1Uploading,
+    UploadStatus_AddingToAlbum,
+    UploadStatus_Stage2PendingOrUploading
 };
 
 

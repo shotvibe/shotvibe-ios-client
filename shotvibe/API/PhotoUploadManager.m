@@ -189,7 +189,7 @@ static const NSTimeInterval RETRY_TIME = 5;
             [photo setPhotoId:[photoIds_ objectAtIndex:0]];
             [photoIds_ removeObjectAtIndex:0];
 
-            [photo setUploadStatus:NewUploader_UploadStatus_Stage1Uploading];
+            [photo setUploadStatus:UploadStatus_Stage1Uploading];
             [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as Stage1Pending in ShotVibeDB
         }
     }
@@ -237,7 +237,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     RCLog(@"FINISH first-stage upload for %@", showShortPhotoId(photo.photoId));
 
-    [photo setUploadStatus:NewUploader_UploadStatus_AddingToAlbum];
+    [photo setUploadStatus:UploadStatus_AddingToAlbum];
     [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as AddingToAlbum in ShotVibeDB
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -343,7 +343,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 - (void)photosWereAdded:(NSArray *)addedPhotos albumId:(int64_t)albumId
 {
     for (AlbumUploadingPhoto *photo in addedPhotos) {
-        [photo setUploadStatus:NewUploader_UploadStatus_Stage2PendingOrUploading];
+        [photo setUploadStatus:UploadStatus_Stage2PendingOrUploading];
         [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as Stage2Pending in ShotVibeDB
     }
 
@@ -430,19 +430,19 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     for (AlbumUploadingPhoto *unfinishedUpload in unfinishedUploads) {
         switch ([unfinishedUpload getUploadStatus]) {
-            case NewUploader_UploadStatus_WaitingForId:
+            case UploadStatus_WaitingForId:
                 [unfinishedUploadsWaitingForId addObject:unfinishedUpload];
                 break;
 
-            case NewUploader_UploadStatus_Stage1Uploading:
+            case UploadStatus_Stage1Uploading:
                 [unfinishedUploadsStage1Uploading addObject:unfinishedUpload];
                 break;
 
-            case NewUploader_UploadStatus_AddingToAlbum:
+            case UploadStatus_AddingToAlbum:
                 [unfinishedUploadsAddingToAlbum addObject:unfinishedUpload];
                 break;
 
-            case NewUploader_UploadStatus_Stage2PendingOrUploading:
+            case UploadStatus_Stage2PendingOrUploading:
                 [unfinishedUploadsStage2PendingOrUploading addObject:unfinishedUpload];
                 break;
 
@@ -510,7 +510,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     NSMutableArray *uploadingPhotosForAlbum = [[NSMutableArray alloc] init];
     for (AlbumUploadingPhoto *photo in [self getAllUploadingPhotos]) {
         RCLog(@"status is %d", [photo getUploadStatus]);
-        if (photo.albumId == albumId && ([photo getUploadStatus] == NewUploader_UploadStatus_WaitingForId || [photo getUploadStatus] == NewUploader_UploadStatus_Stage1Uploading || [photo getUploadStatus] == NewUploader_UploadStatus_AddingToAlbum)) {
+        if (photo.albumId == albumId && ([photo getUploadStatus] == UploadStatus_WaitingForId || [photo getUploadStatus] == UploadStatus_Stage1Uploading || [photo getUploadStatus] == UploadStatus_AddingToAlbum)) {
             SLAlbumPhoto *albumPhoto = [[SLAlbumPhoto alloc] initWithSLAlbumUploadingPhoto:photo];
             [uploadingPhotosForAlbum addObject:albumPhoto];
         }
