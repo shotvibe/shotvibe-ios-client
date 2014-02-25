@@ -83,6 +83,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         NSURL *photoFileUrl = [NSURL fileURLWithPath:filePath];
 
         NSURLSessionUploadTask *uploadTask = [uploadNSURLSession_ uploadTaskWithRequest:request fromFile:photoFileUrl];
+        RCLog(@"Created %@ task for URL: %@", request.HTTPMethod, uploadURL);
 
         [((UploadSessionDelegate *)[uploadNSURLSession_ delegate])setDelegateForTask : uploadTask progressHandler : progressHandler completionHandler : completionHandler];
 
@@ -152,6 +153,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         NSURL *jsonDataUrl = [NSURL fileURLWithPath:jsonDataFilePath];
 
         NSURLSessionUploadTask *uploadTask = [uploadNSURLSession_ uploadTaskWithRequest:request fromFile:jsonDataUrl];
+        RCLog(@"Created %@ task for URL: %@", request.HTTPMethod, uploadURL);
 
         [((UploadSessionDelegate *)[uploadNSURLSession_ delegate])setDelegateForTask : uploadTask progressHandler : nil completionHandler : completionHandler];
         [uploadTask resume];
