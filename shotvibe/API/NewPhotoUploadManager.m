@@ -397,20 +397,20 @@ static const NSTimeInterval RETRY_TIME = 5;
     NSString *fullResFilePath = [photo getFullResFilename];
 
     // Temporarily disable 2nd stage because server is not available
-//    [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:fullResFilePath isFullRes:YES progressHandler:nil completionHandler:^(NSError *error) {
-//        if (error) {
-//            RCLog(@"ERROR %@\nduring second-stage upload for %@\nRetrying in %.1f seconds.", [error localizedDescription], showShortPhotoId(photo.photoId), RETRY_TIME);
-//            [NSThread sleepForTimeInterval:RETRY_TIME];
-//            [self startSecondStageUploadTask:photo];
-//        } else {
+    [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:fullResFilePath isFullRes:YES progressHandler:nil completionHandler:^(NSError *error) {
+        if (error) {
+            RCLog(@"ERROR %@\nduring second-stage upload for %@\nRetrying in %.1f seconds.", [error localizedDescription], showShortPhotoId(photo.photoId), RETRY_TIME);
+            [NSThread sleepForTimeInterval:RETRY_TIME];
+            [self startSecondStageUploadTask:photo];
+        } else {
             RCLog(@"FINISH second-stage upload for %@", showShortPhotoId(photo.photoId));
             [uploadingStage2Photos_ removeObject:photo];
             [self storeUnfinishedUploads]; // TODO: at this point, remove the AlbumUploadingPhoto photo from ShotVibeDB
 
             RCLog(@"Second-stage upload background task %d ended", secondStageUploadBackgroundTaskID);
             [[UIApplication sharedApplication] endBackgroundTask:secondStageUploadBackgroundTaskID];
-//        }
-//    }];
+        }
+    }];
 }
 
 
