@@ -10,7 +10,7 @@
 #import "PhotosUploadListener.h"
 #import "NewShotVibeAPI.h"
 
-@interface NewPhotoUploadManager : NSObject
+@interface PhotoUploadManager : NSObject
 
 - (id)initWithBaseURL:(NSString *)baseURL shotVibeAPI:(ShotVibeAPI *)shotVibeAPI listener:(id<PhotosUploadListener>)listener;
 

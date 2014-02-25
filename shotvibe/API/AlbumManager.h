@@ -11,7 +11,7 @@
 #import "ShotVibeDB.h"
 #import "AlbumListListener.h"
 #import "AlbumContentsListener.h"
-#import "NewPhotoUploadManager.h"
+#import "PhotoUploadManager.h"
 #import "PhotoFilesManager.h"
 #import "SL/PhoneContactsManager.h"
 
@@ -26,7 +26,7 @@
     int refreshStatus;
 }
 
-@property (nonatomic, readonly, strong) NewPhotoUploadManager *photoUploadManager;
+@property (nonatomic, readonly, strong) PhotoUploadManager *photoUploadManager;
 @property (nonatomic, readonly, strong) PhotoFilesManager *photoFilesManager;
 @property (nonatomic, readonly, strong) SLPhoneContactsManager *phoneContactsManager;
 

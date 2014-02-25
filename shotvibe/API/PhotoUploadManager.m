@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "NewPhotoUploadManager.h"
+#import "PhotoUploadManager.h"
 #import "NewShotVibeAPI.h"
 #import "PhotoUploadRequest.h"
 #import "PhotosUploadListener.h"
@@ -63,7 +63,7 @@
 // End of temporary code
 
 
-@implementation NewPhotoUploadManager {
+@implementation PhotoUploadManager {
     ShotVibeAPI *shotVibeAPI_;
     NewShotVibeAPI *newShotVibeAPI_;
 
