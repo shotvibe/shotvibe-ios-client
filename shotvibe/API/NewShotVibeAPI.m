@@ -9,6 +9,8 @@
 #import "NewShotVibeAPI.h"
 #import "SL/ArrayList.h"
 #import "SL/APIException.h"
+#import "SL/ShotVibeAPI.h"
+
 
 @implementation NewShotVibeAPI {
     NSString *baseURL_; // We keep a separate baseURL here so we can check the uploading on a test server, without having to support the full ShotVibe API
@@ -71,7 +73,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         [self photoUploadAsyncNoSession:photoId filePath:filePath isFullRes:isFullRes progressHandler:progressHandler completionHandler:completionHandler];
     } else {
         RCLog(@"Starting asynchronous upload task in NSURLSession");
-        NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/%@", UPLOAD_BASE_URL, photoId, isFullRes ? @"original/":@""]];
+        NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/%@", [SLShotVibeAPI BASE_UPLOAD_URL], photoId, isFullRes ? @"original/":@""]];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
         [request setHTTPMethod:@"PUT"];
         if (oldShotVibeAPI_.authData != nil) {
