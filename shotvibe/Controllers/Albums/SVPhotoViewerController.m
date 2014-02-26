@@ -609,6 +609,22 @@
 
                     butTrash.enabled = YES;
 
+                    if (self.photos.count <= 0) {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    } else {
+                        if (self.index >= self.photos.count) {
+                            self.index = self.photos.count - 1;
+                            [self setPhotoViewsIndex:self.index];
+                        } else {
+                            [self setPhotoViewsIndex:MAX(self.index + 1, 0)];
+                        }
+                        [self fitScrollViewToOrientation];
+                        [self updateCaption];
+
+                        // Send a notification the the main screen to move this album on top of the list
+                        NSDictionary *userInfo = @{ @"albumId" : [NSNumber numberWithLongLong:self.albumId] };
+                        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATIONCENTER_ALBUM_CHANGED object:nil userInfo:userInfo];
+                    }
                 }
 
 
