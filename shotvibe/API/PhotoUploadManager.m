@@ -472,11 +472,17 @@ static const NSTimeInterval RETRY_TIME = 5;
     @synchronized(self) {
         for (AlbumUploadingPhoto *photo in unfinishedUploadsWaitingForId) {
             [uploadingStage1Photos_ addPhoto:photo album:photo.albumId];
-            RCLog(@"Resume request upload id for photo %@", showShortPhotoId(photo.photoId));
+            RCLog(@"Resuming request upload id for photo %@", showShortPhotoId(photo.photoId));
         }
     }
     if ([unfinishedUploadsWaitingForId count]) {
-        [self uploadPhotosWithoutIds:unfinishedUploadsWaitingForId];
+        UIBackgroundTaskIdentifier resumedRequestIdsBackgroundTaskID = [self beginBackgroundTaskWithDescription:@"Resumed request for upload ids"];
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [self uploadPhotosWithoutIds:unfinishedUploadsWaitingForId];
+        });
+
+        [[UIApplication sharedApplication] endBackgroundTask:resumedRequestIdsBackgroundTaskID];
     }
 
     // 3 Resume photos that did not complete the stage 1 upload
