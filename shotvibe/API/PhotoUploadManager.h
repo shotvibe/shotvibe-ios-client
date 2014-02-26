@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PhotosUploadListener.h"
-#import "NewShotVibeAPI.h"
+#import "ShotVibeAPI.h"
 
 @interface PhotoUploadManager : NSObject
 

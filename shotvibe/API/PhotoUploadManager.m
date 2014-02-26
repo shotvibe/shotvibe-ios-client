@@ -7,7 +7,6 @@
 //
 
 #import "PhotoUploadManager.h"
-#import "NewShotVibeAPI.h"
 #import "PhotoUploadRequest.h"
 #import "PhotosUploadListener.h"
 #import "AlbumPhoto.h"
@@ -65,7 +64,6 @@
 
 @implementation PhotoUploadManager {
     ShotVibeAPI *shotVibeAPI_;
-    NewShotVibeAPI *newShotVibeAPI_;
 
     id<PhotosUploadListener> listener_; // This is the AlbumManager
 
@@ -98,8 +96,6 @@ static const NSTimeInterval RETRY_TIME = 5;
     if (self) {
         shotVibeAPI_ = shotVibeAPI;
         listener_ = listener;
-
-        newShotVibeAPI_ = [[NewShotVibeAPI alloc] initWithBaseURL:(NSString *)baseURL oldShotVibeAPI:shotVibeAPI];
 
         photoSaveQueue_ = dispatch_queue_create(NULL, NULL);
 
@@ -180,6 +176,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     }
 }
 
+
 // NOTE: may temporarily block on id request, so call from background thread
 - (void)uploadPhotosWithoutIds:(NSArray *)photos
 {
@@ -212,7 +209,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     NSString *lowResFilePath = [photo getLowResFilename]; // Will block until the photo has been saved
 
     // Stage 1, upload low-res version of photo
-    [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:lowResFilePath isFullRes:NO progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+    [shotVibeAPI_ photoUploadAsync:photo.photoId filePath:lowResFilePath isFullRes:NO progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         RCLog(@"Task progress: photo %@ %.2f %.1fk", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend, totalBytesExpectedToSend / 1024.0);
         [photo setUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -288,7 +285,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     }
 
     /* TODO: old way to call albumAddPhotos, can be removed if adding as an upload task is responsive enough.
-     
+
      NOTE: If we start using this code again, make sure to may it asynchronous first, as the rest of the upload manager depends on startAddToAlbumTask not to block
 
      BOOL photosSuccesfullyAdded = NO;
@@ -321,7 +318,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 
     // TODO: may suffer from a delay after photos were uploaded, when called from the background.
-    [newShotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^(NSError *error) {
+    [shotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^(NSError *error) {
         if (error) {
             RCLog(@"ERROR: %@\nwhile adding %d photo(s) to album %lld: %@\nRetrying in %.1f seconds.", [error localizedDescription], photosToAdd.count, albumId, showAlbumUploadingPhotoIds(photosToAdd), RETRY_TIME);
             [NSThread sleepForTimeInterval:RETRY_TIME];
@@ -400,7 +397,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     NSString *fullResFilePath = [photo getFullResFilename];
 
     // Temporarily disable 2nd stage because server is not available
-    [newShotVibeAPI_ photoUploadAsync:photo.photoId filePath:fullResFilePath isFullRes:YES progressHandler:nil completionHandler:^(NSError *error) {
+    [shotVibeAPI_ photoUploadAsync:photo.photoId filePath:fullResFilePath isFullRes:YES progressHandler:nil completionHandler:^(NSError *error) {
         if (error) {
             RCLog(@"ERROR %@\nduring second-stage upload for %@\nRetrying in %.1f seconds.", [error localizedDescription], showShortPhotoId(photo.photoId), RETRY_TIME);
             [NSThread sleepForTimeInterval:RETRY_TIME];
