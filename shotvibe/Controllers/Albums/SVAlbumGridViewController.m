@@ -60,6 +60,9 @@
 @property (nonatomic, strong) IBOutlet UIView *switchView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *switchSort;
 
+@property (nonatomic, strong) UIImage *userPicture;
+@property (nonatomic, strong) NSString *userNickName;
+
 - (void)toggleMenu;
 - (void)toggleManagement;
 - (IBAction)takeVideoPressed:(id)sender;
@@ -387,58 +390,88 @@
 // Section headers
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
-		   viewForSupplementaryElementOfKind:(NSString *)kind
-								 atIndexPath:(NSIndexPath *)indexPath {
-	
-	if (kind == UICollectionElementKindSectionHeader) {
-		
-		SVAlbumGridSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-																		withReuseIdentifier:@"SVAlbumGridSection"
-																			   forIndexPath:indexPath];
-		
-		// Modify the header
-		[header setType:sort section:indexPath.section];
-		
-		header.dateButtonLabel.backgroundColor = [UIColor clearColor];
-		header.nameLabel.backgroundColor = [UIColor clearColor];
-		
-		switch (sort) {
-			case SortFeedAlike:
-			{
-				NSArray *arr = [sectionsKeys[indexPath.section] componentsSeparatedByString:@"--^--"];
-				NSString *key = [NSString stringWithFormat:@" %@", [arr objectAtIndex:0]];
-				[header.dateButtonLabel setTitle:key forState:UIControlStateNormal];
-			}break;
-			
-			case SortByDate:
-			{
-				header.nameLabel.text = sectionsKeys[indexPath.section];
-			}break;
-			
-			case SortByUser:
-			{
-				
-			}break;
-		}
-		
-		if (sort == SortByUser || sort == SortFeedAlike) {
-			
-			NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
+    if (kind == UICollectionElementKindSectionHeader) {
+        SVAlbumGridSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                                                        withReuseIdentifier:@"SVAlbumGridSection"
+                                                                               forIndexPath:indexPath];
+
+        // Modify the header
+        [header setType:sort section:indexPath.section];
+
+        header.dateButtonLabel.backgroundColor = [UIColor clearColor];
+        header.nameLabel.backgroundColor = [UIColor clearColor];
+
+        switch (sort) {
+            case SortFeedAlike: {
+                NSArray *arr = [sectionsKeys[indexPath.section] componentsSeparatedByString:@"--^--"];
+                NSString *key = [NSString stringWithFormat:@" %@", [arr objectAtIndex:0]];
+
+                [header.dateButtonLabel setTitle:key forState:UIControlStateNormal];
+                break;
+            }
+
+            case SortByDate:
+                header.nameLabel.text = sectionsKeys[indexPath.section];
+                break;
+
+            case SortByUser:
+
+                break;
+        }
+
+        if (sort == SortByUser || sort == SortFeedAlike) {
+            NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
             SLAlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
-			
-			//Search through the members
-            for (SLAlbumMember *member in [albumContents getMembers].array) {
-                if ([[[photo getServerPhoto] getAuthor] getMemberId] == [[member getUser] getMemberId]) {
-                    [header.imageView setImageWithURL:[[NSURL alloc] initWithString:[[member getUser] getMemberAvatarUrl]]];
-                    header.nameLabel.text = [[member getUser] getMemberNickname];
-					break;
-				}
-			}
-		}
-		
-		return header;
-	}
-	return nil;
+
+            ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
+
+            if ([photo getServerPhoto]) {
+                //Search through the members
+                for (SLAlbumMember *member in [albumContents getMembers].array) {
+                    if ([[[photo getServerPhoto] getAuthor] getMemberId] == [[member getUser] getMemberId]) {
+                        [header.imageView setImageWithURL:[[NSURL alloc] initWithString:[[member getUser] getMemberAvatarUrl]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                            if ([[member getUser] getMemberId] ==  shotvibeAPI.authData.userId) {
+                                self.userPicture = image;
+                                self.userNickName = [[member getUser] getMemberNickname];
+                            }
+                        }];
+                        header.nameLabel.text = [[member getUser] getMemberNickname];
+                        break;
+                    }
+                }
+            } else {
+                int64_t userId = shotvibeAPI.authData.userId;
+
+                header.nameLabel.text = self.userNickName;
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                    NSError *error;
+                    SLAlbumUser *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (userProfile) {
+                            header.nameLabel.text = [userProfile getMemberNickname];
+                            self.userNickName = [userProfile getMemberNickname];
+                            [header.imageView setImageWithURL:[NSURL URLWithString:[userProfile getMemberAvatarUrl]] placeholderImage:self.userPicture completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                self.userPicture = image;
+                            }];
+                        }
+                    }
+
+
+                                   );
+                }
+
+
+                               );
+            }
+        }
+
+        return header;
+    }
+    return nil;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView

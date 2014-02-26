@@ -65,4 +65,13 @@
 	}
 }
 
+
+- (void)prepareForReuse
+{
+    self.imageView.image = nil;
+    self.nameLabel.text = nil;
+    self.dateButtonLabel.hidden = YES;
+}
+
+
 @end
