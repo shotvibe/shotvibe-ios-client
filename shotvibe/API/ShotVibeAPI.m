@@ -500,7 +500,9 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 - (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
 {
     NSError *responseError;
-    Response *response = [self putFile:[NSString stringWithFormat:@"/photos/upload/%@/%@", photoId, isFullRes ? @"original/":@""]
+    NSString *url = [NSString stringWithFormat:@"/photos/upload/%@/%@", photoId, isFullRes ? @"original/":@""];
+    RCLog(@"photoUpload: putFile with url %@", url);
+    Response *response = [self putFile:url
                                 filePath:filePath
                            isPhotoUpload:YES
                              contentType:@"application/octet-stream"
@@ -608,7 +610,8 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     // TODO Some refactoring is in order to eliminate the duplicate code from the getResponse method
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:[[SLShotVibeAPI BASE_URL] stringByAppendingString:url]]];
+    NSString *baseUrl = isPhotoUpload ? UPLOAD_BASE_URL : [SLShotVibeAPI BASE_URL];
+    [request setURL:[NSURL URLWithString:[baseUrl stringByAppendingString:url]]];
     [request setHTTPMethod:@"PUT"];
     [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
     if (self.authData != nil) {
