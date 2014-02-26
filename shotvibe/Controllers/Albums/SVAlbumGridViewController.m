@@ -433,7 +433,7 @@
                 for (SLAlbumMember *member in [albumContents getMembers].array) {
                     if ([[[photo getServerPhoto] getAuthor] getMemberId] == [[member getUser] getMemberId]) {
                         [header.imageView setImageWithURL:[[NSURL alloc] initWithString:[[member getUser] getMemberAvatarUrl]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                            if ([[member getUser] getMemberId] ==  shotvibeAPI.authData.userId) {
+                            if ([[member getUser] getMemberId] == shotvibeAPI.authData.userId) {
                                 self.userPicture = image;
                                 self.userNickName = [[member getUser] getMemberNickname];
                             }
