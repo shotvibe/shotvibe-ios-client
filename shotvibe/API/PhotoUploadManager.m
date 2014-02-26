@@ -156,6 +156,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
 
 // NOTE: Not thread safe, so should only be called from a synchronized block
+// NOTE: may temporarily block on id request, so call from background thread
 - (void)requestIdsForNewUploads:(NSUInteger)nrOfNewUploads
 {
     NSUInteger remainingPhotoIds;
@@ -179,7 +180,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     }
 }
 
-
+// NOTE: may temporarily block on id request, so call from background thread
 - (void)uploadPhotosWithoutIds:(NSArray *)photos
 {
     @synchronized(photoIds_) {
@@ -287,6 +288,9 @@ static const NSTimeInterval RETRY_TIME = 5;
     }
 
     /* TODO: old way to call albumAddPhotos, can be removed if adding as an upload task is responsive enough.
+     
+     NOTE: If we start using this code again, make sure to may it asynchronous first, as the rest of the upload manager depends on startAddToAlbumTask not to block
+
      BOOL photosSuccesfullyAdded = NO;
      // TODO: this loop is not okay for background thread
 
