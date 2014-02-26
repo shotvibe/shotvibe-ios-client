@@ -195,7 +195,9 @@ void CopyWithMemmove(id __strong *buffer, NSUInteger src, NSUInteger dest, NSUIn
   for (NSUInteger i = retainStart; i < retainEnd; i++) {
     // Use a __bridge_retained cast to trick ARC into retaining the element.
     void *tmp = (__bridge_retained void *) buffer[i];
-    tmp = nil;  // Avoid unused variable warning.
+      if (tmp) {
+          tmp = nil;  // Avoid unused variable warning.
+      }
   }
 #else
   for (NSUInteger i = releaseStart; i < releaseEnd; i++) {

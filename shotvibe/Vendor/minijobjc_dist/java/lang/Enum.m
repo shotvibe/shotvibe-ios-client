@@ -12,6 +12,23 @@
 
 @implementation JavaLangEnum
 
++ (id)valueOfWithIOSClass:(IOSClass *)enumType
+             withNSString:(NSString *)name
+{
+    @throw [NSException exceptionWithName:@"MethodNotImplementedException"
+                                   reason:@"Method +[Enum valueOfWithIOSClass: withNSString:] not implemented"
+                                userInfo:nil];
+    return nil;
+}
+
++ (IOSObjectArray *)getValuesWithIOSClass:(IOSClass *)enumType
+{
+    @throw [NSException exceptionWithName:@"MethodNotImplementedException"
+                                   reason:@"Method +[Enum getValuesWithIOSClass:] not implemented"
+                                 userInfo:nil];
+    return nil;
+}
+
 + (long long int)serialVersionUID {
   return JavaLangEnum_serialVersionUID;
 }
