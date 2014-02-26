@@ -100,7 +100,9 @@ static const NSTimeInterval RETRY_TIME = 5;
     dispatch_async(uploadQueue_, ^{ // TODO: also want parallelism here?
         NSError *error;
         [oldShotVibeAPI_ photoUpload:photoId filePath:filePath isFullRes:(BOOL)isFullRes uploadProgress:^(int bytesUploaded, int bytesTotal) {
-            progressHandler(bytesUploaded, bytesTotal);
+            if (progressHandler) {
+                progressHandler(bytesUploaded, bytesTotal);
+            }
         } withError:&error];
 
         completionHandler(error);
