@@ -1162,8 +1162,8 @@
 		1077E37C18A2782400E9E9C5 /* ThreadUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ThreadUtil.h; path = shotvibelib/build/SL/ThreadUtil.h; sourceTree = SOURCE_ROOT; };
 		1077E37D18A2782400E9E9C5 /* ThreadUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ThreadUtil.m; path = shotvibelib/build/SL/ThreadUtil.m; sourceTree = SOURCE_ROOT; };
 		108BB41018BE4A870032F154 /* Log.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; name = Log.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/Log.java; sourceTree = SOURCE_ROOT; };
-		108BB41318BE4BA30032F154 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = shotvibelib/build/SL/Log.h; sourceTree = SOURCE_ROOT; };
-		108BB41418BE4BA30032F154 /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = shotvibelib/build/SL/Log.m; sourceTree = SOURCE_ROOT; };
+		108BB41918BE5A270032F154 /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/Log.h; sourceTree = SOURCE_ROOT; };
+		108BB41A18BE5A270032F154 /* Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/Log.m; sourceTree = SOURCE_ROOT; };
 		108CDF051884083200757E36 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
 		108CDF071884085D00757E36 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		108CDF091884087A00757E36 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -2244,7 +2244,9 @@
 				1077E32D18A276EA00E9E9C5 /* JSONObject.h */,
 				1077E32E18A276EA00E9E9C5 /* JSONObject.java */,
 				1077E32F18A276EA00E9E9C5 /* JSONObject.m */,
+				108BB41918BE5A270032F154 /* Log.h */,
 				108BB41018BE4A870032F154 /* Log.java */,
+				108BB41A18BE5A270032F154 /* Log.m */,
 				1077E33018A276EA00E9E9C5 /* PhoneContact.java */,
 				1077E33118A276EA00E9E9C5 /* PhoneContactDisplayData.java */,
 				1077E33218A276EA00E9E9C5 /* PhoneContactServerResult.java */,
@@ -2307,8 +2309,6 @@
 				1077E36518A2782400E9E9C5 /* JSONException.m */,
 				1077E36618A2782400E9E9C5 /* JSONObject.h */,
 				1077E36718A2782400E9E9C5 /* JSONObject.m */,
-				108BB41318BE4BA30032F154 /* Log.h */,
-				108BB41418BE4BA30032F154 /* Log.m */,
 				1077E36818A2782400E9E9C5 /* PhoneContact.h */,
 				1077E36918A2782400E9E9C5 /* PhoneContact.m */,
 				1077E36A18A2782400E9E9C5 /* PhoneContactDisplayData.h */,
