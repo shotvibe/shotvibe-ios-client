@@ -12,7 +12,10 @@
 #import "SVProfileViewController.h"
 #import "UIImageView+WebCache.h"
 #import "SVDefines.h"
+
 #import "SVCameraNavController.h"
+#import "SVPickerController.h"
+
 #import "SVImagePickerListViewController.h"
 #import "NSDate+Formatting.h"
 #import "MFSideMenu.h"
@@ -27,6 +30,9 @@
 #import "SL/APIException.h"
 #import "ShotVibeAppDelegate.h"
 #import "UserSettings.h"
+
+#import "SVMultiplePicturesViewController.h"
+#import "SVNonRotatingNavigationControllerViewController.h"
 
 @interface SVAlbumListViewController ()
 {
@@ -54,6 +60,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *butAlbum;
 @property (nonatomic, strong) IBOutlet UIButton *butTakePicture;
 
+@property (nonatomic, strong) UINavigationController *pickerController;
 
 - (IBAction)newAlbumPressed:(id)sender;
 - (IBAction)newAlbumClosed:(id)sender;
@@ -227,26 +234,87 @@
     [self hideDropDown];
 }
 
-- (IBAction)takePicturePressed:(id)sender {
-	
-	int capacity = 8;
-	int i = 0;
-	
-	NSMutableArray *albums = [[NSMutableArray alloc] initWithCapacity:capacity];
-	
-    for (SLAlbumSummary *album in albumList) {
-		[albums addObject:album];
-		i++;
-		if (i>=capacity) {
-			break;
-		}
-	}
-	
-    cameraNavController = [[SVCameraNavController alloc] init];
-	cameraNavController.cameraDelegate = self;
-	cameraNavController.albums = albums;
-	cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
+- (IBAction)takePicturePressed:(id)sender
+{
+//	int capacity = 8;
+//	int i = 0;
+//
+//	NSMutableArray *albums = [[NSMutableArray alloc] initWithCapacity:capacity];
+//
+//	for (AlbumSummary *album in albumList) {
+//		[albums addObject:album];
+//		i++;
+//		if (i>=capacity) {
+//			break;
+//		}
+//	}
+
+    SVPickerController *manager = [[SVPickerController alloc] init];
+    manager.albumManager = self.albumManager;
+    SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
+    [self presentViewController:nc animated:NO completion:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumSelector:) name:@"kSVPickAlbumToUpload" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelAlbumSelector:) name:@"kSVPickAlbumCancel" object:nil];
+
+    self.pickerController = nc;
+//    cameraNavController = [[SVCameraNavController alloc] init];
+//	cameraNavController.cameraDelegate = self;
+//	cameraNavController.albums = albums;
+//	cameraNavController.albumManager = self.albumManager;
+//    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
+}
+
+
+- (void)cancelAlbumSelector:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumSelector:) name:@"kSVPickAlbumToUpload" object:nil];
+
+    @try {
+        [self presentViewController:self.pickerController animated:NO completion:^{
+            self.view.hidden = NO;
+        }
+
+
+        ];
+    } @catch (NSException *exception) {
+        double delayInSeconds = 0.25;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            [self cancelAlbumSelector:nil];
+        }
+
+
+                       );
+    }
+}
+
+
+- (void)showAlbumDetails:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kSVShowAlbum" object:nil];
+
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    SVAlbumGridViewController *controller = (SVAlbumGridViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
+    controller.albumManager = self.albumManager;
+    controller.albumId = [[notification userInfo][@"albumId"] integerValue];
+    controller.scrollToTop = YES;
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+
+- (void)showAlbumSelector:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kSVPickAlbumToUpload" object:nil];
+
+    NSArray *images = [notification userInfo][@"images"];
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+    SVMultiplePicturesViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"MultiplePicturesViewController"];
+    controller.images = images;
+    controller.albumManager = self.albumManager;
+    controller.albums = albumList;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 
@@ -255,22 +323,19 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"AlbumGridViewSegue"]) {
-        
         // Get the selected Album
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
-		
+
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
         destinationController.albumId = [album getId];
-    }
-    else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
+    } else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
         SVSettingsViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
-    }
-	else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
-		SVProfileViewController *destinationController = segue.destinationViewController;
+    } else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
+        SVProfileViewController *destinationController = segue.destinationViewController;
         destinationController.albumManager = self.albumManager;
     } else if ([segue.identifier isEqualToString:@"PromptNickChangeSegue"]) {
         SVProfileViewController *destinationController = segue.destinationViewController;
@@ -284,7 +349,7 @@
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = [album getId];
         destination.albumManager = self.albumManager;
-		destination.nav = self.navigationController;
+        destination.nav = self.navigationController;
     }
 }
 
@@ -343,11 +408,21 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 
-    cameraNavController = [[SVCameraNavController alloc] init];
-    cameraNavController.cameraDelegate = self;
-    cameraNavController.albumId = [album getId];
-    cameraNavController.albumManager = self.albumManager;
-    cameraNavController.nav = (SVNavigationController *)self.navigationController; // this is set last
+    SVPickerController *manager = [[SVPickerController alloc] init];
+    manager.albumManager = self.albumManager;
+    manager.albumId = [album getId];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumDetails:) name:@"kSVShowAlbum" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelAlbumSelector:) name:@"kSVPickAlbumCancel" object:nil];
+
+    SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
+    [self presentViewController:nc animated:NO completion:nil];
+
+    //	cameraNavController = [[SVCameraNavController alloc] init];
+    //	cameraNavController.cameraDelegate = self;
+    //	cameraNavController.albumId = album.albumId;
+    //	cameraNavController.albumManager = self.albumManager;
+    //    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 
 

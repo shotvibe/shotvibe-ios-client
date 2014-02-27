@@ -537,6 +537,23 @@
 		3BE0B10E17C2BA3E0058CAAD /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */; };
 		3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11017C2BFA20058CAAD /* FMResultSet.m */; };
 		3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */; };
+		3E0CC9C718B63DEC00F6089A /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9BD18B63DEC00F6089A /* camera.png */; };
+		3E0CC9C818B63DEC00F6089A /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9BE18B63DEC00F6089A /* camera@2x.png */; };
+		3E0CC9C918B63DEC00F6089A /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9BF18B63DEC00F6089A /* close.png */; };
+		3E0CC9CA18B63DEC00F6089A /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C018B63DEC00F6089A /* close@2x.png */; };
+		3E0CC9CB18B63DEC00F6089A /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C118B63DEC00F6089A /* edit.png */; };
+		3E0CC9CC18B63DEC00F6089A /* edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C218B63DEC00F6089A /* edit@2x.png */; };
+		3E0CC9CD18B63DEC00F6089A /* frame_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C318B63DEC00F6089A /* frame_selected.png */; };
+		3E0CC9CE18B63DEC00F6089A /* frame_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C418B63DEC00F6089A /* frame_selected@2x.png */; };
+		3E0CC9CF18B63DEC00F6089A /* NewAlbum.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C518B63DEC00F6089A /* NewAlbum.png */; };
+		3E0CC9D018B63DEC00F6089A /* NewAlbum@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9C618B63DEC00F6089A /* NewAlbum@2x.png */; };
+		3E0CC9DE18B63E1F00F6089A /* SVAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9D218B63E1F00F6089A /* SVAlbumCell.m */; };
+		3E0CC9DF18B63E1F00F6089A /* SVMultiplePicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9D418B63E1F00F6089A /* SVMultiplePicturesViewController.m */; };
+		3E0CC9E018B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9D618B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m */; };
+		3E0CC9E118B63E1F00F6089A /* SVPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9D818B63E1F00F6089A /* SVPickerCell.m */; };
+		3E0CC9E218B63E1F00F6089A /* SVPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DA18B63E1F00F6089A /* SVPickerController.m */; };
+		3E0CC9E318B63E1F00F6089A /* SVPictureConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DC18B63E1F00F6089A /* SVPictureConfirmViewController.m */; };
+		3E0CC9E418B63E1F00F6089A /* SVPictureConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DD18B63E1F00F6089A /* SVPictureConfirmViewController.xib */; };
 		66013226187F4E670042047B /* IOSArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131AF187F4E670042047B /* IOSArray.m */; };
 		66013227187F4E670042047B /* IOSArrayClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131B1187F4E670042047B /* IOSArrayClass.m */; };
 		66013228187F4E670042047B /* IOSBooleanArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131B3187F4E670042047B /* IOSBooleanArray.m */; };
@@ -1149,6 +1166,9 @@
 		1077E37B18A2782400E9E9C5 /* SQLValues.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SQLValues.m; path = shotvibelib/build/SL/SQLValues.m; sourceTree = SOURCE_ROOT; };
 		1077E37C18A2782400E9E9C5 /* ThreadUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ThreadUtil.h; path = shotvibelib/build/SL/ThreadUtil.h; sourceTree = SOURCE_ROOT; };
 		1077E37D18A2782400E9E9C5 /* ThreadUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ThreadUtil.m; path = shotvibelib/build/SL/ThreadUtil.m; sourceTree = SOURCE_ROOT; };
+		108BB41018BE4A870032F154 /* Log.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; name = Log.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/Log.java; sourceTree = SOURCE_ROOT; };
+		108BB41918BE5A270032F154 /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/Log.h; sourceTree = SOURCE_ROOT; };
+		108BB41A18BE5A270032F154 /* Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/Log.m; sourceTree = SOURCE_ROOT; };
 		108CDF051884083200757E36 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
 		108CDF071884085D00757E36 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		108CDF091884087A00757E36 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -1411,6 +1431,29 @@
 		3BE0B11017C2BFA20058CAAD /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = FMDB/FMResultSet.m; sourceTree = "<group>"; };
 		3BE0B11217C2BFE60058CAAD /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = FMDB/FMDatabasePool.h; sourceTree = "<group>"; };
 		3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = FMDB/FMDatabasePool.m; sourceTree = "<group>"; };
+		3E0CC9BD18B63DEC00F6089A /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		3E0CC9BE18B63DEC00F6089A /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
+		3E0CC9BF18B63DEC00F6089A /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
+		3E0CC9C018B63DEC00F6089A /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		3E0CC9C118B63DEC00F6089A /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
+		3E0CC9C218B63DEC00F6089A /* edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit@2x.png"; sourceTree = "<group>"; };
+		3E0CC9C318B63DEC00F6089A /* frame_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame_selected.png; sourceTree = "<group>"; };
+		3E0CC9C418B63DEC00F6089A /* frame_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame_selected@2x.png"; sourceTree = "<group>"; };
+		3E0CC9C518B63DEC00F6089A /* NewAlbum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewAlbum.png; sourceTree = "<group>"; };
+		3E0CC9C618B63DEC00F6089A /* NewAlbum@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NewAlbum@2x.png"; sourceTree = "<group>"; };
+		3E0CC9D118B63E1F00F6089A /* SVAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVAlbumCell.h; path = Camera/SVAlbumCell.h; sourceTree = "<group>"; };
+		3E0CC9D218B63E1F00F6089A /* SVAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVAlbumCell.m; path = Camera/SVAlbumCell.m; sourceTree = "<group>"; };
+		3E0CC9D318B63E1F00F6089A /* SVMultiplePicturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVMultiplePicturesViewController.h; path = Camera/SVMultiplePicturesViewController.h; sourceTree = "<group>"; };
+		3E0CC9D418B63E1F00F6089A /* SVMultiplePicturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVMultiplePicturesViewController.m; path = Camera/SVMultiplePicturesViewController.m; sourceTree = "<group>"; };
+		3E0CC9D518B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVNonRotatingNavigationControllerViewController.h; path = Camera/SVNonRotatingNavigationControllerViewController.h; sourceTree = "<group>"; };
+		3E0CC9D618B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVNonRotatingNavigationControllerViewController.m; path = Camera/SVNonRotatingNavigationControllerViewController.m; sourceTree = "<group>"; };
+		3E0CC9D718B63E1F00F6089A /* SVPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPickerCell.h; path = Camera/SVPickerCell.h; sourceTree = "<group>"; };
+		3E0CC9D818B63E1F00F6089A /* SVPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPickerCell.m; path = Camera/SVPickerCell.m; sourceTree = "<group>"; };
+		3E0CC9D918B63E1F00F6089A /* SVPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPickerController.h; path = Camera/SVPickerController.h; sourceTree = "<group>"; };
+		3E0CC9DA18B63E1F00F6089A /* SVPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPickerController.m; path = Camera/SVPickerController.m; sourceTree = "<group>"; };
+		3E0CC9DB18B63E1F00F6089A /* SVPictureConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPictureConfirmViewController.h; path = Camera/SVPictureConfirmViewController.h; sourceTree = "<group>"; };
+		3E0CC9DC18B63E1F00F6089A /* SVPictureConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPictureConfirmViewController.m; path = Camera/SVPictureConfirmViewController.m; sourceTree = "<group>"; };
+		3E0CC9DD18B63E1F00F6089A /* SVPictureConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVPictureConfirmViewController.xib; path = Camera/SVPictureConfirmViewController.xib; sourceTree = "<group>"; };
 		660131AE187F4E670042047B /* IOSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArray.h; sourceTree = "<group>"; };
 		660131AF187F4E670042047B /* IOSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSArray.m; sourceTree = "<group>"; };
 		660131B0187F4E670042047B /* IOSArrayClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArrayClass.h; sourceTree = "<group>"; };
@@ -2210,6 +2253,9 @@
 				1077E32D18A276EA00E9E9C5 /* JSONObject.h */,
 				1077E32E18A276EA00E9E9C5 /* JSONObject.java */,
 				1077E32F18A276EA00E9E9C5 /* JSONObject.m */,
+				108BB41918BE5A270032F154 /* Log.h */,
+				108BB41018BE4A870032F154 /* Log.java */,
+				108BB41A18BE5A270032F154 /* Log.m */,
 				1077E33018A276EA00E9E9C5 /* PhoneContact.java */,
 				1077E33118A276EA00E9E9C5 /* PhoneContactDisplayData.java */,
 				1077E33218A276EA00E9E9C5 /* PhoneContactServerResult.java */,
@@ -2354,6 +2400,16 @@
 		2849A77417D9AA410076AFBA /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				3E0CC9BD18B63DEC00F6089A /* camera.png */,
+				3E0CC9BE18B63DEC00F6089A /* camera@2x.png */,
+				3E0CC9BF18B63DEC00F6089A /* close.png */,
+				3E0CC9C018B63DEC00F6089A /* close@2x.png */,
+				3E0CC9C118B63DEC00F6089A /* edit.png */,
+				3E0CC9C218B63DEC00F6089A /* edit@2x.png */,
+				3E0CC9C318B63DEC00F6089A /* frame_selected.png */,
+				3E0CC9C418B63DEC00F6089A /* frame_selected@2x.png */,
+				3E0CC9C518B63DEC00F6089A /* NewAlbum.png */,
+				3E0CC9C618B63DEC00F6089A /* NewAlbum@2x.png */,
 				2849A80917D9ABE90076AFBA /* imagePile.png */,
 				0426B62D1724D7CC007BAABC /* imagePile@2x.png */,
 				2849A77517D9AA580076AFBA /* ButNavLeft.png */,
@@ -3192,6 +3248,19 @@
 		AA78D2B617172C26006E1240 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				3E0CC9D118B63E1F00F6089A /* SVAlbumCell.h */,
+				3E0CC9D218B63E1F00F6089A /* SVAlbumCell.m */,
+				3E0CC9D318B63E1F00F6089A /* SVMultiplePicturesViewController.h */,
+				3E0CC9D418B63E1F00F6089A /* SVMultiplePicturesViewController.m */,
+				3E0CC9D518B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.h */,
+				3E0CC9D618B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m */,
+				3E0CC9D718B63E1F00F6089A /* SVPickerCell.h */,
+				3E0CC9D818B63E1F00F6089A /* SVPickerCell.m */,
+				3E0CC9D918B63E1F00F6089A /* SVPickerController.h */,
+				3E0CC9DA18B63E1F00F6089A /* SVPickerController.m */,
+				3E0CC9DB18B63E1F00F6089A /* SVPictureConfirmViewController.h */,
+				3E0CC9DC18B63E1F00F6089A /* SVPictureConfirmViewController.m */,
+				3E0CC9DD18B63E1F00F6089A /* SVPictureConfirmViewController.xib */,
 				66278CA21867C4D400D23F34 /* SVCameraNavController.h */,
 				66278CA31867C4D400D23F34 /* SVCameraNavController.m */,
 				66278CA41867C4D400D23F34 /* SVCameraOverlay.h */,
@@ -3368,11 +3437,14 @@
 				04AB0A821707D99700C5300B /* navbarBackButton@2x.png in Resources */,
 				04AB0A841707D99700C5300B /* navbarBackButton.png in Resources */,
 				04AB0A8A1707F95700C5300B /* Logo@2x.png in Resources */,
+				3E0CC9C918B63DEC00F6089A /* close.png in Resources */,
 				04AB0A8C1707F95700C5300B /* Logo.png in Resources */,
 				04AB0AA017080A5700C5300B /* newPhotosIndicator.png in Resources */,
 				04AB0AA217080A5700C5300B /* newPhotosIndicator@2x.png in Resources */,
 				04AB0AA417080A5700C5300B /* clockIcon@2x.png in Resources */,
+				3E0CC9C718B63DEC00F6089A /* camera.png in Resources */,
 				04AB0AA617080A5700C5300B /* clockIcon.png in Resources */,
+				3E0CC9CB18B63DEC00F6089A /* edit.png in Resources */,
 				04AB0AA817080A5700C5300B /* cellDivider@2x.png in Resources */,
 				04AB0AAA17080A5700C5300B /* cellDivider.png in Resources */,
 				04AB0AAC17080A5700C5300B /* albumImageFrame@2x.png in Resources */,
@@ -3396,6 +3468,7 @@
 				0499B8A9171DD6DE00050596 /* generalNotificationSettingIcon@2x.png in Resources */,
 				0499B8AB171DD6DE00050596 /* emailIcon@2x.png in Resources */,
 				0499B8AD171DD6DE00050596 /* emailIcon.png in Resources */,
+				3E0CC9E418B63E1F00F6089A /* SVPictureConfirmViewController.xib in Resources */,
 				0499B8B3171DD6DE00050596 /* aboutIcon@2x.png in Resources */,
 				108CDF6B18846B9000757E36 /* MPDismissKeyboard@2x.png in Resources */,
 				0499B8B5171DD6DE00050596 /* aboutIcon.png in Resources */,
@@ -3432,6 +3505,7 @@
 				04C406151730303600973BC0 /* BJ.png in Resources */,
 				04C406171730303600973BC0 /* BM.png in Resources */,
 				04C406191730303600973BC0 /* BN.png in Resources */,
+				3E0CC9D018B63DEC00F6089A /* NewAlbum@2x.png in Resources */,
 				04C4061B1730303600973BC0 /* BO.png in Resources */,
 				04C4061D1730303600973BC0 /* BR.png in Resources */,
 				04C4061F1730303600973BC0 /* BS.png in Resources */,
@@ -3440,6 +3514,7 @@
 				04C406251730303600973BC0 /* BW.png in Resources */,
 				285C90D518507CF3009C1F6C /* icon_120x120.png in Resources */,
 				04C406271730303600973BC0 /* BY.png in Resources */,
+				3E0CC9CE18B63DEC00F6089A /* frame_selected@2x.png in Resources */,
 				04C406291730303600973BC0 /* BZ.png in Resources */,
 				04C4062B1730303600973BC0 /* CA.png in Resources */,
 				04C4062D1730303600973BC0 /* CC.png in Resources */,
@@ -3447,6 +3522,7 @@
 				04C406311730303600973BC0 /* CF.png in Resources */,
 				04C406331730303600973BC0 /* CG.png in Resources */,
 				04C406351730303600973BC0 /* CH.png in Resources */,
+				3E0CC9CD18B63DEC00F6089A /* frame_selected.png in Resources */,
 				04C406371730303600973BC0 /* CI.png in Resources */,
 				04C406391730303600973BC0 /* CK.png in Resources */,
 				04C4063B1730303600973BC0 /* CL.png in Resources */,
@@ -3597,6 +3673,7 @@
 				04C407551730303600973BC0 /* QA.png in Resources */,
 				04C407571730303600973BC0 /* RE.png in Resources */,
 				04C407591730303600973BC0 /* RO.png in Resources */,
+				3E0CC9CF18B63DEC00F6089A /* NewAlbum.png in Resources */,
 				04C4075B1730303600973BC0 /* RS.png in Resources */,
 				04C4075D1730303600973BC0 /* RU.png in Resources */,
 				66278CC21867C57300D23F34 /* SVImageCropViewController.xib in Resources */,
@@ -3716,6 +3793,7 @@
 				28E94C3417C2C4AE00874BDE /* IconMail@2x.png in Resources */,
 				28E94C3517C2C4AE00874BDE /* IconMove@2x.png in Resources */,
 				2849A75817D758410076AFBA /* IconFacebook@2x.png in Resources */,
+				3E0CC9CC18B63DEC00F6089A /* edit@2x.png in Resources */,
 				2849A75917D758410076AFBA /* IconFlickr@2x.png in Resources */,
 				2849A75A17D758410076AFBA /* IconTumblr@2x.png in Resources */,
 				2849A75B17D758410076AFBA /* IconTwitter@2x.png in Resources */,
@@ -3734,6 +3812,7 @@
 				66278D161867CAD500D23F34 /* MainStoryboard.storyboard in Resources */,
 				2849A79F17D9AA580076AFBA /* cameraFlashAuto@2x.png in Resources */,
 				2849A7A017D9AA580076AFBA /* cameraFlashOff.png in Resources */,
+				3E0CC9CA18B63DEC00F6089A /* close@2x.png in Resources */,
 				2849A7A117D9AA580076AFBA /* cameraFlashOff@2x.png in Resources */,
 				2849A7A217D9AA580076AFBA /* cameraFlashOn.png in Resources */,
 				2849A7A317D9AA580076AFBA /* cameraFlashOn@2x.png in Resources */,
@@ -3752,6 +3831,7 @@
 				2849A7AF17D9AA580076AFBA /* notificationBubble@2x.png in Resources */,
 				2849A7B017D9AA580076AFBA /* slider-cap@2x.png in Resources */,
 				2849A7B117D9AA580076AFBA /* slider-track-fill@2x.png in Resources */,
+				3E0CC9C818B63DEC00F6089A /* camera@2x.png in Resources */,
 				2849A7B217D9AA580076AFBA /* slider-track@2x.png in Resources */,
 				2849A7DB17D9AB420076AFBA /* addFriendsButtonBg.png in Resources */,
 				2849A7DC17D9AB420076AFBA /* addFriendsButtonBg@2x.png in Resources */,
@@ -3931,6 +4011,7 @@
 				66013244187F4E670042047B /* Float.m in Sources */,
 				66013255187F4E670042047B /* JavaLangThrowable.m in Sources */,
 				66278D0B1867C94900D23F34 /* PhotoUploadRequest.m in Sources */,
+				3E0CC9E218B63E1F00F6089A /* SVPickerController.m in Sources */,
 				66013254187F4E670042047B /* JavaLangReflectTypeVariableImpl.m in Sources */,
 				108CDF10188417AE00757E36 /* Util.m in Sources */,
 				66278C9F1867C44600D23F34 /* SVImagePickerListViewController.m in Sources */,
@@ -3970,6 +4051,7 @@
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				664F4706189568B1009F4776 /* IosDevicePhoneContactsLib.m in Sources */,
 				66278D051867C94900D23F34 /* AuthData.m in Sources */,
+				3E0CC9E318B63E1F00F6089A /* SVPictureConfirmViewController.m in Sources */,
 				66278C711867C2AD00D23F34 /* SVConfirmationCodeViewController.m in Sources */,
 				6601323B187F4E670042047B /* Byte.m in Sources */,
 				66278CE61867C62300D23F34 /* SVMailActivity.m in Sources */,
@@ -4063,6 +4145,7 @@
 				6601325C187F4E670042047B /* NSString+JavaString.m in Sources */,
 				3B3AD15817CB4A9C004D24A9 /* SDWebImageDownloader.m in Sources */,
 				3B3AD15917CB4A9C004D24A9 /* SDWebImageDownloaderOperation.m in Sources */,
+				3E0CC9E018B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m in Sources */,
 				3B3AD15A17CB4A9C004D24A9 /* SDWebImageManager.m in Sources */,
 				66D5833E1867D66B00EAC842 /* RCScrollImageView.m in Sources */,
 				3B3AD15B17CB4A9C004D24A9 /* SDWebImagePrefetcher.m in Sources */,
@@ -4070,6 +4153,7 @@
 				3B3AD15C17CB4A9C004D24A9 /* UIButton+WebCache.m in Sources */,
 				6601324A187F4E670042047B /* InternalError.m in Sources */,
 				3B3AD15D17CB4A9C004D24A9 /* UIImage+GIF.m in Sources */,
+				3E0CC9DF18B63E1F00F6089A /* SVMultiplePicturesViewController.m in Sources */,
 				66013259187F4E670042047B /* JreMemDebug.m in Sources */,
 				66013229187F4E670042047B /* IOSByteArray.m in Sources */,
 				3B3AD15E17CB4A9C004D24A9 /* UIImage+MultiFormat.m in Sources */,
@@ -4085,6 +4169,7 @@
 				108CDF7218846B9000757E36 /* MPSurveyQuestionViewController.m in Sources */,
 				28F877B517D1BB4B0051F528 /* MFSideMenuContainerViewController.m in Sources */,
 				28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */,
+				3E0CC9DE18B63E1F00F6089A /* SVAlbumCell.m in Sources */,
 				6601322D187F4E670042047B /* IOSDoubleArray.m in Sources */,
 				6601323D187F4E670042047B /* ClassCastException.m in Sources */,
 				66278CE41867C62300D23F34 /* SVFacebookActivity.m in Sources */,
@@ -4092,6 +4177,7 @@
 				66278C8F1867C38300D23F34 /* SVAlbumGridViewController.m in Sources */,
 				66E788B61889EB870037ACF3 /* ListIterator.m in Sources */,
 				66278CC11867C57300D23F34 /* SVImageCropViewController.m in Sources */,
+				3E0CC9E118B63E1F00F6089A /* SVPickerCell.m in Sources */,
 				66E788A51887384B0037ACF3 /* IosSQLCursor.m in Sources */,
 				66278CEA1867C62300D23F34 /* SVTwitterActivity.m in Sources */,
 				2849A80D17DDE61A0076AFBA /* UIImage+Scale.m in Sources */,

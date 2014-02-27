@@ -552,25 +552,24 @@
 	}
 }
 
-- (void)deletePictureAtIndex:(int)i {
-	
-	butTrash.enabled = NO;
-	
-	RCLog(@"delete index %i", self.index);
-	
+- (void)deletePictureAtIndex:(int)i
+{
+    butTrash.enabled = NO;
+
+    RCLog(@"delete index %i", self.index);
+
     SLAlbumPhoto *photo = [self.photos objectAtIndex:self.index];
-	__block PhotoScrollView *cachedImage = [cache objectAtIndex:self.index];
-	
-	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	
-	// send request
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		
-		// Remove from server
-		NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
+    __block PhotoScrollView *cachedImage = [cache objectAtIndex:self.index];
+
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    // send request
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        // Remove from server
+        NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
         [photosToDelete addObject:[[photo getServerPhoto] getId]];
 
-		RCLog(@"delete photos %@", photosToDelete);
+        RCLog(@"delete photos %@", photosToDelete);
         SLAPIException *apiException = nil;
         @try {
             [[self.albumManager getShotVibeAPI] deletePhotos:[[SLArrayList alloc] initWithInitialArray:photosToDelete]];
@@ -578,57 +577,67 @@
             apiException = exception;
         }
 
-		dispatch_async(dispatch_get_main_queue(), ^{
-			
-			[MBProgressHUD hideHUDForView:self.view animated:YES];
-			
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+
             if (apiException) {
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error connecting to the server at this time.", @"")
-																message:nil
-															   delegate:nil
-													  cancelButtonTitle:NSLocalizedString(@"Ok", @"")
-													  otherButtonTitles:nil];
-				[alert show];
-				butTrash.enabled = YES;
-			}
-			else {
-				// Animate deleted photo to the trashbin
-				[UIView animateWithDuration:0.5
-								 animations:^{
-									 
-									 CGRect rect = cachedImage.frame;
-									 cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
-								 }
-								 completion:^(BOOL finished){
-									 
-									 [self.photos removeObjectAtIndex:self.index];
-									 cachedImage.hidden = YES;
-									 butTrash.enabled = YES;
-									 
-									 if (self.photos.count == 0) {
-										 [self.navigationController popViewControllerAnimated:YES];
-									 }
-									 else {
-										 if (self.index >= self.photos.count) {
-											 self.index = self.photos.count - 1;
-											 [self setPhotoViewsIndex:MAX(self.index-1, 0)];
-										 }
-										 else {
-											 [self setPhotoViewsIndex:MAX(self.index + 1 - 1, 0)];
-										 }
-										 [self fitScrollViewToOrientation];
-										 [self updateCaption];
-										 
-										 // Send a notification the the main screen to move this album on top of the list
-										 NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
-										 [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATIONCENTER_ALBUM_CHANGED object:nil userInfo:userInfo];
-										 
-									 }
-								 }
-				 ];
-			}
-		});
-	});
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error connecting to the server at this time.", @"")
+                                                                message:nil
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"Ok", @"")
+                                                      otherButtonTitles:nil];
+                [alert show];
+                butTrash.enabled = YES;
+            } else {
+                // Animate deleted photo to the trashbin
+                CGRect rect = cachedImage.frame;
+                [UIView animateWithDuration:0.5
+                                 animations:^{
+                    cachedImage.frame = CGRectMake(rect.origin.x, rect.size.height, 30, 30);
+                }
+
+
+                                 completion:^(BOOL finished) {
+                    cachedImage.image = nil;
+                    cachedImage.frame = rect;
+
+                    [self.photos removeObjectAtIndex:self.index];
+                    [cache removeObjectAtIndex:self.index];
+                    if (self.index < self.photos.count) {
+                        [cache replaceObjectAtIndex:self.index withObject:[NSNull null]];
+                    }
+
+                    butTrash.enabled = YES;
+
+                    if (self.photos.count <= 0) {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    } else {
+                        if (self.index >= self.photos.count) {
+                            self.index = self.photos.count - 1;
+                            [self setPhotoViewsIndex:self.index];
+                        } else {
+                            [self setPhotoViewsIndex:MAX(self.index + 1, 0)];
+                        }
+                        [self fitScrollViewToOrientation];
+                        [self updateCaption];
+
+                        // Send a notification the the main screen to move this album on top of the list
+                        NSDictionary *userInfo = @{ @"albumId" : [NSNumber numberWithLongLong:self.albumId] };
+                        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATIONCENTER_ALBUM_CHANGED object:nil userInfo:userInfo];
+                    }
+                }
+
+
+                ];
+            }
+        }
+
+
+                       );
+    }
+
+
+                   );
 }
 
 
@@ -763,9 +772,10 @@
 				uploadingAviaryPicture = YES;
 				
 				// Upload the saved photo. This will call the refresh 2 times, one with the local photo and one after the photo is being uploaded
-                //PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
-                // TODO upload photoUploadRequest to photoUploadManager
 				
+                PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
+                [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:@[photoUploadRequest]];
+
 				// Send a notification the the main screen to move this album on top of the list
 				NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
 				[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATIONCENTER_ALBUM_CHANGED object:nil userInfo:userInfo];
@@ -773,9 +783,10 @@
 		}
 	});
 	
-	
 	[editor dismissViewControllerAnimated:YES completion:^{
 		[editor setDelegate:nil];
+        [self setControlsHidden:NO animated:NO permanent:YES];
+        [self.navigationController popViewControllerAnimated:YES];
 	}];
 }
 
