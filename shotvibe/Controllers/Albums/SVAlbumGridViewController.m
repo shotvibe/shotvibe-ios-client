@@ -438,7 +438,7 @@
                                 self.userNickName = [[member getUser] getMemberNickname];
                             }
                         }];
-					header.nameLabel.text = [[member getUser] getMemberNickname];
+                        header.nameLabel.text = [[member getUser] getMemberNickname];
                         break;
                     }
                 }
