@@ -286,36 +286,33 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     /* TODO: old way to call albumAddPhotos, can be removed if adding as an upload task is responsive enough.
 
-     NOTE: If we start using this code again, make sure to may it asynchronous first, as the rest of the upload manager depends on startAddToAlbumTask not to block
+    NOTE: If we start using this code again, make sure to may it asynchronous first, as the rest of the upload manager depends on startAddToAlbumTask not to block
 
-     BOOL photosSuccesfullyAdded = NO;
-     // TODO: this loop is not okay for background thread
+          And we also want to use synchronous uploads for the first stage, as otherwise add may be run as a NSURLSession completion block, which is not allowed to run for more than 30 seconds..
 
-     while (!photosSuccesfullyAdded) { // continuously try an add-to-album request, until success
-     NSError *error;
-     if (![shotVibeAPI_ albumAddPhotos:albumId photoIds:photoIdsToAdd withError:&error]) {
-     RCLog(@"Error adding photos to album: %lld %@", albumId, [error description]);
-     [NSThread sleepForTimeInterval:RETRY_TIME];
-     } else {
-     photosSuccesfullyAdded = YES;
-     }
-     }
-     RCLog(@"Added %d photo(s) to album %lld: %@", photosToAdd.count, albumId, showAlbumUploadingPhotoIds(photosToAdd));
+    BOOL photosSuccesfullyAdded = NO;
 
-     [self photosWereAdded:photosToAdd albumId:albumId];
+    while (!photosSuccesfullyAdded) {
+        @try {
+            [shotVibeAPI_ albumAddPhotos:albumId photoIds:[[SLArrayList alloc] initWithInitialArray:photoIdsToAdd]];
+            photosSuccesfullyAdded = YES;
+        }
+        @catch (SLAPIException *exception) {
+            RCLog(@"Error adding photos to album: %lld %@", albumId, exception.description);
+            [NSThread sleepForTimeInterval:RETRY_TIME];
+        }
+    }
+    RCLog(@"Added %d photo(s) to album %lld: %@", photosToAdd.count, albumId, showAlbumUploadingPhotoIds(photosToAdd));
 
-     // Notify album manager that all photos are uploaded, causing a server refresh
-     dispatch_async(dispatch_get_main_queue(), ^{
-     @synchronized(self) {
-     [addingPhotos_ removePhotos:photosToAdd album:albumId];
-     }
+    [self photosWereAdded:photosToAdd albumId:albumId];
 
-     [listener_ photoAlbumAllPhotosUploaded:albumId];
-     RCLog(@"Background task %d ended", photoUploadBackgroundTaskID);
-     [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
-     });
-     */
-
+    // Notify album manager that all photos are uploaded, causing a server refresh
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [listener_ photoAlbumAllPhotosUploaded:albumId];
+        RCLog(@"Photo-upload background task %d ended", photoUploadBackgroundTaskID);
+        [[UIApplication sharedApplication] endBackgroundTask:photoUploadBackgroundTaskID];
+    });
+*/
 
     // TODO: may suffer from a delay after photos were uploaded, when called from the background.
     [shotVibeAPI_ albumAddPhotosAsync:albumId photoIds:photoIdsToAdd completionHandler:^(NSError *error) {
@@ -567,7 +564,7 @@ NSString * showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
 - (void)storeUnfinishedUploads
 {
     NSArray *albumUploadingPhotos = [self getAllUploadingPhotos];
-    RCLog(@"Storing unfinished uploads:");
+    RCLog(@"Storing %d unfinished uploads:", [albumUploadingPhotos count]);
     logUploads(albumUploadingPhotos);
     [NSKeyedArchiver archiveRootObject:albumUploadingPhotos toFile:[AlbumUploadingPhoto getUnfinishedUploadsFilePath]];
 }
