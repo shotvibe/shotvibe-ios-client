@@ -458,7 +458,7 @@ enum RefreshStatus
         [shotvibeDB markAlbumAsViewed:[album getId] lastAccess:lastAccess];
 
         [self refreshAlbumListFromDb];
-        [self refreshAlbumContentsFromDb:[album getId]]; 
+        [self refreshAlbumContentsFromDb:[album getId]];
     }
 }
 
@@ -483,6 +483,9 @@ enum RefreshStatus
 
     if (data) {
         SLAlbumContents *albumContentsFromDb = [shotvibeDB getAlbumContents:albumId];
+
+        // Add the Uploading photos to the end of album:
+        albumContentsFromDb = [AlbumManager addUploadingPhotosToAlbumContents:albumContentsFromDb uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
 
         if (albumContentsFromDb) { // TODO: handle error
             for (id<AlbumContentsListener> listener in data.listeners) {
