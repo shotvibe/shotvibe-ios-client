@@ -458,7 +458,7 @@ enum RefreshStatus
         [shotvibeDB markAlbumAsViewed:[album getId] lastAccess:lastAccess];
 
         [self refreshAlbumListFromDb];
-        [self refreshAlbumContentsFromDb:[album getId]];
+        [self refreshAlbumContentsFromDb:[album getId]]; 
     }
 }
 
