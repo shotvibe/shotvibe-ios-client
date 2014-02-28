@@ -64,7 +64,7 @@ static const CGSize kLowResImageSize = {
 
 static NSString * const UPLOADS_DIRECTORY = @"uploads";
 
-+ (NSString *)createUniqueUploadFilePath
++ (NSString *)createUniqueUploadFilePathWithFilenameSuffix:(NSString *)suffix
 {
     NSString *applicationSupportDirectory = [FileUtils getApplicationSupportDirectory];
 
@@ -78,7 +78,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
         }
     }
 
-    NSString *randomBaseName = [[NSUUID UUID] UUIDString];
+    NSString *randomBaseName = [[[NSUUID UUID] UUIDString] stringByAppendingString:suffix];
 
     NSString *fileName = [randomBaseName stringByAppendingPathExtension:@"jpg"];
 
@@ -99,7 +99,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 		return;
 	}
 	
-    fullResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePath];
+    fullResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePathWithFilenameSuffix:@"_FullRes"];
 	
     ALAssetRepresentation *rep = [asset_ defaultRepresentation];
     CGImageRef croppedImage = [rep fullResolutionImage];
@@ -187,7 +187,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 
     UIImage *lowResImage = [self fit:kLowResImageSize image:highResImage];
 
-    lowResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePath];
+    lowResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePathWithFilenameSuffix:@"_LowRes"];
     [UIImageJPEGRepresentation(lowResImage, kLowResJPEGQuality) writeToFile:lowResFilePath_ atomically:YES];
 }
 
