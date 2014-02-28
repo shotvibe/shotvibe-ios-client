@@ -488,7 +488,7 @@ enum RefreshStatus
         SLAlbumContents *albumContentsFromDb = [shotvibeDB getAlbumContents:albumId];
 
         // Add the Uploading photos to the end of album:
-        albumContentsFromDb = [AlbumManager addUploadingPhotosToAlbumContents:albumContentsFromDb uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+        albumContentsFromDb = [AlbumManager addUploadingPhotosToAlbumContents:albumContentsFromDb uploadingPhotos:[self.photoUploadManager getUploadingAlbumPhotos:albumId]];
 
         if (albumContentsFromDb) { // TODO: handle error
             for (id<AlbumContentsListener> listener in data.listeners) {
