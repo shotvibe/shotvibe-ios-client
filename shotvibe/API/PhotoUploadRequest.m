@@ -171,13 +171,17 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 
 - (void)saveToFileLowRes
 {
+    // saveToFileLowRes is easier than saveToFileFullRes, since we don't need the exact original image data,
+    // and can simply create a jpeg representation from the file or the asset.
+    // This leads to a double jpeg encoding, but that's not a problem for the low resolution image.
+
     UIImage *highResImage;
 
     if (fullResFilePath_) { // if there's no file, then this request was initialized with an asset (coming from image picker)
         highResImage = [UIImage imageWithContentsOfFile:fullResFilePath_];
     } else {
         ALAssetRepresentation *rep = [asset_ defaultRepresentation];
-        CGImageRef croppedImage = [rep fullScreenImage];
+        CGImageRef croppedImage = [rep fullResolutionImage];
         highResImage = [UIImage imageWithCGImage:croppedImage];
     }
 
