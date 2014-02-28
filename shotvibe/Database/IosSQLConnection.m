@@ -180,11 +180,4 @@ static NSArray * valuesToArray(SLSQLValues *sqlValues)
 }
 
 
-- (void)clearDatabase
-{
-    // TODO!
-    @throw [[JavaLangIllegalStateException alloc] initWithNSString:@"Not implemented yet!"];
-}
-
-
 @end
