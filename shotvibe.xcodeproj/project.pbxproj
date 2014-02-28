@@ -1422,8 +1422,8 @@
 		3B3AD15217CB4A9C004D24A9 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+WebCache.m"; path = "SDWebImage/UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		3B87E68D17C99941006483C9 /* AlbumUploadingPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumUploadingPhoto.h; sourceTree = "<group>"; };
 		3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumUploadingPhoto.m; sourceTree = "<group>"; };
-		3BE0B10517C24D150058CAAD /* ShotVibeDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShotVibeDB.h; sourceTree = "<group>"; };
-		3BE0B10617C24D150058CAAD /* ShotVibeDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShotVibeDB.m; sourceTree = "<group>"; };
+		3BE0B10517C24D150058CAAD /* ShotVibeDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShotVibeDB.h; path = Models/ShotVibeDB.h; sourceTree = "<group>"; };
+		3BE0B10617C24D150058CAAD /* ShotVibeDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShotVibeDB.m; path = Models/ShotVibeDB.m; sourceTree = "<group>"; };
 		3BE0B10917C29F2E0058CAAD /* create.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = create.sql; sourceTree = "<group>"; };
 		3BE0B10C17C2BA3E0058CAAD /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = FMDB/FMDatabase.h; sourceTree = "<group>"; };
 		3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = FMDB/FMDatabase.m; sourceTree = "<group>"; };
@@ -2966,6 +2966,8 @@
 				66E788A11887377A0037ACF3 /* IosSQLConnection.m */,
 				66E788A31887384B0037ACF3 /* IosSQLCursor.h */,
 				66E788A41887384B0037ACF3 /* IosSQLCursor.m */,
+				3BE0B10517C24D150058CAAD /* ShotVibeDB.h */,
+				3BE0B10617C24D150058CAAD /* ShotVibeDB.m */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -3321,8 +3323,6 @@
 				3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */,
 				2884ED0E1830CB430069E202 /* RegistrationInfo.h */,
 				2884ED0F1830CB430069E202 /* RegistrationInfo.m */,
-				3BE0B10517C24D150058CAAD /* ShotVibeDB.h */,
-				3BE0B10617C24D150058CAAD /* ShotVibeDB.m */,
 				66278D111867CA1400D23F34 /* SVAssets.h */,
 				66278D121867CA1400D23F34 /* SVAssets.m */,
 			);
