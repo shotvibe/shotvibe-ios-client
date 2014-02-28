@@ -182,13 +182,14 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
     } else {
         ALAssetRepresentation *rep = [asset_ defaultRepresentation];
         CGImageRef croppedImage = [rep fullResolutionImage];
-        highResImage = [UIImage imageWithCGImage:croppedImage];
+        highResImage = [UIImage imageWithCGImage:croppedImage scale:rep.scale orientation:(UIImageOrientation)rep.orientation];
     }
 
     UIImage *lowResImage = [self fit:kLowResImageSize image:highResImage];
 
     lowResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePathWithFilenameSuffix:@"_LowRes"];
     [UIImageJPEGRepresentation(lowResImage, kLowResJPEGQuality) writeToFile:lowResFilePath_ atomically:YES];
+    [FileUtils addSkipBackupAttributeToItemAtURL:lowResFilePath_];
 }
 
 
