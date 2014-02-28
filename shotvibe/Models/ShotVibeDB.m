@@ -60,9 +60,10 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
         if ([resultSet next]) {
             oldVersion = [resultSet intForColumnIndex:0];
         }
+        [resultSet close];
 
         if (oldVersion < [SLShotVibeDB DATABASE_VERSION]) {
-            NSLog(@"Upgrading database from version %d to %d", oldVersion, [SLShotVibeDB DATABASE_VERSION]);
+            RCLog(@"Upgrading database from version %d to %d", oldVersion, [SLShotVibeDB DATABASE_VERSION]);
             [conn beginTransaction];
             @try {
                 [SLShotVibeDB upgradeDBWithSLSQLConnection:conn withInt:oldVersion];
