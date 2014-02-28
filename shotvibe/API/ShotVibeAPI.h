@@ -97,6 +97,4 @@ extern NSString *const kUploadSessionId;
 
 - (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler;
 
-- (void)albumAddPhotosAsync:(int64_t)albumId photoIds:(NSArray *)photoIds completionHandler:(CompletionHandlerType)completionHandler;
-
 @end
