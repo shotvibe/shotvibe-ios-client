@@ -12,6 +12,8 @@
 #import "SL/AlbumContents.h"
 #import "SL/AlbumUser.h"
 #import "RegistrationInfo.h"
+#import "UploadSessionDelegate.h"
+
 
 @protocol JavaUtilList;
 
@@ -26,6 +28,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
     ConfirmSMSCodeOk,
     ConfirmSMSCodeIncorrectCode
 };
+
+extern NSString *const kUploadSessionId;
 
 @interface ShotVibeAPI : NSObject
 
@@ -71,7 +75,7 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 // Returns an array of `NSString` objects
 - (NSArray *)photosUploadRequest:(int)numPhotos;
 
-- (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error;
+- (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error;
 
 /**
  @param photoIds Array of `NSString` objects
@@ -89,5 +93,8 @@ typedef NS_ENUM(NSInteger, ConfirmSMSCodeResult) {
 - (void)deletePhotos:(SLArrayList *)photos;
 
 - (void)leaveAlbumWithId:(int64_t)albumId;
+
+
+- (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler;
 
 @end

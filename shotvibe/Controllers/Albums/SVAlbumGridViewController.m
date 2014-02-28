@@ -368,7 +368,7 @@
                                 manager:self.albumManager.photoFilesManager];
         cell.uploadProgressView.hidden = YES;
 
-        RCLog(@"cellForItemAtPath url:%@ added:%@", [[photo getServerPhoto] getUrl], [[photo getServerPhoto] getDateAdded]);
+        //RCLog(@"cellForItemAtPath url:%@ added:%@ access:%@", photo.serverPhoto.url, photo.serverPhoto.dateAdded, photo.serverPhoto.lastAccess);
 
         cell.labelNewView.hidden = ![[photo getServerPhoto] isNewWithSLDateTime:[albumContents getLastAccess]
                                                                        withLong:self.albumManager.getShotVibeAPI.authData.userId];
@@ -377,7 +377,7 @@
 
         [cell.networkImageView setImage:[uploadingPhoto getThumbnail]];
 
-        cell.uploadProgressView.hidden = NO;
+        cell.uploadProgressView.hidden = [uploadingPhoto isUploadComplete];
         [cell.uploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
 
         cell.labelNewView.hidden = YES;

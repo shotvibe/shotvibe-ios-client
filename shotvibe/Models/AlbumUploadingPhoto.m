@@ -8,17 +8,10 @@
 
 #import "AlbumUploadingPhoto.h"
 
-typedef NS_ENUM(NSInteger, UploadStatus) {
-    UploadStatusQueued,
-    UploadStatusUploading,
-    UploadStatusComplete,
-    UploadStatusAddingToAlbum
-};
-
 @implementation AlbumUploadingPhoto
 {
     PhotoUploadRequest *photoUploadRequest_;
-    dispatch_semaphore_t tmpFileSaved;
+    dispatch_semaphore_t tmpFilesSaved;
 
     NSObject *lock_;
     UploadStatus uploadStatus_;
@@ -26,18 +19,19 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
     float uploadProgress_;
 }
 
-- (id)initWithPhotoUploadRequest:(PhotoUploadRequest *)photoUploadRequest album:(int64_t)album
+- (id)initWithPhotoUploadRequest:(PhotoUploadRequest *)photoUploadRequest album:(int64_t)albumId
 {
     self = [super init];
 
     if (self) {
         _photoId = nil;
+        _albumId = albumId;
 
         photoUploadRequest_ = photoUploadRequest;
-        tmpFileSaved = dispatch_semaphore_create(0);
+        tmpFilesSaved = dispatch_semaphore_create(0);
 
         lock_ = [[NSObject alloc] init];
-        uploadStatus_ = UploadStatusQueued;
+        uploadStatus_ = UploadStatus_WaitingForId;
 
         uploadProgress_ = 0.0f;
     }
@@ -45,31 +39,33 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
     return self;
 }
 
+
+// TODO: maybe make property for uploadStatus
+- (UploadStatus)getUploadStatus
+{
+    return uploadStatus_;
+}
+
+
+- (void)setUploadStatus:(UploadStatus)newStatus
+{
+    uploadStatus_ = newStatus;
+}
+
+
+// used to show/hide upload progress in gui
+// TODO: change name to reflect it's proper meaning
 - (BOOL)isUploadComplete
 {
     @synchronized (lock_) {
-        return uploadStatus_ == UploadStatusComplete || uploadStatus_ == UploadStatusAddingToAlbum;
-    }
-}
-
-- (void)reportUploadComplete
-{
-    @synchronized (lock_) {
-        uploadStatus_ = UploadStatusComplete;
+        return uploadStatus_ == UploadStatus_AddingToAlbum || uploadStatus_ == UploadStatus_Stage2PendingOrUploading;
     }
 }
 
 - (BOOL)isAddingToAlbum
 {
     @synchronized (lock_) {
-        return uploadStatus_ == UploadStatusAddingToAlbum;
-    }
-}
-
-- (void)reportAddingToAlbum
-{
-    @synchronized (lock_) {
-        uploadStatus_ = UploadStatusAddingToAlbum;
+        return uploadStatus_ == UploadStatus_AddingToAlbum;
     }
 }
 
@@ -80,30 +76,40 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
     }
 }
 
-- (void)reportUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal
+- (void)setUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal
 {
     @synchronized (lock_) {
-        uploadStatus_ = UploadStatusUploading;
         uploadProgress_ = (float)bytesUploaded / (float)bytesTotal;
     }
 }
 
-- (void)prepareTmpFile:(dispatch_queue_t)dispatchQueue
+- (void)prepareTmpFiles:(dispatch_queue_t)dispatchQueue
 {
     dispatch_async(dispatchQueue, ^{
-        [photoUploadRequest_ saveToFile];
-        dispatch_semaphore_signal(tmpFileSaved);
+        [photoUploadRequest_ saveToFiles];
+        dispatch_semaphore_signal(tmpFilesSaved);
     });
 }
 
-- (NSString *)getFilename
+- (NSString *)getFullResFilename
 {
-    dispatch_semaphore_wait(tmpFileSaved, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(tmpFilesSaved, DISPATCH_TIME_FOREVER);
 
     // Put back the semaphore so that the next call to `getFilename` will succeed
-    dispatch_semaphore_signal(tmpFileSaved);
+    dispatch_semaphore_signal(tmpFilesSaved);
 
-    return [photoUploadRequest_ getFilename];
+    return [photoUploadRequest_ getFullResFilename];
+}
+
+
+- (NSString *)getLowResFilename
+{
+    dispatch_semaphore_wait(tmpFilesSaved, DISPATCH_TIME_FOREVER);
+
+    // Put back the semaphore so that the next call to `getFilename` will succeed
+    dispatch_semaphore_signal(tmpFilesSaved);
+
+    return [photoUploadRequest_ getLowResFilename];
 }
 
 - (UIImage *)getThumbnail

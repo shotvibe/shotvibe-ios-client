@@ -17,6 +17,7 @@
 #import "SL/DateTime.h"
 #import "SL/ShotVibeAPI.h"
 #import "SL/AuthData.h"
+#import "SL/APIException.h"
 #import "UserSettings.h"
 #import "IosHTTPLib.h"
 
@@ -127,11 +128,17 @@
 {
     NSString *authConfirmationKey;
     SLShotVibeAPI *libShotVibeAPI_;
+
+    dispatch_queue_t uploadQueue_; // Queue for uploading photos on iOS < 7, where NSURLSession is not available
+
+    NSOperationQueue *completionQueue_; // Operation queue for executing NSURLSession completion handlers
+
+    NSURLSession *uploadNSURLSession_;
 }
 
-static NSString * const BASE_URL = @"https://api.shotvibe.com";
-
 static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.ShotVibeAPI.ErrorDomain";
+
+NSString *const kUploadSessionId = @"shotvibe.uploadSession";
 
 - (id)init
 {
@@ -147,6 +154,8 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     [self setAuthData:authData];
     authConfirmationKey = nil;
 
+    [self initUploadSession];
+
     return self;
 }
 
@@ -160,6 +169,35 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
         SLAuthData *slAuthData = [[SLAuthData alloc] initWithLong:authData.userId withNSString:authData.authToken withNSString:authData.defaultCountryCode];
         libShotVibeAPI_ = [[SLShotVibeAPI alloc] initWithSLHTTPLib:httpLib withSLAuthData:slAuthData];
     }
+}
+
+
+- (void)initUploadSession
+{
+    UploadSessionDelegate *uploadListener = [[UploadSessionDelegate alloc] init];
+
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfiguration:kUploadSessionId];
+    //NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+
+    completionQueue_ = [[NSOperationQueue alloc] init];
+
+    uploadNSURLSession_ = [NSURLSession sessionWithConfiguration:config delegate:uploadListener delegateQueue:completionQueue_];
+
+    // *INDENT-OFF* Uncrustify @""/cast problem https://github.com/shotvibe/shotvibe-ios-client/issues/260
+    [uploadNSURLSession_ getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
+        RCLog(@"NSURLSession with id %@, nr of current upload tasks: %d\n", kUploadSessionId, [uploadTasks count]);
+        for (NSURLSessionUploadTask *task in uploadTasks) {
+            RCLog(@"Cancelling upload task #%d", task.taskIdentifier);
+            [task cancel];
+            /* We currently don't support tasks that persist after the app was terminated, as this requires us to restore the task-specific delegates and upload and uploaded queues.
+             For now, background tasks finishing while the app was terminated, or that were still running when the
+             app started will be canceled.
+             TODO: provide a fail safe similar to Android, or resurrect the previous tasks
+             */
+        }
+    }];
+    // *INDENT-ON*
+    uploadQueue_ = dispatch_queue_create(NULL, NULL);
 }
 
 
@@ -445,10 +483,11 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 {
     NSError *responseError;
     Response *response = [self putFile:[NSString stringWithFormat:@"/users/%lld/avatar/", userId]
-                              filePath:filePath
-                           contentType:@"application/octet-stream"
-                        uploadProgress:uploadProgress
-                             withError:&responseError];
+                                filePath:filePath
+                           isPhotoUpload:NO
+                             contentType:@"application/octet-stream"
+                          uploadProgress:uploadProgress
+                               withError:&responseError];
 
     if (!response) {
         *error = responseError;
@@ -495,14 +534,17 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return result.array;
 }
 
-- (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
+- (BOOL)photoUpload:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
 {
     NSError *responseError;
-    Response *response = [self putFile:[NSString stringWithFormat:@"/photos/upload/%@/", photoId]
-                              filePath:filePath
-                           contentType:@"application/octet-stream"
-                        uploadProgress:uploadProgress
-                             withError:&responseError];
+    NSString *url = [NSString stringWithFormat:@"/photos/upload/%@/%@", photoId, isFullRes ? @"original/":@""];
+    RCLog(@"photoUpload: putFile with url %@", url);
+    Response *response = [self putFile:url
+                                filePath:filePath
+                           isPhotoUpload:YES
+                             contentType:@"application/octet-stream"
+                          uploadProgress:uploadProgress
+                               withError:&responseError];
 
     if (!response) {
         *error = responseError;
@@ -566,7 +608,7 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
 - (Response *)getResponse:(NSString *)url method:(NSString *)method body:(NSData *)body error:(NSError **)error
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:url]]];
+    [request setURL:[NSURL URLWithString:[[SLShotVibeAPI BASE_URL] stringByAppendingString:url]]];
     [request setHTTPMethod:method];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
 
@@ -599,12 +641,14 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     return response;
 }
 
-- (Response *)putFile:(NSString *)url filePath:(NSString *)filePath contentType:(NSString *)contentType uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
+// TODO: isPhotoUpload parameter is temporary, until we use the urls from photosUploadRequest
+- (Response *)putFile:(NSString *)url filePath:(NSString *)filePath isPhotoUpload:(BOOL)isPhotoUpload contentType:(NSString *)contentType uploadProgress:(void (^)(int, int))uploadProgress withError:(NSError **)error
 {
     // TODO Some refactoring is in order to eliminate the duplicate code from the getResponse method
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:url]]];
+    NSString *baseUrl = isPhotoUpload ? [SLShotVibeAPI BASE_UPLOAD_URL] : [SLShotVibeAPI BASE_URL];
+    [request setURL:[NSURL URLWithString:[baseUrl stringByAppendingString:url]]];
     [request setHTTPMethod:@"PUT"];
     [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
     if (self.authData != nil) {
@@ -647,6 +691,57 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     response.body = nil;
 
     return response;
+}
+
+
+// TODO: cleanup and refactor when combining with old ShotVibeAPI
+
+static const NSTimeInterval RETRY_TIME = 5;
+
+- (void)photoUploadAsync:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
+{
+    if (!uploadNSURLSession_) { // if there's no session, we're on iOS < 7
+        RCLog(@"Starting asynchronous upload task as UIBackgroundTask (max 10 minutes)");
+        [self photoUploadAsyncNoSession:photoId filePath:filePath isFullRes:isFullRes progressHandler:progressHandler completionHandler:completionHandler];
+    } else {
+        RCLog(@"Starting asynchronous upload task in NSURLSession");
+        NSURL *uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/photos/upload/%@/%@", [SLShotVibeAPI BASE_UPLOAD_URL], photoId, isFullRes ? @"original/":@""]];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:uploadURL];
+        [request setHTTPMethod:@"PUT"];
+        if (self.authData != nil) {
+            [request setValue:[@"Token " stringByAppendingString : self.authData.authToken] forHTTPHeaderField:@"Authorization"];
+        } else { // This is a serious error; it should not be possible to start tasks without authentication.
+            RCLog(@"ERROR: upload task started without authentication.\nFile: %@", filePath);
+        }
+
+        NSURL *photoFileUrl = [NSURL fileURLWithPath:filePath];
+
+        NSURLSessionUploadTask *uploadTask = [uploadNSURLSession_ uploadTaskWithRequest:request fromFile:photoFileUrl];
+        RCLog(@"Created %@ task for URL: %@", request.HTTPMethod, uploadURL);
+
+        [((UploadSessionDelegate *)[uploadNSURLSession_ delegate])setDelegateForTask : uploadTask progressHandler : progressHandler completionHandler : completionHandler];
+
+        [uploadTask resume];
+    }
+}
+
+
+// Asynchronous upload for iOS <7, when NSURLSession is not available
+// Note: callee must guarantee this function can execute in the background
+- (void)photoUploadAsyncNoSession:(NSString *)photoId filePath:(NSString *)filePath isFullRes:(BOOL)isFullRes progressHandler:(ProgressHandlerType)progressHandler completionHandler:(CompletionHandlerType)completionHandler
+{
+    // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
+    dispatch_async(uploadQueue_, ^{ // TODO: also want parallelism here?
+        NSError *error;
+        [self photoUpload:photoId filePath:filePath isFullRes:(BOOL)isFullRes uploadProgress:^(int bytesUploaded, int bytesTotal) {
+            if (progressHandler) {
+                progressHandler(bytesUploaded, bytesTotal);
+            }
+        } withError:&error];
+
+        completionHandler(error);
+    });
+    // *INDENT-ON*
 }
 
 
