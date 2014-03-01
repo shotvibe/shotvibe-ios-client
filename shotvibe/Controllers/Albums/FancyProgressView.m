@@ -54,7 +54,11 @@
 
 @end
 
-
+/*
+ Why this is so complicated:
+ - When grid view reloads during an animation, it is cut off -> Need to keep track of animation durations and provide delay
+ - View controller creates new cells all the time with new progress views. Cannot keep track of animation state (which are nec.?) -> Need to cache progress. Also need to guarantee that progress objects are kept the same (single AlbumUploadingPhoto for the lifetime of the upload) Can't use PhotoId's because they don't exist in the beginning
+ */
 @implementation FancyProgressView {
     long long uniqueAnimationKeyCounter_;
     CAShapeLayer *progressLayer_;
@@ -90,6 +94,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 + (void)disableProgressViewsWithCompletion:(void (^)())completionBlock
 {
+    RCLog(@"Disabling all progress views");
     CFTimeInterval animationsEndMediaTime = 0.0;
 
     for (FancyProgressView *fpv in [FancyProgressView sharedAllProgressViews]) {
@@ -99,10 +104,12 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     }
 
     CFTimeInterval animationsEndTime = MAX(0, animationsEndMediaTime - CACurrentMediaTime());
-    RCLog(@"Animations end in %.2fs", animationsEndTime);
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, animationsEndTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, animationsEndTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         completionBlock();
     });
+    RCLog(@"Disabled all progress views, animations end in %.2fs", animationsEndTime);
 }
 
 
@@ -173,10 +180,11 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 
 // PROBLEM: waiting for animation, everything is blocked, and then certain items complete and on reload they
-// are not albumUploadingPhotos anymore.
+// are not albumUploadingPhotos anymore. Is this really a problem? Maybe we can keep track of the photoId for a while
 
 // TODO: Check if appearance on init always works, or we need to call a specific appear method from the controller. (test in Button 12 doesn't seem to allow animation (even though we don't need one there)
 
+// TODO: we may miss a few progress update while out of view. Ok? (causes animations when scrolled back into view) Maybe we don't want to animate progress between view instances, only appear and flyout
 
 // TODO: check weak property and cover case that it is null/nil (shouldn't occur)
 // TODO: remove NSSet from gridviewcontroller
@@ -209,10 +217,6 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
  Idea progressCache: PhotoID -> shownProgress   to survive new views for same photo and missed events
  Use instead of oldProgress
  purgeCache  (Set PhotoID)    remove all photos except ones in set
-
- +stop
- for each progressview: animationEndTime = stop progressView
- return max animationEndTime
 
  Global, only one viewcontroller is possible, otherwise use dictionary
 
@@ -272,7 +276,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // Clear everything, for init or reuse.
 - (void)reset
 {
-    RCLog(@"\n\n\n\n\nRESET\n\n");
+    RCLog(@"RESET\n\n");
     [progressLayer_ removeAllAnimations];
     progressLayer_.opacity = 0.0;
     progressLayer_.path = [self createBackgroundRectangle].CGPath;
@@ -287,7 +291,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 - (void)appearWithProgressObject:(id)progressObject
 {
     progressObject_ = progressObject;
-    RCLog(@"Appear:\n%@ %d", progressObject_, [self didAppear]);
+    RCLog(@"Appear with progressObject:\n%@ %d", progressObject_, [self didAppear]);
     if (![self didAppear]) {
         [self animateAppear];
         [self setDidAppear:YES];
@@ -321,10 +325,11 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 - (void)setProgress:(float)progress
 {
+    RCLog(@"SetProgress%@ from %.2f to %.2f for progressObject %@", [self isDisabled] ? @" (disabled)" : @"", [self getCachedProgress], progress, progressObject_);
+
     if (![self isDisabled]) {
         progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
-        RCLog(@"SetProgress from %.2f to %.2f", [self getCachedProgress], progress);
-        RCLog(@"%d %d %d", [self didAppear], [self didFlyIn], [self didFlyOut]);
+        RCLog(@"didAppear %@ didFlyIn %@ didFlyOut %@", showBool([self didAppear]), showBool([self didFlyIn]), showBool([self didFlyOut]));
         if (![self didAppear]) {
             [self animateAppear];
             [self setDidAppear:YES];
@@ -382,6 +387,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
          }
          */
     }
+    RCLog(@"End setProgress");
 }
 
 
@@ -475,7 +481,6 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
         [values addObject:(__bridge id)[self createProgressPathWithProgress:progress]];
     }
 
-    [CATransaction begin];
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"path"];
     animation.values = values;
     animation.duration = progressDelta / kProgressSpeed;
