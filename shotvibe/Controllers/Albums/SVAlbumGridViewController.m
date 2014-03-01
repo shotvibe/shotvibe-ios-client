@@ -540,10 +540,10 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 #pragma mark - Private Methods
 
-- (void)reloadAfterDisablingProgress
+- (void)disableProgressAndReloadData
 {
     [FancyProgressView disableProgressViewsWithCompletion:^() {
-        RCLog(@"Delayed reload");
+        RCLog(@"Completing delayed reload");
         // TODO: we may queue up a couple of reloads that could be optimized to one
         [self.collectionView reloadData];
         [self updateEmptyState];
@@ -598,7 +598,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     });
 
 	[self sortThumbsBy:sort];
-    [self reloadAfterDisablingProgress];
+    [self disableProgressAndReloadData];
 }
 
 
@@ -684,7 +684,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 	[[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 
-    [self reloadAfterDisablingProgress];
+    [self disableProgressAndReloadData];
 }
 
 
