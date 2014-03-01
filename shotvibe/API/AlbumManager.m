@@ -23,6 +23,7 @@
 #import "SL/AuthData.h"
 #import "IosHTTPLib.h"
 #import "IosDevicePhoneContactsLib.h"
+#import "ShotVibeAppDelegate.h"
 
 enum RefreshStatus
 {
@@ -96,12 +97,15 @@ enum RefreshStatus
 
 - (void)initPhoneContactsManager
 {
+    ShotVibeAppDelegate *app = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+
     SLAuthData *authData2 = [[SLAuthData alloc] initWithLong:shotvibeAPI.authData.userId
                                                 withNSString:shotvibeAPI.authData.authToken
                                                 withNSString:shotvibeAPI.authData.defaultCountryCode];
 
     id <SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
     SLShotVibeAPI *shotvibeAPI2 = [[SLShotVibeAPI alloc] initWithSLHTTPLib:httpLib
+                                                withSLNetworkStatusManager:app.networkStatusManager
                                                             withSLAuthData:authData2];
     id <SLDevicePhoneContactsLib> devicePhoneContactsLib = [[IosDevicePhoneContactsLib alloc] init];
 

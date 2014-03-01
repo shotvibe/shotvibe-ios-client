@@ -59,7 +59,9 @@
 #if !CONFIGURATION_Debug
     [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
 #endif
-	
+
+    self.networkStatusManager = [[SLNetworkStatusManager alloc] init];
+
     ShotVibeAPI *shotvibeAPI = [[ShotVibeAPI alloc] initWithAuthData:[UserSettings getAuthData]];
     ShotVibeDB *shotvibeDB = [[ShotVibeDB alloc] init];
 

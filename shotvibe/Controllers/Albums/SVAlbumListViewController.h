@@ -12,6 +12,7 @@
 #import "SVCameraPickerController.h"
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumGridViewController.h"
+#import "SL/NetworkStatusManager.h"
 
 
 @interface SVAlbumListViewController : UITableViewController <UITableViewDataSource,
@@ -20,7 +21,8 @@
 																UISearchBarDelegate,
 																AlbumListListener,
 																SVCameraPickerDelegate,
-																SVAlbumListViewCellDelegate>
+                                                              SVAlbumListViewCellDelegate,
+                                                              SLNetworkStatusManager_Listener>
 
 @property (nonatomic, strong) AlbumManager *albumManager;
 

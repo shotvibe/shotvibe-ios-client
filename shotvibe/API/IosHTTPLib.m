@@ -12,7 +12,7 @@
 #import "java/util/Map.h"
 #import "java/lang/IllegalStateException.h"
 
-#import "SL/APIException.h"
+#import "SL/HTTPException.h"
 #import "SL/JSONObject.h"
 #import "SL/JSONArray.h"
 
@@ -41,7 +41,7 @@ static SLHTTPResponse * sendRequest(NSString *method, NSString *url, id<JavaUtil
 
     if (httpResponseData == nil) {
         // TODO Add more info to exception
-        @throw [[SLAPIException alloc] initWithNSString:httpError.description];
+        @throw [[SLHTTPException alloc] initWithNSString:httpError.description];
     }
 
     int statusCode = [httpResponse statusCode];

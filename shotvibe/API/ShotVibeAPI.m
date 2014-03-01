@@ -19,6 +19,7 @@
 #import "SL/AuthData.h"
 #import "UserSettings.h"
 #import "IosHTTPLib.h"
+#import "ShotVibeAppDelegate.h"
 
 @interface Response : NSObject
 
@@ -156,9 +157,13 @@ static NSString * const SHOTVIBE_API_ERROR_DOMAIN = @"com.shotvibe.shotvibe.Shot
     _authData = authData;
 
     if (authData && authData.authToken && authData.defaultCountryCode) {
+        ShotVibeAppDelegate *app = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+
         id<SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
         SLAuthData *slAuthData = [[SLAuthData alloc] initWithLong:authData.userId withNSString:authData.authToken withNSString:authData.defaultCountryCode];
-        libShotVibeAPI_ = [[SLShotVibeAPI alloc] initWithSLHTTPLib:httpLib withSLAuthData:slAuthData];
+        libShotVibeAPI_ = [[SLShotVibeAPI alloc] initWithSLHTTPLib:httpLib
+                                        withSLNetworkStatusManager:app.networkStatusManager
+                                                    withSLAuthData:slAuthData];
     }
 }
 

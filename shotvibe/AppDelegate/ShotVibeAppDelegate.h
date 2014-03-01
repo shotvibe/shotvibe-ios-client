@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AlbumManager.h"
+#import "SL/NetworkStatusManager.h"
 
 @interface ShotVibeAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -15,7 +16,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) AlbumManager *albumManager;
-
+@property (strong, nonatomic) SLNetworkStatusManager *networkStatusManager;
 
 #pragma mark - Class Methods
 
