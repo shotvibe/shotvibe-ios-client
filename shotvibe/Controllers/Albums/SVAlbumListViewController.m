@@ -858,7 +858,10 @@
 
 - (void)onAlbumListRefreshError:(SLAPIException *)exception
 {
-    // TODO ...
+    creatingAlbum = NO;
+    if (refreshManualy) {
+        [self endRefreshing];
+    }
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
