@@ -360,7 +360,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 {
     SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
 
-    RCLog(@"Dequeued cell: %@", cell);
+    //RCLog(@"Dequeued cell: %@", cell);
     __block NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 
     [cell.networkImageView setImage:nil];
@@ -541,11 +541,16 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 - (void)disableProgressAndReloadData
 {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"ss.A"];
+    __block NSString *timeStamp = [formatter stringFromDate:[NSDate date]];
+    RCLog(@"About to delay reload at %@",timeStamp);
     [FancyProgressView disableProgressViewsWithCompletion:^() {
-        RCLog(@"Completing delayed reload");
+        RCLog(@"Completing delayed reload from %@", timeStamp);
         // TODO: we may queue up a couple of reloads that could be optimized to one
         [self.collectionView reloadData];
         [self updateEmptyState];
+        RCLog(@"Completed delayed reload from %@", timeStamp);
     }];
 }
 
@@ -719,7 +724,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
             AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
             cell.uploadProgressView.hidden = YES;
             cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
-            RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
+            //RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
             [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress]];
 		}
 	}
