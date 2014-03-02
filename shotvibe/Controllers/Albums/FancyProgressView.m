@@ -249,18 +249,15 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _disabled = NO;
-
-        uniqueAnimationKeyCounter_ = 0;
-        progressObject_ = nil;
-
+        RCLog(@"Init progress view");
         progressLayer_ = [CAShapeLayer layer];
         progressLayer_.fillRule = kCAFillRuleEvenOdd;
         progressLayer_.fillColor = [UIColor blackColor].CGColor;
         progressLayer_.backgroundColor = [UIColor whiteColor].CGColor;
-
         progressLayer_.frame = self.bounds;
         [self.layer addSublayer:progressLayer_];
+
+        [self reset];
 
         // Use a mask to hide the growing circle on the disappear animation
         CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
@@ -289,13 +286,14 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // Clear everything, for init or reuse.
 - (void)reset
 {
-    RCLog(@"RESET");
+    RCLog(@"Reset progress view");
     [progressLayer_ removeAllAnimations];
     progressLayer_.opacity = 0.0;
     progressLayer_.path = [self createBackgroundRectangle].CGPath;
 
     uniqueAnimationKeyCounter_ = 0;
-
+    progressObject_ = nil;
+    _disabled = NO;
     _progress = 0.0;
 }
 
