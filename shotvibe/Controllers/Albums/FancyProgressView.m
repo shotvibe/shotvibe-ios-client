@@ -71,7 +71,7 @@ static float const kRadius = 17; // radius of the progress pie chart
 static float const kBounceRadius = kRadius + 3; // radius before bouncing back
 static float const kInset = 4; // space around the progress pie chart
 
-static float const kAppearanceTime = 0.5; // Time for the grey background to appear
+static float const kAppearanceTime = 15.5; // Time for the grey background to appear
 static float const kFlyInTime = 0.3; // Time for the disks to appear from the center
 static float const kBounceTime = 0.10; // Time for the disks to bounce back
 static float const kProgressSpeed = 0.8; // Max progress increase per second
@@ -305,10 +305,12 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     RCLog(@"Appear with progress %f progressObject:\n%@ didAppear %@ opacity %f", progress, progressObject_, showBool([self didAppear]), progressLayer_.opacity);
     if (![self didAppear] || progress > 0.999999) {
         progressLayer_.opacity = 0.0;
+        RCLog(@"Setting opacity to transparent");
         //[self animateAppear];
         //[self setDidAppear:YES];
         return;
     } else {
+        RCLog(@"Setting opacity to non-transparent");
         progressLayer_.opacity = kOpacity;
 
         //progressLayer_.path = [self createProgressPathWithProgress:[self getCachedProgress]];
@@ -327,13 +329,14 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
      flown out
 
      */
+    /*
     if ([self getCachedProgress] < 0.999999 && [self didFlyIn]) {
         progressLayer_.opacity = kOpacity;
         progressLayer_.path = [self createProgressPathWithProgress:[self getCachedProgress]];
     } else if ([self getCachedProgress] > 0.999999 && ![self didFlyOut]) {
         [self animateFlyOut];
         [self setDidFlyOut:YES];
-    }
+    }*/
 }
 
 
@@ -342,13 +345,14 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     RCLog(@"SetProgress%@ from %.2f to %.2f for progressObject %@", [self isDisabled] ? @" (disabled)" : @"", [self getCachedProgress], progress, progressObject_);
     if (![self isDisabled]) {
         if (![self didAppear]) { // appear here, because appearWithProgress is called twice in succession without possibility for delay
+            RCLog(@"Animate appear started");
             [self animateAppear];
             [self setDidAppear:YES];
         }
 
         if (progress - [self getCachedProgress] > 0.000001) {
             progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
-            RCLog(@"didAppear %@ didFlyIn %@ didFlyOut %@", showBool([self didAppear]), showBool([self didFlyIn]), showBool([self didFlyOut]));
+            //RCLog(@"didAppear %@ didFlyIn %@ didFlyOut %@", showBool([self didAppear]), showBool([self didFlyIn]), showBool([self didFlyOut]));
 
             if (![self didFlyIn]) {
                 [self animateFlyIn];
@@ -407,7 +411,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
              }
              */
         }
-        RCLog(@"End setProgress");
+        //RCLog(@"End setProgress");
     }
 }
 
