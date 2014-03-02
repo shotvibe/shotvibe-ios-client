@@ -12,6 +12,6 @@
 
 @interface IosHTTPResponse : SLHTTPResponse
 
-- (id)initWithStatusCode:(int)statusCode withBody:(NSData *)body withHeaders:(NSDictionary *)headers;
+- (id)initWithMethod:(NSString *)method withUrl:(NSString *)url withRequestTime:(long long)requestTime withStatusCode:(int)statusCode withBody:(NSData *)body withHeaders:(NSDictionary *)headers;
 
 @end
