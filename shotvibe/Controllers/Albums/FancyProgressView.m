@@ -266,7 +266,6 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
         maskLayer.path = path;
         CGPathRelease(path);
         self.layer.mask = maskLayer;
-        [self reset];
 
         @synchronized(self) {
             [[FancyProgressView sharedAllProgressViews] addObject:self];
