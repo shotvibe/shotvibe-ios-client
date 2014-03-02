@@ -21,6 +21,7 @@
 #import "MFSideMenu.h"
 #import "MBProgressHUD.h"
 #import "SVNavigationController.h"
+#import "NetworkLogViewController.h"
 
 #import "SL/AlbumSummary.h"
 #import "SL/AlbumPhoto.h"
@@ -238,13 +239,7 @@
 
 - (void)notConnectedPressed
 {
-    // TODO Fix this up
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Internet Connection"
-                                                    message:@"Problem"
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
+    [NetworkLogViewController showNetworkErrorDialog:self];
 }
 
 

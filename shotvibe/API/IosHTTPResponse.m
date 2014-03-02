@@ -13,23 +13,48 @@
 
 @implementation IosHTTPResponse
 {
+    NSString *method_;
+    NSString *url_;
+    long long requestTime_;
+
     int statusCode_;
     NSData *body_;
     NSDictionary *headers_;
 }
 
 
-- (id)initWithStatusCode:(int)statusCode withBody:(NSData *)body withHeaders:(NSDictionary *)headers
+- (id)initWithMethod:(NSString *)method withUrl:(NSString *)url withRequestTime:(long long)requestTime withStatusCode:(int)statusCode withBody:(NSData *)body withHeaders:(NSDictionary *)headers;
 {
     self = [super init];
 
     if (self) {
+        method_ = method;
+        url_ = url;
+        requestTime_ = requestTime;
         statusCode_ = statusCode;
         body_ = body;
         headers_ = headers;
     }
 
     return self;
+}
+
+
+- (NSString *)getMethod
+{
+    return method_;
+}
+
+
+- (NSString *)getUrl
+{
+    return url_;
+}
+
+
+- (long long int)getRequestTime
+{
+    return requestTime_;
 }
 
 
