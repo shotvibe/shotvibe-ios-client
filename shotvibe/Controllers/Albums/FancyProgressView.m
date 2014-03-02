@@ -582,12 +582,19 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // Return the time at which all current animations end.
 - (CFTimeInterval)currentAnimationsEndTime
 {
-    CFTimeInterval endTime = 0.0;
+    return MAX(getCurrentAnimationsEndTimeForLayer(self.layer),getCurrentAnimationsEndTimeForLayer(progressLayer_));
+}
 
-    for (NSString *key in progressLayer_.animationKeys) {
-        CAAnimation *anim = [progressLayer_ animationForKey:key];
+
+static CFTimeInterval getCurrentAnimationsEndTimeForLayer(CALayer *layer)
+{
+    CFTimeInterval endTime = 0.0;
+    NSArray *allAnimationKeys = layer.animationKeys;
+
+    for (NSString *key in allAnimationKeys) {
+        CAAnimation *anim = [layer animationForKey:key];
         CFTimeInterval beginTime = anim.beginTime ? : CACurrentMediaTime(); // if there's no begin time, the animation is about to be started
-        //RCLog(@"Animation Key:%@ begin:%f duration:%f ends in:%.2fs", key, anim.beginTime, anim.duration, anim.duration - (CACurrentMediaTime() - anim.beginTime));
+        RCLog(@"Animation Key:%@ begin:%f duration:%f ends in:%.2fs", key, anim.beginTime, anim.duration, anim.duration - (CACurrentMediaTime() - anim.beginTime));
         endTime = MAX(endTime, beginTime + anim.duration);
     }
 
