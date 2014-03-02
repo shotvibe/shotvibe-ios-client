@@ -22,10 +22,10 @@
 // TODO: explain
 + (id)sharedProgressCache
 {
-    static dispatch_once_t onceQueue;
+    static dispatch_once_t onceToken;
     static NSMapTable *progressCache = nil;
 
-    dispatch_once(&onceQueue, ^{
+    dispatch_once(&onceToken, ^{
         progressCache = [NSMapTable weakToStrongObjectsMapTable];
     });
     return progressCache;
@@ -75,6 +75,7 @@ static float const kAppearanceTime = 0.5; // Time for the grey background to app
 static float const kFlyInTime = 0.3; // Time for the disks to appear from the center
 static float const kBounceTime = 0.10; // Time for the disks to bounce back
 static float const kProgressSpeed = 0.8; // Max progress increase per second
+static float const kProgressThreshold = 0.05; // Minimum required progress before animation is triggered
 static float const kFlyOutTime = 0.3; // Time for the outer disk to disappear to the edges
 static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white background to fade out
 
@@ -82,10 +83,10 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // contains all active progress views, for stopping animations
 + (id)sharedAllProgressViews
 {
-    static dispatch_once_t onceQueue;
+    static dispatch_once_t onceToken;
     static NSHashTable *allProgressViews = nil;
 
-    dispatch_once(&onceQueue, ^{
+    dispatch_once(&onceToken, ^{
         allProgressViews = [NSHashTable weakObjectsHashTable];
     });
     return allProgressViews;
@@ -97,10 +98,12 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     RCLog(@"Disabling all progress views");
     CFTimeInterval animationsEndMediaTime = 0.0;
 
-    for (FancyProgressView *fpv in [FancyProgressView sharedAllProgressViews]) {
-        fpv.disabled = YES;
+    @synchronized(self) {
+        for (FancyProgressView *fpv in [FancyProgressView sharedAllProgressViews]) {
+            fpv.disabled = YES;
 
-        animationsEndMediaTime = MAX(animationsEndMediaTime, [fpv currentAnimationsEndTime]);
+            animationsEndMediaTime = MAX(animationsEndMediaTime, [fpv currentAnimationsEndTime]);
+        }
     }
 
     CFTimeInterval animationsEndTime = MAX(0, animationsEndMediaTime - CACurrentMediaTime());
@@ -118,16 +121,18 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 - (CachedProgressModel *)getCachedProgressModel
 {
-    CachedProgressModel *cachedProgress = [[CachedProgressModel sharedProgressCache] objectForKey:progressObject_];
-    if (!cachedProgress) {
-        cachedProgress = [[CachedProgressModel alloc] init];
-        if (progressObject_) {
-            [[CachedProgressModel sharedProgressCache] setObject:cachedProgress forKey:progressObject_];
-        } else {
-            RCLog(@"No progress object has been set.");
+    @synchronized(self) {
+        CachedProgressModel *cachedProgress = [[CachedProgressModel sharedProgressCache] objectForKey:progressObject_];
+        if (!cachedProgress) {
+            cachedProgress = [[CachedProgressModel alloc] init];
+            if (progressObject_) {
+                [[CachedProgressModel sharedProgressCache] setObject:cachedProgress forKey:progressObject_];
+            } else {
+                RCLog(@"No progress object has been set.");
+            }
         }
+        return cachedProgress;
     }
-    return cachedProgress;
 }
 
 
@@ -191,8 +196,9 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // TODO: explain that we assume one active view controller. otherwise need to group progress views on controller
 // TODO: check if weak hash table works as expected (objects are removed after releasing them)
 // TODO: check reuse and reset
-
-// TODO: on completion in uploader, set to 100%
+// TODO: check if removed unterminated transaction in keyframe animation is okay
+// TODO: what if photos complete their upload when not visible?
+// TODO BEFORE MERGING WITH PARALLEL UPLOAD: on completion in uploader, set to 100%
 
 // on setProgress, check appear and flyIn
 
@@ -259,8 +265,9 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
         self.layer.mask = maskLayer;
         [self reset];
 
-        // TODO: thread safe
-        [[FancyProgressView sharedAllProgressViews] addObject:self];
+        @synchronized(self) {
+            [[FancyProgressView sharedAllProgressViews] addObject:self];
+        }
     }
     return self;
 }
@@ -276,7 +283,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // Clear everything, for init or reuse.
 - (void)reset
 {
-    RCLog(@"RESET\n\n");
+    RCLog(@"RESET");
     [progressLayer_ removeAllAnimations];
     progressLayer_.opacity = 0.0;
     progressLayer_.path = [self createBackgroundRectangle].CGPath;
@@ -340,9 +347,13 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
         }
 
         if (![self didFlyOut]) {
-            [self animateProgressFrom:[self getCachedProgress] to:progress];
-            [self setCachedProgress:progress];
+            //progressLayer_.backgroundColor = [UIColor colorWithHue:progress saturation:1.0 brightness:1.0 alpha:1.0].CGColor; // for testing if the view we see is the one we're updating
 
+            // animate and store progress in cache only if above threshold, otherwise we may get lots of queued animations that cause delays
+            if (progress - [self getCachedProgress] > kProgressThreshold) {
+                [self animateProgressFrom:[self getCachedProgress] to:progress];
+                [self setCachedProgress:progress];
+            }
             if (progress > 0.999999) {
                 [self animateFlyOut];
                 [self setDidFlyOut:YES];
