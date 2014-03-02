@@ -71,7 +71,7 @@ static float const kRadius = 17; // radius of the progress pie chart
 static float const kBounceRadius = kRadius + 3; // radius before bouncing back
 static float const kInset = 4; // space around the progress pie chart
 
-static float const kAppearanceTime = 15.5; // Time for the grey background to appear
+static float const kAppearanceTime = 5.5; // Time for the grey background to appear
 static float const kFlyInTime = 0.3; // Time for the disks to appear from the center
 static float const kBounceTime = 0.10; // Time for the disks to bounce back
 static float const kProgressSpeed = 0.8; // Max progress increase per second
@@ -287,6 +287,8 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 - (void)reset
 {
     RCLog(@"Reset progress view");
+    [self.layer removeAllAnimations];
+    self.layer.opacity = 1.0;
     [progressLayer_ removeAllAnimations];
     progressLayer_.opacity = 0.0;
     progressLayer_.path = [self createBackgroundRectangle].CGPath;
@@ -457,7 +459,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 - (void)animateFlyOut
 {
-    //RCLog(@"Flying out");
+    RCLog(@"Flying out");
     float surroundingRadius = sqrt(square(self.bounds.size.width) + square(self.bounds.size.height)) / 2 + 1;
     [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:NO] toPath:[self createDisksPathWithRadius:surroundingRadius hasInnerDisk:NO] duration:kFlyOutTime timingFunctionName:kCAMediaTimingFunctionEaseIn];
 
@@ -465,12 +467,14 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
     opacityAnimation.duration = kFadeOutTime;
     opacityAnimation.beginTime = [self currentAnimationsEndTime];
-    opacityAnimation.fromValue = @(kOpacity);
+    opacityAnimation.fromValue = @1.0; // 1.0 instead of kOpacity, since we do it on self.layer (see below)
     opacityAnimation.toValue = @0.0;
-    opacityAnimation.fillMode = kCAFillModeBackwards;
+    opacityAnimation.fillMode = kCAFillModeBoth;
     opacityAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-    [progressLayer_ addAnimation:opacityAnimation forKey:[self createUniqueAnimationKey]];
-    progressLayer_.opacity = 0.0;
+
+    // Do this on self.layer instead of progressLayer, because otherwise it interferes with appearAnimation
+    [self.layer addAnimation:opacityAnimation forKey:[self createUniqueAnimationKey]];
+    self.layer.opacity = 0.0;
 }
 
 
