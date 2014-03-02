@@ -340,75 +340,76 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 - (void)setProgress:(float)progress
 {
     RCLog(@"SetProgress%@ from %.2f to %.2f for progressObject %@", [self isDisabled] ? @" (disabled)" : @"", [self getCachedProgress], progress, progressObject_);
-    if (![self didAppear]) { // appear here, because appearWithProgress is called twice in succession without possibility for delay
-        [self animateAppear];
-        [self setDidAppear:YES];
-    }
-
-    if (![self isDisabled] && progress - [self getCachedProgress] > 0.000001) {
-        progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
-        RCLog(@"didAppear %@ didFlyIn %@ didFlyOut %@", showBool([self didAppear]), showBool([self didFlyIn]), showBool([self didFlyOut]));
-
-        if (![self didFlyIn]) {
-            [self animateFlyIn];
-            [self setDidFlyIn:YES];
+    if (![self isDisabled]) {
+        if (![self didAppear]) { // appear here, because appearWithProgress is called twice in succession without possibility for delay
+            [self animateAppear];
+            [self setDidAppear:YES];
         }
 
-        if (![self didFlyOut]) {
-            //progressLayer_.backgroundColor = [UIColor colorWithHue:progress saturation:1.0 brightness:1.0 alpha:1.0].CGColor; // for testing if the view we see is the one we're updating
+        if (progress - [self getCachedProgress] > 0.000001) {
+            progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
+            RCLog(@"didAppear %@ didFlyIn %@ didFlyOut %@", showBool([self didAppear]), showBool([self didFlyIn]), showBool([self didFlyOut]));
 
-            // animate and store progress in cache only if above threshold, otherwise we may get lots of queued animations that cause delays
-            if (progress - [self getCachedProgress] > kProgressThreshold) {
-                [self animateProgressFrom:[self getCachedProgress] to:progress];
-                [self setCachedProgress:progress];
+            if (![self didFlyIn]) {
+                [self animateFlyIn];
+                [self setDidFlyIn:YES];
             }
-            if (progress > 0.999999) {
-                [self animateFlyOut];
-                [self setDidFlyOut:YES];
+
+            if (![self didFlyOut]) {
+                //progressLayer_.backgroundColor = [UIColor colorWithHue:progress saturation:1.0 brightness:1.0 alpha:1.0].CGColor; // for testing if the view we see is the one we're updating
+
+                // animate and store progress in cache only if above threshold, otherwise we may get lots of queued animations that cause delays
+                if (progress - [self getCachedProgress] > kProgressThreshold) {
+                    [self animateProgressFrom:[self getCachedProgress] to:progress];
+                    [self setCachedProgress:progress];
+                }
+                if (progress > 0.999999) {
+                    [self animateFlyOut];
+                    [self setDidFlyOut:YES];
+                }
             }
+
+
+            /*
+             float oldProgress = _progress;
+             _progress = progress;
+             if (animated) {
+             if (fequal(progress, oldProgress)) {
+             return;
+             }
+
+             // 0.0 will not occur, since oldProgress will also be 0.0
+             if (oldProgress < 0.000001) {
+             [self animateFlyIn];
+             }
+             [self animateProgressFrom:oldProgress to:progress];
+             if (progress > 0.999999) {
+             [self animateFlyOut];
+             }
+             } else { // not animated
+             [progressLayer_ removeAllAnimations];
+
+             if (progress < 0.000001) {
+             [self executeWithoutImplicitAnimation:^{
+             progressLayer_.opacity = kOpacity;
+             progressLayer_.path = [self createBackgroundRectangle].CGPath;
+             }];
+             } else if (progress < 0.999999) {
+             [self executeWithoutImplicitAnimation:^{
+             progressLayer_.opacity = kOpacity;
+             progressLayer_.path = [self createProgressPathWithProgress:_progress];
+             }];
+             } else {
+             [self executeWithoutImplicitAnimation:^{
+             progressLayer_.opacity = 0.0;
+             }];
+             }
+             }
+             */
         }
-
-
-        /*
-         float oldProgress = _progress;
-         _progress = progress;
-         if (animated) {
-         if (fequal(progress, oldProgress)) {
-         return;
-         }
-
-         // 0.0 will not occur, since oldProgress will also be 0.0
-         if (oldProgress < 0.000001) {
-         [self animateFlyIn];
-         }
-         [self animateProgressFrom:oldProgress to:progress];
-         if (progress > 0.999999) {
-         [self animateFlyOut];
-         }
-         } else { // not animated
-         [progressLayer_ removeAllAnimations];
-
-         if (progress < 0.000001) {
-         [self executeWithoutImplicitAnimation:^{
-         progressLayer_.opacity = kOpacity;
-         progressLayer_.path = [self createBackgroundRectangle].CGPath;
-         }];
-         } else if (progress < 0.999999) {
-         [self executeWithoutImplicitAnimation:^{
-         progressLayer_.opacity = kOpacity;
-         progressLayer_.path = [self createProgressPathWithProgress:_progress];
-         }];
-         } else {
-         [self executeWithoutImplicitAnimation:^{
-         progressLayer_.opacity = 0.0;
-         }];
-         }
-         }
-         */
+        RCLog(@"End setProgress");
     }
-    RCLog(@"End setProgress");
 }
-
 
 #pragma mark - Animations
 
