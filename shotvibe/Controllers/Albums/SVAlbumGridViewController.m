@@ -719,7 +719,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
             AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
             cell.uploadProgressView.hidden = YES;
             cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
-            cell.fancyUploadProgressView.hidden = [uploadingPhoto isUploadComplete];
+            //cell.fancyUploadProgressView.hidden = [uploadingPhoto isUploadComplete]; // DON'T ACCIDENTALLY UNCOMMENT IN REBASE/MERGE!
             RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
             [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress]];
 		}
