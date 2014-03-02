@@ -75,7 +75,7 @@ static float const kAppearanceTime = 0.5; // Time for the grey background to app
 static float const kFlyInTime = 0.3; // Time for the disks to appear from the center
 static float const kBounceTime = 0.10; // Time for the disks to bounce back
 static float const kProgressSpeed = 0.8; // Max progress increase per second
-static float const kProgressThreshold = 0.05; // Minimum required progress before animation is triggered
+static float const kProgressThreshold = 0.01; // Minimum required progress before animation is triggered
 static float const kFlyOutTime = 0.3; // Time for the outer disk to disappear to the edges
 static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white background to fade out
 
@@ -107,12 +107,11 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     }
 
     CFTimeInterval animationsEndTime = MAX(0, animationsEndMediaTime - CACurrentMediaTime());
+    RCLog(@"Disabled all progress views, animations end in %.2fs", animationsEndTime);
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, animationsEndTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, animationsEndTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         completionBlock();
     });
-    RCLog(@"Disabled all progress views, animations end in %.2fs", animationsEndTime);
 }
 
 
@@ -186,10 +185,12 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 // PROBLEM: waiting for animation, everything is blocked, and then certain items complete and on reload they
 // are not albumUploadingPhotos anymore. Is this really a problem? Maybe we can keep track of the photoId for a while
+// NOTE: probably won't happen often, animations are short and adding to album takes some time.
 
 // TODO: Check if appearance on init always works, or we need to call a specific appear method from the controller. (test in Button 12 doesn't seem to allow animation (even though we don't need one there)
 
 // TODO: we may miss a few progress update while out of view. Ok? (causes animations when scrolled back into view) Maybe we don't want to animate progress between view instances, only appear and flyout
+// this means we need to pass the current upload status on appear
 
 // TODO: check weak property and cover case that it is null/nil (shouldn't occur)
 // TODO: remove NSSet from gridviewcontroller
@@ -197,8 +198,13 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // TODO: check if weak hash table works as expected (objects are removed after releasing them)
 // TODO: check reuse and reset
 // TODO: check if removed unterminated transaction in keyframe animation is okay
-// TODO: what if photos complete their upload when not visible?
-// TODO BEFORE MERGING WITH PARALLEL UPLOAD: on completion in uploader, set to 100%
+// TODO: figure out speed: too fast looks bad for small steps. Too slow looks bad for large steps. Maybe let speed depend on step size, but not constant time
+
+// TODO: comment logs
+
+// TODO BEFORE MERGING WITH PARALLEL UPLOAD: on completion in uploader, set to 100% (check if still necessary)
+//  Remove addingToAlbums notification. Causes an impossibled double reload where the animation is started just after the second reload is initiated, so there won't be a delay and the appear animation will be interrupted and not restored.
+//  NOTE: Maybe not possible, sometimes uploading photos don't show up then...
 
 // on setProgress, check appear and flyIn
 
@@ -295,16 +301,19 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 
 // TODO: call this one setup or something, maybe combine with reset
-- (void)appearWithProgressObject:(id)progressObject
+- (void)appearWithProgress:(float)progress object:(id)progressObject
 {
     progressObject_ = progressObject;
-    RCLog(@"Appear with progressObject:\n%@ %d", progressObject_, [self didAppear]);
-    if (![self didAppear]) {
-        [self animateAppear];
-        [self setDidAppear:YES];
+    RCLog(@"Appear with progress %f progressObject:\n%@ didAppear %@ opacity %f", progress, progressObject_, showBool([self didAppear]), progressLayer_.opacity);
+    if (![self didAppear] || progress > 0.999999) {
+        progressLayer_.opacity = 0.0;
+        //[self animateAppear];
+        //[self setDidAppear:YES];
+        return;
     } else {
         progressLayer_.opacity = kOpacity;
-        progressLayer_.path = [self createProgressPathWithProgress:[self getCachedProgress]];
+
+        //progressLayer_.path = [self createProgressPathWithProgress:[self getCachedProgress]];
     }
     // TODO: no flyin, only do that on setProgress
     // what happens if there's no flyin, but progress was set to 1 already?
@@ -333,14 +342,15 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 - (void)setProgress:(float)progress
 {
     RCLog(@"SetProgress%@ from %.2f to %.2f for progressObject %@", [self isDisabled] ? @" (disabled)" : @"", [self getCachedProgress], progress, progressObject_);
+    if (![self didAppear]) { // appear here, because appearWithProgress is called twice in succession without possibility for delay
+        [self animateAppear];
+        [self setDidAppear:YES];
+    }
 
-    if (![self isDisabled]) {
+    if (![self isDisabled] && progress - [self getCachedProgress] > 0.000001) {
         progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
         RCLog(@"didAppear %@ didFlyIn %@ didFlyOut %@", showBool([self didAppear]), showBool([self didFlyIn]), showBool([self didFlyOut]));
-        if (![self didAppear]) {
-            [self animateAppear];
-            [self setDidAppear:YES];
-        }
+
         if (![self didFlyIn]) {
             [self animateFlyIn];
             [self setDidFlyIn:YES];

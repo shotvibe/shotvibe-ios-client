@@ -518,6 +518,7 @@ enum RefreshStatus
         [listener onAlbumContentsBeginRefresh:albumId];
         [listener onAlbumContentsRefreshComplete:albumId albumContents:updatedContents];
     }
+    RCLog(@"Finished refresh by photoUploadAdditions");
 }
 
 - (void)photoUploadProgress:(int64_t)albumId
