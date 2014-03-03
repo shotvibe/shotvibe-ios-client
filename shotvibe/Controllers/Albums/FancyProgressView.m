@@ -183,6 +183,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     [self getCachedProgressModel].progress = cachedProgress;
 }
 
+
 // PROBLEM: waiting for animation, everything is blocked, and then certain items complete and on reload they
 // are not albumUploadingPhotos anymore. Is this really a problem? Maybe we can keep track of the photoId for a while
 // NOTE: probably won't happen often, animations are short and adding to album takes some time.
@@ -304,7 +305,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
         //progressLayer_.opacity = 0.0;
         RCLog(@"AnimateAppear");
         [self animateAppear];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kAppearanceTime/2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kAppearanceTime / 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             [self setDidAppear:YES];
             // Rather hacky way to deal with multiple successive reload events at the start.
             // May lead to partially double appear animations in rare cases.
@@ -313,22 +314,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     } else {
         RCLog(@"Setting opacity to non-transparent");
         progressLayer_.opacity = kOpacity;
-
     }
-    // TODO: no flyin, only do that on setProgress
-    // what happens if there's no flyin, but progress was set to 1 already?
-
-    // Maybe need to keep setting cachedProgress even when disabled, otherwise we may miss updates to 1.0
-
-    /*
-     Possible situations:
-     notAppear (fresh)
-     appeared, no progress (so no flyin)
-     progress between 0 and 0.999
-     ..
-     flown out
-
-     */
 
     if ([self getCachedProgress] < 0.999999 && [self didFlyIn]) {
         progressLayer_.opacity = kOpacity;
@@ -342,13 +328,6 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 {
     RCLog(@"SetProgress%@ from %.2f to %.2f for progressObject %@", [self isDisabled] ? @" (disabled)" : @"", [self getCachedProgress], progress, progressObject_);
     if (![self isDisabled]) {
-/*
-        if (![self didAppear]) { // appear here, because appearWithProgress is called twice in succession without possibility for delay
-            RCLog(@"Animate appear started");
-            [self animateAppear];
-            [self setDidAppear:YES];
-        }
-*/
         if (progress - [self getCachedProgress] > 0.000001) {
             progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
             //RCLog(@"didAppear %@ didFlyIn %@ didFlyOut %@", showBool([self didAppear]), showBool([self didFlyIn]), showBool([self didFlyOut]));
@@ -371,48 +350,11 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
                     [self setDidFlyOut:YES];
                 }
             }
-
-
-            /*
-             float oldProgress = _progress;
-             _progress = progress;
-             if (animated) {
-             if (fequal(progress, oldProgress)) {
-             return;
-             }
-
-             // 0.0 will not occur, since oldProgress will also be 0.0
-             if (oldProgress < 0.000001) {
-             [self animateFlyIn];
-             }
-             [self animateProgressFrom:oldProgress to:progress];
-             if (progress > 0.999999) {
-             [self animateFlyOut];
-             }
-             } else { // not animated
-             [progressLayer_ removeAllAnimations];
-
-             if (progress < 0.000001) {
-             [self executeWithoutImplicitAnimation:^{
-             progressLayer_.opacity = kOpacity;
-             progressLayer_.path = [self createBackgroundRectangle].CGPath;
-             }];
-             } else if (progress < 0.999999) {
-             [self executeWithoutImplicitAnimation:^{
-             progressLayer_.opacity = kOpacity;
-             progressLayer_.path = [self createProgressPathWithProgress:_progress];
-             }];
-             } else {
-             [self executeWithoutImplicitAnimation:^{
-             progressLayer_.opacity = 0.0;
-             }];
-             }
-             }
-             */
         }
         //RCLog(@"End setProgress");
     }
 }
+
 
 #pragma mark - Animations
 
@@ -579,7 +521,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // Return the time at which all current animations end.
 - (CFTimeInterval)currentAnimationsEndTime
 {
-    return MAX(getCurrentAnimationsEndTimeForLayer(self.layer),getCurrentAnimationsEndTimeForLayer(progressLayer_));
+    return MAX(getCurrentAnimationsEndTimeForLayer(self.layer), getCurrentAnimationsEndTimeForLayer(progressLayer_));
 }
 
 

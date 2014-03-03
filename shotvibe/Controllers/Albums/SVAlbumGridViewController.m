@@ -142,7 +142,9 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 		albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
 		//[self setAlbumContents:contents];
 	}
+    RCLog(@"viewWillAppear initiates refresh");
 	[self.albumManager refreshAlbumContents:self.albumId];
+    RCLog(@"after viewWillAppear refresh");
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -544,7 +546,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"ss.A"];
     __block NSString *timeStamp = [formatter stringFromDate:[NSDate date]];
-    RCLog(@"About to delay reload at %@",timeStamp);
+    RCLog(@"About to delay reload at %@", timeStamp);
     [FancyProgressView disableProgressViewsWithCompletion:^() {
         RCLog(@"Completing delayed reload from %@", timeStamp);
         // TODO: we may queue up a couple of reloads that could be optimized to one
