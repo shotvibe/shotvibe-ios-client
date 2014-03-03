@@ -212,7 +212,7 @@ static const NSTimeInterval RETRY_TIME = 5;
     // Stage 1, upload low-res version of photo
     [shotVibeAPI_ photoUploadAsync:photo.photoId filePath:lowResFilePath isFullRes:NO progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         RCLog(@"Task progress: photo %@ %.2f %.1fk", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend, totalBytesExpectedToSend / 1024.0);
-        [photo setUploadProgress:(int)totalBytesSent bytesTotal:(int)totalBytesExpectedToSend];
+        [photo setUploadProgress:(float)totalBytesSent/(float)totalBytesExpectedToSend];
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoUploadProgress:photo.albumId];
         });
@@ -240,7 +240,8 @@ static const NSTimeInterval RETRY_TIME = 5;
     [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as AddingToAlbum in ShotVibeDB
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [listener_ photoUploadComplete:photo.albumId]; // Remove progress bars in the UI
+        [photo setUploadProgress:1.0];
+        [listener_ photoUploadProgress:photo.albumId];
     });
 
     @synchronized(self) { // move photo from uploading to uploaded

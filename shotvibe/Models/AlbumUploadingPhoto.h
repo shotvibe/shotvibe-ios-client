@@ -37,7 +37,7 @@ typedef NS_ENUM (NSInteger, UploadStatus) {
 
 - (float)getUploadProgress;
 
-- (void)setUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal;
+- (void)setUploadProgress:(float)uploadProgress;
 
 - (void)prepareTmpFiles:(dispatch_queue_t)dispatchQueue;
 

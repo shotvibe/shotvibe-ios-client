@@ -14,8 +14,6 @@
 
 - (void)photoUploadProgress:(int64_t)albumId;
 
-- (void)photoUploadComplete:(int64_t)albumId;
-
 - (void)photoAlbumAllPhotosUploaded:(int64_t)albumId;
 
 - (void)photoUploadError:(NSError *)error;

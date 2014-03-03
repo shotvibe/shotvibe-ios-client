@@ -76,10 +76,10 @@
     }
 }
 
-- (void)setUploadProgress:(int)bytesUploaded bytesTotal:(int)bytesTotal
+- (void)setUploadProgress:(float)uploadProgress
 {
     @synchronized (lock_) {
-        uploadProgress_ = (float)bytesUploaded / (float)bytesTotal;
+        uploadProgress_ = uploadProgress;
     }
 }
 

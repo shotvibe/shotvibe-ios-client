@@ -533,17 +533,6 @@ enum RefreshStatus
     }
 }
 
-- (void)photoUploadComplete:(int64_t)albumId
-{
-    AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
-    if (!data) {
-        return;
-    }
-
-    for(id<AlbumContentsListener> listener in data.listeners) {
-        [listener onAlbumContentsPhotoUploadProgress:albumId];
-    }
-}
 
 - (void)photoAlbumAllPhotosUploaded:(int64_t)albumId
 {
