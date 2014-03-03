@@ -10,6 +10,10 @@
 
 @interface Util : NSObject
 
++ (float)screenHeight;
+
++ (float)screenWidth;
+
 NSString * showBool(BOOL b);
 
 // For example for showing the result of NSURLConnection requests

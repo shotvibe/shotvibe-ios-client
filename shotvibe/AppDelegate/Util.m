@@ -10,6 +10,19 @@
 
 @implementation Util
 
+
++ (float)screenWidth
+{
+    return [[UIScreen mainScreen] bounds].size.width;
+}
+
+
++ (float)screenHeight
+{
+    return [[UIScreen mainScreen] bounds].size.height;
+}
+
+
 NSString *showBool(BOOL b)
 {
 	return b ? @"YES" : @"NO";
