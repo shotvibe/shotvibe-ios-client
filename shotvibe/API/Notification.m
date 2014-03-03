@@ -77,6 +77,9 @@ const float kDefaultShowTime = 1.0; // (not used for ShotVibe)
 
 + (void)notify:(NSString *)notificationStr withMessage:(NSString *)message isError:(BOOL)isError onViewController:(UIViewController *)viewController atYPercentage:(float)y withShowtime:(float)aShowtime withWidth:(float)width
 {
+    RCLog(@"%@: %@\n%@", isError ? @"ERROR" : @"Notify", notificationStr, message);
+    // Only show notifications on non-release builds
+#if !CONFIGURATION_Release
     dispatch_async(dispatch_get_main_queue(), ^{
         Notification *notification = [Notification sharedNotification];
         notification.yPercentage = y;
@@ -86,7 +89,6 @@ const float kDefaultShowTime = 1.0; // (not used for ShotVibe)
         notification.parentViewController = viewController; // for determining correct interfaceOrientation
 
 
-        RCLog(@"%@: %@\n%@", isError ? @"ERROR" : @"Notify", notificationStr, message);
 
         [notification.textView setFrameSize:CGSizeMake(width, 1000.0)]; // set the width (and dummy height), so it is taken into account by the height computation
 
@@ -112,6 +114,7 @@ const float kDefaultShowTime = 1.0; // (not used for ShotVibe)
         notification.alpha = ALPHA;
         [UIView commitAnimations];
     });
+#endif
 }
 
 
