@@ -66,8 +66,6 @@
 		[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 	}
 	
-	//CGRect inf = self.view.frame;
-	self.view.frame = [UIScreen mainScreen].bounds;
 	self.tableView.delegate = self;
 	[self.tableView setAllowsSelection:YES];
 	
@@ -114,7 +112,6 @@
 		}
 	}];
 }
-
 
 
 #pragma mark - Actions
@@ -398,6 +395,12 @@
 
 - (BOOL) resignFirstResponder {
 	return [self.searchBar resignFirstResponder];
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.superview.frame.size.height - self.view.superview.frame.origin.y);
 }
 
 
