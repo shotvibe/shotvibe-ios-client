@@ -102,7 +102,7 @@ typedef enum {
     if (self.leftMenuContainer) return;
     
     self.leftMenuContainer = [[UIView alloc] init];
-    self.rightMenuContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 270, 640)];
+    self.rightMenuContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 270, [UIScreen mainScreen].applicationFrame.size.height)];
     
     self.menuState = MFSideMenuStateClosed;
     self.menuWidth = 270.0f;
