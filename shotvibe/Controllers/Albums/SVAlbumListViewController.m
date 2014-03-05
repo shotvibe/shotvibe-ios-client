@@ -103,15 +103,15 @@
 	self.dropDownContainer.frame = CGRectMake(8, -134, self.dropDownContainer.frame.size.width, 134);
 	
 	// Setup titleview
-    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
-    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
-    [titleContainer addSubview:titleView];
-    titleContainer.backgroundColor = [UIColor clearColor];
-    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
-    self.navigationItem.titleView = titleContainer;
+//    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
+//    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
+//    [titleContainer addSubview:titleView];
+//    titleContainer.backgroundColor = [UIColor clearColor];
+//    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
+//    self.navigationItem.titleView = titleContainer;
     
     // Setup menu button
-    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconProfile.png"]
+    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"IconProfile.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
 																   style:UIBarButtonItemStyleBordered
 																  target:self
 																  action:@selector(profilePressed)];
@@ -148,7 +148,7 @@
 
 - (void)updateNetworkStatusNavBar
 {
-    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSettings.png"]
+    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"IconSettings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                                                          style:UIBarButtonItemStyleBordered
                                                                         target:self
                                                                         action:@selector(settingsPressed)];
@@ -158,7 +158,7 @@
                                                    managementButton,
                                                    nil];
     } else {
-        UIBarButtonItem *notConnectedButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconNotConnected.png"]
+        UIBarButtonItem *notConnectedButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"IconNotConnected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                                                                style:UIBarButtonItemStyleBordered
                                                                               target:self
                                                                               action:@selector(notConnectedPressed)];
@@ -212,7 +212,7 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
+	return UIStatusBarStyleDefault;
 }
 
 

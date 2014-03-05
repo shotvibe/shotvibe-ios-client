@@ -17,8 +17,8 @@
 	
     if (IS_IOS7) {
 		
-		[[UINavigationBar appearance] setBarTintColor:BLUE];
-		[[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, nil]];
+		//[[UINavigationBar appearance] setBarTintColor:BLUE];
+		//[[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, nil]];
 	}
 	else {
         UIImage *baseImage = [UIImage imageNamed:@"navBarBg.png"];
@@ -34,7 +34,7 @@
     [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];*/
     if (IS_IOS7) {
 		
-		[[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+		//[[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
 	}
 	else {
         UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
