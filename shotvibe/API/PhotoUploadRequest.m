@@ -87,8 +87,10 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 
 - (void)saveToFiles
 {
-    [self saveToFileLowRes];
-    [self saveToFileFullRes];
+    @autoreleasepool { // Make sure the memory is released after photo save with this autoreleasepool
+        [self saveToFileLowRes];
+        [self saveToFileFullRes];
+    }
 }
 
 
@@ -169,6 +171,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 }
 
 
+// TODO: If we need to save more memory, refactor to share croppedImage with saveToFileFullRes
 - (void)saveToFileLowRes
 {
     // saveToFileLowRes is easier than saveToFileFullRes, since we don't need the exact original image data,
