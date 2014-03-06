@@ -16,44 +16,40 @@
 - (void)configureAppearanceProxies {
 	
     if (IS_IOS7) {
-		
-		//[[UINavigationBar appearance] setBarTintColor:BLUE];
-		//[[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, nil]];
-	}
-	else {
+        //[[UINavigationBar appearance] setBarTintColor:BLUE];
+        //[[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, nil]];
+    } else {
         UIImage *baseImage = [UIImage imageNamed:@"navBarBg.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
         UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
-        
+
         [[UINavigationBar appearance] setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
-		[[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont, nil]];
-	}
+        [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont, nil]];
+    }
     
     // Customize back barbuttonitem for nav bar
     /*[[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];*/
     if (IS_IOS7) {
-		
-		//[[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
-	}
-	else {
+        //[[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+    } else {
         UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 5);
         UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-        
+
         [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
         [[UIBarButtonItem appearance] setBackButtonBackgroundImage:resizableImage forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-		
-		[[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(-10,0) forBarMetrics:UIBarMetricsDefault];
-		
-		// Customize regular barbuttonitem for navbar
-		[[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
-															  UITextAttributeTextColor,
-															  [UIColor clearColor],
-															  UITextAttributeTextShadowColor,
-															  [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0],
-															  UITextAttributeFont, nil]
-													forState:UIControlStateNormal];
+
+        [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(-10, 0) forBarMetrics:UIBarMetricsDefault];
+
+        // Customize regular barbuttonitem for navbar
+        [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+                                                              UITextAttributeTextColor,
+                                                              [UIColor clearColor],
+                                                              UITextAttributeTextShadowColor,
+                                                              [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0],
+                                                              UITextAttributeFont, nil]
+                                                    forState:UIControlStateNormal];
     }
 	
     //[[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:3.0 forBarMetrics:UIBarMetricsDefault];

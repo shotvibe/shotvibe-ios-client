@@ -211,8 +211,9 @@
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleDefault;
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
 }
 
 

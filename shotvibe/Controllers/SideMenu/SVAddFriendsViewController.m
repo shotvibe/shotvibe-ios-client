@@ -108,8 +108,10 @@
     [self.albumManager.phoneContactsManager setListenerWithSLPhoneContactsManager_Listener:self];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleDefault;
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
 }
 
 #pragma mark -

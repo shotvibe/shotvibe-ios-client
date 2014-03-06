@@ -558,6 +558,8 @@
 		3E0CC9E218B63E1F00F6089A /* SVPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DA18B63E1F00F6089A /* SVPickerController.m */; };
 		3E0CC9E318B63E1F00F6089A /* SVPictureConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DC18B63E1F00F6089A /* SVPictureConfirmViewController.m */; };
 		3E0CC9E418B63E1F00F6089A /* SVPictureConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DD18B63E1F00F6089A /* SVPictureConfirmViewController.xib */; };
+		3ED9A9D418C772890045207D /* SafariForward.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED9A9D218C772890045207D /* SafariForward.png */; };
+		3ED9A9D518C772890045207D /* SafariForward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED9A9D318C772890045207D /* SafariForward@2x.png */; };
 		66013226187F4E670042047B /* IOSArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131AF187F4E670042047B /* IOSArray.m */; };
 		66013227187F4E670042047B /* IOSArrayClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131B1187F4E670042047B /* IOSArrayClass.m */; };
 		66013228187F4E670042047B /* IOSBooleanArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131B3187F4E670042047B /* IOSBooleanArray.m */; };
@@ -1466,6 +1468,8 @@
 		3E0CC9DB18B63E1F00F6089A /* SVPictureConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPictureConfirmViewController.h; path = Camera/SVPictureConfirmViewController.h; sourceTree = "<group>"; };
 		3E0CC9DC18B63E1F00F6089A /* SVPictureConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPictureConfirmViewController.m; path = Camera/SVPictureConfirmViewController.m; sourceTree = "<group>"; };
 		3E0CC9DD18B63E1F00F6089A /* SVPictureConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVPictureConfirmViewController.xib; path = Camera/SVPictureConfirmViewController.xib; sourceTree = "<group>"; };
+		3ED9A9D218C772890045207D /* SafariForward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SafariForward.png; sourceTree = "<group>"; };
+		3ED9A9D318C772890045207D /* SafariForward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SafariForward@2x.png"; sourceTree = "<group>"; };
 		660131AE187F4E670042047B /* IOSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArray.h; sourceTree = "<group>"; };
 		660131AF187F4E670042047B /* IOSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSArray.m; sourceTree = "<group>"; };
 		660131B0187F4E670042047B /* IOSArrayClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArrayClass.h; sourceTree = "<group>"; };
@@ -2624,6 +2628,8 @@
 		2897383217A1C08D003B18D3 /* cells related */ = {
 			isa = PBXGroup;
 			children = (
+				3ED9A9D218C772890045207D /* SafariForward.png */,
+				3ED9A9D318C772890045207D /* SafariForward@2x.png */,
 				042E285517309857003BA9CF /* imageUnselected@2x.png */,
 				042E285617309857003BA9CF /* imageUnselected.png */,
 				042E285717309857003BA9CF /* imageSelected@2x.png */,
@@ -3623,6 +3629,7 @@
 				04C406BF1730303600973BC0 /* JM.png in Resources */,
 				04C406C11730303600973BC0 /* JO.png in Resources */,
 				04C406C31730303600973BC0 /* JP.png in Resources */,
+				3ED9A9D518C772890045207D /* SafariForward@2x.png in Resources */,
 				04C406C51730303600973BC0 /* KE.png in Resources */,
 				04C406C71730303600973BC0 /* KG.png in Resources */,
 				04C406C91730303600973BC0 /* KH.png in Resources */,
@@ -3834,6 +3841,7 @@
 				2849A79917D9AA580076AFBA /* cameraCancelButton@2x.png in Resources */,
 				2849A79A17D9AA580076AFBA /* cameraCaptureButton-Vertical.png in Resources */,
 				2849A79B17D9AA580076AFBA /* cameraCaptureButton-Vertical@2x.png in Resources */,
+				3ED9A9D418C772890045207D /* SafariForward.png in Resources */,
 				2849A79C17D9AA580076AFBA /* cameraCaptureButton.png in Resources */,
 				66278CE21867C62300D23F34 /* SVActivityViewController.xib in Resources */,
 				2849A79D17D9AA580076AFBA /* cameraCaptureButton@2x.png in Resources */,
