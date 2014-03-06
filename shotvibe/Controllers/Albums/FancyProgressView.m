@@ -326,7 +326,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 - (void)setProgress:(float)progress
 {
-    RCLog(@"SetProgress%@ from %.2f to %.2f for progressObject %@", [self isDisabled] ? @" (disabled)" : @"", [self getCachedProgress], progress, progressObject_);
+    //RCLog(@"SetProgress%@ from %.2f to %.2f for progressObject %@", [self isDisabled] ? @" (disabled)" : @"", [self getCachedProgress], progress, progressObject_);
     if (![self isDisabled]) {
         if (progress - [self getCachedProgress] > 0.000001) {
             progress = MAX(0.0, MIN(progress, 1.0)); // keep progress between 0.0 and 1.0
@@ -533,7 +533,7 @@ static CFTimeInterval getCurrentAnimationsEndTimeForLayer(CALayer *layer)
     for (NSString *key in allAnimationKeys) {
         CAAnimation *anim = [layer animationForKey:key];
         CFTimeInterval beginTime = anim.beginTime ? : CACurrentMediaTime(); // if there's no begin time, the animation is about to be started
-        RCLog(@"Animation Key:%@ begin:%f duration:%f ends in:%.2fs", key, anim.beginTime, anim.duration, anim.duration - (CACurrentMediaTime() - anim.beginTime));
+        //RCLog(@"Animation Key:%@ begin:%f duration:%f ends in:%.2fs", key, anim.beginTime, anim.duration, anim.duration - (CACurrentMediaTime() - anim.beginTime));
         endTime = MAX(endTime, beginTime + anim.duration);
     }
 
