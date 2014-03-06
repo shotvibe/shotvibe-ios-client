@@ -93,6 +93,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     return allProgressViews;
 }
 
+
 // Disables all progress views until animations have finished, after which completionBlock is executed on the main thread.
 + (void)disableProgressViewsWithCompletion:(void (^)())completionBlock
 {
