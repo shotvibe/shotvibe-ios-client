@@ -102,6 +102,14 @@
 }
 
 
+// TODO: Temporary, until we store UploadingAlbumPhotos in the database
+// Return YES if the file was saved and we can all -[AlbumUploadingPhoto getFullResFileName] without blocking.
+- (BOOL)isFullResSaved
+{
+    return [photoUploadRequest_ getFullResFilename] != nil;
+}
+
+
 - (NSString *)getLowResFilename
 {
     dispatch_semaphore_wait(tmpFilesSaved, DISPATCH_TIME_FOREVER);

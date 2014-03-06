@@ -98,7 +98,8 @@ static const NSTimeInterval RETRY_TIME = 5;
         shotVibeAPI_ = shotVibeAPI;
         listener_ = listener;
 
-        photoSaveQueue_ = dispatch_queue_create(NULL, NULL);
+        // dedicated photoSaveQueue to prevent parallel photo saves (which would take up too much memory)
+        photoSaveQueue_ = dispatch_queue_create("ShotVibe.photoSaveQueue", NULL);
 
         photoIds_ = [[NSMutableArray alloc] init];
 
@@ -135,15 +136,18 @@ static const NSTimeInterval RETRY_TIME = 5;
         [listener_ photoUploadAdditions:albumId]; // Show the newly created UploadingAlbumPhotos in the UI.
     });
 
+    // On a separate queue, store the photo uploads as soon as they are available. We don't want this to wait on any network connection for requesting ids.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
-            if ([photo getLowResFilename] && [photo getLowResFilename]) { // force save, won't fail, just block
+            if ([photo getFullResFilename] && [photo getLowResFilename]) { // force save, won't fail, just block
                 [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as WaitingForId in ShotVibeDB
             } else {
                 RCLog(@"INTERNAL ERROR: tmp file(s) empty");
             }
         }
+    });
 
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [self uploadPhotosWithoutIds:newAlbumUploadingPhotos];
 
         RCLog(@"Initiate-uploads background task %d ended", initiateUploadsBackgroundTaskID);
@@ -205,9 +209,8 @@ static const NSTimeInterval RETRY_TIME = 5;
 // *INDENT-OFF* Uncrustify block problem: https://github.com/bengardner/uncrustify/pull/233
 - (void)startFirstStagePhotoUpload:(AlbumUploadingPhoto *)photo backgroundTaskID:(UIBackgroundTaskIdentifier)photoUploadBackgroundTaskID
 {
-    RCLog(@"START first-stage upload for %@", showShortPhotoId(photo.photoId));
-
     NSString *lowResFilePath = [photo getLowResFilename]; // Will block until the photo has been saved
+    RCLog(@"START first-stage upload for %@", showShortPhotoId(photo.photoId));
 
     // Stage 1, upload low-res version of photo
     [shotVibeAPI_ photoUploadAsync:photo.photoId filePath:lowResFilePath isFullRes:NO progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
@@ -539,12 +542,17 @@ NSString * showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
 }
 
 
+/* For simplicity, we store ALL uploading photos EVERY time this method is called, rather than storing them one at a time and updating them in place in the file. As a consequence, we need isFullResSaved to prevent blocking on saves that are not ready yet. This will be remedied once we store the AlbumUploadingPhotos in the database (using the filename as a key, since the id's are not present at the start) */
 - (void)storeUnfinishedUploads
 {
     NSArray *albumUploadingPhotos = [self getAllUploadingPhotos];
-    RCLog(@"Storing %d unfinished uploads:", [albumUploadingPhotos count]);
-    logUploads(albumUploadingPhotos);
-    [NSKeyedArchiver archiveRootObject:albumUploadingPhotos toFile:[AlbumUploadingPhoto getUnfinishedUploadsFilePath]];
+    NSArray *albumUploadingPhotosWithFilename = [albumUploadingPhotos filteredArrayUsingPredicate:
+                                                 [NSPredicate predicateWithBlock:^(AlbumUploadingPhoto *photo, NSDictionary *bindings) {
+        return [photo isFullResSaved];
+    }]];
+    RCLog(@"Storing %d unfinished uploads:", [albumUploadingPhotosWithFilename count]);
+    logUploads(albumUploadingPhotosWithFilename);
+    [NSKeyedArchiver archiveRootObject:albumUploadingPhotosWithFilename toFile:[AlbumUploadingPhoto getUnfinishedUploadsFilePath]];
 }
 
 

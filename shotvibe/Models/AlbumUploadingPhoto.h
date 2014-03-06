@@ -43,6 +43,7 @@ typedef NS_ENUM (NSInteger, UploadStatus) {
 
 - (NSString *)getLowResFilename;
 - (NSString *)getFullResFilename;
+- (BOOL)isFullResSaved;
 
 - (UIImage *)getThumbnail;
 
