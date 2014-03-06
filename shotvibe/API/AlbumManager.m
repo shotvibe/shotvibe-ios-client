@@ -26,6 +26,8 @@
 #import "SL/AuthData.h"
 #import "IosHTTPLib.h"
 #import "IosDevicePhoneContactsLib.h"
+#import "ShotVibeAppDelegate.h"
+#import "Notification.h"
 
 enum RefreshStatus
 {
@@ -99,12 +101,15 @@ enum RefreshStatus
 
 - (void)initPhoneContactsManager
 {
+    ShotVibeAppDelegate *app = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+
     SLAuthData *authData2 = [[SLAuthData alloc] initWithLong:shotvibeAPI.authData.userId
                                                 withNSString:shotvibeAPI.authData.authToken
                                                 withNSString:shotvibeAPI.authData.defaultCountryCode];
 
     id <SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
     SLShotVibeAPI *shotvibeAPI2 = [[SLShotVibeAPI alloc] initWithSLHTTPLib:httpLib
+                                                withSLNetworkStatusManager:app.networkStatusManager
                                                             withSLAuthData:authData2];
     id <SLDevicePhoneContactsLib> devicePhoneContactsLib = [[IosDevicePhoneContactsLib alloc] init];
 
@@ -165,7 +170,7 @@ enum RefreshStatus
                     refreshStatus = IDLE;
                 });
 
-                NSLog(@"### AlbumManager.refreshAlbumList: ERROR in shotvibeAPI getAlbumsWithError:\n%@", exception.description);
+                [Notification notifyError:@"ERROR in AlbumManager" withMessage:[NSString stringWithFormat:@"refreshAlbumList: ERROR in shotvibeAPI getAlbumsWithError:\n%@", exception.description]];
 
                 // TODO Schedule to retry soon
                 return;
@@ -293,7 +298,7 @@ enum RefreshStatus
                     [self cleanAlbumContentsListeners:albumId];
                 });
 
-                RCLog(@"### AlbumManager.refreshAlbumContents: ERROR in shotvibeAPI getAlbumContents for %lld:\n%@", albumId, exception.description);
+                [Notification notifyError:@"ERROR in AlbumManager" withMessage:[NSString stringWithFormat:@"refreshAlbumContents: ERROR in shotvibeAPI getAlbumContents for %lld:\n%@", albumId, exception.description]];
                 // TODO Schedule to retry soon
                 return;
             }
@@ -453,7 +458,7 @@ enum RefreshStatus
             @try {
                 [shotvibeAPI markAlbumAsViewed:[album getId] lastAccess:lastAccess];
             } @catch (SLAPIException *exception) {
-                NSLog(@"### AlbumManager.markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", exception.description);
+                [Notification notifyError:@"ERROR in AlbumManager" withMessage:[NSString stringWithFormat:@"markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", exception.description]];
                 // TODO: handle error
             }
         });

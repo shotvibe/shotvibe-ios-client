@@ -12,7 +12,7 @@
 #import "java/util/Map.h"
 #import "java/lang/IllegalStateException.h"
 
-#import "SL/APIException.h"
+#import "SL/HTTPException.h"
 #import "SL/JSONObject.h"
 #import "SL/JSONArray.h"
 
@@ -20,6 +20,7 @@
 
 static SLHTTPResponse * sendRequest(NSString *method, NSString *url, id<JavaUtilMap> requestHeaders, NSData *body)
 {
+    CFAbsoluteTime requestStartTime = CFAbsoluteTimeGetCurrent();
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:method];
@@ -40,14 +41,26 @@ static SLHTTPResponse * sendRequest(NSString *method, NSString *url, id<JavaUtil
     RCLog(@"Send %@ request to %@", method, url);
     NSData *httpResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&httpResponse error:&httpError];
 
+    CFAbsoluteTime requestEndTime = CFAbsoluteTimeGetCurrent();
+    long long totalRequestTime = (requestEndTime - requestStartTime) * 1000;
     if (httpResponseData == nil) {
-        // TODO Add more info to exception
-        @throw [[SLAPIException alloc] initWithNSString:httpError.description];
+        @throw [[SLHTTPException alloc] initWithNSString:httpError.description
+                                            withNSString:httpError.localizedDescription
+                                                withLong:totalRequestTime
+                                            withNSString:method
+                                            withNSString:url
+                                     withJavaLangInteger:nil
+                                            withNSString:nil];
     }
 
     int statusCode = [httpResponse statusCode];
     NSDictionary *headers = [httpResponse allHeaderFields];
-    SLHTTPResponse *response = [[IosHTTPResponse alloc] initWithStatusCode:statusCode withBody:httpResponseData withHeaders:headers];
+    SLHTTPResponse *response = [[IosHTTPResponse alloc] initWithMethod:method
+                                                               withUrl:url
+                                                       withRequestTime:totalRequestTime
+                                                        withStatusCode:statusCode
+                                                              withBody:httpResponseData
+                                                           withHeaders:headers];
 
     return response;
 }

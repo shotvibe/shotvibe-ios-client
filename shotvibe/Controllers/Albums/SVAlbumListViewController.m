@@ -21,6 +21,7 @@
 #import "MFSideMenu.h"
 #import "MBProgressHUD.h"
 #import "SVNavigationController.h"
+#import "NetworkLogViewController.h"
 
 #import "SL/AlbumSummary.h"
 #import "SL/AlbumPhoto.h"
@@ -49,6 +50,8 @@
 	int total_header_h;
 	int status_bar_h;
 	int dropdown_origin_y;
+
+    BOOL networkOnline_;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *sectionHeader;
@@ -114,14 +117,6 @@
 																  action:@selector(profilePressed)];
     self.navigationItem.leftBarButtonItem = butProfile;
     
-    // Setup menu button
-    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSettings.png"]
-																		 style:UIBarButtonItemStyleBordered
-																		target:self
-																		action:@selector(settingsPressed)];
-    self.navigationItem.rightBarButtonItem = managementButton;
-    
-	
 	self.refreshControl = [[UIRefreshControl alloc] init];
 	if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[self.refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
@@ -139,12 +134,46 @@
 												 name:NOTIFICATIONCENTER_ALBUM_CHANGED
 											   object:nil];
 	
+    ShotVibeAppDelegate *app = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+    networkOnline_ = [app.networkStatusManager registerListenerWithSLNetworkStatusManager_Listener:self];
+    [self updateNetworkStatusNavBar];
+
 	RCLogTimestamp();
 	
 	if (IS_IOS7) {
 		[self setNeedsStatusBarAppearanceUpdate];
 	}
 }
+
+
+- (void)updateNetworkStatusNavBar
+{
+    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSettings.png"]
+                                                                         style:UIBarButtonItemStyleBordered
+                                                                        target:self
+                                                                        action:@selector(settingsPressed)];
+
+    if (networkOnline_) {
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:
+                                                   managementButton,
+                                                   nil];
+    } else {
+        UIBarButtonItem *notConnectedButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconNotConnected.png"]
+                                                                               style:UIBarButtonItemStyleBordered
+                                                                              target:self
+                                                                              action:@selector(notConnectedPressed)];
+
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:
+                                                   managementButton,
+                                                   notConnectedButton,
+                                                   nil];
+    }
+
+    if (IS_IOS7) {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+}
+
 
 - (void)viewWillAppear:(BOOL)animated {
 	
@@ -206,6 +235,13 @@
 
 
 #pragma mark - Actions
+
+
+- (void)notConnectedPressed
+{
+    [NetworkLogViewController showNetworkErrorDialog:self];
+}
+
 
 - (void)profilePressed {
 	tappedCell = nil;
@@ -817,7 +853,10 @@
 
 - (void)onAlbumListRefreshError:(SLAPIException *)exception
 {
-    // TODO ...
+    creatingAlbum = NO;
+    if (refreshManualy) {
+        [self endRefreshing];
+    }
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -833,6 +872,18 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:scrollView];
+}
+
+#pragma SLNetworkStatusManager_Listener Methods
+
+
+- (void)networkStatusChangedWithBoolean:(BOOL)networkOnline
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        networkOnline_ = networkOnline;
+
+        [self updateNetworkStatusNavBar];
+    });
 }
 
 

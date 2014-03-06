@@ -16,6 +16,10 @@
 
 @interface Util : NSObject
 
++ (float)screenHeight;
+
++ (float)screenWidth;
+
 NSString * showBool(BOOL b);
 
 NSString * showPoint(CGPoint point);

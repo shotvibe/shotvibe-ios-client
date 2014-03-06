@@ -318,6 +318,8 @@
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
 		1073F55E18B5001500FB9306 /* FancyProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073F55D18B5001500FB9306 /* FancyProgressView.m */; };
 		1073F55F18B5001500FB9306 /* FancyProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073F55D18B5001500FB9306 /* FancyProgressView.m */; };
+		106C344918C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
+		106C344A18C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
 		108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF051884083200757E36 /* NewRelicAgent.framework */; };
 		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
 		108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF091884087A00757E36 /* libz.dylib */; };
@@ -681,6 +683,9 @@
 		66278D161867CAD500D23F34 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66278D151867CAD500D23F34 /* MainStoryboard.storyboard */; };
 		66278D201867CDC100D23F34 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66278D1F1867CDC100D23F34 /* libAviarySDK.a */; };
 		66278D221867CDEC00D23F34 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */; };
+		663FF03418C24F7200CB3764 /* IconNotConnected.png in Resources */ = {isa = PBXBuildFile; fileRef = 663FF03218C24F7200CB3764 /* IconNotConnected.png */; };
+		663FF03518C24F7200CB3764 /* IconNotConnected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 663FF03318C24F7200CB3764 /* IconNotConnected@2x.png */; };
+		663FF03818C2C7D600CB3764 /* NetworkLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663FF03718C2C7D600CB3764 /* NetworkLogViewController.m */; };
 		664F4700188DBA69009F4776 /* IosHTTPLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 664F46FF188DBA69009F4776 /* IosHTTPLib.m */; };
 		664F4703188DBB76009F4776 /* IosHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 664F4702188DBB76009F4776 /* IosHTTPResponse.m */; };
 		664F4706189568B1009F4776 /* IosDevicePhoneContactsLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 664F4705189568B1009F4776 /* IosDevicePhoneContactsLib.m */; };
@@ -1060,6 +1065,8 @@
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
 		1073F55C18B5001500FB9306 /* FancyProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FancyProgressView.h; path = Albums/FancyProgressView.h; sourceTree = "<group>"; };
 		1073F55D18B5001500FB9306 /* FancyProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FancyProgressView.m; path = Albums/FancyProgressView.m; sourceTree = "<group>"; };
+		106C344718C4C27A006A5603 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notification.h; path = shotvibe/API/Notification.h; sourceTree = SOURCE_ROOT; };
+		106C344818C4C27A006A5603 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Notification.m; path = shotvibe/API/Notification.m; sourceTree = SOURCE_ROOT; };
 		1077E30E18A2768A00E9E9C5 /* AlbumBase.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumBase.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumBase.java; sourceTree = SOURCE_ROOT; };
 		1077E30F18A276BF00E9E9C5 /* AlbumContents.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumContents.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumContents.java; sourceTree = SOURCE_ROOT; };
 		1077E31018A276BF00E9E9C5 /* AlbumMember.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumMember.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumMember.java; sourceTree = SOURCE_ROOT; };
@@ -1717,6 +1724,10 @@
 		66278D1E1867CD9B00D23F34 /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPhotoEditorSession.h; path = shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorSession.h; sourceTree = SOURCE_ROOT; };
 		66278D1F1867CDC100D23F34 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAviarySDK.a; path = shotvibe/Vendor/AviarySDK/libAviarySDK.a; sourceTree = SOURCE_ROOT; };
 		66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AviarySDKResources.bundle; path = shotvibe/Vendor/AviarySDK/Resources/AviarySDKResources.bundle; sourceTree = SOURCE_ROOT; };
+		663FF03218C24F7200CB3764 /* IconNotConnected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconNotConnected.png; sourceTree = "<group>"; };
+		663FF03318C24F7200CB3764 /* IconNotConnected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconNotConnected@2x.png"; sourceTree = "<group>"; };
+		663FF03618C2C7D600CB3764 /* NetworkLogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkLogViewController.h; path = Albums/NetworkLogViewController.h; sourceTree = "<group>"; };
+		663FF03718C2C7D600CB3764 /* NetworkLogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkLogViewController.m; path = Albums/NetworkLogViewController.m; sourceTree = "<group>"; };
 		664F46FE188DBA69009F4776 /* IosHTTPLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosHTTPLib.h; path = shotvibe/API/IosHTTPLib.h; sourceTree = SOURCE_ROOT; };
 		664F46FF188DBA69009F4776 /* IosHTTPLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosHTTPLib.m; path = shotvibe/API/IosHTTPLib.m; sourceTree = SOURCE_ROOT; };
 		664F4701188DBB76009F4776 /* IosHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosHTTPResponse.h; path = shotvibe/API/IosHTTPResponse.h; sourceTree = SOURCE_ROOT; };
@@ -2579,6 +2590,8 @@
 		2897383117A1C068003B18D3 /* buttons */ = {
 			isa = PBXGroup;
 			children = (
+				663FF03218C24F7200CB3764 /* IconNotConnected.png */,
+				663FF03318C24F7200CB3764 /* IconNotConnected@2x.png */,
 				2849A80117D9AB970076AFBA /* IconProfile.png */,
 				2849A80217D9AB970076AFBA /* IconProfile@2x.png */,
 				2849A80317D9AB970076AFBA /* IconSettings.png */,
@@ -3000,6 +3013,8 @@
 			children = (
 				1073F55C18B5001500FB9306 /* FancyProgressView.h */,
 				1073F55D18B5001500FB9306 /* FancyProgressView.m */,
+				663FF03618C2C7D600CB3764 /* NetworkLogViewController.h */,
+				663FF03718C2C7D600CB3764 /* NetworkLogViewController.m */,
 				66278C761867C38300D23F34 /* PhotoImageView.h */,
 				66278C771867C38300D23F34 /* PhotoImageView.m */,
 				66278C781867C38300D23F34 /* PhotoScrollView.h */,
@@ -3168,6 +3183,8 @@
 		AA58FB3816C227F500C49E02 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				106C344718C4C27A006A5603 /* Notification.h */,
+				106C344818C4C27A006A5603 /* Notification.m */,
 				66278D151867CAD500D23F34 /* MainStoryboard.storyboard */,
 			);
 			name = Views;
@@ -3731,6 +3748,7 @@
 				04C407B51730303600973BC0 /* VC.png in Resources */,
 				04C407B71730303600973BC0 /* VE.png in Resources */,
 				04C407B91730303600973BC0 /* VG.png in Resources */,
+				663FF03418C24F7200CB3764 /* IconNotConnected.png in Resources */,
 				04C407BB1730303600973BC0 /* VI.png in Resources */,
 				04C407BD1730303600973BC0 /* VN.png in Resources */,
 				04C407BF1730303600973BC0 /* VU.png in Resources */,
@@ -3871,6 +3889,7 @@
 				2849A7F617D9AB420076AFBA /* AlbumInfoLeaveIcon@2x.png in Resources */,
 				2849A7F717D9AB420076AFBA /* AlbumInfoNotificationIcon.png in Resources */,
 				2849A7F817D9AB420076AFBA /* AlbumInfoNotificationIcon@2x.png in Resources */,
+				663FF03518C24F7200CB3764 /* IconNotConnected@2x.png in Resources */,
 				2849A7F917D9AB420076AFBA /* AlbumInfoShareIcon.png in Resources */,
 				2849A7FA17D9AB420076AFBA /* AlbumInfoShareIcon@2x.png in Resources */,
 				2849A7FB17D9AB420076AFBA /* ClosureIndicator.png in Resources */,
@@ -4089,12 +4108,14 @@
 				66278CAE1867C4D400D23F34 /* SVCameraNavController.m in Sources */,
 				6601322F187F4E670042047B /* IOSIntArray.m in Sources */,
 				108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */,
+				663FF03818C2C7D600CB3764 /* NetworkLogViewController.m in Sources */,
 				66278CE11867C62300D23F34 /* SVActivityViewController.m in Sources */,
 				3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */,
 				6601322C187F4E670042047B /* IOSConcreteClass.m in Sources */,
 				66278D0C1867C94900D23F34 /* ShotVibeAPI.m in Sources */,
 				66013236187F4E670042047B /* IOSShortArray.m in Sources */,
 				6601325B187F4E670042047B /* NSObject+JavaObject.m in Sources */,
+				106C344918C4C27A006A5603 /* Notification.m in Sources */,
 				66013242187F4E670042047B /* Error.m in Sources */,
 				66013258187F4E670042047B /* JreEmulation.m in Sources */,
 				3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */,
@@ -4212,6 +4233,7 @@
 				10C2DACC18B4E82E00F3C28A /* UploadSessionDelegate.m in Sources */,
 				AA58FB2C16C224E800C49E02 /* shotvibeTests.m in Sources */,
 				1073F55F18B5001500FB9306 /* FancyProgressView.m in Sources */,
+				106C344A18C4C27A006A5603 /* Notification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
