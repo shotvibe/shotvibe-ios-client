@@ -87,19 +87,20 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 
 - (void)saveToFiles
 {
-    @autoreleasepool { // Make sure the memory is released after photo save with this autoreleasepool
-        [self saveToFileLowRes];
+    @autoreleasepool { // This autoreleasepool ensures memory is released after each photo is saved
         [self saveToFileFullRes];
+        [self saveToFileLowRes];
     }
 }
 
 
 - (void)saveToFileFullRes
 {
-	// If the path already exists skip this step
+    // If the path already exists skip this step (the photo comes from the camera and was already saved)
     if (fullResFilePath_) {
 		return;
 	}
+    // otherwise, this request was initialized with an asset (coming from the image picker), which we need to save.
 	
     fullResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePathWithFilenameSuffix:@"_FullRes"];
 	
@@ -171,7 +172,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 }
 
 
-// TODO: If we need to save more memory, refactor to share croppedImage with saveToFileFullRes
+// PPRECONDITION: fullResFilePath_ is initialized.
 - (void)saveToFileLowRes
 {
     // saveToFileLowRes is easier than saveToFileFullRes, since we don't need the exact original image data,
@@ -180,13 +181,7 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
 
     UIImage *highResImage;
 
-    if (fullResFilePath_) { // if there's no file, then this request was initialized with an asset (coming from image picker)
-        highResImage = [UIImage imageWithContentsOfFile:fullResFilePath_];
-    } else {
-        ALAssetRepresentation *rep = [asset_ defaultRepresentation];
-        CGImageRef croppedImage = [rep fullResolutionImage];
-        highResImage = [UIImage imageWithCGImage:croppedImage scale:rep.scale orientation:(UIImageOrientation)rep.orientation];
-    }
+    highResImage = [UIImage imageWithContentsOfFile:fullResFilePath_];
 
     UIImage *lowResImage = [self fit:kLowResImageSize image:highResImage];
 
