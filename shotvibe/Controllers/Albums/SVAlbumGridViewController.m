@@ -550,6 +550,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     [FancyProgressView disableProgressViewsWithCompletion:^() {
         RCLog(@"Completing delayed reload from %@", timeStamp);
         // TODO: we may queue up a couple of reloads that could be optimized to one
+        [self sortThumbsBy:sort];
         [self.collectionView reloadData];
         [self updateEmptyState];
         RCLog(@"Completed delayed reload from %@", timeStamp);
@@ -603,13 +604,14 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         }
     });
 
-	[self sortThumbsBy:sort];
     [self disableProgressAndReloadData];
 }
 
 
 #pragma mark Sorting
 
+// TODO: messy code with silly name
+// NOTE: after calling sortThumbsBy, make sure to call [self.collectionView reloadData]
 - (void)sortThumbsBy:(SortType)sortType {
 	
 	sort = sortType;
@@ -686,7 +688,6 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 - (void)switchSortHandler:(UISegmentedControl*)control {
 	sort = control.selectedSegmentIndex;
-	[self sortThumbsBy:sort];
 	[[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 
