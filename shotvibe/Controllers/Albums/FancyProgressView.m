@@ -201,7 +201,6 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 }
 
 
-
 #pragma mark - FancyProgressView
 
 
@@ -248,9 +247,11 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 {
     RCLog(@"Reset progress view");
     [self.layer removeAllAnimations];
-    self.layer.opacity = 1.0;
     [progressLayer_ removeAllAnimations];
-    progressLayer_.opacity = 0.0;
+    [self executeWithoutImplicitAnimation:^{
+        self.layer.opacity = 1.0;
+        progressLayer_.opacity = 0.0;
+    }];
     progressLayer_.path = [self createBackgroundRectangle].CGPath;
 
     uniqueAnimationKeyCounter_ = 0;
@@ -259,12 +260,11 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 }
 
 
-// TODO: call this one setup or something, maybe combine with reset
 - (void)appearWithProgress:(float)progress object:(id)progressObject
 {
     progressObject_ = progressObject;
     RCLog(@"Appear with progress %f progressObject:\n%@ didAppear %@ opacity %f", progress, progressObject_, showBool([self didAppear]), progressLayer_.opacity);
-    if (progress > 0.999999) { // What can we break here?
+    if ([self didFlyOut]) {
         RCLog(@"Setting opacity to transparent");
         progressLayer_.opacity = 0.0;
         return;
@@ -280,8 +280,10 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
         });
         //return;
     } else {
-        RCLog(@"Setting opacity to non-transparent");
-        progressLayer_.opacity = kOpacity;
+        [self executeWithoutImplicitAnimation:^{
+            RCLog(@"Setting opacity to non-transparent");
+            progressLayer_.opacity = kOpacity;
+        }];
     }
 
     if ([self getCachedProgress] < 0.999999 && [self didFlyIn]) {
