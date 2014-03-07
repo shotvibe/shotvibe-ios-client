@@ -54,12 +54,31 @@
 
 @end
 
+// TODO before merge: disable logs
+
 /*
- Why this is so complicated:
- - When grid view reloads during an animation, it is cut off -> Need to keep track of animation durations and provide delay
-   Not even guaranteed to work, but good enough
- - View controller creates new cells all the time with new progress views. Cannot keep track of animation state (which are nec.?) -> Need to cache progress. Also need to guarantee that progress objects are kept the same (single AlbumUploadingPhoto for the lifetime of the upload) Can't use PhotoId's because they don't exist in the beginning
- */
+
+ These progress views are rather complicated due to the nature of the UIGridView, which creates new cells on each reload.
+ - When the grid view reloads during an animation, it is cut off.
+ Solution: We need to keep track of the animation durations and provide a delay function to postpone the reload until all current animations have finished.
+
+ - Because the cells are created anew, we cannot keep track of the animation state. This means that when scrolling a 0% upload in and out of view, it will show an appear animation each time it becomes visible.
+ Solution:
+ View controller creates new cells all the time with new progress views. Cannot keep track of animation state (which are nec.?) -> Need to cache progress. Also need to guarantee that progress objects are kept the same (single AlbumUploadingPhoto for the lifetime of the upload) Can't use PhotoId's because they don't exist in the beginning
+
+
+ Known issues:
+ Maybe need tweak the progress speed a bit: Too fast looks bad for small steps, too slow looks bad for large steps. Maybe let speed depend on step size, but not constant time
+
+ // TODO: we may miss a few progress update while out of view. Ok? (causes animations when scrolled back into view) Maybe we don't want to animate progress between view instances, only appear and flyout
+ // this means we need to pass the current upload status on appear
+
+ // TODO: explain that we assume one active view controller. otherwise need to group progress views on controller
+
+ // - Look at cell init again. Apparently I changed it to awakeFromNib in commit 360f6e5e56dc88376b0709761a2f48fa25c46094
+
+*/
+
 @implementation FancyProgressView {
     long long uniqueAnimationKeyCounter_;
     CAShapeLayer *progressLayer_;
@@ -88,7 +107,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     static NSHashTable *allProgressViews = nil;
 
     dispatch_once(&onceToken, ^{
-        allProgressViews = [NSHashTable weakObjectsHashTable];
+        allProgressViews = [NSHashTable weakObjectsHashTable]; // weak, so progress views are not kept after they disappear.
     });
     return allProgressViews;
 }
@@ -120,6 +139,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 #pragma mark - Progress cache
 
 
+// Lookup the cached progress model for this progress view, using its progressObject_ as a key. Create a new one if it didn't exist yet.
 - (CachedProgressModel *)getCachedProgressModel
 {
     @synchronized(self) {
@@ -185,59 +205,6 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 }
 
 
-// PROBLEM: waiting for animation, everything is blocked, and then certain items complete and on reload they
-// are not albumUploadingPhotos anymore. Is this really a problem? Maybe we can keep track of the photoId for a while
-// NOTE: probably won't happen often, animations are short and adding to album takes some time.
-
-// TODO: Check if appearance on init always works, or we need to call a specific appear method from the controller. (test in Button 12 doesn't seem to allow animation (even though we don't need one there)
-
-// TODO: we may miss a few progress update while out of view. Ok? (causes animations when scrolled back into view) Maybe we don't want to animate progress between view instances, only appear and flyout
-// this means we need to pass the current upload status on appear
-
-// TODO: check weak property and cover case that it is null/nil (shouldn't occur)
-// TODO: explain that we assume one active view controller. otherwise need to group progress views on controller
-// TODO: check if weak hash table works as expected (objects are removed after releasing them)
-// TODO: check if removed unterminated transaction in keyframe animation is okay
-// TODO: figure out speed: too fast looks bad for small steps. Too slow looks bad for large steps. Maybe let speed depend on step size, but not constant time
-
-// TODO: comment logs
-
-// TODO BEFORE MERGING WITH PARALLEL UPLOAD: on completion in uploader, set to 100% (check if still necessary)
-//  Remove addingToAlbums notification. Causes an impossibled double reload where the animation is started just after the second reload is initiated, so there won't be a delay and the appear animation will be interrupted and not restored.
-//  NOTE: Maybe not possible, sometimes uploading photos don't show up then...
-
-
-// get old progress from ProgressCache use it to compute animation. No need for oldProgress anymore?
-// probably could use this to do flyin flyout on init (flyout is whan view was disabled just before animation)
-
-// Issues:
-// what is fp.progress  Return cached progress, or do we need to keep a property as well?
-
-
-/*
-
- TODO
- Look at cell init again. Apparently I changed it to awakeFromNib in commit 360f6e5e56dc88376b0709761a2f48fa25c46094
-
- Idea progressCache: PhotoID -> shownProgress   to survive new views for same photo and missed events
- Use instead of oldProgress
- purgeCache  (Set PhotoID)    remove all photos except ones in set
-
- Global, only one viewcontroller is possible, otherwise use dictionary
-
- ViewController
- on reloadData: purge
- endtime <- stop
- wait until endtime to [super reload]
- if already waiting, compute new endtime (maybe with some max)
-
- Crappy: p1 is < 100% on reload but was finished after reload and is removed from cache
- -- solvable by always finishing animations for elements disappearing from cache
-
-
- */
-
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -288,7 +255,6 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     uniqueAnimationKeyCounter_ = 0;
     progressObject_ = nil;
     _disabled = NO;
-    _progress = 0.0;
 }
 
 
@@ -322,6 +288,12 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
         progressLayer_.path = [self createProgressPathWithProgress:[self getCachedProgress]];
     }
     // Photos keep getting setProgress:100% until the last one finishes, so no need to flyOut here.
+}
+
+
+- (float)progress
+{
+    return [self getCachedProgress];
 }
 
 
