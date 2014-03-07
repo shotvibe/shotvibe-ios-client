@@ -141,6 +141,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     // On a separate queue, store the photo uploads as soon as they are available. We don't want this to wait on any network connection for requesting ids.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        // TODO: this can be improved by storing the unfinished upload as soon as the full-res is available (which is immediate, in case of camera photos), rather than also waiting for the low-res. This will give rise to unfinished uploads with only a full-res image, so on resume, we will need to generate the low-res photo (and have a seperate queue for that) Better to do this once we will use the database instead of NSCoder and it will be easy to use the shared photoSaveQueue_. Until then, there is a risk of photo loss when crashing during the generation of the low-res photos. NOTE: when implementing this, make sure unfinished uploads are saved even if there is no low-res filepath (currently we require both).
         for (AlbumUploadingPhoto *photo in newAlbumUploadingPhotos) {
             if ([photo getFullResFilename] && [photo getLowResFilename]) { // force save, won't fail, just block
                 [self storeUnfinishedUploads]; // TODO: at this point, store new AlbumUploadingPhotos as WaitingForId in ShotVibeDB
