@@ -122,7 +122,7 @@ static NSString * deviceDescription()
 	else
 	{
 		self.codeField4.text = string;
-		[self.codeField4 resignFirstResponder];
+		//[self.codeField4 resignFirstResponder];
 		self.butSubmit.enabled = YES;
 	}
 	

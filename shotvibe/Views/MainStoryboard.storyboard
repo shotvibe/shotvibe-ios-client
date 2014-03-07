@@ -1024,8 +1024,9 @@
         <scene sceneID="E9K-is-pZC">
             <objects>
                 <navigationController definesPresentationContext="YES" id="TFb-8t-Kdm" customClass="SVNavigationController" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Iog-LR-hvt">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Iog-LR-hvt">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="3rg-2I-Dzz" kind="relationship" relationship="rootViewController" id="Bb2-jS-Kye"/>
@@ -1052,7 +1053,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MWj-Gf-2pl">
-                                        <rect key="frame" x="86" y="184" width="148" height="41"/>
+                                        <rect key="frame" x="43" y="184" width="235" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -1074,7 +1075,7 @@
 to register this device</string>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <nil key="highlightedColor"/>
+                                        <color key="highlightedColor" red="0.0" green="0.47843137250000001" blue="0.74901960779999999" alpha="1" colorSpace="deviceRGB"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A validation code will be sent to you via SMS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aF0-pJ-yZt">
                                         <rect key="frame" x="0.0" y="233" width="320" height="21"/>
@@ -1086,8 +1087,8 @@ to register this device</string>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enter your phone number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NW5-hq-d4D">
                                         <rect key="frame" x="0.0" y="77" width="320" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <color key="textColor" red="0.2156862745" green="0.52156862749999999" blue="0.77647058820000003" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="Md0-iZ-whQ">
@@ -1127,7 +1128,7 @@ to register this device</string>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.92941176470588238" green="0.93333333333333335" blue="0.94509803921568625" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Registration" id="CMi-vA-eun"/>
@@ -2214,7 +2215,7 @@ to register this device</string>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NPU-6a-aVT">
-                                        <rect key="frame" x="86" y="208" width="148" height="41"/>
+                                        <rect key="frame" x="43" y="208" width="235" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -2248,8 +2249,8 @@ activation code just sent to you</string>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Insert Activation Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jou-Ld-LO8">
                                         <rect key="frame" x="0.0" y="77" width="320" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <color key="textColor" red="0.2156862745" green="0.52156862749999999" blue="0.77647058820000003" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="registrationCodeFieldBg.png" id="Ni2-3h-aT6">
@@ -2300,7 +2301,7 @@ activation code just sent to you</string>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Activation" id="36f-IO-DBg">
@@ -2339,7 +2340,7 @@ activation code just sent to you</string>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NwO-Tx-c4d">
-                                        <rect key="frame" x="86" y="147" width="148" height="41"/>
+                                        <rect key="frame" x="43" y="147" width="235" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -2381,7 +2382,7 @@ activation code just sent to you</string>
                                         <rect key="frame" x="0.0" y="40" width="320" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <color key="textColor" red="0.2156862745" green="0.52156862749999999" blue="0.77647058820000003" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="0.74901960779999999" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="xQI-N4-qiD">
@@ -2417,7 +2418,7 @@ activation code just sent to you</string>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="No Code?" id="AAl-Hr-12P"/>
@@ -2461,7 +2462,7 @@ activation code just sent to you</string>
         <image name="albumTakePicture.png" width="25" height="19"/>
         <image name="albumVideoIconSmall.png" width="18" height="11"/>
         <image name="butLogout.png" width="287" height="39"/>
-        <image name="butResend.png" width="144" height="37"/>
+        <image name="butResend.png" width="235" height="43"/>
         <image name="cameraIcon.png" width="25" height="19"/>
         <image name="cameraRollIcon.png" width="27" height="22"/>
         <image name="cellDivider.png" width="320" height="1"/>
@@ -2475,7 +2476,7 @@ activation code just sent to you</string>
         <image name="phoneNumberContainer.png" width="270" height="44"/>
         <image name="photoFrame.png" width="97" height="96"/>
         <image name="profileIcon.png" width="14" height="14"/>
-        <image name="registrationCodeFieldBg.png" width="213" height="45"/>
+        <image name="registrationCodeFieldBg.png" width="192" height="44"/>
         <image name="settingsIcon.png" width="16" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -2488,6 +2489,6 @@ activation code just sent to you</string>
         <segue reference="i8y-Zz-QXE"/>
         <segue reference="sO9-n0-6uB"/>
         <segue reference="vb9-kV-1Jh"/>
-        <segue reference="v3l-bV-OEi"/>
+        <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>
 </document>

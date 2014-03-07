@@ -16,8 +16,8 @@
 - (void)configureAppearanceProxies {
 	
     if (IS_IOS7) {
-        //[[UINavigationBar appearance] setBarTintColor:BLUE];
-        //[[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, nil]];
+        [[UINavigationBar appearance] setTitleTextAttributes:@{ UITextAttributeFont : [UIFont fontWithName:@"Helvetica-Light" size:19] }
+        ];
     } else {
         UIImage *baseImage = [UIImage imageNamed:@"navBarBg.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
@@ -32,6 +32,8 @@
     [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];*/
     if (IS_IOS7) {
         //[[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+        [[UIBarButtonItem appearance] setTitleTextAttributes:@{ UITextAttributeFont : [UIFont fontWithName:@"Helvetica-Light" size:19] }
+                                                    forState:UIControlStateNormal];
     } else {
         UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 5, 5);
@@ -73,8 +75,8 @@
     
     // Customize UIToolbar
 	{
-		[[UIToolbar appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.7]];
-		[[UIToolbar appearance] setBackgroundImage:[UIImage new] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+//		[[UIToolbar appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.7]];
+//		[[UIToolbar appearance] setBackgroundImage:[UIImage new] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
 		//[[UIToolbar appearance] setBackgroundImage:resizableImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
 	}
     
