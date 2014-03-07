@@ -255,6 +255,8 @@ enum RefreshStatus
     [self cleanAlbumContentsListeners:albumId];
 }
 
+
+// TODO: Does this need to be called on main thread?
 - (void)refreshAlbumContents:(int64_t)albumId
 {
     RCLog(@"##### REFRESHING ALBUM CONTENTS %lld", albumId);
@@ -507,6 +509,8 @@ enum RefreshStatus
 
 #pragma mark - PhotosUploadListener Methods
 
+
+// NOTE: May only be called on main thread
 - (void)photoUploadAdditions:(int64_t)albumId
 {
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
@@ -526,6 +530,8 @@ enum RefreshStatus
     RCLog(@"Finished refresh by photoUploadAdditions");
 }
 
+
+// NOTE: May only be called on main thread
 - (void)photoUploadProgress:(int64_t)albumId
 {
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
@@ -539,6 +545,7 @@ enum RefreshStatus
 }
 
 
+// TODO: Does this need to be called on main thread?
 - (void)photoAlbumAllPhotosUploaded:(int64_t)albumId
 {
     [self refreshAlbumContents:albumId];
