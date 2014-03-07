@@ -263,6 +263,18 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 - (void)appearWithProgress:(float)progress object:(id)progressObject
 {
     progressObject_ = progressObject;
+    /*
+    [self executeWithoutImplicitAnimation:^{
+        if ([self didFlyOut]) {
+            RCLog(@"Setting opacity to transparent");
+            progressLayer_.opacity = 0.0;
+            return;
+        } else {
+            progressLayer_.opacity = kOpacity;
+        }
+    }];
+    return;
+     */
     //RCLog(@"Appear with progress %f progressObject:\n%@ didAppear %@ opacity %f", progress, progressObject_, showBool([self didAppear]), progressLayer_.opacity);
     if ([self didFlyOut]) {
         //RCLog(@"Setting opacity to transparent");
