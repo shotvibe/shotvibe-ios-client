@@ -390,7 +390,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         [cell.uploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
 
         cell.fancyUploadProgressView.hidden = NO;
-        [cell.fancyUploadProgressView appearWithProgress:[uploadingPhoto getUploadProgress] object:uploadingPhoto];
+        [cell.fancyUploadProgressView appearWithProgressObject:uploadingPhoto];
 
         cell.labelNewView.hidden = YES;
     }

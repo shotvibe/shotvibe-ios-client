@@ -270,8 +270,9 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     _disabled = NO;
 }
 
+
 // NOTE: progressObject is used as a key to cache the progress and animation properties, and needs to remain constant for the entire duration of the progress. (This is the AlbumUploadingPhoto. We cannot use the photo ID, since it doesn't exist at the start of the upload.)
-- (void)appearWithProgress:(float)progress object:(id)progressObject
+- (void)appearWithProgressObject:(id)progressObject
 {
     progressObject_ = progressObject;
     //RCLog(@"Appear with progressObject:\n%@ didAppear %@ opacity %f", progressObject_, showBool([self didAppear]), progressLayer_.opacity);

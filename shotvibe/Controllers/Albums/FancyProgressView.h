@@ -16,6 +16,6 @@
 
 - (void)reset;
 
-- (void)appearWithProgress:(float)progress object:(id)progressObject;
+- (void)appearWithProgressObject:(id)progressObject;
 
 @end
