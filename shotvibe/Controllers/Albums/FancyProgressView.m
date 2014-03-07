@@ -19,14 +19,14 @@
 
 @implementation CachedProgressModel
 
-// TODO: explain
+// Weak cache of ProgressModels that are indexed by the progressObject of each progress view, for keeping track of progress and animation properties. Models are put in the cache when the properties are accessed with -[FancyProgressView didAppear], -[FancyProgressView didFlyout], etc.
 + (id)sharedProgressCache
 {
     static dispatch_once_t onceToken;
     static NSMapTable *progressCache = nil;
 
     dispatch_once(&onceToken, ^{
-        progressCache = [NSMapTable weakToStrongObjectsMapTable]; // weak, so progress views are not kept after they disappear
+        progressCache = [NSMapTable weakToStrongObjectsMapTable]; // weak, so progress models are not kept after the progressObjects are released.
     });
     return progressCache;
 }
@@ -54,21 +54,27 @@
 
 @end
 
-// TODO before merge: disable logs
 
 /*
 
- These progress views are rather complicated due to the nature of the UIGridView, which creates new cells on each reload.
- - When the grid view reloads during an animation, it is cut off.
+ These progress views are extremely complicated due to the nature of the UICollectionView, which creates new cells on each reload. This creates two main problems:
+
+ Problem 1: When the grid view reloads while a progress view is animating, the animation is cut off.
  Solution: We need to keep track of the animation durations and provide a delay function to postpone the reload until all current animations have finished.
 
- - Because the cells are created anew, we cannot keep track of the animation state. This means that when scrolling a 0% upload in and out of view, it will show an appear animation each time it becomes visible.
- Solution:
- View controller creates new cells all the time with new progress views. Cannot keep track of animation state (which are nec.?) -> Need to cache progress. Also need to guarantee that progress objects are kept the same (single AlbumUploadingPhoto for the lifetime of the upload) Can't use PhotoId's because they don't exist in the beginning
+ Problem 2: Progress views need to keep track of their animation state (e.g. to prevent an uploading photo at 0% to do an appear animation each time it is created), but cells and progress views are created anew all the time, we cannot keep track of the animation state with a property.
+ Solution: We provide each progress view with an object that remains constant during the lifetime of the upload (i.e. the AlbumUploadingPhoto) and use this object as a key in a cache for the progress and animation properties.
 
 
- Known issues:
- Maybe need tweak the progress speed a bit: Too fast looks bad for small steps, too slow looks bad for large steps. Maybe let speed depend on step size, but not constant time
+ Basically, the solution is too complex. There are many dependencies and when testing it during uploads, it is difficult to tell what went wrong and when, also because variations in the network connection result in slight differences in the order of the events. An added problem is that animations are very finnicky: setting an opacity in the wrong order may create a flash that doesn't show up under testing conditions, only on real uploads. (sometimes)
+
+ Currently the progress views look okay, but small glitches may still happen, and can probably not be completely excluded.
+
+
+ NOTE: we assume there is only one active view controller, in order to support more than one, the list of progress views will need to be grouped per view controller. Closing the active view controller and opening a new one is no problem though. (e.g. going to the album list view and back)
+
+
+ TODO: Maybe we need tweak the progress speed a bit: Too fast looks bad for small steps, too slow looks bad for large steps. Perhaps we should let the speed depend on step size, but not constant time.
 
 */
 
@@ -112,6 +118,11 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // Disables all progress views until animations have finished, after which completionBlock is executed on the main thread.
 + (void)disableProgressViewsWithCompletion:(void (^)())completionBlock
 {
+/*
+   During the delay, progress views are disabled. Unfortunately, we cannot use a global delay variable for all views, since there is no clear moment at which we can re-enable the views (reloadData is asynchronous and the collection view doesn't have a delegate method that is called when all cells have reloaded). Instead, each view has its own isDisabled property and stays disabled until replaced by a new (enabled) progress view.
+
+   There is still a small chance this goes wrong, if two disable calls follow each other quickly and both finish before the completionBlock of the first is executed. In this case two reloads occur, and animations started after the first one are interrupted by the second. At the start of the upload, we can remedy this with a timer (see appearWithProgress). At later times, it does not occur very often, but to completely avoid it, we would need to prevent the second reload, which brings about problems of its own.
+*/
     RCLog(@"Disabling all progress views");
     CFTimeInterval animationsEndMediaTime = 0.0;
 
@@ -259,11 +270,11 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
     _disabled = NO;
 }
 
-
+// NOTE: progressObject is used as a key to cache the progress and animation properties, and needs to remain constant for the entire duration of the progress. (This is the AlbumUploadingPhoto. We cannot use the photo ID, since it doesn't exist at the start of the upload.)
 - (void)appearWithProgress:(float)progress object:(id)progressObject
 {
     progressObject_ = progressObject;
-    //RCLog(@"Appear with progress %f progressObject:\n%@ didAppear %@ opacity %f", progress, progressObject_, showBool([self didAppear]), progressLayer_.opacity);
+    //RCLog(@"Appear with progressObject:\n%@ didAppear %@ opacity %f", progressObject_, showBool([self didAppear]), progressLayer_.opacity);
     if ([self didFlyOut]) {
         //RCLog(@"Setting opacity to transparent");
         progressLayer_.opacity = 0.0;
