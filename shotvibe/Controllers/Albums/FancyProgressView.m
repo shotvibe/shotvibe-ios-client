@@ -26,7 +26,7 @@
     static NSMapTable *progressCache = nil;
 
     dispatch_once(&onceToken, ^{
-        progressCache = [NSMapTable weakToStrongObjectsMapTable];
+        progressCache = [NSMapTable weakToStrongObjectsMapTable]; // weak, so progress views are not kept after they disappear
     });
     return progressCache;
 }
@@ -70,13 +70,6 @@
  Known issues:
  Maybe need tweak the progress speed a bit: Too fast looks bad for small steps, too slow looks bad for large steps. Maybe let speed depend on step size, but not constant time
 
- // TODO: we may miss a few progress update while out of view. Ok? (causes animations when scrolled back into view) Maybe we don't want to animate progress between view instances, only appear and flyout
- // this means we need to pass the current upload status on appear
-
- // TODO: explain that we assume one active view controller. otherwise need to group progress views on controller
-
- // - Look at cell init again. Apparently I changed it to awakeFromNib in commit 360f6e5e56dc88376b0709761a2f48fa25c46094
-
 */
 
 @implementation FancyProgressView {
@@ -98,6 +91,9 @@ static float const kProgressSpeed = 0.8; // Max progress increase per second
 static float const kProgressThreshold = 0.01; // Minimum required progress before animation is triggered
 static float const kFlyOutTime = 0.3; // Time for the outer disk to disappear to the edges
 static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white background to fade out
+
+
+#pragma mark - Disable animations
 
 
 // contains all active progress views, for stopping animations
@@ -203,6 +199,11 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 {
     [self getCachedProgressModel].progress = cachedProgress;
 }
+
+
+
+#pragma mark - FancyProgressView
+
 
 
 - (id)initWithFrame:(CGRect)frame
