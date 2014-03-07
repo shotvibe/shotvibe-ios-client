@@ -263,31 +263,28 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 - (void)appearWithProgress:(float)progress object:(id)progressObject
 {
     progressObject_ = progressObject;
-    RCLog(@"Appear with progress %f progressObject:\n%@ didAppear %@ opacity %f", progress, progressObject_, showBool([self didAppear]), progressLayer_.opacity);
+    //RCLog(@"Appear with progress %f progressObject:\n%@ didAppear %@ opacity %f", progress, progressObject_, showBool([self didAppear]), progressLayer_.opacity);
     if ([self didFlyOut]) {
-        RCLog(@"Setting opacity to transparent");
+        //RCLog(@"Setting opacity to transparent");
         progressLayer_.opacity = 0.0;
         return;
     }
     if (![self didAppear]) {
-        //progressLayer_.opacity = 0.0;
-        RCLog(@"AnimateAppear");
+        //RCLog(@"AnimateAppear");
         [self animateAppear];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kAppearanceTime / 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             [self setDidAppear:YES];
             // Rather hacky way to deal with multiple successive reload events at the start.
             // May lead to partially double appear animations in rare cases.
         });
-        //return;
     } else {
         [self executeWithoutImplicitAnimation:^{
-            RCLog(@"Setting opacity to non-transparent");
+            //RCLog(@"Setting opacity to non-transparent");
             progressLayer_.opacity = kOpacity;
         }];
     }
 
     if ([self getCachedProgress] < 0.999999 && [self didFlyIn]) {
-        progressLayer_.opacity = kOpacity;
         progressLayer_.path = [self createProgressPathWithProgress:[self getCachedProgress]];
     }
     // Photos keep getting setProgress:100% until the last one finishes, so no need to flyOut here.
