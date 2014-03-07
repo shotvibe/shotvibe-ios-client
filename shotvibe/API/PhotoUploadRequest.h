@@ -14,6 +14,7 @@
 
 - (id)initWithAsset:(ALAsset *)asset;
 - (id)initWithPath:(NSString *)path;
+- (id)initWithFullResPath:(NSString *)fullResPath lowResPath:(NSString *)lowResPath;
 
 - (UIImage *)getThumbnail;
 

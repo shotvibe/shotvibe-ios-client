@@ -32,11 +32,12 @@
     NSString *photoId = [coder decodeObjectForKey:@"photoId"];
     int64_t albumId = [coder decodeInt64ForKey:@"albumId"];
     NSString *fullResFilePath = [coder decodeObjectForKey:@"fullResFilePath"];
+    NSString *lowResFilePath = [coder decodeObjectForKey:@"lowResFilePath"];
     UploadStatus uploadStatus = [coder decodeIntForKey:@"uploadStatus"];
 
-    self = [self initWithPhotoUploadRequest:[[PhotoUploadRequest alloc] initWithPath:fullResFilePath] album:albumId];
+    self = [self initWithPhotoUploadRequest:[[PhotoUploadRequest alloc] initWithFullResPath:fullResFilePath lowResPath:lowResFilePath] album:albumId];
 
-    [self prepareTmpFiles:dispatch_queue_create(NULL, NULL)]; // TODO: hacky, but we can't store paths in AlbumUploadingPhoto
+    [self prepareTmpFiles:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)]; // No work is done in prepareTmpFiles, as the images are already saved, so we don't need a shared serial queue here
     [self setUploadStatus:uploadStatus];
     self.photoId = photoId;
     self.albumId = albumId;
@@ -50,12 +51,14 @@
     NSString *photoId = self.photoId;
     int64_t albumId = self.albumId;
     NSString *fullResFilePath = [self getFullResFilename];
+    NSString *lowResFilePath = [self getLowResFilename];
     UploadStatus uploadStatus = [self getUploadStatus];
 
     [coder encodeObject:photoId forKey:@"photoId"];
     [coder encodeInt64:albumId forKey:@"albumId"];
     [coder encodeInt:uploadStatus forKey:@"uploadStatus"];
     [coder encodeObject:fullResFilePath forKey:@"fullResFilePath"];
+    [coder encodeObject:lowResFilePath forKey:@"lowResFilePath"];
 }
 
 
@@ -548,7 +551,7 @@ NSString * showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
     NSArray *albumUploadingPhotos = [self getAllUploadingPhotos];
     NSArray *albumUploadingPhotosWithFilename = [albumUploadingPhotos filteredArrayUsingPredicate:
                                                  [NSPredicate predicateWithBlock:^(AlbumUploadingPhoto *photo, NSDictionary *bindings) {
-        return [photo isFullResSaved];
+        return [photo isSaved];
     }]];
     RCLog(@"Storing %d unfinished uploads:", [albumUploadingPhotosWithFilename count]);
     logUploads(albumUploadingPhotosWithFilename);

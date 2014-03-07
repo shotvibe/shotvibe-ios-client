@@ -42,8 +42,10 @@ typedef NS_ENUM (NSInteger, UploadStatus) {
 - (void)prepareTmpFiles:(dispatch_queue_t)dispatchQueue;
 
 - (NSString *)getLowResFilename;
+
 - (NSString *)getFullResFilename;
-- (BOOL)isFullResSaved;
+
+- (BOOL)isSaved;
 
 - (UIImage *)getThumbnail;
 

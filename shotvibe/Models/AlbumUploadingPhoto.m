@@ -104,9 +104,9 @@
 
 // TODO: Temporary, until we store UploadingAlbumPhotos in the database
 // Return YES if the file was saved and we can all -[AlbumUploadingPhoto getFullResFileName] without blocking.
-- (BOOL)isFullResSaved
+- (BOOL)isSaved
 {
-    return [photoUploadRequest_ getFullResFilename] != nil;
+    return [photoUploadRequest_ getFullResFilename] != nil && [photoUploadRequest_ getLowResFilename] != nil;
 }
 
 

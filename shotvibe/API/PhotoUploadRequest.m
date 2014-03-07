@@ -21,6 +21,8 @@ static const CGSize kLowResImageSize = {
     1920, 1080
 };
 
+
+// Used for images from the image picker
 - (id)initWithAsset:(ALAsset *)asset
 {
     self = [super init];
@@ -34,6 +36,8 @@ static const CGSize kLowResImageSize = {
     return self;
 }
 
+
+// Used for images from the camera
 - (id)initWithPath:(NSString *)path
 {
     self = [super init];
@@ -46,6 +50,22 @@ static const CGSize kLowResImageSize = {
 	
     return self;
 }
+
+
+// Used for resuming unfinished uploads
+- (id)initWithFullResPath:(NSString *)fullResPath lowResPath:(NSString *)lowResPath
+{
+    self = [super init];
+
+    if (self) {
+        asset_ = nil;
+        lowResFilePath_ = lowResPath;
+        fullResFilePath_ = fullResPath;
+    }
+
+    return self;
+}
+
 
 - (UIImage *)getThumbnail
 {
