@@ -201,6 +201,9 @@
         });
     });
     [UserSettings setNicknameSet:YES];
+    if (self.shouldPrompt) { // If we're prompting, exit after pressing Done on the keyboard.
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 
