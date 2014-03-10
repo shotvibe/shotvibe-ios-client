@@ -1,11 +1,19 @@
 <?php
 
-// Fill in your deviceToken, which is in the ShotVibe app's Xcode debug log:
-// SVPushNotificationsManager.m:65: Registering deviceToken: fc60d67272ffef8d80f9c3adf0544417d7f497df5221384668cf28df664ff136
-$deviceToken = 'fc60d67272ffef8d80f9c3adf0544417d7f497df5221384668cf28df664ff136'; 
+/* Make sure there is a ./deviceToken.txt file that contains a single line with the target device's token,
+   which is in the ShotVibe app's Xcode debug log:
 
-// Put your private key's passphrase here:
-$passphrase = 'pushtest';
+ SVPushNotificationsManager.m:65: Registering deviceToken: fc60d67272ffef8d80f9c3adf0544417d7f497df5221384668cf28df664ff136
+
+*/
+
+$fh = fopen("deviceToken.txt", 'r');
+$deviceToken = fgets($fh);
+fclose($fh);
+
+$passphrase = "pushtest";
+echo "Sending push notification to device with token: $deviceToken\nand pass phrase: \"$passphrase\"\n";
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
