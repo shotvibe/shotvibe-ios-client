@@ -7,14 +7,44 @@
 
 */
 
+$command = $argv[1];
+
 $fh = fopen("deviceToken.txt", 'r');
 $deviceToken = fgets($fh);
 fclose($fh);
 
 $passphrase = "pushtest";
-echo "Sending push notification to device with token: $deviceToken\nand pass phrase: \"$passphrase\"\n";
 
 
+
+// Create the payload body
+switch ($command) {
+  case 'add':
+    $aps = array(
+    	'alert' => 'ShotVibe push operational!',
+    	'sound' => 'default',
+    	);
+    break;
+  case 'badge':
+    $aps = array(
+    	'alert' => 'Setting notification badge to ${argv[2]}',
+    	'sound' => 'default',
+    	'badge' => intval($argv[2])
+    	);
+    break;
+  case 'reset':
+    $aps = array(
+    	'badge' => 0
+    	);
+    break;
+ 
+  default:
+    echo "Unknown command: $command\n";
+  exit;
+}
+
+echo "Sending $command push notification to device with token: $deviceToken\nand pass phrase: \"$passphrase\"\n";
+$body['aps'] = $aps;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -31,14 +61,6 @@ if (!$fp)
 	exit("Failed to connect: $err $errstr" . PHP_EOL);
 
 echo 'Connected to APNS' . PHP_EOL;
-
-// Create the payload body
-$body['aps'] = array(
-	'alert' => 'ShotVibe push operational!',
-	'sound' => 'default',
-//	'badge' => 'Increment'  // doesn't seem to work
-	'badge' => 0
-	);
 
 // Encode the payload as JSON
 $payload = json_encode($body);
