@@ -9,6 +9,9 @@
 #import "SVPushNotificationsManager.h"
 #import "ShotVibeAPI.h"
 #import "SVDefines.h"
+#import "JSONObject.h"
+#import "JSONException.h"
+#import "Notification.h"
 
 static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 
@@ -78,15 +81,66 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 
 - (void)handlePushNotification:(NSDictionary *)userInfo
 {
-    // TODO Make this more robust:
-    NSNumber *albumId = [userInfo objectForKey:@"album_id"];
-    RCLog(@"Album for push is %@", albumId);
-    if (albumId) {
-        [albumManager reportAlbumUpdate:[albumId longLongValue]];
-    }
-    else {
-        [albumManager refreshAlbumList];
+    SLJSONObject *userInfoJSON = [[SLJSONObject alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:userInfo]];
+    @try {
+        NSString *type = [userInfoJSON getStringWithNSString:@"type"];
+
+        if ([type isEqualToString:@"added_to_album"]) {
+            int64_t albumId = [userInfoJSON getLongWithNSString:@"album_id"];
+            NSString *adder = [userInfoJSON getStringWithNSString:@"adder"];
+            NSString *albumName = [userInfoJSON getStringWithNSString:@"album_name"];
+            [self handleInviteWithAlbumId:albumId albumName:albumName adder:adder];
+        } else if ([type isEqualToString:@"photos_added"]) {
+            int64_t albumId = [userInfoJSON getLongWithNSString:@"album_id"];
+            NSString *adder = [userInfoJSON getStringWithNSString:@"author"];
+            NSString *albumName = [userInfoJSON getStringWithNSString:@"album_name"];
+            int64_t nrOfPhotos = [userInfoJSON getLongWithNSString:@"num_photos"];
+            [self handlePhotosAddedWithAlbumId:albumId albumName:albumName adder:adder nrOfPhotos:nrOfPhotos];
+        } else if ([type isEqualToString:@"album_list_sync"]) {
+            [self handleAlbumListSync];
+        } else if ([type isEqualToString:@"album_sync"]) {
+            int64_t albumId = [userInfoJSON getLongWithNSString:@"album_id"];
+            [self handleAlbumSyncWithAlbumId:albumId];
+        } else if ([type isEqualToString:@"test_message"]) {
+            NSString *message = [userInfoJSON getStringWithNSString:@"message"];
+            [self handleTestMessage:message];
+        }
+    } @catch (SLJSONException *exception) {
+        [Notification notifyError:@"Push notification parse error" withMessage:[exception description]];
     }
 }
+
+
+- (void)handleInviteWithAlbumId:(int64_t)albumId albumName:(NSString *)albumName adder:(NSString *)adder
+{
+    RCLog(@"handleInviteWithAlbumId:%llu albumName:\"%@\" adder:\"%@\"", albumId, albumName, adder);
+}
+
+
+- (void)handlePhotosAddedWithAlbumId:(int64_t)albumId albumName:(NSString *)albumName adder:(NSString *)adder nrOfPhotos:(int64_t)nrOfPhotos
+{
+    RCLog(@"handlePhotosAddedWithAlbumId:%llu albumName:\"%@\" adder:\"%@\" nrOfPhotos:%llu", albumId, albumName, adder, nrOfPhotos);
+}
+
+
+- (void)handleAlbumListSync
+{
+    RCLog(@"handleAlbumListSync");
+    [albumManager refreshAlbumList];
+}
+
+
+- (void)handleAlbumSyncWithAlbumId:(int64_t)albumId
+{
+    RCLog(@"handleAlbumSyncWithAlbumId:%llu", albumId);
+    [albumManager reportAlbumUpdate:albumId];
+}
+
+
+- (void)handleTestMessage:(NSString *)message
+{
+    RCLog(@"handleTestMessage:\"%@\"", message);
+}
+
 
 @end
