@@ -20,21 +20,48 @@ $passphrase = "pushtest";
 // Create the payload body
 switch ($command) {
   case 'invite':
+    $name = $argv[3] ?: 'Someone';
+    $albumName = $argv[4] ?: 'Holiday 2014';
     $body = array(
               'aps' => array(
-                         'alert' => "Someone invited you to join album ${argv[2]}",
+                         'alert' => "$name added you to the album $albumName",
                          'sound' => 'default',
                        ),
-              'album_id' => $argv[3]
+              'type' => 'added_to_album',
+              'album_id' => intval($argv[2]),
+              'adder' => $name,
+              'album_name' => $albumName
             );
     break;
   case 'add':
+    $nrOfPhotos = $argv[3] ?: 17;
+    $name = $argv[4] ?: 'Someone';
+    $albumName = $argv[5] ?: 'Holiday 2014';
     $body = array(
               'aps' => array(
-                         'alert' => "Someone added ${argv[2]} photos to album ${argv[3]}",
+                         'alert' => "$name added $nrOfPhotos photos to the album $albumName",
                          'sound' => 'default',
                        ),
-              'album_id' => $argv[3]
+              'type' => 'photos_added',
+              'album_id' =>intval($argv[2]),
+              'num_photos' => $nrOfPhotos,
+              'author' => $name,
+              'album_name' => $albumName
+            );
+    break;
+  case 'sync':
+    $body = array(
+              'aps' => array(
+                       ),
+              'type' => 'album_list_sync'
+            );
+    break;
+  case 'albumsync':
+    $body = array(
+              'aps' => array(
+                       ),
+              'type' => 'album_sync',
+              'album_id' =>intval($argv[2])       
             );
     break;
   case 'badge':
@@ -59,8 +86,8 @@ switch ($command) {
   exit;
 }
 
-echo "Sending $command push notification to device with token: $deviceToken\nand pass phrase: \"$passphrase\"\n";
-
+echo "Sending $command push notification to device with token:\n$deviceToken\nand pass phrase: \"$passphrase\"\n";
+print_r ($body);
 ////////////////////////////////////////////////////////////////////////////////
 
 $ctx = stream_context_create();
