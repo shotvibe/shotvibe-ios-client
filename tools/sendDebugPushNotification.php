@@ -40,7 +40,8 @@ switch ($command) {
     $body = array(
               'aps' => array(
                          'alert' => "$name added $nrOfPhotos photos to the album $albumName",
-                         'sound' => 'default'
+                         'sound' => 'default',
+                         'badge' => $nrOfPhotos
                        ),
               'type' => 'photos_added',
               'album_id' =>intval($argv[2]),
