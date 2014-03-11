@@ -51,9 +51,9 @@
 	[self.gridView addSubview:self.headerView];
 	self.headerView.frame = CGRectMake(0, -44, 320, 44);
 	
-	if (IS_IOS7) {
-		self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-	}
+//	if (IS_IOS7) {
+//		self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -71,67 +71,64 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setLibraryPhotos:(NSArray *)libraryPhotos
+{
+    selectedPhotos = [[NSMutableArray alloc] init];
+    _takenPhotos = libraryPhotos;
+    geocoder = [[CLGeocoder alloc] init];
 
+    // Group the photos by date
+    sections = [[NSMutableDictionary alloc] init];
+    sectionsKeys = [[NSMutableArray alloc] init];
 
+    for (ALAsset *photo in _takenPhotos) {
+        NSString *keyDate = [NSDateFormatter localizedStringFromDate:[photo valueForProperty:ALAssetPropertyDate] dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle];
+        NSString *keyLocation = nil; //[[photo valueForProperty:ALAssetPropertyLocation] description];
+        //Geolocation here
+        NSString *key = [NSString stringWithFormat:@"%@---***---%@", keyDate, keyLocation ? keyLocation:@""];
 
-- (void) setLibraryPhotos:(NSArray *)libraryPhotos {
-	
-	selectedPhotos = [[NSMutableArray alloc] init];
-	_takenPhotos = libraryPhotos;
-	geocoder = [[CLGeocoder alloc] init];
-	
-	// Group the photos by date
-	sections = [[NSMutableDictionary alloc] init];
-	sectionsKeys = [[NSMutableArray alloc] init];
-	
-	for (ALAsset *photo in _takenPhotos) {
-		
-		NSString *key = [NSDateFormatter localizedStringFromDate:[photo valueForProperty:ALAssetPropertyDate]
-													   dateStyle:NSDateFormatterLongStyle
-													   timeStyle:NSDateFormatterNoStyle];
-		NSMutableArray *arr = [sections objectForKey:key];
-		
-		if (arr == nil) {
-			arr = [NSMutableArray array];
-			[sectionsKeys insertObject:key atIndex:0];
-		}
-		[arr addObject:photo];
-		[sections setObject:arr forKey:key];
-	}
-	
-	// Group the photos by location
-	//	__block int i = 0;
-	//	for (ALAsset *photo in _takenPhotos) {
-	//
-	//		CLLocation *location = [photo valueForProperty:ALAssetPropertyLocation];
-	//
-	//		[geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-	//			MKPlacemark *placemark = [placemarks objectAtIndex:0];
-	//			RCLog(@"locality:%@, country:%@", placemark.locality, placemark.country);
-	//
-	//			NSString *key = placemark.locality;
-	//			if (key == nil) {
-	//				key = @"Unknown Location";
-	//			}
-	//
-	//			NSMutableArray *arr = [sections objectForKey:key];
-	//
-	//			if (arr == nil) {
-	//				arr = [NSMutableArray array];
-	//				[sectionsKeys insertObject:key atIndex:0];
-	//			}
-	//			[arr addObject:photo];
-	//			[sections setObject:arr forKey:key];
-	//
-	//			i ++;
-	//			if (_takenPhotos.count == i) {
-	//				RCLog(@"refresh grid");
-	//				[self.gridView reloadData];
-	//			}
-	//		}];
-	//	}
-	
-	//RCLog(@"%@", sectionsKeys);
+        NSMutableArray *arr = [sections objectForKey:key];
+        if (arr == nil) {
+            arr = [NSMutableArray array];
+            [sectionsKeys insertObject:key atIndex:0];
+        }
+        [arr addObject:photo];
+        [sections setObject:arr forKey:key];
+    }
+
+    // Group the photos by location
+    //	__block int i = 0;
+    //	for (ALAsset *photo in _takenPhotos) {
+    //
+    //		CLLocation *location = [photo valueForProperty:ALAssetPropertyLocation];
+    //
+    //		[geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+    //			MKPlacemark *placemark = [placemarks objectAtIndex:0];
+    //			RCLog(@"locality:%@, country:%@", placemark.locality, placemark.country);
+    //
+    //			NSString *key = placemark.locality;
+    //			if (key == nil) {
+    //				key = @"Unknown Location";
+    //			}
+    //
+    //			NSMutableArray *arr = [sections objectForKey:key];
+    //
+    //			if (arr == nil) {
+    //				arr = [NSMutableArray array];
+    //				[sectionsKeys insertObject:key atIndex:0];
+    //			}
+    //			[arr addObject:photo];
+    //			[sections setObject:arr forKey:key];
+    //
+    //			i ++;
+    //			if (_takenPhotos.count == i) {
+    //				RCLog(@"refresh grid");
+    //				[self.gridView reloadData];
+    //			}
+    //		}];
+    //	}
+
+    //RCLog(@"%@", sectionsKeys);
 }
 
 
@@ -186,25 +183,36 @@
 // Section headers
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
-		   viewForSupplementaryElementOfKind:(NSString *)kind
-								 atIndexPath:(NSIndexPath *)indexPath {
-	
-	if (kind == UICollectionElementKindSectionHeader)
-	{
-		CameraRollSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-																	   withReuseIdentifier:@"CameraRollSection"
-																			  forIndexPath:indexPath];
-		
-		// Modify the header
-		header.dateLabel.text = sectionsKeys[indexPath.section];
-		header.section = indexPath.section;
-		header.delegate = self;
-		header.tag = indexPath.section+1000;
-		[self checkSectionHeaderView:header];
-		
-		return header;
-	}
-	return nil;
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
+    if (kind == UICollectionElementKindSectionHeader) {
+        CameraRollSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                                                       withReuseIdentifier:@"CameraRollSection"
+                                                                              forIndexPath:indexPath];
+
+        // Modify the header
+
+        NSArray *array = [sectionsKeys[indexPath.section] componentsSeparatedByString:@"---***---"];
+
+        if ([array count] > 0) {
+            NSString *dateText = array[0];
+            [header setDateText:dateText];
+        }
+        if ([array count] > 1) {
+            NSString *locationText = array[1];
+            header.locationLabel.text = locationText;
+            header.locationLabel.superview.hidden = NO;
+        }
+
+        header.section = indexPath.section;
+        header.delegate = self;
+        header.tag = indexPath.section + 1000;
+        [self checkSectionHeaderView:header];
+
+        return header;
+    }
+    return nil;
 }
 
 - (void)checkSectionHeaderView:(CameraRollSection*)header {
@@ -368,43 +376,43 @@
 }
 
 
-- (void)sectionCheckmarkTouched:(CameraRollSection*)section {
-	
-	NSArray *arr = [sections objectForKey:sectionsKeys[section.section]];
-	int i = 0;
-	BOOL allPhotosAreSelected = YES;
-	
-	// Check how many assets are already selected
-	for (ALAsset *asset in arr) {
-		if (![selectedPhotos containsObject:asset]) {
-			allPhotosAreSelected = NO;
-			break;
-		}
-	}
-	
-	for (ALAsset *asset in arr) {
-		
-		SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section.section]];
-		
-		if (!allPhotosAreSelected) {
-			if (![selectedPhotos containsObject:asset]) {
-				[selectedPhotos addObject:asset];
-				[selectedCell.selectionImage setImage:[UIImage imageNamed:@"imageSelected.png"]];
-			}
-		}
-		else {
-			if ([selectedPhotos containsObject:asset]) {
-				[selectedPhotos removeObject:asset];
-				[selectedCell.selectionImage setImage:[UIImage imageNamed:@"imageUnselected.png"]];
-			}
-		}
-		
-		i++;
-	}
-	if (!self.oneImagePicker) {
-		[section selectCheckmark:!allPhotosAreSelected];
-		self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
-	}
+- (void)sectionCheckmarkTouched:(CameraRollSection *)section
+{
+    NSArray *arr = [sections objectForKey:sectionsKeys[section.section]];
+    int i = 0;
+    BOOL allPhotosAreSelected = YES;
+
+    // Check how many assets are already selected
+    for (ALAsset *asset in arr) {
+        if (![selectedPhotos containsObject:asset]) {
+            allPhotosAreSelected = NO;
+            break;
+        }
+    }
+
+    for (ALAsset *asset in arr) {
+        SVSelectionGridCell *selectedCell = (SVSelectionGridCell *)[self.gridView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section.section]];
+
+        if (!allPhotosAreSelected) {
+            if (![selectedPhotos containsObject:asset]) {
+                [selectedPhotos addObject:asset];
+                [selectedCell.selectionImage setImage:[UIImage imageNamed:@"imageSelected.png"]];
+            }
+        } else {
+            if ([selectedPhotos containsObject:asset]) {
+                [selectedPhotos removeObject:asset];
+                [selectedCell.selectionImage setImage:[UIImage imageNamed:@"imageUnselected.png"]];
+            }
+        }
+
+        i++;
+    }
+    if (!self.oneImagePicker) {
+        [section selectCheckmark:!allPhotosAreSelected];
+        self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count] == 1 ? @"":@"s"];
+    }
+
+    [self.gridView reloadSections:[NSIndexSet indexSetWithIndex:section.section]];
 }
 
 
@@ -443,6 +451,7 @@
 	
 	//[section selectCheckmark:!allPhotosAreSelected];
 	self.title = [NSString stringWithFormat:@"%i Photo%@ Selected", [selectedPhotos count], [selectedPhotos count]==1?@"":@"s"];
+    [self.gridView reloadData];
 }
 
 

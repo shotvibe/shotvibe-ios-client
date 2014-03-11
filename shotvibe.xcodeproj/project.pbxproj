@@ -558,6 +558,8 @@
 		3E0CC9E218B63E1F00F6089A /* SVPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DA18B63E1F00F6089A /* SVPickerController.m */; };
 		3E0CC9E318B63E1F00F6089A /* SVPictureConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DC18B63E1F00F6089A /* SVPictureConfirmViewController.m */; };
 		3E0CC9E418B63E1F00F6089A /* SVPictureConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E0CC9DD18B63E1F00F6089A /* SVPictureConfirmViewController.xib */; };
+		3ED6152118CDBE2000BE7C41 /* iconLocation.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED6151F18CDBE2000BE7C41 /* iconLocation.png */; };
+		3ED6152218CDBE2000BE7C41 /* iconLocation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED6152018CDBE2000BE7C41 /* iconLocation@2x.png */; };
 		3ED9A9D418C772890045207D /* SafariForward.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED9A9D218C772890045207D /* SafariForward.png */; };
 		3ED9A9D518C772890045207D /* SafariForward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED9A9D318C772890045207D /* SafariForward@2x.png */; };
 		66013226187F4E670042047B /* IOSArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 660131AF187F4E670042047B /* IOSArray.m */; };
@@ -1468,6 +1470,8 @@
 		3E0CC9DB18B63E1F00F6089A /* SVPictureConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPictureConfirmViewController.h; path = Camera/SVPictureConfirmViewController.h; sourceTree = "<group>"; };
 		3E0CC9DC18B63E1F00F6089A /* SVPictureConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPictureConfirmViewController.m; path = Camera/SVPictureConfirmViewController.m; sourceTree = "<group>"; };
 		3E0CC9DD18B63E1F00F6089A /* SVPictureConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVPictureConfirmViewController.xib; path = Camera/SVPictureConfirmViewController.xib; sourceTree = "<group>"; };
+		3ED6151F18CDBE2000BE7C41 /* iconLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconLocation.png; sourceTree = "<group>"; };
+		3ED6152018CDBE2000BE7C41 /* iconLocation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconLocation@2x.png"; sourceTree = "<group>"; };
 		3ED9A9D218C772890045207D /* SafariForward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SafariForward.png; sourceTree = "<group>"; };
 		3ED9A9D318C772890045207D /* SafariForward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SafariForward@2x.png"; sourceTree = "<group>"; };
 		660131AE187F4E670042047B /* IOSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArray.h; sourceTree = "<group>"; };
@@ -2549,6 +2553,8 @@
 		2884E86317A24D9900B382D9 /* little icons */ = {
 			isa = PBXGroup;
 			children = (
+				3ED6151F18CDBE2000BE7C41 /* iconLocation.png */,
+				3ED6152018CDBE2000BE7C41 /* iconLocation@2x.png */,
 				28B30F8F1805BB5F005C50A4 /* IconCalendar.png */,
 				28B30F901805BB5F005C50A4 /* IconCalendar@2x.png */,
 				28FC2C3117FAFA5700AE24C3 /* PencilWhite.png */,
@@ -3671,6 +3677,7 @@
 				04C4070D1730303600973BC0 /* MR.png in Resources */,
 				04C4070F1730303600973BC0 /* MS.png in Resources */,
 				04C407111730303600973BC0 /* MT.png in Resources */,
+				3ED6152118CDBE2000BE7C41 /* iconLocation.png in Resources */,
 				04C407131730303600973BC0 /* MU.png in Resources */,
 				04C407151730303600973BC0 /* MV.png in Resources */,
 				04C407171730303600973BC0 /* MW.png in Resources */,
@@ -3708,6 +3715,7 @@
 				04C407551730303600973BC0 /* QA.png in Resources */,
 				04C407571730303600973BC0 /* RE.png in Resources */,
 				04C407591730303600973BC0 /* RO.png in Resources */,
+				3ED6152218CDBE2000BE7C41 /* iconLocation@2x.png in Resources */,
 				3E0CC9CF18B63DEC00F6089A /* NewAlbum.png in Resources */,
 				04C4075B1730303600973BC0 /* RS.png in Resources */,
 				04C4075D1730303600973BC0 /* RU.png in Resources */,
