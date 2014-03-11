@@ -29,6 +29,7 @@
 #import "SL/ShotVibeAPI.h"
 #import "ShotVibeDB.h"
 #import "JSON.h"
+#import "Notification.h"
 
 @interface ShotVibeAppDelegate ()
 @property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
@@ -60,7 +61,7 @@
 #if !CONFIGURATION_Debug
     [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
 #endif
-
+    RCLog(@"application: didFinishLaunchingWithOptions");
     self.networkStatusManager = [[SLNetworkStatusManager alloc] init];
 
     ShotVibeAPI *shotvibeAPI = [[ShotVibeAPI alloc] initWithAuthData:[UserSettings getAuthData]];
@@ -111,6 +112,7 @@
         [self processCountryCode:application registrationViewController:registrationViewController];
     }
 
+    // Messy: The album overview SVAlbumListViewController is created in -[SVRegistrationView viewDidLoad]
     return YES;
 }
 
@@ -202,11 +204,21 @@
     [pushNotificationsManager setAPNSDeviceToken:deviceToken];
 }
 
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    RCLog(@"Push notification (bg)\n%@", [userInfo description]);
+    [Notification notify:@"Push notification (bg)" withMessage:[userInfo description]];
+}
+
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [pushNotificationsManager handleNotification:userInfo];
-	
-	// Present the notification to the user
+    RCLog(@"Push notification\n%@", [userInfo description]);
+    [Notification notify:@"Push notification" withMessage:[userInfo description]];
+
+    // Present the notification to the user
 	
     // Temporarily disable the push notification banner
     /*
