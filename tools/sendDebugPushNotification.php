@@ -19,23 +19,39 @@ $passphrase = "pushtest";
 
 // Create the payload body
 switch ($command) {
+  case 'invite':
+    $body = array(
+              'aps' => array(
+                         'alert' => "Someone invited you to join album ${argv[2]}",
+                         'sound' => 'default',
+                       ),
+              'album_id' => $argv[3]
+            );
+    break;
   case 'add':
-    $aps = array(
-    	'alert' => 'ShotVibe push operational!',
-    	'sound' => 'default',
-    	);
+    $body = array(
+              'aps' => array(
+                         'alert' => "Someone added ${argv[2]} photos to album ${argv[3]}",
+                         'sound' => 'default',
+                       ),
+              'album_id' => $argv[3]
+            );
     break;
   case 'badge':
-    $aps = array(
-    	'alert' => "Setting notification badge to ${argv[2]}",
-    	'sound' => 'default',
-    	'badge' => intval($argv[2])
-    	);
+    $body = array(
+              'aps' => array(
+                      	 'alert' => "Setting notification badge to ${argv[2]}",
+                      	 'sound' => 'default',
+                      	 'badge' => intval($argv[2])
+                    	 ),
+    );
     break;
   case 'reset':
-    $aps = array(
-    	'badge' => 0
-    	);
+    $body = array(
+              'aps' => array(
+                       	 'badge' => 0
+                    	 ),
+    );
     break;
  
   default:
@@ -44,7 +60,6 @@ switch ($command) {
 }
 
 echo "Sending $command push notification to device with token: $deviceToken\nand pass phrase: \"$passphrase\"\n";
-$body['aps'] = $aps;
 
 ////////////////////////////////////////////////////////////////////////////////
 
