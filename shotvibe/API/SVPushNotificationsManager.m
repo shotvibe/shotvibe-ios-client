@@ -76,10 +76,11 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
     });
 }
 
-- (void)handleNotification:(NSDictionary *)userInfo
+- (void)handlePushNotification:(NSDictionary *)userInfo
 {
     // TODO Make this more robust:
     NSNumber *albumId = [userInfo objectForKey:@"album_id"];
+    RCLog(@"Album for push is %@", albumId);
     if (albumId) {
         [albumManager reportAlbumUpdate:[albumId longLongValue]];
     }

@@ -40,7 +40,7 @@
 
 @implementation ShotVibeAppDelegate {
 	
-    SVPushNotificationsManager *pushNotificationsManager;
+    SVPushNotificationsManager *pushNotificationsManager_;
 }
 
 #pragma mark - Class Methods
@@ -69,7 +69,7 @@
 
     self.albumManager = [[AlbumManager alloc] initWithShotvibeAPI:shotvibeAPI shotvibeDB:shotvibeDB];
 
-    pushNotificationsManager = [[SVPushNotificationsManager alloc] initWithAlbumManager:self.albumManager];
+    pushNotificationsManager_ = [[SVPushNotificationsManager alloc] initWithAlbumManager:self.albumManager];
 
     // The following casts will work because of the way the MainStoryboard is set up.
 
@@ -80,7 +80,7 @@
     NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error: visibleViewController is not SVRegistrationViewController");
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
     registrationViewController.albumManager = self.albumManager;
-    registrationViewController.pushNotificationsManager = pushNotificationsManager;
+    registrationViewController.pushNotificationsManager = pushNotificationsManager_;
 	
 	
 	// Initialize the sidebar menu
@@ -106,7 +106,7 @@
 	
 	
     if (shotvibeAPI.authData) {
-		[pushNotificationsManager setup];
+        [pushNotificationsManager_ setup];
     }
     else {
         [self processCountryCode:application registrationViewController:registrationViewController];
@@ -132,7 +132,7 @@
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)nav.visibleViewController;
 
     if ([[self.albumManager getShotVibeAPI] authenticateWithURL:url]) {
-        [pushNotificationsManager setup];
+        [pushNotificationsManager_ setup];
 
         [registrationViewController skipRegistration];
     } else {
@@ -201,7 +201,7 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    [pushNotificationsManager setAPNSDeviceToken:deviceToken];
+    [pushNotificationsManager_ setAPNSDeviceToken:deviceToken];
 }
 
 
@@ -209,14 +209,15 @@
 {
     RCLog(@"Push notification (bg)\n%@", [userInfo description]);
     [Notification notify:@"Push notification (bg)" withMessage:[userInfo description]];
+    [pushNotificationsManager_ handlePushNotification:userInfo];
 }
 
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    [pushNotificationsManager handleNotification:userInfo];
     RCLog(@"Push notification\n%@", [userInfo description]);
     [Notification notify:@"Push notification" withMessage:[userInfo description]];
+    [pushNotificationsManager_ handlePushNotification:userInfo];
 
     // Present the notification to the user
 	
