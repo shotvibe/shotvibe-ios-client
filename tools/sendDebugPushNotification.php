@@ -27,7 +27,7 @@ switch ($command) {
     break;
   case 'badge':
     $aps = array(
-    	'alert' => 'Setting notification badge to ${argv[2]}',
+    	'alert' => "Setting notification badge to ${argv[2]}",
     	'sound' => 'default',
     	'badge' => intval($argv[2])
     	);
