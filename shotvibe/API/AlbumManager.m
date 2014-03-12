@@ -114,7 +114,8 @@ enum RefreshStatus
     id <SLDevicePhoneContactsLib> devicePhoneContactsLib = [[IosDevicePhoneContactsLib alloc] init];
 
     _phoneContactsManager = [[SLPhoneContactsManager alloc] initWithSLDevicePhoneContactsLib:devicePhoneContactsLib
-                                                                           withSLShotVibeAPI:shotvibeAPI2];
+                                                                           withSLShotVibeAPI:shotvibeAPI2
+                                                                            withSLShotVibeDB:[shotvibeDB getDBActions]];
 }
 
 

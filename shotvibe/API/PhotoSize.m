@@ -41,19 +41,10 @@ static NSArray *Values;
      * Ordered from best quality to worst
      */
     Values = [[NSArray alloc] initWithObjects:
-              [[PhotoSize alloc] initWithExtension:@"r_wqxga" width:2560 height:1600],
-              [[PhotoSize alloc] initWithExtension:@"r_qxga"  width:2048 height:1536],
               [[PhotoSize alloc] initWithExtension:@"r_fhd"   width:1920 height:1080],
-              [[PhotoSize alloc] initWithExtension:@"r_wxga"  width:1280 height:800],
-              [[PhotoSize alloc] initWithExtension:@"r_xga"   width:1024 height:768],
               [[PhotoSize alloc] initWithExtension:@"r_hd"    width:1280 height:720],
-              [[PhotoSize alloc] initWithExtension:@"r_dvgax" width:1136 height:640],
-              [[PhotoSize alloc] initWithExtension:@"r_dvga"  width:960  height:640],
-              [[PhotoSize alloc] initWithExtension:@"r_qhd"   width:960  height:540],
               [[PhotoSize alloc] initWithExtension:@"r_wvga"  width:800  height:480],
-              [[PhotoSize alloc] initWithExtension:@"r_vga"   width:640  height:480],
               [[PhotoSize alloc] initWithExtension:@"r_hvga"  width:480  height:320],
-              [[PhotoSize alloc] initWithExtension:@"r_qvga"  width:320  height:240],
               Thumb75
               , nil];
 }
