@@ -720,7 +720,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 	for (SVAlbumGridViewCell *cell in self.collectionView.visibleCells) {
 		NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
 		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
-        // TODO: Buggy
+
         SLAlbumPhoto *photo = [arr objectAtIndex:indexPath.item];
 
         if ([photo getUploadingPhoto]) {
