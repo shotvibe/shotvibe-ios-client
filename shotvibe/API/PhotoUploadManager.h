@@ -12,7 +12,7 @@
 
 @interface PhotoUploadManager : NSObject
 
-- (id)initWithBaseURL:(NSString *)baseURL shotVibeAPI:(ShotVibeAPI *)shotVibeAPI listener:(id<PhotosUploadListener>)listener;
+- (id)initWithShotVibeAPI:(ShotVibeAPI *)shotVibeAPI listener:(id<PhotosUploadListener>)listener;
 
 /**
  @param photoUploadRequests Array of `PhotoUploadRequest` objects

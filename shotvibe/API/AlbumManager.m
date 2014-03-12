@@ -76,7 +76,7 @@ enum RefreshStatus
         albumListListeners = [[NSMutableArray alloc] init];
         albumContentsObjs = [[NSMutableDictionary alloc] init];
 
-        _photoUploadManager = [[PhotoUploadManager alloc] initWithBaseURL:[SLShotVibeAPI BASE_URL] shotVibeAPI:shotvibeAPI listener:self];
+        _photoUploadManager = [[PhotoUploadManager alloc] initWithShotVibeAPI:shotvibeAPI listener:self];
         _photoFilesManager = [[PhotoFilesManager alloc] init];
 
         _phoneContactsManager = nil;

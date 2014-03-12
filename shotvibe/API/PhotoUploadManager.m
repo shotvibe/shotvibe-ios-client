@@ -93,7 +93,7 @@
 static const NSTimeInterval RETRY_TIME = 5;
 
 
-- (id)initWithBaseURL:(NSString *)baseURL shotVibeAPI:(ShotVibeAPI *)shotVibeAPI listener:(id<PhotosUploadListener>)listener
+- (id)initWithShotVibeAPI:(ShotVibeAPI *)shotVibeAPI listener:(id<PhotosUploadListener>)listener
 {
     self = [super init];
 
