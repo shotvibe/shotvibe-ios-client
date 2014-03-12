@@ -26,6 +26,7 @@
 #import "RegistrationInfo.h"
 #import "UserSettings.h"
 #import "ShotVibeAPI.h"
+#import "SL/ShotVibeAPI.h"
 #import "ShotVibeDB.h"
 #import "JSON.h"
 
@@ -141,6 +142,22 @@
     return YES;
 }
 
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler
+{
+    RCLog(@"handleEventsForBackgroundURLSession");
+    // This is called when a background task finishes or requires authentication. There are two possible situations:
+    //  - The app was suspended but still running
+    //  - The app has been launched to handle the background events
+    // After handling the events, the completionHandler needs to be called
+
+    // Store the completion handler for the appropriate NSURLSession (currently we only have one: the upload session)
+    if ([identifier isEqualToString:kUploadSessionId]) {
+        self.uploadSessionCompletionHandler = completionHandler;
+    } else {
+        RCLog(@"ERROR: request to handle background events for unknown NSURLSession: %@", identifier);
+    }
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -229,8 +246,8 @@ static NSString *const appCountryLookupVersion = @"2";
 
 NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString *, NSString *))
 {
-    NSString* shotvibeCountryLookupURL = @"https://api.shotvibe.com/auth/country_lookup/?";
-	
+    NSString *shotvibeCountryLookupURL = [[SLShotVibeAPI BASE_URL] stringByAppendingString:@"/auth/country_lookup/?"];
+    RCLog(@"shotvibeCountryLookupURL %@", shotvibeCountryLookupURL);
     shotvibeCountryLookupURL = appendQueryParameter(shotvibeCountryLookupURL, @"version", version);
 	
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];

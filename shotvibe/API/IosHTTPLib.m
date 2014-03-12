@@ -38,6 +38,7 @@ static SLHTTPResponse * sendRequest(NSString *method, NSString *url, id<JavaUtil
 
     NSError *httpError;
     NSHTTPURLResponse *httpResponse;
+    RCLog(@"Send %@ request to %@", method, url);
     NSData *httpResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&httpResponse error:&httpError];
 
     CFAbsoluteTime requestEndTime = CFAbsoluteTimeGetCurrent();

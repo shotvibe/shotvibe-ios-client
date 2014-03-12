@@ -7,25 +7,25 @@
 //
 
 #import "SVAlbumGridViewCell.h"
+#import "FancyProgressView.h"
 
 @implementation SVAlbumGridViewCell
 
-- (id)initWithFrame:(CGRect)frame
+- (void)awakeFromNib
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+    [super awakeFromNib];
+    _fancyUploadProgressView = [[FancyProgressView alloc] initWithFrame:self.networkImageView.bounds];
+
+    [self.networkImageView addSubview:_fancyUploadProgressView];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+
+- (void)prepareForReuse
 {
-    // Drawing code
+    RCLog(@"Preparing for reuse");
+    [super prepareForReuse];
+    [self.fancyUploadProgressView reset];
 }
-*/
+
 
 @end

@@ -10,11 +10,11 @@
 
 @protocol PhotosUploadListener <NSObject>
 
+// NOTE: Methods below need to be called on main thread
+
 - (void)photoUploadAdditions:(int64_t)albumId;
 
 - (void)photoUploadProgress:(int64_t)albumId;
-
-- (void)photoUploadComplete:(int64_t)albumId;
 
 - (void)photoAlbumAllPhotosUploaded:(int64_t)albumId;
 

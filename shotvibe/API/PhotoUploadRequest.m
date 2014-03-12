@@ -12,32 +12,60 @@
 @implementation PhotoUploadRequest
 {
     ALAsset *asset_;
-    NSString *filePath_;
+    NSString *lowResFilePath_;
+    NSString *fullResFilePath_;
 }
 
+static const CGFloat kLowResJPEGQuality = 0.75;
+static const CGSize kLowResImageSize = {
+    1920, 1080
+};
+
+
+// Used for images from the image picker
 - (id)initWithAsset:(ALAsset *)asset
 {
     self = [super init];
 
     if (self) {
         asset_ = asset;
-        filePath_ = nil;
+        lowResFilePath_ = nil;
+        fullResFilePath_ = nil;
     }
 
     return self;
 }
 
+
+// Used for images from the camera
 - (id)initWithPath:(NSString *)path
 {
     self = [super init];
 	
     if (self) {
         asset_ = nil;
-        filePath_ = path;
+        lowResFilePath_ = nil;
+        fullResFilePath_ = path;
     }
 	
     return self;
 }
+
+
+// Used for resuming unfinished uploads
+- (id)initWithFullResPath:(NSString *)fullResPath lowResPath:(NSString *)lowResPath
+{
+    self = [super init];
+
+    if (self) {
+        asset_ = nil;
+        lowResFilePath_ = lowResPath;
+        fullResFilePath_ = fullResPath;
+    }
+
+    return self;
+}
+
 
 - (UIImage *)getThumbnail
 {
@@ -45,7 +73,7 @@
 		return [UIImage imageWithCGImage:asset_.thumbnail];
 	}
 	
-	NSMutableString *thumbPath = [NSMutableString stringWithString:filePath_];
+    NSMutableString *thumbPath = [NSMutableString stringWithString:fullResFilePath_];
 	[thumbPath replaceOccurrencesOfString:@".jpg"
 							   withString:@"_thumb.jpg"
 								  options:NSLiteralSearch
@@ -56,7 +84,7 @@
 
 static NSString * const UPLOADS_DIRECTORY = @"uploads";
 
-+ (NSString *)getUploadingPhotoFilename
++ (NSString *)createUniqueUploadFilePathWithFilenameSuffix:(NSString *)suffix
 {
     NSString *applicationSupportDirectory = [FileUtils getApplicationSupportDirectory];
 
@@ -70,60 +98,67 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
         }
     }
 
-    NSString *randomBaseName = [[NSUUID UUID] UUIDString];
+    NSString *randomBaseName = [[[NSUUID UUID] UUIDString] stringByAppendingString:suffix];
 
     NSString *fileName = [randomBaseName stringByAppendingPathExtension:@"jpg"];
 
     return [uploadsDirectory stringByAppendingPathComponent:fileName];
 }
 
-- (void)saveToFile
+- (void)saveToFiles
 {
-	// If the path already exists skip this step
-	if (filePath_) {
+    @autoreleasepool { // This autoreleasepool ensures memory is released after each photo is saved
+        [self saveToFileFullRes];
+        [self saveToFileLowRes];
+    }
+}
+
+
+- (void)saveToFileFullRes
+{
+    // If the path already exists skip this step (the photo comes from the camera and was already saved)
+    if (fullResFilePath_) {
 		return;
 	}
+    // otherwise, this request was initialized with an asset (coming from the image picker), which we need to save.
 	
-    filePath_ = [PhotoUploadRequest getUploadingPhotoFilename];
+    fullResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePathWithFilenameSuffix:@"_FullRes"];
 	
     ALAssetRepresentation *rep = [asset_ defaultRepresentation];
-	CGImageRef croppedImage = [rep fullScreenImage];
-	NSDictionary *metadata = [rep metadata][@"AdjustmentXMP"];
+    CGImageRef croppedImage = [rep fullResolutionImage];
+    NSDictionary *metadata = [rep metadata][@"AdjustmentXMP"];
 	
-	RCLogO(croppedImage);
-	RCLogO(metadata);
-	
-	// Write to disk the cropped image
+    // Write to disk the cropped image
 	if (metadata) {
-		CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:filePath_];
+        CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:fullResFilePath_];
 		CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
 		CGImageDestinationAddImage(destination, croppedImage, nil);
 		
 		if (!CGImageDestinationFinalize(destination)) {
-			RCLog(@"Failed to write image to %@", filePath_);
+            RCLog(@"Failed to write image to %@", fullResFilePath_);
 		}
 		else{
-			RCLog(@"write success %@", filePath_);
+            RCLog(@"write success %@", fullResFilePath_);
 		}
 		
 		CFRelease(destination);
 		
-		[FileUtils addSkipBackupAttributeToItemAtURL:filePath_];
+        [FileUtils addSkipBackupAttributeToItemAtURL:fullResFilePath_];
 		return;
 	}
 
 	
 	// Write to disk the original image
-    if (![[NSFileManager defaultManager] createFileAtPath:filePath_ contents:nil attributes:nil]) {
-        RCLog(@"ERROR CREATING FILE: %@", filePath_);
+    if (![[NSFileManager defaultManager] createFileAtPath:fullResFilePath_ contents:nil attributes:nil]) {
+        RCLog(@"ERROR CREATING FILE: %@", fullResFilePath_);
         // TODO Handle error...
         return;
     }
 
-    NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:filePath_];
+    NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:fullResFilePath_];
 
     if (!handle) {
-        RCLog(@"ERROR OPENING FILE: %@", filePath_);
+        RCLog(@"ERROR OPENING FILE: %@", fullResFilePath_);
         // TODO Handle error...
         return;
     }
@@ -153,12 +188,80 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
     [handle closeFile];
     handle = nil;
 
-    [FileUtils addSkipBackupAttributeToItemAtURL:filePath_];
+    [FileUtils addSkipBackupAttributeToItemAtURL:fullResFilePath_];
 }
 
-- (NSString *)getFilename
+
+// PPRECONDITION: fullResFilePath_ is initialized.
+- (void)saveToFileLowRes
 {
-    return filePath_;
+    // saveToFileLowRes is easier than saveToFileFullRes, since we don't need the exact original image data,
+    // and can simply create a jpeg representation from the file or the asset.
+    // This leads to a double jpeg encoding, but that's not a problem for the low resolution image.
+
+    UIImage *highResImage;
+
+    highResImage = [UIImage imageWithContentsOfFile:fullResFilePath_];
+
+    UIImage *lowResImage = [self fit:kLowResImageSize image:highResImage];
+
+    lowResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePathWithFilenameSuffix:@"_LowRes"];
+    [UIImageJPEGRepresentation(lowResImage, kLowResJPEGQuality) writeToFile:lowResFilePath_ atomically:YES];
+    [FileUtils addSkipBackupAttributeToItemAtURL:lowResFilePath_];
 }
+
+
+- (NSString *)getLowResFilename
+{
+    return lowResFilePath_;
+}
+
+
+- (NSString *)getFullResFilename
+{
+    return fullResFilePath_;
+}
+
+
+#pragma mark - Utility functions
+
+
+// Return a UIImage that fits inside either targetSize or tilted targetSize (swapping width and height)
+- (UIImage *)fit:(CGSize)targetSize image:(UIImage *)photo
+{
+    CGSize newSize = shrinkToFitTilted(targetSize, photo.size);
+
+    UIGraphicsBeginImageContext(newSize);
+    [photo drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return resizedImage;
+}
+
+
+// Shrink photoSize (if necessary) so it fits within either targetSize or tilted targetSize, whichever yields the largest size (this will be the targetSize with the same landscape/portrait orientation as photoSize)
+CGSize shrinkToFitTilted(CGSize targetSize, CGSize photoSize)
+{
+    CGSize resizedToOriginalContainer = shrinkToFit(targetSize, photoSize);
+    CGSize resizedToTiltedContainer = shrinkToFit(CGSizeMake(targetSize.height, targetSize.width), photoSize);
+    return resizedToTiltedContainer.width > resizedToOriginalContainer.width ? resizedToTiltedContainer : resizedToOriginalContainer;
+}
+
+
+// Shrink photoSize (if necessary) so it fits within targetSize, while maintaining photoSize's aspect ratio
+CGSize shrinkToFit(CGSize targetSize, CGSize photoSize)
+{
+    if (photoSize.width <= targetSize.width && photoSize.height <= targetSize.height) {
+        return photoSize; // photoSize already fits
+    } else {
+        if (photoSize.width * targetSize.height > targetSize.width * photoSize.height) { // == photoSize.width/photoSize.height > targetSize.width/targetSize.height
+            return CGSizeMake(targetSize.width, photoSize.height * targetSize.width / photoSize.width); // photo is wider than frame, so use max frame width
+        } else {
+            return CGSizeMake(photoSize.width * targetSize.height / photoSize.height, targetSize.height); // photo is higher than frame, so use max frame height
+        }
+    }
+}
+
 
 @end

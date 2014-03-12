@@ -73,6 +73,10 @@
 @implementation SVAlbumGridViewController
 
 
+static NSString *const kCellReuseIdentifier = @"SVAlbumGridViewCell"; // registered in the storyboard
+static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
+
+
 #pragma mark - UIViewController Methods
 
 - (void)viewDidLoad
@@ -80,8 +84,8 @@
     [super viewDidLoad];
 	
 	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized without albumId");
-	
-	self.collectionView.alwaysBounceVertical = YES;
+
+    self.collectionView.alwaysBounceVertical = YES;
 	//self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
 	
 	sections = [[NSMutableDictionary alloc] init];
@@ -111,7 +115,7 @@
 	self.navigationItem.backBarButtonItem = backButton;
 	
 	// CollectionView
-	[self.collectionView registerClass:[SVAlbumGridSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SVAlbumGridSection"];
+    [self.collectionView registerClass:[SVAlbumGridSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSectionReuseIdentifier];
 	[self.collectionView addSubview:self.switchView];
 	
 	self.switchView.frame = CGRectMake(0, 0, 320, 45);
@@ -138,7 +142,9 @@
 		albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
 		//[self setAlbumContents:contents];
 	}
+    //RCLog(@"viewWillAppear initiates refresh");
 	[self.albumManager refreshAlbumContents:self.albumId];
+    //RCLog(@"after viewWillAppear refresh");
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -160,8 +166,6 @@
 	}
 	if (self.scrollToBottom) {
 		self.scrollToBottom = NO;
-		RCLogSize(self.collectionView.contentSize);
-		RCLogRect(self.collectionView.bounds);
 		[self.collectionView scrollRectToVisible:CGRectMake(0,
 													  self.collectionView.contentSize.height - self.collectionView.bounds.size.height,
 													  self.collectionView.bounds.size.width,
@@ -191,7 +195,6 @@
 		[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
 		albumContents = nil;
 		
-		RCLog(@"clean everything");
 		self.albumManager = nil;
 		((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = nil;
 		((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = nil;
@@ -354,7 +357,9 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SVAlbumGridViewCell" forIndexPath:indexPath];
+    SVAlbumGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
+
+    //RCLog(@"Dequeued cell: %@", cell);
     __block NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 
     [cell.networkImageView setImage:nil];
@@ -367,8 +372,9 @@
                               photoSize:[PhotoSize Thumb75]
                                 manager:self.albumManager.photoFilesManager];
         cell.uploadProgressView.hidden = YES;
+        cell.fancyUploadProgressView.hidden = YES;
 
-        RCLog(@"cellForItemAtPath url:%@ added:%@", [[photo getServerPhoto] getUrl], [[photo getServerPhoto] getDateAdded]);
+        //RCLog(@"cellForItemAtPath url:%@ added:%@ access:%@", photo.serverPhoto.url, photo.serverPhoto.dateAdded, photo.serverPhoto.lastAccess);
 
         cell.labelNewView.hidden = ![[photo getServerPhoto] isNewWithSLDateTime:[albumContents getLastAccess]
                                                                        withLong:self.albumManager.getShotVibeAPI.authData.userId];
@@ -377,8 +383,11 @@
 
         [cell.networkImageView setImage:[uploadingPhoto getThumbnail]];
 
-        cell.uploadProgressView.hidden = NO;
+        cell.uploadProgressView.hidden = YES;
         [cell.uploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
+
+        cell.fancyUploadProgressView.hidden = NO;
+        [cell.fancyUploadProgressView appearWithProgressObject:uploadingPhoto];
 
         cell.labelNewView.hidden = YES;
     }
@@ -395,7 +404,7 @@
 {
     if (kind == UICollectionElementKindSectionHeader) {
         SVAlbumGridSection *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-                                                                        withReuseIdentifier:@"SVAlbumGridSection"
+                                                                        withReuseIdentifier:kSectionReuseIdentifier
                                                                                forIndexPath:indexPath];
 
         // Modify the header
@@ -529,6 +538,23 @@
 
 #pragma mark - Private Methods
 
+- (void)disableProgressAndReloadData
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"ss.A"];
+    __block NSString *timeStamp = [formatter stringFromDate:[NSDate date]];
+    RCLog(@"About to delay reload at %@", timeStamp);
+    [FancyProgressView disableProgressViewsWithCompletion:^() {
+        RCLog(@"Completing delayed reload from %@", timeStamp);
+        // TODO: we may queue up a couple of reloads that could be optimized to one
+        [self sortThumbsBy:sort];
+        [self.collectionView reloadData];
+        [self updateEmptyState];
+        RCLog(@"Completed delayed reload from %@", timeStamp);
+    }];
+}
+
+
 - (void)toggleMenu
 {
 	[(SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController resignFirstResponder];
@@ -547,7 +573,7 @@
 - (void)setAlbumContents:(SLAlbumContents *)album
 {
     albumContents = album;
-	
+
 	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
 	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
 	
@@ -575,14 +601,14 @@
         }
     });
 
-	[self sortThumbsBy:sort];
-    [self.collectionView reloadData];
-	[self updateEmptyState];
+    [self disableProgressAndReloadData];
 }
 
 
 #pragma mark Sorting
 
+// TODO: messy code with silly name
+// NOTE: after calling sortThumbsBy, make sure to call [self.collectionView reloadData]
 - (void)sortThumbsBy:(SortType)sortType {
 	
 	sort = sortType;
@@ -659,10 +685,10 @@
 
 - (void)switchSortHandler:(UISegmentedControl*)control {
 	sort = control.selectedSegmentIndex;
-	[self sortThumbsBy:sort];
-	[self.collectionView reloadData];
 	[[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
+
+    [self disableProgressAndReloadData];
 }
 
 
@@ -691,12 +717,15 @@
 	for (SVAlbumGridViewCell *cell in self.collectionView.visibleCells) {
 		NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
 		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
+
         SLAlbumPhoto *photo = [arr objectAtIndex:indexPath.item];
 
         if ([photo getUploadingPhoto]) {
             AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
-            cell.uploadProgressView.hidden = [uploadingPhoto isUploadComplete];
+            cell.uploadProgressView.hidden = YES;
             cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
+            //RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
+            [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress]];
 		}
 	}
 }

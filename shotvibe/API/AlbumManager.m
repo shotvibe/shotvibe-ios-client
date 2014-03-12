@@ -7,9 +7,12 @@
 //
 
 #import "AlbumManager.h"
+#import "AlbumSummary.h"
+#import "AlbumContents.h"
+#import "PhotoUploadManager.h"
+#import "AlbumPhoto.h"
 #import "SL/AlbumSummary.h"
 #import "SL/AlbumContents.h"
-#import "PhotoUploadManager.h"
 #import "SL/AlbumPhoto.h"
 #import "SL/ArrayList.h"
 #import "SL/AlbumServerPhoto.h"
@@ -240,7 +243,7 @@ enum RefreshStatus
     }
 
     // Add the Uploading photos to the end of album:
-    cachedAlbum = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+    cachedAlbum = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingAlbumPhotos:albumId]];
 
     return cachedAlbum;
 }
@@ -253,6 +256,8 @@ enum RefreshStatus
     [self cleanAlbumContentsListeners:albumId];
 }
 
+
+// TODO: Does this need to be called on main thread?
 - (void)refreshAlbumContents:(int64_t)albumId
 {
     RCLog(@"##### REFRESHING ALBUM CONTENTS %lld", albumId);
@@ -328,7 +333,7 @@ enum RefreshStatus
                     });
 
                     // Add the Uploading photos to the end of album:
-                    SLAlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:albumContents uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+                    SLAlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:albumContents uploadingPhotos:[self.photoUploadManager getUploadingAlbumPhotos:albumId]];
 
                     for(id<AlbumContentsListener> listener in data.listeners) {
                         [listener onAlbumContentsRefreshComplete:albumId albumContents:updatedContents];
@@ -452,15 +457,16 @@ enum RefreshStatus
 
         SLDateTime *lastAccess = mostRecentPhotoDate;
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            @try {
-                [shotvibeAPI markAlbumAsViewed:[album getId] lastAccess:lastAccess];
-            } @catch (SLAPIException *exception) {
-                [Notification notifyError:@"ERROR in AlbumManager" withMessage:[NSString stringWithFormat:@"markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", exception.description]];
-                // TODO: handle error
-            }
-        });
-
+        if (lastAccess != nil) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                @try {
+                    [shotvibeAPI markAlbumAsViewed:[album getId] lastAccess:lastAccess];
+                } @catch (SLAPIException *exception) {
+                    [Notification notifyError:@"ERROR in AlbumManager" withMessage:[NSString stringWithFormat:@"%@ markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", lastAccess, exception.description]];
+                    // TODO: handle error
+                }
+            });
+        }
         [shotvibeDB markAlbumAsViewed:[album getId] lastAccess:lastAccess];
 
         [self refreshAlbumListFromDb];
@@ -491,7 +497,7 @@ enum RefreshStatus
         SLAlbumContents *albumContentsFromDb = [shotvibeDB getAlbumContents:albumId];
 
         // Add the Uploading photos to the end of album:
-        albumContentsFromDb = [AlbumManager addUploadingPhotosToAlbumContents:albumContentsFromDb uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+        albumContentsFromDb = [AlbumManager addUploadingPhotosToAlbumContents:albumContentsFromDb uploadingPhotos:[self.photoUploadManager getUploadingAlbumPhotos:albumId]];
 
         if (albumContentsFromDb) { // TODO: handle error
             for (id<AlbumContentsListener> listener in data.listeners) {
@@ -503,6 +509,10 @@ enum RefreshStatus
 }
 
 
+#pragma mark - PhotosUploadListener Methods
+
+
+// NOTE: May only be called on main thread
 - (void)photoUploadAdditions:(int64_t)albumId
 {
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
@@ -513,13 +523,17 @@ enum RefreshStatus
     SLAlbumContents *cachedAlbum = [shotvibeDB getAlbumContents:albumId];
 
     // Add the Uploading photos to the end of album:
-    SLAlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingPhotos:albumId]];
+    SLAlbumContents *updatedContents = [AlbumManager addUploadingPhotosToAlbumContents:cachedAlbum uploadingPhotos:[self.photoUploadManager getUploadingAlbumPhotos:albumId]];
 
     for(id<AlbumContentsListener> listener in data.listeners) {
+        [listener onAlbumContentsBeginRefresh:albumId];
         [listener onAlbumContentsRefreshComplete:albumId albumContents:updatedContents];
     }
+    RCLog(@"Finished refresh by photoUploadAdditions");
 }
 
+
+// NOTE: May only be called on main thread
 - (void)photoUploadProgress:(int64_t)albumId
 {
     AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
@@ -532,18 +546,8 @@ enum RefreshStatus
     }
 }
 
-- (void)photoUploadComplete:(int64_t)albumId
-{
-    AlbumContentsData *data = [albumContentsObjs objectForKey:[NSNumber numberWithLongLong:albumId]];
-    if (!data) {
-        return;
-    }
 
-    for(id<AlbumContentsListener> listener in data.listeners) {
-        [listener onAlbumContentsPhotoUploadProgress:albumId];
-    }
-}
-
+// TODO: Does this need to be called on main thread?
 - (void)photoAlbumAllPhotosUploaded:(int64_t)albumId
 {
     [self refreshAlbumContents:albumId];

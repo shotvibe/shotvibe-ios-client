@@ -18,6 +18,8 @@
 @property (strong, nonatomic) AlbumManager *albumManager;
 @property (strong, nonatomic) SLNetworkStatusManager *networkStatusManager;
 
+@property (copy) void (^ uploadSessionCompletionHandler)(); //stored by handleEventsForBackgroundURLSession for later use
+
 #pragma mark - Class Methods
 
 + (ShotVibeAppDelegate *)sharedDelegate;
