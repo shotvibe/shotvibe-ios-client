@@ -457,15 +457,16 @@ enum RefreshStatus
 
         SLDateTime *lastAccess = mostRecentPhotoDate;
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            @try {
-                [shotvibeAPI markAlbumAsViewed:[album getId] lastAccess:lastAccess];
-            } @catch (SLAPIException *exception) {
-                [Notification notifyError:@"ERROR in AlbumManager" withMessage:[NSString stringWithFormat:@"markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", exception.description]];
-                // TODO: handle error
-            }
-        });
-
+        if (lastAccess != nil) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                @try {
+                    [shotvibeAPI markAlbumAsViewed:[album getId] lastAccess:lastAccess];
+                } @catch (SLAPIException *exception) {
+                    [Notification notifyError:@"ERROR in AlbumManager" withMessage:[NSString stringWithFormat:@"%@ markAlbumAsViewed: ERROR in shotvibeAPI markAlbumViewed:\n%@", lastAccess, exception.description]];
+                    // TODO: handle error
+                }
+            });
+        }
         [shotvibeDB markAlbumAsViewed:[album getId] lastAccess:lastAccess];
 
         [self refreshAlbumListFromDb];
