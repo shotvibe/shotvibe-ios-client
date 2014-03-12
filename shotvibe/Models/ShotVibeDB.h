@@ -12,6 +12,7 @@
 #import "SL/AlbumContents.h"
 
 @class SLHashMap;
+@class SLShotVibeDB;
 
 @interface ShotVibeDB : NSObject
 {
@@ -19,6 +20,8 @@
 }
 
 - (id)init;
+
+- (SLShotVibeDB *)getDBActions;
 
 // Returns an array of `AlbumSummary` objects
 - (SLArrayList *)getAlbumList;

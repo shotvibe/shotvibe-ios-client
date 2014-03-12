@@ -100,6 +100,12 @@ static NSString * const DATABASE_FILE = @"shotvibe.db";
 }
 
 
+- (SLShotVibeDB *)getDBActions
+{
+    return mDBActions_;
+}
+
+
 - (void)writeDatabaseVersion:(int)version
 {
     char *errmsg = 0;
