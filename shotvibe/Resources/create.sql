@@ -73,27 +73,34 @@ tmp_filename TEXT NOT NULL,
 photo_id TEXT
 );
 
--- Efficiently delete an uploading_photo by photo_id
-CREATE INDEX uploading_photo_index ON uploading_photo(photo_id);
-
 CREATE TABLE phone_contact(
 -- A phone number as it appears in the device phone book
-phone_number TEXT PRIMARY KEY NOT NULL,
+phone_number TEXT NOT NULL,
 
--- Is this a mobile phone number or landline
+-- Contact name
+last_name TEXT NOT NULL,
+first_name TEXT NOT NULL,
+
+-- Is this a mobile phone number or not
 is_mobile BOOLEAN NOT NULL,
 
 -- The user of this phone number, or NULL if the number does not belong to a registered user
 user_id INTEGER,
 
--- The timestamp that this info was updated. phone numbers that were
--- previously not registered may become registered, and so this table needs
--- to be periodically refreshed
-updated_time DATETIME NOT NULL
+-- Avatar url for registered and unregistered users
+avatar_url TEXT,
+
+-- Phone number in canonical form, or NULL if the number is invalid
+canonical_number TEXT,
+
+-- When this phone number was last queried
+query_time DATETIME NOT NULL,
+
+UNIQUE(phone_number, last_name, first_name)
 );
 
--- Efficiently check if a user_id is in the phone_contact table
-CREATE INDEX phone_contact_user_index ON phone_contact(user_id);
+-- Efficiently delete an uploading_photo by photo_id
+CREATE INDEX uploading_photo_index ON uploading_photo(photo_id);
 
 -- These indexes are necessary in order to efficiently retrieve all of the
 -- photos of a particular album, or all of the members of a particular album
