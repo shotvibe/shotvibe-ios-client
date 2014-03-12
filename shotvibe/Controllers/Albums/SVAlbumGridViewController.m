@@ -142,9 +142,9 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 		albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
 		//[self setAlbumContents:contents];
 	}
-    RCLog(@"viewWillAppear initiates refresh");
+    //RCLog(@"viewWillAppear initiates refresh");
 	[self.albumManager refreshAlbumContents:self.albumId];
-    RCLog(@"after viewWillAppear refresh");
+    //RCLog(@"after viewWillAppear refresh");
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -166,8 +166,6 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 	}
 	if (self.scrollToBottom) {
 		self.scrollToBottom = NO;
-		RCLogSize(self.collectionView.contentSize);
-		RCLogRect(self.collectionView.bounds);
 		[self.collectionView scrollRectToVisible:CGRectMake(0,
 													  self.collectionView.contentSize.height - self.collectionView.bounds.size.height,
 													  self.collectionView.bounds.size.width,
@@ -197,7 +195,6 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 		[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
 		albumContents = nil;
 		
-		RCLog(@"clean everything");
 		self.albumManager = nil;
 		((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = nil;
 		((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = nil;

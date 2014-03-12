@@ -383,7 +383,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 
 - (void)animateFlyOut
 {
-    RCLog(@"Flying out");
+    //RCLog(@"Flying out");
     float surroundingRadius = sqrt(square(self.bounds.size.width) + square(self.bounds.size.height)) / 2 + 1;
     [self animateLayer:progressLayer_ fromPath:[self createDisksPathWithRadius:kRadius hasInnerDisk:NO] toPath:[self createDisksPathWithRadius:surroundingRadius hasInnerDisk:NO] duration:kFlyOutTime timingFunctionName:kCAMediaTimingFunctionEaseIn];
 

@@ -218,7 +218,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 
     // Stage 1, upload low-res version of photo
     [shotVibeAPI_ photoUploadAsync:photo.photoId filePath:lowResFilePath isFullRes:NO progressHandler:^(int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-        RCLog(@"Task progress: photo %@ %.2f %.1fk", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend, totalBytesExpectedToSend / 1024.0);
+        //RCLog(@"Task progress: photo %@ %.2f %.1fk", photo.photoId, 100.0 * totalBytesSent / totalBytesExpectedToSend, totalBytesExpectedToSend / 1024.0);
         [photo setUploadProgress:(float)totalBytesSent/(float)totalBytesExpectedToSend];
         dispatch_async(dispatch_get_main_queue(), ^{
             [listener_ photoUploadProgress:photo.albumId];
@@ -256,12 +256,12 @@ static const NSTimeInterval RETRY_TIME = 5;
         [uploadedStage1Photos_ addPhoto:photo album:photo.albumId];
     }
 
-    RCLog(@"lowResPhotoWasUploaded:");
-    RCLog(@"uploadingPhotos_: %@", [uploadingStage1Photos_ description]);
-    RCLog(@"uploadedPhotos_: %@", [uploadedStage1Photos_ description]);
-    RCLog(@"addingPhotos_: %@", [addingToAlbumPhotos_ description]);
-    RCLog(@"pendingSecondStagePhotos_: %@", [pendingStage2Photos_ description]);
-    RCLog(@"uploadingSecondStagePhotos_: %@", [uploadingStage2Photos_ description]);
+    //RCLog(@"lowResPhotoWasUploaded:");
+    //RCLog(@"uploadingPhotos_: %@", [uploadingStage1Photos_ description]);
+    //RCLog(@"uploadedPhotos_: %@", [uploadedStage1Photos_ description]);
+    //RCLog(@"addingPhotos_: %@", [addingToAlbumPhotos_ description]);
+    //RCLog(@"pendingSecondStagePhotos_: %@", [pendingStage2Photos_ description]);
+    //RCLog(@"uploadingSecondStagePhotos_: %@", [uploadingStage2Photos_ description]);
 
     NSArray *photosToAdd = nil;
     @synchronized(self) {
@@ -345,12 +345,12 @@ static const NSTimeInterval RETRY_TIME = 5;
     NSArray *newSecondStagePhotos = @[];
 
     @synchronized(self) {
-        RCLog(@"photosWereAdded:");
-        RCLog(@"uploadingPhotos_: %@", [uploadingStage1Photos_ description]);
-        RCLog(@"uploadedPhotos_: %@", [uploadedStage1Photos_ description]);
-        RCLog(@"addingPhotos_: %@", [addingToAlbumPhotos_ description]);
-        RCLog(@"pendingSecondStagePhotos_: %@", [pendingStage2Photos_ description]);
-        RCLog(@"uploadingSecondStagePhotos_: %@", [uploadingStage2Photos_ description]);
+        //RCLog(@"photosWereAdded:");
+        //RCLog(@"uploadingPhotos_: %@", [uploadingStage1Photos_ description]);
+        //RCLog(@"uploadedPhotos_: %@", [uploadedStage1Photos_ description]);
+        //RCLog(@"addingPhotos_: %@", [addingToAlbumPhotos_ description]);
+        //RCLog(@"pendingSecondStagePhotos_: %@", [pendingStage2Photos_ description]);
+        //RCLog(@"uploadingSecondStagePhotos_: %@", [uploadingStage2Photos_ description]);
 
         int nrOfUnfinishedPhotos = [uploadingStage1Photos_ getAllPhotos].count + [uploadedStage1Photos_ getAllPhotos].count + [addingToAlbumPhotos_  getAllPhotos].count;
 
@@ -498,7 +498,7 @@ static const NSTimeInterval RETRY_TIME = 5;
 {
     NSMutableArray *uploadingPhotosForAlbum = [[NSMutableArray alloc] init];
     for (AlbumUploadingPhoto *photo in [self getAllUploadingPhotos]) {
-        RCLog(@"status is %d", [photo getUploadStatus]);
+        //RCLog(@"status is %d", [photo getUploadStatus]);
         if (photo.albumId == albumId && ([photo getUploadStatus] == UploadStatus_WaitingForId || [photo getUploadStatus] == UploadStatus_Stage1Uploading || [photo getUploadStatus] == UploadStatus_AddingToAlbum)) {
             SLAlbumPhoto *albumPhoto = [[SLAlbumPhoto alloc] initWithSLAlbumUploadingPhoto:photo];
             [uploadingPhotosForAlbum addObject:albumPhoto];
@@ -518,7 +518,7 @@ static const NSTimeInterval RETRY_TIME = 5;
         NSArray *adding = [addingToAlbumPhotos_ getAllPhotos];
         result = [[[[uploadingStage1 arrayByAddingObjectsFromArray:uploadedStage1] arrayByAddingObjectsFromArray:adding] arrayByAddingObjectsFromArray:pendingStage2Photos_] arrayByAddingObjectsFromArray:uploadingStage2Photos_];
     }
-    RCLog(@"getUploadingPhotos: %d uploading photos", result.count);
+    //RCLog(@"getUploadingPhotos: %d uploading photos", result.count);
     return result;
 }
 
@@ -569,7 +569,7 @@ NSString * showAlbumUploadingPhotoIds(NSArray *albumUploadingPhotos)
 static void logUploads(NSArray *albumUploadingPhotos)
 {
     for (AlbumUploadingPhoto *photo in albumUploadingPhotos) {
-        RCLog(@"Upload: %@ in album %lld, state %d file:%@", photo.photoId ? showShortPhotoId(photo.photoId) : @"Photo_with_no_ID_yet", photo.albumId, [photo getUploadStatus], [photo getFullResFilename]);
+        //RCLog(@"Upload: %@ in album %lld, state %d file:%@", photo.photoId ? showShortPhotoId(photo.photoId) : @"Photo_with_no_ID_yet", photo.albumId, [photo getUploadStatus], [photo getFullResFilename]);
     }
 }
 
