@@ -16,6 +16,7 @@
     #import <QuartzCore/QuartzCore.h>
 	#import "RCLog.h"
     #import "Util.h"
+    #import "Notification.h"
     #import <NewRelicAgent/NewRelic.h>
     #import "Mixpanel.h"
 #endif
