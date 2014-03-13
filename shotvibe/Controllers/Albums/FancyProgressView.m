@@ -220,7 +220,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 {
     self = [super initWithFrame:frame];
     if (self) {
-        RCLog(@"Init progress view");
+        //RCLog(@"Init progress view");
         progressLayer_ = [CAShapeLayer layer];
         progressLayer_.fillRule = kCAFillRuleEvenOdd;
         progressLayer_.fillColor = [UIColor blackColor].CGColor;
@@ -256,7 +256,7 @@ static float const kFadeOutTime = 3 * kFlyOutTime; // Time for the white backgro
 // Clear everything, for init or reuse.
 - (void)reset
 {
-    RCLog(@"Reset progress view");
+    //RCLog(@"Reset progress view");
     [self.layer removeAllAnimations];
     [progressLayer_ removeAllAnimations];
     [self executeWithoutImplicitAnimation:^{
