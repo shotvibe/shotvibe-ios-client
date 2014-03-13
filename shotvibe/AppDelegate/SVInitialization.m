@@ -96,8 +96,8 @@
     //Customize Segment Control
     if (IS_IOS7) {
 		
-		[[UISegmentedControl appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:BLUE} forState:UIControlStateSelected];
-		[[UISegmentedControl appearance] setTintColor:[UIColor whiteColor]];
+//		[[UISegmentedControl appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:BLUE} forState:UIControlStateSelected];
+//		[[UISegmentedControl appearance] setTintColor:[UIColor whiteColor]];
 	}
 	else {
 		

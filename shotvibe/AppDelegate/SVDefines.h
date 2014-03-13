@@ -10,7 +10,7 @@
 #define shotvibe_SVDefines_h
 
 #define IS_IOS7 ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0)
-#define BLUE [UIColor colorWithRed:19.0 / 255.0 green:87.0 / 255.0 blue:214.0 / 255.0 alpha:1]
+#define BLUE [UIColor groupTableViewBackgroundColor]
 #define KEYBOARD_H 216
 
 #define kMemberNickname @"nickname"

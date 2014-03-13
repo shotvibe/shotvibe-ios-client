@@ -66,31 +66,10 @@
 		[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
 	}
 	
-	self.tableView.delegate = self;
+    self.tableView.backgroundColor = [UIColor clearColor];
 	[self.tableView setAllowsSelection:YES];
 	
 	self.noMembersView.hidden = YES;
-	
-	self.searchBar.backgroundImage = [UIImage imageNamed:@"SearchBlackBg.png"];
-	UIImage *search_bg = [UIImage imageNamed:@"searchFieldDarkBg.png"];
-	UIImage *resizable_bg = [search_bg resizableImageWithCapInsets:UIEdgeInsetsMake(5, 20, 5, 20) resizingMode:UIImageResizingModeStretch];
-	[self.searchBar setSearchFieldBackgroundImage:resizable_bg forState:UIControlStateNormal];
-	
-	// hack to set the color of the search text to white only in this screen
-	for (UIView *subView in self.searchBar.subviews) {
-		if (IS_IOS7) {
-			for (UIView *ndLeveSubView in subView.subviews) {
-				if ([ndLeveSubView isKindOfClass:[UITextField class]]) {
-					((UITextField *)ndLeveSubView).textColor = [UIColor whiteColor];
-				}
-			}
-		}
-		else {
-			if ([subView isKindOfClass:[UITextField class]]) {
-				((UITextField *)subView).textColor = [UIColor whiteColor];
-			}
-		}
-	}
 	
 	ownerCell = [self.tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
 	ownerCell.frame = CGRectMake(0, 0, 320, 42);
@@ -204,10 +183,10 @@
 		ownerCell.hidden = NO;
         [ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
         [ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
-		ownerCell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
 		ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
-		ownerCell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
-		ownerCell.statusLabel.text = @"Leave Album";
+		ownerCell.statusLabel.text = @"Leave";
+        CGSize size = [ownerCell.statusLabel.text sizeWithFont:ownerCell.statusLabel.font];
+        ownerCell.statusImageView.frame = CGRectMake(ownerCell.statusLabel.frame.origin.x + ownerCell.statusLabel.frame.size.width - size.width - 4 - ownerCell.statusImageView.frame.size.width, ownerCell.statusImageView.frame.origin.y, 13, 13);
 	}
 	else {
 		// There are some members
@@ -251,15 +230,12 @@
 
     if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
 		
-		cell.statusImageView.frame = CGRectMake(204-34, 14, 13, 13);
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
-		cell.statusLabel.frame = CGRectMake(220-34, 0, 70, 41);
-		cell.statusLabel.text = @"Leave Album";
-		//cell.userInteractionEnabled = YES;
+		cell.statusLabel.text = @"Leave";
+        CGSize size = [cell.statusLabel.text sizeWithFont:cell.statusLabel.font];
+        cell.statusImageView.frame = CGRectMake(cell.statusLabel.frame.origin.x + cell.statusLabel.frame.size.width - size.width - 4 - cell.statusImageView.frame.size.width, cell.statusImageView.frame.origin.y, 13, 13);
 	}
 	else {
-		cell.statusImageView.frame = CGRectMake(204, 14, 13, 13);
-		cell.statusLabel.frame = CGRectMake(220, 0, 70, 41);
         if (![member getInviteStatus]) {
             cell.statusImageView.image = nil;
             cell.statusLabel.text = @"";
@@ -267,17 +243,18 @@
             switch ([member getInviteStatus].ordinal) {
                 case SLAlbumMember_InviteStatus_JOINED:
                     cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
-                    cell.statusLabel.text = @"joined";
+                    cell.statusLabel.text = @"Joined";
                     break;
 
                 case SLAlbumMember_InviteStatus_SMS_SENT:
                 case SLAlbumMember_InviteStatus_INVITATION_VIEWED:
                     cell.statusImageView.image = [UIImage imageNamed:@"MemberInvited"];
-                    cell.statusLabel.text = @"invited";
+                    cell.statusLabel.text = @"Invited";
                     break;
             }
         }
-		//cell.userInteractionEnabled = NO;
+        CGSize size = [cell.statusLabel.text sizeWithFont:cell.statusLabel.font];
+        cell.statusImageView.frame = CGRectMake(cell.statusLabel.frame.origin.x + cell.statusLabel.frame.size.width - size.width - 4 - cell.statusImageView.frame.size.width, cell.statusImageView.frame.origin.y, 13, 13);
 	}
 	//RCLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
     return cell;
