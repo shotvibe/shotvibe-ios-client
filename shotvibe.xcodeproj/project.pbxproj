@@ -316,10 +316,11 @@
 		04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D6173032B200973BC0 /* phoneNumberContainer.png */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
-		1073F55E18B5001500FB9306 /* FancyProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073F55D18B5001500FB9306 /* FancyProgressView.m */; };
-		1073F55F18B5001500FB9306 /* FancyProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073F55D18B5001500FB9306 /* FancyProgressView.m */; };
+		106103DD18D1FAC90067C4BB /* IconBadgeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 106103DC18D1FAC90067C4BB /* IconBadgeController.m */; };
 		106C344918C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
 		106C344A18C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
+		1073F55E18B5001500FB9306 /* FancyProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073F55D18B5001500FB9306 /* FancyProgressView.m */; };
+		1073F55F18B5001500FB9306 /* FancyProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073F55D18B5001500FB9306 /* FancyProgressView.m */; };
 		108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF051884083200757E36 /* NewRelicAgent.framework */; };
 		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
 		108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF091884087A00757E36 /* libz.dylib */; };
@@ -1064,10 +1065,12 @@
 		04C407D6173032B200973BC0 /* phoneNumberContainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoneNumberContainer.png; sourceTree = "<group>"; };
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
-		1073F55C18B5001500FB9306 /* FancyProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FancyProgressView.h; path = Albums/FancyProgressView.h; sourceTree = "<group>"; };
-		1073F55D18B5001500FB9306 /* FancyProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FancyProgressView.m; path = Albums/FancyProgressView.m; sourceTree = "<group>"; };
+		106103DB18D1FAC90067C4BB /* IconBadgeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconBadgeController.h; path = shotvibe/API/IconBadgeController.h; sourceTree = SOURCE_ROOT; };
+		106103DC18D1FAC90067C4BB /* IconBadgeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IconBadgeController.m; path = shotvibe/API/IconBadgeController.m; sourceTree = SOURCE_ROOT; };
 		106C344718C4C27A006A5603 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notification.h; path = shotvibe/API/Notification.h; sourceTree = SOURCE_ROOT; };
 		106C344818C4C27A006A5603 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Notification.m; path = shotvibe/API/Notification.m; sourceTree = SOURCE_ROOT; };
+		1073F55C18B5001500FB9306 /* FancyProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FancyProgressView.h; path = Albums/FancyProgressView.h; sourceTree = "<group>"; };
+		1073F55D18B5001500FB9306 /* FancyProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FancyProgressView.m; path = Albums/FancyProgressView.m; sourceTree = "<group>"; };
 		1077E30E18A2768A00E9E9C5 /* AlbumBase.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumBase.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumBase.java; sourceTree = SOURCE_ROOT; };
 		1077E30F18A276BF00E9E9C5 /* AlbumContents.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumContents.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumContents.java; sourceTree = SOURCE_ROOT; };
 		1077E31018A276BF00E9E9C5 /* AlbumMember.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumMember.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumMember.java; sourceTree = SOURCE_ROOT; };
@@ -3251,6 +3254,8 @@
 				10C2DACA18B4E82E00F3C28A /* UploadSessionDelegate.m */,
 				66278D021867C94900D23F34 /* UserSettings.h */,
 				66278D031867C94900D23F34 /* UserSettings.m */,
+				106103DB18D1FAC90067C4BB /* IconBadgeController.h */,
+				106103DC18D1FAC90067C4BB /* IconBadgeController.m */,
 			);
 			name = API;
 			path = Delegates;
@@ -4094,6 +4099,7 @@
 				6601324D187F4E670042047B /* GenericDeclaration.m in Sources */,
 				108CDF6E18846B9000757E36 /* MPSurvey.m in Sources */,
 				66D5833F1867D66B00EAC842 /* RCScrollView.m in Sources */,
+				106103DD18D1FAC90067C4BB /* IconBadgeController.m in Sources */,
 				66013256187F4E670042047B /* JavaMetadata.m in Sources */,
 				66278C911867C38300D23F34 /* SVAlbumListViewController.m in Sources */,
 				66278CC31867C57300D23F34 /* SVProfilePicViewController.m in Sources */,

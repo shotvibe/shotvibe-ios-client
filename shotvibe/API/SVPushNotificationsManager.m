@@ -12,20 +12,23 @@
 #import "JSONObject.h"
 #import "JSONException.h"
 #import "Notification.h"
+#import "IconBadgeController.h"
 
 static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 
 @implementation SVPushNotificationsManager
 {
-    AlbumManager *albumManager;
+    AlbumManager *albumManager_;
+    IconBadgeController *iconBadgeController_;
 }
 
-- (id)initWithAlbumManager:(AlbumManager *)albumManager_
+- (id)initWithAlbumManager:(AlbumManager *)albumManager
 {
     self = [super init];
 
     if (self) {
-        self->albumManager = albumManager_;
+        albumManager_ = albumManager;
+        iconBadgeController_ = [[IconBadgeController alloc] init];
     }
 
     return self;
@@ -66,7 +69,7 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
     dispatch_async(backgroundQueue, ^{
         NSError *error;
         RCLog(@"Registering deviceToken: %@", deviceToken);
-        if (![[albumManager getShotVibeAPI] registerDevicePushWithDeviceToken:deviceToken error:&error]) {
+        if (![[albumManager_ getShotVibeAPI] registerDevicePushWithDeviceToken:deviceToken error:&error]) {
             // We weren't able to register with the API server.
 			// So just give up now: the registrationId won't be saved in UserSettings,
 			// and so this operation will be retried some time later on (the next time setup is called)
@@ -126,14 +129,14 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 - (void)handleAlbumListSync
 {
     RCLog(@"handleAlbumListSync");
-    [albumManager refreshAlbumList];
+    [albumManager_ refreshAlbumList];
 }
 
 
 - (void)handleAlbumSyncWithAlbumId:(int64_t)albumId
 {
     RCLog(@"handleAlbumSyncWithAlbumId:%llu", albumId);
-    [albumManager reportAlbumUpdate:albumId];
+    [albumManager_ reportAlbumUpdate:albumId];
 }
 
 
