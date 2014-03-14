@@ -339,6 +339,9 @@ enum RefreshStatus
                         [listener onAlbumContentsRefreshComplete:albumId albumContents:updatedContents];
                     }
 
+                    // Because the numNewPhotos property may have changed, we also need to refresh the album list and notify any listeners. We can use the database version rather than do a server request, because the refreshed album was just updated in the database, so the information will be accurate.
+                    [self refreshAlbumListFromDb];
+
                     data.refreshStatus = IDLE;
                     [self cleanAlbumContentsListeners:albumId];
                     done = true;

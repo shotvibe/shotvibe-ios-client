@@ -8,6 +8,6 @@
 
 #import "AlbumManager.h"
 
-@interface IconBadgeController : NSObject <AlbumListListener, AlbumContentsListener>
+@interface IconBadgeController : NSObject <AlbumListListener>
 
 @end
