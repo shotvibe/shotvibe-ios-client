@@ -53,7 +53,7 @@
     if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
 //		self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 //		self.navigationController.navigationBar.barTintColor = BLUE;
-        self.navigationController.navigationBar.tintColor = BLUE;
+//        self.navigationController.navigationBar.tintColor = BLUE;
     }
 
     [self gatherLocalAlbums];

@@ -67,16 +67,16 @@
 	
 	// Add custom toolbar
 	toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, 320, 44)];
-	toolbarView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
+	toolbarView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 	toolbarView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
 	toolbarView.alpha = 0;
 	
-	butTrash = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+	butTrash = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 0, 44, 44)];
 	[butTrash setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
 	[butTrash addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 	[toolbarView addSubview:butTrash];
     
-	butShare = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 0, 44, 44)];
+	butShare = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
 	[butShare setImage:[UIImage imageNamed:@"exportIcon.png"] forState:UIControlStateNormal];
 	[butShare addTarget:self action:@selector(exportButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 	butShare.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
@@ -172,7 +172,6 @@
 //        self.edgesForExtendedLayout = UIRectEdgeNone;
 //		self.navigationController.navigationBar.translucent = YES;
 	}
-	
 	
 	[photosScrollView removeGestureRecognizer:doubleTap];
 	[photosScrollView removeGestureRecognizer:singleTap];
@@ -514,7 +513,7 @@
             NSString *dateFormated = [NSDateFormatter localizedStringFromDate:dateAdded
 																	dateStyle:NSDateFormatterLongStyle
 																	timeStyle:NSDateFormatterShortStyle];
-            str = [NSString stringWithFormat:@"%@\n%@", [[[photo getServerPhoto] getAuthor] getMemberNickname], dateFormated];
+            str = [NSString stringWithFormat:@"Updated by %@\n%@", [[[photo getServerPhoto] getAuthor] getMemberNickname], dateFormated];
 			
 			// Hide the trash button for photos that does not belong the the current user
             butTrash.hidden = [[[photo getServerPhoto] getAuthor] getMemberId] != [self.albumManager getShotVibeAPI].authData.userId;
