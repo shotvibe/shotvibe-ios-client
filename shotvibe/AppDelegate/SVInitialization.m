@@ -15,8 +15,6 @@
 
 - (void)configureAppearanceProxies {
 	
-    NSLog(@"%@", [UIFont fontNamesForFamilyName:@"Helvetica Neue"]);
-    
     if (IS_IOS7) {
         [[UINavigationBar appearance] setTitleTextAttributes:@{ UITextAttributeFont : [UIFont fontWithName:@"HelveticaNeue-Medium" size:16] }
         ];
