@@ -197,6 +197,7 @@
             else {
 				//self.navigationItem.rightBarButtonItem = nil;
 				//nameChanged = NO;
+                [self handleContinueButtonPressed:nil];
             }
         });
     });
