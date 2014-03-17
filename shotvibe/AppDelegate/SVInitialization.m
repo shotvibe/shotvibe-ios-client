@@ -15,8 +15,10 @@
 
 - (void)configureAppearanceProxies {
 	
+    NSLog(@"%@", [UIFont fontNamesForFamilyName:@"Helvetica Neue"]);
+    
     if (IS_IOS7) {
-        [[UINavigationBar appearance] setTitleTextAttributes:@{ UITextAttributeFont : [UIFont fontWithName:@"Helvetica" size:19] }
+        [[UINavigationBar appearance] setTitleTextAttributes:@{ UITextAttributeFont : [UIFont fontWithName:@"HelveticaNeue-Medium" size:16] }
         ];
     } else {
         UIImage *baseImage = [UIImage imageNamed:@"navBarBg.png"];
@@ -24,7 +26,7 @@
         UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
 
         [[UINavigationBar appearance] setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
-        [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"Helvetica" size:19.0], UITextAttributeFont, nil]];
+        [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIFont fontWithName:@"HelveticaNeue-Medium" size:16.0], UITextAttributeFont, nil]];
     }
     
     // Customize back barbuttonitem for nav bar
@@ -32,7 +34,7 @@
     [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:1.0 forBarMetrics:UIBarMetricsLandscapePhone];*/
     if (IS_IOS7) {
         //[[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
-        [[UIBarButtonItem appearance] setTitleTextAttributes:@{ UITextAttributeFont : [UIFont fontWithName:@"Helvetica-Light" size:19] }
+        [[UIBarButtonItem appearance] setTitleTextAttributes:@{ UITextAttributeFont : [UIFont fontWithName:@"Helvetica-Light" size:15] }
                                                     forState:UIControlStateNormal];
     } else {
         UIImage *baseImage = [UIImage imageNamed:@"navbarBackButton.png"];

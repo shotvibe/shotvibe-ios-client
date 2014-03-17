@@ -143,6 +143,7 @@
 	if (IS_IOS7) {
 		[self setNeedsStatusBarAppearanceUpdate];
 	}
+    
 }
 
 

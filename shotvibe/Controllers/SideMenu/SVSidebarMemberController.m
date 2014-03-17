@@ -194,7 +194,7 @@
 		self.tableView.hidden = NO;
 		self.searchBar.userInteractionEnabled = YES;
 		self.butOwner.enabled = NO;
-		self.butAddFriends.frame = CGRectMake(16, 98, 240, 40);
+		self.butAddFriends.frame = CGRectMake(16, 55, 240, 40);
 		
 		ownerCell.hidden = YES;
 	}

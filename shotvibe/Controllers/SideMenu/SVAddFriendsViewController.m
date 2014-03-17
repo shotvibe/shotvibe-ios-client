@@ -106,6 +106,10 @@
     [self setAllContacts:[[NSArray alloc] init]];
 
     [self.albumManager.phoneContactsManager setListenerWithSLPhoneContactsManager_Listener:self];
+    
+    self.searchBar.layer.borderWidth = 1;
+    self.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
+
 }
 
 
