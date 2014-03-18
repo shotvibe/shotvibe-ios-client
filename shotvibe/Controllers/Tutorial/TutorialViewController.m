@@ -8,8 +8,15 @@
 
 #import "TutorialViewController.h"
 #import "TutorialChildViewController.h"
+#import "PageControl.h"
 
 @interface TutorialViewController ()
+
+@property (nonatomic, weak) IBOutlet UILabel *topLabel;
+@property (nonatomic, weak) IBOutlet UILabel *bottomLabel;
+@property (nonatomic, weak) IBOutlet PageControl *pageControl;
+
+- (IBAction)dismiss:(id)sender;
 
 @end
 
@@ -22,6 +29,7 @@
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     
     self.pageController.dataSource = self;
+    self.pageController.delegate = self;
     [[self.pageController view] setFrame:[[self view] bounds]];
     
     TutorialChildViewController *initialViewController = [self viewControllerAtIndex:0];
@@ -31,7 +39,7 @@
     [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     [self addChildViewController:self.pageController];
-    [[self view] addSubview:[self.pageController view]];
+    [[self view] insertSubview:[self.pageController view] atIndex:0];
     [self.pageController didMoveToParentViewController:self];
     
 }
@@ -81,14 +89,15 @@
     
 }
 
-- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
-    // The number of items reflected in the page indicator.
-    return 7;
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
+    
+    TutorialChildViewController *viewController = [pageViewController.viewControllers firstObject];
+    self.pageControl.currentPage = [viewController index];
+    
 }
 
-- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
-    // The selected item reflected in the page indicator.
-    return 0;
+- (IBAction)dismiss:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kDismissTutorial" object:nil];
 }
 
 @end

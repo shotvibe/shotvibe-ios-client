@@ -10,7 +10,7 @@
 
 @interface TutorialChildViewController ()
 
-- (IBAction)dismiss:(id)sender;
+@property (nonatomic, weak) IBOutlet UIImageView *iv;
 
 @end
 
@@ -28,17 +28,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    self.iv.image = [UIImage imageNamed:[NSString stringWithFormat:@"tutorial%d", self.index+1]];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)dismiss:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kDismissTutorial" object:nil];
 }
 
 @end

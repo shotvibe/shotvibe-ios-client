@@ -575,6 +575,11 @@
 		3E36D4F518D83F2A003A1D3A /* tutorial7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E36D4E518D83F2A003A1D3A /* tutorial7@2x.png */; };
 		3E36D4F618D83F2A003A1D3A /* TutorialBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E36D4E618D83F2A003A1D3A /* TutorialBtn.png */; };
 		3E36D4F718D83F2A003A1D3A /* TutorialBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E36D4E718D83F2A003A1D3A /* TutorialBtn@2x.png */; };
+		3E36D50118D862B6003A1D3A /* PageControlDotSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E36D4FD18D862B6003A1D3A /* PageControlDotSelected.png */; };
+		3E36D50218D862B6003A1D3A /* PageControlDotSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E36D4FE18D862B6003A1D3A /* PageControlDotSelected@2x.png */; };
+		3E36D50318D862B6003A1D3A /* PageControlDotUnselected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E36D4FF18D862B6003A1D3A /* PageControlDotUnselected.png */; };
+		3E36D50418D862B6003A1D3A /* PageControlDotUnselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E36D50018D862B6003A1D3A /* PageControlDotUnselected@2x.png */; };
+		3E36D50818D8634A003A1D3A /* PageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E36D50718D8634A003A1D3A /* PageControl.m */; };
 		3E47246318D06E5400FF6105 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E47245518D06E5400FF6105 /* Icon-40.png */; };
 		3E47246418D06E5400FF6105 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E47245618D06E5400FF6105 /* Icon-40@2x.png */; };
 		3E47246518D06E5400FF6105 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E47245718D06E5400FF6105 /* Icon-60.png */; };
@@ -1524,6 +1529,12 @@
 		3E36D4E518D83F2A003A1D3A /* tutorial7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorial7@2x.png"; sourceTree = "<group>"; };
 		3E36D4E618D83F2A003A1D3A /* TutorialBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TutorialBtn.png; sourceTree = "<group>"; };
 		3E36D4E718D83F2A003A1D3A /* TutorialBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TutorialBtn@2x.png"; sourceTree = "<group>"; };
+		3E36D4FD18D862B6003A1D3A /* PageControlDotSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PageControlDotSelected.png; sourceTree = "<group>"; };
+		3E36D4FE18D862B6003A1D3A /* PageControlDotSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PageControlDotSelected@2x.png"; sourceTree = "<group>"; };
+		3E36D4FF18D862B6003A1D3A /* PageControlDotUnselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PageControlDotUnselected.png; sourceTree = "<group>"; };
+		3E36D50018D862B6003A1D3A /* PageControlDotUnselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PageControlDotUnselected@2x.png"; sourceTree = "<group>"; };
+		3E36D50618D8634A003A1D3A /* PageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControl.h; sourceTree = "<group>"; };
+		3E36D50718D8634A003A1D3A /* PageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageControl.m; sourceTree = "<group>"; };
 		3E47245518D06E5400FF6105 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
 		3E47245618D06E5400FF6105 /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
 		3E47245718D06E5400FF6105 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
@@ -2916,6 +2927,8 @@
 		3E36D4C818D83B2D003A1D3A /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				3E36D50618D8634A003A1D3A /* PageControl.h */,
+				3E36D50718D8634A003A1D3A /* PageControl.m */,
 				3E36D4CE18D83C89003A1D3A /* TutorialViewController.h */,
 				3E36D4CF18D83C89003A1D3A /* TutorialViewController.m */,
 				3E36D4D018D83C89003A1D3A /* TutorialViewController.xib */,
@@ -2929,6 +2942,10 @@
 		3E36D4F818D83F31003A1D3A /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				3E36D4FD18D862B6003A1D3A /* PageControlDotSelected.png */,
+				3E36D4FE18D862B6003A1D3A /* PageControlDotSelected@2x.png */,
+				3E36D4FF18D862B6003A1D3A /* PageControlDotUnselected.png */,
+				3E36D50018D862B6003A1D3A /* PageControlDotUnselected@2x.png */,
 				3E36D4D818D83F2A003A1D3A /* tutorial1.png */,
 				3E36D4D918D83F2A003A1D3A /* tutorial1@2x.png */,
 				3E36D4DA18D83F2A003A1D3A /* tutorial2.png */,
@@ -3626,6 +3643,7 @@
 				AA78D2C817172C67006E1240 /* dropDownField.png in Resources */,
 				AA78D2CA17172C67006E1240 /* dropDownField@2x.png in Resources */,
 				3E36D4F018D83F2A003A1D3A /* tutorial5.png in Resources */,
+				3E36D50218D862B6003A1D3A /* PageControlDotSelected@2x.png in Resources */,
 				040BACD21717453C00D90C63 /* navBarBg.png in Resources */,
 				040BACD41717453C00D90C63 /* navBarBg@2x.png in Resources */,
 				0446EEE91718845D00ED0076 /* albumMemberProfileFrame@2x.png in Resources */,
@@ -3863,6 +3881,7 @@
 				04C4073D1730303600973BC0 /* PF.png in Resources */,
 				04C4073F1730303600973BC0 /* PG.png in Resources */,
 				04C407411730303600973BC0 /* PH.png in Resources */,
+				3E36D50418D862B6003A1D3A /* PageControlDotUnselected@2x.png in Resources */,
 				04C407431730303600973BC0 /* PK.png in Resources */,
 				04C407451730303600973BC0 /* PL.png in Resources */,
 				04C407471730303600973BC0 /* PM.png in Resources */,
@@ -3903,6 +3922,7 @@
 				04C407831730303600973BC0 /* SY.png in Resources */,
 				04C407851730303600973BC0 /* SZ.png in Resources */,
 				04C407871730303600973BC0 /* TC.png in Resources */,
+				3E36D50318D862B6003A1D3A /* PageControlDotUnselected.png in Resources */,
 				04C407891730303600973BC0 /* TD.png in Resources */,
 				04C4078B1730303600973BC0 /* TF.png in Resources */,
 				04C4078D1730303600973BC0 /* TG.png in Resources */,
@@ -4035,6 +4055,7 @@
 				2849A7AC17D9AA580076AFBA /* CameraTakeAnotherPicture.png in Resources */,
 				2849A7AD17D9AA580076AFBA /* CameraTakeAnotherPicture@2x.png in Resources */,
 				2849A7AE17D9AA580076AFBA /* notificationBubble.png in Resources */,
+				3E36D50118D862B6003A1D3A /* PageControlDotSelected.png in Resources */,
 				108CDF6A18846B9000757E36 /* MPDismissKeyboard.png in Resources */,
 				2849A7AF17D9AA580076AFBA /* notificationBubble@2x.png in Resources */,
 				2849A7B017D9AA580076AFBA /* slider-cap@2x.png in Resources */,
@@ -4296,6 +4317,7 @@
 				66278CAE1867C4D400D23F34 /* SVCameraNavController.m in Sources */,
 				6601322F187F4E670042047B /* IOSIntArray.m in Sources */,
 				108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */,
+				3E36D50818D8634A003A1D3A /* PageControl.m in Sources */,
 				663FF03818C2C7D600CB3764 /* NetworkLogViewController.m in Sources */,
 				66278CE11867C62300D23F34 /* SVActivityViewController.m in Sources */,
 				3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */,
