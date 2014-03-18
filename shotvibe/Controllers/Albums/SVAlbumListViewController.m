@@ -86,7 +86,7 @@
 
     //RCLog(@"##### Initial albumList: %@", albumList);
 	
-	table_content_offset_y = IS_IOS7 ? -20 : 44;
+    table_content_offset_y = IS_IOS7 ? 0 : 44;
 	total_header_h = IS_IOS7 ? 0 : 64;
 	status_bar_h = IS_IOS7 ? 0 : 20;
 	dropdown_origin_y = IS_IOS7 ? (45+44) : (45+44);

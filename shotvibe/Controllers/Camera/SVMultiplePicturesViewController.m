@@ -332,11 +332,7 @@
 
     [UIView animateWithDuration:0.3 animations:^{
         CGRect frame = self.createNewAlbumTitleView.frame;
-        if (IS_IOS7) {
-            frame.origin.y = self.tableView.frame.origin.y + self.navigationController.navigationBar.bounds.size.height;
-        } else {
-            frame.origin.y = self.tableView.frame.origin.y;
-        }
+        frame.origin.y = self.tableView.frame.origin.y;
         self.createNewAlbumTitleView.frame = frame;
     }
 
