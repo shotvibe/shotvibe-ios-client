@@ -92,7 +92,28 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     
     TutorialChildViewController *viewController = [pageViewController.viewControllers firstObject];
-    self.pageControl.currentPage = [viewController index];
+    NSUInteger index = [viewController index];
+    
+    NSArray *topTexts = @[@"Create albums with a single tap",
+                          @"Collaborative Albums",
+                          @"Invite your friends to join your album",
+                          @"Upload photos and videos directly to your album",
+                          @"Take photos to the album",
+                          @"Stored in the cloud",
+                          @"Cross platform service"];
+
+    NSArray *bottomTexts = @[@"It's super fast to create a new album. Just tap a single button and it's ready to go.",
+                          @"Invite your friends and family to add their own photos and videos to the album.",
+                          @"Say goodbye to fussing with email addresses. Simply invite your friends and family using your phone's contact list.",
+                          @"Easily add photos and videos from your camera roll, or even shoot directly to your album.",
+                          @"Take photos and video directly to your album. You can also edit and add filters to your photos.",
+                          @"All albums are stored securely in the cloud, freeing up storage on your device and making your photos and videos easily shareable.",
+                          @"Glance works on iOS, Android, and over the web using our web app, making your shared albums accessible just about everywhere."];
+
+    self.pageControl.currentPage = index;
+    
+    self.topLabel.text = topTexts[index];
+    self.bottomLabel.text = bottomTexts[index];
     
 }
 
