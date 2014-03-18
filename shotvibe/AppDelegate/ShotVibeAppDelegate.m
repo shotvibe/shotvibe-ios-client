@@ -18,6 +18,8 @@
 #import "SVSidebarMemberController.h"
 #import "SVNavigationController.h"
 
+#import "TutorialViewController.h"
+
 #import "MPNotificationView.h"
 #import "MFSideMenu.h"
 #import "MBProgressHUD.h"
@@ -111,7 +113,16 @@
         [self processCountryCode:application registrationViewController:registrationViewController];
     }
 
+//    TutorialViewController *t = [[TutorialViewController alloc] init];
+//    self.window.rootViewController = t;
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissTutorial) name:@"kDismissTutorial" object:nil];
+    
     return YES;
+}
+
+- (void)dismissTutorial {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kDismissTutorial" object:nil];
+    self.window.rootViewController = self.sideMenu;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

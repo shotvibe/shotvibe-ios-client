@@ -72,7 +72,7 @@
 	self.noMembersView.hidden = YES;
 	
 	ownerCell = [self.tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
-	ownerCell.frame = CGRectMake(0, 0, 320, 42);
+	ownerCell.frame = CGRectMake(0, 0, 320, 52);
 	ownerCell.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	ownerCell.userInteractionEnabled = NO;
     [self.butOwner addSubview:ownerCell];
