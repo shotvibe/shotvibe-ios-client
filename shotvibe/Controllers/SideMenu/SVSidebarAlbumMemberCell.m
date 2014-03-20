@@ -26,4 +26,13 @@
     // Configure the view for the selected state
 }
 
+- (void)prepareForReuse {
+    
+    self.profileImageView.image = nil;
+    self.memberLabel.text = nil;
+    self.statusImageView.image = nil;
+    self.statusLabel.text = nil;
+
+}
+
 @end

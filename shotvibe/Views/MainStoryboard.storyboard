@@ -702,12 +702,8 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="99" height="98"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="photoFrame.png" id="e9K-f7-GQX">
-                                                            <rect key="frame" x="1" y="1" width="97" height="96"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        </imageView>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="C9q-ds-YvT" customClass="PhotoView">
-                                                            <rect key="frame" x="6" y="5" width="88" height="88"/>
+                                                            <rect key="frame" x="1" y="1" width="97" height="96"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <view hidden="YES" contentMode="scaleToFill" id="JmT-ek-vdD">
@@ -757,22 +753,6 @@
                                             <outlet property="delegate" destination="blj-nY-Sj7" id="A7d-aP-0py"/>
                                         </connections>
                                     </collectionView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="E7P-5v-ToO" userLabel="Sort">
-                                <rect key="frame" x="0.0" y="350" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="BWT-xz-n21">
-                                        <rect key="frame" x="74" y="18" width="173" height="29"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                        <segments>
-                                            <segment title="Feed"/>
-                                            <segment title="User"/>
-                                            <segment title="Date"/>
-                                        </segments>
-                                    </segmentedControl>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -847,7 +827,7 @@
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
                                         <inset key="contentEdgeInsets" minX="-4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="cameraIcon.png">
+                                        <state key="normal" image="albumTakePicture.png">
                                             <color key="titleColor" red="0.37647058820000001" green="0.40000000000000002" blue="0.4431372549" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -864,7 +844,7 @@
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
                                         <inset key="contentEdgeInsets" minX="-4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="cameraRollIcon.png">
+                                        <state key="normal" image="albumNewIcon.png">
                                             <color key="titleColor" red="0.37647058820000001" green="0.40000000000000002" blue="0.4431372549" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -885,10 +865,10 @@
                                         <color key="backgroundColor" red="0.79607843140000001" green="0.80784313730000001" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.94509803921568625" green="0.94901960784313721" blue="0.95686274509803915" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="pdu-Tl-D5W"/>
@@ -900,8 +880,6 @@
                         <outlet property="collectionViewContainer" destination="AT7-8R-Xbr" id="YBC-kd-hvz"/>
                         <outlet property="headerViewContainer" destination="hDY-dt-Yxw" id="hf7-Xg-VVE"/>
                         <outlet property="noPhotosView" destination="UWU-wO-74L" id="MR5-WY-gg9"/>
-                        <outlet property="switchSort" destination="BWT-xz-n21" id="ygQ-a0-Oa8"/>
-                        <outlet property="switchView" destination="E7P-5v-ToO" id="bOk-92-ufZ"/>
                         <segue destination="ziD-RB-hWf" kind="modal" identifier="AddFriendsSegue" id="SAN-qU-tPE"/>
                         <segue destination="N4E-mX-u47" kind="push" identifier="SettingsSegue" id="YZf-v8-Yxg"/>
                     </connections>
@@ -2449,8 +2427,6 @@ activation code just sent to you</string>
         <image name="albumVideoIconSmall.png" width="18" height="11"/>
         <image name="butLogout.png" width="243" height="43"/>
         <image name="butResend.png" width="235" height="43"/>
-        <image name="cameraIcon.png" width="25" height="19"/>
-        <image name="cameraRollIcon.png" width="27" height="22"/>
         <image name="cellDivider.png" width="320" height="1"/>
         <image name="clockIcon.png" width="10" height="10"/>
         <image name="delimiter.png" width="1" height="45"/>
@@ -2460,7 +2436,6 @@ activation code just sent to you</string>
         <image name="imageUnselected.png" width="18" height="18"/>
         <image name="newPhotosIndicator.png" width="27" height="18"/>
         <image name="phoneNumberContainer.png" width="270" height="44"/>
-        <image name="photoFrame.png" width="97" height="96"/>
         <image name="profileIcon.png" width="14" height="14"/>
         <image name="registrationCodeFieldBg.png" width="192" height="44"/>
         <image name="settingsIcon.png" width="16" height="16"/>
@@ -2471,10 +2446,10 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="sNb-fh-mhv"/>
+        <segue reference="i8y-Zz-QXE"/>
         <segue reference="FFK-OC-3pt"/>
         <segue reference="sO9-n0-6uB"/>
-        <segue reference="i8y-Zz-QXE"/>
         <segue reference="hc8-VF-LIN"/>
-        <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>
 </document>

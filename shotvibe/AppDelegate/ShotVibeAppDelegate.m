@@ -113,9 +113,9 @@
         [self processCountryCode:application registrationViewController:registrationViewController];
     }
 
-//    TutorialViewController *t = [[TutorialViewController alloc] init];
-//    self.window.rootViewController = t;
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissTutorial) name:@"kDismissTutorial" object:nil];
+    TutorialViewController *t = [[TutorialViewController alloc] init];
+    self.window.rootViewController = t;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissTutorial) name:@"kDismissTutorial" object:nil];
     
     return YES;
 }

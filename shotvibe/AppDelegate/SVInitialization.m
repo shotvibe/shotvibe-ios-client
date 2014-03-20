@@ -16,6 +16,8 @@
 - (void)configureAppearanceProxies {
 	
     if (IS_IOS7) {
+        [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"backButton"]];
+        [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"backButton"]];        [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:26.0/255.0 green:97.0/255.0 blue:211.0/255.0 alpha:1]];
         [[UINavigationBar appearance] setTitleTextAttributes:@{ UITextAttributeFont : [UIFont fontWithName:@"HelveticaNeue-Medium" size:16] }
         ];
     } else {

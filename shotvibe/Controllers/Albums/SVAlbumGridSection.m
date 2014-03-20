@@ -20,6 +20,10 @@
 		
 		self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(7, 10, frame.size.height-20, frame.size.height-20)];
 		[self addSubview:self.imageView];
+        
+		UIImageView *imageFrame = [[UIImageView alloc] initWithFrame:CGRectMake(7, 10, frame.size.height-20, frame.size.height-20)];
+        imageFrame.image = [UIImage imageNamed:@"imageRounded"];
+		[self addSubview:imageFrame];
 		
 		self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, frame.size.width-7, frame.size.height)];
 		self.nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
@@ -29,7 +33,7 @@
 		
 		self.dateButtonLabel = [[UIButton alloc] initWithFrame:CGRectMake(7, 0, frame.size.width-7-7, frame.size.height)];
 		[self.dateButtonLabel.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
-		[self.dateButtonLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[self.dateButtonLabel setTitleColor:[UIColor colorWithRed:0 green:122.0/255.0 blue:191.0/255.0 alpha:1] forState:UIControlStateNormal];
 		self.dateButtonLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		[self.dateButtonLabel setImage:[UIImage imageNamed:@"clockIcon.png"] forState:UIControlStateNormal];
 		self.dateButtonLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
@@ -40,7 +44,7 @@
 
 - (void)setType:(int)type section:(int)section {
 	
-	int y = section == 0 ? 40 : 0;
+	int y = 0;//section == 0 ? 40 : 0;
 	int h = self.frame.size.height+y;
 	
 	self.imageView.frame = CGRectMake(7, y+10, self.frame.size.height-20, self.frame.size.height-20);

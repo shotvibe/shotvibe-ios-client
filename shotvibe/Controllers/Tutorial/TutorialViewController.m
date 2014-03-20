@@ -17,6 +17,7 @@
 @property (nonatomic, weak) IBOutlet PageControl *pageControl;
 
 - (IBAction)dismiss:(id)sender;
+- (IBAction)closeWelcomeScreen:(id)sender;
 
 @end
 
@@ -119,6 +120,10 @@
 
 - (IBAction)dismiss:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"kDismissTutorial" object:nil];
+}
+
+- (IBAction)closeWelcomeScreen:(id)sender {
+    [[sender superview] removeFromSuperview];
 }
 
 @end

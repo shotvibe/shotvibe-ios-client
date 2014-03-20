@@ -63,6 +63,8 @@
 @property (nonatomic, strong) UIImage *userPicture;
 @property (nonatomic, strong) NSString *userNickName;
 
+@property (nonatomic, strong) UIView *sheetView;
+
 - (void)toggleMenu;
 - (void)toggleManagement;
 - (IBAction)takeVideoPressed:(id)sender;
@@ -100,19 +102,39 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 	}
     
     // Setup tabbar right button
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"userIcon.png"]
-																   style:UIBarButtonItemStyleBordered
-																  target:self
-																  action:@selector(toggleMenu)];
-    self.navigationItem.rightBarButtonItem = menuButton;
+    
+    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 68, 40)];
+    
+    UIButton *sortButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [sortButton addTarget:self action:@selector(sortBy:) forControlEvents:UIControlEventTouchUpInside];
+    [sortButton setImage:[UIImage imageNamed:@"MoreButton"] forState:UIControlStateNormal];
+    sortButton.frame = CGRectMake(0, 2, 28, 40);
+    [v addSubview:sortButton];
+    
+    UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuButton addTarget:self action:@selector(toggleMenu) forControlEvents:UIControlEventTouchUpInside];
+    [menuButton setImage:[UIImage imageNamed:@"FriendsButton"] forState:UIControlStateNormal];
+    menuButton.frame = CGRectMake(35, 2, 33, 30);
+    [v addSubview:menuButton];
+
+//    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithImage:[imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+//																   style:UIBarButtonItemStylePlain
+//																  target:self
+//																  action:@selector(sortBy)];
+//    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"FriendsButton"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+//																   style:UIBarButtonItemStylePlain
+//																  target:self
+//																  action:@selector(toggleMenu)];
+//    self.navigationItem.rightBarButtonItems = @[menuButton,sortButton];
 	
-	
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:v];
+    
     // Setup back button
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
-    NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
-	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
-	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
-	self.navigationItem.backBarButtonItem = backButton;
+//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
+//    NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
+//	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
+//	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
+//	self.navigationItem.backBarButtonItem = backButton;
 	
 	// CollectionView
     [self.collectionView registerClass:[SVAlbumGridSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSectionReuseIdentifier];
@@ -487,7 +509,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 						layout:(UICollectionViewLayout*)collectionViewLayout
 		insetForSectionAtIndex:(NSInteger)section
 {
-	if (section == 0) return UIEdgeInsetsMake(45, 5, 5, 5);
+	//if (section == 0) return UIEdgeInsetsMake(5, 5, 5, 5);
 	return UIEdgeInsetsMake(5, 5, 5, 5);
 }
 
@@ -681,6 +703,81 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 		[sectionsKeys removeObject:lastKey];
 		[sectionsKeys insertObject:lastKey atIndex:0];
 	}
+}
+
+- (void)sortBy:(id)sender {
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Feed",@"User",@"Date", nil];
+//    
+//    [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+    
+    return;
+    
+    if (!self.sheetView) {
+        self.sheetView = [[UIView alloc] initWithFrame:CGRectMake(0, -120, 320, [UIScreen mainScreen].bounds.size.height)];
+
+        UIView *innerSheetView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 120)];
+        innerSheetView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        [self.sheetView addSubview:innerSheetView];
+
+        UIButton *feed = [UIButton buttonWithType:UIButtonTypeCustom];
+        feed.frame = CGRectMake(0, 0, 320, 40);
+        [feed addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
+        [feed setTitle:@"Feed" forState:UIControlStateNormal];
+        [feed setTitleColor:[UIColor colorWithRed:26.0/255.0 green:97.0/255.0 blue:211.0/255.0 alpha:1] forState:UIControlStateNormal];
+        feed.tag = 1;
+        [self.sheetView addSubview:feed];
+
+        UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(10, 39, 300, .5)];
+        line1.backgroundColor = [UIColor lightGrayColor];
+        [self.sheetView addSubview:line1];
+        
+        UIButton *user = [UIButton buttonWithType:UIButtonTypeCustom];
+        user.frame = CGRectMake(0, 40, 320, 40);
+        [user addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
+        [user setTitle:@"User" forState:UIControlStateNormal];
+        [user setTitleColor:[UIColor colorWithRed:26.0/255.0 green:97.0/255.0 blue:211.0/255.0 alpha:1] forState:UIControlStateNormal];
+        user.tag = 2;
+        [self.sheetView addSubview:user];
+
+        UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(10, 79, 300, .5)];
+        line2.backgroundColor = [UIColor lightGrayColor];
+        [self.sheetView addSubview:line2];
+
+        UIButton *date = [UIButton buttonWithType:UIButtonTypeCustom];
+        date.frame = CGRectMake(0, 80, 320, 40);
+        [date addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
+        [date setTitle:@"Date" forState:UIControlStateNormal];
+        [date setTitleColor:[UIColor colorWithRed:26.0/255.0 green:97.0/255.0 blue:211.0/255.0 alpha:1] forState:UIControlStateNormal];
+        date.tag = 3;
+        [self.sheetView addSubview:date];
+    }
+    
+    if (!self.sheetView.superview) {
+        [self.view addSubview:self.sheetView];
+        [UIView animateWithDuration:.3 animations:^{
+            self.sheetView.frame = CGRectMake(0, 0, 320, 120);
+        }];
+    } else {
+        [UIView animateWithDuration:.3 animations:^{
+            self.sheetView.frame = CGRectMake(0, -120, 320, 120);
+        } completion:^(BOOL finished) {
+            [self.sheetView removeFromSuperview];
+        }];
+    }
+}
+
+- (void)sortByType:(id)sender {
+	sort = [sender tag]-1;
+	[[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self disableProgressAndReloadData];
+    
+    [UIView animateWithDuration:.3 animations:^{
+        self.sheetView.frame = CGRectMake(0, -120, 320, 120);
+    } completion:^(BOOL finished) {
+        [self.sheetView removeFromSuperview];
+    }];
 }
 
 - (void)switchSortHandler:(UISegmentedControl*)control {

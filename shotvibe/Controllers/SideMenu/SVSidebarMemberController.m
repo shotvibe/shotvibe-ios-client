@@ -252,9 +252,9 @@
                     cell.statusLabel.text = @"Invited";
                     break;
             }
+            CGSize size = [cell.statusLabel.text sizeWithFont:cell.statusLabel.font];
+            cell.statusImageView.frame = CGRectMake(175 + cell.statusLabel.frame.size.width - size.width - 4 - cell.statusImageView.frame.size.width, cell.statusImageView.frame.origin.y, 13, 13);
         }
-        CGSize size = [cell.statusLabel.text sizeWithFont:cell.statusLabel.font];
-        cell.statusImageView.frame = CGRectMake(cell.statusLabel.frame.origin.x + cell.statusLabel.frame.size.width - size.width - 4 - cell.statusImageView.frame.size.width, cell.statusImageView.frame.origin.y, 13, 13);
 	}
 	//RCLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
     return cell;
