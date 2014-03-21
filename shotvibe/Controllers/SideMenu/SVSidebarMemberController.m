@@ -45,53 +45,57 @@
 
 #pragma mark - View Lifecycle
 
-- (void)viewDidLoad {
-	
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-	
-	// IOS7
-	if (IS_IOS7) {
-		self.sidebarNav.tintColor = [UIColor blackColor];
-		self.sidebarNav.barTintColor = BLUE;
-		
-		UIView *background = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 568, 20)];
-		background.backgroundColor = BLUE;
-		[self.view addSubview:background];
-	}
-	else {
-		self.wantsFullScreenLayout = NO;
-		UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
-		UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
-		UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
-		[self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
-	}
-	
+
+    // IOS7
+    if (IS_IOS7) {
+        self.sidebarNav.tintColor = [UIColor blackColor];
+        self.sidebarNav.barTintColor = BLUE;
+
+        UIView *background = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 568, 20)];
+        background.backgroundColor = BLUE;
+        [self.view addSubview:background];
+    } else {
+        self.wantsFullScreenLayout = NO;
+        UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
+        UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
+        [self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
+    }
+
     self.tableView.backgroundColor = [UIColor clearColor];
-	[self.tableView setAllowsSelection:YES];
-	
-	self.noMembersView.hidden = YES;
-	
-	ownerCell = [self.tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
-	ownerCell.frame = CGRectMake(0, 0, 320, 52);
-	ownerCell.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-	ownerCell.userInteractionEnabled = NO;
+    [self.tableView setAllowsSelection:YES];
+
+    self.noMembersView.hidden = YES;
+
+    ownerCell = [self.tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
+    ownerCell.frame = CGRectMake(0, 0, 320, 52);
+    ownerCell.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    ownerCell.userInteractionEnabled = NO;
     [self.butOwner addSubview:ownerCell];
-	
-	NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-	[[NSNotificationCenter defaultCenter] addObserverForName:MFSideMenuStateNotificationEvent
-													  object:nil
-													   queue:queue
-												  usingBlock:^(NSNotification *note)
-	{
+
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserverForName:MFSideMenuStateNotificationEvent
+                                                      object:nil
+                                                       queue:queue
+                                                  usingBlock:^(NSNotification *note)
+    {
         // This is called when you open and close the side menu
         if ([note.userInfo[@"eventType"] integerValue] == MFSideMenuStateEventMenuDidClose) {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[self resignFirstResponder];
-			});
-		}
-	}];
-}
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self resignFirstResponder];
+            }
 
+
+                           );
+        }
+    }
+
+
+    ];
+}
 
 #pragma mark - Actions
 
@@ -167,37 +171,36 @@
 
 - (void)setAlbumContents:(SLAlbumContents *)albumContents
 {
-	RCLog(@"setAlbumContents ");
+    RCLog(@"setAlbumContents ");
     _albumContents = albumContents;
-	
+
     [self searchForMemberWithName:nil];
-	
-	if (members.count == 0) {
-		// No members
-		self.noMembersView.hidden = NO;
-		self.tableView.hidden = YES;
-		self.searchBar.userInteractionEnabled = NO;
-		self.butOwner.enabled = YES;
-		self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
-		
-		ownerCell.hidden = NO;
+
+    if (members.count == 0) {
+        // No members
+        self.noMembersView.hidden = NO;
+        self.tableView.hidden = YES;
+        self.searchBar.userInteractionEnabled = NO;
+        self.butOwner.enabled = YES;
+        self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
+
+        ownerCell.hidden = NO;
         [ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
         [ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
-		ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
-		ownerCell.statusLabel.text = @"Leave";
+        ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
+        ownerCell.statusLabel.text = @"Leave";
         CGSize size = [ownerCell.statusLabel.text sizeWithFont:ownerCell.statusLabel.font];
         ownerCell.statusImageView.frame = CGRectMake(ownerCell.statusLabel.frame.origin.x + ownerCell.statusLabel.frame.size.width - size.width - 4 - ownerCell.statusImageView.frame.size.width, ownerCell.statusImageView.frame.origin.y, 13, 13);
-	}
-	else {
-		// There are some members
-		self.noMembersView.hidden = YES;
-		self.tableView.hidden = NO;
-		self.searchBar.userInteractionEnabled = YES;
-		self.butOwner.enabled = NO;
-		self.butAddFriends.frame = CGRectMake(16, 55, 240, 40);
-		
-		ownerCell.hidden = YES;
-	}
+    } else {
+        // There are some members
+        self.noMembersView.hidden = YES;
+        self.tableView.hidden = NO;
+        self.searchBar.userInteractionEnabled = YES;
+        self.butOwner.enabled = NO;
+        self.butAddFriends.frame = CGRectMake(16, 55, 240, 40);
+
+        ownerCell.hidden = YES;
+    }
 }
 
 - (void)setParentController:(SVAlbumGridViewController *)parentController {

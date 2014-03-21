@@ -37,15 +37,15 @@
 {
     SLAlbumContents *albumContents;
     BOOL isMenuShowing;
-	BOOL refreshManualy;
-	BOOL navigatingNext;
-	NSMutableArray *sectionsKeys;
-	NSMutableDictionary *sections;
+    BOOL refreshManualy;
+    BOOL navigatingNext;
+    NSMutableArray *sectionsKeys;
+    NSMutableDictionary *sections;
     UIRefreshControl *refresh;
-	SVCameraNavController *cameraNavController;
-	SortType sort;
-	
-	int collection_content_offset_y;
+    SVCameraNavController *cameraNavController;
+    SortType sort;
+
+    int collection_content_offset_y;
 }
 
 @property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
@@ -84,33 +84,33 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized without albumId");
+
+    NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized without albumId");
 
     self.collectionView.alwaysBounceVertical = YES;
-	//self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
-	
-	sections = [[NSMutableDictionary alloc] init];
-	sectionsKeys = [[NSMutableArray alloc] init];
-	sort = [[NSUserDefaults standardUserDefaults] integerForKey:@"sort_photos"];
-	
+    //self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+
+    sections = [[NSMutableDictionary alloc] init];
+    sectionsKeys = [[NSMutableArray alloc] init];
+    sort = [[NSUserDefaults standardUserDefaults] integerForKey:@"sort_photos"];
+
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-		self.butTakePicture.enabled = NO;
-		self.butTakePicture2.enabled = NO;
+        self.butTakePicture.enabled = NO;
+        self.butTakePicture2.enabled = NO;
 //		self.butTakeVideo.enabled = NO;
 //		self.butTakeVideo2.enabled = NO;
-	}
-    
+    }
+
     // Setup tabbar right button
-    
+
     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 68, 40)];
-    
+
     UIButton *sortButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [sortButton addTarget:self action:@selector(sortBy:) forControlEvents:UIControlEventTouchUpInside];
     [sortButton setImage:[UIImage imageNamed:@"MoreButton"] forState:UIControlStateNormal];
     sortButton.frame = CGRectMake(0, 2, 28, 40);
     [v addSubview:sortButton];
-    
+
     UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [menuButton addTarget:self action:@selector(toggleMenu) forControlEvents:UIControlEventTouchUpInside];
     [menuButton setImage:[UIImage imageNamed:@"FriendsButton"] forState:UIControlStateNormal];
@@ -126,83 +126,87 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //																  target:self
 //																  action:@selector(toggleMenu)];
 //    self.navigationItem.rightBarButtonItems = @[menuButton,sortButton];
-	
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:v];
-    
+
     // Setup back button
 //    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
 //    NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
 //	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
 //	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
 //	self.navigationItem.backBarButtonItem = backButton;
-	
-	// CollectionView
+
+    // CollectionView
     [self.collectionView registerClass:[SVAlbumGridSection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kSectionReuseIdentifier];
-	[self.collectionView addSubview:self.switchView];
-	
-	self.switchView.frame = CGRectMake(0, 0, 320, 45);
-	self.switchSort.frame = CGRectMake(50, 10, 220, 30);
-	[self.switchSort addTarget:self action:@selector(switchSortHandler:) forControlEvents:UIControlEventValueChanged];
-	self.switchSort.selectedSegmentIndex = sort;
-	
-	//UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
-	//[flow setSectionInset:UIEdgeInsetsMake(45, 0, 0, 0)];
-	
-	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = self;
-	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = self;
-	
+    [self.collectionView addSubview:self.switchView];
+
+    self.switchView.frame = CGRectMake(0, 0, 320, 45);
+    self.switchSort.frame = CGRectMake(50, 10, 220, 30);
+    [self.switchSort addTarget:self action:@selector(switchSortHandler:) forControlEvents:UIControlEventValueChanged];
+    self.switchSort.selectedSegmentIndex = sort;
+
+    //UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
+    //[flow setSectionInset:UIEdgeInsetsMake(45, 0, 0, 0)];
+
+    ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).parentController = self;
+    ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).parentController = self;
+
     SLAlbumContents *contents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
-	[self setAlbumContents:contents];
+    [self setAlbumContents:contents];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
-	
-	if (albumContents == nil) {
-		//AlbumContents *contents;
-		albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
-		//[self setAlbumContents:contents];
-	}
+    [super viewWillAppear:animated];
+
+    if (albumContents == nil) {
+        //AlbumContents *contents;
+        albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
+        //[self setAlbumContents:contents];
+    }
     //RCLog(@"viewWillAppear initiates refresh");
-	[self.albumManager refreshAlbumContents:self.albumId];
+    [self.albumManager refreshAlbumContents:self.albumId];
     //RCLog(@"after viewWillAppear refresh");
 }
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-	
-	if (refresh == nil) {
-		refresh = [[UIRefreshControl alloc] init];
-		if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-		[refresh addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
-		[self.collectionView addSubview:refresh];
-		
-		// Remove the previous controller from the stack if it's SVCameraPickerController
-		NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-		id lastController = allViewControllers[allViewControllers.count-2];
-		if ([lastController isKindOfClass:[SVCameraPickerController class]])
-			[allViewControllers removeObject:lastController];
-		self.navigationController.viewControllers = allViewControllers;
-	}
-	if (self.scrollToBottom) {
-		self.scrollToBottom = NO;
-		[self.collectionView scrollRectToVisible:CGRectMake(0,
-													  self.collectionView.contentSize.height - self.collectionView.bounds.size.height,
-													  self.collectionView.bounds.size.width,
-													  self.collectionView.bounds.size.height)
-								  animated:NO];
-	}
-	else if (self.scrollToTop) {
-		self.scrollToTop = NO;
-		[self.collectionView scrollRectToVisible:CGRectMake(0, -15,
-															self.collectionView.bounds.size.width,
-															self.collectionView.bounds.size.height)
-										animated:NO];
-	}
-	
-	self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
+
+    if (refresh == nil) {
+        refresh = [[UIRefreshControl alloc] init];
+        if (!IS_IOS7) {
+            refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+        }
+        [refresh addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
+        [self.collectionView addSubview:refresh];
+
+        // Remove the previous controller from the stack if it's SVCameraPickerController
+        NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+        id lastController = allViewControllers[allViewControllers.count - 2];
+        if ([lastController isKindOfClass:[SVCameraPickerController class]]) {
+            [allViewControllers removeObject:lastController];
+        }
+        self.navigationController.viewControllers = allViewControllers;
+    }
+    if (self.scrollToBottom) {
+        self.scrollToBottom = NO;
+        [self.collectionView scrollRectToVisible:CGRectMake(0,
+                                                            self.collectionView.contentSize.height - self.collectionView.bounds.size.height,
+                                                            self.collectionView.bounds.size.width,
+                                                            self.collectionView.bounds.size.height)
+                                        animated:NO];
+    } else if (self.scrollToTop) {
+        self.scrollToTop = NO;
+        [self.collectionView scrollRectToVisible:CGRectMake(0, -15,
+                                                            self.collectionView.bounds.size.width,
+                                                            self.collectionView.bounds.size.height)
+                                        animated:NO];
+    }
+
+    self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 }
 
 
@@ -212,42 +216,48 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
     [self.albumManager markAlbumAsViewed:albumContents];
 
-	if (!navigatingNext) {
-		
-		[self.albumManager removeAlbumContentsListener:self.albumId listener:self];
-		albumContents = nil;
-		
-		self.albumManager = nil;
-		((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).parentController = nil;
-		((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).parentController = nil;
-		self.sideMenu = nil;
-		self.collectionViewContainer = nil;
-		self.collectionView = nil;
-		self.noPhotosView = nil;
+    if (!navigatingNext) {
+        [self.albumManager removeAlbumContentsListener:self.albumId listener:self];
+        albumContents = nil;
+
+        self.albumManager = nil;
+        ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).parentController = nil;
+        ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).parentController = nil;
+        self.sideMenu = nil;
+        self.collectionViewContainer = nil;
+        self.collectionView = nil;
+        self.noPhotosView = nil;
 //		self.butTakeVideo = nil;
-		self.butTakePicture = nil;
-		[self.switchSort removeTarget:self action:@selector(switchSortHandler:) forControlEvents:UIControlEventValueChanged];
-		self.switchSort = nil;
-	}
-	navigatingNext = NO;
+        self.butTakePicture = nil;
+        [self.switchSort removeTarget:self action:@selector(switchSortHandler:) forControlEvents:UIControlEventValueChanged];
+        self.switchSort = nil;
+    }
+    navigatingNext = NO;
 }
 
-- (void)dealloc {
-	RCLog(@"dealloc SVAlbumGridViewController %lli", self.albumId);
+
+- (void)dealloc
+{
+    RCLog(@"dealloc SVAlbumGridViewController %lli", self.albumId);
 }
+
 
 #pragma mark Rotation
 
-- (BOOL)shouldAutorotate {
-	return YES;
+- (BOOL)shouldAutorotate
+{
+    return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskAllButUpsideDown;
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
+
 
 //- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-//	
+//
 //	if (IS_IOS7) {
 //		if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
 //			self.headerViewContainer.frame = CGRectMake(0, 57, 320, 45);
@@ -278,10 +288,10 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 - (IBAction)takePicturePressed:(id)sender
 {
-	navigatingNext = YES;
-	//self.scrollToBottom = YES;
-	self.scrollToTop = YES;
-	
+    navigatingNext = YES;
+    //self.scrollToBottom = YES;
+    self.scrollToTop = YES;
+
     SVPickerController *manager = [[SVPickerController alloc] init];
     manager.albumManager = self.albumManager;
     manager.albumId = self.albumId;
@@ -296,50 +306,46 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 
+
 - (void)backButtonPressed:(id)sender
 {
     // TODO: apparently this method is not called when pressing Back
-	[self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	navigatingNext = YES;
+    navigatingNext = YES;
 
     if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
-		
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
-        
+
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = self.albumId;
         destination.albumManager = self.albumManager;
-		//self.scrollToBottom = YES;
-		self.scrollToTop = YES;
-    }
-	else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
+        //self.scrollToBottom = YES;
+        self.scrollToTop = YES;
+    } else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
         // TODO: Not called when going to AddFriends
-		SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
+        SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumManager = self.albumManager;
-		destination.albumId = self.albumId;
+        destination.albumId = self.albumId;
     }
 }
 
 
-
-
-- (void) updateEmptyState
+- (void)updateEmptyState
 {
     if ([albumContents getPhotos].array.count == 0) {
-		[self.collectionView addSubview:self.noPhotosView];
-		self.switchView.hidden = YES;
-	}
-	else if ([self.noPhotosView isDescendantOfView:self.collectionView] || [self.noPhotosView isDescendantOfView:self.view]) {
-		[self.noPhotosView removeFromSuperview];
-		self.switchView.hidden = NO;
-	}
+        [self.collectionView addSubview:self.noPhotosView];
+        self.switchView.hidden = YES;
+    } else if ([self.noPhotosView isDescendantOfView:self.collectionView] || [self.noPhotosView isDescendantOfView:self.view]) {
+        [self.noPhotosView removeFromSuperview];
+        self.switchView.hidden = NO;
+    }
 }
-
 
 
 #pragma mark camera delegate
@@ -347,26 +353,22 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 - (void)cameraExit
 {
     //cameraNavController = nil;
-	self.scrollToBottom = NO;
-	self.scrollToTop = NO;
+    self.scrollToBottom = NO;
+    self.scrollToTop = NO;
 }
 
 
 - (void)cameraWasDismissedWithAlbum:(SLAlbumSummary *)selectedAlbum
 {
-	
-	RCLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
-	
+    RCLog(@"CAMERA WAS DISMISSED %@", selectedAlbum);
 }
-
-
 
 
 #pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-	NSArray *arr = [sections objectForKey:sectionsKeys[section]];
+    NSArray *arr = [sections objectForKey:sectionsKeys[section]];
     return arr.count;
 }
 
@@ -468,7 +470,10 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
                                 self.userPicture = image;
                                 self.userNickName = [[member getUser] getMemberNickname];
                             }
-                        }];
+                        }
+
+
+                        ];
                         header.nameLabel.text = [[member getUser] getMemberNickname];
                         break;
                     }
@@ -487,7 +492,10 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
                             self.userNickName = [userProfile getMemberNickname];
                             [header.imageView setImageWithURL:[NSURL URLWithString:[userProfile getMemberAvatarUrl]] placeholderImage:self.userPicture completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                 self.userPicture = image;
-                            }];
+                            }
+
+
+                            ];
                         }
                     }
 
@@ -505,14 +513,14 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     return nil;
 }
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
-						layout:(UICollectionViewLayout*)collectionViewLayout
-		insetForSectionAtIndex:(NSInteger)section
-{
-	//if (section == 0) return UIEdgeInsetsMake(5, 5, 5, 5);
-	return UIEdgeInsetsMake(5, 5, 5, 5);
-}
 
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout *)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section
+{
+    //if (section == 0) return UIEdgeInsetsMake(5, 5, 5, 5);
+    return UIEdgeInsetsMake(5, 5, 5, 5);
+}
 
 
 #pragma mark - UICollectionViewDelegate Methods
@@ -520,41 +528,42 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-	
+
     NSMutableArray *photos = [NSMutableArray arrayWithCapacity:[albumContents getPhotos].array.count];
-	int i = 0;
-	int section = 0;
-	BOOL found = NO;
-	
-	// Iterate over sections
-	for (NSString *key in sectionsKeys) {
-		int item = 0;
-		NSArray *arr = [sections objectForKey:key];
-		
-		// Iterate over photos in section
+    int i = 0;
+    int section = 0;
+    BOOL found = NO;
+
+    // Iterate over sections
+    for (NSString *key in sectionsKeys) {
+        int item = 0;
+        NSArray *arr = [sections objectForKey:key];
+
+        // Iterate over photos in section
         for (SLAlbumPhoto *photo in arr) {
-			if (section == indexPath.section && item == indexPath.item) {
-				found = YES;
-			}
-			else {
-				if (!found) i++;
-			}
-			item ++;
-			[photos addObject:photo];
-		}
-		section ++;
-	}
-	
-	SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
+            if (section == indexPath.section && item == indexPath.item) {
+                found = YES;
+            } else {
+                if (!found) {
+                    i++;
+                }
+            }
+            item++;
+            [photos addObject:photo];
+        }
+        section++;
+    }
+
+    SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumId = self.albumId;
-	detailController.photos = photos;
+    detailController.photos = photos;
     detailController.albumManager = self.albumManager;
-	detailController.index = i;
+    detailController.index = i;
     detailController.title = [albumContents getName];
-	
+
     navigatingNext = YES;
     [self.navigationController pushViewController:detailController animated:YES];
-	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
+    self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 }
 
 
@@ -573,32 +582,41 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         [self.collectionView reloadData];
         [self updateEmptyState];
         RCLog(@"Completed delayed reload from %@", timeStamp);
-    }];
+    }
+
+
+    ];
 }
 
 
 - (void)toggleMenu
 {
-	[(SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController resignFirstResponder];
+    [(SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController resignFirstResponder];
     [self.menuContainerViewController toggleRightSideMenuCompletion:^{
-		
-	}];
+    }
+
+
+    ];
 }
+
 
 - (void)toggleManagement
 {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:^{
-		
-	}];
+    }
+
+
+    ];
 }
+
 
 - (void)setAlbumContents:(SLAlbumContents *)album
 {
     albumContents = album;
 
-	((SVSidebarManagementController*)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
-	((SVSidebarMemberController*)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
-	
+    ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
+    ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
+
     self.title = [albumContents getName];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -621,7 +639,10 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
                                                            highPriority:YES];
             }
         }
-    });
+    }
+
+
+                   );
 
     [self disableProgressAndReloadData];
 }
@@ -631,20 +652,19 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 // TODO: messy code with silly name
 // NOTE: after calling sortThumbsBy, make sure to call [self.collectionView reloadData]
-- (void)sortThumbsBy:(SortType)sortType {
-	
-	sort = sortType;
-	[sectionsKeys removeAllObjects];
-	[sections removeAllObjects];
-	
-	// This are used by the feed alike sorting
-	NSDate *previousDate = nil;
-	NSString *previousUser = nil;
-	
+- (void)sortThumbsBy:(SortType)sortType
+{
+    sort = sortType;
+    [sectionsKeys removeAllObjects];
+    [sections removeAllObjects];
+
+    // This are used by the feed alike sorting
+    NSDate *previousDate = nil;
+    NSString *previousUser = nil;
+
     for (SLAlbumPhoto *photo in [albumContents getPhotos].array) {
-		
-		NSString *key = @"Uploading now";
-		
+        NSString *key = @"Uploading now";
+
         if ([photo getServerPhoto]) {
             long long seconds = [[[photo getServerPhoto] getDateAdded] getTimeStamp] / 1000000LL;
             NSDate *photoDateAdded = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
@@ -679,39 +699,39 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
                                                          timeStyle:NSDateFormatterNoStyle];
                     break;
             }
-		}
-		
-		NSMutableArray *arr = [sections objectForKey:key];
-		
-		if (arr == nil) {
-			arr = [NSMutableArray array];
-			if ([key isEqualToString:@"Uploading now"] && sortType != SortByUser) {
-				[sectionsKeys addObject:key];
-			}
-			else {
-				[sectionsKeys insertObject:key atIndex:0];
-			}
-		}
-		//[arr insertObject:photo atIndex:0];
-		[arr addObject:photo];
-		[sections setObject:arr forKey:key];
-	}
-	
-	// Move 'Uploading now' key to top
-	NSString *lastKey = [sectionsKeys lastObject];
-	if ([lastKey isEqualToString:@"Uploading now"] && sortType != SortByUser) {
-		[sectionsKeys removeObject:lastKey];
-		[sectionsKeys insertObject:lastKey atIndex:0];
-	}
+        }
+
+        NSMutableArray *arr = [sections objectForKey:key];
+
+        if (arr == nil) {
+            arr = [NSMutableArray array];
+            if ([key isEqualToString:@"Uploading now"] && sortType != SortByUser) {
+                [sectionsKeys addObject:key];
+            } else {
+                [sectionsKeys insertObject:key atIndex:0];
+            }
+        }
+        //[arr insertObject:photo atIndex:0];
+        [arr addObject:photo];
+        [sections setObject:arr forKey:key];
+    }
+
+    // Move 'Uploading now' key to top
+    NSString *lastKey = [sectionsKeys lastObject];
+    if ([lastKey isEqualToString:@"Uploading now"] && sortType != SortByUser) {
+        [sectionsKeys removeObject:lastKey];
+        [sectionsKeys insertObject:lastKey atIndex:0];
+    }
 }
 
-- (void)sortBy:(id)sender {
+
+- (void)sortBy:(id)sender
+{
 //    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Feed",@"User",@"Date", nil];
-//    
+//
 //    [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-    
-    return;
-    
+
+
     if (!self.sheetView) {
         self.sheetView = [[UIView alloc] initWithFrame:CGRectMake(0, -120, 320, [UIScreen mainScreen].bounds.size.height)];
 
@@ -723,19 +743,19 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         feed.frame = CGRectMake(0, 0, 320, 40);
         [feed addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [feed setTitle:@"Feed" forState:UIControlStateNormal];
-        [feed setTitleColor:[UIColor colorWithRed:26.0/255.0 green:97.0/255.0 blue:211.0/255.0 alpha:1] forState:UIControlStateNormal];
+        [feed setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         feed.tag = 1;
         [self.sheetView addSubview:feed];
 
         UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(10, 39, 300, .5)];
         line1.backgroundColor = [UIColor lightGrayColor];
         [self.sheetView addSubview:line1];
-        
+
         UIButton *user = [UIButton buttonWithType:UIButtonTypeCustom];
         user.frame = CGRectMake(0, 40, 320, 40);
         [user addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [user setTitle:@"User" forState:UIControlStateNormal];
-        [user setTitleColor:[UIColor colorWithRed:26.0/255.0 green:97.0/255.0 blue:211.0/255.0 alpha:1] forState:UIControlStateNormal];
+        [user setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         user.tag = 2;
         [self.sheetView addSubview:user];
 
@@ -747,73 +767,97 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         date.frame = CGRectMake(0, 80, 320, 40);
         [date addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [date setTitle:@"Date" forState:UIControlStateNormal];
-        [date setTitleColor:[UIColor colorWithRed:26.0/255.0 green:97.0/255.0 blue:211.0/255.0 alpha:1] forState:UIControlStateNormal];
+        [date setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         date.tag = 3;
         [self.sheetView addSubview:date];
     }
-    
+
     if (!self.sheetView.superview) {
         [self.view addSubview:self.sheetView];
         [UIView animateWithDuration:.3 animations:^{
             self.sheetView.frame = CGRectMake(0, 0, 320, 120);
-        }];
+        }
+
+
+        ];
     } else {
         [UIView animateWithDuration:.3 animations:^{
             self.sheetView.frame = CGRectMake(0, -120, 320, 120);
-        } completion:^(BOOL finished) {
+        }
+
+
+                         completion:^(BOOL finished) {
             [self.sheetView removeFromSuperview];
-        }];
+        }
+
+
+        ];
     }
 }
 
-- (void)sortByType:(id)sender {
-	sort = [sender tag]-1;
-	[[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
-	[[NSUserDefaults standardUserDefaults] synchronize];
-    
+
+- (void)sortByType:(id)sender
+{
+    sort = [sender tag] - 1;
+    [[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     [self disableProgressAndReloadData];
-    
+
     [UIView animateWithDuration:.3 animations:^{
         self.sheetView.frame = CGRectMake(0, -120, 320, 120);
-    } completion:^(BOOL finished) {
+    }
+
+
+                     completion:^(BOOL finished) {
         [self.sheetView removeFromSuperview];
-    }];
+    }
+
+
+    ];
 }
 
-- (void)switchSortHandler:(UISegmentedControl*)control {
-	sort = control.selectedSegmentIndex;
-	[[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
-	[[NSUserDefaults standardUserDefaults] synchronize];
+
+- (void)switchSortHandler:(UISegmentedControl *)control
+{
+    sort = control.selectedSegmentIndex;
+    [[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 
     [self disableProgressAndReloadData];
 }
 
 
-- (void)onAlbumContentsBeginRefresh:(int64_t)albumId {
-	
+- (void)onAlbumContentsBeginRefresh:(int64_t)albumId
+{
 }
+
 
 - (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(SLAlbumContents *)album
 {
-	if (refreshManualy) {
-		[self endRefreshing];
-	}
+    if (refreshManualy) {
+        [self endRefreshing];
+    }
     [self setAlbumContents:album];
 }
+
 
 - (void)onAlbumContentsRefreshError:(int64_t)albumId error:(SLAPIException *)error
 {
     [refresh endRefreshing];
-	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    if (!IS_IOS7) {
+        refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    }
 }
 
-- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId {
-	
-	// Iterate over visible cells and find the cell with the albumId
-	
-	for (SVAlbumGridViewCell *cell in self.collectionView.visibleCells) {
-		NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-		NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
+
+- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId
+{
+    // Iterate over visible cells and find the cell with the albumId
+
+    for (SVAlbumGridViewCell *cell in self.collectionView.visibleCells) {
+        NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+        NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
 
         SLAlbumPhoto *photo = [arr objectAtIndex:indexPath.item];
 
@@ -823,25 +867,32 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
             cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
             //RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
             [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress]];
-		}
-	}
+        }
+    }
 }
-
-
 
 
 #pragma mark UIRefreshView
 
-- (void)beginRefreshing {
-	refreshManualy = YES;
+- (void)beginRefreshing
+{
+    refreshManualy = YES;
     [self.albumManager refreshAlbumContents:self.albumId];
-	[refresh beginRefreshing];
-	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing photos..."];
+    [refresh beginRefreshing];
+    if (!IS_IOS7) {
+        refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing photos..."];
+    }
 }
-- (void)endRefreshing {
-	refreshManualy = NO;
-	[refresh endRefreshing];
-	if (!IS_IOS7) refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+
+
+- (void)endRefreshing
+{
+    refreshManualy = NO;
+    [refresh endRefreshing];
+    if (!IS_IOS7) {
+        refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    }
 }
+
 
 @end

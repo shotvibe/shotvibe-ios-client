@@ -25,17 +25,20 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.iv.image = [UIImage imageNamed:[NSString stringWithFormat:@"tutorial%d", self.index+1]];
+
+    self.iv.image = [UIImage imageNamed:[NSString stringWithFormat:@"tutorial%d", self.index + 1]];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

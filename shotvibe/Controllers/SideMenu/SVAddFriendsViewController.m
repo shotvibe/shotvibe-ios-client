@@ -60,42 +60,42 @@
 
 #pragma mark - View Lifecycle
 
-- (void)viewDidLoad {
-	
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-	
-	self.noContactsView.hidden = YES;
-	self.butOverlay.hidden = YES;
+    // Do any additional setup after loading the view.
+
+    self.noContactsView.hidden = YES;
+    self.butOverlay.hidden = YES;
 //	[[NSUserDefaults standardUserDefaults] synchronize];
-	contactsButtons = [[NSMutableArray alloc] init];
-	
-	// IOS7
-	if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
-		self.navigationController.navigationBar.translucent = NO;
-		self.view.frame = CGRectMake(0, 64, 320, 568-64);
-	}
-	
-	self.contactsSourceView.hidden = YES;
-	self.contactsSourceSelector.frame = IS_IOS7 ? CGRectMake(8, 7, 239, 30) : CGRectMake(5, 7, 233, 30);
+    contactsButtons = [[NSMutableArray alloc] init];
+
+    // IOS7
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
+        self.navigationController.navigationBar.translucent = NO;
+        self.view.frame = CGRectMake(0, 64, 320, 568 - 64);
+    }
+
+    self.contactsSourceView.hidden = YES;
+    self.contactsSourceSelector.frame = IS_IOS7 ? CGRectMake(8, 7, 239, 30) : CGRectMake(5, 7, 233, 30);
     self.contactsSourceSelector.selectedSegmentIndex = 1;
-	
+
     BOOL permissionGranted = YES;
     if (!permissionGranted) {
-		self.noContactsView.hidden = NO;
-	}
-    
-	// Setup back button
-	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
+        self.noContactsView.hidden = NO;
+    }
+
+    // Setup back button
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(donePressed:)];
-	
-	self.navigationItem.leftBarButtonItem = backButton;
-	self.navigationItem.rightBarButtonItem = doneButton;
-	self.navigationItem.rightBarButtonItem.enabled = NO;
-	self.title = @"Invite friends";
-	if (IS_IOS7) {
-		[self setNeedsStatusBarAppearanceUpdate];
-	}
+
+    self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.rightBarButtonItem = doneButton;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    self.title = @"Invite friends";
+    if (IS_IOS7) {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
 
     checkedContactsList_ = [[NSMutableArray alloc] init];
     NSUInteger defaultCapacity = 16;
@@ -106,10 +106,9 @@
     [self setAllContacts:[[NSArray alloc] init]];
 
     [self.albumManager.phoneContactsManager setListenerWithSLPhoneContactsManager_Listener:self];
-    
+
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
-
 }
 
 
