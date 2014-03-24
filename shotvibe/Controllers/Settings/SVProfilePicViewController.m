@@ -41,9 +41,13 @@
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskPortrait;
+	return UIInterfaceOrientationMaskAll;
 }
 
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
+}
 
 
 #pragma mark Actions 

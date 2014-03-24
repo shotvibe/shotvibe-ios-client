@@ -185,5 +185,23 @@
 	[countriesTable reloadData];
 }
 
+#pragma mark Rotation
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
+}
 
 @end
