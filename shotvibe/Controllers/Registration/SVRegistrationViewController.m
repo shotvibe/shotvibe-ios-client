@@ -216,6 +216,7 @@
 
     rootView.albumManager = self.albumManager;
 
+    self.title = rootView.title;
     [self.navigationController setViewControllers:@[rootView] animated:animated];
 	
 }

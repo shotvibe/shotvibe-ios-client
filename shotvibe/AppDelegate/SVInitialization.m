@@ -13,11 +13,31 @@
 @implementation SVInitialization
 
 
++ (UIImage *)imageWithColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    // Create a 1 by 1 pixel context
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+    [color setFill];
+    UIRectFill(rect);   // Fill it with your color
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
 - (void)configureAppearanceProxies
 {
     if (IS_IOS7) {
+        
+        [[UINavigationBar appearance] setBackgroundImage:[[self class] imageWithColor:[UIColor colorWithRed:249.0/255.0 green:249.0/255.0 blue:249.0/255.0 alpha:1]]
+                                          forBarPosition:UIBarPositionAny
+                                              barMetrics:UIBarMetricsDefault];
+        
+        [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+        
         [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"backButton"]];
-        [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"backButton"]];        [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1]];
+        [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"backButton"]];
+        [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1]];
         [[UINavigationBar appearance] setTitleTextAttributes:@{ UITextAttributeFont : [UIFont fontWithName:@"HelveticaNeue-Medium" size:16] }
         ];
     } else {

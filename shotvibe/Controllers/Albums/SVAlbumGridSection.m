@@ -18,11 +18,9 @@
         self.backgroundColor = [UIColor clearColor];
 
         self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(7, 10, frame.size.height - 20, frame.size.height - 20)];
+        self.imageView.layer.cornerRadius = roundf(self.imageView.frame.size.width/2.0);
+        self.imageView.layer.masksToBounds = YES;
         [self addSubview:self.imageView];
-
-        UIImageView *imageFrame = [[UIImageView alloc] initWithFrame:CGRectMake(7, 10, frame.size.height - 20, frame.size.height - 20)];
-        imageFrame.image = [UIImage imageNamed:@"imageRounded"];
-        [self addSubview:imageFrame];
 
         self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, frame.size.width - 7, frame.size.height)];
         self.nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];

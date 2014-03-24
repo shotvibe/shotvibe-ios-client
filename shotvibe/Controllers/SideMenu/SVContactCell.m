@@ -10,20 +10,17 @@
 
 @implementation SVContactCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)prepareForReuse
+{
+    self.contactIcon.layer.cornerRadius = roundf(self.contactIcon.frame.size.width/2.0);
+    self.contactIcon.layer.masksToBounds = YES;
 }
 
 @end

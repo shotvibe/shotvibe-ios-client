@@ -741,40 +741,57 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         self.sheetView = [[UIView alloc] initWithFrame:CGRectMake(0, -120, 320, [UIScreen mainScreen].bounds.size.height)];
 
         UIView *innerSheetView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 120)];
-        innerSheetView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        innerSheetView.backgroundColor = [UIColor colorWithWhite:.95 alpha:1];
         [self.sheetView addSubview:innerSheetView];
-
+        
         UIButton *feed = [UIButton buttonWithType:UIButtonTypeCustom];
         feed.frame = CGRectMake(0, 0, 320, 40);
         [feed addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [feed setTitle:@"Feed" forState:UIControlStateNormal];
+        feed.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         [feed setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
+        [feed setImage:[UIImage imageNamed:@"sortType1"] forState:UIControlStateNormal];
+        feed.imageEdgeInsets = UIEdgeInsetsMake(0, -140, 0, 0);
+        feed.titleEdgeInsets = UIEdgeInsetsMake(0, -110, 0, 0);
         feed.tag = 1;
         [self.sheetView addSubview:feed];
 
-        UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(10, 39, 300, .5)];
-        line1.backgroundColor = [UIColor lightGrayColor];
+        UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(94, 39, 240, .5)];
+        line1.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
         [self.sheetView addSubview:line1];
 
         UIButton *user = [UIButton buttonWithType:UIButtonTypeCustom];
         user.frame = CGRectMake(0, 40, 320, 40);
         [user addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [user setTitle:@"User" forState:UIControlStateNormal];
+        user.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         [user setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
+        [user setImage:[UIImage imageNamed:@"sortType2"] forState:UIControlStateNormal];
+        user.imageEdgeInsets = UIEdgeInsetsMake(0, -140, 0, 0);
+        user.titleEdgeInsets = UIEdgeInsetsMake(0, -110, 0, 0);
         user.tag = 2;
         [self.sheetView addSubview:user];
 
-        UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(10, 79, 300, .5)];
-        line2.backgroundColor = [UIColor lightGrayColor];
+        UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(94, 79, 300, .5)];
+        line2.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
         [self.sheetView addSubview:line2];
 
         UIButton *date = [UIButton buttonWithType:UIButtonTypeCustom];
         date.frame = CGRectMake(0, 80, 320, 40);
         [date addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [date setTitle:@"Date" forState:UIControlStateNormal];
+        date.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         [date setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
+        [date setImage:[UIImage imageNamed:@"sortType3"] forState:UIControlStateNormal];
+        date.imageEdgeInsets = UIEdgeInsetsMake(0, -140, 0, 0);
+        date.titleEdgeInsets = UIEdgeInsetsMake(0, -110, 0, 0);
         date.tag = 3;
         [self.sheetView addSubview:date];
+        
+        UIImageView *triangle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"triangle"]];
+        triangle.frame = CGRectMake(240, 0, 22, 12);
+        [self.sheetView addSubview:triangle];
+        
     }
 
     if (!self.sheetView.superview) {
