@@ -41,25 +41,4 @@
 }
 
 
-#pragma mark -
-#pragma mark - UIViewController Rotation
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-
-- (BOOL)shouldAutorotate
-{
-    return NO;
-}
-
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationPortrait;
-}
-
-
 @end

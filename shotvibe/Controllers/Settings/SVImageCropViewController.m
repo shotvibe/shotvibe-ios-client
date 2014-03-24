@@ -60,11 +60,6 @@
 	return UIInterfaceOrientationMaskPortrait;
 }
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationPortrait;
-}
-
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 	return imageView;
 }

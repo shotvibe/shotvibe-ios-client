@@ -8,7 +8,7 @@
 
 #import "SVConfirmationCodeViewController.h"
 #import "SVPushNotificationsManager.h"
-#import "SVProfileViewController.h"
+
 
 @implementation SVConfirmationCodeViewController
 
@@ -143,35 +143,12 @@ static NSString * deviceDescription()
     
     // Grab the deal and make it our root view controller from the storyboard for this navigation controller
     SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
+
     rootView.albumManager = self.albumManager;
 
-    SVProfileViewController *profileController = [storyboard instantiateViewControllerWithIdentifier:@"SVProfileViewController"];
-    profileController.shouldPrompt = YES;
-    profileController.albumManager = self.albumManager;
-
-    [self.navigationController setViewControllers:@[rootView, profileController] animated:NO];
+    [self.navigationController setViewControllers:@[rootView] animated:animated];
 
     [self.pushNotificationsManager setup];
-}
-
-
-#pragma mark Rotation
-
-- (BOOL)shouldAutorotate
-{
-    return NO;
-}
-
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationPortrait;
 }
 
 @end

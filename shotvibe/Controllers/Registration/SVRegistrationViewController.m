@@ -92,6 +92,14 @@
 	}
 }
 
+
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+
+
 #pragma mark - Actions
 
 - (IBAction)registerButtonPressed:(id)sender
@@ -218,25 +226,6 @@
 
     [self.navigationController setViewControllers:@[rootView] animated:animated];
 	
-}
-
-#pragma mark Rotation
-
-- (BOOL)shouldAutorotate
-{
-    return NO;
-}
-
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationPortrait;
 }
 
 @end

@@ -1305,10 +1305,17 @@ to register this device</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <navigationBar contentMode="scaleToFill" id="xfG-Eg-O7z">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem id="hQn-i2-azO"/>
+                                </items>
+                            </navigationBar>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album Members" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Szv-rJ-HZ3">
                                 <rect key="frame" x="69" y="0.0" width="236" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
@@ -1369,7 +1376,7 @@ to register this device</string>
                                                     <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="memberLabel" destination="NQV-e8-xms" id="mfl-gx-lgM"/>
@@ -1419,7 +1426,7 @@ to register this device</string>
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BvW-hz-75b">
                                 <rect key="frame" x="0.0" y="44" width="320" height="42"/>
@@ -1437,7 +1444,7 @@ to register this device</string>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -1446,6 +1453,7 @@ to register this device</string>
                         <outlet property="butOwner" destination="BvW-hz-75b" id="rO6-fJ-Znd"/>
                         <outlet property="noMembersView" destination="FWV-ix-dbY" id="reD-to-ouz"/>
                         <outlet property="searchBar" destination="6S4-eL-fax" id="PHQ-C3-2C2"/>
+                        <outlet property="sidebarNav" destination="xfG-Eg-O7z" id="IzV-ZJ-bR3"/>
                         <outlet property="tableView" destination="zzl-Ln-e03" id="wdd-pK-h6o"/>
                     </connections>
                 </viewController>
@@ -1842,7 +1850,7 @@ to register this device</string>
         <!--Profile View Controller-->
         <scene sceneID="An0-TW-5AK">
             <objects>
-                <viewController storyboardIdentifier="SVProfileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="K2n-3B-CQ0" customClass="SVProfileViewController" sceneMemberID="viewController">
+                <viewController id="K2n-3B-CQ0" customClass="SVProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gO2-TN-Jny">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2438,10 +2446,10 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="FFK-OC-3pt"/>
+        <segue reference="sNb-fh-mhv"/>
         <segue reference="i8y-Zz-QXE"/>
+        <segue reference="FFK-OC-3pt"/>
         <segue reference="sO9-n0-6uB"/>
         <segue reference="hc8-VF-LIN"/>
-        <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>
 </document>

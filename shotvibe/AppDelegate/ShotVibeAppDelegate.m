@@ -1,4 +1,4 @@
-//
+// 
 //  AppDelegate.m
 //  shotvibe
 //
@@ -110,13 +110,9 @@
         [self processCountryCode:application registrationViewController:registrationViewController];
     }
 
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kTutorialShown"]) {
-        TutorialViewController *t = [[TutorialViewController alloc] init];
-        self.window.rootViewController = t;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissTutorial) name:@"kDismissTutorial" object:nil];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    TutorialViewController *t = [[TutorialViewController alloc] init];
+    self.window.rootViewController = t;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissTutorial) name:@"kDismissTutorial" object:nil];
 
     return YES;
 }

@@ -246,20 +246,15 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 - (BOOL)shouldAutorotate
 {
-    return NO;
+    return YES;
 }
 
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationPortrait;
-}
 
 //- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 //
