@@ -215,4 +215,17 @@
     self.navigationItem.rightBarButtonItem = nil;
 }
 
+- (BOOL)shouldAutorotate {
+	return NO;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
+}
+
 @end

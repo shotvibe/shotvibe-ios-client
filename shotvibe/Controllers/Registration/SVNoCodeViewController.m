@@ -113,14 +113,6 @@
     }
 }
 
-
-
-
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-
 #pragma mark - CountryPickerDelegate Methods
 
 - (void)didSelectCountryWithName:(NSString *)name regionCode:(NSString *)regionCode
@@ -165,5 +157,23 @@
     [self didSelectCountryWithName:regionCode regionCode:regionCode];
 }
 
+#pragma mark Rotation
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
+}
 
 @end

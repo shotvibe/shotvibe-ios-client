@@ -219,13 +219,18 @@
 
 
 - (BOOL)shouldAutorotate {
-	return YES;
+	return NO;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskAllButUpsideDown;
+    return UIInterfaceOrientationMaskPortrait;
 }
 
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
+}
 
 #pragma mark - Memory Management
 
@@ -811,7 +816,9 @@
         RCLog(@"Nickname was already set");
     } else {
         // TODO: Check with the server if the nickname really was not set yet, since now we will prompt also after a reinstall.
-        [self performSegueWithIdentifier:@"PromptNickChangeSegue" sender:nil];
+        if ([self.navigationController.viewControllers count] <= 1) {
+            [self performSegueWithIdentifier:@"PromptNickChangeSegue" sender:nil];
+        }
     }
 }
 
