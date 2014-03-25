@@ -1532,7 +1532,7 @@ to register this device</string>
                                         <rect key="frame" x="20" y="0.0" width="280" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <segments>
-                                            <segment title="ShotVibe"/>
+                                            <segment title="Glance"/>
                                             <segment title="Phone"/>
                                         </segments>
                                         <connections>

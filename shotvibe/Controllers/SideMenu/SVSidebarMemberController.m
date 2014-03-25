@@ -186,6 +186,8 @@
 
         ownerCell.hidden = NO;
         [ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
+        ownerCell.profileImageView.layer.cornerRadius = roundf(ownerCell.profileImageView.frame.size.width / 2.0);
+        ownerCell.profileImageView.layer.masksToBounds = YES;
         [ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
         ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
         ownerCell.statusLabel.text = @"Leave";
