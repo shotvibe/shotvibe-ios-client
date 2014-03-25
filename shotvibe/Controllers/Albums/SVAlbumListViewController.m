@@ -601,9 +601,9 @@
 	
 	[searchBar setShowsCancelButton:YES animated:YES];
 	
-	[UIView animateWithDuration:0.4 animations:^{
-		self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-KEYBOARD_H-status_bar_h);
-	}];
+//	[UIView animateWithDuration:0.4 animations:^{
+//		self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-KEYBOARD_H-status_bar_h);
+//	}];
 	
 	searchShowing = YES;
 }
@@ -612,8 +612,10 @@
 	
 	[searchBar setShowsCancelButton:NO animated:YES];
 	
-	self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-total_header_h);
+//	self.tableView.frame = CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-total_header_h);
 	
+    [self.tableView setContentOffset:CGPointMake(0, 44) animated:YES];
+    
 	searchShowing = NO;
 }
 

@@ -216,8 +216,12 @@
 
     rootView.albumManager = self.albumManager;
 
-    self.title = rootView.title;
-    [self.navigationController setViewControllers:@[rootView] animated:animated];
+    UIView *v = [[UIView alloc] initWithFrame:self.view.frame];
+    v.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:v];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController setViewControllers:@[rootView] animated:animated];
+    });
 	
 }
 
