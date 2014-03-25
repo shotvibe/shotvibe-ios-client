@@ -32,6 +32,7 @@
 #import "SL/ArrayList.h"
 #import "AlbumUploadingPhoto.h"
 #import "SL/DateTime.h"
+#import "SVInitialization.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
@@ -748,15 +749,15 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         feed.frame = CGRectMake(0, 0, 320, 40);
         [feed addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [feed setTitle:@"Feed" forState:UIControlStateNormal];
-        feed.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
+//        feed.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         [feed setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         [feed setImage:[UIImage imageNamed:@"sortType1"] forState:UIControlStateNormal];
-        feed.imageEdgeInsets = UIEdgeInsetsMake(0, -140, 0, 0);
-        feed.titleEdgeInsets = UIEdgeInsetsMake(0, -110, 0, 0);
+        feed.imageEdgeInsets = UIEdgeInsetsMake(0, -230, 0, 0);
+        feed.titleEdgeInsets = UIEdgeInsetsMake(0, -200, 0, 0);
         feed.tag = 1;
         [self.sheetView addSubview:feed];
 
-        UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(94, 39, 240, .5)];
+        UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(47, 39, 320, .5)];
         line1.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
         [self.sheetView addSubview:line1];
 
@@ -764,15 +765,15 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         user.frame = CGRectMake(0, 40, 320, 40);
         [user addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [user setTitle:@"User" forState:UIControlStateNormal];
-        user.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
+//        user.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         [user setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         [user setImage:[UIImage imageNamed:@"sortType2"] forState:UIControlStateNormal];
-        user.imageEdgeInsets = UIEdgeInsetsMake(0, -140, 0, 0);
-        user.titleEdgeInsets = UIEdgeInsetsMake(0, -110, 0, 0);
+        user.imageEdgeInsets = UIEdgeInsetsMake(0, -230, 0, 0);
+        user.titleEdgeInsets = UIEdgeInsetsMake(0, -200, 0, 0);
         user.tag = 2;
         [self.sheetView addSubview:user];
 
-        UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(94, 79, 300, .5)];
+        UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(47, 79, 320, .5)];
         line2.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
         [self.sheetView addSubview:line2];
 
@@ -780,18 +781,22 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         date.frame = CGRectMake(0, 80, 320, 40);
         [date addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [date setTitle:@"Date" forState:UIControlStateNormal];
-        date.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
+//        date.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         [date setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         [date setImage:[UIImage imageNamed:@"sortType3"] forState:UIControlStateNormal];
-        date.imageEdgeInsets = UIEdgeInsetsMake(0, -140, 0, 0);
-        date.titleEdgeInsets = UIEdgeInsetsMake(0, -110, 0, 0);
+        date.imageEdgeInsets = UIEdgeInsetsMake(0, -230, 0, 0);
+        date.titleEdgeInsets = UIEdgeInsetsMake(0, -200, 0, 0);
         date.tag = 3;
         [self.sheetView addSubview:date];
         
-        UIImageView *triangle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"triangle"]];
-        triangle.frame = CGRectMake(240, 0, 22, 12);
-        [self.sheetView addSubview:triangle];
+//        UIImageView *triangle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"triangle"]];
+//        triangle.frame = CGRectMake(240, 0, 22, 12);
+//        [self.sheetView addSubview:triangle];
         
+        UIImageView *line3 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 119.5, 320, .5)];
+        UIImage *black = [SVInitialization imageWithColor:[UIColor lightGrayColor]];
+        line3.image = black;
+        [self.sheetView addSubview:line3];
     }
 
     if (!self.sheetView.superview) {

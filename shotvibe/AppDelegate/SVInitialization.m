@@ -33,7 +33,7 @@
                                           forBarPosition:UIBarPositionAny
                                               barMetrics:UIBarMetricsDefault];
         
-        [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+//        [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
         
         [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"backButton"]];
         [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"backButton"]];
