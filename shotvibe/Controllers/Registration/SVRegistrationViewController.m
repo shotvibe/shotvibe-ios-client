@@ -216,11 +216,12 @@
 
     rootView.albumManager = self.albumManager;
 
-    UIView *v = [[UIView alloc] initWithFrame:self.view.frame];
+    UIView *v = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     v.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:v];
+    [self.navigationController.view addSubview:v];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController setViewControllers:@[rootView] animated:animated];
+        [v removeFromSuperview];
     });
 	
 }
