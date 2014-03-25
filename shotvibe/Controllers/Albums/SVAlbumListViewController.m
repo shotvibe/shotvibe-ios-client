@@ -111,7 +111,14 @@
 //    self.navigationItem.titleView = titleContainer;
     
     // Setup menu button
-    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"IconProfile.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+    
+    UIImage *profileImg = [UIImage imageNamed:@"IconProfile.png"];
+    
+    if ([profileImg respondsToSelector:@selector(imageWithRenderingMode:)]) {
+        profileImg = [profileImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    
+    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:profileImg
 																   style:UIBarButtonItemStyleBordered
 																  target:self
 																  action:@selector(profilePressed)];
