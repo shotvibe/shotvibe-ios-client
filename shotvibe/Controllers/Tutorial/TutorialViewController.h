@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^CompletionBlock)(id);
+
 @interface TutorialViewController : UIViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
+@property (readwrite, copy) CompletionBlock onClose;
 @property (strong, nonatomic) UIPageViewController *pageController;
 
 @end

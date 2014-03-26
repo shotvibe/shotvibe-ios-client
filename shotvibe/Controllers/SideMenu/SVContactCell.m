@@ -19,8 +19,9 @@
 
 - (void)prepareForReuse
 {
-    self.contactIcon.layer.cornerRadius = roundf(self.contactIcon.frame.size.width/2.0);
+    self.contactIcon.layer.cornerRadius = roundf(self.contactIcon.frame.size.width / 2.0);
     self.contactIcon.layer.masksToBounds = YES;
 }
+
 
 @end

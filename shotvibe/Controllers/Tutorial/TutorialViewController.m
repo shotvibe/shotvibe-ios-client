@@ -120,7 +120,15 @@
 
 - (IBAction)dismiss:(id)sender
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kDismissTutorial" object:nil];
+    if (self.onClose) {
+        __block TutorialViewController *blocksafeSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            blocksafeSelf.onClose(nil);
+        }
+
+
+                       );
+    }
 }
 
 

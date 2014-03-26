@@ -19,7 +19,7 @@
 
 - (void)prepareForReuse
 {
-    self.profileImageView.layer.cornerRadius = roundf(self.profileImageView.frame.size.width/2.0);
+    self.profileImageView.layer.cornerRadius = roundf(self.profileImageView.frame.size.width / 2.0);
     self.profileImageView.layer.masksToBounds = YES;
 
     self.profileImageView.image = nil;

@@ -13,28 +13,29 @@
 @implementation SVInitialization
 
 
-+ (UIImage *)imageWithColor:(UIColor *)color {
++ (UIImage *)imageWithColor:(UIColor *)color
+{
     CGRect rect = CGRectMake(0, 0, 1, 1);
     // Create a 1 by 1 pixel context
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
     [color setFill];
-    UIRectFill(rect);   // Fill it with your color
+    UIRectFill(rect); // Fill it with your color
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+
     return image;
 }
+
 
 - (void)configureAppearanceProxies
 {
     if (IS_IOS7) {
-        
-        [[UINavigationBar appearance] setBackgroundImage:[[self class] imageWithColor:[UIColor colorWithRed:249.0/255.0 green:249.0/255.0 blue:249.0/255.0 alpha:1]]
+        [[UINavigationBar appearance] setBackgroundImage:[[self class] imageWithColor:[UIColor colorWithRed:249.0 / 255.0 green:249.0 / 255.0 blue:249.0 / 255.0 alpha:1]]
                                           forBarPosition:UIBarPositionAny
                                               barMetrics:UIBarMetricsDefault];
-        
+
 //        [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
-        
+
         [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"backButton"]];
         [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"backButton"]];
         [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1]];
@@ -170,16 +171,16 @@
     //[[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor darkGrayColor]];
 }
 
-- (void)initializeLocalSettingsDefaults {
-	
+
+- (void)initializeLocalSettingsDefaults
+{
     // Setup defaults for general notification settings (not for individual albums)
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HAS_SET_NOTIFICATION_DEFAULTS"]) {
-        
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GENERAL_NOTIFICATION"];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GENERAL_VIBRATION"];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GENERAL_SOUND"];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GENERAL_PREVIEW_MODE"];
-        
+
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HAS_SET_NOTIFICATION_DEFAULTS"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }

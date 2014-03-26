@@ -103,29 +103,31 @@
     [worker configureAppearanceProxies];
     [worker initializeLocalSettingsDefaults];
 
-
-    if (shotvibeAPI.authData) {
-        [pushNotificationsManager setup];
-    } else {
-        [self processCountryCode:application registrationViewController:registrationViewController];
-    }
-
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kTutorialShown"]) {
         TutorialViewController *t = [[TutorialViewController alloc] init];
+        t.onClose = ^(id responseObject) {
+            self.window.rootViewController = self.sideMenu;
+
+            if (shotvibeAPI.authData) {
+                [pushNotificationsManager setup];
+            } else {
+                [self processCountryCode:[UIApplication sharedApplication] registrationViewController:registrationViewController];
+            }
+        };
+
         self.window.rootViewController = t;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissTutorial) name:@"kDismissTutorial" object:nil];
+
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        if (shotvibeAPI.authData) {
+            [pushNotificationsManager setup];
+        } else {
+            [self processCountryCode:application registrationViewController:registrationViewController];
+        }
     }
 
     return YES;
-}
-
-
-- (void)dismissTutorial
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kDismissTutorial" object:nil];
-    self.window.rootViewController = self.sideMenu;
 }
 
 

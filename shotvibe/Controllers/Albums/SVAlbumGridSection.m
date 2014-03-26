@@ -18,7 +18,7 @@
         self.backgroundColor = [UIColor clearColor];
 
         self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(7, 10, frame.size.height - 20, frame.size.height - 20)];
-        self.imageView.layer.cornerRadius = roundf(self.imageView.frame.size.width/2.0);
+        self.imageView.layer.cornerRadius = roundf(self.imageView.frame.size.width / 2.0);
         self.imageView.layer.masksToBounds = YES;
         [self addSubview:self.imageView];
 

@@ -744,7 +744,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         UIView *innerSheetView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 120)];
         innerSheetView.backgroundColor = [UIColor colorWithWhite:.95 alpha:1];
         [self.sheetView addSubview:innerSheetView];
-        
+
         UIButton *feed = [UIButton buttonWithType:UIButtonTypeCustom];
         feed.frame = CGRectMake(0, 0, 320, 40);
         [feed addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
@@ -788,11 +788,11 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         date.titleEdgeInsets = UIEdgeInsetsMake(0, -200, 0, 0);
         date.tag = 3;
         [self.sheetView addSubview:date];
-        
+
 //        UIImageView *triangle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"triangle"]];
 //        triangle.frame = CGRectMake(240, 0, 22, 12);
 //        [self.sheetView addSubview:triangle];
-        
+
         UIImageView *line3 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 119.5, 320, .5)];
         UIImage *black = [SVInitialization imageWithColor:[UIColor lightGrayColor]];
         line3.image = black;
