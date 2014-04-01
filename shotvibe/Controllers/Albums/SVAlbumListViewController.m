@@ -157,17 +157,29 @@
 
 - (void)updateNetworkStatusNavBar
 {
-    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"IconSettings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+    UIImage *managementButtonImg = [UIImage imageNamed:@"IconSettings.png"];
+    
+    if ([managementButtonImg respondsToSelector:@selector(imageWithRenderingMode:)]) {
+        managementButtonImg = [managementButtonImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+
+    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:managementButtonImg
                                                                          style:UIBarButtonItemStyleBordered
                                                                         target:self
                                                                         action:@selector(settingsPressed)];
+
+    UIImage *networkButtonImg = [UIImage imageNamed:@"IconNotConnected.png"];
+
+    if ([networkButtonImg respondsToSelector:@selector(imageWithRenderingMode:)]) {
+        networkButtonImg = [networkButtonImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
 
     if (networkOnline_) {
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:
                                                    managementButton,
                                                    nil];
     } else {
-        UIBarButtonItem *notConnectedButton = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"IconNotConnected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+        UIBarButtonItem *notConnectedButton = [[UIBarButtonItem alloc] initWithImage:networkButtonImg
                                                                                style:UIBarButtonItemStyleBordered
                                                                               target:self
                                                                               action:@selector(notConnectedPressed)];

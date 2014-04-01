@@ -4729,8 +4729,8 @@
 		AA58FB3116C224E800C49E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Salvatore Balzano (7L236HCMNA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Salvatore Balzano (7L236HCMNA)";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -4750,7 +4750,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = ShotVibe;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "3F5DBACA-3489-4E69-88F2-4D0013355285";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3F5DBACA-3489-4E69-88F2-4D0013355285";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
