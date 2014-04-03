@@ -149,9 +149,17 @@ static NSString * deviceDescription()
     profileController.shouldPrompt = YES;
     profileController.albumManager = self.albumManager;
 
-    [self.navigationController setViewControllers:@[rootView, profileController] animated:NO];
+    UIView *v = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    v.backgroundColor = [UIColor whiteColor];
+    [self.navigationController.view addSubview:v];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController setViewControllers:@[rootView, profileController] animated:NO];
+        [v removeFromSuperview];
 
+    });
+    
     [self.pushNotificationsManager setup];
+    
 }
 
 

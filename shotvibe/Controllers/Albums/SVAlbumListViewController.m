@@ -675,12 +675,9 @@
 	if (albumList.count == 0) {
 		self.noPhotosView.frame = CGRectMake(0, 88, 320, 548);
 		[self.view addSubview:self.noPhotosView];
-		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.butTakePicture.enabled = NO;
-	}
-	else if ([self.noPhotosView isDescendantOfView:self.view]) {
+	} else {
 		[self.noPhotosView removeFromSuperview];
-		self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 		self.butTakePicture.enabled = YES;
 	}
 }

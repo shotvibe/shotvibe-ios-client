@@ -8,6 +8,8 @@
 
 #import "SVNonRotatingNavigationControllerViewController.h"
 #import "SVInitialization.h"
+#import "SVDefines.h"
+
 
 @interface SVNonRotatingNavigationControllerViewController ()
 
@@ -18,9 +20,11 @@
 - (id)initWithRootViewController:(UIViewController *)rootViewController
 {
     if (self = [super initWithRootViewController:rootViewController]) {
-        [self.navigationBar setBackgroundImage:[SVInitialization imageWithColor:[UIColor blackColor]]
-                                forBarPosition:UIBarPositionAny
-                                    barMetrics:UIBarMetricsDefault];
+        if (IS_IOS7) {
+            [self.navigationBar setBackgroundImage:[SVInitialization imageWithColor:[UIColor blackColor]]
+                                    forBarPosition:UIBarPositionAny
+                                        barMetrics:UIBarMetricsDefault];
+        }
     }
 
     return self;

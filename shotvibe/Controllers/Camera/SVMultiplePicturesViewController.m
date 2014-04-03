@@ -332,7 +332,9 @@
 
     [UIView animateWithDuration:0.3 animations:^{
         CGRect frame = self.createNewAlbumTitleView.frame;
-        frame.origin.y = self.tableView.frame.origin.y;
+        
+        CGFloat delta = 64 - ([[UIScreen mainScreen] bounds].size.height - self.tableView.frame.size.height);
+        frame.origin.y = self.tableView.frame.origin.y+delta;
         self.createNewAlbumTitleView.frame = frame;
     }
 
