@@ -752,8 +752,8 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //        feed.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         [feed setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         [feed setImage:[UIImage imageNamed:@"sortType1"] forState:UIControlStateNormal];
-        feed.imageEdgeInsets = UIEdgeInsetsMake(0, -230, 0, 0);
-        feed.titleEdgeInsets = UIEdgeInsetsMake(0, -200, 0, 0);
+        feed.imageEdgeInsets = UIEdgeInsetsMake(0, -164, 0, 0);
+        feed.titleEdgeInsets = UIEdgeInsetsMake(0, -134, 0, 0);
         feed.tag = 1;
         [self.sheetView addSubview:feed];
 
@@ -768,8 +768,8 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //        user.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         [user setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         [user setImage:[UIImage imageNamed:@"sortType2"] forState:UIControlStateNormal];
-        user.imageEdgeInsets = UIEdgeInsetsMake(0, -230, 0, 0);
-        user.titleEdgeInsets = UIEdgeInsetsMake(0, -200, 0, 0);
+        user.imageEdgeInsets = UIEdgeInsetsMake(0, -164, 0, 0);
+        user.titleEdgeInsets = UIEdgeInsetsMake(0, -134, 0, 0);
         user.tag = 2;
         [self.sheetView addSubview:user];
 
@@ -784,8 +784,8 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //        date.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         [date setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         [date setImage:[UIImage imageNamed:@"sortType3"] forState:UIControlStateNormal];
-        date.imageEdgeInsets = UIEdgeInsetsMake(0, -230, 0, 0);
-        date.titleEdgeInsets = UIEdgeInsetsMake(0, -200, 0, 0);
+        date.imageEdgeInsets = UIEdgeInsetsMake(0, -164, 0, 0);
+        date.titleEdgeInsets = UIEdgeInsetsMake(0, -134, 0, 0);
         date.tag = 3;
         [self.sheetView addSubview:date];
 
