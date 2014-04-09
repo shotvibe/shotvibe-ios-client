@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Album List View Controller-->
+        <!--Album List View Controller - Albums-->
         <scene sceneID="siP-ZM-lhe">
             <objects>
-                <tableViewController storyboardIdentifier="SVAlbumListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xK5-VS-ObD" customClass="SVAlbumListViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="h0G-2X-To2">
+                <tableViewController storyboardIdentifier="SVAlbumListViewController" title="Albums" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xK5-VS-ObD" customClass="SVAlbumListViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="h0G-2X-To2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.94509803921568625" green="0.94901960784313721" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
@@ -27,15 +27,15 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="101"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iJo-z3-suy" id="foT-0r-RS2">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="Fet-Wj-C0F">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" id="v3h-qc-QG9">
-                                                    <rect key="frame" x="160" y="0.0" width="160" height="100"/>
+                                                    <rect key="frame" x="160" y="0.0" width="160" height="101"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="center" image="SwipeCamera.png" id="303-YF-szZ">
@@ -73,38 +73,38 @@
                                                     </subviews>
                                                 </view>
                                                 <view contentMode="scaleToFill" id="t4e-X8-o6c">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="bMe-Ho-h9s">
-                                                            <rect key="frame" x="9" y="10" width="82" height="79"/>
+                                                            <rect key="frame" x="10" y="14" width="68" height="3"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="edK-Ep-za9" customClass="PhotoView">
-                                                            <rect key="frame" x="19" y="20" width="62" height="60"/>
+                                                            <rect key="frame" x="10" y="16" width="68" height="68"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mpj-bZ-eJI">
-                                                            <rect key="frame" x="96" y="25" width="160" height="21"/>
+                                                            <rect key="frame" x="96" y="23" width="160" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                                             <color key="textColor" red="0.22352941179999999" green="0.23921568630000001" blue="0.2784313725" alpha="1" colorSpace="deviceRGB"/>
                                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last added by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d8J-CL-mAU">
-                                                            <rect key="frame" x="96" y="43" width="160" height="21"/>
+                                                            <rect key="frame" x="96" y="41" width="160" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                                             <color key="textColor" red="0.52156862749999999" green="0.54117647059999996" blue="0.59215686270000001" alpha="1" colorSpace="deviceRGB"/>
                                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </label>
                                                         <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6fU-xz-I04">
-                                                            <rect key="frame" x="96" y="63" width="160" height="15"/>
+                                                            <rect key="frame" x="96" y="61" width="160" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
-                                                            <inset key="titleEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                            <inset key="titleEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="2"/>
                                                             <state key="normal" title="x time ago" image="clockIcon.png">
-                                                                <color key="titleColor" red="0.51372549020000002" green="0.5450980392" blue="0.58823529409999997" alpha="1" colorSpace="deviceRGB"/>
+                                                                <color key="titleColor" red="0.0" green="0.47843137254901957" blue="0.74901960784313726" alpha="1" colorSpace="deviceRGB"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <state key="highlighted">
@@ -112,7 +112,7 @@
                                                             </state>
                                                         </button>
                                                         <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SVE-6G-iDc">
-                                                            <rect key="frame" x="283" y="41" width="28" height="18"/>
+                                                            <rect key="frame" x="264" y="41" width="28" height="18"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                             <accessibility key="accessibilityConfiguration">
                                                                 <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
@@ -126,8 +126,17 @@
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SafariForward.png" id="ELm-Me-AaL">
+                                                            <rect key="frame" x="299" y="40" width="11" height="20"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
+                                                        <view contentMode="scaleToFill" id="SpS-IB-uCZ">
+                                                            <rect key="frame" x="10" y="100" width="300" height="1"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.94509803921568625" green="0.94901960784313721" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
                                             <connections>
@@ -213,8 +222,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LWV-EA-XUH" userLabel="New Album Button">
                             <rect key="frame" x="0.0" y="0.0" width="160" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="-12" maxY="0.0"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="24" maxY="0.0"/>
+                            <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="12" maxY="0.0"/>
                             <state key="normal" title="New Album" image="albumNewIcon.png">
                                 <color key="titleColor" red="0.37647058820000001" green="0.40000000000000002" blue="0.4431372549" alpha="1" colorSpace="deviceRGB"/>
@@ -231,8 +241,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="T4H-zi-gWL" userLabel="Take Picture Button">
                             <rect key="frame" x="160" y="0.0" width="160" height="45"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="-12" maxY="0.0"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                            <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="12" maxY="0.0"/>
                             <state key="normal" title="Take a Picture" image="albumTakePicture.png">
                                 <color key="titleColor" red="0.37647058820000001" green="0.40000000000000002" blue="0.4431372549" alpha="1" colorSpace="deviceRGB"/>
@@ -247,7 +258,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.98823529409999999" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" id="rA8-oA-eN4" userLabel="Overlay">
                     <rect key="frame" x="0.0" y="-80" width="320" height="584"/>
@@ -323,7 +334,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="ryf-6v-gdi">
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="ryf-6v-gdi">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -333,15 +344,15 @@
                                         <rect key="frame" x="0.0" y="22" width="320" height="101"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CAD-P8-aPC" id="NU0-52-6ZM">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="101"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="Mnp-J1-cfe">
-                                                    <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="287" height="101"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" id="D9W-Mr-81j">
-                                                            <rect key="frame" x="160" y="0.0" width="127" height="100"/>
+                                                            <rect key="frame" x="160" y="0.0" width="127" height="101"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="center" image="SwipeCamera.png" id="LAi-aV-Myo">
@@ -379,7 +390,7 @@
                                                             </subviews>
                                                         </view>
                                                         <view contentMode="scaleToFill" id="kCN-fx-5O9">
-                                                            <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="287" height="101"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="Fp1-yu-vKs">
@@ -432,6 +443,11 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
+                                                                <view contentMode="scaleToFill" id="IM5-C2-O8z">
+                                                                    <rect key="frame" x="10" y="100" width="300" height="1"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </view>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
@@ -459,15 +475,15 @@
                                         <rect key="frame" x="0.0" y="123" width="320" height="101"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9K4-uS-3vZ" id="22b-Dc-WX3">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="101"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="Cvd-51-l0B">
-                                                    <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" id="m05-x1-TWv">
-                                                            <rect key="frame" x="160" y="0.0" width="127" height="100"/>
+                                                            <rect key="frame" x="160" y="0.0" width="160" height="101"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="center" image="SwipeCamera.png" id="hZK-bL-t9C">
@@ -505,33 +521,33 @@
                                                             </subviews>
                                                         </view>
                                                         <view contentMode="scaleToFill" id="wDq-sh-2E5">
-                                                            <rect key="frame" x="0.0" y="0.0" width="287" height="100"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="353" height="101"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="jxs-50-UXy">
-                                                                    <rect key="frame" x="9" y="10" width="82" height="79"/>
+                                                                    <rect key="frame" x="9" y="14" width="68" height="3"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="8Qw-3D-bH8" customClass="PhotoView">
-                                                                    <rect key="frame" x="19" y="20" width="62" height="60"/>
+                                                                    <rect key="frame" x="9" y="16" width="68" height="68"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qmz-su-kgF">
-                                                                    <rect key="frame" x="96" y="25" width="127" height="21"/>
+                                                                    <rect key="frame" x="96" y="25" width="193" height="21"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                                     <color key="textColor" red="0.22352941179999999" green="0.23921568630000001" blue="0.2784313725" alpha="1" colorSpace="deviceRGB"/>
                                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </label>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last added by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rDE-2M-ctm">
-                                                                    <rect key="frame" x="96" y="43" width="127" height="21"/>
+                                                                    <rect key="frame" x="96" y="43" width="193" height="21"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                                                     <color key="textColor" red="0.52156862749999999" green="0.54117647059999996" blue="0.59215686270000001" alpha="1" colorSpace="deviceRGB"/>
                                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </label>
                                                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Hq6-uX-CKe">
-                                                                    <rect key="frame" x="96" y="63" width="127" height="15"/>
+                                                                    <rect key="frame" x="96" y="63" width="193" height="15"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                                                     <inset key="titleEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -558,6 +574,11 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
+                                                                <view contentMode="scaleToFill" id="b1G-bZ-vgg">
+                                                                    <rect key="frame" x="10" y="100" width="300" height="1"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </view>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
@@ -691,12 +712,8 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="99" height="98"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="photoFrame.png" id="e9K-f7-GQX">
-                                                            <rect key="frame" x="1" y="1" width="97" height="96"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        </imageView>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="C9q-ds-YvT" customClass="PhotoView">
-                                                            <rect key="frame" x="6" y="5" width="88" height="88"/>
+                                                            <rect key="frame" x="1" y="1" width="97" height="96"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <view hidden="YES" contentMode="scaleToFill" id="JmT-ek-vdD">
@@ -746,22 +763,6 @@
                                             <outlet property="delegate" destination="blj-nY-Sj7" id="A7d-aP-0py"/>
                                         </connections>
                                     </collectionView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="E7P-5v-ToO" userLabel="Sort">
-                                <rect key="frame" x="0.0" y="350" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="BWT-xz-n21">
-                                        <rect key="frame" x="74" y="18" width="173" height="29"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                        <segments>
-                                            <segment title="Feed"/>
-                                            <segment title="User"/>
-                                            <segment title="Date"/>
-                                        </segments>
-                                    </segmentedControl>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -836,7 +837,7 @@
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
                                         <inset key="contentEdgeInsets" minX="-4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="cameraIcon.png">
+                                        <state key="normal" image="albumTakePicture.png">
                                             <color key="titleColor" red="0.37647058820000001" green="0.40000000000000002" blue="0.4431372549" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -853,7 +854,7 @@
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
                                         <inset key="contentEdgeInsets" minX="-4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="cameraRollIcon.png">
+                                        <state key="normal" image="albumNewIcon.png">
                                             <color key="titleColor" red="0.37647058820000001" green="0.40000000000000002" blue="0.4431372549" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -874,10 +875,10 @@
                                         <color key="backgroundColor" red="0.79607843140000001" green="0.80784313730000001" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.96470588239999999" green="0.97254901959999995" blue="0.98823529409999999" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.94509803921568625" green="0.94901960784313721" blue="0.95686274509803915" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="pdu-Tl-D5W"/>
@@ -889,8 +890,6 @@
                         <outlet property="collectionViewContainer" destination="AT7-8R-Xbr" id="YBC-kd-hvz"/>
                         <outlet property="headerViewContainer" destination="hDY-dt-Yxw" id="hf7-Xg-VVE"/>
                         <outlet property="noPhotosView" destination="UWU-wO-74L" id="MR5-WY-gg9"/>
-                        <outlet property="switchSort" destination="BWT-xz-n21" id="ygQ-a0-Oa8"/>
-                        <outlet property="switchView" destination="E7P-5v-ToO" id="bOk-92-ufZ"/>
                         <segue destination="ziD-RB-hWf" kind="modal" identifier="AddFriendsSegue" id="SAN-qU-tPE"/>
                         <segue destination="N4E-mX-u47" kind="push" identifier="SettingsSegue" id="YZf-v8-Yxg"/>
                     </connections>
@@ -944,11 +943,11 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="kxs-T0-7Ne">
-                                                                    <rect key="frame" x="9" y="10" width="82" height="79"/>
+                                                                    <rect key="frame" x="9" y="14" width="68" height="3"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9rg-Er-UUl">
-                                                                    <rect key="frame" x="19" y="20" width="62" height="60"/>
+                                                                    <rect key="frame" x="9" y="16" width="68" height="68"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mR0-vI-T43">
@@ -1018,8 +1017,9 @@
         <scene sceneID="E9K-is-pZC">
             <objects>
                 <navigationController definesPresentationContext="YES" id="TFb-8t-Kdm" customClass="SVNavigationController" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Iog-LR-hvt">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Iog-LR-hvt">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="deviceRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="3rg-2I-Dzz" kind="relationship" relationship="rootViewController" id="Bb2-jS-Kye"/>
@@ -1046,7 +1046,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MWj-Gf-2pl">
-                                        <rect key="frame" x="86" y="184" width="148" height="41"/>
+                                        <rect key="frame" x="43" y="184" width="235" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -1068,7 +1068,7 @@
 to register this device</string>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <nil key="highlightedColor"/>
+                                        <color key="highlightedColor" red="0.0" green="0.47843137250000001" blue="0.74901960779999999" alpha="1" colorSpace="deviceRGB"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A validation code will be sent to you via SMS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aF0-pJ-yZt">
                                         <rect key="frame" x="0.0" y="233" width="320" height="21"/>
@@ -1080,8 +1080,8 @@ to register this device</string>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enter your phone number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NW5-hq-d4D">
                                         <rect key="frame" x="0.0" y="77" width="320" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <color key="textColor" red="0.2156862745" green="0.52156862749999999" blue="0.77647058820000003" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="Md0-iZ-whQ">
@@ -1121,7 +1121,7 @@ to register this device</string>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.92941176470588238" green="0.93333333333333335" blue="0.94509803921568625" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Registration" id="CMi-vA-eun"/>
@@ -1146,8 +1146,8 @@ to register this device</string>
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ETc-Lm-hY8">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="Ufr-xY-P41">
@@ -1171,8 +1171,8 @@ to register this device</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="Ll5-K3-yOe" userLabel="Separator">
-                                                    <rect key="frame" x="0.0" y="43" width="320" height="1"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <rect key="frame" x="20" y="43" width="300" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
@@ -1201,8 +1201,8 @@ to register this device</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="eBH-rK-CXM" userLabel="Separator">
-                                                    <rect key="frame" x="0.0" y="43" width="320" height="1"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <rect key="frame" x="20" y="43" width="300" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
@@ -1231,8 +1231,8 @@ to register this device</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="Ouo-TU-6sz" userLabel="Separator">
-                                                    <rect key="frame" x="0.0" y="43" width="320" height="1"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <rect key="frame" x="20" y="43" width="300" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
@@ -1275,7 +1275,7 @@ to register this device</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dGi-df-srC">
-                                                    <rect key="frame" x="17" y="42" width="287" height="39"/>
+                                                    <rect key="frame" x="39" y="42" width="243" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <state key="normal" title="Log Out" backgroundImage="butLogout.png">
@@ -1287,6 +1287,7 @@ to register this device</string>
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -1314,83 +1315,68 @@ to register this device</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" id="xfG-Eg-O7z">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem id="hQn-i2-azO"/>
-                                </items>
-                            </navigationBar>
-                            <searchBar contentMode="redraw" id="Dgt-Ow-SDI">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="k4U-OQ-1vP" id="aX4-9W-7gg"/>
-                                </connections>
-                            </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="42" sectionHeaderHeight="22" sectionFooterHeight="22" id="zzl-Ln-e03">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album Members" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Szv-rJ-HZ3">
+                                <rect key="frame" x="69" y="0.0" width="236" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="52" sectionHeaderHeight="22" sectionFooterHeight="22" id="zzl-Ln-e03">
                                 <rect key="frame" x="0.0" y="102" width="320" height="466"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" red="0.12941176469999999" green="0.15686274510000001" blue="0.1843137255" alpha="0.5" colorSpace="deviceRGB"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="jcj-vE-v7q">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Search" id="6S4-eL-fax">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album Members" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="G8W-tG-V0z">
-                                            <rect key="frame" x="19" y="0.0" width="211" height="29"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" red="0.21176470588235294" green="0.25098039215686274" blue="0.28627450980392155" alpha="1" colorSpace="calibratedRGB"/>
-                                </view>
+                                    <color key="barTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="k4U-OQ-1vP" id="3kY-es-WZ2"/>
+                                    </connections>
+                                </searchBar>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AlbumMemberCell" id="op5-Xa-UFq" customClass="SVSidebarAlbumMemberCell">
-                                        <rect key="frame" x="0.0" y="52" width="320" height="42"/>
+                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AlbumMemberCell" id="op5-Xa-UFq" customClass="SVSidebarAlbumMemberCell">
+                                        <rect key="frame" x="0.0" y="66" width="320" height="52"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="op5-Xa-UFq" id="sh9-44-fWG">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="41"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumMemberProfileFrame.png" id="ljD-54-Sn0">
-                                                    <rect key="frame" x="17" y="5" width="34" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="Kak-Tk-iE2">
-                                                    <rect key="frame" x="19" y="6" width="30" height="30"/>
+                                                    <rect key="frame" x="17" y="8" width="34" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rafael Angeline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" id="NQV-e8-xms">
-                                                    <rect key="frame" x="59" y="0.0" width="100" height="41"/>
+                                                    <rect key="frame" x="59" y="6" width="100" height="41"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Invited" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BcQ-GI-kmc">
-                                                    <rect key="frame" x="225" y="0.0" width="70" height="41"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Invited" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BcQ-GI-kmc">
+                                                    <rect key="frame" x="225" y="3" width="70" height="41"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9jU-GG-RIc">
-                                                    <rect key="frame" x="204" y="14" width="13" height="13"/>
+                                                    <rect key="frame" x="204" y="17" width="13" height="13"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" id="gha-3Q-4Jw">
+                                                    <rect key="frame" x="20" y="51" width="280" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.1764705882352941" green="0.20392156862745098" blue="0.22745098039215686" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="memberLabel" destination="NQV-e8-xms" id="mfl-gx-lgM"/>
                                             <outlet property="profileImageView" destination="Kak-Tk-iE2" id="Ihy-xb-JAR"/>
@@ -1405,12 +1391,11 @@ to register this device</string>
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FiF-95-PZF">
-                                <rect key="frame" x="69" y="54" width="240" height="40"/>
+                                <rect key="frame" x="69" y="54" width="236" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="14" maxY="0.0"/>
                                 <size key="titleShadowOffset" width="0.0" height="1"/>
-                                <state key="normal" title="Add Friends" image="addFriendsIcon.png" backgroundImage="addFriendsButtonBg.png">
+                                <state key="normal" image="addFriendsButton.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1426,10 +1411,10 @@ to register this device</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="NoMembers.png" id="thA-x4-oPA">
-                                        <rect key="frame" x="48" y="11" width="155" height="78"/>
+                                        <rect key="frame" x="39" y="11" width="155" height="78"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="It looks like there’s no one in this album yet. Inviting friends is a snap." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s91-Ju-ikV">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="There is no one in the album yet, Invite some friends in, so they can give it a glance." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s91-Ju-ikV">
                                         <rect key="frame" x="0.0" y="103" width="240" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1440,11 +1425,11 @@ to register this device</string>
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BvW-hz-75b">
                                 <rect key="frame" x="0.0" y="44" width="320" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1458,7 +1443,7 @@ to register this device</string>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.1764705882352941" green="0.20392156862745098" blue="0.22745098039215686" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -1466,8 +1451,7 @@ to register this device</string>
                         <outlet property="butAddFriends" destination="FiF-95-PZF" id="1vG-Eb-bme"/>
                         <outlet property="butOwner" destination="BvW-hz-75b" id="rO6-fJ-Znd"/>
                         <outlet property="noMembersView" destination="FWV-ix-dbY" id="reD-to-ouz"/>
-                        <outlet property="searchBar" destination="Dgt-Ow-SDI" id="4vk-YI-XRt"/>
-                        <outlet property="sidebarNav" destination="xfG-Eg-O7z" id="IzV-ZJ-bR3"/>
+                        <outlet property="searchBar" destination="6S4-eL-fax" id="PHQ-C3-2C2"/>
                         <outlet property="tableView" destination="zzl-Ln-e03" id="wdd-pK-h6o"/>
                     </connections>
                 </viewController>
@@ -1525,12 +1509,12 @@ to register this device</string>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="mcB-hV-GoX">
                                         <rect key="frame" x="0.0" y="74" width="320" height="1"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsVerticalScrollIndicator="NO" id="dAJ-mE-XY5">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="73"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Members:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0tn-fo-qu7">
                                                 <rect key="frame" x="10" y="9" width="79" height="23"/>
@@ -1558,7 +1542,7 @@ to register this device</string>
                                         <rect key="frame" x="20" y="0.0" width="280" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <segments>
-                                            <segment title="ShotVibe"/>
+                                            <segment title="Glance"/>
                                             <segment title="Phone"/>
                                         </segments>
                                         <connections>
@@ -1580,8 +1564,12 @@ to register this device</string>
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="imageUnselected.png" id="ank-Ot-Lh7">
+                                                    <rect key="frame" x="10" y="18" width="18" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="tvS-Qp-UZM">
-                                                    <rect key="frame" x="10" y="10" width="34" height="34"/>
+                                                    <rect key="frame" x="38" y="6" width="42" height="42"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="deviceRGB"/>
                                                 </imageView>
@@ -1591,22 +1579,18 @@ to register this device</string>
                                                     <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 </activityIndicatorView>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="ContactIsMember.png" id="CHs-Ve-5u5">
-                                                    <rect key="frame" x="274" y="14" width="26" height="26"/>
+                                                    <rect key="frame" x="275" y="14" width="25" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="imageUnselected.png" id="ank-Ot-Lh7">
-                                                    <rect key="frame" x="24" y="25" width="16" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WUz-Je-4mt">
-                                                    <rect key="frame" x="57" y="7" width="196" height="21"/>
+                                                    <rect key="frame" x="88" y="3" width="180" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.23921568627450979" green="0.29803921568627451" blue="0.34509803921568627" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bjj-kd-8nE">
-                                                    <rect key="frame" x="57" y="26" width="196" height="21"/>
+                                                    <rect key="frame" x="88" y="23" width="180" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                                                     <color key="textColor" red="0.49019607843137253" green="0.54117647058823526" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
@@ -1633,6 +1617,7 @@ to register this device</string>
                             <searchBar contentMode="redraw" placeholder="Search" id="xWL-42-6Js">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="hue-j9-5bn" id="3GO-ce-6k2"/>
@@ -1837,7 +1822,7 @@ to register this device</string>
             <objects>
                 <viewController id="Y3e-6A-img" customClass="SVWebViewController" sceneMemberID="viewController">
                     <webView key="view" contentMode="scaleToFill" id="Obu-FX-hhg">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.14901960784313725" green="0.40000000000000002" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
@@ -1859,45 +1844,21 @@ to register this device</string>
         <!--Profile View Controller-->
         <scene sceneID="An0-TW-5AK">
             <objects>
-                <viewController id="K2n-3B-CQ0" customClass="SVProfileViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SVProfileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="K2n-3B-CQ0" customClass="SVProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gO2-TN-Jny">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="6zt-Kf-ZnC">
-                                <rect key="frame" x="0.0" y="163" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="Nzl-Sf-j4B">
-                                <rect key="frame" x="0.0" y="213" width="320" height="1"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.79907048357664234" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="ProfileHeader.png" id="OYs-hf-bR6">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="163"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="7aN-v7-Fda">
+                                <rect key="frame" x="39" y="12" width="110" height="110"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="ProfileIconBackground.png" id="yGs-aT-XbE">
-                                <rect key="frame" x="13" y="90" width="110" height="110"/>
+                                <rect key="frame" x="39" y="12" width="110" height="110"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="7aN-v7-Fda">
-                                <rect key="frame" x="17" y="93" width="102" height="102"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" minimumFontSize="10" id="vFh-LO-IyP">
-                                <rect key="frame" x="138" y="165" width="139" height="46"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
-                                <connections>
-                                    <outlet property="delegate" destination="K2n-3B-CQ0" id="Rfb-mf-TSD"/>
-                                </connections>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WAv-Pp-6Bk">
-                                <rect key="frame" x="14" y="90" width="110" height="110"/>
+                                <rect key="frame" x="40" y="12" width="110" height="110"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -1911,32 +1872,36 @@ to register this device</string>
                                     <action selector="changeProfilePicture:" destination="K2n-3B-CQ0" eventType="touchUpInside" id="Jkr-ZA-UQs"/>
                                 </connections>
                             </button>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Please enter your nickname" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="djQ-k3-b55">
-                                <rect key="frame" x="0.0" y="233" width="320" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" id="6zt-Kf-ZnC">
+                                <rect key="frame" x="0.0" y="130" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Edit your name" minimumFontSize="10" id="vFh-LO-IyP">
+                                <rect key="frame" x="20" y="132" width="280" height="46"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                <color key="textColor" red="0.2156862745" green="0.52156862749999999" blue="0.77647058820000003" alpha="1" colorSpace="deviceRGB"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="K2n-3B-CQ0" id="Rfb-mf-TSD"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enter your name and add your optional profile picture" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="djQ-k3-b55">
+                                <rect key="frame" x="20" y="179" width="280" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="OLX-UG-NRp">
-                                <rect key="frame" x="118" y="348" width="84" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Continue">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="handleContinueButtonPressed:" destination="K2n-3B-CQ0" eventType="touchUpInside" id="qgW-yk-JrL"/>
-                                </connections>
-                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.92941176470588238" green="0.93333333333333335" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="-64" maxX="0.0" maxY="64"/>
                     </view>
                     <navigationItem key="navigationItem" id="Nmm-Ze-9zp"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="continueButton" destination="OLX-UG-NRp" id="jKJ-GM-E4U"/>
                         <outlet property="nicknameField" destination="vFh-LO-IyP" id="A3J-tc-E58"/>
                         <outlet property="promptLabel" destination="djQ-k3-b55" id="MxJ-so-cCq"/>
                         <outlet property="userPhoto" destination="7aN-v7-Fda" id="TAB-OL-cpD"/>
@@ -1978,7 +1943,7 @@ to register this device</string>
             <objects>
                 <tableViewController id="CPg-IN-zDw" customClass="SVSettingsAboutViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DTG-CH-qgU">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
@@ -2208,7 +2173,7 @@ to register this device</string>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NPU-6a-aVT">
-                                        <rect key="frame" x="86" y="208" width="148" height="41"/>
+                                        <rect key="frame" x="43" y="208" width="235" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -2242,8 +2207,8 @@ activation code just sent to you</string>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Insert Activation Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jou-Ld-LO8">
                                         <rect key="frame" x="0.0" y="77" width="320" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <color key="textColor" red="0.2156862745" green="0.52156862749999999" blue="0.77647058820000003" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="registrationCodeFieldBg.png" id="Ni2-3h-aT6">
@@ -2294,7 +2259,7 @@ activation code just sent to you</string>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Activation" id="36f-IO-DBg">
@@ -2333,7 +2298,7 @@ activation code just sent to you</string>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NwO-Tx-c4d">
-                                        <rect key="frame" x="86" y="147" width="148" height="41"/>
+                                        <rect key="frame" x="43" y="147" width="235" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -2375,7 +2340,7 @@ activation code just sent to you</string>
                                         <rect key="frame" x="0.0" y="40" width="320" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <color key="textColor" red="0.2156862745" green="0.52156862749999999" blue="0.77647058820000003" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="0.74901960779999999" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="xQI-N4-qiD">
@@ -2411,7 +2376,7 @@ activation code just sent to you</string>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="No Code?" id="AAl-Hr-12P"/>
@@ -2430,45 +2395,42 @@ activation code just sent to you</string>
     </scenes>
     <resources>
         <image name="AlbumInfoButton.png" width="245" height="41"/>
-        <image name="AlbumInfoLeaveIcon.png" width="16" height="16"/>
+        <image name="AlbumInfoLeaveIcon.png" width="12" height="12"/>
         <image name="AlbumInfoNotificationIcon.png" width="16" height="18"/>
         <image name="AlbumInfoShareIcon.png" width="16" height="14"/>
-        <image name="ContactIsMember.png" width="26" height="26"/>
+        <image name="ContactIsMember.png" width="25" height="25"/>
         <image name="NewAlbum.png" width="74" height="74"/>
-        <image name="NoMembers.png" width="155" height="78"/>
-        <image name="ProfileHeader.png" width="320" height="163"/>
-        <image name="ProfileIconBackground.png" width="110" height="110"/>
+        <image name="NoMembers.png" width="193" height="93"/>
+        <image name="ProfileIconBackground.png" width="111" height="110"/>
+        <image name="SafariForward.png" width="11" height="20"/>
         <image name="SwipeCamera.png" width="54" height="41"/>
         <image name="SwipePicker.png" width="54" height="41"/>
         <image name="US.png" width="48" height="48"/>
         <image name="aboutIcon.png" width="14" height="13"/>
+        <image name="addFriendsButton.png" width="236" height="40"/>
         <image name="addFriendsButtonBg.png" width="245" height="41"/>
-        <image name="addFriendsIcon.png" width="16" height="16"/>
         <image name="albumCameraIconSmall.png" width="19" height="14"/>
         <image name="albumEmpty.png" width="59" height="44"/>
         <image name="albumEmptyCameraButton.png" width="189" height="36"/>
         <image name="albumEmptyLarge.png" width="185" height="138"/>
-        <image name="albumImageFrame.png" width="80" height="77"/>
-        <image name="albumMemberProfileFrame.png" width="35" height="34"/>
-        <image name="albumNewIcon.png" width="25" height="19"/>
-        <image name="albumTakePicture.png" width="16" height="14"/>
+        <image name="albumImageFrame.png" width="68" height="3"/>
+        <image name="albumMemberProfileFrame.png" width="34" height="34"/>
+        <image name="albumNewIcon.png" width="29" height="24"/>
+        <image name="albumTakePicture.png" width="25" height="19"/>
         <image name="albumVideoIconSmall.png" width="18" height="11"/>
-        <image name="butLogout.png" width="287" height="39"/>
-        <image name="butResend.png" width="144" height="37"/>
-        <image name="cameraIcon.png" width="25" height="19"/>
-        <image name="cameraRollIcon.png" width="27" height="22"/>
+        <image name="butLogout.png" width="243" height="43"/>
+        <image name="butResend.png" width="235" height="43"/>
         <image name="cellDivider.png" width="320" height="1"/>
-        <image name="clockIcon.png" width="8" height="8"/>
+        <image name="clockIcon.png" width="10" height="10"/>
         <image name="delimiter.png" width="1" height="45"/>
         <image name="dropDownField.png" width="305" height="130"/>
         <image name="emailIcon.png" width="14" height="11"/>
         <image name="helpIcon.png" width="14" height="14"/>
-        <image name="imageUnselected.png" width="26" height="26"/>
+        <image name="imageUnselected.png" width="18" height="18"/>
         <image name="newPhotosIndicator.png" width="27" height="18"/>
         <image name="phoneNumberContainer.png" width="270" height="44"/>
-        <image name="photoFrame.png" width="97" height="96"/>
         <image name="profileIcon.png" width="14" height="14"/>
-        <image name="registrationCodeFieldBg.png" width="213" height="45"/>
+        <image name="registrationCodeFieldBg.png" width="192" height="44"/>
         <image name="settingsIcon.png" width="16" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -2477,10 +2439,10 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="FFK-OC-3pt"/>
-        <segue reference="i8y-Zz-QXE"/>
+        <segue reference="oiS-6F-bJN"/>
         <segue reference="sO9-n0-6uB"/>
-        <segue reference="vb9-kV-1Jh"/>
-        <segue reference="v3l-bV-OEi"/>
+        <segue reference="YZf-v8-Yxg"/>
+        <segue reference="hc8-VF-LIN"/>
+        <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>
 </document>

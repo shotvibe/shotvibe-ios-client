@@ -19,6 +19,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *promptLabel;
 @property (nonatomic, strong) IBOutlet UIButton *continueButton;
 
+@property (nonatomic) BOOL shouldSave;
+
 - (IBAction)changeProfilePicture:(id)sender;
 
 - (IBAction)handleContinueButtonPressed:(id)sender;
@@ -94,6 +96,8 @@
         self.nicknameField.enablesReturnKeyAutomatically = YES;
         self.continueButton.hidden = NO;
     }
+    
+    self.shouldSave = YES;
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -109,6 +113,7 @@
 
 - (IBAction)changeProfilePicture:(id)sender {
 	
+    self.shouldSave = NO;
 	[self.nicknameField resignFirstResponder];
 	[self performSegueWithIdentifier:@"ProfilePicSegue" sender:self];
 }
@@ -164,43 +169,47 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    if (self.shouldSave) {
 
-    NSString *newNickname = [self.nicknameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        [textField resignFirstResponder];
+        
+        NSString *newNickname = [self.nicknameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
-    ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
-
-    int64_t userId = shotvibeAPI.authData.userId;
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		// Save nickname
-        NSError *error;
-        BOOL success = [shotvibeAPI setUserNickname:userId nickname:newNickname withError:&error];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-			if (!success) {
-                // TODO Better error dialog with Retry option
-				//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-				//                                                                message:[error description]
-				//                                                               delegate:nil
-				//                                                      cancelButtonTitle:@"OK"
-				//                                                      otherButtonTitles:nil];
-				//                [alert show];
-                if (self.shouldPrompt) {
-                    [UserSettings setNicknameSet:NO]; // since the update failed, we revert this setting, so the user will be prompted again later
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
+        
+        int64_t userId = shotvibeAPI.authData.userId;
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            // Save nickname
+            NSError *error;
+            BOOL success = [shotvibeAPI setUserNickname:userId nickname:newNickname withError:&error];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                
+                if (!success) {
+                    // TODO Better error dialog with Retry option
+                    //                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                    //                                                                message:[error description]
+                    //                                                               delegate:nil
+                    //                                                      cancelButtonTitle:@"OK"
+                    //                                                      otherButtonTitles:nil];
+                    //                [alert show];
+                    if (self.shouldPrompt) {
+                        [UserSettings setNicknameSet:NO]; // since the update failed, we revert this setting, so the user will be prompted again later
+                    }
                 }
-            }
-            else {
-				//self.navigationItem.rightBarButtonItem = nil;
-				//nameChanged = NO;
-            }
+                else {
+                    //self.navigationItem.rightBarButtonItem = nil;
+                    //nameChanged = NO;
+                    [self handleContinueButtonPressed:nil];
+                }
+            });
         });
-    });
-    [UserSettings setNicknameSet:YES];
+        [UserSettings setNicknameSet:YES];
+    }
 }
 
 
@@ -213,5 +222,23 @@
     [self.nicknameField resignFirstResponder];
     self.navigationItem.rightBarButtonItem = nil;
 }
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
+}
+
 
 @end

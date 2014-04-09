@@ -14,10 +14,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        CGRect r = CGRectMake(self.bounds.size.width - 30,
-							  self.bounds.size.height - 30,
-							  30,
-							  30);
+        CGRect r = CGRectMake(self.bounds.size.width - 28, self.bounds.size.height - 28, 22, 22);
 		
 		self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
 		

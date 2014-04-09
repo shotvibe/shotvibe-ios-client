@@ -12,14 +12,15 @@
 @implementation SVImagePickerController
 
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	
-	if (IS_IOS7) {
-		[self prefersStatusBarHidden];
-		[self setNeedsStatusBarAppearanceUpdate];
-		self.navigationBar.tintColor = [UIColor whiteColor];
-	}
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    if (IS_IOS7) {
+        [self prefersStatusBarHidden];
+        [self setNeedsStatusBarAppearanceUpdate];
+        //self.navigationBar.tintColor = [UIColor whiteColor];
+    }
 }
 
 - (BOOL)prefersStatusBarHidden {

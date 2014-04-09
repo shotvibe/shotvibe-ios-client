@@ -92,14 +92,6 @@
 	}
 }
 
-
-
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-
-
 #pragma mark - Actions
 
 - (IBAction)registerButtonPressed:(id)sender
@@ -224,8 +216,34 @@
 
     rootView.albumManager = self.albumManager;
 
-    [self.navigationController setViewControllers:@[rootView] animated:animated];
+    UIView *v = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    v.backgroundColor = [UIColor whiteColor];
+    [self.navigationController.view addSubview:v];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController setViewControllers:@[rootView] animated:animated];
+        [v removeFromSuperview];
+    });
 	
 }
+
+#pragma mark Rotation
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
+}
+
 
 @end

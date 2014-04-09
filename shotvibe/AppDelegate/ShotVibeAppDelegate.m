@@ -18,6 +18,8 @@
 #import "SVSidebarMemberController.h"
 #import "SVNavigationController.h"
 
+#import "TutorialViewController.h"
+
 #import "MPNotificationView.h"
 #import "MFSideMenu.h"
 #import "MBProgressHUD.h"
@@ -74,45 +76,60 @@
 
     NSAssert([self.window.rootViewController isKindOfClass:[SVNavigationController class]], @"Error: rootViewController is not UINavigationController");
     SVNavigationController *navigationController = (SVNavigationController *)self.window.rootViewController;
-	
-	
+
+
     NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error: visibleViewController is not SVRegistrationViewController");
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
     registrationViewController.albumManager = self.albumManager;
     registrationViewController.pushNotificationsManager = pushNotificationsManager;
-	
-	
-	// Initialize the sidebar menu
-	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-	self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMembersView"];
-	self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
-	self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
-																  leftMenuViewController:nil
-																 rightMenuViewController:self.sidebarRight];
-	self.sideMenu.panMode = MFSideMenuPanModeNone;
-	self.window.rootViewController = self.sideMenu;
-	
-	if (IS_IOS7) {
-		
-	}
-	else {
-		self.window.rootViewController.wantsFullScreenLayout = YES;
-	}
-	
-	SVInitialization *worker = [[SVInitialization alloc] init];
+
+
+    // Initialize the sidebar menu
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+    self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMembersView"];
+    self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
+    self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
+                                                                  leftMenuViewController:nil
+                                                                 rightMenuViewController:self.sidebarRight];
+    self.sideMenu.panMode = MFSideMenuPanModeNone;
+    self.window.rootViewController = self.sideMenu;
+
+    if (IS_IOS7) {
+    } else {
+        self.window.rootViewController.wantsFullScreenLayout = YES;
+    }
+
+    SVInitialization *worker = [[SVInitialization alloc] init];
     [worker configureAppearanceProxies];
     [worker initializeLocalSettingsDefaults];
-	
-	
-    if (shotvibeAPI.authData) {
-		[pushNotificationsManager setup];
-    }
-    else {
-        [self processCountryCode:application registrationViewController:registrationViewController];
+
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kTutorialShown"]) {
+        TutorialViewController *t = [[TutorialViewController alloc] init];
+        t.onClose = ^(id responseObject) {
+            self.window.rootViewController = self.sideMenu;
+
+            if (shotvibeAPI.authData) {
+                [pushNotificationsManager setup];
+            } else {
+                [self processCountryCode:[UIApplication sharedApplication] registrationViewController:registrationViewController];
+            }
+        };
+
+        self.window.rootViewController = t;
+
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        if (shotvibeAPI.authData) {
+            [pushNotificationsManager setup];
+        } else {
+            [self processCountryCode:application registrationViewController:registrationViewController];
+        }
     }
 
     return YES;
 }
+
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
@@ -138,7 +155,7 @@
 
         [registrationViewController selectCountry:countryCode];
     }
-	
+
     return YES;
 }
 

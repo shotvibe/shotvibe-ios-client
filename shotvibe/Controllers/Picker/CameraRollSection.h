@@ -14,7 +14,10 @@
 @property(nonatomic) int section;
 @property(nonatomic, retain) IBOutlet UIButton *selectButton;
 @property(nonatomic, retain) IBOutlet UILabel *dateLabel;
+@property (nonatomic, retain) IBOutlet UILabel *locationLabel;
+
 - (void)selectCheckmark:(BOOL)s;
+- (void)setDateText:(NSString *)s;
 
 @end
 

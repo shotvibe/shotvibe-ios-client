@@ -12,6 +12,8 @@
 
 #pragma mark - Instance Methods
 
++ (UIImage *)imageWithColor:(UIColor *)color;
+
 - (void)configureAppearanceProxies;
 - (void)initializeLocalSettingsDefaults;
 

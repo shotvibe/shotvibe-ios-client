@@ -34,25 +34,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     RCLog(@"viewdidload");
-	
+
     // Setup back button
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed:)];
-    NSDictionary *att = @{UITextAttributeFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor:[UIColor clearColor]};
-	[backButton setTitleTextAttributes:att forState:UIControlStateNormal];
-	[backButton setTitlePositionAdjustment:UIOffsetMake(15,0) forBarMetrics:UIBarMetricsDefault];
-	
-	if (self.oneImagePicker) {
-		//self.navigationItem.leftBarButtonItem = nil;
-	}
-	
-	// IOS7
-	if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
-		self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-		self.navigationController.navigationBar.barTintColor = BLUE;
-	}
-	
+    NSDictionary *att = @{
+        UITextAttributeFont : [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeTextShadowColor : [UIColor clearColor]
+    };
+    [backButton setTitleTextAttributes:att forState:UIControlStateNormal];
+    [backButton setTitlePositionAdjustment:UIOffsetMake(15, 0) forBarMetrics:UIBarMetricsDefault];
+
+    if (self.oneImagePicker) {
+        //self.navigationItem.leftBarButtonItem = nil;
+    }
+
+    // IOS7
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
+//		self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+//		self.navigationController.navigationBar.barTintColor = BLUE;
+//        self.navigationController.navigationBar.tintColor = BLUE;
+    }
+
     [self gatherLocalAlbums];
 }
 

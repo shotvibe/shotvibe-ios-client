@@ -81,84 +81,105 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+
     [self setAlbumList:[self.albumManager addAlbumListListener:self]];
 
     //RCLog(@"##### Initial albumList: %@", albumList);
-	
-	table_content_offset_y = IS_IOS7 ? -20 : 44;
-	total_header_h = IS_IOS7 ? 0 : 64;
-	status_bar_h = IS_IOS7 ? 0 : 20;
-	dropdown_origin_y = IS_IOS7 ? (45+44) : (45+44);
-	
-	//self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
-	self.tableView.contentOffset = CGPointMake(0, 44);
-	
-	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-		self.butTakePicture.enabled = NO;
-	}
-	
+
+    table_content_offset_y = IS_IOS7 ? 44 : 44;
+    total_header_h = IS_IOS7 ? 0 : 64;
+    status_bar_h = IS_IOS7 ? 0 : 20;
+    dropdown_origin_y = IS_IOS7 ? (45 + 44) : (45 + 44);
+
+    //self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.tableView.contentOffset = CGPointMake(0, 44);
+
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        self.butTakePicture.enabled = NO;
+    }
+
     thumbnailCache = [[NSMutableDictionary alloc] init];
-	self.searchbar.placeholder = NSLocalizedString(@"Search album", nil);
-	self.dropDownContainer.frame = CGRectMake(8, -134, self.dropDownContainer.frame.size.width, 134);
-	
-	// Setup titleview
-    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
-    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
-    [titleContainer addSubview:titleView];
-    titleContainer.backgroundColor = [UIColor clearColor];
-    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
-    self.navigationItem.titleView = titleContainer;
-    
+    self.searchbar.placeholder = NSLocalizedString(@"Search album", nil);
+    self.dropDownContainer.frame = CGRectMake(8, -134, self.dropDownContainer.frame.size.width, 134);
+
+    // Setup titleview
+//    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
+//    UIView *titleContainer = [[UIView alloc] initWithFrame:titleView.frame];
+//    [titleContainer addSubview:titleView];
+//    titleContainer.backgroundColor = [UIColor clearColor];
+//    titleView.frame = CGRectMake(0, -1, titleView.frame.size.width, titleView.frame.size.height);
+//    self.navigationItem.titleView = titleContainer;
+
     // Setup menu button
-    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconProfile.png"]
-																   style:UIBarButtonItemStyleBordered
-																  target:self
-																  action:@selector(profilePressed)];
+
+    UIImage *profileImg = [UIImage imageNamed:@"IconProfile.png"];
+
+    if ([profileImg respondsToSelector:@selector(imageWithRenderingMode:)]) {
+        profileImg = [profileImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+
+    UIBarButtonItem *butProfile = [[UIBarButtonItem alloc] initWithImage:profileImg
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(profilePressed)];
     self.navigationItem.leftBarButtonItem = butProfile;
-    
-	self.refreshControl = [[UIRefreshControl alloc] init];
-	if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-	[self.refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
-	
-	[self updateEmptyState];
-	
-	// Set required taps and number of touches
-	UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];
-	[touchOnView setNumberOfTapsRequired:1];
-	[touchOnView setNumberOfTouchesRequired:1];
-	[self.tableOverlayView addGestureRecognizer:touchOnView];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(somethingChangedInAlbumwithId:)
-												 name:NOTIFICATIONCENTER_ALBUM_CHANGED
-											   object:nil];
-	
+
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    if (!IS_IOS7) {
+        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    }
+    [self.refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
+
+    [self updateEmptyState];
+
+    // Set required taps and number of touches
+    UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];
+    [touchOnView setNumberOfTapsRequired:1];
+    [touchOnView setNumberOfTouchesRequired:1];
+    [self.tableOverlayView addGestureRecognizer:touchOnView];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(somethingChangedInAlbumwithId:)
+                                                 name:NOTIFICATIONCENTER_ALBUM_CHANGED
+                                               object:nil];
+
     ShotVibeAppDelegate *app = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
     networkOnline_ = [app.networkStatusManager registerListenerWithSLNetworkStatusManager_Listener:self];
     [self updateNetworkStatusNavBar];
 
-	RCLogTimestamp();
-	
-	if (IS_IOS7) {
-		[self setNeedsStatusBarAppearanceUpdate];
-	}
+    RCLogTimestamp();
+
+    if (IS_IOS7) {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
 }
 
 
 - (void)updateNetworkStatusNavBar
 {
-    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSettings.png"]
+    UIImage *managementButtonImg = [UIImage imageNamed:@"IconSettings.png"];
+    
+    if ([managementButtonImg respondsToSelector:@selector(imageWithRenderingMode:)]) {
+        managementButtonImg = [managementButtonImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+
+    UIBarButtonItem *managementButton = [[UIBarButtonItem alloc] initWithImage:managementButtonImg
                                                                          style:UIBarButtonItemStyleBordered
                                                                         target:self
                                                                         action:@selector(settingsPressed)];
+
+    UIImage *networkButtonImg = [UIImage imageNamed:@"IconNotConnected.png"];
+
+    if ([networkButtonImg respondsToSelector:@selector(imageWithRenderingMode:)]) {
+        networkButtonImg = [networkButtonImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
 
     if (networkOnline_) {
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:
                                                    managementButton,
                                                    nil];
     } else {
-        UIBarButtonItem *notConnectedButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconNotConnected.png"]
+        UIBarButtonItem *notConnectedButton = [[UIBarButtonItem alloc] initWithImage:networkButtonImg
                                                                                style:UIBarButtonItemStyleBordered
                                                                               target:self
                                                                               action:@selector(notConnectedPressed)];
@@ -211,17 +232,27 @@
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
 }
 
 
-- (BOOL)shouldAutorotate {
-	return YES;
+- (BOOL)shouldAutorotate
+{
+    return NO;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskAllButUpsideDown;
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
 }
 
 
@@ -306,22 +337,10 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumSelector:) name:@"kSVPickAlbumToUpload" object:nil];
 
-    @try {
+    if (![self.pickerController presentingViewController]) {
         [self presentViewController:self.pickerController animated:NO completion:^{
             self.view.hidden = NO;
-        }
-
-
-        ];
-    } @catch (NSException *exception) {
-        double delayInSeconds = 0.25;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-            [self cancelAlbumSelector:nil];
-        }
-
-
-                       );
+        }];
     }
 }
 
@@ -594,20 +613,22 @@
 	
 	[searchBar setShowsCancelButton:YES animated:YES];
 	
-	[UIView animateWithDuration:0.4 animations:^{
-		self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-KEYBOARD_H-status_bar_h);
-	}];
+//	[UIView animateWithDuration:0.4 animations:^{
+//		self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-KEYBOARD_H-status_bar_h);
+//	}];
 	
 	searchShowing = YES;
 }
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-	
-	[searchBar setShowsCancelButton:NO animated:YES];
-	
-	self.tableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-total_header_h);
-	
-	searchShowing = NO;
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    [searchBar setShowsCancelButton:NO animated:YES];
+
+//	self.tableView.frame = CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-total_header_h);
+
+    [self.tableView setContentOffset:CGPointMake(0, 44) animated:YES];
+
+    searchShowing = NO;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -654,12 +675,9 @@
 	if (albumList.count == 0) {
 		self.noPhotosView.frame = CGRectMake(0, 88, 320, 548);
 		[self.view addSubview:self.noPhotosView];
-		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		self.butTakePicture.enabled = NO;
-	}
-	else if ([self.noPhotosView isDescendantOfView:self.view]) {
+	} else {
 		[self.noPhotosView removeFromSuperview];
-		self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 		self.butTakePicture.enabled = YES;
 	}
 }
@@ -809,7 +827,9 @@
         RCLog(@"Nickname was already set");
     } else {
         // TODO: Check with the server if the nickname really was not set yet, since now we will prompt also after a reinstall.
-        [self performSegueWithIdentifier:@"PromptNickChangeSegue" sender:nil];
+        if ([self.navigationController.viewControllers count] <= 1) {
+            [self performSegueWithIdentifier:@"PromptNickChangeSegue" sender:nil];
+        }
     }
 }
 

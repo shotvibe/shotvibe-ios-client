@@ -53,76 +53,75 @@
 	self.view = v;
 }
 
-- (void)viewDidLoad {
-	
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-	
+
     self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-	toolsHidden = YES;
-	
-	cache = [[NSMutableArray alloc] initWithCapacity:self.photos.count];
-	for (id photo in self.photos) {
-		[cache addObject:[NSNull null]];
-	}
-	
-	// Add custom toolbar
-	toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, 320, 44)];
-	toolbarView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
-	toolbarView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-	toolbarView.alpha = 0;
-	
-	butTrash = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-	[butTrash setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
-	[butTrash addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-	[toolbarView addSubview:butTrash];
-    
-	butShare = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, 0, 44, 44)];
-	[butShare setImage:[UIImage imageNamed:@"exportIcon.png"] forState:UIControlStateNormal];
-	[butShare addTarget:self action:@selector(exportButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-	butShare.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-	[toolbarView addSubview:butShare];
-    
-	butEdit = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44-44-10, 0, 44, 44)];
-	[butEdit setImage:[UIImage imageNamed:@"PencilWhite.png"] forState:UIControlStateNormal];
-	[butEdit addTarget:self action:@selector(displayEditor) forControlEvents:UIControlEventTouchUpInside];
-	butEdit.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-	[toolbarView addSubview:butEdit];
-    
-	self.navigationItem.rightBarButtonItem = nil;
-	
-	if (IS_IOS7) {
-		self.navigationController.navigationBar.translucent = YES;
-		self.automaticallyAdjustsScrollViewInsets = NO;
-		self.extendedLayoutIncludesOpaqueBars = YES;
-		// This next lines will pad the y of the view to 44 or 64, depending if the status bar is visible
+    toolsHidden = YES;
+
+    cache = [[NSMutableArray alloc] initWithCapacity:self.photos.count];
+    for (id photo in self.photos) {
+        [cache addObject:[NSNull null]];
+    }
+
+    // Add custom toolbar
+    toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44, 320, 44)];
+    toolbarView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    toolbarView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    toolbarView.alpha = 0;
+
+    butTrash = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 44, 0, 44, 44)];
+    [butTrash setImage:[UIImage imageNamed:@"trashIcon.png"] forState:UIControlStateNormal];
+    [butTrash addTarget:self action:@selector(deleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [toolbarView addSubview:butTrash];
+
+    butShare = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    [butShare setImage:[UIImage imageNamed:@"exportIcon.png"] forState:UIControlStateNormal];
+    [butShare addTarget:self action:@selector(exportButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    butShare.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    [toolbarView addSubview:butShare];
+
+    butEdit = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 44 - 44 - 10, 0, 44, 44)];
+    [butEdit setImage:[UIImage imageNamed:@"PencilWhite.png"] forState:UIControlStateNormal];
+    [butEdit addTarget:self action:@selector(displayEditor) forControlEvents:UIControlEventTouchUpInside];
+    butEdit.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    [toolbarView addSubview:butEdit];
+
+    self.navigationItem.rightBarButtonItem = nil;
+
+    if (IS_IOS7) {
+        self.navigationController.navigationBar.translucent = YES;
+        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.extendedLayoutIncludesOpaqueBars = YES;
+        // This next lines will pad the y of the view to 44 or 64, depending if the status bar is visible
 //		if([self respondsToSelector:@selector(edgesForExtendedLayout)])
 //			self.edgesForExtendedLayout = UIRectEdgeNone;
-	}
-	else {
-		self.wantsFullScreenLayout = YES;
-	}
-	
+    } else {
+        self.wantsFullScreenLayout = YES;
+    }
+
     photosScrollView = [[UIScrollView alloc] init];
-	photosScrollView.scrollEnabled = YES;
-	photosScrollView.showsHorizontalScrollIndicator = NO;
-	photosScrollView.showsVerticalScrollIndicator = NO;
-	photosScrollView.pagingEnabled = YES;// Whether should stop at each page when scrolling
-	photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	photosScrollView.delegate = self;
-	[self.view addSubview:photosScrollView];
+    photosScrollView.scrollEnabled = YES;
+    photosScrollView.showsHorizontalScrollIndicator = NO;
+    photosScrollView.showsVerticalScrollIndicator = NO;
+    photosScrollView.pagingEnabled = YES; // Whether should stop at each page when scrolling
+    photosScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    photosScrollView.delegate = self;
+    [self.view addSubview:photosScrollView];
 
     [self fitScrollViewToOrientation];
     [self setPhotoViewsIndex:self.index];
-	
-	// Add gestures
-	
-	doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
-	doubleTap.numberOfTapsRequired = 2;
-	
-	singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-	singleTap.numberOfTapsRequired = 1;
-	
-	[singleTap requireGestureRecognizerToFail:doubleTap];
+
+    // Add gestures
+
+    doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+    doubleTap.numberOfTapsRequired = 2;
+
+    singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    singleTap.numberOfTapsRequired = 1;
+
+    [singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -160,8 +159,8 @@
 	
     [super viewWillDisappear:animated];
 	
+    self.navigationController.navigationBar.translucent = NO;
 	if (!IS_IOS7) {
-		self.navigationController.navigationBar.translucent = NO;
 		//self.navigationController.toolbar.translucent = NO;
 		//[self.navigationController setToolbarHidden:YES animated:YES];
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
@@ -172,7 +171,6 @@
 //        self.edgesForExtendedLayout = UIRectEdgeNone;
 //		self.navigationController.navigationBar.translucent = YES;
 	}
-	
 	
 	[photosScrollView removeGestureRecognizer:doubleTap];
 	[photosScrollView removeGestureRecognizer:singleTap];
@@ -325,6 +323,11 @@
 
 - (NSUInteger)supportedInterfaceOrientations {
 	return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -514,7 +517,7 @@
             NSString *dateFormated = [NSDateFormatter localizedStringFromDate:dateAdded
 																	dateStyle:NSDateFormatterLongStyle
 																	timeStyle:NSDateFormatterShortStyle];
-            str = [NSString stringWithFormat:@"%@\n%@", [[[photo getServerPhoto] getAuthor] getMemberNickname], dateFormated];
+            str = [NSString stringWithFormat:@"Updated by %@\n%@", [[[photo getServerPhoto] getAuthor] getMemberNickname], dateFormated];
 			
 			// Hide the trash button for photos that does not belong the the current user
             butTrash.hidden = [[[photo getServerPhoto] getAuthor] getMemberId] != [self.albumManager getShotVibeAPI].authData.userId;

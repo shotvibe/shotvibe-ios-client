@@ -18,8 +18,8 @@
 {
     [super viewDidLoad];
     if (IS_IOS7) {
-        self.navigationBar.tintColor = [UIColor whiteColor];
-        self.navigationBar.barTintColor = BLUE;
+//        self.navigationBar.tintColor = [UIColor whiteColor];
+//        self.navigationBar.barTintColor = BLUE;
         
         [self setNeedsStatusBarAppearanceUpdate];
         
@@ -47,7 +47,7 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
