@@ -115,6 +115,7 @@
 
     self.topLabel.text = topTexts[index];
     self.bottomLabel.text = bottomTexts[index];
+    self.bottomLabel.adjustsFontSizeToFitWidth = YES;
 }
 
 

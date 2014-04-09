@@ -159,8 +159,8 @@
 	
     [super viewWillDisappear:animated];
 	
+    self.navigationController.navigationBar.translucent = NO;
 	if (!IS_IOS7) {
-		self.navigationController.navigationBar.translucent = NO;
 		//self.navigationController.toolbar.translucent = NO;
 		//[self.navigationController setToolbarHidden:YES animated:YES];
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
