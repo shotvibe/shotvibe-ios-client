@@ -780,7 +780,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         UIButton *date = [UIButton buttonWithType:UIButtonTypeCustom];
         date.frame = CGRectMake(0, 80, 320, 40);
         [date addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
-        [date setTitle:@"Sort By Date" forState:UIControlStateNormal];
+        [date setTitle:@"Sort by Date" forState:UIControlStateNormal];
 //        date.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         [date setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         [date setImage:[UIImage imageNamed:@"sortType3"] forState:UIControlStateNormal];
