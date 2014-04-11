@@ -297,6 +297,9 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 - (IBAction)takePicturePressed:(id)sender
 {
+    [[Mixpanel sharedInstance] track:@"Add Photo from Camera Pressed"
+                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
+
     navigatingNext = YES;
     //self.scrollToBottom = YES;
     self.scrollToTop = YES;
@@ -328,6 +331,9 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     navigatingNext = YES;
 
     if ([segue.identifier isEqualToString:@"ImagePickerSegue"]) {
+        [[Mixpanel sharedInstance] track:@"Add Photo from Gallery Pressed"
+                              properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
+
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
 
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
