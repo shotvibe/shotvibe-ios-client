@@ -56,11 +56,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //[NewRelicAgent startWithApplicationToken:@"AAea0623ed205b8e4119889914a4605318944a6535"];
-    [Mixpanel sharedInstanceWithToken:@"8d72e5fa36faafefbf0b63a7a2cc306e"];
     [Appsee start:@"215369473db946c39b7ae4276adf3e5b"];
 
 #if !CONFIGURATION_Debug
     [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
+#endif
+
+#if CONFIGURATION_Release
+    [Mixpanel sharedInstanceWithToken:@"0ff5e52a6784417a3c1621ebcc27222c"];
 #endif
 
     self.networkStatusManager = [[SLNetworkStatusManager alloc] init];
