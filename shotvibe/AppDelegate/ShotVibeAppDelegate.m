@@ -273,7 +273,7 @@
 
 
 // This should be updated whenever submitting the app
-static NSString *const appCountryLookupVersion = @"3";
+static NSString *const appCountryLookupVersion = @"4";
 
 NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString *, NSString *))
 {
