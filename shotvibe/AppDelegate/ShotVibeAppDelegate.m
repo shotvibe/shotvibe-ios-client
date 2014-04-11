@@ -64,6 +64,12 @@
 
 #if CONFIGURATION_Release
     [Mixpanel sharedInstanceWithToken:@"0ff5e52a6784417a3c1621ebcc27222c"];
+#else
+    // This is needed so that event tracking doesn't cause warning logs,
+    // and is useful for verifying that events are being properly sent
+    // with MIXPANEL_LOG=1. See the online mixpanel docs:
+    //   https://mixpanel.com/help/reference/ios#debugging-and-logging
+    [Mixpanel sharedInstanceWithToken:@"0"];
 #endif
 
     self.networkStatusManager = [[SLNetworkStatusManager alloc] init];
