@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AA58FAF616C224E800C49E02"
-               BuildableName = "ShotVibe.app"
+               BuildableName = "Glance.app"
                BlueprintName = "shotvibe"
                ReferencedContainer = "container:shotvibe.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AA58FAF616C224E800C49E02"
-            BuildableName = "ShotVibe.app"
+            BuildableName = "Glance.app"
             BlueprintName = "shotvibe"
             ReferencedContainer = "container:shotvibe.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AA58FAF616C224E800C49E02"
-            BuildableName = "ShotVibe.app"
+            BuildableName = "Glance.app"
             BlueprintName = "shotvibe"
             ReferencedContainer = "container:shotvibe.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AA58FAF616C224E800C49E02"
-            BuildableName = "ShotVibe.app"
+            BuildableName = "Glance.app"
             BlueprintName = "shotvibe"
             ReferencedContainer = "container:shotvibe.xcodeproj">
          </BuildableReference>

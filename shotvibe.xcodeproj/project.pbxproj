@@ -1906,7 +1906,7 @@
 		AA234848177AA3F600D55918 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		AA4115BC177C0451009F400F /* NSFileManager+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Helper.h"; sourceTree = "<group>"; };
 		AA4115BD177C0451009F400F /* NSFileManager+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Helper.m"; sourceTree = "<group>"; };
-		AA58FAF716C224E800C49E02 /* ShotVibe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShotVibe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA58FAF716C224E800C49E02 /* Glance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA58FAFA16C224E800C49E02 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AA58FAFC16C224E800C49E02 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AA58FAFE16C224E800C49E02 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -3289,7 +3289,7 @@
 		AA58FAF816C224E800C49E02 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AA58FAF716C224E800C49E02 /* ShotVibe.app */,
+				AA58FAF716C224E800C49E02 /* Glance.app */,
 				AA58FB1D16C224E800C49E02 /* shotvibeTests.octest */,
 			);
 			name = Products;
@@ -3596,7 +3596,7 @@
 			);
 			name = shotvibe;
 			productName = shotvibe;
-			productReference = AA58FAF716C224E800C49E02 /* ShotVibe.app */;
+			productReference = AA58FAF716C224E800C49E02 /* Glance.app */;
 			productType = "com.apple.product-type.application";
 		};
 		AA58FB1C16C224E800C49E02 /* shotvibeTests */ = {
@@ -4593,7 +4593,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = ShotVibe;
+				PRODUCT_NAME = Glance;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4718,7 +4718,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = ShotVibe;
+				PRODUCT_NAME = Glance;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
@@ -4748,7 +4748,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = ShotVibe;
+				PRODUCT_NAME = Glance;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
