@@ -434,8 +434,6 @@ NSString *const kUploadSessionId = @"shotvibe.uploadSession";
 
 - (SLAlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error
 {
-    [[Mixpanel sharedInstance] track:@"getUserProfile" properties:@{ @"userId" : [NSString stringWithFormat:@"%lld", userId] }];
-
     NSError *responseError;
     Response *response = [self getResponse:[NSString stringWithFormat:@"/users/%lld/", userId] method:@"GET" body:nil error:&responseError];
 
