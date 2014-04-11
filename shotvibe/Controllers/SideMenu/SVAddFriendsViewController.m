@@ -109,6 +109,9 @@
 
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
+
+    [[Mixpanel sharedInstance] track:@"Add Friends Screen Viewed"
+                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
 }
 
 
@@ -433,6 +436,11 @@
 
         [memberAddRequests addObject:request];
 	}
+
+    [[Mixpanel sharedInstance] track:@"Add Friends Screen Done"
+                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId],
+                                        @"num_contacts" : [NSNumber numberWithUnsignedInteger:memberAddRequests.count] }];
+
 	
 	//[contactsToInvite addObject:@{@"phone_number": @"+40700000002", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
 	//[contactsToInvite addObject:@{@"phone_number": @"(070) 000-0001", @"default_country":regionCode, @"contact_nickname":@"Cristi"}];
@@ -461,6 +469,9 @@
 }
 
 - (void)cancelPressed:(id)sender {
+    [[Mixpanel sharedInstance] track:@"Add Friends Screen Canceled"
+                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
+
     [self.albumManager.phoneContactsManager unsetListener];
 
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
