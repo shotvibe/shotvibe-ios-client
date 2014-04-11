@@ -110,6 +110,8 @@
     NSString *defaultCountry = selectedCountryCode;
     
     RCLog(@"phoneNumber:'%@' defaultCountry:'%@'", phoneNumber, defaultCountry);
+
+    [[Mixpanel sharedInstance] track:@"Phone Number Submitted"];
 	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error;
@@ -121,6 +123,7 @@
                 [self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
             }
             else if (r == AuthorizePhoneNumberInvalidNumber) {
+                [[Mixpanel sharedInstance] track:@"Phone Number Submitted Invalid"];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Number"
                                                                 message:@"Check that you have entered your correct phone number"
                                                                delegate:nil
@@ -129,6 +132,7 @@
                 [alert show];
             }
             else /*if (r == AuthorizePhoneNumberError)*/ {
+                [[Mixpanel sharedInstance] track:@"Phone Number Submitted Error"];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unknown Error"
                                                                 message:@"Possible causes are invalid phone numbers or the server is down"
                                                                delegate:nil

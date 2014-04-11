@@ -156,10 +156,15 @@
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)nav.visibleViewController;
 
     if ([[self.albumManager getShotVibeAPI] authenticateWithURL:url]) {
+        [[Mixpanel sharedInstance] track:@"User Registered"];
+        [[Mixpanel sharedInstance] track:@"User Registered (Invite Link)"];
+
         [pushNotificationsManager setup];
 
         [registrationViewController skipRegistration];
     } else {
+        [[Mixpanel sharedInstance] track:@"Phone Number Screen Viewed"];
+
         NSString *countryCode = [RegistrationInfo countryCodeFromURL:url];
 
         [registrationViewController selectCountry:countryCode];
