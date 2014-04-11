@@ -83,7 +83,7 @@
     [toolbarView addSubview:butShare];
 
     butEdit = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 44 - 44 - 10, 0, 44, 44)];
-    [butEdit setImage:[UIImage imageNamed:@"PencilWhite.png"] forState:UIControlStateNormal];
+    [butEdit setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
     [butEdit addTarget:self action:@selector(displayEditor) forControlEvents:UIControlEventTouchUpInside];
     butEdit.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [toolbarView addSubview:butEdit];
