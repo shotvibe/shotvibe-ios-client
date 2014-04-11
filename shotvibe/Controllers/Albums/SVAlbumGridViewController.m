@@ -88,6 +88,9 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
     NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized without albumId");
 
+    [[Mixpanel sharedInstance] track:@"Album Viewed"
+                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
+
     self.collectionView.alwaysBounceVertical = YES;
     //self.collectionView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
 
