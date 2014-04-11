@@ -275,16 +275,22 @@
 
 
 - (void)profilePressed {
+    [[Mixpanel sharedInstance] track:@"Profile Button Pressed"];
+
 	tappedCell = nil;
 	[self performSegueWithIdentifier:@"ProfileSegue" sender:nil];
 }
 
 - (void)settingsPressed {
+    [[Mixpanel sharedInstance] track:@"Settings Button Pressed"];
+
 	tappedCell = nil;
     [self performSegueWithIdentifier:@"SettingsSegue" sender:nil];
 }
 
 - (IBAction)newAlbumPressed:(id)sender {
+    [[Mixpanel sharedInstance] track:@"New Album Button Pressed"];
+
     [self showDropDown];
 	//	ShotVibeAppDelegate *app = [ShotVibeAppDelegate sharedDelegate];
 	//	NSDictionary *dic = @{@"aps":@{@"alert":@"Just added few pics to your album"}};
@@ -292,10 +298,14 @@
 }
 
 - (IBAction)newAlbumClosed:(id)sender {
+    [[Mixpanel sharedInstance] track:@"New Album Canceled"];
+
     [self hideDropDown];
 }
 
 - (IBAction)newAlbumDone:(id)sender {
+    [[Mixpanel sharedInstance] track:@"New Album Done"];
+
 	NSString *name = self.albumField.text.length == 0 ? self.albumField.placeholder : self.albumField.text;
     [self createNewAlbumWithTitle:name];
     [self hideDropDown];
@@ -303,6 +313,7 @@
 
 - (IBAction)takePicturePressed:(id)sender
 {
+    [[Mixpanel sharedInstance] track:@"Take a Picture Pressed"];
 //	int capacity = 8;
 //	int i = 0;
 //

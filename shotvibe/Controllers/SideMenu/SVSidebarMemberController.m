@@ -82,6 +82,11 @@
                                                        queue:queue
                                                   usingBlock:^(NSNotification *note)
     {
+        if ([note.userInfo[@"eventType"] integerValue] == MFSideMenuStateEventMenuDidOpen) {
+            [[Mixpanel sharedInstance] track:@"Members Panel Opened"
+                                  properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", [self.albumContents getId]] }];
+        }
+
         // This is called when you open and close the side menu
         if ([note.userInfo[@"eventType"] integerValue] == MFSideMenuStateEventMenuDidClose) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -111,6 +116,9 @@
 {
     NSLog(@"contacts auth status: %ld", ABAddressBookGetAuthorizationStatus());
 
+    [[Mixpanel sharedInstance] track:@"Add Friends Button Pressed"
+                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", [self.albumContents getId]] }];
+
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
         [self navigateToAddFriends:sender];
     } else {
@@ -135,6 +143,9 @@
                 if (granted) {
                     [self navigateToAddFriends:sender];
                 } else {
+                    [[Mixpanel sharedInstance] track:@"Add Friends Permission Denied"
+                                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", [self.albumContents getId]] }];
+
                     NSString *errorMessage =
                         @"In order to invite people we need access to your contacts list.\n\n"
                         @"To enable it go to Settings/Privacy/Contacts";

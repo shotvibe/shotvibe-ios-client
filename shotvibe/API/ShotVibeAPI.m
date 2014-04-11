@@ -166,6 +166,16 @@ NSString *const kUploadSessionId = @"shotvibe.uploadSession";
     _authData = authData;
 
     if (authData && authData.authToken && authData.defaultCountryCode) {
+        NSString *user_id_str = [NSString stringWithFormat:@"%lld", authData.userId];
+
+        if (![[Mixpanel sharedInstance].distinctId isEqualToString:user_id_str]) {
+            [[Mixpanel sharedInstance] createAlias:user_id_str
+                                     forDistinctID:[Mixpanel sharedInstance].distinctId];
+
+            [[Mixpanel sharedInstance] identify:user_id_str];
+            [[Mixpanel sharedInstance].people set:@{ @"user_id" : user_id_str }];
+        }
+
         ShotVibeAppDelegate *app = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
 
         id<SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
@@ -424,8 +434,6 @@ NSString *const kUploadSessionId = @"shotvibe.uploadSession";
 
 - (SLAlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error
 {
-    [[Mixpanel sharedInstance] track:@"getUserProfile" properties:@{ @"userId" : [NSString stringWithFormat:@"%lld", userId] }];
-
     NSError *responseError;
     Response *response = [self getResponse:[NSString stringWithFormat:@"/users/%lld/", userId] method:@"GET" body:nil error:&responseError];
 

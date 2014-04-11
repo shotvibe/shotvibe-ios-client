@@ -42,6 +42,8 @@
     [self addChildViewController:self.pageController];
     [[self view] insertSubview:[self.pageController view] atIndex:0];
     [self.pageController didMoveToParentViewController:self];
+
+    [[Mixpanel sharedInstance] track:@"Welcome Screen Intro Viewed"];
 }
 
 
@@ -95,6 +97,9 @@
     TutorialChildViewController *viewController = [pageViewController.viewControllers firstObject];
     NSUInteger index = [viewController index];
 
+    [[Mixpanel sharedInstance] track:@"Welcome Screen Viewed Page"
+                          properties:@{ @"welcome_screen_page" : [NSNumber numberWithUnsignedInteger:index + 1] }];
+
     NSArray *topTexts = @[@"Create albums with a single tap",
                           @"Collaborative Albums",
                           @"Invite your friends to join your album",
@@ -121,6 +126,8 @@
 
 - (IBAction)dismiss:(id)sender
 {
+    [[Mixpanel sharedInstance] track:@"Welcome Screen Dismissed"];
+
     if (self.onClose) {
         __block TutorialViewController *blocksafeSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -135,6 +142,9 @@
 
 - (IBAction)closeWelcomeScreen:(id)sender
 {
+    [[Mixpanel sharedInstance] track:@"Welcome Screen Viewed Page"
+                          properties:@{ @"welcome_screen_page" : [NSNumber numberWithUnsignedInteger:1] }];
+
     [[sender superview] removeFromSuperview];
 }
 

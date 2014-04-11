@@ -19,6 +19,8 @@
 {
     [super viewDidLoad];
 	[self.codeField1 becomeFirstResponder];
+
+    [[Mixpanel sharedInstance] track:@"Activation Screen Viewed"];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -57,6 +59,8 @@ static NSString * deviceDescription()
 {
 	RCLog(@"validateRegistrationCode - code:  %@", registrationCode);
 
+    [[Mixpanel sharedInstance] track:@"Activation Code Submitted"];
+
     UIAlertView *activityDialog = [[UIAlertView alloc] initWithTitle:@"Registering..." message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
     [activityDialog show];
 
@@ -78,6 +82,7 @@ static NSString * deviceDescription()
                 [self handleSuccessfulLogin:YES];
             }
             else if (r == ConfirmSMSCodeIncorrectCode) {
+                [[Mixpanel sharedInstance] track:@"Activation Code Submitted Incorrect"];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incorrect Code"
                                                                 message:@"Please enter the code that was sent to you, or go back to check your phone number"
                                                                delegate:nil
@@ -86,6 +91,7 @@ static NSString * deviceDescription()
                 [alert show];
             }
             else if (r == ConfirmSMSCodeError) {
+                [[Mixpanel sharedInstance] track:@"Activation Code Submitted Error"];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                 message:[error description]
                                                                delegate:nil
@@ -133,6 +139,10 @@ static NSString * deviceDescription()
 - (void)handleSuccessfulLogin:(BOOL)animated
 {
 	RCLog(@"handleSuccessfulLogin");
+
+    [[Mixpanel sharedInstance] track:@"User Registered"];
+    [[Mixpanel sharedInstance] track:@"User Registered (Manual)"];
+
     //[[SVDownloadSyncEngine sharedEngine] startSync];
 
     // Now that AuthData is available this should be done:
