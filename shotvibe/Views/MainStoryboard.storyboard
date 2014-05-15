@@ -738,6 +738,10 @@
                                                                 <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
                                                             </accessibility>
                                                         </view>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="walla_new.png" id="7Zh-Ne-jEQ">
+                                                            <rect key="frame" x="34" y="1" width="64" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
                                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="white" id="Kac-ol-efE">
                                                             <rect key="frame" x="41" y="38" width="20" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -752,6 +756,7 @@
                                                 </view>
                                                 <connections>
                                                     <outlet property="activityView" destination="Kac-ol-efE" id="zdn-pX-0nD"/>
+                                                    <outlet property="albumOrgNewOverlay" destination="7Zh-Ne-jEQ" id="n6U-tw-9BH"/>
                                                     <outlet property="labelNewLabel" destination="Kt1-Gj-Vew" id="dxW-PR-3Er"/>
                                                     <outlet property="labelNewView" destination="JmT-ek-vdD" id="Hnw-Pt-3hZ"/>
                                                     <outlet property="networkImageView" destination="C9q-ds-YvT" id="INW-lj-d2U"/>
@@ -2437,6 +2442,7 @@ activation code just sent to you</string>
         <image name="profileIcon.png" width="14" height="14"/>
         <image name="registrationCodeFieldBg.png" width="192" height="44"/>
         <image name="settingsIcon.png" width="16" height="16"/>
+        <image name="walla_new.png" width="64" height="17"/>
         <image name="walla_ribbon_overlay.png" width="64" height="64"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
