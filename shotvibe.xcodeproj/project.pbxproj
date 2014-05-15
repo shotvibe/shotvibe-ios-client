@@ -671,6 +671,8 @@
 		6601325B187F4E670042047B /* NSObject+JavaObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013220187F4E670042047B /* NSObject+JavaObject.m */; };
 		6601325C187F4E670042047B /* NSString+JavaString.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013222187F4E670042047B /* NSString+JavaString.m */; };
 		6601325D187F4E670042047B /* objc-sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 66013224187F4E670042047B /* objc-sync.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6625FBF6192521C200DB8A78 /* walla_ribbon_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6625FBF5192521C200DB8A78 /* walla_ribbon_overlay@2x.png */; };
+		6625FBF81925253800DB8A78 /* walla_ribbon_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6625FBF71925253800DB8A78 /* walla_ribbon_overlay.png */; };
 		66278C4B1867B23800D23F34 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C481867B23800D23F34 /* FileUtils.m */; };
 		66278C4C1867B23800D23F34 /* SVInitialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C4A1867B23800D23F34 /* SVInitialization.m */; };
 		66278C5E1867C17800D23F34 /* SVAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278C4E1867C17800D23F34 /* SVAddFriendsViewController.m */; };
@@ -1699,6 +1701,8 @@
 		66013222187F4E670042047B /* NSString+JavaString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JavaString.m"; sourceTree = "<group>"; };
 		66013223187F4E670042047B /* objc-sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "objc-sync.h"; sourceTree = "<group>"; };
 		66013224187F4E670042047B /* objc-sync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "objc-sync.m"; sourceTree = "<group>"; };
+		6625FBF5192521C200DB8A78 /* walla_ribbon_overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walla_ribbon_overlay@2x.png"; sourceTree = "<group>"; };
+		6625FBF71925253800DB8A78 /* walla_ribbon_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walla_ribbon_overlay.png; sourceTree = "<group>"; };
 		66278C461867B16E00D23F34 /* SVDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVDefines.h; sourceTree = "<group>"; };
 		66278C471867B23800D23F34 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
 		66278C481867B23800D23F34 /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
@@ -2038,6 +2042,7 @@
 				2849A88C17EAFE400076AFBA /* searchFieldIcon@2x.png */,
 				3BE0B10917C29F2E0058CAAD /* create.sql */,
 				3E47245418D06E5400FF6105 /* icons */,
+				6625FBF01925210900DB8A78 /* walla */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -3187,6 +3192,15 @@
 			path = reflect;
 			sourceTree = "<group>";
 		};
+		6625FBF01925210900DB8A78 /* walla */ = {
+			isa = PBXGroup;
+			children = (
+				6625FBF71925253800DB8A78 /* walla_ribbon_overlay.png */,
+				6625FBF5192521C200DB8A78 /* walla_ribbon_overlay@2x.png */,
+			);
+			name = walla;
+			sourceTree = "<group>";
+		};
 		66E7889F188737210037ACF3 /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -3698,6 +3712,7 @@
 				0499B8A5171DD6DE00050596 /* privacyPolicyIcon.png in Resources */,
 				0499B8A7171DD6DE00050596 /* generalNotificationSettingIcon.png in Resources */,
 				0499B8A9171DD6DE00050596 /* generalNotificationSettingIcon@2x.png in Resources */,
+				6625FBF81925253800DB8A78 /* walla_ribbon_overlay.png in Resources */,
 				0499B8AB171DD6DE00050596 /* emailIcon@2x.png in Resources */,
 				0499B8AD171DD6DE00050596 /* emailIcon.png in Resources */,
 				3E0CC9E418B63E1F00F6089A /* SVPictureConfirmViewController.xib in Resources */,
@@ -3921,6 +3936,7 @@
 				04C407371730303600973BC0 /* OM.png in Resources */,
 				04C407391730303600973BC0 /* PA.png in Resources */,
 				04C4073B1730303600973BC0 /* PE.png in Resources */,
+				6625FBF6192521C200DB8A78 /* walla_ribbon_overlay@2x.png in Resources */,
 				3EF4160818E09ECD0077DC22 /* sortType2.png in Resources */,
 				04C4073D1730303600973BC0 /* PF.png in Resources */,
 				04C4073F1730303600973BC0 /* PG.png in Resources */,

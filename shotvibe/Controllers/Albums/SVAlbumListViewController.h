@@ -26,4 +26,7 @@
 
 @property (nonatomic, strong) AlbumManager *albumManager;
 
+// This function is a temporary hack
++ (BOOL)isAlbumOrg:(SLAlbumBase *)album;
+
 @end
