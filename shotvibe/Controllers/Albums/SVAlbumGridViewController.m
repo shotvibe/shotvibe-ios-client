@@ -418,9 +418,11 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
         if ([[photo getServerPhoto] isNewWithSLDateTime:[albumContents getLastAccess]
                                                withLong:self.albumManager.getShotVibeAPI.authData.userId]) {
-            if ([SVAlbumListViewController isAlbumOrg:albumContents]) {
+            NSString *org = [SVAlbumListViewController getAlbumOrg:albumContents];
+            if (org) {
                 cell.labelNewView.hidden = YES;
                 cell.albumOrgNewOverlay.hidden = NO;
+                cell.albumOrgNewOverlay.image = [UIImage imageNamed:[org stringByAppendingString:@"_new"]];
             } else {
                 cell.labelNewView.hidden = NO;
                 cell.albumOrgNewOverlay.hidden = YES;

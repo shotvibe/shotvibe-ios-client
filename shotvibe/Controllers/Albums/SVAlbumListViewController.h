@@ -27,6 +27,7 @@
 @property (nonatomic, strong) AlbumManager *albumManager;
 
 // This function is a temporary hack
-+ (BOOL)isAlbumOrg:(SLAlbumBase *)album;
+// Returns nil if not an org
++ (NSString *)getAlbumOrg:(SLAlbumBase *)album;
 
 @end
