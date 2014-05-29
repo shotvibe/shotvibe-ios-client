@@ -14,6 +14,7 @@
 @property (nonatomic, strong) IBOutlet PhotoView *networkImageView;
 @property (nonatomic, strong) IBOutlet UIView *labelNewView;
 @property (nonatomic, strong) IBOutlet UILabel *labelNewLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *albumOrgNewOverlay;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityView;
 @property (nonatomic, strong) IBOutlet UIProgressView *uploadProgressView;
 @property (nonatomic, strong) FancyProgressView *fancyUploadProgressView;

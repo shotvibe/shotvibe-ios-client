@@ -265,6 +265,40 @@
 }
 
 
+#pragma mark - Misc
+
++ (NSString *)getAlbumOrg:(SLAlbumBase *)album
+{
+    const unichar ZERO_WIDTH_SPACE = L'\u200B';
+
+    // This is a hack we use to determine which albums are part of an organization.
+
+    // If the album name starts with a sequence of the special invisible
+    // character then it is part of the org whose number is the length of the
+    // sequence
+
+    int counter = 0;
+    while ([album getName].length > counter && [[album getName] characterAtIndex:counter] == ZERO_WIDTH_SPACE) {
+        counter++;
+    }
+
+    switch (counter) {
+        case 0:
+            return nil;
+
+        case 1:
+            return @"walla";
+
+        case 2:
+            return @"easyweb";
+
+        case 3:
+            return @"shvoong";
+    }
+    return nil;
+}
+
+
 #pragma mark - Actions
 
 
@@ -583,6 +617,14 @@
 		[cell.networkImageView setImage:[UIImage imageNamed:@"placeholderImage"]];
         cell.author.text = [NSString stringWithFormat:@"Empty album"];
 	}
+
+    NSString *org = [SVAlbumListViewController getAlbumOrg:album];
+    if (org) {
+        cell.albumOrgOverlay.hidden = NO;
+        cell.albumOrgOverlay.image = [UIImage imageNamed:[org stringByAppendingString:@"_ribbon_overlay"]];
+    } else {
+        cell.albumOrgOverlay.hidden = YES;
+    }
 
     return cell;
 }

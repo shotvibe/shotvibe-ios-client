@@ -40,6 +40,7 @@ extern NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingN
 
 @property (weak, nonatomic) IBOutlet UIImageView *photoFrame;
 @property (weak, nonatomic) IBOutlet PhotoView *networkImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *albumOrgOverlay;
 
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIButton *timestamp;

@@ -16,6 +16,7 @@
 
 #import "SVCameraNavController.h"
 #import "SVPickerController.h"
+#import "SVAlbumListViewController.h"
 
 #import "SVCameraPickerController.h"
 #import "SVImagePickerListViewController.h"
@@ -415,8 +416,21 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
         //RCLog(@"cellForItemAtPath url:%@ added:%@ access:%@", photo.serverPhoto.url, photo.serverPhoto.dateAdded, photo.serverPhoto.lastAccess);
 
-        cell.labelNewView.hidden = ![[photo getServerPhoto] isNewWithSLDateTime:[albumContents getLastAccess]
-                                                                       withLong:self.albumManager.getShotVibeAPI.authData.userId];
+        if ([[photo getServerPhoto] isNewWithSLDateTime:[albumContents getLastAccess]
+                                               withLong:self.albumManager.getShotVibeAPI.authData.userId]) {
+            NSString *org = [SVAlbumListViewController getAlbumOrg:albumContents];
+            if (org) {
+                cell.labelNewView.hidden = YES;
+                cell.albumOrgNewOverlay.hidden = NO;
+                cell.albumOrgNewOverlay.image = [UIImage imageNamed:[org stringByAppendingString:@"_new"]];
+            } else {
+                cell.labelNewView.hidden = NO;
+                cell.albumOrgNewOverlay.hidden = YES;
+            }
+        } else {
+            cell.labelNewView.hidden = YES;
+            cell.albumOrgNewOverlay.hidden = YES;
+        }
     } else if ([photo getUploadingPhoto]) {
         AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
 
@@ -429,6 +443,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         [cell.fancyUploadProgressView appearWithProgressObject:uploadingPhoto];
 
         cell.labelNewView.hidden = YES;
+        cell.albumOrgNewOverlay.hidden = YES;
     }
 
     return cell;
