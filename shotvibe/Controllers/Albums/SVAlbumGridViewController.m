@@ -755,6 +755,9 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 }
 
 
+static const int SHEETVIEW_MENU_NUM_ITEMS = 3;
+
+
 - (void)sortBy:(id)sender
 {
 //    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Feed",@"User",@"Date", nil];
@@ -762,89 +765,92 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //    [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 
 
-    if (!self.sheetView) {
-        self.sheetView = [[UIView alloc] initWithFrame:CGRectMake(0, -120, 320, [UIScreen mainScreen].bounds.size.height)];
+    UIButton * (^ addButton)(int) = ^UIButton *(int pos) {
+        UIButton *but = [UIButton buttonWithType:UIButtonTypeCustom];
+        but.frame = CGRectMake(0, 40 * pos, 320, 40);
+        [but setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
+        but.imageEdgeInsets = UIEdgeInsetsMake(0, -164, 0, 0);
+        but.titleEdgeInsets = UIEdgeInsetsMake(0, -134, 0, 0);
+        [self.sheetView addSubview:but];
+        return but;
+    };
 
-        UIView *innerSheetView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 120)];
+    void (^ addLine)(int) = ^void (int pos) {
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(47, 39 + 40 * pos, 320, .5)];
+        line.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
+        [self.sheetView addSubview:line];
+    };
+
+    void (^ addBottomBorder)(int) = ^void (int pos) {
+        UIImageView *border = [[UIImageView alloc] initWithFrame:CGRectMake(0, 39.5 + 40 * pos, 320, .5)];
+        UIImage *black = [SVInitialization imageWithColor:[UIColor lightGrayColor]];
+        border.image = black;
+        [self.sheetView addSubview:border];
+    };
+
+    if (!self.sheetView) {
+        self.sheetView = [[UIView alloc] initWithFrame:CGRectMake(0, -(40 * SHEETVIEW_MENU_NUM_ITEMS), 320, [UIScreen mainScreen].bounds.size.height)];
+
+        UIView *innerSheetView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40 * SHEETVIEW_MENU_NUM_ITEMS)];
         innerSheetView.backgroundColor = [UIColor colorWithWhite:.95 alpha:1];
         [self.sheetView addSubview:innerSheetView];
 
-        UIButton *feed = [UIButton buttonWithType:UIButtonTypeCustom];
-        feed.frame = CGRectMake(0, 0, 320, 40);
+        UIButton *feed = addButton(0);
         [feed addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [feed setTitle:@"Sort by Feed" forState:UIControlStateNormal];
-//        feed.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
-        [feed setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         [feed setImage:[UIImage imageNamed:@"sortType1"] forState:UIControlStateNormal];
-        feed.imageEdgeInsets = UIEdgeInsetsMake(0, -164, 0, 0);
-        feed.titleEdgeInsets = UIEdgeInsetsMake(0, -134, 0, 0);
         feed.tag = 1;
-        [self.sheetView addSubview:feed];
+        addLine(0);
 
-        UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(47, 39, 320, .5)];
-        line1.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
-        [self.sheetView addSubview:line1];
-
-        UIButton *user = [UIButton buttonWithType:UIButtonTypeCustom];
-        user.frame = CGRectMake(0, 40, 320, 40);
+        UIButton *user = addButton(1);
         [user addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [user setTitle:@"Sort by User" forState:UIControlStateNormal];
-//        user.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
-        [user setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         [user setImage:[UIImage imageNamed:@"sortType2"] forState:UIControlStateNormal];
-        user.imageEdgeInsets = UIEdgeInsetsMake(0, -164, 0, 0);
-        user.titleEdgeInsets = UIEdgeInsetsMake(0, -134, 0, 0);
         user.tag = 2;
-        [self.sheetView addSubview:user];
+        addLine(1);
 
-        UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(47, 79, 320, .5)];
-        line2.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
-        [self.sheetView addSubview:line2];
-
-        UIButton *date = [UIButton buttonWithType:UIButtonTypeCustom];
-        date.frame = CGRectMake(0, 80, 320, 40);
+        UIButton *date = addButton(2);
         [date addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [date setTitle:@"Sort by Date" forState:UIControlStateNormal];
-//        date.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
-        [date setTitleColor:[UIColor colorWithRed:26.0 / 255.0 green:97.0 / 255.0 blue:211.0 / 255.0 alpha:1] forState:UIControlStateNormal];
         [date setImage:[UIImage imageNamed:@"sortType3"] forState:UIControlStateNormal];
-        date.imageEdgeInsets = UIEdgeInsetsMake(0, -164, 0, 0);
-        date.titleEdgeInsets = UIEdgeInsetsMake(0, -134, 0, 0);
         date.tag = 3;
-        [self.sheetView addSubview:date];
+        addBottomBorder(2);
 
 //        UIImageView *triangle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"triangle"]];
 //        triangle.frame = CGRectMake(240, 0, 22, 12);
 //        [self.sheetView addSubview:triangle];
-
-        UIImageView *line3 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 119.5, 320, .5)];
-        UIImage *black = [SVInitialization imageWithColor:[UIColor lightGrayColor]];
-        line3.image = black;
-        [self.sheetView addSubview:line3];
     }
 
     if (!self.sheetView.superview) {
         [self.view addSubview:self.sheetView];
         [UIView animateWithDuration:.3 animations:^{
-            self.sheetView.frame = CGRectMake(0, 0, 320, 120);
+            self.sheetView.frame = CGRectMake(0, 0, 320, 40 * SHEETVIEW_MENU_NUM_ITEMS);
         }
 
 
         ];
     } else {
-        [UIView animateWithDuration:.3 animations:^{
-            self.sheetView.frame = CGRectMake(0, -120, 320, 120);
-        }
-
-
-                         completion:^(BOOL finished) {
-            [self.sheetView removeFromSuperview];
-        }
-
-
-        ];
+        [self hideSheetViewMenu];
     }
 }
+
+
+- (void)hideSheetViewMenu
+{
+    [UIView animateWithDuration:.3 animations:^{
+        self.sheetView.frame = CGRectMake(0, -(40 * SHEETVIEW_MENU_NUM_ITEMS), 320, 40 * SHEETVIEW_MENU_NUM_ITEMS);
+    }
+
+
+                     completion:^(BOOL finished) {
+        [self.sheetView removeFromSuperview];
+    }
+
+
+    ];
+}
+
+
 
 
 - (void)sortByType:(id)sender
@@ -855,17 +861,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
     [self disableProgressAndReloadData];
 
-    [UIView animateWithDuration:.3 animations:^{
-        self.sheetView.frame = CGRectMake(0, -120, 320, 120);
-    }
-
-
-                     completion:^(BOOL finished) {
-        [self.sheetView removeFromSuperview];
-    }
-
-
-    ];
+    [self hideSheetViewMenu];
 }
 
 
