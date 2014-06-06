@@ -875,6 +875,9 @@ static const NSInteger ALERT_VIEW_TAG_CHANGE_NAME = 0;
 
 - (void)setAlbumName:(NSString *)newAlbumName
 {
+    [[Mixpanel sharedInstance] track:@"Change Album Name Initiated"
+                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
+
     [ShotVibeAPITask runTask:self
                   withAction:^id {
         bool success = [[[self.albumManager getShotVibeAPI] getInternalAPI] albumChangeNameWithLong:self.albumId
@@ -902,6 +905,9 @@ static const NSInteger ALERT_VIEW_TAG_CHANGE_NAME = 0;
 
 - (void)albumChangeNamePressed:(id)sender
 {
+    [[Mixpanel sharedInstance] track:@"Change Album Name Pressed"
+                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
+
     [self hideSheetViewMenu];
 
     if (albumContents == nil) {
