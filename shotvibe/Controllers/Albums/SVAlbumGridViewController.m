@@ -34,6 +34,7 @@
 #import "AlbumUploadingPhoto.h"
 #import "SL/DateTime.h"
 #import "SVInitialization.h"
+#import "ShotVibeAPITask.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
@@ -755,7 +756,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 }
 
 
-static const int SHEETVIEW_MENU_NUM_ITEMS = 3;
+static const int SHEETVIEW_MENU_NUM_ITEMS = 4;
 
 
 - (void)sortBy:(id)sender
@@ -795,26 +796,31 @@ static const int SHEETVIEW_MENU_NUM_ITEMS = 3;
         innerSheetView.backgroundColor = [UIColor colorWithWhite:.95 alpha:1];
         [self.sheetView addSubview:innerSheetView];
 
-        UIButton *feed = addButton(0);
+        UIButton *changeName = addButton(0);
+        [changeName addTarget:self action:@selector(albumChangeNamePressed:) forControlEvents:UIControlEventTouchUpInside];
+        [changeName setTitle:@"Change Album Name" forState:UIControlStateNormal];
+        addLine(0);
+
+        UIButton *feed = addButton(1);
         [feed addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [feed setTitle:@"Sort by Feed" forState:UIControlStateNormal];
         [feed setImage:[UIImage imageNamed:@"sortType1"] forState:UIControlStateNormal];
         feed.tag = 1;
-        addLine(0);
+        addLine(1);
 
-        UIButton *user = addButton(1);
+        UIButton *user = addButton(2);
         [user addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [user setTitle:@"Sort by User" forState:UIControlStateNormal];
         [user setImage:[UIImage imageNamed:@"sortType2"] forState:UIControlStateNormal];
         user.tag = 2;
-        addLine(1);
+        addLine(2);
 
-        UIButton *date = addButton(2);
+        UIButton *date = addButton(3);
         [date addTarget:self action:@selector(sortByType:) forControlEvents:UIControlEventTouchUpInside];
         [date setTitle:@"Sort by Date" forState:UIControlStateNormal];
         [date setImage:[UIImage imageNamed:@"sortType3"] forState:UIControlStateNormal];
         date.tag = 3;
-        addBottomBorder(2);
+        addBottomBorder(3);
 
 //        UIImageView *triangle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"triangle"]];
 //        triangle.frame = CGRectMake(240, 0, 22, 12);
@@ -851,6 +857,68 @@ static const int SHEETVIEW_MENU_NUM_ITEMS = 3;
 }
 
 
+static const NSInteger ALERT_VIEW_TAG_CHANGE_NAME = 0;
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (alertView.tag) {
+        case ALERT_VIEW_TAG_CHANGE_NAME:
+            if (buttonIndex == 1) {
+                NSString *newAlbumName = [alertView textFieldAtIndex:0].text;
+                [self setAlbumName:newAlbumName];
+            }
+            break;
+    }
+}
+
+
+- (void)setAlbumName:(NSString *)newAlbumName
+{
+    [ShotVibeAPITask runTask:self
+                  withAction:^id {
+        bool success = [[[self.albumManager getShotVibeAPI] getInternalAPI] albumChangeNameWithLong:self.albumId
+                                                                                       withNSString:newAlbumName];
+        if (success) {
+            [self.albumManager refreshAlbumContents:self.albumId];
+        }
+        return [NSNumber numberWithBool:success];
+    }
+
+
+              onTaskComplete:^(id result) {
+        NSNumber *success = result;
+        if (![success boolValue]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't Change Album Name"
+                                                            message:@"This album was not created by you"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+}
+
+
+- (void)albumChangeNamePressed:(id)sender
+{
+    [self hideSheetViewMenu];
+
+    if (albumContents == nil) {
+        // Album not yet loaded from server
+        return;
+    }
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Album Name"
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Ok", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert textFieldAtIndex:0].text = [[albumContents getName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    alert.tag = ALERT_VIEW_TAG_CHANGE_NAME;
+    [alert show];
+}
 
 
 - (void)sortByType:(id)sender
