@@ -11,6 +11,7 @@
 #import "AuthData.h"
 #import "SL/AlbumContents.h"
 #import "SL/AlbumUser.h"
+#import "SL/ShotVibeAPI.h"
 #import "RegistrationInfo.h"
 #import "UploadSessionDelegate.h"
 
@@ -56,6 +57,8 @@ extern NSString *const kUploadSessionId;
  @param url The "shotvibe://" url received from Safari, stemming from the redirected app_init request.
  */
 - (BOOL)authenticateWithURL:(NSURL *)url;
+
+- (SLShotVibeAPI *)getInternalAPI;
 
 - (SLAlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error;
 

@@ -18,7 +18,7 @@ typedef enum {
 }SortType;
 
 
-@interface SVAlbumGridViewController : UIViewController <AlbumContentsListener, SVCameraPickerDelegate>
+@interface SVAlbumGridViewController : UIViewController <AlbumContentsListener, SVCameraPickerDelegate, UIAlertViewDelegate>
 
 #pragma mark - Properties
 

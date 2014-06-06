@@ -432,6 +432,12 @@ NSString *const kUploadSessionId = @"shotvibe.uploadSession";
 }
 
 
+- (SLShotVibeAPI *)getInternalAPI
+{
+    return libShotVibeAPI_;
+}
+
+
 - (SLAlbumUser *)getUserProfile:(int64_t)userId withError:(NSError **)error
 {
     NSError *responseError;
