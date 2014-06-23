@@ -6,6 +6,16 @@
   Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
 */
 
+"No" = "לא";
+"Yes" = "כן";
+
 "Delete picture" = "מחק תמונה";
 
 "Search album" = "חיפוש אלבום";
+
+"Joined" = "הצטרף";
+"Invited" = "הוזמן";
+"Leave" = "עזיבה";
+
+"Leave album" = "עזיבת אלבום";
+"Are you sure you want to leave this album?" = "האם אתה בטוח שברצונך לעזוב את האלום?";
