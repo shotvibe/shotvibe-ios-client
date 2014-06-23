@@ -13,6 +13,10 @@
 
 "Search album" = "חיפוש אלבום";
 
+"Last added by %@" = "הוסף ע״י %@";
+
+"Empty album" = "אלבום ריק";
+
 "Joined" = "הצטרף";
 "Invited" = "הוזמן";
 "Leave" = "עזיבה";
