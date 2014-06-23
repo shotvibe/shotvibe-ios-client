@@ -9,7 +9,7 @@
 "1ro-XK-MDC.placeholder" = "New Album Name";
 
 /* Class = "IBUINavigationItem"; title = "Activation"; ObjectID = "36f-IO-DBg"; */
-"36f-IO-DBg.title" = "Activation";
+"36f-IO-DBg.title" = "הפעלה";
 
 /* Class = "IBUIBarButtonItem"; title = "Back"; ObjectID = "462-Oc-zz9"; */
 "462-Oc-zz9.title" = "Back";
@@ -51,7 +51,7 @@
 "BcQ-GI-kmc.text" = "Invited";
 
 /* Class = "IBUINavigationItem"; title = "Registration"; ObjectID = "CMi-vA-eun"; */
-"CMi-vA-eun.title" = "Registration";
+"CMi-vA-eun.title" = "רישום";
 
 /* Class = "IBUILabel"; text = "Privacy Policy"; ObjectID = "D5k-Uo-AnI"; */
 "D5k-Uo-AnI.text" = "Privacy Policy";
@@ -72,10 +72,10 @@
 "I2f-D1-7hT.text" = "Open Source Attributions";
 
 /* Class = "IBUILabel"; text = "Insert Activation Code"; ObjectID = "Jou-Ld-LO8"; */
-"Jou-Ld-LO8.text" = "Insert Activation Code";
+"Jou-Ld-LO8.text" = "הכנס קוד הפעלה";
 
 /* Class = "IBUILabel"; text = "To confirm your ID"; ObjectID = "KT0-ae-yfJ"; */
-"KT0-ae-yfJ.text" = "To confirm your ID";
+"KT0-ae-yfJ.text" = "כדי לאשר את הזהות שלך";
 
 /* Class = "IBUILabel"; text = "NEW"; ObjectID = "Kt1-Gj-Vew"; */
 "Kt1-Gj-Vew.text" = "חדש";
@@ -93,19 +93,19 @@
 "M1e-TR-5rv.text" = "אודות";
 
 /* Class = "IBUIButton"; normalTitle = "Continue"; ObjectID = "MWj-Gf-2pl"; */
-"MWj-Gf-2pl.normalTitle" = "Continue";
+"MWj-Gf-2pl.normalTitle" = "המשך";
 
 /* Class = "IBUITextField"; placeholder = "Mobile Number"; ObjectID = "Md0-iZ-whQ"; */
-"Md0-iZ-whQ.placeholder" = "Mobile Number";
+"Md0-iZ-whQ.placeholder" = "מספר טלפון נייד";
 
 /* Class = "IBUIButton"; normalTitle = "Continue"; ObjectID = "NPU-6a-aVT"; */
-"NPU-6a-aVT.normalTitle" = "Continue";
+"NPU-6a-aVT.normalTitle" = "המשך";
 
 /* Class = "IBUILabel"; text = "Rafael Angeline"; ObjectID = "NQV-e8-xms"; */
 "NQV-e8-xms.text" = "Rafael Angeline";
 
 /* Class = "IBUILabel"; text = "Enter your phone number"; ObjectID = "NW5-hq-d4D"; */
-"NW5-hq-d4D.text" = "Enter your phone number";
+"NW5-hq-d4D.text" = "הכנס את מספר הטלפון שלך";
 
 /* Class = "IBUIButton"; normalTitle = "Re-Send"; ObjectID = "NwO-Tx-c4d"; */
 "NwO-Tx-c4d.normalTitle" = "Re-Send";
@@ -114,7 +114,7 @@
 "OCq-t2-DIa.text" = "Album name";
 
 /* Class = "IBUILabel"; text = "Check your mobile phone for the\nactivation code just sent to you"; ObjectID = "Pg0-vg-4KX"; */
-"Pg0-vg-4KX.text" = "Check your mobile phone for the\nactivation code just sent to you";
+"Pg0-vg-4KX.text" = "בדוק בהודעות סמס בשביל\nקוד ההפעלה שנשלח אלייך";
 
 /* Class = "IBUIButton"; normalTitle = "Call Me"; ObjectID = "Pg6-aX-Y2m"; */
 "Pg6-aX-Y2m.normalTitle" = "Call Me";
@@ -150,7 +150,7 @@
 "ZtJ-tt-fHV.normalTitle" = "ביטול";
 
 /* Class = "IBUILabel"; text = "A validation code will be sent to you via SMS"; ObjectID = "aF0-pJ-yZt"; */
-"aF0-pJ-yZt.text" = "A validation code will be sent to you via SMS";
+"aF0-pJ-yZt.text" = "קוד אישור יישלח לך בהודעת סמס";
 
 /* Class = "IBUINavigationItem"; title = "About"; ObjectID = "aXO-Bc-fck"; */
 "aXO-Bc-fck.title" = "אודות";
@@ -207,7 +207,7 @@
 "lFk-2J-zAS.text" = "הוסף ע״י";
 
 /* Class = "IBUILabel"; text = "Use your mobile phone number\nto register this device"; ObjectID = "lk6-Ug-PNm"; */
-"lk6-Ug-PNm.text" = "Use your mobile phone number\nto register this device";
+"lk6-Ug-PNm.text" = "השתמש במספר הטלפון הנייד שלך\nכדי להירשם עם מכשיר זה";
 
 /* Class = "IBUIButton"; normalTitle = " Album Notification Settings"; ObjectID = "m0e-Ch-amL"; */
 "m0e-Ch-amL.normalTitle" = " Album Notification Settings";
@@ -231,7 +231,7 @@
 "rDE-2M-ctm.text" = "הוסף ע״י";
 
 /* Class = "IBUISearchBar"; placeholder = "Search country"; ObjectID = "ro7-6i-An9"; */
-"ro7-6i-An9.placeholder" = "Search country";
+"ro7-6i-An9.placeholder" = "חיפוש מדינה";
 
 /* Class = "IBUILabel"; text = "There is no one in the album yet, Invite some friends in, so they can give it a glance."; ObjectID = "s91-Ju-ikV"; */
 "s91-Ju-ikV.text" = "אין עדיין חברים באלום, הזמן חברים, כדי שיוכלו לתת glance";
