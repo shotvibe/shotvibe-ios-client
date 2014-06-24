@@ -6,6 +6,8 @@
   Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
 */
 
+"DISTANCE_OF_TIME_IN_WORDS" = "%1$@%2$d %3$@ %4$@";
+
 "Delete picture" = "Delete picture";
 
 "Search album" = "Search album";

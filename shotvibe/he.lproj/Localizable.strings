@@ -6,6 +6,25 @@
   Copyright (c) 2014 PicsOnAir Ltd. All rights reserved.
 */
 
+"DISTANCE_OF_TIME_IN_WORDS" = "%4$@ %1$@%2$d %3$@";
+"ago" = "לפני";
+"from now" = "בעוד";
+"Less than" = "פחות מ";
+"About" = "בערך";
+"Over" = "מעל";
+"Almost" = "כמעט";
+"seconds" = "שניות";
+"minute" = "דקה";
+"minutes" = "דקות";
+"hour" = "שעה";
+"hours" = "שעות";
+"day" = "יום";
+"days" = "ימים";
+"month" = "חודש";
+"months" = "חודשים";
+"year" = "שנה";
+"years" = "שנים";
+
 "No" = "לא";
 "Yes" = "כן";
 
