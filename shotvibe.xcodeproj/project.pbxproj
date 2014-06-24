@@ -1874,7 +1874,7 @@
 		664F756F1958BF610027E77A /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		664F757B1958CDB20027E77A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		664F757D1958CDE60027E77A /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/MainStoryboard.strings; sourceTree = "<group>"; };
-		664F75841958F7A80027E77A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = Base.lproj/TutorialViewController.xib; sourceTree = "<group>"; };
+		664F75841958F7A80027E77A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TutorialViewController.xib; sourceTree = "<group>"; };
 		664F75871958F7B50027E77A /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/TutorialViewController.strings; sourceTree = "<group>"; };
 		66634A1518D01E9100D2FF6C /* Void.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Void.m; sourceTree = "<group>"; };
 		66634A1618D01E9100D2FF6C /* Void.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Void.h; sourceTree = "<group>"; };
