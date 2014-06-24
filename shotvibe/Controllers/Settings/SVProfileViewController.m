@@ -38,7 +38,7 @@
 	
     [super viewDidLoad];
 	
-	self.title = @"Profile";
+    self.title = NSLocalizedString(@"Profile", nil);
 	
 	NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 	path = [path stringByAppendingString:@"/avatar.jpg"];
