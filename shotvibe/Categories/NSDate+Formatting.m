@@ -170,7 +170,7 @@
 	if (s) {
 		return [NSString stringWithFormat:@"%d%@", number, measure];
 	}
-  return [NSString stringWithFormat:@"%@%d %@ %@", modifier, number, measure, direction];
+  return [NSString stringWithFormat:NSLocalizedString(@"DISTANCE_OF_TIME_IN_WORDS", @"%1$@%2$d %3$@ %4$@"), modifier, number, measure, direction];
 }
 
 @end

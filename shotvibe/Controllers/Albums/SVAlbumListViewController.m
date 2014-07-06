@@ -603,7 +603,7 @@
     if ([album getLatestPhotos].array.count > 0) {
         SLAlbumPhoto *latestPhoto = [[album getLatestPhotos].array objectAtIndex:0];
         if ([latestPhoto getServerPhoto]) {
-            cell.author.text = [NSString stringWithFormat:@"Last added by %@", [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
+            cell.author.text = [NSString stringWithFormat:NSLocalizedString(@"Last added by %@", nil), [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
 
             [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId]
                                    photoUrl:[[latestPhoto getServerPhoto] getUrl]
@@ -615,7 +615,7 @@
     }
 	else {
 		[cell.networkImageView setImage:[UIImage imageNamed:@"placeholderImage"]];
-        cell.author.text = [NSString stringWithFormat:@"Empty album"];
+        cell.author.text = NSLocalizedString(@"Empty album", nil);
 	}
 
     NSString *org = [SVAlbumListViewController getAlbumOrg:album];

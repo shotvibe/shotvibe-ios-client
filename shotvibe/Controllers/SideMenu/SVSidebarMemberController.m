@@ -201,7 +201,7 @@
         ownerCell.profileImageView.layer.masksToBounds = YES;
         [ownerCell.memberLabel setText:[[owner getUser] getMemberNickname]];
         ownerCell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
-        ownerCell.statusLabel.text = @"Leave";
+        ownerCell.statusLabel.text = NSLocalizedString(@"Leave", nil);
         CGSize size = [ownerCell.statusLabel.text sizeWithFont:ownerCell.statusLabel.font];
         ownerCell.statusImageView.frame = CGRectMake(ownerCell.statusLabel.frame.origin.x + ownerCell.statusLabel.frame.size.width - size.width - 4 - ownerCell.statusImageView.frame.size.width, ownerCell.statusImageView.frame.origin.y, 13, 13);
     } else {
@@ -247,7 +247,7 @@
     if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
 		
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
-		cell.statusLabel.text = @"Leave";
+		cell.statusLabel.text = NSLocalizedString(@"Leave", nil);
         CGSize size = [cell.statusLabel.text sizeWithFont:cell.statusLabel.font];
         cell.statusImageView.frame = CGRectMake(cell.statusLabel.frame.origin.x + cell.statusLabel.frame.size.width - size.width - 4 - cell.statusImageView.frame.size.width, cell.statusImageView.frame.origin.y, 13, 13);
 	}
@@ -259,13 +259,13 @@
             switch ([member getInviteStatus].ordinal) {
                 case SLAlbumMember_InviteStatus_JOINED:
                     cell.statusImageView.image = [UIImage imageNamed:@"MemberJoined"];
-                    cell.statusLabel.text = @"Joined";
+                    cell.statusLabel.text = NSLocalizedString(@"Joined", nil);
                     break;
 
                 case SLAlbumMember_InviteStatus_SMS_SENT:
                 case SLAlbumMember_InviteStatus_INVITATION_VIEWED:
                     cell.statusImageView.image = [UIImage imageNamed:@"MemberInvited"];
-                    cell.statusLabel.text = @"Invited";
+                    cell.statusLabel.text = NSLocalizedString(@"Invited", nil);
                     break;
             }
             CGSize size = [cell.statusLabel.text sizeWithFont:cell.statusLabel.font];

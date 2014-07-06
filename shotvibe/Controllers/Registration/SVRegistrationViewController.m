@@ -98,7 +98,7 @@
 {
 	[self.phoneNumberField resignFirstResponder];
 	
-    UIAlertView *activityDialog = [[UIAlertView alloc] initWithTitle:@"Registering..." message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+    UIAlertView *activityDialog = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Registering...", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
     [activityDialog show];
 	
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];

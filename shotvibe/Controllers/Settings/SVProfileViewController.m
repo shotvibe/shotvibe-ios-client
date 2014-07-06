@@ -38,7 +38,7 @@
 	
     [super viewDidLoad];
 	
-	self.title = @"Profile";
+    self.title = NSLocalizedString(@"Profile", nil);
 	
 	NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 	path = [path stringByAppendingString:@"/avatar.jpg"];
@@ -90,7 +90,7 @@
 	}
 
     if ([self shouldPrompt]) { // Prompt the user for a nick change and don't allow him to go back until he does
-        self.navigationItem.title = @"Set your profile";
+        self.navigationItem.title = NSLocalizedString(@"Set your profile", nil);
         self.navigationItem.hidesBackButton = YES;
         self.promptLabel.hidden = NO;
         self.nicknameField.enablesReturnKeyAutomatically = YES;
