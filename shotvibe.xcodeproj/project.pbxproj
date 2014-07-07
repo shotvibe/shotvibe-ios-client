@@ -762,6 +762,10 @@
 		6666EC3D19360F3C00557CB1 /* shvoong_new@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6666EC3519360F3C00557CB1 /* shvoong_new@2x.png */; };
 		6666EC3E19360F3C00557CB1 /* shvoong_ribbon_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6666EC3619360F3C00557CB1 /* shvoong_ribbon_overlay.png */; };
 		6666EC3F19360F3C00557CB1 /* shvoong_ribbon_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6666EC3719360F3C00557CB1 /* shvoong_ribbon_overlay@2x.png */; };
+		66AEED69196A273B003344CD /* orange_ribbon_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66AEED65196A273B003344CD /* orange_ribbon_overlay@2x.png */; };
+		66AEED6A196A273B003344CD /* orange_ribbon_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 66AEED66196A273B003344CD /* orange_ribbon_overlay.png */; };
+		66AEED6B196A273B003344CD /* orange_new@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66AEED67196A273B003344CD /* orange_new@2x.png */; };
+		66AEED6C196A273B003344CD /* orange_new.png in Resources */ = {isa = PBXBuildFile; fileRef = 66AEED68196A273B003344CD /* orange_new.png */; };
 		66CBB07F187F57A10057FBAA /* current_shotvibelib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CBB07E187F57A10057FBAA /* current_shotvibelib.a */; };
 		66D5833C1867D66B00EAC842 /* RCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583331867D66B00EAC842 /* RCImageView.m */; };
 		66D5833D1867D66B00EAC842 /* RCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583351867D66B00EAC842 /* RCLog.m */; };
@@ -1890,6 +1894,10 @@
 		6666EC3519360F3C00557CB1 /* shvoong_new@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shvoong_new@2x.png"; path = "partner_branding/shvoong_new@2x.png"; sourceTree = "<group>"; };
 		6666EC3619360F3C00557CB1 /* shvoong_ribbon_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shvoong_ribbon_overlay.png; path = partner_branding/shvoong_ribbon_overlay.png; sourceTree = "<group>"; };
 		6666EC3719360F3C00557CB1 /* shvoong_ribbon_overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shvoong_ribbon_overlay@2x.png"; path = "partner_branding/shvoong_ribbon_overlay@2x.png"; sourceTree = "<group>"; };
+		66AEED65196A273B003344CD /* orange_ribbon_overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "orange_ribbon_overlay@2x.png"; path = "partner_branding/orange_ribbon_overlay@2x.png"; sourceTree = "<group>"; };
+		66AEED66196A273B003344CD /* orange_ribbon_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = orange_ribbon_overlay.png; path = partner_branding/orange_ribbon_overlay.png; sourceTree = "<group>"; };
+		66AEED67196A273B003344CD /* orange_new@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "orange_new@2x.png"; path = "partner_branding/orange_new@2x.png"; sourceTree = "<group>"; };
+		66AEED68196A273B003344CD /* orange_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = orange_new.png; path = partner_branding/orange_new.png; sourceTree = "<group>"; };
 		66CBB07E187F57A10057FBAA /* current_shotvibelib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = current_shotvibelib.a; path = shotvibelib/build/current_shotvibelib.a; sourceTree = "<group>"; };
 		66D583321867D66B00EAC842 /* RCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageView.h; path = Ralcr/RCImageView.h; sourceTree = "<group>"; };
 		66D583331867D66B00EAC842 /* RCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageView.m; path = Ralcr/RCImageView.m; sourceTree = "<group>"; };
@@ -3229,6 +3237,10 @@
 				6666EC3119360F3C00557CB1 /* easyweb_new@2x.png */,
 				6666EC3219360F3C00557CB1 /* easyweb_ribbon_overlay.png */,
 				6666EC3319360F3C00557CB1 /* easyweb_ribbon_overlay@2x.png */,
+				66AEED68196A273B003344CD /* orange_new.png */,
+				66AEED67196A273B003344CD /* orange_new@2x.png */,
+				66AEED66196A273B003344CD /* orange_ribbon_overlay.png */,
+				66AEED65196A273B003344CD /* orange_ribbon_overlay@2x.png */,
 				6666EC3419360F3C00557CB1 /* shvoong_new.png */,
 				6666EC3519360F3C00557CB1 /* shvoong_new@2x.png */,
 				6666EC3619360F3C00557CB1 /* shvoong_ribbon_overlay.png */,
@@ -3996,6 +4008,7 @@
 				04C407471730303600973BC0 /* PM.png in Resources */,
 				04C407491730303600973BC0 /* PN.png in Resources */,
 				04C4074B1730303600973BC0 /* PR.png in Resources */,
+				66AEED6C196A273B003344CD /* orange_new.png in Resources */,
 				04C4074D1730303600973BC0 /* PS.png in Resources */,
 				04C4074F1730303600973BC0 /* PT.png in Resources */,
 				04C407511730303600973BC0 /* PW.png in Resources */,
@@ -4114,6 +4127,7 @@
 				28CFCC8017A2C247001511EF /* SegmentSeparator@2x.png in Resources */,
 				28CFCC8317A30BA2001511EF /* albumEmptyCameraButton.png in Resources */,
 				28CFCC8417A30BA2001511EF /* albumEmptyCameraButton@2x.png in Resources */,
+				66AEED6A196A273B003344CD /* orange_ribbon_overlay.png in Resources */,
 				3E47246618D06E5400FF6105 /* Icon-60@2x.png in Resources */,
 				108CDF6418846B9000757E36 /* MPArrowLeft.png in Resources */,
 				28CFCC8717A32CF4001511EF /* SettingsDisclosure.png in Resources */,
@@ -4198,6 +4212,7 @@
 				2849A7E517D9AB420076AFBA /* MemberJoined.png in Resources */,
 				3E36D4F218D83F2A003A1D3A /* tutorial6.png in Resources */,
 				2849A7E617D9AB420076AFBA /* MemberJoined@2x.png in Resources */,
+				66AEED69196A273B003344CD /* orange_ribbon_overlay@2x.png in Resources */,
 				2849A7E717D9AB420076AFBA /* AlbumActivityDeleteIcon.png in Resources */,
 				2849A7E817D9AB420076AFBA /* AlbumActivityDeleteIcon@2x.png in Resources */,
 				2849A7E917D9AB420076AFBA /* AlbumActivityIcon.png in Resources */,
@@ -4215,6 +4230,7 @@
 				66278D221867CDEC00D23F34 /* AviarySDKResources.bundle in Resources */,
 				2849A7F317D9AB420076AFBA /* AlbumInfoIcon.png in Resources */,
 				2849A7F417D9AB420076AFBA /* AlbumInfoIcon@2x.png in Resources */,
+				66AEED6B196A273B003344CD /* orange_new@2x.png in Resources */,
 				2849A7F517D9AB420076AFBA /* AlbumInfoLeaveIcon.png in Resources */,
 				2849A7F617D9AB420076AFBA /* AlbumInfoLeaveIcon@2x.png in Resources */,
 				6666EC3E19360F3C00557CB1 /* shvoong_ribbon_overlay.png in Resources */,
