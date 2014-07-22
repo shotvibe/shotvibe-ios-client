@@ -125,27 +125,6 @@ static NSString * const UPLOADS_DIRECTORY = @"uploads";
     fullResFilePath_ = [PhotoUploadRequest createUniqueUploadFilePathWithFilenameSuffix:@"_FullRes"];
 	
     ALAssetRepresentation *rep = [asset_ defaultRepresentation];
-    CGImageRef croppedImage = [rep fullResolutionImage];
-    NSDictionary *metadata = [rep metadata][@"AdjustmentXMP"];
-	
-    // Write to disk the cropped image
-	if (metadata) {
-        CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:fullResFilePath_];
-		CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
-		CGImageDestinationAddImage(destination, croppedImage, nil);
-		
-		if (!CGImageDestinationFinalize(destination)) {
-            RCLog(@"Failed to write image to %@", fullResFilePath_);
-		}
-		else{
-            RCLog(@"write success %@", fullResFilePath_);
-		}
-		
-		CFRelease(destination);
-		
-        [FileUtils addSkipBackupAttributeToItemAtURL:fullResFilePath_];
-		return;
-	}
 
 	
 	// Write to disk the original image
