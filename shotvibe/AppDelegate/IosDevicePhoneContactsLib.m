@@ -43,6 +43,8 @@
 {
     NSLog(@"getDevicePhoneContacts");
 
+    [[Mixpanel sharedInstance] track:@"zzz getDevicePhoneContacts start"];
+
     NSUInteger initialCapacity = 2048; // Should be enough for a lot of contacts
     NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
 
@@ -51,6 +53,7 @@
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
 
     if (!addressBook) {
+        [[Mixpanel sharedInstance] track:@"zzz getDevicePhoneContacts addressBook failed"];
         // Probably a permission error
         return [[SLArrayList alloc] initWithInitialArray:results];
     }
@@ -96,6 +99,13 @@
     CFRelease(addressBook);
 
     NSLog(@"done getDevicePhoneContacts");
+
+    if ([results count] > 0) {
+        [[Mixpanel sharedInstance] track:@"zzz getDevicePhoneContacts no results"];
+    } else {
+        [[Mixpanel sharedInstance] track:@"zzz getDevicePhoneContacts received results"
+                              properties:@{ @"num_contacts" : [NSString stringWithFormat:@"%d", [results count]] }];
+    }
 
     return [[SLArrayList alloc] initWithInitialArray:results];
 }
