@@ -113,7 +113,18 @@ static const NSTimeInterval RETRY_TIME = 5;
         uploadingStage2Photos_ = [[NSMutableArray alloc] init];
     }
 
-    [self resumeUnfinishedUploads];
+    // Temporarily delay the resumption of unfinished uploads.
+    //
+    // There is currently a bug in the resume upload code that sometimes causes a crash immediately during startup.
+    //
+    // This is bad since it prevents Crashlytics from sending a crash report (from the previous run). So we
+    // temporarily add a delay so that Crashlytics has a chance to send the crash report.
+    double resumeDelayInSeconds = 5.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(resumeDelayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+        [self resumeUnfinishedUploads];
+    });
+
     return self;
 }
 
