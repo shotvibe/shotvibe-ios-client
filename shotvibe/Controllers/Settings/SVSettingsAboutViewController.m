@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <Crashlytics/Crashlytics.h>
+
 #import "SVSettingsAboutViewController.h"
 
 @implementation SVSettingsAboutViewController
@@ -13,6 +15,8 @@
 
 - (void)viewDidLoad
 {
+    [[Crashlytics sharedInstance] crash];
+
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
