@@ -4324,7 +4324,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    ./Crashlytics.framework/run 7f25f8f82f6578b40464674ed500ef0c60435027\nfi";
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    ./Crashlytics.framework/run 7f25f8f82f6578b40464674ed500ef0c60435027 0f62485c6120d77bc2984624f2d11eac766fbe2869c56f58d76246c13c161bf3\nfi";
 		};
 		6601325F187F51990042047B /* Run Script: Generate client lib with j2objc */ = {
 			isa = PBXShellScriptBuildPhase;
