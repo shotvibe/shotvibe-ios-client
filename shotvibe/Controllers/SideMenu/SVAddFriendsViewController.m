@@ -491,6 +491,13 @@
 {
     NSLog(@"phoneContacts size: %d", [phoneContacts size]);
 
+    if (phoneContacts.array.count > 0) {
+        [[Mixpanel sharedInstance] track:@"zzz phoneContactsUpdated contacts received"
+                              properties:@{ @"num_contacts" : [NSString stringWithFormat:@"%d", phoneContacts.array.count] }];
+    } else {
+        [[Mixpanel sharedInstance] track:@"zzz phoneContactsUpdated no contacts"];
+    }
+
     [phoneContacts.array sortUsingComparator:^NSComparisonResult (id obj1, id obj2) {
         SLPhoneContact *c1 = [(SLPhoneContactDisplayData *)obj1 getPhoneContact];
         SLPhoneContact *c2 = [(SLPhoneContactDisplayData *)obj2 getPhoneContact];
