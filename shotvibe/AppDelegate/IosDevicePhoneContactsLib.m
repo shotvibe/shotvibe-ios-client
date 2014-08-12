@@ -101,10 +101,10 @@
     NSLog(@"done getDevicePhoneContacts");
 
     if ([results count] > 0) {
-        [[Mixpanel sharedInstance] track:@"zzz getDevicePhoneContacts no results"];
-    } else {
-        [[Mixpanel sharedInstance] track:@"zzz getDevicePhoneContacts received results"
+        [[Mixpanel sharedInstance] track:@"zzz getDevicePhoneContacts contacts returned"
                               properties:@{ @"num_contacts" : [NSString stringWithFormat:@"%d", [results count]] }];
+    } else {
+        [[Mixpanel sharedInstance] track:@"zzz getDevicePhoneContacts no contacts"];
     }
 
     return [[SLArrayList alloc] initWithInitialArray:results];
