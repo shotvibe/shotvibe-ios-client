@@ -12,6 +12,7 @@
 #import "AlbumPhoto.h"
 #import "AlbumUploadingPhoto.h"
 #import "PhotoDictionary.h"
+#import "ShotVibeAppDelegate.h"
 #import "SL/APIException.h"
 #import "SL/ArrayList.h"
 
@@ -119,10 +120,23 @@ static const NSTimeInterval RETRY_TIME = 5;
     //
     // This is bad since it prevents Crashlytics from sending a crash report (from the previous run). So we
     // temporarily add a delay so that Crashlytics has a chance to send the crash report.
-    double resumeDelayInSeconds = 5.0;
+    //
+    // First we need to wait a short amount of time, since the CrashlyticsDelegate is notified about a previous
+    // crash only after a short delay after startup (about 1 second)
+    double resumeDelayInSeconds = 2.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(resumeDelayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-        [self resumeUnfinishedUploads];
+        if (![CrashlyticsDelegate sharedInstance].crashlyticsDidDetectCrashDuringPreviousExecution) {
+            // There is no previous crash to report, resume uploads immediately
+            [self resumeUnfinishedUploads];
+        } else {
+            // There was a previous crash. We need to wait for a long enough time now that will allow the crash report to be sent over the network
+            double delayInSeconds = 60.0;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+                [self resumeUnfinishedUploads];
+            });
+        }
     });
 
     return self;
