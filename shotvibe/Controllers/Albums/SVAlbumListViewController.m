@@ -487,6 +487,7 @@
     SLAlbumSummary *newAlbum = [[SLAlbumSummary alloc] initWithLong:[album getId]
                                                        withNSString:[album getEtag]
                                                        withNSString:[album getName]
+                                                    withSLAlbumUser:[album getCreator]
                                                      withSLDateTime:[album getDateCreated]
                                                      withSLDateTime:dummyDateCreated
                                                            withLong:[album getNumNewPhotos]
@@ -827,6 +828,7 @@
                 SLAlbumSummary *album = [[SLAlbumSummary alloc] initWithLong:[albumContents getId]
                                                                 withNSString:[albumContents getEtag]
                                                                 withNSString:[albumContents getName]
+                                                             withSLAlbumUser:[albumContents getCreator]
                                                               withSLDateTime:[albumContents getDateCreated]
                                                               withSLDateTime:[albumContents getDateUpdated]
                                                                     withLong:[albumContents getNumNewPhotos]
