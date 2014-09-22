@@ -9,6 +9,10 @@ album_id INTEGER PRIMARY KEY,
 -- The user friendly name of the album, also returned from the server
 name TEXT NOT NULL,
 
+creator_id INTEGER REFERENCES username NOT NULL,
+
+date_created DATETIME NOT NULL,
+
 last_updated DATETIME NOT NULL,
 
 -- The value from the HTTP ETag header for the album 
@@ -50,6 +54,22 @@ author_id INTEGER REFERENCES username,
 created DATETIME NOT NULL,
 
 UNIQUE(photo_album, photo_id)
+);
+
+CREATE TABLE photo_glance(
+-- The photo that this glances
+photo_id TEXT REFERENCES photo(photo_id),
+
+-- The user who created this glance
+author_id INTEGER REFERENCES username,
+
+-- The name of the emoticon that the author chose
+emoticon_name TEXT NOT NULL,
+
+-- The order of the glances as returned by the server
+num INTEGER NOT NULL,
+
+UNIQUE(author_id, photo_id)
 );
 
 CREATE TABLE album_member(
