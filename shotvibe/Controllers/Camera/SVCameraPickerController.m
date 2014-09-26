@@ -10,14 +10,23 @@
 #import "SVImageCropViewController.h"
 #import "SVDefines.h"
 #import "UIImage+Crop.h"
+#import "TmpFilePhotoUploadRequest.h"
+#import "SL/AlbumManager.h"
+#import "SL/ArrayList.h"
+#import "ShotVibeAppDelegate.h"
 
 @implementation SVCameraPickerController
+{
+    SLAlbumManager *albumManager_;
+}
 
 
 - (void)viewDidLoad {
 	
     [super viewDidLoad];
-    
+
+    albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
+
 	selectedPhotos = [[NSMutableArray alloc] init];
     self.capturedImages = [[NSMutableArray alloc] init];
 	[self.sliderZoom addTarget:self
@@ -614,11 +623,11 @@
 	// Upload the taken photos
 	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
 	for (NSString *selectedPhotoPath in selectedPhotos) {
-		PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:selectedPhotoPath];
+        TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:selectedPhotoPath];
 		[photoUploadRequests addObject:photoUploadRequest];
 	}
-    // TODO:
-//	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
+    [albumManager_ uploadPhotosWithLong:self.albumId
+                       withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:photoUploadRequests]];
 	
 	// Dismiss the controller
 	if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {

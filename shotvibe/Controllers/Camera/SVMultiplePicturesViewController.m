@@ -22,7 +22,7 @@
 #import "SVAlbumGridViewController.h"
 #import "MBProgressHUD.h"
 #import "NSDate+Formatting.h"
-#import "PhotoUploadRequest.h"
+#import "TmpFilePhotoUploadRequest.h"
 
 @interface SVMultiplePicturesViewController ()
 
@@ -219,11 +219,11 @@
     // Upload the taken photos
     NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
     for (NSString *selectedPhotoPath in self.images) {
-        PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:selectedPhotoPath];
+        TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:selectedPhotoPath];
         [photoUploadRequests addObject:photoUploadRequest];
     }
-// TODO:
-//    [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
+    [albumManager_ uploadPhotosWithLong:self.albumId
+                       withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:photoUploadRequests]];
 
     NSDictionary *userInfo = @{
         @"albumId" : [NSNumber numberWithLongLong:self.albumId]

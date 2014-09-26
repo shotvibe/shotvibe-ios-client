@@ -21,6 +21,7 @@
 #import "PhotoScrollView.h"
 #import "SL/DateTime.h"
 #import "SL/ArrayList.h"
+#import "TmpFilePhotoUploadRequest.h"
 
 
 @interface SVPhotoViewerController () {
@@ -313,9 +314,10 @@
                                 photoSize:photoFilesManager_.DeviceDisplayPhotoSize
                                   manager:photoFilesManager_];
                 } else if ([photo getUploadingPhoto]) {
-                    AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
-                    UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[uploadingPhoto getFullResFilename]];
-					[cachedImage setImage:localImage];
+                    // TODO: Get this working like it used to
+                    //SLAlbumUploadingPhoto *uploadingPhoto = [photo getUploadingPhoto];
+                    //UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[uploadingPhoto getFullResFilename]];
+                    //[cachedImage setImage:localImage];
 				}
 			}
 			
@@ -785,10 +787,12 @@
 				uploadingAviaryPicture = YES;
 				
 				// Upload the saved photo. This will call the refresh 2 times, one with the local photo and one after the photo is being uploaded
-				
-                PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
-// TODO:
-//                [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:@[photoUploadRequest]];
+
+                TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:imagePath];
+                NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
+                [photoUploadRequests addObject:photoUploadRequest];
+                [albumManager_ uploadPhotosWithLong:self.albumId
+                                   withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:photoUploadRequests]];
 
 				// Send a notification the the main screen to move this album on top of the list
 				NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};

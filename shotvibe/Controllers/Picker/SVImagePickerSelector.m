@@ -8,7 +8,6 @@
 
 #import "SVImagePickerSelector.h"
 #import "SVImageCropViewController.h"
-#import "PhotoUploadRequest.h"
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 

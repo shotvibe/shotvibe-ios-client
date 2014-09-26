@@ -340,8 +340,6 @@
 		108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF5E18846B9000757E36 /* UIImage+MPAverageColor.m */; };
 		108CDF7518846B9000757E36 /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */; };
 		108CDF7618846B9000757E36 /* UIView+MPSnapshotImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */; };
-		10C2DACF18B4E83C00F3C28A /* PhotoDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C2DACE18B4E83C00F3C28A /* PhotoDictionary.m */; };
-		10C2DAD018B4E83C00F3C28A /* PhotoDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C2DACE18B4E83C00F3C28A /* PhotoDictionary.m */; };
 		10F1A2D6188540410051E267 /* Appsee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D5188540410051E267 /* Appsee.framework */; };
 		10F1A2D8188540B40051E267 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D7188540B40051E267 /* AVFoundation.framework */; };
 		10F1A2DA1885411E0051E267 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D91885411E0051E267 /* CoreVideo.framework */; };
@@ -524,7 +522,6 @@
 		3B3AD15E17CB4A9C004D24A9 /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3AD14E17CB4A9C004D24A9 /* UIImage+MultiFormat.m */; };
 		3B3AD15F17CB4A9C004D24A9 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3AD15017CB4A9C004D24A9 /* UIImage+WebP.m */; };
 		3B3AD16017CB4A9C004D24A9 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3AD15217CB4A9C004D24A9 /* UIImageView+WebCache.m */; };
-		3B87E68F17C99941006483C9 /* AlbumUploadingPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */; };
 		3BE0B10E17C2BA3E0058CAAD /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */; };
 		3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11017C2BFA20058CAAD /* FMResultSet.m */; };
 		3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B11317C2BFE60058CAAD /* FMDatabasePool.m */; };
@@ -723,7 +720,6 @@
 		66278D071867C94900D23F34 /* PhotoBitmap.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CF41867C94900D23F34 /* PhotoBitmap.m */; };
 		66278D081867C94900D23F34 /* PhotoFilesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CF61867C94900D23F34 /* PhotoFilesManager.m */; };
 		66278D091867C94900D23F34 /* PhotoSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CF81867C94900D23F34 /* PhotoSize.m */; };
-		66278D0B1867C94900D23F34 /* PhotoUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278CFD1867C94900D23F34 /* PhotoUploadRequest.m */; };
 		66278D0D1867C94900D23F34 /* SVPushNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D011867C94900D23F34 /* SVPushNotificationsManager.m */; };
 		66278D0E1867C94900D23F34 /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D031867C94900D23F34 /* UserSettings.m */; };
 		66278D141867CA1400D23F34 /* SVAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D121867CA1400D23F34 /* SVAssets.m */; };
@@ -775,6 +771,7 @@
 		66E788B61889EB870037ACF3 /* ListIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788AE1889EB870037ACF3 /* ListIterator.m */; };
 		66E788B71889EB870037ACF3 /* Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788B01889EB870037ACF3 /* Map.m */; };
 		66E788B81889EB870037ACF3 /* Set.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E788B21889EB870037ACF3 /* Set.m */; };
+		66F3E97219D5F68A00E36207 /* TmpFilePhotoUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3E97119D5F68A00E36207 /* TmpFilePhotoUploadRequest.m */; };
 		AA234849177AA3F600D55918 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234837177AA3F600D55918 /* AFHTTPClient.m */; };
 		AA23484B177AA3F600D55918 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA234839177AA3F600D55918 /* AFHTTPRequestOperation.m */; };
 		AA23484D177AA3F600D55918 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA23483B177AA3F600D55918 /* AFImageRequestOperation.m */; };
@@ -1281,8 +1278,6 @@
 		108CDF6018846B9000757E36 /* UIImage+MPImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MPImageEffects.m"; sourceTree = "<group>"; };
 		108CDF6118846B9000757E36 /* UIView+MPSnapshotImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MPSnapshotImage.h"; sourceTree = "<group>"; };
 		108CDF6218846B9000757E36 /* UIView+MPSnapshotImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPSnapshotImage.m"; sourceTree = "<group>"; };
-		10C2DACD18B4E83C00F3C28A /* PhotoDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoDictionary.h; path = shotvibe/API/PhotoDictionary.h; sourceTree = SOURCE_ROOT; };
-		10C2DACE18B4E83C00F3C28A /* PhotoDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoDictionary.m; path = shotvibe/API/PhotoDictionary.m; sourceTree = SOURCE_ROOT; };
 		10D366C5187ABC2000E6FF4C /* GeneratedGitInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedGitInfo.h; sourceTree = "<group>"; };
 		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -1491,8 +1486,6 @@
 		3B3AD15017CB4A9C004D24A9 /* UIImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+WebP.m"; path = "SDWebImage/UIImage+WebP.m"; sourceTree = "<group>"; };
 		3B3AD15117CB4A9C004D24A9 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+WebCache.h"; path = "SDWebImage/UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		3B3AD15217CB4A9C004D24A9 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+WebCache.m"; path = "SDWebImage/UIImageView+WebCache.m"; sourceTree = "<group>"; };
-		3B87E68D17C99941006483C9 /* AlbumUploadingPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumUploadingPhoto.h; sourceTree = "<group>"; };
-		3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumUploadingPhoto.m; sourceTree = "<group>"; };
 		3BE0B10C17C2BA3E0058CAAD /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = FMDB/FMDatabase.h; sourceTree = "<group>"; };
 		3BE0B10D17C2BA3E0058CAAD /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = FMDB/FMDatabase.m; sourceTree = "<group>"; };
 		3BE0B10F17C2BFA20058CAAD /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = FMDB/FMResultSet.h; sourceTree = "<group>"; };
@@ -1820,9 +1813,6 @@
 		66278CF61867C94900D23F34 /* PhotoFilesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoFilesManager.m; path = shotvibe/API/PhotoFilesManager.m; sourceTree = SOURCE_ROOT; };
 		66278CF71867C94900D23F34 /* PhotoSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoSize.h; path = shotvibe/API/PhotoSize.h; sourceTree = SOURCE_ROOT; };
 		66278CF81867C94900D23F34 /* PhotoSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoSize.m; path = shotvibe/API/PhotoSize.m; sourceTree = SOURCE_ROOT; };
-		66278CF91867C94900D23F34 /* PhotosUploadListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotosUploadListener.h; path = shotvibe/API/PhotosUploadListener.h; sourceTree = SOURCE_ROOT; };
-		66278CFC1867C94900D23F34 /* PhotoUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoUploadRequest.h; path = shotvibe/API/PhotoUploadRequest.h; sourceTree = SOURCE_ROOT; };
-		66278CFD1867C94900D23F34 /* PhotoUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoUploadRequest.m; path = shotvibe/API/PhotoUploadRequest.m; sourceTree = SOURCE_ROOT; };
 		66278D001867C94900D23F34 /* SVPushNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVPushNotificationsManager.h; path = shotvibe/API/SVPushNotificationsManager.h; sourceTree = SOURCE_ROOT; };
 		66278D011867C94900D23F34 /* SVPushNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVPushNotificationsManager.m; path = shotvibe/API/SVPushNotificationsManager.m; sourceTree = SOURCE_ROOT; };
 		66278D021867C94900D23F34 /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSettings.h; path = shotvibe/API/UserSettings.h; sourceTree = SOURCE_ROOT; };
@@ -1912,6 +1902,8 @@
 		66E788B01889EB870037ACF3 /* Map.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Map.m; sourceTree = "<group>"; };
 		66E788B11889EB870037ACF3 /* Set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Set.h; sourceTree = "<group>"; };
 		66E788B21889EB870037ACF3 /* Set.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Set.m; sourceTree = "<group>"; };
+		66F3E97019D5F68A00E36207 /* TmpFilePhotoUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TmpFilePhotoUploadRequest.h; path = shotvibe/API/TmpFilePhotoUploadRequest.h; sourceTree = SOURCE_ROOT; };
+		66F3E97119D5F68A00E36207 /* TmpFilePhotoUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TmpFilePhotoUploadRequest.m; path = shotvibe/API/TmpFilePhotoUploadRequest.m; sourceTree = SOURCE_ROOT; };
 		AA234836177AA3F600D55918 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		AA234837177AA3F600D55918 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		AA234838177AA3F600D55918 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -3494,19 +3486,16 @@
 				66278CF21867C94900D23F34 /* JSON.m */,
 				66278CF31867C94900D23F34 /* PhotoBitmap.h */,
 				66278CF41867C94900D23F34 /* PhotoBitmap.m */,
-				10C2DACD18B4E83C00F3C28A /* PhotoDictionary.h */,
-				10C2DACE18B4E83C00F3C28A /* PhotoDictionary.m */,
 				66278CF51867C94900D23F34 /* PhotoFilesManager.h */,
 				66278CF61867C94900D23F34 /* PhotoFilesManager.m */,
 				66278CF71867C94900D23F34 /* PhotoSize.h */,
 				66278CF81867C94900D23F34 /* PhotoSize.m */,
-				66278CF91867C94900D23F34 /* PhotosUploadListener.h */,
-				66278CFC1867C94900D23F34 /* PhotoUploadRequest.h */,
-				66278CFD1867C94900D23F34 /* PhotoUploadRequest.m */,
 				66278D001867C94900D23F34 /* SVPushNotificationsManager.h */,
 				66278D011867C94900D23F34 /* SVPushNotificationsManager.m */,
 				66278D021867C94900D23F34 /* UserSettings.h */,
 				66278D031867C94900D23F34 /* UserSettings.m */,
+				66F3E97019D5F68A00E36207 /* TmpFilePhotoUploadRequest.h */,
+				66F3E97119D5F68A00E36207 /* TmpFilePhotoUploadRequest.m */,
 			);
 			name = API;
 			path = Delegates;
@@ -3603,8 +3592,6 @@
 		AACB11C616C4543700BAC7E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3B87E68D17C99941006483C9 /* AlbumUploadingPhoto.h */,
-				3B87E68E17C99941006483C9 /* AlbumUploadingPhoto.m */,
 				2884ED0E1830CB430069E202 /* RegistrationInfo.h */,
 				2884ED0F1830CB430069E202 /* RegistrationInfo.m */,
 				66278D111867CA1400D23F34 /* SVAssets.h */,
@@ -4372,7 +4359,6 @@
 				66278C9D1867C44600D23F34 /* CameraRollSection.m in Sources */,
 				66013244187F4E670042047B /* Float.m in Sources */,
 				66013255187F4E670042047B /* JavaLangThrowable.m in Sources */,
-				66278D0B1867C94900D23F34 /* PhotoUploadRequest.m in Sources */,
 				3E0CC9E218B63E1F00F6089A /* SVPickerController.m in Sources */,
 				66013254187F4E670042047B /* JavaLangReflectTypeVariableImpl.m in Sources */,
 				108CDF10188417AE00757E36 /* Util.m in Sources */,
@@ -4388,6 +4374,7 @@
 				AA234851177AA3F600D55918 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				6601324F187F4E670042047B /* TypeVariable.m in Sources */,
 				66013249187F4E670042047B /* Integer.m in Sources */,
+				66F3E97219D5F68A00E36207 /* TmpFilePhotoUploadRequest.m in Sources */,
 				AA23484B177AA3F600D55918 /* AFHTTPRequestOperation.m in Sources */,
 				AA234857177AA3F600D55918 /* AFXMLRequestOperation.m in Sources */,
 				AA234859177AA3F600D55918 /* UIImageView+AFNetworking.m in Sources */,
@@ -4476,7 +4463,6 @@
 				66278CC41867C57300D23F34 /* SVProfileViewController.m in Sources */,
 				66013235187F4E670042047B /* IOSReflection.m in Sources */,
 				108CDF7018846B9000757E36 /* MPSurveyNavigationController.m in Sources */,
-				3B87E68F17C99941006483C9 /* AlbumUploadingPhoto.m in Sources */,
 				66E788B51889EB870037ACF3 /* List.m in Sources */,
 				66013247187F4E670042047B /* IllegalStateException.m in Sources */,
 				66278CE81867C62300D23F34 /* SVProfilePicActivity.m in Sources */,
@@ -4499,7 +4485,6 @@
 				66278C931867C38300D23F34 /* SVPhotoViewerController.m in Sources */,
 				66278CC61867C57300D23F34 /* SVSettingsViewController.m in Sources */,
 				3B3AD15617CB4A9C004D24A9 /* SDWebImageCompat.m in Sources */,
-				10C2DACF18B4E83C00F3C28A /* PhotoDictionary.m in Sources */,
 				66278C8B1867C38300D23F34 /* PhotoScrollView.m in Sources */,
 				66278CE31867C62300D23F34 /* SVCopyActivity.m in Sources */,
 				3B3AD15717CB4A9C004D24A9 /* SDWebImageDecoder.m in Sources */,
@@ -4567,7 +4552,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10C2DAD018B4E83C00F3C28A /* PhotoDictionary.m in Sources */,
 				AA58FB2C16C224E800C49E02 /* shotvibeTests.m in Sources */,
 				106C344A18C4C27A006A5603 /* Notification.m in Sources */,
 			);
