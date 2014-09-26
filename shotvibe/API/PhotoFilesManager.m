@@ -716,6 +716,25 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
     }
 }
 
+
+- (void)queuePhotoForDownloadWithNSString:(NSString *)photoId
+                             withNSString:(NSString *)photoUrl
+                              withBoolean:(BOOL)thumbnail
+                              withBoolean:(BOOL)highPriority
+{
+    PhotoSize *photoSize;
+    if (thumbnail) {
+        photoSize = [PhotoSize Thumb75];
+    } else {
+        photoSize = [self DeviceDisplayPhotoSize];
+    }
+    [self queuePhotoDownload:photoId
+                    photoUrl:photoUrl
+                   photoSize:photoSize
+                highPriority:highPriority];
+}
+
+
 - (void)decodePhoto:(PhotoJob *)photoJob loadLowQuality:(BOOL)loadLowQuality
 {
     //NSLog(@"decodePhoto: %@ %d", photoJob.photoId, loadLowQuality);

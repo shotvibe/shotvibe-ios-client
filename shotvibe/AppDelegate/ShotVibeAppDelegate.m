@@ -257,6 +257,7 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 
     _albumManager = [[SLAlbumManager alloc] initWithSLShotVibeAPI:shotVibeAPI
                                                  withSLShotVibeDB:shotVibeDB
+                                       withSLPhotoDownloadManager:_photoFilesManager
                                               withSLUploadManager:[uploadSystemDirector getUploadManager]];
 
     id <SLDevicePhoneContactsLib> devicePhoneContactsLib = [[IosDevicePhoneContactsLib alloc] init];
