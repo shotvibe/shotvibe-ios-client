@@ -24,6 +24,8 @@ NSString *globalInviteURLCustomPayload = nil;
         RCLog(@"Error: No country_code query parameter found in %@", [url description]);
         return nil;
     }
+
+    result.customPayload = [queryParameters objectForKey:@"custom_payload"];
 	
     for (NSString *seg in [url pathComponents]) {
         if([seg isEqualToString:@"start_with_auth"]) {
@@ -53,24 +55,6 @@ NSString *globalInviteURLCustomPayload = nil;
     }
 	
     return nil;
-}
-
-
-+ (NSString *)countryCodeFromURL:(NSURL *)url {
-    NSDictionary* queryParameters = parseQueryParameters([url query]);
-    NSString *countryCode = [queryParameters objectForKey:@"country_code"];
-    if(countryCode == nil) {
-        RCLog(@"Error: No country_code query parameter found in %@", [url description]);
-        return nil;
-    }
-
-    // TODO This is an ugly hack for now
-    NSString *customPayload = [queryParameters objectForKey:@"custom_payload"];
-    if (customPayload) {
-        globalInviteURLCustomPayload = customPayload;
-    }
-
-    return countryCode;
 }
 
 

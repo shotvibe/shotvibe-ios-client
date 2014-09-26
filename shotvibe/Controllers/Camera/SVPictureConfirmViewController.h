@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SVPickerCell.h"
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
 #import "AFPhotoEditorController.h"
 
 @interface SVPictureConfirmViewController : UIViewController <AFPhotoEditorControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
@@ -16,7 +16,6 @@
 @property (nonatomic, strong) NSMutableArray *images;
 @property (nonatomic) BOOL waitingForMostRecentImage;
 @property (nonatomic) int64_t albumId;
-@property (nonatomic, strong) AlbumManager *albumManager;
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;

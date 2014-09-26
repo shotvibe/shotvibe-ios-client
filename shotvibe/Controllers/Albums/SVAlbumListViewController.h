@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AlbumManager.h"
-#import "AlbumListListener.h"
+#import "SL/AlbumManager.h"
 #import "SVCameraPickerController.h"
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumGridViewController.h"
@@ -19,12 +18,10 @@
 																UITableViewDelegate,
 																UITextFieldDelegate,
 																UISearchBarDelegate,
-																AlbumListListener,
+                                                              SLAlbumManager_AlbumListListener,
 																SVCameraPickerDelegate,
                                                               SVAlbumListViewCellDelegate,
                                                               SLNetworkStatusManager_Listener>
-
-@property (nonatomic, strong) AlbumManager *albumManager;
 
 // This function is a temporary hack
 // Returns nil if not an org

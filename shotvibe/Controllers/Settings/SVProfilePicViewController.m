@@ -10,7 +10,11 @@
 #import "SVDefines.h"
 #import "MBProgressHUD.h"
 #import "UIImage+Scale.h"
+#import "ShotVibeAppDelegate.h"
+#import "SL/ShotVibeAPI.h"
+#import "SL/AuthData.h"
 #import "SL/AlbumSummary.h"
+#import "ShotVibeAPITask.h"
 
 @implementation SVProfilePicViewController
 
@@ -138,40 +142,27 @@
         return;
     }
 
+    SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
 
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    int64_t userId = [[shotvibeAPI getAuthData] getUserId];
 
-    ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
+    // Save avatar
+    [ShotVibeAPITask runTask:self
 
-    int64_t userId = shotvibeAPI.authData.userId;
+                  withAction:
+     ^id {
+        [shotvibeAPI uploadUserAvatarWithLong:userId withNSString:path];
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        // Save avatar
-        NSError *error2;
-        BOOL success = [shotvibeAPI uploadUserAvatar:userId filePath:path uploadProgress:^(int i, int j) {
-            RCLog(@"upload avatar %i %i", i, j);
-        }
-
-
-                                           withError:&error2];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (!success) {
-                RCLog(@"err avatar upload");
-            } else {
-                if ([self.delegate respondsToSelector:@selector(didCropImage:)]) {
-                    [self.delegate didCropImage:scaledImage];
-                }
-            }
-        }
-
-
-                       );
+        return nil;
     }
 
 
-                   );
+              onTaskComplete:
+     ^(id dummy) {
+        if ([self.delegate respondsToSelector:@selector(didCropImage:)]) {
+            [self.delegate didCropImage:scaledImage];
+        }
+    }];
 }
 
 

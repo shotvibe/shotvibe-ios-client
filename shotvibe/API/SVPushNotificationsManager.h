@@ -8,11 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
 
 @interface SVPushNotificationsManager : NSObject
-
-- (id)initWithAlbumManager:(AlbumManager *)albumManager;
 
 - (void)setup;
 

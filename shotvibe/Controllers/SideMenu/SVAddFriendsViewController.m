@@ -9,6 +9,8 @@
 #import "SVAddFriendsViewController.h"
 #import "SVDefines.h"
 #import "SVContactCell.h"
+#import "ShotVibeAppDelegate.h"
+#import "SL/AuthData.h"
 #import "SL/AlbumContents.h"
 #import "SL/ArrayList.h"
 #import "SL/ShotVibeAPI.h"
@@ -40,6 +42,8 @@
 
 
 @implementation SVAddFriendsViewController {
+    SLAlbumManager *albumManager_;
+    SLPhoneContactsManager *phoneContactsManager_;
 	
 	NSMutableArray *contactsButtons;// list of selected contacts buttons
 
@@ -64,6 +68,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
+    phoneContactsManager_ = [ShotVibeAppDelegate sharedDelegate].phoneContactsManager;
 
     self.noContactsView.hidden = YES;
     self.butOverlay.hidden = YES;
@@ -105,7 +112,7 @@
 
     [self setAllContacts:[[NSArray alloc] init]];
 
-    [self.albumManager.phoneContactsManager setListenerWithSLPhoneContactsManager_Listener:self];
+    [phoneContactsManager_ setListenerWithSLPhoneContactsManager_Listener:self];
 
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
@@ -418,7 +425,7 @@
 #pragma mark - Actions
 
 - (IBAction)donePressed:(id)sender {
-    [self.albumManager.phoneContactsManager unsetListener];
+    [phoneContactsManager_ unsetListener];
 
     // add members to album
     //TODO if already shotvibe member just add to album else sent notification to user to join?
@@ -426,7 +433,7 @@
 	
 	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
-    NSString *defaultCountryCode = [self.albumManager getShotVibeAPI].authData.defaultCountryCode;
+    NSString *defaultCountryCode = [[[albumManager_ getShotVibeAPI] getAuthData] getDefaultCountryCode];
 
     NSMutableArray *memberAddRequests = [[NSMutableArray alloc] init];
 	
@@ -453,9 +460,9 @@
                 // TODO
                 // - If any "MemberAddFailure" are returned, then show dialog to user with the details
 
-                [[self.albumManager getShotVibeAPI] albumAddMembers:self.albumId
-                                              withMemberAddRequests:[[SLArrayList alloc] initWithInitialArray:memberAddRequests]
-                                                 withDefaultCountry:defaultCountryCode];
+                [[albumManager_ getShotVibeAPI] albumAddMembersWithLong:self.albumId
+                                                       withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:memberAddRequests]
+                                                           withNSString:defaultCountryCode];
             } @catch (SLAPIException *exception) {
                 apiException = exception;
             }
@@ -472,7 +479,7 @@
     [[Mixpanel sharedInstance] track:@"Add Friends Screen Canceled"
                           properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
 
-    [self.albumManager.phoneContactsManager unsetListener];
+    [phoneContactsManager_ unsetListener];
 
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }

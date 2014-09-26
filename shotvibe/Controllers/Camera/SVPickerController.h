@@ -12,7 +12,6 @@
 @interface SVPickerController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, assign) int64_t albumId;
-@property (nonatomic, strong) AlbumManager *albumManager;
 
 @property (nonatomic, weak) SVPictureConfirmViewController *container;
 

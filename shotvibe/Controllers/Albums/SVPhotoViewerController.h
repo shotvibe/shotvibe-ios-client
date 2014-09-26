@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SL/AlbumContents.h"
-#import "AlbumManager.h"
-#import "AlbumContentsListener.h"
+#import "SL/AlbumManager.h"
 #import "SVActivityViewController.h"
 #import "AFPhotoEditorController.h"
 
@@ -26,7 +25,6 @@ AFPhotoEditorControllerDelegate>
 #pragma mark - Properties
 
 @property (nonatomic, strong) NSMutableArray *photos;// Ordered photos depending on the sortType chosen in 
-@property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, assign) int index;
 

@@ -264,7 +264,8 @@
             PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:selectedPhotoPath];
             [photoUploadRequests addObject:photoUploadRequest];
         }
-        [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
+// TODO:
+//        [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
     } else {
         [self.presentingViewController dismissViewControllerAnimated:NO completion:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVPickAlbumToUpload" object:nil userInfo:@{ @"images" : self.images }
@@ -468,7 +469,6 @@
         //Add a new image
         SVPickerController *manager = [[SVPickerController alloc] init];
         manager.container = self;
-        manager.albumManager = self.albumManager;
         manager.albumId = self.albumId;
 
         [self presentViewController:manager animated:NO completion:nil];

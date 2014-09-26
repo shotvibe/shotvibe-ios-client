@@ -27,7 +27,6 @@
 @property (nonatomic) NSMutableArray *capturedImages;
 @property (nonatomic, strong) SLAlbumSummary *selectedAlbum;
 @property (nonatomic, assign) int64_t albumId;
-@property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, strong) id <SVCameraPickerDelegate> delegate;
 @property (nonatomic) id cropDelegate;
 @property (nonatomic) BOOL oneImagePicker;

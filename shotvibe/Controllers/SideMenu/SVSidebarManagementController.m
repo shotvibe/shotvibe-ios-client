@@ -7,7 +7,9 @@
 //
 
 #import "SVSidebarManagementController.h"
+#import "ShotVibeAppDelegate.h"
 #import "SL/AlbumContents.h"
+#import "SL/ShotVibeAPI.h"
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
 #import "MFSideMenu.h"
@@ -54,11 +56,11 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
 	if (buttonIndex == 1) {
-		ShotVibeAPI *shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
+        SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
 		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             @try {
-                [shotvibeAPI leaveAlbumWithId:[self.albumContents getId]];
+                [shotvibeAPI leaveAlbumWithLong:[self.albumContents getId]];
             } @catch (SLAPIException *exception) {
                 // Ignore
             }

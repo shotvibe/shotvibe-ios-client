@@ -14,6 +14,8 @@
 #import "SVSidebarManagementController.h"
 #import "SVSettingsViewController.h"
 
+#import "ShotVibeAppDelegate.h"
+
 #import "SVCameraNavController.h"
 #import "SVPickerController.h"
 #import "SVAlbumListViewController.h"
@@ -30,9 +32,12 @@
 #import "SVNonRotatingNavigationControllerViewController.h"
 #import "SL/AlbumServerPhoto.h"
 #import "SL/AlbumMember.h"
+#import "SL/AlbumUser.h"
 #import "SL/ArrayList.h"
 #import "AlbumUploadingPhoto.h"
 #import "SL/DateTime.h"
+#import "SL/AuthData.h"
+#import "SL/ShotVibeAPI.h"
 #import "SVInitialization.h"
 #import "ShotVibeAPITask.h"
 
@@ -76,6 +81,10 @@
 @end
 
 @implementation SVAlbumGridViewController
+{
+    SLAlbumManager *albumManager_;
+    PhotoFilesManager *photoFilesManager_;
+}
 
 
 static NSString *const kCellReuseIdentifier = @"SVAlbumGridViewCell"; // registered in the storyboard
@@ -88,7 +97,13 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 {
     [super viewDidLoad];
 
+    NSLog(@"SVAlbumGridViewController %@: viewDidLoad", self);
+
     NSAssert(self.albumId, @"SVAlbumGridViewController can't be initialized without albumId");
+
+    photoFilesManager_ = [ShotVibeAppDelegate sharedDelegate].photoFilesManager;
+
+    albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
 
     [[Mixpanel sharedInstance] track:@"Album Viewed"
                           properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
@@ -156,9 +171,6 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
     ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).parentController = self;
     ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).parentController = self;
-
-    SLAlbumContents *contents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
-    [self setAlbumContents:contents];
 }
 
 
@@ -166,27 +178,26 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 {
     [super viewWillAppear:animated];
 
-    if (albumContents == nil) {
-        //AlbumContents *contents;
-        albumContents = [self.albumManager addAlbumContentsListener:self.albumId listener:self];
-        //[self setAlbumContents:contents];
-    }
-    //RCLog(@"viewWillAppear initiates refresh");
-    [self.albumManager refreshAlbumContents:self.albumId];
-    //RCLog(@"after viewWillAppear refresh");
+    NSLog(@"SVAlbumGridViewController %@: viewWillAppear: %d", self, animated);
+
+    SLAlbumContents *contents = [albumManager_ addAlbumContentsListenerWithLong:self.albumId withSLAlbumManager_AlbumContentsListener:self];
+    [self setAlbumContents:contents];
+
+    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
 }
 
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    NSLog(@"SVAlbumGridViewController: viewDidAppear: %d", animated);
 
     if (refresh == nil) {
         refresh = [[UIRefreshControl alloc] init];
         if (!IS_IOS7) {
             refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
         }
-        [refresh addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
+        [refresh addTarget:self action:@selector(onUserRefreshed) forControlEvents:UIControlEventValueChanged];
         [self.collectionView addSubview:refresh];
 
         // Remove the previous controller from the stack if it's SVCameraPickerController
@@ -216,17 +227,24 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 }
 
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    NSLog(@"SVAlbumGridViewController %@: viewWillDisappear: %d", self, animated);
+}
+
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
 
-    [self.albumManager markAlbumAsViewed:albumContents];
+    NSLog(@"SVAlbumGridViewController %@: viewDidDisappear: %d", self, animated);
+
+// TODO: This used to work but needs to be added back after adding the new SLAlbumManager
+//    [self.albumManager markAlbumAsViewed:albumContents];
+
+    [albumManager_ removeAlbumContentsListenerWithLong:self.albumId withSLAlbumManager_AlbumContentsListener:self];
 
     if (!navigatingNext) {
-        [self.albumManager removeAlbumContentsListener:self.albumId listener:self];
-        albumContents = nil;
-
-        self.albumManager = nil;
         ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).parentController = nil;
         ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).parentController = nil;
         self.sideMenu = nil;
@@ -307,7 +325,6 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     self.scrollToTop = YES;
 
     SVPickerController *manager = [[SVPickerController alloc] init];
-    manager.albumManager = self.albumManager;
     manager.albumId = self.albumId;
 
     SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
@@ -340,14 +357,12 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = self.albumId;
-        destination.albumManager = self.albumManager;
         //self.scrollToBottom = YES;
         self.scrollToTop = YES;
     } else if ([segue.identifier isEqualToString:@"AddFriendsSegue"]) {
         // TODO: Not called when going to AddFriends
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVAddFriendsViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        destination.albumManager = self.albumManager;
         destination.albumId = self.albumId;
     }
 }
@@ -411,14 +426,15 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         [cell.networkImageView setPhoto:[[photo getServerPhoto] getId]
                                photoUrl:[[photo getServerPhoto] getUrl]
                               photoSize:[PhotoSize Thumb75]
-                                manager:self.albumManager.photoFilesManager];
+                                manager:photoFilesManager_];
         cell.uploadProgressView.hidden = YES;
-        cell.fancyUploadProgressView.hidden = YES;
+
+        [cell.activityView stopAnimating];
 
         //RCLog(@"cellForItemAtPath url:%@ added:%@ access:%@", photo.serverPhoto.url, photo.serverPhoto.dateAdded, photo.serverPhoto.lastAccess);
 
         if ([[photo getServerPhoto] isNewWithSLDateTime:[albumContents getLastAccess]
-                                               withLong:self.albumManager.getShotVibeAPI.authData.userId]) {
+                                               withLong:[[[albumManager_ getShotVibeAPI] getAuthData] getUserId]]) {
             NSString *org = [SVAlbumListViewController getAlbumOrg:albumContents];
             if (org) {
                 cell.labelNewView.hidden = YES;
@@ -433,15 +449,46 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
             cell.albumOrgNewOverlay.hidden = YES;
         }
     } else if ([photo getUploadingPhoto]) {
-        AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
+        SLAlbumUploadingPhoto *uploadingPhoto = [photo getUploadingPhoto];
 
-        [cell.networkImageView setImage:[uploadingPhoto getThumbnail]];
+        if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum PreparingFiles]) {
+            [cell.networkImageView setImage:nil];
+        } else {
+            // TODO Don't always load from disk here, should use a cache
+            UIImage *thumb = [[UIImage alloc] initWithContentsOfFile:[uploadingPhoto getBitmapThumbPath]];
+            [cell.networkImageView setImage:thumb];
+        }
 
-        cell.uploadProgressView.hidden = YES;
-        [cell.uploadProgressView setProgress:[uploadingPhoto getUploadProgress] animated:NO];
+        if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum PreparingFiles]) {
+            [cell.activityView startAnimating];
 
-        cell.fancyUploadProgressView.hidden = NO;
-        [cell.fancyUploadProgressView appearWithProgressObject:uploadingPhoto];
+            cell.uploadProgressView.hidden = YES;
+        } else if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum Uploading]) {
+            double progress = [uploadingPhoto getUploadProgress];
+            if (progress > 0.0) {
+                [cell.activityView stopAnimating];
+
+                cell.uploadProgressView.hidden = NO;
+                cell.uploadProgressView.progressTintColor = [UIColor blueColor];
+                [cell.uploadProgressView setProgress:progress animated:NO];
+            } else {
+                [cell.activityView startAnimating];
+
+                cell.uploadProgressView.hidden = YES;
+            }
+        } else if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum Uploaded]) {
+            [cell.activityView stopAnimating];
+
+            cell.uploadProgressView.hidden = NO;
+            cell.uploadProgressView.progressTintColor = [UIColor greenColor];
+            [cell.uploadProgressView setProgress:1.0 animated:NO];
+        } else if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum AddingToAlbum]) {
+            [cell.activityView stopAnimating];
+
+            cell.uploadProgressView.hidden = NO;
+            cell.uploadProgressView.progressTintColor = [UIColor whiteColor];
+            [cell.uploadProgressView setProgress:1.0 animated:NO];
+        }
 
         cell.labelNewView.hidden = YES;
         cell.albumOrgNewOverlay.hidden = YES;
@@ -490,14 +537,14 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
             NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
             SLAlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
 
-            ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
+            SLShotVibeAPI *shotvibeAPI = [albumManager_ getShotVibeAPI];
 
             if ([photo getServerPhoto]) {
                 //Search through the members
                 for (SLAlbumMember *member in [albumContents getMembers].array) {
                     if ([[[photo getServerPhoto] getAuthor] getMemberId] == [[member getUser] getMemberId]) {
                         [header.imageView setImageWithURL:[[NSURL alloc] initWithString:[[member getUser] getMemberAvatarUrl]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                            if ([[member getUser] getMemberId] == shotvibeAPI.authData.userId) {
+                            if ([[member getUser] getMemberId] == [[shotvibeAPI getAuthData] getUserId]) {
                                 self.userPicture = image;
                                 self.userNickName = [[member getUser] getMemberNickname];
                             }
@@ -510,12 +557,16 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
                     }
                 }
             } else {
-                int64_t userId = shotvibeAPI.authData.userId;
+                int64_t userId = [[shotvibeAPI getAuthData] getUserId];
 
                 header.nameLabel.text = self.userNickName;
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                    NSError *error;
-                    SLAlbumUser *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
+                    SLAlbumUser *userProfile = nil;
+                    @try {
+                        userProfile = [shotvibeAPI getUserProfileWithLong:userId];
+                    } @catch (SLAPIException *exception) {
+                        // Ignore...
+                    }
 
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if (userProfile) {
@@ -588,7 +639,6 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     SVPhotoViewerController *detailController = [[SVPhotoViewerController alloc] init];
     detailController.albumId = self.albumId;
     detailController.photos = photos;
-    detailController.albumManager = self.albumManager;
     detailController.index = i;
     detailController.title = [albumContents getName];
 
@@ -600,23 +650,9 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 #pragma mark - Private Methods
 
-- (void)disableProgressAndReloadData
+- (void)onAlbumContentsUploadsProgressedWithLong:(long long int)albumId
 {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"ss.A"];
-    __block NSString *timeStamp = [formatter stringFromDate:[NSDate date]];
-    RCLog(@"About to delay reload at %@", timeStamp);
-    [FancyProgressView disableProgressViewsWithCompletion:^() {
-        RCLog(@"Completing delayed reload from %@", timeStamp);
-        // TODO: we may queue up a couple of reloads that could be optimized to one
-        [self sortThumbsBy:sort];
-        [self.collectionView reloadData];
-        [self updateEmptyState];
-        RCLog(@"Completed delayed reload from %@", timeStamp);
-    }
-
-
-    ];
+    [self.collectionView reloadData];
 }
 
 
@@ -654,20 +690,20 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         // First set all the fullscreen photos to download at high priority
         for (SLAlbumPhoto *p in [albumContents getPhotos]) {
             if ([p getServerPhoto]) {
-                [self.albumManager.photoFilesManager queuePhotoDownload:[[p getServerPhoto] getId]
-                                                               photoUrl:[[p getServerPhoto] getUrl]
-                                                              photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
-                                                           highPriority:YES];
+                [photoFilesManager_ queuePhotoDownload:[[p getServerPhoto] getId]
+                                              photoUrl:[[p getServerPhoto] getUrl]
+                                             photoSize:photoFilesManager_.DeviceDisplayPhotoSize
+                                          highPriority:YES];
             }
         }
 
         // Now set all the thumbnails to download at high priority, these will now be pushed to download before all of the previously queued fullscreen photos
         for (SLAlbumPhoto *p in [albumContents getPhotos].array) {
             if ([p getServerPhoto]) {
-                [self.albumManager.photoFilesManager queuePhotoDownload:[[p getServerPhoto] getId]
-                                                               photoUrl:[[p getServerPhoto] getUrl]
-                                                              photoSize:[PhotoSize Thumb75]
-                                                           highPriority:YES];
+                [photoFilesManager_ queuePhotoDownload:[[p getServerPhoto] getId]
+                                              photoUrl:[[p getServerPhoto] getUrl]
+                                             photoSize:[PhotoSize Thumb75]
+                                          highPriority:YES];
             }
         }
     }
@@ -675,7 +711,9 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
                    );
 
-    [self disableProgressAndReloadData];
+    [self sortThumbsBy:sort];
+    [self.collectionView reloadData];
+    [self updateEmptyState];
 }
 
 
@@ -880,10 +918,10 @@ static const NSInteger ALERT_VIEW_TAG_CHANGE_NAME = 0;
 
     [ShotVibeAPITask runTask:self
                   withAction:^id {
-        bool success = [[[self.albumManager getShotVibeAPI] getInternalAPI] albumChangeNameWithLong:self.albumId
-                                                                                       withNSString:newAlbumName];
+        BOOL success = [[albumManager_ getShotVibeAPI] albumChangeNameWithLong:self.albumId
+                                                                  withNSString:newAlbumName];
         if (success) {
-            [self.albumManager refreshAlbumContents:self.albumId];
+            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:YES];
         }
         return [NSNumber numberWithBool:success];
     }
@@ -933,7 +971,9 @@ static const NSInteger ALERT_VIEW_TAG_CHANGE_NAME = 0;
     [[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    [self disableProgressAndReloadData];
+    [self sortThumbsBy:sort];
+    [self.collectionView reloadData];
+    [self updateEmptyState];
 
     [self hideSheetViewMenu];
 }
@@ -945,60 +985,40 @@ static const NSInteger ALERT_VIEW_TAG_CHANGE_NAME = 0;
     [[NSUserDefaults standardUserDefaults] setInteger:sort forKey:@"sort_photos"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    [self disableProgressAndReloadData];
+    [self sortThumbsBy:sort];
+    [self.collectionView reloadData];
+    [self updateEmptyState];
 }
 
 
-- (void)onAlbumContentsBeginRefresh:(int64_t)albumId
+- (void)onAlbumContentsNewContentWithLong:(long long int)albumId
+                      withSLAlbumContents:(SLAlbumContents *)album
 {
-}
-
-
-- (void)onAlbumContentsRefreshComplete:(int64_t)albumId albumContents:(SLAlbumContents *)album
-{
-    if (refreshManualy) {
-        [self endRefreshing];
-    }
     [self setAlbumContents:album];
 }
 
 
-- (void)onAlbumContentsRefreshError:(int64_t)albumId error:(SLAPIException *)error
+- (void)onAlbumContentsEndUserRefreshWithSLAPIException:(SLAPIException *)error
 {
-    [refresh endRefreshing];
-    if (!IS_IOS7) {
-        refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    }
-}
+    [self hideRefreshSpinner];
 
-
-- (void)onAlbumContentsPhotoUploadProgress:(int64_t)albumId
-{
-    // Iterate over visible cells and find the cell with the albumId
-
-    for (SVAlbumGridViewCell *cell in self.collectionView.visibleCells) {
-        NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-        NSArray *arr = [sections objectForKey:sectionsKeys[indexPath.section]];
-
-        SLAlbumPhoto *photo = [arr objectAtIndex:indexPath.item];
-
-        if ([photo getUploadingPhoto]) {
-            AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
-            cell.uploadProgressView.hidden = YES;
-            cell.uploadProgressView.progress = [uploadingPhoto getUploadProgress];
-            //RCLog(@"Progress: %@ %f", [uploadingPhoto photoId], [uploadingPhoto getUploadProgress]);
-            [cell.fancyUploadProgressView setProgress:[uploadingPhoto getUploadProgress]];
-        }
+    if (error) {
+        // TODO Show "Toast" message
     }
 }
 
 
 #pragma mark UIRefreshView
 
-- (void)beginRefreshing
+
+- (void)onUserRefreshed
 {
-    refreshManualy = YES;
-    [self.albumManager refreshAlbumContents:self.albumId];
+    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:YES];
+}
+
+
+- (void)showRefreshSpinner
+{
     [refresh beginRefreshing];
     if (!IS_IOS7) {
         refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing photos..."];
@@ -1006,13 +1026,18 @@ static const NSInteger ALERT_VIEW_TAG_CHANGE_NAME = 0;
 }
 
 
-- (void)endRefreshing
+- (void)hideRefreshSpinner
 {
-    refreshManualy = NO;
     [refresh endRefreshing];
     if (!IS_IOS7) {
         refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     }
+}
+
+
+- (void)onAlbumContentsBeginUserRefreshWithLong:(long long int)albumId
+{
+    [self showRefreshSpinner];
 }
 
 

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SVImageCropViewController.h"
 #import "SVImagePickerListViewController.h"
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
 
 @interface SVProfilePicViewController : UIViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SVCameraPickerDelegate> {
 	
@@ -18,6 +18,5 @@
 
 @property (nonatomic) id <SVImageCropDelegate> delegate;
 @property (nonatomic, retain) UIImage *image;
-@property (nonatomic, strong) AlbumManager *albumManager;
 
 @end

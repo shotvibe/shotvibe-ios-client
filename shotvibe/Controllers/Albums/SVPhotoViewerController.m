@@ -9,6 +9,8 @@
 #import "SVPhotoViewerController.h"
 #import "SVDefines.h"
 #import "MFSideMenu.h"
+#import "SL/AuthData.h"
+#import "SL/ShotVibeAPI.h"
 #import "SL/AlbumUser.h"
 #import "SL/AlbumPhoto.h"
 #import "SL/AlbumServerPhoto.h"
@@ -44,6 +46,10 @@
 
 
 @implementation SVPhotoViewerController
+{
+    SLAlbumManager *albumManager_;
+    PhotoFilesManager *photoFilesManager_;
+}
 
 
 #pragma mark - View Lifecycle
@@ -56,6 +62,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    photoFilesManager_ = [ShotVibeAppDelegate sharedDelegate].photoFilesManager;
+
+    albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
 
     self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
     toolsHidden = YES;
@@ -300,8 +310,8 @@
                 if ([photo getServerPhoto]) {
                     [cachedImage setPhoto:[[photo getServerPhoto] getId]
                                  photoUrl:[[photo getServerPhoto] getUrl]
-								photoSize:self.albumManager.photoFilesManager.DeviceDisplayPhotoSize
-								  manager:self.albumManager.photoFilesManager];
+                                photoSize:photoFilesManager_.DeviceDisplayPhotoSize
+                                  manager:photoFilesManager_];
                 } else if ([photo getUploadingPhoto]) {
                     AlbumUploadingPhoto *uploadingPhoto = (AlbumUploadingPhoto *)[photo getUploadingPhoto];
                     UIImage *localImage = [[UIImage alloc] initWithContentsOfFile:[uploadingPhoto getFullResFilename]];
@@ -520,7 +530,7 @@
             str = [NSString stringWithFormat:@"Updated by %@\n%@", [[[photo getServerPhoto] getAuthor] getMemberNickname], dateFormated];
 			
 			// Hide the trash button for photos that does not belong the the current user
-            butTrash.hidden = [[[photo getServerPhoto] getAuthor] getMemberId] != [self.albumManager getShotVibeAPI].authData.userId;
+            butTrash.hidden = [[[photo getServerPhoto] getAuthor] getMemberId] != [[[albumManager_ getShotVibeAPI] getAuthData] getUserId];
 		}
 		else {
 			// Hide the trash button for photos that does not belong the the current user
@@ -575,7 +585,7 @@
         RCLog(@"delete photos %@", photosToDelete);
         SLAPIException *apiException = nil;
         @try {
-            [[self.albumManager getShotVibeAPI] deletePhotos:[[SLArrayList alloc] initWithInitialArray:photosToDelete]];
+            [[albumManager_ getShotVibeAPI] deletePhotosWithJavaLangIterable:[[SLArrayList alloc] initWithInitialArray:photosToDelete]];
         } @catch (SLAPIException *exception) {
             apiException = exception;
         }
@@ -777,7 +787,8 @@
 				// Upload the saved photo. This will call the refresh 2 times, one with the local photo and one after the photo is being uploaded
 				
                 PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:imagePath];
-                [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:@[photoUploadRequest]];
+// TODO:
+//                [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:@[photoUploadRequest]];
 
 				// Send a notification the the main screen to move this album on top of the list
 				NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};

@@ -9,22 +9,32 @@
 #import <Crashlytics/Crashlytics.h>
 
 #import <UIKit/UIKit.h>
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
 #import "SL/NetworkStatusManager.h"
+#import "SL/AuthData.h"
+#import "SL/PhoneContactsManager.h"
+#import "PhotoFilesManager.h"
 
 @interface ShotVibeAppDelegate : UIResponder <UIApplicationDelegate>
 
 #pragma mark - Properties
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) AlbumManager *albumManager;
+@property (nonatomic, readonly, strong) SLAlbumManager *albumManager;
 @property (strong, nonatomic) SLNetworkStatusManager *networkStatusManager;
+@property (nonatomic, readonly, strong) PhotoFilesManager *photoFilesManager;
+@property (nonatomic, readonly, strong) SLPhoneContactsManager *phoneContactsManager;
 
 @property (copy) void (^ uploadSessionCompletionHandler)(); //stored by handleEventsForBackgroundURLSession for later use
+
+- (BOOL)isLoggedIn;
+- (void)setAuthData:(SLAuthData *)authData;
 
 #pragma mark - Class Methods
 
 + (ShotVibeAppDelegate *)sharedDelegate;
+
++ (NSString *)getDeviceName;
 
 @end
 

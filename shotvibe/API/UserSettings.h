@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AuthData.h"
+#import "SL/AuthData.h"
 
 @interface UserSettings : NSObject
 
 // Returns nil if there is no AuthData (the user has not logged in)
-+ (AuthData *)getAuthData;
++ (SLAuthData *)getAuthData;
 
-+ (void)setAuthData:(AuthData *)authData;
++ (void)setAuthData:(SLAuthData *)authData;
 
 // Returns YES if the user has updated his nickname since installing the app
 + (BOOL)isNicknameSet;

@@ -617,7 +617,8 @@
 		PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:selectedPhotoPath];
 		[photoUploadRequests addObject:photoUploadRequest];
 	}
-	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
+    // TODO:
+//	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
 	
 	// Dismiss the controller
 	if ([self.delegate respondsToSelector:@selector(cameraWasDismissedWithAlbum:)]) {

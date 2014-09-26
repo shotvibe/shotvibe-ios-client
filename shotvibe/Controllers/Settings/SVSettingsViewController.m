@@ -11,6 +11,7 @@
 #import "SL/AlbumSummary.h"
 #import "SL/AlbumPhoto.h"
 #import "SL/AlbumUser.h"
+#import "SL/ShotVibeAPI.h"
 #import "SVDefines.h"
 #import "SVSettingsAboutViewController.h"
 #import "SVProfileViewController.h"
@@ -31,11 +32,6 @@
         
         destination.title = @"Help";
 		destination.url = @"https://m.shotvibe.com/help.html";
-    }
-    else if ([segue.identifier isEqualToString:@"SettingsProfileSegue"]) {
-        SVProfileViewController *destination = (SVProfileViewController *)segue.destinationViewController;
-
-        destination.albumManager = self.albumManager;
     }
 }
 
@@ -116,7 +112,8 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
 	if (buttonIndex == 1) {
-        [[self.albumManager getShotVibeAPI] logout];
+// TODO:
+//        [[self.albumManager getShotVibeAPI] logout];
         
 		// Grab the storyboard
 		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];

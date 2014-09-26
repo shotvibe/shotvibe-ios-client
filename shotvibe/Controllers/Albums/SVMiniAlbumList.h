@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
 
 @interface SVMiniAlbumList : UIScrollView <UIScrollViewDelegate>
 

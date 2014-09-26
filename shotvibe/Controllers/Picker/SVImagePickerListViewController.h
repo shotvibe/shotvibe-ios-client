@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SVCameraPickerDelegate.h"
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
 
 @class SLAlbumSummary;
 
@@ -19,7 +19,6 @@
 @property (nonatomic, strong) UINavigationController *nav;
 
 @property (nonatomic, assign) int64_t albumId;
-@property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, strong) SLAlbumSummary *selectedAlbum;
 
 @end

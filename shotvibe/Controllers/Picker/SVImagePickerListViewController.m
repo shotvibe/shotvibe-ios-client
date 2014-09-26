@@ -111,7 +111,6 @@
         SVImagePickerSelector *selector = [[SVImagePickerSelector alloc] initWithNibName:@"SVImagePickerSelector" bundle:[NSBundle mainBundle]];
 
         selector.albumId = self.albumId;
-        selector.albumManager = self.albumManager;
         selector.libraryPhotos = [[NSArray alloc] initWithArray:assets];
         selector.selectedAlbum = self.selectedAlbum;
         selector.selectedGroup = selectedGroup;

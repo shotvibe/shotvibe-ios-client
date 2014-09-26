@@ -2272,13 +2272,7 @@ activation code just sent to you</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Activation" id="36f-IO-DBg">
-                        <barButtonItem key="rightBarButtonItem" title="No Code?" id="Bc0-zr-dSn">
-                            <connections>
-                                <segue destination="1tW-Ft-5Bj" kind="push" identifier="NoCodeSegue" id="IoI-KS-amZ"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Activation" id="36f-IO-DBg"/>
                     <connections>
                         <outlet property="butSubmit" destination="NPU-6a-aVT" id="72v-k5-i63"/>
                         <outlet property="codeField1" destination="vVH-zc-omB" id="83f-rr-mVy"/>
@@ -2290,117 +2284,6 @@ activation code just sent to you</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="crO-sZ-Y63" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1153" y="-773"/>
-        </scene>
-        <!--No Code View Controller - No Code?-->
-        <scene sceneID="MpU-73-Ga6">
-            <objects>
-                <viewController storyboardIdentifier="SVNoCodeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1tW-Ft-5Bj" customClass="SVNoCodeViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="fSc-45-f54">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" id="Trt-7t-YrH" userLabel="Phone Number Container">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="phoneNumberContainer.png" id="C0c-qk-Hlo">
-                                        <rect key="frame" x="25" y="86" width="270" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NwO-Tx-c4d">
-                                        <rect key="frame" x="43" y="147" width="235" height="41"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
-                                        <size key="titleShadowOffset" width="0.0" height="-1"/>
-                                        <state key="normal" title="Re-Send" backgroundImage="butResend.png">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="registerButtonPressed:" destination="1tW-Ft-5Bj" eventType="touchUpInside" id="FNG-Bj-C6V"/>
-                                        </connections>
-                                    </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Pg6-aX-Y2m">
-                                        <rect key="frame" x="86" y="388" width="148" height="41"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
-                                        <size key="titleShadowOffset" width="0.0" height="-1"/>
-                                        <state key="normal" title="Call Me" backgroundImage="addFriendsButtonBg.png">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="callmeButtonPressed:" destination="1tW-Ft-5Bj" eventType="touchUpInside" id="JKJ-bq-QOi"/>
-                                        </connections>
-                                    </button>
-                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="We'll call you instead with the activation code!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uJg-ah-qxW">
-                                        <rect key="frame" x="46" y="334" width="229" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                        <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Re-check your phone number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0fp-jc-jlZ">
-                                        <rect key="frame" x="0.0" y="40" width="320" height="34"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="0.74901960779999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="xQI-N4-qiD">
-                                        <rect key="frame" x="87" y="86" width="194" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="1tW-Ft-5Bj" id="1mW-vE-hlo"/>
-                                        </connections>
-                                    </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="US.png" id="jBl-tD-fdT">
-                                        <rect key="frame" x="37" y="91" width="24" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="czZ-wZ-shT">
-                                        <rect key="frame" x="20" y="76" width="59" height="68"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="countrySelectButtonPressed:" destination="1tW-Ft-5Bj" eventType="touchUpInside" id="LLY-KK-yhn"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="No Code?" id="AAl-Hr-12P"/>
-                    <connections>
-                        <outlet property="butContinue" destination="NwO-Tx-c4d" id="gTh-gi-c9L"/>
-                        <outlet property="countryFlagView" destination="jBl-tD-fdT" id="5EZ-BR-ETY"/>
-                        <outlet property="phoneNumberField" destination="xQI-N4-qiD" id="LBO-eJ-2jI"/>
-                        <outlet property="phoneNumberPhaseContainer" destination="Trt-7t-YrH" id="Kou-D9-Tn9"/>
-                        <segue destination="jY5-rW-NAc" kind="push" identifier="ChoseCountrySegue" id="sNb-fh-mhv"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pXH-cp-njf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1153" y="-1477"/>
         </scene>
     </scenes>
     <resources>
@@ -2452,9 +2335,7 @@ activation code just sent to you</string>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="oiS-6F-bJN"/>
-        <segue reference="sO9-n0-6uB"/>
         <segue reference="YZf-v8-Yxg"/>
         <segue reference="hc8-VF-LIN"/>
-        <segue reference="sNb-fh-mhv"/>
     </inferredMetricsTieBreakers>
 </document>

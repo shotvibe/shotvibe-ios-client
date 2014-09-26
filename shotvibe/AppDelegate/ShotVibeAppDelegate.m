@@ -25,12 +25,22 @@
 #import "MBProgressHUD.h"
 #import "UIImageView+AFNetworking.h"
 
+#import "IosBackgroundUploadSession.h"
+#import "IosBitmapProcessor.h"
+#import "SL/UploadStateDB.h"
+#import "SL/UploadSystemDirector.h"
+
 #import "RegistrationInfo.h"
 #import "UserSettings.h"
 #import "ShotVibeAPI.h"
 #import "SL/ShotVibeAPI.h"
 #import "ShotVibeDB.h"
 #import "JSON.h"
+#import "DatabaseOpener.h"
+#import "FileUtils.h"
+#import "SL/HTTPLib.h"
+#import "IosHTTPLib.h"
+#import "IosDevicePhoneContactsLib.h"
 
 @implementation CrashlyticsDelegate
 
@@ -67,6 +77,13 @@
     SVPushNotificationsManager *pushNotificationsManager;
 }
 
+
+- (BOOL)isLoggedIn
+{
+    return self.albumManager != nil;
+}
+
+
 #pragma mark - Class Methods
 
 + (ShotVibeAppDelegate *)sharedDelegate {
@@ -74,9 +91,9 @@
 }
 
 
-#pragma mark - UIApplicationDelegate Methods
+#pragma mark - SDK Methods
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (void)initSDKs
 {
     //[NewRelicAgent startWithApplicationToken:@"AAea0623ed205b8e4119889914a4605318944a6535"];
     [Appsee start:@"215369473db946c39b7ae4276adf3e5b"];
@@ -94,15 +111,45 @@
     //   https://mixpanel.com/help/reference/ios#debugging-and-logging
     [Mixpanel sharedInstanceWithToken:@"0"];
 #endif
+}
+
+
+- (void)configureSDKs:(SLAuthData *)authData
+{
+    NSString *user_id_str = [NSString stringWithFormat:@"%lld", [authData getUserId]];
+
+    if (![[Mixpanel sharedInstance].distinctId isEqualToString:user_id_str]) {
+        [[Mixpanel sharedInstance] createAlias:user_id_str
+                                 forDistinctID:[Mixpanel sharedInstance].distinctId];
+
+        [[Mixpanel sharedInstance] identify:user_id_str];
+        [[Mixpanel sharedInstance].people set:@{ @"user_id" : user_id_str }];
+    }
+}
+
+
+#pragma mark - UIApplicationDelegate Methods
+
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    BOOL background = application.applicationState == UIApplicationStateBackground;
+    NSLog(@"App Start");
+
+    [self initSDKs];
+
+    _albumManager = nil;
 
     self.networkStatusManager = [[SLNetworkStatusManager alloc] init];
 
-    ShotVibeAPI *shotvibeAPI = [[ShotVibeAPI alloc] initWithAuthData:[UserSettings getAuthData]];
-    ShotVibeDB *shotvibeDB = [[ShotVibeDB alloc] init];
+    _photoFilesManager = [[PhotoFilesManager alloc] init];
 
-    self.albumManager = [[AlbumManager alloc] initWithShotvibeAPI:shotvibeAPI shotvibeDB:shotvibeDB];
+    pushNotificationsManager = [[SVPushNotificationsManager alloc] init];
 
-    pushNotificationsManager = [[SVPushNotificationsManager alloc] initWithAlbumManager:self.albumManager];
+    SLAuthData *authData = [UserSettings getAuthData];
+    if (authData) {
+        [self loadAlbumManager:authData];
+    }
 
     // The following casts will work because of the way the MainStoryboard is set up.
 
@@ -112,8 +159,6 @@
 
     NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error: visibleViewController is not SVRegistrationViewController");
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
-    registrationViewController.albumManager = self.albumManager;
-    registrationViewController.pushNotificationsManager = pushNotificationsManager;
 
 
     // Initialize the sidebar menu
@@ -140,9 +185,7 @@
         t.onClose = ^(id responseObject) {
             self.window.rootViewController = self.sideMenu;
 
-            if (shotvibeAPI.authData) {
-                [pushNotificationsManager setup];
-            } else {
+            if (![self isLoggedIn]) {
                 [self processCountryCode:[UIApplication sharedApplication] registrationViewController:registrationViewController];
             }
         };
@@ -152,14 +195,87 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
-        if (shotvibeAPI.authData) {
-            [pushNotificationsManager setup];
-        } else {
+        if (![self isLoggedIn]) {
             [self processCountryCode:application registrationViewController:registrationViewController];
         }
     }
 
     return YES;
+}
+
+
+static NSString *const UPLOADS_DIRECTORY = @"uploads";
+
+
++ (NSString *)getUploadsDir
+{
+    NSString *baseDirectory = [FileUtils getApplicationSupportDirectory];
+    NSString *dir = [baseDirectory stringByAppendingPathComponent:UPLOADS_DIRECTORY];
+
+    // Create the directory if it doesn't exist:
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:dir]) {
+        NSError *error;
+        if (![manager createDirectoryAtPath:dir withIntermediateDirectories:NO attributes:nil error:&error]) {
+            NSAssert(NO, @"Error creating Uploads Directory: %@", [error localizedDescription]);
+        }
+    }
+
+    if ([dir characterAtIndex:[dir length] - 1] != '/') {
+        dir = [dir stringByAppendingString:@"/"];
+    }
+
+    return dir;
+}
+
+
+- (void)loadAlbumManager:(SLAuthData *)authData
+{
+    [self configureSDKs:authData];
+
+    id<SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
+    SLShotVibeAPI *shotVibeAPI = [[SLShotVibeAPI alloc] initWithSLHTTPLib:httpLib
+                                               withSLNetworkStatusManager:self.networkStatusManager
+                                                           withSLAuthData:authData];
+    SLShotVibeDB *shotVibeDB = [DatabaseOpener open:[[SLShotVibeDB_Recipe alloc] init]];
+
+    NSString *uploadsDir = [ShotVibeAppDelegate getUploadsDir];
+
+    NSString *MAIN_SESSION_IDENTIFIER = @"BackgroundUploader.MainSession";
+
+    IosBackgroundUploadSession_Factory *factory = [[IosBackgroundUploadSession_Factory alloc] initWithSessionIdentifier:MAIN_SESSION_IDENTIFIER
+                                                                                                            shotVibeAPI:shotVibeAPI];
+    SLUploadStateDB *uploadStateDB = [DatabaseOpener open:[[SLUploadStateDB_Recipe alloc] init]];
+
+    id<SLBitmapProcessor> bitmapProcessor = [[IosBitmapProcessor alloc] init];
+
+    SLUploadSystemDirector *uploadSystemDirector = [[SLUploadSystemDirector alloc] initWithSLBackgroundUploadSession_Factory:factory
+                                                                                                         withSLUploadStateDB:uploadStateDB
+                                                                                                           withSLShotVibeAPI:shotVibeAPI
+                                                                                                                withNSString:uploadsDir
+                                                                                                       withSLBitmapProcessor:bitmapProcessor];
+
+    _albumManager = [[SLAlbumManager alloc] initWithSLShotVibeAPI:shotVibeAPI
+                                                 withSLShotVibeDB:shotVibeDB
+                                              withSLUploadManager:[uploadSystemDirector getUploadManager]];
+
+    id <SLDevicePhoneContactsLib> devicePhoneContactsLib = [[IosDevicePhoneContactsLib alloc] init];
+
+    _phoneContactsManager = [[SLPhoneContactsManager alloc] initWithSLDevicePhoneContactsLib:devicePhoneContactsLib
+                                                                           withSLShotVibeAPI:shotVibeAPI
+                                                                            withSLShotVibeDB:shotVibeDB];
+
+    [pushNotificationsManager setup];
+}
+
+
+- (void)setAuthData:(SLAuthData *)authData
+{
+    NSAssert(![self isLoggedIn], @"Already logged in");
+
+    [UserSettings setAuthData:authData];
+
+    [self loadAlbumManager:authData];
 }
 
 
@@ -178,23 +294,31 @@
 
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)nav.visibleViewController;
 
-    if ([[self.albumManager getShotVibeAPI] authenticateWithURL:url]) {
-        [[Mixpanel sharedInstance] track:@"User Registered"];
-        [[Mixpanel sharedInstance] track:@"User Registered (Invite Link)"];
+    RegistrationInfo *registrationInfo = [RegistrationInfo RegistrationInfoFromURL:url];
 
-        [pushNotificationsManager setup];
+    if (registrationInfo) {
+        if (registrationInfo.startWithAuth) {
+            SLAuthData *authData = [[SLAuthData alloc] initWithLong:registrationInfo.userId
+                                                       withNSString:registrationInfo.authToken
+                                                       withNSString:registrationInfo.countryCode];
+            [self setAuthData:authData];
 
-        [registrationViewController skipRegistration];
-    } else {
-        [[Mixpanel sharedInstance] track:@"Phone Number Screen Viewed"];
+            [[Mixpanel sharedInstance] track:@"User Registered"];
+            [[Mixpanel sharedInstance] track:@"User Registered (Invite Link)"];
 
-        NSString *countryCode = [RegistrationInfo countryCodeFromURL:url];
 
-        [registrationViewController selectCountry:countryCode];
+            [registrationViewController skipRegistration];
+        } else {
+            [[Mixpanel sharedInstance] track:@"Phone Number Screen Viewed"];
+
+            [registrationViewController selectCountry:registrationInfo.countryCode];
+            [registrationViewController setCustomPayload:registrationInfo.customPayload];
+        }
     }
 
     return YES;
 }
+
 
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler
 {
@@ -205,11 +329,14 @@
     // After handling the events, the completionHandler needs to be called
 
     // Store the completion handler for the appropriate NSURLSession (currently we only have one: the upload session)
+// TODO:
+/*
     if ([identifier isEqualToString:kUploadSessionId]) {
         self.uploadSessionCompletionHandler = completionHandler;
     } else {
         RCLog(@"ERROR: request to handle background events for unknown NSURLSession: %@", identifier);
     }
+*/
 }
 
 
@@ -386,7 +513,7 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
         NSString *shotvibeAppInitUrl = @"https://www.useglance.com/app_init/?";
 
         shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"app", @"iphone");
-        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"device_description", deviceDescription());
+        shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"device_description", [ShotVibeAppDelegate getDeviceName]);
 		
         NSString *app_url_scheme;
 #if CONFIGURATION_Debug
@@ -437,10 +564,11 @@ NSString * appendQueryParameter(NSString *url, NSString *key, NSString *value)
     return result;
 }
 
-NSString * deviceDescription()
++ (NSString *)getDeviceName
 {
     UIDevice *currentDevice = [UIDevice currentDevice];
 	return [NSString stringWithFormat:@"%@ (%@ %@)", [currentDevice model], [currentDevice systemName], [currentDevice systemVersion]];
 }
+
 
 @end
