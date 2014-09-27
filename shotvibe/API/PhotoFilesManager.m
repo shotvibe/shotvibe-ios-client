@@ -735,6 +735,17 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
 }
 
 
+- (void)takePhotoThumbnailFileWithNSString:(NSString *)fileName
+                              withNSString:(NSString *)photoId
+{
+    NSString *destFile = [self photoFilePath:photoId photoSize:[PhotoSize Thumb75]];
+
+    [[NSFileManager defaultManager] moveItemAtPath:fileName
+                                            toPath:destFile
+                                             error:nil];
+}
+
+
 - (void)decodePhoto:(PhotoJob *)photoJob loadLowQuality:(BOOL)loadLowQuality
 {
     //NSLog(@"decodePhoto: %@ %d", photoJob.photoId, loadLowQuality);

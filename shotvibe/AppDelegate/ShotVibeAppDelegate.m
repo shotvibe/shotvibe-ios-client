@@ -252,6 +252,7 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
     SLUploadSystemDirector *uploadSystemDirector = [[SLUploadSystemDirector alloc] initWithSLBackgroundUploadSession_Factory:factory
                                                                                                          withSLUploadStateDB:uploadStateDB
                                                                                                            withSLShotVibeAPI:shotVibeAPI
+                                                                                                  withSLPhotoDownloadManager:_photoFilesManager
                                                                                                                 withNSString:uploadsDir
                                                                                                        withSLBitmapProcessor:bitmapProcessor];
 
