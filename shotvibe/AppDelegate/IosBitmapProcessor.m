@@ -180,8 +180,8 @@ static struct ImageSize boxFitWithRotationOnlyShrink(int sourceWidth, int source
                                                               withNSString:(NSString *)thumbSavePath
 {
     // TODO Should use better values suitable for density of the currently running device
-    const int THUMB_WIDTH = 128;
-    const int THUMB_HEIGHT = 128;
+    const int THUMB_WIDTH = 192;
+    const int THUMB_HEIGHT = 192;
 
     const CGFloat RESIZED_SAVE_QUALITY = 0.9f;
     const CGFloat THUMB_SAVE_QUALITY = 0.9f;
