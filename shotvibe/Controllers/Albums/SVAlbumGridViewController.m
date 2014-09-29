@@ -40,6 +40,7 @@
 #import "SL/ShotVibeAPI.h"
 #import "SVInitialization.h"
 #import "ShotVibeAPITask.h"
+#import "ImageDiskCache.h"
 
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
@@ -84,6 +85,9 @@
 {
     SLAlbumManager *albumManager_;
     PhotoFilesManager *photoFilesManager_;
+
+    // TODO Should use a global ImageDiskCache
+    ImageDiskCache *imageDiskCache_;
 }
 
 
@@ -104,6 +108,10 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     photoFilesManager_ = [ShotVibeAppDelegate sharedDelegate].photoFilesManager;
 
     albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
+
+    imageDiskCache_ = [[ImageDiskCache alloc] initWithRefreshHandler:^{
+        [self.collectionView reloadData];
+    }];
 
     [[Mixpanel sharedInstance] track:@"Album Viewed"
                           properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
@@ -454,8 +462,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum PreparingFiles]) {
             [cell.networkImageView setImage:nil];
         } else {
-            // TODO Don't always load from disk here, should use a cache
-            UIImage *thumb = [[UIImage alloc] initWithContentsOfFile:[uploadingPhoto getBitmapThumbPath]];
+            UIImage *thumb = [imageDiskCache_ getImage:[uploadingPhoto getBitmapThumbPath]];
             [cell.networkImageView setImage:thumb];
         }
 

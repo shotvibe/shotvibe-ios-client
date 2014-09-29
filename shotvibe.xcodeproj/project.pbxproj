@@ -749,6 +749,7 @@
 		6666EC3D19360F3C00557CB1 /* shvoong_new@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6666EC3519360F3C00557CB1 /* shvoong_new@2x.png */; };
 		6666EC3E19360F3C00557CB1 /* shvoong_ribbon_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6666EC3619360F3C00557CB1 /* shvoong_ribbon_overlay.png */; };
 		6666EC3F19360F3C00557CB1 /* shvoong_ribbon_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6666EC3719360F3C00557CB1 /* shvoong_ribbon_overlay@2x.png */; };
+		667A616419D8C9E100D4A99C /* ImageDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 667A616319D8C9E100D4A99C /* ImageDiskCache.m */; };
 		669058C719D4D65C00E233D7 /* IosBackgroundUploadSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 669058C619D4D65C00E233D7 /* IosBackgroundUploadSession.m */; };
 		669058C919D5C62D00E233D7 /* create_shotvibe_main.sql in Resources */ = {isa = PBXBuildFile; fileRef = 669058C819D5C62D00E233D7 /* create_shotvibe_main.sql */; };
 		6691379019D3959400829286 /* create_shotvibe_upload_state.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6691378F19D3959400829286 /* create_shotvibe_upload_state.sql */; };
@@ -1865,6 +1866,8 @@
 		6666EC3519360F3C00557CB1 /* shvoong_new@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shvoong_new@2x.png"; path = "partner_branding/shvoong_new@2x.png"; sourceTree = "<group>"; };
 		6666EC3619360F3C00557CB1 /* shvoong_ribbon_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shvoong_ribbon_overlay.png; path = partner_branding/shvoong_ribbon_overlay.png; sourceTree = "<group>"; };
 		6666EC3719360F3C00557CB1 /* shvoong_ribbon_overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shvoong_ribbon_overlay@2x.png"; path = "partner_branding/shvoong_ribbon_overlay@2x.png"; sourceTree = "<group>"; };
+		667A616219D8C9E100D4A99C /* ImageDiskCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDiskCache.h; sourceTree = "<group>"; };
+		667A616319D8C9E100D4A99C /* ImageDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDiskCache.m; sourceTree = "<group>"; };
 		669058C519D4D65C00E233D7 /* IosBackgroundUploadSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosBackgroundUploadSession.h; path = shotvibe/API/IosBackgroundUploadSession.h; sourceTree = SOURCE_ROOT; };
 		669058C619D4D65C00E233D7 /* IosBackgroundUploadSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosBackgroundUploadSession.m; path = shotvibe/API/IosBackgroundUploadSession.m; sourceTree = SOURCE_ROOT; };
 		669058C819D5C62D00E233D7 /* create_shotvibe_main.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = create_shotvibe_main.sql; path = shotvibelib/src/main/assets/create_shotvibe_main.sql; sourceTree = SOURCE_ROOT; };
@@ -3467,6 +3470,8 @@
 				66452E1419CB2A0800F0EF76 /* IosBitmapProcessor.m */,
 				664F4704189568B1009F4776 /* IosDevicePhoneContactsLib.h */,
 				664F4705189568B1009F4776 /* IosDevicePhoneContactsLib.m */,
+				667A616219D8C9E100D4A99C /* ImageDiskCache.h */,
+				667A616319D8C9E100D4A99C /* ImageDiskCache.m */,
 			);
 			path = AppDelegate;
 			sourceTree = "<group>";
@@ -4369,6 +4374,7 @@
 				66278CE91867C62300D23F34 /* SVTumblrActivity.m in Sources */,
 				6601323F187F4E670042047B /* CloneNotSupportedException.m in Sources */,
 				66278C5E1867C17800D23F34 /* SVAddFriendsViewController.m in Sources */,
+				667A616419D8C9E100D4A99C /* ImageDiskCache.m in Sources */,
 				AA234853177AA3F600D55918 /* AFPropertyListRequestOperation.m in Sources */,
 				66278CB21867C4D400D23F34 /* SVImagePickerController.m in Sources */,
 				AA234851177AA3F600D55918 /* AFNetworkActivityIndicatorManager.m in Sources */,
