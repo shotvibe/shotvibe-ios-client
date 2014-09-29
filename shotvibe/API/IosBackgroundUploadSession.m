@@ -34,6 +34,9 @@
     id<SLBackgroundUploadSession_Listener> listener_;
 
     NSURLSession *session_;
+
+    // This is needed as a workaround for a bug with the NSURLSession behaviour. See its usage for details.
+    NSMapTable *startedTasks_;
 }
 
 - (id)initWithIdentifier:(NSString *)sessionIdentifier
@@ -45,6 +48,8 @@
     if (self) {
         taskDataFactory_ = taskDataFactory;
         listener_ = listener;
+
+        startedTasks_ = [[NSMapTable alloc] initWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableStrongMemory capacity:8];
 
         NSString *authToken = [[shotVibeAPI getAuthData] getAuthToken];
 
@@ -84,11 +89,16 @@
     NSURLSessionUploadTask *task = [session_ uploadTaskWithRequest:request
                                                           fromFile:[NSURL fileURLWithPath:uploadFile]];
 
-    task.taskDescription = [taskDataFactory_ serializeWithId:taskData];
+    NSString *taskDataSerialized = [taskDataFactory_ serializeWithId:taskData];
+
+    task.taskDescription = taskDataSerialized;
 
     NSLog(@"Starting upload of %@ to %@", uploadFile, url);
 
     [task resume];
+
+    // Store the fact that this task is started
+    [startedTasks_ setObject:task forKey:taskDataSerialized];
 }
 
 
@@ -103,8 +113,16 @@
 {
     [session_ getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
         NSMutableArray *currentTasks = [[NSMutableArray alloc] initWithCapacity:uploadTasks.count];
+
+        // NSURLSession has a bug: tasks that were very recently created(started) do not show up in the
+        // `uploadTasks` array. So we manually keep track of all started tasks in the `startedTasks_`
+        // array. When a task does show up in `uploadTasks` we remove it from `startedTasks_` (do prevent
+        // reporting it as a duplicate, and to free memory)
+
         for (NSURLSessionUploadTask * uploadTask in uploadTasks) {
             if (uploadTask.state == NSURLSessionTaskStateRunning) {
+                [startedTasks_ removeObjectForKey:uploadTask.taskDescription];
+
                 id taskData = [taskDataFactory_ deserializeWithNSString:uploadTask.taskDescription];
 
                 IosBackgroundUploadSession_Task *task = [[IosBackgroundUploadSession_Task alloc] initWithTask:uploadTask
@@ -112,6 +130,19 @@
                 [currentTasks addObject:task];
             }
         }
+
+        // Report the tasks that we are manually keeping track of
+        for (NSString * startedTask in startedTasks_) {
+            NSLog(@"Found startedTask: %@", startedTask);
+            id taskData = [taskDataFactory_ deserializeWithNSString:startedTask];
+
+            NSURLSessionUploadTask *uploadTask = [startedTasks_ objectForKey:startedTask];
+
+            IosBackgroundUploadSession_Task *task = [[IosBackgroundUploadSession_Task alloc] initWithTask:uploadTask
+                                                                                                 taskData:taskData];
+            [currentTasks addObject:task];
+        }
+
         [taskProcessor processTasksWithJavaUtilList:[[SLArrayList alloc] initWithInitialArray:currentTasks]];
     }];
 }
@@ -145,6 +176,8 @@
     // TODO don't report an event for a canceled task
 
     id taskData = [taskDataFactory_ deserializeWithNSString:task.taskDescription];
+
+    [startedTasks_ removeObjectForKey:task.taskDescription];
 
     SLBackgroundUploadSession_FinishedTask *finishedTask;
     if (error) {
