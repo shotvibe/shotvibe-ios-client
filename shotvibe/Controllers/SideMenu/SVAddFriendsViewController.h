@@ -9,11 +9,10 @@
 #import <UIKit/UIKit.h>
 
 #import "SL/PhoneContactsManager.h"
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
 
 @interface SVAddFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SLPhoneContactsManager_Listener >
 
 @property (nonatomic, assign) int64_t albumId;
-@property (nonatomic, strong) AlbumManager *albumManager;
 
 @end

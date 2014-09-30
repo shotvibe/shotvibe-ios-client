@@ -10,6 +10,9 @@
 #import "MBProgressHUD.h"
 #import "UIImage+Scale.h"
 #import "ShotVibeAppDelegate.h"
+#import "ShotVibeAPITask.h"
+#import "SL/AuthData.h"
+#import "SL/ShotVibeAPI.h"
 
 @implementation SVProfilePicActivity
 
@@ -74,26 +77,24 @@
 	}
 	
 	
-	[MBProgressHUD showHUDAddedTo:self.controller.navigationController.visibleViewController.view animated:YES];
-	
 	ShotVibeAppDelegate *app = [ShotVibeAppDelegate sharedDelegate];
-    ShotVibeAPI *shotvibeAPI = [app.albumManager getShotVibeAPI];
+    SLShotVibeAPI *shotvibeAPI = [app.albumManager getShotVibeAPI];
 	
-    int64_t userId = shotvibeAPI.authData.userId;
-	
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		// Save avatar
-		NSError *error2;
-		[shotvibeAPI uploadUserAvatar:userId filePath:path uploadProgress:^(int i, int j){
-			RCLog(@"upload avatar %i %i", i, j);
-		} withError:&error2];
-		
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[MBProgressHUD hideHUDForView:self.controller.navigationController.visibleViewController.view animated:YES];
-			[self.delegate closeAndClean:YES];
-			[self.controller.navigationController popViewControllerAnimated:YES];
-		});
-	});
+    int64_t userId = [[shotvibeAPI getAuthData] getUserId];
+
+    [ShotVibeAPITask runTask:self.controller
+                  withAction:
+     ^id {
+        [shotvibeAPI uploadUserAvatarWithLong:userId withNSString:path];
+        return nil;
+    }
+
+
+              onTaskComplete:
+     ^(id dummy) {
+        [self.delegate closeAndClean:YES];
+        [self.controller.navigationController popViewControllerAnimated:YES];
+    }];
 }
 
 

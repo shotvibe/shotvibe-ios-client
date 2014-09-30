@@ -6,10 +6,15 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import "ShotVibeAppDelegate.h"
 #import "SVRegistrationViewController.h"
 #import "SVAlbumListViewController.h"
 #import "SVConfirmationCodeViewController.h"
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
+#import "SL/ShotVibeAPI.h"
+#import "SL/HTTPLib.h"
+#import "IosHTTPLib.h"
+#import "ShotVibeAPITask.h"
 
 @interface SVRegistrationViewController ()
 
@@ -29,6 +34,9 @@
 {
 	SVCountriesViewController *countries;
     NSString *selectedCountryCode;
+    NSString *customPayload_;
+
+    SLShotVibeAPI_SMSConfirmationToken *smsConfirmationToken_;
 }
 
 
@@ -38,9 +46,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-	
-    if ([self.albumManager getShotVibeAPI].authData)
-    {
+
+    if ([[ShotVibeAppDelegate sharedDelegate] isLoggedIn]) {
         RCLog(@"SVRegistrationViewController AuthData available");
 		[self handleSuccessfulLogin:NO];
     }
@@ -85,9 +92,8 @@
 	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
 		
 		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
-        destination.albumManager = self.albumManager;
-        destination.pushNotificationsManager = self.pushNotificationsManager;
         destination.selectedCountryCode = selectedCountryCode;
+        destination.smsConfirmationToken = smsConfirmationToken_;
 		destination.phoneNumber = self.phoneNumberField.text;
 	}
 }
@@ -98,14 +104,6 @@
 {
 	[self.phoneNumberField resignFirstResponder];
 	
-    UIAlertView *activityDialog = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Registering...", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
-    [activityDialog show];
-	
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    indicator.center = CGPointMake(activityDialog.bounds.size.width / 2, activityDialog.bounds.size.height - 50);
-    [indicator startAnimating];
-    [activityDialog addSubview:indicator];
-	
     NSString *phoneNumber = self.phoneNumberField.text;
     NSString *defaultCountry = selectedCountryCode;
     
@@ -113,35 +111,36 @@
 
     [[Mixpanel sharedInstance] track:@"Phone Number Submitted"];
 	
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSError *error;
-        AuthorizePhoneNumberResult r = [[self.albumManager getShotVibeAPI] authorizePhoneNumber:phoneNumber defaultCountry:defaultCountry error:&error];
-		
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [activityDialog dismissWithClickedButtonIndex:0 animated:YES];
-            if (r == AuthorizePhoneNumberOk) {
-                [self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
-            }
-            else if (r == AuthorizePhoneNumberInvalidNumber) {
-                [[Mixpanel sharedInstance] track:@"Phone Number Submitted Invalid"];
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Number"
-                                                                message:@"Check that you have entered your correct phone number"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
-            }
-            else /*if (r == AuthorizePhoneNumberError)*/ {
-                [[Mixpanel sharedInstance] track:@"Phone Number Submitted Error"];
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unknown Error"
-                                                                message:@"Possible causes are invalid phone numbers or the server is down"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
-            }
-        });
-    });
+    id<SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
+    [ShotVibeAPITask runTask:self
+
+                  withAction:
+     ^SLShotVibeAPI_SMSConfirmationToken * {
+        SLShotVibeAPI_SMSConfirmationToken *smsConfirmationToken =
+            [SLShotVibeAPI authorizePhoneNumberWithSLHTTPLib:httpLib
+                                                withNSString:phoneNumber
+                                                withNSString:defaultCountry
+                                                withNSString:[ShotVibeAppDelegate getDeviceName]
+                                                withNSString:customPayload_];
+        return smsConfirmationToken;
+    }
+
+
+              onTaskComplete:
+     ^(SLShotVibeAPI_SMSConfirmationToken *smsConfirmationToken) {
+        if (smsConfirmationToken) {
+            smsConfirmationToken_ = smsConfirmationToken;
+            [self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
+        } else {
+            [[Mixpanel sharedInstance] track:@"Phone Number Submitted Invalid"];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Number"
+                                                            message:@"Check that you have entered your correct phone number"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
 }
 
 - (IBAction)countrySelectButtonPressed:(id)sender
@@ -198,6 +197,13 @@
     [self didSelectCountryWithName:regionCode regionCode:regionCode];
 }
 
+- (void)setCustomPayload:(NSString *)customPayload
+{
+    NSLog(@"SVRegistrationViewController customPayload: %@", customPayload);
+    customPayload_ = customPayload;
+}
+
+
 - (void)skipRegistration
 {
     [self handleSuccessfulLogin:YES];
@@ -217,8 +223,6 @@
     
     // Grab the deal and make it our root view controller from the storyboard for this navigation controller
     SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
-
-    rootView.albumManager = self.albumManager;
 
     UIView *v = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     v.backgroundColor = [UIColor whiteColor];

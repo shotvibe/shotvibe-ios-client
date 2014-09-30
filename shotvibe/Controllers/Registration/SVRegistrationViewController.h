@@ -8,17 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
 #import "SVPushNotificationsManager.h"
 #import "SVCountriesViewController.h"
 
 
 @interface SVRegistrationViewController : UIViewController <UITextFieldDelegate, SVCountriesDelegate>
 
-@property (nonatomic, strong) AlbumManager *albumManager;
-@property (nonatomic, strong) SVPushNotificationsManager *pushNotificationsManager;
-
 - (void)selectCountry:(NSString *)countryCode;
+- (void)setCustomPayload:(NSString *)customPayload;
 - (void)skipRegistration;
 
 @end

@@ -12,7 +12,6 @@
 #import "SVCameraPickerDelegate.h"
 #import "SVCameraOverlay.h"
 #import "SVImagePickerController.h"
-#import "PhotoUploadRequest.h"
 #import "PhotosQuickView.h"
 
 @interface SVCameraPickerController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, SVSelectionGridCellDelegate, PhotosQuickViewDelegate> {
@@ -27,7 +26,6 @@
 @property (nonatomic) NSMutableArray *capturedImages;
 @property (nonatomic, strong) SLAlbumSummary *selectedAlbum;
 @property (nonatomic, assign) int64_t albumId;
-@property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, strong) id <SVCameraPickerDelegate> delegate;
 @property (nonatomic) id cropDelegate;
 @property (nonatomic) BOOL oneImagePicker;

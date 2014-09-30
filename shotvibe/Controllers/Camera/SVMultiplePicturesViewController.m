@@ -8,17 +8,21 @@
 
 #import "SVMultiplePicturesViewController.h"
 #import "SVAlbumCell.h"
+#import "ShotVibeAppDelegate.h"
+#import "SL/AlbumUser.h"
 #import "SL/AlbumSummary.h"
+#import "SL/AlbumContents.h"
 #import "SL/AlbumPhoto.h"
 #import "SL/AlbumServerPhoto.h"
 #import "SL/ArrayList.h"
+#import "SL/ShotVibeAPI.h"
 #import "SL/DateTime.h"
 #import "SL/APIException.h"
 #import "SVDefines.h"
 #import "SVAlbumGridViewController.h"
 #import "MBProgressHUD.h"
 #import "NSDate+Formatting.h"
-#import "PhotoUploadRequest.h"
+#import "TmpFilePhotoUploadRequest.h"
 
 @interface SVMultiplePicturesViewController ()
 
@@ -35,6 +39,10 @@
 @end
 
 @implementation SVMultiplePicturesViewController
+{
+    SLAlbumManager *albumManager_;
+    PhotoFilesManager *photoFilesManager_;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,6 +57,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    photoFilesManager_ = [ShotVibeAppDelegate sharedDelegate].photoFilesManager;
+    albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
 
     // Setup titleview
 //    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
@@ -136,7 +147,7 @@
             if ([latestPhoto getServerPhoto]) {
                 cell.author.text = [NSString stringWithFormat:@"Last added by %@", [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
 
-                [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId] photoUrl:[[latestPhoto getServerPhoto] getUrl] photoSize:[PhotoSize Thumb75] manager:self.albumManager.photoFilesManager];
+                [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId] photoUrl:[[latestPhoto getServerPhoto] getUrl] photoSize:[PhotoSize Thumb75] manager:photoFilesManager_];
                 [cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
                 cell.timestamp.hidden = NO;
             }
@@ -195,7 +206,6 @@
     if (controllers.count == 2) {
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SVAlbumGridViewController *controller = (SVAlbumGridViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
-        controller.albumManager = self.albumManager;
         controller.albumId = self.albumId;
         controller.scrollToTop = YES;
         [controllers replaceObjectAtIndex:1 withObject:controller];
@@ -209,10 +219,11 @@
     // Upload the taken photos
     NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
     for (NSString *selectedPhotoPath in self.images) {
-        PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:selectedPhotoPath];
+        TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:selectedPhotoPath];
         [photoUploadRequests addObject:photoUploadRequest];
     }
-    [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
+    [albumManager_ uploadPhotosWithLong:self.albumId
+                       withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:photoUploadRequests]];
 
     NSDictionary *userInfo = @{
         @"albumId" : [NSNumber numberWithLongLong:self.albumId]
@@ -258,7 +269,7 @@
         SLAlbumContents *albumContents = nil;
         SLAPIException *apiException = nil;
         @try {
-            albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title];
+            albumContents = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:title];
         } @catch (SLAPIException *exception) {
             apiException = exception;
         }
@@ -273,9 +284,9 @@
                 [alert show];
             } else {
                 self.albumId = [albumContents getId];
-                [self.albumManager refreshAlbumList];
+                [albumManager_ refreshAlbumListWithBoolean:YES];
 
-                [self.albumManager addAlbumListListener:self];
+                [albumManager_ addAlbumListListenerWithSLAlbumManager_AlbumListListener:self];
             }
         }
 
@@ -288,30 +299,30 @@
 }
 
 
-- (void)onAlbumListBeginRefresh
+- (void)onAlbumListBeginUserRefresh
 {
+    // Do Nothing
 }
 
 
-- (void)onAlbumListRefreshComplete:(NSArray *)albums
+- (void)onAlbumListEndUserRefreshWithSLAPIException:(SLAPIException *)error
 {
+    // TODO This is a hack, the AlbumListListener interface was not meant to be used like this
+
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     [self hideDropDown:NO];
-    [self uploadPhotos];
+    if (!error) {
+        [self uploadPhotos];
+    }
 
-    [self.albumManager removeAlbumListListener:self];
+    [albumManager_ removeAlbumListListenerWithSLAlbumManager_AlbumListListener:self];
 }
 
-
-- (void)onAlbumListRefreshError:(SLAPIException *)exception
+- (void)onAlbumListNewContentWithSLArrayList:(SLArrayList *)albums
 {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-    [self hideDropDown:NO];
-    [self.albumManager removeAlbumListListener:self];
+    // Do Nothing
 }
-
 
 #pragma mark drop down stuffs
 

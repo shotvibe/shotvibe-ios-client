@@ -8,11 +8,13 @@
 
 #import "SVPictureConfirmViewController.h"
 #import "SVPickerController.h"
-#import "PhotoUploadRequest.h"
 #import "SVDefines.h"
 #import "SL/AlbumSummary.h"
 #import "SVAlbumGridViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "TmpFilePhotoUploadRequest.h"
+#import "ShotVibeAppDelegate.h"
+#import "SL/ArrayList.h"
 
 @interface SVPictureConfirmViewController ()
 
@@ -24,10 +26,15 @@
 #define kMostRecentTag 12345
 
 @implementation SVPictureConfirmViewController
+{
+    SLAlbumManager *albumManager_;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
 
     if (IS_IOS7) {
         [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
@@ -261,10 +268,11 @@
         // Upload the taken photos
         NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
         for (NSString *selectedPhotoPath in self.images) {
-            PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithPath:selectedPhotoPath];
+            TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:selectedPhotoPath];
             [photoUploadRequests addObject:photoUploadRequest];
         }
-        [self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
+        [albumManager_ uploadPhotosWithLong:self.albumId
+                           withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:photoUploadRequests]];
     } else {
         [self.presentingViewController dismissViewControllerAnimated:NO completion:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVPickAlbumToUpload" object:nil userInfo:@{ @"images" : self.images }
@@ -468,7 +476,6 @@
         //Add a new image
         SVPickerController *manager = [[SVPickerController alloc] init];
         manager.container = self;
-        manager.albumManager = self.albumManager;
         manager.albumId = self.albumId;
 
         [self presentViewController:manager animated:NO completion:nil];

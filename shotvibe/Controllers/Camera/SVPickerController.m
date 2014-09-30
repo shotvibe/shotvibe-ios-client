@@ -127,7 +127,6 @@
         c.images = [NSMutableArray arrayWithObject:filePath];
         c.waitingForMostRecentImage = YES;
         c.albumId = self.albumId;
-        c.albumManager = self.albumManager;
 
         self.shouldShowPicker = NO;
         [self dismissViewControllerAnimated:NO completion:^{

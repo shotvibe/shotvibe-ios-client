@@ -11,6 +11,9 @@
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
 #import "UserSettings.h"
+#import "SL/ShotVibeAPI.h"
+#import "SL/AlbumUser.h"
+#import "ShotVibeAppDelegate.h"
 
 @interface SVProfileViewController ()
 
@@ -45,17 +48,19 @@
 	self.userPhoto.image = [UIImage imageWithContentsOfFile:path];
 	
 	
-    NSAssert(self.albumManager, @"SVProfileViewController started without setting albumManager property");
-	
-    ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
-    int64_t userId = shotvibeAPI.authData.userId;
+    SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
+    int64_t userId = [[shotvibeAPI getAuthData] getUserId];
 	
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSError *error;
-        SLAlbumUser *userProfile = [shotvibeAPI getUserProfile:userId withError:&error];
-		
+        SLAlbumUser *userProfile = nil;
+        @try {
+            userProfile = [shotvibeAPI getUserProfileWithLong:userId];
+        } @catch (SLAPIException *exception) {
+            // TODO: Shouldn't ignore this
+        }
+
         dispatch_async(dispatch_get_main_queue(), ^{
 			
             [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -135,9 +140,8 @@
 		
 		SVProfilePicViewController *destination = segue.destinationViewController;
         destination.image = self.userPhoto.image;
-		destination.delegate = self;
-		destination.albumManager = self.albumManager;
-		
+        destination.delegate = self;
+
 		// Set the text of the back button of the next screen
 		UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle: @"Back" style: UIBarButtonItemStyleBordered target: nil action: nil];
 		[self.navigationItem setBackBarButtonItem:newBackButton];
@@ -177,15 +181,20 @@
 
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-        ShotVibeAPI *shotvibeAPI = [self.albumManager getShotVibeAPI];
+        SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
         
-        int64_t userId = shotvibeAPI.authData.userId;
+        int64_t userId = [[shotvibeAPI getAuthData] getUserId];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             // Save nickname
-            NSError *error;
-            BOOL success = [shotvibeAPI setUserNickname:userId nickname:newNickname withError:&error];
-            
+            BOOL success = NO;
+            @try {
+                [shotvibeAPI setUserNicknameWithLong:userId withNSString:newNickname];
+                success = YES;
+            } @catch (SLAPIException *exception) {
+                // TODO Better error handling
+            }
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 

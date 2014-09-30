@@ -28,25 +28,25 @@ static NSString *const NICKNAME_SET = @"nickname_set";
 }
 
 
-+ (AuthData *)getAuthData
++ (SLAuthData *)getAuthData
 {
     NSNumber *userId = [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID];
     NSString *authToken = [[NSUserDefaults standardUserDefaults] objectForKey:AUTH_TOKEN];
     NSString *defaultCountryCode = [[NSUserDefaults standardUserDefaults] objectForKey:DEFAULT_COUNTRY_CODE];
 
     if (userId && authToken && defaultCountryCode) {
-        return [[AuthData alloc] initWithUserID:[userId longLongValue] authToken:authToken defaultCountryCode:defaultCountryCode];
+        return [[SLAuthData alloc] initWithLong:[userId longLongValue] withNSString:authToken withNSString:defaultCountryCode];
     }
     else {
         return nil;
     }
 }
 
-+ (void)setAuthData:(AuthData *)authData
++ (void)setAuthData:(SLAuthData *)authData
 {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLongLong:authData.userId] forKey:USER_ID];
-    [[NSUserDefaults standardUserDefaults] setObject:authData.authToken forKey:AUTH_TOKEN];
-    [[NSUserDefaults standardUserDefaults] setObject:authData.defaultCountryCode forKey:DEFAULT_COUNTRY_CODE];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLongLong:[authData getUserId]] forKey:USER_ID];
+    [[NSUserDefaults standardUserDefaults] setObject:[authData getAuthToken] forKey:AUTH_TOKEN];
+    [[NSUserDefaults standardUserDefaults] setObject:[authData getDefaultCountryCode] forKey:DEFAULT_COUNTRY_CODE];
 
     [[NSUserDefaults standardUserDefaults] synchronize];
 }

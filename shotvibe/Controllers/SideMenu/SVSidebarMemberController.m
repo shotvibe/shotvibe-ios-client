@@ -15,12 +15,17 @@
 #import "SVAddFriendsViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
+#import "ShotVibeAppDelegate.h"
+#import "SL/AuthData.h"
+#import "SL/ShotVibeAPI.h"
 #import "SL/AlbumMember.h"
+#import "SL/AlbumContents.h"
 #import "SL/ArrayList.h"
+#import "SL/AlbumUser.h"
 #import "MBProgressHUD.h"
 
 @interface SVSidebarMemberController () {
-	ShotVibeAPI *shotvibeAPI;
+    SLShotVibeAPI *shotvibeAPI;
 	NSMutableArray *members;
     SLAlbumMember *owner;
 	SVSidebarAlbumMemberCell *ownerCell;
@@ -101,6 +106,7 @@
 
     ];
 }
+
 
 #pragma mark - Actions
 
@@ -219,7 +225,7 @@
 - (void)setParentController:(SVAlbumGridViewController *)parentController {
 	RCLog(@"setParentController %@", parentController);
 	_parentController = parentController;
-	shotvibeAPI = [self.parentController.albumManager getShotVibeAPI];
+    shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
     [self searchForMemberWithName:nil];
 }
 
@@ -244,7 +250,7 @@
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
     [cell.memberLabel setText:[[member getUser] getMemberNickname]];
 
-    if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
+    if ([[shotvibeAPI getAuthData] getUserId] == [[member getUser] getMemberId]) {
 		
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
 		cell.statusLabel.text = NSLocalizedString(@"Leave", nil);
@@ -288,7 +294,7 @@
 	
     SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
-    if (shotvibeAPI.authData.userId == [[member getUser] getMemberId]) {
+    if ([[shotvibeAPI getAuthData] getUserId] == [[member getUser] getMemberId]) {
 		
 		[self ownerButtonPressed:nil];
 	}
@@ -308,7 +314,7 @@
 
             SLAPIException *apiException;
             @try {
-                [shotvibeAPI leaveAlbumWithId:[self.albumContents getId]];
+                [shotvibeAPI leaveAlbumWithLong:[self.albumContents getId]];
             } @catch (SLAPIException *exception) {
                 apiException = exception;
             }

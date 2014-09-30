@@ -7,7 +7,6 @@
 //
 
 #import "PhotoView.h"
-#import "FancyProgressView.h"
 
 @interface SVAlbumGridViewCell : UICollectionViewCell
 
@@ -17,6 +16,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *albumOrgNewOverlay;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityView;
 @property (nonatomic, strong) IBOutlet UIProgressView *uploadProgressView;
-@property (nonatomic, strong) FancyProgressView *fancyUploadProgressView;
 
 @end

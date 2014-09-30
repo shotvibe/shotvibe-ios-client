@@ -9,15 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "SVAlbumListViewController.h"
 #import "SVDefines.h"
-#import "SVNoCodeViewController.h"
 #import "SVPushNotificationsManager.h"
+#import "SL/ShotVibeAPI.h"
 
 @interface SVConfirmationCodeViewController : UIViewController <UITextFieldDelegate>
 
-@property (nonatomic, strong) AlbumManager *albumManager;
-@property (nonatomic, strong) SVPushNotificationsManager *pushNotificationsManager;
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *selectedCountryCode;
+@property (nonatomic, strong) SLShotVibeAPI_SMSConfirmationToken *smsConfirmationToken;
 
 @property (nonatomic, strong) IBOutlet UITextField *codeField1;
 @property (nonatomic, strong) IBOutlet UITextField *codeField2;

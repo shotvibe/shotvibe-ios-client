@@ -7,29 +7,25 @@
 //
 
 #import "SVPushNotificationsManager.h"
-#import "ShotVibeAPI.h"
+#import "ShotVibeAppDelegate.h"
 #import "SVDefines.h"
+#import "SL/ShotVibeAPI.h"
+#import "SL/APIException.h"
 
 static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 
 @implementation SVPushNotificationsManager
 {
-    AlbumManager *albumManager;
+    SLAlbumManager *albumManager_;
 }
 
-- (id)initWithAlbumManager:(AlbumManager *)albumManager_
-{
-    self = [super init];
-
-    if (self) {
-        self->albumManager = albumManager_;
-    }
-
-    return self;
-}
 
 - (void)setup
 {
+    albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
+
+    NSLog(@"Setting up push notifications with AlbumManager: %@", [albumManager_ description]);
+
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeAlert
       | UIRemoteNotificationTypeBadge
@@ -58,16 +54,30 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 
 - (void)sendAPNSDeviceToken:(NSString *)deviceToken
 {
+    NSString *app;
+#if CONFIGURATION_Debug
+    app = @"dev";
+#elif CONFIGURATION_AdHoc
+    app = @"adhoc";
+#elif CONFIGURATION_Release
+    app = @"prod";
+#else
+#error "UNKNOWN CONFIGURATION"
+#endif
+
     dispatch_queue_t backgroundQueue = dispatch_queue_create(NULL, NULL);
 
     dispatch_async(backgroundQueue, ^{
-        NSError *error;
         RCLog(@"Registering deviceToken: %@", deviceToken);
-        if (![[albumManager getShotVibeAPI] registerDevicePushWithDeviceToken:deviceToken error:&error]) {
+
+        @try {
+            [[albumManager_ getShotVibeAPI] registerDevicePushIOSWithNSString:app
+                                                                 withNSString:deviceToken];
+        } @catch (SLAPIException *exception) {
             // We weren't able to register with the API server.
 			// So just give up now: the registrationId won't be saved in UserSettings,
 			// and so this operation will be retried some time later on (the next time setup is called)
-            RCLog(@"Error Registering: %@", [error localizedDescription]);
+            NSLog(@"Error Registering: %@", [exception getTechnicalMessage]);
             return;
         }
 
@@ -78,13 +88,15 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 
 - (void)handleNotification:(NSDictionary *)userInfo
 {
+    NSLog(@"handleNotification: %@", [userInfo description]);
+
     // TODO Make this more robust:
     NSNumber *albumId = [userInfo objectForKey:@"album_id"];
     if (albumId) {
-        [albumManager reportAlbumUpdate:[albumId longLongValue]];
+        [albumManager_ reportAlbumUpdateWithLong:[albumId longLongValue]];
     }
     else {
-        [albumManager refreshAlbumList];
+        [albumManager_ refreshAlbumListWithBoolean:NO];
     }
 }
 

@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SL/PhotoDownloadManager.h"
+
 #import "PhotoSize.h"
 
 @class PhotoView;
 
-@interface PhotoFilesManager : NSObject
+@interface PhotoFilesManager : NSObject <SLPhotoDownloadManager>
 
 - (id)init;
 

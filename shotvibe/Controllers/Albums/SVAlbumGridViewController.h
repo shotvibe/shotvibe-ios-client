@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SVCameraPickerDelegate.h"
-#import "AlbumContentsListener.h"
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
 
 typedef enum {
 	SortFeedAlike=0,
@@ -18,12 +17,11 @@ typedef enum {
 }SortType;
 
 
-@interface SVAlbumGridViewController : UIViewController <AlbumContentsListener, SVCameraPickerDelegate, UIAlertViewDelegate>
+@interface SVAlbumGridViewController : UIViewController <SLAlbumManager_AlbumContentsListener, SVCameraPickerDelegate, UIAlertViewDelegate>
 
 #pragma mark - Properties
 
 @property (nonatomic, assign) int64_t albumId;
-@property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, assign) BOOL scrollToBottom;
 @property (nonatomic, assign) BOOL scrollToTop;
 

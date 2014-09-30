@@ -23,11 +23,14 @@
 #import "SVNavigationController.h"
 #import "NetworkLogViewController.h"
 
+#import "SL/AlbumUser.h"
 #import "SL/AlbumSummary.h"
+#import "SL/AlbumContents.h"
 #import "SL/AlbumPhoto.h"
 #import "SL/AlbumServerPhoto.h"
 #import "SL/ArrayList.h"
 #import "SL/DateTime.h"
+#import "SL/ShotVibeAPI.h"
 #import "SL/APIException.h"
 #import "ShotVibeAppDelegate.h"
 #import "UserSettings.h"
@@ -74,6 +77,10 @@
 
 
 @implementation SVAlbumListViewController
+{
+    SLAlbumManager *albumManager_;
+    PhotoFilesManager *photoFilesManager_;
+}
 
 
 #pragma mark - Controller lifecycle
@@ -82,7 +89,10 @@
 {
     [super viewDidLoad];
 
-    [self setAlbumList:[self.albumManager addAlbumListListener:self]];
+    photoFilesManager_ = [ShotVibeAppDelegate sharedDelegate].photoFilesManager;
+
+    albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
+    [self setAlbumList:[albumManager_ addAlbumListListenerWithSLAlbumManager_AlbumListListener:self].array];
 
     //RCLog(@"##### Initial albumList: %@", albumList);
 
@@ -128,7 +138,7 @@
     if (!IS_IOS7) {
         self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     }
-    [self.refreshControl addTarget:self action:@selector(beginRefreshing) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self action:@selector(onUserRefreshed) forControlEvents:UIControlEventValueChanged];
 
     [self updateEmptyState];
 
@@ -199,8 +209,8 @@
 - (void)viewWillAppear:(BOOL)animated {
 	
 	[super viewWillAppear:animated];
-	[self.albumManager refreshAlbumList];
-	
+    [albumManager_ refreshAlbumListWithBoolean:NO];
+
 	// Update the cell that was last tapped and maybe edited
 	if (tappedCell != nil) {
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
@@ -365,7 +375,6 @@
 //	}
 
     SVPickerController *manager = [[SVPickerController alloc] init];
-    manager.albumManager = self.albumManager;
     SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
     [self presentViewController:nc animated:NO completion:nil];
 
@@ -399,7 +408,6 @@
 
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SVAlbumGridViewController *controller = (SVAlbumGridViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
-    controller.albumManager = self.albumManager;
     controller.albumId = [[notification userInfo][@"albumId"] integerValue];
     controller.scrollToTop = YES;
     [self.navigationController pushViewController:controller animated:YES];
@@ -415,7 +423,6 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
     SVMultiplePicturesViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"MultiplePicturesViewController"];
     controller.images = images;
-    controller.albumManager = self.albumManager;
     controller.albums = albumList;
     [self.navigationController pushViewController:controller animated:YES];
 }
@@ -432,18 +439,14 @@
 
         // Get the destination controller
         SVAlbumGridViewController *destinationController = segue.destinationViewController;
-        destinationController.albumManager = self.albumManager;
         destinationController.albumId = [album getId];
     } else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
         SVSettingsViewController *destinationController = segue.destinationViewController;
-        destinationController.albumManager = self.albumManager;
     } else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
         SVProfileViewController *destinationController = segue.destinationViewController;
-        destinationController.albumManager = self.albumManager;
     } else if ([segue.identifier isEqualToString:@"PromptNickChangeSegue"]) {
         SVProfileViewController *destinationController = segue.destinationViewController;
         destinationController.shouldPrompt = YES;
-        destinationController.albumManager = self.albumManager;
     } else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
 		
         SLAlbumSummary *album = (SLAlbumSummary *)sender;
@@ -451,7 +454,6 @@
         SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
         SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
         destination.albumId = [album getId];
-        destination.albumManager = self.albumManager;
         destination.nav = self.navigationController;
     }
 }
@@ -513,7 +515,6 @@
     SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
 
     SVPickerController *manager = [[SVPickerController alloc] init];
-    manager.albumManager = self.albumManager;
     manager.albumId = [album getId];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlbumDetails:) name:@"kSVShowAlbum" object:nil];
@@ -612,7 +613,7 @@
             [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId]
                                    photoUrl:[[latestPhoto getServerPhoto] getUrl]
                                   photoSize:[PhotoSize Thumb75]
-                                    manager:self.albumManager.photoFilesManager];
+                                    manager:photoFilesManager_];
             [cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
             cell.timestamp.hidden = NO;
         }
@@ -810,7 +811,7 @@
         SLAlbumContents *albumContents = nil;
         SLAPIException *apiException = nil;
         @try {
-            albumContents = [[self.albumManager getShotVibeAPI] createNewBlankAlbum:title];
+            albumContents = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:title];
         } @catch (SLAPIException *exception) {
             apiException = exception;
         }
@@ -864,10 +865,10 @@
             if ([a getLatestPhotos].array.count > 0) {
                 SLAlbumPhoto *p = [[a getLatestPhotos].array objectAtIndex:0];
                 if ([p getServerPhoto]) {
-                    [self.albumManager.photoFilesManager queuePhotoDownload:[[p getServerPhoto] getId]
-                                                                   photoUrl:[[p getServerPhoto] getUrl]
-                                                                  photoSize:[PhotoSize Thumb75]
-                                                               highPriority:YES];
+                    [photoFilesManager_ queuePhotoDownload:[[p getServerPhoto] getId]
+                                                  photoUrl:[[p getServerPhoto] getUrl]
+                                                 photoSize:[PhotoSize Thumb75]
+                                              highPriority:YES];
                 }
             }
         }
@@ -893,47 +894,51 @@
 
 #pragma mark UIRefreshView
 
-- (void)beginRefreshing
+- (void)onUserRefreshed
 {
-	if (!creatingAlbum) {
-		refreshManualy = YES;
-		[self.albumManager refreshAlbumList];
-		[self.refreshControl beginRefreshing];
-		if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
-        // Need to call this whenever we scroll our table view programmatically
-        [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:self.tableView];
-	}
+    [albumManager_ refreshAlbumListWithBoolean:YES];
 }
-- (void)endRefreshing
+
+
+- (void)showRefreshSpinner
 {
-	refreshManualy = NO;
+    [self.refreshControl beginRefreshing];
+    if (!IS_IOS7) {
+        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
+    }
+    // Need to call this whenever we scroll our table view programmatically
+    [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:self.tableView];
+}
+
+
+- (void)hideRefreshSpinner
+{
 	[self.refreshControl endRefreshing];
 	if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	//[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 }
 
 
-
-- (void)onAlbumListBeginRefresh
+- (void)onAlbumListBeginUserRefresh
 {
-	
+    [self showRefreshSpinner];
 }
 
-- (void)onAlbumListRefreshComplete:(NSArray *)albums
+
+- (void)onAlbumListNewContentWithSLArrayList:(SLArrayList *)albums
 {
+    NSLog(@"onAlbumListNewContents: size:%d", [albums size]);
 	creatingAlbum = NO;
-	[self setAlbumList:albums];
+    [self setAlbumList:albums.array];
 	[self updateEmptyState];
-	if (refreshManualy) {
-		[self endRefreshing];
-	}
 }
 
-- (void)onAlbumListRefreshError:(SLAPIException *)exception
+- (void)onAlbumListEndUserRefreshWithSLAPIException:(SLAPIException *)error
 {
-    creatingAlbum = NO;
-    if (refreshManualy) {
-        [self endRefreshing];
+    [self hideRefreshSpinner];
+
+    if (error) {
+        // TODO Show error in "Toast"
     }
 }
 

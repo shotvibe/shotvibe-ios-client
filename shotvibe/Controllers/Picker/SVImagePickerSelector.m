@@ -8,9 +8,13 @@
 
 #import "SVImagePickerSelector.h"
 #import "SVImageCropViewController.h"
-#import "PhotoUploadRequest.h"
 #import "SVAlbumGridViewController.h"
 #import "SVDefines.h"
+
+#import "ShotVibeAppDelegate.h"
+#import "SL/PhotoUploadRequest.h"
+#import "SL/ArrayList.h"
+#import "GalleryPhotoUploadRequest.h"
 
 @implementation SVImagePickerSelector
 
@@ -468,17 +472,18 @@
 	
 	NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
 	for (ALAsset *asset in selectedPhotos) {
-		PhotoUploadRequest *photoUploadRequest = [[PhotoUploadRequest alloc] initWithAsset:asset];
+        id<SLPhotoUploadRequest> photoUploadRequest = [[GalleryPhotoUploadRequest alloc] initWithAsset:asset];
 		[photoUploadRequests addObject:photoUploadRequest];
 	}
-	[self.albumManager.photoUploadManager uploadPhotos:self.albumId photoUploadRequests:photoUploadRequests];
-	
+    SLAlbumManager *albumManager = [ShotVibeAppDelegate sharedDelegate].albumManager;
+    [albumManager uploadPhotosWithLong:self.albumId
+                      withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:photoUploadRequests]];
+
 	if (self.nav != nil) {
 		// Insert the AlbumGrid controller before the CameraPicker controller
 		
 		UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
 		SVAlbumGridViewController *controller = (SVAlbumGridViewController*)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
-		controller.albumManager = self.albumManager;
 		controller.albumId = self.albumId;
 		controller.scrollToTop = YES;
 		

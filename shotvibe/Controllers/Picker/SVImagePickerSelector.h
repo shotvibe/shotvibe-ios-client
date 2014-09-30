@@ -14,7 +14,7 @@
 #import "SVCameraPickerDelegate.h"
 #import "SVSelectionGridCell.h"//+SVSelectionGridCellDelegate
 #import "CameraRollSection.h"
-#import "AlbumManager.h"
+#import "SL/AlbumManager.h"
 #import "SL/AlbumSummary.h"
 #import "PhotosQuickView.h"
 
@@ -27,7 +27,6 @@
 }
 
 @property (nonatomic, assign) int64_t albumId;
-@property (nonatomic, strong) AlbumManager *albumManager;
 @property (nonatomic, strong) UINavigationController *nav;
 @property (nonatomic) id <SVCameraPickerDelegate> delegate;
 @property (nonatomic) id cropDelegate;

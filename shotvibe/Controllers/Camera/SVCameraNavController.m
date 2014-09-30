@@ -23,7 +23,6 @@
 	cameraController.delegate = self;
 	cameraController.albums = self.albums;
 	cameraController.albumId = self.albumId;
-	cameraController.albumManager = self.albumManager;
 	
 	[_nav pushViewController:cameraController animated:NO];
 	
@@ -66,7 +65,6 @@
 		
 		UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
 		SVAlbumGridViewController *controller = (SVAlbumGridViewController*)[mainStoryboard instantiateViewControllerWithIdentifier:@"SVAlbumGridViewController"];
-		controller.albumManager = self.albumManager;
 		controller.albumId = albumId;
 		controller.scrollToTop = YES;
 		[controllers insertObject:controller atIndex:1];

@@ -7,24 +7,13 @@
 //
 
 #import "SVAlbumGridViewCell.h"
-#import "FancyProgressView.h"
 
 @implementation SVAlbumGridViewCell
+
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    _fancyUploadProgressView = [[FancyProgressView alloc] initWithFrame:self.networkImageView.bounds];
-
-    [self.networkImageView addSubview:_fancyUploadProgressView];
-}
-
-
-- (void)prepareForReuse
-{
-    RCLog(@"Preparing for reuse");
-    [super prepareForReuse];
-    [self.fancyUploadProgressView reset];
 }
 
 

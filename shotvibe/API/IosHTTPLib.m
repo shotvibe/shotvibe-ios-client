@@ -112,4 +112,70 @@ static SLHTTPResponse * sendRequest(NSString *method, NSString *url, id<JavaUtil
 }
 
 
+- (SLHTTPResponse *)sendRequestFileWithNSString:(NSString *)httpMethod
+                                   withNSString:(NSString *)url
+                                withJavaUtilMap:(id<JavaUtilMap>)requestHeaders
+                                   withNSString:(NSString *)filePath
+{
+    CFAbsoluteTime requestStartTime = CFAbsoluteTimeGetCurrent();
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:httpMethod];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+
+    if (requestHeaders) {
+        for (id<JavaUtilMap_Entry> entry in [requestHeaders entrySet]) {
+            [request setValue:[entry getValue] forHTTPHeaderField:[entry getKey]];
+        }
+    }
+
+    NSError *attributesError;
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:&attributesError];
+    if (!attributes) {
+        @throw [[SLHTTPException alloc] initWithNSString:[attributesError description]
+                                            withNSString:[attributesError localizedDescription]
+                                                withLong:0
+                                            withNSString:httpMethod
+                                            withNSString:url
+                                     withJavaLangInteger:nil
+                                            withNSString:nil];
+    }
+
+    NSNumber *fileSize = [attributes objectForKey:NSFileSize];
+
+    NSInputStream *inputStream = [NSInputStream inputStreamWithFileAtPath:filePath];
+    [request setHTTPBodyStream:inputStream];
+
+    [request setValue:[fileSize stringValue] forHTTPHeaderField:@"Content-Length"];
+
+    NSError *httpError;
+    NSHTTPURLResponse *httpResponse;
+    RCLog(@"Send %@ request to %@", httpMethod, url);
+    NSData *httpResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&httpResponse error:&httpError];
+
+    CFAbsoluteTime requestEndTime = CFAbsoluteTimeGetCurrent();
+    long long totalRequestTime = (requestEndTime - requestStartTime) * 1000;
+    if (httpResponseData == nil) {
+        @throw [[SLHTTPException alloc] initWithNSString:httpError.description
+                                            withNSString:httpError.localizedDescription
+                                                withLong:totalRequestTime
+                                            withNSString:httpMethod
+                                            withNSString:url
+                                     withJavaLangInteger:nil
+                                            withNSString:nil];
+    }
+
+    int statusCode = [httpResponse statusCode];
+    NSDictionary *headers = [httpResponse allHeaderFields];
+    SLHTTPResponse *response = [[IosHTTPResponse alloc] initWithMethod:httpMethod
+                                                               withUrl:url
+                                                       withRequestTime:totalRequestTime
+                                                        withStatusCode:statusCode
+                                                              withBody:httpResponseData
+                                                           withHeaders:headers];
+
+    return response;
+}
+
+
 @end
