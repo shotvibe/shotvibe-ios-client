@@ -88,7 +88,7 @@ def parse_dst_starting_line_num(line):
     return int(numStr)
 
 
-BASE_COMMIT = "13072373c42078a38432bd4313458d7648e30672"
+BASE_COMMIT = "f3524069736991f9f0ad732a98f537011c4491c3"
 
 if __name__ == "__main__":
 
