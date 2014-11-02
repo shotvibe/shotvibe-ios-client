@@ -26,6 +26,7 @@
 #import "UIImageView+AFNetworking.h"
 
 #import "IosBackgroundUploadSession.h"
+#import "IosBackgroundTaskManager.h"
 #import "IosBitmapProcessor.h"
 #import "SL/UploadStateDB.h"
 #import "SL/UploadSystemDirector.h"
@@ -130,11 +131,36 @@
 
 #pragma mark - UIApplicationDelegate Methods
 
+- (void)testBackgroundThread:(id)arg
+{
+    int counter = 0;
+
+//    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+//        // Nothing
+//    }];
+
+    while (YES) {
+        NSTimeInterval timeRemaining = [[UIApplication sharedApplication] backgroundTimeRemaining];
+        UILocalNotification *notification = [[UILocalNotification alloc] init];
+        notification.alertAction = @"action";
+        notification.alertBody = [NSString stringWithFormat:@"%d: Time Remaining: %.3f", counter, timeRemaining];
+        notification.soundName = UILocalNotificationDefaultSoundName;
+        [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+
+        counter++;
+
+        [NSThread sleepForTimeInterval:1.0];
+    }
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     BOOL background = application.applicationState == UIApplicationStateBackground;
     NSLog(@"App Start");
+
+//    NSThread *testBackgroundThread = [[NSThread alloc] initWithTarget:self selector:@selector(testBackgroundThread:) object:nil];
+//    [testBackgroundThread start];
 
     [self initSDKs];
 
@@ -249,12 +275,15 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 
     id<SLBitmapProcessor> bitmapProcessor = [[IosBitmapProcessor alloc] init];
 
+    id<SLBackgroundTaskManager> backgroundTaskManager = [[IosBackgroundTaskManager alloc] init];
+
     SLUploadSystemDirector *uploadSystemDirector = [[SLUploadSystemDirector alloc] initWithSLBackgroundUploadSession_Factory:factory
                                                                                                          withSLUploadStateDB:uploadStateDB
                                                                                                            withSLShotVibeAPI:shotVibeAPI
                                                                                                   withSLPhotoDownloadManager:_photoFilesManager
                                                                                                                 withNSString:uploadsDir
-                                                                                                       withSLBitmapProcessor:bitmapProcessor];
+                                                                                                       withSLBitmapProcessor:bitmapProcessor
+                                                                                                 withSLBackgroundTaskManager:backgroundTaskManager];
 
     _albumManager = [[SLAlbumManager alloc] initWithSLShotVibeAPI:shotVibeAPI
                                                  withSLShotVibeDB:shotVibeDB

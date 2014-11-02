@@ -459,14 +459,18 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     } else if ([photo getUploadingPhoto]) {
         SLAlbumUploadingPhoto *uploadingPhoto = [photo getUploadingPhoto];
 
-        if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum PreparingFiles]) {
+        if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum Saving]) {
             [cell.networkImageView setImage:nil];
+        } else if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum PreparingFiles]) {
+            [cell.networkImageView setImage:[UIImage imageNamed:@"camera"]];
         } else {
             UIImage *thumb = [imageDiskCache_ getImage:[uploadingPhoto getBitmapThumbPath]];
             [cell.networkImageView setImage:thumb];
         }
 
-        if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum PreparingFiles]) {
+
+        if ([uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum Saving] ||
+            [uploadingPhoto getState] == [SLAlbumUploadingPhoto_StateEnum PreparingFiles]) {
             [cell.activityView startAnimating];
 
             cell.uploadProgressView.hidden = YES;
