@@ -757,6 +757,7 @@
 		66AEED6A196A273B003344CD /* orange_ribbon_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 66AEED66196A273B003344CD /* orange_ribbon_overlay.png */; };
 		66AEED6B196A273B003344CD /* orange_new@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66AEED67196A273B003344CD /* orange_new@2x.png */; };
 		66AEED6C196A273B003344CD /* orange_new.png in Resources */ = {isa = PBXBuildFile; fileRef = 66AEED68196A273B003344CD /* orange_new.png */; };
+		66B0183719E188720037C955 /* IosBackgroundTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B0183619E188710037C955 /* IosBackgroundTaskManager.m */; };
 		66CBB07F187F57A10057FBAA /* current_shotvibelib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CBB07E187F57A10057FBAA /* current_shotvibelib.a */; };
 		66D5833C1867D66B00EAC842 /* RCImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583331867D66B00EAC842 /* RCImageView.m */; };
 		66D5833D1867D66B00EAC842 /* RCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D583351867D66B00EAC842 /* RCLog.m */; };
@@ -1876,6 +1877,8 @@
 		66AEED66196A273B003344CD /* orange_ribbon_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = orange_ribbon_overlay.png; path = partner_branding/orange_ribbon_overlay.png; sourceTree = "<group>"; };
 		66AEED67196A273B003344CD /* orange_new@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "orange_new@2x.png"; path = "partner_branding/orange_new@2x.png"; sourceTree = "<group>"; };
 		66AEED68196A273B003344CD /* orange_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = orange_new.png; path = partner_branding/orange_new.png; sourceTree = "<group>"; };
+		66B0183519E188710037C955 /* IosBackgroundTaskManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosBackgroundTaskManager.h; sourceTree = "<group>"; };
+		66B0183619E188710037C955 /* IosBackgroundTaskManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IosBackgroundTaskManager.m; sourceTree = "<group>"; };
 		66CBB07E187F57A10057FBAA /* current_shotvibelib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = current_shotvibelib.a; path = shotvibelib/build/current_shotvibelib.a; sourceTree = "<group>"; };
 		66D583321867D66B00EAC842 /* RCImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCImageView.h; path = Ralcr/RCImageView.h; sourceTree = "<group>"; };
 		66D583331867D66B00EAC842 /* RCImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCImageView.m; path = Ralcr/RCImageView.m; sourceTree = "<group>"; };
@@ -3466,6 +3469,8 @@
 				2884ED121830F4B40069E202 /* SVNavigationController.m */,
 				108CDF0E188417AE00757E36 /* Util.h */,
 				108CDF0F188417AE00757E36 /* Util.m */,
+				66B0183519E188710037C955 /* IosBackgroundTaskManager.h */,
+				66B0183619E188710037C955 /* IosBackgroundTaskManager.m */,
 				66452E1319CB2A0800F0EF76 /* IosBitmapProcessor.h */,
 				66452E1419CB2A0800F0EF76 /* IosBitmapProcessor.m */,
 				664F4704189568B1009F4776 /* IosDevicePhoneContactsLib.h */,
@@ -4550,6 +4555,7 @@
 				66278C751867C2AD00D23F34 /* SVRegistrationViewController.m in Sources */,
 				108CDF7318846B9000757E36 /* NSData+MPBase64.m in Sources */,
 				66278D0E1867C94900D23F34 /* UserSettings.m in Sources */,
+				66B0183719E188720037C955 /* IosBackgroundTaskManager.m in Sources */,
 				66634A1718D01E9100D2FF6C /* Void.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
