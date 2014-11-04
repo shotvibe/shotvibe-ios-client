@@ -430,7 +430,13 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
     SLAlbumPhoto *photo = [arr objectAtIndex:indexPath.row];
 
+    [cell.uploadingOriginalView stopAnimating];
+
     if ([photo getServerPhoto]) {
+        if ([[photo getServerPhoto] getUploadingOriginal]) {
+            [cell.uploadingOriginalView startAnimating];
+        }
+
         [cell.networkImageView setPhoto:[[photo getServerPhoto] getId]
                                photoUrl:[[photo getServerPhoto] getUrl]
                               photoSize:[PhotoSize Thumb75]

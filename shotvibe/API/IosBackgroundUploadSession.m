@@ -42,6 +42,8 @@
 - (id)initWithIdentifier:(NSString *)sessionIdentifier
              shotVibeAPI:(SLShotVibeAPI *)shotVibeAPI
          taskDataFactory:(id<SLBackgroundUploadSession_TaskDataFactory>)taskDataFactory
+          operationQueue:(NSOperationQueue *)operationQueue
+           discretionary:(BOOL)discretionary
                 listener:(id<SLBackgroundUploadSession_Listener>)listener
 {
     self = [super init];
@@ -53,7 +55,10 @@
 
         NSString *authToken = [[shotVibeAPI getAuthData] getAuthToken];
 
-        session_ = [self createSession:sessionIdentifier authToken:authToken];
+        session_ = [self createSession:sessionIdentifier
+                             authToken:authToken
+                        operationQueue:operationQueue
+                         discretionary:discretionary];
     }
     return self;
 }
@@ -61,12 +66,21 @@
 
 - (NSURLSession *)createSession:(NSString *)sessionIdentifier
                       authToken:(NSString *)authToken
+                 operationQueue:(NSOperationQueue *)operationQueue
+                  discretionary:(BOOL)discretionary
 {
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration
                                          backgroundSessionConfiguration:sessionIdentifier];
     config.URLCache = nil;
     config.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-    config.HTTPMaximumConnectionsPerHost = 2;
+
+    if (discretionary) {
+        // TODO Currently not setting the iOS discretionary flag. iOS will forcibly set this when the app is in the background. Leaving it unset makes sure that uploads proceed as long as the app is in the foreground (using a mobile data connection if necessary)
+        // config.discretionary = YES;
+        config.HTTPMaximumConnectionsPerHost = 1;
+    } else {
+        config.HTTPMaximumConnectionsPerHost = 2;
+    }
 
     NSString *authHeaderVal = [NSString stringWithFormat:@"Token %@", authToken];
     config.HTTPAdditionalHeaders = @{
@@ -76,7 +90,7 @@
 
     return [NSURLSession sessionWithConfiguration:config
                                          delegate:self
-                                    delegateQueue:nil];
+                                    delegateQueue:operationQueue];
 }
 
 
@@ -198,14 +212,21 @@
 {
     NSString *sessionIdentifier_;
     SLShotVibeAPI *shotVibeAPI_;
+    NSOperationQueue *operationQueue_;
+    BOOL discretionary_;
 }
 
-- (id)initWithSessionIdentifier:(NSString *)sessionIdentifier shotVibeAPI:(SLShotVibeAPI *)shotVibeAPI
+- (id)initWithSessionIdentifier:(NSString *)sessionIdentifier
+                    shotVibeAPI:(SLShotVibeAPI *)shotVibeAPI
+                 operationQueue:(NSOperationQueue *)operationQueue
+                  discretionary:(BOOL)discretionary
 {
     self = [super init];
     if (self) {
         sessionIdentifier_ = sessionIdentifier;
         shotVibeAPI_ = shotVibeAPI;
+        operationQueue_ = operationQueue;
+        discretionary_ = discretionary;
     }
     return self;
 }
@@ -217,6 +238,8 @@
     return [[IosBackgroundUploadSession alloc] initWithIdentifier:sessionIdentifier_
                                                       shotVibeAPI:shotVibeAPI_
                                                   taskDataFactory:taskDataFactory
+                                                   operationQueue:operationQueue_
+                                                    discretionary:discretionary_
                                                          listener:listener];
 }
 

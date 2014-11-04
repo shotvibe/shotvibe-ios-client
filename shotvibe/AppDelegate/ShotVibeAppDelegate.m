@@ -268,22 +268,38 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
     NSString *uploadsDir = [ShotVibeAppDelegate getUploadsDir];
 
     NSString *MAIN_SESSION_IDENTIFIER = @"BackgroundUploader.MainSession";
+    NSString *ORIGINALS_SESSION_IDENTIFIER = @"BackgroundUploader.OriginalsSession";
 
-    IosBackgroundUploadSession_Factory *factory = [[IosBackgroundUploadSession_Factory alloc] initWithSessionIdentifier:MAIN_SESSION_IDENTIFIER
-                                                                                                            shotVibeAPI:shotVibeAPI];
+    NSOperationQueue *commonUploadOperationQueue = [[NSOperationQueue alloc] init];
+    [commonUploadOperationQueue setMaxConcurrentOperationCount:1];
+
+    IosBackgroundUploadSession_Factory *factory = [[IosBackgroundUploadSession_Factory alloc]
+                                                   initWithSessionIdentifier:MAIN_SESSION_IDENTIFIER
+                                                                 shotVibeAPI:shotVibeAPI
+                                                              operationQueue:commonUploadOperationQueue
+                                                               discretionary:NO];
+
+    IosBackgroundUploadSession_Factory *originalsFactory = [[IosBackgroundUploadSession_Factory alloc]
+                                                            initWithSessionIdentifier:ORIGINALS_SESSION_IDENTIFIER
+                                                                          shotVibeAPI:shotVibeAPI
+                                                                       operationQueue:commonUploadOperationQueue
+                                                                        discretionary:YES];
+
     SLUploadStateDB *uploadStateDB = [DatabaseOpener open:[[SLUploadStateDB_Recipe alloc] init]];
 
     id<SLBitmapProcessor> bitmapProcessor = [[IosBitmapProcessor alloc] init];
 
     id<SLBackgroundTaskManager> backgroundTaskManager = [[IosBackgroundTaskManager alloc] init];
 
-    SLUploadSystemDirector *uploadSystemDirector = [[SLUploadSystemDirector alloc] initWithSLBackgroundUploadSession_Factory:factory
-                                                                                                         withSLUploadStateDB:uploadStateDB
-                                                                                                           withSLShotVibeAPI:shotVibeAPI
-                                                                                                  withSLPhotoDownloadManager:_photoFilesManager
-                                                                                                                withNSString:uploadsDir
-                                                                                                       withSLBitmapProcessor:bitmapProcessor
-                                                                                                 withSLBackgroundTaskManager:backgroundTaskManager];
+    SLUploadSystemDirector *uploadSystemDirector = [[SLUploadSystemDirector alloc]
+                                                    initWithSLBackgroundUploadSession_Factory:factory
+                                                        withSLBackgroundUploadSession_Factory:originalsFactory
+                                                                          withSLUploadStateDB:uploadStateDB
+                                                                            withSLShotVibeAPI:shotVibeAPI
+                                                                   withSLPhotoDownloadManager:_photoFilesManager
+                                                                                 withNSString:uploadsDir
+                                                                        withSLBitmapProcessor:bitmapProcessor
+                                                                  withSLBackgroundTaskManager:backgroundTaskManager];
 
     _albumManager = [[SLAlbumManager alloc] initWithSLShotVibeAPI:shotVibeAPI
                                                  withSLShotVibeDB:shotVibeDB
