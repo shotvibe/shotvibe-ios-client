@@ -33,6 +33,8 @@
     id<SLBackgroundUploadSession_TaskDataFactory> taskDataFactory_;
     id<SLBackgroundUploadSession_Listener> listener_;
 
+    NSString *authHeaderVal_;
+
     NSURLSession *session_;
 
     // This is needed as a workaround for a bug with the NSURLSession behaviour. See its usage for details.
@@ -54,9 +56,10 @@
         startedTasks_ = [[NSMapTable alloc] initWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableStrongMemory capacity:8];
 
         NSString *authToken = [[shotVibeAPI getAuthData] getAuthToken];
+        authHeaderVal_ = [NSString stringWithFormat:@"Token %@", authToken];
+
 
         session_ = [self createSession:sessionIdentifier
-                             authToken:authToken
                         operationQueue:operationQueue
                          discretionary:discretionary];
     }
@@ -65,7 +68,6 @@
 
 
 - (NSURLSession *)createSession:(NSString *)sessionIdentifier
-                      authToken:(NSString *)authToken
                  operationQueue:(NSOperationQueue *)operationQueue
                   discretionary:(BOOL)discretionary
 {
@@ -82,12 +84,6 @@
         config.HTTPMaximumConnectionsPerHost = 2;
     }
 
-    NSString *authHeaderVal = [NSString stringWithFormat:@"Token %@", authToken];
-    config.HTTPAdditionalHeaders = @{
-        @"Content-Type" : @"application/octet-stream",
-        @"Authorization" : authHeaderVal
-    };
-
     return [NSURLSession sessionWithConfiguration:config
                                          delegate:self
                                     delegateQueue:operationQueue];
@@ -99,7 +95,12 @@
                  withNSString:(NSString *)uploadFile
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+
     [request setHTTPMethod:@"PUT"];
+
+    [request setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:authHeaderVal_ forHTTPHeaderField:@"Authorization"];
+
     NSURLSessionUploadTask *task = [session_ uploadTaskWithRequest:request
                                                           fromFile:[NSURL fileURLWithPath:uploadFile]];
 
