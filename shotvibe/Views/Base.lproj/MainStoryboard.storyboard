@@ -1135,6 +1135,35 @@ to register this device</string>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" id="U4t-bO-Gch" userLabel="Invite Overlay">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="invite_overlay_header.png" id="Smj-kA-eHf">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="157"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="UON-pm-dMG">
+                                        <rect key="frame" x="20" y="188" width="280" height="179"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <string key="text">Looks like you don't have an invite yet. The fastest way to get an invite is from a friend who already has Glance.
+
+Or, email info@useglance.com to request one.</string>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                    </textView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I have an invite code" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Y4c-aJ-WJ9">
+                                        <rect key="frame" x="149" y="456" width="151" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.019607843137254902" green="0.50588235294117645" blue="0.96862745098039216" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1144,6 +1173,8 @@ to register this device</string>
                         <outlet property="activityIndicator" destination="qUE-7J-Ebk" id="Wt0-va-cQM"/>
                         <outlet property="butContinue" destination="MWj-Gf-2pl" id="DRl-gS-Q8K"/>
                         <outlet property="countryFlagView" destination="vZa-qx-MCh" id="spo-8r-Xuv"/>
+                        <outlet property="haveInviteLabel" destination="Y4c-aJ-WJ9" id="DAu-d3-GvF"/>
+                        <outlet property="inviteOverlay" destination="U4t-bO-Gch" id="f2X-KC-yPN"/>
                         <outlet property="phoneNumberField" destination="Md0-iZ-whQ" id="jIx-Cr-2Zc"/>
                         <outlet property="phoneNumberPhaseContainer" destination="yJt-yu-Smt" id="2pb-b1-DtS"/>
                         <segue destination="jY5-rW-NAc" kind="push" identifier="ChoseCountrySegue" id="v3l-bV-OEi"/>
@@ -2325,6 +2356,7 @@ activation code just sent to you</string>
         <image name="emailIcon.png" width="14" height="11"/>
         <image name="helpIcon.png" width="14" height="14"/>
         <image name="imageUnselected.png" width="18" height="18"/>
+        <image name="invite_overlay_header.png" width="640" height="313"/>
         <image name="newPhotosIndicator.png" width="27" height="18"/>
         <image name="phoneNumberContainer.png" width="270" height="44"/>
         <image name="profileIcon.png" width="14" height="14"/>

@@ -16,7 +16,7 @@
 #import "IosHTTPLib.h"
 #import "ShotVibeAPITask.h"
 
-@interface SVRegistrationViewController ()
+@interface SVRegistrationViewController () < UIAlertViewDelegate >
 
 @property (nonatomic, strong) IBOutlet UIButton *butContinue;
 @property (nonatomic, strong) IBOutlet UIView *phoneNumberPhaseContainer;
@@ -47,12 +47,17 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 
+    self.haveInviteLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(haveInviteTapped)];
+    [self.haveInviteLabel addGestureRecognizer:tapGesture];
+
     if ([[ShotVibeAppDelegate sharedDelegate] isLoggedIn]) {
         RCLog(@"SVRegistrationViewController AuthData available");
 		[self handleSuccessfulLogin:NO];
     }
 	else {
-		[self.phoneNumberField becomeFirstResponder];
+        // The following line is commented out since we now an the Invite overlay and we don't want the keyboard to pop up
+        //[self.phoneNumberField becomeFirstResponder];
 	}
 	if (selectedCountryCode == nil) {
 		[self didSelectCountryWithName:nil regionCode:[[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]];
@@ -61,6 +66,50 @@
         [self didSelectCountryWithName:selectedCountryCode regionCode:selectedCountryCode];
     }
 }
+
+
+- (void)haveInviteTapped
+{
+    NSLog(@"haveInviteTapped");
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Enter Invite Code"
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Ok", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
+    [alert show];
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        NSString *SECRET_CODE = @"1337";
+
+        NSString *inviteCode = [alertView textFieldAtIndex:0].text;
+
+        if ([inviteCode isEqualToString:SECRET_CODE]) {
+            [self hideInviteOverlay];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Code"
+                                                            message:nil
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+}
+
+
+- (void)hideInviteOverlay
+{
+    [self.inviteOverlay setHidden:YES];
+    [self.phoneNumberField becomeFirstResponder];
+}
+
 
 //- (void) viewWillAppear:(BOOL)animated {
 //	
