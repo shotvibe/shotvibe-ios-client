@@ -15,6 +15,9 @@
 
 @interface SVRegistrationViewController : UIViewController <UITextFieldDelegate, SVCountriesDelegate>
 
+@property (weak, nonatomic) IBOutlet UIView *inviteOverlay;
+@property (weak, nonatomic) IBOutlet UILabel *haveInviteLabel;
+
 - (void)selectCountry:(NSString *)countryCode;
 - (void)setCustomPayload:(NSString *)customPayload;
 - (void)skipRegistration;
