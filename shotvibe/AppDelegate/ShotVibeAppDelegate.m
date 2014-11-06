@@ -27,6 +27,7 @@
 
 #import "IosBackgroundUploadSession.h"
 #import "IosBackgroundTaskManager.h"
+#import "IosFileSystemManager.h"
 #import "IosBitmapProcessor.h"
 #import "SL/UploadStateDB.h"
 #import "SL/UploadSystemDirector.h"
@@ -287,6 +288,8 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 
     SLUploadStateDB *uploadStateDB = [DatabaseOpener open:[[SLUploadStateDB_Recipe alloc] init]];
 
+    id<SLFileSystemManager> fileSystemManager = [[IosFileSystemManager alloc] init];
+
     id<SLBitmapProcessor> bitmapProcessor = [[IosBitmapProcessor alloc] init];
 
     id<SLBackgroundTaskManager> backgroundTaskManager = [[IosBackgroundTaskManager alloc] init];
@@ -296,6 +299,7 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
                                                         withSLBackgroundUploadSession_Factory:originalsFactory
                                                                           withSLUploadStateDB:uploadStateDB
                                                                             withSLShotVibeAPI:shotVibeAPI
+                                                                      withSLFileSystemManager:fileSystemManager
                                                                    withSLPhotoDownloadManager:_photoFilesManager
                                                                                  withNSString:uploadsDir
                                                                         withSLBitmapProcessor:bitmapProcessor
