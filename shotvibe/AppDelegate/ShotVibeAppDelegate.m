@@ -455,7 +455,7 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 
 
 // This should be updated whenever submitting the app
-static NSString *const appCountryLookupVersion = @"7";
+static NSString *const appCountryLookupVersion = @"8";
 
 NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString *, NSString *))
 {
