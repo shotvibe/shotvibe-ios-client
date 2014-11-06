@@ -97,6 +97,10 @@
 {
     NSString *user_id_str = [NSString stringWithFormat:@"%lld", [authData getUserId]];
 
+#if !CONFIGURATION_Debug
+    [Crashlytics setUserIdentifier:user_id_str];
+#endif
+
     if (![[Mixpanel sharedInstance].distinctId isEqualToString:user_id_str]) {
         [[Mixpanel sharedInstance] createAlias:user_id_str
                                  forDistinctID:[Mixpanel sharedInstance].distinctId];
