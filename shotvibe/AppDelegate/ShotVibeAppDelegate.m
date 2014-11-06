@@ -44,29 +44,6 @@
 #import "IosHTTPLib.h"
 #import "IosDevicePhoneContactsLib.h"
 
-@implementation CrashlyticsDelegate
-
-+ (CrashlyticsDelegate *)sharedInstance;
-{
-    static CrashlyticsDelegate *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[CrashlyticsDelegate alloc] init];
-        sharedInstance.crashlyticsDidDetectCrashDuringPreviousExecution = NO;
-    });
-    return sharedInstance;
-}
-
-- (void)crashlyticsDidDetectCrashDuringPreviousExecution:(Crashlytics *)crashlytics
-{
-    NSLog(@"crashlyticsDidDetectCrashDuringPreviousExecution = YES");
-
-    self.crashlyticsDidDetectCrashDuringPreviousExecution = YES;
-}
-
-
-@end
-
 @interface ShotVibeAppDelegate ()
 @property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
 @property (nonatomic, strong) SVSidebarManagementController *sidebarLeft;
@@ -101,7 +78,7 @@
     [Appsee start:@"215369473db946c39b7ae4276adf3e5b"];
 
 #if !CONFIGURATION_Debug
-    [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027" delegate:[CrashlyticsDelegate sharedInstance] afterDelay:0.01];
+    [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
 #endif
 
 #if CONFIGURATION_Release
@@ -119,6 +96,10 @@
 - (void)configureSDKs:(SLAuthData *)authData
 {
     NSString *user_id_str = [NSString stringWithFormat:@"%lld", [authData getUserId]];
+
+#if !CONFIGURATION_Debug
+    [Crashlytics setUserIdentifier:user_id_str];
+#endif
 
     if (![[Mixpanel sharedInstance].distinctId isEqualToString:user_id_str]) {
         [[Mixpanel sharedInstance] createAlias:user_id_str

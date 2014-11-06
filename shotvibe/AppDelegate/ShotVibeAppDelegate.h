@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
-#import <Crashlytics/Crashlytics.h>
-
 #import <UIKit/UIKit.h>
 #import "SL/AlbumManager.h"
 #import "SL/NetworkStatusManager.h"
@@ -35,13 +33,5 @@
 + (ShotVibeAppDelegate *)sharedDelegate;
 
 + (NSString *)getDeviceName;
-
-@end
-
-@interface CrashlyticsDelegate : NSObject <CrashlyticsDelegate>
-
-+ (CrashlyticsDelegate *)sharedInstance;
-
-@property (atomic, assign) BOOL crashlyticsDidDetectCrashDuringPreviousExecution;
 
 @end
