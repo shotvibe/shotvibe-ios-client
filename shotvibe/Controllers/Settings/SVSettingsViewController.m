@@ -46,8 +46,8 @@
         // We've selected the email item
         if ([MFMailComposeViewController canSendMail]) {
             MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
-            [mailController setSubject:NSLocalizedString(@"ShotVibe Support Request", @"")];
-            [mailController setToRecipients:@[@"apple-support@shotvibe.com"]];
+            [mailController setSubject:NSLocalizedString(@"Glance Support Request", @"")];
+            [mailController setToRecipients:@[@"info@useglance.com"]];
             mailController.mailComposeDelegate = self;
 			
 			if (IS_IOS7) {
