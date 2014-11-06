@@ -15,6 +15,8 @@
 - (id)initWithIdentifier:(NSString *)sessionIdentifier
              shotVibeAPI:(SLShotVibeAPI *)shotVibeAPI
          taskDataFactory:(id<SLBackgroundUploadSession_TaskDataFactory>)taskDataFactory
+          operationQueue:(NSOperationQueue *)operationQueue
+           discretionary:(BOOL)discretionary
                 listener:(id<SLBackgroundUploadSession_Listener>)listener;
 
 - (void)startUploadTaskWithId:(id)taskData
@@ -31,7 +33,10 @@
 
 @interface IosBackgroundUploadSession_Factory : NSObject < SLBackgroundUploadSession_Factory >
 
-- (id)initWithSessionIdentifier:(NSString *)sessionIdentifier shotVibeAPI:(SLShotVibeAPI *)shotVibeAPI;
+- (id)initWithSessionIdentifier:(NSString *)sessionIdentifier
+                    shotVibeAPI:(SLShotVibeAPI *)shotVibeAPI
+                 operationQueue:(NSOperationQueue *)operationQueue
+                  discretionary:(BOOL)discretionary;
 
 - (id<SLBackgroundUploadSession>)startSessionWithSLBackgroundUploadSession_TaskDataFactory:(id<SLBackgroundUploadSession_TaskDataFactory>)taskDataFactory
                                                     withSLBackgroundUploadSession_Listener:(id<SLBackgroundUploadSession_Listener>)listener;
