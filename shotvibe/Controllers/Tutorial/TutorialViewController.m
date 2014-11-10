@@ -114,7 +114,7 @@
                              @"Easily add photos and videos from your camera roll, or even shoot directly to your album.",
                              @"Take photos and video directly to your album. You can also edit and add filters to your photos.",
                              @"All albums are stored securely in the cloud, freeing up storage on your device and making your photos and videos easily shareable.",
-                             @"Glance works on iOS, Android, and over the web using our web app, making your shared albums accessible just about everywhere."];
+                             @"Glance works on mobile and over the web using our web app, making your shared albums accessible just about everywhere."];
 
     self.pageControl.currentPage = index;
 
