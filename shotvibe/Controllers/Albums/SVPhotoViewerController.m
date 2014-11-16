@@ -145,7 +145,8 @@
 		[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 	}
 	
-	[self setControlsHidden:YES animated:YES permanent:NO];
+    [self setControlsHidden:NO animated:NO permanent:NO];
+    [self.view addSubview:toolbarView];
 	
 	[photosScrollView addGestureRecognizer:doubleTap];
 	[photosScrollView addGestureRecognizer:singleTap];
