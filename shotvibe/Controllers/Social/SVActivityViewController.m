@@ -11,6 +11,7 @@
 #import "SVLinkActivity.h"
 #import "SVCopyActivity.h"
 #import "SVMoveActivity.h"
+#import "SVSaveImageActivity.h"
 #import "SVFacebookActivity.h"
 #import "SVMailActivity.h"
 #import "SVTumblrActivity.h"
@@ -35,6 +36,7 @@
 		[[SVFacebookActivity alloc] init]];
 		
 		self.localActivities = @[
+        [[SVSaveImageActivity alloc] init],
 		[[SVCopyActivity alloc] init],
 //		[[SVMoveActivity alloc] init],
 		[[SVLinkActivity alloc] init],

@@ -662,6 +662,30 @@
 
 - (void)exportButtonPressed
 {
+    NSLog(@"share");
+
+    // For iOS 8 and later we use the system share dialog (UIActivityViewController).
+    // For earlier versions we use a custom dialog
+
+    NSString *iOS8 = @"8.0";
+
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:iOS8 options:NSNumericSearch] != NSOrderedAscending) {
+        // Running iOS 8.0 or later
+
+        UIImage *image = [[cache objectAtIndex:self.index] image];
+
+        NSArray *activityItems = @[image];
+
+        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems
+                                                                                             applicationActivities:nil];
+        [self.navigationController presentViewController:activityViewController animated:YES completion:nil];
+
+        return;
+    }
+
+    // Running older version of iOS...
+
 	// Weird bug on a phone, the buttons are touchable when the sharing screen is open
 	butTrash.enabled = NO;
 	butShare.enabled = NO;
