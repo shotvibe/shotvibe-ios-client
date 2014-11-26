@@ -247,8 +247,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
     NSLog(@"SVAlbumGridViewController %@: viewDidDisappear: %d", self, animated);
 
-// TODO: This used to work but needs to be added back after adding the new SLAlbumManager
-//    [self.albumManager markAlbumAsViewed:albumContents];
+    [self clearNewPhotoBadges:albumContents];
 
     [albumManager_ removeAlbumContentsListenerWithLong:self.albumId withSLAlbumManager_AlbumContentsListener:self];
 
@@ -979,6 +978,27 @@ static const NSInteger ALERT_VIEW_TAG_CHANGE_NAME = 0;
     [alert textFieldAtIndex:0].text = [[albumContents getName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     alert.tag = ALERT_VIEW_TAG_CHANGE_NAME;
     [alert show];
+}
+
+- (void)clearNewPhotoBadges:(SLAlbumContents *)album
+{
+    SLDateTime *mostRecentPhotoDate = nil;
+
+    for (SLAlbumPhoto *photo in [album getPhotos]) {
+        if ([photo getServerPhoto]) {
+            if (!mostRecentPhotoDate) {
+                mostRecentPhotoDate = [[photo getServerPhoto] getDateAdded];
+            } else {
+                long long photoTimestamp = [[[photo getServerPhoto] getDateAdded] getTimeStamp];
+                if ([mostRecentPhotoDate getTimeStamp] < photoTimestamp) {
+                    mostRecentPhotoDate = [[photo getServerPhoto] getDateAdded];
+                }
+            }
+        }
+    }
+
+    SLDateTime *lastAccess = mostRecentPhotoDate;
+    [albumManager_ updateLastAccessWithLong:self.albumId withSLDateTime:lastAccess];
 }
 
 
