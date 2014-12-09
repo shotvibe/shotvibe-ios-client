@@ -573,36 +573,8 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
                     }
                 }
             } else {
-                int64_t userId = [[shotvibeAPI getAuthData] getUserId];
-
-                header.nameLabel.text = self.userNickName;
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                    SLAlbumUser *userProfile = nil;
-                    @try {
-                        userProfile = [shotvibeAPI getUserProfileWithLong:userId];
-                    } @catch (SLAPIException *exception) {
-                        // Ignore...
-                    }
-
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if (userProfile) {
-                            header.nameLabel.text = [userProfile getMemberNickname];
-                            self.userNickName = [userProfile getMemberNickname];
-                            [header.imageView setImageWithURL:[NSURL URLWithString:[userProfile getMemberAvatarUrl]] placeholderImage:self.userPicture completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                self.userPicture = image;
-                            }
-
-
-                            ];
-                        }
-                    }
-
-
-                                   );
-                }
-
-
-                               );
+                header.nameLabel.text = @"";
+                [header.imageView setImage:nil];
             }
         }
 
