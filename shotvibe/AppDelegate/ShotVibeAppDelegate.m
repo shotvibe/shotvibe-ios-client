@@ -542,7 +542,7 @@ NSString * serverCountryLookup(NSString *version, void (^errorReporter)(NSString
     NSString *COUNTRY_CODE_AUTOLOGIN = @"auto";
 	
     if ([countryCode isEqualToString:COUNTRY_CODE_AUTOLOGIN]) {
-        NSString *shotvibeAppInitUrl = @"https://www.useglance.com/app_init/?";
+        NSString *shotvibeAppInitUrl = @"https://i.useglance.com/app_init/?";
 
         shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"app", @"iphone");
         shotvibeAppInitUrl = appendQueryParameter(shotvibeAppInitUrl, @"device_description", [ShotVibeAppDelegate getDeviceName]);
