@@ -731,6 +731,7 @@
 		66278D141867CA1400D23F34 /* SVAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 66278D121867CA1400D23F34 /* SVAssets.m */; };
 		66278D201867CDC100D23F34 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66278D1F1867CDC100D23F34 /* libAviarySDK.a */; };
 		66278D221867CDEC00D23F34 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */; };
+		66296A1B1A30B89E008DA0D0 /* SVNotificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 66296A1A1A30B89E008DA0D0 /* SVNotificationHandler.m */; };
 		663FF03418C24F7200CB3764 /* IconNotConnected.png in Resources */ = {isa = PBXBuildFile; fileRef = 663FF03218C24F7200CB3764 /* IconNotConnected.png */; };
 		663FF03518C24F7200CB3764 /* IconNotConnected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 663FF03318C24F7200CB3764 /* IconNotConnected@2x.png */; };
 		663FF03818C2C7D600CB3764 /* NetworkLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663FF03718C2C7D600CB3764 /* NetworkLogViewController.m */; };
@@ -1849,6 +1850,8 @@
 		66278D1E1867CD9B00D23F34 /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPhotoEditorSession.h; path = shotvibe/Vendor/AviarySDK/Headers/AFPhotoEditorSession.h; sourceTree = SOURCE_ROOT; };
 		66278D1F1867CDC100D23F34 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAviarySDK.a; path = shotvibe/Vendor/AviarySDK/libAviarySDK.a; sourceTree = SOURCE_ROOT; };
 		66278D211867CDEC00D23F34 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AviarySDKResources.bundle; path = shotvibe/Vendor/AviarySDK/Resources/AviarySDKResources.bundle; sourceTree = SOURCE_ROOT; };
+		66296A191A30B89E008DA0D0 /* SVNotificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVNotificationHandler.h; path = shotvibe/API/SVNotificationHandler.h; sourceTree = SOURCE_ROOT; };
+		66296A1A1A30B89E008DA0D0 /* SVNotificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVNotificationHandler.m; path = shotvibe/API/SVNotificationHandler.m; sourceTree = SOURCE_ROOT; };
 		663FF03218C24F7200CB3764 /* IconNotConnected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconNotConnected.png; sourceTree = "<group>"; };
 		663FF03318C24F7200CB3764 /* IconNotConnected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconNotConnected@2x.png"; sourceTree = "<group>"; };
 		663FF03618C2C7D600CB3764 /* NetworkLogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkLogViewController.h; path = Albums/NetworkLogViewController.h; sourceTree = "<group>"; };
@@ -3534,6 +3537,8 @@
 				66278CF61867C94900D23F34 /* PhotoFilesManager.m */,
 				66278CF71867C94900D23F34 /* PhotoSize.h */,
 				66278CF81867C94900D23F34 /* PhotoSize.m */,
+				66296A191A30B89E008DA0D0 /* SVNotificationHandler.h */,
+				66296A1A1A30B89E008DA0D0 /* SVNotificationHandler.m */,
 				66278D001867C94900D23F34 /* SVPushNotificationsManager.h */,
 				66278D011867C94900D23F34 /* SVPushNotificationsManager.m */,
 				66278D021867C94900D23F34 /* UserSettings.h */,
@@ -4548,6 +4553,7 @@
 				3B3AD15B17CB4A9C004D24A9 /* SDWebImagePrefetcher.m in Sources */,
 				66013239187F4E670042047B /* AssertionError.m in Sources */,
 				66069BCE1A1CCE7800BE2D32 /* SVSaveImageActivity.m in Sources */,
+				66296A1B1A30B89E008DA0D0 /* SVNotificationHandler.m in Sources */,
 				3B3AD15C17CB4A9C004D24A9 /* UIButton+WebCache.m in Sources */,
 				6601324A187F4E670042047B /* InternalError.m in Sources */,
 				66452E1519CB2A0800F0EF76 /* IosBitmapProcessor.m in Sources */,
