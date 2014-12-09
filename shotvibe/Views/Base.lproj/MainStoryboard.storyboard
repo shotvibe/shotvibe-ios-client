@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--Album List View Controller - Albums-->
+        <!--Albums-->
         <scene sceneID="siP-ZM-lhe">
             <objects>
                 <tableViewController storyboardIdentifier="SVAlbumListViewController" title="Albums" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xK5-VS-ObD" customClass="SVAlbumListViewController" sceneMemberID="viewController">
@@ -929,7 +929,7 @@
             </objects>
             <point key="canvasLocation" x="630" y="259"/>
         </scene>
-        <!--Image Picker List View Controller - Albums-->
+        <!--Albums-->
         <scene sceneID="26o-UI-2Ba">
             <objects>
                 <viewController id="Pcu-I1-edh" customClass="SVImagePickerListViewController" sceneMemberID="viewController">
@@ -1044,7 +1044,7 @@
             </objects>
             <point key="canvasLocation" x="-1575" y="51"/>
         </scene>
-        <!--Registration View Controller - Registration-->
+        <!--Registration-->
         <scene sceneID="vun-vc-kNk">
             <objects>
                 <viewController storyboardIdentifier="SVRegistrationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3rg-2I-Dzz" customClass="SVRegistrationViewController" sceneMemberID="viewController">
@@ -1185,7 +1185,7 @@ Or, email info@useglance.com to request one.</string>
             </objects>
             <point key="canvasLocation" x="-1098" y="51"/>
         </scene>
-        <!--Settings View Controller - Settings-->
+        <!--Settings-->
         <scene sceneID="pHl-BF-BqW">
             <objects>
                 <tableViewController id="N4E-mX-u47" customClass="SVSettingsViewController" sceneMemberID="viewController">
@@ -1520,7 +1520,7 @@ Or, email info@useglance.com to request one.</string>
             </objects>
             <point key="canvasLocation" x="630" y="-628"/>
         </scene>
-        <!--Add Friends View Controller - Invite friends-->
+        <!--Invite friends-->
         <scene sceneID="8iq-Ap-kcP">
             <objects>
                 <viewController title="Invite friends" id="hue-j9-5bn" customClass="SVAddFriendsViewController" sceneMemberID="viewController">
@@ -1863,7 +1863,7 @@ Or, email info@useglance.com to request one.</string>
             </objects>
             <point key="canvasLocation" x="-114" y="-1432"/>
         </scene>
-        <!--Web View Controller - About-->
+        <!--About-->
         <scene sceneID="F4M-1j-iHW">
             <objects>
                 <viewController id="Y3e-6A-img" customClass="SVWebViewController" sceneMemberID="viewController">
@@ -1984,7 +1984,7 @@ Or, email info@useglance.com to request one.</string>
             </objects>
             <point key="canvasLocation" x="44" y="1931"/>
         </scene>
-        <!--Settings About View Controller - General Notification Settings-->
+        <!--General Notification Settings-->
         <scene sceneID="DRS-hq-iat">
             <objects>
                 <tableViewController id="CPg-IN-zDw" customClass="SVSettingsAboutViewController" sceneMemberID="viewController">
@@ -2206,7 +2206,7 @@ Or, email info@useglance.com to request one.</string>
             </objects>
             <point key="canvasLocation" x="-565" y="-773"/>
         </scene>
-        <!--Confirmation Code View Controller - Activation-->
+        <!--Activation-->
         <scene sceneID="fAx-Zj-SBp">
             <objects>
                 <viewController storyboardIdentifier="SVConfirmationCodeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Dlz-oj-oY1" customClass="SVConfirmationCodeViewController" sceneMemberID="viewController">
@@ -2371,8 +2371,9 @@ activation code just sent to you</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="oiS-6F-bJN"/>
-        <segue reference="YZf-v8-Yxg"/>
         <segue reference="hc8-VF-LIN"/>
+        <segue reference="YZf-v8-Yxg"/>
+        <segue reference="oiS-6F-bJN"/>
+        <segue reference="wnh-dc-9HX"/>
     </inferredMetricsTieBreakers>
 </document>
