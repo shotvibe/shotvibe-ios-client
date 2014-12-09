@@ -18,7 +18,7 @@
 "6S4-eL-fax.placeholder" = "חיפוש";
 
 /* Class = "IBUIButton"; normalTitle = "   Add from Camera"; ObjectID = "6Xh-QU-6j5"; */
-"6Xh-QU-6j5.normalTitle" = "   Add from Camera";
+"6Xh-QU-6j5.normalTitle" = "הוסף מהמצלמה .";
 
 /* Class = "IBUIButton"; normalTitle = "x time ago"; ObjectID = "6fU-xz-I04"; */
 "6fU-xz-I04.normalTitle" = "x time ago";
@@ -123,7 +123,7 @@
 "TFh-w4-fDb.placeholder" = "New Album Name";
 
 /* Class = "IBUIButton"; normalTitle = "   Add from Gallery"; ObjectID = "U0j-LJ-AMC"; */
-"U0j-LJ-AMC.normalTitle" = "   Add from Gallery";
+"U0j-LJ-AMC.normalTitle" = "הוסף מהגלרייה .";
 
 /* Class = "IBUINavigationItem"; title = "Settings"; ObjectID = "UBn-2n-FiA"; */
 "UBn-2n-FiA.title" = "הגדרות";
