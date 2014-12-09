@@ -11,3 +11,6 @@
 "Delete picture" = "Delete picture";
 
 "Search album" = "Search album";
+
+"NOTIFICATION_ADDED_TO_ALBUM" = "%1$@ added you to the album %2$@";
+"NOTIFICATION_PHOTOS_ADDED" = "%1$@ added %2$@ photos to %3$@";

@@ -9,20 +9,25 @@
 #import "SVPushNotificationsManager.h"
 #import "ShotVibeAppDelegate.h"
 #import "SVDefines.h"
+#import "SVNotificationHandler.h"
 #import "SL/ShotVibeAPI.h"
 #import "SL/APIException.h"
+#import "SL/JSONObject.h"
+#import "SL/NotificationMessage.h"
 
 static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 
 @implementation SVPushNotificationsManager
 {
     SLAlbumManager *albumManager_;
+    SVNotificationHandler *notificationHandler_;
 }
-
 
 - (void)setup
 {
     albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
+
+    notificationHandler_ = [[SVNotificationHandler alloc] initWithAlbumManager:albumManager_];
 
     NSLog(@"Setting up push notifications with AlbumManager: %@", [albumManager_ description]);
 
@@ -90,13 +95,18 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 {
     NSLog(@"handleNotification: %@", [userInfo description]);
 
-    // TODO Make this more robust:
-    NSNumber *albumId = [userInfo objectForKey:@"album_id"];
-    if (albumId) {
-        [albumManager_ reportAlbumUpdateWithLong:[albumId longLongValue]];
-    }
-    else {
-        [albumManager_ refreshAlbumListWithBoolean:NO];
+    NSMutableDictionary *dataDict = [userInfo objectForKey:@"d"];
+
+    if (dataDict) {
+        SLJSONObject *data = [[SLJSONObject alloc] initWithDictionary:dataDict];
+
+        @try {
+            SLNotificationMessage *message = [SLNotificationMessage parseMessageWithSLJSONObject:data];
+
+            [message handleWithSLNotificationMessage_NotificationHandler:notificationHandler_];
+        } @catch (SLNotificationMessage_ParseException *exception) {
+            NSLog(@"Invalid notification: %@", [exception getLocalizedMessage]);
+        }
     }
 }
 

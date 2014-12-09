@@ -48,3 +48,6 @@
 "Are you sure you want to leave this album?" = "האם אתה בטוח שברצונך לעזוב את האלום?";
 
 "Profile" = "פרופיל";
+
+"NOTIFICATION_ADDED_TO_ALBUM" = "‫%1$@ הוסיפ/ה אותך לאלבום %2$@‬";
+"NOTIFICATION_PHOTOS_ADDED" = "‫%1$@ הוסיפ/ה %2$@ תמונות לאלבום %3$@‬";
