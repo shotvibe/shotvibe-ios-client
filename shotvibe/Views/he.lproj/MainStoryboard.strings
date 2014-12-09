@@ -1,7 +1,4 @@
 
-/* Class = "IBUILabel"; text = "Re-check your phone number"; ObjectID = "0fp-jc-jlZ"; */
-"0fp-jc-jlZ.text" = "Re-check your phone number";
-
 /* Class = "IBUILabel"; text = "Members:"; ObjectID = "0tn-fo-qu7"; */
 "0tn-fo-qu7.text" = "Members:";
 
@@ -20,6 +17,9 @@
 /* Class = "IBUISearchBar"; placeholder = "Search"; ObjectID = "6S4-eL-fax"; */
 "6S4-eL-fax.placeholder" = "חיפוש";
 
+/* Class = "IBUIButton"; normalTitle = "   Add from Camera"; ObjectID = "6Xh-QU-6j5"; */
+"6Xh-QU-6j5.normalTitle" = "הוסף מהמצלמה .";
+
 /* Class = "IBUIButton"; normalTitle = "x time ago"; ObjectID = "6fU-xz-I04"; */
 "6fU-xz-I04.normalTitle" = "x time ago";
 
@@ -35,17 +35,11 @@
 /* Class = "IBUIButton"; normalTitle = " Leave This Album"; ObjectID = "9ff-GS-Ayc"; */
 "9ff-GS-Ayc.normalTitle" = " Leave This Album";
 
-/* Class = "IBUINavigationItem"; title = "No Code?"; ObjectID = "AAl-Hr-12P"; */
-"AAl-Hr-12P.title" = "No Code?";
-
 /* Class = "IBUILabel"; text = "In order to invite people we need access to your contacts list"; ObjectID = "AB3-EQ-yf7"; */
 "AB3-EQ-yf7.text" = "In order to invite people we need access to your contacts list";
 
 /* Class = "IBUILabel"; text = "To enable it go to Settings/Privacy/Contacts"; ObjectID = "AFX-5U-UKe"; */
 "AFX-5U-UKe.text" = "To enable it go to Settings/Privacy/Contacts";
-
-/* Class = "IBUIBarButtonItem"; title = "No Code?"; ObjectID = "Bc0-zr-dSn"; */
-"Bc0-zr-dSn.title" = "No Code?";
 
 /* Class = "IBUILabel"; text = "Invited"; ObjectID = "BcQ-GI-kmc"; */
 "BcQ-GI-kmc.text" = "Invited";
@@ -107,17 +101,11 @@
 /* Class = "IBUILabel"; text = "Enter your phone number"; ObjectID = "NW5-hq-d4D"; */
 "NW5-hq-d4D.text" = "הכנס את מספר הטלפון שלך";
 
-/* Class = "IBUIButton"; normalTitle = "Re-Send"; ObjectID = "NwO-Tx-c4d"; */
-"NwO-Tx-c4d.normalTitle" = "Re-Send";
-
 /* Class = "IBUILabel"; text = "Album name"; ObjectID = "OCq-t2-DIa"; */
 "OCq-t2-DIa.text" = "Album name";
 
 /* Class = "IBUILabel"; text = "Check your mobile phone for the\nactivation code just sent to you"; ObjectID = "Pg0-vg-4KX"; */
 "Pg0-vg-4KX.text" = "בדוק בהודעות סמס בשביל\nקוד ההפעלה שנשלח אלייך";
-
-/* Class = "IBUIButton"; normalTitle = "Call Me"; ObjectID = "Pg6-aX-Y2m"; */
-"Pg6-aX-Y2m.normalTitle" = "Call Me";
 
 /* Class = "IBUILabel"; text = "Album name"; ObjectID = "Qmz-su-kgF"; */
 "Qmz-su-kgF.text" = "Album name";
@@ -134,14 +122,23 @@
 /* Class = "IBUITextField"; placeholder = "New Album Name"; ObjectID = "TFh-w4-fDb"; */
 "TFh-w4-fDb.placeholder" = "New Album Name";
 
+/* Class = "IBUIButton"; normalTitle = "   Add from Gallery"; ObjectID = "U0j-LJ-AMC"; */
+"U0j-LJ-AMC.normalTitle" = "הוסף מהגלרייה .";
+
 /* Class = "IBUINavigationItem"; title = "Settings"; ObjectID = "UBn-2n-FiA"; */
 "UBn-2n-FiA.title" = "הגדרות";
+
+/* Class = "IBUITextView"; text = "Looks like you don't have an invite yet. The fastest way to get an invite is from a friend who already has Glance.\n\nOr, email info@useglance.com to request one."; ObjectID = "UON-pm-dMG"; */
+"UON-pm-dMG.text" = "Looks like you don't have an invite yet. The fastest way to get an invite is from a friend who already has Glance.\n\nOr, email info@useglance.com to request one.";
 
 /* Class = "IBUILabel"; text = "Contact Support"; ObjectID = "VMY-GF-lhp"; */
 "VMY-GF-lhp.text" = "צור קשר עם תמיכה";
 
 /* Class = "IBUILabel"; text = "Label"; ObjectID = "WUz-Je-4mt"; */
 "WUz-Je-4mt.text" = "Label";
+
+/* Class = "IBUILabel"; text = "I have an invite code"; ObjectID = "Y4c-aJ-WJ9"; */
+"Y4c-aJ-WJ9.text" = "I have an invite code";
 
 /* Class = "IBUIButton"; normalTitle = "  Add Videos"; ObjectID = "YTw-sa-ycx"; */
 "YTw-sa-ycx.normalTitle" = "  Add Videos";
@@ -242,9 +239,6 @@
 /* Class = "IBUISegmentedControl"; u9V-tV-akp.segmentTitles[1] = "Phone"; ObjectID = "u9V-tV-akp"; */
 "u9V-tV-akp.segmentTitles[1]" = "Phone";
 
-/* Class = "IBUILabel"; text = "We'll call you instead with the activation code!"; ObjectID = "uJg-ah-qxW"; */
-"uJg-ah-qxW.text" = "We'll call you instead with the activation code!";
-
 /* Class = "IBUIButton"; normalTitle = "Settings"; ObjectID = "vAd-El-oTI"; */
 "vAd-El-oTI.normalTitle" = "הגדרות";
 
@@ -259,9 +253,6 @@
 
 /* Class = "IBUITableViewController"; title = "Albums"; ObjectID = "xK5-VS-ObD"; */
 "xK5-VS-ObD.title" = "אלבומים";
-
-/* Class = "IBUITextField"; placeholder = "Mobile Number"; ObjectID = "xQI-N4-qiD"; */
-"xQI-N4-qiD.placeholder" = "Mobile Number";
 
 /* Class = "IBUISearchBar"; placeholder = "Search"; ObjectID = "xWL-42-6Js"; */
 "xWL-42-6Js.placeholder" = "חיפוש";
