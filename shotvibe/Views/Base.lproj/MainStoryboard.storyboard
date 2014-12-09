@@ -751,10 +751,11 @@
                                                             <rect key="frame" x="15" y="12" width="73" height="3"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </progressView>
-                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" id="9gh-Qf-bge">
-                                                            <rect key="frame" x="75" y="5" width="20" height="20"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                        </activityIndicatorView>
+                                                        <view alpha="0.34999999999999964" contentMode="scaleToFill" id="7LT-K7-6Bt">
+                                                            <rect key="frame" x="90" y="6" width="4" height="4"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" red="1" green="0.79327713820000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
@@ -765,7 +766,7 @@
                                                     <outlet property="labelNewView" destination="JmT-ek-vdD" id="Hnw-Pt-3hZ"/>
                                                     <outlet property="networkImageView" destination="C9q-ds-YvT" id="INW-lj-d2U"/>
                                                     <outlet property="uploadProgressView" destination="pJA-aq-0Bp" id="9Xp-0v-1OT"/>
-                                                    <outlet property="uploadingOriginalView" destination="9gh-Qf-bge" id="NaL-QK-paL"/>
+                                                    <outlet property="uploadingOriginalView" destination="7LT-K7-6Bt" id="nwi-cc-7Mk"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
