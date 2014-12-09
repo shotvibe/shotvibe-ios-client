@@ -1156,7 +1156,7 @@ Or, email info@useglance.com to request one.</string>
                                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                     </textView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I have an invite code" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Y4c-aJ-WJ9">
-                                        <rect key="frame" x="149" y="456" width="151" height="48"/>
+                                        <rect key="frame" x="149" y="372" width="151" height="48"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" red="0.019607843137254902" green="0.50588235294117645" blue="0.96862745098039216" alpha="1" colorSpace="deviceRGB"/>
