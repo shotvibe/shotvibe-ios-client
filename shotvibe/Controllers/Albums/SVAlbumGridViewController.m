@@ -909,7 +909,9 @@ static const NSInteger ALERT_VIEW_TAG_CHANGE_NAME = 0;
         BOOL success = [[albumManager_ getShotVibeAPI] albumChangeNameWithLong:self.albumId
                                                                   withNSString:newAlbumName];
         if (success) {
-            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:YES];
+            });
         }
         return [NSNumber numberWithBool:success];
     }
