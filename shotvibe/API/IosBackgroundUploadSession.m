@@ -94,6 +94,9 @@
                  withNSString:(NSString *)url
                  withNSString:(NSString *)uploadFile
 {
+    
+//    startedTasks_
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
 
     [request setHTTPMethod:@"PUT"];

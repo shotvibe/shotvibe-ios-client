@@ -42,6 +42,10 @@
 #import "ShotVibeAPITask.h"
 #import "ImageDiskCache.h"
 
+#import "TmpFilePhotoUploadRequest.h"
+
+//#import "MainCameraViewController.h"
+
 @interface SVAlbumGridViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
     SLAlbumContents *albumContents;
@@ -187,7 +191,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     [super viewWillAppear:animated];
 
     NSLog(@"SVAlbumGridViewController %@: viewWillAppear: %d", self, animated);
-
+//
     SLAlbumContents *contents = [albumManager_ addAlbumContentsListenerWithLong:self.albumId withSLAlbumManager_AlbumContentsListener:self];
     [self setAlbumContents:contents];
 
@@ -324,24 +328,126 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 - (IBAction)takePicturePressed:(id)sender
 {
-    [[Mixpanel sharedInstance] track:@"Add Photo from Camera Pressed"
-                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
+//    [[Mixpanel sharedInstance] track:@"Add Photo from Camera Pressed"
+//                          properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
+//
+//    navigatingNext = YES;
+//    //self.scrollToBottom = YES;
+//    self.scrollToTop = YES;
+//
+//    SVPickerController *manager = [[SVPickerController alloc] init];
+//    manager.albumId = self.albumId;
+//
+//    SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
+//    [self presentViewController:nc animated:NO completion:nil];
 
+    
+    
+//    MainCameraViewController * mainCamera = [[MainCameraViewController alloc] init];
+    MainCameraViewController * vc = [[MainCameraViewController alloc] init];
+    vc.delegate = self;
     navigatingNext = YES;
-    //self.scrollToBottom = YES;
-    self.scrollToTop = YES;
-
-    SVPickerController *manager = [[SVPickerController alloc] init];
-    manager.albumId = self.albumId;
-
-    SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
-    [self presentViewController:nc animated:NO completion:nil];
-
+//    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+//    [navigationController setNavigationBarHidden:YES animated:NO];
+    [self presentViewController:vc animated:YES completion:nil];
+    
+    
+    
+    
 //	cameraNavController = [[SVCameraNavController alloc] init];
 //	cameraNavController.cameraDelegate = self;
 //	cameraNavController.albumId = self.albumId;
 //	cameraNavController.albumManager = self.albumManager;
 //    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
+}
+-(void)imageSelected:(UIImage*)image {
+    
+    
+    
+    UIImage *originalImage = image;
+    UIImage *scaledImage = originalImage;
+    
+    // Take as many pictures as you want. Save the path and the thumb and the picture
+    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", self.container.images.count]];
+    __block NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", self.container.images.count]];
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // Save large image
+        [UIImageJPEGRepresentation(scaledImage, 1.0) writeToFile:filePath atomically:YES];
+        
+        CGSize newSize = CGSizeMake(200, 200);
+        float oldWidth = scaledImage.size.width;
+        float scaleFactor = newSize.width / oldWidth;
+        float newHeight = scaledImage.size.height * scaleFactor;
+        float newWidth = oldWidth * scaleFactor;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+        [scaledImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+        UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        // Save thumb image
+        [UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
+        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"kPickedImageSaved" object:nil];
+//        }
+    
+                       
+//                       );
+//    }
+    
+                   
+//                   );
+    
+    
+
+        //This code is called when we're taking subsequent images
+//        [self.container.images addObject:filePath];
+
+
+    
+    
+    
+    
+    if (self.albumId != 0) {
+//        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVShowAlbum" object:nil userInfo:@{ @"albumId" : @(self.albumId) }
+//             ];
+//        }
+//         
+        
+//         ];
+        
+        RCLog(@"====================== 1. Upload selected photos to albumId %lli", self.albumId);
+        
+        // Upload the taken photos
+        NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
+//        for (NSString *selectedPhotoPath in self.images) {
+        
+        
+        
+//        if (self.container) {
+//            //This code is called when we're taking subsequent images
+//            [self.container.images addObject:filePath];
+//            self.container.waitingForMostRecentImage = YES;
+        
+            
+            TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:filePath];
+            [photoUploadRequests addObject:photoUploadRequest];
+            //        }
+        
+//        albumManager_ uplo
+        
+            [albumManager_ uploadPhotosWithLong:self.albumId
+                               withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:photoUploadRequests]];
+        
+//
+        
+
+    }
+    
+    
 }
 
 

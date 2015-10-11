@@ -343,6 +343,7 @@
 		10F1A2D6188540410051E267 /* Appsee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D5188540410051E267 /* Appsee.framework */; };
 		10F1A2D8188540B40051E267 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D7188540B40051E267 /* AVFoundation.framework */; };
 		10F1A2DA1885411E0051E267 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F1A2D91885411E0051E267 /* CoreVideo.framework */; };
+		172BE3D3C9E224053C15D25D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D570D9648C13694C44E127E /* libPods.a */; };
 		280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */; };
 		280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */; };
 		2849A74E17D7111A0076AFBA /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2849A74D17D7111A0076AFBA /* Social.framework */; };
@@ -817,6 +818,19 @@
 		AA78D2CA17172C67006E1240 /* dropDownField@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C317172C67006E1240 /* dropDownField@2x.png */; };
 		AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
 		AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E616C457F000BAC7E1 /* Security.framework */; };
+		DD3A8BBE1BC9A04A002DF2C9 /* camera-shutter-click-01.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD3A8BAC1BC9A04A002DF2C9 /* camera-shutter-click-01.wav */; settings = {ASSET_TAGS = (); }; };
+		DD3A8BBF1BC9A04A002DF2C9 /* GLCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BAE1BC9A04A002DF2C9 /* GLCamera.m */; settings = {ASSET_TAGS = (); }; };
+		DD3A8BC01BC9A04A002DF2C9 /* GLFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BB01BC9A04A002DF2C9 /* GLFilterView.m */; settings = {ASSET_TAGS = (); }; };
+		DD3A8BC11BC9A04A002DF2C9 /* GLResizeableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BB21BC9A04A002DF2C9 /* GLResizeableView.m */; settings = {ASSET_TAGS = (); }; };
+		DD3A8BC21BC9A04A002DF2C9 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BB41BC9A04A002DF2C9 /* iCarousel.m */; settings = {ASSET_TAGS = (); }; };
+		DD3A8BC31BC9A04A002DF2C9 /* MainCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BB61BC9A04A002DF2C9 /* MainCameraViewController.m */; settings = {ASSET_TAGS = (); }; };
+		DD3A8BC41BC9A04A002DF2C9 /* MainCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3A8BB71BC9A04A002DF2C9 /* MainCameraViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		DD3A8BC51BC9A04A002DF2C9 /* RJTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BB91BC9A04A002DF2C9 /* RJTextView.m */; settings = {ASSET_TAGS = (); }; };
+		DD3A8BC61BC9A04A002DF2C9 /* UIView+ColorUiView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BBB1BC9A04A002DF2C9 /* UIView+ColorUiView.m */; settings = {ASSET_TAGS = (); }; };
+		DD3A8BC71BC9A04A002DF2C9 /* UIView+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BBD1BC9A04A002DF2C9 /* UIView+Transform.m */; settings = {ASSET_TAGS = (); }; };
+		DD3A8BC91BC9A229002DF2C9 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3A8BC81BC9A229002DF2C9 /* Photos.framework */; };
+		DD3A8BCB1BC9A239002DF2C9 /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3A8BCA1BC9A239002DF2C9 /* libGPUImage.a */; };
+		DD3A8BCD1BC9A4A1002DF2C9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3A8BCC1BC9A4A1002DF2C9 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1140,6 +1154,7 @@
 		04C407D6173032B200973BC0 /* phoneNumberContainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoneNumberContainer.png; sourceTree = "<group>"; };
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
+		0D570D9648C13694C44E127E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		106C344718C4C27A006A5603 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notification.h; path = shotvibe/API/Notification.h; sourceTree = SOURCE_ROOT; };
 		106C344818C4C27A006A5603 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Notification.m; path = shotvibe/API/Notification.m; sourceTree = SOURCE_ROOT; };
 		1077E30E18A2768A00E9E9C5 /* AlbumBase.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumBase.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumBase.java; sourceTree = SOURCE_ROOT; };
@@ -1293,6 +1308,7 @@
 		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		10F1A2D91885411E0051E267 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		18D2EF8E5F579E899FFC24E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -1985,6 +2001,29 @@
 		AACB11E416C457DC00BAC7E1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AACB11E616C457F000BAC7E1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AAEB9CDD171648A000439939 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		BAAA31B10EA296D53DABE7A8 /* Pods.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.adhoc.xcconfig; path = "Pods/Target Support Files/Pods/Pods.adhoc.xcconfig"; sourceTree = "<group>"; };
+		D12AC25FD6CE156FCD971BCA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		DD3A8BAC1BC9A04A002DF2C9 /* camera-shutter-click-01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "camera-shutter-click-01.wav"; sourceTree = "<group>"; };
+		DD3A8BAD1BC9A04A002DF2C9 /* GLCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLCamera.h; sourceTree = "<group>"; };
+		DD3A8BAE1BC9A04A002DF2C9 /* GLCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLCamera.m; sourceTree = "<group>"; };
+		DD3A8BAF1BC9A04A002DF2C9 /* GLFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLFilterView.h; sourceTree = "<group>"; };
+		DD3A8BB01BC9A04A002DF2C9 /* GLFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLFilterView.m; sourceTree = "<group>"; };
+		DD3A8BB11BC9A04A002DF2C9 /* GLResizeableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLResizeableView.h; sourceTree = "<group>"; };
+		DD3A8BB21BC9A04A002DF2C9 /* GLResizeableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLResizeableView.m; sourceTree = "<group>"; };
+		DD3A8BB31BC9A04A002DF2C9 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		DD3A8BB41BC9A04A002DF2C9 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		DD3A8BB51BC9A04A002DF2C9 /* MainCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainCameraViewController.h; sourceTree = "<group>"; };
+		DD3A8BB61BC9A04A002DF2C9 /* MainCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainCameraViewController.m; sourceTree = "<group>"; };
+		DD3A8BB71BC9A04A002DF2C9 /* MainCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainCameraViewController.xib; sourceTree = "<group>"; };
+		DD3A8BB81BC9A04A002DF2C9 /* RJTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTextView.h; sourceTree = "<group>"; };
+		DD3A8BB91BC9A04A002DF2C9 /* RJTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTextView.m; sourceTree = "<group>"; };
+		DD3A8BBA1BC9A04A002DF2C9 /* UIView+ColorUiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ColorUiView.h"; sourceTree = "<group>"; };
+		DD3A8BBB1BC9A04A002DF2C9 /* UIView+ColorUiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ColorUiView.m"; sourceTree = "<group>"; };
+		DD3A8BBC1BC9A04A002DF2C9 /* UIView+Transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Transform.h"; sourceTree = "<group>"; };
+		DD3A8BBD1BC9A04A002DF2C9 /* UIView+Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Transform.m"; sourceTree = "<group>"; };
+		DD3A8BC81BC9A229002DF2C9 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		DD3A8BCA1BC9A239002DF2C9 /* libGPUImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGPUImage.a; path = "Pods/../build/Debug-iphoneos/libGPUImage.a"; sourceTree = "<group>"; };
+		DD3A8BCC1BC9A4A1002DF2C9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1992,6 +2031,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD3A8BCB1BC9A239002DF2C9 /* libGPUImage.a in Frameworks */,
+				DD3A8BC91BC9A229002DF2C9 /* Photos.framework in Frameworks */,
 				66CBB07F187F57A10057FBAA /* current_shotvibelib.a in Frameworks */,
 				108CDF0A1884087A00757E36 /* libz.dylib in Frameworks */,
 				10F1A2DA1885411E0051E267 /* CoreVideo.framework in Frameworks */,
@@ -2025,6 +2066,7 @@
 				285EB94C17F55D0A00A33E5B /* StoreKit.framework in Frameworks */,
 				AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */,
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
+				172BE3D3C9E224053C15D25D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3374,6 +3416,7 @@
 				AA58FAF816C224E800C49E02 /* Products */,
 				AA58FB0016C224E800C49E02 /* shotvibe */,
 				AA58FB2416C224E800C49E02 /* shotvibeTests */,
+				FCF5B58CF1E7F696953F6711 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3389,6 +3432,8 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DD3A8BCA1BC9A239002DF2C9 /* libGPUImage.a */,
+				DD3A8BC81BC9A229002DF2C9 /* Photos.framework */,
 				66CBB07E187F57A10057FBAA /* current_shotvibelib.a */,
 				10F1A2D91885411E0051E267 /* CoreVideo.framework */,
 				10F1A2D7188540B40051E267 /* AVFoundation.framework */,
@@ -3421,6 +3466,7 @@
 				285EB94B17F55D0A00A33E5B /* StoreKit.framework */,
 				AA58FB8816C2315100C49E02 /* SystemConfiguration.framework */,
 				AA58FAFA16C224E800C49E02 /* UIKit.framework */,
+				0D570D9648C13694C44E127E /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3428,6 +3474,7 @@
 		AA58FB0016C224E800C49E02 /* shotvibe */ = {
 			isa = PBXGroup;
 			children = (
+				DD3A8BAA1BC99FFD002DF2C9 /* V2 */,
 				AA58FB6D16C22B0400C49E02 /* API */,
 				AA58FB6416C22B0400C49E02 /* AppDelegate */,
 				AACB11C316C453E600BAC7E1 /* Categories */,
@@ -3664,6 +3711,50 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		DD3A8BAA1BC99FFD002DF2C9 /* V2 */ = {
+			isa = PBXGroup;
+			children = (
+				DD3A8BAB1BC9A003002DF2C9 /* GLCamera */,
+			);
+			name = V2;
+			sourceTree = "<group>";
+		};
+		DD3A8BAB1BC9A003002DF2C9 /* GLCamera */ = {
+			isa = PBXGroup;
+			children = (
+				DD3A8BCC1BC9A4A1002DF2C9 /* Images.xcassets */,
+				DD3A8BAC1BC9A04A002DF2C9 /* camera-shutter-click-01.wav */,
+				DD3A8BAD1BC9A04A002DF2C9 /* GLCamera.h */,
+				DD3A8BAE1BC9A04A002DF2C9 /* GLCamera.m */,
+				DD3A8BAF1BC9A04A002DF2C9 /* GLFilterView.h */,
+				DD3A8BB01BC9A04A002DF2C9 /* GLFilterView.m */,
+				DD3A8BB11BC9A04A002DF2C9 /* GLResizeableView.h */,
+				DD3A8BB21BC9A04A002DF2C9 /* GLResizeableView.m */,
+				DD3A8BB31BC9A04A002DF2C9 /* iCarousel.h */,
+				DD3A8BB41BC9A04A002DF2C9 /* iCarousel.m */,
+				DD3A8BB51BC9A04A002DF2C9 /* MainCameraViewController.h */,
+				DD3A8BB61BC9A04A002DF2C9 /* MainCameraViewController.m */,
+				DD3A8BB71BC9A04A002DF2C9 /* MainCameraViewController.xib */,
+				DD3A8BB81BC9A04A002DF2C9 /* RJTextView.h */,
+				DD3A8BB91BC9A04A002DF2C9 /* RJTextView.m */,
+				DD3A8BBA1BC9A04A002DF2C9 /* UIView+ColorUiView.h */,
+				DD3A8BBB1BC9A04A002DF2C9 /* UIView+ColorUiView.m */,
+				DD3A8BBC1BC9A04A002DF2C9 /* UIView+Transform.h */,
+				DD3A8BBD1BC9A04A002DF2C9 /* UIView+Transform.m */,
+			);
+			name = GLCamera;
+			sourceTree = "<group>";
+		};
+		FCF5B58CF1E7F696953F6711 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D12AC25FD6CE156FCD971BCA /* Pods.debug.xcconfig */,
+				18D2EF8E5F579E899FFC24E2 /* Pods.release.xcconfig */,
+				BAAA31B10EA296D53DABE7A8 /* Pods.adhoc.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3671,6 +3762,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA58FB2F16C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibe" */;
 			buildPhases = (
+				45B9BAAEFEC92FBE739AF10A /* Check Pods Manifest.lock */,
 				10D366C41879EF8200E6FF4C /* Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h */,
 				6601325F187F51990042047B /* Run Script: Generate client lib with j2objc */,
 				AA58FAF316C224E800C49E02 /* Sources */,
@@ -3678,6 +3770,7 @@
 				AA58FAF516C224E800C49E02 /* Resources */,
 				3B1E4D2A17AD6C8800CACE80 /* Run Script: Crashlytics script */,
 				66D58347186858C200EAC842 /* Run Script: Uncrustify for modified lines */,
+				C42587A6D75D856521A81989 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3705,7 +3798,7 @@
 			name = shotvibeTests;
 			productName = shotvibeTests;
 			productReference = AA58FB1D16C224E800C49E02 /* shotvibeTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -3713,7 +3806,7 @@
 		AA58FAEF16C224E800C49E02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0510;
+				LastTestingUpgradeCheck = 0700;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "PicsOnAir Ltd.";
 			};
@@ -3860,6 +3953,7 @@
 				04C4063F1730303600973BC0 /* CN.png in Resources */,
 				6666EC3819360F3C00557CB1 /* easyweb_new.png in Resources */,
 				04C406411730303600973BC0 /* CO.png in Resources */,
+				DD3A8BCD1BC9A4A1002DF2C9 /* Images.xcassets in Resources */,
 				04C406431730303600973BC0 /* CR.png in Resources */,
 				04C406451730303600973BC0 /* CU.png in Resources */,
 				3E36D4F418D83F2A003A1D3A /* tutorial7.png in Resources */,
@@ -3935,6 +4029,7 @@
 				04C406B51730303600973BC0 /* IQ.png in Resources */,
 				04C406B71730303600973BC0 /* IR.png in Resources */,
 				04C406B91730303600973BC0 /* IS.png in Resources */,
+				DD3A8BBE1BC9A04A002DF2C9 /* camera-shutter-click-01.wav in Resources */,
 				04C406BB1730303600973BC0 /* IT.png in Resources */,
 				04C406BD1730303600973BC0 /* JE.png in Resources */,
 				3E36D4EF18D83F2A003A1D3A /* tutorial4@2x.png in Resources */,
@@ -4056,6 +4151,7 @@
 				04C4076B1730303600973BC0 /* SG.png in Resources */,
 				04C4076D1730303600973BC0 /* SH.png in Resources */,
 				04C4076F1730303600973BC0 /* SI.png in Resources */,
+				DD3A8BC41BC9A04A002DF2C9 /* MainCameraViewController.xib in Resources */,
 				04C407711730303600973BC0 /* SJ.png in Resources */,
 				04C407731730303600973BC0 /* SK.png in Resources */,
 				04C407751730303600973BC0 /* SL.png in Resources */,
@@ -4351,6 +4447,21 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    ./Crashlytics.framework/run 7f25f8f82f6578b40464674ed500ef0c60435027 0f62485c6120d77bc2984624f2d11eac766fbe2869c56f58d76246c13c161bf3\nfi";
 		};
+		45B9BAAEFEC92FBE739AF10A /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		6601325F187F51990042047B /* Run Script: Generate client lib with j2objc */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4392,6 +4503,21 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		C42587A6D75D856521A81989 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -4408,6 +4534,7 @@
 				664F4703188DBB76009F4776 /* IosHTTPResponse.m in Sources */,
 				108CDF7618846B9000757E36 /* UIView+MPSnapshotImage.m in Sources */,
 				66013228187F4E670042047B /* IOSBooleanArray.m in Sources */,
+				DD3A8BC11BC9A04A002DF2C9 /* GLResizeableView.m in Sources */,
 				66278C9D1867C44600D23F34 /* CameraRollSection.m in Sources */,
 				66013244187F4E670042047B /* Float.m in Sources */,
 				66013255187F4E670042047B /* JavaLangThrowable.m in Sources */,
@@ -4417,6 +4544,8 @@
 				108CDF10188417AE00757E36 /* Util.m in Sources */,
 				66278C9F1867C44600D23F34 /* SVImagePickerListViewController.m in Sources */,
 				669058C719D4D65C00E233D7 /* IosBackgroundUploadSession.m in Sources */,
+				DD3A8BBF1BC9A04A002DF2C9 /* GLCamera.m in Sources */,
+				DD3A8BC61BC9A04A002DF2C9 /* UIView+ColorUiView.m in Sources */,
 				6601322E187F4E670042047B /* IOSFloatArray.m in Sources */,
 				108CDF7118846B9000757E36 /* MPSurveyQuestion.m in Sources */,
 				66278CE91867C62300D23F34 /* SVTumblrActivity.m in Sources */,
@@ -4427,6 +4556,7 @@
 				66278CB21867C4D400D23F34 /* SVImagePickerController.m in Sources */,
 				AA234851177AA3F600D55918 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				6601324F187F4E670042047B /* TypeVariable.m in Sources */,
+				DD3A8BC01BC9A04A002DF2C9 /* GLFilterView.m in Sources */,
 				66013249187F4E670042047B /* Integer.m in Sources */,
 				66F3E97219D5F68A00E36207 /* TmpFilePhotoUploadRequest.m in Sources */,
 				AA23484B177AA3F600D55918 /* AFHTTPRequestOperation.m in Sources */,
@@ -4455,6 +4585,7 @@
 				2884ED101830CB430069E202 /* RegistrationInfo.m in Sources */,
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				664F4706189568B1009F4776 /* IosDevicePhoneContactsLib.m in Sources */,
+				DD3A8BC31BC9A04A002DF2C9 /* MainCameraViewController.m in Sources */,
 				3E0CC9E318B63E1F00F6089A /* SVPictureConfirmViewController.m in Sources */,
 				66278C711867C2AD00D23F34 /* SVConfirmationCodeViewController.m in Sources */,
 				6601323B187F4E670042047B /* Byte.m in Sources */,
@@ -4522,10 +4653,12 @@
 				66013247187F4E670042047B /* IllegalStateException.m in Sources */,
 				66278CE81867C62300D23F34 /* SVProfilePicActivity.m in Sources */,
 				66013253187F4E670042047B /* StringIndexOutOfBoundsException.m in Sources */,
+				DD3A8BC51BC9A04A002DF2C9 /* RJTextView.m in Sources */,
 				66278CE01867C62300D23F34 /* SVActivityButton.m in Sources */,
 				66013227187F4E670042047B /* IOSArrayClass.m in Sources */,
 				66D583401867D66B00EAC842 /* RCTableImageViewCell.m in Sources */,
 				664F4700188DBA69009F4776 /* IosHTTPLib.m in Sources */,
+				DD3A8BC71BC9A04A002DF2C9 /* UIView+Transform.m in Sources */,
 				66278CE51867C62300D23F34 /* SVLinkActivity.m in Sources */,
 				66D5833D1867D66B00EAC842 /* RCLog.m in Sources */,
 				66278D071867C94900D23F34 /* PhotoBitmap.m in Sources */,
@@ -4597,6 +4730,7 @@
 				66E788B41889EB870037ACF3 /* Iterator.m in Sources */,
 				28FC2CA917FE8EE400AE24C3 /* MPNotificationView.m in Sources */,
 				66013245187F4E670042047B /* IllegalArgumentException.m in Sources */,
+				DD3A8BC21BC9A04A002DF2C9 /* iCarousel.m in Sources */,
 				66278C721867C2AD00D23F34 /* SVCountriesViewController.m in Sources */,
 				28FC2CAD17FE8F2600AE24C3 /* OBGradientView.m in Sources */,
 				66013237187F4E670042047B /* ArrayIndexOutOfBoundsException.m in Sources */,
@@ -4698,12 +4832,13 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
@@ -4714,7 +4849,9 @@
 		};
 		3B23863317AD4FAF00D5BA8D /* AdHoc */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BAAA31B10EA296D53DABE7A8 /* Pods.adhoc.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
@@ -4729,6 +4866,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/AviarySDK\"",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				LLVM_LTO = NO;
 				OTHER_LDFLAGS = (
@@ -4779,6 +4917,7 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -4791,7 +4930,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
@@ -4820,12 +4959,13 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
@@ -4836,7 +4976,9 @@
 		};
 		AA58FB3016C224E800C49E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D12AC25FD6CE156FCD971BCA /* Pods.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
@@ -4854,6 +4996,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/AviarySDK\"",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				LLVM_LTO = NO;
 				OTHER_LDFLAGS = (
@@ -4869,7 +5012,9 @@
 		};
 		AA58FB3116C224E800C49E02 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D2EF8E5F579E899FFC24E2 /* Pods.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
@@ -4884,6 +5029,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/shotvibe/Vendor/AviarySDK\"",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				LLVM_LTO = NO;
 				OTHER_LDFLAGS = (
