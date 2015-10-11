@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "56B2D95F487A823607ED30FFEDCFCDAB9FA02CFD",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "56B2D95F487A823607ED30FFEDCFCDAB9FA02CFD" : 0,
+    "DFCE988FB43CAFDE6C7BEEA474E60EE2AD9D8D29" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "506B3EC9-3FAA-4F6D-99DA-31F71978255B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "56B2D95F487A823607ED30FFEDCFCDAB9FA02CFD" : "shotvibe\/",
+    "DFCE988FB43CAFDE6C7BEEA474E60EE2AD9D8D29" : "shotvibe\/shotvibelib\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "shotvibe",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "shotvibe.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/shotvibe\/shotvibe-ios-client",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "56B2D95F487A823607ED30FFEDCFCDAB9FA02CFD"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:shotvibe\/shotvibe-clientlib.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DFCE988FB43CAFDE6C7BEEA474E60EE2AD9D8D29"
+    }
+  ]
+}
