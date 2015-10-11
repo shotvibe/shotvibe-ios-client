@@ -89,6 +89,13 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+//    [self.videoCamera stopCameraCapture];
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    [[[GLCamera sharedInstance] videoCamera] stopCameraCapture];
 }
 
 - (void)viewDidLoad {
@@ -394,17 +401,32 @@
 //    [self.resizeAbleView hideEditingHandles];
 }
 
+-(void)preserveMemory {
+    [[[GLCamera sharedInstance] videoCamera] stopCameraCapture];
+    for(GLFilterView * filter in self.arrayOfFilters){
+        [filter.filter removeAllTargets];
+        [filter.sourcePicture removeAllTargets];
+    }
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+//    [[[GLCamera sharedInstance] videoCamera]startCameraCapture];
+//    [[[GLCamera sharedInstance] videoCamera]resumeCameraCapture];
+    [self backToCameraFromEditPallette:nil];
+}
 
 -(void)finalProcessTapped {
     NSLog(@"final did tapped");
-    
+//    [self preserveMemory];
     
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
     options.synchronous  = YES;
     options.resizeMode = PHImageRequestOptionsResizeModeExact;
     options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
     
-    
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
     
     switch (imageSource) {
         case ImageSourceCamera:
@@ -417,6 +439,9 @@
         case ImageSourceRecents:
         {
             [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(1024, 1024) contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *image, NSDictionary *info){
+                
+//                dispatch_async(dispatch_get_main_queue(), ^(){});
+                
                 [self processSelectedImageWithFilterTextAndSize:image];
             }];
         };
@@ -438,8 +463,14 @@
     
 }
 
+
+
 -(void)processSelectedImageWithFilterTextAndSize:(UIImage*)imageToFinal {
 
+    
+//    @autoreleasepool {
+    
+    
     UIImage * filteredImage = [self addFilterToImage:imageToFinal];
     
     UIImage * ttimage = [self normalizedImage:filteredImage];
@@ -462,8 +493,13 @@
     //        NSLog(@"%f",self.editTextViewObj.center.x);
     NSLog(@"%f",screenWidth);
     
-    [self.delegate imageSelected:imageWithText];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+//    imageWithText rele
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.delegate imageSelected:imageWithText];
+    }];
+        
+//    }
 
 }
 
@@ -510,13 +546,11 @@
 }
 
 -(void) updateFiltersWithSelectedImage:(UIImage *)image {
-    [[GLCamera sharedInstance] setInEditMode:YES];
     
-    [[[GLCamera sharedInstance] videoCamera] pauseCameraCapture];
 //    GLFilterView * currFilter = [self.arrayOfFilters objectAtIndex:currentFilterIndex];
 //    UIImage * captured = [[GLCamera sharedInstance] imageWithView:currFilter.outputViewCasted];
     
-     UIImage * croppedImage = [[GLCamera sharedInstance] imageByCroppingImage:image toSize:CGSizeMake(image.size.width, image.size.width)];
+    
     
     [UIView animateWithDuration:0.5 animations:^{
         self.editPallette.alpha = 1;
@@ -529,10 +563,12 @@
         
     }];
     
+//    croppedImage = nil;
+    
     
     
     for(GLFilterView * filterView in self.arrayOfFilters){
-        [filterView setImageCapturedUnderFilter:croppedImage];
+        [filterView setImageCapturedUnderFilter:image];
     }
 }
 
@@ -562,11 +598,33 @@
     [[GLCamera sharedInstance] setInEditMode:YES];
 //    [[GLCamera sharedInstance] playCaptureSound];
     
-    [self.videoCamera capturePhotoAsImageProcessedUpToFilter:[[self.arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(UIImage *processedImage, NSError *error) {
-        [self.videoCamera pauseCameraCapture];
-        [self updateFiltersWithCapturedImage];
-        cleanImageFromCamera = processedImage;
-    }];
+//    [self.videoCamera capturePhotoAsJPEGProcessedUpToFilter:[[self.arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(NSData *processedJPEG, NSError *error) {
+//        [self.videoCamera pauseCameraCapture];
+//        
+//        cleanImageFromCamera = [UIImage imageWithData:processedJPEG];
+//        
+//        [self updateFiltersWithCapturedImage];
+//        
+//        
+////        [];
+//    }];
+    @autoreleasepool {
+//        [[self.arrayOfFilters objectAtIndex:0] useNextFrameForImageCapture];
+        [self.videoCamera capturePhotoAsImageProcessedUpToFilter:[[self.arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(UIImage *processedImage, NSError *error) {
+            [self.videoCamera pauseCameraCapture];
+            
+            
+            UIGraphicsBeginImageContext(CGSizeMake(processedImage.size.width/2.39, processedImage.size.height/2.39));
+            [processedImage drawInRect:CGRectMake(0, 0, processedImage.size.width/2.39, processedImage.size.height/2.39)];
+            UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            cleanImageFromCamera = newImage;
+            
+            [self updateFiltersWithCapturedImage];
+        }];
+    }
+    
     
     
     
@@ -779,6 +837,8 @@
     }
     
     [self.videoCamera resumeCameraCapture];
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    
     
     [UIView animateWithDuration:0.5 animations:^{
         self.resizeAbleView.alpha = 0;
@@ -1160,7 +1220,9 @@
 //        options.normalizedCropRect = CGRectMake(0, 0, 200, 200);
         options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
         
+        [[GLCamera sharedInstance] setInEditMode:YES];
         
+        [[[GLCamera sharedInstance] videoCamera] pauseCameraCapture];
         
         [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:index] targetSize:CGSizeMake(700, 700) contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *result, NSDictionary *info){
             
@@ -1168,9 +1230,15 @@
 //            CGImageRef cgRef = result.CGImage;
             UIImage * ttimage = [self normalizedImage:result];
             
+//            UIImage * croppedImage = ;
             
-            [self updateFiltersWithSelectedImage:ttimage];
+            
+            [self updateFiltersWithSelectedImage:[[GLCamera sharedInstance] imageByCroppingImage:ttimage toSize:CGSizeMake(ttimage.size.width, ttimage.size.width)]];
+            ttimage = nil;
             imageSource = ImageSourceRecents;
+            
+            
+//            [[PHImageManager defaultManager] dealloc];
             //            UIImageView * thumbImage = [[UIImageView alloc] initWithImage:result];//
             //            thumbImage.frame = CGRectMake(98, self.view.frame.size.height-256, 180, 180);
             //

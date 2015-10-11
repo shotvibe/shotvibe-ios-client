@@ -145,7 +145,7 @@ typedef enum {
 @property(nonatomic, strong) UIView * sliderView;
 @property(nonatomic, strong) UISlider * filterSettingsSlider;
 @property(nonatomic, strong) UIView * focusLayer;
-@property(nonatomic, strong) GPUImagePicture * sourcePicture;
+@property(nonatomic, retain) GPUImagePicture * sourcePicture;
 @property(nonatomic, strong) UILabel * title;
 
 //@property(nonatomic, strong) GPUImageView * outputViewAfterCapture;

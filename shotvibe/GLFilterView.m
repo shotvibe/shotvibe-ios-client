@@ -139,7 +139,7 @@
     
         
         
-        
+        [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
 //        [self.filter removeAllTargets];
 //
 //        [self.sourcePicture processImage];
@@ -164,13 +164,13 @@
 //        [self.filter forceProcessingAtSize:self.outputViewCasted.sizeInPixels]; // This is now needed to make the filter run at the smaller output size
         //
         //
+        
         [self.sourcePicture addTarget:self.filter];
         [self.filter addTarget:self.outputViewCasted];
-        //
-        //    
-        //    
         [self.sourcePicture processImage];
-        [self.sourcePicture processImage];
+        
+        
+//        [self.sourcePicture processImage];
     
     
     

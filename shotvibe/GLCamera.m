@@ -8,6 +8,7 @@
 
 #import "GLCamera.h"
 
+//static GLCamera* SharedInstance;
 
 @implementation GLCamera
 

@@ -92,6 +92,8 @@
 
     // TODO Should use a global ImageDiskCache
     ImageDiskCache *imageDiskCache_;
+    
+    MainCameraViewController * vc;
 }
 
 
@@ -344,12 +346,26 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     
     
 //    MainCameraViewController * mainCamera = [[MainCameraViewController alloc] init];
-    MainCameraViewController * vc = [[MainCameraViewController alloc] init];
-    vc.delegate = self;
-    navigatingNext = YES;
-//    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
-//    [navigationController setNavigationBarHidden:YES animated:NO];
-    [self presentViewController:vc animated:YES completion:nil];
+    
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//    if(vc == nil){
+    @autoreleasepool {
+    vc = nil;
+        vc = [[MainCameraViewController alloc] init];
+        vc.delegate = self;
+//    }
+    
+    
+        navigatingNext = YES;
+        [self presentViewController:vc animated:YES completion:nil];
+        
+    }
+//    });
+    
+    
+
+    
     
     
     
@@ -361,8 +377,13 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 -(void)imageSelected:(UIImage*)image {
+    vc = nil;
+    vc.delegate = nil;
     
-    
+//    [vc dismissViewControllerAnimated:YES completion:^{
+////        vc = nil;
+//    }];
+//    [];
     
     UIImage *originalImage = image;
     UIImage *scaledImage = originalImage;
@@ -396,8 +417,8 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
                        
 //                       );
 //    }
-    
-                   
+//    
+//                   
 //                   );
     
     
