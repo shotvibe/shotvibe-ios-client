@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "SVCameraPickerDelegate.h"
 #import "SL/AlbumManager.h"
+#import "MainCameraViewController.h"
+#import "SVPictureConfirmViewController.h"
 
 typedef enum {
 	SortFeedAlike=0,
@@ -17,12 +19,13 @@ typedef enum {
 }SortType;
 
 
-@interface SVAlbumGridViewController : UIViewController <SLAlbumManager_AlbumContentsListener, SVCameraPickerDelegate, UIAlertViewDelegate>
+@interface SVAlbumGridViewController : UIViewController <SLAlbumManager_AlbumContentsListener, SVCameraPickerDelegate, UIAlertViewDelegate,MainCameraViewControllerDelegate>
 
 #pragma mark - Properties
 
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, assign) BOOL scrollToBottom;
 @property (nonatomic, assign) BOOL scrollToTop;
+@property (nonatomic,retain) SVPictureConfirmViewController * container;
 
 @end

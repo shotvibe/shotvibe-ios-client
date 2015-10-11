@@ -44,6 +44,7 @@
 #import "IosHTTPLib.h"
 #import "IosDevicePhoneContactsLib.h"
 
+
 @interface ShotVibeAppDelegate ()
 @property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
 @property (nonatomic, strong) SVSidebarManagementController *sidebarLeft;
