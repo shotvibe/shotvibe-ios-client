@@ -44,11 +44,16 @@
 #import "IosHTTPLib.h"
 #import "IosDevicePhoneContactsLib.h"
 
+//#import "GLCamera.h"
+#import "MainCameraViewController.h"
 
 @interface ShotVibeAppDelegate ()
 @property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
 @property (nonatomic, strong) SVSidebarManagementController *sidebarLeft;
 @property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
+
+@property (nonatomic, retain) MainCameraViewController *mainCameraView;
+
 @end
 
 
@@ -141,11 +146,18 @@
 {
     BOOL background = application.applicationState == UIApplicationStateBackground;
     NSLog(@"App Start");
+    
+    
+    
 
 //    NSThread *testBackgroundThread = [[NSThread alloc] initWithTarget:self selector:@selector(testBackgroundThread:) object:nil];
 //    [testBackgroundThread start];
 
     [self initSDKs];
+    
+    //Init Camera Manager
+//    self.mainCameraView = [[MainCameraViewController alloc] init];
+//    [GLCamera sharedInstance];
 
     _albumManager = nil;
 

@@ -47,7 +47,7 @@ typedef enum ScrollDirection {
 
 
 - (void)viewIsResizing:(CGRect)bounds gesture:(UIPanGestureRecognizer*)gesture;
-@property (nonatomic, assign) id<MainCameraViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<MainCameraViewControllerDelegate> delegate;
 @property(nonatomic, strong) GPUImageStillCamera * videoCamera;
 @property(nonatomic, strong) NSMutableArray * arrayOfFilters;
 @property(nonatomic, strong) UIScrollView * mainScrollView;
@@ -62,6 +62,7 @@ typedef enum ScrollDirection {
 @property(nonatomic, strong) UIScrollView * recentPhotosSlider;
 
 @property(nonatomic, retain) GLResizeableView * resizeAbleView;
+
 //@pro
 //@property (nonatomic, strong) NSMutableArray * finalScrollViewImagesArray;
 

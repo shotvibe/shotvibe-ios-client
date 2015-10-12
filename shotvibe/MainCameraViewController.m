@@ -17,6 +17,9 @@
 
 
 @implementation MainCameraViewController {
+    
+    BOOL backFromPicker;
+    
     int currentFilterIndex;
     UIButton *flipCameraButton;
     BOOL backCameraOn;
@@ -63,7 +66,7 @@
 
 //    ResizeableView * resizeableView;
     
-    PHFetchResult *fetchResult;
+//    PHFetchResult *fetchResult;
     
     UIView * mainOutPutFrame;
     
@@ -84,24 +87,84 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+//    [[SDImageCache sharedImageCache] clearMemory];
     // Dispose of any resources that can be recreated.
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    [self.videoCamera stopCameraCapture];
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    
+//    self.delegate = nil;
+//    self.videoCamera = nil;
+//    self.arrayOfFilters = nil;
+//    self.mainScrollView = nil;
+//    self.editTextViewObj = nil;
+//    self.carousel = nil;
+//    self.latestImagesArray = nil;
+//    self.items = nil;
+//    self.editPallette = nil;
+//    self.editPalletteImageView = nil;
+//    self.recentPhotosSlider = nil;
+//    self.resizeAbleView = nil;
+//    
+//    
+//    
+//    
+//    flipCameraButton = nil;
+//    flashButton = nil;
+//    captureButton = nil;
+//    finalProcessButton = nil;
+//    backToCameraButton = nil;
+//    addTextButton = nil;
+//    trashTextButton = nil;
+//    approveTextButton = nil;
+//    defaultFilter = nil;
+//    saturationFilter = nil;
+//    contrastFilter = nil;
+//    brightnessFilter = nil;
+//    levelsFilter = nil;
+//    exposureFilter = nil;
+//    rgbFilter = nil;
+//    whiteBalance = nil;
+//    sharpenFilter = nil;
+//    unsharpFilter = nil;
+//    gammaFilter = nil;
+//    hazeFilter = nil;
+//    sepiaFIlter = nil;
+//    amatorkaFilter = nil;
+//    missEtikateFilter = nil;
+//    softEleganceFilter = nil;
+//    grayScaleFilter = nil;
+//    polkaDotFIlter = nil;
+//    sketchFilter = nil;
+//    posterizeFilter = nil;
+//    embossFilter = nil;
+//    vignetteFilter = nil;
+//    selectiveBlurFilter = nil;toonFilter = nil;fetchResult = nil;mainOutPutFrame = nil;imageFromPicker = nil;cleanImageFromCamera = nil;
+    
+    
+    
 //    [self.videoCamera stopCameraCapture];
 }
 
+
+
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
-    [[[GLCamera sharedInstance] videoCamera] stopCameraCapture];
+    NSLog(@"MainCameraViewController viewDidDisappear");
+//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+//    [[[GLCamera sharedInstance] videoCamera] stopCameraCapture];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"MainCameraViewController viewDidLoad");
     
-    
+    backFromPicker = NO;
     imageSource = ImageSourceNone;
     isEditing = NO;
     cameraIsBackView = YES;
@@ -131,23 +194,19 @@
     
     int recentsLimit = 15;
     
-    PHFetchOptions *fetchOptions = [PHFetchOptions new];
-    fetchOptions.includeAllBurstAssets = NO;
-    fetchOptions.includeHiddenAssets = NO;
-//    fetchOptions.fetchLimit
-//    fetchOptions.fetchLimit = 15;
-//    [fetchOptions setFetchLimit:15];
-    fetchOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
-//    fetchOptions.fetchLimit = 15;
-    fetchResult = [PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:fetchOptions];
-    
-    if([fetchResult count] < recentsLimit){
-        recentsLimit = (int)[fetchResult count];
-    }
-    
-    for(int r = 0; r < recentsLimit; r++){
-        [self.latestImagesArray addObject:[fetchResult objectAtIndex:r]];
-    }
+//    PHFetchOptions *fetchOptions = [PHFetchOptions new];
+//    fetchOptions.includeAllBurstAssets = NO;
+//    fetchOptions.includeHiddenAssets = NO;
+//    fetchOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+//    PHFetchResult * fetchResult = [PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:fetchOptions];
+//    
+//    if([fetchResult count] < recentsLimit){
+//        recentsLimit = (int)[fetchResult count];
+//    }
+//    
+//    for(int r = 0; r < recentsLimit; r++){
+//        [self.latestImagesArray addObject:[fetchResult objectAtIndex:r]];
+//    }
 //    for(PHAsset * asset in fetchResult){
 //        [self.latestImagesArray addObject:asset];
 //    }
@@ -164,8 +223,8 @@
     
     
     finalProcessButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0, 70, 70)];
-    UIImage *btnImage9 = [UIImage imageNamed:@"CaptureButton"];
-    [finalProcessButton setImage:btnImage9 forState:UIControlStateNormal];
+//    UIImage *btnImage9 = [UIImage imageNamed:@"CaptureButton"];
+//    [finalProcessButton setImage:btnImage9 forState:UIControlStateNormal];
     
     [finalProcessButton addTarget:self action:@selector(finalProcessTapped) forControlEvents:UIControlEventTouchUpInside];
     
@@ -181,8 +240,8 @@
     //    self.carousel.backgroundColor = [UIColor blueColor];
     
     [self.view addSubview:self.carousel];
-    
-    
+//
+//    
     self.editPallette = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenWidth)];
     
     self.editPallette.backgroundColor = [UIColor clearColor];
@@ -195,7 +254,7 @@
 //    self.editPallette.clipsToBounds = YES;
 ////    self.editPalletteImageView.backgroundColor = [UIColor redColor];
 //    [self.editPallette addSubview:self.editPalletteImageView];
-    
+
     
 //    self.resizeAbleView = [GLResizeableView];
     
@@ -209,24 +268,24 @@
 //    [self.resizeAbleView hideEditingHandles];
     
     self.resizeAbleView.alpha = 0;
-    
-    
-    
-//    resizeableView = [[ResizeableView alloc] initWithFrame:CGRectMake(60, 100, 200, 200)];
-//    resizeableView.clipsToBounds = YES;
-//    resizeableView.transform = CGAffineTransformMakeRotation(0.3);
-//    resizeableView.center = CGPointMake(160, 200);
-////    resizeableView.instanceOfCustomObject = self;
+//
 //    
-//    resizeableView.alpha = 0;
-//    resizeableView.topLeft.alpha = 0;
-//    resizeableView.topRight.alpha = 0;
-//    resizeableView.bottomLeft.alpha = 0;
-//    resizeableView.bottomRight.alpha = 0;
-//    resizeableView.rotateHandle.alpha = 0;
-
-    
-    
+//    
+////    resizeableView = [[ResizeableView alloc] initWithFrame:CGRectMake(60, 100, 200, 200)];
+////    resizeableView.clipsToBounds = YES;
+////    resizeableView.transform = CGAffineTransformMakeRotation(0.3);
+////    resizeableView.center = CGPointMake(160, 200);
+//////    resizeableView.instanceOfCustomObject = self;
+////    
+////    resizeableView.alpha = 0;
+////    resizeableView.topLeft.alpha = 0;
+////    resizeableView.topRight.alpha = 0;
+////    resizeableView.bottomLeft.alpha = 0;
+////    resizeableView.bottomRight.alpha = 0;
+////    resizeableView.rotateHandle.alpha = 0;
+//
+//    
+//    
     CGFloat minWidth  = 100;
     CGFloat minHeight = 50;
     
@@ -239,14 +298,14 @@
 //    [self.resizeAbleView addGestureRecognizer:tapOnWindow];
 //    [self.resizeAbleView addGestureRecognizer:resizepan];
     
-    self.editTextViewObj = [[RJTextView alloc] initWithFrame:self.resizeAbleView.bounds
-                                                 defaultText:@"This is Hey from Glance!"
-                                                        font:[UIFont systemFontOfSize:14.f]
-                                                       color:[UIColor blackColor]
-                                                     minSize:CGSizeMake(minWidth, minHeight)];
-    self.editTextViewObj.userInteractionEnabled = NO;
-    self.editTextViewObj.delegate = self;
-    self.editTextViewObj.parentView = self.view;
+//    self.editTextViewObj = [[RJTextView alloc] initWithFrame:self.resizeAbleView.bounds
+//                                                 defaultText:@"This is Hey from Glance!"
+//                                                        font:[UIFont systemFontOfSize:14.f]
+//                                                       color:[UIColor blackColor]
+//                                                     minSize:CGSizeMake(minWidth, minHeight)];
+//    self.editTextViewObj.userInteractionEnabled = NO;
+//    self.editTextViewObj.delegate = self;
+//    self.editTextViewObj.parentView = self.view;
     [self.resizeAbleView addSubview:self.editTextViewObj];
     
     
@@ -265,8 +324,8 @@
     
     
     captureButton = [[UIButton alloc] initWithFrame:CGRectMake((screenWidth/2)-35,self.view.frame.size.height * 0.6, 70, 70)];
-    UIImage *btnImage3 = [UIImage imageNamed:@"CaptureButton"];
-    [captureButton setImage:btnImage3 forState:UIControlStateNormal];
+//    UIImage *btnImage3 = [UIImage imageNamed:@"CaptureButton"];
+//    [captureButton setImage:btnImage3 forState:UIControlStateNormal];
     
     [captureButton addTarget:self action:@selector(captureTapped) forControlEvents:UIControlEventTouchUpInside];
 
@@ -278,43 +337,43 @@
     backToCameraButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 40, 30)];
     backToCameraButton.userInteractionEnabled = YES;
     [backToCameraButton addTarget:self action:@selector(backToCameraFromEditPallette:) forControlEvents:UIControlEventTouchUpInside];
-    UIImage *btnImage4 = [UIImage imageNamed:@"backToCameraIcon"];
+//    UIImage *btnImage4 = [UIImage imageNamed:@"backToCameraIcon"];
     
     backToCameraButton.alpha = 0;
     //    [flipCameraButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
     
-    [backToCameraButton setImage:btnImage4 forState:UIControlStateNormal];
+//    [backToCameraButton setImage:btnImage4 forState:UIControlStateNormal];
     [mainOutPutFrame addSubview:backToCameraButton];
-    
-    
-    
-    
+//
+//    
+//    
+//    
     addTextButton = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth - 50, 10, 38, 38)];
 //    addTextButton.backgroundColor = [UIColor blueColor];
-    UIImage *btnImage5 = [UIImage imageNamed:@"addTextIcon"];
+//    UIImage *btnImage5 = [UIImage imageNamed:@"addTextIcon"];
     addTextButton.alpha = 0;
         [addTextButton addTarget:self action:@selector(addTextToImageTapped) forControlEvents:UIControlEventTouchUpInside];
-    [addTextButton setImage:btnImage5 forState:UIControlStateNormal];
+//    [addTextButton setImage:btnImage5 forState:UIControlStateNormal];
     [mainOutPutFrame addSubview:addTextButton];
     
     trashTextButton = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth - 50, 10, 38, 38)];
-    //    addTextButton.backgroundColor = [UIColor blueColor];
-    UIImage *btnImage6 = [UIImage imageNamed:@"addTextTrashIcon"];
-    trashTextButton.alpha = 0;
+        trashTextButton.backgroundColor = [UIColor blueColor];
+//    UIImage *btnImage6 = [UIImage imageNamed:@"addTextTrashIcon"];
+//    trashTextButton.alpha = 0;
     [trashTextButton addTarget:self action:@selector(trashTheText) forControlEvents:UIControlEventTouchUpInside];
-    [trashTextButton setImage:btnImage6 forState:UIControlStateNormal];
+//    [trashTextButton setImage:btnImage6 forState:UIControlStateNormal];
     [mainOutPutFrame addSubview:trashTextButton];
-    
-    
+//
+//    
     approveTextButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 40, 30)];
     approveTextButton.userInteractionEnabled = YES;
     [approveTextButton addTarget:self action:@selector(approveTextTapped) forControlEvents:UIControlEventTouchUpInside];
-    UIImage *btnImage7 = [UIImage imageNamed:@"approveTextIcon"];
+//    UIImage *btnImage7 = [UIImage imageNamed:@"approveTextIcon"];
     
     approveTextButton.alpha = 0;
     //    [flipCameraButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
     
-    [approveTextButton setImage:btnImage7 forState:UIControlStateNormal];
+//    [approveTextButton setImage:btnImage7 forState:UIControlStateNormal];
     [mainOutPutFrame addSubview:approveTextButton];
     
     // Listen for keyboard appearances and disappearances
@@ -412,50 +471,74 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    if(backFromPicker == YES){
+    
+    } else {
+            [self.videoCamera startCameraCapture];
+    }
+    
+    
+//    [self.view bringSubviewToFront:self.dismissbutton];
 //    [[[GLCamera sharedInstance] videoCamera]startCameraCapture];
 //    [[[GLCamera sharedInstance] videoCamera]resumeCameraCapture];
-    [self backToCameraFromEditPallette:nil];
+//    [self backToCameraFromEditPallette:nil];
 }
 
 -(void)finalProcessTapped {
     NSLog(@"final did tapped");
 //    [self preserveMemory];
     
-    PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
-    options.synchronous  = YES;
-    options.resizeMode = PHImageRequestOptionsResizeModeExact;
-    options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+    
+    [self.videoCamera stopCameraCapture];
+    
+//    [self ddissmisstappeed:nil];
+    
+    
+//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+////    self.delegate = nil;
+//    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+//////        [self.delegate imageSelected:nil];
+//    }];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    
+    
+   
     
     [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
     
-    switch (imageSource) {
-        case ImageSourceCamera:
-        {
-            [self processSelectedImageWithFilterTextAndSize:cleanImageFromCamera];
-            
-        };
-            break;
-            
-        case ImageSourceRecents:
-        {
-            [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(1024, 1024) contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *image, NSDictionary *info){
-                
-//                dispatch_async(dispatch_get_main_queue(), ^(){});
-                
-                [self processSelectedImageWithFilterTextAndSize:image];
-            }];
-        };
-            break;
-            
-        case ImageSourceGallery:
-        {
-            [self processSelectedImageWithFilterTextAndSize:imageFromPicker];
-        };
-            break;
-            
-        default:
-            break;
-    }
+//    switch (imageSource) {
+//        case ImageSourceCamera:
+//        {
+//            [self processSelectedImageWithFilterTextAndSize:cleanImageFromCamera];
+//            
+//        };
+//            break;
+//            
+//        case ImageSourceRecents:
+//        {
+//            PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
+//            options.synchronous  = YES;
+//            options.resizeMode = PHImageRequestOptionsResizeModeExact;
+//            options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+//            [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(1024, 1024) contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *image, NSDictionary *info){
+//                [self processSelectedImageWithFilterTextAndSize:image];
+//            }];
+//        };
+//            break;
+//            
+//        case ImageSourceGallery:
+//        {
+//            [self processSelectedImageWithFilterTextAndSize:imageFromPicker];
+//        };
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
     
     
     
@@ -494,9 +577,11 @@
     NSLog(@"%f",screenWidth);
     
     
-//    imageWithText rele
+    
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    [self.delegate imageSelected:imageWithText];
     [self dismissViewControllerAnimated:YES completion:^{
-        [self.delegate imageSelected:imageWithText];
+        
     }];
         
 //    }
@@ -507,7 +592,7 @@
     
  
     
-    GPUImagePicture * sourcePicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
+//    GPUImagePicture * sourcePicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
     GLFilterView * currentFIlter = [self.arrayOfFilters objectAtIndex:currentFilterIndex];
     //    sepiaFilter = [[GPUImageSobelEdgeDetectionFilter alloc] init];
     
@@ -611,7 +696,7 @@
     @autoreleasepool {
 //        [[self.arrayOfFilters objectAtIndex:0] useNextFrameForImageCapture];
         [self.videoCamera capturePhotoAsImageProcessedUpToFilter:[[self.arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(UIImage *processedImage, NSError *error) {
-            [self.videoCamera pauseCameraCapture];
+            [self.videoCamera stopCameraCapture];
             
             
             UIGraphicsBeginImageContext(CGSizeMake(processedImage.size.width/2.39, processedImage.size.height/2.39));
@@ -835,9 +920,9 @@
     for(GLFilterView * filterView in self.arrayOfFilters){
         [filterView backToCamera];
     }
-    
-    [self.videoCamera resumeCameraCapture];
     [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    [self.videoCamera startCameraCapture];
+    
     
     
     [UIView animateWithDuration:0.5 animations:^{
@@ -903,8 +988,6 @@
     }
     self.mainScrollView.contentSize = CGSizeMake(filterViewWidth, (filterViewHeight* numberOfViews)-20);
     
-    //    [self.mainScrollView setContentOffset:CGPointMake(0, 20)];
-    //    [self.mainScrollView scrollsToTop];
     
     [mainOutPutFrame addSubview:self.mainScrollView];
     
@@ -914,37 +997,34 @@
     
     
     flipCameraButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 60, 60)];
-    UIImage *btnImage = [UIImage imageNamed:@"FlipCameraIcon"];
+//    UIImage *btnImage = [UIImage imageNamed:@"FlipCameraIcon"];
     [flipCameraButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
-    [flipCameraButton setImage:btnImage forState:UIControlStateNormal];
+//    [flipCameraButton setImage:btnImage forState:UIControlStateNormal];
     [self.view addSubview:flipCameraButton];
     
     backCameraOn = YES;
     
     flashButton = [[UIButton alloc] initWithFrame:CGRectMake(filterViewWidth - 50, 30, 40, 40)];
-    UIImage *btnImage2 = [UIImage imageNamed:@"FlashIcon"];
+//    UIImage *btnImage2 = [UIImage imageNamed:@"FlashIcon"];
     [flashButton addTarget:self action:@selector(toggleFlash) forControlEvents:UIControlEventTouchUpInside];
-    [flashButton setImage:btnImage2 forState:UIControlStateNormal];
+//    [flashButton setImage:btnImage2 forState:UIControlStateNormal];
     [self.view addSubview:flashButton];
     
     flashIsOn = NO;
     
     
-//    self.recentPhotosSlider = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, filterViewWidth, filterViewHeight)];
-//    self.mainScrollView.tag = ScrollerTypeFilterScroller;
-//    self.mainScrollView.delegate = self;
-//    self.mainScrollView.pagingEnabled = YES;
     
 }
 
 - (void)setupVideoCamera {
 
-    self.videoCamera = [[GLCamera sharedInstance] videoCamera];
+//    self.videoCamera = [[[GLCamera alloc] init] videoCamera];
+//    NSLog(@"self.videoCamera: %@", self.videoCamera);
+////
+//    [self createFiltersViews];
+//    [self createMainScrollView];
+//
     
-    [self createFiltersViews];
-    [self createMainScrollView];
-    
-    [self.videoCamera startCameraCapture];
     
 }
 
@@ -1199,6 +1279,8 @@
 
 #pragma mark - iCarouselMethods
 
+//-(void)imagep
+
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index locationInView:(CGPoint)location {
     
     indexOfImageFromCarousel = (int)index;
@@ -1211,6 +1293,8 @@
         picker.allowsEditing = YES;
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         
+        backFromPicker = YES;
+        
         [self presentViewController:picker animated:YES completion:NULL];
     } else {
         
@@ -1222,7 +1306,8 @@
         
         [[GLCamera sharedInstance] setInEditMode:YES];
         
-        [[[GLCamera sharedInstance] videoCamera] pauseCameraCapture];
+        [[[GLCamera sharedInstance] videoCamera] stopCameraCapture];
+        
         
         [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:index] targetSize:CGSizeMake(700, 700) contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *result, NSDictionary *info){
             
@@ -1283,9 +1368,9 @@
     if(index == [self.latestImagesArray count]){
         //        view.backgroundColor = [UIColor purpleColor];
         //        UIImage * i = [[UIImage alloc] ];
-        UIImage * image = [UIImage imageNamed:@"GiCon"];
+//        UIImage * image = [UIImage imageNamed:@"GiCon"];
         UIImageView * iv = [[UIImageView alloc] initWithFrame:CGRectMake(45, 45, 90.0f, 90.0f)];
-        iv.image = image;
+//        iv.image = image;
         [view addSubview:iv];
         //        ((UIImageView *)view).image = image;
     } else {
@@ -1326,15 +1411,23 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    [self sendImageToEdit:chosenImage];
+//    [self sendImageToEdit:chosenImage];
     [self updateFiltersWithSelectedImage:chosenImage];
-    //    self.imageView.image = chosenImage;
     
-    //
-    [picker dismissViewControllerAnimated:YES completion:NULL];
+    //    self.imageView.image = chosenImage;
     imageSource = ImageSourceGallery;
     imageFromPicker = chosenImage;
+    chosenImage = nil;
     //
+    [picker dismissViewControllerAnimated:YES completion:^{
+        backFromPicker = NO;
+    }];
+    
+    //
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    backFromPicker = NO;
 }
 //- (void)viewIsResizing:(CGRect)bounds gesture:(UIPanGestureRecognizer*)gesture {
 ////    [self.editTextViewObj setFrame:CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height)];

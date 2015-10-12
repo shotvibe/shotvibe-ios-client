@@ -84,18 +84,18 @@
         [self createTextViewWithFrame:CGRectZero text:nil font:nil];
 
         UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        [editButton setBackgroundImage:[UIImage imageNamed:@"pe_pen_icon"]
-                              forState:UIControlStateNormal];
-        [editButton setBackgroundImage:[UIImage imageNamed:@"pe_pen_icon_push"]
-                              forState:UIControlStateHighlighted];
+//        [editButton setBackgroundImage:[UIImage imageNamed:@"pe_pen_icon"]
+//                              forState:UIControlStateNormal];
+//        [editButton setBackgroundImage:[UIImage imageNamed:@"pe_pen_icon_push"]
+//                              forState:UIControlStateHighlighted];
         [editButton addTarget:self action:@selector(editTextView)
              forControlEvents:UIControlEventTouchUpInside];
         [editButton setExclusiveTouch:YES]; [self addSubview:editButton];
         [self setEditButton:editButton];// [editButton release];
         
         UIImageView *sView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        [sView setImage:[UIImage imageNamed:@"pe_pen_scale"]];
-        [sView setHighlightedImage:[UIImage imageNamed:@"pe_pen_scale_push"]];
+//        [sView setImage:[UIImage imageNamed:@"pe_pen_scale"]];
+//        [sView setHighlightedImage:[UIImage imageNamed:@"pe_pen_scale_push"]];
         [sView setUserInteractionEnabled:YES];
         UIPanGestureRecognizer *panGes = [[UIPanGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(scaleTextView:)];

@@ -22,8 +22,6 @@
     UIView * touchPointCircle;
    
 }
-//@synthesize filter,filterType;
-
 
 - (instancetype)initWithType:(GPUImageShowcaseFilterType)typeIs {
     
@@ -58,13 +56,7 @@
         [self.filter addTarget:self.outputViewCasted];
         
         
-//        self.outputViewAfterCapture = [[GPUImageView alloc] initWithFrame:CGRectMake(0, 0, filterViewWidth, filterViewHeight)];
-//        self.outputView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-//        [self.container addSubview:self.outputViewAfterCapture];
-        
-        
         self.sliderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 50)];
-//        self.sliderView.backgroundColor = [UIColor redColor];
         [self.container addSubview:self.sliderView];
         
         UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(sineXYPad:)];
@@ -81,9 +73,9 @@
         
         touchPointCircle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
         
-        UIImage * image = [UIImage imageNamed:@"CameraFocusIcon"];
+//        UIImage * image = [UIImage imageNamed:@"CameraFocusIcon"];
         UIImageView * iv = [[UIImageView alloc] initWithFrame:touchPointCircle.frame];
-        iv.image = image;
+//        iv.image = image;
         [touchPointCircle addSubview:iv];
         
         
@@ -102,11 +94,10 @@
         [self.container addSubview:self.focusLayer];
         
         
-//        self.title.text = @"test";
+
         self.title.font = [UIFont fontWithName:@"Helvetica-Light" size:24];
         self.title.textColor = [UIColor whiteColor];
         self.title.backgroundColor = [UIColor clearColor];
-//        filterName.text = nsstringfrom;
         [self.container addSubview:self.title];
         
         

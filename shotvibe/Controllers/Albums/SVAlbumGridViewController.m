@@ -243,6 +243,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     NSLog(@"SVAlbumGridViewController %@: viewWillDisappear: %d", self, animated);
 }
 
@@ -316,6 +317,8 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    [[SDImageCache sharedImageCache] clearMemory];
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
     // Dispose of any resources that can be recreated.
 }
 
@@ -345,22 +348,26 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
     
     
-//    MainCameraViewController * mainCamera = [[MainCameraViewController alloc] init];
+    MainCameraViewController * mainCamera = [[MainCameraViewController alloc] init];
     
     
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //    if(vc == nil){
-    @autoreleasepool {
-    vc = nil;
-        vc = [[MainCameraViewController alloc] init];
-        vc.delegate = self;
+//    @autoreleasepool {
+//    vc = nil;
+//        vc = [[MainCameraViewController alloc] init];
+        mainCamera.delegate = self;
 //    }
     
     
         navigatingNext = YES;
-        [self presentViewController:vc animated:YES completion:nil];
-        
-    }
+//    self.view addSubview:mainCamera
+//    [self.navigationController pushViewController:vc animated:YES];
+//        [self presentViewController:mainCamera animated:YES completion:nil];
+    __weak SVAlbumGridViewController * weakSelf = self;
+    [weakSelf presentViewController:mainCamera animated:YES completion:nil];
+    
+//    }
 //    });
     
     
@@ -377,13 +384,18 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 -(void)imageSelected:(UIImage*)image {
-    vc = nil;
-    vc.delegate = nil;
+//    vc = nil;
+//    vc.delegate = nil;
+    
+//    if(image != nil){
+    
+    
     
 //    [vc dismissViewControllerAnimated:YES completion:^{
 ////        vc = nil;
 //    }];
 //    [];
+//        @autoreleasepool {
     
     UIImage *originalImage = image;
     UIImage *scaledImage = originalImage;
@@ -467,6 +479,10 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
         
 
     }
+    
+        [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+        [[SDImageCache sharedImageCache] clearMemory];
+    
     
     
 }
