@@ -93,7 +93,7 @@
     // TODO Should use a global ImageDiskCache
     ImageDiskCache *imageDiskCache_;
     
-    MainCameraViewController * vc;
+//    MainCameraViewController * vc;
 }
 
 
@@ -343,24 +343,25 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //    SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
 //    [self presentViewController:nc animated:NO completion:nil];
 
-    
+    CameraViewController * camera = [[CameraViewController alloc] init];
+    [self presentViewController:camera animated:YES completion:nil];
     
 //    MainCameraViewController * mainCamera = [[MainCameraViewController alloc] init];
     
     
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //    if(vc == nil){
-    @autoreleasepool {
-    vc = nil;
-        vc = [[MainCameraViewController alloc] init];
-        vc.delegate = self;
+//    @autoreleasepool {
+//    vc = nil;
+//        vc = [[MainCameraViewController alloc] init];
+//        vc.delegate = self;
+////    }
+//    
+//    
+//        navigatingNext = YES;
+//        [self presentViewController:vc animated:YES completion:nil];
+//        
 //    }
-    
-    
-        navigatingNext = YES;
-        [self presentViewController:vc animated:YES completion:nil];
-        
-    }
 //    });
     
     
@@ -377,8 +378,8 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 -(void)imageSelected:(UIImage*)image {
-    vc = nil;
-    vc.delegate = nil;
+//    vc = nil;
+//    vc.delegate = nil;
     
 //    [vc dismissViewControllerAnimated:YES completion:^{
 ////        vc = nil;

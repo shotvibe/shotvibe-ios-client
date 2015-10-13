@@ -16,6 +16,7 @@
 @end
 
 
+
 @implementation MainCameraViewController {
     int currentFilterIndex;
     UIButton *flipCameraButton;
@@ -82,6 +83,22 @@
 
 
 
+
+-(void)dealloc {
+    
+    NSString *strClass = NSStringFromClass([self class]);
+    NSLog(@"%@ deallocated",strClass);
+    
+    [mainOutPutFrame removeFromSuperview];
+        [self.mainScrollView removeFromSuperview];
+        [self.resizeAbleView removeFromSuperview];
+        [self.editTextViewObj removeFromSuperview];
+    
+    
+
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -95,12 +112,14 @@
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
-    [[[GLCamera sharedInstance] videoCamera] stopCameraCapture];
+//    [[[GLCamera sharedInstance] videoCamera] stopCameraCapture];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSString *strClass = NSStringFromClass([self class]);
+    NSLog(@"%@ inited",strClass);
     
     imageSource = ImageSourceNone;
     isEditing = NO;
@@ -414,7 +433,7 @@
     [super viewDidAppear:animated];
 //    [[[GLCamera sharedInstance] videoCamera]startCameraCapture];
 //    [[[GLCamera sharedInstance] videoCamera]resumeCameraCapture];
-    [self backToCameraFromEditPallette:nil];
+//    [self backToCameraFromEditPallette:nil];
 }
 
 -(void)finalProcessTapped {
@@ -608,22 +627,26 @@
 //        
 ////        [];
 //    }];
-    @autoreleasepool {
+//    @autoreleasepool {
 //        [[self.arrayOfFilters objectAtIndex:0] useNextFrameForImageCapture];
         [self.videoCamera capturePhotoAsImageProcessedUpToFilter:[[self.arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(UIImage *processedImage, NSError *error) {
-            [self.videoCamera pauseCameraCapture];
             
             
+            [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+            
+            [self.videoCamera stopCameraCapture];
+//
+//            
             UIGraphicsBeginImageContext(CGSizeMake(processedImage.size.width/2.39, processedImage.size.height/2.39));
             [processedImage drawInRect:CGRectMake(0, 0, processedImage.size.width/2.39, processedImage.size.height/2.39)];
             UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             
             cleanImageFromCamera = newImage;
-            
-            [self updateFiltersWithCapturedImage];
+//
+//            [self updateFiltersWithCapturedImage];
         }];
-    }
+//    }
     
     
     
@@ -944,7 +967,7 @@
     [self createFiltersViews];
     [self createMainScrollView];
     
-    [self.videoCamera startCameraCapture];
+//    [self.videoCamera startCameraCapture];
     
 }
 

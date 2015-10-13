@@ -314,6 +314,8 @@
 		04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D6173032B200973BC0 /* phoneNumberContainer.png */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
+		0F244AB91BCC343900D7761E /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F244AB71BCC343900D7761E /* CameraViewController.m */; settings = {ASSET_TAGS = (); }; };
+		0F244ABA1BCC343900D7761E /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F244AB81BCC343900D7761E /* CameraViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		106C344918C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
 		106C344A18C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
 		108CDF061884083200757E36 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF051884083200757E36 /* NewRelicAgent.framework */; };
@@ -1155,6 +1157,9 @@
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
 		0D570D9648C13694C44E127E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F244AB61BCC343900D7761E /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
+		0F244AB71BCC343900D7761E /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
+		0F244AB81BCC343900D7761E /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
 		106C344718C4C27A006A5603 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notification.h; path = shotvibe/API/Notification.h; sourceTree = SOURCE_ROOT; };
 		106C344818C4C27A006A5603 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Notification.m; path = shotvibe/API/Notification.m; sourceTree = SOURCE_ROOT; };
 		1077E30E18A2768A00E9E9C5 /* AlbumBase.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumBase.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumBase.java; sourceTree = SOURCE_ROOT; };
@@ -2445,6 +2450,16 @@
 			name = Registration;
 			sourceTree = "<group>";
 		};
+		0F244AB41BCC341200D7761E /* CameraViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0F244AB61BCC343900D7761E /* CameraViewController.h */,
+				0F244AB71BCC343900D7761E /* CameraViewController.m */,
+				0F244AB81BCC343900D7761E /* CameraViewController.xib */,
+			);
+			name = CameraViewController;
+			sourceTree = "<group>";
+		};
 		1077E30B18A275B800E9E9C5 /* Client Lib Java */ = {
 			isa = PBXGroup;
 			children = (
@@ -3722,6 +3737,7 @@
 		DD3A8BAB1BC9A003002DF2C9 /* GLCamera */ = {
 			isa = PBXGroup;
 			children = (
+				0F244AB41BCC341200D7761E /* CameraViewController */,
 				DD3A8BCC1BC9A4A1002DF2C9 /* Images.xcassets */,
 				DD3A8BAC1BC9A04A002DF2C9 /* camera-shutter-click-01.wav */,
 				DD3A8BAD1BC9A04A002DF2C9 /* GLCamera.h */,
@@ -3769,8 +3785,8 @@
 				AA58FAF416C224E800C49E02 /* Frameworks */,
 				AA58FAF516C224E800C49E02 /* Resources */,
 				3B1E4D2A17AD6C8800CACE80 /* Run Script: Crashlytics script */,
-				66D58347186858C200EAC842 /* Run Script: Uncrustify for modified lines */,
 				C42587A6D75D856521A81989 /* Copy Pods Resources */,
+				0CCD8E9A4613FA84E942E580 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4115,6 +4131,7 @@
 				04C407331730303600973BC0 /* NU.png in Resources */,
 				04C407351730303600973BC0 /* NZ.png in Resources */,
 				04C407371730303600973BC0 /* OM.png in Resources */,
+				0F244ABA1BCC343900D7761E /* CameraViewController.xib in Resources */,
 				04C407391730303600973BC0 /* PA.png in Resources */,
 				04C4073B1730303600973BC0 /* PE.png in Resources */,
 				3EF4160818E09ECD0077DC22 /* sortType2.png in Resources */,
@@ -4419,6 +4436,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0CCD8E9A4613FA84E942E580 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		10D366C41879EF8200E6FF4C /* Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4475,20 +4507,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd shotvibelib\n./xcodeJ2objcWrapper.sh ./build_xcode.py shotvibelib/";
-		};
-		66D58347186858C200EAC842 /* Run Script: Uncrustify for modified lines */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script: Uncrustify for modified lines";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" == \"Debug\" ]; then\n    ./tools/style_check_xcode_only_new.py\nfi";
 		};
 		AA58FB1B16C224E800C49E02 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4640,6 +4658,7 @@
 				6601322A187F4E670042047B /* IOSCharArray.m in Sources */,
 				66013231187F4E670042047B /* IOSMappedClass.m in Sources */,
 				6601322B187F4E670042047B /* IOSClass.m in Sources */,
+				0F244AB91BCC343900D7761E /* CameraViewController.m in Sources */,
 				66013251187F4E670042047B /* Short.m in Sources */,
 				66278CE71867C62300D23F34 /* SVMoveActivity.m in Sources */,
 				66013250187F4E670042047B /* RuntimeException.m in Sources */,

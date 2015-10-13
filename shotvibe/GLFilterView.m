@@ -24,11 +24,20 @@
 }
 //@synthesize filter,filterType;
 
+-(void)dealloc {
+    
+    NSString *strClass = NSStringFromClass([self class]);
+    NSLog(@"%@ deallocated",strClass);
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+}
 
 - (instancetype)initWithType:(GPUImageShowcaseFilterType)typeIs {
     
     self = [super init];
     if(self){
+        
+        NSString *strClass = NSStringFromClass([self class]);
+        NSLog(@"%@ inited",strClass);
         
         self.filterType = typeIs;
         

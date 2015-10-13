@@ -31,8 +31,18 @@ static GLResizeableViewAnchorPoint SPUserResizableViewLowerMiddleAnchorPoint = {
 
 @implementation GLGripViewBorderView
 
+-(void)dealloc {
+    
+    NSString *strClass = NSStringFromClass([self class]);
+    NSLog(@"%@ deallocated",strClass);
+    
+}
+
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
+        NSString *strClass = NSStringFromClass([self class]);
+
+        NSLog(@"%@ inited",strClass);
         // Clear background to ensure the content view shows through.
         self.backgroundColor = [UIColor clearColor];
     }
@@ -237,8 +247,19 @@ static GLResizeableViewAnchorPoint SPUserResizableViewLowerMiddleAnchorPoint = {
 //    
 //}
 
+-(void)dealloc {
+    
+    NSString *strClass = NSStringFromClass([self class]);
+    NSLog(@"%@ deallocated",strClass);
+    
+}
+
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
+        
+        NSString *strClass = NSStringFromClass([self class]);
+        NSLog(@"%@ deallocated",strClass);
+        
         [self setupDefaultAttributes];
          self.clipsToBounds = NO;
         

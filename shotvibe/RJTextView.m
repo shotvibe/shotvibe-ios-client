@@ -63,6 +63,13 @@
 
 @implementation RJTextView
 
+- (void)dealloc
+{
+//    [self stopAnimation];
+    NSString *strClass = NSStringFromClass([self class]);
+    NSLog(@"%@ deallocated",strClass);
+}
+
 - (id)initWithFrame:(CGRect)frame
         defaultText:(NSString *)text
                font:(UIFont *)font
@@ -72,7 +79,8 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        
+        NSString *strClass = NSStringFromClass([self class]);
+        NSLog(@"%@ inited",strClass);
         // Custom initialization
         BOOL sExtend = frame.size.height <=0 || frame.size.width <=0;
         BOOL oExtend = frame.origin.x    < 0 || frame.origin.y   < 0;
