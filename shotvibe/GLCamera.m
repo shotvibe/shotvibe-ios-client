@@ -27,15 +27,15 @@
         self.flashIsOn = NO;
         self.inEditMode = NO;
         
-        self.videoCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetInputPriority cameraPosition:AVCaptureDevicePositionBack];
-        
-        //    videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
-        //        self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionBack];
-        //        self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1920x1080 cameraPosition:AVCaptureDevicePositionBack];
-        
-        self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
-        self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
-        self.videoCamera.horizontallyMirrorRearFacingCamera = NO;
+//        self.videoCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetInputPriority cameraPosition:AVCaptureDevicePositionBack];
+//        
+//        //    videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
+//        //        self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionBack];
+//        //        self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1920x1080 cameraPosition:AVCaptureDevicePositionBack];
+//        
+//        self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+//        self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
+//        self.videoCamera.horizontallyMirrorRearFacingCamera = NO;
         
     }
     return self;
@@ -51,11 +51,11 @@
             
             [device lockForConfiguration:nil];
             if (self.flashIsOn) {
-                [device setTorchMode:AVCaptureTorchModeOn];
+//                [device setTorchMode:AVCaptureTorchModeOn];
                 [device setFlashMode:AVCaptureFlashModeOn];
                 //torchIsOn = YES; //define as a variable/property if you need to know status
             } else {
-                [device setTorchMode:AVCaptureTorchModeOff];
+//                [device setTorchMode:AVCaptureTorchModeOff];
                 [device setFlashMode:AVCaptureFlashModeOff];
                 //torchIsOn = NO;
             }
@@ -86,25 +86,31 @@
 //    return degrees * M_PI/180;
 //}
 
-- (UIImage *) resizeLabelImage:(UIImage*)image {
+- (UIImage *) resizeLabelImage:(UIImage*)image location:(CGPoint)location {
+
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    
+    int pictureWidth = 512;
+    CGFloat previewWidth = screenRect.size.width;
+    
+    CGFloat textOriginalWidth = image.size.width;
+    CGFloat textOriginalHeight = image.size.height;
+    
+    
+
+    CGFloat ratioBetweenPictureToPreview = pictureWidth/previewWidth;
+    
 
     
     
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(image.size.width*2.06, image.size.height*2.06), NO, 0.0);
     
     
-//    CGContextRef context = UIGraphicsGetCurrentContext();
     
-//        CGContextRotateCTM (UIGraphicsGetCurrentContext(), radians(90));
-    
-    
-//    CGContextTranslateCTM( context, 0.5f * (image.size.width*1.7), 0.5f * (image.size.height*1.7) ) ;
-//    CGContextRotateCTM( context, 0.3 ) ;
-    
-//    [ image drawInRect:(CGRect){ { -(image.size.width*1.7) * 0.5f, -(image.size.height*1.7) * 0.5f }, CGSizeMake(image.size.width*1.7, image.size.height*1.7) } ] ;
-    
-    
-        [image drawInRect:CGRectMake(0, 0, image.size.width*2.06, image.size.height*2.06)];
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(textOriginalWidth * ratioBetweenPictureToPreview,textOriginalHeight * ratioBetweenPictureToPreview), NO, 1.0);
+
+        [image drawInRect:CGRectMake(0, 0, textOriginalWidth * ratioBetweenPictureToPreview,textOriginalHeight * ratioBetweenPictureToPreview)];
     
         UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     
@@ -123,7 +129,7 @@
 //    UIGraphicsEndImageContext();
     
     
-    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.0);
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 1.0);
 
     
     
@@ -140,7 +146,7 @@
 
 - (UIImage *) imageWithView:(UIView *)view
 {
-    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.0f);
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 1.0f);
     [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:NO];
     UIImage * snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -172,10 +178,27 @@
              atPoint:(CGPoint)   point
           viewToPast:(UIImage*)viewToEmbed
 {
+    
+    
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    
+    int pictureWidth = 512;
+    CGFloat previewWidth = screenRect.size.width;
+    
+    CGFloat textOriginalWidth = viewToEmbed.size.width;
+    CGFloat textOriginalHeight = viewToEmbed.size.height;
+    
+    
+    
+    //
+    //512//        //320//    = 1.6
+    CGFloat ratioBetweenPictureToPreview = pictureWidth/previewWidth;
 
 //    UIImage * ttt = [self imageWithView:viewToEmbed];
     
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0.0);
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, 1.0);
     
 //     UIGraphicsBeginImageContext(image.size);
     
@@ -184,7 +207,7 @@
     
     
     [image drawAtPoint:CGPointMake(0,0)];
-    [viewToEmbed drawAtPoint:CGPointMake(0,0)];
+    [viewToEmbed drawAtPoint:CGPointMake(point.x*ratioBetweenPictureToPreview,point.y*ratioBetweenPictureToPreview)];
     
 
     

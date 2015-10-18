@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Photos/Photos.h>
 //#import <Foundation/Foundation.h>
 //#import <UIKit/UIKit.h>
 #import <GPUImage/GPUImage.h>
 #import "GLFilterView.h"
+#import "iCarousel.h"
 //#import "UIImage+ProportionalFill.h"
 //#import "UIImage+Tint.h"
 
@@ -44,13 +46,20 @@ typedef enum ScrollerType {
     ScrollerTypeColorsScroller
 } ScrollerType;
 
+@protocol CameraViewControllerDelegate <NSObject>
 
-@interface CameraViewController : UIViewController <UIScrollViewDelegate>
+- (void)imageSelected:(UIImage*)image;
+
+@end
+
+@interface CameraViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, GLFilterViewDelegate>
 
 
 
 //@property (weak, nonatomic) IBOutlet GPUImageView *cameraOutPutView;
 @property (weak, nonatomic) IBOutlet UIScrollView *mainScrollView;
+@property (weak, nonatomic) IBOutlet iCarousel *carousel;
+@property (nonatomic, assign) id<CameraViewControllerDelegate> delegate;
 
 - (IBAction)exitPressed:(id)sender;
 - (IBAction)captureTapped:(id)sender;

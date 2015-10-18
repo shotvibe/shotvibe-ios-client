@@ -30,11 +30,30 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
     notificationHandler_ = [[SVNotificationHandler alloc] initWithAlbumManager:albumManager_];
 
     NSLog(@"Setting up push notifications with AlbumManager: %@", [albumManager_ description]);
-
+    
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+        // use registerUserNotificationSettings
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    } else {
+        // use registerForRemoteNotificationTypes:
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+         (UIRemoteNotificationTypeAlert
+          | UIRemoteNotificationTypeBadge
+          | UIRemoteNotificationTypeSound)];
+    }
+#else
+    // use registerForRemoteNotificationTypes:
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeAlert
       | UIRemoteNotificationTypeBadge
       | UIRemoteNotificationTypeSound)];
+#endif
+
+    
 }
 
 

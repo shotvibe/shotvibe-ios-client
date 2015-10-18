@@ -185,6 +185,8 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
     ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).parentController = self;
     ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).parentController = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageSelected:) name:@"ImageIsReadyToUpload" object:[UIApplication sharedApplication]];
 }
 
 
@@ -243,6 +245,7 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     NSLog(@"SVAlbumGridViewController %@: viewWillDisappear: %d", self, animated);
 }
 
@@ -343,12 +346,14 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //    SVNonRotatingNavigationControllerViewController *nc = [[SVNonRotatingNavigationControllerViewController alloc] initWithRootViewController:manager];
 //    [self presentViewController:nc animated:NO completion:nil];
 
-    CameraViewController * camera = [[CameraViewController alloc] init];
-    [self presentViewController:camera animated:YES completion:nil];
+//    CameraViewController * camera = [[CameraViewController alloc] init];
+//    camera.delegate = self;
+//    [self presentViewController:camera animated:YES completion:nil];
     
 //    MainCameraViewController * mainCamera = [[MainCameraViewController alloc] init];
-    
-    
+//    mainCamera.delegate = self;
+//    [self presentViewController:mainCamera animated:YES completion:^{}];
+//    
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //    if(vc == nil){
 //    @autoreleasepool {
@@ -356,9 +361,13 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //        vc = [[MainCameraViewController alloc] init];
 //        vc.delegate = self;
 ////    }
-//    
-//    
-//        navigatingNext = YES;
+//
+    
+    
+    GLSharedCamera * gl = [GLSharedCamera sharedInstance];
+    [[GLSharedCamera sharedInstance] showCamera];
+    gl.delegate = self;
+        navigatingNext = YES;
 //        [self presentViewController:vc animated:YES completion:nil];
 //        
 //    }
@@ -377,97 +386,205 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //	cameraNavController.albumManager = self.albumManager;
 //    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
+
+- (void)openAppleImagePicker {
+
+    
+    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+//    glcamera.delegate = self;
+    
+//    glcamera.delegate
+//     glcamera.imagePickerDelegate = picker.delegate;
+    picker.delegate = self;
+    
+    
+//    fromImagePicker = YES;
+    picker.allowsEditing = YES;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
+    [self presentViewController:picker animated:YES completion:^{
+        ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        
+        
+        
+        //    [appDelegate.window addSubview:picker.view];
+        
+//        [appDelegate.window bringSubviewToFront:picker.view];
+//        [appDelegate.window sendSubviewToBack:glcamera.view];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            glcamera.view.alpha = 0;
+        }];
+    }];
+    
+    
+    
+
+
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    
+    
+    
+//    fromImagePicker = NO;
+//    
+//    //    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+//    //    [self sendImageToEdit:chosenImage];
+//    //   ;
+    
+    
+    
+//    
+//    [self updateFiltersWithSelectedImage:[self imageCroppedToFitSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.width) image:info[UIImagePickerControllerEditedImage]]];
+//    //    self.imageView.image = chosenImage;
+//    
+//    //
+    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    
+    
+    
+    //    [appDelegate.window addSubview:picker.view];
+//    [UIView animateWithDuration:0.2 animations:^{
+//        [appDelegate.window bringSubviewToFront:[[GLSharedCamera sharedInstance] view]];
+    
+//    } completion:^(BOOL done){
+    [UIView animateWithDuration:0.3 animations:^{
+//        glcamera.view.alpha = 0;
+        [[[GLSharedCamera sharedInstance] view] setAlpha:1];
+        
+        
+        
+    } completion:^(BOOL done){
+        
+    }];
+    [picker dismissViewControllerAnimated:NO completion:^{
+        [[GLSharedCamera sharedInstance] retrievePhotoFromPicker:info[UIImagePickerControllerEditedImage]];
+        //        }];
+    }];
+
+
+    
+    
+    
+    
+//    imageSource = ImageSourceGallery;
+//    imageFromPicker = [self imageCroppedToFitSize:CGSizeMake(512, 512) image:info[UIImagePickerControllerEditedImage]];
+    //
+}
+
+
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+//    [picker dismissViewControllerAnimated:YES completion:NULL];
+//    [self.videoCamera stopCameraCapture];
+//    fromImagePicker = NO;
+//    imageSource = ImageSourceGallery;
+//    imageFromPicker = nil;
+//    picker = nil;
+}
+
 -(void)imageSelected:(UIImage*)image {
-//    vc = nil;
-//    vc.delegate = nil;
+//
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//
+//    
+//    NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", 0]];
+//    
+//    @autoreleasepool {
+//        CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:filePath];
+//        CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
+//        
+//        NSDictionary *properties = @{
+//                                     (__bridge NSString *)kCGImageDestinationLossyCompressionQuality: @(1.0)
+//                                     };
+//        
+//        CGImageDestinationAddImage(destination, image.CGImage,(__bridge CFDictionaryRef)properties);
+//        
+//        if (!CGImageDestinationFinalize(destination)){
+//            NSLog(@"ERROR saving: %@", url);
+//        } else {
+//            NSLog(@"SUCCESS saving: %@", url);
+//        }
+//        
+//        CFRelease(destination);
+////        CGImageRelease(image.CGImage);
+//    }
     
-//    [vc dismissViewControllerAnimated:YES completion:^{
-////        vc = nil;
-//    }];
-//    [];
-    
-    UIImage *originalImage = image;
-    UIImage *scaledImage = originalImage;
     
     // Take as many pictures as you want. Save the path and the thumb and the picture
-    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", self.container.images.count]];
-    __block NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", self.container.images.count]];
+    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", 0]];
+    __block NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", 0]];
     
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // Save large image
-        [UIImageJPEGRepresentation(scaledImage, 1.0) writeToFile:filePath atomically:YES];
+    // Save large image
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+    dispatch_async(queue, ^(void) {
         
+        
+        [UIImageJPEGRepresentation(image, 1.0) writeToFile:filePath atomically:YES];
         CGSize newSize = CGSizeMake(200, 200);
-        float oldWidth = scaledImage.size.width;
+        float oldWidth = image.size.width;
         float scaleFactor = newSize.width / oldWidth;
-        float newHeight = scaledImage.size.height * scaleFactor;
+        float newHeight = image.size.height * scaleFactor;
         float newWidth = oldWidth * scaleFactor;
         
         UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-        [scaledImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-        UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+        [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+        UIImage * thumbImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
         // Save thumb image
         [UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
         
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"kPickedImageSaved" object:nil];
-//        }
-    
-                       
-//                       );
-//    }
-//    
-//                   
-//                   );
-    
-    
-
-        //This code is called when we're taking subsequent images
-//        [self.container.images addObject:filePath];
-
-
-    
-    
-    
-    
-    if (self.albumId != 0) {
-//        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"kSVShowAlbum" object:nil userInfo:@{ @"albumId" : @(self.albumId) }
-//             ];
-//        }
-//         
         
-//         ];
+         NSLog(@"FINISH to SAVE NO MAIN QUE with path %@",filePath);
         
-        RCLog(@"====================== 1. Upload selected photos to albumId %lli", self.albumId);
+        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
         
-        // Upload the taken photos
-        NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
-//        for (NSString *selectedPhotoPath in self.images) {
-        
-        
-        
-//        if (self.container) {
-//            //This code is called when we're taking subsequent images
-//            [self.container.images addObject:filePath];
-//            self.container.waitingForMostRecentImage = YES;
-        
+        if(fileExists){
             
-            TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:filePath];
-            [photoUploadRequests addObject:photoUploadRequest];
-            //        }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"FINISH to write image");
+//                [self dismissViewControllerAnimated:YES completion:^{
+                
+                    if (self.albumId != 0) {
+                        
+                        RCLog(@"====================== 1. Upload selected photos to albumId %lli", self.albumId);
+                        
+                        // Upload the taken photos
+                        
+                        TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:filePath];
+                        //            [photoUploadRequests addObject:photoUploadRequest];
+                        
+                        [albumManager_ uploadPhotosWithLong:self.albumId
+                                           withJavaUtilList:[[SLArrayList alloc]
+                                                             initWithInitialArray:[NSMutableArray arrayWithObject:photoUploadRequest]]];
+                        
+                    }
+                    
+//                }];
+                
+            });
+            
+            
+        } else {
+            
+            NSLog(@"file wasnt saved correctly !!! isnt found on path!");
+            
+        }
         
-//        albumManager_ uplo
         
-            [albumManager_ uploadPhotosWithLong:self.albumId
-                               withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:photoUploadRequests]];
         
-//
         
-
-    }
+    });
+    
+    
+    
+   
     
     
 }
@@ -710,14 +827,19 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     }
     return nil;
 }
-
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(300, 300);
+}
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
     //if (section == 0) return UIEdgeInsetsMake(5, 5, 5, 5);
-    return UIEdgeInsetsMake(5, 5, 5, 5);
+//    return UIEdgeInsetsMake(5, 5, 5, 5);
+    return UIEdgeInsetsMake(0, 0,0,0);
 }
 
 
@@ -847,6 +969,9 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
     NSDate *previousDate = nil;
     NSString *previousUser = nil;
 
+    
+//    NSLog(@"%@",[albumContents getPhotos].array);
+//    NSMutableArray * ar = [NSMutableArray arrayWithArray:[albumContents getPhotos].array];
     for (SLAlbumPhoto *photo in [albumContents getPhotos].array) {
         NSString *key = @"Uploading now";
 

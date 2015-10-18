@@ -1,19 +1,54 @@
 PODS:
+  - AFNetworking (2.6.1):
+    - AFNetworking/NSURLConnection (= 2.6.1)
+    - AFNetworking/NSURLSession (= 2.6.1)
+    - AFNetworking/Reachability (= 2.6.1)
+    - AFNetworking/Security (= 2.6.1)
+    - AFNetworking/Serialization (= 2.6.1)
+    - AFNetworking/UIKit (= 2.6.1)
+  - AFNetworking/NSURLConnection (2.6.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.1)
+  - AFNetworking/Security (2.6.1)
+  - AFNetworking/Serialization (2.6.1)
+  - AFNetworking/UIKit (2.6.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
   - AviarySDK (4.4.5)
   - GPUImage (0.1.7)
-  - MGImageUtilities (0.0.1)
+  - KZPropertyMapper (2.5.1)
+  - MHPrettyDate (1.1.1)
   - PBJVision (0.4.2)
+  - PureLayout (3.0.1)
+  - TTTAttributedLabel (1.13.4)
+  - UALogger (0.3)
 
 DEPENDENCIES:
+  - AFNetworking
   - AviarySDK
   - GPUImage
-  - MGImageUtilities
+  - KZPropertyMapper
+  - MHPrettyDate
   - PBJVision
+  - PureLayout
+  - TTTAttributedLabel
+  - UALogger
 
 SPEC CHECKSUMS:
+  AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
   AviarySDK: 311bdc7c2a81aee93ab1dc7bb5f3e4ef6ee52041
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
-  MGImageUtilities: 73c885bf04fd7b21b11fbd132606e05200b12bf7
+  KZPropertyMapper: e80e83aa3bc6d37a6dd55e3d04a01afcb8c23d3c
+  MHPrettyDate: e0e5975041f0210c0542f4c5d7e3e44d1a8537be
   PBJVision: fe43c9a58bb1c1277d16fd802fa836d25e034a45
+  PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
+  TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
+  UALogger: ccc041e5982dbd274ab5805f914076fef9bf29cf
 
 COCOAPODS: 0.39.0

@@ -133,6 +133,11 @@ typedef enum {
 } GPUImageShowcaseFilterType;
 
 
+@protocol GLFilterViewDelegate <NSObject>
+
+-(void)focusCameraToPoint:(UITapGestureRecognizer *)tgr location:(CGPoint)location;
+@end
+
 
 @interface GLFilterView : NSObject <UIGestureRecognizerDelegate, UIScrollViewDelegate>
 
@@ -147,6 +152,8 @@ typedef enum {
 @property(nonatomic, strong) UIView * focusLayer;
 @property(nonatomic, retain) GPUImagePicture * sourcePicture;
 @property(nonatomic, strong) UILabel * title;
+
+@property (nonatomic, assign) id<GLFilterViewDelegate> delegate;
 
 //@property(nonatomic, strong) GPUImageView * outputViewAfterCapture;
 

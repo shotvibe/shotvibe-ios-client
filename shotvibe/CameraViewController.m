@@ -44,6 +44,12 @@
     UIButton *photoCaptureButton;
     
     NSMutableArray * arrayOfFilters;
+    NSMutableArray * latestImagesArray;
+    NSMutableArray *items;
+    
+    UIImage * imageToServe;
+    
+    PHFetchResult *fetchResult;
     
     ScrollDirection scrollDirection;
     
@@ -51,6 +57,9 @@
     CGFloat screenWidth;
     
     int currentFilterIndex;
+    int indexOfImageFromCarousel;
+    int imageSource;
+    
     
     
 }
@@ -70,10 +79,12 @@
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     screenWidth = screenRect.size.width;
 //    CGFloat filterViewHeight = screenRect.size.width;
-    
+    imageSource = ImageSourceNone;
+    imageToServe = [[UIImage alloc] init];
     arrayOfFilters = [[NSMutableArray alloc] init];
+    latestImagesArray = [[NSMutableArray alloc] init];
     
-    stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetInputPriority cameraPosition:AVCaptureDevicePositionBack];
+    stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
     stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
 //    filter = [[GPUImageSketchFilter alloc] init];
 //    [stillCamera addTarget:filter];
@@ -86,7 +97,7 @@
     
     
     self.mainScrollView.tag = ScrollerTypeFilterScroller;
-    self.mainScrollView.delegate = self;
+//    self.mainScrollView.delegate = self;
     self.mainScrollView.pagingEnabled = YES;
     
     [self createFiltersViews];
@@ -103,7 +114,63 @@
     }
     self.mainScrollView.contentSize = CGSizeMake(screenWidth, (screenWidth* numberOfViews)-20);
     
+    int recentsLimit = 15;
+    
+    PHFetchOptions *fetchOptions = [PHFetchOptions new];
+    fetchOptions.includeAllBurstAssets = NO;
+    fetchOptions.includeHiddenAssets = NO;
+    //    fetchOptions.fetchLimit
+    //    fetchOptions.fetchLimit = 15;
+    //    [fetchOptions setFetchLimit:15];
+    fetchOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+    //    fetchOptions.fetchLimit = 15;
+    fetchResult = [PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:fetchOptions];
+    
+    if([fetchResult count] < recentsLimit){
+        recentsLimit = (int)[fetchResult count];
+    }
+    
+    for(int r = 0; r < recentsLimit; r++){
+        [latestImagesArray addObject:[fetchResult objectAtIndex:r]];
+    }
+    
+    self.carousel.type = iCarouselTypeLinear;
+    self.carousel.backgroundColor = [UIColor blackColor];
+    [self.carousel reloadData];
+    
+    [stillCamera startCameraCapture];
     // Do any additional setup after loading the view from its nib.
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+
+    
+    stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
+    stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+    [self createFiltersViews];
+    [stillCamera startCameraCapture];
+//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+//    stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
+//    stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+//    
+//    defaultFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_NOFILTER];
+//    [stillCamera addTarget:defaultFilter.filter];
+//    [stillCamera startCameraCapture];
+//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+
+
+    
+    
+
+    
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+//     [stillCamera stopCameraCapture];
+//    [stillCamera resumeCameraCapture];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -114,7 +181,7 @@
     
 //    [UIView animateWithDuration:0.25 animations:^{
 //        self.cameraOutPutView.alpha = 1;
-        [stillCamera startCameraCapture];
+    
 //    } completion:^(BOOL done){
 //        
 //    }];
@@ -130,6 +197,7 @@
     
     
     defaultFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_NOFILTER];
+    defaultFilter.delegate = self;
     [stillCamera addTarget:defaultFilter.filter];
     [arrayOfFilters addObject:defaultFilter];
     
@@ -372,6 +440,148 @@
     
 }
 
+
+#pragma mark - iCarouselMethods
+
+- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index locationInView:(CGPoint)location {
+    
+    indexOfImageFromCarousel = (int)index;
+    
+    
+    if(index == [latestImagesArray count]){ // Set the last item in carousel to a button which opens image picker.
+        //        NSLog(@"test");
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+        [self presentViewController:picker animated:YES completion:^{
+            [stillCamera pauseCameraCapture];
+        }];
+    } else {
+        
+        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
+        options.synchronous  = YES;
+        options.resizeMode = PHImageRequestOptionsResizeModeExact;
+        //        options.normalizedCropRect = CGRectMake(0, 0, 200, 200);
+        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+
+        
+        [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+        
+        [stillCamera stopCameraCapture];
+        
+        [[PHImageManager defaultManager]requestImageForAsset:[latestImagesArray objectAtIndex:index] targetSize:CGSizeMake(1024, 1024) contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *result, NSDictionary *info){
+            
+            NSLog(@"");
+            
+            
+            
+
+            for(GLFilterView * filterView in arrayOfFilters){
+                [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth) image:result]];
+            }
+            imageSource = ImageSourceRecents;
+//            [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+            
+            
+            ////            [self sendImageToEdit:result];
+            //            CGImageRef cgRef = result.CGImage;
+//            UIImage * ttimage = [self normalizedImage:result];
+//            
+//            //            UIImage * croppedImage = ;
+//            
+//            
+//            [self updateFiltersWithSelectedImage:[[GLCamera sharedInstance] imageByCroppingImage:ttimage toSize:CGSizeMake(ttimage.size.width, ttimage.size.width)]];
+//            ttimage = nil;
+//            imageSource = ImageSourceRecents;
+            
+            
+            //            [[PHImageManager defaultManager] dealloc];
+            //            UIImageView * thumbImage = [[UIImageView alloc] initWithImage:result];//
+            //            thumbImage.frame = CGRectMake(98, self.view.frame.size.height-256, 180, 180);
+            //
+            //
+            //
+            //
+            //            [self.view addSubview:thumbImage];
+            //            NSLog(@"%f",self.carousel.contentOffset.width);
+            //            [UIView animateWithDuration:0.25 animations:^{
+            //                thumbImage.frame = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.width);
+            //            }];
+            
+        }];
+    }
+    
+}
+
+- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+{
+    //return the total number of items in the carousel
+    return [latestImagesArray count]+1;
+}
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
+{
+    
+    view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 180.0f, 180.0f)];
+    //        ((UIImageView *)view).image = [UIImage imageNamed:@"page.png"];
+    view.contentMode = UIViewContentModeScaleAspectFill;
+    view.clipsToBounds = YES;
+    
+    if(index == [latestImagesArray count]){
+        //        view.backgroundColor = [UIColor purpleColor];
+        //        UIImage * i = [[UIImage alloc] ];
+//        UIImage * image = [UIImage imageNamed:@"GiCon"];
+//        UIImageView * iv = [[UIImageView alloc] initWithFrame:CGRectMake(45, 45, 90.0f, 90.0f)];
+//        iv.image = image;
+//        [view addSubview:iv];
+        view.backgroundColor = [UIColor purpleColor];
+        //        ((UIImageView *)view).image = image;
+    } else {
+        [[PHImageManager defaultManager]requestImageForAsset:[latestImagesArray objectAtIndex:index] targetSize:CGSizeMake(180.0f, 180.0f) contentMode:PHImageContentModeDefault options:nil resultHandler:^(UIImage *result, NSDictionary *info){
+            ((UIImageView *)view).image = result;
+            //            UIImageView * thumbImage = [[UIImageView alloc] initWithImage:result];//
+            //            thumbImage.frame = CGRectMake(0, 0, 180, 180);
+            //
+            //            [view addSubview:thumbImage];
+            
+        }];
+    }
+    
+    
+    
+    return view;
+}
+
+- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
+{
+    if (option == iCarouselOptionSpacing)
+    {
+        return value * 1.1;
+    }
+    return value;
+}
+
+//-(void)image
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    
+    
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    for(GLFilterView * filterView in arrayOfFilters){
+        [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth) image:chosenImage]];
+    }
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    imageSource = ImageSourceGallery;
+    imageToServe = chosenImage;
+    //
+}
+
+
 /*
 #pragma mark - Navigation
 
@@ -385,30 +595,214 @@
 
 
 - (IBAction)captureTapped:(id)sender {
-    
-//    CGRect screenRect = [[UIScreen mainScreen] bounds];
-//    CGFloat screenWidth = screenRect.size.width;
-//    CGFloat screenHeight = screenRect.size.height;
-//    UIImage * image = nil;
 
-    [stillCamera capturePhotoAsJPEGProcessedUpToFilter:[[arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(NSData *processedJPEG, NSError *error){
-        [stillCamera stopCameraCapture];
-        UIImage * image = [UIImage imageWithData:processedJPEG];
-        image = [self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth) image:image];
-        for(GLFilterView * filterView in arrayOfFilters){
-            [filterView setImageCapturedUnderFilter:image];
-        }
-        [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    imageSource = ImageSourceCamera;
+    
+    __block UIView * mask = [[UIView alloc] initWithFrame:CGRectMake(0, 20, screenWidth, screenWidth)];
+    mask.backgroundColor = [UIColor blackColor];
+    mask.alpha = 0;
+    [self.view addSubview:mask];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        mask.alpha = 1;
+    }];
+    
+//    
+//    [stillCamera pauseCameraCapture];
+    [stillCamera capturePhotoAsImageProcessedUpToFilter:[[arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(UIImage *processedImage, NSError *error) {
+        
+
+        
+        [stillCamera pauseCameraCapture];
+        
+         imageToServe = [self imageCroppedToFitSize:CGSizeMake(512, 512) image:processedImage];
+        
+        
+            for(GLFilterView * filterView in arrayOfFilters){
+                            [filterView setImageCapturedUnderFilter:imageToServe];
+                        }
+            [stillCamera removeAllTargets];
+            [stillCamera removeInputsAndOutputs];
+        
+             [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [UIView animateWithDuration:0.1 animations:^{
+        
+//                    }];
+//    
+//                });
+                        dispatch_async(dispatch_get_main_queue(), ^{
+
+        [UIView animateWithDuration:0.2 animations:^{
+            mask.alpha = 0;
+        }];
+                            });
     }];
 
     
+//    [[[arrayOfFilters objectAtIndex:currentFilterIndex] filter] useNextFrameForImageCapture];
+//   
+//    imageToServe = [[[arrayOfFilters objectAtIndex:currentFilterIndex] filter] imageFromCurrentFramebuffer];
+//   
+//    imageToServe = [self imageCroppedToFitSize:CGSizeMake(512, 512) image:imageToServe];
+//    [stillCamera pauseCameraCapture];
+//    
+//    for(GLFilterView * filterView in arrayOfFilters){
+//                    [filterView setImageCapturedUnderFilter:imageToServe];
+//                }
+//    [stillCamera removeAllTargets];
+//    [stillCamera removeInputsAndOutputs];
+//    
+//     [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+     NSLog(@"");
+//    [stillCamera capturePhotoAsJPEGProcessedUpToFilter:[[arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(NSData *processedJPEG, NSError *error){
+////        [stillCamera stopCameraCapture];
+//        
+//        
+////        [[[arrayOfFilters objectAtIndex:currentFilterIndex] filter] removeAllTargets];
+//        
+//        imageToServe = [self imageCroppedToFitSize:CGSizeMake(1024, 1024) image:[UIImage imageWithData:processedJPEG]];
+//
+//        for(GLFilterView * filterView in arrayOfFilters){
+//            [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth) image:[UIImage imageWithData:processedJPEG]]];
+//        }
+//        [stillCamera removeAllTargets];
+//        [stillCamera removeInputsAndOutputs];
+////
+//        [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+////        [stillCamera pauseCameraCapture];
+//        
+//    }];
+    
 }
+
+-(UIImage *)processImagedBeforeServing {
+    
+    return [[[arrayOfFilters objectAtIndex:currentFilterIndex] filter] imageByFilteringImage:imageToServe];
+
+}
+
 - (IBAction)exitPressed:(id)sender {
-//    [stillCamera resumeCameraCapture];
+
+    [stillCamera stopCameraCapture];
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    
+    for(GLFilterView * filterView in arrayOfFilters){
+        
+        [filterView backToCamera];
+        [[filterView filter] removeAllTargets];
+//        __strong filterView = nil;
+//        [[filterView filter] remove];
+//        [filterView setImageCapturedUnderFilter:nil];
+    }
+    stillCamera = nil;
+    
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    if(imageSource == ImageSourceCamera){
+//
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        [self saveFiles];
+        
+//        imageToServe = ;
+        [self.delegate imageSelected:[self processImagedBeforeServing]];
+        imageToServe = nil;
+//        });
+//
+//        
+//        
+    }
+//
+//    if(imageSource == ImageSourceRecents){
+//        
+//        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
+//        options.synchronous  = YES;
+//        options.resizeMode = PHImageRequestOptionsResizeModeExact;
+//        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+//        
+//        [[PHImageManager defaultManager]requestImageForAsset:[latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(1024, 1024) contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *image, NSDictionary *info){
+//            
+//            imageToServe = image;
+//            [self saveFiles];
+////            [self.delegate imageSelected:nil];
+//            imageToServe = nil;
+//        }];
+//    }
+//    
+//    if(imageSource == ImageSourceGallery){
+//        [self saveFiles];
+////        [self.delegate imageSelected:nil];
+//        imageToServe = nil;
+////        imageToServe = nil;
+//    }
+//    
+//    
+//    
+////    [self.delegate imageSelected:[self processImagedBeforeServing]];
+////    ;
+//    
+//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
 //    [stillCamera stopCameraCapture];
 //    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+//    [self dismissViewControllerAnimated:YES completion:^{
+////        [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+////        [[NSNotificationCenter defaultCenter] postNotificationName:@"ImageIsReadyToUpload" object:self];
+//    }];
     
+    
+}
+
+//-(void)foc
+
+-(void)saveFiles {
+
+    // Take as many pictures as you want. Save the path and the thumb and the picture
+     NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", 0]];
+     NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i_thumb.jpg", 0]];
+    
+    //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    // Save large image
+    
+    imageToServe = [self processImagedBeforeServing];
+    
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+    
+
+        
+        dispatch_async(queue, ^(void) {
+            
+            
+             [UIImageJPEGRepresentation(imageToServe, 1.0) writeToFile:filePath atomically:NO];
+            CGSize newSize = CGSizeMake(200, 200);
+            float oldWidth = imageToServe.size.width;
+            float scaleFactor = newSize.width / oldWidth;
+            float newHeight = imageToServe.size.height * scaleFactor;
+            float newWidth = oldWidth * scaleFactor;
+            
+            UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+            [imageToServe drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+            UIImage * thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            // Save thumb image
+            [UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
+           
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"FINISH to write image");
+                
+            });
+            
+        });
+    
+    
+   
+
+    
+
 }
 
 - (UIImage *)imageToFitSize:(CGSize)fitSize method:(MGImageResizingMethod)resizeMethod image:(UIImage*) imageToResize
@@ -468,7 +862,7 @@
                 destX = 0.0;
                 destY = round((scaledHeight - targetHeight) / 2.0);
             }
-        } else if (resizeMethod == MGImageResizeCropEnd) {
+        } else {
             // Crop bottom or right
             if (scaleWidth) {
                 // Crop bottom
@@ -529,5 +923,6 @@
 {
     return [self imageToFitSize:fitSize method:MGImageResizeScale image:image];
 }
+
 
 @end

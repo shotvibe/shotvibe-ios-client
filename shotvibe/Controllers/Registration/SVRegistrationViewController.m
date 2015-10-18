@@ -47,6 +47,10 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 
+//    self.view.alpha = 0;
+    [self hideInviteOverlay];
+    
+    
     self.haveInviteLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(haveInviteTapped)];
     [self.haveInviteLabel addGestureRecognizer:tapGesture];

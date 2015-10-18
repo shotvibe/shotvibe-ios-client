@@ -38,6 +38,12 @@
 #import "SVMultiplePicturesViewController.h"
 #import "SVNonRotatingNavigationControllerViewController.h"
 
+//#import "MainCameraViewController.h"
+#import "ShotVibeAppDelegate.h"
+#import "GLSharedCamera.h"
+
+#import "STXFeedViewController.h"
+
 @interface SVAlbumListViewController ()
 {
     BOOL searchShowing;
@@ -162,6 +168,31 @@
     if (IS_IOS7) {
         [self setNeedsStatusBarAppearanceUpdate];
     }
+    
+    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    
+    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+//    glcamera.view.alpha = 0;
+    [appDelegate.window addSubview:glcamera.view];
+    
+//    MainCameraViewController * mainCamera = [[MainCameraViewController alloc] init];
+//    UIWindow* mainWindow = [[UIApplication sharedApplication] keyWindow];
+//    mainCamera.view.alpha = 1;
+//    mainCamera.view.hidden = YES;
+//    [self presentViewController:mainCamera animated:NO completion:^{}];
+//    [mainWindow addSubview: mainCamera.view];
+////    [mainCamera.view];
+//    
+//    
+////    [self.view addSubview:mainCamera.view];
+////    
+//    [UIView animateWithDuration:1.5 animations:^{
+//        mainCamera.view.alpha = 1;
+//    }];
+    
+//    mainCamera.delegate = self;
+//    [self presentViewController:mainCamera animated:YES completion:^{}];
 }
 
 
@@ -226,6 +257,10 @@
 	cameraNavController = nil;
 
     [self promptNickChange];
+    
+    
+    
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -543,7 +578,46 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
-    [self performSegueWithIdentifier: @"AlbumGridViewSegue" sender: cell];
+    
+    
+    SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+    STXFeedViewController * feedView = [[STXFeedViewController alloc] init];
+    feedView.albumId = [album getId];
+    
+//    NSMutableArray *leftBtns = [[NSMutableArray alloc] init];
+//    
+//    UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Icon-40"] style:UIBarButtonItemStylePlain target:self action:@selector(leftButtonPressed)];
+//    
+//    [leftBtns addObject:leftBtn];
+    
+
+//    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Show" style:UIBarButtonItemStylePlain target:self action:@selector(refreshPropertyList:)];
+    
+    
+//    UIButton * but = [];
+    
+    UIButton * flipCameraButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-65, 10, 60, 60)];
+    UIImage *btnImage = [UIImage imageNamed:@"FlipCameraIcon"];
+    [flipCameraButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
+    [flipCameraButton setImage:btnImage forState:UIControlStateNormal];
+    [self.navigationController.view addSubview:flipCameraButton];
+    
+    
+    
+    
+    [self.navigationController pushViewController:feedView animated:YES];
+//    self.navigationItem.leftBarButtonItem = anotherButton;
+//    [self.navigationController.navigationItem setRightBarButtonItem:anotherButton];
+//    [self.navigationController.navigationItem setRightBarButtonItems:leftBtns animated:NO];
+//    [self presentViewController:feedView animated:YES completion:nil];
+    
+    
+    
+//    [self performSegueWithIdentifier: @"AlbumGridViewSegue" sender: cell];
+}
+
+-(void)flipCamera {
+    [[GLSharedCamera sharedInstance] showCamera];
 }
 
 #pragma mark camera delegate

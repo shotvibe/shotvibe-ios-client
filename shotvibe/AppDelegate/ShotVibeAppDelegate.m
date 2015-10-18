@@ -44,6 +44,8 @@
 #import "IosHTTPLib.h"
 #import "IosDevicePhoneContactsLib.h"
 
+//#import "GLSharedCamera.h"
+
 
 @interface ShotVibeAppDelegate ()
 @property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
@@ -145,6 +147,10 @@
 //    NSThread *testBackgroundThread = [[NSThread alloc] initWithTarget:self selector:@selector(testBackgroundThread:) object:nil];
 //    [testBackgroundThread start];
 
+    
+    
+    
+    
     [self initSDKs];
 
     _albumManager = nil;
@@ -208,6 +214,8 @@
             [self processCountryCode:application registrationViewController:registrationViewController];
         }
     }
+    
+   
 
     return YES;
 }

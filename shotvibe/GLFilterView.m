@@ -9,7 +9,7 @@
 
 
 #import "GLFilterView.h"
-#import "GLCamera.h"
+//#import "GLCamera.h"
 
 
 
@@ -88,17 +88,17 @@
         
         
         
-        touchPointCircle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
-        
-        UIImage * image = [UIImage imageNamed:@"CameraFocusIcon"];
-        UIImageView * iv = [[UIImageView alloc] initWithFrame:touchPointCircle.frame];
-        iv.image = image;
-        [touchPointCircle addSubview:iv];
-        
-        
-        touchPointCircle.backgroundColor = [UIColor clearColor];
-//        touchPointCircle.layer.cornerRadius = 30;
-        touchPointCircle.alpha = 0;
+//        touchPointCircle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
+//        
+//        UIImage * image = [UIImage imageNamed:@"CameraFocusIcon"];
+//        UIImageView * iv = [[UIImageView alloc] initWithFrame:touchPointCircle.frame];
+//        iv.image = image;
+//        [touchPointCircle addSubview:iv];
+//        
+//        
+//        touchPointCircle.backgroundColor = [UIColor clearColor];
+////        touchPointCircle.layer.cornerRadius = 30;
+//        touchPointCircle.alpha = 0;
         
         UITapGestureRecognizer *focusGest = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                     action:@selector(focusCameraToTOuchPoint:)];
@@ -107,7 +107,7 @@
         self.focusLayer.backgroundColor = [UIColor clearColor];
         [self.focusLayer addGestureRecognizer:focusGest];
         
-        [self.focusLayer addSubview:touchPointCircle];
+//        [self.focusLayer addSubview:touchPointCircle];
         [self.container addSubview:self.focusLayer];
         
         
@@ -133,6 +133,9 @@
 ////    [self.sourcePicture removeOutputFramebuffer];
     [self.sourcePicture removeAllTargets];
 //    self.sourcePicture = nil;
+//    [self.outputViewCasted remove];
+//    [self.outputView removea];
+//    self.sourcePicture = nil;
 //    [self.sourcePicture addTarget:self.filter];
     
 //    self.
@@ -148,7 +151,7 @@
     
         
         
-        [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+//        [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
 //        [self.filter removeAllTargets];
 //
 //        [self.sourcePicture processImage];
@@ -201,60 +204,7 @@
 }
 
 -(void)focusCameraToTOuchPoint:(UITapGestureRecognizer*)tgr {
-    
-    
-    if([[GLCamera sharedInstance] inEditMode] == NO){
-        if (tgr.state == UIGestureRecognizerStateRecognized) {
-            CGPoint location = [tgr locationInView:self.focusLayer];
-            
-            AVCaptureDevice *device = [[[GLCamera sharedInstance] videoCamera] inputCamera];
-            CGPoint pointOfInterest = CGPointMake(.5f, .5f);
-//            NSLog(@"taplocation x = %f y = %f", location.x, location.y);
-            
-            touchPointCircle.frame = CGRectMake(location.x-30, location.y-30, 60, 60);
-            touchPointCircle.alpha = 1;
-            [UIView animateWithDuration:0.5 animations:^{
-                touchPointCircle.transform = CGAffineTransformScale(touchPointCircle.transform, 0.7, 0.7);
-                touchPointCircle.alpha = 0;
-            }];
-            touchPointCircle.transform = CGAffineTransformIdentity;
-            
-            CGSize frameSize = [self.focusLayer frame].size;
-            
-            if ([[[GLCamera sharedInstance] videoCamera] cameraPosition] == AVCaptureDevicePositionFront) {
-                location.x = frameSize.width - location.x;
-            }
-            
-            pointOfInterest = CGPointMake(location.y / frameSize.height, 1.f - (location.x / frameSize.width));
-            
-            
-            if ([device isFocusPointOfInterestSupported] && [device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
-                NSError *error;
-                if ([device lockForConfiguration:&error]) {
-                    [device setFocusPointOfInterest:pointOfInterest];
-                    
-                    [device setFocusMode:AVCaptureFocusModeAutoFocus];
-                    
-                    if([device isExposurePointOfInterestSupported] && [device isExposureModeSupported:AVCaptureExposureModeContinuousAutoExposure])
-                    {
-                        
-                        
-                        [device setExposurePointOfInterest:pointOfInterest];
-                        [device setExposureMode:AVCaptureExposureModeContinuousAutoExposure];
-                    }
-                    
-                    [device unlockForConfiguration];
-                    
-//                    NSLog(@"FOCUS OK");
-                } else {
-//                    NSLog(@"ERROR = %@", error);
-                }
-            }
-        }
-
-    }
-    
-    
+    [self.delegate focusCameraToPoint:tgr location:[tgr locationInView:self.focusLayer]];
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)panGestureRecognizer {
