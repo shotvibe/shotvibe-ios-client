@@ -222,7 +222,7 @@
     }
 }
 
-- (void)setParentController:(SVAlbumGridViewController *)parentController {
+- (void)setParentController:(GLFeedViewController *)parentController {
 	RCLog(@"setParentController %@", parentController);
 	_parentController = parentController;
     shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];

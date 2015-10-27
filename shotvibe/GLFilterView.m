@@ -44,22 +44,24 @@
         CGRect screenRect = kScreenBounds;
         CGFloat filterViewWidth = screenRect.size.width;
         CGFloat filterViewHeight = screenRect.size.width;
+        CGFloat screenHeigth = screenRect.size.height;
         
         self.title = [[UILabel alloc] initWithFrame:CGRectMake((filterViewWidth/2)-((filterViewWidth/2)/2), 0, filterViewWidth/2, filterViewWidth/6)];
         self.title.textAlignment = NSTextAlignmentCenter;
         [self setupFilterByType];
         
         //Setup Container
-        self.container = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,filterViewWidth , filterViewHeight)];
+        self.container = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,filterViewWidth , screenHeigth*0.75)];
+        self.container.backgroundColor = [UIColor purpleColor];
         self.container.bounces = NO;
         self.container.delegate = self;
-        [self.container setContentSize:CGSizeMake(filterViewWidth, filterViewHeight)];
+        [self.container setContentSize:CGSizeMake(filterViewWidth, screenHeigth*0.75)];
         
         //Setup Output View
         
         
         
-        self.outputView = [[GPUImageView alloc] initWithFrame:CGRectMake(0, 0, filterViewWidth, filterViewHeight)];
+        self.outputView = [[GPUImageView alloc] initWithFrame:CGRectMake(0, 0, filterViewWidth, screenHeigth*0.75)];
         self.outputView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
         self.outputViewCasted = (GPUImageView*)self.outputView;
         [self.container addSubview:self.outputViewCasted];

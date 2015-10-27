@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GLFeedViewController.h"
 
 @class SVAlbumGridViewController;
 
@@ -14,7 +15,7 @@
 
 #pragma mark - Public Properties
 
-@property (strong, nonatomic) SVAlbumGridViewController *parentController;
+@property (strong, nonatomic) GLFeedViewController *parentController;
 @property (nonatomic, strong) SLAlbumContents *albumContents;
 
 @end

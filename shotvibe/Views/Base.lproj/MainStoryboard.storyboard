@@ -4,29 +4,31 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Gotham_Rounded_Bold.otf">
+            <string>GothamRounded-Bold</string>
+        </mutableArray>
+        <mutableArray key="Gotham_Rounded_Book.otf">
+            <string>GothamRounded-Book</string>
+        </mutableArray>
+        <mutableArray key="Gotham_Rounded_Light.otf">
+            <string>GothamRounded-Light</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
-        <!--Albums-->
+        <!--Groups-->
         <scene sceneID="siP-ZM-lhe">
             <objects>
-                <tableViewController storyboardIdentifier="SVAlbumListViewController" title="Albums" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xK5-VS-ObD" customClass="SVAlbumListViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="h0G-2X-To2">
+                <tableViewController storyboardIdentifier="SVAlbumListViewController" title="Groups" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xK5-VS-ObD" customClass="SVAlbumListViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="1" sectionFooterHeight="22" id="h0G-2X-To2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.94509803921568625" green="0.94901960784313721" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="3hQ-ZC-m4d">
-                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <animations/>
-                            <textInputTraits key="textInputTraits"/>
-                            <connections>
-                                <outlet property="delegate" destination="xK5-VS-ObD" id="ol1-4E-kh4"/>
-                            </connections>
-                        </searchBar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="iJo-z3-suy" customClass="SVAlbumListViewCell">
-                                <rect key="frame" x="0.0" y="130" width="320" height="101"/>
+                                <rect key="frame" x="0.0" y="65" width="320" height="101"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iJo-z3-suy" id="foT-0r-RS2">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
@@ -83,13 +85,13 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="bMe-Ho-h9s">
+                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="bMe-Ho-h9s">
                                                             <rect key="frame" x="10" y="14" width="68" height="3"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <animations/>
                                                         </imageView>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="edK-Ep-za9" customClass="PhotoView">
-                                                            <rect key="frame" x="10" y="16" width="68" height="68"/>
+                                                            <rect key="frame" x="10" y="10" width="55" height="55"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <animations/>
                                                         </imageView>
@@ -99,29 +101,29 @@
                                                             <animations/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mpj-bZ-eJI">
-                                                            <rect key="frame" x="96" y="23" width="160" height="21"/>
+                                                            <rect key="frame" x="96" y="14" width="160" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <animations/>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                                            <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="14"/>
                                                             <color key="textColor" red="0.22352941179999999" green="0.23921568630000001" blue="0.2784313725" alpha="1" colorSpace="deviceRGB"/>
                                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last added by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d8J-CL-mAU">
-                                                            <rect key="frame" x="96" y="41" width="160" height="21"/>
+                                                            <rect key="frame" x="96" y="27" width="160" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <animations/>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                                            <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="11"/>
                                                             <color key="textColor" red="0.52156862749999999" green="0.54117647059999996" blue="0.59215686270000001" alpha="1" colorSpace="deviceRGB"/>
                                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </label>
                                                         <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6fU-xz-I04">
-                                                            <rect key="frame" x="96" y="61" width="160" height="15"/>
+                                                            <rect key="frame" x="96" y="44" width="160" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <animations/>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                                            <fontDescription key="fontDescription" name="GothamRounded-Light" family="Gotham Rounded" pointSize="11"/>
                                                             <inset key="titleEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="2"/>
                                                             <state key="normal" title="x time ago" image="clockIcon.png">
-                                                                <color key="titleColor" red="0.0" green="0.47843137254901957" blue="0.74901960784313726" alpha="1" colorSpace="deviceRGB"/>
+                                                                <color key="titleColor" red="0.4823529411764706" green="0.47843137254901963" blue="0.46274509803921571" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <state key="highlighted">
@@ -136,20 +138,20 @@
                                                                 <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
                                                             </accessibility>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
-                                                            <state key="normal" title="0" backgroundImage="newPhotosIndicator.png">
-                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <state key="normal" title="0">
+                                                                <color key="titleColor" red="0.4823529411764706" green="0.47843137254901963" blue="0.46274509803921571" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <state key="highlighted">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SafariForward.png" id="ELm-Me-AaL">
+                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SafariForward.png" id="ELm-Me-AaL">
                                                             <rect key="frame" x="299" y="40" width="11" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <animations/>
                                                         </imageView>
-                                                        <view contentMode="scaleToFill" id="SpS-IB-uCZ">
+                                                        <view hidden="YES" contentMode="scaleToFill" id="SpS-IB-uCZ">
                                                             <rect key="frame" x="10" y="100" width="300" height="1"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <animations/>
@@ -235,7 +237,7 @@
                     <animations/>
                     <color key="backgroundColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <view contentMode="scaleToFill" id="9dY-ZJ-sBW" userLabel="header">
+                <view hidden="YES" contentMode="scaleToFill" id="9dY-ZJ-sBW" userLabel="header">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -294,10 +296,19 @@
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" id="rA8-oA-eN4" userLabel="Overlay">
-                    <rect key="frame" x="0.0" y="-80" width="320" height="584"/>
+                <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" id="rA8-oA-eN4" userLabel="Overlay">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="584"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
+                        <searchBar hidden="YES" contentMode="redraw" id="3hQ-ZC-m4d">
+                            <rect key="frame" x="0.0" y="270" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="xK5-VS-ObD" id="ol1-4E-kh4"/>
+                            </connections>
+                        </searchBar>
                         <view contentMode="scaleToFill" id="sSO-Za-MZk" userLabel="Drop Down Container">
                             <rect key="frame" x="7" y="0.0" width="305" height="130"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1030,7 +1041,7 @@
             </objects>
             <point key="canvasLocation" x="630" y="259"/>
         </scene>
-        <!--Albums-->
+        <!--Groups-->
         <scene sceneID="26o-UI-2Ba">
             <objects>
                 <viewController id="Pcu-I1-edh" customClass="SVImagePickerListViewController" sceneMemberID="viewController">
@@ -1053,7 +1064,7 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <prototypes>
                                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="gKy-nC-Fsg" customClass="SVAlbumListViewCell">
-                                                        <rect key="frame" x="0.0" y="22" width="320" height="101"/>
+                                                        <rect key="frame" x="0.0" y="86" width="320" height="101"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gKy-nC-Fsg" id="7Yi-7K-KDO">
                                                             <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
@@ -1124,7 +1135,7 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Albums" id="jBM-0w-UgQ">
+                    <navigationItem key="navigationItem" title="Groups" id="jBM-0w-UgQ">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="dZ3-OC-BXe">
                             <connections>
                                 <action selector="cancelButtonPressed:" destination="Pcu-I1-edh" id="BEW-0k-tUP"/>
@@ -2073,7 +2084,7 @@ Or, email info@useglance.com to request one.</string>
             <objects>
                 <viewController id="Y3e-6A-img" customClass="SVWebViewController" sceneMemberID="viewController">
                     <webView key="view" contentMode="scaleToFill" id="Obu-FX-hhg">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.14901960784313725" green="0.40000000000000002" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -2204,14 +2215,14 @@ Or, email info@useglance.com to request one.</string>
             <objects>
                 <tableViewController id="CPg-IN-zDw" customClass="SVSettingsAboutViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DTG-CH-qgU">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="8mo-5p-uWH">
-                            <rect key="frame" x="0.0" y="176" width="320" height="137"/>
+                            <rect key="frame" x="0.0" y="240" width="320" height="137"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2220,7 +2231,7 @@ Or, email info@useglance.com to request one.</string>
                             <tableViewSection id="K5n-vQ-FiY">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="iEb-R6-eLo" style="IBUITableViewCellStyleDefault" id="KyB-X8-TBS">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KyB-X8-TBS" id="i6P-pL-ypF">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2254,7 +2265,7 @@ Or, email info@useglance.com to request one.</string>
                                         <animations/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="541-yf-u2C" imageView="8uv-SL-vE6" style="IBUITableViewCellStyleDefault" id="qZs-M3-pmn">
-                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="108" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qZs-M3-pmn" id="yc1-dC-9Y6">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
@@ -2288,7 +2299,7 @@ Or, email info@useglance.com to request one.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="D5k-Uo-AnI" imageView="6vL-Cp-auZ" style="IBUITableViewCellStyleDefault" id="fXY-Pm-woh">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="152" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fXY-Pm-woh" id="kes-e4-5ge">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
@@ -2322,7 +2333,7 @@ Or, email info@useglance.com to request one.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="I2f-D1-7hT" imageView="WVb-FU-clG" style="IBUITableViewCellStyleDefault" id="vIc-Zx-tm8">
-                                        <rect key="frame" x="0.0" y="132" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="196" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vIc-Zx-tm8" id="ZV4-yL-hFQ">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
@@ -2621,9 +2632,9 @@ activation code just sent to you</string>
         <image name="walla_ribbon_overlay.png" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="FFK-OC-3pt"/>
+        <segue reference="sO9-n0-6uB"/>
+        <segue reference="i8y-Zz-QXE"/>
         <segue reference="hc8-VF-LIN"/>
-        <segue reference="YZf-v8-Yxg"/>
-        <segue reference="oiS-6F-bJN"/>
-        <segue reference="wnh-dc-9HX"/>
     </inferredMetricsTieBreakers>
 </document>

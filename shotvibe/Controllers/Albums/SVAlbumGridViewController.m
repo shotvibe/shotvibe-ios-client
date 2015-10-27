@@ -387,43 +387,43 @@ static NSString *const kSectionReuseIdentifier = @"SVAlbumGridViewSection";
 //    cameraNavController.nav = (SVNavigationController*)self.navigationController;// this is set last
 }
 
-- (void)openAppleImagePicker {
-
-    
-    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-//    glcamera.delegate = self;
-    
-//    glcamera.delegate
-//     glcamera.imagePickerDelegate = picker.delegate;
-    picker.delegate = self;
-    
-    
-//    fromImagePicker = YES;
-    picker.allowsEditing = YES;
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
-    [self presentViewController:picker animated:YES completion:^{
-        ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
-        
-        
-        
-        
-        //    [appDelegate.window addSubview:picker.view];
-        
-//        [appDelegate.window bringSubviewToFront:picker.view];
-//        [appDelegate.window sendSubviewToBack:glcamera.view];
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            glcamera.view.alpha = 0;
-        }];
-    }];
-    
-    
-    
-
-
-}
+//- (void)openAppleImagePicker {
+//
+//    
+//    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+//    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+////    glcamera.delegate = self;
+//    
+////    glcamera.delegate
+////     glcamera.imagePickerDelegate = picker.delegate;
+//    picker.delegate = self;
+//    
+//    
+////    fromImagePicker = YES;
+//    picker.allowsEditing = YES;
+//    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//    
+//    [self presentViewController:picker animated:YES completion:^{
+//        ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+//        
+//        
+//        
+//        
+//        //    [appDelegate.window addSubview:picker.view];
+//        
+////        [appDelegate.window bringSubviewToFront:picker.view];
+////        [appDelegate.window sendSubviewToBack:glcamera.view];
+//        
+//        [UIView animateWithDuration:0.3 animations:^{
+//            glcamera.view.alpha = 0;
+//        }];
+//    }];
+//    
+//    
+//    
+//
+//
+//}
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     

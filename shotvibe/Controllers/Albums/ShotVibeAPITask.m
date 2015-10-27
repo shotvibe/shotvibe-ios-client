@@ -66,7 +66,7 @@
 + (void)runTask:(UIViewController *)viewController withAction:(id (^)())run onTaskComplete:(void (^)(id))onTaskComplete
 {
     [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
-    [viewController.view.window setUserInteractionEnabled:NO];
+//    [viewController.view.window setUserInteractionEnabled:NO];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         id result;
@@ -74,7 +74,7 @@
             result = run();
         } @catch (SLAPIException *exception) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [viewController.view.window setUserInteractionEnabled:YES];
+//                [viewController.view.window setUserInteractionEnabled:YES];
                 [MBProgressHUD hideHUDForView:viewController.view animated:YES];
 
                 TaskErrorDialogDelegate *delegate = [[TaskErrorDialogDelegate alloc] initWith:viewController
@@ -92,7 +92,7 @@
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            [viewController.view.window setUserInteractionEnabled:YES];
+//            [viewController.view.window setUserInteractionEnabled:YES];
             [MBProgressHUD hideHUDForView:viewController.view animated:YES];
             onTaskComplete(result);
         });

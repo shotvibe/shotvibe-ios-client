@@ -195,7 +195,7 @@
 "ijU-bV-hIf.text" = "Country";
 
 /* Class = "IBUINavigationItem"; title = "Albums"; ObjectID = "jBM-0w-UgQ"; */
-"jBM-0w-UgQ.title" = "אלבומים";
+"jBM-0w-UgQ.title" = "קבוצות";
 
 /* Class = "IBUILabel"; text = "Profile"; ObjectID = "ji2-oY-tiu"; */
 "ji2-oY-tiu.text" = "פרופיל";
@@ -252,7 +252,7 @@
 "x9c-cC-24Z.text" = "Welcome!!";
 
 /* Class = "IBUITableViewController"; title = "Albums"; ObjectID = "xK5-VS-ObD"; */
-"xK5-VS-ObD.title" = "אלבומים";
+"xK5-VS-ObD.title" = "קבוצות";
 
 /* Class = "IBUISearchBar"; placeholder = "Search"; ObjectID = "xWL-42-6Js"; */
 "xWL-42-6Js.placeholder" = "חיפוש";

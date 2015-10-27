@@ -28,7 +28,7 @@ typedef NS_ENUM(int16_t, STXCommentCellStyle) {
 @end
 
 @interface STXCommentCell : UITableViewCell
-
+@property (strong, nonatomic) NSURL * urlForProfilePic;
 @property (copy, nonatomic) id <STXCommentItem> comment;
 @property (nonatomic) NSInteger totalComments;
 

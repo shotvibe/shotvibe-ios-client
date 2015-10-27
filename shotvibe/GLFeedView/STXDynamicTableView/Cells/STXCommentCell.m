@@ -8,6 +8,7 @@
 
 #import "STXCommentCell.h"
 #import "STXAttributedLabel.h"
+#import "PhotoImageView.h"
 
 static CGFloat STXCommentViewLeadingEdgeInset = 10.f;
 static CGFloat STXCommentViewTrailingEdgeInset = 10.f;
@@ -18,6 +19,8 @@ static NSString *HashTagAndMentionRegex = @"(#|@)(\\w+)";
 
 @property (nonatomic) STXCommentCellStyle cellStyle;
 @property (strong, nonatomic) STXAttributedLabel *commentLabel;
+@property (strong, nonatomic) UIImageView * profileImageUser;
+
 
 @property (nonatomic) BOOL didSetupConstraints;
 
@@ -31,16 +34,29 @@ static NSString *HashTagAndMentionRegex = @"(#|@)(\\w+)";
     if (self) {
         _cellStyle = style;
         
+//        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+        
         if (style == STXCommentCellStyleShowAllComments) {
             NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Show %d comments", nil), totalComments];
             _commentLabel = [self allCommentsLabelWithTitle:title];
         } else {
             id<STXUserItem> commenter = [comment from];
             _commentLabel = [self commentLabelWithText:[comment text] commenter:[commenter username]];
+            _profileImageUser = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, 30, 30)];
+            _profileImageUser.backgroundColor = [UIColor purpleColor];
+            [_profileImageUser setImageWithURL:[commenter profilePictureURL]];
+//            _profileImageUser.layer.borderWidth = 3.0f;
+//            _profileImageUser.layer.borderColor = [UIColor whiteColor].CGColor;
+            _profileImageUser.clipsToBounds = YES;
+
+            _profileImageUser.layer.cornerRadius = 15;
+            [self addSubview:_profileImageUser];
+            
         }
         
         [self.contentView addSubview:_commentLabel];
         _commentLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//        
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
    }

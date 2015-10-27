@@ -79,6 +79,12 @@ static void showNotificationBanner(NSString *message)
     showNotificationBanner(message);
 }
 
+- (void)HandleWithSLNotificationMessage_PhotoComment:(SLNotificationMessage_PhotoComment *)msg {
+
+    [albumManager_ reportAlbumUpdateWithLong:[msg getAlbumId]];
+    
+}
+
 
 - (void)HandleWithSLNotificationMessage_PhotoGlance:(SLNotificationMessage_PhotoGlance *)msg
 {

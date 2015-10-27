@@ -19,11 +19,7 @@
 
 @interface STXFeedPhotoCell ()
 
-@property (weak, nonatomic) IBOutlet UILabel *profileLabel;
-@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
-@property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *postImageView;
 
 @end
 
@@ -45,10 +41,18 @@
     
     self.dateLabel.backgroundColor = [self.dateLabel superview].backgroundColor;
     
-    self.profileImageView.clipsToBounds = YES;
+//    self.profileImageView.clipsToBounds = YES;
+    
+//    [self bringSubviewToFront:self.profileImageView];
+//    [self sendSubviewToBack:self.postImageView];
+//    self.backgroundColor = [UIColor orangeColor];
 
-    self.postImageView.clipsToBounds = YES;
+//    self.postImageView.clipsToBounds = YES;
+//    self.greyImageView.clipsToBounds = YES;
+    
 }
+
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -74,44 +78,44 @@
 //        [manager ]
 //        SDWebImageOptions.CacheMemoryOnly
         
-         __block UIView * loading = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, self.frame.size.height/7)];
-        loading.backgroundColor = [UIColor greenColor];
-        [self addSubview:loading];
+//         __block UIView * loading = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, self.frame.size.height/7)];
+//        loading.backgroundColor = [UIColor greenColor];
+//        [self addSubview:loading];
         
         
 
         
 //        [self.postImageView setPhoto:postItem.postID photoUrl:[postItem.photoURL absoluteString] photoSize:[PhotoSize Thumb75] manager:[ShotVibeAppDelegate sharedDelegate].photoFilesManager];
         
-        self.postImageView.alpha = 0 ;
+//        self.postImageView.alpha = 0 ;
         
-        [self.postImageView sd_setImageWithURL:postItem.photoURL placeholderImage:[UIImage imageNamed:@"feedPlaceHolder"] options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-            
-            float progress  = (float)receivedSize / (float)expectedSize;
-            
-            
-            [UIView animateWithDuration:0.15 animations:^{
+//        [self.postImageView sd_setImageWithURL:postItem.photoURL placeholderImage:[UIImage imageNamed:@"feedPlaceHolder"] options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//            
+//            float progress  = (float)receivedSize / (float)expectedSize;
+//            
+//            
+//            [UIView animateWithDuration:0.15 animations:^{
+////                loading.hidden = YES;
+////                self.postImageView.alpha = 1 ;
+//                loading.frame = CGRectMake(0, 0, self.frame.size.width*progress, self.frame.size.height/7);
+//            }];
+//            
+//            if(progress == 1){
 //                loading.hidden = YES;
+//            }
+//            
+////            NSLog(@"%f",(float)receivedSize / (float)expectedSize);
+//            
+//        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//            
+//            [UIView animateWithDuration:0.15 animations:^{
+//                
 //                self.postImageView.alpha = 1 ;
-                loading.frame = CGRectMake(0, 0, self.frame.size.width*progress, self.frame.size.height/7);
-            }];
-            
-            if(progress == 1){
-                loading.hidden = YES;
-            }
-            
-//            NSLog(@"%f",(float)receivedSize / (float)expectedSize);
-            
-        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            
-            [UIView animateWithDuration:0.15 animations:^{
-                
-                self.postImageView.alpha = 1 ;
-            } completion:^(BOOL completed){
-                loading.hidden = YES;
-            }];
-            
-        }];
+//            } completion:^(BOOL completed){
+//                loading.hidden = YES;
+//            }];
+//            
+//        }];
         
 //        [manager downloadImageWithURL:postItem.photoURL options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
 //            

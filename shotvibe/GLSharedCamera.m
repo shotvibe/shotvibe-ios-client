@@ -7,6 +7,8 @@
 //
 
 #import "GLSharedCamera.h"
+#import "RBVolumeButtons.h"
+
 
 @implementation GLSharedCamera {
     ScrollDirection scrollDirection;
@@ -64,6 +66,25 @@
     
     
     BOOL yes;
+    
+    UIImageView * dmut;
+    UIView * cameraWrapper;
+    UIView * cameraViewBackground;
+    CGFloat cameraSlideTopLimit;
+    
+    CGFloat firstX;
+    CGFloat firstY;
+    
+    BOOL cameraVisble;
+    
+    UIVisualEffectView *effectView;
+    
+    CGAffineTransform dmutScaleOriginal;
+    UIView * scoreBg;
+//    JPSVolumeButtonHandler * volumeButtonHandler;
+    RBVolumeButtons *buttonStealer;
+    
+    CGFloat draggedLength;
 }
 
 + (instancetype)sharedInstance {
@@ -79,13 +100,38 @@
     self = [super init];
     if (self) {
         
+        buttonStealer = [[RBVolumeButtons alloc] init];
+        [buttonStealer startStealingVolumeButtonEvents];
+        buttonStealer.upBlock = ^{
+            NSLog(@"vol up");
+            [self captureTapped];
+        };
+        buttonStealer.downBlock = ^{
+            NSLog(@"vol down");
+        };
+        
+//        volumeButtonHandler = [JPSVolumeButtonHandler volumeButtonHandlerWithUpBlock:^{
+//            // Volume Up Button Pressed
+//            NSLog(@"vol up");
+//            
+//        } downBlock:^{
+//            // Volume Down Button Pressed
+//            NSLog(@"vol down");
+//        }];
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+//        dmutScaleOriginal = nil;
+        
+        self.isInFeedMode = NO;
+        cameraVisble = NO;
         yes = YES;
         addText = NO;
         firstTime = YES;
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         CGFloat width = screenRect.size.width;
         CGFloat heigth = screenRect.size.height;
-        self.view = [[UIView alloc] initWithFrame:CGRectMake(0, -heigth, width, heigth)];
+        self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, heigth)];
+        self.view.clipsToBounds = YES;
         self.view.backgroundColor = [UIColor whiteColor];
         
         NSString *strClass = NSStringFromClass([self class]);
@@ -109,7 +155,7 @@
         CGFloat screenWidth = screenRect.size.width;
         CGFloat screenHeight = screenRect.size.height;
         
-        mainOutPutFrame = [[UIView alloc] initWithFrame:CGRectMake(0, 20, screenWidth, screenWidth)];
+        mainOutPutFrame = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight*0.75)];
         mainOutPutFrame.backgroundColor = [UIColor blackColor];
         [self.view addSubview:mainOutPutFrame];
         
@@ -145,7 +191,8 @@
         //        [self.latestImagesArray addObject:asset];
         //    }
         
-        self.carousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, mainOutPutFrame.frame.size.height, screenWidth, self.view.frame.size.height/3)];
+        self.carousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, mainOutPutFrame.frame.size.height+20, screenWidth, self.view.frame.size.height/4.5)];
+//        self.carousel.backgroundColor = [UIColor redColor];
         self.carousel.type = iCarouselTypeLinear;
         [self.view addSubview:self.carousel];
         
@@ -217,7 +264,7 @@
         
         
         
-        captureButton = [[UIButton alloc] initWithFrame:CGRectMake((screenWidth/2)-35,self.mainScrollView.frame.size.height-35, 70, 70)];
+        captureButton = [[UIButton alloc] initWithFrame:CGRectMake(10,self.mainScrollView.frame.size.height-55, 70, 70)];
         UIImage *btnImage3 = [UIImage imageNamed:@"CaptureButton"];
         [captureButton setImage:btnImage3 forState:UIControlStateNormal];
         
@@ -296,10 +343,343 @@
         [mainOutPutFrame addSubview:touchPointCircle];
 
         
+        [self.videoCamera startCameraCapture];
+        
+        for(GLFilterView * filter in self.arrayOfFilters){
+            filter.title.alpha = 0 ;
+        }
+        
+        self.view.userInteractionEnabled = YES;
+//        [self.videoCamera rotateCamera];
+        
+        
+        
+        ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        
+        
+        
+        cameraViewBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3)+20)];
+//            cameraViewBackground.backgroundColor = [UIColor orangeColor];
+        //    cameraViewBackground.userInteractionEnabled = NO;
+        
+        //    [self.view addSubview:cameraViewBackground];
+        
+        cameraWrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3)];
+        cameraWrapper.clipsToBounds = YES;
+        //    cameraWrapper.backgroundColor = [UIColor orangeColor];
+        
+//        GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+        //    glcamera.view.clipsToBounds = NO;
+        //    glcamera.view.alpha = 0;
+        [cameraWrapper addSubview:self.view];
+        [cameraViewBackground addSubview:cameraWrapper];
+        [appDelegate.window addSubview:cameraViewBackground];
+        
+      
+        
+        
+        dmut = [[UIImageView alloc] initWithFrame:CGRectMake(27, ([UIScreen mainScreen].bounds.size.height/3)-90, 320, 110)];
+        dmut.userInteractionEnabled = YES;
+        dmut.image = [UIImage imageNamed:@"Dmut"];
+        [cameraViewBackground addSubview:dmut];
+        
+        UIPanGestureRecognizer * gest = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dmutDragged:)];
+        
+        [dmut addGestureRecognizer:gest];
+        
+        cameraSlideTopLimit = [dmut center].y;
+        
+        UITapGestureRecognizer * scoreTapped = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scoreTapped:)];
+        
+        scoreBg = [[UIView alloc] initWithFrame:CGRectMake(20, 40, 40, 40)];
+        scoreBg.backgroundColor = [UIColor whiteColor];
+        scoreBg.layer.cornerRadius = 20;
+        
+        [scoreBg addGestureRecognizer:scoreTapped];
+        
+        UILabel * score = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        score.text = @"156";
+        score.textAlignment = NSTextAlignmentCenter;
+        score.textColor = [UIColor blackColor];
+        [scoreBg addSubview:score];
+        
+//        [cameraViewBackground addSubview:scoreBg];
+        
+        UILabel * picYourGroup = [[UILabel alloc] initWithFrame:CGRectMake(20, 35, self.view.frame.size.width, 40)];
+        picYourGroup.text = @"pic your group";
+        picYourGroup.textColor = [UIColor whiteColor];
+        picYourGroup.font = [UIFont fontWithName:@"GothamRounded-Bold" size:24];
+        
+        UIImageView * glanceLogo = [[UIImageView alloc] initWithFrame:CGRectMake((picYourGroup.frame.size.width)-self.view.frame.size.width*0.3, 35, self.view.frame.size.width*0.25, 40)];
+        glanceLogo.image = [UIImage imageNamed:@"glanceMainLogo"];
+        
+
+        [cameraViewBackground addSubview:picYourGroup];
+        [cameraViewBackground addSubview:glanceLogo];
         
         
     }
     return self;
+}
+
+//-(void)scoreTapped:(UITapGestureRecognizer*)gest {
+//    
+//    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+//
+//    UIWebView * webview = [[UIWebView alloc] initWithFrame:CGRectMake(0, -self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height)];
+//    [appDelegate.window addSubview:webview];
+//    webview.backgroundColor = [UIColor purpleColor];
+//    [webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://matthew.wagerfield.com/parallax/"]]];
+//    
+//    [UIView animateWithDuration:0.2 animations:^{
+//        webview.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+//    }];
+//    
+//
+//
+//}
+
+-(void)dmutDragged:(UIPanGestureRecognizer*)gest {
+    
+    
+    CGPoint location = [gest translationInView:self.view];
+    
+    if(gest.state == UIGestureRecognizerStateBegan){
+        //
+        
+//        draggedLength = 0;
+        
+        firstX = [[gest view] center].x;
+        firstY = [[gest view] center].y;
+        
+        //
+    } else if(gest.state == UIGestureRecognizerStateChanged){
+        
+        
+        
+        
+        if(firstY+location.y > cameraSlideTopLimit ){
+            
+            if(firstY+location.y < self.view.frame.size.height - dmut.frame.size.height){
+                
+                [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, firstY+location.y+35)];
+                [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, firstY+location.y+35)];
+                
+                //        dmut.frame = CGRectMake(27, firstY+location.y
+                //                                , 320, 110);
+                dmut.center = CGPointMake(firstX, firstY+location.y);
+                
+            } else {
+                
+                [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, firstY+location.y+35)];
+                [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, firstY+location.y+35)];
+                
+            }
+            
+            
+            
+        }
+        
+        
+        //
+        //
+    } else if(gest.state == UIGestureRecognizerStateEnded){
+        
+        
+        CGPoint velocity = [gest velocityInView:self.view];
+        
+        if (velocity.y < 0)   // panning down
+        {
+            
+            
+            [UIView animateWithDuration:0.3 animations:^(){
+                
+                
+                if(self.isInFeedMode){
+                
+//                    [[self videoCamera] stopCameraCapture];
+                    [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
+                    effectView.alpha = 1;
+                    dmut.center = CGPointMake(firstX, 60);
+                    [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, 60)];
+                    
+                } else {
+                    
+                    
+//                    [[self videoCamera] startCameraCapture];
+                    [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, self.view.frame.size.height/3)];
+                    dmut.center = CGPointMake(firstX, cameraSlideTopLimit);
+                    [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, self.view.frame.size.height/3)];
+                }
+                
+                
+                
+//                draggedLength = firstY+location.y;
+              
+//                if(firstY+location.y >self.view.frame.size.height/2){
+                
+//                if(draggedLength > self.view.frame.size.height*0.65){
+                
+//                    [self toggleCamera];
+                
+//                }
+                
+                
+                
+                
+                
+                
+//                }
+                
+                
+                
+            } completion:^(BOOL finished) {
+                if(self.isInFeedMode){
+                    [[self videoCamera] stopCameraCapture];
+                }
+                
+                NSLog(@"animation completed1");
+                [UIView animateWithDuration:0.2 animations:^{
+                    dmut.transform = CGAffineTransformIdentity;
+                }];
+                [self toggleCamera:YES];
+                
+            }];
+            //            self.brightness = self.brightness -.02;
+            //     NSLog (@"Decreasing brigntness in pan");
+        }
+        else                // panning up
+        {
+            
+            [UIView animateWithDuration:0.3 animations:^(){
+                
+                
+                [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, self.view.frame.size.height)];
+                
+                [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, self.view.frame.size.height)];
+                
+                if(self.isInFeedMode){
+                    effectView.alpha = 0;
+                    dmut.center = CGPointMake(firstX, self.view.frame.size.height-90);
+                } else {
+                    dmut.center = CGPointMake(firstX, self.view.frame.size.height-155);
+                }
+                
+                
+//                if(firstY+location.y >self.view.frame.size.height/2){
+//                if(draggedLength > self.view.frame.size.height*0.65){
+                
+//                    [self toggleCamera];
+                
+//                }
+                
+//                }
+                
+                dmut.transform = CGAffineTransformScale(dmut.transform, 0.6, 0.6);
+                
+            } completion:^(BOOL finished) {
+                [[self videoCamera] startCameraCapture];
+                
+                [UIView animateWithDuration:0.2 animations:^{
+//                    dmut.transform = CGAffineTransformScale(dmut.transform, 0.6, 0.6);
+                }];
+                NSLog(@"animation completed2");
+                [self toggleCamera:NO];
+            }];
+            
+            //            self.brightness = self.brightness +.02;
+            //  NSLog (@"Increasing brigntness in pan");
+            
+        }
+        
+        
+        
+    }
+    
+}
+
+-(void)setInFeedMode {
+    
+    
+    
+    if(self.isInFeedMode){
+    
+        [[self videoCamera] startCameraCapture];
+        [UIView animateWithDuration:0.2 animations:^{
+            dmut.transform = CGAffineTransformIdentity;
+            effectView.alpha = 0;
+            
+            cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3)+20);
+            cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
+            dmut.frame = CGRectMake(27, ([UIScreen mainScreen].bounds.size.height/3)-90, 320, 110);
+        }];
+        
+    } else {
+        
+        [[self videoCamera] stopCameraCapture];
+        // create effect
+        UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    
+        // add effect to an effect view
+        effectView = [[UIVisualEffectView alloc]initWithEffect:blur];
+        effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
+        effectView.alpha = 0;
+        [cameraViewBackground addSubview:effectView];
+
+    
+        [UIView animateWithDuration:0.2 animations:^{
+        
+        
+       
+        
+            dmut.frame = CGRectMake(dmut.frame.origin.x, 20, dmut.frame.size.width, dmut.frame.size.height);
+            effectView.alpha = 1;
+        
+//        if(!dmutScaleOriginal){
+//            dmutScaleOriginal = dmut.transform;
+//        }
+        
+            dmut.transform = CGAffineTransformScale(dmut.transform, 0.60, 0.60);
+            dmut.center = CGPointMake(dmut.center.x, dmut.center.y-15);
+        
+            cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80);
+            cameraViewBackground.frame = CGRectMake(0, 0, cameraViewBackground.frame.size.width, 80);
+        
+        
+            [cameraViewBackground bringSubviewToFront:dmut];
+        
+    }];
+    }
+    
+    self.isInFeedMode = !self.isInFeedMode;
+
+}
+
+-(void)toggleCamera:(BOOL)on {
+
+    [UIView animateWithDuration:0.2 animations:^{
+        
+        if(on){
+            for(GLFilterView * filterView in self.arrayOfFilters){
+                filterView.title.alpha = 0;
+            }
+            flipCameraButton.alpha = 0;
+            flashButton.alpha = 0;
+            scoreBg.alpha = 1;
+        } else {
+            for(GLFilterView * filterView in self.arrayOfFilters){
+                filterView.title.alpha = 1;
+            }
+            flipCameraButton.alpha = 1;
+            flashButton.alpha = 1;
+            scoreBg.alpha = 0;
+        }
+        
+    }];
+    
+    
+//    cameraVisble = !cameraVisble;
 }
 
 -(void)abortUploadButtonTapped {
@@ -308,7 +688,6 @@
 
 - (void)setupVideoCamera {
     
-    //    self.videoCamera = [[GLCamera sharedInstance] videoCamera];
     self.videoCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
     self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
@@ -316,11 +695,7 @@
     
     [self createFiltersViews];
     [self createMainScrollView];
-    
-//    [self.videoCamera startCameraCapture];
-//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
-//    [self.videoCamera stopCameraCapture];
-//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+  
     
     
 }
@@ -893,6 +1268,20 @@
     
 }
 
+-(void)hideForPicker:(BOOL)no {
+
+    if(no == YES){
+        [UIView animateWithDuration:0.2 animations:^{
+            cameraViewBackground.alpha = 0;
+        }];
+    } else {
+        [UIView animateWithDuration:0.2 animations:^{
+            cameraViewBackground.alpha = 1;
+        }];
+    }
+
+}
+
 #pragma mark - iCarouselMethods
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index locationInView:(CGPoint)location {
@@ -906,20 +1295,22 @@
 //        OverlayView *overlay = [[OverlayView alloc]
 //                                initWithFrame:CGRectMake(0,0,,SCREEN_HEIGTH)];
 //        uiimagepicker
+
         
-        [UIView animateWithDuration:0.2 animations:^{
-        
-            self.mainScrollView.alpha = 0;
-            
-        } completion:^(BOOL finished) {
-            [self.videoCamera stopCameraCapture];
-            //        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            //        picker.delegate = self;
-            //
-            fromImagePicker = YES;
-            
-            [self.delegate openAppleImagePicker];
-        }];
+        [self.delegate openAppleImagePicker];
+//        [UIView animateWithDuration:0.2 animations:^{
+//        
+//            self.mainScrollView.alpha = 0;
+//            
+//        } completion:^(BOOL finished) {
+//            [self.videoCamera stopCameraCapture];
+//            //        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+//            //        picker.delegate = self;
+//            //
+//            fromImagePicker = YES;
+//            
+//            [self.delegate openAppleImagePicker];
+//        }];
         
         
         
@@ -965,6 +1356,7 @@
         PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
         options.synchronous  = YES;
         options.resizeMode = PHImageRequestOptionsResizeModeExact;
+//        options.d
         //        options.normalizedCropRect = CGRectMake(0, 0, 200, 200);
         options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
         
@@ -973,13 +1365,33 @@
         //        [[[GLCamera sharedInstance] videoCamera] pauseCameraCapture];
         [self.videoCamera stopCameraCapture];
         
-        [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:index] targetSize:CGSizeMake(self.view.frame.size.width*2, self.view.frame.size.width*2) contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *result, NSDictionary *info){
+        CGRect screenRect = kScreenBounds;
+        CGFloat screenWidth = screenRect.size.width;
+        
+        [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:index] targetSize:CGSizeMake(960,1280) contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *result, NSDictionary *info){
+            
+//            
+//            UIImage * PortraitImage = [[UIImage alloc] initWithCGImage: result.CGImage
+//                                                                 scale: 1.0
+//                                                           orientation: UIImageOrientationDown];
+            
+//            result.ima
             
             ////            [self sendImageToEdit:result];
             //            CGImageRef cgRef = result.CGImage;
             //            UIImage * ttimage = [self normalizedImage:result];
             
-            UIImage * croppedImage = [self imageCroppedToFitSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.width) image:result];
+            
+            
+            //    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+            //    [self sendImageToEdit:chosenImage];
+            //   ;
+            
+            
+            
+            
+            
+            UIImage * croppedImage = [self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth*1.33) image:[self unrotateImage:result]];
             
             
             for(GLFilterView * filterView in self.arrayOfFilters){
@@ -1012,6 +1424,16 @@
     
 }
 
+-(UIImage*)unrotateImage:(UIImage*)image {
+    CGSize size = image.size;
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0,0,size.width ,size.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
 - (UIImage *)normalizedImage:(UIImage*)image {
     if (image.imageOrientation == UIImageOrientationUp) return image;
     
@@ -1031,7 +1453,9 @@
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
 {
     
-    view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 180.0f, 180.0f)];
+    
+    
+    view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width*0.31, [[UIScreen mainScreen] bounds].size.width/3)];
     //        ((UIImageView *)view).image = [UIImage imageNamed:@"page.png"];
     view.contentMode = UIViewContentModeScaleAspectFill;
     view.clipsToBounds = YES;
@@ -1084,12 +1508,22 @@
 
 
     fromImagePicker = NO;
+    CGRect screenRect = kScreenBounds;
+    CGFloat screenWidth = screenRect.size.width;
     
     //    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     //    [self sendImageToEdit:chosenImage];
     //   ;
     
-    [self updateFiltersWithSelectedImage:[self imageCroppedToFitSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.width) image:image]];
+    
+    for(GLFilterView * filterView in self.arrayOfFilters){
+        [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth*1.3333) image:image]];
+        //        [filterView.filter ]
+    }
+    [self setCameraViewInEditMode:YES];
+    
+    
+//    [self updateFiltersWithSelectedImage:[self imageCroppedToFitSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.width*1.333) image:image]];
     
     [UIView animateWithDuration:0.2 animations:^{
         
@@ -1103,7 +1537,7 @@
     //
 //    [picker dismissViewControllerAnimated:YES completion:NULL];
     imageSource = ImageSourceGallery;
-    imageFromPicker = [self imageCroppedToFitSize:CGSizeMake(512, 512) image:image];
+    imageFromPicker = [self imageCroppedToFitSize:CGSizeMake(480, 640) image:image];
     
 
 }
@@ -1117,13 +1551,13 @@
     //    [self sendImageToEdit:chosenImage];
     //   ;
     
-    [self updateFiltersWithSelectedImage:[self imageCroppedToFitSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.width) image:info[UIImagePickerControllerEditedImage]]];
+    [self updateFiltersWithSelectedImage:[self imageCroppedToFitSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.width*1.3333) image:info[UIImagePickerControllerEditedImage]]];
     //    self.imageView.image = chosenImage;
     
     //
     [picker dismissViewControllerAnimated:YES completion:NULL];
     imageSource = ImageSourceGallery;
-    imageFromPicker = [self imageCroppedToFitSize:CGSizeMake(512, 512) image:info[UIImagePickerControllerEditedImage]];
+    imageFromPicker = [self imageCroppedToFitSize:CGSizeMake(480, 640) image:info[UIImagePickerControllerEditedImage]];
     //
 }
 
@@ -1480,7 +1914,7 @@
 //    [self hideCamera];
     if(imageSource == ImageSourceNone){
         
-        [self hideCamera];
+//        [self hideCamera];
         
     } else {
         
@@ -1489,7 +1923,7 @@
         
         
         
-        [self hideCamera];
+//        [self hideCamera];
         
         PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
         options.synchronous  = YES;
@@ -1507,36 +1941,56 @@
 //        self.videoCamera = nil;
         
         
-        switch (imageSource) {
-            case ImageSourceCamera:
-            {
-                [self processSelectedImageWithFilterTextAndSize:cleanImageFromCamera];
-                
-            };
-                break;
-                
-            case ImageSourceRecents:
-            {
-                [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(1024, 1024) contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *image, NSDictionary *info){
+        [UIView animateWithDuration:0.2 animations:^{
+            
+            [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
+            effectView.alpha = 1;
+            dmut.center = CGPointMake(firstX, 60);
+            [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, 60)];
+            
+            
+            
+            
+        } completion:^(BOOL finished) {
+            
+            switch (imageSource) {
+                case ImageSourceCamera:
+                {
+                    [self processSelectedImageWithFilterTextAndSize:cleanImageFromCamera];
                     
-                    //                dispatch_async(dispatch_get_main_queue(), ^(){});
+                };
+                    break;
                     
-                    [self processSelectedImageWithFilterTextAndSize:[self imageCroppedToFitSize:CGSizeMake(512, 512) image:image]];
-                }];
-            };
-                break;
-                
-            case ImageSourceGallery:
-            {
-                [self processSelectedImageWithFilterTextAndSize:imageFromPicker];
-            };
-                break;
-                
-            default:
-                break;
-        }
+                case ImageSourceRecents:
+                {
+                    [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(960, 1280) contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *image, NSDictionary *info){
+                        
+                        //                dispatch_async(dispatch_get_main_queue(), ^(){});
+                        
+                        [self processSelectedImageWithFilterTextAndSize:[self imageCroppedToFitSize:CGSizeMake(480, 640) image:image]];
+                    }];
+                };
+                    break;
+                    
+                case ImageSourceGallery:
+                {
+                    [self processSelectedImageWithFilterTextAndSize:imageFromPicker];
+                };
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            [self createResizableTextView];
+            [self backToCameraFromEditPallette:nil];
+//            [self toggleCamera];
+            
+        }];
         
-        [self createResizableTextView];
+        
+        
+        
         
     }
     
@@ -1745,13 +2199,21 @@
             [self.videoCamera capturePhotoAsImageProcessedUpToFilter:[[self.arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(UIImage *processedImage, NSError *error) {
                
                 
+                
+                
                 [self.videoCamera stopCameraCapture];
-                cleanImageFromCamera = [self imageCroppedToFitSize:CGSizeMake(512, 512) image:processedImage];
+                [UIView animateWithDuration:0.2 animations:^{
+                    self.carousel.frame = CGRectMake(self.carousel.frame.origin.x, self.carousel.frame.origin.y+self.carousel.frame.size.height, self.carousel.frame.size.width, self.carousel.frame.size.height);
+                }];
+                cleanImageFromCamera = [self imageCroppedToFitSize:CGSizeMake(480, 640) image:processedImage];
                 
                 for(GLFilterView * filterView in self.arrayOfFilters){
-                    [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth) image:processedImage]];
+                    [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth*1.3333) image:processedImage]];
                     //        [filterView.filter ]
                 }
+                
+                
+                
                 [self setCameraViewInEditMode:YES];
                 
                 
@@ -2016,8 +2478,9 @@
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat filterViewWidth = screenRect.size.width;
     CGFloat filterViewHeight = screenRect.size.width;
+    CGFloat screenHeigth = screenRect.size.height;
     
-    self.mainScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, filterViewWidth, filterViewHeight)];
+    self.mainScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, filterViewWidth, screenHeigth*0.75)];
     
     self.mainScrollView.backgroundColor = [UIColor orangeColor];
     self.mainScrollView.tag = ScrollerTypeFilterScroller;
@@ -2026,15 +2489,15 @@
     self.mainScrollView.pagingEnabled = YES;
     NSInteger numberOfViews = [self.arrayOfFilters count];
     for (int i = 0; i < numberOfViews; i++) {
-        CGFloat yOrigin = i * filterViewHeight;
+        CGFloat yOrigin = i * (screenHeigth*0.75);
         GLFilterView * tempFilt = [self.arrayOfFilters objectAtIndex:i];
-        [tempFilt.container setFrame:CGRectMake(0, yOrigin, filterViewWidth, filterViewHeight)];
+        [tempFilt.container setFrame:CGRectMake(0, yOrigin, filterViewWidth, screenHeigth*0.75)];
         tempFilt.container.backgroundColor = [UIColor blackColor];
         
         [self.mainScrollView addSubview:tempFilt.container];
         
     }
-    self.mainScrollView.contentSize = CGSizeMake(filterViewWidth, (filterViewHeight* numberOfViews));
+    self.mainScrollView.contentSize = CGSizeMake(filterViewWidth, ((screenHeigth*0.75)* numberOfViews));
     
     //    [self.mainScrollView setContentOffset:CGPointMake(0, 20)];
     //    [self.mainScrollView scrollsToTop];
@@ -2052,6 +2515,8 @@
     [flipCameraButton setImage:btnImage forState:UIControlStateNormal];
     [self.view addSubview:flipCameraButton];
     
+    flipCameraButton.alpha = 0;
+    
     backCameraOn = YES;
     
     flashButton = [[UIButton alloc] initWithFrame:CGRectMake(filterViewWidth - 50, 30, 40, 40)];
@@ -2059,6 +2524,8 @@
     [flashButton addTarget:self action:@selector(toggleFlash) forControlEvents:UIControlEventTouchUpInside];
     [flashButton setImage:btnImage2 forState:UIControlStateNormal];
     [self.view addSubview:flashButton];
+    
+    flashButton.alpha = 0;
     
     flashIsOn = NO;
     

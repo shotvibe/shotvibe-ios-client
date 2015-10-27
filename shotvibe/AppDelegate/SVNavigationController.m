@@ -17,6 +17,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+            
+
+//    [self.window makeKeyAndVisible];
+    
     if (IS_IOS7) {
 //        self.navigationBar.tintColor = [UIColor whiteColor];
 //        self.navigationBar.barTintColor = BLUE;

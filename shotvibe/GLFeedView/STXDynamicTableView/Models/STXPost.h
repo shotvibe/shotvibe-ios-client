@@ -9,9 +9,11 @@
 //@import Foundation;
 
 #import "STXPostItem.h"
+#import "AlbumPhoto.h"
 
 @interface STXPost : NSObject <STXPostItem>
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+@property (nonatomic, strong) SLAlbumPhoto * slPhoto;
 
 @end

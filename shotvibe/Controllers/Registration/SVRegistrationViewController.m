@@ -111,7 +111,7 @@
 - (void)hideInviteOverlay
 {
     [self.inviteOverlay setHidden:YES];
-    [self.phoneNumberField becomeFirstResponder];
+//    [self.phoneNumberField becomeFirstResponder];
 }
 
 

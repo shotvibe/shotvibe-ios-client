@@ -11,6 +11,7 @@
 #import "SVSidebarAlbumManagementSection.h"
 #import "SVSidebarAlbumSection.h"
 #import "MFSideMenu.h"
+#import "GLFeedViewController.h"
 
 @class SVAlbumGridViewController;
 @class SLAlbumContents;
@@ -19,7 +20,7 @@
 
 #pragma mark - Properties
 
-@property (strong, nonatomic) SVAlbumGridViewController *parentController;
+@property (strong, nonatomic) GLFeedViewController *parentController;
 @property (nonatomic, strong) SLAlbumContents *albumContents;
 @property (nonatomic) NSMutableArray *sectionInfoArray;
 @property (nonatomic) NSInteger openSectionIndex;

@@ -766,80 +766,80 @@
 #pragma mark Aviary sdk
 #pragma mark Photo editing tool
 
-- (void)displayEditor
-{
-	RCLog(@"display editor %i", self.index);
-	//AlbumPhoto *photo = [photos objectAtIndex:self.index];
-    // TODO load image:
-	UIImage *imageToEdit = [[cache objectAtIndex:self.index] image];
-	RCLogO(imageToEdit);
-	
-    AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage:imageToEdit];
-    [editorController setDelegate:self];
-	
-	navigatingNext = YES;
-    [self presentViewController:editorController animated:YES completion:nil];
-	
-}
+//- (void)displayEditor
+//{
+//	RCLog(@"display editor %i", self.index);
+//	//AlbumPhoto *photo = [photos objectAtIndex:self.index];
+//    // TODO load image:
+//	UIImage *imageToEdit = [[cache objectAtIndex:self.index] image];
+//	RCLogO(imageToEdit);
+//	
+//    AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage:imageToEdit];
+//    [editorController setDelegate:self];
+//	
+//	navigatingNext = YES;
+//    [self presentViewController:editorController animated:YES completion:nil];
+//	
+//}
 
-- (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
-{
-	// Save the image to disk
-	NSString *imagePath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto.jpg"];
-	NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto_thumb.jpg"];
-	
-	dispatch_async(dispatch_get_global_queue(0, 0), ^{
-		
-		if ([UIImageJPEGRepresentation(image, 0.9) writeToFile:imagePath atomically:YES]) {
-			
-			CGSize newSize = CGSizeMake(200, 200);
-			
-			float oldWidth = image.size.width;
-			float scaleFactor = newSize.width / oldWidth;
-			
-			float newHeight = image.size.height * scaleFactor;
-			float newWidth = oldWidth * scaleFactor;
-			
-			UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-			[image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-			UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
-			UIGraphicsEndImageContext();
-			
-			[UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
-			
-			dispatch_async(dispatch_get_main_queue(), ^{
-				
-				uploadingAviaryPicture = YES;
-				
-				// Upload the saved photo. This will call the refresh 2 times, one with the local photo and one after the photo is being uploaded
-
-                TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:imagePath];
-                NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
-                [photoUploadRequests addObject:photoUploadRequest];
-                [albumManager_ uploadPhotosWithLong:self.albumId
-                                   withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:photoUploadRequests]];
-
-				// Send a notification the the main screen to move this album on top of the list
-				NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
-				[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATIONCENTER_ALBUM_CHANGED object:nil userInfo:userInfo];
-			});
-		}
-	});
-	
-	[editor dismissViewControllerAnimated:YES completion:^{
-		[editor setDelegate:nil];
-        [self setControlsHidden:NO animated:NO permanent:YES];
-        [self.navigationController popViewControllerAnimated:YES];
-	}];
-}
-
-
-
-- (void)photoEditorCanceled:(AFPhotoEditorController *)editor
-{
-	[editor dismissViewControllerAnimated:YES completion:^{
-		
-	}];
-}
+//- (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
+//{
+//	// Save the image to disk
+//	NSString *imagePath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto.jpg"];
+//	NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto_thumb.jpg"];
+//	
+//	dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//		
+//		if ([UIImageJPEGRepresentation(image, 0.9) writeToFile:imagePath atomically:YES]) {
+//			
+//			CGSize newSize = CGSizeMake(200, 200);
+//			
+//			float oldWidth = image.size.width;
+//			float scaleFactor = newSize.width / oldWidth;
+//			
+//			float newHeight = image.size.height * scaleFactor;
+//			float newWidth = oldWidth * scaleFactor;
+//			
+//			UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+//			[image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+//			UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+//			UIGraphicsEndImageContext();
+//			
+//			[UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
+//			
+//			dispatch_async(dispatch_get_main_queue(), ^{
+//				
+//				uploadingAviaryPicture = YES;
+//				
+//				// Upload the saved photo. This will call the refresh 2 times, one with the local photo and one after the photo is being uploaded
+//
+//                TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:imagePath];
+//                NSMutableArray *photoUploadRequests = [[NSMutableArray alloc] init];
+//                [photoUploadRequests addObject:photoUploadRequest];
+//                [albumManager_ uploadPhotosWithLong:self.albumId
+//                                   withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:photoUploadRequests]];
+//
+//				// Send a notification the the main screen to move this album on top of the list
+//				NSDictionary *userInfo = @{@"albumId":[NSNumber numberWithLongLong:self.albumId]};
+//				[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATIONCENTER_ALBUM_CHANGED object:nil userInfo:userInfo];
+//			});
+//		}
+//	});
+//	
+//	[editor dismissViewControllerAnimated:YES completion:^{
+//		[editor setDelegate:nil];
+//        [self setControlsHidden:NO animated:NO permanent:YES];
+//        [self.navigationController popViewControllerAnimated:YES];
+//	}];
+//}
+//
+//
+//
+//- (void)photoEditorCanceled:(AFPhotoEditorController *)editor
+//{
+//	[editor dismissViewControllerAnimated:YES completion:^{
+//		
+//	}];
+//}
 
 @end

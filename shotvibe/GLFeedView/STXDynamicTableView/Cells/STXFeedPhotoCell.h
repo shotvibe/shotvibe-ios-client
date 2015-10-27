@@ -23,12 +23,23 @@
 
 @interface STXFeedPhotoCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *greyImageView;
+@property (weak, nonatomic) IBOutlet UILabel *profileLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet PhotoView *postImageView;
+
 @property (strong, nonatomic) NSIndexPath *indexPath;
 
 @property (strong, nonatomic) id <STXPostItem> postItem;
 @property (strong, nonatomic) UIImage *photoImage;
 
 @property (weak, nonatomic) id <STXFeedPhotoCellDelegate> delegate;
+
+@property(nonatomic,retain) UIImage * uploadedImage;
+
+@property (nonatomic) BOOL justUploaded;
 
 - (void)cancelImageLoading;
 

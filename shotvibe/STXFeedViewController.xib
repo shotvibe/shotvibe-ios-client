@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uI6-lm-rrc">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <rect key="frame" x="0.0" y="60" width="600" height="540"/>
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
@@ -25,7 +25,7 @@
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="uI6-lm-rrc" firstAttribute="top" secondItem="cuh-pi-TiW" secondAttribute="top" id="DxY-al-so9"/>
+                <constraint firstItem="uI6-lm-rrc" firstAttribute="top" secondItem="cuh-pi-TiW" secondAttribute="top" constant="60" id="DxY-al-so9"/>
                 <constraint firstAttribute="trailing" secondItem="uI6-lm-rrc" secondAttribute="trailing" id="HG9-pz-klw"/>
                 <constraint firstItem="uI6-lm-rrc" firstAttribute="leading" secondItem="cuh-pi-TiW" secondAttribute="leading" id="Mzo-gE-1ms"/>
                 <constraint firstAttribute="bottom" secondItem="uI6-lm-rrc" secondAttribute="bottom" id="l6Q-mM-5od"/>

@@ -22,6 +22,8 @@
 
 + (NSArray *)allPhotoSizes;
 
+- (id) initWithExtension:(NSString *)extension width:(int)width height:(int)height;
+
 - (BOOL)isWorseThan:(PhotoSize *)other;
 
 @end

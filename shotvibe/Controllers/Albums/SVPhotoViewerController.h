@@ -10,7 +10,7 @@
 #import "SL/AlbumContents.h"
 #import "SL/AlbumManager.h"
 #import "SVActivityViewController.h"
-#import "AFPhotoEditorController.h"
+//#import "AFPhotoEditorController.h"
 
 #define GAP_X 60
 
@@ -18,8 +18,7 @@
 @interface SVPhotoViewerController : UIViewController <
 UIScrollViewDelegate,
 UIActionSheetDelegate,
-SVActivityViewControllerDelegate,
-AFPhotoEditorControllerDelegate>
+SVActivityViewControllerDelegate>
 
 
 #pragma mark - Properties

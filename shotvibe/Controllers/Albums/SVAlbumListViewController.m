@@ -35,6 +35,8 @@
 #import "ShotVibeAppDelegate.h"
 #import "UserSettings.h"
 
+#import "AlbumMember.h"
+
 #import "SVMultiplePicturesViewController.h"
 #import "SVNonRotatingNavigationControllerViewController.h"
 
@@ -43,6 +45,11 @@
 #import "GLSharedCamera.h"
 
 #import "STXFeedViewController.h"
+#import <CoreData/CoreData.h>
+
+
+#import "GLFeedViewController.h"
+CGFloat kResizeThumbSize = 45.0f;
 
 @interface SVAlbumListViewController ()
 {
@@ -59,8 +66,19 @@
 	int total_header_h;
 	int status_bar_h;
 	int dropdown_origin_y;
-
+    
     BOOL networkOnline_;
+    
+    BOOL cameraShown;
+    
+    
+    BOOL isResizingLR;
+    BOOL isResizingUL;
+    BOOL isResizingUR;
+    BOOL isResizingLL;
+    CGPoint touchStart;
+    
+    
 }
 
 @property (nonatomic, strong) IBOutlet UIView *sectionHeader;
@@ -94,21 +112,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+ 
+//    self.view.la.userInteractionEnabled = YES;
+    self.view.backgroundColor = [UIColor clearColor];
+    cameraShown = NO;
+    
 
     photoFilesManager_ = [ShotVibeAppDelegate sharedDelegate].photoFilesManager;
 
     albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
     [self setAlbumList:[albumManager_ addAlbumListListenerWithSLAlbumManager_AlbumListListener:self].array];
+    
+//    SLArrayList * cachedalbums = [albumManager_ getCachedAlbums];
 
-    //RCLog(@"##### Initial albumList: %@", albumList);
+//    RCLog(@"##### Initial albumList: %@", albumList);
 
-    table_content_offset_y = IS_IOS7 ? 44 : 44;
-    total_header_h = IS_IOS7 ? 0 : 64;
-    status_bar_h = IS_IOS7 ? 0 : 20;
-    dropdown_origin_y = IS_IOS7 ? (45 + 44) : (45 + 44);
+    table_content_offset_y = IS_IOS7 ? 0 : 0;
+    total_header_h = IS_IOS7 ? 0 : 0;
+    status_bar_h = IS_IOS7 ? 0 : 0;
+    dropdown_origin_y = 0;//IS_IOS7 ? (45 + 44) : (45 + 44);
 
     //self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
-    self.tableView.contentOffset = CGPointMake(0, 44);
+//    self.tableView.contentOffset = CGPointMake(0, 44);
 
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         self.butTakePicture.enabled = NO;
@@ -139,8 +164,21 @@
                                                                   target:self
                                                                   action:@selector(profilePressed)];
     self.navigationItem.leftBarButtonItem = butProfile;
+    
+//    UIView * refreshWrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 400, self.view.frame.size.width, 60)];
+//    refreshWrapper.backgroundColor = [UIColor redColor];
+    
 
     self.refreshControl = [[UIRefreshControl alloc] init];
+    
+//    [refreshWrapper addSubview:self.refreshControl];
+//    [self.view addSubview:refreshWrapper];
+    
+//    self.refreshControl.bounds = CGRectMake(self.refreshControl.bounds.origin.x,
+//                                       550,
+//                                       self.refreshControl.bounds.size.width,
+//                                       self.refreshControl.bounds.size.height);
+//    
     if (!IS_IOS7) {
         self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     }
@@ -169,31 +207,65 @@
         [self setNeedsStatusBarAppearanceUpdate];
     }
     
-    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
-
     
-    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
-//    glcamera.view.alpha = 0;
-    [appDelegate.window addSubview:glcamera.view];
+    GLSharedCamera * glcam = [GLSharedCamera sharedInstance];
+    glcam.delegate = self;
     
-//    MainCameraViewController * mainCamera = [[MainCameraViewController alloc] init];
-//    UIWindow* mainWindow = [[UIApplication sharedApplication] keyWindow];
-//    mainCamera.view.alpha = 1;
-//    mainCamera.view.hidden = YES;
-//    [self presentViewController:mainCamera animated:NO completion:^{}];
-//    [mainWindow addSubview: mainCamera.view];
-////    [mainCamera.view];
-//    
-//    
-////    [self.view addSubview:mainCamera.view];
-////    
-//    [UIView animateWithDuration:1.5 animations:^{
-//        mainCamera.view.alpha = 1;
-//    }];
     
-//    mainCamera.delegate = self;
-//    [self presentViewController:mainCamera animated:YES completion:^{}];
+    
 }
+
+
+
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//    UITouch *touch = [[event allTouches] anyObject];
+//    touchStart = [[touches anyObject] locationInView:self.view];
+//    isResizingLR = (self.view.bounds.size.width - touchStart.x < kResizeThumbSize && self.view.bounds.size.height - touchStart.y < kResizeThumbSize);
+//    isResizingUL = (touchStart.x <kResizeThumbSize && touchStart.y <kResizeThumbSize);
+//    isResizingUR = (self.view.bounds.size.width-touchStart.x < kResizeThumbSize && touchStart.y<kResizeThumbSize);
+//    isResizingLL = (touchStart.x <kResizeThumbSize && self.view.bounds.size.height -touchStart.y <kResizeThumbSize);
+//}
+
+
+
+
+
+
+//-(void)dmutTapped {
+//
+//    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+//
+//    
+//    if(cameraShown){
+//        
+//        [UIView animateWithDuration:0.25 animations:^{
+//            
+//            //        [[[GLSharedCamera sharedInstance] view] setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+//            dmut.frame = CGRectMake(27, ([UIScreen mainScreen].bounds.size.height/3)-90
+//                                    , 320, 110);
+//            cameraWrapper.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/3);
+//            
+//        }];
+//    
+//    } else {
+//        
+//        [UIView animateWithDuration:0.25 animations:^{
+//            
+//            //        [[[GLSharedCamera sharedInstance] view] setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+//            dmut.frame = CGRectMake(27, ([UIScreen mainScreen].bounds.size.height)-157, 320, 110);
+//            cameraWrapper.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+//            
+//        }];
+//        
+//    }
+//    
+//    
+//    
+//    
+//    cameraShown = !cameraShown;
+//
+//
+//}
 
 
 - (void)updateNetworkStatusNavBar
@@ -247,6 +319,10 @@
 		[self.tableView reloadRowsAtIndexPaths:@[tappedCell] withRowAnimation:UITableViewRowAnimationNone];
 		tappedCell = nil;
 	}
+    if([[GLSharedCamera sharedInstance] isInFeedMode]){
+        [[GLSharedCamera sharedInstance] setInFeedMode];
+    }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -259,7 +335,54 @@
     [self promptNickChange];
     
     
+    [self.refreshControl setFrame:CGRectMake(0, 400, 50, 50)];
     
+}
+
+- (void)openAppleImagePicker {
+    
+    
+    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    //    glcamera.delegate = self;
+    
+    //    glcamera.delegate
+    //     glcamera.imagePickerDelegate = picker.delegate;
+    picker.delegate = self;
+    
+    
+    //    fromImagePicker = YES;
+    picker.allowsEditing = YES;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
+    [self presentViewController:picker animated:YES completion:^{
+        
+        //        [appDelegate.window sendSubviewToBack:glcamera.view];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            glcamera.view.alpha = 0;
+            [glcamera hideForPicker:YES];
+//            glcamera.
+        }];
+    }];
+    
+    
+    
+    
+    
+}
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        glcamera.view.alpha = 1;
+        [glcamera hideForPicker:NO];
+        //            glcamera.
+    }];
     
 }
 
@@ -603,9 +726,21 @@
     [self.navigationController.view addSubview:flipCameraButton];
     
     
+    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+//    [UIView animateWithDuration:0.2 animations:^{
+//        dmut.alpha = 0;
+//        [[[GLSharedCamera sharedInstance] view] setAlpha:0];
+//    }];
     
     
-    [self.navigationController pushViewController:feedView animated:YES];
+    [[GLSharedCamera sharedInstance] setInFeedMode];
+    
+    [self.navigationController setNavigationBarHidden:YES];
+    
+    GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+    feed.albumId = [album getId];
+    [self.navigationController pushViewController:feed animated:YES];
 //    self.navigationItem.leftBarButtonItem = anotherButton;
 //    [self.navigationController.navigationItem setRightBarButtonItem:anotherButton];
 //    [self.navigationController.navigationItem setRightBarButtonItems:leftBtns animated:NO];
@@ -641,25 +776,40 @@
     return 1;
 }
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	self.sectionHeader.frame = CGRectMake(0, 0, 320, 45);
+	self.sectionHeader.frame = CGRectMake(0, 0, 320, ([UIScreen mainScreen].bounds.size.height/3)-20);
 	return self.sectionHeader;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 45;
+	return ([UIScreen mainScreen].bounds.size.height/3)-20;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    return ([UIScreen mainScreen].bounds.size.height-([UIScreen mainScreen].bounds.size.height/3))/6;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return albumList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    
+    
+    
+    
+    
+    
     SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.delegate = self;
 	cell.parentTableView = self.tableView;
+//    
+//    cell.scrollView.frame = cell.frame;
+//    cell.frontView.frame = cell.frame;
+    
 
     SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
-
     if ([album getNumNewPhotos] > 0) {
         NSString *title = [album getNumNewPhotos] > 99 ? @"99+" : [NSString stringWithFormat:@"%lld", [album getNumNewPhotos]];
         [cell.numberNotViewedIndicator setTitle:title forState:UIControlStateNormal];
@@ -680,6 +830,13 @@
     [cell.networkImageView setImage:nil];
 	// TODO: ltestPhotos might be nil if we insert an AlbumContents instead AlbumSummary
     if ([album getLatestPhotos].array.count > 0) {
+        
+//        [[albumManager_ getShotVibeAPI] get]
+        
+//        [[albumManager_ getShotVibeAPI] getAlbumContentsWithLong:album];
+//        album get
+        
+        cell.networkImageView.layer.cornerRadius = cell.networkImageView.frame.size.width/2;
         SLAlbumPhoto *latestPhoto = [[album getLatestPhotos].array objectAtIndex:0];
         if ([latestPhoto getServerPhoto]) {
             cell.author.text = [NSString stringWithFormat:NSLocalizedString(@"Last added by %@", nil), [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
@@ -704,13 +861,24 @@
     } else {
         cell.albumOrgOverlay.hidden = YES;
     }
-
+    
+    if(!((indexPath.row/2)%2)){
+        cell.frontView.backgroundColor = [UIColor whiteColor];
+    } else {
+        cell.frontView.backgroundColor = [UIColor blackColor];
+        cell.author.textColor = [UIColor whiteColor];
+        [cell.timestamp setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        cell.title.textColor = [UIColor whiteColor];
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	cell.backgroundColor = [UIColor whiteColor];
+//	cell.backgroundColor = [UIColor purpleColor];
+    
+//    BOOL t = ;
+    
 
     if (creatingAlbum) // Navigate to the newly created album
         [self performSegueWithIdentifier: @"AlbumGridViewSegue" sender: cell];
@@ -758,7 +926,7 @@
 
 //	self.tableView.frame = CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-total_header_h);
 
-    [self.tableView setContentOffset:CGPointMake(0, 44) animated:YES];
+//    [self.tableView setContentOffset:CGPointMake(0, 44) animated:YES];
 
     searchShowing = NO;
 }
@@ -828,7 +996,7 @@
 
 - (void)showDropDown
 {
-	[self.tableView setContentOffset:CGPointMake(0,table_content_offset_y) animated:YES];
+//	[self.tableView setContentOffset:CGPointMake(0,table_content_offset_y) animated:YES];
 	[self.view addSubview:self.tableOverlayView];
 	
 	CGRect r = self.tableOverlayView.frame;

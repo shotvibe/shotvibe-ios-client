@@ -21,7 +21,10 @@
                                                               SLAlbumManager_AlbumListListener,
 																SVCameraPickerDelegate,
                                                               SVAlbumListViewCellDelegate,
-                                                              SLNetworkStatusManager_Listener>
+                                                              SLNetworkStatusManager_Listener,
+                                                                GLSharedCameraDelegatte,
+                                                                UIImagePickerControllerDelegate,
+                                                                UINavigationControllerDelegate>
 
 // This function is a temporary hack
 // Returns nil if not an org

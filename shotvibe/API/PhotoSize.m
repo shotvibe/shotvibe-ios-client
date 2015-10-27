@@ -35,7 +35,7 @@ static NSArray *Values;
 
 + (void)initialize
 {
-    Thumb75 = [[PhotoSize alloc] initWithExtension:@"r_fhd" width:1920 height:1080];
+    Thumb75 = [[PhotoSize alloc] initWithExtension:@"thumb75" width:75 height:75];
 
     /*
      * Ordered from best quality to worst

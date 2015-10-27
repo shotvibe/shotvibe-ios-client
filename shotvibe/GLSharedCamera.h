@@ -16,6 +16,7 @@
 #import "GLResizeableView.h"
 #import "GLFilterView.h"
 #import <Photos/Photos.h>
+//#import "JPSVolumeButtonHandler.h"
 
 
 typedef enum {
@@ -62,8 +63,9 @@ typedef enum ScrollDirection {
 - (UIImage *) resizeLabelImage:(UIImage*)image location:(CGPoint)location;
 - (UIImage *)imageByCroppingImage:(UIImage *)image toSize:(CGSize)size;
 - (void)toggleFlash;
-
+-(void)setInFeedMode;
 -(void)retrievePhotoFromPicker:(UIImage*)image;
+-(void)hideForPicker:(BOOL)no;
 
 @property(nonatomic) BOOL flashIsOn;
 @property(nonatomic) BOOL inEditMode;
@@ -83,5 +85,7 @@ typedef enum ScrollDirection {
 @property(nonatomic, strong) UIScrollView * recentPhotosSlider;
 
 @property(nonatomic, retain) GLResizeableView * resizeAbleView;
+
+@property(nonatomic) BOOL isInFeedMode;
 
 @end
