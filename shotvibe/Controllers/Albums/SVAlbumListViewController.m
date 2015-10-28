@@ -114,7 +114,7 @@ CGFloat kResizeThumbSize = 45.0f;
     [super viewDidLoad];
  
 //    self.view.la.userInteractionEnabled = YES;
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     cameraShown = NO;
     
 
@@ -864,6 +864,9 @@ CGFloat kResizeThumbSize = 45.0f;
     
     if(!((indexPath.row/2)%2)){
         cell.frontView.backgroundColor = [UIColor whiteColor];
+        cell.author.textColor = [UIColor blackColor];
+        [cell.timestamp setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        cell.title.textColor = [UIColor blackColor];
     } else {
         cell.frontView.backgroundColor = [UIColor blackColor];
         cell.author.textColor = [UIColor whiteColor];

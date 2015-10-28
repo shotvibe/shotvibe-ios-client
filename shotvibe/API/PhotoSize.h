@@ -18,6 +18,8 @@
 
 + (PhotoSize *)Thumb75;
 
++ (PhotoSize *)FeedSize;
+
 + (NSArray *)iteratePhotoSizes:(PhotoSize *)maxSize;
 
 + (NSArray *)allPhotoSizes;

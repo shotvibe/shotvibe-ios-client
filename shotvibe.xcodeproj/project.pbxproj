@@ -352,6 +352,8 @@
 		0FE43EB21BDF93620088D93F /* Gotham_Rounded_Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EAF1BDF93620088D93F /* Gotham_Rounded_Bold.otf */; settings = {ASSET_TAGS = (); }; };
 		0FE43EB31BDF93620088D93F /* Gotham_Rounded_Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EB01BDF93620088D93F /* Gotham_Rounded_Book.otf */; settings = {ASSET_TAGS = (); }; };
 		0FE43EB41BDF93620088D93F /* Gotham_Rounded_Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EB11BDF93620088D93F /* Gotham_Rounded_Light.otf */; settings = {ASSET_TAGS = (); }; };
+		0FE43EB81BE0BFBB0088D93F /* YALSunnyRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE43EB61BE0BFBB0088D93F /* YALSunnyRefreshControl.m */; settings = {ASSET_TAGS = (); }; };
+		0FE43EB91BE0BFBB0088D93F /* YALSunnyRefreshControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EB71BE0BFBB0088D93F /* YALSunnyRefreshControl.xib */; settings = {ASSET_TAGS = (); }; };
 		0FF4000E1BDE4A3B00C9168F /* RBVolumeButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF4000D1BDE4A3B00C9168F /* RBVolumeButtons.m */; settings = {ASSET_TAGS = (); }; };
 		0FF400101BDE4AC500C9168F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF4000F1BDE4AC500C9168F /* MediaPlayer.framework */; };
 		0FF400121BDE4ACC00C9168F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF400111BDE4ACC00C9168F /* AudioToolbox.framework */; };
@@ -1235,6 +1237,9 @@
 		0FE43EAF1BDF93620088D93F /* Gotham_Rounded_Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Gotham_Rounded_Bold.otf; sourceTree = "<group>"; };
 		0FE43EB01BDF93620088D93F /* Gotham_Rounded_Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Gotham_Rounded_Book.otf; sourceTree = "<group>"; };
 		0FE43EB11BDF93620088D93F /* Gotham_Rounded_Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Gotham_Rounded_Light.otf; sourceTree = "<group>"; };
+		0FE43EB51BE0BFBB0088D93F /* YALSunnyRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YALSunnyRefreshControl.h; sourceTree = "<group>"; };
+		0FE43EB61BE0BFBB0088D93F /* YALSunnyRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YALSunnyRefreshControl.m; sourceTree = "<group>"; };
+		0FE43EB71BE0BFBB0088D93F /* YALSunnyRefreshControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YALSunnyRefreshControl.xib; sourceTree = "<group>"; };
 		0FF4000C1BDE4A3B00C9168F /* RBVolumeButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBVolumeButtons.h; sourceTree = "<group>"; };
 		0FF4000D1BDE4A3B00C9168F /* RBVolumeButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBVolumeButtons.m; sourceTree = "<group>"; };
 		0FF4000F1BDE4AC500C9168F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -2624,6 +2629,9 @@
 				0FE43EA21BDE90DF0088D93F /* GLFeedViewController.xib */,
 				0FE43EA71BDE91800088D93F /* GLFeedTableCell.h */,
 				0FE43EA81BDE91800088D93F /* GLFeedTableCell.m */,
+				0FE43EB51BE0BFBB0088D93F /* YALSunnyRefreshControl.h */,
+				0FE43EB61BE0BFBB0088D93F /* YALSunnyRefreshControl.m */,
+				0FE43EB71BE0BFBB0088D93F /* YALSunnyRefreshControl.xib */,
 				0FE43EA91BDE91800088D93F /* GLFeedTableCell.xib */,
 			);
 			name = Feed2;
@@ -4469,6 +4477,7 @@
 				2849A7F017D9AB420076AFBA /* AlbumActivityVideoIcon@2x.png in Resources */,
 				2849A7F117D9AB420076AFBA /* AlbumInfoButton.png in Resources */,
 				2849A7F217D9AB420076AFBA /* AlbumInfoButton@2x.png in Resources */,
+				0FE43EB91BE0BFBB0088D93F /* YALSunnyRefreshControl.xib in Resources */,
 				2849A7F317D9AB420076AFBA /* AlbumInfoIcon.png in Resources */,
 				2849A7F417D9AB420076AFBA /* AlbumInfoIcon@2x.png in Resources */,
 				66AEED6B196A273B003344CD /* orange_new@2x.png in Resources */,
@@ -4685,6 +4694,7 @@
 				108CDF6318846B9000757E36 /* Mixpanel.m in Sources */,
 				66278C641867C17800D23F34 /* SVSidebarAlbumSection.m in Sources */,
 				0F07576B1BD2735000F22F69 /* NSString+Emoji.m in Sources */,
+				0FE43EB81BE0BFBB0088D93F /* YALSunnyRefreshControl.m in Sources */,
 				66278C4B1867B23800D23F34 /* FileUtils.m in Sources */,
 				04AB0AB21708114800C5300B /* NSDate+Formatting.m in Sources */,
 				6601325A187F4E670042047B /* JreMemDebugStrongReference.m in Sources */,
@@ -4974,6 +4984,7 @@
 			baseConfigurationReference = BAAA31B10EA296D53DABE7A8 /* Pods.adhoc.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -5104,6 +5115,7 @@
 			baseConfigurationReference = D12AC25FD6CE156FCD971BCA /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -5149,6 +5161,7 @@
 			baseConfigurationReference = 18D2EF8E5F579E899FFC24E2 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

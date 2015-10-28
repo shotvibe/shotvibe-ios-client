@@ -48,6 +48,8 @@ typedef enum ScrollDirection {
 @optional
 - (void)imageSelected:(UIImage*)image;
 - (void)openAppleImagePicker;
+- (void)backPressed;
+- (void)membersPressed;
 
 @end
 
@@ -87,5 +89,8 @@ typedef enum ScrollDirection {
 @property(nonatomic, retain) GLResizeableView * resizeAbleView;
 
 @property(nonatomic) BOOL isInFeedMode;
+
+@property(nonatomic, retain) UIButton * backButton;
+@property(nonatomic, retain) UIButton * membersButton;
 
 @end

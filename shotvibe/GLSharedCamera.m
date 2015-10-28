@@ -85,6 +85,9 @@
     RBVolumeButtons *buttonStealer;
     
     CGFloat draggedLength;
+    
+    UILabel * picYourGroup;
+    UIImageView * glanceLogo;
 }
 
 + (instancetype)sharedInstance {
@@ -199,15 +202,20 @@
         
         
         
-        UIView * bottomBar = [[UIView alloc] initWithFrame:CGRectMake(0, screenHeight-60, self.view.frame.size.width, 60)];
+        UIView * bottomBar = [[UIView alloc] initWithFrame:CGRectMake(0, screenHeight-self.carousel.frame.size.height, self.view.frame.size.width, self.carousel.frame.size.height)];
+        
+        UIView * gap = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 13)];
+        gap.backgroundColor = [UIColor blackColor];
+        [bottomBar addSubview:gap];
+        
         bottomBar.backgroundColor = [UIColor whiteColor];
         
         [self.view addSubview:bottomBar];
         
         
-        finalProcessButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-24,5, 55 , 55)];
+        finalProcessButton = [[UIButton alloc] initWithFrame:CGRectMake(65,40,self.view.frame.size.width*0.66 , 70)];
         finalProcessButton.alpha = 0;
-        UIImage *btnImage9 = [UIImage imageNamed:@"imageIsReadyIcaon"];
+        UIImage *btnImage9 = [UIImage imageNamed:@"glancePostImageIconLogo"];
         [finalProcessButton setImage:btnImage9 forState:UIControlStateNormal];
         
         [finalProcessButton addTarget:self action:@selector(finalProcessTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -224,7 +232,7 @@
         [abortUploadButton addTarget:self action:@selector(abortUploadButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         
         
-        [bottomBar addSubview:abortUploadButton];
+//        [bottomBar addSubview:abortUploadButton];
         
         
         self.carousel.parentView = self.view;
@@ -275,7 +283,7 @@
         
         
         
-        backToCameraButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 40, 30)];
+        backToCameraButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 32, 40, 30)];
         backToCameraButton.userInteractionEnabled = YES;
         [backToCameraButton addTarget:self action:@selector(backToCameraFromEditPallette:) forControlEvents:UIControlEventTouchUpInside];
         UIImage *btnImage4 = [UIImage imageNamed:@"backToCameraIcon"];
@@ -289,7 +297,7 @@
         
         
         
-        addTextButton = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth - 50, 10, 38, 38)];
+        addTextButton = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth - 50, 25, 38, 38)];
         //    addTextButton.backgroundColor = [UIColor blueColor];
         UIImage *btnImage5 = [UIImage imageNamed:@"addTextIcon"];
         addTextButton.alpha = 0;
@@ -297,7 +305,7 @@
         [addTextButton setImage:btnImage5 forState:UIControlStateNormal];
         [mainOutPutFrame addSubview:addTextButton];
         
-        trashTextButton = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth - 50, 10, 38, 38)];
+        trashTextButton = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth - 50, 25, 38, 38)];
         //    addTextButton.backgroundColor = [UIColor blueColor];
         UIImage *btnImage6 = [UIImage imageNamed:@"addTextTrashIcon"];
         trashTextButton.alpha = 0;
@@ -306,7 +314,7 @@
         [mainOutPutFrame addSubview:trashTextButton];
         
         
-        approveTextButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 40, 30)];
+        approveTextButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 25, 40, 30)];
         approveTextButton.userInteractionEnabled = YES;
         [approveTextButton addTarget:self action:@selector(approveTextTapped) forControlEvents:UIControlEventTouchUpInside];
         UIImage *btnImage7 = [UIImage imageNamed:@"approveTextIcon"];
@@ -360,6 +368,8 @@
         
         
         cameraViewBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3)+20)];
+        
+        
 //            cameraViewBackground.backgroundColor = [UIColor orangeColor];
         //    cameraViewBackground.userInteractionEnabled = NO;
         
@@ -379,7 +389,7 @@
       
         
         
-        dmut = [[UIImageView alloc] initWithFrame:CGRectMake(27, ([UIScreen mainScreen].bounds.size.height/3)-90, 320, 110)];
+        dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104)];
         dmut.userInteractionEnabled = YES;
         dmut.image = [UIImage imageNamed:@"Dmut"];
         [cameraViewBackground addSubview:dmut];
@@ -406,12 +416,12 @@
         
 //        [cameraViewBackground addSubview:scoreBg];
         
-        UILabel * picYourGroup = [[UILabel alloc] initWithFrame:CGRectMake(20, 35, self.view.frame.size.width, 40)];
+        picYourGroup = [[UILabel alloc] initWithFrame:CGRectMake(20, 35, self.view.frame.size.width, 40)];
         picYourGroup.text = @"pic your group";
         picYourGroup.textColor = [UIColor whiteColor];
         picYourGroup.font = [UIFont fontWithName:@"GothamRounded-Bold" size:24];
         
-        UIImageView * glanceLogo = [[UIImageView alloc] initWithFrame:CGRectMake((picYourGroup.frame.size.width)-self.view.frame.size.width*0.3, 35, self.view.frame.size.width*0.25, 40)];
+        glanceLogo = [[UIImageView alloc] initWithFrame:CGRectMake((picYourGroup.frame.size.width)-self.view.frame.size.width*0.3, 35, self.view.frame.size.width*0.25, 40)];
         glanceLogo.image = [UIImage imageNamed:@"glanceMainLogo"];
         
 
@@ -496,6 +506,9 @@
             [UIView animateWithDuration:0.3 animations:^(){
                 
                 
+                picYourGroup.alpha = 1;
+                glanceLogo.alpha = 1;
+                
                 if(self.isInFeedMode){
                 
 //                    [[self videoCamera] stopCameraCapture];
@@ -503,6 +516,8 @@
                     effectView.alpha = 1;
                     dmut.center = CGPointMake(firstX, 60);
                     [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, 60)];
+                    self.backButton.alpha=1;
+                    self.membersButton.alpha=1;
                     
                 } else {
                     
@@ -531,7 +546,9 @@
                 
                 
 //                }
-                
+                if(!self.isInFeedMode){
+                    dmut.transform = CGAffineTransformIdentity;
+                }
                 
                 
             } completion:^(BOOL finished) {
@@ -541,7 +558,9 @@
                 
                 NSLog(@"animation completed1");
                 [UIView animateWithDuration:0.2 animations:^{
-                    dmut.transform = CGAffineTransformIdentity;
+//                    if(!self.isInFeedMode){
+//                        dmut.transform = CGAffineTransformIdentity;
+//                    }
                 }];
                 [self toggleCamera:YES];
                 
@@ -554,16 +573,20 @@
             
             [UIView animateWithDuration:0.3 animations:^(){
                 
+                picYourGroup.alpha = 0;
+                glanceLogo.alpha = 0;
                 
                 [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, self.view.frame.size.height)];
                 
                 [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, self.view.frame.size.height)];
                 
                 if(self.isInFeedMode){
+                    self.backButton.alpha=0;
+                    self.membersButton.alpha=0;
                     effectView.alpha = 0;
-                    dmut.center = CGPointMake(firstX, self.view.frame.size.height-90);
+                    dmut.center = CGPointMake(firstX, self.view.frame.size.height-155.5);
                 } else {
-                    dmut.center = CGPointMake(firstX, self.view.frame.size.height-155);
+                    dmut.center = CGPointMake(firstX, self.view.frame.size.height-155.5);
                 }
                 
                 
@@ -575,9 +598,9 @@
 //                }
                 
 //                }
-                
-                dmut.transform = CGAffineTransformScale(dmut.transform, 0.6, 0.6);
-                
+                if(!self.isInFeedMode){
+                    dmut.transform = CGAffineTransformScale(dmut.transform, 0.6, 0.6);
+                }
             } completion:^(BOOL finished) {
                 [[self videoCamera] startCameraCapture];
                 
@@ -612,7 +635,7 @@
             
             cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3)+20);
             cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
-            dmut.frame = CGRectMake(27, ([UIScreen mainScreen].bounds.size.height/3)-90, 320, 110);
+            dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
         }];
         
     } else {
@@ -626,6 +649,22 @@
         effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
         effectView.alpha = 0;
         [cameraViewBackground addSubview:effectView];
+        
+        self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(13, 30, 20, 30)];
+        [self.backButton setBackgroundImage:[UIImage imageNamed:@"feedBackIcon"] forState:UIControlStateNormal];
+//        [backButton targetForAction:@selector(backButton) withSender:nil];
+        [self.backButton addTarget:self action:@selector(backButtonPressed)
+              forControlEvents:UIControlEventTouchUpInside];
+        
+        self.membersButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-43, 30, 30, 30)];
+//        [backButton targetForAction:@selector(membersButton) withSender:nil];
+        [self.membersButton addTarget:self action:@selector(membersButtonPressed)
+             forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.membersButton setBackgroundImage:[UIImage imageNamed:@"feedMembersIcon"] forState:UIControlStateNormal];
+        
+        [cameraViewBackground addSubview:self.backButton];
+        [cameraViewBackground addSubview:self.membersButton];
 
     
         [UIView animateWithDuration:0.2 animations:^{
@@ -641,7 +680,7 @@
 //        }
         
             dmut.transform = CGAffineTransformScale(dmut.transform, 0.60, 0.60);
-            dmut.center = CGPointMake(dmut.center.x, dmut.center.y-15);
+            dmut.center = CGPointMake(dmut.center.x, dmut.center.y-12.5);
         
             cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80);
             cameraViewBackground.frame = CGRectMake(0, 0, cameraViewBackground.frame.size.width, 80);
@@ -654,6 +693,15 @@
     
     self.isInFeedMode = !self.isInFeedMode;
 
+}
+
+-(void)membersButtonPressed {
+    
+    [self.delegate membersPressed];
+}
+
+-(void)backButtonPressed {
+    [self.delegate backPressed];
 }
 
 -(void)toggleCamera:(BOOL)on {
@@ -1862,6 +1910,10 @@
     
     isEditing = edit;
     if(edit){// YES
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.carousel.frame = CGRectMake(self.carousel.frame.origin.x, self.carousel.frame.origin.y+self.carousel.frame.size.height, self.carousel.frame.size.width, self.carousel.frame.size.height);
+        }];
     
         [UIView animateWithDuration:0.5 animations:^{
 //            self.editPallette.alpha = 1;
@@ -1877,6 +1929,10 @@
         }];
         
     } else {
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.carousel.frame = CGRectMake(self.carousel.frame.origin.x, self.view.frame.size.height-self.carousel.frame.size.height, self.carousel.frame.size.width, self.carousel.frame.size.height);
+        }];
     
         [self approveTextTapped];
         [UIView animateWithDuration:0.5 animations:^{
@@ -1912,6 +1968,8 @@
 //    yes = !yes;
     
 //    [self hideCamera];
+    if(self.isInFeedMode){
+    
     if(imageSource == ImageSourceNone){
         
 //        [self hideCamera];
@@ -1947,7 +2005,8 @@
             effectView.alpha = 1;
             dmut.center = CGPointMake(firstX, 60);
             [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, 60)];
-            
+            self.backButton.alpha = 1;
+            self.membersButton.alpha = 1;
             
             
             
@@ -1966,8 +2025,12 @@
                     [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(960, 1280) contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *image, NSDictionary *info){
                         
                         //                dispatch_async(dispatch_get_main_queue(), ^(){});
+//                        UIImage * i = [self normalizedImage:image];
                         
-                        [self processSelectedImageWithFilterTextAndSize:[self imageCroppedToFitSize:CGSizeMake(480, 640) image:image]];
+                        
+                        UIImage * croppedImage = [self imageCroppedToFitSize:CGSizeMake(960, 1280) image:[self unrotateImage:image]];
+                        
+                        [self processSelectedImageWithFilterTextAndSize:croppedImage];
                     }];
                 };
                     break;
@@ -1983,7 +2046,7 @@
             }
             
             [self createResizableTextView];
-            [self backToCameraFromEditPallette:nil];
+            [self backToCameraFromEditPallette:@"afterSend"];
 //            [self toggleCamera];
             
         }];
@@ -1995,7 +2058,17 @@
     }
     
     
-    
+    } else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Adding Photo"
+                                                        message:@"Adding photos from main screen is unavailable for now.. go do it from a feed of one of the groups"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Ok I Will"
+                                              otherButtonTitles:nil];
+        [alert show];
+        
+        
+    }
     
     
     //    [self dismissViewControllerAnimated:YES completion:nil];
@@ -2198,13 +2271,11 @@
     
             [self.videoCamera capturePhotoAsImageProcessedUpToFilter:[[self.arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(UIImage *processedImage, NSError *error) {
                
-                
-                
-                
                 [self.videoCamera stopCameraCapture];
-                [UIView animateWithDuration:0.2 animations:^{
-                    self.carousel.frame = CGRectMake(self.carousel.frame.origin.x, self.carousel.frame.origin.y+self.carousel.frame.size.height, self.carousel.frame.size.width, self.carousel.frame.size.height);
-                }];
+                [self setCameraViewInEditMode:YES];
+                
+                
+                
                 cleanImageFromCamera = [self imageCroppedToFitSize:CGSizeMake(480, 640) image:processedImage];
                 
                 for(GLFilterView * filterView in self.arrayOfFilters){
@@ -2214,7 +2285,8 @@
                 
                 
                 
-                [self setCameraViewInEditMode:YES];
+                
+                
                 
                 
             }];
@@ -2433,7 +2505,14 @@
     }
 //    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
     [self setCameraViewInEditMode:NO];
-    [self.videoCamera startCameraCapture];
+//    if(sender == nil){
+//        sender = @"";
+//    }
+        if(sender != nil){
+            [self.videoCamera startCameraCapture];
+        }
+    
+    
     
     
     
