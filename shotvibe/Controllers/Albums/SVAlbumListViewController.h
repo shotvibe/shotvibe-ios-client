@@ -12,7 +12,14 @@
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumGridViewController.h"
 #import "SL/NetworkStatusManager.h"
+//#import "SVAddFriendsViewController.h"
 
+
+@protocol AlbumListDelegate <NSObject>
+
+//- (void)goToAlbumId:(long long int)num;
+
+@end
 
 @interface SVAlbumListViewController : UITableViewController <UITableViewDataSource,
 																UITableViewDelegate,
@@ -29,5 +36,8 @@
 // This function is a temporary hack
 // Returns nil if not an org
 + (NSString *)getAlbumOrg:(SLAlbumBase *)album;
+- (void)goToAlbumId:(long long int)num;
+@property (nonatomic, assign) id<AlbumListDelegate> delegate;
+//@property (assign, nonatomic) NSInteger indexNumber;
 
 @end

@@ -37,30 +37,42 @@
     UIButton * trashTextButton;
     UIButton * approveTextButton;
     UIButton * abortUploadButton;
+    
     GLFilterView * defaultFilter;
-    GLFilterView * saturationFilter;
-    GLFilterView * contrastFilter;
-    GLFilterView * brightnessFilter;
-    GLFilterView * levelsFilter;
-    GLFilterView * exposureFilter;
-    GLFilterView * rgbFilter;
-    GLFilterView * whiteBalance;
-    GLFilterView * sharpenFilter;
-    GLFilterView * unsharpFilter;
-    GLFilterView * gammaFilter;
-    GLFilterView * hazeFilter;
-    GLFilterView * sepiaFIlter;
     GLFilterView * amatorkaFilter;
-    GLFilterView * missEtikateFilter;
     GLFilterView * softEleganceFilter;
+    GLFilterView * missEtikateFilter;
+    
+    GLFilterView * softElegance2Filter;
+    GLFilterView * lateSunsetFilter;
+    GLFilterView * foggyNightFilter;
+    
+    
+    
     GLFilterView * grayScaleFilter;
-    GLFilterView * polkaDotFIlter;
-    GLFilterView * sketchFilter;
-    GLFilterView * posterizeFilter;
-    GLFilterView * embossFilter;
-    GLFilterView * vignetteFilter;
+    GLFilterView * sepiaFIlter;
+    GLFilterView * exposureFilter;
+    GLFilterView * saturationFilter;
     GLFilterView * selectiveBlurFilter;
-    GLFilterView * toonFilter;
+    GLFilterView * vignetteFilter;
+//    
+//    GLFilterView * contrastFilter;
+//    GLFilterView * brightnessFilter;
+//    GLFilterView * levelsFilter;
+//    
+//    GLFilterView * rgbFilter;
+//    GLFilterView * whiteBalance;
+//    GLFilterView * sharpenFilter;
+//    GLFilterView * unsharpFilter;
+//    GLFilterView * gammaFilter;
+//    GLFilterView * hazeFilter;
+//    GLFilterView * polkaDotFIlter;
+//    GLFilterView * sketchFilter;
+//    GLFilterView * posterizeFilter;
+//    GLFilterView * embossFilter;
+//    GLFilterView * toonFilter;
+    
+    
     PHFetchResult *fetchResult;
     
     
@@ -69,7 +81,7 @@
     
     UIImageView * dmut;
     UIView * cameraWrapper;
-    UIView * cameraViewBackground;
+    
     CGFloat cameraSlideTopLimit;
     
     CGFloat firstX;
@@ -104,27 +116,18 @@
     if (self) {
         
         buttonStealer = [[RBVolumeButtons alloc] init];
-        [buttonStealer startStealingVolumeButtonEvents];
-        buttonStealer.upBlock = ^{
-            NSLog(@"vol up");
-            [self captureTapped];
-        };
-        buttonStealer.downBlock = ^{
-            NSLog(@"vol down");
-        };
-        
-//        volumeButtonHandler = [JPSVolumeButtonHandler volumeButtonHandlerWithUpBlock:^{
-//            // Volume Up Button Pressed
+//        [buttonStealer startStealingVolumeButtonEvents];
+//        buttonStealer.upBlock = ^{
 //            NSLog(@"vol up");
-//            
-//        } downBlock:^{
-//            // Volume Down Button Pressed
+//            [self captureTapped];
+//        };
+//        buttonStealer.downBlock = ^{
 //            NSLog(@"vol down");
-//        }];
+//        };
+        
+
         
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-//        dmutScaleOriginal = nil;
-        
         self.isInFeedMode = NO;
         cameraVisble = NO;
         yes = YES;
@@ -367,7 +370,7 @@
         
         
         
-        cameraViewBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3)+20)];
+        self.cameraViewBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3)+20)];
         
         
 //            cameraViewBackground.backgroundColor = [UIColor orangeColor];
@@ -383,8 +386,10 @@
         //    glcamera.view.clipsToBounds = NO;
         //    glcamera.view.alpha = 0;
         [cameraWrapper addSubview:self.view];
-        [cameraViewBackground addSubview:cameraWrapper];
-        [appDelegate.window addSubview:cameraViewBackground];
+        [self.cameraViewBackground addSubview:cameraWrapper];
+//        [appDelegate.window addSubview:self.cameraViewBackground];
+        
+        
         
       
         
@@ -392,7 +397,7 @@
         dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104)];
         dmut.userInteractionEnabled = YES;
         dmut.image = [UIImage imageNamed:@"Dmut"];
-        [cameraViewBackground addSubview:dmut];
+        [self.cameraViewBackground addSubview:dmut];
         
         UIPanGestureRecognizer * gest = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dmutDragged:)];
         
@@ -425,12 +430,35 @@
         glanceLogo.image = [UIImage imageNamed:@"glanceMainLogo"];
         
 
-        [cameraViewBackground addSubview:picYourGroup];
-        [cameraViewBackground addSubview:glanceLogo];
+        [self.cameraViewBackground addSubview:picYourGroup];
+        [self.cameraViewBackground addSubview:glanceLogo];
+        
+//        cameraViewBackground.backgroundColor = [UIColor purpleColor];
+        
+        
         
         
     }
     return self;
+}
+
+-(void)showGlCameraView {
+
+    [UIView animateWithDuration:0.2 animations:^{
+        self.cameraViewBackground.alpha = 1;
+    }];
+    
+}
+
+-(void)hideGlCameraView {
+
+    [UIView animateWithDuration:0.2 animations:^{
+        self.cameraViewBackground.alpha = 0;
+    }];
+    
+    
+    
+
 }
 
 //-(void)scoreTapped:(UITapGestureRecognizer*)gest {
@@ -474,7 +502,7 @@
             if(firstY+location.y < self.view.frame.size.height - dmut.frame.size.height){
                 
                 [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, firstY+location.y+35)];
-                [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, firstY+location.y+35)];
+                [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, firstY+location.y+35)];
                 
                 //        dmut.frame = CGRectMake(27, firstY+location.y
                 //                                , 320, 110);
@@ -483,7 +511,7 @@
             } else {
                 
                 [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, firstY+location.y+35)];
-                [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, firstY+location.y+35)];
+                [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, firstY+location.y+35)];
                 
             }
             
@@ -515,7 +543,7 @@
                     [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
                     effectView.alpha = 1;
                     dmut.center = CGPointMake(firstX, 60);
-                    [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, 60)];
+                    [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
                     self.backButton.alpha=1;
                     self.membersButton.alpha=1;
                     
@@ -525,7 +553,7 @@
 //                    [[self videoCamera] startCameraCapture];
                     [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, self.view.frame.size.height/3)];
                     dmut.center = CGPointMake(firstX, cameraSlideTopLimit);
-                    [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, self.view.frame.size.height/3)];
+                    [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, self.view.frame.size.height/3)];
                 }
                 
                 
@@ -578,7 +606,7 @@
                 
                 [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, self.view.frame.size.height)];
                 
-                [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, self.view.frame.size.height)];
+                [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, self.view.frame.size.height)];
                 
                 if(self.isInFeedMode){
                     self.backButton.alpha=0;
@@ -633,7 +661,7 @@
             dmut.transform = CGAffineTransformIdentity;
             effectView.alpha = 0;
             
-            cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3)+20);
+            self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3)+20);
             cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
             dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
         }];
@@ -648,7 +676,7 @@
         effectView = [[UIVisualEffectView alloc]initWithEffect:blur];
         effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
         effectView.alpha = 0;
-        [cameraViewBackground addSubview:effectView];
+        [self.cameraViewBackground addSubview:effectView];
         
         self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(13, 30, 20, 30)];
         [self.backButton setBackgroundImage:[UIImage imageNamed:@"feedBackIcon"] forState:UIControlStateNormal];
@@ -663,8 +691,8 @@
         
         [self.membersButton setBackgroundImage:[UIImage imageNamed:@"feedMembersIcon"] forState:UIControlStateNormal];
         
-        [cameraViewBackground addSubview:self.backButton];
-        [cameraViewBackground addSubview:self.membersButton];
+        [self.cameraViewBackground addSubview:self.backButton];
+        [self.cameraViewBackground addSubview:self.membersButton];
 
     
         [UIView animateWithDuration:0.2 animations:^{
@@ -683,10 +711,10 @@
             dmut.center = CGPointMake(dmut.center.x, dmut.center.y-12.5);
         
             cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80);
-            cameraViewBackground.frame = CGRectMake(0, 0, cameraViewBackground.frame.size.width, 80);
+            self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80);
         
         
-            [cameraViewBackground bringSubviewToFront:dmut];
+            [self.cameraViewBackground bringSubviewToFront:dmut];
         
     }];
     }
@@ -861,95 +889,142 @@
     [self.videoCamera addTarget:defaultFilter.filter];
     [self.arrayOfFilters addObject:defaultFilter];
     
-    contrastFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_CONTRAST];
-    contrastFilter.delegate = self;
-    [self.videoCamera addTarget:contrastFilter.filter];
-    [self.arrayOfFilters addObject:contrastFilter];
-    
-    brightnessFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_BRIGHTNESS];
-    brightnessFilter.delegate = self;
-    [self.videoCamera addTarget:brightnessFilter.filter];
-    [self.arrayOfFilters addObject:brightnessFilter];
-    
-    levelsFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_LEVELS];
-    levelsFilter.delegate = self;
-    //    [self.videoCamera addTarget:levelsFilter.filter];
-    [self.arrayOfFilters addObject:levelsFilter];
-    
-    exposureFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_EXPOSURE];
-    exposureFilter.delegate = self;
-    //    [self.videoCamera addTarget:exposureFilter.filter];
-    [self.arrayOfFilters addObject:exposureFilter];
-    
-    saturationFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_SATURATION];
-    saturationFilter.delegate = self;
-    //    [self.videoCamera addTarget:saturationFilter.filter];
-    [self.arrayOfFilters addObject:saturationFilter];
-    
-    sharpenFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_SHARPEN];
-    sharpenFilter.delegate = self;
-    //    [self.videoCamera addTarget:sharpenFilter.filter];
-    [self.arrayOfFilters addObject:sharpenFilter];
-    
-    gammaFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_GAMMA];
-    gammaFilter.delegate = self;
-    //    [self.videoCamera addTarget:gammaFilter.filter];
-    [self.arrayOfFilters addObject:gammaFilter];
-    
-    hazeFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_HAZE];
-    hazeFilter.delegate = self;
-    //    [self.videoCamera addTarget:hazeFilter.filter];
-    [self.arrayOfFilters addObject:hazeFilter];
-    
-    sepiaFIlter = [[GLFilterView alloc] initWithType:GPUIMAGE_SEPIA];
-    sepiaFIlter.delegate = self;
-    //    [self.videoCamera addTarget:sepiaFIlter.filter];
-    [self.arrayOfFilters addObject:sepiaFIlter];
-    
     amatorkaFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_AMATORKA];
     amatorkaFilter.delegate = self;
-    //    [self.videoCamera addTarget:amatorkaFilter.filter];
+        [self.videoCamera addTarget:amatorkaFilter.filter];
     [self.arrayOfFilters addObject:amatorkaFilter];
+    
+    softEleganceFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_SOFTELEGANCE];
+    softEleganceFilter.delegate = self;
+        [self.videoCamera addTarget:softEleganceFilter.filter];
+    [self.arrayOfFilters addObject:softEleganceFilter];
     
     missEtikateFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_MISSETIKATE];
     missEtikateFilter.delegate = self;
     //    [self.videoCamera addTarget:missEtikateFilter.filter];
     [self.arrayOfFilters addObject:missEtikateFilter];
     
-    softEleganceFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_SOFTELEGANCE];
-    softEleganceFilter.delegate = self;
+    foggyNightFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_FOGGYNIGHT];
+    foggyNightFilter.delegate = self;
     //    [self.videoCamera addTarget:softEleganceFilter.filter];
-    [self.arrayOfFilters addObject:softEleganceFilter];
+    [self.arrayOfFilters addObject:foggyNightFilter];
+    
+    lateSunsetFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_LATESUNSET];
+    lateSunsetFilter.delegate = self;
+    //    [self.videoCamera addTarget:softEleganceFilter.filter];
+    [self.arrayOfFilters addObject:lateSunsetFilter];
+    
+    sepiaFIlter = [[GLFilterView alloc] initWithType:GPUIMAGE_SEPIA];
+    sepiaFIlter.delegate = self;
+    //    [self.videoCamera addTarget:sepiaFIlter.filter];
+    [self.arrayOfFilters addObject:sepiaFIlter];
     
     grayScaleFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_GRAYSCALE];
     grayScaleFilter.delegate = self;
     //    [self.videoCamera addTarget:grayScaleFilter.filter];
     [self.arrayOfFilters addObject:grayScaleFilter];
     
-    sketchFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_SKETCH];
-    sketchFilter.delegate = self;
-    //    [self.videoCamera addTarget:sketchFilter.filter];
-    [self.arrayOfFilters addObject:sketchFilter];
+    exposureFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_EXPOSURE];
+    exposureFilter.delegate = self;
+//    [self.videoCamera addTarget:exposureFilter.filter];
+    [self.arrayOfFilters addObject:exposureFilter];
     
-    embossFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_EMBOSS];
-    embossFilter.delegate = self;
-    //    [self.videoCamera addTarget:embossFilter.filter];
-    [self.arrayOfFilters addObject:embossFilter];
-    
-    vignetteFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_VIGNETTE];
-    vignetteFilter.delegate = self;
-    //    [self.videoCamera addTarget:vignetteFilter.filter];
-    [self.arrayOfFilters addObject:vignetteFilter];
+    saturationFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_SATURATION];
+    saturationFilter.delegate = self;
+//    [self.videoCamera addTarget:saturationFilter.filter];
+    [self.arrayOfFilters addObject:saturationFilter];
     
     selectiveBlurFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_GAUSSIAN_SELECTIVE];
     selectiveBlurFilter.delegate = self;
     //    [self.videoCamera addTarget:selectiveBlurFilter.filter];
     [self.arrayOfFilters addObject:selectiveBlurFilter];
     
-    toonFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_TOON];
-    toonFilter.delegate = self;
-    //    [self.videoCamera addTarget:toonFilter.filter];
-    [self.arrayOfFilters addObject:toonFilter];
+    vignetteFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_VIGNETTE];
+    vignetteFilter.delegate = self;
+    //    [self.videoCamera addTarget:vignetteFilter.filter];
+    [self.arrayOfFilters addObject:vignetteFilter];
+    
+//    softElegance2Filter = [[GLFilterView alloc] initWithType:GPUIMAGE_SOFTELEGANCE2];
+//    softElegance2Filter.delegate = self;
+//    //    [self.videoCamera addTarget:softEleganceFilter.filter];
+//    [self.arrayOfFilters addObject:softElegance2Filter];
+    
+    
+    
+    
+    
+//    contrastFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_CONTRAST];
+//    contrastFilter.delegate = self;
+//    [self.videoCamera addTarget:contrastFilter.filter];
+//    [self.arrayOfFilters addObject:contrastFilter];
+//    
+//    brightnessFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_BRIGHTNESS];
+//    brightnessFilter.delegate = self;
+//    [self.videoCamera addTarget:brightnessFilter.filter];
+//    [self.arrayOfFilters addObject:brightnessFilter];
+//    
+//    levelsFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_LEVELS];
+//    levelsFilter.delegate = self;
+//    //    [self.videoCamera addTarget:levelsFilter.filter];
+//    [self.arrayOfFilters addObject:levelsFilter];
+    
+    
+    
+    
+    
+//    sharpenFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_SHARPEN];
+//    sharpenFilter.delegate = self;
+//    //    [self.videoCamera addTarget:sharpenFilter.filter];
+//    [self.arrayOfFilters addObject:sharpenFilter];
+//    
+//    gammaFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_GAMMA];
+//    gammaFilter.delegate = self;
+//    //    [self.videoCamera addTarget:gammaFilter.filter];
+//    [self.arrayOfFilters addObject:gammaFilter];
+//    
+//    hazeFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_HAZE];
+//    hazeFilter.delegate = self;
+//    //    [self.videoCamera addTarget:hazeFilter.filter];
+//    [self.arrayOfFilters addObject:hazeFilter];
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    sketchFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_SKETCH];
+//    sketchFilter.delegate = self;
+//    //    [self.videoCamera addTarget:sketchFilter.filter];
+//    [self.arrayOfFilters addObject:sketchFilter];
+//    
+//    embossFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_EMBOSS];
+//    embossFilter.delegate = self;
+//    //    [self.videoCamera addTarget:embossFilter.filter];
+//    [self.arrayOfFilters addObject:embossFilter];
+    
+    
+    
+    
+//    toonFilter = [[GLFilterView alloc] initWithType:GPUIMAGE_TOON];
+//    toonFilter.delegate = self;
+//    //    [self.videoCamera addTarget:toonFilter.filter];
+//    [self.arrayOfFilters addObject:toonFilter];
     
     
     
@@ -985,63 +1060,76 @@
         [defaultFilter.container setContentOffset:CGPointMake(0, -offsetY)];
         defaultFilter.sliderView.frame = CGRectMake(0, -offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [contrastFilter.container setContentOffset:CGPointMake(0, (contrastFilter.container.frame.size.height)-offsetY)];
-        contrastFilter.sliderView.frame = CGRectMake(0, (contrastFilter.container.frame.size.height)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        [amatorkaFilter.container setContentOffset:CGPointMake(0, (amatorkaFilter.container.frame.size.height*1)-offsetY)];
+        amatorkaFilter.sliderView.frame = CGRectMake(0, (amatorkaFilter.container.frame.size.height*1)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [brightnessFilter.container setContentOffset:CGPointMake(0, (brightnessFilter.container.frame.size.height*2) -offsetY)];
-        brightnessFilter.sliderView.frame = CGRectMake(0, (brightnessFilter.container.frame.size.height*2)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        [softEleganceFilter.container setContentOffset:CGPointMake(0, (softEleganceFilter.container.frame.size.height*2)-offsetY)];
+        softEleganceFilter.sliderView.frame = CGRectMake(0, (softEleganceFilter.container.frame.size.height*2)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [levelsFilter.container setContentOffset:CGPointMake(0, (levelsFilter.container.frame.size.height*3)-offsetY)];
-        levelsFilter.sliderView.frame = CGRectMake(0, (levelsFilter.container.frame.size.height*3)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        [missEtikateFilter.container setContentOffset:CGPointMake(0, (missEtikateFilter.container.frame.size.height*3)-offsetY)];
+        missEtikateFilter.sliderView.frame = CGRectMake(0, (missEtikateFilter.container.frame.size.height*3)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [exposureFilter.container setContentOffset:CGPointMake(0, (exposureFilter.container.frame.size.height*4)-offsetY)];
-        exposureFilter.sliderView.frame = CGRectMake(0, (exposureFilter.container.frame.size.height*4)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        [foggyNightFilter.container setContentOffset:CGPointMake(0, (foggyNightFilter.container.frame.size.height*4)-offsetY)];
+        foggyNightFilter.sliderView.frame = CGRectMake(0, (foggyNightFilter.container.frame.size.height*4)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [saturationFilter.container setContentOffset:CGPointMake(0, (saturationFilter.container.frame.size.height*5)-offsetY)];
-        saturationFilter.sliderView.frame = CGRectMake(0, (saturationFilter.container.frame.size.height*5)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        [lateSunsetFilter.container setContentOffset:CGPointMake(0, (lateSunsetFilter.container.frame.size.height*5)-offsetY)];
+        lateSunsetFilter.sliderView.frame = CGRectMake(0, (lateSunsetFilter.container.frame.size.height*5)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [sharpenFilter.container setContentOffset:CGPointMake(0, (sharpenFilter.container.frame.size.height*6)-offsetY)];
-        sharpenFilter.sliderView.frame = CGRectMake(0, (sharpenFilter.container.frame.size.height*6)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        [sepiaFIlter.container setContentOffset:CGPointMake(0, (sepiaFIlter.container.frame.size.height*6)-offsetY)];
+        sepiaFIlter.sliderView.frame = CGRectMake(0, (sepiaFIlter.container.frame.size.height*6)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
+        [grayScaleFilter.container setContentOffset:CGPointMake(0, (grayScaleFilter.container.frame.size.height*7)-offsetY)];
+        grayScaleFilter.sliderView.frame = CGRectMake(0, (grayScaleFilter.container.frame.size.height*7)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [gammaFilter.container setContentOffset:CGPointMake(0, (gammaFilter.container.frame.size.height*7)-offsetY)];
-        gammaFilter.sliderView.frame = CGRectMake(0, (gammaFilter.container.frame.size.height*7)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        [exposureFilter.container setContentOffset:CGPointMake(0, (exposureFilter.container.frame.size.height*8)-offsetY)];
+        exposureFilter.sliderView.frame = CGRectMake(0, (exposureFilter.container.frame.size.height*8)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [hazeFilter.container setContentOffset:CGPointMake(0, (hazeFilter.container.frame.size.height*8)-offsetY)];
-        hazeFilter.sliderView.frame = CGRectMake(0, (hazeFilter.container.frame.size.height*8)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        [saturationFilter.container setContentOffset:CGPointMake(0, (saturationFilter.container.frame.size.height*9)-offsetY)];
+        saturationFilter.sliderView.frame = CGRectMake(0, (saturationFilter.container.frame.size.height*9)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [sepiaFIlter.container setContentOffset:CGPointMake(0, (sepiaFIlter.container.frame.size.height*9)-offsetY)];
-        sepiaFIlter.sliderView.frame = CGRectMake(0, (sepiaFIlter.container.frame.size.height*9)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        [selectiveBlurFilter.container setContentOffset:CGPointMake(0, (selectiveBlurFilter.container.frame.size.height*10)-offsetY)];
+        selectiveBlurFilter.sliderView.frame = CGRectMake(0, (selectiveBlurFilter.container.frame.size.height*10)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [amatorkaFilter.container setContentOffset:CGPointMake(0, (amatorkaFilter.container.frame.size.height*10)-offsetY)];
-        amatorkaFilter.sliderView.frame = CGRectMake(0, (amatorkaFilter.container.frame.size.height*10)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        [vignetteFilter.container setContentOffset:CGPointMake(0, (vignetteFilter.container.frame.size.height*11)-offsetY)];
+        vignetteFilter.sliderView.frame = CGRectMake(0, (vignetteFilter.container.frame.size.height*11)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [missEtikateFilter.container setContentOffset:CGPointMake(0, (missEtikateFilter.container.frame.size.height*11)-offsetY)];
-        missEtikateFilter.sliderView.frame = CGRectMake(0, (missEtikateFilter.container.frame.size.height*11)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
-        
-        [softEleganceFilter.container setContentOffset:CGPointMake(0, (softEleganceFilter.container.frame.size.height*12)-offsetY)];
-        softEleganceFilter.sliderView.frame = CGRectMake(0, (softEleganceFilter.container.frame.size.height*12)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
-        
-        [grayScaleFilter.container setContentOffset:CGPointMake(0, (grayScaleFilter.container.frame.size.height*13)-offsetY)];
-        grayScaleFilter.sliderView.frame = CGRectMake(0, (grayScaleFilter.container.frame.size.height*13)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+//        [softElegance2Filter.container setContentOffset:CGPointMake(0, (softElegance2Filter.container.frame.size.height*10)-offsetY)];
+//        softElegance2Filter.sliderView.frame = CGRectMake(0, (softElegance2Filter.container.frame.size.height*10)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
         
-        [sketchFilter.container setContentOffset:CGPointMake(0, (sketchFilter.container.frame.size.height*14)-offsetY)];
-        sketchFilter.sliderView.frame = CGRectMake(0, (sketchFilter.container.frame.size.height*14)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
         
-        [embossFilter.container setContentOffset:CGPointMake(0, (embossFilter.container.frame.size.height*15)-offsetY)];
-        embossFilter.sliderView.frame = CGRectMake(0, (embossFilter.container.frame.size.height*15)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [vignetteFilter.container setContentOffset:CGPointMake(0, (vignetteFilter.container.frame.size.height*16)-offsetY)];
-        vignetteFilter.sliderView.frame = CGRectMake(0, (vignetteFilter.container.frame.size.height*16)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [selectiveBlurFilter.container setContentOffset:CGPointMake(0, (selectiveBlurFilter.container.frame.size.height*17)-offsetY)];
-        selectiveBlurFilter.sliderView.frame = CGRectMake(0, (selectiveBlurFilter.container.frame.size.height*17)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+//        [contrastFilter.container setContentOffset:CGPointMake(0, (contrastFilter.container.frame.size.height)-offsetY)];
+//        contrastFilter.sliderView.frame = CGRectMake(0, (contrastFilter.container.frame.size.height)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+//        
+//        [brightnessFilter.container setContentOffset:CGPointMake(0, (brightnessFilter.container.frame.size.height*2) -offsetY)];
+//        brightnessFilter.sliderView.frame = CGRectMake(0, (brightnessFilter.container.frame.size.height*2)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+//        
+//        [levelsFilter.container setContentOffset:CGPointMake(0, (levelsFilter.container.frame.size.height*3)-offsetY)];
+//        levelsFilter.sliderView.frame = CGRectMake(0, (levelsFilter.container.frame.size.height*3)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
-        [toonFilter.container setContentOffset:CGPointMake(0, (toonFilter.container.frame.size.height*18)-offsetY)];
-        toonFilter.sliderView.frame = CGRectMake(0, (toonFilter.container.frame.size.height*18)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+//        [sharpenFilter.container setContentOffset:CGPointMake(0, (sharpenFilter.container.frame.size.height*6)-offsetY)];
+//        sharpenFilter.sliderView.frame = CGRectMake(0, (sharpenFilter.container.frame.size.height*6)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+//        
+//        
+//        [gammaFilter.container setContentOffset:CGPointMake(0, (gammaFilter.container.frame.size.height*7)-offsetY)];
+//        gammaFilter.sliderView.frame = CGRectMake(0, (gammaFilter.container.frame.size.height*7)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+//        
+//        [hazeFilter.container setContentOffset:CGPointMake(0, (hazeFilter.container.frame.size.height*8)-offsetY)];
+//        hazeFilter.sliderView.frame = CGRectMake(0, (hazeFilter.container.frame.size.height*8)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
         
+//        [sketchFilter.container setContentOffset:CGPointMake(0, (sketchFilter.container.frame.size.height*14)-offsetY)];
+//        sketchFilter.sliderView.frame = CGRectMake(0, (sketchFilter.container.frame.size.height*14)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+//        
+//        
+//        [embossFilter.container setContentOffset:CGPointMake(0, (embossFilter.container.frame.size.height*15)-offsetY)];
+//        embossFilter.sliderView.frame = CGRectMake(0, (embossFilter.container.frame.size.height*15)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+        
+//        [toonFilter.container setContentOffset:CGPointMake(0, (toonFilter.container.frame.size.height*18)-offsetY)];
+//        toonFilter.sliderView.frame = CGRectMake(0, (toonFilter.container.frame.size.height*18)-offsetY, scrollView.frame.size.width, scrollView.frame.size.height);
+//        
         
     }
 //    static NSInteger previousPage = 0;
@@ -1320,11 +1408,11 @@
 
     if(no == YES){
         [UIView animateWithDuration:0.2 animations:^{
-            cameraViewBackground.alpha = 0;
+            self.cameraViewBackground.alpha = 0;
         }];
     } else {
         [UIView animateWithDuration:0.2 animations:^{
-            cameraViewBackground.alpha = 1;
+            self.cameraViewBackground.alpha = 1;
         }];
     }
 
@@ -1989,11 +2077,11 @@
         options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
         
         //    [self.videoCamera startCameraCapture];
-        [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+//        [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
         
         for(GLFilterView * filterView in self.arrayOfFilters){
             
-            [filterView backToCamera];
+//            [filterView backToCamera];
             //            [[filterView filter] removeAllTargets];
         }
 //        self.videoCamera = nil;
@@ -2004,7 +2092,7 @@
             [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
             effectView.alpha = 1;
             dmut.center = CGPointMake(firstX, 60);
-            [cameraViewBackground setFrame:CGRectMake(0, 0, cameraViewBackground.frame.size.width, 60)];
+            [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
             self.backButton.alpha = 1;
             self.membersButton.alpha = 1;
             
@@ -2086,7 +2174,15 @@
     //    self.resizeAbleView = nil;
     
     //    @autoreleasepool {
+    
     UIImage * filteredImage = [self addFilterToImage:imageToFinal];
+    
+//    [amatorkaFilter.sourcePicture ]
+//    GPUImageFilter * t = [[GPUImageFilter alloc] init];
+//    [GPUImageFilter prepareForImageCapture];
+//    [stillImageSource processImage];
+//    UIImage *currentFilteredImage = [amatorkaFilter.sourcePicture imageFromCurrentlyProcessedOutput];
+    
     if (addText) {
         
         UIImage * textAsView = [self imageWithText:self.editTextViewObj.textView];
@@ -2156,7 +2252,38 @@
     //    GPUImagePicture * sourcePicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
     //    sourcePicture image
     GLFilterView * currentFIlter = [self.arrayOfFilters objectAtIndex:currentFilterIndex];
-    UIImage * filteredImage = [currentFIlter.filter imageByFilteringImage:inputImage];
+    
+    UIImage * filteredImage = nil;
+//    NSArray * filters = [[NSArray alloc] initWithObjects:, nil];
+    
+    if(currentFIlter.filterType == GPUIMAGE_AMATORKA){
+    
+        GPUImageAmatorkaFilter *stillImageFilter2 = [[GPUImageAmatorkaFilter alloc] init];
+        filteredImage = [stillImageFilter2 imageByFilteringImage:inputImage];
+        
+    } else if(currentFIlter.filterType == GPUIMAGE_SOFTELEGANCE){
+        GPUImageSoftEleganceFilter *stillImageFilter2 = [[GPUImageSoftEleganceFilter alloc] init];
+        filteredImage = [stillImageFilter2 imageByFilteringImage:inputImage];
+        
+    } else if(currentFIlter.filterType == GPUIMAGE_MISSETIKATE){
+        GPUImageMissEtikateFilter *stillImageFilter2 = [[GPUImageMissEtikateFilter alloc] init];
+        filteredImage = [stillImageFilter2 imageByFilteringImage:inputImage];
+        
+    } else if(currentFIlter.filterType == GPUIMAGE_FOGGYNIGHT){
+        GPUImageFoggyNightFilter *stillImageFilter2 = [[GPUImageFoggyNightFilter alloc] init];
+        filteredImage = [stillImageFilter2 imageByFilteringImage:inputImage];
+        
+    } else if(currentFIlter.filterType == GPUIMAGE_LATESUNSET){
+        GPUImageLateSunsetFilter *stillImageFilter2 = [[GPUImageLateSunsetFilter alloc] init];
+        filteredImage = [stillImageFilter2 imageByFilteringImage:inputImage];
+    } else {
+        filteredImage = [currentFIlter.filter imageByFilteringImage:inputImage];
+    }
+    
+    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    
+    
+    
     
     return filteredImage;
 }
@@ -2508,7 +2635,7 @@
 //    if(sender == nil){
 //        sender = @"";
 //    }
-        if(sender != nil){
+    if([sender isKindOfClass:[UIButton class]]){
             [self.videoCamera startCameraCapture];
         }
     
@@ -2592,7 +2719,7 @@
     UIImage *btnImage = [UIImage imageNamed:@"FlipCameraIcon"];
     [flipCameraButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
     [flipCameraButton setImage:btnImage forState:UIControlStateNormal];
-    [self.view addSubview:flipCameraButton];
+    [mainOutPutFrame addSubview:flipCameraButton];
     
     flipCameraButton.alpha = 0;
     

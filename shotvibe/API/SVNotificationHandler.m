@@ -7,9 +7,11 @@
 //
 
 #import "SVNotificationHandler.h"
+#import "SDWebImageManager.h"
 
-#import "SL/AlbumManager.h"
-#import "MPNotificationView.h"
+
+
+
 
 @implementation SVNotificationHandler
 {
@@ -82,6 +84,44 @@ static void showNotificationBanner(NSString *message)
 - (void)HandleWithSLNotificationMessage_PhotoComment:(SLNotificationMessage_PhotoComment *)msg {
 
     [albumManager_ reportAlbumUpdateWithLong:[msg getAlbumId]];
+    
+    
+//    showNotificationBanner([msg getCommentAuthorNickname]);
+    
+//    [msg get]
+    
+    LNNotification* notification = [LNNotification notificationWithMessage:[NSString stringWithFormat:@"%@ commented on a photo @ %@",[msg getCommentAuthorNickname],[msg getAlbumName]]];
+    notification.title = @"test title";
+    notification.soundName = @"push.mp3";
+    
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    [manager downloadImageWithURL:[NSURL URLWithString:[msg getCommentAuthorAvatarUrl]]
+                          options:0
+                         progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                             // progression tracking code
+                         }
+                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                            if (image) {
+                                
+                                notification.icon = image;
+                                notification.defaultAction = [LNNotificationAction actionWithTitle:@"Default Action" handler:^(LNNotificationAction *action) {
+                                    //Handle default action
+                                    NSLog(@"test");
+                                    
+                                    
+                                    
+                                    [self.delegate commentPushPressed:msg];
+                                    
+                                }];
+                                
+                                [[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"glance_app"];
+                                
+                                // do something with image
+                            }
+                        }];
+    
+    
+    
     
 }
 

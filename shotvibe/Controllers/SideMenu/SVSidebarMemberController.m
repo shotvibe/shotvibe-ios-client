@@ -105,6 +105,11 @@
 
 
     ];
+    
+//    self.tableView setContentOffset:<#(CGPoint)#>
+    [self.tableView setContentInset:UIEdgeInsetsMake(38,0,0,0)];
+//    self.butAddFriends.center = CGPointMake(self.butAddFriends.frame.origin.x, self.butAddFriends.frame.origin.y+60);
+//    self.butAddFriends.frame = CGRectMake(self.butAddFriends.frame.origin.x, self.butAddFriends.frame.origin.y+150, self.butAddFriends.frame.size.width, self.butAddFriends.frame.size.height);
 }
 
 
@@ -114,7 +119,31 @@
 - (void)navigateToAddFriends:(id)sender
 {
     // prepareForSegue is called in parentController SVAlbumGridViewController
-    [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
+//    [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
+    
+    
+//    SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
+//    SVAddFriendsViewController *destination = [[SVAddFriendsViewController alloc] init];
+//    [self presentViewController:destination animated:YES completion:nil];
+    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+  //  SVAddFriendsViewController *destination = [storyboard instantiateViewControllerWithIdentifier:@"AddFriendsSegue"];
+    //[self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
+    
+    
+    
+    UIStoryboard * sb = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    SVAddFriendsViewController * vc = [sb instantiateViewControllerWithIdentifier:@"InviteFriendsView"];
+    vc.albumId = self.albumId;
+    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:vc];
+//    vc.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+    [self presentViewController:nav animated:YES completion:^{
+        [[GLSharedCamera sharedInstance] hideGlCameraView];
+    }];
+    
+//    [self.navigationController pushViewController:destination animated:YES];
+//    destination.albumId = self.albumId;
+    
 }
 
 
@@ -170,8 +199,8 @@
 
 - (IBAction)ownerButtonPressed:(id)sender {
 	
-	if ([self.searchBar isFirstResponder])
-		[self.searchBar resignFirstResponder];
+//	if ([self.searchBar isFirstResponder])
+//		[self.searchBar resignFirstResponder];
 	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Leave album", @"")
 													message:NSLocalizedString(@"Are you sure you want to leave this album?", @"")
@@ -197,7 +226,7 @@
         // No members
         self.noMembersView.hidden = NO;
         self.tableView.hidden = YES;
-        self.searchBar.userInteractionEnabled = NO;
+//        self.searchBar.userInteractionEnabled = NO;
         self.butOwner.enabled = YES;
         self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
 
@@ -214,9 +243,10 @@
         // There are some members
         self.noMembersView.hidden = YES;
         self.tableView.hidden = NO;
-        self.searchBar.userInteractionEnabled = YES;
+//        self.searchBar.userInteractionEnabled = YES;
+        
         self.butOwner.enabled = NO;
-        self.butAddFriends.frame = CGRectMake(16, 55, 240, 40);
+        self.butAddFriends.frame = CGRectMake(16, 80, 240, 40);
 
         ownerCell.hidden = YES;
     }
@@ -247,13 +277,19 @@
 
     SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
+    
+    
     [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
     [cell.memberLabel setText:[[member getUser] getMemberNickname]];
 
+//    cell.
+    
     if ([[shotvibeAPI getAuthData] getUserId] == [[member getUser] getMemberId]) {
 		
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
 		cell.statusLabel.text = NSLocalizedString(@"Leave", nil);
+//        cell.memberLabel.textColor = UIColorFromRGB(0x3eb4b6);
+//        cell.memberLabel.font =[UIFont fontWithName:cell.memberLabel.font.fontName size:<#(CGFloat)#>];
         CGSize size = [cell.statusLabel.text sizeWithFont:cell.statusLabel.font];
         cell.statusImageView.frame = CGRectMake(cell.statusLabel.frame.origin.x + cell.statusLabel.frame.size.width - size.width - 4 - cell.statusImageView.frame.size.width, cell.statusImageView.frame.origin.y, 13, 13);
 	}
@@ -279,6 +315,9 @@
         }
 	}
 	//RCLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
+    
+    
+    
     return cell;
 }
 
@@ -289,8 +328,8 @@
 	
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	if ([self.searchBar isFirstResponder])
-		[self.searchBar resignFirstResponder];
+//	if ([self.searchBar isFirstResponder])
+//		[self.searchBar resignFirstResponder];
 	
     SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
@@ -335,7 +374,7 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
 	
-	[self.searchBar setShowsCancelButton:YES animated:YES];
+//	[self.searchBar setShowsCancelButton:YES animated:YES];
 	CGRect f = self.tableView.frame;
 	f.size.height = [UIScreen mainScreen].bounds.size.height-216-20-135;
 	
@@ -346,7 +385,7 @@
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
 	
-	[self.searchBar setShowsCancelButton:NO animated:YES];
+//	[self.searchBar setShowsCancelButton:NO animated:YES];
 	CGRect f = self.tableView.frame;
 	f.size.height = [UIScreen mainScreen].bounds.size.height-20-135;
 	
@@ -393,7 +432,7 @@
 }
 
 - (BOOL) resignFirstResponder {
-	return [self.searchBar resignFirstResponder];
+//	return [self.searchBar resignFirstResponder];
 }
 
 

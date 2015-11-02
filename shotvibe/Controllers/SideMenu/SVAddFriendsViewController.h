@@ -10,9 +10,21 @@
 
 #import "SL/PhoneContactsManager.h"
 #import "SL/AlbumManager.h"
+#import "SVAlbumListViewController.h"
 
-@interface SVAddFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SLPhoneContactsManager_Listener >
+@protocol AddFriendsDelegate <NSObject>
 
+@optional
+
+- (void)goToPage:(int)num;
+- (void)goToAlbumId:(long long)num;
+
+@end
+
+@interface SVAddFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SLPhoneContactsManager_Listener>
+
+@property (nonatomic, assign) id<AddFriendsDelegate> delegate;
 @property (nonatomic, assign) int64_t albumId;
+@property (assign, nonatomic) NSInteger indexNumber;
 
 @end

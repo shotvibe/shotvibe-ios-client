@@ -10,6 +10,10 @@
 
 @implementation SVSidebarAlbumMemberCell
 
+-(void)awakeFromNib {
+//    self.backgroundColor = [UIColor greenColor];
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
@@ -26,6 +30,7 @@
     self.memberLabel.text = nil;
     self.statusImageView.image = nil;
     self.statusLabel.text = nil;
+//    self.backgroundColor = [UIColor redColor];
 }
 
 

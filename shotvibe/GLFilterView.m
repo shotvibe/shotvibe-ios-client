@@ -147,6 +147,9 @@
 
 -(void) setImageCapturedUnderFilter:(UIImage*)cpaturedImaged {
 
+    
+    
+    
     [UIView animateWithDuration:0.1 animations:^{
         self.outputViewCasted.alpha = 0;
     } completion:^(BOOL finished) {
@@ -173,15 +176,44 @@
         self.sourcePicture = nil;
     }
         
+        if(self.filterType == GPUIMAGE_LATESUNSET){
+            self.filter = [[GPUImageLateSunsetFilter alloc] init];
+            self.sourcePicture = nil;
+        }
+        
+        if(self.filterType == GPUIMAGE_FOGGYNIGHT){
+            self.filter = [[GPUImageFoggyNightFilter alloc] init];
+            self.sourcePicture = nil;
+        }
+        
         self.sourcePicture = [[GPUImagePicture alloc] initWithImage:cpaturedImaged];
 //        [self.sourcePicture processImage];
 //        [self.filter forceProcessingAtSize:self.outputViewCasted.sizeInPixels]; // This is now needed to make the filter run at the smaller output size
         //
         //
-        
+        [self.filter forceProcessingAtSize:self.outputView.sizeInPixels];
         [self.sourcePicture addTarget:self.filter];
         [self.filter addTarget:self.outputViewCasted];
+        
+//        [self.sourcePicture useNextFrameForImageCapture];
         [self.sourcePicture processImage];
+//        [self.sourcePicture removeAllTargets];
+        
+        
+//        if(self.filterType == GPUIMAGE_AMATORKA){
+//            
+//            UIImage *quickFilteredImage = [self.filter imageFromCurrentFramebuffer];
+//            UIImage *quickFilteredImage2 = [self.filter imageByFilteringImage:cpaturedImaged];
+//            NSLog(@"");
+//        }
+        
+        
+//        [/.filter useNextFrameForImageCapture];
+//        [amatorkaFilter.sourcePicture processImage];
+//        [self.sourcePicture useNextFrameForImageCapture];
+//        UIImage * testtt = [self.filter imageFromCurrentFramebuffer];
+        //    @autoreleasepool {
+//        UIImage *quickFilteredImage = [self.filter imageByFilteringImage:cpaturedImaged];
         
         
 //        [self.sourcePicture processImage];
@@ -508,7 +540,27 @@
             [self.filterSettingsSlider setValue:0.75];
             
             self.filter = [[GPUImageVignetteFilter alloc] init];
-        }; break;
+        };break;
+            
+        case GPUIMAGE_SOFTELEGANCE2:
+        {
+            self.title.text = @"Soft Elegance 2";
+            self.filter = [[GPUImageSoftElegance2Filter alloc] init];
+        };break;
+            
+        case GPUIMAGE_LATESUNSET:
+        {
+            self.title.text = @"Late Sunset";
+            self.filter = [[GPUImageLateSunsetFilter alloc] init];
+        };break;
+            
+        case GPUIMAGE_FOGGYNIGHT:
+        {
+            self.title.text = @"Foggy Night";
+            self.filter = [[GPUImageFoggyNightFilter alloc] init];
+        };break;
+//
+            
 
             
         default: self.filter = [[GPUImageSepiaFilter alloc] init]; break;
@@ -519,7 +571,7 @@
             
         case GPUIMAGE_NOFILTER: [(GPUImageSaturationFilter *)self.filter setSaturation:[self sliderValueMultiplier:0.0 max:2.0 value:0.6]]; break;
     
-        case GPUIMAGE_SATURATION: [(GPUImageSaturationFilter *)self.filter setSaturation:[self sliderValueMultiplier:0.0 max:2.0 value:1]]; break;
+        case GPUIMAGE_SATURATION: [(GPUImageSaturationFilter *)self.filter setSaturation:1.0]; break;
             
         case GPUIMAGE_CONTRAST: [(GPUImageContrastFilter *)self.filter setContrast:[self sliderValueMultiplier:0.0 max:4.0 value:1]]; break;
             
@@ -534,7 +586,7 @@
             
         case GPUIMAGE_SEPIA: [(GPUImageSepiaFilter *)self.filter setIntensity:[self sliderValueMultiplier:0 max:1 value:1]]; break;
             
-        case GPUIMAGE_EXPOSURE: [(GPUImageExposureFilter *)self.filter setExposure:[self sliderValueMultiplier:-4 max:4 value:-2]]; break;
+        case GPUIMAGE_EXPOSURE: [(GPUImageExposureFilter *)self.filter setExposure:2.0]; break;
             
         case GPUIMAGE_RGB: [(GPUImageRGBFilter *)self.filter setGreen:[self sliderValueMultiplier:0 max:2 value:1]]; break;
             
@@ -548,7 +600,7 @@
             
         case GPUIMAGE_HAZE: [(GPUImageHazeFilter *)self.filter setDistance:[self sliderValueMultiplier:-0.2 max:0.2 value:0.2]]; break;
             
-        case GPUIMAGE_GAUSSIAN_SELECTIVE: [(GPUImageGaussianSelectiveBlurFilter *)self.filter setExcludeCircleRadius:[self sliderValueMultiplier:0.0 max:.75f value:40.0/320.0]]; break;
+        case GPUIMAGE_GAUSSIAN_SELECTIVE: [(GPUImageGaussianSelectiveBlurFilter *)self.filter setExcludeCircleRadius:40.0/320.0]; break;
             
         case GPUIMAGE_POLKADOT: [(GPUImagePolkaDotFilter *)self.filter setFractionalWidthOfAPixel:[self sliderValueMultiplier:0.0 max:0.3 value:0.05]]; break;
             

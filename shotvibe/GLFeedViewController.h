@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SVNotificationHandler.h"
 
 
 //#import ""
 //#import ""
-@interface GLFeedViewController : UITableViewController 
+@interface GLFeedViewController : UITableViewController <NotificationManagerDelegate>
 
 @property(nonatomic) long long int albumId;
 @property (retain, nonatomic) NSMutableArray *posts;

@@ -20,5 +20,9 @@
 @property(nonatomic) BOOL loaded;
 @property(nonatomic, retain) NSString * photoId;
 @property(nonatomic, retain) UIImageView * glancesIcon;
+@property(nonatomic, retain) UIButton * addCommentButton;
+@property(nonatomic, retain) UIButton * postForwardButton;
+@property(nonatomic, retain) UIView * postPannelWrapper;
+@property(nonatomic, retain) UIView * commentScrollBgView;
 
 @end

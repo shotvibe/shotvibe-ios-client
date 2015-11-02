@@ -20,14 +20,14 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 @implementation SVPushNotificationsManager
 {
     SLAlbumManager *albumManager_;
-    SVNotificationHandler *notificationHandler_;
+    
 }
 
 - (void)setup
 {
     albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
 
-    notificationHandler_ = [[SVNotificationHandler alloc] initWithAlbumManager:albumManager_];
+    self.notificationHandler_ = [[SVNotificationHandler alloc] initWithAlbumManager:albumManager_];
 
     NSLog(@"Setting up push notifications with AlbumManager: %@", [albumManager_ description]);
     
@@ -122,7 +122,10 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
         @try {
             SLNotificationMessage *message = [SLNotificationMessage parseMessageWithSLJSONObject:data];
 
-            [message handleWithSLNotificationMessage_NotificationHandler:notificationHandler_];
+            
+            
+            
+            [message handleWithSLNotificationMessage_NotificationHandler:self.notificationHandler_];
         } @catch (SLNotificationMessage_ParseException *exception) {
             NSLog(@"Invalid notification: %@", [exception getLocalizedMessage]);
         }

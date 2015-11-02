@@ -9,10 +9,23 @@
 #import <Foundation/Foundation.h>
 
 #import "SL/NotificationMessage.h"
+//#import "SL/AlbumManager.h"
 #import "SL/AlbumManager.h"
+#import "MPNotificationView.h"
+#import "LNNotificationsUI.h"
+
+@protocol NotificationManagerDelegate <NSObject>
+
+@optional
+- (void)commentPushPressed:(SLNotificationMessage_PhotoComment *)msg;
+
+
+@end
+
 
 @interface SVNotificationHandler : NSObject < SLNotificationMessage_NotificationHandler>
 
 - (id)initWithAlbumManager:(SLAlbumManager *)albumManager;
+@property (nonatomic, assign) id<NotificationManagerDelegate> delegate;
 
 @end

@@ -45,6 +45,7 @@
 #import "IosDevicePhoneContactsLib.h"
 
 //#import "GLSharedCamera.h"
+#import "ContainerViewController.h"
 
 
 @interface ShotVibeAppDelegate ()
@@ -170,30 +171,47 @@
 
     // The following casts will work because of the way the MainStoryboard is set up.
 
-    NSAssert([self.window.rootViewController isKindOfClass:[SVNavigationController class]], @"Error: rootViewController is not UINavigationController");
+//    NSAssert([self.window.rootViewController isKindOfClass:[SVNavigationController class]], @"Error: rootViewController is not UINavigationController");
     SVNavigationController *navigationController = (SVNavigationController *)self.window.rootViewController;
-
+//
     [navigationController setNavigationBarHidden:YES];
-
+//
     NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error: visibleViewController is not SVRegistrationViewController");
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
-
-
-    // Initialize the sidebar menu
+//
+//
+////    UIPageViewController * pagesViewController = [[UIPageViewController alloc] init];
+////    pagesViewController.ch
+//    
+//    // Initialize the sidebar menu
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMembersView"];
-    self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
-    self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
-                                                                  leftMenuViewController:nil
-                                                                 rightMenuViewController:self.sidebarRight];
-    self.sideMenu.panMode = MFSideMenuPanModeNone;
-    self.window.rootViewController = self.sideMenu;
+//    SVRegistrationViewController *registrationViewController = [storyboard instantiateViewControllerWithIdentifier:@"SVRegistrationViewController"];
+    
+//    self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMembersView"];
+//    self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
+//    self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
+//                                                                  leftMenuViewController:nil
+//                                                                 rightMenuViewController:self.sidebarRight];
+//    self.sideMenu.panMode = MFSideMenuPanModeNone;
+//    
+//    
+//    
+//    self.window.rootViewController = self.sideMenu;
+    
+    ContainerViewController * cont = [[ContainerViewController alloc] init];
+    self.window.rootViewController = cont;
 
-    if (IS_IOS7) {
-    } else {
-        self.window.rootViewController.wantsFullScreenLayout = YES;
-    }
+//    self.window.rootViewController.wantsFullScreenLayout = YES;
+    
 
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    // Override point for customization after application launch.
+//    self.window.backgroundColor = [UIColor whiteColor];
+//    [self.window makeKeyAndVisible];
+    
+//    self.window.rootViewController = container;
+//    return YES;
+    
     
     
     SVInitialization *worker = [[SVInitialization alloc] init];
@@ -203,7 +221,7 @@
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kTutorialShown"]) {
         TutorialViewController *t = [[TutorialViewController alloc] init];
         t.onClose = ^(id responseObject) {
-            self.window.rootViewController = self.sideMenu;
+            self.window.rootViewController = navigationController;
 
             if (![self isLoggedIn]) {
 //                [self processCountryCode:[UIApplication sharedApplication] registrationViewController:registrationViewController];

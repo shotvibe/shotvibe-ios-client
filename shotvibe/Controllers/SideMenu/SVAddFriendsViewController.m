@@ -21,6 +21,25 @@
 #import "SL/PhoneContact.h"
 #import "SL/PhoneContactDisplayData.h"
 
+#import "GLSharedCamera.h"
+#import "ShotVibeAppDelegate.h"
+
+#import "SL/AlbumMember.h"
+#import "SL/AlbumUser.h"
+#import "SL/AlbumSummary.h"
+#import "SL/AlbumContents.h"
+#import "SL/AlbumPhoto.h"
+#import "SL/AlbumServerPhoto.h"
+#import "SL/ArrayList.h"
+#import "SL/DateTime.h"
+#import "SL/ShotVibeAPI.h"
+#import "SL/APIException.h"
+#import "ShotVibeAppDelegate.h"
+#import "UserSettings.h"
+
+#import "UIImageView+Masking.h"
+#import "SDWebImageManager.h"
+#import "ShotVibeAPITask.h"
 
 @interface SVAddFriendsViewController ()
 
@@ -59,18 +78,62 @@
 
     NSMutableArray *checkedContactsList_;
     NSHashTable *checkedContactsSet_;
+    
+//    SLAlbumManager *albumManager_;
+    PhotoFilesManager *photoFilesManager_;
+    NSArray *allAlbums;
+    BOOL showGroups;
+    
+    UIButton * openGroupFromMembersButton;
 }
+
 
 
 #pragma mark - View Lifecycle
 
+-(void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    [phoneContactsManager_ unsetListener];
+//    [albumManager_ removeAlbumListListenerWithSLAlbumManager_AlbumListListener:self];
+    
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+//    [phoneContactsManager_ unsetListener];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"****** register");
+    [phoneContactsManager_ setListenerWithSLPhoneContactsManager_Listener:self];
+}
+
+
+
 - (void)viewDidLoad
 {
+    showGroups = NO;
+    
     [super viewDidLoad];
+    
+    openGroupFromMembersButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-90, 150, 70, 70)];
+    [openGroupFromMembersButton setTitle:@"go" forState:UIControlStateNormal];
+    openGroupFromMembersButton.alpha = 0;
+    [openGroupFromMembersButton addTarget:self action:@selector(openGroupFromMembers) forControlEvents:UIControlEventTouchUpInside];
+    [openGroupFromMembersButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [self.view addSubview:openGroupFromMembersButton];
+    
     // Do any additional setup after loading the view.
-
+    allAlbums = [[NSMutableArray alloc] init];
     albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
     phoneContactsManager_ = [ShotVibeAppDelegate sharedDelegate].phoneContactsManager;
+    
+    [self setAlbumList:[albumManager_ getCachedAlbumContents].array];
+    
+//    SLAlbumManager * albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
+//    [self setAlbumList:[albumManager_ addAlbumListListenerWithSLAlbumManager_AlbumListListener:self].array];
 
     self.noContactsView.hidden = YES;
     self.butOverlay.hidden = YES;
@@ -80,11 +143,11 @@
     // IOS7
     if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)]) {
         self.navigationController.navigationBar.translucent = NO;
-        self.view.frame = CGRectMake(0, 64, 320, 568 - 64);
+        self.view.frame = CGRectMake(0, 64, self.view.frame.size.width, 568 - 64);
     }
 
-    self.contactsSourceView.hidden = YES;
-    self.contactsSourceSelector.frame = IS_IOS7 ? CGRectMake(8, 7, 239, 30) : CGRectMake(5, 7, 233, 30);
+    self.contactsSourceView.hidden = NO;
+    self.contactsSourceSelector.frame = CGRectMake(5, 7, self.view.frame.size.width-10, 30);
     self.contactsSourceSelector.selectedSegmentIndex = 1;
 
     BOOL permissionGranted = YES;
@@ -94,7 +157,10 @@
 
     // Setup back button
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPressed:)];
+    backButton.tintColor = UIColorFromRGB(0x3eb4b6);
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(donePressed:)];
+    doneButton.tintColor = UIColorFromRGB(0x3eb4b6);
+    
 
     self.navigationItem.leftBarButtonItem = backButton;
     self.navigationItem.rightBarButtonItem = doneButton;
@@ -111,8 +177,9 @@
     searchString_ = @"";
 
     [self setAllContacts:[[NSArray alloc] init]];
-
-    [phoneContactsManager_ setListenerWithSLPhoneContactsManager_Listener:self];
+    
+    
+    
 
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
@@ -132,14 +199,34 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+//    NSUInteger num;
+//    if(showGroups){
+//        num = [allAlbums count];
+//    } else {
+//        num = numSections_;
+//    }
     return numSections_;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[sectionRowCounts_ objectAtIndex:section] integerValue];
+    NSInteger num;
+//    if(showGroups){
+//        num = [allAlbums count];
+//    } else {
+        num = [[sectionRowCounts_ objectAtIndex:section] integerValue];
+//    }
+    
+    return num;
 }
 
+
+- (SLAlbumContents *)getAlbumForIndexPath:(NSIndexPath *)indexPath
+{
+    NSNumber *sectionStart = [sectionStartIndexes_ objectAtIndex:indexPath.section];
+    NSInteger index = [sectionStart integerValue] + indexPath.row;
+    return [searchFilteredContacts_ objectAtIndex:index];
+}
 
 - (SLPhoneContactDisplayData *)getContactForIndexPath:(NSIndexPath *)indexPath
 {
@@ -149,53 +236,136 @@
 }
 
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SVContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
-
-    SLPhoneContactDisplayData *phoneContactDisplayData = [self getContactForIndexPath:indexPath];
-
-    NSString *firstName = [[phoneContactDisplayData getPhoneContact] getFirstName];
-    NSString *lastName = [[phoneContactDisplayData getPhoneContact] getLastName];
-
-    NSString *fullName;
-    NSRange boldRange;
-    if (firstName.length == 0) {
-        fullName = lastName;
-        boldRange = NSMakeRange(0, lastName.length);
-    } else if (lastName.length == 0) {
-        fullName = firstName;
-        boldRange = NSMakeRange(0, firstName.length);
+    
+    if(showGroups){
+    
+        
+        
+        SLAlbumContents * album = [self getAlbumForIndexPath:indexPath];//[allAlbums objectAtIndex:indexPath.row];
+        
+//        NSLog(@"count is : %lu",(unsigned long)[album getLatestPhotos].array.count);
+        
+//        if([album ]){}
+        NSLog(@"album member arra %@",[album getMembers]);
+        
+//        NSString * groupMembers = [[NSString alloc] init];
+        
+//        NSArray *stringArray = [myString componentsSeparatedByString:@":"];
+        NSMutableArray * membersArr = [[NSMutableArray alloc] init];
+        
+        for(SLAlbumMember * member in [album getMembers].array){
+            
+            [membersArr addObject:[[member getUser] getMemberNickname]];
+            
+        }
+        
+        NSString * result = [membersArr componentsJoinedByString:@", "];
+        
+//        for(SLAlbumMember * member in [album getMembers].array){
+////            [groupMembers stringByAppendingFormat:@"%@, ",[[member getUser] getMemberNickname]];
+//            [groupMembers stringByAppendingString:[NSString stringWithFormat:@"%@ ,",[[member getUser] getMemberNickname]]];
+//        }
+        
+        cell.contactIcon.image = [UIImage imageNamed:@"CaptureButton"];
+        if((unsigned long)[album getPhotos].array.count > 0){
+            SLAlbumPhoto *latestPhoto = [[album getPhotos].array objectAtIndex:0];
+            if ([latestPhoto getServerPhoto]) {
+                
+                cell.contactIcon.hidden = NO;
+                
+                NSString * st = [[[latestPhoto getServerPhoto] getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
+                
+                [cell.contactIcon setCircleImageWithURL:[NSURL URLWithString:st] placeholderImage:[UIImage imageNamed:@"CaptureButton"] borderWidth:2];
+                
+            }
+        }
+        
+        
+//            cell.author.text = [NSString stringWithFormat:NSLocalizedString(@"Last added by %@", nil), [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
+//            
+//            [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId]
+//                                   photoUrl:[[latestPhoto getServerPhoto] getUrl]
+            
+             
+        cell.titleLabel.text = [album getName];
+        cell.subtitleLabel.text = result;
+        
+//        [album get]
+//        SLAlbumContents * albumContents = [self getAlbumForIndexPath:indexPath];
+//        for (SLAlbumPhoto *photo in [albumContents getPhotos].array) {
+//            
+//        }
+        
+//        cell.subtitleLabel = ;
+        
+//        cell.titleLabel.attributedText = attributedName;
+        
+//        cell.subtitleLabel.text = [[phoneContactDisplayData getPhoneContact] getPhoneNumber];
+        
+//        [cell.contactIcon cancelCurrentImageLoad];
+        
+//        if ([phoneContactDisplayData isLoading]) {
+//            [cell.loadingSpinner startAnimating];
+//            cell.contactIcon.hidden = YES;
+//            cell.isMemberImage.hidden = YES;
+//        } else {
+        
+        
+        
+//        }
+        
+        
     } else {
-        fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-        boldRange = NSMakeRange(firstName.length + 1, lastName.length);
+        SLPhoneContactDisplayData *phoneContactDisplayData = [self getContactForIndexPath:indexPath];
+        
+        NSString *firstName = [[phoneContactDisplayData getPhoneContact] getFirstName];
+        NSString *lastName = [[phoneContactDisplayData getPhoneContact] getLastName];
+        
+        NSString *fullName;
+        NSRange boldRange;
+        if (firstName.length == 0) {
+            fullName = lastName;
+            boldRange = NSMakeRange(0, lastName.length);
+        } else if (lastName.length == 0) {
+            fullName = firstName;
+            boldRange = NSMakeRange(0, firstName.length);
+        } else {
+            fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+            boldRange = NSMakeRange(firstName.length + 1, lastName.length);
+        }
+        NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] initWithString:fullName];
+        UIFont *boldFont = [UIFont boldSystemFontOfSize:cell.titleLabel.font.pointSize];
+        [attributedName setAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:boldFont, NSFontAttributeName, nil]
+                                range:boldRange];
+        cell.titleLabel.attributedText = attributedName;
+        
+        cell.subtitleLabel.text = [[phoneContactDisplayData getPhoneContact] getPhoneNumber];
+        
+        [cell.contactIcon cancelCurrentImageLoad];
+        
+        if ([phoneContactDisplayData isLoading]) {
+            [cell.loadingSpinner startAnimating];
+            cell.contactIcon.hidden = YES;
+            cell.isMemberImage.hidden = YES;
+        } else {
+            [cell.loadingSpinner stopAnimating];
+            cell.contactIcon.hidden = NO;
+            [cell.contactIcon setImageWithURL:[[NSURL alloc] initWithString:[phoneContactDisplayData getAvatarUrl]]];
+            cell.isMemberImage.hidden = [phoneContactDisplayData getUserId] == nil;
+        }
+        
+        if ([checkedContactsSet_ containsObject:[phoneContactDisplayData getPhoneContact]]) {
+            cell.checkmarkImage.image = [UIImage imageNamed:@"imageSelected"];
+        } else {
+            cell.checkmarkImage.image = [UIImage imageNamed:@"imageUnselected"];
+        }
     }
-    NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] initWithString:fullName];
-    UIFont *boldFont = [UIFont boldSystemFontOfSize:cell.titleLabel.font.pointSize];
-    [attributedName setAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:boldFont, NSFontAttributeName, nil]
-                            range:boldRange];
-    cell.titleLabel.attributedText = attributedName;
-
-    cell.subtitleLabel.text = [[phoneContactDisplayData getPhoneContact] getPhoneNumber];
-
-    [cell.contactIcon cancelCurrentImageLoad];
-
-    if ([phoneContactDisplayData isLoading]) {
-        [cell.loadingSpinner startAnimating];
-        cell.contactIcon.hidden = YES;
-        cell.isMemberImage.hidden = YES;
-    } else {
-        [cell.loadingSpinner stopAnimating];
-        cell.contactIcon.hidden = NO;
-        [cell.contactIcon setImageWithURL:[[NSURL alloc] initWithString:[phoneContactDisplayData getAvatarUrl]]];
-        cell.isMemberImage.hidden = [phoneContactDisplayData getUserId] == nil;
-    }
-
-    if ([checkedContactsSet_ containsObject:[phoneContactDisplayData getPhoneContact]]) {
-        cell.checkmarkImage.image = [UIImage imageNamed:@"imageSelected"];
-    } else {
-        cell.checkmarkImage.image = [UIImage imageNamed:@"imageUnselected"];
-    }
+    
+    
 
     return cell;
 }
@@ -214,10 +384,10 @@
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	
-	UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 26)];
+	UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 26)];
 	v.backgroundColor = [UIColor colorWithRed:0.92 green:0.93 blue:0.94 alpha:1];
 	
-	UILabel *l = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 310, 26)];
+	UILabel *l = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width, 26)];
 	[v addSubview:l];
 	l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
 	l.textColor = [UIColor grayColor];
@@ -253,9 +423,78 @@
         [self addButtonToContactsList:phoneContact withIndex:checkedContactsList_.count - 1];
     }
 
+    
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        
+        if([checkedContactsList_ count]>0){
+            self.contactsSourceSelector.alpha = 0;
+            self.contactsSourceView.alpha = 0;
+            openGroupFromMembersButton.alpha = 1;
+            [self.view bringSubviewToFront:openGroupFromMembersButton];
+        } else {
+            self.contactsSourceSelector.alpha = 1;
+            self.contactsSourceView.alpha = 1;
+            openGroupFromMembersButton.alpha = 0;
+        }
+        
+    }];
+    
+    
+    
     [self.tableView reloadData];
 }
 
+
+-(void)openGroupFromMembers {
+    NSLog(@"%@",checkedContactsList_);
+    
+    
+    [ShotVibeAPITask runTask:self withAction:^id{
+        SLAlbumContents * newAlbum = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:@"%$#"];
+        
+        NSMutableArray *memberAddRequests = [[NSMutableArray alloc] init];
+        
+        for (SLPhoneContact *phoneContact in checkedContactsList_) {
+            SLShotVibeAPI_MemberAddRequest *request = [[SLShotVibeAPI_MemberAddRequest alloc] initWithNSString:[phoneContact getFullName]
+                                                                                                  withNSString:[phoneContact getPhoneNumber]];
+            
+            [memberAddRequests addObject:request];
+        }
+        
+        NSString *defaultCountryCode = [[[albumManager_ getShotVibeAPI] getAuthData] getDefaultCountryCode];
+        
+        [[albumManager_ getShotVibeAPI] albumAddMembersWithLong:[newAlbum getId]
+                                               withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:memberAddRequests]
+                                                   withNSString:defaultCountryCode];
+//        [[albumManager_ getShotVibeAPI] :cell.photoId withInt:-1];
+        //        [[albumManager_ getShotVibeAPI]postPhotoCommentWithNSString:cell.photoId withNSString:textField.text withLong:milliseconds];
+        return nil;
+    } onTaskComplete:^(id dummy) {
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            //                commentsDialog.alpha = 0;
+            
+            
+            
+            
+        } completion:^(BOOL finished) {
+//            [self.delegate goToAlbumId:2];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+            
+            
+            SVAlbumListViewController *albumlistvc = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
+            [self.delegate goToPage:2];
+            [albumlistvc goToAlbumId:1];
+            
+//            NSLog(@"there was a success in opening the new album the id is:",);
+            
+//            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+            
+        }];
+    }];
+
+}
 
 #pragma mark -
 #pragma mark Search
@@ -267,17 +506,17 @@
 	self.butOverlay.alpha = 0;
 	self.butOverlay.hidden = NO;
 	[UIView animateWithDuration:0.3 animations:^{
-		self.tableView.frame = CGRectMake(0, 44+44, 320, self.view.frame.size.height-44-44-216);
+		self.tableView.frame = CGRectMake(0, 44+44, self.view.frame.size.width, self.view.frame.size.height-44-44-216);
 		self.contactsSourceView.alpha = 1;
 		self.butOverlay.alpha = 0.2;
 	}];
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
 	[searchBar setShowsCancelButton:NO animated:YES];
-	self.contactsSourceView.hidden = YES;
+//	self.contactsSourceView.hidden = YES;
 	self.butOverlay.hidden = YES;
 	[UIView animateWithDuration:0.3 animations:^{
-		self.tableView.frame = CGRectMake(0, 44+75, 320, self.view.frame.size.height-44-75);
+		self.tableView.frame = CGRectMake(0, 44+75, self.view.frame.size.width, self.view.frame.size.height-44-75);
 	}];
 }
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -385,6 +624,15 @@
 
     [checkedContactsList_ removeObjectAtIndex:index];
     [checkedContactsSet_ removeObject:phoneContact];
+    
+    
+    if([checkedContactsList_ count] == 0){
+        [UIView animateWithDuration:0.2 animations:^{
+            self.contactsSourceView.alpha = 1;
+            self.contactsSourceSelector.alpha = 1;
+        }];
+    }
+    
 
 	[self.tableView reloadData];
 }
@@ -425,7 +673,7 @@
 #pragma mark - Actions
 
 - (IBAction)donePressed:(id)sender {
-    [phoneContactsManager_ unsetListener];
+//    [phoneContactsManager_ unsetListener];
 
     // add members to album
     //TODO if already shotvibe member just add to album else sent notification to user to join?
@@ -468,6 +716,7 @@
             }
 
 			dispatch_async(dispatch_get_main_queue(), ^{
+                [[GLSharedCamera sharedInstance] showGlCameraView];
 				[MBProgressHUD hideHUDForView:self.view animated:YES];
 				[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 			});
@@ -476,16 +725,28 @@
 }
 
 - (void)cancelPressed:(id)sender {
+    
+    [[GLSharedCamera sharedInstance] showGlCameraView];
+    
     [[Mixpanel sharedInstance] track:@"Add Friends Screen Canceled"
                           properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
 
-    [phoneContactsManager_ unsetListener];
+//    [phoneContactsManager_ unsetListener];
 
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)contactsSourceChanged:(UISegmentedControl *)sender {
-    [self filterContactsBySearch];
+    if(sender.selectedSegmentIndex == 2){
+        NSLog(@"need to show groups");
+        showGroups = YES;
+        [self filterContactsBySearch];
+        
+    } else {
+        showGroups = NO;
+         [self filterContactsBySearch];
+    }
+   
 }
 
 - (IBAction)overlayPressed:(id)sender {
@@ -548,6 +809,15 @@ static inline NSString * contactFirstLetter(SLPhoneContact *phoneContact)
     }
 }
 
+static inline NSString * albumFirstLetter(SLAlbumSummary *album)
+{
+//    if ([phoneContact getLastName].length > 0) {
+        return [[[album getName] substringToIndex:1] uppercaseString];
+//    } else {
+//        return [[[phoneContact getFirstName] substringToIndex:1] uppercaseString];
+//    }
+}
+
 
 - (void)setAllContacts:(NSArray *)contacts
 {
@@ -557,8 +827,49 @@ static inline NSString * contactFirstLetter(SLPhoneContact *phoneContact)
 }
 
 
+- (void)setAlbumList:(NSArray *)albums {
+    
+    allAlbums = albums;
+//    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//        // Set all the album thumbnails to download at high priority
+//        for (SLAlbumSummary *a in albums) {
+//            if ([a getLatestPhotos].array.count > 0) {
+//                SLAlbumPhoto *p = [[a getLatestPhotos].array objectAtIndex:0];
+//                if ([p getServerPhoto]) {
+//                    [photoFilesManager_ queuePhotoDownload:[[p getServerPhoto] getId]
+//                                                  photoUrl:[[p getServerPhoto] getUrl]
+//                                                 photoSize:[PhotoSize Thumb75]
+//                                              highPriority:YES];
+//                }
+//            }
+//        }
+//    });
+//    
+//    [self searchForAlbumWithTitle:self.searchbar.text];
+}
+
 - (void)filterContactsBySearch
 {
+    
+//    if(segmentGroups){
+//    
+//        
+//        
+//        
+//        
+//        
+//        
+//    
+//    }
+    
+    if(showGroups){
+        searchFilteredContacts_ = allAlbums;
+        [self computeSections];
+        return;
+    }
+    
+    
     if (searchString_.length == 0 && ![self displayOnlyShotVibeUsers]) {
         searchFilteredContacts_ = allContacts_;
 
@@ -602,14 +913,59 @@ static inline NSString * contactFirstLetter(SLPhoneContact *phoneContact)
 
 - (void)computeSections
 {
-    NSUInteger initialCapacity = 32; // Enough for the alphabet
-    NSMutableArray *sectionTitles = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
-
-    NSMutableArray *sectionRowCounts = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
-    NSMutableArray *sectionStartIndexes = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+    
+    
+   
+    
+    
 
     int i = 0;
     int k = 0;
+    
+    if(showGroups){
+//        numSections_ = 1;
+        
+        NSUInteger initialCapacity = [allAlbums count]; // Enough for the alphabet
+        NSMutableArray *sectionTitles = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+        
+        NSMutableArray *sectionRowCounts = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+        NSMutableArray *sectionStartIndexes = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+        
+        for (SLAlbumSummary *p in allAlbums) {
+            NSString *firstLetter = [[[p getName] substringToIndex:1] uppercaseString];//albumFirstLetter([p getName]);
+            if (i == 0 || ![firstLetter isEqualToString:[sectionTitles objectAtIndex:sectionTitles.count - 1]]) {
+                [sectionStartIndexes addObject:[[NSNumber alloc] initWithInteger:i]];
+                [sectionTitles addObject:firstLetter];
+                
+                if (i != 0) {
+                    [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
+                    k = 0;
+                }
+            }
+            
+            k++;
+            i++;
+        }
+        
+        [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
+        
+        sectionRowCounts_ = sectionRowCounts;
+        
+        sectionIndexTitles_ = sectionTitles;
+        
+        numSections_ = sectionIndexTitles_.count;
+        
+        sectionStartIndexes_ = sectionStartIndexes;
+        
+        
+    } else {
+    
+        NSUInteger initialCapacity = 32; // Enough for the alphabet
+        NSMutableArray *sectionTitles = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+        
+        NSMutableArray *sectionRowCounts = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+        NSMutableArray *sectionStartIndexes = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+        
     for (SLPhoneContactDisplayData *p in searchFilteredContacts_) {
         NSString *firstLetter = contactFirstLetter([p getPhoneContact]);
         if (i == 0 || ![firstLetter isEqualToString:[sectionTitles objectAtIndex:sectionTitles.count - 1]]) {
@@ -625,18 +981,61 @@ static inline NSString * contactFirstLetter(SLPhoneContact *phoneContact)
         k++;
         i++;
     }
-    [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
-
-    sectionRowCounts_ = sectionRowCounts;
-
-    sectionIndexTitles_ = sectionTitles;
-
-    numSections_ = sectionIndexTitles_.count;
-
-    sectionStartIndexes_ = sectionStartIndexes;
+        
+        [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
+        
+        sectionRowCounts_ = sectionRowCounts;
+        
+        sectionIndexTitles_ = sectionTitles;
+        
+        numSections_ = sectionIndexTitles_.count;
+        
+        sectionStartIndexes_ = sectionStartIndexes;
+        
+    }
+    
+    
+    
 
     [self.tableView reloadData];
 }
 
+- (void)computeSections2
+{
+    NSUInteger initialCapacity = 32; // Enough for the alphabet
+    NSMutableArray *sectionTitles = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+    
+    NSMutableArray *sectionRowCounts = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+    NSMutableArray *sectionStartIndexes = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+    
+    int i = 0;
+    int k = 0;
+    for (SLPhoneContactDisplayData *p in searchFilteredContacts_) {
+        NSString *firstLetter = contactFirstLetter([p getPhoneContact]);
+        if (i == 0 || ![firstLetter isEqualToString:[sectionTitles objectAtIndex:sectionTitles.count - 1]]) {
+            [sectionStartIndexes addObject:[[NSNumber alloc] initWithInteger:i]];
+            [sectionTitles addObject:firstLetter];
+            
+            if (i != 0) {
+                [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
+                k = 0;
+            }
+        }
+        
+        k++;
+        i++;
+    }
+    [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
+    
+    sectionRowCounts_ = sectionRowCounts;
+    
+    sectionIndexTitles_ = sectionTitles;
+    
+    numSections_ = sectionIndexTitles_.count;
+    
+    sectionStartIndexes_ = sectionStartIndexes;
+    
+    [self.tableView reloadData];
+}
 
 @end

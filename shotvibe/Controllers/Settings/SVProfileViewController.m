@@ -5,7 +5,7 @@
 //  Created by John Gabelmann on 4/16/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
-
+#import "ContainerViewController.h"
 #import "SVProfileViewController.h"
 #import "SVDefines.h"
 #import "MBProgressHUD.h"
@@ -130,7 +130,17 @@
     // when improving this behavior, we have to make sure the nickname is always first
     // responder, except before the server update is received. (which may happen while in
     // the profile pic selection screen)
-    [self.navigationController popViewControllerAnimated:YES];
+    
+//    [self dismissViewControllerAnimated:YES completion:^{
+//        
+//    }];
+    ContainerViewController * container = [[ContainerViewController alloc] init];
+    [self presentViewController:container animated:YES completion:^{
+        
+    }];
+//    [self.navigationController popViewControllerAnimated:YES];
+    
+
 }
 
 

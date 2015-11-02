@@ -68,6 +68,8 @@ typedef enum ScrollDirection {
 -(void)setInFeedMode;
 -(void)retrievePhotoFromPicker:(UIImage*)image;
 -(void)hideForPicker:(BOOL)no;
+-(void)hideGlCameraView;
+-(void)showGlCameraView;
 
 @property(nonatomic) BOOL flashIsOn;
 @property(nonatomic) BOOL inEditMode;
@@ -83,6 +85,8 @@ typedef enum ScrollDirection {
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic, strong) UIView * editPallette;
 @property (nonatomic, strong) UIImageView * editPalletteImageView;
+
+@property (nonatomic,strong) UIView * cameraViewBackground;
 
 @property(nonatomic, strong) UIScrollView * recentPhotosSlider;
 

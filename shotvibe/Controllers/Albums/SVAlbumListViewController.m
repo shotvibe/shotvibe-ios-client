@@ -6,6 +6,9 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
+
 #import <AddressBook/AddressBook.h>
 #import "SVAlbumListViewController.h"
 #import "SVSettingsViewController.h"
@@ -49,6 +52,9 @@
 
 
 #import "GLFeedViewController.h"
+#import <MediaPlayer/MediaPlayer.h>
+//#import "MPMoviePlayerController.h"
+
 CGFloat kResizeThumbSize = 45.0f;
 
 @interface SVAlbumListViewController ()
@@ -104,6 +110,10 @@ CGFloat kResizeThumbSize = 45.0f;
 {
     SLAlbumManager *albumManager_;
     PhotoFilesManager *photoFilesManager_;
+    AVPlayer *_player;
+    AVPlayerLayer * _playerLayer;
+    AVAsset * _asset;
+    AVPlayerItem * _playerItem;
 }
 
 
@@ -207,27 +217,35 @@ CGFloat kResizeThumbSize = 45.0f;
         [self setNeedsStatusBarAppearanceUpdate];
     }
     
+//    NSString  *fileNamePath = [[NSBundle mainBundle] pathForResource:@"welcome" ofType:@"mov"];
+//    _asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:fileNamePath]];
+//    _playerItem =[[AVPlayerItem alloc]initWithAsset:_asset];
+//    _player = [[AVPlayer alloc]initWithPlayerItem:_playerItem];
+//    _playerLayer =[AVPlayerLayer playerLayerWithPlayer:_player];
+//    [_playerLayer setFrame:CGRectMake(0, 0, app.window.frame.size.width, app.window.frame.size.height)];
+//    [_playerLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+//    [app.window.layer addSublayer:_playerLayer];
+//    [_player seekToTime:kCMTimeZero];
+//    [_player play];
+//    self.de
+
+
     
-    GLSharedCamera * glcam = [GLSharedCamera sharedInstance];
-    glcam.delegate = self;
+}
+- (void)goToAlbumId:(long long)num {
+
+//    SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
     
+    [[GLSharedCamera sharedInstance] setInFeedMode];
+    
+    [self.navigationController setNavigationBarHidden:YES];
+    
+    GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+    feed.albumId = (long long int)5095;
+    [self.navigationController pushViewController:feed animated:YES];
     
     
 }
-
-
-
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//    UITouch *touch = [[event allTouches] anyObject];
-//    touchStart = [[touches anyObject] locationInView:self.view];
-//    isResizingLR = (self.view.bounds.size.width - touchStart.x < kResizeThumbSize && self.view.bounds.size.height - touchStart.y < kResizeThumbSize);
-//    isResizingUL = (touchStart.x <kResizeThumbSize && touchStart.y <kResizeThumbSize);
-//    isResizingUR = (self.view.bounds.size.width-touchStart.x < kResizeThumbSize && touchStart.y<kResizeThumbSize);
-//    isResizingLL = (touchStart.x <kResizeThumbSize && self.view.bounds.size.height -touchStart.y <kResizeThumbSize);
-//}
-
-
-
 
 
 
@@ -699,13 +717,19 @@ CGFloat kResizeThumbSize = 45.0f;
 
 - (void)selectCell:(UITableViewCell*)cell {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
     [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
     
     
     SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
-    STXFeedViewController * feedView = [[STXFeedViewController alloc] init];
-    feedView.albumId = [album getId];
+    
+    [[GLSharedCamera sharedInstance] setInFeedMode];
+    
+    [self.navigationController setNavigationBarHidden:YES];
+    
+    GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+    feed.albumId = [album getId];
+    [self.navigationController pushViewController:feed animated:YES];
     
 //    NSMutableArray *leftBtns = [[NSMutableArray alloc] init];
 //    
@@ -719,28 +743,28 @@ CGFloat kResizeThumbSize = 45.0f;
     
 //    UIButton * but = [];
     
-    UIButton * flipCameraButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-65, 10, 60, 60)];
-    UIImage *btnImage = [UIImage imageNamed:@"FlipCameraIcon"];
-    [flipCameraButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
-    [flipCameraButton setImage:btnImage forState:UIControlStateNormal];
-    [self.navigationController.view addSubview:flipCameraButton];
+//    UIButton * flipCameraButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-65, 10, 60, 60)];
+//    UIImage *btnImage = [UIImage imageNamed:@"FlipCameraIcon"];
+//    [flipCameraButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
+//    [flipCameraButton setImage:btnImage forState:UIControlStateNormal];
+//    [self.navigationController.view addSubview:flipCameraButton];
     
     
-    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+//    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
 
 //    [UIView animateWithDuration:0.2 animations:^{
-//        dmut.alpha = 0;
-//        [[[GLSharedCamera sharedInstance] view] setAlpha:0];
+//        
+////        UIColor * color = cell.backgroundColor;
+//        cell.backgroundColor = [UIColor lightGrayColor];
+////
+//        
+////        dmut.alpha = 0;
+////        [[[GLSharedCamera sharedInstance] view] setAlpha:0];
 //    }];
     
     
-    [[GLSharedCamera sharedInstance] setInFeedMode];
     
-    [self.navigationController setNavigationBarHidden:YES];
     
-    GLFeedViewController * feed = [[GLFeedViewController alloc] init];
-    feed.albumId = [album getId];
-    [self.navigationController pushViewController:feed animated:YES];
 //    self.navigationItem.leftBarButtonItem = anotherButton;
 //    [self.navigationController.navigationItem setRightBarButtonItem:anotherButton];
 //    [self.navigationController.navigationItem setRightBarButtonItems:leftBtns animated:NO];
@@ -801,7 +825,7 @@ CGFloat kResizeThumbSize = 45.0f;
     
     
     SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.delegate = self;
 	cell.parentTableView = self.tableView;
 //    

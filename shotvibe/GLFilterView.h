@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <GPUImage/GPUImage.h>
 
+#import "GPUImageFoggyNightFilter.h"
+#import "GPUImageLateSunsetFilter.h"
+#import "GPUImageSoftElegance2Filter.h"
+
 typedef enum {
     GPUIMAGE_NOFILTER,
     GPUIMAGE_SATURATION,
@@ -129,7 +133,10 @@ typedef enum {
     GPUIMAGE_FILECONFIG,
     GPUIMAGE_FILTERGROUP,
     GPUIMAGE_FACES,
-    GPUIMAGE_NUMFILTERS
+    GPUIMAGE_NUMFILTERS,
+    GPUIMAGE_SOFTELEGANCE2,
+    GPUIMAGE_LATESUNSET,
+    GPUIMAGE_FOGGYNIGHT
 } GPUImageShowcaseFilterType;
 
 

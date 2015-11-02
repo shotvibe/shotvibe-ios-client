@@ -12,6 +12,7 @@
 #import "SL/AuthData.h"
 #import "SL/PhoneContactsManager.h"
 #import "PhotoFilesManager.h"
+#import "SVPushNotificationsManager.h"
 
 @interface ShotVibeAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -22,6 +23,7 @@
 @property (strong, nonatomic) SLNetworkStatusManager *networkStatusManager;
 @property (nonatomic, readonly, strong) PhotoFilesManager *photoFilesManager;
 @property (nonatomic, readonly, strong) SLPhoneContactsManager *phoneContactsManager;
+@property (nonatomic, retain) SVPushNotificationsManager *pushNotificationsManager;
 
 @property (copy) void (^ uploadSessionCompletionHandler)(); //stored by handleEventsForBackgroundURLSession for later use
 
