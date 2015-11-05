@@ -40,6 +40,7 @@
 #import "UIImageView+Masking.h"
 #import "SDWebImageManager.h"
 #import "ShotVibeAPITask.h"
+#import "ContainerViewController.h"
 
 @interface SVAddFriendsViewController ()
 
@@ -95,6 +96,9 @@
     
     [super viewWillDisappear:animated];
     [phoneContactsManager_ unsetListener];
+    
+    
+    
 //    [albumManager_ removeAlbumListListenerWithSLAlbumManager_AlbumListListener:self];
     
 }
@@ -108,6 +112,27 @@
     [super viewWillAppear:animated];
     NSLog(@"****** register");
     [phoneContactsManager_ setListenerWithSLPhoneContactsManager_Listener:self];
+    
+//    if(self.showGroupsSegment){
+//        [self.contactsSourceSelector setWidth:100 forSegmentAtIndex:2];
+//        [self.contactsSourceSelector setEnabled:YES forSegmentAtIndex:2];
+//    } else {
+//        [self.contactsSourceSelector setWidth:0.1 forSegmentAtIndex:2];
+//        [self.contactsSourceSelector setEnabled:NO forSegmentAtIndex:2];
+//    }
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+//    [self.tableView reloadInputViews];
+//    [self.tableView reloadSectionIndexTitles];
+//    
+//    [self viewDidLoad];
+    
+    
+//    [self.tableView deselectRowAtIndexPath:0 animated:YES];
+    
 }
 
 
@@ -115,6 +140,11 @@
 - (void)viewDidLoad
 {
     showGroups = NO;
+    self.fromCameraMainScreen = NO;
+    self.friendsFromMainWithPicture = NO;
+    self.showGroupsSegment = NO;
+    self.fromMove = NO;
+    self.indexNumber = 1;
     
     [super viewDidLoad];
     
@@ -246,6 +276,7 @@
         
         
         SLAlbumContents * album = [self getAlbumForIndexPath:indexPath];//[allAlbums objectAtIndex:indexPath.row];
+        cell.albumId = [album getId];
         
 //        NSLog(@"count is : %lu",(unsigned long)[album getLatestPhotos].array.count);
         
@@ -385,11 +416,11 @@
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	
 	UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 26)];
-	v.backgroundColor = [UIColor colorWithRed:0.92 green:0.93 blue:0.94 alpha:1];
+//	v.backgroundColor = [UIColor colorWithRed:0.92 green:0.93 blue:0.94 alpha:1];
 	
 	UILabel *l = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width, 26)];
 	[v addSubview:l];
-	l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
+	l.font = [UIFont fontWithName:@"GothamRounded-Bold" size:18.0];
 	l.textColor = [UIColor grayColor];
 	l.backgroundColor = [UIColor clearColor];
 	
@@ -403,6 +434,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    
+    if(!showGroups){
+    
 	[self.searchBar resignFirstResponder];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 
@@ -443,15 +478,91 @@
     
     
     [self.tableView reloadData];
+    
+    } else {
+        
+        
+        if(self.fromCameraMainScreen){
+        
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"1"
+//                                                            message:@"1"
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"1"
+//                                                  otherButtonTitles:nil];
+//            [alert show];
+            
+            
+            SLAlbumContents * album = [self getAlbumForIndexPath:indexPath];
+            [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
+            [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:0 completion:^{
+                [[ContainerViewController sharedInstance] resetFriendsView];
+                self.fromCameraMainScreen = NO;
+                
+            }];
+//            [self.delegate goToPage:2 andTransitToFeedAt:[al getId] startUploadImidiatly:YES afterMove:NO];
+            
+            
+            
+            
+            
+        } else {
+            
+            
+            SLAlbumContents * album = [self getAlbumForIndexPath:indexPath];
+            
+            
+            [ShotVibeAPITask runTask:self withAction:^id{
+                //
+                        NSMutableArray * arr = [[NSMutableArray alloc] initWithCapacity:1];
+                        [arr addObject:self.photoToMoveId];
+                
+                
+                
+                        [[albumManager_ getShotVibeAPI] albumCopyPhotosWithLong:[album getId] withJavaLangIterable:(id<JavaLangIterable>)arr];
+                
+ 
+                        return nil;
+                    } onTaskComplete:^(id dummy) {
+                
+                        
+//                        for(UIViewController * vc in [[[ContainerViewController sharedInstance] navigationController] childViewControllers]){
+           
+                        [[[ContainerViewController sharedInstance] navigationController] popViewControllerAnimated:NO];
+                         [[GLSharedCamera sharedInstance] setCameraInMain];
+                        
+//                            NSLog(@"%@",[[[ContainerViewController sharedInstance] navigationController] childViewControllers]);
+                        
+//                        }
+                        
+                        [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:[album getId] completion:^{
+                            
+                            [[ContainerViewController sharedInstance] resetFriendsView];
+//                            [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
+                            
+                        }];
+                        
+                    }];
+            
+
+            
+        }
+        
+        
+        
+    }
 }
+
+//-(void)moveImage
 
 
 -(void)openGroupFromMembers {
     NSLog(@"%@",checkedContactsList_);
     
+    __block long long int albumId;
+    __block SLAlbumContents * album;
     
     [ShotVibeAPITask runTask:self withAction:^id{
-        SLAlbumContents * newAlbum = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:@"%$#"];
+        SLAlbumContents * newAlbum = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:@""];
         
         NSMutableArray *memberAddRequests = [[NSMutableArray alloc] init];
         
@@ -464,35 +575,30 @@
         
         NSString *defaultCountryCode = [[[albumManager_ getShotVibeAPI] getAuthData] getDefaultCountryCode];
         
+        albumId = [newAlbum getId];
         [[albumManager_ getShotVibeAPI] albumAddMembersWithLong:[newAlbum getId]
                                                withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:memberAddRequests]
                                                    withNSString:defaultCountryCode];
-//        [[albumManager_ getShotVibeAPI] :cell.photoId withInt:-1];
-        //        [[albumManager_ getShotVibeAPI]postPhotoCommentWithNSString:cell.photoId withNSString:textField.text withLong:milliseconds];
+        album = newAlbum;
         return nil;
     } onTaskComplete:^(id dummy) {
         
-        [UIView animateWithDuration:0.2 animations:^{
-            //                commentsDialog.alpha = 0;
-            
-            
-            
-            
-        } completion:^(BOOL finished) {
-//            [self.delegate goToAlbumId:2];
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-            
-            
-            SVAlbumListViewController *albumlistvc = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
-            [self.delegate goToPage:2];
-            [albumlistvc goToAlbumId:1];
-            
-//            NSLog(@"there was a success in opening the new album the id is:",);
-            
-//            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
-            
+
+        
+        if(self.friendsFromMainWithPicture){
+            albumId = 0;
+        }
+        
+            [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:albumId completion:^{
+                [[ContainerViewController sharedInstance] resetFriendsView];
+                if(self.friendsFromMainWithPicture){
+                    
+                    [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
+                    
+                    self.friendsFromMainWithPicture = NO;
+                }
+            }];
         }];
-    }];
 
 }
 
@@ -540,6 +646,10 @@
     return YES;
 }
 
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
 
 - (BOOL)displayOnlyShotVibeUsers
 {

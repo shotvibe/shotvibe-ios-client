@@ -16,6 +16,7 @@
 #import "IosHTTPLib.h"
 #import "ShotVibeAPITask.h"
 
+#import "GLSharedCamera.h"
 @interface SVRegistrationViewController () < UIAlertViewDelegate >
 
 @property (nonatomic, strong) IBOutlet UIButton *butContinue;
@@ -69,6 +70,12 @@
     else {
         [self didSelectCountryWithName:selectedCountryCode regionCode:selectedCountryCode];
     }
+    
+    ShotVibeAppDelegate * appDelegate = [ShotVibeAppDelegate sharedDelegate];
+    GLSharedCamera * camera = [GLSharedCamera sharedInstance];
+    camera.picYourGroup.alpha = 0;
+    camera.cameraViewBackground.userInteractionEnabled = NO;
+    [appDelegate.window addSubview:camera.cameraViewBackground];
 }
 
 

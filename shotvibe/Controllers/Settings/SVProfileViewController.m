@@ -45,7 +45,10 @@
 	
 	NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 	path = [path stringByAppendingString:@"/avatar.jpg"];
+    
+    
 	self.userPhoto.image = [UIImage imageWithContentsOfFile:path];
+//    self.userPhoto.alpha = 0;
 	
 	
     SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
@@ -78,7 +81,7 @@
                 self.nicknameField.text = [userProfile getMemberNickname];
                 [self.userPhoto setImageWithURL:[NSURL URLWithString:[userProfile getMemberAvatarUrl]]];
                 if (self.shouldPrompt) { // If we're prompting, focus on the name after it has been set
-                    [self.nicknameField becomeFirstResponder];
+//                    [self.nicknameField becomeFirstResponder];
                 }
             }
         });
@@ -103,6 +106,13 @@
     }
     
     self.shouldSave = YES;
+    self.userPhoto.layer.cornerRadius = self.userPhoto.frame.size.width/2;
+    self.userPhoto.layer.masksToBounds = YES;
+    self.userPhoto.clipsToBounds = YES;
+    
+    UIView * borderBottom = [[UIView alloc] initWithFrame:CGRectMake(0, self.nicknameField.frame.size.height-1, self.nicknameField.frame.size.width, 1)];
+    borderBottom.backgroundColor = self.nicknameField.textColor;
+    [self.nicknameField addSubview:borderBottom];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -178,11 +188,44 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    
+    CGRect cameraFrame = [[[GLSharedCamera sharedInstance] cameraViewBackground] frame];
+    
+    NSTimeInterval animationDuration = 0.300000011920929;
+    CGRect frame = self.view.frame;
+    frame.origin.y -= 200;
+    cameraFrame.origin.y -= 125;
+    frame.size.height += 200;
+//    cameraFrame.size.
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    [[[GLSharedCamera sharedInstance] cameraViewBackground] setFrame:cameraFrame];
+    self.userPhoto.transform = CGAffineTransformScale(self.userPhoto.transform, 0.85, 0.85);
+    self.view.frame = frame;
+    [UIView commitAnimations];
+    
 }
 
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    
+    
+    CGRect cameraFrame = [[[GLSharedCamera sharedInstance] cameraViewBackground] frame];
+    
+    NSTimeInterval animationDuration = 0.300000011920929;
+    CGRect frame = self.view.frame;
+    frame.origin.y += 200;
+    cameraFrame.origin.y += 125;
+    frame.size.height -= 200;
+    //    cameraFrame.size.
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    [[[GLSharedCamera sharedInstance] cameraViewBackground] setFrame:cameraFrame];
+    self.userPhoto.transform = CGAffineTransformIdentity;
+    self.view.frame = frame;
+    [UIView commitAnimations];
+    
     if (self.shouldSave) {
 
         [textField resignFirstResponder];

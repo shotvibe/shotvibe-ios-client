@@ -53,6 +53,7 @@
 
 #import "GLFeedViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "ContainerViewController.h"
 //#import "MPMoviePlayerController.h"
 
 CGFloat kResizeThumbSize = 45.0f;
@@ -122,6 +123,7 @@ CGFloat kResizeThumbSize = 45.0f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
  
 //    self.view.la.userInteractionEnabled = YES;
     self.view.backgroundColor = [UIColor whiteColor];
@@ -232,16 +234,30 @@ CGFloat kResizeThumbSize = 45.0f;
 
     
 }
-- (void)goToAlbumId:(long long)num {
+
+-(void)uploadImageAfterTransitionFromFriends {
+
+}
+
+- (void)goToAlbumId:(long long int)num startImidiatly:(BOOL)start addAlbumContents:(SLAlbumContents*)album {
 
 //    SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
-    
-    [[GLSharedCamera sharedInstance] setInFeedMode];
+    [[GLSharedCamera sharedInstance] setCameraInFeed];
+//    [[GLSharedCamera sharedInstance] setInFeedMode:YES dmutNeedTransform:NO];
     
     [self.navigationController setNavigationBarHidden:YES];
     
     GLFeedViewController * feed = [[GLFeedViewController alloc] init];
-    feed.albumId = (long long int)5095;
+    if(album != nil){
+        feed.contentsFromOutside = album;
+    }
+    feed.albumId = num;
+    if(start){
+        feed.startImidiatly = YES;
+    } else {
+        feed.startImidiatly = NO;
+    }
+//    feed.
     [self.navigationController pushViewController:feed animated:YES];
     
     
@@ -338,7 +354,7 @@ CGFloat kResizeThumbSize = 45.0f;
 		tappedCell = nil;
 	}
     if([[GLSharedCamera sharedInstance] isInFeedMode]){
-        [[GLSharedCamera sharedInstance] setInFeedMode];
+        [[GLSharedCamera sharedInstance] setInFeedMode:NO dmutNeedTransform:NO];
     }
     
 }
@@ -353,7 +369,7 @@ CGFloat kResizeThumbSize = 45.0f;
     [self promptNickChange];
     
     
-    [self.refreshControl setFrame:CGRectMake(0, 400, 50, 50)];
+//    [self.refreshControl setFrame:CGRectMake(0, 400, 50, 50)];
     
 }
 
@@ -707,6 +723,19 @@ CGFloat kResizeThumbSize = 45.0f;
 }
 
 
+-(void)transitToAlbumWithId:(long long int)albumId animated:(BOOL)animated dmutScale:(BOOL)scale {
+    
+    if(albumId != 0){
+        [[GLSharedCamera sharedInstance] setCameraInFeed];
+//        [[GLSharedCamera sharedInstance] setInFeedMode:YES dmutNeedTransform:scale];
+        [self.navigationController setNavigationBarHidden:YES];
+        GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+        feed.albumId = albumId;
+        [self.navigationController pushViewController:feed animated:animated];
+        [[ContainerViewController sharedInstance] lockScrolling:YES];
+    }
+}
+
 - (void)libraryButtonTapped:(UITableViewCell *)cell
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
@@ -715,21 +744,59 @@ CGFloat kResizeThumbSize = 45.0f;
     [self performSegueWithIdentifier:@"AlbumsToImagePickerSegue" sender:album];
 }
 
-- (void)selectCell:(UITableViewCell*)cell {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
-    [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+- (void)selectCell:(SVAlbumListViewCell*)cell {
+    
+    self.tableView.userInteractionEnabled = NO;
+    
+    [UIView animateWithDuration:0.2 animations:^{
+       
+//        cell.frontView.backgroundColor = [UIColor lightGrayColor];
+        
+        cell.frontView.backgroundColor = [UIColor blackColor];
+                cell.author.textColor = [UIColor whiteColor];
+                [cell.timestamp setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                cell.title.textColor = [UIColor whiteColor];
+        
+    } completion:^(BOOL finished) {
+        
+        [UIView animateWithDuration:0.2 animations:^{
+           
+//            cell.frontView.backgroundColor = [UIColor whiteColor];
+//            cell.author.textColor = [UIColor blackColor];
+//            [cell.timestamp setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//            cell.title.textColor = [UIColor blackColor];
+            
+        } completion:^(BOOL finished) {
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+            //        [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+            
+            
+            SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+            
+            [self transitToAlbumWithId:[album getId] animated:YES dmutScale:YES];
+            self.tableView.userInteractionEnabled = YES;
+        }];
+        
+        
+        
+    }];
+    
+   
     
     
-    SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
     
-    [[GLSharedCamera sharedInstance] setInFeedMode];
+//    [[ContainerViewController sharedInstance] transitToFriendsList:YES direction:UIPageViewControllerNavigationDirectionForward completion:^{
+//        NSLog(@"DONE");
+//    }];
     
-    [self.navigationController setNavigationBarHidden:YES];
     
-    GLFeedViewController * feed = [[GLFeedViewController alloc] init];
-    feed.albumId = [album getId];
-    [self.navigationController pushViewController:feed animated:YES];
+    
+//    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"YES" forKey:@"lockScroll"];
+//    [[NSNotificationCenter defaultCenter] postNotificationName: @"LockScrollingInContainerPages" object:nil userInfo:userInfo];
+//    [[NSNotificationCenter defaultCenter]
+//     postNotificationName:@"LockScrollingInContainerPages"
+//     object:self];
     
 //    NSMutableArray *leftBtns = [[NSMutableArray alloc] init];
 //    
@@ -800,11 +867,11 @@ CGFloat kResizeThumbSize = 45.0f;
     return 1;
 }
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	self.sectionHeader.frame = CGRectMake(0, 0, 320, ([UIScreen mainScreen].bounds.size.height/3)-20);
+	self.sectionHeader.frame = CGRectMake(0, 0, self.view.frame.size.width, ([UIScreen mainScreen].bounds.size.height/3)-10);
 	return self.sectionHeader;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return ([UIScreen mainScreen].bounds.size.height/3)-20;
+	return ([UIScreen mainScreen].bounds.size.height/3)-10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -886,17 +953,18 @@ CGFloat kResizeThumbSize = 45.0f;
         cell.albumOrgOverlay.hidden = YES;
     }
     
-    if(!((indexPath.row/2)%2)){
+//    if(!((indexPath.row/2)%2)){
         cell.frontView.backgroundColor = [UIColor whiteColor];
+//    cell.frontView setba
         cell.author.textColor = [UIColor blackColor];
         [cell.timestamp setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         cell.title.textColor = [UIColor blackColor];
-    } else {
-        cell.frontView.backgroundColor = [UIColor blackColor];
-        cell.author.textColor = [UIColor whiteColor];
-        [cell.timestamp setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        cell.title.textColor = [UIColor whiteColor];
-    }
+//    } else {
+//        cell.frontView.backgroundColor = [UIColor blackColor];
+//        cell.author.textColor = [UIColor whiteColor];
+//        [cell.timestamp setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        cell.title.textColor = [UIColor whiteColor];
+//    }
     return cell;
 }
 

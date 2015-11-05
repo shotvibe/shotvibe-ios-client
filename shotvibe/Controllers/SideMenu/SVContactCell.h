@@ -16,5 +16,6 @@
 @property (nonatomic, retain) IBOutlet UIImageView *checkmarkImage;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *subtitleLabel;
+@property (nonatomic) long long int albumId;
 
 @end

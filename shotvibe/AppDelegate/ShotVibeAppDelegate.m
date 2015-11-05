@@ -44,8 +44,9 @@
 #import "IosHTTPLib.h"
 #import "IosDevicePhoneContactsLib.h"
 
-//#import "GLSharedCamera.h"
+#import "GLSharedCamera.h"
 #import "ContainerViewController.h"
+#import "GLWelcomeViewController.h"
 
 
 @interface ShotVibeAppDelegate ()
@@ -145,11 +146,13 @@
     BOOL background = application.applicationState == UIApplicationStateBackground;
     NSLog(@"App Start");
 
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
 //    NSThread *testBackgroundThread = [[NSThread alloc] initWithTarget:self selector:@selector(testBackgroundThread:) object:nil];
 //    [testBackgroundThread start];
 
     
-    
+    [GLSharedCamera sharedInstance];
     
     
     [self initSDKs];
@@ -167,7 +170,10 @@
         [self loadAlbumManager:authData];
     }
     
-    
+    [[LNNotificationCenter defaultCenter] registerApplicationWithIdentifier:@"glance_app" name:@"Glance" icon:[UIImage imageNamed:@"CaptureButton"] defaultSettings:LNNotificationDefaultAppSettings];
+//    [[LNNotificationCenter defaultCenter] setNotificationsBannerStyle:LNNotificationBannerStyleLight];
+//    [LNNotificationCenter defaultCenter].notificationsBannerStyle = LNNotificationBannerStyleLight;
+
 
     // The following casts will work because of the way the MainStoryboard is set up.
 
@@ -176,15 +182,19 @@
 //
     [navigationController setNavigationBarHidden:YES];
 //
-    NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error: visibleViewController is not SVRegistrationViewController");
+//    NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error: visibleViewController is not SVRegistrationViewController");
+    
+//    GLWelcomeViewController * welcome = [[GLWelcomeViewController alloc] init];
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
+    GLWelcomeViewController * welcome = [[GLWelcomeViewController alloc] init];
+//    welcome = (GLWelcomeViewController *)navigationController.visibleViewController;
 //
 //
 ////    UIPageViewController * pagesViewController = [[UIPageViewController alloc] init];
 ////    pagesViewController.ch
 //    
 //    // Initialize the sidebar menu
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
 //    SVRegistrationViewController *registrationViewController = [storyboard instantiateViewControllerWithIdentifier:@"SVRegistrationViewController"];
     
 //    self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMembersView"];
@@ -197,8 +207,9 @@
 //    
 //    
 //    self.window.rootViewController = self.sideMenu;
-    
-    ContainerViewController * cont = [[ContainerViewController alloc] init];
+    self.window.backgroundColor = [UIColor whiteColor];
+    ContainerViewController * cont = [ContainerViewController sharedInstance];
+//
     self.window.rootViewController = cont;
 
 //    self.window.rootViewController.wantsFullScreenLayout = YES;
@@ -219,19 +230,26 @@
     [worker initializeLocalSettingsDefaults];
 
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kTutorialShown"]) {
-        TutorialViewController *t = [[TutorialViewController alloc] init];
-        t.onClose = ^(id responseObject) {
+//        TutorialViewController *t = [[TutorialViewController alloc] init];
+//        t.onClose = ^(id responseObject) {
+//            self.window.rootViewController = navigationController;
+//
+//            if (![self isLoggedIn]) {
+////                [self processCountryCode:[UIApplication sharedApplication] registrationViewController:registrationViewController];
+//            } else {
+//                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
+//                [[NSUserDefaults standardUserDefaults] synchronize];
+//            }
+//        };
+
+        
+        welcome.onClose = ^(id response){
+            
+//            [navigationController setNavigationBarHidden:NO animated:YES];
             self.window.rootViewController = navigationController;
-
-            if (![self isLoggedIn]) {
-//                [self processCountryCode:[UIApplication sharedApplication] registrationViewController:registrationViewController];
-            } else {
-                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-            }
         };
-
-        self.window.rootViewController = t;
+        self.window.rootViewController = welcome;
+        
 
         
     } else {
@@ -408,6 +426,7 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
@@ -418,17 +437,20 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 	RCLog(@"applicationDidEnterBackground fin");
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 	// Restart any tasks that were paused (or not yet started) while the application was inactive.
 	// If the application was previously in the background, optionally refresh the user interface.
 	
@@ -438,6 +460,7 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 	
 }
 

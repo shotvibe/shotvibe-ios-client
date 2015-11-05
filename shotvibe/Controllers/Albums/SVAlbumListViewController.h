@@ -36,7 +36,8 @@
 // This function is a temporary hack
 // Returns nil if not an org
 + (NSString *)getAlbumOrg:(SLAlbumBase *)album;
-- (void)goToAlbumId:(long long int)num;
+- (void)transitToAlbumWithId:(long long int)num animated:(BOOL)animated dmutScale:(BOOL)scale;
+- (void)goToAlbumId:(long long int)num startImidiatly:(BOOL)start addAlbumContents:(SLAlbumContents*)album;
 @property (nonatomic, assign) id<AlbumListDelegate> delegate;
 //@property (assign, nonatomic) NSInteger indexNumber;
 

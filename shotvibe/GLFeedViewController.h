@@ -16,5 +16,10 @@
 
 @property(nonatomic) long long int albumId;
 @property (retain, nonatomic) NSMutableArray *posts;
+@property(nonatomic) BOOL startImidiatly;
+@property(nonatomic, retain) SLAlbumContents * contentsFromOutside;
+
+-(void)imageSelected:(UIImage*)image;
+-(void)backPressed;
 
 @end

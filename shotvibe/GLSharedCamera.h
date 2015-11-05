@@ -16,6 +16,7 @@
 #import "GLResizeableView.h"
 #import "GLFilterView.h"
 #import <Photos/Photos.h>
+#import "JTSlideShadowAnimation.h"
 //#import "JPSVolumeButtonHandler.h"
 
 
@@ -65,11 +66,15 @@ typedef enum ScrollDirection {
 - (UIImage *) resizeLabelImage:(UIImage*)image location:(CGPoint)location;
 - (UIImage *)imageByCroppingImage:(UIImage *)image toSize:(CGSize)size;
 - (void)toggleFlash;
--(void)setInFeedMode;
+-(void)setInFeedMode:(BOOL)feed dmutNeedTransform:(BOOL)needTransform;
 -(void)retrievePhotoFromPicker:(UIImage*)image;
 -(void)hideForPicker:(BOOL)no;
 -(void)hideGlCameraView;
 -(void)showGlCameraView;
+
+- (void)setCameraInFeed;
+- (void)setCameraInMain;
+
 
 @property(nonatomic) BOOL flashIsOn;
 @property(nonatomic) BOOL inEditMode;
@@ -94,7 +99,15 @@ typedef enum ScrollDirection {
 
 @property(nonatomic) BOOL isInFeedMode;
 
+
 @property(nonatomic, retain) UIButton * backButton;
 @property(nonatomic, retain) UIButton * membersButton;
+
+@property(nonatomic, retain) UIImage * imageForOutSideUpload;
+
+@property (strong, nonatomic) UIButton *animatedView;
+
+@property (strong, nonatomic) JTSlideShadowAnimation *shadowAnimation;
+@property (strong,nonatomic) UILabel * picYourGroup;
 
 @end

@@ -8,7 +8,8 @@
 
 #import "SVNotificationHandler.h"
 #import "SDWebImageManager.h"
-
+#import "GLFeedViewController.h"
+#import "ContainerViewController.h"
 
 
 
@@ -109,7 +110,8 @@ static void showNotificationBanner(NSString *message)
                                     NSLog(@"test");
                                     
                                     
-                                    
+                                    GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
+                                    self.delegate = glfeed;
                                     [self.delegate commentPushPressed:msg];
                                     
                                 }];
@@ -121,6 +123,60 @@ static void showNotificationBanner(NSString *message)
                         }];
     
     
+    
+    
+}
+
+- (void)HandleWithSLNotificationMessage_PhotoGlanceScoreDelta:(SLNotificationMessage_PhotoGlanceScoreDelta *)msg {
+ 
+    [albumManager_ reportAlbumUpdateWithLong:[msg getAlbumId]];
+    
+    
+    //    showNotificationBanner([msg getCommentAuthorNickname]);
+    
+    //    [msg get]
+    NSString * pushText = @"";
+    NSString * pushTitle = @"";
+    
+    if([msg getScoreDelta] > 0){
+        pushText = [NSString stringWithFormat:@"%@ glanced your image. You just won 3 points to your score. Keep glancing!",[msg getGlanceAuthorNickname]];
+        pushTitle = @"You've got Glanced";
+    } else if([msg getScoreDelta] < 0){
+        pushText = [NSString stringWithFormat:@"%@ unglanced your image. You just lost 3 points to your score. Better glancing next time...",[msg getGlanceAuthorNickname]];
+        pushTitle = @"You've got UnGlanced";
+    }
+    LNNotification* notification = [LNNotification notificationWithMessage:pushText];
+    
+    
+    
+    notification.title = pushTitle;
+    notification.soundName = @"push.mp3";
+    
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    [manager downloadImageWithURL:[NSURL URLWithString:[msg getGlanceAuthorAvatarUrl]]
+                          options:0
+                         progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                             // progression tracking code
+                         }
+                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                            if (image) {
+                                
+                                notification.icon = image;
+                                notification.defaultAction = [LNNotificationAction actionWithTitle:@"Default Action" handler:^(LNNotificationAction *action) {
+                                    //Handle default action
+                                    NSLog(@"test");
+                                    
+                                    
+                                    
+//                                    [self.delegate commentPushPressed:msg];
+                                    
+                                }];
+                                
+                                [[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"glance_app"];
+                                
+                                // do something with image
+                            }
+                        }];
     
     
 }

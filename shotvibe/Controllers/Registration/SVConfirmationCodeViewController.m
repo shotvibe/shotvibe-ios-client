@@ -22,7 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.codeField1 becomeFirstResponder];
+	//[self.codeField1 becomeFirstResponder];
 
     [[Mixpanel sharedInstance] track:@"Activation Screen Viewed"];
 }
@@ -134,6 +134,7 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController setViewControllers:@[rootView, profileController] animated:NO];
         [v removeFromSuperview];
+//        [[[GLSharedCamera sharedInstance] cameraViewBackground] setAlpha:0];
 
     });
 }

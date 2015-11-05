@@ -55,6 +55,7 @@
 
 //#import "ParallaxHeaderView.h"
 #import "GLProfileViewController.h"
+#import "ContainerViewController.h"
 
 @interface GLFeedViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
     
@@ -96,6 +97,7 @@
     
     postsAsSLPhotos = [[NSMutableArray alloc] init];
     self.tableView.scrollsToTop = YES;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 //    [self.tableView setContentInset:UIEdgeInsetsMake(60,0,0,0)];
 //
     
@@ -160,6 +162,19 @@
 //    headerView.headerImage = [UIImage imageNamed:@"HeaderImage"];
 //    
 //    [self.mainTableView setTableHeaderView:headerView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(startUploadFromOutSide:)
+                                                 name:@"ImageCapturedOnMainScreen"
+                                               object:nil];
+
+}
+
+-(void)startUploadFromOutSide:(NSNotification*)not {
+
+
+    NSLog(@"im gone start upload");
+
 
 }
 
@@ -246,8 +261,9 @@
 -(void)imageSelected:(UIImage*)image {
     
     
-    
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    if([self.posts count] > 0){
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
     
     uploadingImage = image;
     // Take as many pictures as you want. Save the path and the thumb and the picture
@@ -298,6 +314,11 @@
                                        withJavaUtilList:[[SLArrayList alloc]
                                                          initWithInitialArray:[NSMutableArray arrayWithObject:photoUploadRequest]]];
                     
+                    if(self.startImidiatly){
+                        self.startImidiatly = NO;
+                        [[GLSharedCamera sharedInstance] setImageForOutSideUpload:nil];
+                    }
+                    
                 }
                 
                 //                }];
@@ -336,6 +357,8 @@
     [super viewDidAppear:animated];
     GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
     glcamera.delegate = self;
+    
+    
     
     // This will be notified when the Dynamic Type user setting changes (from the system Settings app)
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentSizeCategoryChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
@@ -398,6 +421,14 @@
 - (void)setAlbumContents:(SLAlbumContents *)album
 {
     albumContents = album;
+    if(albumContents != nil){
+        GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+        if(glcamera.imageForOutSideUpload){
+            
+            [self imageSelected:glcamera.imageForOutSideUpload];
+            glcamera.imageForOutSideUpload = nil;
+        }
+    }
     
     //    albumContents
     //    SLArrayList * membersList = [albumContents getMembers];
@@ -595,13 +626,13 @@
         NSLog(@"aaa");
         [cell.profileImageView setImage:[UIImage imageNamed:@"CaptureButton"]];
         
-        cell.userName.text = @"Uploading";
+        cell.userName.text = [NSString stringWithFormat:@"Uploading - %.f%% ",[[photo getUploadingPhoto] getUploadProgress] * 100];//@"Uploading";
         cell.postedTime.text = @"now";
 
         [cell.postImage setImage:uploadingImage];
-        [UIView animateWithDuration:0.5 animations:^{
-            cell.postImage.alpha = [[photo getUploadingPhoto] getUploadProgress];
-        }];
+//        [UIView animateWithDuration:0.5 animations:^{
+//            cell.postImage.alpha = [[photo getUploadingPhoto] getUploadProgress];
+//        }];
         
         
         
@@ -616,6 +647,9 @@
         
         
         cell.glancesIcon.tag = indexPath.row;
+        
+        [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
+        cell.postForwardButton.tag = indexPath.row;
         
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
         singleTap.numberOfTapsRequired = 1;
@@ -653,26 +687,33 @@
 //        if(indexPath.row > 0 && uploadingImage == nil){
         
         
-        UIImage * tempImage;
-        if(indexPath.row ==0){
-            if(!uploadingImage){
-                tempImage = [UIImage imageNamed:@"postIsUploadingPh"];
-            } else {
-                tempImage = [uploadingImage copy];
-                uploadingImage = nil;
-            }
-            
-            
-        } else{
-            tempImage = [UIImage imageNamed:@"postIsUploadingPh"];
-        }
-            [cell.postImage sd_setImageWithURL:[NSURL URLWithString:[[[[tempDict objectAtIndex:0] objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]]
-                              placeholderImage:tempImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                  [UIView animateWithDuration:0.2 animations:^{
-                                      cell.postImage.alpha = 1;
-                                  }];
-                              }];
+//        UIImage * tempImage;
+//        if(indexPath.row ==0){
+//            if(!uploadingImage){
+//                tempImage = [UIImage imageNamed:@"postIsUploadingPh"];
+//            } else {
+//                tempImage = [uploadingImage copy];
+////                uploadingImage = nil;
+//            }
+//            
+//            
+//        } else{
+//            tempImage = [UIImage imageNamed:@"postIsUploadingPh"];
 //        }
+//            [cell.postImage sd_setImageWithURL:[NSURL URLWithString:[[[[tempDict objectAtIndex:0] objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]]
+//                              placeholderImage:uploadingImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                                  [UIView animateWithDuration:0.2 animations:^{
+//                                      cell.postImage.alpha = 1;
+//                                  }];
+//                              }];
+        
+        
+//        }
+        
+        SLAlbumPhoto * photo = [tempDict objectAtIndex:1];
+        [cell.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
+        
+//        [cell.postImage setPhoto:<#(NSString *)#> photoUrl: objectForKey:@"url"]] photoSize:[PhotoSize FeedSize] manager:albumManager_]
     
 //        }
     
@@ -692,7 +733,8 @@
     
     cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
 
-    
+    [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
+    cell.postForwardButton.tag = indexPath.row;
     
     cell.glancesIcon.tag = indexPath.row;
     
@@ -804,46 +846,46 @@
 
 -(void)doSingleTap:(UITapGestureRecognizer*)gest {
 
-    GLProfileViewController * st = [[GLProfileViewController alloc] init];
-    [self.navigationController pushViewController:st animated:YES];
+//    GLProfileViewController * st = [[GLProfileViewController alloc] init];
+//    [self.navigationController pushViewController:st animated:YES];
     
-//    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:gest.view.tag inSection:0]];
-//    
-//    
-//    [ShotVibeAPITask runTask:self withAction:^id{
-//        [[albumManager_ getShotVibeAPI] setPhotoMyGlanceScoreDeltaWithNSString:cell.photoId withInt:1];
-////        [[albumManager_ getShotVibeAPI]postPhotoCommentWithNSString:cell.photoId withNSString:textField.text withLong:milliseconds];
-//        return nil;
-//    } onTaskComplete:^(id dummy) {
-//        
-//        [UIView animateWithDuration:0.2 animations:^{
-//            //                commentsDialog.alpha = 0;
-//            
-//        
-//            
-//            
-//        } completion:^(BOOL finished) {
-//            
-//            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
-//    
-//        }];
-//    }];
-//
-//    
-//    [UIView animateWithDuration:0.2 animations:^{
-//        cell.glancesIcon.transform = CGAffineTransformScale(cell.glancesIcon.transform, 1.5, 1.5);
-//    } completion:^(BOOL finished) {
-//        [UIView animateWithDuration:0.2 animations:^{
-//            cell.glancesIcon.transform = CGAffineTransformIdentity;
-//        } completion:^(BOOL finished) {
-//            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconGlanced"];
-//            CATransition *transition = [CATransition animation];
-//            transition.duration = 0.3f;
-//            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//            transition.type = kCATransitionFromRight;
-//            [cell.glancesIcon.layer addAnimation:transition forKey:nil];
-//        }];
-//    }];
+    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:gest.view.tag inSection:0]];
+    
+    
+    [ShotVibeAPITask runTask:self withAction:^id{
+        [[albumManager_ getShotVibeAPI] setPhotoMyGlanceScoreDeltaWithNSString:cell.photoId withInt:1];
+//        [[albumManager_ getShotVibeAPI]postPhotoCommentWithNSString:cell.photoId withNSString:textField.text withLong:milliseconds];
+        return nil;
+    } onTaskComplete:^(id dummy) {
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            //                commentsDialog.alpha = 0;
+            
+        
+            
+            
+        } completion:^(BOOL finished) {
+            
+            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+    
+        }];
+    }];
+
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        cell.glancesIcon.transform = CGAffineTransformScale(cell.glancesIcon.transform, 1.5, 1.5);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 animations:^{
+            cell.glancesIcon.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconGlanced"];
+            CATransition *transition = [CATransition animation];
+            transition.duration = 0.3f;
+            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+            transition.type = kCATransitionFromRight;
+            [cell.glancesIcon.layer addAnimation:transition forKey:nil];
+        }];
+    }];
     
     
 }
@@ -898,13 +940,98 @@
 
 }
 
+
+-(void)sharePostPressed:(UIButton*)sender {
+    
+
+    
+//    [self backPressed];
+    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
+
+//    [self.navigationController popViewControllerAnimated:YES];
+    
+//    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:cell.photoId forKey:@"photoToMoveId"];
+//    [[NSNotificationCenter defaultCenter] postNotificationName: @"ImageJustMoved" object:nil userInfo:userInfo];
+
+//
+    
+    [[ContainerViewController sharedInstance] setFriendsForMove:cell.photoId];
+    [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionForward completion:^{
+        
+    }];
+    
+//    SVAddFriendsViewController * addFriendsVc =  [[SVAddFriendsViewController alloc] init];
+//    addFriendsVc.fromCameraMainScreen = NO;
+//    [self presentViewController:addFriendsVc animated:YES completion:^{
+//        
+//    }];
+    
+    
+//    addFriendsVc.show
+    
+//    [ShotVibeAPITask runTask:self withAction:^id{
+//        
+//        NSMutableArray * arr = [[NSMutableArray alloc] initWithCapacity:1];
+//        [arr addObject:cell.photoId];
+//        
+//        
+//        
+//        [[albumManager_ getShotVibeAPI] albumCopyPhotosWithLong:(long long int)5130 withJavaLangIterable:(id<JavaLangIterable>)arr];
+//        
+////        [[albumManager_ getShotVibeAPI]postPhotoCommentWithNSString:cell.photoId withNSString:textField.text withLong:milliseconds];
+//        return nil;
+//    } onTaskComplete:^(id dummy) {
+//        
+//        [UIView animateWithDuration:0.2 animations:^{
+//            //                commentsDialog.alpha = 0;
+//            
+//            cell.glancesIcon.alpha = 1;
+//            cell.commentTextField.text = @"";
+//            cell.commentTextField.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+10,cell.glancesCounter.frame.origin.y+2, 0,35);
+//            
+//            cell.glancesCounter.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width, 26, 45, 35);
+//            
+//            
+//        } completion:^(BOOL finished) {
+//            
+//            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+//            [self.tableView setUserInteractionEnabled:YES];
+//            //                textField.text = @"";
+//        }];
+//    }];
+    
+    
+    
+//    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
+//    
+//    NSMutableArray *activityItems = [NSMutableArray array];
+//    //    if (image)
+//            [activityItems addObject:cell.postImage.image];
+//    //    if (text)
+////    [activityItems addObject:@"test"];
+//    //    if (url)
+//    //        [activityItems addObject:url];
+//    
+//    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+//    [self presentViewController:activityViewController animated:YES completion:nil];
+//    //    [self.de]
+//    
+}
+
 - (void)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated {
     
 }
 
 -(void)backPressed {
     
+//    self.de
+//    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"NO" forKey:@"lockScroll"];
+//    [[NSNotificationCenter defaultCenter] postNotificationName: @"LockScrollingInContainerPages" object:nil userInfo:userInfo];
+
+    [[ContainerViewController sharedInstance] lockScrolling:NO];
+    
     if(membersOpened){
+        
         
          membersOpened = !membersOpened;
         
@@ -913,11 +1040,12 @@
         }];
     
     }
-    
-    [UIView animateWithDuration:0.2 animations:^{
-        [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
-        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
-    }];
+
+    [[GLSharedCamera sharedInstance] setCameraInMain];
+//    [UIView animateWithDuration:0.2 animations:^{
+//        [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
+//        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
+//    }];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -1014,7 +1142,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [[UIScreen mainScreen] bounds].size.height*0.88;
+    return [[UIScreen mainScreen] bounds].size.height*0.90;
 }
 
 /*

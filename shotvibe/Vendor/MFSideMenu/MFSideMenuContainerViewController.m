@@ -143,6 +143,7 @@ typedef enum {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.indexNumber = 2;
     [self setupMenuContainerView];
 }
 

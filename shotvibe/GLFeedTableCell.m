@@ -31,7 +31,7 @@
     
     [self addSubview:self.postedTime];
     
-    self.postImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 80, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
+    self.postImage = [[PhotoView alloc] initWithFrame:CGRectMake(0, 89, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
     self.postedTime.contentMode = UIViewContentModeScaleAspectFit;
     self.postImage.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.postImage];
@@ -70,6 +70,7 @@
     [self.postForwardButton setBackgroundImage:[UIImage imageNamed:@"feedMoveImageIcon"] forState:UIControlStateNormal];
     
     
+    
     self.commentTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.addCommentButton.frame.origin.x+self.addCommentButton.frame.size.width+10,self.glancesCounter.frame.origin.y+2, 0,35)];
     self.commentTextField.borderStyle = UITextBorderStyleRoundedRect;
     self.commentTextField.font = [UIFont systemFontOfSize:15];
@@ -82,7 +83,7 @@
     
     self.commentTextField.keyboardAppearance = UIKeyboardAppearanceDark;
     
-    self.postImage.alpha = 0;
+    self.postImage.alpha = 1;
     
     [self.postPannelWrapper addSubview:self.commentScrollBgView];
     [self addSubview:self.postPannelWrapper];
@@ -94,6 +95,8 @@
     [self.postPannelWrapper addSubview:self.glancesIcon];
 
 }
+
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

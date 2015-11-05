@@ -34,7 +34,7 @@
 //    NSMutableArray *viewControllers;
     int currentIndex;
     int _curIndex;
-    SVNavigationController *navigationController;
+//    SVNavigationController *navigationController;
     SVAddFriendsViewController * freindsVc;
     ScrollDirection initialScrollDirection;
     int numberOfPixelsMoved;
@@ -42,8 +42,27 @@
     SVAlbumListViewController * albumlistvc;
 }
 
+static ContainerViewController *sharedInstance;
+
++ (ContainerViewController *)sharedInstance
+{
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedInstance = [[ContainerViewController alloc] initWithNibName:@"ContainerViewController" bundle:nil];
+    });
+    return sharedInstance;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    
+    
+    if(sharedInstance) {
+        // avoid creating more than one instance
+//        [NSException raise:@"bug" format:@"tried to create more than one instance"];
+        return self;
+    }
+    
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -51,42 +70,104 @@
     return self;
 }
 
+
+- (void)startUploadAfterSourceSelect:(long long int)albumId withAlbumContents:(SLAlbumContents*)album {
+    [albumlistvc goToAlbumId:albumId startImidiatly:YES addAlbumContents:album];
+}
+
+- (void)setFriendsForMove:(NSString*)photoId {
+    if(photoId != nil){
+        freindsVc.photoToMoveId = photoId;
+    }
+    freindsVc.fromMove = YES;
+}
+
+- (void)setFriendsFromMain {
+    freindsVc.fromCameraMainScreen = YES;
+}
+
 - (BOOL)shouldAutorotate
 {
     return NO;
 }
-
--(void)membersPressed {
-
-    NSLog(@"test");
+-(void)resetFriendsView {
     
-    membersOpened = !membersOpened;
-    
-    [navigationController.menuContainerViewController toggleRightSideMenuCompletion:^{
-        
-    }];
-    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+    freindsVc = nil;
+    freindsVc = [storyboard instantiateViewControllerWithIdentifier:@"InviteFriendsView"];
+    freindsVc.delegate = self;
 }
--(void)backPressed {
 
-    if(membersOpened){
-        
-        membersOpened = !membersOpened;
-        
-        [navigationController.menuContainerViewController toggleRightSideMenuCompletion:^{
-            
-        }];
+-(void)setFriendsFromMainWithPicture {
+    freindsVc.friendsFromMainWithPicture = YES;
+}
+
+- (void)transitToAlbumList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction withAlbumId:(long long int)albumId completion:(pageTransitionCompleted)completion {
+
+    
+    if(albumId != 0){
+//        albumlistvc.did
+//        if(albumId == -1){
+//            [self.navigationController popViewControllerAnimated:NO];
+//        } else {
+            [albumlistvc transitToAlbumWithId:albumId animated:NO dmutScale:NO];
+//        }
         
     }
     
-    [UIView animateWithDuration:0.2 animations:^{
-        [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
-        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
-    }];
+                [self.pageController setViewControllers:@[self.sideMenu]
+                                              direction:direction
+                                               animated:animated
+                                             completion:^(BOOL done){
+                                                 completion();
+                                             }];
     
-    [navigationController popViewControllerAnimated:YES];
-
 }
+
+- (void)transitToFriendsList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction completion:(pageTransitionCompleted)completion {
+    
+    
+    [self.pageController setViewControllers:@[freindsVc]
+                                  direction:direction
+                                   animated:animated
+                                 completion:^(BOOL done){
+                                     completion();
+                                 }];
+   
+    
+}
+
+//-(void)membersPressed {
+//
+//    NSLog(@"test");
+//    
+//    membersOpened = !membersOpened;
+//    
+//    [navigationController.menuContainerViewController toggleRightSideMenuCompletion:^{
+//        
+//    }];
+//    
+//}
+//-(void)backPressed {
+//
+//    if(membersOpened){
+//        
+//        membersOpened = !membersOpened;
+//        
+//        [navigationController.menuContainerViewController toggleRightSideMenuCompletion:^{
+//            
+//        }];
+//        
+//    }
+//    
+//    [UIView animateWithDuration:0.2 animations:^{
+//        [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
+//        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
+//    }];
+//    [self lockScrolling:NO];
+//    [navigationController popViewControllerAnimated:YES];
+//
+//}
 
 - (void)viewDidLoad
 {
@@ -99,11 +180,12 @@
     albumlistvc = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
 //    albumlistvc.delegate = self;
     
-    navigationController = [[SVNavigationController alloc] initWithRootViewController:albumlistvc];
-    [navigationController.view addSubview:[[GLSharedCamera sharedInstance] cameraViewBackground]];
+    self.navigationController = [[SVNavigationController alloc] initWithRootViewController:albumlistvc];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController.view addSubview:[[GLSharedCamera sharedInstance] cameraViewBackground]];
     self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMembersView"];
     self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
-    self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
+    self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:self.navigationController
                                                                   leftMenuViewController:nil
                                                                  rightMenuViewController:self.sidebarRight];
     self.sideMenu.panMode = MFSideMenuPanModeNone;
@@ -118,7 +200,7 @@
     self.pageController.dataSource = self;
     [[self.pageController view] setFrame:[[self view] bounds]];
     
-    SVAddFriendsViewController *viewControllerObject = (SVAddFriendsViewController*)[self viewControllerAtIndex:0];
+    SVAddFriendsViewController *viewControllerObject = (SVAddFriendsViewController*)[self viewControllerAtIndex:1];
     
     NSArray *viewControllers = [NSArray arrayWithObject:viewControllerObject];
     
@@ -128,7 +210,25 @@
     [[self view] addSubview:[self.pageController view]];
     [self.pageController didMoveToParentViewController:self];
     
-    [self gotoPage:2];
+    
+    
+    
+//    [self gotoPage:2];
+    [self transitToAlbumList:NO direction:UIPageViewControllerNavigationDirectionReverse withAlbumId:0 completion:^{
+        
+    }];
+    
+//    
+//    for (UIView *view in self.pageController.view.subviews ) {
+//        if ([view isKindOfClass:[UIScrollView class]]) {
+//            UIScrollView *scroll = (UIScrollView *)view;
+//            //                    scroll.delegate = self;
+////                                scroll.pagingEnabled = YES;
+////            scroll.scrollEnabled = !lock;
+////                                scroll.alwaysBounceHorizontal = NO;
+////                                scroll.bounces = NO;
+//        }
+//    }
     
 //    numberOfPixelsMoved = 0;
 //    membersOpened = NO;
@@ -205,6 +305,73 @@
 //    self.bluredImageView.alpha = 0.0f;
     
 //    [[[GLSharedCamera sharedInstance] cameraViewBackground]addSubview:self.bluredImageView];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(LockScrollingInContainerPages:)
+//                                                 name:@"LockScrollingInContainerPages"
+//                                               object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(ImageCapturedOnMainScreen:)
+//                                                 name:@"ImageCapturedOnMainScreen"
+//                                               object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(ImageJustMoved:)
+//                                                 name:@"ImageJustMoved"
+//                                               object:nil];
+}
+
+- (void) ImageJustMoved:(NSNotification *) notification
+{
+    if ([[notification name] isEqualToString:@"ImageJustMoved"]){
+
+        
+        NSDictionary *userInfo = notification.userInfo;
+        NSString * photoToMoveId = [userInfo objectForKey:@"photoToMoveId"];
+        //        UIImage *finalImage = [userInfo objectForKey:@"finalImage"];
+        
+        [self gotoPage:1];
+        freindsVc.fromCameraMainScreen = NO;
+        freindsVc.photoToMoveId = photoToMoveId;
+//        self goToPage:1 andTransitToFeedAt:nil startUploadImidiatly:<#(BOOL)#>
+        
+    }
+    
+}
+
+- (void) ImageCapturedOnMainScreen:(NSNotification *) notification
+{
+    if ([[notification name] isEqualToString:@"ImageCapturedOnMainScreen"]){
+        
+        
+        
+//        UIStoryboard * sb = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+//        SVAddFriendsViewController * friendsvc = [sb instantiateViewControllerWithIdentifier:@"InviteFriendsView"];
+
+        [self gotoPage:1];
+        
+//        NSDictionary *userInfo = notification.userInfo;
+//        UIImage *finalImage = [userInfo objectForKey:@"finalImage"];
+//        NSLog(@"");
+//        [self presentViewController:friendsvc animated:YES completion:^{
+//            
+//        }];
+//        [];
+//        [self lockScrolling:[lock boolValue]];
+//        NSLog (@"Successfully received the test notification!");
+    }
+}
+
+- (void) LockScrollingInContainerPages:(NSNotification *) notification
+{
+    if ([[notification name] isEqualToString:@"LockScrollingInContainerPages"]){
+        
+        NSDictionary *userInfo = notification.userInfo;
+        NSString *lock = [userInfo objectForKey:@"lockScroll"];
+        [self lockScrolling:[lock boolValue]];
+        NSLog (@"Successfully received the test notification!");
+    }
 }
 
 - (void)pageViewController:(UIPageViewController *)pvc didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
@@ -230,9 +397,16 @@
 #pragma  - UIPageViewController Methods
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     
+//    if([viewController isKindOfClass:[SVAddFriendsViewController class]]){
+//        return nil;
+//    }
+//    
+//    if([viewController isKindOfClass:[MFSideMenuContainerViewController class]]){
+//        return freindsVc;
+//    }
     NSUInteger index = [(ViewController *)viewController indexNumber];
     
-    if (index == 0) {
+    if (index == 0 || index == 1) {
         return nil;
     }
     
@@ -249,7 +423,7 @@
     
     index++;
     
-    if (index == 2) {
+    if (index == 3) {
         return nil;
     }
     
@@ -261,14 +435,16 @@
     
     
     if(index == 0){
-        freindsVc.indexNumber = index;
-        return (SVAddFriendsViewController*)freindsVc;
-    } else if(index == 1 || index == 2){
-    
-        self.sideMenu.indexNumber = 1;
+//        freindsVc.indexNumber = index;
+        
+    } else if(index == 1){
+        return freindsVc;
+//        self.sideMenu.indexNumber = 1;
 //        childViewController.indexNumber = index;
         
-        return self.sideMenu;
+//        return self.sideMenu;
+    } else if(index == 2){
+        return  self.sideMenu;
     }
     
     
@@ -322,6 +498,12 @@
 
 -(void)gotoPage:(int)index{
     
+//    self.st
+    
+    if(index == 2){
+        _curIndex = 1;
+        
+    }
     
     MFSideMenuContainerViewController *viewController = (MFSideMenuContainerViewController*)[self viewControllerAtIndex:index];
     
@@ -360,9 +542,14 @@
         for (int i = _curIndex; i >= index; i--)
         {
             if (i == index) {
+                
+                SVAddFriendsViewController *viewController = (SVAddFriendsViewController*)[self viewControllerAtIndex:0];
+                viewController.fromCameraMainScreen = YES;
+//                viewController.
+                
                 [self.pageController setViewControllers:@[viewController]
-                                                  direction:direction
-                                                   animated:YES
+                                                  direction:UIPageViewControllerNavigationDirectionForward
+                                                   animated:NO
                                                  completion:nil];
             }
             else
@@ -400,9 +587,38 @@
 //    [albumlistvc goToAlbumId:1];
 //}
 
+-(void)lockScrolling:(BOOL)lock {
+    
+    for (UIView *view in self.pageController.view.subviews ) {
+                if ([view isKindOfClass:[UIScrollView class]]) {
+                    UIScrollView *scroll = (UIScrollView *)view;
+//                    scroll.delegate = self;
+//                    scroll.pagingEnabled = YES;
+                    scroll.scrollEnabled = !lock;
+//                    scroll.alwaysBounceHorizontal = !lock;
+//                    scroll.bounces = !lock;
+                }
+            }
+}
+
+- (void)goToPage:(int)num andTransitToFeedAt:(long long int)albumId startUploadImidiatly:(BOOL)start afterMove:(BOOL)afterMove{
+
+//    GLFeedViewController * feed = [[self.sideMenu.navigationController.childViewControllers objectAtIndex:0] backPressed];
+    
+    [self gotoPage:num];
+    [albumlistvc goToAlbumId:albumId startImidiatly:start addAlbumContents:nil];
+    [self lockScrolling:YES];
+    
+    if(afterMove){
+        [[GLSharedCamera sharedInstance]setInFeedMode:YES dmutNeedTransform:NO];
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+    
+    
+}
 
 - (void)goToPage:(int)num {
-    [self gotoPage:2];
+        [self gotoPage:num];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
