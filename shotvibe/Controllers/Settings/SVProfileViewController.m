@@ -145,9 +145,8 @@
 //        
 //    }];
     ContainerViewController * container = [[ContainerViewController alloc] init];
-    [self presentViewController:container animated:YES completion:^{
-        
-    }];
+    [self.navigationController pushViewController:container animated:YES];
+//    [self presentViewController:container animated:YES completion:^{}];
 //    [self.navigationController popViewControllerAnimated:YES];
     
 

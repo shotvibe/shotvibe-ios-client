@@ -54,6 +54,7 @@
 #import "GLFeedViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "ContainerViewController.h"
+#import "Common.h"
 //#import "MPMoviePlayerController.h"
 
 CGFloat kResizeThumbSize = 45.0f;
@@ -99,6 +100,13 @@ CGFloat kResizeThumbSize = 45.0f;
 
 @property (nonatomic, strong) UINavigationController *pickerController;
 
+@property (nonatomic, strong) UIView *refreshLoadingView;
+@property (nonatomic, strong) UIView *refreshColorView;
+@property (nonatomic, strong) UIImageView *compass_background;
+@property (nonatomic, strong) UIImageView *compass_spinner;
+@property (assign) BOOL isRefreshIconsOverlap;
+@property (assign) BOOL isRefreshAnimating;
+
 - (IBAction)newAlbumPressed:(id)sender;
 - (IBAction)newAlbumClosed:(id)sender;
 - (IBAction)newAlbumDone:(id)sender;
@@ -128,6 +136,7 @@ CGFloat kResizeThumbSize = 45.0f;
 //    self.view.la.userInteractionEnabled = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     cameraShown = NO;
+    self.tableView.delegate = self;
     
 
     photoFilesManager_ = [ShotVibeAppDelegate sharedDelegate].photoFilesManager;
@@ -183,14 +192,43 @@ CGFloat kResizeThumbSize = 45.0f;
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     
+    
+    // Setup the loading view, which will hold the moving graphics
+    self.refreshLoadingView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
+    self.refreshLoadingView.backgroundColor = [UIColor clearColor];
+    
+    // Setup the color view, which will display the rainbowed background
+    self.refreshColorView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
+    self.refreshColorView.backgroundColor = [UIColor clearColor];
+    self.refreshColorView.alpha = 0.30;
+    
+    // Create the graphic image views
+    self.compass_background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"compass_background.png"]];
+    self.compass_spinner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"compass_spinner.png"]];
+    
+    // Add the graphics to the loading view
+    [self.refreshLoadingView addSubview:self.compass_background];
+    [self.refreshLoadingView addSubview:self.compass_spinner];
+    
+    // Clip so the graphics don't stick out
+    self.refreshLoadingView.clipsToBounds = YES;
+    
+    // Hide the original spinner icon
+    self.refreshControl.tintColor = [UIColor clearColor];
+    
+    // Add the loading and colors views to our refresh control
+    [self.refreshControl addSubview:self.refreshColorView];
+    [self.refreshControl addSubview:self.refreshLoadingView];
+    
+    // Initalize flags
+    self.isRefreshIconsOverlap = NO;
+    self.isRefreshAnimating = NO;
+    
 //    [refreshWrapper addSubview:self.refreshControl];
 //    [self.view addSubview:refreshWrapper];
     
-//    self.refreshControl.bounds = CGRectMake(self.refreshControl.bounds.origin.x,
-//                                       550,
-//                                       self.refreshControl.bounds.size.width,
-//                                       self.refreshControl.bounds.size.height);
-//    
+    
+//
     if (!IS_IOS7) {
         self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     }
@@ -234,6 +272,123 @@ CGFloat kResizeThumbSize = 45.0f;
 
     
 }
+
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
+
+    // Get the current size of the refresh controller
+    CGRect refreshBounds = self.refreshControl.bounds;
+    
+    // Distance the table has been pulled >= 0
+    CGFloat pullDistance = MAX(0.0, -self.refreshControl.frame.origin.y);
+    
+    // Half the width of the table
+    CGFloat midX = self.tableView.frame.size.width / 2.0;
+    
+    // Calculate the width and height of our graphics
+    CGFloat compassHeight = self.compass_background.bounds.size.height;
+    CGFloat compassHeightHalf = compassHeight / 2.0;
+    
+    CGFloat compassWidth = self.compass_background.bounds.size.width;
+    CGFloat compassWidthHalf = compassWidth / 2.0;
+    
+    CGFloat spinnerHeight = self.compass_spinner.bounds.size.height;
+    CGFloat spinnerHeightHalf = spinnerHeight / 2.0;
+    
+    CGFloat spinnerWidth = self.compass_spinner.bounds.size.width;
+    CGFloat spinnerWidthHalf = spinnerWidth / 2.0;
+    
+    // Calculate the pull ratio, between 0.0-1.0
+    CGFloat pullRatio = MIN( MAX(pullDistance, 0.0), 100.0) / 100.0;
+    
+    // Set the Y coord of the graphics, based on pull distance
+    CGFloat compassY = pullDistance / 2.0 - compassHeightHalf;
+    CGFloat spinnerY = pullDistance / 2.0 - spinnerHeightHalf;
+    
+    // Calculate the X coord of the graphics, adjust based on pull ratio
+    CGFloat compassX = (midX + compassWidthHalf) - (compassWidth * pullRatio);
+    CGFloat spinnerX = (midX - spinnerWidth - spinnerWidthHalf) + (spinnerWidth * pullRatio);
+    
+    // When the compass and spinner overlap, keep them together
+    if (fabsf(compassX - spinnerX) < 1.0) {
+        self.isRefreshIconsOverlap = YES;
+    }
+    
+    // If the graphics have overlapped or we are refreshing, keep them together
+    if (self.isRefreshIconsOverlap || self.refreshControl.isRefreshing) {
+        compassX = midX - compassWidthHalf;
+        spinnerX = midX - spinnerWidthHalf;
+    }
+    
+    // Set the graphic's frames
+    CGRect compassFrame = self.compass_background.frame;
+    compassFrame.origin.x = compassX;
+    compassFrame.origin.y = compassY;
+    
+    CGRect spinnerFrame = self.compass_spinner.frame;
+    spinnerFrame.origin.x = spinnerX;
+    spinnerFrame.origin.y = spinnerY;
+    
+    self.compass_background.frame = compassFrame;
+    self.compass_spinner.frame = spinnerFrame;
+    
+    // Set the encompassing view's frames
+    refreshBounds.size.height = pullDistance;
+    
+    self.refreshColorView.frame = refreshBounds;
+    self.refreshLoadingView.frame = refreshBounds;
+    
+    // If we're refreshing and the animation is not playing, then play the animation
+    if (self.refreshControl.isRefreshing && !self.isRefreshAnimating) {
+        [self animateRefreshView];
+    }
+    
+    DLog(@"pullDistance: %.1f, pullRatio: %.1f, midX: %.1f, isRefreshing: %i", pullDistance, pullRatio, midX, self.refreshControl.isRefreshing);
+}
+
+
+
+- (void)animateRefreshView
+{
+    // Background color to loop through for our color view
+    NSArray *colorArray = @[[UIColor redColor],[UIColor blueColor],[UIColor purpleColor],[UIColor cyanColor],[UIColor orangeColor],[UIColor magentaColor]];
+    static int colorIndex = 0;
+    
+    // Flag that we are animating
+    self.isRefreshAnimating = YES;
+    
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         // Rotate the spinner by M_PI_2 = PI/2 = 90 degrees
+                         [self.compass_spinner setTransform:CGAffineTransformRotate(self.compass_spinner.transform, M_PI_2)];
+                         
+                         // Change the background color
+                         self.refreshColorView.backgroundColor = [colorArray objectAtIndex:colorIndex];
+                         colorIndex = (colorIndex + 1) % colorArray.count;
+                     }
+                     completion:^(BOOL finished) {
+                         // If still refreshing, keep spinning, else reset
+                         if (self.refreshControl.isRefreshing) {
+                             [self animateRefreshView];
+                         }else{
+                             [self resetAnimation];
+                         }
+                     }];
+}
+
+- (void)resetAnimation
+{
+    // Reset our flags and background color
+    self.isRefreshAnimating = NO;
+    self.isRefreshIconsOverlap = NO;
+    self.refreshColorView.backgroundColor = [UIColor clearColor];
+}
+
+
+
 
 -(void)uploadImageAfterTransitionFromFriends {
 
@@ -345,7 +500,20 @@ CGFloat kResizeThumbSize = 45.0f;
 
 - (void)viewWillAppear:(BOOL)animated {
 	
-	[super viewWillAppear:animated];
+//    [[[GLSharedCamera sharedInstance]cameraViewBackground]setAlpha:0];
+    [super viewWillAppear:animated];
+    
+    UIImageView * background = [[UIImageView alloc] initWithFrame:CGRectMake(0, 202, self.view.frame.size.width, 130)];
+    background.image = [UIImage imageNamed:@"refrehBg"];
+    self.tableView.backgroundColor = [UIColor clearColor];
+    [self.refreshControl addSubview:background];
+//    [self.view bringSubviewToFront:self.tableView];
+//    [[self.refreshControl.subviews objectAtIndex:0] setFrame:CGRectMake(30, 400, 20, 50)];
+//    self.refreshControl.bounds = CGRectMake(self.refreshControl.bounds.origin.x,
+//                                            802,
+//                                            self.refreshControl.bounds.size.width,
+//                                            self.refreshControl.bounds.size.height);
+	
     [albumManager_ refreshAlbumListWithBoolean:NO];
 
 	// Update the cell that was last tapped and maybe edited
@@ -356,6 +524,10 @@ CGFloat kResizeThumbSize = 45.0f;
     if([[GLSharedCamera sharedInstance] isInFeedMode]){
         [[GLSharedCamera sharedInstance] setInFeedMode:NO dmutNeedTransform:NO];
     }
+    GLSharedCamera * camera = [GLSharedCamera sharedInstance];
+    camera.picYourGroup.alpha = 1;
+    camera.cameraViewBackground.userInteractionEnabled = YES;
+    camera.delegate = [ContainerViewController sharedInstance];
     
 }
 
@@ -367,7 +539,7 @@ CGFloat kResizeThumbSize = 45.0f;
 	cameraNavController = nil;
 
     [self promptNickChange];
-    
+    [albumManager_ refreshAlbumListWithBoolean:NO];
     
 //    [self.refreshControl setFrame:CGRectMake(0, 400, 50, 50)];
     
@@ -405,9 +577,9 @@ CGFloat kResizeThumbSize = 45.0f;
     
     
 }
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-
-}
+//-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+//    [[GLSharedCamera sharedInstance] retrievePhotoFromPicker:info[UIImagePickerControllerEditedImage]];
+//}
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
@@ -867,11 +1039,11 @@ CGFloat kResizeThumbSize = 45.0f;
     return 1;
 }
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	self.sectionHeader.frame = CGRectMake(0, 0, self.view.frame.size.width, ([UIScreen mainScreen].bounds.size.height/3)-10);
+	self.sectionHeader.frame = CGRectMake(0, 0, self.view.frame.size.width, ([UIScreen mainScreen].bounds.size.height/3)-20);
 	return self.sectionHeader;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return ([UIScreen mainScreen].bounds.size.height/3)-10;
+	return ([UIScreen mainScreen].bounds.size.height/3)-20;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -899,7 +1071,11 @@ CGFloat kResizeThumbSize = 45.0f;
 //    cell.scrollView.frame = cell.frame;
 //    cell.frontView.frame = cell.frame;
     
-
+    cell.numberNotViewedIndicator.backgroundColor = UIColorFromRGB(0x3eb4b6);
+    cell.numberNotViewedIndicator.layer.cornerRadius = cell.numberNotViewedIndicator.frame.size.width/2.1;
+//    cell.numberNotViewedIndicator.layer.borderWidth = 1;
+//    cell.numberNotViewedIndicator.layer.borderColor = UIColorFromRGB(0x000000).CGColor;
+//    cell.textLabel.textColor = [UIColor whiteColor];
     SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
     if ([album getNumNewPhotos] > 0) {
         NSString *title = [album getNumNewPhotos] > 99 ? @"99+" : [NSString stringWithFormat:@"%lld", [album getNumNewPhotos]];

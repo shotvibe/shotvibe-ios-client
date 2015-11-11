@@ -5,6 +5,18 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <customFonts key="customFonts">
+        <mutableArray key="GothamRnd-Book.otf">
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+        </mutableArray>
         <mutableArray key="Gotham_Rounded_Bold.otf">
             <string>GothamRounded-Bold</string>
             <string>GothamRounded-Bold</string>
@@ -12,12 +24,11 @@
             <string>GothamRounded-Bold</string>
             <string>GothamRounded-Bold</string>
             <string>GothamRounded-Bold</string>
-        </mutableArray>
-        <mutableArray key="Gotham_Rounded_Book.otf">
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
         </mutableArray>
         <mutableArray key="Gotham_Rounded_Light.otf">
             <string>GothamRounded-Light</string>
@@ -31,25 +42,25 @@
             <objects>
                 <tableViewController storyboardIdentifier="SVAlbumListViewController" title="Groups" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xK5-VS-ObD" customClass="SVAlbumListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="1" sectionFooterHeight="22" id="h0G-2X-To2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.94509803921568625" green="0.94901960784313721" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="iJo-z3-suy" customClass="SVAlbumListViewCell">
-                                <rect key="frame" x="0.0" y="65" width="320" height="101"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="101"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iJo-z3-suy" id="foT-0r-RS2">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="101"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="Fet-Wj-C0F">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="101"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" id="v3h-qc-QG9">
-                                                    <rect key="frame" x="160" y="0.0" width="160" height="101"/>
+                                                    <rect key="frame" x="215" y="0.0" width="160" height="101"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="center" image="SwipeCamera.png" id="303-YF-szZ">
@@ -92,7 +103,7 @@
                                                     <animations/>
                                                 </view>
                                                 <view contentMode="scaleToFill" id="t4e-X8-o6c">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="101"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="bMe-Ho-h9s">
@@ -111,7 +122,7 @@
                                                             <animations/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mpj-bZ-eJI">
-                                                            <rect key="frame" x="96" y="14" width="160" height="21"/>
+                                                            <rect key="frame" x="96" y="14" width="215" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="14"/>
@@ -119,7 +130,7 @@
                                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last added by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d8J-CL-mAU">
-                                                            <rect key="frame" x="96" y="27" width="160" height="21"/>
+                                                            <rect key="frame" x="96" y="27" width="215" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="11"/>
@@ -127,7 +138,7 @@
                                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </label>
                                                         <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6fU-xz-I04">
-                                                            <rect key="frame" x="96" y="44" width="160" height="15"/>
+                                                            <rect key="frame" x="96" y="44" width="215" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" name="GothamRounded-Light" family="Gotham Rounded" pointSize="11"/>
@@ -140,33 +151,33 @@
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
+                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SafariForward.png" id="ELm-Me-AaL">
+                                                            <rect key="frame" x="299" y="66" width="11" height="20"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <animations/>
+                                                        </imageView>
+                                                        <view hidden="YES" contentMode="scaleToFill" id="SpS-IB-uCZ">
+                                                            <rect key="frame" x="10" y="100" width="355" height="1"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <animations/>
+                                                            <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
                                                         <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SVE-6G-iDc">
-                                                            <rect key="frame" x="264" y="41" width="28" height="18"/>
+                                                            <rect key="frame" x="331" y="23" width="28" height="24.5"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                             <animations/>
                                                             <accessibility key="accessibilityConfiguration">
                                                                 <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
                                                             </accessibility>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                                                            <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="15"/>
                                                             <state key="normal" title="0">
-                                                                <color key="titleColor" red="0.4823529411764706" green="0.47843137254901963" blue="0.46274509803921571" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <state key="highlighted">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
-                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SafariForward.png" id="ELm-Me-AaL">
-                                                            <rect key="frame" x="299" y="40" width="11" height="20"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
-                                                        </imageView>
-                                                        <view hidden="YES" contentMode="scaleToFill" id="SpS-IB-uCZ">
-                                                            <rect key="frame" x="10" y="100" width="300" height="1"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                            <animations/>
-                                                            <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </view>
                                                     </subviews>
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -203,6 +214,7 @@
                         </connections>
                     </tableView>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="albumField" destination="TFh-w4-fDb" id="nQi-0o-b1b"/>
                         <outlet property="butAlbum" destination="LWV-EA-XUH" id="Tc7-Uk-oBr"/>
@@ -788,15 +800,15 @@
             <objects>
                 <viewController storyboardIdentifier="SVAlbumGridViewController" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="blj-nY-Sj7" customClass="SVAlbumGridViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uwg-JS-qa6">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="AT7-8R-Xbr" userLabel="Gridview container">
-                                <rect key="frame" x="0.0" y="44" width="320" height="459"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="558"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="D2i-UJ-1Pr">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="459"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="558"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -877,7 +889,7 @@
                                             </collectionViewCell>
                                         </cells>
                                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlbumGridReusableView" id="lUL-st-CjN">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                         </collectionReusableView>
@@ -958,11 +970,11 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="hDY-dt-Yxw" userLabel="HeaderView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="6Xh-QU-6j5" userLabel="Camera Button">
-                                        <rect key="frame" x="0.0" y="0.0" width="160" height="45"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="215" height="45"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
@@ -980,7 +992,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="U0j-LJ-AMC" userLabel="Camera Button">
-                                        <rect key="frame" x="160" y="0.0" width="160" height="45"/>
+                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
@@ -998,12 +1010,12 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="center" image="delimiter.png" id="qdU-wU-zZc">
-                                        <rect key="frame" x="159" y="0.0" width="1" height="45"/>
+                                        <rect key="frame" x="159" y="0.0" width="56" height="45"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <animations/>
                                     </imageView>
                                     <view contentMode="scaleToFill" id="7cL-Iu-rTt" userLabel="separator">
-                                        <rect key="frame" x="0.0" y="44" width="320" height="1"/>
+                                        <rect key="frame" x="0.0" y="44" width="375" height="1"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.79607843140000001" green="0.80784313730000001" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
@@ -1074,7 +1086,7 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <prototypes>
                                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="gKy-nC-Fsg" customClass="SVAlbumListViewCell">
-                                                        <rect key="frame" x="0.0" y="66" width="375" height="101"/>
+                                                        <rect key="frame" x="0.0" y="86" width="375" height="101"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gKy-nC-Fsg" id="7Yi-7K-KDO">
                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="101"/>
@@ -1319,7 +1331,7 @@ to register this device</string>
             <objects>
                 <tableViewController id="N4E-mX-u47" customClass="SVSettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ETc-Lm-hY8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1329,14 +1341,14 @@ to register this device</string>
                             <tableViewSection id="Ufr-xY-P41">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="csy-C0-mSe" imageView="XK8-ec-Iq9" style="IBUITableViewCellStyleDefault" id="1Ao-TH-QZx">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1Ao-TH-QZx" id="wd3-0R-Q6r">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="csy-C0-mSe">
-                                                    <rect key="frame" x="44" y="0.0" width="241" height="44"/>
+                                                    <rect key="frame" x="44" y="0.0" width="296" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -1364,14 +1376,14 @@ to register this device</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="ji2-oY-tiu" imageView="n45-Aa-ecN" style="IBUITableViewCellStyleDefault" id="3wS-l7-xRF">
-                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3wS-l7-xRF" id="5Ly-EM-gah">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ji2-oY-tiu">
-                                                    <rect key="frame" x="44" y="0.0" width="241" height="44"/>
+                                                    <rect key="frame" x="44" y="0.0" width="296" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -1399,14 +1411,14 @@ to register this device</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="M1e-TR-5rv" imageView="ymW-eZ-yZi" style="IBUITableViewCellStyleDefault" id="0Yr-N1-aPQ">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="88" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Yr-N1-aPQ" id="6tW-t8-ITh">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="About" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M1e-TR-5rv">
-                                                    <rect key="frame" x="49" y="0.0" width="236" height="44"/>
+                                                    <rect key="frame" x="49" y="0.0" width="291" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -1433,14 +1445,14 @@ to register this device</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="VMY-GF-lhp" imageView="UTK-SB-CtV" style="IBUITableViewCellStyleDefault" id="tSv-0F-neP">
-                                        <rect key="frame" x="0.0" y="132" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="132" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tSv-0F-neP" id="IGC-cV-1SB">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Contact Support" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VMY-GF-lhp">
-                                                    <rect key="frame" x="49" y="0.0" width="236" height="44"/>
+                                                    <rect key="frame" x="49" y="0.0" width="291" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -1464,10 +1476,10 @@ to register this device</string>
                                         <animations/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" rowHeight="124" id="Djo-yw-9Ml">
-                                        <rect key="frame" x="0.0" y="176" width="320" height="124"/>
+                                        <rect key="frame" x="0.0" y="176" width="375" height="124"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Djo-yw-9Ml" id="3Ll-a8-jp2">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="124"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dGi-df-srC">
@@ -1514,100 +1526,6 @@ to register this device</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album Members" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Szv-rJ-HZ3">
-                                <rect key="frame" x="69" y="0.0" width="236" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
-                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <size key="shadowOffset" width="0.0" height="1"/>
-                            </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="52" sectionHeaderHeight="22" sectionFooterHeight="22" id="zzl-Ln-e03">
-                                <rect key="frame" x="0.0" y="102" width="320" height="466"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AlbumMemberCell" id="op5-Xa-UFq" customClass="SVSidebarAlbumMemberCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="52"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="op5-Xa-UFq" id="sh9-44-fWG">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="Kak-Tk-iE2">
-                                                    <rect key="frame" x="17" y="8" width="34" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rafael Angeline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" id="NQV-e8-xms">
-                                                    <rect key="frame" x="59" y="6" width="100" height="41"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Invited" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BcQ-GI-kmc">
-                                                    <rect key="frame" x="225" y="3" width="70" height="41"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
-                                                    <color key="textColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9jU-GG-RIc">
-                                                    <rect key="frame" x="204" y="17" width="13" height="13"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                </imageView>
-                                                <view contentMode="scaleToFill" id="gha-3Q-4Jw">
-                                                    <rect key="frame" x="20" y="51" width="280" height="1"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                    <animations/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                            <animations/>
-                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </tableViewCellContentView>
-                                        <animations/>
-                                        <connections>
-                                            <outlet property="memberLabel" destination="NQV-e8-xms" id="mfl-gx-lgM"/>
-                                            <outlet property="profileImageView" destination="Kak-Tk-iE2" id="Ihy-xb-JAR"/>
-                                            <outlet property="statusImageView" destination="9jU-GG-RIc" id="m93-2k-7xU"/>
-                                            <outlet property="statusLabel" destination="BcQ-GI-kmc" id="Kdn-j5-anJ"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="k4U-OQ-1vP" id="KtJ-AB-5IX"/>
-                                    <outlet property="delegate" destination="k4U-OQ-1vP" id="BVz-6g-XOZ"/>
-                                </connections>
-                            </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FiF-95-PZF">
-                                <rect key="frame" x="69" y="50" width="236" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                <color key="tintColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="titleShadowOffset" width="0.0" height="1"/>
-                                <state key="normal" image="addFriendsButton.png">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="addFriendsButtonPressed:" destination="k4U-OQ-1vP" eventType="touchUpInside" id="BDw-ON-Azn"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" id="FWV-ix-dbY" userLabel="NoMembersView">
                                 <rect key="frame" x="69" y="127" width="240" height="143"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -1632,8 +1550,94 @@ to register this device</string>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="75" sectionHeaderHeight="22" sectionFooterHeight="22" id="zzl-Ln-e03">
+                                <rect key="frame" x="0.0" y="102" width="320" height="466"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AlbumMemberCell" id="op5-Xa-UFq" customClass="SVSidebarAlbumMemberCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="75"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="op5-Xa-UFq" id="sh9-44-fWG">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="Kak-Tk-iE2">
+                                                    <rect key="frame" x="20" y="15" width="45" height="45"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rafael Angeline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" id="NQV-e8-xms">
+                                                    <rect key="frame" x="73" y="8" width="100" height="41"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                                                    <color key="textColor" red="0.45490196078431372" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="9jU-GG-RIc">
+                                                    <rect key="frame" x="299" y="31" width="13" height="13"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" id="gha-3Q-4Jw">
+                                                    <rect key="frame" x="20" y="74" width="280" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    <animations/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Invited" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BcQ-GI-kmc">
+                                                    <rect key="frame" x="125" y="25" width="70" height="41"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
+                                                    <color key="textColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <animations/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <connections>
+                                            <outlet property="memberLabel" destination="NQV-e8-xms" id="mfl-gx-lgM"/>
+                                            <outlet property="profileImageView" destination="Kak-Tk-iE2" id="Ihy-xb-JAR"/>
+                                            <outlet property="statusImageView" destination="9jU-GG-RIc" id="m93-2k-7xU"/>
+                                            <outlet property="statusLabel" destination="BcQ-GI-kmc" id="Kdn-j5-anJ"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="k4U-OQ-1vP" id="KtJ-AB-5IX"/>
+                                    <outlet property="delegate" destination="k4U-OQ-1vP" id="BVz-6g-XOZ"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FiF-95-PZF">
+                                <rect key="frame" x="94" y="65" width="115" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="18"/>
+                                <color key="tintColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
+                                <size key="titleShadowOffset" width="0.0" height="1"/>
+                                <state key="normal" title="Add Friends">
+                                    <color key="titleColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" red="0.4823529412" green="0.47843137250000001" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="addFriendsButtonPressed:" destination="k4U-OQ-1vP" eventType="touchUpInside" id="BDw-ON-Azn"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BvW-hz-75b">
-                                <rect key="frame" x="0.0" y="44" width="320" height="42"/>
+                                <rect key="frame" x="0.0" y="43" width="320" height="42"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1648,6 +1652,27 @@ to register this device</string>
                                     <action selector="ownerButtonPressed:" destination="k4U-OQ-1vP" eventType="touchUpInside" id="WzC-vF-6xU"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" id="pBb-la-Vkg">
+                                <rect key="frame" x="0.0" y="-20" width="320" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.21176470588235294" green="0.65490196078431373" blue="0.65098039215686276" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addFriendsBg" id="8BN-aT-zVo">
+                                <rect key="frame" x="19" y="73" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album Members" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Szv-rJ-HZ3">
+                                <rect key="frame" x="78" y="5" width="207" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="20"/>
+                                <color key="textColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1657,6 +1682,7 @@ to register this device</string>
                     <connections>
                         <outlet property="butAddFriends" destination="FiF-95-PZF" id="1vG-Eb-bme"/>
                         <outlet property="butOwner" destination="BvW-hz-75b" id="rO6-fJ-Znd"/>
+                        <outlet property="groupTitle" destination="Szv-rJ-HZ3" id="RXp-Bm-ckT"/>
                         <outlet property="noMembersView" destination="FWV-ix-dbY" id="reD-to-ouz"/>
                         <outlet property="tableView" destination="zzl-Ln-e03" id="wdd-pK-h6o"/>
                     </connections>
@@ -1686,7 +1712,7 @@ to register this device</string>
             <objects>
                 <viewController storyboardIdentifier="InviteFriendsView" title="Invite friends" id="hue-j9-5bn" customClass="SVAddFriendsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JmG-lN-sm5">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="Zaj-7x-zGj">
@@ -1714,46 +1740,86 @@ to register this device</string>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="oru-dQ-Y8C">
-                                <rect key="frame" x="0.0" y="44" width="320" height="75"/>
+                                <rect key="frame" x="0.0" y="131" width="375" height="75"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="mcB-hV-GoX">
-                                        <rect key="frame" x="0.0" y="74" width="320" height="1"/>
+                                        <rect key="frame" x="0.0" y="74" width="375" height="1"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <animations/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsVerticalScrollIndicator="NO" id="dAJ-mE-XY5">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="73"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="73"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Members:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0tn-fo-qu7">
-                                                <rect key="frame" x="10" y="9" width="79" height="23"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <animations/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
                                         <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </scrollView>
                                 </subviews>
                                 <animations/>
-                                <color key="backgroundColor" red="0.96078431372549022" green="0.96470588235294119" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" id="VBv-9m-HFs">
-                                <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                            <view contentMode="scaleToFill" id="Knx-Y4-c7V">
+                                <rect key="frame" x="0.0" y="167" width="375" height="35"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="I3u-fD-wmj">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="18"/>
+                                        <state key="normal" title="Friends">
+                                            <color key="titleColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="friendsButtonTapped:" destination="hue-j9-5bn" eventType="touchUpInside" id="4tz-za-hWy"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rta-he-XMB">
+                                        <rect key="frame" x="125" y="0.0" width="125" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="18"/>
+                                        <state key="normal" title="Contacts">
+                                            <color key="titleColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="contactsButtonTapped:" destination="hue-j9-5bn" eventType="touchUpInside" id="B33-hc-SBq"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" id="uE6-JH-EUq">
+                                        <rect key="frame" x="0.0" y="34" width="375" height="0.0"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="i0W-Uz-jfZ">
+                                        <rect key="frame" x="250" y="0.0" width="125" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="18"/>
+                                        <state key="normal" title="Groups">
+                                            <color key="titleColor" red="0.45490196078431372" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="groupsButtonTapped:" destination="hue-j9-5bn" eventType="touchUpInside" id="LTb-kj-yYi"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" id="VBv-9m-HFs">
+                                <rect key="frame" x="0.0" y="162" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="rB6-88-CJh">
-                                        <rect key="frame" x="0.0" y="43" width="320" height="1"/>
+                                        <rect key="frame" x="0.0" y="43" width="375" height="1"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <animations/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
-                                    <segmentedControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="u9V-tV-akp">
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="u9V-tV-akp">
                                         <rect key="frame" x="20" y="0.0" width="280" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
@@ -1771,18 +1837,18 @@ to register this device</string>
                                 <animations/>
                                 <color key="backgroundColor" red="0.84705882352941175" green="0.85098039215686272" blue="0.87058823529411766" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="Csh-Y9-cyY">
-                                <rect key="frame" x="0.0" y="119" width="320" height="385"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="Csh-Y9-cyY">
+                                <rect key="frame" x="0.0" y="213" width="375" height="415"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContactCell" id="Tue-1x-ePc" customClass="SVContactCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="55"/>
+                                        <rect key="frame" x="0.0" y="22" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tue-1x-ePc" id="m9K-9u-a0T">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="54.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="imageUnselected.png" id="ank-Ot-Lh7">
@@ -1802,8 +1868,8 @@ to register this device</string>
                                                     <animations/>
                                                     <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 </activityIndicatorView>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="glancesIconRegular" id="CHs-Ve-5u5">
-                                                    <rect key="frame" x="267" y="14" width="40" height="20"/>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="glanceFriend" id="CHs-Ve-5u5">
+                                                    <rect key="frame" x="330" y="10.5" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                 </imageView>
@@ -1844,18 +1910,17 @@ to register this device</string>
                                 </connections>
                             </tableView>
                             <searchBar contentMode="redraw" placeholder="Search" id="xWL-42-6Js">
-                                <rect key="frame" x="0.0" y="0.0" width="162" height="44"/>
+                                <rect key="frame" x="5" y="20" width="217" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <color key="barTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <offsetWrapper key="searchFieldBackgroundPositionAdjustment" horizontal="0.0" vertical="0.0"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="hue-j9-5bn" id="3GO-ce-6k2"/>
                                 </connections>
                             </searchBar>
                             <button opaque="NO" alpha="0.20000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4tK-m6-U31">
-                                <rect key="frame" x="0.0" y="88" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="162" width="375" height="505"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -1865,6 +1930,45 @@ to register this device</string>
                                 </state>
                                 <connections>
                                     <action selector="overlayPressed:" destination="hue-j9-5bn" eventType="touchUpInside" id="FoX-7L-yZz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.94999999999999996" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Cv4-9t-gkI">
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="36"/>
+                                <state key="normal" title="&gt;&gt;"/>
+                                <state key="disabled">
+                                    <color key="titleColor" red="0.88572190086134106" green="0.89534931282722519" blue="0.89534931282722519" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="proceedTapped:" destination="hue-j9-5bn" eventType="touchUpInside" id="umf-bX-nuv"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a group with:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1bw-gE-xZO">
+                                <rect key="frame" x="52" y="88" width="277" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="25"/>
+                                <color key="textColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glanceFriendsLogo" id="Hmr-9e-1hq">
+                                <rect key="frame" x="257" y="23" width="105" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wFG-vJ-UCi">
+                                <rect key="frame" x="5" y="95" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="26"/>
+                                <state key="normal" title="&lt;">
+                                    <color key="titleColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="nvBackTapped:" destination="hue-j9-5bn" eventType="touchUpInside" id="Umq-qO-pbe"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1883,21 +1987,29 @@ to register this device</string>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="addedContactsScrollView" destination="dAJ-mE-XY5" id="3hc-tb-li5"/>
+                        <outlet property="backBut" destination="wFG-vJ-UCi" id="arc-Mh-DKf"/>
                         <outlet property="butOverlay" destination="4tK-m6-U31" id="NPd-ag-rOa"/>
+                        <outlet property="contactSourceButtonsView" destination="Knx-Y4-c7V" id="P2c-GJ-bsi"/>
+                        <outlet property="contactsSourceButton" destination="rta-he-XMB" id="Pqm-0C-ZbK"/>
                         <outlet property="contactsSourceSelector" destination="u9V-tV-akp" id="u3J-MJ-obg"/>
                         <outlet property="contactsSourceView" destination="VBv-9m-HFs" id="8Zc-CV-Pjz"/>
+                        <outlet property="friendsSourceButton" destination="I3u-fD-wmj" id="p4i-SC-09Y"/>
+                        <outlet property="groupsSourceButton" destination="i0W-Uz-jfZ" id="PcA-4O-Uih"/>
                         <outlet property="membersView" destination="oru-dQ-Y8C" id="eIr-I7-71e"/>
                         <outlet property="noContactsView" destination="Zaj-7x-zGj" id="Hto-wP-3KG"/>
+                        <outlet property="pageTitle" destination="1bw-gE-xZO" id="TLf-8W-hpd"/>
+                        <outlet property="proceedButton" destination="Cv4-9t-gkI" id="xWP-qa-Lzk"/>
                         <outlet property="searchBar" destination="xWL-42-6Js" id="H6w-6F-S19"/>
                         <outlet property="tableView" destination="Csh-Y9-cyY" id="x2Y-Bg-Xu4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AXe-IM-XjC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1134" y="-628"/>
+            <point key="canvasLocation" x="1133.5" y="-628.5"/>
         </scene>
         <!--Sidebar Management Controller-->
         <scene sceneID="daf-Rk-BWs">
@@ -2072,7 +2184,7 @@ to register this device</string>
             <objects>
                 <viewController id="Y3e-6A-img" customClass="SVWebViewController" sceneMemberID="viewController">
                     <webView key="view" contentMode="scaleToFill" id="Obu-FX-hhg">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.14901960784313725" green="0.40000000000000002" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -2223,14 +2335,14 @@ to register this device</string>
             <objects>
                 <tableViewController id="CPg-IN-zDw" customClass="SVSettingsAboutViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DTG-CH-qgU">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="8mo-5p-uWH">
-                            <rect key="frame" x="0.0" y="240" width="320" height="137"/>
+                            <rect key="frame" x="0.0" y="240" width="375" height="137"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2239,14 +2351,14 @@ to register this device</string>
                             <tableViewSection id="K5n-vQ-FiY">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="iEb-R6-eLo" style="IBUITableViewCellStyleDefault" id="KyB-X8-TBS">
-                                        <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KyB-X8-TBS" id="i6P-pL-ypF">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="version" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iEb-R6-eLo">
-                                                    <rect key="frame" x="20" y="0.0" width="285" height="44"/>
+                                                    <rect key="frame" x="20" y="0.0" width="340" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -2273,14 +2385,14 @@ to register this device</string>
                                         <animations/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="541-yf-u2C" imageView="8uv-SL-vE6" style="IBUITableViewCellStyleDefault" id="qZs-M3-pmn">
-                                        <rect key="frame" x="0.0" y="108" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="108" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qZs-M3-pmn" id="yc1-dC-9Y6">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Terms of Service" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="541-yf-u2C">
-                                                    <rect key="frame" x="49" y="0.0" width="236" height="44"/>
+                                                    <rect key="frame" x="49" y="0.0" width="291" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -2307,14 +2419,14 @@ to register this device</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="D5k-Uo-AnI" imageView="6vL-Cp-auZ" style="IBUITableViewCellStyleDefault" id="fXY-Pm-woh">
-                                        <rect key="frame" x="0.0" y="152" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="152" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fXY-Pm-woh" id="kes-e4-5ge">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Privacy Policy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D5k-Uo-AnI">
-                                                    <rect key="frame" x="49" y="0.0" width="236" height="44"/>
+                                                    <rect key="frame" x="49" y="0.0" width="291" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -2341,14 +2453,14 @@ to register this device</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="I2f-D1-7hT" imageView="WVb-FU-clG" style="IBUITableViewCellStyleDefault" id="vIc-Zx-tm8">
-                                        <rect key="frame" x="0.0" y="196" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="196" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vIc-Zx-tm8" id="ZV4-yL-hFQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Open Source Attributions" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="I2f-D1-7hT">
-                                                    <rect key="frame" x="49" y="0.0" width="236" height="44"/>
+                                                    <rect key="frame" x="49" y="0.0" width="291" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -2419,10 +2531,10 @@ to register this device</string>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVCountryViewCell" rowHeight="45" id="a6y-Xz-0rv" customClass="SVCountryViewCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="22" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a6y-Xz-0rv" id="4aB-MI-ILQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="A9A-qD-5Nc">
@@ -2431,7 +2543,7 @@ to register this device</string>
                                                     <animations/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Country" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ijU-bV-hIf">
-                                                    <rect key="frame" x="61" y="10" width="239" height="23"/>
+                                                    <rect key="frame" x="61" y="10" width="294" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
@@ -2614,7 +2726,7 @@ code to the number above</string>
         <image name="SwipePicker.png" width="54" height="41"/>
         <image name="US.png" width="48" height="48"/>
         <image name="aboutIcon.png" width="14" height="13"/>
-        <image name="addFriendsButton.png" width="236" height="40"/>
+        <image name="addFriendsBg" width="100" height="100"/>
         <image name="addFriendsButtonBg.png" width="245" height="41"/>
         <image name="albumCameraIconSmall.png" width="19" height="14"/>
         <image name="albumEmpty.png" width="59" height="44"/>
@@ -2633,7 +2745,8 @@ code to the number above</string>
         <image name="dmutFeets" width="340" height="130"/>
         <image name="dropDownField.png" width="305" height="130"/>
         <image name="emailIcon.png" width="14" height="11"/>
-        <image name="glancesIconRegular" width="97" height="49"/>
+        <image name="glanceFriend" width="129" height="129"/>
+        <image name="glanceFriendsLogo" width="242" height="106"/>
         <image name="helpIcon.png" width="14" height="14"/>
         <image name="imageUnselected.png" width="18" height="18"/>
         <image name="newPhotosIndicator.png" width="27" height="18"/>
@@ -2648,8 +2761,8 @@ code to the number above</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="FFK-OC-3pt"/>
+        <segue reference="i8y-Zz-QXE"/>
         <segue reference="sO9-n0-6uB"/>
-        <segue reference="TQ5-6R-Qxo"/>
         <segue reference="hc8-VF-LIN"/>
     </inferredMetricsTieBreakers>
 </document>

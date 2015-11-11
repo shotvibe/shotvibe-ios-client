@@ -23,12 +23,15 @@
 #import "SL/ArrayList.h"
 #import "SL/AlbumUser.h"
 #import "MBProgressHUD.h"
+#import "ContainerViewController.h"
+#import "ShotVibeAPITask.h"
 
 @interface SVSidebarMemberController () {
     SLShotVibeAPI *shotvibeAPI;
 	NSMutableArray *members;
     SLAlbumMember *owner;
 	SVSidebarAlbumMemberCell *ownerCell;
+    UINavigationController * nav;
 }
 
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
@@ -107,13 +110,39 @@
     ];
     
 //    self.tableView setContentOffset:<#(CGPoint)#>
-    [self.tableView setContentInset:UIEdgeInsetsMake(38,0,0,0)];
+//    [self.tableView setContentInset:UIEdgeInsetsMake(38,0,0,0)];
 //    self.butAddFriends.center = CGPointMake(self.butAddFriends.frame.origin.x, self.butAddFriends.frame.origin.y+60);
 //    self.butAddFriends.frame = CGRectMake(self.butAddFriends.frame.origin.x, self.butAddFriends.frame.origin.y+150, self.butAddFriends.frame.size.width, self.butAddFriends.frame.size.height);
+//    UIImageView * but = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.butAddFriends.frame.size.height, self.butAddFriends.frame.size.height)];
+//    but.image = [UIImage imageNamed:@"addFriendsBg"];
+//    [self.butAddFriends setImage:but.image forState:UIControlStateNormal];
+//    self.butAddFriends.imageView.contentMode = UIViewContentModeScaleAspectFill;
+//    self.butAddFriends.imageEdgeInsets = UIEdgeInsetsMake(30 , 30, 30, 30);
+    UIView * navBar = [[UIView alloc] initWithFrame:CGRectMake(0, -20, self.view.frame.size.width, 20)];
+    navBar.backgroundColor = UIColorFromRGB(0x40b4b5);
+    [self.view addSubview:navBar];
+    
+    
+    UITapGestureRecognizer * changeNameGestTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeNameTapped:)];
+    self.groupTitle.userInteractionEnabled = YES;
+    [self.groupTitle addGestureRecognizer:changeNameGestTap];
+    
 }
 
 
 #pragma mark - Actions
+
+- (void)changeNameTapped:(UITapGestureRecognizer*)gest {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Album Name"
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Ok", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert textFieldAtIndex:0].text = [[_albumContents getName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    alert.tag = 35;
+    [alert show];
+}
 
 
 - (void)navigateToAddFriends:(id)sender
@@ -135,10 +164,13 @@
     UIStoryboard * sb = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SVAddFriendsViewController * vc = [sb instantiateViewControllerWithIdentifier:@"InviteFriendsView"];
     vc.albumId = self.albumId;
-    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:vc];
-//    vc.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-    [self presentViewController:nav animated:YES completion:^{
-        [[GLSharedCamera sharedInstance] hideGlCameraView];
+    vc.state = SVAddFriendsFromAddFriendButton;
+//    nav = [[UINavigationController alloc] initWithRootViewController:vc];
+//    [nav setNavigationBarHidden:YES];
+//    vc.navigationController = nav;
+    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:vc animated:YES completion:^{
+//        [[GLSharedCamera sharedInstance] hideGlCameraView];
     }];
     
 //    [self.navigationController pushViewController:destination animated:YES];
@@ -219,6 +251,10 @@
 {
     RCLog(@"setAlbumContents ");
     _albumContents = albumContents;
+    
+    self.groupTitle.text = [_albumContents getName];
+    
+    
 
     [self searchForMemberWithName:nil];
 
@@ -228,7 +264,7 @@
         self.tableView.hidden = YES;
 //        self.searchBar.userInteractionEnabled = NO;
         self.butOwner.enabled = YES;
-        self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
+//        self.butAddFriends.frame = CGRectMake(16, 280, 240, 40);
 
         ownerCell.hidden = NO;
         [ownerCell.profileImageView setImageWithURL:[NSURL URLWithString:[[owner getUser] getMemberAvatarUrl]]];
@@ -246,7 +282,7 @@
 //        self.searchBar.userInteractionEnabled = YES;
         
         self.butOwner.enabled = NO;
-        self.butAddFriends.frame = CGRectMake(16, 80, 240, 40);
+//        self.butAddFriends.frame = CGRectMake(16, 80, 240, 40);
 
         ownerCell.hidden = YES;
     }
@@ -308,6 +344,7 @@
                 case SLAlbumMember_InviteStatus_INVITATION_VIEWED:
                     cell.statusImageView.image = [UIImage imageNamed:@"MemberInvited"];
                     cell.statusLabel.text = NSLocalizedString(@"Invited", nil);
+                    cell.statusLabel.textColor = UIColorFromRGB(0xF07480);
                     break;
             }
             CGSize size = [cell.statusLabel.text sizeWithFont:cell.statusLabel.font];
@@ -340,31 +377,74 @@
 }
 
 
+- (void)setAlbumName:(NSString *)newAlbumName {
+
+    [ShotVibeAPITask runTask:self
+                  withAction:^id {
+                      BOOL success = [[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] albumChangeNameWithLong:self.albumId
+                                                                                withNSString:newAlbumName];
+                      if (success) {
+                          dispatch_async(dispatch_get_main_queue(), ^{
+                              [[ShotVibeAppDelegate sharedDelegate].albumManager refreshAlbumContentsWithLong:self.albumId withBoolean:YES];
+                          });
+                      }
+                      return [NSNumber numberWithBool:success];
+                  }
+     
+     
+              onTaskComplete:^(id result) {
+                  NSNumber *success = result;
+                  if (![success boolValue]) {
+                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't Change Album Name"
+                                                                      message:@"This album was not created by you"
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"Ok"
+                                                            otherButtonTitles:nil];
+                      [alert show];
+                  }
+              }];
+
+}
+
 #pragma mark UIAlertView delegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
-	if (buttonIndex == 1) {
+
+    if(alertView.tag == 35){
+    
+        NSString *newAlbumName = [alertView textFieldAtIndex:0].text;
+        [self setAlbumName:newAlbumName];
+        
+    } else if (buttonIndex == 1) {
+        
+        
+        
+        
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                // TODO
+                // - Show spinner while loading
+                // - If failed, then show dialog with "retry" button
+                
+                SLAPIException *apiException;
+                @try {
+                    [shotvibeAPI leaveAlbumWithLong:[self.albumContents getId]];
+                } @catch (SLAPIException *exception) {
+                    apiException = exception;
+                }
+                
+                if (!apiException) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.parentController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+                        [self.parentController.navigationController popViewControllerAnimated:YES];
+                    });
+                }
+            });
+            
+        
 		
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            // TODO
-            // - Show spinner while loading
-            // - If failed, then show dialog with "retry" button
-
-            SLAPIException *apiException;
-            @try {
-                [shotvibeAPI leaveAlbumWithLong:[self.albumContents getId]];
-            } @catch (SLAPIException *exception) {
-                apiException = exception;
-            }
-
-            if (!apiException) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.parentController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-                    [self.parentController.navigationController popViewControllerAnimated:YES];
-                });
-            }
-		});
+		
 	}
 }
 

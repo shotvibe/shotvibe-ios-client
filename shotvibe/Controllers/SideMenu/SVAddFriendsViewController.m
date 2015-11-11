@@ -84,7 +84,7 @@
     PhotoFilesManager *photoFilesManager_;
     NSArray *allAlbums;
     BOOL showGroups;
-    
+    UIView * contactTypeSelectedLine;
     UIButton * openGroupFromMembersButton;
 }
 
@@ -113,6 +113,49 @@
     NSLog(@"****** register");
     [phoneContactsManager_ setListenerWithSLPhoneContactsManager_Listener:self];
     
+    if(self.state == SVAddFriendsFromAddFriendButton){
+        self.pageTitle.text = @"Pick friends to group:";
+        self.backBut.alpha = 1;
+        
+        self.groupsSourceButton.alpha = 0;
+        
+        self.friendsSourceButton.frame = CGRectMake(self.friendsSourceButton.frame.origin.x, self.friendsSourceButton.frame.origin.y, self.view.frame.size.width/2, self.friendsSourceButton.frame.size.height);
+        self.contactsSourceButton.frame = CGRectMake(self.view.frame.size.width/2, self.contactsSourceButton.frame.origin.y, self.view.frame.size.width/2, self.contactsSourceButton.frame.size.height);
+        
+        contactTypeSelectedLine.frame = CGRectMake(self.view.frame.size.width/2, contactTypeSelectedLine.frame.origin.y, self.view.frame.size.width/2, contactTypeSelectedLine.frame.size.height);
+        
+        
+    } else if(self.state == SVAddFriendsMainWithImage){
+        self.pageTitle.text = @"Choose some friends to share with or create a new group:";
+        self.backBut.alpha = 1;
+    } else if(self.state == SVAddFriendsFromMove){
+            self.pageTitle.text = @"Choose group to share image with:";
+//            self.pageTitle
+        self.backBut.alpha = 1;
+        
+        self.friendsSourceButton.alpha = 0;
+        self.contactsSourceButton.alpha = 0;
+        
+        
+        self.groupsSourceButton.frame = CGRectMake(0, self.groupsSourceButton.frame.origin.y, self.view.frame.size.width, self.groupsSourceButton.frame.size.height);
+        
+        contactTypeSelectedLine.frame = CGRectMake(0, contactTypeSelectedLine.frame.origin.y, self.view.frame.size.width, contactTypeSelectedLine.frame.size.height);
+        
+        self.contactsSourceSelector.selectedSegmentIndex = 2;
+//        [UIView animateWithDuration:0.3 animations:^{
+//            contactTypeSelectedLine.frame = CGRectMake((self.view.frame.size.width/3)*2, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/3, 8);
+//        }];
+        [self contactsSourceChanged:self.contactsSourceSelector];
+        self.tableView.frame = CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height+self.proceedButton.frame.size.height);
+    }
+//    else if(self.state == SVAddFriendsMainWithoutIamge) {
+//        
+////        self.state = SVAddFriendsMainWithoutIamge;
+//        self.backBut.alpha = 0;
+//        self.pageTitle.text = @"llalala";
+//        
+//    }
+//    
 //    if(self.showGroupsSegment){
 //        [self.contactsSourceSelector setWidth:100 forSegmentAtIndex:2];
 //        [self.contactsSourceSelector setEnabled:YES forSegmentAtIndex:2];
@@ -146,14 +189,17 @@
     self.fromMove = NO;
     self.indexNumber = 1;
     
-    [super viewDidLoad];
     
-    openGroupFromMembersButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-90, 150, 70, 70)];
-    [openGroupFromMembersButton setTitle:@"go" forState:UIControlStateNormal];
-    openGroupFromMembersButton.alpha = 0;
-    [openGroupFromMembersButton addTarget:self action:@selector(openGroupFromMembers) forControlEvents:UIControlEventTouchUpInside];
-    [openGroupFromMembersButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    [self.view addSubview:openGroupFromMembersButton];
+    [super viewDidLoad];
+    self.proceedButton.enabled = YES;
+    self.proceedButton.frame = CGRectMake(self.proceedButton.frame.origin.x, self.proceedButton.frame.origin.y+self.proceedButton.frame.size.height, self.proceedButton.frame.size.width, self.proceedButton.frame.size.height);
+    
+//    openGroupFromMembersButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-90, 150, 70, 70)];
+//    [openGroupFromMembersButton setTitle:@"go" forState:UIControlStateNormal];
+//    openGroupFromMembersButton.alpha = 0;
+//    [openGroupFromMembersButton addTarget:self action:@selector(openGroupFromMembers) forControlEvents:UIControlEventTouchUpInside];
+//    [openGroupFromMembersButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//    [self.view addSubview:openGroupFromMembersButton];
     
     // Do any additional setup after loading the view.
     allAlbums = [[NSMutableArray alloc] init];
@@ -208,14 +254,131 @@
 
     [self setAllContacts:[[NSArray alloc] init]];
     
+    self.searchBar.translucent = NO;
+    self.searchBar.opaque = NO;
+    self.searchBar.showsCancelButton = NO;
+//    self.searchBar.subviews obje
+    [self.searchBar setBackgroundImage:[[UIImage alloc] init]];
+    
+    UIView * searchBorder = [[UIView alloc] initWithFrame:CGRectMake(self.searchBar.frame.origin.x,self.searchBar.frame.size.height-1, self.searchBar.frame.size.width, 1)];
+    searchBorder.backgroundColor = UIColorFromRGB(0x747575);
+    [self.searchBar addSubview:searchBorder];
     
     
-
-    self.searchBar.layer.borderWidth = 1;
-    self.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
+//    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchBar.layer.borderWidth = 0;
+    self.searchBar.barTintColor = [UIColor whiteColor];
+    self.searchBar.layer.borderColor = [[UIColor whiteColor] CGColor];
 
     [[Mixpanel sharedInstance] track:@"Add Friends Screen Viewed"
                           properties:@{ @"album_id" : [NSString stringWithFormat:@"%lld", self.albumId] }];
+
+//    self.searchBar.tin
+    self.searchBar.placeholder = @"search";
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setDefaultTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Book" size:20]}];
+    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:UIColorFromRGB(0x747575)];
+    
+    
+    
+    contactTypeSelectedLine = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/3, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/3, 8)];
+    contactTypeSelectedLine.backgroundColor = UIColorFromRGB(0x3eb4b6);
+    
+    [self.contactSourceButtonsView addSubview:contactTypeSelectedLine];
+    
+    self.backBut.alpha = 0;
+    
+    
+    
+}
+
+- (IBAction)nvBackTapped:(id)sender {
+
+//    [[[ContainerViewController sharedInstance] navigationController] popViewControllerAnimated:YES];
+
+    if(self.state == SVAddFriendsFromMove){
+        
+        [[ContainerViewController sharedInstance] transitToAlbumList:NO direction:UIPageViewControllerNavigationDirectionForward withAlbumId:0 completion:^{
+            [[ContainerViewController sharedInstance] resetFriendsView];
+//            self.fromCameraMainScreen = NO;
+            
+        }];
+        
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+}
+
+- (IBAction)contactsButtonTapped:(id)sender {
+    
+    self.contactsSourceSelector.selectedSegmentIndex = 1;
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        if(self.state == SVAddFriendsFromAddFriendButton){
+            contactTypeSelectedLine.frame = CGRectMake(self.view.frame.size.width/2, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/2, 8);
+        } else {
+            contactTypeSelectedLine.frame = CGRectMake(self.view.frame.size.width/3, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/3, 8);
+        }
+    }];
+    [self contactsSourceChanged:self.contactsSourceSelector];
+    
+}
+
+- (IBAction)groupsButtonTapped:(id)sender {
+    
+    
+//    if(self.state != SVAddFriendsMainWithoutIamge){
+    
+        self.contactsSourceSelector.selectedSegmentIndex = 2;
+        [UIView animateWithDuration:0.3 animations:^{
+            contactTypeSelectedLine.frame = CGRectMake((self.view.frame.size.width/3)*2, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/3, 8);
+        }];
+        [self contactsSourceChanged:self.contactsSourceSelector];
+        
+//    } else if (self.state == SVAddFriendsFromMove){
+    
+//    } else {
+    
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oopsi"
+//                                                                                          message:@"Create a group with a group? try to select friends to group with instead to create group with the friends you have just selected."
+//                                                                                         delegate:nil
+//                                                                                cancelButtonTitle:@"Ohh i got it"
+//                                                                                otherButtonTitles:nil];
+//                                          [alert show];
+//        
+//        
+    
+//    }
+    
+    
+}
+
+- (IBAction)proceedTapped:(id)sender {
+    if(self.state == SVAddFriendsFromAddFriendButton){
+        [self donePressed:nil];
+    }
+    if(self.state == SVAddFriendsMainWithImage || self.state == SVAddFriendsMainWithoutIamge){
+        [self openGroupFromMembers];
+    }
+    
+    
+}
+
+- (IBAction)friendsButtonTapped:(id)sender {
+    
+    self.contactsSourceSelector.selectedSegmentIndex = 0;
+    [UIView animateWithDuration:0.2 animations:^{
+        
+        if(self.state == SVAddFriendsFromAddFriendButton){
+            contactTypeSelectedLine.frame = CGRectMake(0, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/2, 8);
+        } else {
+            contactTypeSelectedLine.frame = CGRectMake(0, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/3, 8);
+        }
+        
+    }];
+    [self contactsSourceChanged:self.contactsSourceSelector];
+    
+    
 }
 
 
@@ -300,7 +463,8 @@
 ////            [groupMembers stringByAppendingFormat:@"%@, ",[[member getUser] getMemberNickname]];
 //            [groupMembers stringByAppendingString:[NSString stringWithFormat:@"%@ ,",[[member getUser] getMemberNickname]]];
 //        }
-        
+//        cell.checkmarkImage = nil;
+        cell.isMemberImage = nil;
         cell.contactIcon.image = [UIImage imageNamed:@"CaptureButton"];
         if((unsigned long)[album getPhotos].array.count > 0){
             SLAlbumPhoto *latestPhoto = [[album getPhotos].array objectAtIndex:0];
@@ -410,7 +574,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 26;
+	return 28;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -427,6 +591,21 @@
     l.text = [sectionIndexTitles_ objectAtIndex:section];
 
 	return v;
+}
+
+-(void)setProceedButtonActive {
+//    self.proceedButton.enabled = YES;
+    [UIView animateWithDuration:0.2 animations:^{
+        
+        self.proceedButton.frame = CGRectMake(self.proceedButton.frame.origin.x, self.view.frame.size.height-self.proceedButton.frame.size.height, self.proceedButton.frame.size.width, self.proceedButton.frame.size.height);
+    }];
+}
+-(void)setProceedButtonUnActive {
+    //    self.proceedButton.enabled = YES;
+    [UIView animateWithDuration:0.2 animations:^{
+        
+        self.proceedButton.frame = CGRectMake(self.proceedButton.frame.origin.x, self.proceedButton.frame.origin.y+self.proceedButton.frame.size.height, self.proceedButton.frame.size.width, self.proceedButton.frame.size.height);
+    }];
 }
 
 
@@ -463,14 +642,19 @@
     [UIView animateWithDuration:0.2 animations:^{
         
         if([checkedContactsList_ count]>0){
-            self.contactsSourceSelector.alpha = 0;
-            self.contactsSourceView.alpha = 0;
-            openGroupFromMembersButton.alpha = 1;
-            [self.view bringSubviewToFront:openGroupFromMembersButton];
+//            self.contactsSourceSelector.alpha = 0;
+            self.contactSourceButtonsView.alpha = 0;
+//            self.contactsSourceView.alpha = 0;
+//            openGroupFromMembersButton.alpha = 1;
+//            [self.view bringSubviewToFront:openGroupFromMembersButton];
+            
+            [self setProceedButtonActive];
         } else {
-            self.contactsSourceSelector.alpha = 1;
-            self.contactsSourceView.alpha = 1;
+            self.contactSourceButtonsView.alpha = 1;
+//            self.contactsSourceSelector.alpha = 1;
+//            self.contactsSourceView.alpha = 1;
             openGroupFromMembersButton.alpha = 0;
+            [self setProceedButtonUnActive];
         }
         
     }];
@@ -510,6 +694,7 @@
             
             SLAlbumContents * album = [self getAlbumForIndexPath:indexPath];
             
+            if(self.state == SVAddFriendsFromMove){
             
             [ShotVibeAPITask runTask:self withAction:^id{
                 //
@@ -543,7 +728,21 @@
                         
                     }];
             
-
+            } else {
+                
+                
+                if(self.state == SVAddFriendsMainWithoutIamge){
+                    
+                    [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:[album getId] completion:^{
+                        
+                        [[ContainerViewController sharedInstance] resetFriendsView];
+                        //                            [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
+                        
+                    }];
+                    
+                }
+                
+            }
             
         }
         
@@ -606,23 +805,30 @@
 #pragma mark Search
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-	[searchBar setShowsCancelButton:YES animated:YES];
-	self.contactsSourceView.alpha = 0;
-	self.contactsSourceView.hidden = NO;
+//	[searchBar setShowsCancelButton:YES animated:YES];
+//	self.contactsSourceView.alpha = 0;
+//	self.contactsSourceView.hidden = YES;
+//    self.contactSourceButtonsView.alpha = 0;
+    
 	self.butOverlay.alpha = 0;
 	self.butOverlay.hidden = NO;
 	[UIView animateWithDuration:0.3 animations:^{
-		self.tableView.frame = CGRectMake(0, 44+44, self.view.frame.size.width, self.view.frame.size.height-44-44-216);
-		self.contactsSourceView.alpha = 1;
+//		self.tableView.frame = CGRectMake(0, 44+44, self.view.frame.size.width, self.view.frame.size.height-44-44-216);
+//		self.contactsSourceView.alpha = 0;
+//        contactTypeSelectedLine.alpha = 1;
+//        self.contactSourceButtonsView.alpha = 0;
 		self.butOverlay.alpha = 0.2;
 	}];
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-	[searchBar setShowsCancelButton:NO animated:YES];
+//	[searchBar setShowsCancelButton:NO animated:YES];
 //	self.contactsSourceView.hidden = YES;
 	self.butOverlay.hidden = YES;
 	[UIView animateWithDuration:0.3 animations:^{
-		self.tableView.frame = CGRectMake(0, 44+75, self.view.frame.size.width, self.view.frame.size.height-44-75);
+        
+//        self.contactSourceButtonsView.alpha = 1;
+//        contactTypeSelectedLine.alpha = 0;
+//		self.tableView.frame = CGRectMake(0, 44+75, self.view.frame.size.width, self.view.frame.size.height-44-75);
 	}];
 }
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -639,7 +845,8 @@
 	[searchBar resignFirstResponder];
 	searchBar.text = @"";
     searchString_ = @"";
-    self.contactsSourceSelector.selectedSegmentIndex = 1;
+    [self contactsButtonTapped:nil];
+//    self.contactsSourceSelector.selectedSegmentIndex = 1;
     [self filterContactsBySearch];
 }
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)bar {
@@ -669,7 +876,7 @@
     //create a new dynamic button
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 0, 100, 20);
-	button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0];
+	button.titleLabel.font = [UIFont fontWithName:@"GothamRounded-Book" size:15.0];
 	button.titleLabel.shadowColor = [UIColor clearColor];
 	[button setTitle:shortName forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -738,8 +945,10 @@
     
     if([checkedContactsList_ count] == 0){
         [UIView animateWithDuration:0.2 animations:^{
-            self.contactsSourceView.alpha = 1;
-            self.contactsSourceSelector.alpha = 1;
+//            self.contactsSourceView.alpha = 1;
+            self.contactSourceButtonsView.alpha = 1;
+            [self setProceedButtonUnActive];
+//            self.contactsSourceSelector.alpha = 1;
         }];
     }
     
@@ -750,7 +959,7 @@
 - (void)updateContacts {
 	
 	int i = 0;
-	int x_1 = 80;
+	int x_1 = 5;
 	int x_2 = 5;
 	
 	for (UIButton *but in contactsButtons) {
@@ -828,7 +1037,9 @@
 			dispatch_async(dispatch_get_main_queue(), ^{
                 [[GLSharedCamera sharedInstance] showGlCameraView];
 				[MBProgressHUD hideHUDForView:self.view animated:YES];
-				[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//				[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                [self dismissViewControllerAnimated:YES
+ completion:nil];
 			});
 		});
 	}
@@ -1147,5 +1358,6 @@ static inline NSString * albumFirstLetter(SLAlbumSummary *album)
     
     [self.tableView reloadData];
 }
+
 
 @end

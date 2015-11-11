@@ -13,6 +13,13 @@
 #import "GPUImageLateSunsetFilter.h"
 #import "GPUImageSoftElegance2Filter.h"
 
+#import "GPUImageFizzFilter.h"
+#import "GPUImageCosmopolitanFilter.h"
+#import "GPUImageDaquiriFilter.h"
+#import "GPUImageMargaritaFilter.h"
+#import "GPUImageMojitoFilter.h"
+#import "GPUImageMartiniFilter.h"
+
 typedef enum {
     GPUIMAGE_NOFILTER,
     GPUIMAGE_SATURATION,
@@ -136,7 +143,13 @@ typedef enum {
     GPUIMAGE_NUMFILTERS,
     GPUIMAGE_SOFTELEGANCE2,
     GPUIMAGE_LATESUNSET,
-    GPUIMAGE_FOGGYNIGHT
+    GPUIMAGE_FOGGYNIGHT,
+    GPUIMAGE_MARTINI,
+    GPUIMAGE_FIZZ,
+    GPUIMAGE_COSMOPOLITAN,
+    GPUIMAGE_DAQUIRI,
+    GPUIMAGE_MARGARITA,
+    GPUIMAGE_MOJITO
 } GPUImageShowcaseFilterType;
 
 

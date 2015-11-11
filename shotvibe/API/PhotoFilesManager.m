@@ -817,7 +817,7 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
     });
 }
 
-const int MAX_CONCURRENT_DOWNLOADS = 4;
+const int MAX_CONCURRENT_DOWNLOADS = 10;
 
 // Must be called only within `mainLock`
 - (void)triggerDownload

@@ -9,7 +9,9 @@
 #import "GLWelcomeViewController.h"
 #import "SVRegistrationViewController.h"
 
-@interface GLWelcomeViewController ()
+@interface GLWelcomeViewController (){
+    UIImageView *animationImageView;
+}
 
 @end
 
@@ -41,7 +43,7 @@
     }
     
     // Normal Animation
-    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:self.dmut.frame];
+    animationImageView = [[UIImageView alloc] initWithFrame:self.dmut.frame];
     animationImageView.animationImages = images;
     animationImageView.animationDuration = 3;
     //    animationImageView.animationRepeatCount = 1;
@@ -54,6 +56,11 @@
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    [animationImageView stopAnimating];
+    animationImageView.animationImages = nil;
+    animationImageView.image = nil;
+    animationImageView = nil;
     
     if (self.onClose) {
         __block GLWelcomeViewController *blocksafeSelf = self;

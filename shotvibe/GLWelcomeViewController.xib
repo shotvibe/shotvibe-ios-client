@@ -38,7 +38,7 @@
                         <constraint firstAttribute="height" constant="135" id="8LV-1d-nah"/>
                     </constraints>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUq-02-Mc2">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUq-02-Mc2">
                     <rect key="frame" x="76" y="275" width="223" height="39"/>
                     <animations/>
                     <constraints>

@@ -80,6 +80,7 @@ static ContainerViewController *sharedInstance;
         freindsVc.photoToMoveId = photoId;
     }
     freindsVc.fromMove = YES;
+    freindsVc.state = SVAddFriendsFromMove;
 }
 
 - (void)setFriendsFromMain {
@@ -100,6 +101,60 @@ static ContainerViewController *sharedInstance;
 
 -(void)setFriendsFromMainWithPicture {
     freindsVc.friendsFromMainWithPicture = YES;
+    freindsVc.state = SVAddFriendsMainWithImage;
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[GLSharedCamera sharedInstance] retrievePhotoFromPicker:info[UIImagePickerControllerOriginalImage]];
+    }];
+}
+
+//
+//-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+//    NSLog(@"");
+//    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+//    
+//    
+//    [self dismissViewControllerAnimated:YES completion:^{
+//        
+//        [UIView animateWithDuration:0.3 animations:^{
+////            glcamera.view.alpha = 1;
+////            [glcamera hideForPicker:NO];
+//            glcamera.picYourGroup.alpha = 0;
+//            glcamera.picYourGroup.hidden = NO;
+//        }];
+//        
+//    }];
+////    glcamera.picYourGroup.alpha = 0;
+//}
+
+-(void)openAppleImagePicker {
+
+    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+//    glcamera.delegate = self;
+    
+    //    glcamera.delegate
+    //     glcamera.imagePickerDelegate = picker.delegate;
+    picker.delegate = self;
+    
+    
+    //    fromImagePicker = YES;
+//    picker.allowsEditing = YES;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
+    [self presentViewController:picker animated:YES completion:^{
+        
+        //        [appDelegate.window sendSubviewToBack:glcamera.view];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+//            glcamera.view.alpha = 0;
+//            [glcamera hideForPicker:YES];
+        }];
+    }];
+
 }
 
 - (void)transitToAlbumList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction withAlbumId:(long long int)albumId completion:(pageTransitionCompleted)completion {
@@ -148,26 +203,53 @@ static ContainerViewController *sharedInstance;
 //    }];
 //    
 //}
-//-(void)backPressed {
-//
-//    if(membersOpened){
-//        
-//        membersOpened = !membersOpened;
-//        
-//        [navigationController.menuContainerViewController toggleRightSideMenuCompletion:^{
-//            
-//        }];
-//        
-//    }
-//    
-//    [UIView animateWithDuration:0.2 animations:^{
-//        [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
-//        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
-//    }];
-//    [self lockScrolling:NO];
-//    [navigationController popViewControllerAnimated:YES];
-//
-//}
+-(void)backPressed {
+
+    if(membersOpened){
+        
+        membersOpened = !membersOpened;
+        
+        [self.sideMenu.navigationController.menuContainerViewController toggleRightSideMenuCompletion:^{
+            
+        }];
+        
+    }
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
+        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
+    }];
+    [self lockScrolling:NO];
+    
+     [self.navigationController popViewControllerAnimated:YES];
+
+}
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+//    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+//    glcamera.delegate = nil;
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+//    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+//    glcamera.delegate = nil;
+//    glcamera.delegate = self;
+    
+//    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+//    glcamera.delegate = self;
+    
+ 
+    
+}
 
 - (void)viewDidLoad
 {
@@ -212,9 +294,12 @@ static ContainerViewController *sharedInstance;
     
     
     
-    
+    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+    glcamera.delegate = self;
 //    [self gotoPage:2];
     [self transitToAlbumList:NO direction:UIPageViewControllerNavigationDirectionReverse withAlbumId:0 completion:^{
+        
+        
         
     }];
     

@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GLFeedTableCell : UITableViewCell
+@interface GLFeedTableCell : UITableViewCell {
+    
+}
+
+-(void)highLightLastCommentInPost;
 
 @property(nonatomic,retain) UIImageView * profileImageView;
 @property(nonatomic,retain) UILabel * userName;
@@ -24,5 +28,10 @@
 @property(nonatomic, retain) UIButton * postForwardButton;
 @property(nonatomic, retain) UIView * postPannelWrapper;
 @property(nonatomic, retain) UIView * commentScrollBgView;
+@property(nonatomic, retain) UIButton * abortCommentButton;
+@property(nonatomic, retain) UIButton * glanceUpButton;
+@property(nonatomic, retain) UIButton * glanceDownButton;
+@property(nonatomic, retain) UIButton * feed3DotsButton;
+
 
 @end

@@ -29,7 +29,7 @@
 
 - (void)commonInit
 {
-    self.shadowBackgroundColor = [UIColor colorWithWhite:1. alpha:.3];
+    self.shadowBackgroundColor = [UIColor colorWithWhite:1. alpha:.5];
     self.shadowForegroundColor = [UIColor whiteColor];
     
     self.shadowWidth = 20.;

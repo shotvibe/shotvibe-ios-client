@@ -187,6 +187,12 @@
 //    GLWelcomeViewController * welcome = [[GLWelcomeViewController alloc] init];
     SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
     GLWelcomeViewController * welcome = [[GLWelcomeViewController alloc] init];
+    
+    
+    
+    self.window.backgroundColor = [UIColor whiteColor];
+    
+    
 //    welcome = (GLWelcomeViewController *)navigationController.visibleViewController;
 //
 //
@@ -207,10 +213,7 @@
 //    
 //    
 //    self.window.rootViewController = self.sideMenu;
-    self.window.backgroundColor = [UIColor whiteColor];
-    ContainerViewController * cont = [ContainerViewController sharedInstance];
-//
-    self.window.rootViewController = cont;
+    
 
 //    self.window.rootViewController.wantsFullScreenLayout = YES;
     
@@ -244,7 +247,8 @@
 
         
         welcome.onClose = ^(id response){
-            
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
 //            [navigationController setNavigationBarHidden:NO animated:YES];
             self.window.rootViewController = navigationController;
         };
@@ -256,6 +260,9 @@
         if (![self isLoggedIn]) {
 //            [self processCountryCode:application registrationViewController:registrationViewController];
         }
+        ContainerViewController * cont = [ContainerViewController sharedInstance];
+        //
+        self.window.rootViewController = cont;
     }
     
    
@@ -474,6 +481,12 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    if ( application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground  )
+    {
+        //opened from a push notification when the app was on background
+    }
+
+    
     [pushNotificationsManager handleNotification:userInfo];
 	
 	// Present the notification to the user

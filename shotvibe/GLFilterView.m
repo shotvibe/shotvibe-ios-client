@@ -46,8 +46,11 @@
         CGFloat filterViewHeight = screenRect.size.width;
         CGFloat screenHeigth = screenRect.size.height;
         
-        self.title = [[UILabel alloc] initWithFrame:CGRectMake((filterViewWidth/2)-((filterViewWidth/2)/2), 0, filterViewWidth/2, filterViewWidth/6)];
+        self.title = [[UILabel alloc] initWithFrame:CGRectMake((filterViewWidth/2)-((filterViewWidth/2)/2), 18, filterViewWidth/2, filterViewWidth/6)];
         self.title.textAlignment = NSTextAlignmentCenter;
+//        self.title.backgroundColor = [UIColor blackColor];
+        
+//        self.title.font = [UIFont fontWithName:@"GothamRounded-Bold" size:55];
         [self setupFilterByType];
         
         //Setup Container
@@ -114,7 +117,7 @@
         
         
 //        self.title.text = @"test";
-        self.title.font = [UIFont fontWithName:@"Helvetica-Light" size:24];
+        self.title.font = [UIFont fontWithName:@"GothamRounded-Light" size:24];//[UIFont fontWithName:@"Helvetica-Light" size:24];
         self.title.textColor = [UIColor whiteColor];
         self.title.backgroundColor = [UIColor clearColor];
 //        filterName.text = nsstringfrom;
@@ -176,13 +179,37 @@
         self.sourcePicture = nil;
     }
         
-        if(self.filterType == GPUIMAGE_LATESUNSET){
-            self.filter = [[GPUImageLateSunsetFilter alloc] init];
+    if(self.filterType == GPUIMAGE_LATESUNSET){
+        self.filter = [[GPUImageLateSunsetFilter alloc] init];
+        self.sourcePicture = nil;
+    }
+        
+    if(self.filterType == GPUIMAGE_FOGGYNIGHT){
+        self.filter = [[GPUImageFoggyNightFilter alloc] init];
+        self.sourcePicture = nil;
+    }
+        if(self.filterType == GPUIMAGE_COSMOPOLITAN){
+            self.filter = [[GPUImageCosmopolitanFilter alloc] init];
             self.sourcePicture = nil;
         }
-        
-        if(self.filterType == GPUIMAGE_FOGGYNIGHT){
-            self.filter = [[GPUImageFoggyNightFilter alloc] init];
+        if(self.filterType == GPUIMAGE_DAQUIRI){
+            self.filter = [[GPUImageDaquiriFilter alloc] init];
+            self.sourcePicture = nil;
+        }
+        if(self.filterType == GPUIMAGE_FIZZ){
+            self.filter = [[GPUImageFizzFilter alloc] init];
+            self.sourcePicture = nil;
+        }
+        if(self.filterType == GPUIMAGE_MARGARITA){
+            self.filter = [[GPUImageMargaritaFilter alloc] init];
+            self.sourcePicture = nil;
+        }
+        if(self.filterType == GPUIMAGE_MARTINI){
+            self.filter = [[GPUImageMartiniFilter alloc] init];
+            self.sourcePicture = nil;
+        }
+        if(self.filterType == GPUIMAGE_MOJITO){
+            self.filter = [[GPUImageMojitoFilter alloc] init];
             self.sourcePicture = nil;
         }
         
@@ -268,10 +295,59 @@
     switch (self.filterType)
     {
             
+            
+            
+//            ,
+//            ,
+//
+            
+        case GPUIMAGE_MARTINI:
+        {
+            self.title.text = @"Martini";
+            self.filterSettingsSlider.hidden = YES;
+            self.filter = [[GPUImageMartiniFilter alloc] init];
+        }; break;
+            
+        case GPUIMAGE_FIZZ:
+        {
+            self.title.text = @"Mint Julep";
+            self.filterSettingsSlider.hidden = YES;
+            self.filter = [[GPUImageFizzFilter alloc] init];
+            
+        }; break;
+            
+        case GPUIMAGE_COSMOPOLITAN:
+        {
+            self.title.text = @"Cosmopolitan";
+            self.filterSettingsSlider.hidden = YES;
+            self.filter = [[GPUImageCosmopolitanFilter alloc] init];
+        }; break;
+            
+        case GPUIMAGE_DAQUIRI:
+        {
+            self.title.text = @"Mai Tai";
+            self.filterSettingsSlider.hidden = YES;
+            self.filter = [[GPUImageDaquiriFilter alloc] init];
+        }; break;
+            
+        case GPUIMAGE_MARGARITA:
+        {
+            self.title.text = @"Margarita";
+            self.filterSettingsSlider.hidden = YES;
+            self.filter = [[GPUImageMargaritaFilter alloc] init];
+        }; break;
+        
+        case GPUIMAGE_MOJITO:
+        {
+            self.title.text = @"Mojito";
+            self.filterSettingsSlider.hidden = YES;
+            self.filter = [[GPUImageMojitoFilter alloc] init];
+        }; break;
+        
         
         case GPUIMAGE_NOFILTER:
         {
-            self.title.text = @"Default (NONE)";
+            self.title.text = @"Just Water";
             self.filterSettingsSlider.hidden = YES;
             
             [self.filterSettingsSlider setValue:1.0];
@@ -383,7 +459,7 @@
         }; break;
         case GPUIMAGE_AMATORKA:
         {
-            self.title.text = @"Amatorka (Lookup)";
+            self.title.text = @"Caipiriniha";//Amatorkka
             self.filterSettingsSlider.hidden = YES;
             
             self.filter = [[GPUImageAmatorkaFilter alloc] init];
@@ -402,7 +478,7 @@
         }; break;
         case GPUIMAGE_SEPIA:
         {
-            self.title.text = @"Sepia Tone";
+            self.title.text = @"Pina Colada";//Sepia Tone
 //            self.filterSettingsSlider.hidden = NO;
             
             [self.filterSettingsSlider setValue:1.0];
@@ -425,21 +501,21 @@
         
         case GPUIMAGE_GRAYSCALE:
         {
-            self.title.text = @"Grayscale";
+            self.title.text = @"Old Fashioned";
 //            self.filterSettingsSlider.hidden = YES;
             
             self.filter = [[GPUImageGrayscaleFilter alloc] init];
         }; break;
         case GPUIMAGE_SOFTELEGANCE:
         {
-            self.title.text = @"Soft Elegance (Lookup)";
+            self.title.text = @"Tom Collins";//Soft Elegance
 //            self.filterSettingsSlider.hidden = YES;
             
             self.filter = [[GPUImageSoftEleganceFilter alloc] init];
         }; break;
         case GPUIMAGE_MISSETIKATE:
         {
-            self.title.text = @"Miss Etikate (Lookup)";
+            self.title.text = @"Moscow Mule";//
 //            self.filterSettingsSlider.hidden = YES;
             
             self.filter = [[GPUImageMissEtikateFilter alloc] init];
@@ -550,13 +626,13 @@
             
         case GPUIMAGE_LATESUNSET:
         {
-            self.title.text = @"Late Sunset";
+            self.title.text = @"Bloody Mary";//Late Sunset
             self.filter = [[GPUImageLateSunsetFilter alloc] init];
         };break;
             
         case GPUIMAGE_FOGGYNIGHT:
         {
-            self.title.text = @"Foggy Night";
+            self.title.text = @"Sangria";//Foggy Night
             self.filter = [[GPUImageFoggyNightFilter alloc] init];
         };break;
 //

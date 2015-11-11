@@ -12,12 +12,16 @@
 
 //#import ""
 //#import ""
-@interface GLFeedViewController : UITableViewController <NotificationManagerDelegate>
+@interface GLFeedViewController : UITableViewController <NotificationManagerDelegate,UIScrollViewDelegate,UITextFieldDelegate>
 
 @property(nonatomic) long long int albumId;
+@property(nonatomic) long long int prevAlbumId;
 @property (retain, nonatomic) NSMutableArray *posts;
 @property(nonatomic) BOOL startImidiatly;
 @property(nonatomic, retain) SLAlbumContents * contentsFromOutside;
+@property(nonatomic) BOOL scrollToComment;
+@property(nonatomic, retain) NSString * photoToScrollToCommentsId;
+
 
 -(void)imageSelected:(UIImage*)image;
 -(void)backPressed;

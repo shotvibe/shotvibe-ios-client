@@ -13,6 +13,7 @@
 
 @interface SVSidebarMemberController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UISearchBarDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *groupTitle;
 #pragma mark - Public Properties
 
 @property (strong, nonatomic) GLFeedViewController *parentController;

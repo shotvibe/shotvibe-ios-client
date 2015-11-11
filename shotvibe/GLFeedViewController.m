@@ -66,7 +66,11 @@
     UIImage * uploadingImage;
     BOOL membersOpened;
     NSMutableArray * postsAsSLPhotos;
-    
+    int cellToHighLightIndex;
+    BOOL needCommentHl;
+    BOOL commentingNow;
+    NSMutableArray * allEmojis;
+    BOOL scrollToCellDisabled;
 //    YALSunnyRefreshControl *sunnyRefreshControl;
 }
 
@@ -91,10 +95,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    scrollToCellDisabled = NO;
     
+    allEmojis = [[NSMutableArray alloc] initWithObjects:@"😄", @"😃", @"😀", @"😊", @"☺️", @"😉", @"😍", @"😘", @"😚", @"😗", @"😙", @"😜", @"😝", @"😛", @"😳", @"😁", @"😔", @"😌", @"😒", @"😞", @"😣", @"😢", @"😂", @"😭", @"😪", @"😥", @"😰", @"😅", @"😓", @"😩", @"😫", @"😨", @"😱", @"😠", @"😡", @"😤", @"😖", @"😆", @"😋", @"😷", @"😎", @"😴", @"😵", @"😲", @"😟", @"😦", @"😧", @"😈", @"👿", @"😮", @"😬", @"😐", @"😕", @"😯", @"😶", @"😇", @"😏", @"😑", @"👲", @"👳", @"👮", @"👷", @"💂", @"👶", @"👦", @"👧", @"👨", @"👩", @"👴", @"👵", @"👱", @"👼", @"👸", @"😺", @"😸", @"😻", @"😽", @"😼", @"🙀", @"😿", @"😹", @"😾", @"👹", @"👺", @"🙈", @"🙉", @"🙊", @"💀", @"👽", @"💩", @"🔥", @"✨", @"🌟", @"💫", @"💥", @"💢", @"💦", @"💧", @"💤", @"💨", @"👂", @"👀", @"👃", @"👅", @"👄", @"👍", @"👎", @"👌", @"👊", @"✊", @"✌️", @"👋", @"✋", @"👐", @"👆", @"👇", @"👉", @"👈", @"🙌", @"🙏", @"☝️", @"👏", @"💪", @"🚶", @"🏃", @"💃", @"👫", @"👪", @"👬", @"👭", @"💏", @"💑", @"👯", @"🙆", @"🙅", @"💁", @"🙋", @"💆", @"💇", @"💅", @"👰", @"🙎", @"🙍", @"🙇", @"🎩", @"👑", @"👒", @"👟", @"👞", @"👡", @"👠", @"👢", @"👕", @"👔", @"👚", @"👗", @"🎽", @"👖", @"👘", @"👙", @"💼", @"👜", @"👝", @"👛", @"👓", @"🎀", @"🌂", @"💄", @"💛", @"💙", @"💜", @"💚", @"❤️", @"💔", @"💗", @"💓", @"💕", @"💖", @"💞", @"💘", @"💌", @"💋", @"💍", @"💎", @"👤", @"👥", @"💬", @"👣", @"💭", @"🐶", @"🐺", @"🐱", @"🐭", @"🐹", @"🐰", @"🐸", @"🐯", @"🐨", @"🐻", @"🐷", @"🐽", @"🐮", @"🐗", @"🐵", @"🐒", @"🐴", @"🐑", @"🐘", @"🐼", @"🐧", @"🐦", @"🐤", @"🐥", @"🐣", @"🐔", @"🐍", @"🐢", @"🐛", @"🐝", @"🐜", @"🐞", @"🐌", @"🐙", @"🐚", @"🐠", @"🐟", @"🐬", @"🐳", @"🐋", @"🐄", @"🐏", @"🐀", @"🐃", @"🐅", @"🐇", @"🐉", @"🐎", @"🐐", @"🐓", @"🐕", @"🐖", @"🐁", @"🐂", @"🐲", @"🐡", @"🐊", @"🐫", @"🐪", @"🐆", @"🐈", @"🐩", @"🐾", @"💐", @"🌸", @"🌷", @"🍀", @"🌹", @"🌻", @"🌺", @"🍁", @"🍃", @"🍂", @"🌿", @"🌾", @"🍄", @"🌵", @"🌴", @"🌲", @"🌳", @"🌰", @"🌱", @"🌼", @"🌐", @"🌞", @"🌝", @"🌚", @"🌑", @"🌒", @"🌓", @"🌔", @"🌕", @"🌖", @"🌗", @"🌘", @"🌜", @"🌛", @"🌙", @"🌍", @"🌎", @"🌏", @"🌋", @"🌌", @"🌠", @"⭐️", @"☀️", @"⛅️", @"☁️", @"⚡️", @"☔️", @"❄️", @"⛄️", @"🌀", @"🌁", @"🌈", @"🌊", @"🎍", @"💝", @"🎎", @"🎒", @"🎓", @"🎏", @"🎆", @"🎇", @"🎐", @"🎑", @"🎃", @"👻", @"🎅", @"🎄", @"🎁", @"🎋", @"🎉", @"🎊", @"🎈", @"🎌", @"🔮", @"🎥", @"📷", @"📹", @"📼", @"💿", @"📀", @"💽", @"💾", @"💻", @"📱", @"☎️", @"📞", @"📟", @"📠", @"📡", @"📺", @"📻", @"🔊", @"🔉", @"🔈", @"🔇", @"🔔", @"🔕", @"📢", @"📣", @"⏳", @"⌛️", @"⏰", @"⌚️", @"🔓", @"🔒", @"🔏", @"🔐", @"🔑", @"🔎", @"💡", @"🔦", @"🔆", @"🔅", @"🔌", @"🔋", @"🔍", @"🛁", @"🛀", @"🚿", @"🚽", @"🔧", @"🔩", @"🔨", @"🚪", @"🚬", @"💣", @"🔫", @"🔪", @"💊", @"💉", @"💰", @"💴", @"💵", @"💷", @"💶", @"💳", @"💸", @"📲", @"📧", @"📥", @"📤", @"✉️", @"📩", @"📨", @"📯", @"📫", @"📪", @"📬", @"📭", @"📮", @"📦", @"📝", @"📄", @"📃", @"📑", @"📊", @"📈", @"📉", @"📜", @"📋", @"📅", @"📆", @"📇", @"📁", @"📂", @"✂️", @"📌", @"📎", @"✒️", @"✏️", @"📏", @"📐", @"📕", @"📗", @"📘", @"📙", @"📓", @"📔", @"📒", @"📚", @"📖", @"🔖", @"📛", @"🔬", @"🔭", @"📰", @"🎨", @"🎬", @"🎤", @"🎧", @"🎼", @"🎵", @"🎶", @"🎹", @"🎻", @"🎺", @"🎷", @"🎸", @"👾", @"🎮", @"🃏", @"🎴", @"🀄️", @"🎲", @"🎯", @"🏈", @"🏀", @"⚽️", @"⚾️", @"🎾", @"🎱", @"🏉", @"🎳", @"⛳️", @"🚵", @"🚴", @"🏁", @"🏇", @"🏆", @"🎿", @"🏂", @"🏊", @"🏄", @"🎣", @"☕️", @"🍵", @"🍶", @"🍼", @"🍺", @"🍻", @"🍸", @"🍹", @"🍷", @"🍴", @"🍕", @"🍔", @"🍟", @"🍗", @"🍖", @"🍝", @"🍛", @"🍤", @"🍱", @"🍣", @"🍥", @"🍙", @"🍘", @"🍚", @"🍜", @"🍲", @"🍢", @"🍡", @"🍳", @"🍞", @"🍩", @"🍮", @"🍦", @"🍨", @"🍧", @"🎂", @"🍰", @"🍪", @"🍫", @"🍬", @"🍭", @"🍯", @"🍎", @"🍏", @"🍊", @"🍋", @"🍒", @"🍇", @"🍉", @"🍓", @"🍑", @"🍈", @"🍌", @"🍐", @"🍍", @"🍠", @"🍆", @"🍅", @"🌽", @"🏠", @"🏡", @"🏫", @"🏢", @"🏣", @"🏥", @"🏦", @"🏪", @"🏩", @"🏨", @"💒", @"⛪️", @"🏬", @"🏤", @"🌇", @"🌆", @"🏯", @"🏰", @"⛺️", @"🏭", @"🗼", @"🗾", @"🗻", @"🌄", @"🌅", @"🌃", @"🗽", @"🌉", @"🎠", @"🎡", @"⛲️", @"🎢", @"🚢", @"⛵️", @"🚤", @"🚣", @"⚓️", @"🚀", @"✈️", @"💺", @"🚁", @"🚂", @"🚊", @"🚉", @"🚞", @"🚆", @"🚄", @"🚅", @"🚈", @"🚇", @"🚝", @"🚋", @"🚃", @"🚎", @"🚌", @"🚍", @"🚙", @"🚘", @"🚗", @"🚕", @"🚖", @"🚛", @"🚚", @"🚨", @"🚓", @"🚔", @"🚒", @"🚑", @"🚐", @"🚲", @"🚡", @"🚟", @"🚠", @"🚜", @"💈", @"🚏", @"🎫", @"🚦", @"🚥", @"⚠️", @"🚧", @"🔰", @"⛽️", @"🏮", @"🎰", @"♨️", @"🗿", @"🎪", @"🎭", @"📍", @"🚩", @"🇯🇵", @"🇰🇷", @"🇩🇪", @"🇨🇳", @"🇺🇸", @"🇫🇷", @"🇪🇸", @"🇮🇹", @"🇷🇺", @"🇬🇧", @"1⃣", @"2⃣", @"3⃣", @"4⃣", @"5⃣", @"6⃣", @"7⃣", @"8⃣", @"9⃣", @"0⃣", @"1️⃣", @"2️⃣", @"3️⃣", @"4️⃣", @"5️⃣", @"6️⃣", @"7️⃣", @"8️⃣", @"9️⃣", @"0️⃣", @"🔟", @"🔢", @"#️⃣", @"🔣", @"⬆️", @"⬇️", @"⬅️", @"➡️", @"🔠", @"🔡", @"🔤", @"↗️", @"↖️", @"↘️", @"↙️", @"↔️", @"↕️", @"🔄", @"◀️", @"▶️", @"🔼", @"🔽", @"↩️", @"↪️", @"ℹ️", @"⏪", @"⏩", @"⏫", @"⏬", @"⤵️", @"⤴️", @"🆗", @"🔀", @"🔁", @"🔂", @"🆕", @"🆙", @"🆒", @"🆓", @"🆖", @"📶", @"🎦", @"🈁", @"🈯️", @"🈳", @"🈵", @"🈴", @"🈲", @"🉐", @"🈹", @"🈺", @"🈶", @"🈚️", @"🚻", @"🚹", @"🚺", @"🚼", @"🚾", @"🚰", @"🚮", @"🅿️", @"♿️", @"🚭", @"🈷", @"🈸", @"🈂", @"Ⓜ️", @"🛂", @"🛄", @"🛅", @"🛃", @"🉑", @"㊙️", @"㊗️", @"🆑", @"🆘", @"🆔", @"🚫", @"🔞", @"📵", @"🚯", @"🚱", @"🚳", @"🚷", @"🚸", @"⛔️", @"✳️", @"❇️", @"❎", @"✅", @"✴️", @"💟", @"🆚", @"📳", @"📴", @"🅰", @"🅱", @"🆎", @"🅾", @"💠", @"➿", @"♻️", @"♈️", @"♉️", @"♊️", @"♋️", @"♌️", @"♍️", @"♎️", @"♏️", @"♐️", @"♑️", @"♒️", @"♓️", @"⛎", @"🔯", @"🏧", @"💹", @"💲", @"💱", @"©", @"®", @"™", @"❌", @"‼️", @"⁉️", @"❗️", @"❓", @"❕", @"❔", @"⭕️", @"🔝", @"🔚", @"🔙", @"🔛", @"🔜", @"🔃", @"🕛", @"🕧", @"🕐", @"🕜", @"🕑", @"🕝", @"🕒", @"🕞", @"🕓", @"🕟", @"🕔", @"🕠", @"🕕", @"🕖", @"🕗", @"🕘", @"🕙", @"🕚", @"🕡", @"🕢", @"🕣", @"🕤", @"🕥", @"🕦", @"✖️", @"➕", @"➖", @"➗", @"♠️", @"♥️", @"♣️", @"♦️", @"💮", @"💯", @"✔️", @"☑️", @"🔘", @"🔗", @"➰", @"〰", @"〽️", @"🔱", @"◼️", @"◻️", @"◾️", @"◽️", @"▪️", @"▫️", @"🔺", @"🔲", @"🔳", @"⚫️", @"⚪", @"🔴", @"🔵", @"🔻", @"⬜️", @"⬛️", @"🔶", @"🔷", @"🔸", @"🔹", nil];
+    
+    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+    //    glcamera.delegate = nil;
+    glcamera.delegate = self;
+    
+    commentingNow = NO;
+//    goToHighlitedCell = NO;
     membersOpened = NO;
-    
-    
+    self.tableView.delegate = self;
+    needCommentHl = NO;
     postsAsSLPhotos = [[NSMutableArray alloc] init];
     self.tableView.scrollsToTop = YES;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -133,8 +146,7 @@
     
 //    self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
     
-    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
-//    glcamera.delegate = self;
+    
 //
     
 //    sunnyRefreshControl = [YALSunnyRefreshControl attachToScrollView:self.tableView
@@ -170,6 +182,54 @@
 
 }
 
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+
+
+    if(scrollToCellDisabled){
+        
+    } else {
+    if(!commentingNow){
+            NSLog(@"im done and ready to highlight comment");
+    
+    
+            NSArray *cells = [self.tableView visibleCells];
+    
+            GLFeedTableCell *cell = nil;
+            NSIndexPath *path = [NSIndexPath indexPathForRow:cellToHighLightIndex inSection:0];
+            for (GLFeedTableCell *aCell in cells) {
+                NSIndexPath *aPath = [self.tableView indexPathForCell:aCell];
+        
+                if ([aPath isEqual:path]) {
+                    cell = aCell;
+                }
+            }
+    
+//    GLFeedTableCell * cell = (GLFeedTableCell*)[super tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:cellToHighLightIndex inSection:0]];
+            [cell highLightLastCommentInPost];
+            self.view.userInteractionEnabled = YES;
+        }
+    }
+    
+    
+    
+
+}
+
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//    if (!decelerate) {
+//        [self scrollingFinish];
+//    }
+//}
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    [self scrollingFinish];
+//}
+//- (void)scrollingFinish {
+//    //enter code here
+//}
+
 -(void)startUploadFromOutSide:(NSNotification*)not {
 
 
@@ -178,37 +238,63 @@
 
 }
 
+
+
 -(void)commentPushPressed:(SLNotificationMessage_PhotoComment *)msg {
 
     
+    if(self.albumId != [msg getAlbumId]){
     
-    
-    NSLog(@"comment retrieved");
-    int c = 0;
-    int position = 0;
-    for(NSDictionary * post in self.posts){
-        if([[post objectForKey:@"id"] isEqualToString:[msg getPhotoId]]){
-            position = c;
-            NSLog(@"i found the commented image in the table at %d",c);
-            [self.tableView scrollToRowAtIndexPath:
-             [NSIndexPath indexPathForRow:c inSection:0]
-                                  atScrollPosition:UITableViewScrollPositionTop
-                                          animated:YES];
-            break;
-        }
-        c++;
+        GLFeedViewController * feedView = [[GLFeedViewController alloc] init];
+        feedView.albumId = [msg getAlbumId];
+        feedView.scrollToComment = YES;
+        feedView.photoToScrollToCommentsId = [msg getPhotoId];
+        feedView.prevAlbumId = self.albumId;
+        feedView.startImidiatly = NO;
+        GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+        glcamera.imageForOutSideUpload = nil;
+        //    [msg getAlbumId];
+//        [self.navigationController popToRootViewControllerAnimated:NO];
+        [self.navigationController pushViewController:feedView animated:YES];
+//        [self dismissViewControllerAnimated:NO completion:nil];
+        [self removeFromParentViewController];
+        
+    } else {
+        
+            NSLog(@"comment retrieved");
+            int c = 0;
+            int position = 0;
+            for(NSArray * post in self.posts){
+                if([[[post objectAtIndex:0] objectForKey:@"id"] isEqualToString:[msg getPhotoId]]){
+                    position = c;
+        
+        
+        
+        
+                    NSLog(@"i found the commented image in the table at %d",c);
+                    cellToHighLightIndex = c;
+                    needCommentHl = YES;
+                    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+        
+                    self.view.userInteractionEnabled = NO;
+        
+        //            GLFeedTableCell * cell = (GLFeedTableCell*)[super tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:c inSection:0]];
+        //            [cell highLightLastCommentInPost];
+                    
+                    
+                    break;
+                }
+                c++;
+            }
+        
     }
     
+
     
-//    for(GLFeedTableCell * cell in self.tableView.c){
-//        if([cell isKindOfClass:[GLFeedTableCell class]]){
-//            if([cell.photoId isEqualToString:[msg getPhotoId]]){
-////                NSLog(@"i found the commented image in the table");
-//            }
-//        }
-//    }
+
     
-//    [msg getPhotoId];
+    
+
 
 }
 
@@ -226,8 +312,39 @@
     
 }
 
-- (void)openAppleImagePicker {
-    
+//- (void)openAppleImagePicker {
+//    
+//    
+//    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+//    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+//    //    glcamera.delegate = self;
+//    
+//    //    glcamera.delegate
+//    //     glcamera.imagePickerDelegate = picker.delegate;
+//    picker.delegate = self;
+//    
+//    
+//    //    fromImagePicker = YES;
+//    picker.allowsEditing = NO;
+//    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//    
+//    [self presentViewController:picker animated:YES completion:^{
+//        
+//        //        [appDelegate.window sendSubviewToBack:glcamera.view];
+//        
+//        [UIView animateWithDuration:0.3 animations:^{
+//            glcamera.view.alpha = 0;
+//            [glcamera hideForPicker:YES];
+//        }];
+//    }];
+//    
+//    
+//    
+//    
+//    
+//}
+
+-(void)openAppleImagePicker {
     
     GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -239,7 +356,7 @@
     
     
     //    fromImagePicker = YES;
-    picker.allowsEditing = NO;
+    //    picker.allowsEditing = YES;
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
     [self presentViewController:picker animated:YES completion:^{
@@ -247,21 +364,18 @@
         //        [appDelegate.window sendSubviewToBack:glcamera.view];
         
         [UIView animateWithDuration:0.3 animations:^{
-            glcamera.view.alpha = 0;
-            [glcamera hideForPicker:YES];
+            //            glcamera.view.alpha = 0;
+            //            [glcamera hideForPicker:YES];
         }];
     }];
-    
-    
-    
-    
     
 }
 
 -(void)imageSelected:(UIImage*)image {
     
-    
+    if(image != nil){
     if([self.posts count] > 0){
+        scrollToCellDisabled = YES;
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
     
@@ -336,7 +450,7 @@
         
         
     });
-    
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -350,13 +464,44 @@
     [self setAlbumContents:contents];
     //    [self loadFeed];
     [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
-    glcamera.delegate = self;
+    
+    if(self.scrollToComment){
+        
+        NSLog(@"comment retrieved");
+            int c = 0;
+            int position = 0;
+            for(NSArray * post in self.posts){
+                if([[[post objectAtIndex:0] objectForKey:@"id"] isEqualToString:self.photoToScrollToCommentsId]){
+                    position = c;
+        
+        
+        
+        
+                    NSLog(@"i found the commented image in the table at %d",c);
+                    cellToHighLightIndex = c;
+                    needCommentHl = YES;
+                    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+        
+                    self.view.userInteractionEnabled = NO;
+        
+        //            GLFeedTableCell * cell = (GLFeedTableCell*)[super tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:c inSection:0]];
+        //            [cell highLightLastCommentInPost];
+                    
+                    
+                    break;
+                }
+                c++;
+            }
+        
+    }
+//    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+//    glcamera.delegate = self;
     
     
     
@@ -399,16 +544,32 @@
 {
     [super viewDidDisappear:animated];
     
+//    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+//    glcamera.delegate = nil;
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
     
     [self clearNewPhotoBadges:albumContents];
     
     [albumManager_ removeAlbumContentsListenerWithLong:self.albumId withSLAlbumManager_AlbumContentsListener:self];
 }
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[GLSharedCamera sharedInstance] retrievePhotoFromPicker:info[UIImagePickerControllerOriginalImage]];
+    }];
+}
 
 - (void)onAlbumContentsNewContentWithLong:(long long int)albumId
                       withSLAlbumContents:(SLAlbumContents *)album
 {
+    if(needCommentHl){
+        [self.tableView scrollToRowAtIndexPath:
+                      [NSIndexPath indexPathForRow:cellToHighLightIndex inSection:0]
+                                           atScrollPosition:UITableViewScrollPositionTop
+                                                   animated:YES];
+        needCommentHl = NO;
+    }
     [self setAlbumContents:album];
     //    [self loadFeed];
 }
@@ -616,6 +777,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     GLFeedTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GLFeedCell" forIndexPath:indexPath];
+    cell.tag = indexPath.row;
     NSArray * tempDict = [self.posts objectAtIndex:indexPath.row];
     
     SLAlbumPhoto *photo = [tempDict objectAtIndex:1];
@@ -623,10 +785,31 @@
     
     
     if ([photo getUploadingPhoto]) {
+        
+        
+        
         NSLog(@"aaa");
         [cell.profileImageView setImage:[UIImage imageNamed:@"CaptureButton"]];
         
         cell.userName.text = [NSString stringWithFormat:@"Uploading - %.f%% ",[[photo getUploadingPhoto] getUploadProgress] * 100];//@"Uploading";
+        
+        if([[photo getUploadingPhoto] getUploadProgress] * 100 == 100){
+            scrollToCellDisabled = NO;
+            NSString *path = [NSString stringWithFormat:@"%@%@", [[NSBundle mainBundle] resourcePath], @"/dropsound.wav"];
+            //
+            SystemSoundID soundID;
+            //
+            NSURL *filePath = [NSURL fileURLWithPath:path isDirectory:NO];
+            //
+            //        //Use audio sevices to create the sound
+            //
+            AudioServicesCreateSystemSoundID((__bridge CFURLRef)filePath, &soundID);
+            
+            //Use audio services to play the sound
+            
+            AudioServicesPlaySystemSound(soundID);
+        }
+        
         cell.postedTime.text = @"now";
 
         [cell.postImage setImage:uploadingImage];
@@ -643,10 +826,12 @@
         
         
         cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
+        cell.abortCommentButton.tag = indexPath.row;
+        cell.glanceDownButton.tag = indexPath.row;
+        cell.glanceUpButton.tag = indexPath.row;
         
         
-        
-        cell.glancesIcon.tag = indexPath.row;
+//        cell.glancesIcon.tag = indexPath.row;
         
         [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
         cell.postForwardButton.tag = indexPath.row;
@@ -654,13 +839,13 @@
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
         singleTap.numberOfTapsRequired = 1;
         //    singleTap
-        [cell.glancesIcon addGestureRecognizer:singleTap];
+        [cell.glanceUpButton addGestureRecognizer:singleTap];
         
         UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
-        doubleTap.numberOfTapsRequired = 2;
-        [cell.glancesIcon addGestureRecognizer:doubleTap];
+        doubleTap.numberOfTapsRequired = 1;
+        [cell.glanceDownButton addGestureRecognizer:doubleTap];
         
-        [singleTap requireGestureRecognizerToFail:doubleTap];
+//        [singleTap requireGestureRecognizerToFail:doubleTap];
         
         //    [cell.glancesIcon addGestureRecognizer:<#(nonnull UIGestureRecognizer *)#>];
         
@@ -672,7 +857,7 @@
 //        [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         
-        
+        cell.commentsScrollView.alpha = 0;
         
         
 
@@ -700,8 +885,10 @@
 //        } else{
 //            tempImage = [UIImage imageNamed:@"postIsUploadingPh"];
 //        }
+        
+//        
 //            [cell.postImage sd_setImageWithURL:[NSURL URLWithString:[[[[tempDict objectAtIndex:0] objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]]
-//                              placeholderImage:uploadingImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                              placeholderImage:uploadingImage options:SDWebImageHighPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
 //                                  [UIView animateWithDuration:0.2 animations:^{
 //                                      cell.postImage.alpha = 1;
 //                                  }];
@@ -711,8 +898,22 @@
 //        }
         
         SLAlbumPhoto * photo = [tempDict objectAtIndex:1];
+//        cell.postImage
+//        if(cell.postImage.image != uploadingImage){
         [cell.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
+//        }
+            //
         
+        
+        
+//        int score = [[photo getServerPhoto] getMyGlanceScoreDelta];
+//        if(score < 0){
+//            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconUnGlanced"];
+//        } else if(score == 0){
+//            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconRegular"];
+//        } else {
+//            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconGlanced"];
+//        }
 //        [cell.postImage setPhoto:<#(NSString *)#> photoUrl: objectForKey:@"url"]] photoSize:[PhotoSize FeedSize] manager:albumManager_]
     
 //        }
@@ -732,22 +933,27 @@
     
     
     cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
-
+    cell.abortCommentButton.tag = indexPath.row;
+        cell.glanceDownButton.tag = indexPath.row;
+        cell.glanceUpButton.tag = indexPath.row;
+        
     [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
     cell.postForwardButton.tag = indexPath.row;
     
-    cell.glancesIcon.tag = indexPath.row;
+//    cell.glancesIcon.tag = indexPath.row;
     
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
     singleTap.numberOfTapsRequired = 1;
 //    singleTap
-    [cell.glancesIcon addGestureRecognizer:singleTap];
+    [cell.glanceUpButton addGestureRecognizer:singleTap];
     
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
-    doubleTap.numberOfTapsRequired = 2;
-    [cell.glancesIcon addGestureRecognizer:doubleTap];
+    doubleTap.numberOfTapsRequired = 1;
+    [cell.glanceDownButton addGestureRecognizer:doubleTap];
     
-    [singleTap requireGestureRecognizerToFail:doubleTap];
+//    [singleTap requireGestureRecognizerToFail:doubleTap];
+        
+        
     
 //    [cell.glancesIcon addGestureRecognizer:<#(nonnull UIGestureRecognizer *)#>];
     
@@ -757,11 +963,14 @@
     cell.commentTextField.tag = indexPath.row;
     
     [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.postPannelWrapper bringSubviewToFront:cell.abortCommentButton];
 
     
     [cell.commentsScrollView removeFromSuperview];
     
     cell.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, [[UIScreen mainScreen] bounds].size.width, 69)];
+        cell.commentsScrollView.alpha = 1;
     cell.commentsScrollView.pagingEnabled = YES;
     cell.commentsScrollView.backgroundColor = [UIColor clearColor];
     cell.commentsScrollView.contentSize = CGSizeMake(self.view.frame.size.width, [commentsArray count]*23);
@@ -857,7 +1066,7 @@
 //        [[albumManager_ getShotVibeAPI]postPhotoCommentWithNSString:cell.photoId withNSString:textField.text withLong:milliseconds];
         return nil;
     } onTaskComplete:^(id dummy) {
-        
+        [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
         [UIView animateWithDuration:0.2 animations:^{
             //                commentsDialog.alpha = 0;
             
@@ -866,24 +1075,24 @@
             
         } completion:^(BOOL finished) {
             
-            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+            
     
         }];
     }];
 
     
     [UIView animateWithDuration:0.2 animations:^{
-        cell.glancesIcon.transform = CGAffineTransformScale(cell.glancesIcon.transform, 1.5, 1.5);
+        cell.glanceUpButton.transform = CGAffineTransformScale(cell.glanceUpButton.transform, 2.0, 2.0);
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.2 animations:^{
-            cell.glancesIcon.transform = CGAffineTransformIdentity;
+            cell.glanceUpButton.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
-            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconGlanced"];
-            CATransition *transition = [CATransition animation];
-            transition.duration = 0.3f;
-            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-            transition.type = kCATransitionFromRight;
-            [cell.glancesIcon.layer addAnimation:transition forKey:nil];
+//            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconGlanced"];
+//            CATransition *transition = [CATransition animation];
+//            transition.duration = 0.3f;
+//            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//            transition.type = kCATransitionFromRight;
+//            [cell.glancesIcon.layer addAnimation:transition forKey:nil];
         }];
     }];
     
@@ -907,7 +1116,7 @@
         //        [[albumManager_ getShotVibeAPI]postPhotoCommentWithNSString:cell.photoId withNSString:textField.text withLong:milliseconds];
         return nil;
     } onTaskComplete:^(id dummy) {
-        
+        [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
         [UIView animateWithDuration:0.2 animations:^{
             //                commentsDialog.alpha = 0;
             
@@ -916,23 +1125,23 @@
             
         } completion:^(BOOL finished) {
             
-            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+            
             
         }];
     }];
     
     [UIView animateWithDuration:0.2 animations:^{
-        cell.glancesIcon.transform = CGAffineTransformScale(cell.glancesIcon.transform, 1.5, 1.5);
+        cell.glanceDownButton.transform = CGAffineTransformScale(cell.glancesIcon.transform, 2.5, 2.5);
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.2 animations:^{
-            cell.glancesIcon.transform = CGAffineTransformIdentity;
+            cell.glanceDownButton.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
-            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconUnGlanced"];
-            CATransition *transition = [CATransition animation];
-            transition.duration = 0.3f;
-            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-            transition.type = kCATransitionFromLeft;
-            [cell.glancesIcon.layer addAnimation:transition forKey:nil];
+//            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconUnGlanced"];
+//            CATransition *transition = [CATransition animation];
+//            transition.duration = 0.3f;
+//            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//            transition.type = kCATransitionFromLeft;
+//            [cell.glancesIcon.layer addAnimation:transition forKey:nil];
         }];
     }];
     
@@ -1046,7 +1255,9 @@
 //        [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
 //        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
 //    }];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+    
 }
 
 -(void)membersPressed {
@@ -1081,10 +1292,16 @@
             return nil;
         } onTaskComplete:^(id dummy) {
             
+            
+            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+            [self.tableView setUserInteractionEnabled:YES];
+            
+            
             [UIView animateWithDuration:0.2 animations:^{
 //                commentsDialog.alpha = 0;
-                
-                cell.glancesIcon.alpha = 1;
+                cell.abortCommentButton.alpha = 0;
+                cell.addCommentButton.alpha = 1;
+//                cell.glancesIcon.alpha = 1;
                 cell.commentTextField.text = @"";
                 cell.commentTextField.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+10,cell.glancesCounter.frame.origin.y+2, 0,35);
                 
@@ -1092,9 +1309,8 @@
                 
                 
             } completion:^(BOOL finished) {
+                commentingNow = NO;
                 
-                [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
-                [self.tableView setUserInteractionEnabled:YES];
 //                textField.text = @"";
             }];
         }];
@@ -1105,6 +1321,49 @@
 //    [self setEditing:NO];
     
     return YES;
+}
+
+-(void)abortCommentPressed:(UIButton*)sender {
+    
+    
+    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
+//    [cell.abortCommentButton addTarget:self action:@selector(abortCommentPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.commentTextField resignFirstResponder];
+    [UIView animateWithDuration:0.2 animations:^{
+        //                commentsDialog.alpha = 0;
+        cell.abortCommentButton.alpha = 0;
+        cell.addCommentButton.alpha = 1;
+//        cell.glancesIcon.alpha = 1;
+        cell.commentTextField.text = @"";
+        cell.commentTextField.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+10,cell.glancesCounter.frame.origin.y+2, 0,35);
+        
+        cell.glancesCounter.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+32, 26, 45, 35);
+        
+        
+    } completion:^(BOOL finished) {
+        commentingNow = NO;
+        
+        //                textField.text = @"";
+    }];
+    
+}
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+//    NSLog(@"%lu",(unsigned long)[string length]);
+    if (!(([string isEqualToString:@""]))) {//not a backspace, else `characterAtIndex` will crash.
+        unichar unicodevalue = [string characterAtIndex:0];
+        if (unicodevalue == 55357 || [allEmojis containsObject:string]) {
+            if([textField.text length] < 11){
+                return YES;
+            } else {
+                return NO;
+            }
+
+        } else {
+            return NO;
+        }
+    }
 }
 
 -(void)addCommentTapped:(UIButton*)sender {
@@ -1122,14 +1381,23 @@
 //    [[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"glance_app"];
     
     
-    [self.tableView setUserInteractionEnabled:NO];
-    
+//    [self.tableView setUserInteractionEnabled:NO];
+    commentingNow = YES;
     NSLog(@"the photo id is %lld",(long long)sender.tag);
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
     
-    [UIView animateWithDuration:0.2 animations:^{
+    cell.commentTextField.delegate = self;
+//    [cell bringSubviewToFront:cell.commentTextField];
+    [cell.abortCommentButton addTarget:self action:@selector(abortCommentPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.abortCommentButton addTarget:self action:@selector(abortCommentPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+//    [cell.postPannelWrapper addSubview:abortCommentButton];
+    
+    [UIView animateWithDuration:0.3 animations:^{
         
-        cell.glancesIcon.alpha = 0;
+        cell.addCommentButton.alpha = 0;
+        cell.abortCommentButton.alpha = 1;
+//        cell.glancesIcon.alpha = 0;
         
         cell.commentTextField.frame = CGRectMake(cell.commentTextField.frame.origin.x, cell.commentTextField.frame.origin.y, self.view.frame.size.width*0.60, cell.commentTextField.frame.size.height);
         

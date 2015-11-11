@@ -42,6 +42,9 @@
 }
 
 -(void)toggleFlash {
+    
+    
+    
     self.flashIsOn = !self.flashIsOn;
     // check if flashlight available
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");

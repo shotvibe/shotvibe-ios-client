@@ -387,7 +387,6 @@
 		0F41778F1BE6539200FFC6A2 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F41778D1BE6539200FFC6A2 /* ViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		0F49476C1BE227E200FEDC12 /* folter.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0F49476B1BE227E200FEDC12 /* folter.jpg */; settings = {ASSET_TAGS = (); }; };
 		0F49477F1BE231F900FEDC12 /* lookup_soft_elegance_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4947761BE231F900FEDC12 /* lookup_soft_elegance_2.png */; settings = {ASSET_TAGS = (); }; };
-		0F4947801BE231F900FEDC12 /* foggyNight2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4947771BE231F900FEDC12 /* foggyNight2.png */; settings = {ASSET_TAGS = (); }; };
 		0F4947811BE231F900FEDC12 /* GPUImageLateSunsetFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4947791BE231F900FEDC12 /* GPUImageLateSunsetFilter.m */; settings = {ASSET_TAGS = (); }; };
 		0F4947821BE231F900FEDC12 /* lateSunset.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F49477B1BE231F900FEDC12 /* lateSunset.png */; settings = {ASSET_TAGS = (); }; };
 		0F4947831BE231F900FEDC12 /* GPUImageFoggyNightFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F49477C1BE231F900FEDC12 /* GPUImageFoggyNightFilter.m */; settings = {ASSET_TAGS = (); }; };
@@ -407,6 +406,81 @@
 		0F4947C61BE56E5F00FEDC12 /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4947C41BE56E5F00FEDC12 /* StoryViewController.m */; settings = {ASSET_TAGS = (); }; };
 		0F4947CF1BE56FA700FEDC12 /* GLProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4947CD1BE56FA600FEDC12 /* GLProfileViewController.m */; settings = {ASSET_TAGS = (); }; };
 		0F4947D01BE56FA700FEDC12 /* GLProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F4947CE1BE56FA600FEDC12 /* GLProfileViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		0F5511461BEF864300E98C64 /* compass_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511441BEF864300E98C64 /* compass_background@2x.png */; settings = {ASSET_TAGS = (); }; };
+		0F5511471BEF864300E98C64 /* compass_spinner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511451BEF864300E98C64 /* compass_spinner@2x.png */; settings = {ASSET_TAGS = (); }; };
+		0F5511851BEF8C0300E98C64 /* Gotham-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511491BEF8C0300E98C64 /* Gotham-Black.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511861BEF8C0300E98C64 /* Gotham-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55114A1BEF8C0300E98C64 /* Gotham-BlackItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511871BEF8C0300E98C64 /* Gotham-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55114B1BEF8C0300E98C64 /* Gotham-Bold.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511881BEF8C0300E98C64 /* Gotham-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55114C1BEF8C0300E98C64 /* Gotham-BoldItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511891BEF8C0300E98C64 /* Gotham-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55114D1BEF8C0300E98C64 /* Gotham-Book.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55118A1BEF8C0300E98C64 /* Gotham-BookItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55114E1BEF8C0300E98C64 /* Gotham-BookItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55118B1BEF8C0300E98C64 /* Gotham-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55114F1BEF8C0300E98C64 /* Gotham-Light.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55118C1BEF8C0300E98C64 /* Gotham-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511501BEF8C0300E98C64 /* Gotham-LightItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55118D1BEF8C0300E98C64 /* Gotham-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511511BEF8C0300E98C64 /* Gotham-Medium.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55118E1BEF8C0300E98C64 /* Gotham-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511521BEF8C0300E98C64 /* Gotham-MediumItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55118F1BEF8C0300E98C64 /* Gotham-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511531BEF8C0300E98C64 /* Gotham-Thin.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511901BEF8C0300E98C64 /* Gotham-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511541BEF8C0300E98C64 /* Gotham-ThinItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511911BEF8C0300E98C64 /* Gotham-Ultra.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511551BEF8C0300E98C64 /* Gotham-Ultra.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511921BEF8C0300E98C64 /* Gotham-UltraItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511561BEF8C0300E98C64 /* Gotham-UltraItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511931BEF8C0300E98C64 /* Gotham-XLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511571BEF8C0300E98C64 /* Gotham-XLight.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511941BEF8C0300E98C64 /* Gotham-XLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511581BEF8C0300E98C64 /* Gotham-XLightItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511951BEF8C0300E98C64 /* GothamCondensed-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511591BEF8C0300E98C64 /* GothamCondensed-Bold.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511961BEF8C0300E98C64 /* GothamCondensed-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55115A1BEF8C0300E98C64 /* GothamCondensed-Book.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511971BEF8C0300E98C64 /* GothamCondensed-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55115B1BEF8C0300E98C64 /* GothamCondensed-Light.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511981BEF8C0300E98C64 /* GothamCondensed-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55115C1BEF8C0300E98C64 /* GothamCondensed-Medium.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511991BEF8C0300E98C64 /* GothamNarrow-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55115D1BEF8C0300E98C64 /* GothamNarrow-Black.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55119A1BEF8C0300E98C64 /* GothamNarrow-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55115E1BEF8C0300E98C64 /* GothamNarrow-BlackItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55119B1BEF8C0300E98C64 /* GothamNarrow-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55115F1BEF8C0300E98C64 /* GothamNarrow-Bold.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55119C1BEF8C0300E98C64 /* GothamNarrow-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511601BEF8C0300E98C64 /* GothamNarrow-BoldItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55119D1BEF8C0300E98C64 /* GothamNarrow-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511611BEF8C0300E98C64 /* GothamNarrow-Book.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55119E1BEF8C0300E98C64 /* GothamNarrow-BookItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511621BEF8C0300E98C64 /* GothamNarrow-BookItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F55119F1BEF8C0300E98C64 /* GothamNarrow-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511631BEF8C0300E98C64 /* GothamNarrow-Light.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511A01BEF8C0300E98C64 /* GothamNarrow-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511641BEF8C0300E98C64 /* GothamNarrow-LightItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511A11BEF8C0300E98C64 /* GothamNarrow-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511651BEF8C0300E98C64 /* GothamNarrow-Medium.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511A21BEF8C0300E98C64 /* GothamNarrow-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511661BEF8C0300E98C64 /* GothamNarrow-MediumItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511A31BEF8C0300E98C64 /* GothamNarrow-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511671BEF8C0300E98C64 /* GothamNarrow-Thin.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511A41BEF8C0300E98C64 /* GothamNarrow-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511681BEF8C0300E98C64 /* GothamNarrow-ThinItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511A51BEF8C0300E98C64 /* GothamNarrow-Ultra.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511691BEF8C0300E98C64 /* GothamNarrow-Ultra.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511A61BEF8C0300E98C64 /* GothamNarrow-UltraItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55116A1BEF8C0300E98C64 /* GothamNarrow-UltraItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511A71BEF8C0300E98C64 /* GothamNarrow-XLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55116B1BEF8C0300E98C64 /* GothamNarrow-XLight.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511A81BEF8C0300E98C64 /* GothamNarrow-XLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55116C1BEF8C0300E98C64 /* GothamNarrow-XLightItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511A91BEF8C0300E98C64 /* GothamRnd-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55116D1BEF8C0300E98C64 /* GothamRnd-Bold.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511AA1BEF8C0300E98C64 /* GothamRnd-BoldIta.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55116E1BEF8C0300E98C64 /* GothamRnd-BoldIta.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511AB1BEF8C0300E98C64 /* GothamRnd-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55116F1BEF8C0300E98C64 /* GothamRnd-Book.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511AC1BEF8C0300E98C64 /* GothamRnd-BookIta.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511701BEF8C0300E98C64 /* GothamRnd-BookIta.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511AD1BEF8C0300E98C64 /* GothamRnd-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511711BEF8C0300E98C64 /* GothamRnd-Light.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511AE1BEF8C0300E98C64 /* GothamRnd-LightIta.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511721BEF8C0300E98C64 /* GothamRnd-LightIta.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511AF1BEF8C0300E98C64 /* GothamRnd-MedIta.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511731BEF8C0300E98C64 /* GothamRnd-MedIta.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511B01BEF8C0300E98C64 /* GothamRnd-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511741BEF8C0300E98C64 /* GothamRnd-Medium.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511B11BEF8C0300E98C64 /* GothamXNarrow-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511751BEF8C0300E98C64 /* GothamXNarrow-Black.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511B21BEF8C0300E98C64 /* GothamXNarrow-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511761BEF8C0300E98C64 /* GothamXNarrow-BlackItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511B31BEF8C0300E98C64 /* GothamXNarrow-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511771BEF8C0300E98C64 /* GothamXNarrow-Bold.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511B41BEF8C0300E98C64 /* GothamXNarrow-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511781BEF8C0300E98C64 /* GothamXNarrow-BoldItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511B51BEF8C0300E98C64 /* GothamXNarrow-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511791BEF8C0300E98C64 /* GothamXNarrow-Book.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511B61BEF8C0300E98C64 /* GothamXNarrow-BookItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55117A1BEF8C0300E98C64 /* GothamXNarrow-BookItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511B71BEF8C0300E98C64 /* GothamXNarrow-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55117B1BEF8C0300E98C64 /* GothamXNarrow-Light.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511B81BEF8C0300E98C64 /* GothamXNarrow-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55117C1BEF8C0300E98C64 /* GothamXNarrow-LightItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511B91BEF8C0300E98C64 /* GothamXNarrow-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55117D1BEF8C0300E98C64 /* GothamXNarrow-Medium.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511BA1BEF8C0300E98C64 /* GothamXNarrow-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55117E1BEF8C0300E98C64 /* GothamXNarrow-MediumItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511BB1BEF8C0300E98C64 /* GothamXNarrow-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F55117F1BEF8C0300E98C64 /* GothamXNarrow-Thin.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511BC1BEF8C0300E98C64 /* GothamXNarrow-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511801BEF8C0300E98C64 /* GothamXNarrow-ThinItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511BD1BEF8C0300E98C64 /* GothamXNarrow-Ultra.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511811BEF8C0300E98C64 /* GothamXNarrow-Ultra.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511BE1BEF8C0300E98C64 /* GothamXNarrow-UltraItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511821BEF8C0300E98C64 /* GothamXNarrow-UltraItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511BF1BEF8C0300E98C64 /* GothamXNarrow-XLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511831BEF8C0300E98C64 /* GothamXNarrow-XLight.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511C01BEF8C0300E98C64 /* GothamXNarrow-XLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511841BEF8C0300E98C64 /* GothamXNarrow-XLightItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		0F5511D41BEFA9FD00E98C64 /* Cosmopolitan.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511C21BEFA9FD00E98C64 /* Cosmopolitan.png */; settings = {ASSET_TAGS = (); }; };
+		0F5511D51BEFA9FD00E98C64 /* Daquiri.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511C31BEFA9FD00E98C64 /* Daquiri.png */; settings = {ASSET_TAGS = (); }; };
+		0F5511D61BEFA9FD00E98C64 /* Fizz.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511C41BEFA9FD00E98C64 /* Fizz.png */; settings = {ASSET_TAGS = (); }; };
+		0F5511D71BEFA9FD00E98C64 /* GPUImageCosmopolitanFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5511C61BEFA9FD00E98C64 /* GPUImageCosmopolitanFilter.m */; settings = {ASSET_TAGS = (); }; };
+		0F5511D81BEFA9FD00E98C64 /* GPUImageDaquiriFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5511C81BEFA9FD00E98C64 /* GPUImageDaquiriFilter.m */; settings = {ASSET_TAGS = (); }; };
+		0F5511D91BEFA9FD00E98C64 /* GPUImageFizzFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5511CA1BEFA9FD00E98C64 /* GPUImageFizzFilter.m */; settings = {ASSET_TAGS = (); }; };
+		0F5511DA1BEFA9FD00E98C64 /* GPUImageMargaritaFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5511CC1BEFA9FD00E98C64 /* GPUImageMargaritaFilter.m */; settings = {ASSET_TAGS = (); }; };
+		0F5511DB1BEFA9FD00E98C64 /* GPUImageMartiniFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5511CE1BEFA9FD00E98C64 /* GPUImageMartiniFilter.m */; settings = {ASSET_TAGS = (); }; };
+		0F5511DC1BEFA9FD00E98C64 /* GPUImageMojitoFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5511D01BEFA9FD00E98C64 /* GPUImageMojitoFilter.m */; settings = {ASSET_TAGS = (); }; };
+		0F5511DD1BEFA9FD00E98C64 /* Margarita.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511D11BEFA9FD00E98C64 /* Margarita.png */; settings = {ASSET_TAGS = (); }; };
+		0F5511DE1BEFA9FD00E98C64 /* Martini.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511D21BEFA9FD00E98C64 /* Martini.png */; settings = {ASSET_TAGS = (); }; };
+		0F5511DF1BEFA9FD00E98C64 /* Mojito.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511D31BEFA9FD00E98C64 /* Mojito.png */; settings = {ASSET_TAGS = (); }; };
+		0F5511E21BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5511E11BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m */; settings = {ASSET_TAGS = (); }; };
 		0F7A55FB1BD2782B002C0989 /* instagram_media_popular.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F7A55FA1BD2782B002C0989 /* instagram_media_popular.json */; settings = {ASSET_TAGS = (); }; };
 		0FACEB6D1BCFC9A400DF67AB /* GLSharedCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */; settings = {ASSET_TAGS = (); }; };
 		0FBC6C581BD27DC400D989B6 /* STXFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FBC6C571BD27DC400D989B6 /* STXFeedViewController.xib */; settings = {ASSET_TAGS = (); }; };
@@ -1339,7 +1413,6 @@
 		0F41778D1BE6539200FFC6A2 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		0F49476B1BE227E200FEDC12 /* folter.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = folter.jpg; sourceTree = "<group>"; };
 		0F4947761BE231F900FEDC12 /* lookup_soft_elegance_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lookup_soft_elegance_2.png; sourceTree = "<group>"; };
-		0F4947771BE231F900FEDC12 /* foggyNight2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = foggyNight2.png; sourceTree = "<group>"; };
 		0F4947781BE231F900FEDC12 /* GPUImageFoggyNightFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageFoggyNightFilter.h; sourceTree = "<group>"; };
 		0F4947791BE231F900FEDC12 /* GPUImageLateSunsetFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageLateSunsetFilter.m; sourceTree = "<group>"; };
 		0F49477A1BE231F900FEDC12 /* GPUImageSoftElegance2Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageSoftElegance2Filter.h; sourceTree = "<group>"; };
@@ -1377,6 +1450,89 @@
 		0F4947CC1BE56FA600FEDC12 /* GLProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLProfileViewController.h; sourceTree = "<group>"; };
 		0F4947CD1BE56FA600FEDC12 /* GLProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLProfileViewController.m; sourceTree = "<group>"; };
 		0F4947CE1BE56FA600FEDC12 /* GLProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLProfileViewController.xib; sourceTree = "<group>"; };
+		0F5511431BEF864300E98C64 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		0F5511441BEF864300E98C64 /* compass_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "compass_background@2x.png"; sourceTree = "<group>"; };
+		0F5511451BEF864300E98C64 /* compass_spinner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "compass_spinner@2x.png"; sourceTree = "<group>"; };
+		0F5511491BEF8C0300E98C64 /* Gotham-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Black.otf"; sourceTree = "<group>"; };
+		0F55114A1BEF8C0300E98C64 /* Gotham-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-BlackItalic.otf"; sourceTree = "<group>"; };
+		0F55114B1BEF8C0300E98C64 /* Gotham-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Bold.otf"; sourceTree = "<group>"; };
+		0F55114C1BEF8C0300E98C64 /* Gotham-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-BoldItalic.otf"; sourceTree = "<group>"; };
+		0F55114D1BEF8C0300E98C64 /* Gotham-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Book.otf"; sourceTree = "<group>"; };
+		0F55114E1BEF8C0300E98C64 /* Gotham-BookItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-BookItalic.otf"; sourceTree = "<group>"; };
+		0F55114F1BEF8C0300E98C64 /* Gotham-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Light.otf"; sourceTree = "<group>"; };
+		0F5511501BEF8C0300E98C64 /* Gotham-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-LightItalic.otf"; sourceTree = "<group>"; };
+		0F5511511BEF8C0300E98C64 /* Gotham-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Medium.otf"; sourceTree = "<group>"; };
+		0F5511521BEF8C0300E98C64 /* Gotham-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-MediumItalic.otf"; sourceTree = "<group>"; };
+		0F5511531BEF8C0300E98C64 /* Gotham-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Thin.otf"; sourceTree = "<group>"; };
+		0F5511541BEF8C0300E98C64 /* Gotham-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-ThinItalic.otf"; sourceTree = "<group>"; };
+		0F5511551BEF8C0300E98C64 /* Gotham-Ultra.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Ultra.otf"; sourceTree = "<group>"; };
+		0F5511561BEF8C0300E98C64 /* Gotham-UltraItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-UltraItalic.otf"; sourceTree = "<group>"; };
+		0F5511571BEF8C0300E98C64 /* Gotham-XLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-XLight.otf"; sourceTree = "<group>"; };
+		0F5511581BEF8C0300E98C64 /* Gotham-XLightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-XLightItalic.otf"; sourceTree = "<group>"; };
+		0F5511591BEF8C0300E98C64 /* GothamCondensed-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamCondensed-Bold.otf"; sourceTree = "<group>"; };
+		0F55115A1BEF8C0300E98C64 /* GothamCondensed-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamCondensed-Book.otf"; sourceTree = "<group>"; };
+		0F55115B1BEF8C0300E98C64 /* GothamCondensed-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamCondensed-Light.otf"; sourceTree = "<group>"; };
+		0F55115C1BEF8C0300E98C64 /* GothamCondensed-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamCondensed-Medium.otf"; sourceTree = "<group>"; };
+		0F55115D1BEF8C0300E98C64 /* GothamNarrow-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-Black.otf"; sourceTree = "<group>"; };
+		0F55115E1BEF8C0300E98C64 /* GothamNarrow-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-BlackItalic.otf"; sourceTree = "<group>"; };
+		0F55115F1BEF8C0300E98C64 /* GothamNarrow-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-Bold.otf"; sourceTree = "<group>"; };
+		0F5511601BEF8C0300E98C64 /* GothamNarrow-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-BoldItalic.otf"; sourceTree = "<group>"; };
+		0F5511611BEF8C0300E98C64 /* GothamNarrow-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-Book.otf"; sourceTree = "<group>"; };
+		0F5511621BEF8C0300E98C64 /* GothamNarrow-BookItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-BookItalic.otf"; sourceTree = "<group>"; };
+		0F5511631BEF8C0300E98C64 /* GothamNarrow-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-Light.otf"; sourceTree = "<group>"; };
+		0F5511641BEF8C0300E98C64 /* GothamNarrow-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-LightItalic.otf"; sourceTree = "<group>"; };
+		0F5511651BEF8C0300E98C64 /* GothamNarrow-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-Medium.otf"; sourceTree = "<group>"; };
+		0F5511661BEF8C0300E98C64 /* GothamNarrow-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-MediumItalic.otf"; sourceTree = "<group>"; };
+		0F5511671BEF8C0300E98C64 /* GothamNarrow-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-Thin.otf"; sourceTree = "<group>"; };
+		0F5511681BEF8C0300E98C64 /* GothamNarrow-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-ThinItalic.otf"; sourceTree = "<group>"; };
+		0F5511691BEF8C0300E98C64 /* GothamNarrow-Ultra.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-Ultra.otf"; sourceTree = "<group>"; };
+		0F55116A1BEF8C0300E98C64 /* GothamNarrow-UltraItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-UltraItalic.otf"; sourceTree = "<group>"; };
+		0F55116B1BEF8C0300E98C64 /* GothamNarrow-XLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-XLight.otf"; sourceTree = "<group>"; };
+		0F55116C1BEF8C0300E98C64 /* GothamNarrow-XLightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamNarrow-XLightItalic.otf"; sourceTree = "<group>"; };
+		0F55116D1BEF8C0300E98C64 /* GothamRnd-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRnd-Bold.otf"; sourceTree = "<group>"; };
+		0F55116E1BEF8C0300E98C64 /* GothamRnd-BoldIta.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRnd-BoldIta.otf"; sourceTree = "<group>"; };
+		0F55116F1BEF8C0300E98C64 /* GothamRnd-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRnd-Book.otf"; sourceTree = "<group>"; };
+		0F5511701BEF8C0300E98C64 /* GothamRnd-BookIta.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRnd-BookIta.otf"; sourceTree = "<group>"; };
+		0F5511711BEF8C0300E98C64 /* GothamRnd-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRnd-Light.otf"; sourceTree = "<group>"; };
+		0F5511721BEF8C0300E98C64 /* GothamRnd-LightIta.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRnd-LightIta.otf"; sourceTree = "<group>"; };
+		0F5511731BEF8C0300E98C64 /* GothamRnd-MedIta.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRnd-MedIta.otf"; sourceTree = "<group>"; };
+		0F5511741BEF8C0300E98C64 /* GothamRnd-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRnd-Medium.otf"; sourceTree = "<group>"; };
+		0F5511751BEF8C0300E98C64 /* GothamXNarrow-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-Black.otf"; sourceTree = "<group>"; };
+		0F5511761BEF8C0300E98C64 /* GothamXNarrow-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-BlackItalic.otf"; sourceTree = "<group>"; };
+		0F5511771BEF8C0300E98C64 /* GothamXNarrow-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-Bold.otf"; sourceTree = "<group>"; };
+		0F5511781BEF8C0300E98C64 /* GothamXNarrow-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-BoldItalic.otf"; sourceTree = "<group>"; };
+		0F5511791BEF8C0300E98C64 /* GothamXNarrow-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-Book.otf"; sourceTree = "<group>"; };
+		0F55117A1BEF8C0300E98C64 /* GothamXNarrow-BookItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-BookItalic.otf"; sourceTree = "<group>"; };
+		0F55117B1BEF8C0300E98C64 /* GothamXNarrow-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-Light.otf"; sourceTree = "<group>"; };
+		0F55117C1BEF8C0300E98C64 /* GothamXNarrow-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-LightItalic.otf"; sourceTree = "<group>"; };
+		0F55117D1BEF8C0300E98C64 /* GothamXNarrow-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-Medium.otf"; sourceTree = "<group>"; };
+		0F55117E1BEF8C0300E98C64 /* GothamXNarrow-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-MediumItalic.otf"; sourceTree = "<group>"; };
+		0F55117F1BEF8C0300E98C64 /* GothamXNarrow-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-Thin.otf"; sourceTree = "<group>"; };
+		0F5511801BEF8C0300E98C64 /* GothamXNarrow-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-ThinItalic.otf"; sourceTree = "<group>"; };
+		0F5511811BEF8C0300E98C64 /* GothamXNarrow-Ultra.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-Ultra.otf"; sourceTree = "<group>"; };
+		0F5511821BEF8C0300E98C64 /* GothamXNarrow-UltraItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-UltraItalic.otf"; sourceTree = "<group>"; };
+		0F5511831BEF8C0300E98C64 /* GothamXNarrow-XLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-XLight.otf"; sourceTree = "<group>"; };
+		0F5511841BEF8C0300E98C64 /* GothamXNarrow-XLightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamXNarrow-XLightItalic.otf"; sourceTree = "<group>"; };
+		0F5511C21BEFA9FD00E98C64 /* Cosmopolitan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cosmopolitan.png; sourceTree = "<group>"; };
+		0F5511C31BEFA9FD00E98C64 /* Daquiri.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Daquiri.png; sourceTree = "<group>"; };
+		0F5511C41BEFA9FD00E98C64 /* Fizz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Fizz.png; sourceTree = "<group>"; };
+		0F5511C51BEFA9FD00E98C64 /* GPUImageCosmopolitanFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageCosmopolitanFilter.h; sourceTree = "<group>"; };
+		0F5511C61BEFA9FD00E98C64 /* GPUImageCosmopolitanFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageCosmopolitanFilter.m; sourceTree = "<group>"; };
+		0F5511C71BEFA9FD00E98C64 /* GPUImageDaquiriFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageDaquiriFilter.h; sourceTree = "<group>"; };
+		0F5511C81BEFA9FD00E98C64 /* GPUImageDaquiriFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageDaquiriFilter.m; sourceTree = "<group>"; };
+		0F5511C91BEFA9FD00E98C64 /* GPUImageFizzFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageFizzFilter.h; sourceTree = "<group>"; };
+		0F5511CA1BEFA9FD00E98C64 /* GPUImageFizzFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageFizzFilter.m; sourceTree = "<group>"; };
+		0F5511CB1BEFA9FD00E98C64 /* GPUImageMargaritaFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageMargaritaFilter.h; sourceTree = "<group>"; };
+		0F5511CC1BEFA9FD00E98C64 /* GPUImageMargaritaFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageMargaritaFilter.m; sourceTree = "<group>"; };
+		0F5511CD1BEFA9FD00E98C64 /* GPUImageMartiniFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageMartiniFilter.h; sourceTree = "<group>"; };
+		0F5511CE1BEFA9FD00E98C64 /* GPUImageMartiniFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageMartiniFilter.m; sourceTree = "<group>"; };
+		0F5511CF1BEFA9FD00E98C64 /* GPUImageMojitoFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageMojitoFilter.h; sourceTree = "<group>"; };
+		0F5511D01BEFA9FD00E98C64 /* GPUImageMojitoFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageMojitoFilter.m; sourceTree = "<group>"; };
+		0F5511D11BEFA9FD00E98C64 /* Margarita.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Margarita.png; sourceTree = "<group>"; };
+		0F5511D21BEFA9FD00E98C64 /* Martini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Martini.png; sourceTree = "<group>"; };
+		0F5511D31BEFA9FD00E98C64 /* Mojito.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mojito.png; sourceTree = "<group>"; };
+		0F5511E01BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+UIActivityIndicatorForSDWebImage.h"; sourceTree = "<group>"; };
+		0F5511E11BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+UIActivityIndicatorForSDWebImage.m"; sourceTree = "<group>"; };
 		0F7A55FA1BD2782B002C0989 /* instagram_media_popular.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = instagram_media_popular.json; sourceTree = "<group>"; };
 		0FACEB6B1BCFC9A400DF67AB /* GLSharedCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedCamera.h; sourceTree = "<group>"; };
 		0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedCamera.m; sourceTree = "<group>"; };
@@ -2635,6 +2791,8 @@
 				0F07573B1BD2735000F22F69 /* STXDynamicTableView */,
 				0F7A55FA1BD2782B002C0989 /* instagram_media_popular.json */,
 				0FBC6C661BD4F41700D989B6 /* dropsound.wav */,
+				0F5511E01BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.h */,
+				0F5511E11BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m */,
 				0FBC6C571BD27DC400D989B6 /* STXFeedViewController.xib */,
 				0FBC6C5E1BD27EFA00D989B6 /* STXFeedViewController.h */,
 				0FBC6C5F1BD27EFA00D989B6 /* STXFeedViewController.m */,
@@ -2852,7 +3010,6 @@
 			children = (
 				0F1C07901BEB95E900F82FBB /* foggyNight.png */,
 				0F4947761BE231F900FEDC12 /* lookup_soft_elegance_2.png */,
-				0F4947771BE231F900FEDC12 /* foggyNight2.png */,
 				0F4947781BE231F900FEDC12 /* GPUImageFoggyNightFilter.h */,
 				0F4947791BE231F900FEDC12 /* GPUImageLateSunsetFilter.m */,
 				0F49477A1BE231F900FEDC12 /* GPUImageSoftElegance2Filter.h */,
@@ -2907,6 +3064,108 @@
 			name = GLProfilePage;
 			sourceTree = "<group>";
 		};
+		0F5511421BEF863400E98C64 /* GLPullToRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				0F5511431BEF864300E98C64 /* Common.h */,
+				0F5511441BEF864300E98C64 /* compass_background@2x.png */,
+				0F5511451BEF864300E98C64 /* compass_spinner@2x.png */,
+			);
+			name = GLPullToRefresh;
+			sourceTree = "<group>";
+		};
+		0F5511481BEF8C0300E98C64 /* gotham */ = {
+			isa = PBXGroup;
+			children = (
+				0F5511491BEF8C0300E98C64 /* Gotham-Black.otf */,
+				0F55114A1BEF8C0300E98C64 /* Gotham-BlackItalic.otf */,
+				0F55114B1BEF8C0300E98C64 /* Gotham-Bold.otf */,
+				0F55114C1BEF8C0300E98C64 /* Gotham-BoldItalic.otf */,
+				0F55114D1BEF8C0300E98C64 /* Gotham-Book.otf */,
+				0F55114E1BEF8C0300E98C64 /* Gotham-BookItalic.otf */,
+				0F55114F1BEF8C0300E98C64 /* Gotham-Light.otf */,
+				0F5511501BEF8C0300E98C64 /* Gotham-LightItalic.otf */,
+				0F5511511BEF8C0300E98C64 /* Gotham-Medium.otf */,
+				0F5511521BEF8C0300E98C64 /* Gotham-MediumItalic.otf */,
+				0F5511531BEF8C0300E98C64 /* Gotham-Thin.otf */,
+				0F5511541BEF8C0300E98C64 /* Gotham-ThinItalic.otf */,
+				0F5511551BEF8C0300E98C64 /* Gotham-Ultra.otf */,
+				0F5511561BEF8C0300E98C64 /* Gotham-UltraItalic.otf */,
+				0F5511571BEF8C0300E98C64 /* Gotham-XLight.otf */,
+				0F5511581BEF8C0300E98C64 /* Gotham-XLightItalic.otf */,
+				0F5511591BEF8C0300E98C64 /* GothamCondensed-Bold.otf */,
+				0F55115A1BEF8C0300E98C64 /* GothamCondensed-Book.otf */,
+				0F55115B1BEF8C0300E98C64 /* GothamCondensed-Light.otf */,
+				0F55115C1BEF8C0300E98C64 /* GothamCondensed-Medium.otf */,
+				0F55115D1BEF8C0300E98C64 /* GothamNarrow-Black.otf */,
+				0F55115E1BEF8C0300E98C64 /* GothamNarrow-BlackItalic.otf */,
+				0F55115F1BEF8C0300E98C64 /* GothamNarrow-Bold.otf */,
+				0F5511601BEF8C0300E98C64 /* GothamNarrow-BoldItalic.otf */,
+				0F5511611BEF8C0300E98C64 /* GothamNarrow-Book.otf */,
+				0F5511621BEF8C0300E98C64 /* GothamNarrow-BookItalic.otf */,
+				0F5511631BEF8C0300E98C64 /* GothamNarrow-Light.otf */,
+				0F5511641BEF8C0300E98C64 /* GothamNarrow-LightItalic.otf */,
+				0F5511651BEF8C0300E98C64 /* GothamNarrow-Medium.otf */,
+				0F5511661BEF8C0300E98C64 /* GothamNarrow-MediumItalic.otf */,
+				0F5511671BEF8C0300E98C64 /* GothamNarrow-Thin.otf */,
+				0F5511681BEF8C0300E98C64 /* GothamNarrow-ThinItalic.otf */,
+				0F5511691BEF8C0300E98C64 /* GothamNarrow-Ultra.otf */,
+				0F55116A1BEF8C0300E98C64 /* GothamNarrow-UltraItalic.otf */,
+				0F55116B1BEF8C0300E98C64 /* GothamNarrow-XLight.otf */,
+				0F55116C1BEF8C0300E98C64 /* GothamNarrow-XLightItalic.otf */,
+				0F55116D1BEF8C0300E98C64 /* GothamRnd-Bold.otf */,
+				0F55116E1BEF8C0300E98C64 /* GothamRnd-BoldIta.otf */,
+				0F55116F1BEF8C0300E98C64 /* GothamRnd-Book.otf */,
+				0F5511701BEF8C0300E98C64 /* GothamRnd-BookIta.otf */,
+				0F5511711BEF8C0300E98C64 /* GothamRnd-Light.otf */,
+				0F5511721BEF8C0300E98C64 /* GothamRnd-LightIta.otf */,
+				0F5511731BEF8C0300E98C64 /* GothamRnd-MedIta.otf */,
+				0F5511741BEF8C0300E98C64 /* GothamRnd-Medium.otf */,
+				0F5511751BEF8C0300E98C64 /* GothamXNarrow-Black.otf */,
+				0F5511761BEF8C0300E98C64 /* GothamXNarrow-BlackItalic.otf */,
+				0F5511771BEF8C0300E98C64 /* GothamXNarrow-Bold.otf */,
+				0F5511781BEF8C0300E98C64 /* GothamXNarrow-BoldItalic.otf */,
+				0F5511791BEF8C0300E98C64 /* GothamXNarrow-Book.otf */,
+				0F55117A1BEF8C0300E98C64 /* GothamXNarrow-BookItalic.otf */,
+				0F55117B1BEF8C0300E98C64 /* GothamXNarrow-Light.otf */,
+				0F55117C1BEF8C0300E98C64 /* GothamXNarrow-LightItalic.otf */,
+				0F55117D1BEF8C0300E98C64 /* GothamXNarrow-Medium.otf */,
+				0F55117E1BEF8C0300E98C64 /* GothamXNarrow-MediumItalic.otf */,
+				0F55117F1BEF8C0300E98C64 /* GothamXNarrow-Thin.otf */,
+				0F5511801BEF8C0300E98C64 /* GothamXNarrow-ThinItalic.otf */,
+				0F5511811BEF8C0300E98C64 /* GothamXNarrow-Ultra.otf */,
+				0F5511821BEF8C0300E98C64 /* GothamXNarrow-UltraItalic.otf */,
+				0F5511831BEF8C0300E98C64 /* GothamXNarrow-XLight.otf */,
+				0F5511841BEF8C0300E98C64 /* GothamXNarrow-XLightItalic.otf */,
+			);
+			path = gotham;
+			sourceTree = "<group>";
+		};
+		0F5511C11BEFA9FD00E98C64 /* GLFilters */ = {
+			isa = PBXGroup;
+			children = (
+				0F5511C21BEFA9FD00E98C64 /* Cosmopolitan.png */,
+				0F5511C31BEFA9FD00E98C64 /* Daquiri.png */,
+				0F5511C41BEFA9FD00E98C64 /* Fizz.png */,
+				0F5511C51BEFA9FD00E98C64 /* GPUImageCosmopolitanFilter.h */,
+				0F5511C61BEFA9FD00E98C64 /* GPUImageCosmopolitanFilter.m */,
+				0F5511C71BEFA9FD00E98C64 /* GPUImageDaquiriFilter.h */,
+				0F5511C81BEFA9FD00E98C64 /* GPUImageDaquiriFilter.m */,
+				0F5511C91BEFA9FD00E98C64 /* GPUImageFizzFilter.h */,
+				0F5511CA1BEFA9FD00E98C64 /* GPUImageFizzFilter.m */,
+				0F5511CB1BEFA9FD00E98C64 /* GPUImageMargaritaFilter.h */,
+				0F5511CC1BEFA9FD00E98C64 /* GPUImageMargaritaFilter.m */,
+				0F5511CD1BEFA9FD00E98C64 /* GPUImageMartiniFilter.h */,
+				0F5511CE1BEFA9FD00E98C64 /* GPUImageMartiniFilter.m */,
+				0F5511CF1BEFA9FD00E98C64 /* GPUImageMojitoFilter.h */,
+				0F5511D01BEFA9FD00E98C64 /* GPUImageMojitoFilter.m */,
+				0F5511D11BEFA9FD00E98C64 /* Margarita.png */,
+				0F5511D21BEFA9FD00E98C64 /* Martini.png */,
+				0F5511D31BEFA9FD00E98C64 /* Mojito.png */,
+			);
+			path = GLFilters;
+			sourceTree = "<group>";
+		};
 		0FACEB6A1BCFC95B00DF67AB /* GLSharedCamera */ = {
 			isa = PBXGroup;
 			children = (
@@ -2947,6 +3206,7 @@
 		0FE43EAE1BDF93620088D93F /* FONTS */ = {
 			isa = PBXGroup;
 			children = (
+				0F5511481BEF8C0300E98C64 /* gotham */,
 				0FE43EAF1BDF93620088D93F /* Gotham_Rounded_Bold.otf */,
 				0FE43EB01BDF93620088D93F /* Gotham_Rounded_Book.otf */,
 				0FE43EB11BDF93620088D93F /* Gotham_Rounded_Light.otf */,
@@ -4122,6 +4382,8 @@
 		DD3A8BAA1BC99FFD002DF2C9 /* V2 */ = {
 			isa = PBXGroup;
 			children = (
+				0F5511C11BEFA9FD00E98C64 /* GLFilters */,
+				0F5511421BEF863400E98C64 /* GLPullToRefresh */,
 				0F1C07921BEB9F0600F82FBB /* JTSlideShadowAnimation */,
 				0F1C06E41BE78EA300F82FBB /* GLWellcomeScreen */,
 				0F4177851BE6537400FFC6A2 /* GLAppContainer */,
@@ -4273,6 +4535,7 @@
 				AA58FB0F16C224E800C49E02 /* Default@2x.png in Resources */,
 				AA58FB1116C224E800C49E02 /* Default-568h@2x.png in Resources */,
 				043473D41705F49600CFE564 /* placeholderImage.png in Resources */,
+				0F5511A31BEF8C0300E98C64 /* GothamNarrow-Thin.otf in Resources */,
 				108CDF6618846B9000757E36 /* MPArrowRight.png in Resources */,
 				043473D61705F49600CFE564 /* photoFrame@2x.png in Resources */,
 				043473D81705F49600CFE564 /* photoFrame.png in Resources */,
@@ -4283,24 +4546,29 @@
 				04AB0A721707D80100C5300B /* exportIcon@2x.png in Resources */,
 				04AB0A761707D80600C5300B /* trashIcon@2x.png in Resources */,
 				04AB0A781707D80600C5300B /* trashIcon.png in Resources */,
+				0F5511AE1BEF8C0300E98C64 /* GothamRnd-LightIta.otf in Resources */,
 				0F1C07681BEB5E3A00F82FBB /* seq1.png in Resources */,
 				04AB0A821707D99700C5300B /* navbarBackButton@2x.png in Resources */,
 				04AB0A841707D99700C5300B /* navbarBackButton.png in Resources */,
 				04AB0A8A1707F95700C5300B /* Logo@2x.png in Resources */,
 				3E0CC9C918B63DEC00F6089A /* close.png in Resources */,
 				04AB0A8C1707F95700C5300B /* Logo.png in Resources */,
+				0F5511931BEF8C0300E98C64 /* Gotham-XLight.otf in Resources */,
 				04AB0AA017080A5700C5300B /* newPhotosIndicator.png in Resources */,
 				04AB0AA217080A5700C5300B /* newPhotosIndicator@2x.png in Resources */,
+				0F5511951BEF8C0300E98C64 /* GothamCondensed-Bold.otf in Resources */,
 				04AB0AA417080A5700C5300B /* clockIcon@2x.png in Resources */,
 				3E0CC9C718B63DEC00F6089A /* camera.png in Resources */,
 				0F1C07781BEB5E3A00F82FBB /* seq17.png in Resources */,
 				0F1C07831BEB5E3A00F82FBB /* seq28.png in Resources */,
+				0F5511BA1BEF8C0300E98C64 /* GothamXNarrow-MediumItalic.otf in Resources */,
 				04AB0AA617080A5700C5300B /* clockIcon.png in Resources */,
 				0F1C06EE1BEB4FBD00F82FBB /* GLWelcomeViewController.xib in Resources */,
 				3E0CC9CB18B63DEC00F6089A /* edit.png in Resources */,
 				6666EC2F19360C1900557CB1 /* walla_ribbon_overlay.png in Resources */,
 				04AB0AA817080A5700C5300B /* cellDivider@2x.png in Resources */,
 				04AB0AAA17080A5700C5300B /* cellDivider.png in Resources */,
+				0F5511A21BEF8C0300E98C64 /* GothamNarrow-MediumItalic.otf in Resources */,
 				04AB0AAC17080A5700C5300B /* albumImageFrame@2x.png in Resources */,
 				04AB0AAE17080A5700C5300B /* albumImageFrame.png in Resources */,
 				AA78D2C817172C67006E1240 /* dropDownField.png in Resources */,
@@ -4313,16 +4581,23 @@
 				0499B897171DD6DE00050596 /* termsOfUseIcon@2x.png in Resources */,
 				0499B899171DD6DE00050596 /* termsOfUseIcon.png in Resources */,
 				0499B89B171DD6DE00050596 /* profileIcon@2x.png in Resources */,
+				0F5511AC1BEF8C0300E98C64 /* GothamRnd-BookIta.otf in Resources */,
+				0F55119D1BEF8C0300E98C64 /* GothamNarrow-Book.otf in Resources */,
+				0F5511A01BEF8C0300E98C64 /* GothamNarrow-LightItalic.otf in Resources */,
 				0F1C07771BEB5E3A00F82FBB /* seq16.png in Resources */,
 				0499B89D171DD6DE00050596 /* privacyPolicyIcon@2x.png in Resources */,
 				108CDF6918846B9000757E36 /* MPCheckmark@2x.png in Resources */,
 				0499B89F171DD6DE00050596 /* profileIcon.png in Resources */,
 				0499B8A1171DD6DE00050596 /* helpIcon.png in Resources */,
+				0F5511B41BEF8C0300E98C64 /* GothamXNarrow-BoldItalic.otf in Resources */,
+				0F55118F1BEF8C0300E98C64 /* Gotham-Thin.otf in Resources */,
 				0499B8A3171DD6DE00050596 /* helpIcon@2x.png in Resources */,
 				0F1C07911BEB95E900F82FBB /* foggyNight.png in Resources */,
+				0F5511981BEF8C0300E98C64 /* GothamCondensed-Medium.otf in Resources */,
 				0499B8A5171DD6DE00050596 /* privacyPolicyIcon.png in Resources */,
 				0499B8A7171DD6DE00050596 /* generalNotificationSettingIcon.png in Resources */,
 				0499B8A9171DD6DE00050596 /* generalNotificationSettingIcon@2x.png in Resources */,
+				0F5511961BEF8C0300E98C64 /* GothamCondensed-Book.otf in Resources */,
 				0499B8AB171DD6DE00050596 /* emailIcon@2x.png in Resources */,
 				0499B8AD171DD6DE00050596 /* emailIcon.png in Resources */,
 				3E0CC9E418B63E1F00F6089A /* SVPictureConfirmViewController.xib in Resources */,
@@ -4364,6 +4639,7 @@
 				66069BD21A1CD7F900BE2D32 /* IconSaveImage@2x.png in Resources */,
 				04C406111730303600973BC0 /* BH.png in Resources */,
 				04C406131730303600973BC0 /* BI.png in Resources */,
+				0F5511971BEF8C0300E98C64 /* GothamCondensed-Light.otf in Resources */,
 				04C406151730303600973BC0 /* BJ.png in Resources */,
 				04C406171730303600973BC0 /* BM.png in Resources */,
 				04C406191730303600973BC0 /* BN.png in Resources */,
@@ -4394,6 +4670,8 @@
 				04C406371730303600973BC0 /* CI.png in Resources */,
 				04C406391730303600973BC0 /* CK.png in Resources */,
 				04C4063B1730303600973BC0 /* CL.png in Resources */,
+				0F5511AD1BEF8C0300E98C64 /* GothamRnd-Light.otf in Resources */,
+				0F5511A71BEF8C0300E98C64 /* GothamNarrow-XLight.otf in Resources */,
 				04C4063D1730303600973BC0 /* CM.png in Resources */,
 				04C4063F1730303600973BC0 /* CN.png in Resources */,
 				6666EC3819360F3C00557CB1 /* easyweb_new.png in Resources */,
@@ -4407,6 +4685,7 @@
 				0F1C07711BEB5E3A00F82FBB /* seq10.png in Resources */,
 				04C406491730303600973BC0 /* CX.png in Resources */,
 				04C4064B1730303600973BC0 /* CY.png in Resources */,
+				0F55118C1BEF8C0300E98C64 /* Gotham-LightItalic.otf in Resources */,
 				04C4064D1730303600973BC0 /* CZ.png in Resources */,
 				04C4064F1730303600973BC0 /* DE.png in Resources */,
 				04C406511730303600973BC0 /* DJ.png in Resources */,
@@ -4421,6 +4700,7 @@
 				04C4065B1730303600973BC0 /* EC.png in Resources */,
 				04C4065D1730303600973BC0 /* EE.png in Resources */,
 				3E36D4E918D83F2A003A1D3A /* tutorial1@2x.png in Resources */,
+				0F5511AB1BEF8C0300E98C64 /* GothamRnd-Book.otf in Resources */,
 				04C4065F1730303600973BC0 /* EG.png in Resources */,
 				04C406611730303600973BC0 /* EH.png in Resources */,
 				3E39C2E818D9F82200F98CBF /* FriendsButton@2x.png in Resources */,
@@ -4429,6 +4709,7 @@
 				04C406651730303600973BC0 /* ES.png in Resources */,
 				04C406671730303600973BC0 /* ET.png in Resources */,
 				6666EC2E19360C1900557CB1 /* walla_ribbon_overlay@2x.png in Resources */,
+				0F55119A1BEF8C0300E98C64 /* GothamNarrow-BlackItalic.otf in Resources */,
 				04C406691730303600973BC0 /* FI.png in Resources */,
 				04C4066B1730303600973BC0 /* FJ.png in Resources */,
 				04C4066D1730303600973BC0 /* FK.png in Resources */,
@@ -4449,6 +4730,7 @@
 				04C406811730303600973BC0 /* GG.png in Resources */,
 				04C406831730303600973BC0 /* GH.png in Resources */,
 				04C406851730303600973BC0 /* GI.png in Resources */,
+				0F5511A11BEF8C0300E98C64 /* GothamNarrow-Medium.otf in Resources */,
 				04C406871730303600973BC0 /* GL.png in Resources */,
 				04C406891730303600973BC0 /* GM.png in Resources */,
 				04C4068B1730303600973BC0 /* GN.png in Resources */,
@@ -4461,6 +4743,7 @@
 				04C406951730303600973BC0 /* GT.png in Resources */,
 				3E39C2E918D9F82200F98CBF /* MoreButton.png in Resources */,
 				04C406971730303600973BC0 /* GU.png in Resources */,
+				0F5511991BEF8C0300E98C64 /* GothamNarrow-Black.otf in Resources */,
 				04C406991730303600973BC0 /* GW.png in Resources */,
 				04C4069B1730303600973BC0 /* GY.png in Resources */,
 				0F1C07761BEB5E3A00F82FBB /* seq15.png in Resources */,
@@ -4496,6 +4779,7 @@
 				0F41778F1BE6539200FFC6A2 /* ViewController.xib in Resources */,
 				3E47246318D06E5400FF6105 /* Icon-40.png in Resources */,
 				0F1C077A1BEB5E3A00F82FBB /* seq19.png in Resources */,
+				0F5511941BEF8C0300E98C64 /* Gotham-XLightItalic.otf in Resources */,
 				3E47246F18D06E5400FF6105 /* Icon.png in Resources */,
 				04C406C51730303600973BC0 /* KE.png in Resources */,
 				664F75831958F7A80027E77A /* TutorialViewController.xib in Resources */,
@@ -4535,6 +4819,7 @@
 				0F0757741BD2735000F22F69 /* STXFeedPhotoCell.xib in Resources */,
 				04C406F11730303600973BC0 /* MA.png in Resources */,
 				04C406F31730303600973BC0 /* MC.png in Resources */,
+				0F5511BE1BEF8C0300E98C64 /* GothamXNarrow-UltraItalic.otf in Resources */,
 				0F1C076D1BEB5E3A00F82FBB /* seq6.png in Resources */,
 				04C406F51730303600973BC0 /* MD.png in Resources */,
 				04C406F71730303600973BC0 /* ME.png in Resources */,
@@ -4552,16 +4837,21 @@
 				04C407051730303600973BC0 /* MN.png in Resources */,
 				04C407071730303600973BC0 /* MO.png in Resources */,
 				3E47246B18D06E5400FF6105 /* Icon-Small-50.png in Resources */,
+				0F5511BC1BEF8C0300E98C64 /* GothamXNarrow-ThinItalic.otf in Resources */,
+				0F55119C1BEF8C0300E98C64 /* GothamNarrow-BoldItalic.otf in Resources */,
 				04C407091730303600973BC0 /* MP.png in Resources */,
+				0F5511921BEF8C0300E98C64 /* Gotham-UltraItalic.otf in Resources */,
 				04C4070B1730303600973BC0 /* MQ.png in Resources */,
 				04C4070D1730303600973BC0 /* MR.png in Resources */,
 				04C4070F1730303600973BC0 /* MS.png in Resources */,
 				04C407111730303600973BC0 /* MT.png in Resources */,
 				3ED6152118CDBE2000BE7C41 /* iconLocation.png in Resources */,
 				04C407131730303600973BC0 /* MU.png in Resources */,
+				0F5511471BEF864300E98C64 /* compass_spinner@2x.png in Resources */,
 				3E4BCE8318D0A3040032CA8C /* addFriendsButton.png in Resources */,
 				04C407151730303600973BC0 /* MV.png in Resources */,
 				04C407171730303600973BC0 /* MW.png in Resources */,
+				0F5511B91BEF8C0300E98C64 /* GothamXNarrow-Medium.otf in Resources */,
 				04C407191730303600973BC0 /* MX.png in Resources */,
 				04C4071B1730303600973BC0 /* MY.png in Resources */,
 				04C4071D1730303600973BC0 /* MZ.png in Resources */,
@@ -4577,6 +4867,7 @@
 				04C407291730303600973BC0 /* NI.png in Resources */,
 				04C4072B1730303600973BC0 /* NL.png in Resources */,
 				04C4072D1730303600973BC0 /* NO.png in Resources */,
+				0F5511BD1BEF8C0300E98C64 /* GothamXNarrow-Ultra.otf in Resources */,
 				04C4072F1730303600973BC0 /* NP.png in Resources */,
 				04C407311730303600973BC0 /* NR.png in Resources */,
 				3E36D4ED18D83F2A003A1D3A /* tutorial3@2x.png in Resources */,
@@ -4591,16 +4882,19 @@
 				04C4073F1730303600973BC0 /* PG.png in Resources */,
 				04C407411730303600973BC0 /* PH.png in Resources */,
 				3E36D50418D862B6003A1D3A /* PageControlDotUnselected@2x.png in Resources */,
+				0F5511B81BEF8C0300E98C64 /* GothamXNarrow-LightItalic.otf in Resources */,
 				04C407431730303600973BC0 /* PK.png in Resources */,
 				04C407451730303600973BC0 /* PL.png in Resources */,
 				04C407471730303600973BC0 /* PM.png in Resources */,
 				04C407491730303600973BC0 /* PN.png in Resources */,
+				0F5511BF1BEF8C0300E98C64 /* GothamXNarrow-XLight.otf in Resources */,
 				04C4074B1730303600973BC0 /* PR.png in Resources */,
 				66AEED6C196A273B003344CD /* orange_new.png in Resources */,
 				04C4074D1730303600973BC0 /* PS.png in Resources */,
 				04C4074F1730303600973BC0 /* PT.png in Resources */,
 				04C407511730303600973BC0 /* PW.png in Resources */,
 				04C407531730303600973BC0 /* PY.png in Resources */,
+				0F55119E1BEF8C0300E98C64 /* GothamNarrow-BookItalic.otf in Resources */,
 				04C407551730303600973BC0 /* QA.png in Resources */,
 				3E39C2E718D9F82200F98CBF /* FriendsButton.png in Resources */,
 				04C407571730303600973BC0 /* RE.png in Resources */,
@@ -4616,6 +4910,7 @@
 				04C4075F1730303600973BC0 /* RW.png in Resources */,
 				04C407611730303600973BC0 /* SA.png in Resources */,
 				04C407631730303600973BC0 /* SB.png in Resources */,
+				0F5511B61BEF8C0300E98C64 /* GothamXNarrow-BookItalic.otf in Resources */,
 				04C407651730303600973BC0 /* SC.png in Resources */,
 				04C407671730303600973BC0 /* SD.png in Resources */,
 				04C407691730303600973BC0 /* SE.png in Resources */,
@@ -4625,10 +4920,12 @@
 				DD3A8BC41BC9A04A002DF2C9 /* MainCameraViewController.xib in Resources */,
 				04C407711730303600973BC0 /* SJ.png in Resources */,
 				04C407731730303600973BC0 /* SK.png in Resources */,
+				0F5511D61BEFA9FD00E98C64 /* Fizz.png in Resources */,
 				04C407751730303600973BC0 /* SL.png in Resources */,
 				04C407771730303600973BC0 /* SM.png in Resources */,
 				04C407791730303600973BC0 /* SN.png in Resources */,
 				04C4077B1730303600973BC0 /* SO.png in Resources */,
+				0F5511DD1BEFA9FD00E98C64 /* Margarita.png in Resources */,
 				3E36D4E818D83F2A003A1D3A /* tutorial1.png in Resources */,
 				04C4077D1730303600973BC0 /* SR.png in Resources */,
 				04C4077F1730303600973BC0 /* ST.png in Resources */,
@@ -4642,7 +4939,9 @@
 				04C407891730303600973BC0 /* TD.png in Resources */,
 				04C4078B1730303600973BC0 /* TF.png in Resources */,
 				04C4078D1730303600973BC0 /* TG.png in Resources */,
+				0F5511D41BEFA9FD00E98C64 /* Cosmopolitan.png in Resources */,
 				0F1C076C1BEB5E3A00F82FBB /* seq5.png in Resources */,
+				0F5511861BEF8C0300E98C64 /* Gotham-BlackItalic.otf in Resources */,
 				04C4078F1730303600973BC0 /* TH.png in Resources */,
 				04C407911730303600973BC0 /* TJ.png in Resources */,
 				04C407931730303600973BC0 /* TK.png in Resources */,
@@ -4660,7 +4959,9 @@
 				04C407A31730303600973BC0 /* TW.png in Resources */,
 				04C407A51730303600973BC0 /* TZ.png in Resources */,
 				3E39C2E118D9F15300F98CBF /* welcomeBtn.png in Resources */,
+				0F5511A91BEF8C0300E98C64 /* GothamRnd-Bold.otf in Resources */,
 				6666EC3D19360F3C00557CB1 /* shvoong_new@2x.png in Resources */,
+				0F5511A81BEF8C0300E98C64 /* GothamNarrow-XLightItalic.otf in Resources */,
 				04C407A71730303600973BC0 /* UA.png in Resources */,
 				04C407A91730303600973BC0 /* UG.png in Resources */,
 				108CDF6818846B9000757E36 /* MPCheckmark.png in Resources */,
@@ -4674,8 +4975,8 @@
 				04C407B51730303600973BC0 /* VC.png in Resources */,
 				04C407B71730303600973BC0 /* VE.png in Resources */,
 				04C407B91730303600973BC0 /* VG.png in Resources */,
+				0F55119B1BEF8C0300E98C64 /* GothamNarrow-Bold.otf in Resources */,
 				3EF4160A18E09ECD0077DC22 /* sortType3.png in Resources */,
-				0F4947801BE231F900FEDC12 /* foggyNight2.png in Resources */,
 				663FF03418C24F7200CB3764 /* IconNotConnected.png in Resources */,
 				6691379019D3959400829286 /* create_shotvibe_upload_state.sql in Resources */,
 				04C407BB1730303600973BC0 /* VI.png in Resources */,
@@ -4727,10 +5028,15 @@
 				2884E86717A24E7F00B382D9 /* SegmentButtonOutline@2x.png in Resources */,
 				28CFCC7F17A2C247001511EF /* SegmentSeparator.png in Resources */,
 				28CFCC8017A2C247001511EF /* SegmentSeparator@2x.png in Resources */,
+				0F5511B21BEF8C0300E98C64 /* GothamXNarrow-BlackItalic.otf in Resources */,
 				28CFCC8317A30BA2001511EF /* albumEmptyCameraButton.png in Resources */,
+				0F5511BB1BEF8C0300E98C64 /* GothamXNarrow-Thin.otf in Resources */,
 				0F1C07751BEB5E3A00F82FBB /* seq14.png in Resources */,
 				28CFCC8417A30BA2001511EF /* albumEmptyCameraButton@2x.png in Resources */,
 				66AEED6A196A273B003344CD /* orange_ribbon_overlay.png in Resources */,
+				0F5511C01BEF8C0300E98C64 /* GothamXNarrow-XLightItalic.otf in Resources */,
+				0F5511881BEF8C0300E98C64 /* Gotham-BoldItalic.otf in Resources */,
+				0F5511AF1BEF8C0300E98C64 /* GothamRnd-MedIta.otf in Resources */,
 				3E47246618D06E5400FF6105 /* Icon-60@2x.png in Resources */,
 				108CDF6418846B9000757E36 /* MPArrowLeft.png in Resources */,
 				28CFCC8717A32CF4001511EF /* SettingsDisclosure.png in Resources */,
@@ -4745,6 +5051,7 @@
 				28CFCC9B17A4ACAD001511EF /* butResend.png in Resources */,
 				28CFCC9C17A4ACAD001511EF /* butResend@2x.png in Resources */,
 				28CFCC9F17A4ACD3001511EF /* butTransparent.png in Resources */,
+				0F5511B01BEF8C0300E98C64 /* GothamRnd-Medium.otf in Resources */,
 				28CFCCA017A4ACD3001511EF /* butTransparent@2x.png in Resources */,
 				28CFCD0317A7D7E5001511EF /* albumTakePicture.png in Resources */,
 				0F4947B71BE2A7FD00FEDC12 /* push.mp3 in Resources */,
@@ -4774,21 +5081,29 @@
 				2849A79B17D9AA580076AFBA /* cameraCaptureButton-Vertical@2x.png in Resources */,
 				0F1C078F1BEB5E3A00F82FBB /* seq40.png in Resources */,
 				3ED9A9D418C772890045207D /* SafariForward.png in Resources */,
+				0F55118D1BEF8C0300E98C64 /* Gotham-Medium.otf in Resources */,
 				2849A79C17D9AA580076AFBA /* cameraCaptureButton.png in Resources */,
 				66278CE21867C62300D23F34 /* SVActivityViewController.xib in Resources */,
 				2849A79D17D9AA580076AFBA /* cameraCaptureButton@2x.png in Resources */,
 				2849A79E17D9AA580076AFBA /* cameraFlashAuto.png in Resources */,
+				0F5511A51BEF8C0300E98C64 /* GothamNarrow-Ultra.otf in Resources */,
 				664F75781958CDA70027E77A /* MainStoryboard.storyboard in Resources */,
 				2849A79F17D9AA580076AFBA /* cameraFlashAuto@2x.png in Resources */,
 				2849A7A017D9AA580076AFBA /* cameraFlashOff.png in Resources */,
 				3E0CC9CA18B63DEC00F6089A /* close@2x.png in Resources */,
+				0F5511D51BEFA9FD00E98C64 /* Daquiri.png in Resources */,
 				2849A7A117D9AA580076AFBA /* cameraFlashOff@2x.png in Resources */,
 				2849A7A217D9AA580076AFBA /* cameraFlashOn.png in Resources */,
+				0F5511B71BEF8C0300E98C64 /* GothamXNarrow-Light.otf in Resources */,
+				0F55118A1BEF8C0300E98C64 /* Gotham-BookItalic.otf in Resources */,
 				2849A7A317D9AA580076AFBA /* cameraFlashOn@2x.png in Resources */,
 				2849A7A417D9AA580076AFBA /* cameraFlip.png in Resources */,
 				2849A7A517D9AA580076AFBA /* cameraFlip@2x.png in Resources */,
 				2849A7A617D9AA580076AFBA /* cameraIcon.png in Resources */,
+				0F55118B1BEF8C0300E98C64 /* Gotham-Light.otf in Resources */,
+				0F5511B31BEF8C0300E98C64 /* GothamXNarrow-Bold.otf in Resources */,
 				2849A7A717D9AA580076AFBA /* cameraIcon@2x.png in Resources */,
+				0F5511DE1BEFA9FD00E98C64 /* Martini.png in Resources */,
 				2849A7A817D9AA580076AFBA /* cameraOptions.png in Resources */,
 				2849A7A917D9AA580076AFBA /* cameraOptions@2x.png in Resources */,
 				0F1C07881BEB5E3A00F82FBB /* seq33.png in Resources */,
@@ -4799,6 +5114,7 @@
 				2849A7AE17D9AA580076AFBA /* notificationBubble.png in Resources */,
 				3E36D50118D862B6003A1D3A /* PageControlDotSelected.png in Resources */,
 				108CDF6A18846B9000757E36 /* MPDismissKeyboard.png in Resources */,
+				0F5511891BEF8C0300E98C64 /* Gotham-Book.otf in Resources */,
 				2849A7AF17D9AA580076AFBA /* notificationBubble@2x.png in Resources */,
 				2849A7B017D9AA580076AFBA /* slider-cap@2x.png in Resources */,
 				2849A7B117D9AA580076AFBA /* slider-track-fill@2x.png in Resources */,
@@ -4807,7 +5123,9 @@
 				2849A7DB17D9AB420076AFBA /* addFriendsButtonBg.png in Resources */,
 				2849A7DC17D9AB420076AFBA /* addFriendsButtonBg@2x.png in Resources */,
 				2849A7DD17D9AB420076AFBA /* addFriendsIcon.png in Resources */,
+				0F5511461BEF864300E98C64 /* compass_background@2x.png in Resources */,
 				2849A7DE17D9AB420076AFBA /* addFriendsIcon@2x.png in Resources */,
+				0F5511B11BEF8C0300E98C64 /* GothamXNarrow-Black.otf in Resources */,
 				2849A7DF17D9AB420076AFBA /* butInvitedContacts.png in Resources */,
 				2849A7E017D9AB420076AFBA /* butInvitedContacts@2x.png in Resources */,
 				0F1C077D1BEB5E3A00F82FBB /* seq22.png in Resources */,
@@ -4823,6 +5141,7 @@
 				3E36D4F218D83F2A003A1D3A /* tutorial6.png in Resources */,
 				0F1C077F1BEB5E3A00F82FBB /* seq24.png in Resources */,
 				2849A7E617D9AB420076AFBA /* MemberJoined@2x.png in Resources */,
+				0F5511901BEF8C0300E98C64 /* Gotham-ThinItalic.otf in Resources */,
 				66AEED69196A273B003344CD /* orange_ribbon_overlay@2x.png in Resources */,
 				2849A7E717D9AB420076AFBA /* AlbumActivityDeleteIcon.png in Resources */,
 				2849A7E817D9AB420076AFBA /* AlbumActivityDeleteIcon@2x.png in Resources */,
@@ -4833,15 +5152,19 @@
 				6666EC3C19360F3C00557CB1 /* shvoong_new.png in Resources */,
 				2849A7EC17D9AB420076AFBA /* AlbumActivityJoinedIcon@2x.png in Resources */,
 				2849A7ED17D9AB420076AFBA /* AlbumActivityPicsIcon.png in Resources */,
+				0F5511AA1BEF8C0300E98C64 /* GothamRnd-BoldIta.otf in Resources */,
 				2849A7EE17D9AB420076AFBA /* AlbumActivityPicsIcon@2x.png in Resources */,
 				2849A7EF17D9AB420076AFBA /* AlbumActivityVideoIcon.png in Resources */,
+				0F5511911BEF8C0300E98C64 /* Gotham-Ultra.otf in Resources */,
 				2849A7F017D9AB420076AFBA /* AlbumActivityVideoIcon@2x.png in Resources */,
 				2849A7F117D9AB420076AFBA /* AlbumInfoButton.png in Resources */,
 				0F1C07841BEB5E3A00F82FBB /* seq29.png in Resources */,
+				0F5511B51BEF8C0300E98C64 /* GothamXNarrow-Book.otf in Resources */,
 				2849A7F217D9AB420076AFBA /* AlbumInfoButton@2x.png in Resources */,
 				0FE43EB91BE0BFBB0088D93F /* YALSunnyRefreshControl.xib in Resources */,
 				2849A7F317D9AB420076AFBA /* AlbumInfoIcon.png in Resources */,
 				2849A7F417D9AB420076AFBA /* AlbumInfoIcon@2x.png in Resources */,
+				0F55118E1BEF8C0300E98C64 /* Gotham-MediumItalic.otf in Resources */,
 				66AEED6B196A273B003344CD /* orange_new@2x.png in Resources */,
 				2849A7F517D9AB420076AFBA /* AlbumInfoLeaveIcon.png in Resources */,
 				2849A7F617D9AB420076AFBA /* AlbumInfoLeaveIcon@2x.png in Resources */,
@@ -4861,10 +5184,12 @@
 				2849A80517D9AB970076AFBA /* IconProfile.png in Resources */,
 				2849A80617D9AB970076AFBA /* IconProfile@2x.png in Resources */,
 				2849A80717D9AB970076AFBA /* IconSettings.png in Resources */,
+				0F55119F1BEF8C0300E98C64 /* GothamNarrow-Light.otf in Resources */,
 				3E39C2DF18D9F15300F98CBF /* welcome.png in Resources */,
 				2849A80817D9AB970076AFBA /* IconSettings@2x.png in Resources */,
 				6666EC2D19360C1900557CB1 /* walla_new@2x.png in Resources */,
 				2849A80A17D9ABE90076AFBA /* imagePile.png in Resources */,
+				0F5511871BEF8C0300E98C64 /* Gotham-Bold.otf in Resources */,
 				2849A81B17E6F0CE0076AFBA /* ProfileIconBackground.png in Resources */,
 				3E47246E18D06E5400FF6105 /* Icon-Small@2x.png in Resources */,
 				2849A81C17E6F0CE0076AFBA /* ProfileIconBackground@2x.png in Resources */,
@@ -4875,12 +5200,16 @@
 				2849A88F17EAFE400076AFBA /* searchFieldBg.png in Resources */,
 				2849A89017EAFE400076AFBA /* searchFieldBg@2x.png in Resources */,
 				2849A89117EAFE400076AFBA /* searchFieldIcon.png in Resources */,
+				0F5511A61BEF8C0300E98C64 /* GothamNarrow-UltraItalic.otf in Resources */,
 				2849A89217EAFE400076AFBA /* searchFieldIcon@2x.png in Resources */,
 				280475D117EB9DAB00EA84A4 /* albumEmptyLarge.png in Resources */,
+				0F5511851BEF8C0300E98C64 /* Gotham-Black.otf in Resources */,
+				0F5511A41BEF8C0300E98C64 /* GothamNarrow-ThinItalic.otf in Resources */,
 				280475D217EB9DAB00EA84A4 /* albumEmptyLarge@2x.png in Resources */,
 				28FC2C2F17FAF8F600AE24C3 /* Pencil.png in Resources */,
 				28FC2C3017FAF8F600AE24C3 /* Pencil@2x.png in Resources */,
 				28FC2C3317FAFA5700AE24C3 /* PencilWhite.png in Resources */,
+				0F5511DF1BEFA9FD00E98C64 /* Mojito.png in Resources */,
 				28FC2C3417FAFA5700AE24C3 /* PencilWhite@2x.png in Resources */,
 				0F1C077B1BEB5E3A00F82FBB /* seq20.png in Resources */,
 				0F49477F1BE231F900FEDC12 /* lookup_soft_elegance_2.png in Resources */,
@@ -5033,6 +5362,7 @@
 				0F07576D1BD2735000F22F69 /* UIImage+STXImage.m in Sources */,
 				DD3A8BC11BC9A04A002DF2C9 /* GLResizeableView.m in Sources */,
 				66278C9D1867C44600D23F34 /* CameraRollSection.m in Sources */,
+				0F5511E21BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				66013244187F4E670042047B /* Float.m in Sources */,
 				66013255187F4E670042047B /* JavaLangThrowable.m in Sources */,
 				3E0CC9E218B63E1F00F6089A /* SVPickerController.m in Sources */,
@@ -5085,6 +5415,7 @@
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				664F4706189568B1009F4776 /* IosDevicePhoneContactsLib.m in Sources */,
 				DD3A8BC31BC9A04A002DF2C9 /* MainCameraViewController.m in Sources */,
+				0F5511DA1BEFA9FD00E98C64 /* GPUImageMargaritaFilter.m in Sources */,
 				3E0CC9E318B63E1F00F6089A /* SVPictureConfirmViewController.m in Sources */,
 				66278C711867C2AD00D23F34 /* SVConfirmationCodeViewController.m in Sources */,
 				0F4947841BE231F900FEDC12 /* GPUImageSoftElegance2Filter.m in Sources */,
@@ -5119,8 +5450,10 @@
 				66013226187F4E670042047B /* IOSArray.m in Sources */,
 				66278CAE1867C4D400D23F34 /* SVCameraNavController.m in Sources */,
 				6601322F187F4E670042047B /* IOSIntArray.m in Sources */,
+				0F5511D71BEFA9FD00E98C64 /* GPUImageCosmopolitanFilter.m in Sources */,
 				0F4947C51BE56E5F00FEDC12 /* StoryCommentCell.m in Sources */,
 				108CDF7418846B9000757E36 /* UIImage+MPAverageColor.m in Sources */,
+				0F5511DB1BEFA9FD00E98C64 /* GPUImageMartiniFilter.m in Sources */,
 				3E36D50818D8634A003A1D3A /* PageControl.m in Sources */,
 				663FF03818C2C7D600CB3764 /* NetworkLogViewController.m in Sources */,
 				66278CE11867C62300D23F34 /* SVActivityViewController.m in Sources */,
@@ -5157,6 +5490,7 @@
 				66278CE71867C62300D23F34 /* SVMoveActivity.m in Sources */,
 				66013250187F4E670042047B /* RuntimeException.m in Sources */,
 				0F4947B01BE281D600FEDC12 /* LNNotificationCenter.m in Sources */,
+				0F5511DC1BEFA9FD00E98C64 /* GPUImageMojitoFilter.m in Sources */,
 				66278CC51867C57300D23F34 /* SVSettingsAboutViewController.m in Sources */,
 				2851FAA71838171200C094AB /* UIImage+Crop.m in Sources */,
 				66278CC41867C57300D23F34 /* SVProfileViewController.m in Sources */,
@@ -5189,6 +5523,7 @@
 				0F0757851BD273F600F22F69 /* STXPost.m in Sources */,
 				66278C8C1867C38300D23F34 /* PhotoView.m in Sources */,
 				66E7889D188736470037ACF3 /* JavaLangIterable.m in Sources */,
+				0F5511D91BEFA9FD00E98C64 /* GPUImageFizzFilter.m in Sources */,
 				6601325D187F4E670042047B /* objc-sync.m in Sources */,
 				66278C931867C38300D23F34 /* SVPhotoViewerController.m in Sources */,
 				0F0757791BD2735000F22F69 /* STXLabel.m in Sources */,
@@ -5209,6 +5544,7 @@
 				3E36D4D618D83D83003A1D3A /* TutorialChildViewController.m in Sources */,
 				3E0CC9DF18B63E1F00F6089A /* SVMultiplePicturesViewController.m in Sources */,
 				66013259187F4E670042047B /* JreMemDebug.m in Sources */,
+				0F5511D81BEFA9FD00E98C64 /* GPUImageDaquiriFilter.m in Sources */,
 				66013229187F4E670042047B /* IOSByteArray.m in Sources */,
 				2884ED131830F4B40069E202 /* SVNavigationController.m in Sources */,
 				66278C9E1867C44600D23F34 /* PhotosQuickView.m in Sources */,

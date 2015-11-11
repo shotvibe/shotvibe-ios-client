@@ -25,7 +25,7 @@ typedef void(^pageTransitionCompleted)();
 
 
 
-@interface ContainerViewController : UIViewController<UIPageViewControllerDataSource,UIScrollViewDelegate,UIPageViewControllerDelegate,GLSharedCameraDelegatte,AddFriendsDelegate,AlbumListDelegate>
+@interface ContainerViewController : UIViewController<UIPageViewControllerDataSource,UIScrollViewDelegate,UIPageViewControllerDelegate,GLSharedCameraDelegatte,AddFriendsDelegate,AlbumListDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 + (ContainerViewController *)sharedInstance;
 
 - (void)transitToAlbumList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction withAlbumId:(long long int)albumId completion:(pageTransitionCompleted)completion;
