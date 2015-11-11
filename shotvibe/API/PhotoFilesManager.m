@@ -746,6 +746,17 @@ static NSString * const PHOTOS_DIRECTORY = @"photos";
 }
 
 
+- (void)takePhotoFileFullWithNSString:(NSString *)fileName
+                              withNSString:(NSString *)photoId
+{
+    NSString *destFile = [self photoFilePath:photoId photoSize:[PhotoSize FeedSize]];
+
+    [[NSFileManager defaultManager] moveItemAtPath:fileName
+                                            toPath:destFile
+                                             error:nil];
+}
+
+
 - (void)decodePhoto:(PhotoJob *)photoJob loadLowQuality:(BOOL)loadLowQuality
 {
     //NSLog(@"decodePhoto: %@ %d", photoJob.photoId, loadLowQuality);
