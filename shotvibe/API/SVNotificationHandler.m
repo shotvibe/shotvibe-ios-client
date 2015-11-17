@@ -10,7 +10,8 @@
 #import "SDWebImageManager.h"
 #import "GLFeedViewController.h"
 #import "ContainerViewController.h"
-
+#import "SVAlbumListViewController.h"
+#import "ShotVibeAppDelegate.h"
 
 
 
@@ -66,10 +67,79 @@ static void showNotificationBanner(NSString *message)
 - (void)HandleWithSLNotificationMessage_PhotosAdded:(SLNotificationMessage_PhotosAdded *)msg
 {
     [albumManager_ reportAlbumUpdateWithLong:[msg getAlbumId]];
+    
+    
+//    NSString * pushType = [[userInfo objectForKey:@"d"] objectForKey:@"type"];
+//    long long int albumId = [[userInfo objectForKey:@"d"] objectForKey:@"album_id"];
+//    if([pushType isEqualToString:@"photo_comment"]){
+    
+//    } else if([pushType isEqualToString:@"photos_added"]){
+    
+    
+        
+//    }
+//    [msg isAccessibilityElement];
+//    if(){}
+    
+    if([[ShotVibeAppDelegate sharedDelegate] appOpenedFromPush]){
+    
+        [[ShotVibeAppDelegate sharedDelegate] setPushAlbumId:[msg getAlbumId]];
+//        [[ShotVibeAppDelegate sharedDelegate] setPhotoIdFromPush:[msg get]];
+        //TODO Ask benny to add latest photo id to store it so we can scroll to it if we opened a push that he isnt the latest one.
+        
+//        [[ContainerViewController sharedInstance] transitToAlbumList:NO direction:UIPageViewControllerNavigationDirectionForward withAlbumId:[msg getAlbumId] completion:^{
+//            
+//        }];
+        
+    } else {
+        
+        LNNotification* notification = [LNNotification notificationWithMessage:[NSString stringWithFormat:@"%@ just add a new photo to the group @ %@",[msg getAuthorName],[msg getAlbumName]]];
+        notification.title = @"New Photo";
+        notification.soundName = @"push.mp3";
+        notification.defaultAction = [LNNotificationAction actionWithTitle:@"Default Action" handler:^(LNNotificationAction *action) {
+            //Handle default action
+            NSLog(@"test");
+            
+            NSUInteger childViewControllersCount = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] count];
+            
+            //        childViewControllersCount
+            
+            if(childViewControllersCount == 1){
+                
+                NSLog(@"im on main what to do now???");
+                
+                [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:[msg getAlbumId] completion:^{
+                    
+                }];
+                
+            } else if (childViewControllersCount == 2){
+                
+                GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
+                self.delegate = glfeed;
+                [self.delegate addPhotoPushPressed:msg];
+                
+            }
+            
+            
+        }];
+        
+        [[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"glance_app"];
+        
+    }
 
-    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"NOTIFICATION_PHOTOS_ADDED", nil), [msg getAuthorName], [NSString stringWithFormat:@"%d", [msg getNumPhotos]], [msg getAlbumName]];
-
-    showNotificationBanner(message);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//
+//    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"NOTIFICATION_PHOTOS_ADDED", nil), [msg getAuthorName], [NSString stringWithFormat:@"%d", [msg getNumPhotos]], [msg getAlbumName]];
+//
+//    showNotificationBanner(message);
 }
 
 
@@ -91,6 +161,21 @@ static void showNotificationBanner(NSString *message)
     
 //    [msg get]
     
+    
+    if([[ShotVibeAppDelegate sharedDelegate] appOpenedFromPush]){
+        
+        [[ShotVibeAppDelegate sharedDelegate] setPushAlbumId:[msg getAlbumId]];
+        
+        
+        [[ShotVibeAppDelegate sharedDelegate] setPhotoIdFromPush:[msg getPhotoId]];
+        //TODO Ask benny to add latest photo id to store it so we can scroll to it if we opened a push that he isnt the latest one.
+        
+        //        [[ContainerViewController sharedInstance] transitToAlbumList:NO direction:UIPageViewControllerNavigationDirectionForward withAlbumId:[msg getAlbumId] completion:^{
+        //
+        //        }];
+        
+    } else {
+    
     LNNotification* notification = [LNNotification notificationWithMessage:[NSString stringWithFormat:@"%@ commented on a photo @ %@",[msg getCommentAuthorNickname],[msg getAlbumName]]];
     notification.title = @"test title";
     notification.soundName = @"push.mp3";
@@ -110,9 +195,36 @@ static void showNotificationBanner(NSString *message)
                                     NSLog(@"test");
                                     
                                     
-                                    GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
-                                    self.delegate = glfeed;
-                                    [self.delegate commentPushPressed:msg];
+                                    
+                                    NSUInteger childViewControllersCount = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] count];
+                                    
+                                    
+                                    if(childViewControllersCount == 1){
+                                        
+                                        [[GLSharedCamera sharedInstance] setCameraInFeed];
+
+                                        GLFeedViewController * feedView = [[GLFeedViewController alloc] init];
+                                        feedView.albumId = [msg getAlbumId];
+                                        feedView.scrollToComment = YES;
+                                        feedView.photoToScrollToCommentsId = [msg getPhotoId];
+                                        feedView.prevAlbumId = [msg getAlbumId];
+                                        feedView.startImidiatly = NO;
+                                        GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+                                        glcamera.imageForOutSideUpload = nil;
+                                        [[[ContainerViewController sharedInstance] navigationController] pushViewController:feedView animated:YES];
+                                        [[ContainerViewController sharedInstance] lockScrolling:YES];
+                                        
+                                    } else if (childViewControllersCount == 2){
+                                        
+                                        GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
+                                        self.delegate = glfeed;
+                                        [self.delegate commentPushPressed:msg];
+                                        
+                                    }
+                                    
+//                                    GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
+//                                    self.delegate = glfeed;
+//                                    [self.delegate commentPushPressed:msg];
                                     
                                 }];
                                 
@@ -123,7 +235,7 @@ static void showNotificationBanner(NSString *message)
                         }];
     
     
-    
+    }
     
 }
 

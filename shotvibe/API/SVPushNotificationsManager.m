@@ -114,7 +114,10 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 {
     NSLog(@"handleNotification: %@", [userInfo description]);
 
+
+    
     NSMutableDictionary *dataDict = [userInfo objectForKey:@"d"];
+    //TODO ask benny to allow setting if the push is from outside or inside in the msg object.
 
     if (dataDict) {
         SLJSONObject *data = [[SLJSONObject alloc] initWithDictionary:dataDict];

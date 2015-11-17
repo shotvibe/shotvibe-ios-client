@@ -32,6 +32,11 @@
         
         destination.title = @"Help";
 		destination.url = @"https://m.shotvibe.com/help.html";
+    } else if([segue.identifier isEqualToString:@"SettingsProfileSegue"]){
+        
+        SVProfileViewController *destination = (SVProfileViewController *)segue.destinationViewController;
+        destination.fromSettings = YES;
+    
     }
 }
 

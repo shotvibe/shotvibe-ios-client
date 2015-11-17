@@ -12,7 +12,7 @@
 
 //#import ""
 //#import ""
-@interface GLFeedViewController : UITableViewController <NotificationManagerDelegate,UIScrollViewDelegate,UITextFieldDelegate>
+@interface GLFeedViewController : UITableViewController <NotificationManagerDelegate,UIScrollViewDelegate,UITextFieldDelegate,UIActionSheetDelegate>
 
 @property(nonatomic) long long int albumId;
 @property(nonatomic) long long int prevAlbumId;

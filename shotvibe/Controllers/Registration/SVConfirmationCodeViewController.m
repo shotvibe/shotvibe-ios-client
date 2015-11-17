@@ -5,7 +5,7 @@
 //  Created by Baluta Cristian on 31/07/2013.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
-
+#import "GLProfilePictureController.h"
 #import "SVConfirmationCodeViewController.h"
 #import "SVPushNotificationsManager.h"
 #import "SVProfileViewController.h"
@@ -24,6 +24,18 @@
     [super viewDidLoad];
 	//[self.codeField1 becomeFirstResponder];
 
+    self.butSubmit.layer.cornerRadius = self.butSubmit.frame.size.width/2;
+    
+//    UIView * f1b = [[UIView alloc] initWithFrame:CGRectMake(self.codeField1.frame.origin.x, self.codeField1.frame.size.height+self.codeField1.frame.origin.y, self.codeField1.frame.size.width, 10)];
+//    f1b.backgroundColor = [UIColor purpleColor];
+//    
+//    [self.codeField1 addSubview:f1b];
+    
+//    self.codeField1
+//    self.codeField2
+//    self.codeField3
+//    self
+    
     [[Mixpanel sharedInstance] track:@"Activation Screen Viewed"];
 }
 
@@ -122,17 +134,29 @@
     // Grab the storyboard
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
     
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kUserLoggedIn"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kUserSettedPicture"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     // Grab the deal and make it our root view controller from the storyboard for this navigation controller
     SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
 
+    GLProfilePictureController *profilePictureController = [storyboard instantiateViewControllerWithIdentifier:@"GLProfilePictureController"];
+    
     SVProfileViewController *profileController = [storyboard instantiateViewControllerWithIdentifier:@"SVProfileViewController"];
     profileController.shouldPrompt = YES;
 
     UIView *v = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     v.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:v];
+    
+    
+//    [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
+    [[GLSharedCamera sharedInstance] hideGlCameraView];
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.navigationController setViewControllers:@[rootView, profileController] animated:NO];
+        [self.navigationController setViewControllers:@[rootView, profilePictureController] animated:NO];
         [v removeFromSuperview];
 //        [[[GLSharedCamera sharedInstance] cameraViewBackground] setAlpha:0];
 

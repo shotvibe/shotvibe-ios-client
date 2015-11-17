@@ -47,7 +47,7 @@
 #import "GLSharedCamera.h"
 #import "ContainerViewController.h"
 #import "GLWelcomeViewController.h"
-
+#import "GLProfilePictureController.h"
 
 @interface ShotVibeAppDelegate ()
 @property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
@@ -185,7 +185,7 @@
 //    NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error: visibleViewController is not SVRegistrationViewController");
     
 //    GLWelcomeViewController * welcome = [[GLWelcomeViewController alloc] init];
-    SVRegistrationViewController *registrationViewController = (SVRegistrationViewController *)navigationController.visibleViewController;
+//    ContainerViewController *registrationViewController = (ContainerViewController *)navigationController.visibleViewController;
     GLWelcomeViewController * welcome = [[GLWelcomeViewController alloc] init];
     
     
@@ -199,17 +199,17 @@
 ////    UIPageViewController * pagesViewController = [[UIPageViewController alloc] init];
 ////    pagesViewController.ch
 //    
-//    // Initialize the sidebar menu
+////    // Initialize the sidebar menu
 //    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-//    SVRegistrationViewController *registrationViewController = [storyboard instantiateViewControllerWithIdentifier:@"SVRegistrationViewController"];
-    
+////    GLProfilePictureController *glprof = [storyboard instantiateViewControllerWithIdentifier:@"GLProfilePictureController"];
+//    
 //    self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMembersView"];
 //    self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
 //    self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
 //                                                                  leftMenuViewController:nil
 //                                                                 rightMenuViewController:self.sidebarRight];
 //    self.sideMenu.panMode = MFSideMenuPanModeNone;
-//    
+//
 //    
 //    
 //    self.window.rootViewController = self.sideMenu;
@@ -227,12 +227,17 @@
 //    return YES;
     
     
-    
+    self.appOpenedFromPush = NO;
     SVInitialization *worker = [[SVInitialization alloc] init];
     [worker configureAppearanceProxies];
     [worker initializeLocalSettingsDefaults];
 
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kTutorialShown"]) {
+    
+//    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kUserSettedPicture"];
+    
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kUserLoggedIn"]) {
 //        TutorialViewController *t = [[TutorialViewController alloc] init];
 //        t.onClose = ^(id responseObject) {
 //            self.window.rootViewController = navigationController;
@@ -247,8 +252,8 @@
 
         
         welcome.onClose = ^(id response){
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+//            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
 //            [navigationController setNavigationBarHidden:NO animated:YES];
             self.window.rootViewController = navigationController;
         };
@@ -261,10 +266,80 @@
 //            [self processCountryCode:application registrationViewController:registrationViewController];
         }
         ContainerViewController * cont = [ContainerViewController sharedInstance];
-        //
         self.window.rootViewController = cont;
+        
+        UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (notification) {
+            NSLog(@"app recieved notification from remote%@",notification);
+            
+            self.appOpenedFromPush = YES;
+            [self application:application didReceiveRemoteNotification:(NSDictionary*)notification];
+//            self.window.alpha = 0;
+            
+            
+//            ContainerViewController * cont = [ContainerViewController sharedInstance];
+            //
+            
+//            if([[NSUserDefaults standardUserDefaults] boolForKey:@"kUserLoggedIn"]){
+//                self.window.rootViewController = glprof;
+//            } else {
+//                self.window.rootViewController = cont;
+//            }
+            
+            
+            
+//            NSString * pushType = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"type"];
+////            long long int albumId = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"album_id"];
+//            if([pushType isEqualToString:@"photo_comment"]){
+//                
+//            } else if([pushType isEqualToString:@"photos_added"]){
+//                
+////                [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:5045 completion:^{
+////                    
+////                }];
+//                
+//            }
+            
+            
+            
+//            UIAlertView* failureAlert = [[UIAlertView alloc] initWithTitle:pushType
+//                                                                   message:nil
+//                                                                  delegate:nil
+//                                                         cancelButtonTitle:@"OK"
+//                                                         otherButtonTitles:nil];
+//            
+//            [failureAlert show];
+            
+            
+//            [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:<#(long long)#> completion:^{
+//                
+//            }];
+            
+        }else{
+//            UIAlertView* failureAlert = [[UIAlertView alloc] initWithTitle:@"2"
+//                                                                   message:nil
+//                                                                  delegate:nil
+//                                                         cancelButtonTitle:@"OK"
+//                                                         otherButtonTitles:nil];
+//            
+//            [failureAlert show];
+//            NSLog(@"app did not recieve notification");
+            
+//            ContainerViewController * cont = [ContainerViewController sharedInstance];
+////            GLProfilePictureController * glp = [[GLProfilePictureController alloc] init];
+//            //
+//            self.window.rootViewController = glprof;
+        }
+        
+        
     }
     
+//    long t = ;
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAuthData] getUserId]] forKey:@"kUserScore"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+//    [];
    
 //    sleep(3);
     return YES;
@@ -481,10 +556,13 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    if ( application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground  )
-    {
-        //opened from a push notification when the app was on background
-    }
+    
+    
+//    [userInfo];
+//    if ( application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground  )
+//    {
+//        //opened from a push notification when the app was on background
+//    }
 
     
     [pushNotificationsManager handleNotification:userInfo];

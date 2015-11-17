@@ -13,6 +13,7 @@
 #import "UserSettings.h"
 #import "SL/ShotVibeAPI.h"
 #import "SL/AlbumUser.h"
+#import "GLProfilePictureController.h"
 #import "ShotVibeAppDelegate.h"
 
 @interface SVProfileViewController ()
@@ -43,12 +44,16 @@
 	
     self.title = NSLocalizedString(@"Profile", nil);
 	
-	NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-	path = [path stringByAppendingString:@"/avatar.jpg"];
-    
-    
-	self.userPhoto.image = [UIImage imageWithContentsOfFile:path];
+//	NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//	path = [path stringByAppendingString:@"/avatar.jpg"];
+//    
+//    
+//	self.userPhoto.image = [UIImage imageWithContentsOfFile:path];
 //    self.userPhoto.alpha = 0;
+    
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPhoto)];
+    self.userPhoto.userInteractionEnabled = YES;
+    [self.userPhoto addGestureRecognizer:tap];
 	
 	
     SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
@@ -86,12 +91,56 @@
             }
         });
     });
+    
+    
+    if(self.fromSettings){
+    
+        for(UIView * v in self.view.subviews){
+        
+            CGRect tFrame = v.frame;
+            tFrame.origin.y -= 200;
+            v.frame = tFrame;
+            
+        }
+        
+    } else {
+        
+        
+    }
+}
+
+//-(void)viewWillLayoutSubviews {
+
+
+//}
+
+-(void)editPhoto {
+    
+    
+    [[GLSharedCamera sharedInstance] hideGlCameraView];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+    GLProfilePictureController *glprof = [storyboard instantiateViewControllerWithIdentifier:@"GLProfilePictureController"];
+    if(self.fromSettings){
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        glprof.fromSettings = YES;
+    }
+    [self.navigationController pushViewController:glprof animated:NO];
+//    [self.navigationController popToViewController:glprof animated:YES];
+    
+
+
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+    
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    path = [path stringByAppendingString:@"/avatar.jpg"];
+    
+    
+    self.userPhoto.image = [UIImage imageWithContentsOfFile:path];
 
     if (IS_IOS7) {
 		self.navigationController.navigationBar.translucent = NO;
@@ -144,8 +193,14 @@
 //    [self dismissViewControllerAnimated:YES completion:^{
 //        
 //    }];
-    ContainerViewController * container = [[ContainerViewController alloc] init];
-    [self.navigationController pushViewController:container animated:YES];
+    
+    if(self.fromSettings){
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        ContainerViewController * container = [[ContainerViewController alloc] init];
+        [[GLSharedCamera sharedInstance] setDelegate:container];
+        [self.navigationController pushViewController:container animated:YES];
+    }
 //    [self presentViewController:container animated:YES completion:^{}];
 //    [self.navigationController popViewControllerAnimated:YES];
     
@@ -302,4 +357,56 @@
 }
 
 
+- (IBAction)goPressed:(id)sender {
+    
+    
+    if (self.shouldSave) {
+        
+        [self.nicknameField resignFirstResponder];
+        
+        NSString *newNickname = [self.nicknameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
+        
+        int64_t userId = [[shotvibeAPI getAuthData] getUserId];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            // Save nickname
+            BOOL success = NO;
+            @try {
+                [shotvibeAPI setUserNicknameWithLong:userId withNSString:newNickname];
+                success = YES;
+            } @catch (SLAPIException *exception) {
+                // TODO Better error handling
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                
+                if (!success) {
+                    // TODO Better error dialog with Retry option
+                    //                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                    //                                                                message:[error description]
+                    //                                                               delegate:nil
+                    //                                                      cancelButtonTitle:@"OK"
+                    //                                                      otherButtonTitles:nil];
+                    //                [alert show];
+                    if (self.shouldPrompt) {
+                        [UserSettings setNicknameSet:NO]; // since the update failed, we revert this setting, so the user will be prompted again later
+                    }
+                }
+                else {
+                    //self.navigationItem.rightBarButtonItem = nil;
+                    //nameChanged = NO;
+                    [self handleContinueButtonPressed:nil];
+                }
+            });
+        });
+        [UserSettings setNicknameSet:YES];
+    }
+
+    
+}
 @end

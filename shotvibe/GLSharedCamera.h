@@ -58,6 +58,7 @@ typedef enum ScrollDirection {
 
 + (GLSharedCamera *)sharedInstance;
 
+-(void) backToCameraFromEditPallette:(id)sender;
 -(void)showCamera;
 -(void)hideCamera;
 - (void) playCaptureSound;
@@ -98,8 +99,12 @@ typedef enum ScrollDirection {
 @property(nonatomic, retain) GLResizeableView * resizeAbleView;
 
 @property(nonatomic) BOOL isInFeedMode;
+@property(nonatomic) BOOL afterLogin;
 
-
+-(void)flipCamera;
+-(void)captureTapped;
+-(void)finalProcessTapped;
+-(void)setInFeedMode:(BOOL)feed dmutNeedTransform:(BOOL)needTransform;
 @property(nonatomic, retain) UIButton * backButton;
 @property(nonatomic, retain) UIButton * membersButton;
 
@@ -109,5 +114,7 @@ typedef enum ScrollDirection {
 
 @property (strong, nonatomic) JTSlideShadowAnimation *shadowAnimation;
 @property (strong,nonatomic) UILabel * picYourGroup;
+@property (strong,nonatomic) UILabel * score;
+@property (nonatomic, retain) UIImageView * dmut;
 
 @end

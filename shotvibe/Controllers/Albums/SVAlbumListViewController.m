@@ -257,6 +257,13 @@ CGFloat kResizeThumbSize = 45.0f;
         [self setNeedsStatusBarAppearanceUpdate];
     }
     
+    
+//    [[ShotVibeAppDelegate sharedDelegate] setUserScore:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAuthData] getUserId]]];
+    
+    
+//    int score = [[albumManager_ getShotVibeAPI] getUserGlanceScoreWithLong:[[[albumManager_ getShotVibeAPI] getAuthData] getUserId]];
+    
+    
 //    NSString  *fileNamePath = [[NSBundle mainBundle] pathForResource:@"welcome" ofType:@"mov"];
 //    _asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:fileNamePath]];
 //    _playerItem =[[AVPlayerItem alloc]initWithAsset:_asset];
@@ -270,6 +277,8 @@ CGFloat kResizeThumbSize = 45.0f;
 //    self.de
 
 
+    
+    
     
 }
 
@@ -499,6 +508,19 @@ CGFloat kResizeThumbSize = 45.0f;
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [[NSUserDefaults standardUserDefaults] setInteger:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAuthData] getUserId]] forKey:@"kUserScore"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[[GLSharedCamera sharedInstance] score] setText:[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]]];
+        });
+    });
+    
+    
+    
 	
 //    [[[GLSharedCamera sharedInstance]cameraViewBackground]setAlpha:0];
     [super viewWillAppear:animated];
@@ -1244,7 +1266,11 @@ CGFloat kResizeThumbSize = 45.0f;
 - (void) updateEmptyState
 {
 	if (albumList.count == 0) {
-		self.noPhotosView.frame = CGRectMake(0, 88, 320, 548);
+    
+        GLSharedCamera * cam =  [GLSharedCamera sharedInstance];
+        
+        
+		self.noPhotosView.frame = CGRectMake(0,cam.cameraViewBackground.frame.size.height-20, self.view.frame.size.width, self.view.frame.size.height-cam.cameraViewBackground.frame.size.height-20);
 		[self.view addSubview:self.noPhotosView];
 		self.butTakePicture.enabled = NO;
 	} else {

@@ -18,7 +18,7 @@
 
 @optional
 - (void)commentPushPressed:(SLNotificationMessage_PhotoComment *)msg;
-
+- (void)addPhotoPushPressed:(SLNotificationMessage_PhotosAdded *)msg;
 
 @end
 

@@ -5,33 +5,45 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="GothamRnd-Book.otf">
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
+        <mutableArray key="GothamRnd-Bold.otf">
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
         </mutableArray>
-        <mutableArray key="Gotham_Rounded_Bold.otf">
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
+        <mutableArray key="GothamRnd-MedIta.otf">
+            <string>GothamRounded-MediumItalic</string>
+            <string>GothamRounded-MediumItalic</string>
+            <string>GothamRounded-MediumItalic</string>
+            <string>GothamRounded-MediumItalic</string>
+        </mutableArray>
+        <mutableArray key="GothamRnd-Medium.otf">
+            <string>GothamRounded-Medium</string>
+            <string>GothamRounded-Medium</string>
+        </mutableArray>
+        <mutableArray key="Gotham_Rounded_Book.otf">
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
         </mutableArray>
         <mutableArray key="Gotham_Rounded_Light.otf">
-            <string>GothamRounded-Light</string>
             <string>GothamRounded-Light</string>
             <string>GothamRounded-Light</string>
         </mutableArray>
@@ -1207,42 +1219,21 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                         <animations/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lk6-Ug-PNm">
-                                        <rect key="frame" x="0.0" y="228" width="320" height="40"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A validation code will be sent to you via SMS" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aF0-pJ-yZt">
+                                        <rect key="frame" x="25" y="396" width="120" height="64"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
-                                        <string key="text">Use your mobile phone number
-to register this device</string>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                        <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <color key="highlightedColor" red="0.0" green="0.47843137250000001" blue="0.74901960779999999" alpha="1" colorSpace="deviceRGB"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A validation code will be sent to you via SMS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aF0-pJ-yZt">
-                                        <rect key="frame" x="21" y="455" width="320" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
-                                        <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Medium" family="Gotham Rounded" pointSize="10"/>
+                                        <color key="textColor" red="0.94117647058823528" green="0.45490196078431372" blue="0.50196078431372548" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" minimumFontSize="17" clearButtonMode="whileEditing" id="Md0-iZ-whQ">
-                                        <rect key="frame" x="25" y="349" width="264" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" name="GothamRounded-Light" family="Gotham Rounded" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="3rg-2I-Dzz" id="xGK-6y-Iq9"/>
-                                        </connections>
-                                    </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="US.png" id="vZa-qx-MCh">
-                                        <rect key="frame" x="309" y="360" width="24" height="24"/>
+                                        <rect key="frame" x="30" y="364" width="24" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GDf-Lq-8B3">
-                                        <rect key="frame" x="292" y="348" width="58" height="56"/>
+                                        <rect key="frame" x="15" y="348" width="58" height="56"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1262,8 +1253,8 @@ to register this device</string>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
                                     </activityIndicatorView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NW5-hq-d4D">
-                                        <rect key="frame" x="84" y="299" width="195" height="34"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Feel the Vibrations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NW5-hq-d4D">
+                                        <rect key="frame" x="25" y="293" width="240" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="24"/>
@@ -1271,12 +1262,13 @@ to register this device</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MWj-Gf-2pl">
-                                        <rect key="frame" x="140" y="410" width="94" height="35"/>
+                                        <rect key="frame" x="270" y="383" width="80" height="80"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <animations/>
-                                        <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="20"/>
+                                        <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="20"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
-                                        <state key="normal" title="Go" backgroundImage="butResend.png">
+                                        <state key="normal" title="Go">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
@@ -1287,21 +1279,21 @@ to register this device</string>
                                             <action selector="registerButtonPressed:" destination="3rg-2I-Dzz" eventType="touchUpInside" id="xvF-ZD-dXD"/>
                                         </connections>
                                     </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" minimumFontSize="17" id="Md0-iZ-whQ">
+                                        <rect key="frame" x="72" y="353" width="264" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <color key="textColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-Medium" family="Gotham Rounded" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="3rg-2I-Dzz" id="xGK-6y-Iq9"/>
+                                        </connections>
+                                    </textField>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" id="kzV-Qk-vL5">
-                                <rect key="frame" x="0.0" y="616" width="375" height="51"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dmutFeets" id="Gzx-E1-7d6">
-                                <rect key="frame" x="0.0" y="507" width="374" height="140"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
-                            </imageView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1329,7 +1321,7 @@ to register this device</string>
         <!--Settings-->
         <scene sceneID="pHl-BF-BqW">
             <objects>
-                <tableViewController id="N4E-mX-u47" customClass="SVSettingsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SVSettingsViewController" id="N4E-mX-u47" customClass="SVSettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ETc-Lm-hY8">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1482,7 +1474,7 @@ to register this device</string>
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dGi-df-srC">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dGi-df-srC">
                                                     <rect key="frame" x="39" y="42" width="243" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
@@ -1690,6 +1682,114 @@ to register this device</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z6V-XX-zxm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="290" y="-1432"/>
+        </scene>
+        <!--Profile Picture Controller-->
+        <scene sceneID="SZn-J3-97Q">
+            <objects>
+                <viewController storyboardIdentifier="GLProfilePictureController" id="NNK-GZ-vjo" customClass="GLProfilePictureController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="17P-IB-UYB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EyW-XE-MFg">
+                                <rect key="frame" x="26" y="176" width="323" height="323"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeProfilePicture:" destination="K2n-3B-CQ0" eventType="touchUpInside" id="7Qc-ql-gH2"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="zf1-CS-394">
+                                <rect key="frame" x="26" y="176" width="323" height="323"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeGlanceLogo" id="4ys-fr-a3S">
+                                <rect key="frame" x="257" y="20" width="92" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SET UR PROFILE PIC" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3FM-Ku-ccE">
+                                <rect key="frame" x="26" y="78" width="177" height="59"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="26"/>
+                                <color key="textColor" red="0.24313725489999999" green="0.70588235290000001" blue="0.71372549019999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wYl-dk-LnY">
+                                <rect key="frame" x="20" y="587" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <state key="normal" title="Button" image="profilePicCaptureButton"/>
+                                <connections>
+                                    <action selector="captureSelfie:" destination="NNK-GZ-vjo" eventType="touchUpInside" id="Mw7-9u-QTq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eT3-ey-MAQ">
+                                <rect key="frame" x="295" y="587" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <state key="normal" title="Button" image="GiCon"/>
+                                <connections>
+                                    <action selector="libraryProfilePick:" destination="NNK-GZ-vjo" eventType="touchUpInside" id="UlV-Fc-PeI"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3Kn-OO-YPj">
+                                <rect key="frame" x="316" y="78" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="32"/>
+                                <state key="normal" title="x">
+                                    <color key="titleColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="backToCamBut:" destination="NNK-GZ-vjo" eventType="touchUpInside" id="sgh-K8-AOd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cpb-tb-tQg">
+                                <rect key="frame" x="137" y="558" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="30"/>
+                                <state key="normal" title="GO">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="goPressed:" destination="NNK-GZ-vjo" eventType="touchUpInside" id="nxw-lh-fGN"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="09S-fb-ekt">
+                                <rect key="frame" x="120" y="524" width="134" height="134"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                            </imageView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="capButton" destination="wYl-dk-LnY" id="xcw-Tn-eZO"/>
+                        <outlet property="galButton" destination="eT3-ey-MAQ" id="i6t-aC-PYr"/>
+                        <outlet property="goButton" destination="Cpb-tb-tQg" id="aoF-5d-L1N"/>
+                        <outlet property="originalPictureView" destination="09S-fb-ekt" id="48M-8z-fhM"/>
+                        <outlet property="userPhoto" destination="zf1-CS-394" id="N6R-bg-yQW"/>
+                        <outlet property="xButton" destination="3Kn-OO-YPj" id="65N-4a-f1K"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PJL-QA-rxv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="976.5" y="-1477.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jHK-nQ-yGy">
@@ -2271,6 +2371,9 @@ to register this device</string>
                                 <state key="normal" title="&gt;">
                                     <color key="titleColor" red="0.24313725490196078" green="0.70588235294117641" blue="0.71372549019607845" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="goPressed:" destination="K2n-3B-CQ0" eventType="touchUpInside" id="rwq-DO-zQ6"/>
+                                </connections>
                             </button>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="seq1.png" id="piQ-RO-gmD">
                                 <rect key="frame" x="93" y="578" width="188" height="133"/>
@@ -2515,7 +2618,7 @@ to register this device</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" placeholder="Search country" id="ro7-6i-An9">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="223" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <textInputTraits key="textInputTraits"/>
@@ -2524,7 +2627,7 @@ to register this device</string>
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="45" sectionHeaderHeight="22" sectionFooterHeight="22" id="a0J-nf-cH4">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="267" width="375" height="400"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.96078431369999995" green="0.96470588239999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -2579,7 +2682,7 @@ to register this device</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KxJ-4V-K74" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-565" y="-773"/>
+            <point key="canvasLocation" x="-565.5" y="-773.5"/>
         </scene>
         <!--Activation-->
         <scene sceneID="fAx-Zj-SBp">
@@ -2593,17 +2696,6 @@ to register this device</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" id="AVV-0d-YcA">
-                                        <rect key="frame" x="0.0" y="616" width="375" height="51"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
-                                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
-                                    </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dmutFeets" id="ygz-mG-qdl">
-                                        <rect key="frame" x="0.0" y="505" width="374" height="140"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
-                                    </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pg0-vg-4KX">
                                         <rect key="frame" x="27" y="284.5" width="320" height="61.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2625,62 +2717,58 @@ code to the number above</string>
                                         <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="registrationCodeFieldBg.png" id="Ni2-3h-aT6">
-                                        <rect key="frame" x="81" y="350" width="213" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
-                                    </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="vVH-zc-omB">
-                                        <rect key="frame" x="81" y="350" width="48" height="45"/>
+                                        <rect key="frame" x="80" y="352" width="29" height="54"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
-                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                                        <color key="textColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                         <connections>
                                             <outlet property="delegate" destination="Dlz-oj-oY1" id="nog-Ss-YQk"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="l0m-jo-UKY">
-                                        <rect key="frame" x="136" y="350" width="48" height="45"/>
+                                        <rect key="frame" x="110" y="352" width="29" height="54"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
-                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                                        <color key="textColor" red="0.94117647058823528" green="0.45098039215686275" blue="0.50196078431372548" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                         <connections>
                                             <outlet property="delegate" destination="Dlz-oj-oY1" id="Gvf-vh-r9W"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="BAd-iE-ZCV">
-                                        <rect key="frame" x="191" y="350" width="48" height="45"/>
+                                        <rect key="frame" x="140" y="352" width="29" height="54"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
-                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                                        <color key="textColor" red="0.94117647058823528" green="0.45098039215686275" blue="0.50196078431372548" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                         <connections>
                                             <outlet property="delegate" destination="Dlz-oj-oY1" id="Kqz-WJ-ewe"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="oB8-rA-i0T">
-                                        <rect key="frame" x="247" y="350" width="48" height="45"/>
+                                        <rect key="frame" x="170" y="352" width="29" height="54"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
-                                        <color key="textColor" red="0.3411764706" green="0.38823529410000002" blue="0.41960784309999999" alpha="1" colorSpace="deviceRGB"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                                        <color key="textColor" red="0.94117647058823528" green="0.45098039215686275" blue="0.50196078431372548" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                         <connections>
                                             <outlet property="delegate" destination="Dlz-oj-oY1" id="HkX-IM-QMp"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NPU-6a-aVT">
-                                        <rect key="frame" x="140" y="404" width="94" height="35"/>
+                                        <rect key="frame" x="240" y="346" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <animations/>
+                                        <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="20"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
-                                        <state key="normal" title="Go" backgroundImage="butResend.png">
+                                        <state key="normal" title="Go">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
@@ -2691,6 +2779,30 @@ code to the number above</string>
                                             <action selector="confirmButtonPressed:" destination="Dlz-oj-oY1" eventType="touchUpInside" id="XbB-RI-8mr"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" id="mJ0-H9-iYR">
+                                        <rect key="frame" x="83" y="396" width="20" height="4"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="fFa-ZX-fp1">
+                                        <rect key="frame" x="174" y="396" width="20" height="4"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="MZ5-Tc-pgP">
+                                        <rect key="frame" x="143" y="396" width="20" height="4"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="9wu-Gr-8b6">
+                                        <rect key="frame" x="113" y="396" width="20" height="4"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2719,6 +2831,7 @@ code to the number above</string>
         <image name="AlbumInfoLeaveIcon.png" width="12" height="12"/>
         <image name="AlbumInfoNotificationIcon.png" width="16" height="18"/>
         <image name="AlbumInfoShareIcon.png" width="16" height="14"/>
+        <image name="GiCon" width="127" height="127"/>
         <image name="NewAlbum.png" width="74" height="74"/>
         <image name="NoMembers.png" width="193" height="93"/>
         <image name="SafariForward.png" width="11" height="20"/>
@@ -2738,11 +2851,9 @@ code to the number above</string>
         <image name="albumTakePicture.png" width="25" height="19"/>
         <image name="albumVideoIconSmall.png" width="18" height="11"/>
         <image name="butLogout.png" width="243" height="43"/>
-        <image name="butResend.png" width="235" height="43"/>
         <image name="cellDivider.png" width="320" height="1"/>
         <image name="clockIcon.png" width="10" height="10"/>
         <image name="delimiter.png" width="1" height="45"/>
-        <image name="dmutFeets" width="340" height="130"/>
         <image name="dropDownField.png" width="305" height="130"/>
         <image name="emailIcon.png" width="14" height="11"/>
         <image name="glanceFriend" width="129" height="129"/>
@@ -2752,7 +2863,7 @@ code to the number above</string>
         <image name="newPhotosIndicator.png" width="27" height="18"/>
         <image name="phoneNumberContainer.png" width="270" height="44"/>
         <image name="profileIcon.png" width="14" height="14"/>
-        <image name="registrationCodeFieldBg.png" width="192" height="44"/>
+        <image name="profilePicCaptureButton" width="196" height="196"/>
         <image name="seq1.png" width="1228" height="920"/>
         <image name="settingsIcon.png" width="16" height="16"/>
         <image name="walla_new.png" width="64" height="17"/>
@@ -2762,7 +2873,7 @@ code to the number above</string>
     <inferredMetricsTieBreakers>
         <segue reference="FFK-OC-3pt"/>
         <segue reference="i8y-Zz-QXE"/>
-        <segue reference="sO9-n0-6uB"/>
+        <segue reference="wnh-dc-9HX"/>
         <segue reference="hc8-VF-LIN"/>
     </inferredMetricsTieBreakers>
 </document>

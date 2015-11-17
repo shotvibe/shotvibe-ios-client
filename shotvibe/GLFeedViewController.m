@@ -8,6 +8,7 @@
 #import "TmpFilePhotoUploadRequest.h"
 #import "GLFeedViewController.h"
 #import "GLFeedTableCell.h"
+#import "MBProgressHUD.h"
 //#import "SVCameraPickerController.h"
 #import "SVImagePickerListViewController.h"
 #import "SVAlbumGridViewCell.h"
@@ -41,6 +42,7 @@
 
 #import "ShotVibeAppDelegate.h"
 #import "SL/AlbumPhotoComment.h"
+#import "SL/AlbumPhoto.h"
 
 #import "UIImageView+Masking.h"
 #import "SDWebImageManager.h"
@@ -56,6 +58,7 @@
 //#import "ParallaxHeaderView.h"
 #import "GLProfileViewController.h"
 #import "ContainerViewController.h"
+#import "GLProfilePageViewController.h"
 
 @interface GLFeedViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
     
@@ -238,7 +241,30 @@
 
 }
 
+-(void)addPhotoPushPressed:(SLNotificationMessage_PhotosAdded*)msg {
 
+//    msg get
+    if(self.albumId != [msg getAlbumId]){
+        GLFeedViewController * feedView = [[GLFeedViewController alloc] init];
+        feedView.albumId = [msg getAlbumId];
+        feedView.scrollToComment = YES;
+        //    feedView.photoToScrollToCommentsId = [msg getPhotoId];
+        feedView.prevAlbumId = self.albumId;
+        feedView.startImidiatly = NO;
+        GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+        glcamera.imageForOutSideUpload = nil;
+        //    [msg getAlbumId];
+        //        [self.navigationController popToRootViewControllerAnimated:NO];
+        [self.navigationController pushViewController:feedView animated:YES];
+        //        [self dismissViewControllerAnimated:NO completion:nil];
+        [self removeFromParentViewController];
+    } else {
+        
+    }
+    
+    
+    
+}
 
 -(void)commentPushPressed:(SLNotificationMessage_PhotoComment *)msg {
 
@@ -471,6 +497,47 @@
 {
     [super viewDidAppear:animated];
     
+    
+    GLSharedCamera * camera = [GLSharedCamera sharedInstance];
+//    camera.picYourGroup.alpha = 1;
+//    camera.cameraViewBackground.userInteractionEnabled = YES;
+    camera.delegate = [ContainerViewController sharedInstance];
+    
+    
+    if([[ShotVibeAppDelegate sharedDelegate] appOpenedFromPush]){
+        self.photoToScrollToCommentsId = [[ShotVibeAppDelegate sharedDelegate] photoIdFromPush];
+        self.scrollToComment = YES;
+//
+        
+        
+        int c = 0;
+        int position = 0;
+        for(NSArray * post in self.posts){
+            if([[[post objectAtIndex:0] objectForKey:@"id"] isEqualToString:self.photoToScrollToCommentsId]){
+                position = c;
+                
+                
+                
+                
+                NSLog(@"i found the commented image in the table at %d",c);
+                cellToHighLightIndex = c;
+                needCommentHl = YES;
+                [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+                
+                self.view.userInteractionEnabled = NO;
+                
+                //            GLFeedTableCell * cell = (GLFeedTableCell*)[super tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:c inSection:0]];
+                //            [cell highLightLastCommentInPost];
+                
+                [[ShotVibeAppDelegate sharedDelegate] setAppOpenedFromPush:NO];
+                break;
+            }
+            c++;
+        }
+        
+    }
+    
+    
     if(self.scrollToComment){
         
         NSLog(@"comment retrieved");
@@ -695,7 +762,7 @@
         
         //            [album]
         
-        NSString *new = [[[photo getServerPhoto]getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_wvga.jpg"];
+        NSString *new = [[[photo getServerPhoto]getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
         
         
         //        NSString * commentsDataString = [NSString stringWithFormat:<#(nonnull NSString *), ...#>];
@@ -782,7 +849,7 @@
     
     SLAlbumPhoto *photo = [tempDict objectAtIndex:1];
     
-    
+    long long userID = [[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
     
     if ([photo getUploadingPhoto]) {
         
@@ -830,6 +897,13 @@
         cell.glanceDownButton.tag = indexPath.row;
         cell.glanceUpButton.tag = indexPath.row;
         
+        cell.feed3DotsButton.tag = indexPath.row;
+        
+        long long userID = [[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
+        
+        cell.profileImageView.tag = userID;
+        cell.userName.tag = userID;
+
         
 //        cell.glancesIcon.tag = indexPath.row;
         
@@ -844,6 +918,26 @@
         UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
         doubleTap.numberOfTapsRequired = 1;
         [cell.glanceDownButton addGestureRecognizer:doubleTap];
+        
+        
+        
+        UITapGestureRecognizer *showActionSheetGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showActionSheets:)];
+//        showActionSheetGest.view.tag = indexPath.row;
+//        showActionSheetGest
+        showActionSheetGest.numberOfTapsRequired = 1;
+        
+        
+        UITapGestureRecognizer *showUserProfileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile:)];
+        UITapGestureRecognizer *showUserProfileTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile2:)];
+        
+        cell.profileImageView.tag =
+        
+        cell.profileImageView.userInteractionEnabled = YES;
+        cell.userName.userInteractionEnabled = YES;
+        [cell.profileImageView addGestureRecognizer:showUserProfileTap];
+        [cell.userName addGestureRecognizer:showUserProfileTap2];
+        //    singleTap
+        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
         
 //        [singleTap requireGestureRecognizerToFail:doubleTap];
         
@@ -860,6 +954,8 @@
         cell.commentsScrollView.alpha = 0;
         
         
+        
+        cell.profileImageView.tag = userID;
 
     } else {
 
@@ -867,6 +963,8 @@
 
     cell.userName.text = [[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"username"];
     cell.postedTime.text = [NSString stringWithFormat:@"%@ ago",[[[NSDate alloc] initWithTimeIntervalSince1970:[[[tempDict objectAtIndex:0] objectForKey:@"created_time"] longLongValue]] distanceOfTimeInWords:[NSDate date] shortStyle:YES]];
+        
+       
 
 //        if(!cell.loaded){
 //        if(indexPath.row > 0 && uploadingImage == nil){
@@ -937,8 +1035,16 @@
         cell.glanceDownButton.tag = indexPath.row;
         cell.glanceUpButton.tag = indexPath.row;
         
+        cell.feed3DotsButton.tag = indexPath.row;
+        
     [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
     cell.postForwardButton.tag = indexPath.row;
+        
+        
+        
+        cell.profileImageView.tag = userID;
+        cell.userName.tag = userID;
+        
     
 //    cell.glancesIcon.tag = indexPath.row;
     
@@ -950,6 +1056,22 @@
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
     doubleTap.numberOfTapsRequired = 1;
     [cell.glanceDownButton addGestureRecognizer:doubleTap];
+        
+        UITapGestureRecognizer *showActionSheetGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showActionSheets:)];
+        showActionSheetGest.numberOfTapsRequired = 1;
+//        showActionSheetGest.view.tag = indexPath.row;
+        //    singleTap
+        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
+        
+        UITapGestureRecognizer *showUserProfileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile:)];
+        UITapGestureRecognizer *showUserProfileTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile2:)];
+        
+        cell.profileImageView.userInteractionEnabled = YES;
+        cell.userName.userInteractionEnabled = YES;
+        [cell.profileImageView addGestureRecognizer:showUserProfileTap];
+        [cell.userName addGestureRecognizer:showUserProfileTap2];
+        //    singleTap
+        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
     
 //    [singleTap requireGestureRecognizerToFail:doubleTap];
         
@@ -1051,6 +1173,168 @@
     }
     
     return cell;
+}
+
+-(void)showUserProfileWithId:(long long)userId {
+
+//    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:cellRow inSection:0]];
+    
+//    [ShotVibeAPITask runTask:self withAction:^id{
+    
+        //                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+        
+        
+        //                });
+        //                [[albumManager_ getShotVibeAPI] get];
+//        return nil;
+//    } onTaskComplete:^(id dummy) {
+    
+    if([[[albumManager_ getShotVibeAPI] getUserProfileWithLong:[[[albumManager_ getShotVibeAPI] getAuthData] getUserId]] getMemberId] != userId){
+        
+        
+        [MBProgressHUD showHUDAddedTo:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
+        
+        [[[GLSharedCamera sharedInstance] membersButton] setAlpha:0];
+        [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:NO];
+        
+        GLProfilePageViewController * profilePage = [[GLProfilePageViewController alloc] init];
+        profilePage.albumId = self.albumId;
+        profilePage.userId = userId;
+        
+        
+        for(SLAlbumMember * member in [albumContents getMembers].array){
+            
+            if([[member getUser] getMemberId] == [[[albumManager_ getShotVibeAPI] getAuthData] getUserId]){
+                
+                if([member getAlbumAdmin]){
+                    
+                    profilePage.imAdmin = YES;
+                    
+                }
+                
+            }
+            
+        }
+        
+        
+        [self.navigationController pushViewController:profilePage animated:YES];
+        
+    } else {
+        
+    }
+    
+    
+    
+}
+
+-(void)showUserProfile2:(UITapGestureRecognizer*)gest {
+    
+    [self showUserProfileWithId:gest.view.tag];
+    
+    
+}
+
+-(void)showUserProfile:(UITapGestureRecognizer*)gest {
+    
+    [self showUserProfileWithId:gest.view.tag];
+    
+    
+}
+
+-(void)showActionSheets:(UITapGestureRecognizer*)gest {
+
+
+//    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:gest.view.tag inSection:0]];
+//    NSString *actionSheetTitle = @"Action Sheet Demo"; //Action Sheet Title
+    NSString *destructiveTitle = @"Delete Photo"; //Action Sheet Button Titles
+    NSString *other1 = @"Share";
+//    NSString *other2 = @"Other Button 2";
+//    NSString *other3 = @"Other Button 3";
+    NSString *cancelTitle = @"Close";
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:cancelTitle
+                                  destructiveButtonTitle:destructiveTitle
+                                  otherButtonTitles:other1, nil];
+    actionSheet.tag = gest.view.tag;
+    [actionSheet showInView:self.view];
+
+}
+
+- (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+    
+    
+    switch (buttonIndex) {
+        case 0://Delete Photo
+        {
+            SLAlbumPhoto *photo = [[self.posts objectAtIndex:popup.tag] objectAtIndex:1];
+            long long int uid = [[[albumManager_ getShotVibeAPI] getAuthData] getUserId];
+            long long int authorIdFromPhoto = [[[photo getServerPhoto] getAuthor] getMemberId];
+            
+            if(uid == authorIdFromPhoto){
+                
+                [ShotVibeAPITask runTask:self withAction:^id{
+                    [MBProgressHUD showHUDAddedTo:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
+                    //                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
+                    [photosToDelete addObject:[[photo getServerPhoto] getId]];
+                    
+                    
+                    [[albumManager_ getShotVibeAPI] deletePhotosWithJavaLangIterable:[[SLArrayList alloc] initWithInitialArray:photosToDelete]];
+                    
+                    
+                    //                });
+                    //                [[albumManager_ getShotVibeAPI] get];
+                    return nil;
+                } onTaskComplete:^(id dummy) {
+                    //                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
+                    //                });
+                    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+                    
+                }];
+
+                
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete failed"
+                                                                message:@"You can't delete a photo that dosn't belong to you.."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles:nil];
+                [alert show];
+                
+            }
+            
+            
+        }
+            
+            break;
+        case 1://Share
+        {
+        
+            GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:popup.tag inSection:0]];
+            
+            UIImage *image = cell.postImage.image;
+            
+//            UIActivity * activiti
+            
+            NSArray *activityItems = @[image,@"Check this awesome photo from Glance App"];
+            
+            UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems
+                                                                                                 applicationActivities:nil];
+            [self.navigationController presentViewController:activityViewController animated:YES completion:nil];
+        
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+
 }
 
 -(void)doSingleTap:(UITapGestureRecognizer*)gest {
@@ -1305,7 +1589,7 @@
                 cell.commentTextField.text = @"";
                 cell.commentTextField.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+10,cell.glancesCounter.frame.origin.y+2, 0,35);
                 
-                cell.glancesCounter.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width, 26, 45, 35);
+                cell.glancesCounter.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+32, 26, 45, 35);
                 
                 
             } completion:^(BOOL finished) {

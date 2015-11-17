@@ -12,6 +12,7 @@
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumGridViewController.h"
 #import "SL/NetworkStatusManager.h"
+#import "SVNotificationHandler.h"
 //#import "SVAddFriendsViewController.h"
 
 
@@ -22,6 +23,7 @@
 @end
 
 @interface SVAlbumListViewController : UITableViewController <UITableViewDataSource,
+                                                                NotificationManagerDelegate,
 																UITableViewDelegate,
 																UITextFieldDelegate,
 																UISearchBarDelegate,

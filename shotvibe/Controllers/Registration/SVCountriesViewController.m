@@ -143,7 +143,7 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
 	[self filterCountriesBy:searchBar.text];
-	countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-216-45-44-20);
+//	countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-216-45-44-20);
 }
 
 
@@ -157,7 +157,7 @@
 {
     [self filterCountriesBy:searchBar.text];
     [searchBar resignFirstResponder];
-	countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-45-44-20);
+//	countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-45-44-20);
 }
 
 - (void) filterCountriesBy:(NSString*)term {

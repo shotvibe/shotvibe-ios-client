@@ -12,6 +12,12 @@
 #import "ContainerViewController.h"
 #import "UIImage+ImageEffects.h"
 
+#import "UIImage+FX.h"
+#import "GLScoreViewController.h"
+#import "FXImageView.h"
+#import "ShotVibeAPI.h"
+
+#import "GLProfilePageViewController.h"
 
 
 @implementation GLSharedCamera {
@@ -43,6 +49,7 @@
     UIButton * trashTextButton;
     UIButton * approveTextButton;
     UIButton * abortUploadButton;
+    
     
     GLFilterView * defaultFilter;
     GLFilterView * amatorkaFilter;
@@ -92,7 +99,7 @@
     
     BOOL yes;
     
-    UIImageView * dmut;
+    
     UIView * cameraWrapper;
     
     CGFloat cameraSlideTopLimit;
@@ -131,6 +138,7 @@
         buttonStealer = [[RBVolumeButtons alloc] init];
         flashState = 0;
         lastPage = 0;
+        self.afterLogin = NO;
 //        [buttonStealer startStealingVolumeButtonEvents];
 //        buttonStealer.upBlock = ^{
 //            NSLog(@"vol up");
@@ -456,36 +464,51 @@
       
         
         
-        dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104)];
-        dmut.userInteractionEnabled = YES;
-        dmut.image = [UIImage imageNamed:@"Dmut"];
-        [self.cameraViewBackground addSubview:dmut];
-        dmutScaleOriginal = dmut.transform;
+        self.dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104)];
+        self.dmut.userInteractionEnabled = YES;
+        self.dmut.image = [UIImage imageNamed:@"Dmut"];
+        [self.cameraViewBackground addSubview:self.dmut];
+        dmutScaleOriginal = self.dmut.transform;
         
         UIPanGestureRecognizer * gest = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dmutDragged:)];
         
-        [dmut addGestureRecognizer:gest];
+        [self.dmut addGestureRecognizer:gest];
         
-        cameraSlideTopLimit = [dmut center].y;
+        cameraSlideTopLimit = [self.dmut center].y;
         
         UITapGestureRecognizer * scoreTapped = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scoreTapped:)];
         
         scoreBg = [[UIView alloc] initWithFrame:CGRectMake(20, 40, 40, 40)];
-        scoreBg.backgroundColor = [UIColor whiteColor];
+        scoreBg.backgroundColor = [UIColor clearColor];
         scoreBg.layer.cornerRadius = 20;
+        scoreBg.layer.borderWidth = 1;
+        scoreBg.layer.borderColor = [UIColor whiteColor].CGColor;
+        
         
         [scoreBg addGestureRecognizer:scoreTapped];
         
-        UILabel * score = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        score.text = @"156";
-        score.textAlignment = NSTextAlignmentCenter;
-        score.textColor = [UIColor blackColor];
-        [scoreBg addSubview:score];
         
-//        [cameraViewBackground addSubview:scoreBg];
+        
+        
+        self.score = [[UILabel alloc] initWithFrame:CGRectMake(0, 1.5, 40, 40)];
+        self.score.text = [NSString stringWithFormat:@"%d",[[ShotVibeAppDelegate sharedDelegate] userScore]];
+        self.score.textAlignment = NSTextAlignmentCenter;
+        self.score.font = [UIFont fontWithName:@"GothamRounded-Bold" size:24];
+        self.score.textColor = [UIColor whiteColor];
+        
+        CATransition *animation = [CATransition animation];
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        animation.type = kCATransitionFade;
+        animation.duration = 0.75;
+        [self.score.layer addAnimation:animation forKey:@"kCATransitionFade"];
+        
+        [scoreBg addSubview:self.score];
+        
+        [self.cameraViewBackground addSubview:scoreBg];
         
         self.picYourGroup = [[UILabel alloc] initWithFrame:CGRectMake(20, 35, self.view.frame.size.width, 40)];
         self.picYourGroup.text = @"pic your group";
+        self.picYourGroup.hidden = YES;
         self.picYourGroup.textColor = [UIColor whiteColor];
         self.picYourGroup.font = [UIFont fontWithName:@"GothamRounded-Bold" size:24];
         
@@ -568,22 +591,25 @@
 
 }
 
-//-(void)scoreTapped:(UITapGestureRecognizer*)gest {
-//    
-//    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
-//
-//    UIWebView * webview = [[UIWebView alloc] initWithFrame:CGRectMake(0, -self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height)];
-//    [appDelegate.window addSubview:webview];
-//    webview.backgroundColor = [UIColor purpleColor];
-//    [webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://matthew.wagerfield.com/parallax/"]]];
-//    
-//    [UIView animateWithDuration:0.2 animations:^{
-//        webview.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-//    }];
-//    
-//
-//
-//}
+-(void)scoreTapped:(UITapGestureRecognizer*)gest {
+
+    
+    
+    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+    GLScoreViewController * scoreView = [[GLScoreViewController alloc] init];
+    
+//    GLProfilePageViewController * profilePage = [[GLProfilePageViewController alloc] init];
+    
+    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:scoreView];
+    [nav setNavigationBarHidden:YES animated:NO];
+    
+    [appDelegate.window.rootViewController presentViewController:nav animated:YES completion:^{
+        [[GLSharedCamera sharedInstance] hideGlCameraView];
+    }];
+    
+
+
+}
 
 -(void)dmutDragged:(UIPanGestureRecognizer*)gest {
     
@@ -606,14 +632,14 @@
         
         if(firstY+location.y > cameraSlideTopLimit ){
             
-            if(firstY+location.y < self.view.frame.size.height - dmut.frame.size.height){
+            if(firstY+location.y < self.view.frame.size.height - self.dmut.frame.size.height){
                 
                 [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, firstY+location.y+35)];
                 [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, firstY+location.y+35)];
                 
                 //        dmut.frame = CGRectMake(27, firstY+location.y
                 //                                , 320, 110);
-                dmut.center = CGPointMake(firstX, firstY+location.y);
+                self.dmut.center = CGPointMake(firstX, firstY+location.y);
                 
             } else {
                 
@@ -632,7 +658,7 @@
     } else if(gest.state == UIGestureRecognizerStateEnded){
         
         
-        dmut.userInteractionEnabled = NO;
+        self.dmut.userInteractionEnabled = NO;
         
         CGPoint velocity = [gest velocityInView:self.view];
         
@@ -651,7 +677,7 @@
 //                    [[self videoCamera] stopCameraCapture];
                     [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
                     effectView.alpha = 1;
-                    dmut.center = CGPointMake(firstX, 60);
+                    self.dmut.center = CGPointMake(firstX, 60);
                     [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
                     self.backButton.alpha=1;
                     self.membersButton.alpha=1;
@@ -661,7 +687,7 @@
                     
 //                    [[self videoCamera] startCameraCapture];
                     [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, self.view.frame.size.height/3)];
-                    dmut.center = CGPointMake(firstX, cameraSlideTopLimit);
+                    self.dmut.center = CGPointMake(firstX, cameraSlideTopLimit);
                     [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, self.view.frame.size.height/3)];
                 }
                 
@@ -684,7 +710,7 @@
                 
 //                }
                 if(!self.isInFeedMode){
-                    dmut.transform = CGAffineTransformIdentity;
+                    self.dmut.transform = CGAffineTransformIdentity;
                 }
                 
                 
@@ -701,7 +727,7 @@
                 }];
                 [self toggleCamera:YES];
                 [[ContainerViewController sharedInstance] lockScrolling:NO];
-                dmut.userInteractionEnabled = YES;
+                self.dmut.userInteractionEnabled = YES;
                 
 //            }];
             //            self.brightness = self.brightness -.02;
@@ -723,9 +749,9 @@
                     self.backButton.alpha=0;
                     self.membersButton.alpha=0;
                     effectView.alpha = 0;
-                    dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
+                    self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
                 } else {
-                    dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
+                    self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
                 }
                 
                 
@@ -738,12 +764,12 @@
                 
 //                }
                 if(!self.isInFeedMode){
-                    CGFloat xScale = dmut.transform.a;
+                    CGFloat xScale = self.dmut.transform.a;
 //                    CGFloat yScale = dmut.transform.d;
                     
                     
                     if(xScale == 1){
-                        dmut.transform = CGAffineTransformScale(dmut.transform, 0.6, 0.6);
+                        self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.6, 0.6);
                     }
                     
                 }
@@ -756,7 +782,7 @@
                 NSLog(@"animation completed2");
                 [[ContainerViewController sharedInstance] lockScrolling:YES];
                 [self toggleCamera:NO];
-                dmut.userInteractionEnabled = YES;
+                self.dmut.userInteractionEnabled = YES;
             }];
             
             //            self.brightness = self.brightness +.02;
@@ -781,12 +807,12 @@
     
     [[self videoCamera] startCameraCapture];
     [UIView animateWithDuration:0.2 animations:^{
-        dmut.transform = CGAffineTransformIdentity;
+        self.dmut.transform = CGAffineTransformIdentity;
         effectView.alpha = 0;
         
         self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
         cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
-        dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
+        self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
     }];
     
 }
@@ -802,7 +828,7 @@
                             self.membersButton.alpha = 1;
         
         
-        dmut.frame = CGRectMake(dmut.frame.origin.x, 20, dmut.frame.size.width, dmut.frame.size.height);
+        self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
         effectView.alpha = 1;
         [self.cameraViewBackground bringSubviewToFront:effectView];
         
@@ -812,8 +838,8 @@
         
         //                    if(needTransform)
         //                    {
-        dmut.transform = CGAffineTransformScale(dmut.transform, 0.60, 0.60);
-        dmut.center = CGPointMake(dmut.center.x, dmut.center.y-12.5);
+        self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
+        self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
         //                    } else {
         ////                        dmut.transform = CGAffineTransformScale(dmut.transform, 0.60, 0.60);
         //                        dmut.center = CGPointMake(dmut.center.x, dmut.center.y+8);
@@ -825,7 +851,7 @@
         self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80);
         
         
-        [self.cameraViewBackground bringSubviewToFront:dmut];
+        [self.cameraViewBackground bringSubviewToFront:self.dmut];
     }];
 
 }
@@ -848,7 +874,7 @@
 //                    self.membersButton.alpha = 1;
         
         
-                    dmut.frame = CGRectMake(dmut.frame.origin.x, 20, dmut.frame.size.width, dmut.frame.size.height);
+                    self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
                     effectView.alpha = 1;
         
         //        if(!dmutScaleOriginal){
@@ -857,8 +883,8 @@
         
 //                    if(needTransform)
 //                    {
-                        dmut.transform = CGAffineTransformScale(dmut.transform, 0.60, 0.60);
-                        dmut.center = CGPointMake(dmut.center.x, dmut.center.y-12.5);
+                        self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
+                        self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
 //                    } else {
 ////                        dmut.transform = CGAffineTransformScale(dmut.transform, 0.60, 0.60);
 //                        dmut.center = CGPointMake(dmut.center.x, dmut.center.y+8);
@@ -870,7 +896,7 @@
                     self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80);
                 
                 
-                    [self.cameraViewBackground bringSubviewToFront:dmut];
+                    [self.cameraViewBackground bringSubviewToFront:self.dmut];
                 
             }];
         
@@ -878,12 +904,12 @@
         
         [[self videoCamera] startCameraCapture];
                 [UIView animateWithDuration:0.2 animations:^{
-                    dmut.transform = CGAffineTransformIdentity;
+                    self.dmut.transform = CGAffineTransformIdentity;
                     effectView.alpha = 0;
         
                     self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
                     cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
-                    dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
+                    self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
                 }];
         
     }
@@ -2047,7 +2073,9 @@
         [view addSubview:iv];
         //        ((UIImageView *)view).image = image;
     } else {
-        [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:index] targetSize:CGSizeMake(180.0f, 180.0f) contentMode:PHImageContentModeDefault options:nil resultHandler:^(UIImage *result, NSDictionary *info){
+        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
+        options.synchronous  = YES;
+        [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:index] targetSize:CGSizeMake(180.0f, 180.0f) contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage *result, NSDictionary *info){
             ((UIImageView *)view).image = result;
             //            UIImageView * thumbImage = [[UIImageView alloc] initWithImage:result];//
             //            thumbImage.frame = CGRectMake(0, 0, 180, 180);
@@ -2516,7 +2544,7 @@
         
         if(!self.isInFeedMode){
             
-            dmut.transform = dmutScaleOriginal;
+            self.dmut.transform = dmutScaleOriginal;
             [self toggleCamera:YES];
 //            [self setCameraViewInEditMode:NO];
 //            [self backToCameraFromEditPallette:@"afterSend"];
@@ -2547,7 +2575,7 @@
         
         PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
         options.synchronous  = YES;
-        options.resizeMode = PHImageRequestOptionsResizeModeExact;
+        options.resizeMode = PHImageRequestOptionsResizeModeFast;
         options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
         
         //    [self.videoCamera startCameraCapture];
@@ -2564,14 +2592,18 @@
         [UIView animateWithDuration:0.2 animations:^{
             
 //            if(self.isInFeedMode){
-            
+            if(!self.afterLogin){
                 [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
-                effectView.alpha = 1;
-                dmut.center = CGPointMake(firstX, 60);
                 [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
+                self.dmut.center = CGPointMake(firstX, 60);
+                
+                effectView.alpha = 1;
                 self.backButton.alpha = 1;
                 self.membersButton.alpha = 1;
-//            }
+            } else {
+                
+                
+            }
             
             
             
@@ -2587,15 +2619,24 @@
                     
                 case ImageSourceRecents:
                 {
-                    [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(960, 1280) contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *image, NSDictionary *info){
+                    
+//                   CGImageRef image2 = [[[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] defaultRepresentation] fullScreenImage];
+                    
+//                    UIImage * image3 = [UIImage imageWithCGImage:image2];
+//                    [[PHImageManager defaultManager]]
+                    [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(960, 1280) contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *image, NSDictionary *info){
+                        
+                        
                         
                         //                dispatch_async(dispatch_get_main_queue(), ^(){});
 //                        UIImage * i = [self normalizedImage:image];
                         
+//                        UIImage * croppedImage =  ;
+                    
+                    
+//                        UIImage * croppedImage = [self imageCroppedToFitSize:CGSizeMake(960, 1280) image:[self unrotateImage:image]];
                         
-                        UIImage * croppedImage = [self imageCroppedToFitSize:CGSizeMake(960, 1280) image:[self unrotateImage:image]];
-                        
-                        [self processSelectedImageWithFilterTextAndSize:croppedImage];
+                        [self processSelectedImageWithFilterTextAndSize:[self unrotateImage:[image imageCroppedAndScaledToSize:CGSizeMake(960, 1280) contentMode:UIViewContentModeScaleAspectFill padToFit:NO]]];
                     }];
                 };
                     break;
@@ -2615,6 +2656,15 @@
             
 //            if(self.isInFeedMode){
                 [self backToCameraFromEditPallette:@"afterSend"];
+            
+            if(self.afterLogin){
+                
+                self.picYourGroup.alpha = 1;
+                glanceLogo.alpha = 1;
+                flipCameraButton.alpha = 0;
+                flashButton.alpha = 0;
+                
+            }
 //            }
 //            [self toggleCamera];
             
@@ -2651,9 +2701,27 @@
     //    self.resizeAbleView = nil;
     
     //    @autoreleasepool {
-    
+//    imageToFinal.scale = 1; 
     UIImage * filteredImage = [self addFilterToImage:imageToFinal];
+//    GPUImageAmatorkaFilter * amatorka = [[GPUImageAmatorkaFilter alloc] init];
+//    [self.videoCamera addTarget:amatorka];
     
+//    GPUImagePicture *stillImageSource = [[GPUImagePicture alloc] initWithCGImage:imageToFinal.CGImage];
+//    
+//    [self.videoCamera useNextFrameForImageCapture];
+//    [self.videoCamera addTarget:amatorka];
+//    [stillImageSource processImage];
+//    
+//    UIImage * im = [self.videoCamera imageFromCurrentFramebuffer];
+    
+//    UIImage * im2 = [self.videoCamera imageByFilteringImage:imageToFinal];
+    
+//    CGImageRef processedImage = [self newCGImageFromCurrentlyProcessedOutput];
+    
+//    [stillImageSource removeTarget:(id<GPUImageInput>)self];
+    
+    
+//    amatorka pre
 //    [amatorkaFilter.sourcePicture ]
 //    GPUImageFilter * t = [[GPUImageFilter alloc] init];
 //    [GPUImageFilter prepareForImageCapture];
@@ -2664,7 +2732,7 @@
         
         UIImage * textAsView = [self imageWithText:self.editTextViewObj.textView];
         CGRect frame = [mainOutPutFrame convertRect:self.editTextViewObj.textView.frame fromView:self.editTextViewObj.textView];
-        UIImage * resizedTextAsImage = [self resizeLabelImage:textAsView location:CGPointZero];
+        UIImage * resizedTextAsImage = [self resizeLabelImage:textAsView size:filteredImage.size location:CGPointZero];
         UIImage * imageWithText = [self drawText:@"test" inImage:filteredImage atPoint:CGPointMake(frame.origin.x, frame.origin.y) viewToPast:resizedTextAsImage];
         
         
@@ -2727,7 +2795,12 @@
 
 - (UIImage *) imageWithText:(UIView *)view
 {
-    //    view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width*2, view.frame.size.height*2);
+    
+    
+    
+//        view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width*2, view.frame.size.height*2);
+    
+    
     
     
     //    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
@@ -2747,6 +2820,7 @@
     //    [ drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+//    uiimagecon
     
     return image;
 }
@@ -3281,33 +3355,46 @@
 //    return degrees * M_PI/180;
 //}
 
-- (UIImage *) resizeLabelImage:(UIImage*)image location:(CGPoint)location {
+- (UIImage *) resizeLabelImage:(UIImage*)image size:(CGSize)size location:(CGPoint)location {
     
     
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
+//    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    CGFloat screenWidth = self.view.frame.size.width;
+    CGFloat screenHeight = self.view.frame.size.height;
+    
+    CGFloat labelWidth = image.size.width;
+    CGFloat labelHeight = image.size.height;
+    
+   
+    CGFloat newWidth = labelWidth * (size.width/screenWidth);
+    CGFloat newHeight = labelHeight * (size.width/screenWidth);
+    
+////    int pictureWidth = self.view.frame.size.width;
+////    int pictureHeight = self.view.frame.size.height * 0.75;
+//    
+//    
+//    CGFloat previewWidth = screenRect.size.width;
+//    CGFloat previewHeight = screenRect.size.height * 0.75;
+//    
+//    CGFloat textOriginalWidth = image.size.width;
+//    CGFloat textOriginalHeight = image.size.height;
+//    
+//    
+//    
+//    CGFloat widthRationTextFromScreen = previewWidth/textOriginalWidth;
+//    CGFloat heightRationTextFromScreen = previewHeight/textOriginalHeight;
+//    
+////    CGFloat ratioBetweenPictureToPreview = pictureWidth/previewWidth;
+//    
+//    
+//    
+//    
+//    CGFloat newWidth = textOriginalWidth;
+//    CGFloat newHeight = textOriginalHeight;
     
     
-    int pictureWidth = self.view.frame.size.width;
-    int pictureHeight = self.view.frame.size.height * 0.75;
-    
-    
-    CGFloat previewWidth = screenRect.size.width;
-    
-    CGFloat textOriginalWidth = image.size.width;
-    CGFloat textOriginalHeight = image.size.height;
-    
-    
-    
-    CGFloat ratioBetweenPictureToPreview = pictureWidth/previewWidth;
-    
-    
-    
-    
-    CGFloat newWidth = textOriginalWidth;
-    CGFloat newHeight = textOriginalHeight;
-    
-    
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(newWidth, newHeight), NO, 1.0);
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(newWidth, newHeight), NO, 0.0);
     
     [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
     
@@ -3357,23 +3444,11 @@
     
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    
-    
-    int pictureWidth = 512;
-    CGFloat previewWidth = screenRect.size.width;
-    
-    CGFloat textOriginalWidth = viewToEmbed.size.width;
-    CGFloat textOriginalHeight = viewToEmbed.size.height;
-    
-    
-    
-    //
-    //512//        //320//    = 1.6
-    CGFloat ratioBetweenPictureToPreview = pictureWidth/previewWidth;
+   
     
     //    UIImage * ttt = [self imageWithView:viewToEmbed];
     
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, 1.0);
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0.0);
     
     //     UIGraphicsBeginImageContext(image.size);
     
@@ -3382,7 +3457,7 @@
     
     
     [image drawAtPoint:CGPointMake(0,0)];
-    [viewToEmbed drawAtPoint:CGPointMake(point.x,point.y)];
+    [viewToEmbed drawAtPoint:CGPointMake(point.x*(image.size.width/screenRect.size.width),point.y*(image.size.width/screenRect.size.width))];
     
     
     

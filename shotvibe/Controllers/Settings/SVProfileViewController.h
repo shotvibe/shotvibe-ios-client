@@ -14,6 +14,8 @@
 
 @interface SVProfileViewController : UIViewController <UITextFieldDelegate, SVImageCropDelegate>
 
+@property (nonatomic, assign) BOOL fromSettings;
 @property (nonatomic, assign) BOOL shouldPrompt; // if YES, prompt the user to change the nickname and avatar
+- (IBAction)goPressed:(id)sender;
 
 @end

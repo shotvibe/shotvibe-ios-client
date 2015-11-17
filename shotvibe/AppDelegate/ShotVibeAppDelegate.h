@@ -24,6 +24,10 @@
 @property (nonatomic, readonly, strong) PhotoFilesManager *photoFilesManager;
 @property (nonatomic, readonly, strong) SLPhoneContactsManager *phoneContactsManager;
 @property (nonatomic, retain) SVPushNotificationsManager *pushNotificationsManager;
+@property (nonatomic) BOOL appOpenedFromPush;
+@property (nonatomic) long long int pushAlbumId;
+@property (nonatomic, retain) NSString * photoIdFromPush;
+@property (nonatomic) int userScore;
 
 @property (copy) void (^ uploadSessionCompletionHandler)(); //stored by handleEventsForBackgroundURLSession for later use
 

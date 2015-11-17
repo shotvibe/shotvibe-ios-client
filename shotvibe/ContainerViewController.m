@@ -20,6 +20,7 @@
 #import "SVSidebarManagementController.h"
 #import "SVNavigationController.h"
 #import "SVRegistrationViewController.h"
+#import "GLProfilePageViewController.h"
 
 #define kDefaultHeaderFrame CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
 
@@ -165,7 +166,7 @@ static ContainerViewController *sharedInstance;
 //        if(albumId == -1){
 //            [self.navigationController popViewControllerAnimated:NO];
 //        } else {
-            [albumlistvc transitToAlbumWithId:albumId animated:NO dmutScale:NO];
+            [albumlistvc transitToAlbumWithId:albumId animated:animated dmutScale:NO];
 //        }
         
     }
@@ -192,17 +193,18 @@ static ContainerViewController *sharedInstance;
     
 }
 
-//-(void)membersPressed {
-//
-//    NSLog(@"test");
-//    
-//    membersOpened = !membersOpened;
-//    
-//    [navigationController.menuContainerViewController toggleRightSideMenuCompletion:^{
-//        
-//    }];
-//    
-//}
+-(void)membersPressed {
+
+    NSLog(@"test");
+    
+    membersOpened = !membersOpened;
+    
+    [self.navigationController.menuContainerViewController toggleRightSideMenuCompletion:^{
+        
+    }];
+    
+}
+
 -(void)backPressed {
 
     if(membersOpened){
@@ -215,12 +217,22 @@ static ContainerViewController *sharedInstance;
         
     }
     
-    [UIView animateWithDuration:0.2 animations:^{
-        [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
-        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
-    }];
-    [self lockScrolling:NO];
     
+    
+    
+    if([self.navigationController.visibleViewController class] == [GLProfilePageViewController class]){
+        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:1];
+        [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:YES];
+    } else {
+        [UIView animateWithDuration:0.2 animations:^{
+            [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
+            [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
+        }];
+        [self lockScrolling:NO];
+        
+    }
+    
+//    NSLog(@"",);
      [self.navigationController popViewControllerAnimated:YES];
 
 }
@@ -235,11 +247,13 @@ static ContainerViewController *sharedInstance;
     
     
     
+    
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [[[GLSharedCamera sharedInstance] score] setText:[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]]];
 //    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
 //    glcamera.delegate = nil;
 //    glcamera.delegate = self;
@@ -257,7 +271,6 @@ static ContainerViewController *sharedInstance;
     
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    
     
     albumlistvc = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
 //    albumlistvc.delegate = self;
@@ -286,22 +299,44 @@ static ContainerViewController *sharedInstance;
     
     NSArray *viewControllers = [NSArray arrayWithObject:viewControllerObject];
     
+    
     [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    
-    [self addChildViewController:self.pageController];
-    [[self view] addSubview:[self.pageController view]];
-    [self.pageController didMoveToParentViewController:self];
-    
     
     
     GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
     glcamera.delegate = self;
 //    [self gotoPage:2];
-    [self transitToAlbumList:NO direction:UIPageViewControllerNavigationDirectionReverse withAlbumId:0 completion:^{
+    if([[ShotVibeAppDelegate sharedDelegate] appOpenedFromPush]){
+
+        
+        [self transitToAlbumList:NO direction:UIPageViewControllerNavigationDirectionReverse withAlbumId:[[ShotVibeAppDelegate sharedDelegate] pushAlbumId] completion:^{
+            
+            
+            if(![[ShotVibeAppDelegate sharedDelegate] photoIdFromPush]){
+                [[ShotVibeAppDelegate sharedDelegate] setAppOpenedFromPush:NO];
+            }
+            
+//            [[[ShotVibeAppDelegate sharedDelegate] window] setAlpha:1];
+            
+        }];
+//        [[ContainerViewController sharedInstance] transitToAlbumList:NO direction:UIPageViewControllerNavigationDirectionForward withAlbumId:5284 completion:^{
+//            //
+//        }];
+    } else {
         
         
-        
-    }];
+        [self transitToAlbumList:NO direction:UIPageViewControllerNavigationDirectionReverse withAlbumId:0 completion:^{
+            
+            
+            
+        }];
+    }
+    
+    
+    
+    [self addChildViewController:self.pageController];
+    [[self view] addSubview:[self.pageController view]];
+    [self.pageController didMoveToParentViewController:self];
     
 //    
 //    for (UIView *view in self.pageController.view.subviews ) {
@@ -783,6 +818,7 @@ static ContainerViewController *sharedInstance;
 
 - (UIImage *)screenShotOfView:(UIView *)view
 {
+    
     ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     UIGraphicsBeginImageContextWithOptions(appDelegate.window.frame.size, YES, 0.0);
@@ -797,10 +833,14 @@ static ContainerViewController *sharedInstance;
 {
     
     
+    
     ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
     UIImage *screenShot = [self screenShotOfView:appDelegate.window];
     screenShot = [screenShot applyBlurWithRadius:5 tintColor:[UIColor colorWithWhite:0.6 alpha:0.2] saturationDeltaFactor:1.0 maskImage:nil];
     self.bluredImageView.image = screenShot;
+    
+    
+    
 }
 
 //- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {

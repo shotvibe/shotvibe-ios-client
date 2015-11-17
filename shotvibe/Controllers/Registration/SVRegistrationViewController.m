@@ -71,6 +71,8 @@
         [self didSelectCountryWithName:selectedCountryCode regionCode:selectedCountryCode];
     }
     
+    self.butContinue.layer.cornerRadius = self.butContinue.frame.size.width/2;
+    
     ShotVibeAppDelegate * appDelegate = [ShotVibeAppDelegate sharedDelegate];
     GLSharedCamera * camera = [GLSharedCamera sharedInstance];
     camera.picYourGroup.alpha = 0;
@@ -189,6 +191,8 @@
               onTaskComplete:
      ^(SLShotVibeAPI_SMSConfirmationToken *smsConfirmationToken) {
         if (smsConfirmationToken) {
+            
+//            [[GLSharedCamera sharedInstance] showGlCameraView];
             smsConfirmationToken_ = smsConfirmationToken;
             [self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
         } else {

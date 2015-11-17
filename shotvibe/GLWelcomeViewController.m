@@ -8,6 +8,7 @@
 
 #import "GLWelcomeViewController.h"
 #import "SVRegistrationViewController.h"
+#import "GLSharedCamera.h"
 
 @interface GLWelcomeViewController (){
     UIImageView *animationImageView;
@@ -19,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    [[[GLSharedCamera sharedInstance] cameraViewBackground] setHidden:YES];
 //    self.signInButton.frame
     self.signInButton.hidden = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -62,6 +64,8 @@
     animationImageView.image = nil;
     animationImageView = nil;
     
+//    
+    
     if (self.onClose) {
         __block GLWelcomeViewController *blocksafeSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -77,7 +81,7 @@
         SVRegistrationViewController *registrationViewController = [storyboard instantiateViewControllerWithIdentifier:@"SVRegistrationViewController"];
     registrationViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:registrationViewController animated:YES completion:^{
-        
+//        [[[GLSharedCamera sharedInstance] cameraViewBackground] setHidden:NO];
     }];
 
 }

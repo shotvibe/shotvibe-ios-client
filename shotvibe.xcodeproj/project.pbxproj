@@ -381,6 +381,9 @@
 		0F1C07951BEB9F0600F82FBB /* JTSlideShadowAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1C07941BEB9F0600F82FBB /* JTSlideShadowAnimation.m */; settings = {ASSET_TAGS = (); }; };
 		0F244AB91BCC343900D7761E /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F244AB71BCC343900D7761E /* CameraViewController.m */; settings = {ASSET_TAGS = (); }; };
 		0F244ABA1BCC343900D7761E /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F244AB81BCC343900D7761E /* CameraViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		0F39098B1BF3DF1A003FAF59 /* MMMWhatsAppActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F39098A1BF3DF1A003FAF59 /* MMMWhatsAppActivity.m */; settings = {ASSET_TAGS = (); }; };
+		0F3909911BF4B7A0003FAF59 /* FXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F39098E1BF4B7A0003FAF59 /* FXImageView.m */; settings = {ASSET_TAGS = (); }; };
+		0F3909921BF4B7A0003FAF59 /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3909901BF4B7A0003FAF59 /* UIImage+FX.m */; settings = {ASSET_TAGS = (); }; };
 		0F4177891BE6537F00FFC6A2 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4177871BE6537F00FFC6A2 /* ContainerViewController.m */; settings = {ASSET_TAGS = (); }; };
 		0F41778A1BE6537F00FFC6A2 /* ContainerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F4177881BE6537F00FFC6A2 /* ContainerViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		0F41778E1BE6539200FFC6A2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F41778C1BE6539100FFC6A2 /* ViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -501,6 +504,12 @@
 		0FF4000E1BDE4A3B00C9168F /* RBVolumeButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF4000D1BDE4A3B00C9168F /* RBVolumeButtons.m */; settings = {ASSET_TAGS = (); }; };
 		0FF400101BDE4AC500C9168F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF4000F1BDE4AC500C9168F /* MediaPlayer.framework */; };
 		0FF400121BDE4ACC00C9168F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF400111BDE4ACC00C9168F /* AudioToolbox.framework */; };
+		0FF7E6ED1BF8ACC60032F2C2 /* GLProfilePictureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF7E6EC1BF8ACC60032F2C2 /* GLProfilePictureController.m */; settings = {ASSET_TAGS = (); }; };
+		0FF7E6F31BF8E0A60032F2C2 /* GLScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF7E6F11BF8E0A60032F2C2 /* GLScoreViewController.m */; settings = {ASSET_TAGS = (); }; };
+		0FF7E6F41BF8E0A60032F2C2 /* GLScoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF7E6F21BF8E0A60032F2C2 /* GLScoreViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		0FF7E6F71BFA70590032F2C2 /* UILabel+AnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF7E6F61BFA70590032F2C2 /* UILabel+AnimatedTransition.m */; settings = {ASSET_TAGS = (); }; };
+		0FF7E6FC1BFA71640032F2C2 /* GLProfilePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF7E6FA1BFA71640032F2C2 /* GLProfilePageViewController.m */; settings = {ASSET_TAGS = (); }; };
+		0FF7E6FD1BFA71640032F2C2 /* GLProfilePageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF7E6FB1BFA71640032F2C2 /* GLProfilePageViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		106C344918C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
 		106C344A18C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
 		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
@@ -1405,6 +1414,12 @@
 		0F244AB61BCC343900D7761E /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
 		0F244AB71BCC343900D7761E /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		0F244AB81BCC343900D7761E /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
+		0F3909891BF3DF1A003FAF59 /* MMMWhatsAppActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMMWhatsAppActivity.h; sourceTree = "<group>"; };
+		0F39098A1BF3DF1A003FAF59 /* MMMWhatsAppActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMMWhatsAppActivity.m; sourceTree = "<group>"; };
+		0F39098D1BF4B7A0003FAF59 /* FXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXImageView.h; sourceTree = "<group>"; };
+		0F39098E1BF4B7A0003FAF59 /* FXImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXImageView.m; sourceTree = "<group>"; };
+		0F39098F1BF4B7A0003FAF59 /* UIImage+FX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FX.h"; sourceTree = "<group>"; };
+		0F3909901BF4B7A0003FAF59 /* UIImage+FX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FX.m"; sourceTree = "<group>"; };
 		0F4177861BE6537F00FFC6A2 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		0F4177871BE6537F00FFC6A2 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
 		0F4177881BE6537F00FFC6A2 /* ContainerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContainerViewController.xib; sourceTree = "<group>"; };
@@ -1561,6 +1576,16 @@
 		0FF4000D1BDE4A3B00C9168F /* RBVolumeButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBVolumeButtons.m; sourceTree = "<group>"; };
 		0FF4000F1BDE4AC500C9168F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		0FF400111BDE4ACC00C9168F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0FF7E6EB1BF8ACC60032F2C2 /* GLProfilePictureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLProfilePictureController.h; path = Controllers/Settings/GLProfilePictureController.h; sourceTree = "<group>"; };
+		0FF7E6EC1BF8ACC60032F2C2 /* GLProfilePictureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GLProfilePictureController.m; path = Controllers/Settings/GLProfilePictureController.m; sourceTree = "<group>"; };
+		0FF7E6F01BF8E0A60032F2C2 /* GLScoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLScoreViewController.h; sourceTree = "<group>"; };
+		0FF7E6F11BF8E0A60032F2C2 /* GLScoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLScoreViewController.m; sourceTree = "<group>"; };
+		0FF7E6F21BF8E0A60032F2C2 /* GLScoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLScoreViewController.xib; sourceTree = "<group>"; };
+		0FF7E6F51BFA70590032F2C2 /* UILabel+AnimatedTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+AnimatedTransition.h"; sourceTree = "<group>"; };
+		0FF7E6F61BFA70590032F2C2 /* UILabel+AnimatedTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+AnimatedTransition.m"; sourceTree = "<group>"; };
+		0FF7E6F91BFA71640032F2C2 /* GLProfilePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLProfilePageViewController.h; sourceTree = "<group>"; };
+		0FF7E6FA1BFA71640032F2C2 /* GLProfilePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLProfilePageViewController.m; sourceTree = "<group>"; };
+		0FF7E6FB1BFA71640032F2C2 /* GLProfilePageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLProfilePageViewController.xib; sourceTree = "<group>"; };
 		106C344718C4C27A006A5603 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notification.h; path = shotvibe/API/Notification.h; sourceTree = SOURCE_ROOT; };
 		106C344818C4C27A006A5603 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Notification.m; path = shotvibe/API/Notification.m; sourceTree = SOURCE_ROOT; };
 		1077E30E18A2768A00E9E9C5 /* AlbumBase.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumBase.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumBase.java; sourceTree = SOURCE_ROOT; };
@@ -2792,6 +2817,8 @@
 				0F7A55FA1BD2782B002C0989 /* instagram_media_popular.json */,
 				0FBC6C661BD4F41700D989B6 /* dropsound.wav */,
 				0F5511E01BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.h */,
+				0F3909891BF3DF1A003FAF59 /* MMMWhatsAppActivity.h */,
+				0F39098A1BF3DF1A003FAF59 /* MMMWhatsAppActivity.m */,
 				0F5511E11BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m */,
 				0FBC6C571BD27DC400D989B6 /* STXFeedViewController.xib */,
 				0FBC6C5E1BD27EFA00D989B6 /* STXFeedViewController.h */,
@@ -2983,6 +3010,17 @@
 				0F244AB81BCC343900D7761E /* CameraViewController.xib */,
 			);
 			name = CameraViewController;
+			sourceTree = "<group>";
+		};
+		0F39098C1BF4B7A0003FAF59 /* FXImageView */ = {
+			isa = PBXGroup;
+			children = (
+				0F39098D1BF4B7A0003FAF59 /* FXImageView.h */,
+				0F39098E1BF4B7A0003FAF59 /* FXImageView.m */,
+				0F39098F1BF4B7A0003FAF59 /* UIImage+FX.h */,
+				0F3909901BF4B7A0003FAF59 /* UIImage+FX.m */,
+			);
+			path = FXImageView;
 			sourceTree = "<group>";
 		};
 		0F41777A1BE603F900FFC6A2 /* GLFriendsViewController */ = {
@@ -3212,6 +3250,35 @@
 				0FE43EB11BDF93620088D93F /* Gotham_Rounded_Light.otf */,
 			);
 			path = FONTS;
+			sourceTree = "<group>";
+		};
+		0FF7E6EA1BF8ACB60032F2C2 /* GLProfilePictureController */ = {
+			isa = PBXGroup;
+			children = (
+				0FF7E6EB1BF8ACC60032F2C2 /* GLProfilePictureController.h */,
+				0FF7E6EC1BF8ACC60032F2C2 /* GLProfilePictureController.m */,
+			);
+			name = GLProfilePictureController;
+			sourceTree = "<group>";
+		};
+		0FF7E6EF1BF8E0830032F2C2 /* GLScoreView */ = {
+			isa = PBXGroup;
+			children = (
+				0FF7E6F01BF8E0A60032F2C2 /* GLScoreViewController.h */,
+				0FF7E6F11BF8E0A60032F2C2 /* GLScoreViewController.m */,
+				0FF7E6F21BF8E0A60032F2C2 /* GLScoreViewController.xib */,
+			);
+			name = GLScoreView;
+			sourceTree = "<group>";
+		};
+		0FF7E6F81BFA71190032F2C2 /* GLProifliePageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0FF7E6F91BFA71640032F2C2 /* GLProfilePageViewController.h */,
+				0FF7E6FA1BFA71640032F2C2 /* GLProfilePageViewController.m */,
+				0FF7E6FB1BFA71640032F2C2 /* GLProfilePageViewController.xib */,
+			);
+			name = GLProifliePageViewController;
 			sourceTree = "<group>";
 		};
 		1077E30B18A275B800E9E9C5 /* Client Lib Java */ = {
@@ -4382,6 +4449,10 @@
 		DD3A8BAA1BC99FFD002DF2C9 /* V2 */ = {
 			isa = PBXGroup;
 			children = (
+				0FF7E6F81BFA71190032F2C2 /* GLProifliePageViewController */,
+				0FF7E6EF1BF8E0830032F2C2 /* GLScoreView */,
+				0FF7E6EA1BF8ACB60032F2C2 /* GLProfilePictureController */,
+				0F39098C1BF4B7A0003FAF59 /* FXImageView */,
 				0F5511C11BEFA9FD00E98C64 /* GLFilters */,
 				0F5511421BEF863400E98C64 /* GLPullToRefresh */,
 				0F1C07921BEB9F0600F82FBB /* JTSlideShadowAnimation */,
@@ -4394,6 +4465,8 @@
 				0FE43E9F1BDE90AE0088D93F /* Feed2 */,
 				0F0757351BD2715F00F22F69 /* GLFeedView */,
 				DD3A8BAB1BC9A003002DF2C9 /* GLCamera */,
+				0FF7E6F51BFA70590032F2C2 /* UILabel+AnimatedTransition.h */,
+				0FF7E6F61BFA70590032F2C2 /* UILabel+AnimatedTransition.m */,
 			);
 			name = V2;
 			sourceTree = "<group>";
@@ -4692,6 +4765,7 @@
 				0F1C07811BEB5E3A00F82FBB /* seq26.png in Resources */,
 				3E36D4F318D83F2A003A1D3A /* tutorial6@2x.png in Resources */,
 				04C406531730303600973BC0 /* DK.png in Resources */,
+				0FF7E6F41BF8E0A60032F2C2 /* GLScoreViewController.xib in Resources */,
 				3EF4160F18E0A56B0077DC22 /* triangle@2x.png in Resources */,
 				04C406551730303600973BC0 /* DM.png in Resources */,
 				0FE43EB21BDF93620088D93F /* Gotham_Rounded_Bold.otf in Resources */,
@@ -5037,6 +5111,7 @@
 				0F5511C01BEF8C0300E98C64 /* GothamXNarrow-XLightItalic.otf in Resources */,
 				0F5511881BEF8C0300E98C64 /* Gotham-BoldItalic.otf in Resources */,
 				0F5511AF1BEF8C0300E98C64 /* GothamRnd-MedIta.otf in Resources */,
+				0FF7E6FD1BFA71640032F2C2 /* GLProfilePageViewController.xib in Resources */,
 				3E47246618D06E5400FF6105 /* Icon-60@2x.png in Resources */,
 				108CDF6418846B9000757E36 /* MPArrowLeft.png in Resources */,
 				28CFCC8717A32CF4001511EF /* SettingsDisclosure.png in Resources */,
@@ -5355,6 +5430,7 @@
 				AA58FB7616C22B0400C49E02 /* ShotVibeAppDelegate.m in Sources */,
 				6601324E187F4E670042047B /* Type.m in Sources */,
 				664F4703188DBB76009F4776 /* IosHTTPResponse.m in Sources */,
+				0FF7E6FC1BFA71640032F2C2 /* GLProfilePageViewController.m in Sources */,
 				108CDF7618846B9000757E36 /* UIView+MPSnapshotImage.m in Sources */,
 				66013228187F4E670042047B /* IOSBooleanArray.m in Sources */,
 				0F4947AE1BE281D600FEDC12 /* LNNotificationBannerView.m in Sources */,
@@ -5362,6 +5438,7 @@
 				0F07576D1BD2735000F22F69 /* UIImage+STXImage.m in Sources */,
 				DD3A8BC11BC9A04A002DF2C9 /* GLResizeableView.m in Sources */,
 				66278C9D1867C44600D23F34 /* CameraRollSection.m in Sources */,
+				0F3909911BF4B7A0003FAF59 /* FXImageView.m in Sources */,
 				0F5511E21BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				66013244187F4E670042047B /* Float.m in Sources */,
 				66013255187F4E670042047B /* JavaLangThrowable.m in Sources */,
@@ -5369,6 +5446,7 @@
 				668681A41A0A5AFB00A7BFB7 /* IosFileSystemManager.m in Sources */,
 				66013254187F4E670042047B /* JavaLangReflectTypeVariableImpl.m in Sources */,
 				0F4947831BE231F900FEDC12 /* GPUImageFoggyNightFilter.m in Sources */,
+				0FF7E6ED1BF8ACC60032F2C2 /* GLProfilePictureController.m in Sources */,
 				0F0757761BD2735000F22F69 /* STXUserActionCell.m in Sources */,
 				108CDF10188417AE00757E36 /* Util.m in Sources */,
 				66278C9F1867C44600D23F34 /* SVImagePickerListViewController.m in Sources */,
@@ -5411,6 +5489,7 @@
 				66D5833C1867D66B00EAC842 /* RCImageView.m in Sources */,
 				66013241187F4E670042047B /* Enum.m in Sources */,
 				2884ED101830CB430069E202 /* RegistrationInfo.m in Sources */,
+				0FF7E6F31BF8E0A60032F2C2 /* GLScoreViewController.m in Sources */,
 				0FE43EA31BDE90DF0088D93F /* GLFeedViewController.m in Sources */,
 				0493ABF21732D7D6005ABCE7 /* ALAssetsLibrary+helper.m in Sources */,
 				664F4706189568B1009F4776 /* IosDevicePhoneContactsLib.m in Sources */,
@@ -5497,6 +5576,7 @@
 				66013235187F4E670042047B /* IOSReflection.m in Sources */,
 				108CDF7018846B9000757E36 /* MPSurveyNavigationController.m in Sources */,
 				66E788B51889EB870037ACF3 /* List.m in Sources */,
+				0F39098B1BF3DF1A003FAF59 /* MMMWhatsAppActivity.m in Sources */,
 				66013247187F4E670042047B /* IllegalStateException.m in Sources */,
 				0F1C07951BEB9F0600F82FBB /* JTSlideShadowAnimation.m in Sources */,
 				66278CE81867C62300D23F34 /* SVProfilePicActivity.m in Sources */,
@@ -5528,6 +5608,7 @@
 				66278C931867C38300D23F34 /* SVPhotoViewerController.m in Sources */,
 				0F0757791BD2735000F22F69 /* STXLabel.m in Sources */,
 				66069BD51A1CF5DD00BE2D32 /* MediaHelper.m in Sources */,
+				0F3909921BF4B7A0003FAF59 /* UIImage+FX.m in Sources */,
 				66278CC61867C57300D23F34 /* SVSettingsViewController.m in Sources */,
 				66278C8B1867C38300D23F34 /* PhotoScrollView.m in Sources */,
 				66278CE31867C62300D23F34 /* SVCopyActivity.m in Sources */,
@@ -5577,6 +5658,7 @@
 				66E788A51887384B0037ACF3 /* IosSQLCursor.m in Sources */,
 				66278CEA1867C62300D23F34 /* SVTwitterActivity.m in Sources */,
 				2849A80D17DDE61A0076AFBA /* UIImage+Scale.m in Sources */,
+				0FF7E6F71BFA70590032F2C2 /* UILabel+AnimatedTransition.m in Sources */,
 				66278C8A1867C38300D23F34 /* PhotoImageView.m in Sources */,
 				6601323A187F4E670042047B /* Boolean.m in Sources */,
 				66278CA01867C44600D23F34 /* SVImagePickerSelector.m in Sources */,

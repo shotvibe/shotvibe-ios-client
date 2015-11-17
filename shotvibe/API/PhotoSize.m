@@ -37,7 +37,7 @@ static NSArray *Values;
 + (void)initialize
 {
     Thumb75 = [[PhotoSize alloc] initWithExtension:@"thumb75" width:75 height:75];
-    FeedSize = [[PhotoSize alloc] initWithExtension:@"r_wvga" width:800 height:1040];
+    FeedSize = [[PhotoSize alloc] initWithExtension:@"r_fhd" width:800 height:1040];
     /*
      * Ordered from best quality to worst
      */
