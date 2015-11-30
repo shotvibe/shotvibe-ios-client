@@ -7,6 +7,7 @@
 //
 
 #import "GLFeedTableCell.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @implementation GLFeedTableCell
 
@@ -124,6 +125,9 @@
     [self.postPannelWrapper addSubview:self.glanceUpButton];
     [self.postPannelWrapper addSubview:self.feed3DotsButton];
     [self.postPannelWrapper addSubview:self.commentTextField];
+    
+    
+    
 
 }
 

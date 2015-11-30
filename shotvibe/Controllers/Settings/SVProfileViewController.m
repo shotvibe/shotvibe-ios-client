@@ -38,6 +38,23 @@
 
 #pragma mark View lifecycle
 
+-(void)resizeViewToIphone5:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x/1.17;
+    f.origin.y = f.origin.y/1.17;
+    if(width){
+        f.size.width = f.size.width/1.17;
+    }
+    if(height){
+        f.size.height = f.size.height/1.17;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius/1.17;
+    }
+}
+
 - (void)viewDidLoad {
 	
     [super viewDidLoad];
@@ -135,6 +152,17 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+    
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        
+        [self resizeViewToIphone5:self.nicknameField width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.promptLabel width:NO height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.userPhoto width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.goButton width:YES height:YES cornerRadius:NO];
+        
+    }
+    
     
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     path = [path stringByAppendingString:@"/avatar.jpg"];

@@ -34,6 +34,7 @@
 - (BOOL)isLoggedIn;
 - (void)setAuthData:(SLAuthData *)authData;
 
+- (BOOL) platformTypeIsIphone5;
 #pragma mark - Class Methods
 
 + (ShotVibeAppDelegate *)sharedDelegate;

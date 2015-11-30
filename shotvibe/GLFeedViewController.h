@@ -21,7 +21,7 @@
 @property(nonatomic, retain) SLAlbumContents * contentsFromOutside;
 @property(nonatomic) BOOL scrollToComment;
 @property(nonatomic, retain) NSString * photoToScrollToCommentsId;
-
+@property (assign, nonatomic) NSInteger indexNumber;
 
 -(void)imageSelected:(UIImage*)image;
 -(void)backPressed;

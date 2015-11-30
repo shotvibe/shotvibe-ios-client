@@ -164,10 +164,39 @@
 
 }
 
+-(void)resizeViewToIphone5:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x/1.17;
+    f.origin.y = f.origin.y/1.17;
+    if(width){
+        f.size.width = f.size.width/1.17;
+    }
+    if(height){
+        f.size.height = f.size.height/1.17;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius/1.17;
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
 
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+     
+        [self resizeViewToIphone5:self.xButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.goPressed width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.originalPictureView width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.capButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.galButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.goButton width:YES height:YES cornerRadius:NO];
+        
+    }
+    
     if (IS_IOS7) {
 		self.navigationController.navigationBar.translucent = NO;
 	}
@@ -189,6 +218,9 @@
     UIView * borderBottom = [[UIView alloc] initWithFrame:CGRectMake(0, self.nicknameField.frame.size.height-1, self.nicknameField.frame.size.width, 1)];
     borderBottom.backgroundColor = self.nicknameField.textColor;
     [self.nicknameField addSubview:borderBottom];
+    
+    
+    
 }
 
 - (void) viewWillDisappear:(BOOL)animated {

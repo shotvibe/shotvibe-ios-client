@@ -478,9 +478,34 @@
         
         UITapGestureRecognizer * scoreTapped = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scoreTapped:)];
         
-        scoreBg = [[UIView alloc] initWithFrame:CGRectMake(20, 40, 40, 40)];
+        
+        long currentUserScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"];
+        if(currentUserScore > 99){
+        
+            scoreBg = [[UIView alloc] initWithFrame:CGRectMake(20, 40, 55, 55)];
+            self.score = [[UILabel alloc] initWithFrame:CGRectMake(0, 1.5, 55, 55)];
+            scoreBg.layer.cornerRadius = 27.5;
+            
+        } else if(currentUserScore > 999){
+        
+            scoreBg = [[UIView alloc] initWithFrame:CGRectMake(20, 40, 70, 70)];
+            self.score = [[UILabel alloc] initWithFrame:CGRectMake(0, 1.5, 70, 70)];
+            scoreBg.layer.cornerRadius = 35;
+        } else {
+            
+            self.score = [[UILabel alloc] initWithFrame:CGRectMake(0, 1.5, 40, 40)];
+            scoreBg = [[UIView alloc] initWithFrame:CGRectMake(20, 40, 40, 40)];
+            scoreBg.layer.cornerRadius = 20;
+        }
+        
+        
+       
+        
+        
+        
+        
         scoreBg.backgroundColor = [UIColor clearColor];
-        scoreBg.layer.cornerRadius = 20;
+        
         scoreBg.layer.borderWidth = 1;
         scoreBg.layer.borderColor = [UIColor whiteColor].CGColor;
         
@@ -490,11 +515,32 @@
         
         
         
-        self.score = [[UILabel alloc] initWithFrame:CGRectMake(0, 1.5, 40, 40)];
+        
         self.score.text = [NSString stringWithFormat:@"%d",[[ShotVibeAppDelegate sharedDelegate] userScore]];
         self.score.textAlignment = NSTextAlignmentCenter;
         self.score.font = [UIFont fontWithName:@"GothamRounded-Bold" size:24];
         self.score.textColor = [UIColor whiteColor];
+        
+        
+        
+//        //Calculate the expected size based on the font and linebreak mode of your label
+//        // FLT_MAX here simply means no constraint in height
+//        CGSize maximumLabelSize = CGSizeMake(100, FLT_MAX);
+//        
+//        CGSize expectedLabelSize = [self.score.text sizeWithFont:self.score.font constrainedToSize:maximumLabelSize lineBreakMode:self.score.lineBreakMode];
+//        
+//        //adjust the label the the new height.
+//        CGRect newFrame = self.score.frame;
+//        newFrame.size.height = expectedLabelSize.height;
+//        newFrame.size.width = expectedLabelSize.width;
+//        self.score.frame = newFrame;
+//        
+//        CGRect newFrame2 = self.score.frame;
+//        newFrame2.size.height = expectedLabelSize.height;
+//        newFrame2.size.width = expectedLabelSize.width;
+//        self.score.frame = newFrame2;
+//        
+//        scoreBg.frame = newFrame2;
         
         CATransition *animation = [CATransition animation];
         animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -564,6 +610,7 @@
                 [device unlockForConfiguration];
             }
         }
+        
         
         
         
@@ -671,6 +718,7 @@
                 
                 self.picYourGroup.alpha = 1;
                 glanceLogo.alpha = 1;
+                scoreBg.alpha = 1;
                 
                 if(self.isInFeedMode){
                 
@@ -740,6 +788,7 @@
                 
                 self.picYourGroup.alpha = 0;
                 glanceLogo.alpha = 0;
+                scoreBg.alpha = 0;
                 
                 [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, self.view.frame.size.height)];
                 
@@ -801,6 +850,7 @@
     flipCameraButton.alpha = 0;
     flashButton.alpha = 0;
     glanceLogo.alpha = 1;
+    scoreBg.alpha = 0;
     self.picYourGroup.alpha = 1;
     [self toggleCamera:YES];
     
@@ -826,6 +876,7 @@
                             effectView.alpha = 1;
                             self.backButton.alpha = 1;
                             self.membersButton.alpha = 1;
+        scoreBg.alpha = 0;
         
         
         self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
@@ -1038,7 +1089,7 @@
 
 - (void)setupVideoCamera {
     
-    self.videoCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
+    self.videoCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack];
     self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
     self.videoCamera.horizontallyMirrorRearFacingCamera = NO;
@@ -2551,6 +2602,7 @@
             [UIView animateWithDuration:0.2 animations:^{
                 self.picYourGroup.alpha = 1;
                 glanceLogo.alpha = 1;
+                scoreBg.alpha = 1;
                 flipCameraButton.alpha = 0;
                 flashButton.alpha = 0;
                 //                self.backButton.alpha=1;
@@ -2661,6 +2713,7 @@
                 
                 self.picYourGroup.alpha = 1;
                 glanceLogo.alpha = 1;
+                scoreBg.alpha = 1;
                 flipCameraButton.alpha = 0;
                 flashButton.alpha = 0;
                 
@@ -2993,80 +3046,136 @@
 //    [self setCameraViewInEditMode:YES];
     
     cleanImageFromCamera = nil;
-    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
     
-            [self.videoCamera capturePhotoAsImageProcessedUpToFilter:[[self.arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(UIImage *processedImage, NSError *error) {
-               
-                [self.videoCamera stopCameraCapture];
+//    [self.videoCamera];
+//            [self.videoCamera capturePhotoAsImageProcessedUpToFilter:[[self.arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(UIImage *processedImage, NSError *error) {
+    
+//                [self.videoCamera stopCameraCapture];
                 [self setCameraViewInEditMode:YES];
 //
-//                
-//                cleanImageFromCamera = nil;
-                @autoreleasepool {
-                    
-                    int width = 960;
-                    int height = 1280;
-
-                    CGImageRef imageRef = [processedImage CGImage];
-                    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(imageRef);
-                    
-                    //if (alphaInfo == kCGImageAlphaNone)
-                    alphaInfo = kCGImageAlphaNoneSkipLast;
-                    
-                    CGContextRef bitmap = CGBitmapContextCreate(NULL, width, height, CGImageGetBitsPerComponent(imageRef), 4 * width, CGImageGetColorSpace(imageRef), alphaInfo);
-                    CGContextDrawImage(bitmap, CGRectMake(0, 0, width, height), imageRef);
-                    CGImageRef ref = CGBitmapContextCreateImage(bitmap);
-                    cleanImageFromCamera = [UIImage imageWithCGImage:ref];
-                    
-                    CGContextRelease(bitmap);
-                    CGImageRelease(ref);
-                    bitmap = nil;
-                    ref = nil;
-                    alphaInfo = nil;
-                    imageRef = nil;
-//                    result = nil;
-                    
-//                    // Get size of current image
-//                    CGSize size = [processedImage size];
-//                    
-//                    // Frame location in view to show original image
-////                    [imageView setFrame:CGRectMake(0, 0, size.width, size.height)];
-////                    [[self view] addSubview:imageView];
-////                    [imageView release];
-//                    
-//                    // Create rectangle that represents a cropped image
-//                    // from the middle of the existing image
-//                    CGRect rect = CGRectMake(0.0, 0.0 ,
-//                                             960, 1280);
-//                    
-//                    // Create bitmap image from original image data,
-//                    // using rectangle to specify desired crop area
-//                    CGImageRef imageRef = CGImageCreateWithImageInRect([processedImage CGImage], rect);
-//                    UIImage *img = [UIImage imageWithCGImage:imageRef]; 
-//                    CGImageRelease(imageRef);
-                    
-//                        cleanImageFromCamera = [self imageCroppedToFitSize:CGSizeMake(480, 640) image:processedImage];
-                }
-//                cleanImageFromCamera = nil;
-                [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
-                
-//                processedImage = nil;
 //
-                for(GLFilterView * filterView in self.arrayOfFilters){
-                    @autoreleasepool {
-                        [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth*1.3333) image:processedImage]];
-                    }
-                    
-                    //        [filterView.filter ]
-                }
+    GLFilterView * filter = [self.arrayOfFilters objectAtIndex:currentFilterIndex];
+    
+    
+//    [_camera pauseCameraCapture];
+//    [filter.filter useNextFrameForImageCapture];
+//    UIImage * processedImage = [filter.filter imageFromCurrentFramebuffer];
+//    [self.videoCamera stopCameraCapture];
+//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+    
+    
+    NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"];
+    unlink([pathToMovie UTF8String]);
+    NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
+   GPUImageMovieWriter * movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480.0, 640.0)];
+    movieWriter.encodingLiveVideo = YES;
+    
+    [filter.filter addTarget:movieWriter];
+    
+    
+    double delayToStartRecording = 0.5;
+    dispatch_time_t startTime = dispatch_time(DISPATCH_TIME_NOW, delayToStartRecording * NSEC_PER_SEC);
+    dispatch_after(startTime, dispatch_get_main_queue(), ^(void){
+        NSLog(@"Start recording");
+        
+        
+        self.videoCamera.audioEncodingTarget = movieWriter;
+        [movieWriter startRecording];
+        //        [movieWriter ];
+        
+        //        NSError *error = nil;
+        //        if (![videoCamera.inputCamera lockForConfiguration:&error])
+        //        {
+        //            NSLog(@"Error locking for configuration: %@", error);
+        //        }
+        //        [videoCamera.inputCamera setTorchMode:AVCaptureTorchModeOn];
+        //        [videoCamera.inputCamera unlockForConfiguration];
+        
+        double delayInSeconds = 10.0;
+        dispatch_time_t stopTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(stopTime, dispatch_get_main_queue(), ^(void){
+            
+            [filter.filter removeTarget:movieWriter];
+            self.videoCamera.audioEncodingTarget = nil;
+            [movieWriter finishRecording];
+            NSLog(@"Movie completed");
+            
+            //            [videoCamera.inputCamera lockForConfiguration:nil];
+            //            [videoCamera.inputCamera setTorchMode:AVCaptureTorchModeOff];
+            //            [videoCamera.inputCamera unlockForConfiguration];
+        });
+    });
+    
+//    UIImage * processedImage = filter.filter.imageFromCurrentFramebuffer;
+    
+    
+//                cleanImageFromCamera = nil;
+//                @autoreleasepool {
+//                    
+//                    int width = 960;
+//                    int height = 1280;
+//
+//                    CGImageRef imageRef = [processedImage CGImage];
+//                    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(imageRef);
+//                    
+//                    //if (alphaInfo == kCGImageAlphaNone)
+//                    alphaInfo = kCGImageAlphaNoneSkipLast;
+//                    
+//                    CGContextRef bitmap = CGBitmapContextCreate(NULL, width, height, CGImageGetBitsPerComponent(imageRef), 4 * width, CGImageGetColorSpace(imageRef), alphaInfo);
+//                    CGContextDrawImage(bitmap, CGRectMake(0, 0, width, height), imageRef);
+//                    CGImageRef ref = CGBitmapContextCreateImage(bitmap);
+//                    cleanImageFromCamera = [UIImage imageWithCGImage:ref];
+//                    
+//                    CGContextRelease(bitmap);
+//                    CGImageRelease(ref);
+//                    bitmap = nil;
+//                    ref = nil;
+//                    alphaInfo = nil;
+//                    imageRef = nil;
+////                    result = nil;
+//                    
+////                    // Get size of current image
+////                    CGSize size = [processedImage size];
+////                    
+////                    // Frame location in view to show original image
+//////                    [imageView setFrame:CGRectMake(0, 0, size.width, size.height)];
+//////                    [[self view] addSubview:imageView];
+//////                    [imageView release];
+////                    
+////                    // Create rectangle that represents a cropped image
+////                    // from the middle of the existing image
+////                    CGRect rect = CGRectMake(0.0, 0.0 ,
+////                                             960, 1280);
+////                    
+////                    // Create bitmap image from original image data,
+////                    // using rectangle to specify desired crop area
+////                    CGImageRef imageRef = CGImageCreateWithImageInRect([processedImage CGImage], rect);
+////                    UIImage *img = [UIImage imageWithCGImage:imageRef]; 
+////                    CGImageRelease(imageRef);
+//                    
+////                        cleanImageFromCamera = [self imageCroppedToFitSize:CGSizeMake(480, 640) image:processedImage];
+//                }
+////                cleanImageFromCamera = nil;
+//                [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+//                
+////                processedImage = nil;
+////
+//                for(GLFilterView * filterView in self.arrayOfFilters){
+//                    @autoreleasepool {
+//                        [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth*1.3333) image:processedImage]];
+//                    }
+//                    
+//                    //        [filterView.filter ]
+//                }
+    
                 
                 
                 
                 
                 
                 
-                
-            }];
+//            }];
   
     
     imageSource = ImageSourceCamera;

@@ -164,7 +164,45 @@
 }
 
 
+-(void)resizeViewToIphone5:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x/1.17;
+    f.origin.y = f.origin.y/1.17;
+    if(width){
+        f.size.width = f.size.width/1.17;
+    }
+    if(height){
+        f.size.height = f.size.height/1.17;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius/1.17;
+    }
+}
+
 #pragma mark Rotation
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        
+        [self resizeViewToIphone5:self.butSubmit width:YES height:YES cornerRadius:YES];
+        [self resizeViewToIphone5:self.line1 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.line2 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.tf1 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.tf2 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.tf3 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.tf4 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.codeField1 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.codeField2 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.codeField3 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.codeField4 width:YES height:YES cornerRadius:NO];
+    
+    }
+}
+
 
 - (BOOL)shouldAutorotate
 {

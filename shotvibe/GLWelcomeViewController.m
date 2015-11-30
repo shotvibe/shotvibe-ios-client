@@ -24,7 +24,18 @@
 //    self.signInButton.frame
     self.signInButton.hidden = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-    btn.frame = self.signInButton.frame;
+    
+    CGRect frame = self.signInButton.frame;
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        frame.origin.x = (self.view.frame.size.width/1.30/2)-((self.signInButton.frame.size.width/1.30)/2);
+    } else {
+        frame.origin.x = frame.origin.x = (self.view.frame.size.width/1/2)-((self.signInButton.frame.size.width/1)/2);
+    }
+    
+//    self.signInButton.frame = frame;
+    btn.frame = frame;
+    
     [btn setTitle:@"sign in" forState:UIControlStateNormal];
     [btn setTitleColor:UIColorFromRGB(0x626262) forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(signInTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -43,9 +54,15 @@
     for (int i = 0; i < imageNames.count; i++) {
         [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
     }
+    CGRect r;
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        r = CGRectMake(self.dmut.frame.origin.x/1.171, self.dmut.frame.origin.y/1.171, self.dmut.frame.size.width/1.171, self.dmut.frame.size.height/1.171);
+    } else {
+        r = self.dmut.frame;
+    }
     
     // Normal Animation
-    animationImageView = [[UIImageView alloc] initWithFrame:self.dmut.frame];
+    animationImageView = [[UIImageView alloc] initWithFrame:r];
     animationImageView.animationImages = images;
     animationImageView.animationDuration = 3;
     //    animationImageView.animationRepeatCount = 1;
@@ -53,7 +70,17 @@
     [self.view addSubview:animationImageView];
     [animationImageView startAnimating];
     
+    
+    
+    
     // Do any additional setup after loading the view from its nib.
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+//    CGRect frame = self.signInButton.frame;
+//    frame.origin.x = (self.view.frame.size.width/2)-(self.signInButton.frame.size.width/2);
+//    self.signInButton.frame = frame;
 }
 
 -(void)viewDidDisappear:(BOOL)animated {

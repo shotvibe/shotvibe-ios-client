@@ -38,6 +38,15 @@
     
     self.userScore.text = [NSString stringWithFormat:@"%04d",[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:self.userId]];
     
+    
+//    CGSize stringsize = [self.userScore.text sizeWithAttributes:@{}];
+//    
+//    [self.userScore setFrame:CGRectMake(self.userScore.frame.origin.x,self.userScore.frame.origin.y,stringsize.width, stringsize.height)];
+    
+    
+   
+
+    
     self.userNickName.text = [user getMemberNickname];
     [self.userProfileImage sd_setImageWithURL:[NSURL URLWithString:[user getMemberAvatarUrl]]];
     

@@ -14,10 +14,14 @@
 
 
 @interface SVRegistrationViewController : UIViewController <UITextFieldDelegate, SVCountriesDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *feelTheVibes;
+@property (weak, nonatomic) IBOutlet UIView *viewContainer;
 
 @property (weak, nonatomic) IBOutlet UIView *inviteOverlay;
 @property (weak, nonatomic) IBOutlet UILabel *haveInviteLabel;
+@property (weak, nonatomic) IBOutlet UIButton *countrySelectButton;
 
+@property (weak, nonatomic) IBOutlet UILabel *aValidationCode;
 - (void)selectCountry:(NSString *)countryCode;
 - (void)setCustomPayload:(NSString *)customPayload;
 - (void)skipRegistration;

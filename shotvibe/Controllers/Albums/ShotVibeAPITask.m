@@ -9,6 +9,8 @@
 #import "ShotVibeAPITask.h"
 #import "MBProgressHUD.h"
 #import "SL/APIException.h"
+#import "KVNProgress.h"
+
 
 @interface TaskErrorDialogDelegate : NSObject <UIAlertViewDelegate>
 
@@ -65,7 +67,17 @@
 
 + (void)runTask:(UIViewController *)viewController withAction:(id (^)())run onTaskComplete:(void (^)(id))onTaskComplete
 {
-    [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
+//    [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
+    
+    
+    
+    
+//
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        //        self.basicConfiguration.tapBlock = nil;
+//        
+//    });
+    
 //    [viewController.view.window setUserInteractionEnabled:NO];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -75,7 +87,8 @@
         } @catch (SLAPIException *exception) {
             dispatch_async(dispatch_get_main_queue(), ^{
 //                [viewController.view.window setUserInteractionEnabled:YES];
-                [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+//                [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+//                [KVNProgress dismiss]; 
 
                 TaskErrorDialogDelegate *delegate = [[TaskErrorDialogDelegate alloc] initWith:viewController
                                                                                    withAction:run
@@ -92,8 +105,12 @@
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [KVNProgress showSuccess];
 //            [viewController.view.window setUserInteractionEnabled:YES];
-            [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+//            [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+//            [KVNProgress dismiss];
+//            [KVNProgress showSuccessWithStatus:@"Success"];
             onTaskComplete(result);
         });
     });

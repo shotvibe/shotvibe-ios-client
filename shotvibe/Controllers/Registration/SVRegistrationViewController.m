@@ -123,15 +123,77 @@
 //    [self.phoneNumberField becomeFirstResponder];
 }
 
+-(void)resizeViewToIphone5:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x/1.17;
+    f.origin.y = f.origin.y/1.17;
+    if(width){
+        f.size.width = f.size.width/1.17;
+    }
+    if(height){
+        f.size.height = f.size.height/1.17;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius/1.17;
+    }
+}
 
-//- (void) viewWillAppear:(BOOL)animated {
-//	
-//	[super viewWillAppear:animated];
-//	
+- (void) viewWillAppear:(BOOL)animated {
+	
+	[super viewWillAppear:animated];
+
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        
+//        self.feelTheVibes.transform = CGAffineTransformScale(self.feelTheVibes.transform, 0.83, 0.83);
+        
+        [self resizeViewToIphone5:self.feelTheVibes width:NO height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.phoneNumberField width:NO height:NO cornerRadius:NO];
+        [self resizeViewToIphone5:self.aValidationCode width:NO height:NO cornerRadius:NO];
+        [self resizeViewToIphone5:self.countryFlagView width:NO height:NO cornerRadius:NO];
+        [self resizeViewToIphone5:self.countrySelectButton width:NO height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.butContinue width:YES height:YES cornerRadius:YES];
+        
+        
+//        CGRect f2 = self.phoneNumberField.frame;
+//        f.origin.x = f.origin.x/1.17;
+//        f.origin.y = f.origin.y/1.17;
+//        f.size.height = f.size.height/1.17;
+//        self.phoneNumberField.frame = f;
+//        
+//        
+//        CGRect f = self.feelTheVibes.frame;
+//        f.origin.x = f.origin.x/1.17;
+//        f.origin.y = f.origin.y/1.17;
+//        f.size.height = f.size.height/1.17;
+//        self.feelTheVibes.frame = f;
+//        
+//        CGRect f = self.feelTheVibes.frame;
+//        f.origin.x = f.origin.x/1.17;
+//        f.origin.y = f.origin.y/1.17;
+//        f.size.height = f.size.height/1.17;
+//        self.feelTheVibes.frame = f;
+        
+//        self.feelTheVibes.frame = CGRectMake(self.feelTheVibes.frame.origin.x/1.17, self.feelTheVibes.frame.origin.x/1.17, self.feelTheVibes.frame.size.width/1.17, self.feelTheVibes.frame.size.height/1.17);
+        
+//        for(UIView * v in self.view.subviews){
+        
+            
+//            v.frame = CGRectMake(v.frame.origin.x, v.frame.origin.y, v.frame.size.width/1.17, v.frame.size.height/1.17);
+            
+            
+//        }
+        
+    } else {
+        
+    }
+    
+    
 //	if (IS_IOS7) {
 //		self.navigationController.navigationBar.translucent = NO;
 //	}
-//}
+}
 //
 //- (void) viewWillDisappear:(BOOL)animated {
 //	

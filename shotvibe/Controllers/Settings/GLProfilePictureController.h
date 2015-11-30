@@ -15,19 +15,25 @@
 
 @interface GLProfilePictureController : UIViewController <UITextFieldDelegate,GLSharedCameraDelegatte,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
-@property (nonatomic, assign) BOOL shouldPrompt; // if YES, prompt the user to change the nickname and avatar
-@property (weak, nonatomic) IBOutlet UIButton *goButton;
+
+
 - (IBAction)goPressed:(id)sender;
 - (IBAction)captureSelfie:(id)sender;
 - (IBAction)libraryProfilePick:(id)sender;
 - (IBAction)backToCamBut:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIButton *xButton;
 @property (weak, nonatomic) IBOutlet UIButton *goPressed;
 @property (weak, nonatomic) IBOutlet UIImageView *originalPictureView;
+@property (weak, nonatomic) IBOutlet UIButton *capButton;
+@property (weak, nonatomic) IBOutlet UIButton *galButton;
+@property (weak, nonatomic) IBOutlet UIButton *goButton;
+
+@property (nonatomic, assign) BOOL shouldPrompt; // if YES, prompt the user to change the nickname and avatar
 @property (nonatomic) BOOL needToReUpload;
 @property (nonatomic) BOOL origiPictureTapped;
-@property (weak, nonatomic) IBOutlet UIButton *capButton;
 @property(nonatomic) BOOL fromSettings;
-@property (weak, nonatomic) IBOutlet UIButton *galButton;
+
+
 
 @end

@@ -23,6 +23,12 @@
 @property (nonatomic, strong) IBOutlet UITextField *codeField3;
 @property (nonatomic, strong) IBOutlet UITextField *codeField4;
 @property (nonatomic, strong) IBOutlet UIButton *butSubmit;
+@property (weak, nonatomic) IBOutlet UILabel *line1;
+@property (weak, nonatomic) IBOutlet UILabel *line2;
+@property (weak, nonatomic) IBOutlet UIView *tf1;
+@property (weak, nonatomic) IBOutlet UIView *tf4;
+@property (weak, nonatomic) IBOutlet UIView *tf3;
+@property (weak, nonatomic) IBOutlet UIView *tf2;
 
 - (void)validateRegistrationCode:(NSString *)registrationCode;
 - (void)handleSuccessfulLogin:(BOOL)animated;

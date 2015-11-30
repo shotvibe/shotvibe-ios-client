@@ -21,6 +21,11 @@
 #import "SVNavigationController.h"
 #import "SVRegistrationViewController.h"
 #import "GLProfilePageViewController.h"
+#import "ShotVibeAPITask.h"
+#import "ShotVibeAPI.h"
+#import "GLPublicFeedViewController.h"
+#import "AlbumPhoto.h"
+#import "ArrayList.h"
 
 #define kDefaultHeaderFrame CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
 
@@ -29,6 +34,7 @@
 @property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
 @property (nonatomic, strong) SVSidebarManagementController *sidebarLeft;
 @property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
+@property (nonatomic, strong) GLPublicFeedViewController *publicFeed;
 @end
 
 @implementation ContainerViewController {
@@ -228,6 +234,7 @@ static ContainerViewController *sharedInstance;
             [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
             [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
         }];
+        [[GLSharedCamera sharedInstance] setCameraInMain];
         [self lockScrolling:NO];
         
     }
@@ -270,6 +277,30 @@ static ContainerViewController *sharedInstance;
     [super viewDidLoad];
     
     
+//    SLShotVibeAPI *shotvibeAPI = [ getShotVibeAPI];
+    SLAlbumManager * al = [ShotVibeAppDelegate sharedDelegate].albumManager;
+    
+    [ShotVibeAPITask runTask:self withAction:^id{
+//        [[al getShotVibeAPI] getPublic];
+        return [[al getShotVibeAPI] getPublicAlbumContents];
+    } onTaskComplete:^(SLAlbumContents *album) {
+//        NSLog(@"Public feed name: %@", [album getName]);
+        
+        self.publicFeed = [[GLPublicFeedViewController alloc] init];
+        self.publicFeed.photosArray = [[NSMutableArray alloc] init];
+        
+        for(SLAlbumPhoto * photo in [album getPhotos]){
+            [self.publicFeed.photosArray addObject:photo];
+        }
+        
+        NSArray* reversedArray = [[self.publicFeed.photosArray reverseObjectEnumerator] allObjects];
+        
+        self.publicFeed.photosArray = [reversedArray copy];
+        
+//        self.publicFeed.albumId = [[al getShotVibeAPI] getPublicAlbumId];
+        // TODO ...
+    }];
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
     
     albumlistvc = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
@@ -293,6 +324,7 @@ static ContainerViewController *sharedInstance;
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     
     self.pageController.dataSource = self;
+    self.pageController.delegate = self;
     [[self.pageController view] setFrame:[[self view] bounds]];
     
     SVAddFriendsViewController *viewControllerObject = (SVAddFriendsViewController*)[self viewControllerAtIndex:1];
@@ -494,25 +526,54 @@ static ContainerViewController *sharedInstance;
     }
 }
 
-- (void)pageViewController:(UIPageViewController *)pvc didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
-{
-    // If the page did not turn
-    if (!completed)
-    {
-        // You do nothing because whatever page you thought
-        // the book was on before the gesture started is still the correct page
-        return;
+-(void)pageViewController:(UIPageViewController *)thePageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
+    
+    
+    if(completed) {
+        
+        
+        if([[previousViewControllers objectAtIndex:0] class] == [MFSideMenuContainerViewController class]){
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+            [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
+        } else {
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+            [[[GLSharedCamera sharedInstance] videoCamera] startCameraCapture];
+        }
+//        index = ((PageZoomViewController *)thePageViewController.viewControllers[0]).pageIndex;
+//            NSUInteger index = thePageViewController
+//        if(index == 1){
+//            [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
+//            NSLog(@"stop camera");
+//        } else if(index == 2){
+//            [[[GLSharedCamera sharedInstance] videoCamera] startCameraCapture];
+//            NSLog(@"start camera");
+//        }
+        
     }
-//    if([[previousViewControllers objectAtIndex:0] class] == [SVAddFriendsViewController class]){
-//        currentIndex = 1;
-//    } else {
-//        currentIndex = 0;
-//    }
-    
-    // This is where you would know the page number changed and handle it appropriately
-    // [self sendPageChangeNotification:YES];
-    
 }
+
+
+//- (void)pageViewController:(UIPageViewController *)pvc didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
+//{
+//    // If the page did not turn
+//    if (!completed)
+//    {
+//        // You do nothing because whatever page you thought
+//        // the book was on before the gesture started is still the correct page
+//        return;
+//    }
+//    
+//    
+////    if([[previousViewControllers objectAtIndex:0] class] == [SVAddFriendsViewController class]){
+////        currentIndex = 1;
+////    } else {
+////        currentIndex = 0;
+////    }
+//    
+//    // This is where you would know the page number changed and handle it appropriately
+//    // [self sendPageChangeNotification:YES];
+//    
+//}
 
 #pragma  - UIPageViewController Methods
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
@@ -543,7 +604,7 @@ static ContainerViewController *sharedInstance;
     
     index++;
     
-    if (index == 3) {
+    if (index == 4) {
         return nil;
     }
     
@@ -565,6 +626,8 @@ static ContainerViewController *sharedInstance;
 //        return self.sideMenu;
     } else if(index == 2){
         return  self.sideMenu;
+    } else if(index == 3){
+        return self.publicFeed;
     }
     
     
@@ -684,6 +747,13 @@ static ContainerViewController *sharedInstance;
     }
     
     _curIndex = index;
+}
+
+-(void)imageSelected:(UIImage *)image {
+
+     GLFeedViewController * feed = (GLFeedViewController*)self.navigationController.visibleViewController;
+    [feed imageSelected:image];
+
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset

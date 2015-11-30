@@ -17,5 +17,6 @@
 @property (nonatomic, assign) BOOL fromSettings;
 @property (nonatomic, assign) BOOL shouldPrompt; // if YES, prompt the user to change the nickname and avatar
 - (IBAction)goPressed:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *goButton;
 
 @end
