@@ -3100,6 +3100,13 @@
             self.videoCamera.audioEncodingTarget = nil;
             [movieWriter finishRecording];
             NSLog(@"Movie completed");
+
+            // Wait a little bit since it seems that it takes some time for the file to be fully written to disk
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                NSLog(@"%@", pathToMovie);
+                long long publicFeedId = 5331;
+                [[ShotVibeAppDelegate sharedDelegate].uploadManager addUploadVideoJob:pathToMovie withAlbumId:publicFeedId];
+            });
             
             //            [videoCamera.inputCamera lockForConfiguration:nil];
             //            [videoCamera.inputCamera setTorchMode:AVCaptureTorchModeOff];

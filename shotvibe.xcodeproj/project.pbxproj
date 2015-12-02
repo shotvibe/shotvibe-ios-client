@@ -1023,6 +1023,10 @@
 		DD3A8BC71BC9A04A002DF2C9 /* UIView+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BBD1BC9A04A002DF2C9 /* UIView+Transform.m */; };
 		DD3A8BC91BC9A229002DF2C9 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3A8BC81BC9A229002DF2C9 /* Photos.framework */; };
 		DD3A8BCD1BC9A4A1002DF2C9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3A8BCC1BC9A4A1002DF2C9 /* Images.xcassets */; };
+		ED9589021C0DECA00020E8C6 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9589011C0DECA00020E8C6 /* AWSS3.framework */; };
+		ED9589051C0DEDA60020E8C6 /* UploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9589041C0DEDA60020E8C6 /* UploadManager.m */; };
+		ED9589071C0DEE680020E8C6 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9589061C0DEE680020E8C6 /* AWSCore.framework */; };
+		ED95890A1C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9589091C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2453,6 +2457,12 @@
 		DD3A8BBD1BC9A04A002DF2C9 /* UIView+Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Transform.m"; sourceTree = "<group>"; };
 		DD3A8BC81BC9A229002DF2C9 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		DD3A8BCC1BC9A4A1002DF2C9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		ED9589011C0DECA00020E8C6 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = "shotvibe/Vendor/aws-ios-sdk-2.3.0/frameworks/AWSS3.framework"; sourceTree = "<group>"; };
+		ED9589031C0DEDA60020E8C6 /* UploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadManager.h; path = shotvibe/API/UploadManager.h; sourceTree = SOURCE_ROOT; };
+		ED9589041C0DEDA60020E8C6 /* UploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadManager.m; path = shotvibe/API/UploadManager.m; sourceTree = SOURCE_ROOT; };
+		ED9589061C0DEE680020E8C6 /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCore.framework; path = "shotvibe/Vendor/aws-ios-sdk-2.3.0/frameworks/AWSCore.framework"; sourceTree = "<group>"; };
+		ED9589081C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShotVibeCredentialsProvider.h; path = shotvibe/API/ShotVibeCredentialsProvider.h; sourceTree = SOURCE_ROOT; };
+		ED9589091C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShotVibeCredentialsProvider.m; path = shotvibe/API/ShotVibeCredentialsProvider.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2477,6 +2487,7 @@
 				285EB94217F55C8200A33E5B /* Accelerate.framework in Frameworks */,
 				04204EFB178B45D9001FE127 /* AddressBook.framework in Frameworks */,
 				0426B6741724EBE2007BAABC /* AssetsLibrary.framework in Frameworks */,
+				ED9589071C0DEE680020E8C6 /* AWSCore.framework in Frameworks */,
 				3B1E4D2D17AD6E8E00CACE80 /* Crashlytics.framework in Frameworks */,
 				AA58FCFF16C235FD00C49E02 /* CFNetwork.framework in Frameworks */,
 				AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */,
@@ -2484,6 +2495,7 @@
 				AA58FD0516C2364B00C49E02 /* CoreLocation.framework in Frameworks */,
 				AA58FAFD16C224E800C49E02 /* Foundation.framework in Frameworks */,
 				0426B6701724EBC4007BAABC /* ImageIO.framework in Frameworks */,
+				ED9589021C0DECA00020E8C6 /* AWSS3.framework in Frameworks */,
 				AA58FD0716C2365C00C49E02 /* libsqlite3.dylib in Frameworks */,
 				285EB94817F55CDD00A33E5B /* libz.1.2.5.dylib in Frameworks */,
 				0499B911171E4D2900050596 /* MessageUI.framework in Frameworks */,
@@ -4303,6 +4315,8 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ED9589061C0DEE680020E8C6 /* AWSCore.framework */,
+				ED9589011C0DECA00020E8C6 /* AWSS3.framework */,
 				0FF400111BDE4ACC00C9168F /* AudioToolbox.framework */,
 				0FF4000F1BDE4AC500C9168F /* MediaPlayer.framework */,
 				DD3A8BC81BC9A229002DF2C9 /* Photos.framework */,
@@ -4460,10 +4474,14 @@
 				66296A1A1A30B89E008DA0D0 /* SVNotificationHandler.m */,
 				66278D001867C94900D23F34 /* SVPushNotificationsManager.h */,
 				66278D011867C94900D23F34 /* SVPushNotificationsManager.m */,
+				ED9589031C0DEDA60020E8C6 /* UploadManager.h */,
+				ED9589041C0DEDA60020E8C6 /* UploadManager.m */,
 				66278D021867C94900D23F34 /* UserSettings.h */,
 				66278D031867C94900D23F34 /* UserSettings.m */,
 				66F3E97019D5F68A00E36207 /* TmpFilePhotoUploadRequest.h */,
 				66F3E97119D5F68A00E36207 /* TmpFilePhotoUploadRequest.m */,
+				ED9589081C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.h */,
+				ED9589091C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.m */,
 			);
 			name = API;
 			path = Delegates;
@@ -5775,6 +5793,7 @@
 				6601325C187F4E670042047B /* NSString+JavaString.m in Sources */,
 				3E0CC9E018B63E1F00F6089A /* SVNonRotatingNavigationControllerViewController.m in Sources */,
 				66D5833E1867D66B00EAC842 /* RCScrollImageView.m in Sources */,
+				ED95890A1C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.m in Sources */,
 				66013239187F4E670042047B /* AssertionError.m in Sources */,
 				66069BCE1A1CCE7800BE2D32 /* SVSaveImageActivity.m in Sources */,
 				0F18170F1C05E128002EDFA3 /* GLPublicFeedPostViewController.m in Sources */,
@@ -5837,6 +5856,7 @@
 				108CDF7318846B9000757E36 /* NSData+MPBase64.m in Sources */,
 				66278D0E1867C94900D23F34 /* UserSettings.m in Sources */,
 				66B0183719E188720037C955 /* IosBackgroundTaskManager.m in Sources */,
+				ED9589051C0DEDA60020E8C6 /* UploadManager.m in Sources */,
 				66634A1718D01E9100D2FF6C /* Void.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5957,6 +5977,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Pods/NewRelicAgent/NewRelic_iOS_Agent_5.3.1",
+					"$(PROJECT_DIR)/shotvibe/Vendor/aws-ios-sdk-2.3.0/frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -6088,6 +6109,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Pods/NewRelicAgent/NewRelic_iOS_Agent_5.3.1",
+					"$(PROJECT_DIR)/shotvibe/Vendor/aws-ios-sdk-2.3.0/frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -6134,6 +6156,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Pods/NewRelicAgent/NewRelic_iOS_Agent_5.3.1",
+					"$(PROJECT_DIR)/shotvibe/Vendor/aws-ios-sdk-2.3.0/frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";

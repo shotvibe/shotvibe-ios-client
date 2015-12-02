@@ -13,6 +13,7 @@
 #import "SL/PhoneContactsManager.h"
 #import "PhotoFilesManager.h"
 #import "SVPushNotificationsManager.h"
+#import "UploadManager.h"
 
 @interface ShotVibeAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -20,6 +21,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, readonly, strong) SLAlbumManager *albumManager;
+@property (nonatomic, strong) UploadManager *uploadManager;
 @property (strong, nonatomic) SLNetworkStatusManager *networkStatusManager;
 @property (nonatomic, readonly, strong) PhotoFilesManager *photoFilesManager;
 @property (nonatomic, readonly, strong) SLPhoneContactsManager *phoneContactsManager;

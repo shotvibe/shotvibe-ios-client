@@ -43,6 +43,8 @@
 #import "SL/HTTPLib.h"
 #import "IosHTTPLib.h"
 #import "IosDevicePhoneContactsLib.h"
+#import "UploadManager.h"
+#import "ShotVibeCredentialsProvider.h"
 
 #import "GLSharedCamera.h"
 #import "ContainerViewController.h"
@@ -432,6 +434,11 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
                                                                             withSLShotVibeDB:shotVibeDB];
 
     [pushNotificationsManager setup];
+    
+
+    long long userId = [[shotVibeAPI getAuthData] getUserId];
+    ShotVibeCredentialsProvider *credentials = [[ShotVibeCredentialsProvider alloc] initWithShotVibeAPI:shotVibeAPI];
+    self.uploadManager = [[UploadManager alloc] initWithAWSCredentialsProvider:credentials withUserId:userId];
 }
 
 
