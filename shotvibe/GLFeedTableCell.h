@@ -7,12 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import "SL/AlbumServerPhoto.h"
 
-@interface GLFeedTableCell : UITableViewCell {
+
+@interface GLFeedTableCell : UITableViewCell<MPMediaPlayback> {
     
 }
 
+
+- (void)playVideo:(SLAlbumServerVideo *)video;
 -(void)highLightLastCommentInPost;
+
+- (void)notifyCellVisibleWithIsCompletelyVisible:(BOOL)completlyVisible;
+
+- (void)loadCellWithData:(NSArray*)data photoFilesManager:(PhotoFilesManager*)photoFilesManager_;
+- (void)notifyCompletelyVisible;
+- (void)notifyNotCompletelyVisible;
 
 @property(nonatomic,retain) UIImageView * profileImageView;
 @property(nonatomic,retain) UILabel * userName;
@@ -32,6 +43,11 @@
 @property(nonatomic, retain) UIButton * glanceUpButton;
 @property(nonatomic, retain) UIButton * glanceDownButton;
 @property(nonatomic, retain) UIButton * feed3DotsButton;
+@property(nonatomic, retain) MPMoviePlayerController * moviePlayer;
+@property(nonatomic, retain) UIImageView * videoBadge;
+@property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) NSTimer * playBackStartedTester;
+@property (nonatomic, strong) UIActivityIndicatorView * activityIndicator;
 
 
 @end

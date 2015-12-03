@@ -12,7 +12,7 @@
 
 //#import ""
 //#import ""
-@interface GLFeedViewController : UITableViewController <NotificationManagerDelegate,UIScrollViewDelegate,UITextFieldDelegate,UIActionSheetDelegate>
+@interface GLFeedViewController : UIViewController <NotificationManagerDelegate,UIScrollViewDelegate,UITextFieldDelegate,UIActionSheetDelegate>
 
 @property(nonatomic) long long int albumId;
 @property(nonatomic) long long int prevAlbumId;
@@ -22,6 +22,7 @@
 @property(nonatomic) BOOL scrollToComment;
 @property(nonatomic, retain) NSString * photoToScrollToCommentsId;
 @property (assign, nonatomic) NSInteger indexNumber;
+@property (nonatomic, retain) UITableView * tableView;
 
 -(void)imageSelected:(UIImage*)image;
 -(void)backPressed;

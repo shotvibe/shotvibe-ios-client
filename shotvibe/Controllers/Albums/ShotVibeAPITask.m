@@ -65,6 +65,66 @@
 @implementation ShotVibeAPITask
 
 
++ (void)runTask:(UIViewController *)viewController withAction:(id (^)())run onTaskComplete:(void (^)(id))onTaskComplete withSuccess:(BOOL)withSuccess withFailure:(BOOL)withFailure successText:(NSString*)successText failureText:(NSString*)failureText showLoadingText:(BOOL)showLoadingText loadingText:(NSString*)loadingText
+{
+    
+    
+    
+//    if(withSuccess){
+//        
+//    }
+    
+//    if(withFailure){
+//        [KVNProgress dismissWithCompletion:^{
+//            
+//        }];
+//        [KVNProgress showSuccessWithStatus:loadingText];
+//    }
+    
+//    if(showLoadingText){
+//        [KVNProgress showWithStatus:loadingText];
+//    }
+    
+    [KVNProgress showWithStatus:loadingText];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        id result;
+        @try {
+            result = run();
+        } @catch (SLAPIException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //                [viewController.view.window setUserInteractionEnabled:YES];
+                //                [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+//                [KVNProgress dismiss];
+                
+                TaskErrorDialogDelegate *delegate = [[TaskErrorDialogDelegate alloc] initWith:viewController
+                                                                                   withAction:run
+                                                                               onTaskComplete:onTaskComplete];
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Internet Connection Error"
+                                                                message:[exception getUserFriendlyMessage]
+                                                               delegate:delegate
+                                                      cancelButtonTitle:@"Cancel"
+                                                      otherButtonTitles:@"Retry", nil];
+                [alert show];
+            });
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            //            [KVNProgress showSuccess];
+            //            [viewController.view.window setUserInteractionEnabled:YES];
+            //            [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+//            [KVNProgress dismiss];
+            //            [KVNProgress showSuccessWithStatus:@"Success"];
+            onTaskComplete(result);
+        });
+    });
+    
+    
+}
+
 + (void)runTask:(UIViewController *)viewController withAction:(id (^)())run onTaskComplete:(void (^)(id))onTaskComplete
 {
 //    [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
@@ -79,7 +139,7 @@
 //    });
     
 //    [viewController.view.window setUserInteractionEnabled:NO];
-
+    [KVNProgress show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         id result;
         @try {
@@ -88,7 +148,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
 //                [viewController.view.window setUserInteractionEnabled:YES];
 //                [MBProgressHUD hideHUDForView:viewController.view animated:YES];
-//                [KVNProgress dismiss]; 
+                [KVNProgress dismiss]; 
 
                 TaskErrorDialogDelegate *delegate = [[TaskErrorDialogDelegate alloc] initWith:viewController
                                                                                    withAction:run
@@ -106,12 +166,13 @@
 
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [KVNProgress showSuccess];
+//            [KVNProgress showSuccess];
 //            [viewController.view.window setUserInteractionEnabled:YES];
 //            [MBProgressHUD hideHUDForView:viewController.view animated:YES];
-//            [KVNProgress dismiss];
+            [KVNProgress dismiss];
 //            [KVNProgress showSuccessWithStatus:@"Success"];
             onTaskComplete(result);
+            [KVNProgress dismiss];
         });
     });
 }

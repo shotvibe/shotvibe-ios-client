@@ -517,7 +517,7 @@
 		0FE43EA41BDE90DF0088D93F /* GLFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EA21BDE90DF0088D93F /* GLFeedViewController.xib */; };
 		0FE43EAA1BDE91800088D93F /* GLFeedTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE43EA81BDE91800088D93F /* GLFeedTableCell.m */; };
 		0FE43EAB1BDE91800088D93F /* GLFeedTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EA91BDE91800088D93F /* GLFeedTableCell.xib */; };
-		0FE43EB21BDF93620088D93F /* Gotham_Rounded_Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EAF1BDF93620088D93F /* Gotham_Rounded_Bold.otf */; };
+		0FE43EB21BDF93620088D93F /* Gotham_Rounded_Bold2.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EAF1BDF93620088D93F /* Gotham_Rounded_Bold2.otf */; };
 		0FE43EB31BDF93620088D93F /* Gotham_Rounded_Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EB01BDF93620088D93F /* Gotham_Rounded_Book.otf */; };
 		0FE43EB41BDF93620088D93F /* Gotham_Rounded_Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EB11BDF93620088D93F /* Gotham_Rounded_Light.otf */; };
 		0FE43EB81BE0BFBB0088D93F /* YALSunnyRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE43EB61BE0BFBB0088D93F /* YALSunnyRefreshControl.m */; };
@@ -536,6 +536,8 @@
 		0FF7E7061C04BC2F0032F2C2 /* ADLivelyCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF7E7051C04BC2F0032F2C2 /* ADLivelyCollectionView.m */; };
 		0FF7E7091C04BCFD0032F2C2 /* LDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF7E7081C04BCFD0032F2C2 /* LDCollectionViewCell.m */; };
 		0FF7E70B1C04BE760032F2C2 /* LDCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF7E70A1C04BE760032F2C2 /* LDCollectionViewCell.xib */; };
+		0FFB21711C0F484D003DD50F /* recordFinished.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FFB216F1C0F484D003DD50F /* recordFinished.wav */; };
+		0FFB21721C0F484D003DD50F /* recordStart.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FFB21701C0F484D003DD50F /* recordStart.wav */; };
 		106C344918C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
 		106C344A18C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
 		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
@@ -1624,7 +1626,7 @@
 		0FE43EA71BDE91800088D93F /* GLFeedTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLFeedTableCell.h; sourceTree = "<group>"; };
 		0FE43EA81BDE91800088D93F /* GLFeedTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLFeedTableCell.m; sourceTree = "<group>"; };
 		0FE43EA91BDE91800088D93F /* GLFeedTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLFeedTableCell.xib; sourceTree = "<group>"; };
-		0FE43EAF1BDF93620088D93F /* Gotham_Rounded_Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Gotham_Rounded_Bold.otf; sourceTree = "<group>"; };
+		0FE43EAF1BDF93620088D93F /* Gotham_Rounded_Bold2.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Gotham_Rounded_Bold2.otf; sourceTree = "<group>"; };
 		0FE43EB01BDF93620088D93F /* Gotham_Rounded_Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Gotham_Rounded_Book.otf; sourceTree = "<group>"; };
 		0FE43EB11BDF93620088D93F /* Gotham_Rounded_Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Gotham_Rounded_Light.otf; sourceTree = "<group>"; };
 		0FE43EB51BE0BFBB0088D93F /* YALSunnyRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YALSunnyRefreshControl.h; sourceTree = "<group>"; };
@@ -1652,6 +1654,8 @@
 		0FF7E7071C04BCFD0032F2C2 /* LDCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDCollectionViewCell.h; sourceTree = "<group>"; };
 		0FF7E7081C04BCFD0032F2C2 /* LDCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDCollectionViewCell.m; sourceTree = "<group>"; };
 		0FF7E70A1C04BE760032F2C2 /* LDCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDCollectionViewCell.xib; sourceTree = "<group>"; };
+		0FFB216F1C0F484D003DD50F /* recordFinished.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = recordFinished.wav; sourceTree = "<group>"; };
+		0FFB21701C0F484D003DD50F /* recordStart.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = recordStart.wav; sourceTree = "<group>"; };
 		106C344718C4C27A006A5603 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notification.h; path = shotvibe/API/Notification.h; sourceTree = SOURCE_ROOT; };
 		106C344818C4C27A006A5603 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Notification.m; path = shotvibe/API/Notification.m; sourceTree = SOURCE_ROOT; };
 		1077E30E18A2768A00E9E9C5 /* AlbumBase.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = AlbumBase.java; path = shotvibelib/src/main/java/com/shotvibe/shotvibelib/AlbumBase.java; sourceTree = SOURCE_ROOT; };
@@ -3341,6 +3345,8 @@
 				0FACEB6B1BCFC9A400DF67AB /* GLSharedCamera.h */,
 				0F49476B1BE227E200FEDC12 /* folter.jpg */,
 				0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */,
+				0FFB216F1C0F484D003DD50F /* recordFinished.wav */,
+				0FFB21701C0F484D003DD50F /* recordStart.wav */,
 			);
 			name = GLSharedCamera;
 			sourceTree = "<group>";
@@ -3376,7 +3382,7 @@
 			isa = PBXGroup;
 			children = (
 				0F5511481BEF8C0300E98C64 /* gotham */,
-				0FE43EAF1BDF93620088D93F /* Gotham_Rounded_Bold.otf */,
+				0FE43EAF1BDF93620088D93F /* Gotham_Rounded_Bold2.otf */,
 				0FE43EB01BDF93620088D93F /* Gotham_Rounded_Book.otf */,
 				0FE43EB11BDF93620088D93F /* Gotham_Rounded_Light.otf */,
 			);
@@ -4927,7 +4933,7 @@
 				0FF7E6F41BF8E0A60032F2C2 /* GLScoreViewController.xib in Resources */,
 				3EF4160F18E0A56B0077DC22 /* triangle@2x.png in Resources */,
 				04C406551730303600973BC0 /* DM.png in Resources */,
-				0FE43EB21BDF93620088D93F /* Gotham_Rounded_Bold.otf in Resources */,
+				0FE43EB21BDF93620088D93F /* Gotham_Rounded_Bold2.otf in Resources */,
 				04C406571730303600973BC0 /* DO.png in Resources */,
 				04C406591730303600973BC0 /* DZ.png in Resources */,
 				04C4065B1730303600973BC0 /* EC.png in Resources */,
@@ -5148,6 +5154,7 @@
 				04C407611730303600973BC0 /* SA.png in Resources */,
 				04C407631730303600973BC0 /* SB.png in Resources */,
 				0F5511B61BEF8C0300E98C64 /* GothamXNarrow-BookItalic.otf in Resources */,
+				0FFB21711C0F484D003DD50F /* recordFinished.wav in Resources */,
 				04C407651730303600973BC0 /* SC.png in Resources */,
 				04C407671730303600973BC0 /* SD.png in Resources */,
 				04C407691730303600973BC0 /* SE.png in Resources */,
@@ -5314,6 +5321,7 @@
 				0F1C077C1BEB5E3A00F82FBB /* seq21.png in Resources */,
 				2849A79517D9AA580076AFBA /* ButNavLeft@2x.png in Resources */,
 				2849A79617D9AA580076AFBA /* ButNavRight.png in Resources */,
+				0FFB21721C0F484D003DD50F /* recordStart.wav in Resources */,
 				2849A79717D9AA580076AFBA /* ButNavRight@2x.png in Resources */,
 				3EEBE7D718D9FD98005AB7FC /* backButton@2x.png in Resources */,
 				2849A79817D9AA580076AFBA /* cameraCancelButton.png in Resources */,

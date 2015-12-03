@@ -8,34 +8,54 @@
 
 #import "GLFeedTableCell.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "AlbumPhoto.h"
+#import "AlbumServerPhoto.h"
+#import "SL/AlbumServerVideo.h"
+#import "UIImageView+Masking.h"
+#import "SDWebImageManager.h"
+#import "NSDate+Formatting.h"
+#import "UIImageView+WebCache.h"
 
 @implementation GLFeedTableCell
 
+//-(void)
 - (void)awakeFromNib {
-    // Initialization code
-    NSLog(@"testtest");
-    self.profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
-    [self addSubview:self.profileImageView];
     
-    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(80, 10, [[UIScreen mainScreen] bounds].size.width*0.5, 60)];
+    
+//    [self addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+    // Initialization code
+//    NSLog(@"testtest");
+    self.profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 60, 60)];
+    [self.contentView addSubview:self.profileImageView];
+    
+    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(80, 15, [[UIScreen mainScreen] bounds].size.width*0.5, 60)];
     self.userName.backgroundColor = [UIColor whiteColor];
     self.userName.textColor = UIColorFromRGB(0x626262);
     self.userName.font = [UIFont fontWithName:@"GothamRounded-Book" size:16];
-    [self addSubview:self.userName];
+    [self.contentView addSubview:self.userName];
     
-    self.postedTime = [[UILabel alloc] initWithFrame:CGRectMake(self.userName.frame.size.width+self.userName.frame.origin.x+10, 10, [[UIScreen mainScreen] bounds].size.width*0.22, 60)];
+    self.postedTime = [[UILabel alloc] initWithFrame:CGRectMake(self.userName.frame.size.width+self.userName.frame.origin.x+10, 15, [[UIScreen mainScreen] bounds].size.width*0.22, 60)];
     
     self.postedTime.backgroundColor = [UIColor whiteColor];
     self.postedTime.textAlignment = NSTextAlignmentRight;
     self.postedTime.font = [UIFont fontWithName:@"GothamRounded-Book" size:16];
     self.postedTime.textColor = UIColorFromRGB(0x626262);
     
-    [self addSubview:self.postedTime];
+    [self.contentView addSubview:self.postedTime];
     
     self.postImage = [[PhotoView alloc] initWithFrame:CGRectMake(0, 89, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
+    
+    self.moviePlayer = [[MPMoviePlayerController alloc] init];
+    [self.moviePlayer.view setFrame:self.postImage.frame];
+    self.moviePlayer.controlStyle = MPMovieControlStyleNone;
+    self.moviePlayer.shouldAutoplay = YES;
+    
+    [self.contentView addSubview:self.moviePlayer.view];
+    
+    
     self.postedTime.contentMode = UIViewContentModeScaleAspectFit;
     self.postImage.backgroundColor = [UIColor whiteColor];
-    [self addSubview:self.postImage];
+    [self.contentView addSubview:self.postImage];
     
     self.postPannelWrapper = [[UIView alloc] initWithFrame:CGRectMake(0, (self.postImage.frame.origin.y+self.postImage.frame.size.height)-self.postImage.frame.size.height*0.3, [[UIScreen mainScreen] bounds].size.width, self.postImage.frame.size.height*0.3)];
     
@@ -113,8 +133,33 @@
     
     self.postImage.alpha = 1;
     
+    
+//    self.postImage.image = image;
+    
+    self.videoBadge = [[UIImageView alloc]initWithFrame:CGRectMake(13, 13, 30, 30)];
+    self.videoBadge.alpha = 0;
+    self.videoBadge.image = [UIImage imageNamed:@"glanceVideoIcon"];
+    [self.postImage addSubview:self.videoBadge];
+    
+    
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    CGRect viewBounds = self.postImage.bounds;
+    self.activityIndicator.center = CGPointMake(CGRectGetMidX(viewBounds), CGRectGetMidY(viewBounds));
+//    self.activityIndicator.hidesWhenStopped = YES;
+    
+    
+    
+//    self.moviePlayer.view.alpha =0;
+//    [self.moviePlayer prepareToPlay];
+    
+    
+    
+//    self.
+//    self.moviePlayer.view.hidden = YES;
+    
+    
     [self.postPannelWrapper addSubview:self.commentScrollBgView];
-    [self addSubview:self.postPannelWrapper];
+    [self.contentView addSubview:self.postPannelWrapper];
     [self.postPannelWrapper addSubview:self.commentsScrollView];
     
     [self.postPannelWrapper addSubview:self.glancesCounter];
@@ -126,12 +171,194 @@
     [self.postPannelWrapper addSubview:self.feed3DotsButton];
     [self.postPannelWrapper addSubview:self.commentTextField];
     
+    [self.contentView addSubview:self.activityIndicator];
+    
+    self.moviePlayer.view.hidden = YES;
+    self.moviePlayer.scalingMode = MPMovieScalingModeAspectFill;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playbackStateChanged:)
+                                                 name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
+    
+//    [self.contentView bringSubviewToFront:self.moviePlayer.view];
+//    self.moviePlayer.view.backgroundColor = [UIColor redColor];
+    
     
     
 
 }
 
+-(void)videoDidStartedPlaying {
+    
+    [self.activityIndicator startAnimating];
+    
+    if([self.moviePlayer currentPlaybackTime] > 0.0){
+        
+        [self.moviePlayer.view setHidden:NO];
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.activityIndicator stopAnimating];
+            self.postImage.alpha = 0;
+            //            [self.contentView bringSubviewToFront:self.moviePlayer.view];
+        } completion:^(BOOL finished) {
+            [self.playBackStartedTester invalidate];
+        }];
+        
+    }
+    
+}
 
+//- (void)willMoveToSuperview:(UIView *)newSuperview {
+//    [super willMoveToSuperview:newSuperview];
+//    if(!newSuperview) {
+//        
+//        [self.moviePlayer stop];
+//        self.moviePlayer= nil;
+//        
+//    }
+//}
+
+- (void)playVideo:(SLAlbumServerVideo *)video {
+
+    if(self.moviePlayer.playbackState != MPMoviePlaybackStatePlaying)
+    {
+        // is not Playing
+        self.playBackStartedTester = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                                      target:self
+                                                                    selector:@selector(videoDidStartedPlaying)
+                                                                    userInfo:nil
+                                                                     repeats:YES];
+        
+        NSURL * videoUrl = [NSURL URLWithString:[video getVideoUrl]];
+        [self.moviePlayer setContentURL:videoUrl];
+        [self.moviePlayer prepareToPlay];
+        [self.moviePlayer play];
+    }
+
+    
+//
+//    }
+
+
+}
+
+- (void)notifyCellVisibleWithIsCompletelyVisible:(BOOL)completlyVisible {
+
+    
+    if(completlyVisible){
+        NSLog(@"completlyVisible - %d",completlyVisible);
+    }
+}
+
+
+- (void)notifyCompletelyVisible {
+    
+    NSLog(@"completlyVisible");
+
+   
+}
+- (void)notifyNotCompletelyVisible {
+//    NSLog(@"unvisible");
+}
+
+-(void)playbackStateChanged:(MPMoviePlaybackState)state {
+    NSLog(@"playback state %ld",(long)self.moviePlayer.playbackState);
+    
+    if(self.moviePlayer.playbackState == 1){
+        
+        
+        
+//        [self.moviePlayer.view setHidden:NO];
+//        [UIView animateWithDuration:0.2 animations:^{
+//            self.postImage.alpha = 0;
+////            [self.contentView bringSubviewToFront:self.moviePlayer.view];
+//        }];
+    } else {
+        [self.moviePlayer.view setHidden:YES];
+        [UIView animateWithDuration:0.2 animations:^{
+            self.postImage.alpha = 1;
+        }];
+    }
+}
+
+- (void)loadCellWithData:(NSArray*)data photoFilesManager:(PhotoFilesManager*)photoFilesManager_ {
+
+
+    SLAlbumPhoto *photo = [data objectAtIndex:1];
+    
+    long long userID = [[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
+    
+    [self.profileImageView setCircleImageWithURL:[NSURL URLWithString:[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholderImage:[UIImage imageNamed:@"ProfilePlaceholder"] borderWidth:2];
+    
+        self.userName.text = [[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"username"];
+        self.postedTime.text = [NSString stringWithFormat:@"%@ ago",[[[NSDate alloc] initWithTimeIntervalSince1970:[[[data objectAtIndex:0] objectForKey:@"created_time"] longLongValue]] distanceOfTimeInWords:[NSDate date] shortStyle:YES]];
+    
+    
+    self.glancesCounter.text = [[data objectAtIndex:0] objectForKey:@"likes"];
+    
+    if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
+        
+        self.videoBadge.alpha = 1;
+        
+        
+        
+        SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
+
+        NSURL * videoUrl = [NSURL URLWithString:[video getVideoUrl]];
+        
+        
+        
+//                        [cell bringSubviewToFront:self.moviePlayer.view];
+//                            [self.moviePlayerController play];
+        
+        
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        [manager downloadImageWithURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {} completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
+        {
+            
+            if (image) {
+                self.postImage.image = image;
+                
+//                [self.contentView bringSubviewToFront:self.moviePlayer.view];
+//                [self.moviePlayer.view setAlpha:1];
+            }
+            
+         }];
+        
+//        [[MPMusicPlayerController applicationMusicPlayer] setVolume:0];
+//        [self.moviePlayer setUseApplicationAudioSession:NO];
+//        if ([self.tableView.visibleCells containsObject:self])
+//        {
+//            [self.moviePlayer setContentURL:videoUrl];
+//            [self.moviePlayer prepareToPlay];
+//            [self.moviePlayer play];
+//        }
+//        [self.moviePlayer.view setHidden:NO];
+        
+        
+
+        
+    } else {
+        
+        self.videoBadge.alpha = 0;
+        
+        [self.moviePlayer stop];
+        self.moviePlayer.view.hidden = YES;
+        
+//        [self.moviePlayer stop];
+//        [self.moviePlayer.view removeFromSuperview];
+//        [self.moviePlayer.view setHidden:YES];
+//        self.moviePlayer = nil;
+        
+        [self.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
+        
+        
+    }
+    
+    
+
+
+
+}
 
 -(void)highLightLastCommentInPost {
 

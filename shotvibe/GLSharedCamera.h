@@ -44,6 +44,7 @@ typedef enum ScrollDirection {
     ScrollDirectionCrazy,
 } ScrollDirection;
 
+
 @protocol GLSharedCameraDelegatte <NSObject>
 
 @optional
@@ -53,6 +54,10 @@ typedef enum ScrollDirection {
 - (void)membersPressed;
 
 @end
+
+
+
+
 
 @interface GLSharedCamera : NSObject <iCarouselDataSource, iCarouselDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, RJTextViewDelegate,GLResizeableViewDelegate,GLFilterViewDelegate, UINavigationControllerDelegate>
 
@@ -91,12 +96,15 @@ typedef enum ScrollDirection {
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic, strong) UIView * editPallette;
 @property (nonatomic, strong) UIImageView * editPalletteImageView;
+@property (nonatomic, strong) AVAudioPlayer *theAudio;
 
 @property (nonatomic,strong) UIView * cameraViewBackground;
 
 @property(nonatomic, strong) UIScrollView * recentPhotosSlider;
 
 @property(nonatomic, retain) GLResizeableView * resizeAbleView;
+@property(nonatomic, retain) GPUImageMovieWriter * movieWriter;
+@property(nonatomic, retain) NSTimer * videoCaptureTimer;
 
 @property(nonatomic) BOOL isInFeedMode;
 @property(nonatomic) BOOL afterLogin;
@@ -116,5 +124,8 @@ typedef enum ScrollDirection {
 @property (strong,nonatomic) UILabel * picYourGroup;
 @property (strong,nonatomic) UILabel * score;
 @property (nonatomic, retain) UIImageView * dmut;
+@property (nonatomic) BOOL captureStoppedByTimer;
+@property (nonatomic, retain) UIView * captureTimeLineWrapper;
+//@property (nonatomic,retain) GradientView * captureMeterView;
 
 @end

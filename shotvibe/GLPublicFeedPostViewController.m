@@ -1325,11 +1325,15 @@
             
             if(uid == authorIdFromPhoto){
                 
+                
+                
                 [ShotVibeAPITask runTask:self withAction:^id{
-                    [MBProgressHUD showHUDAddedTo:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
+//                    [MBProgressHUD showHUDAddedTo:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
                     //                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                     NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
                     [photosToDelete addObject:[[photo getServerPhoto] getId]];
+                    
+                    [self dismissViewControllerAnimated:YES completion:nil];
                     
                     
                     [[albumManager_ getShotVibeAPI] deletePhotosWithJavaLangIterable:[[SLArrayList alloc] initWithInitialArray:photosToDelete]];
@@ -1339,10 +1343,16 @@
                     //                [[albumManager_ getShotVibeAPI] get];
                     return nil;
                 } onTaskComplete:^(id dummy) {
+                    
+                    
+                    
                     //                dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
+//                    [MBProgressHUD hideHUDForView:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
                     //                });
-                    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+//                    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+//                    [self updateData];
+                    
+//                    [self removeFromParentViewController];
                     
                 }];
 
@@ -1399,18 +1409,22 @@
 //        [[albumManager_ getShotVibeAPI]postPhotoCommentWithNSString:cell.photoId withNSString:textField.text withLong:milliseconds];
         return nil;
     } onTaskComplete:^(id dummy) {
-        [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
-        [UIView animateWithDuration:0.2 animations:^{
-            //                commentsDialog.alpha = 0;
-            
+//        [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
         
-            
-            
-        } completion:^(BOOL finished) {
-            
-            
-    
-        }];
+        [self updateData];
+        
+//        [];
+//        [UIView animateWithDuration:0.2 animations:^{
+//            //                commentsDialog.alpha = 0;
+//            
+//        
+//            
+//            
+//        } completion:^(BOOL finished) {
+//            
+//            
+//    
+//        }];
     }];
 
     
@@ -1461,6 +1475,8 @@
             
             
         }];
+        
+        [self updateData];
     }];
     
     [UIView animateWithDuration:0.2 animations:^{
@@ -1482,6 +1498,139 @@
 
 }
 
+-(void)updateData {
+
+    [ShotVibeAPITask runTask:self withAction:^id{
+        //        [[al getShotVibeAPI] getPublic];
+        return [[albumManager_ getShotVibeAPI] getPublicAlbumContents];
+    } onTaskComplete:^(SLAlbumContents *album) {
+        //        NSLog(@"Public feed name: %@", [album getName]);
+        
+//        self.publicFeed = [[GLPublicFeedViewController alloc] init];
+//        self.publicFeed.photosArray = [[NSMutableArray alloc] init];
+        
+//        self.posts = [[NSArray alloc] initWithObjects:<#(nonnull id), ...#>, nil];
+        
+        for(SLAlbumPhoto * photo in [album getPhotos]){
+            
+//            NSLog(@"found the photo");
+            
+            if([[[self.singleAlbumPhoto getServerPhoto] getId] isEqualToString:[[photo getServerPhoto]getId]]){
+            
+                NSLog(@"found the photo");
+                self.posts = [[NSMutableArray alloc] init];
+                
+                
+                NSArray * photoComments = [[photo getServerPhoto]getComments].array;
+                float commentsCount = [photoComments count];
+                
+                NSMutableString * commentsFullString = [[NSMutableString alloc] init];
+                
+                for(SLAlbumPhotoComment * comment in photoComments){
+                    
+                    NSMutableString * commentItem = [NSMutableString stringWithFormat:@"{\"created_time\": \"%@\",\"text\": \"%@\",\"from\": {\"username\": \"%@\",\"profile_picture\": \"%@\",\"id\": \"%lld\",\"full_name\": \"%@\"},\"id\": \"%lld\"}",[comment getDateCreated],[comment getCommentText],[[comment getAuthor] getMemberNickname],[[comment getAuthor]getMemberAvatarUrl],[[comment getAuthor]getMemberId],[[comment getAuthor]getMemberNickname],[comment getClientMsgId]];
+                    
+                    [commentsFullString appendString:commentItem];
+                    if(comment != [photoComments lastObject]){
+                        [commentsFullString appendString:@","];
+                    }
+                    
+                    
+                    //            commentItem appendString:<#(nonnull NSString *)#>
+                    
+                }
+                
+                
+                //        if ([photo getServerPhoto]) {
+                
+                
+                NSString * userData = [NSString stringWithFormat:@"\"username\":\"%@\",\"website\":\"\",\"profile_picture\":\"%@\",\"full_name\":\"%@\",\"bio\":\"\",\"id\":\"%lld\"",[[[photo getServerPhoto] getAuthor] getMemberNickname],[[[photo getServerPhoto] getAuthor] getMemberAvatarUrl],[[[photo getServerPhoto] getAuthor] getMemberNickname],[[[photo getServerPhoto] getAuthor] getMemberId]];
+                
+                long long seconds = [[[photo getServerPhoto] getDateAdded] getTimeStamp] / 1000000LL;
+                //            NSDate *photoDateAdded = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
+                
+                //            [album]
+                
+                NSString *new = [[[photo getServerPhoto]getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
+                
+                
+                //        NSString * commentsDataString = [NSString stringWithFormat:<#(nonnull NSString *), ...#>];
+                NSString * commetnsString = [NSString stringWithFormat:@"\"count\": %f,\"data\": [%@]",commentsCount,commentsFullString];
+                
+                NSData *objectData = [[NSString stringWithFormat:@"{\"attribution\":null,\"tags\":[],\"type\":\"image\",\"location\":null,\"comments\":{%@},\"filter\":\"Normal\",\"created_time\":\"%lld\",\"link\":\"http://instagram.com/p/xtfQ81gK0E/\",\"likes\":\"%d\",\"images\":{\"low_resolution\":{\"url\":\"http://scontent-b.cdninstagram.com/hphotos-xfa1/t51.2885-15/10932341_1042561312426099_2095600846_a.jpg\",\"width\":306,\"height\":306},\"thumbnail\":{\"url\":\"http://scontent-b.cdninstagram.com/hphotos-xfa1/t51.2885-15/10932341_1042561312426099_2095600846_s.jpg\",\"width\":150,\"height\":150},\"standard_resolution\":{\"url\":\"%@\",\"width\":480,\"height\":320}},\"users_in_photo\":[  ],\"caption\":{\"created_time\":\"%lld\"},\"user_has_liked\":false,\"id\":\"%@\",\"user\":{%@}}",commetnsString,seconds,[[photo getServerPhoto] getGlobalGlanceScore],new,seconds,[[photo getServerPhoto]getId],userData] dataUsingEncoding:NSUTF8StringEncoding];
+                
+                //            UIImageView * t = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+                //            [t.networkImageView setPhoto:[[photo getServerPhoto] getId]
+                //                                   photoUrl:[[photo getServerPhoto] getUrl]
+                //                                  photoSize:[PhotoSize Thumb75]
+                //                                    manager:photoFilesManager_];
+                
+                NSMutableArray * arr = [[NSMutableArray alloc] init];
+                NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:objectData options:kNilOptions error:nil];
+                
+                
+                [arr addObject:dictionary];
+                [arr addObject:photo];
+                
+                //        NSMutableArray * arr = [[NSMutableArray alloc] initwith];
+                
+                //        [dictionary setValue:photo forKey:@"slPhoto"];
+                //        [dictionary]
+                
+                //        STXPost *post = [[STXPost alloc] initWithDictionary:dictionary];
+                //        post.slPhoto = photo;
+                [self.posts addObject:arr];
+                
+                //            if(counter == 20){
+                //                break;
+                //            }
+                
+                //        }
+                
+                
+                //        }
+                
+                //
+                //    NSArray * photosArray = [NSArray arrayWithArray:[albumContents getPhotos].array];
+                //    int limit = 20;
+                //
+                //    if([photosArray count] < 20){
+                //        limit = [photosArray count];
+                //    }
+                
+                //    NSArray *smallArray = [posts subarrayWithRange:NSMakeRange(0, limit)];
+                NSArray* reversedArray = [[self.posts reverseObjectEnumerator] allObjects];
+                
+                self.posts = [reversedArray copy];
+                
+                [self.tableView reloadData];
+//                self.singleAlbumPhoto = photo;
+//                [self loadFeed];
+                break;
+                
+                
+            }
+            
+//            if([[[[self.posts objectAtIndex:0] objectAtIndex:0] objectForKey:@"id"] isEqualToString:[[photo getServerPhoto]getId]]){
+            
+//                NSLog(@"found the photo")
+            
+//            }
+            
+//            [[self.posts objectAtIndex:0] getph]
+            
+//            [self.publicFeed.photosArray addObject:photo];
+        }
+        
+//        NSArray* reversedArray = [[self.publicFeed.photosArray reverseObjectEnumerator] allObjects];
+        
+//        self.publicFeed.photosArray = [reversedArray copy];
+        
+        //        self.publicFeed.albumId = [[al getShotVibeAPI] getPublicAlbumId];
+        // TODO ...
+    }];
+
+}
 
 -(void)sharePostPressed:(UIButton*)sender {
     
@@ -1643,7 +1792,7 @@
                 
             } completion:^(BOOL finished) {
                 commentingNow = NO;
-                
+                [self updateData];
 //                textField.text = @"";
             }];
         }];

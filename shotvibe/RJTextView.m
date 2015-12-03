@@ -79,6 +79,8 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+//        self.textView.adjustsFontSizeToFitWidth = YES;
+        
         NSString *strClass = NSStringFromClass([self class]);
         NSLog(@"%@ inited",strClass);
         // Custom initialization
