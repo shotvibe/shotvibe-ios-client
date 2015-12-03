@@ -50,8 +50,26 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
 
 + (NSString *)generateUniqueName
 {
-    // TODO ...
-    return nil;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    [formatter setLocale:locale];
+    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+
+    [formatter setDateFormat:@"yyyyMMddHHmmssSSS"];
+
+    NSDate *now = [NSDate date];
+    NSString *dateStr = [formatter stringFromDate:now];
+
+    NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
+    NSUInteger randomStrLen = 16;
+    NSMutableString *randomStr = [NSMutableString stringWithCapacity:randomStrLen];
+    for (NSUInteger i = 0U; i < randomStrLen; i++) {
+        u_int32_t r = arc4random() % [alphabet length];
+        unichar c = [alphabet characterAtIndex:r];
+        [randomStr appendFormat:@"%C", c];
+    }
+
+    return [NSString stringWithFormat:@"%@$%@", dateStr, randomStr];
 }
 
 
@@ -113,7 +131,7 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 
 + (NSString *)bucketKeyForVideoUploadWithUserId:(long long)userId withAlbumId:(long long)albumId withFilename:(NSString *)filename
 {
-    return [NSString stringWithFormat:@"videos/%lld/%lld/%@", userId, albumId, filename];
+    return [NSString stringWithFormat:@"videos/%lld/%lld/%@.mp4", userId, albumId, filename];
 }
 
 - (void)jobCompleted
