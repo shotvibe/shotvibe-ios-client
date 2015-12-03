@@ -15,6 +15,7 @@
 #import "SDWebImageManager.h"
 #import "NSDate+Formatting.h"
 #import "UIImageView+WebCache.h"
+#import "GLSharedVideoPlayer.h"
 
 @implementation GLFeedTableCell
 
@@ -45,17 +46,22 @@
     
     self.postImage = [[PhotoView alloc] initWithFrame:CGRectMake(0, 89, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
     
-    self.moviePlayer = [[MPMoviePlayerController alloc] init];
-    [self.moviePlayer.view setFrame:self.postImage.frame];
-    self.moviePlayer.controlStyle = MPMovieControlStyleNone;
-    self.moviePlayer.shouldAutoplay = YES;
+    self.postImage.contentMode = UIViewContentModeScaleAspectFill;
+    self.postImage.clipsToBounds = YES;
     
-    [self.contentView addSubview:self.moviePlayer.view];
+    self.moviePlayer = [[UIView alloc] initWithFrame:self.postImage.frame];
+    
+    
+//    [self.moviePlayer.view setFrame:self.postImage.frame];
+    
     
     
     self.postedTime.contentMode = UIViewContentModeScaleAspectFit;
     self.postImage.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.postImage];
+    
+    [self.contentView addSubview:self.moviePlayer];
+    
     
     self.postPannelWrapper = [[UIView alloc] initWithFrame:CGRectMake(0, (self.postImage.frame.origin.y+self.postImage.frame.size.height)-self.postImage.frame.size.height*0.3, [[UIScreen mainScreen] bounds].size.width, self.postImage.frame.size.height*0.3)];
     
@@ -173,12 +179,6 @@
     
     [self.contentView addSubview:self.activityIndicator];
     
-    self.moviePlayer.view.hidden = YES;
-    self.moviePlayer.scalingMode = MPMovieScalingModeAspectFill;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(playbackStateChanged:)
-                                                 name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
     
 //    [self.contentView bringSubviewToFront:self.moviePlayer.view];
 //    self.moviePlayer.view.backgroundColor = [UIColor redColor];
@@ -188,6 +188,7 @@
 
 }
 
+/*
 -(void)videoDidStartedPlaying {
     
     [self.activityIndicator startAnimating];
@@ -206,6 +207,7 @@
     }
     
 }
+ */
 
 //- (void)willMoveToSuperview:(UIView *)newSuperview {
 //    [super willMoveToSuperview:newSuperview];
@@ -217,6 +219,7 @@
 //    }
 //}
 
+/*
 - (void)playVideo:(SLAlbumServerVideo *)video {
 
     if(self.moviePlayer.playbackState != MPMoviePlaybackStatePlaying)
@@ -240,6 +243,7 @@
 
 
 }
+ */
 
 - (void)notifyCellVisibleWithIsCompletelyVisible:(BOOL)completlyVisible {
 
@@ -260,6 +264,7 @@
 //    NSLog(@"unvisible");
 }
 
+/*
 -(void)playbackStateChanged:(MPMoviePlaybackState)state {
     NSLog(@"playback state %ld",(long)self.moviePlayer.playbackState);
     
@@ -279,6 +284,7 @@
         }];
     }
 }
+ */
 
 - (void)loadCellWithData:(NSArray*)data photoFilesManager:(PhotoFilesManager*)photoFilesManager_ {
 
@@ -299,11 +305,13 @@
         
         self.videoBadge.alpha = 1;
         
-        
-        
-        SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
+        self.moviePlayer.hidden = NO;
 
-        NSURL * videoUrl = [NSURL URLWithString:[video getVideoUrl]];
+        NSString * videoUrl = [[[photo getServerPhoto] getVideo] getVideoUrl];
+        [[GLSharedVideoPlayer sharedInstance] attachToView:self.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl];
+        
+//        SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
+
         
         
         
@@ -341,8 +349,7 @@
         
         self.videoBadge.alpha = 0;
         
-        [self.moviePlayer stop];
-        self.moviePlayer.view.hidden = YES;
+        self.moviePlayer.hidden = YES;
         
 //        [self.moviePlayer stop];
 //        [self.moviePlayer.view removeFromSuperview];

@@ -506,6 +506,7 @@
 		0F781FE01C072A3E00688168 /* PMCustomKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F781FD31C072A3E00688168 /* PMCustomKeyboard.m */; };
 		0F781FE11C072A3E00688168 /* PMCustomKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F781FD41C072A3E00688168 /* PMCustomKeyboard.xib */; };
 		0F7A55FB1BD2782B002C0989 /* instagram_media_popular.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F7A55FA1BD2782B002C0989 /* instagram_media_popular.json */; };
+		0FAB9F2E1C1093A700E52718 /* GLSharedVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */; };
 		0FACEB6D1BCFC9A400DF67AB /* GLSharedCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */; };
 		0FBC6C581BD27DC400D989B6 /* STXFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FBC6C571BD27DC400D989B6 /* STXFeedViewController.xib */; };
 		0FBC6C601BD27EFA00D989B6 /* STXFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBC6C5F1BD27EFA00D989B6 /* STXFeedViewController.m */; };
@@ -1609,6 +1610,8 @@
 		0F781FD31C072A3E00688168 /* PMCustomKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMCustomKeyboard.m; sourceTree = "<group>"; };
 		0F781FD41C072A3E00688168 /* PMCustomKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PMCustomKeyboard.xib; sourceTree = "<group>"; };
 		0F7A55FA1BD2782B002C0989 /* instagram_media_popular.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = instagram_media_popular.json; sourceTree = "<group>"; };
+		0FAB9F2C1C1093A700E52718 /* GLSharedVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedVideoPlayer.h; sourceTree = "<group>"; };
+		0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedVideoPlayer.m; sourceTree = "<group>"; };
 		0FACEB6B1BCFC9A400DF67AB /* GLSharedCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedCamera.h; sourceTree = "<group>"; };
 		0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedCamera.m; sourceTree = "<group>"; };
 		0FBC6C571BD27DC400D989B6 /* STXFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STXFeedViewController.xib; sourceTree = "<group>"; };
@@ -3339,6 +3342,15 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		0FAB9F2B1C10939400E52718 /* GLShareVideoPLayer */ = {
+			isa = PBXGroup;
+			children = (
+				0FAB9F2C1C1093A700E52718 /* GLSharedVideoPlayer.h */,
+				0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */,
+			);
+			name = GLShareVideoPLayer;
+			sourceTree = "<group>";
+		};
 		0FACEB6A1BCFC95B00DF67AB /* GLSharedCamera */ = {
 			isa = PBXGroup;
 			children = (
@@ -4607,6 +4619,7 @@
 		DD3A8BAA1BC99FFD002DF2C9 /* V2 */ = {
 			isa = PBXGroup;
 			children = (
+				0FAB9F2B1C10939400E52718 /* GLShareVideoPLayer */,
 				0F781FC51C072A2800688168 /* GLKeyBoard */,
 				0F781FB31C070BF900688168 /* KVNProgress */,
 				0F18170B1C05DFB9002EDFA3 /* GLPublicFeedPostViewController */,
@@ -5855,6 +5868,7 @@
 				66278CA01867C44600D23F34 /* SVImagePickerSelector.m in Sources */,
 				66E788B41889EB870037ACF3 /* Iterator.m in Sources */,
 				28FC2CA917FE8EE400AE24C3 /* MPNotificationView.m in Sources */,
+				0FAB9F2E1C1093A700E52718 /* GLSharedVideoPlayer.m in Sources */,
 				66013245187F4E670042047B /* IllegalArgumentException.m in Sources */,
 				DD3A8BC21BC9A04A002DF2C9 /* iCarousel.m in Sources */,
 				66278C721867C2AD00D23F34 /* SVCountriesViewController.m in Sources */,

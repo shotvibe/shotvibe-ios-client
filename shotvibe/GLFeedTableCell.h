@@ -43,7 +43,7 @@
 @property(nonatomic, retain) UIButton * glanceUpButton;
 @property(nonatomic, retain) UIButton * glanceDownButton;
 @property(nonatomic, retain) UIButton * feed3DotsButton;
-@property(nonatomic, retain) MPMoviePlayerController * moviePlayer;
+@property(nonatomic, retain) UIView * moviePlayer;
 @property(nonatomic, retain) UIImageView * videoBadge;
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSTimer * playBackStartedTester;

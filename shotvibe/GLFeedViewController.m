@@ -63,6 +63,7 @@
 #import "PMCustomKeyboard.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "SL/AlbumServerVideo.h"
+#import "GLSharedVideoPlayer.h"
 
 @interface GLFeedViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
     
@@ -80,6 +81,8 @@
     BOOL snapIsScrolling;
     BOOL scrollToCellDisabled;
     BOOL tableIsScrolling;
+    
+    
 //    YALSunnyRefreshControl *sunnyRefreshControl;
 }
 //@property(nonatomic, retain) MPMoviePlayerController *moviePlayerController;
@@ -259,6 +262,8 @@
 //    
 //    [self.mainTableView setTableHeaderView:headerView];
     
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(startUploadFromOutSide:)
                                                  name:@"ImageCapturedOnMainScreen"
@@ -332,17 +337,28 @@
     
     GLFeedTableCell * cell = [self.tableView.visibleCells objectAtIndex:0];
     NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
-    
-    
     SLAlbumPhoto *photo = [data objectAtIndex:1];
-    long long userID = [[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
-
-    if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
-         SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
-        [cell playVideo:video];
-//    } else {
-//        [cell loadCellWithData:data photoFilesManager:photoFilesManager_];
-    }
+    
+    
+     if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
+         
+         [[GLSharedVideoPlayer sharedInstance] play];
+     } else {
+         
+         [[GLSharedVideoPlayer sharedInstance] pause];
+         
+     }
+    
+    
+//
+//    long long userID = [[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
+//
+//    if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
+//         SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
+////        [cell playVideo:video];
+////    } else {
+////        [cell loadCellWithData:data photoFilesManager:photoFilesManager_];
+//    }
     
     
     
@@ -788,12 +804,14 @@
     
 //    if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
 //        SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
-        [cell.moviePlayer stop];
-        cell.moviePlayer = nil;
+        //[cell.moviePlayer stop];
+        //cell.moviePlayer = nil;
         //    } else {
         //        [cell loadCellWithData:data photoFilesManager:photoFilesManager_];
 //    }
     
+    // TODO:
+    // Stop Shared video player
 }
 
 - (void)viewDidDisappear:(BOOL)animated
