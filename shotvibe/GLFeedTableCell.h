@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "SL/AlbumServerPhoto.h"
+#import "PhotoFilesManager.h"
+#import "PhotoView.h"
 
 
 @interface GLFeedTableCell : UITableViewCell<MPMediaPlayback> {

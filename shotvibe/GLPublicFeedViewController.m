@@ -71,7 +71,11 @@
         
         //        self.publicFeed.albumId = [[al getShotVibeAPI] getPublicAlbumId];
         // TODO ...
-    }];
+    } onTaskFailure:^(id success) {
+        
+//        [];
+        
+    } withLoaderIndicator:NO];
 }
 
 

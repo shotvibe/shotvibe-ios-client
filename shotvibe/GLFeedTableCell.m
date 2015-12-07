@@ -150,6 +150,7 @@
     
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     CGRect viewBounds = self.postImage.bounds;
+    viewBounds.size.height = viewBounds.size.height/1.5;
     self.activityIndicator.center = CGPointMake(CGRectGetMidX(viewBounds), CGRectGetMidY(viewBounds));
 //    self.activityIndicator.hidesWhenStopped = YES;
     
@@ -177,7 +178,7 @@
     [self.postPannelWrapper addSubview:self.feed3DotsButton];
     [self.postPannelWrapper addSubview:self.commentTextField];
     
-    [self.contentView addSubview:self.activityIndicator];
+    [self.postImage addSubview:self.activityIndicator];
     
     
 //    [self.contentView bringSubviewToFront:self.moviePlayer.view];
@@ -258,7 +259,8 @@
     
     NSLog(@"completlyVisible");
 
-   
+    [self.activityIndicator startAnimating];
+    [[GLSharedVideoPlayer sharedInstance] play];
 }
 - (void)notifyNotCompletelyVisible {
 //    NSLog(@"unvisible");
@@ -308,8 +310,8 @@
         self.moviePlayer.hidden = NO;
 
         NSString * videoUrl = [[[photo getServerPhoto] getVideo] getVideoUrl];
-        [[GLSharedVideoPlayer sharedInstance] attachToView:self.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl];
-        
+        [[GLSharedVideoPlayer sharedInstance] attachToView:self.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl videoThumbNail:self.postImage.image];
+//        [self.activityIndicator startAnimating];
 //        SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
 
         
@@ -357,6 +359,28 @@
 //        self.moviePlayer = nil;
         
         [self.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
+        
+        
+
+        
+        
+//        if([[SDImageCache sharedImageCache] imageFromDiskCacheForKey:[[[photo getServerPhoto]getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_wvga.jpg"]]){
+//        
+//            self.postImage.image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:[[[photo getServerPhoto]getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_wvga.jpg"]];
+//            
+//        } else {
+//            
+//            [self.postImage sd_setImageWithURL:[NSURL URLWithString:[[[photo getServerPhoto]getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_wvga.jpg"]] placeholderImage:[UIImage imageNamed:@""] options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//                
+//                NSLog(@"%ld/%ld",(long)receivedSize,(long)expectedSize);
+//                
+//            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                [[SDImageCache sharedImageCache] storeImage:image forKey:[[[photo getServerPhoto]getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_wvga.jpg"]];
+//                [self.tableView reloadData];
+//            }];
+//        
+//
+//        }
         
         
     }

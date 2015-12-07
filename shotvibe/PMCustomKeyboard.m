@@ -9,12 +9,12 @@
 #import "PMCustomKeyboard.h"
 
 #define kFont [UIFont fontWithName:@"GothamRounded-Book" size:18]
-#define kAltLabel @"alt"
-#define kReturnLabel @"DONE"
+#define kAltLabel @"😀"
+#define kReturnLabel @"✔️"
 #define kSpaceLabel @"______"
 #define kChar @[ @"😄", @"😃", @"😀", @"😊", @"☺️", @"😉", @"😍", @"😘", @"😚", @"😗", @"😙", @"😜", @"😝", @"😛", @"😳", @"😁", @"😔", @"😌", @"😒", @"😞", @"😣", @"😢", @"😂", @"😭", @"😪", @"😥", @"😰", @"😅", @"😓", @"😩"]
-#define kChar_shift @[ @"ਔ", @"ਐ", @"ਆ", @"ਈ", @"ਊ", @"ਭ", @"ਙ", @"ਘ", @"ਧ", @"ਝ", @"ਢ", @"ਓ", @"ਏ", @"ਅ", @"ਇ", @"ਉ", @"ਫ", @"ੜ", @"ਖ", @"ਥ", @"ਛ", @"ਠ", @"◌ੰ", @"◌ੱ", @"ਣ", @"ਫ਼", @"ਜ਼", @"ਲ਼", @"ਸ਼", @"ਞ" ]
-#define kChar_alt @[ @"੧", @"੨", @"੩", @"੪", @"੫", @"੬", @"੭", @"੮", @"੯", @"੦", @"ੴ", @"-", @"/", @":", @";", @"(", @")", @"$", @"₹", @"&", @"@", @"\"", @"ਖ਼", @"ਗ਼", @"।", @"॥", @".", @",", @"?", @"!" ]
+//#define kChar_shift @[ @"1", @"2", @"3", @"4", @"5", @"6", @"ਙ", @"ਘ", @"ਧ", @"ਝ", @"ਢ", @"ਓ", @"ਏ", @"ਅ", @"ਇ", @"ਉ", @"ਫ", @"ੜ", @"ਖ", @"ਥ", @"ਛ", @"ਠ", @"◌ੰ", @"◌ੱ", @"ਣ", @"ਫ਼", @"ਜ਼", @"ਲ਼", @"ਸ਼", @"ਞ" ]
+//#define kChar_alt @[ @"੧", @"੨", @"੩", @"੪", @"੫", @"੬", @"੭", @"੮", @"੯", @"੦", @"ੴ", @"-", @"/", @":", @";", @"(", @")", @"$", @"₹", @"&", @"@", @"\"", @"ਖ਼", @"ਗ਼", @"।", @"॥", @".", @",", @"?", @"!" ]
 
 #define kEmoji_one @[ @"😄", @"😃", @"😀", @"😊", @"☺️", @"😉", @"😍", @"😘", @"😚", @"😗", @"😙", @"😜", @"😝", @"😛", @"😳", @"😁", @"😔", @"😌", @"😒", @"😞", @"😣", @"😢", @"😂", @"😭", @"😪", @"😥", @"😰", @"😅", @"😓", @"😩"]
 #define kEmoji_two @[ @"😫", @"😨", @"😱", @"😠", @"😡", @"😤", @"😖", @"😆", @"😋", @"😷", @"😎", @"😴", @"😵", @"😲", @"😟", @"😦", @"😧", @"😈", @"👿", @"😮", @"😬", @"😐", @"😕", @"😯", @"😶", @"😇", @"😏", @"😑", @"👲", @"👳" ]
@@ -49,6 +49,8 @@ enum {
 @property (nonatomic, assign, getter=isShifted) BOOL shifted;
 @property (nonatomic, retain) NSArray * pallets;
 @property (nonatomic) int currentPallete;
+@property (nonatomic) int charchtersCounter;
+@property (nonatomic, retain) NSArray * recentsEmoji;
 
 @end
 
@@ -58,6 +60,22 @@ enum {
 - (id)init {
 	UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
 	CGRect frame;
+    
+    self.charchtersCounter = 0;
+    
+//    self.recentsEmoji = [[NSMutableArray alloc] init];
+    
+    
+    
+    
+//    for(NSString * emoji in recentsEmojisDict){
+//    
+//        self.recentsEmoji addObject:<#(nonnull id)#>
+//        
+//    }
+    
+    
+    
     
 	if(UIDeviceOrientationIsLandscape(orientation))
         frame = CGRectMake(0, 0, 480, 162);
@@ -72,12 +90,17 @@ enum {
         self = [nib objectAtIndex:0];
     }
 	
-    [self.altButton setTitle:@"0" forState:UIControlStateNormal];
+    self.shifted = YES;
+    [self.altButton setTitle:kAltLabel forState:UIControlStateNormal];
+    
+//    [self.altButton setTitle:@"0" forState:UIControlStateNormal];
 	
 	[self.returnButton setTitle:kReturnLabel forState:UIControlStateNormal];
 	self.returnButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    
+    [self loadRecentsFromNsDefaults];
 	
-	[self loadCharactersWithArray:kChar];
+	[self loadCharactersWithArray:self.recentsEmoji];
     
     [self.spaceButton setBackgroundImage:[PMCustomKeyboard imageFromColor:[UIColor colorWithWhite:0.4 alpha:0.5]]
                                 forState:UIControlStateHighlighted];
@@ -120,6 +143,32 @@ enum {
 	return self;
 }
 
+-(void)loadRecentsFromNsDefaults {
+
+    
+    NSMutableDictionary * recentsEmojisDict = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"RecentsEmojies"]];
+    self.recentsEmoji = [[[recentsEmojisDict keysSortedByValueUsingComparator: ^(id obj1, id obj2) {
+        
+        if ([obj1 integerValue] > [obj2 integerValue]) {
+            
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+        if ([obj1 integerValue] < [obj2 integerValue]) {
+            
+            return (NSComparisonResult)NSOrderedAscending;
+        }
+        
+        return (NSComparisonResult)NSOrderedSame;
+    }] reverseObjectEnumerator] allObjects];
+    
+    
+    
+    NSLog(@"");
+    
+    
+    
+}
+
 -(void)setTextView:(id<UITextInput>)textView {
 	if ([textView isKindOfClass:[UITextView class]]) {
         [(UITextView *)textView setInputView:self];
@@ -137,6 +186,13 @@ enum {
     }
     
     _textView = textView;
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    if (action == @selector(paste:))
+        return NO;
+    return [super canPerformAction:action withSender:sender];
 }
 
 -(void)checkShouldEnableReturnButton:(NSNotification *)notification {
@@ -177,7 +233,7 @@ enum {
 -(void)loadCharactersWithArray:(NSArray *)a {
 	int i = 0;
     
-    
+    [self loadRecentsFromNsDefaults];
     
 	for (UIButton *b in self.characterKeys) {
         
@@ -188,11 +244,16 @@ enum {
         [transitionAnimation setFillMode:kCAFillModeBoth];
         [b.layer addAnimation:transitionAnimation forKey:@"fadeAnimation"];
         
-		[b setTitle:[a objectAtIndex:i] forState:UIControlStateNormal];
-		if ([b.titleLabel.text characterAtIndex:0] < 128 && ![[b.titleLabel.text substringToIndex:1] isEqualToString:@"◌"])
-			[b.titleLabel setFont:[UIFont systemFontOfSize:22]];
-		else
-			[b.titleLabel setFont:kFont];
+        if(i < [a count]){
+            [b setTitle:[a objectAtIndex:i] forState:UIControlStateNormal];
+            if ([b.titleLabel.text characterAtIndex:0] < 128 && ![[b.titleLabel.text substringToIndex:1] isEqualToString:@"◌"])
+                [b.titleLabel setFont:[UIFont systemFontOfSize:22]];
+            else
+                [b.titleLabel setFont:kFont];
+        } else {
+            [b setTitle:@"" forState:UIControlStateNormal];
+        }
+		
 		i++;
 	}
 }
@@ -223,14 +284,16 @@ enum {
 
 - (IBAction)shiftPressed:(id)sender {
 	[[UIDevice currentDevice] playInputClick];
-	if (!self.isShifted) {
+//	if (!self.isShifted) {
 		[self.shiftButton setBackgroundImage:[UIImage imageNamed:@"glow.png"] forState:UIControlStateNormal];
         if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
             [self.shiftButton setBackgroundImage:[UIImage imageNamed:@"shift.png"] forState:UIControlStateNormal];
         }
-		[self loadCharactersWithArray:kChar_shift];
+		[self loadCharactersWithArray:self.recentsEmoji];
         [self.altButton setTitle:kAltLabel forState:UIControlStateNormal];
-	}
+//    } else {
+    
+//    }
 }
 
 - (IBAction)unShift {
@@ -250,7 +313,7 @@ enum {
 	[self.textView insertText:@" "];
     
 	if (self.isShifted)
-		[self unShift];
+//		[self unShift];
 	
 	if ([self.textView isKindOfClass:[UITextView class]])
 		[[NSNotificationCenter defaultCenter] postNotificationName:UITextViewTextDidChangeNotification object:self.textView];
@@ -260,29 +323,47 @@ enum {
 
 - (IBAction)altPressed:(id)sender {
     [[UIDevice currentDevice] playInputClick];
-	[self.shiftButton setBackgroundImage:nil forState:UIControlStateNormal];
-	self.shifted = NO;
-	UIButton *button = (UIButton *)sender;
-	
-//	if ([button.titleLabel.text isEqualToString:kAltLabel]) {
     
-    if(self.currentPallete == self.pallets.count-2){
-        self.currentPallete = 0;
-        
-        [self loadCharactersWithArray:[self.pallets objectAtIndex:self.currentPallete+1]];
+    
+    if(self.isShifted){
+    
+        [self.shiftButton setBackgroundImage:nil forState:UIControlStateNormal];
+        self.shifted = NO;
+        [self loadCharactersWithArray:[self.pallets objectAtIndex:self.currentPallete]];
         [self.altButton setTitle:[NSString stringWithFormat:@"%d",self.currentPallete] forState:UIControlStateNormal];
-//        self.currentPallete++;
         
-//    } else if (self.currentPallete){
-    
+        
     } else {
         
-        [self loadCharactersWithArray:[self.pallets objectAtIndex:self.currentPallete+1]];
-        [self.altButton setTitle:[NSString stringWithFormat:@"%d",self.currentPallete] forState:UIControlStateNormal];
-        self.currentPallete++;
-    
-//    NSLog(<#NSString * _Nonnull format, ...#>)
+        
+        
+        UIButton *button = (UIButton *)sender;
+        
+        //	if ([button.titleLabel.text isEqualToString:kAltLabel]) {
+        
+        if(self.currentPallete == self.pallets.count-2){
+            self.currentPallete = 0;
+            
+            [self loadCharactersWithArray:[self.pallets objectAtIndex:0]];
+            [self.altButton setTitle:[NSString stringWithFormat:@"%d",0] forState:UIControlStateNormal];
+            //        self.currentPallete++;
+            
+            //    } else if (self.currentPallete){
+            
+        } else {
+            
+            [self loadCharactersWithArray:[self.pallets objectAtIndex:self.currentPallete+1]];
+            [self.altButton setTitle:[NSString stringWithFormat:@"%d",self.currentPallete+1] forState:UIControlStateNormal];
+            self.currentPallete++;
+            
+            //    NSLog(<#NSString * _Nonnull format, ...#>)
+        }
+        
+        
     }
+    
+    
+	
 
     
     
@@ -296,6 +377,7 @@ enum {
 
 - (IBAction)deletePressed:(id)sender {
     [[UIDevice currentDevice] playInputClick];
+    self.charchtersCounter--;
 	[self.textView deleteBackward];
 	[[NSNotificationCenter defaultCenter] postNotificationName:UITextViewTextDidChangeNotification
 														object:self.textView];
@@ -305,25 +387,58 @@ enum {
 		[[NSNotificationCenter defaultCenter] postNotificationName:UITextFieldTextDidChangeNotification object:self.textView];
 }
 
+- (void)updateRecentsWithCharchter:(NSString*)charchter {
+
+    NSMutableDictionary * recentsEmojisDict = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"RecentsEmojies"]];
+
+    
+    //recents contain the charchter
+    if([recentsEmojisDict objectForKey:charchter]){
+        NSLog(@"found the emoji");
+        
+        NSNumber * currentCount = [recentsEmojisDict objectForKey:charchter];
+        
+        [recentsEmojisDict setObject:[NSNumber numberWithInt:[currentCount intValue]+1] forKey:charchter];
+        [[NSUserDefaults standardUserDefaults] setObject:recentsEmojisDict forKey:@"RecentsEmojies"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+//        raise charchters value by one
+        
+        
+    //recents dose not contain charchter
+    } else {
+        NSLog(@"couldnt found the emoji");
+        [recentsEmojisDict setObject:[NSNumber numberWithInt:1] forKey:charchter];
+        [[NSUserDefaults standardUserDefaults] setObject:recentsEmojisDict forKey:@"RecentsEmojies"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+//        add the charchter with pressed 1 as value and emoji as key
+        
+    }
+//    [self loadRecentsFromNsDefaults];
+    
+
+}
+
 - (IBAction)characterPressed:(id)sender {
 	UIButton *button = (UIButton *)sender;
 	NSString *character = [NSString stringWithString:button.titleLabel.text];
+    
+    if(![character isEqualToString:@""] && self.charchtersCounter <= 9){
+        
+    self.charchtersCounter++;
+    
+    [self updateRecentsWithCharchter:character];
+    [self loadRecentsFromNsDefaults];
+    [self loadCharactersWithArray:self.recentsEmoji];
 	
-	if ([[character substringToIndex:1] isEqualToString:@"◌"])
-		character = [character substringFromIndex:1];
-	
-	else if ([[character substringFromIndex:character.length - 1] isEqualToString:@"◌"])
-		character = [character substringToIndex:character.length - 1];
 	
 	[self.textView insertText:character];
-    
-	if (self.isShifted)
-		[self unShift];
+
 	
 	if ([self.textView isKindOfClass:[UITextView class]])
 		[[NSNotificationCenter defaultCenter] postNotificationName:UITextViewTextDidChangeNotification object:self.textView];
 	else if ([self.textView isKindOfClass:[UITextField class]])
 		[[NSNotificationCenter defaultCenter] postNotificationName:UITextFieldTextDidChangeNotification object:self.textView];
+    }
 }
 
 - (void)addPopupToButton:(UIButton *)b {

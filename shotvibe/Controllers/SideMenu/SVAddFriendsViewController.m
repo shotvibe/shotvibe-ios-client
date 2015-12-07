@@ -755,39 +755,54 @@
 
 
 -(void)openGroupFromMembers {
-    NSLog(@"%@",checkedContactsList_);
     
-    __block long long int albumId;
-    __block SLAlbumContents * album;
+    BOOL allowProceed = NO;
     
-    [ShotVibeAPITask runTask:self withAction:^id{
-        SLAlbumContents * newAlbum = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:@""];
+    if(self.state == SVAddFriendsFromAddFriendButton || self.state ==
+       SVAddFriendsFromMove){
+        allowProceed = YES;
+    } else {
+        if([contactsButtons count] >= 3){
+            allowProceed = YES;
+        } else {
+            allowProceed = NO;
+        }
+    }
+    
+    if(allowProceed){
+        NSLog(@"%@",checkedContactsList_);
         
-        NSMutableArray *memberAddRequests = [[NSMutableArray alloc] init];
+        __block long long int albumId;
+        __block SLAlbumContents * album;
         
-        for (SLPhoneContact *phoneContact in checkedContactsList_) {
-            SLShotVibeAPI_MemberAddRequest *request = [[SLShotVibeAPI_MemberAddRequest alloc] initWithNSString:[phoneContact getFullName]
-                                                                                                  withNSString:[phoneContact getPhoneNumber]];
+        [ShotVibeAPITask runTask:self withAction:^id{
+            SLAlbumContents * newAlbum = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:@""];
             
-            [memberAddRequests addObject:request];
-        }
-        
-        NSString *defaultCountryCode = [[[albumManager_ getShotVibeAPI] getAuthData] getDefaultCountryCode];
-        
-        albumId = [newAlbum getId];
-        [[albumManager_ getShotVibeAPI] albumAddMembersWithLong:[newAlbum getId]
-                                               withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:memberAddRequests]
-                                                   withNSString:defaultCountryCode];
-        album = newAlbum;
-        return nil;
-    } onTaskComplete:^(id dummy) {
-        
-
-        
-        if(self.friendsFromMainWithPicture){
-            albumId = 0;
-        }
-        
+            NSMutableArray *memberAddRequests = [[NSMutableArray alloc] init];
+            
+            for (SLPhoneContact *phoneContact in checkedContactsList_) {
+                SLShotVibeAPI_MemberAddRequest *request = [[SLShotVibeAPI_MemberAddRequest alloc] initWithNSString:[phoneContact getFullName]
+                                                                                                      withNSString:[phoneContact getPhoneNumber]];
+                
+                [memberAddRequests addObject:request];
+            }
+            
+            NSString *defaultCountryCode = [[[albumManager_ getShotVibeAPI] getAuthData] getDefaultCountryCode];
+            
+            albumId = [newAlbum getId];
+            [[albumManager_ getShotVibeAPI] albumAddMembersWithLong:[newAlbum getId]
+                                                   withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:memberAddRequests]
+                                                       withNSString:defaultCountryCode];
+            album = newAlbum;
+            return nil;
+        } onTaskComplete:^(id dummy) {
+            
+            
+            
+            if(self.friendsFromMainWithPicture){
+                albumId = 0;
+            }
+            
             [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:albumId completion:^{
                 [[ContainerViewController sharedInstance] resetFriendsView];
                 if(self.friendsFromMainWithPicture){
@@ -798,6 +813,9 @@
                 }
             }];
         }];
+    } else {
+        [KVNProgress showErrorWithStatus:@"Group is a minimum of 4"];
+    }
 
 }
 

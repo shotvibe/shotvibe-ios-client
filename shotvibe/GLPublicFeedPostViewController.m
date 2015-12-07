@@ -477,7 +477,7 @@
                 
                 if (self.albumId != 0) {
                     
-                    RCLog(@"====================== 1. Upload selected photos to albumId %lli", self.albumId);
+//                    RCLog(@"====================== 1. Upload selected photos to albumId %lli", self.albumId);
                     
                     // Upload the taken photos
                     
@@ -1048,6 +1048,24 @@
 //        cell.postImage
 //        if(cell.postImage.image != uploadingImage){
         [cell.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
+        
+//        __block UIActivityIndicatorView *activityIndicator;
+//        __weak UIImageView *weakImageView = cell.postImage;
+//        [cell.postImage sd_setImageWithURL:[NSURL URLWithString:[[photo getServerPhoto] getUrl]]
+//                          placeholderImage:nil
+//                                   options:SDWebImageProgressiveDownload
+//                                  progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//                                      if (!activityIndicator) {
+//                                          [weakImageView addSubview:activityIndicator = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]];
+//                                          activityIndicator.center = weakImageView.center;
+//                                          [activityIndicator startAnimating];
+//                                      }
+//                                  }
+//                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                                     [activityIndicator removeFromSuperview];
+//                                     activityIndicator = nil;
+//                                 }];
+        
 //        }
             //
         

@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "SVNotificationHandler.h"
 
+typedef enum FeedScrollDirection {
+    FeedScrollDirectionUp,
+    FeedScrollDirectionDown
+} FeedScrollDirection;
 
 //#import ""
 //#import ""
@@ -18,6 +22,8 @@
 @property(nonatomic) long long int prevAlbumId;
 @property (retain, nonatomic) NSMutableArray *posts;
 @property(nonatomic) BOOL startImidiatly;
+@property (nonatomic, assign) CGFloat lastContentOffset;
+@property (nonatomic, assign) FeedScrollDirection feedScrollDirection;
 @property(nonatomic, retain) SLAlbumContents * contentsFromOutside;
 @property(nonatomic) BOOL scrollToComment;
 @property(nonatomic, retain) NSString * photoToScrollToCommentsId;

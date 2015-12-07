@@ -82,7 +82,6 @@
     BOOL scrollToCellDisabled;
     BOOL tableIsScrolling;
     
-    
 //    YALSunnyRefreshControl *sunnyRefreshControl;
 }
 //@property(nonatomic, retain) MPMoviePlayerController *moviePlayerController;
@@ -168,9 +167,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
     tableIsScrolling = NO;
     
-    
+    self.feedScrollDirection = FeedScrollDirectionDown;
         snapIsScrolling = NO;
         
     
@@ -180,17 +182,14 @@
     allEmojis = [[NSMutableArray alloc] initWithObjects:@"😄", @"😃", @"😀", @"😊", @"☺️", @"😉", @"😍", @"😘", @"😚", @"😗", @"😙", @"😜", @"😝", @"😛", @"😳", @"😁", @"😔", @"😌", @"😒", @"😞", @"😣", @"😢", @"😂", @"😭", @"😪", @"😥", @"😰", @"😅", @"😓", @"😩", @"😫", @"😨", @"😱", @"😠", @"😡", @"😤", @"😖", @"😆", @"😋", @"😷", @"😎", @"😴", @"😵", @"😲", @"😟", @"😦", @"😧", @"😈", @"👿", @"😮", @"😬", @"😐", @"😕", @"😯", @"😶", @"😇", @"😏", @"😑", @"👲", @"👳", @"👮", @"👷", @"💂", @"👶", @"👦", @"👧", @"👨", @"👩", @"👴", @"👵", @"👱", @"👼", @"👸", @"😺", @"😸", @"😻", @"😽", @"😼", @"🙀", @"😿", @"😹", @"😾", @"👹", @"👺", @"🙈", @"🙉", @"🙊", @"💀", @"👽", @"💩", @"🔥", @"✨", @"🌟", @"💫", @"💥", @"💢", @"💦", @"💧", @"💤", @"💨", @"👂", @"👀", @"👃", @"👅", @"👄", @"👍", @"👎", @"👌", @"👊", @"✊", @"✌️", @"👋", @"✋", @"👐", @"👆", @"👇", @"👉", @"👈", @"🙌", @"🙏", @"☝️", @"👏", @"💪", @"🚶", @"🏃", @"💃", @"👫", @"👪", @"👬", @"👭", @"💏", @"💑", @"👯", @"🙆", @"🙅", @"💁", @"🙋", @"💆", @"💇", @"💅", @"👰", @"🙎", @"🙍", @"🙇", @"🎩", @"👑", @"👒", @"👟", @"👞", @"👡", @"👠", @"👢", @"👕", @"👔", @"👚", @"👗", @"🎽", @"👖", @"👘", @"👙", @"💼", @"👜", @"👝", @"👛", @"👓", @"🎀", @"🌂", @"💄", @"💛", @"💙", @"💜", @"💚", @"❤️", @"💔", @"💗", @"💓", @"💕", @"💖", @"💞", @"💘", @"💌", @"💋", @"💍", @"💎", @"👤", @"👥", @"💬", @"👣", @"💭", @"🐶", @"🐺", @"🐱", @"🐭", @"🐹", @"🐰", @"🐸", @"🐯", @"🐨", @"🐻", @"🐷", @"🐽", @"🐮", @"🐗", @"🐵", @"🐒", @"🐴", @"🐑", @"🐘", @"🐼", @"🐧", @"🐦", @"🐤", @"🐥", @"🐣", @"🐔", @"🐍", @"🐢", @"🐛", @"🐝", @"🐜", @"🐞", @"🐌", @"🐙", @"🐚", @"🐠", @"🐟", @"🐬", @"🐳", @"🐋", @"🐄", @"🐏", @"🐀", @"🐃", @"🐅", @"🐇", @"🐉", @"🐎", @"🐐", @"🐓", @"🐕", @"🐖", @"🐁", @"🐂", @"🐲", @"🐡", @"🐊", @"🐫", @"🐪", @"🐆", @"🐈", @"🐩", @"🐾", @"💐", @"🌸", @"🌷", @"🍀", @"🌹", @"🌻", @"🌺", @"🍁", @"🍃", @"🍂", @"🌿", @"🌾", @"🍄", @"🌵", @"🌴", @"🌲", @"🌳", @"🌰", @"🌱", @"🌼", @"🌐", @"🌞", @"🌝", @"🌚", @"🌑", @"🌒", @"🌓", @"🌔", @"🌕", @"🌖", @"🌗", @"🌘", @"🌜", @"🌛", @"🌙", @"🌍", @"🌎", @"🌏", @"🌋", @"🌌", @"🌠", @"⭐️", @"☀️", @"⛅️", @"☁️", @"⚡️", @"☔️", @"❄️", @"⛄️", @"🌀", @"🌁", @"🌈", @"🌊", @"🎍", @"💝", @"🎎", @"🎒", @"🎓", @"🎏", @"🎆", @"🎇", @"🎐", @"🎑", @"🎃", @"👻", @"🎅", @"🎄", @"🎁", @"🎋", @"🎉", @"🎊", @"🎈", @"🎌", @"🔮", @"🎥", @"📷", @"📹", @"📼", @"💿", @"📀", @"💽", @"💾", @"💻", @"📱", @"☎️", @"📞", @"📟", @"📠", @"📡", @"📺", @"📻", @"🔊", @"🔉", @"🔈", @"🔇", @"🔔", @"🔕", @"📢", @"📣", @"⏳", @"⌛️", @"⏰", @"⌚️", @"🔓", @"🔒", @"🔏", @"🔐", @"🔑", @"🔎", @"💡", @"🔦", @"🔆", @"🔅", @"🔌", @"🔋", @"🔍", @"🛁", @"🛀", @"🚿", @"🚽", @"🔧", @"🔩", @"🔨", @"🚪", @"🚬", @"💣", @"🔫", @"🔪", @"💊", @"💉", @"💰", @"💴", @"💵", @"💷", @"💶", @"💳", @"💸", @"📲", @"📧", @"📥", @"📤", @"✉️", @"📩", @"📨", @"📯", @"📫", @"📪", @"📬", @"📭", @"📮", @"📦", @"📝", @"📄", @"📃", @"📑", @"📊", @"📈", @"📉", @"📜", @"📋", @"📅", @"📆", @"📇", @"📁", @"📂", @"✂️", @"📌", @"📎", @"✒️", @"✏️", @"📏", @"📐", @"📕", @"📗", @"📘", @"📙", @"📓", @"📔", @"📒", @"📚", @"📖", @"🔖", @"📛", @"🔬", @"🔭", @"📰", @"🎨", @"🎬", @"🎤", @"🎧", @"🎼", @"🎵", @"🎶", @"🎹", @"🎻", @"🎺", @"🎷", @"🎸", @"👾", @"🎮", @"🃏", @"🎴", @"🀄️", @"🎲", @"🎯", @"🏈", @"🏀", @"⚽️", @"⚾️", @"🎾", @"🎱", @"🏉", @"🎳", @"⛳️", @"🚵", @"🚴", @"🏁", @"🏇", @"🏆", @"🎿", @"🏂", @"🏊", @"🏄", @"🎣", @"☕️", @"🍵", @"🍶", @"🍼", @"🍺", @"🍻", @"🍸", @"🍹", @"🍷", @"🍴", @"🍕", @"🍔", @"🍟", @"🍗", @"🍖", @"🍝", @"🍛", @"🍤", @"🍱", @"🍣", @"🍥", @"🍙", @"🍘", @"🍚", @"🍜", @"🍲", @"🍢", @"🍡", @"🍳", @"🍞", @"🍩", @"🍮", @"🍦", @"🍨", @"🍧", @"🎂", @"🍰", @"🍪", @"🍫", @"🍬", @"🍭", @"🍯", @"🍎", @"🍏", @"🍊", @"🍋", @"🍒", @"🍇", @"🍉", @"🍓", @"🍑", @"🍈", @"🍌", @"🍐", @"🍍", @"🍠", @"🍆", @"🍅", @"🌽", nil];
 
     
-//    allEmojis = [[NSMutableArray alloc] initWithObjects:@"😄", @"😃", @"😀", @"😊", @"☺️", @"😉", @"😍", @"😘", @"😚", @"😗", @"😙", @"😜", @"😝", @"😛", @"😳", @"😁", @"😔", @"😌", @"😒", @"😞", @"😣", @"😢", @"😂", @"😭", @"😪", @"😥", @"😰", @"😅", @"😓", @"😩", @"😫", @"😨", @"😱", @"😠", @"😡", @"😤", @"😖", @"😆", @"😋", @"😷", @"😎", @"😴", @"😵", @"😲", @"😟", @"😦", @"😧", @"😈", @"👿", @"😮", @"😬", @"😐", @"😕", @"😯", @"😶", @"😇", @"😏", @"😑", @"👲", @"👳", @"👮", @"👷", @"💂", @"👶", @"👦", @"👧", @"👨", @"👩", @"👴", @"👵", @"👱", @"👼", @"👸", @"😺", @"😸", @"😻", @"😽", @"😼", @"🙀", @"😿", @"😹", @"😾", @"👹", @"👺", @"🙈", @"🙉", @"🙊", @"💀", @"👽", @"💩", @"🔥", @"✨", @"🌟", @"💫", @"💥", @"💢", @"💦", @"💧", @"💤", @"💨", @"👂", @"👀", @"👃", @"👅", @"👄", @"👍", @"👎", @"👌", @"👊", @"✊", @"✌️", @"👋", @"✋", @"👐", @"👆", @"👇", @"👉", @"👈", @"🙌", @"🙏", @"☝️", @"👏", @"💪", @"🚶", @"🏃", @"💃", @"👫", @"👪", @"👬", @"👭", @"💏", @"💑", @"👯", @"🙆", @"🙅", @"💁", @"🙋", @"💆", @"💇", @"💅", @"👰", @"🙎", @"🙍", @"🙇", @"🎩", @"👑", @"👒", @"👟", @"👞", @"👡", @"👠", @"👢", @"👕", @"👔", @"👚", @"👗", @"🎽", @"👖", @"👘", @"👙", @"💼", @"👜", @"👝", @"👛", @"👓", @"🎀", @"🌂", @"💄", @"💛", @"💙", @"💜", @"💚", @"❤️", @"💔", @"💗", @"💓", @"💕", @"💖", @"💞", @"💘", @"💌", @"💋", @"💍", @"💎", @"👤", @"👥", @"💬", @"👣", @"💭", @"🐶", @"🐺", @"🐱", @"🐭", @"🐹", @"🐰", @"🐸", @"🐯", @"🐨", @"🐻", @"🐷", @"🐽", @"🐮", @"🐗", @"🐵", @"🐒", @"🐴", @"🐑", @"🐘", @"🐼", @"🐧", @"🐦", @"🐤", @"🐥", @"🐣", @"🐔", @"🐍", @"🐢", @"🐛", @"🐝", @"🐜", @"🐞", @"🐌", @"🐙", @"🐚", @"🐠", @"🐟", @"🐬", @"🐳", @"🐋", @"🐄", @"🐏", @"🐀", @"🐃", @"🐅", @"🐇", @"🐉", @"🐎", @"🐐", @"🐓", @"🐕", @"🐖", @"🐁", @"🐂", @"🐲", @"🐡", @"🐊", @"🐫", @"🐪", @"🐆", @"🐈", @"🐩", @"🐾", @"💐", @"🌸", @"🌷", @"🍀", @"🌹", @"🌻", @"🌺", @"🍁", @"🍃", @"🍂", @"🌿", @"🌾", @"🍄", @"🌵", @"🌴", @"🌲", @"🌳", @"🌰", @"🌱", @"🌼", @"🌐", @"🌞", @"🌝", @"🌚", @"🌑", @"🌒", @"🌓", @"🌔", @"🌕", @"🌖", @"🌗", @"🌘", @"🌜", @"🌛", @"🌙", @"🌍", @"🌎", @"🌏", @"🌋", @"🌌", @"🌠", @"⭐️", @"☀️", @"⛅️", @"☁️", @"⚡️", @"☔️", @"❄️", @"⛄️", @"🌀", @"🌁", @"🌈", @"🌊", @"🎍", @"💝", @"🎎", @"🎒", @"🎓", @"🎏", @"🎆", @"🎇", @"🎐", @"🎑", @"🎃", @"👻", @"🎅", @"🎄", @"🎁", @"🎋", @"🎉", @"🎊", @"🎈", @"🎌", @"🔮", @"🎥", @"📷", @"📹", @"📼", @"💿", @"📀", @"💽", @"💾", @"💻", @"📱", @"☎️", @"📞", @"📟", @"📠", @"📡", @"📺", @"📻", @"🔊", @"🔉", @"🔈", @"🔇", @"🔔", @"🔕", @"📢", @"📣", @"⏳", @"⌛️", @"⏰", @"⌚️", @"🔓", @"🔒", @"🔏", @"🔐", @"🔑", @"🔎", @"💡", @"🔦", @"🔆", @"🔅", @"🔌", @"🔋", @"🔍", @"🛁", @"🛀", @"🚿", @"🚽", @"🔧", @"🔩", @"🔨", @"🚪", @"🚬", @"💣", @"🔫", @"🔪", @"💊", @"💉", @"💰", @"💴", @"💵", @"💷", @"💶", @"💳", @"💸", @"📲", @"📧", @"📥", @"📤", @"✉️", @"📩", @"📨", @"📯", @"📫", @"📪", @"📬", @"📭", @"📮", @"📦", @"📝", @"📄", @"📃", @"📑", @"📊", @"📈", @"📉", @"📜", @"📋", @"📅", @"📆", @"📇", @"📁", @"📂", @"✂️", @"📌", @"📎", @"✒️", @"✏️", @"📏", @"📐", @"📕", @"📗", @"📘", @"📙", @"📓", @"📔", @"📒", @"📚", @"📖", @"🔖", @"📛", @"🔬", @"🔭", @"📰", @"🎨", @"🎬", @"🎤", @"🎧", @"🎼", @"🎵", @"🎶", @"🎹", @"🎻", @"🎺", @"🎷", @"🎸", @"👾", @"🎮", @"🃏", @"🎴", @"🀄️", @"🎲", @"🎯", @"🏈", @"🏀", @"⚽️", @"⚾️", @"🎾", @"🎱", @"🏉", @"🎳", @"⛳️", @"🚵", @"🚴", @"🏁", @"🏇", @"🏆", @"🎿", @"🏂", @"🏊", @"🏄", @"🎣", @"☕️", @"🍵", @"🍶", @"🍼", @"🍺", @"🍻", @"🍸", @"🍹", @"🍷", @"🍴", @"🍕", @"🍔", @"🍟", @"🍗", @"🍖", @"🍝", @"🍛", @"🍤", @"🍱", @"🍣", @"🍥", @"🍙", @"🍘", @"🍚", @"🍜", @"🍲", @"🍢", @"🍡", @"🍳", @"🍞", @"🍩", @"🍮", @"🍦", @"🍨", @"🍧", @"🎂", @"🍰", @"🍪", @"🍫", @"🍬", @"🍭", @"🍯", @"🍎", @"🍏", @"🍊", @"🍋", @"🍒", @"🍇", @"🍉", @"🍓", @"🍑", @"🍈", @"🍌", @"🍐", @"🍍", @"🍠", @"🍆", @"🍅", @"🌽", @"🏠", @"🏡", @"🏫", @"🏢", @"🏣", @"🏥", @"🏦", @"🏪", @"🏩", @"🏨", @"💒", @"⛪️", @"🏬", @"🏤", @"🌇", @"🌆", @"🏯", @"🏰", @"⛺️", @"🏭", @"🗼", @"🗾", @"🗻", @"🌄", @"🌅", @"🌃", @"🗽", @"🌉", @"🎠", @"🎡", @"⛲️", @"🎢", @"🚢", @"⛵️", @"🚤", @"🚣", @"⚓️", @"🚀", @"✈️", @"💺", @"🚁", @"🚂", @"🚊", @"🚉", @"🚞", @"🚆", @"🚄", @"🚅", @"🚈", @"🚇", @"🚝", @"🚋", @"🚃", @"🚎", @"🚌", @"🚍", @"🚙", @"🚘", @"🚗", @"🚕", @"🚖", @"🚛", @"🚚", @"🚨", @"🚓", @"🚔", @"🚒", @"🚑", @"🚐", @"🚲", @"🚡", @"🚟", @"🚠", @"🚜", @"💈", @"🚏", @"🎫", @"🚦", @"🚥", @"⚠️", @"🚧", @"🔰", @"⛽️", @"🏮", @"🎰", @"♨️", @"🗿", @"🎪", @"🎭", @"📍", @"🚩", @"🇯🇵", @"🇰🇷", @"🇩🇪", @"🇨🇳", @"🇺🇸", @"🇫🇷", @"🇪🇸", @"🇮🇹", @"🇷🇺", @"🇬🇧", @"1⃣", @"2⃣", @"3⃣", @"4⃣", @"5⃣", @"6⃣", @"7⃣", @"8⃣", @"9⃣", @"0⃣", @"1️⃣", @"2️⃣", @"3️⃣", @"4️⃣", @"5️⃣", @"6️⃣", @"7️⃣", @"8️⃣", @"9️⃣", @"0️⃣", @"🔟", @"🔢", @"#️⃣", @"🔣", @"⬆️", @"⬇️", @"⬅️", @"➡️", @"🔠", @"🔡", @"🔤", @"↗️", @"↖️", @"↘️", @"↙️", @"↔️", @"↕️", @"🔄", @"◀️", @"▶️", @"🔼", @"🔽", @"↩️", @"↪️", @"ℹ️", @"⏪", @"⏩", @"⏫", @"⏬", @"⤵️", @"⤴️", @"🆗", @"🔀", @"🔁", @"🔂", @"🆕", @"🆙", @"🆒", @"🆓", @"🆖", @"📶", @"🎦", @"🈁", @"🈯️", @"🈳", @"🈵", @"🈴", @"🈲", @"🉐", @"🈹", @"🈺", @"🈶", @"🈚️", @"🚻", @"🚹", @"🚺", @"🚼", @"🚾", @"🚰", @"🚮", @"🅿️", @"♿️", @"🚭", @"🈷", @"🈸", @"🈂", @"Ⓜ️", @"🛂", @"🛄", @"🛅", @"🛃", @"🉑", @"㊙️", @"㊗️", @"🆑", @"🆘", @"🆔", @"🚫", @"🔞", @"📵", @"🚯", @"🚱", @"🚳", @"🚷", @"🚸", @"⛔️", @"✳️", @"❇️", @"❎", @"✅", @"✴️", @"💟", @"🆚", @"📳", @"📴", @"🅰", @"🅱", @"🆎", @"🅾", @"💠", @"➿", @"♻️", @"♈️", @"♉️", @"♊️", @"♋️", @"♌️", @"♍️", @"♎️", @"♏️", @"♐️", @"♑️", @"♒️", @"♓️", @"⛎", @"🔯", @"🏧", @"💹", @"💲", @"💱", @"©", @"®", @"™", @"❌", @"‼️", @"⁉️", @"❗️", @"❓", @"❕", @"❔", @"⭕️", @"🔝", @"🔚", @"🔙", @"🔛", @"🔜", @"🔃", @"🕛", @"🕧", @"🕐", @"🕜", @"🕑", @"🕝", @"🕒", @"🕞", @"🕓", @"🕟", @"🕔", @"🕠", @"🕕", @"🕖", @"🕗", @"🕘", @"🕙", @"🕚", @"🕡", @"🕢", @"🕣", @"🕤", @"🕥", @"🕦", @"✖️", @"➕", @"➖", @"➗", @"♠️", @"♥️", @"♣️", @"♦️", @"💮", @"💯", @"✔️", @"☑️", @"🔘", @"🔗", @"➰", @"〰", @"〽️", @"🔱", @"◼️", @"◻️", @"◾️", @"◽️", @"▪️", @"▫️", @"🔺", @"🔲", @"🔳", @"⚫️", @"⚪", @"🔴", @"🔵", @"🔻", @"⬜️", @"⬛️", @"🔶", @"🔷", @"🔸", @"🔹", nil];
+
     
     GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
-    //    glcamera.delegate = nil;
     glcamera.delegate = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
     commentingNow = NO;
-//    goToHighlitedCell = NO;
     membersOpened = NO;
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.883)];
-//    self.tableView.backgroundColor = [UIColor blueColor];
     [self.view addSubview:self.tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -198,8 +197,6 @@
     postsAsSLPhotos = [[NSMutableArray alloc] init];
     self.tableView.scrollsToTop = YES;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    [self.tableView setContentInset:UIEdgeInsetsMake(60,0,0,0)];
-//
     
     photoFilesManager_ = [ShotVibeAppDelegate sharedDelegate].photoFilesManager;
     
@@ -218,51 +215,15 @@
     
     [self loadFeed];
     
-//    UIScreenEdgePanGestureRecognizer * swipeScreen = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(screenSwiped:)];
-    
-//    swipeScreen.minimumNumberOfTouches = 1;
-//    swipeScreen.maximumNumberOfTouches = 1;
-//    swipeScreen.edges = UIRectEdgeLeft;
-//    swipeScreen.delegate = self;
-//    
-//    [self.view addGestureRecognizer:swipeScreen];
     
     ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).parentController = self;
     ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).parentController = self;
     ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).albumId = self.albumId;
     
-//    self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
-    
-//    [[GLSharedCamera sharedInstance] hideGlCameraView];
-//
-    
-//    sunnyRefreshControl = [YALSunnyRefreshControl attachToScrollView:self.tableView
-//                                                              target:self
-//                                                       refreshAction:@selector(sunnyControlDidStartAnimation)];
-    
-//    [self.tableView setContentInset:UIEdgeInsetsMake(60,0,0,0)];
-//    [self.tableView sendSubviewToBack:sunnyRefreshControl];
-    
-//    self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 60.0f, self.tableView.bounds.size.width, 60.01f)];
-    
-//    [sunnyRefreshControl startRefreshing];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
     ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.pushNotificationsManager.notificationHandler_.delegate = self;
-//    
-//    // Create ParallaxHeaderView with specified size, and set it as uitableView Header, that's it
-//    ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithCGSize:CGSizeMake(self.tableView.frame.size.width, 300)];
-//    headerView.headerTitleLabel.text = self.story[@"story"];
-//    headerView.headerImage = [UIImage imageNamed:@"HeaderImage"];
-//    
-//    [self.mainTableView setTableHeaderView:headerView];
-    
-    
+
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(startUploadFromOutSide:)
@@ -271,29 +232,57 @@
 
 }
 
-- (void)checkVisibilityOfCell:(GLFeedTableCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-    CGRect cellRect = [self.tableView rectForRowAtIndexPath:indexPath];
-    cellRect = [self.tableView convertRect:cellRect toView:self.tableView.superview];
-    BOOL completelyVisible = CGRectContainsRect(self.tableView.frame, cellRect);
-    
-    [cell notifyCellVisibleWithIsCompletelyVisible:completelyVisible];
-}
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(GLFeedTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    NSLog(@"will display cell invoked for index path %ld",(long)indexPath.row);
+//
+//
+//}
 
-- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
-    
-    
-    
-//    GLFeedTableCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-//    CGRect frame = cell.frame;
-//    if (CGRectContainsRect(CGRectOffset(self.tableView.frame, self.tableView.contentOffset.x, self.tableView.contentOffset.y), frame))
-//    {
-//        // is on screen
-//        
-//        NSLog(@"cell is fully visible");
-//        
-//    }
+//
+//- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
+//    NSArray* cells = self.tableView.visibleCells;
+//    NSArray* indexPaths = self.tableView.indexPathsForVisibleRows;
+//    
+//    NSUInteger cellCount = [cells count];
+//    
+//    if (cellCount == 0) return;
+//    
+//    // Check the visibility of the first cell
+//    [self checkVisibilityOfCell:[cells objectAtIndex:0] forIndexPath:[indexPaths objectAtIndex:0]];
+//    
+//    if (cellCount == 1) return;
+//    
+//    // Check the visibility of the last cell
+//    [self checkVisibilityOfCell:[cells lastObject] forIndexPath:[indexPaths lastObject]];
+//    
+//    if (cellCount == 2) return;
+//    
+//    // All of the rest of the cells are visible: Loop through the 2nd through n-1 cells
+//    for (NSUInteger i = 1; i < cellCount - 1; i++)
+//        [[cells objectAtIndex:i] notifyCellVisibleWithIsCompletelyVisible:YES];
+//}
+//
+//- (void)checkVisibilityOfCell:(GLFeedTableCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+//    CGRect cellRect = [self.tableView rectForRowAtIndexPath:indexPath];
+//    cellRect = [self.tableView convertRect:cellRect toView:self.tableView.superview];
+//    BOOL completelyVisible = CGRectContainsRect(self.tableView.frame, cellRect);
+//    
+//    [cell notifyCellVisibleWithIsCompletelyVisible:completelyVisible];
+//}
 
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    
+//    if (self.lastContentOffset > scrollView.contentOffset.y)
+//        self.feedScrollDirection = FeedScrollDirectionDown;
+//    else if (self.lastContentOffset < scrollView.contentOffset.y)
+//        self.feedScrollDirection = FeedScrollDirectionUp;
+//    
+//    self.lastContentOffset = scrollView.contentOffset.y;
+//    
+//    // do whatever you need to with scrollDirection here.
+//}
 
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
 
@@ -332,21 +321,38 @@
 //        NSLog(@"is scrolling : %d",tableIsScrolling);
         NSLog(@"im ready to play the fucking video ! ");
     
+    NSLog(@"contentOffSetIs : %ld",(long)scrollView.contentOffset.y);
+    NSLog(@"the page is: %f",floorf(scrollView.contentOffset.y/self.tableView.frame.size.height));
     
+
+//    int dir = 0;
+//
+//    
+//    if(self.feedScrollDirection == 0){
+//        dir = -1;
+//    } else if(self.feedScrollDirection == 1) {
+//        dir = 0;
+//    }
     
-    
-    GLFeedTableCell * cell = [self.tableView.visibleCells objectAtIndex:0];
+    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:floorf(scrollView.contentOffset.y/self.tableView.frame.size.height) inSection:0]];
     NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
     SLAlbumPhoto *photo = [data objectAtIndex:1];
+
     
+//    CGRect cellRect = [scrollView convertRect:cell.frame toView:scrollView.superview];
+//    if (CGRectContainsRect(scrollView.frame, cellRect)){
+//        NSLog(@"visible");
+//    } else {
+//        NSLog(@"unvisible");
+//    }
+    
+//    NSLog(@"%d",);
     
      if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
-         
+         [cell.activityIndicator startAnimating];
          [[GLSharedVideoPlayer sharedInstance] play];
      } else {
-         
          [[GLSharedVideoPlayer sharedInstance] pause];
-         
      }
     
     
@@ -368,21 +374,6 @@
     
 
 }
-
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    if (!decelerate) {
-//        [self scrollingFinish];
-//    }
-//}
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//    [self scrollingFinish];
-//}
-//- (void)scrollingFinish {
-//    //enter code here
-//}
 
 -(void)startUploadFromOutSide:(NSNotification*)not {
 
@@ -523,61 +514,15 @@
     
 }
 
-//- (void)openAppleImagePicker {
-//    
-//    
-//    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
-//    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-//    //    glcamera.delegate = self;
-//    
-//    //    glcamera.delegate
-//    //     glcamera.imagePickerDelegate = picker.delegate;
-//    picker.delegate = self;
-//    
-//    
-//    //    fromImagePicker = YES;
-//    picker.allowsEditing = NO;
-//    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//    
-//    [self presentViewController:picker animated:YES completion:^{
-//        
-//        //        [appDelegate.window sendSubviewToBack:glcamera.view];
-//        
-//        [UIView animateWithDuration:0.3 animations:^{
-//            glcamera.view.alpha = 0;
-//            [glcamera hideForPicker:YES];
-//        }];
-//    }];
-//    
-//    
-//    
-//    
-//    
-//}
 
--(void)openAppleImagePicker {
+- (void)openAppleImagePicker {
     
     GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    //    glcamera.delegate = self;
-    
-    //    glcamera.delegate
-    //     glcamera.imagePickerDelegate = picker.delegate;
     picker.delegate = self;
-    
-    
-    //    fromImagePicker = YES;
-    //    picker.allowsEditing = YES;
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
     [self presentViewController:picker animated:YES completion:^{
-        
-        //        [appDelegate.window sendSubviewToBack:glcamera.view];
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            //            glcamera.view.alpha = 0;
-            //            [glcamera hideForPicker:YES];
-        }];
+
     }];
     
 }
@@ -752,22 +697,6 @@
             }
         
     }
-//    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
-//    glcamera.delegate = self;
-    
-    
-    
-    // This will be notified when the Dynamic Type user setting changes (from the system Settings app)
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentSizeCategoryChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
-    
-//    if ([self.posts count] == 0) {
-//        //        [self.activityIndicatorView startAnimating];
-//    }
-    
-//    [self.menuContainerViewController.view setFrame:[[UIScreen mainScreen] bounds]];
-//    [self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
-//    self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
-    
     
 }
 
@@ -796,22 +725,9 @@
     
     
     GLFeedTableCell * cell = [self.tableView.visibleCells objectAtIndex:0];
-//    NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
     
     
-//    SLAlbumPhoto *photo = [data objectAtIndex:1];
-//    long long userID = [[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
-    
-//    if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
-//        SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
-        //[cell.moviePlayer stop];
-        //cell.moviePlayer = nil;
-        //    } else {
-        //        [cell loadCellWithData:data photoFilesManager:photoFilesManager_];
-//    }
-    
-    // TODO:
-    // Stop Shared video player
+    [[GLSharedVideoPlayer sharedInstance] resetPlayer];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -820,6 +736,8 @@
     
 //    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
 //    glcamera.delegate = nil;
+    
+    
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
     
@@ -881,7 +799,7 @@
             if ([p getServerPhoto]) {
                 [photoFilesManager_ queuePhotoDownload:[[p getServerPhoto] getId]
                                               photoUrl:[[p getServerPhoto] getUrl]
-                                             photoSize:photoFilesManager_.DeviceDisplayPhotoSize
+                                             photoSize:[PhotoSize FeedSize]
                                           highPriority:YES];
             }
         }
@@ -929,12 +847,22 @@
     self.posts = [[NSMutableArray alloc] init];
     
     
-    
-    
-    
-    
-    
     for (SLAlbumPhoto *photo in [albumContents getPhotos].array) {
+        
+//        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+//        [manager downloadImageWithURL:[NSURL URLWithString:[[photo getServerPhoto] getUrl]]
+//                              options:SDWebImageHighPriority
+//                             progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//                                 // progression tracking code
+//                             }
+//                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+//                                if (image) {
+//                                    // do something with image
+//                                    [[SDImageCache sharedImageCache] storeImage:image forKey:[[photo getServerPhoto] getUrl]];
+//                                    
+//                                }
+//                            }];
+        
         
         
         
@@ -1344,145 +1272,230 @@
     }
     
     NSArray * tempDict = [self.posts objectAtIndex:indexPath.row];
+    
+    SLAlbumPhoto * photo = [tempDict objectAtIndex:1];
+    
+    if ([photo getUploadingPhoto]) {
+        
+        cell.videoBadge.alpha = 0;
+        
+                NSLog(@"aaa");
+                [cell.profileImageView setImage:[UIImage imageNamed:@"CaptureButton"]];
+        
+                cell.userName.text = [NSString stringWithFormat:@"Uploading - %.f%% ",[[photo getUploadingPhoto] getUploadProgress] * 100];//@"Uploading";
+        
+                if([[photo getUploadingPhoto] getUploadProgress] * 100 == 100){
+                    scrollToCellDisabled = NO;
+                    NSString *path = [NSString stringWithFormat:@"%@%@", [[NSBundle mainBundle] resourcePath], @"/dropsound.wav"];
+                    //
+                    SystemSoundID soundID;
+                    //
+                    NSURL *filePath = [NSURL fileURLWithPath:path isDirectory:NO];
+                    //
+                    //        //Use audio sevices to create the sound
+                    //
+                    AudioServicesCreateSystemSoundID((__bridge CFURLRef)filePath, &soundID);
+        
+                    //Use audio services to play the sound
+        
+                    AudioServicesPlaySystemSound(soundID);
+                }
+        
+                cell.postedTime.text = @"now";
+        
+                [cell.postImage setImage:uploadingImage];
+                //        [UIView animateWithDuration:0.5 animations:^{
+                //            cell.postImage.alpha = [[photo getUploadingPhoto] getUploadProgress];
+                //        }];
+        
+        
+        
+                cell.glancesCounter.text = [[tempDict objectAtIndex:0] objectForKey:@"likes"];
+        
+        
+                cell.photoId = [[tempDict objectAtIndex:0] objectForKey:@"id"];
+        
+        
+                cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
+                cell.abortCommentButton.tag = indexPath.row;
+                cell.glanceDownButton.tag = indexPath.row;
+                cell.glanceUpButton.tag = indexPath.row;
+        
+        
+                //        cell.glancesIcon.tag = indexPath.row;
+        
+                [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
+                cell.postForwardButton.tag = indexPath.row;
+        
+                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
+                singleTap.numberOfTapsRequired = 1;
+                //    singleTap
+                [cell.glanceUpButton addGestureRecognizer:singleTap];
+        
+                UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
+                doubleTap.numberOfTapsRequired = 1;
+                [cell.glanceDownButton addGestureRecognizer:doubleTap];
+        
+                //        [singleTap requireGestureRecognizerToFail:doubleTap];
+        
+                //    [cell.glancesIcon addGestureRecognizer:<#(nonnull UIGestureRecognizer *)#>];
+                
+                
+                cell.commentTextField.delegate = self;
+                //    cell.commentTextField
+                cell.commentTextField.tag = indexPath.row;
+                
+                //        [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
+                
+                
+                cell.commentsScrollView.alpha = 0;
+                
+                
+                
+            } else {
+    
+    
+    
     [cell loadCellWithData:tempDict photoFilesManager:photoFilesManager_];
-//    cell.tableView = self.tableView;
-//
-//    long long userID = [[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
-//
-//        NSMutableArray * commentsArray = [[NSMutableArray alloc] init];
-//        commentsArray = [[[tempDict objectAtIndex:0] objectForKey:@"comments"] objectForKey:@"data"];
-//    
-//    
-//    cell.photoId = [[tempDict objectAtIndex:0] objectForKey:@"id"];
-//    
-//    
-//    cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
-//    cell.abortCommentButton.tag = indexPath.row;
-//        cell.glanceDownButton.tag = indexPath.row;
-//        cell.glanceUpButton.tag = indexPath.row;
-//        
-//        cell.feed3DotsButton.tag = indexPath.row;
-//        
-//    [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    cell.postForwardButton.tag = indexPath.row;
-//        
-//        
-//        
-//    cell.profileImageView.tag = userID;
-//    cell.userName.tag = userID;
-//    
-//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
-//    singleTap.numberOfTapsRequired = 1;
-////    singleTap
-//    [cell.glanceUpButton addGestureRecognizer:singleTap];
-//    
-//    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
-//    doubleTap.numberOfTapsRequired = 1;
-//    [cell.glanceDownButton addGestureRecognizer:doubleTap];
-//        
-//        UITapGestureRecognizer *showActionSheetGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showActionSheets:)];
-//        showActionSheetGest.numberOfTapsRequired = 1;
-////        showActionSheetGest.view.tag = indexPath.row;
-//        //    singleTap
-//        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
-//        
-//        UITapGestureRecognizer *showUserProfileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile:)];
-//        UITapGestureRecognizer *showUserProfileTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile2:)];
-//        
-//        cell.profileImageView.userInteractionEnabled = YES;
-//        cell.userName.userInteractionEnabled = YES;
-//        [cell.profileImageView addGestureRecognizer:showUserProfileTap];
-//        [cell.userName addGestureRecognizer:showUserProfileTap2];
-//        //    singleTap
-//        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
-//    
-//    
-//    
-//    cell.commentTextField.delegate = self;
-//    //    cell.commentTextField
-//    cell.commentTextField.tag = indexPath.row;
-//    
-//    [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    [cell.postPannelWrapper bringSubviewToFront:cell.abortCommentButton];
-//
-//    
-//    [cell.commentsScrollView removeFromSuperview];
-//    
-//    cell.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, [[UIScreen mainScreen] bounds].size.width, 69)];
-//        cell.commentsScrollView.alpha = 1;
-//    cell.commentsScrollView.pagingEnabled = YES;
-//    cell.commentsScrollView.backgroundColor = [UIColor clearColor];
-//    cell.commentsScrollView.contentSize = CGSizeMake(self.view.frame.size.width, [commentsArray count]*23);
-//    
-//    
-//        
-//    
-//    
-//    
-//        
-//        int c = 0;
-//        
-//        for(NSDictionary * comment in commentsArray){
-////            NSLog(@"%@",[comment objectForKey:@"text"]);
-//            
-//            
-//            
-//            UILabel * commentAuthor = [[UILabel alloc] initWithFrame:CGRectMake(20, c*23, self.view.frame.size.width/3, 20)];
-//            commentAuthor.numberOfLines = 1;
-//            commentAuthor.textColor = [UIColor whiteColor];
-//            
-//            
-//            NSArray *tagschemes = [NSArray arrayWithObjects:NSLinguisticTagSchemeLanguage, nil];
-//            NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:tagschemes options:0];
-//            [tagger setString:[[comment objectForKey:@"from"] objectForKey:@"full_name"]];
-//            NSString *language = [tagger tagAtIndex:0 scheme:NSLinguisticTagSchemeLanguage tokenRange:NULL sentenceRange:NULL];
-//            if ([language rangeOfString:@"he"].location != NSNotFound || [language rangeOfString:@"ar"].location != NSNotFound) {
-//                commentAuthor.text = [@": " stringByAppendingString:[[comment objectForKey:@"from"] objectForKey:@"full_name"]];
-//            } else {
-//                commentAuthor.text = [[[comment objectForKey:@"from"] objectForKey:@"full_name"] stringByAppendingString:@":"];
-//            }
-//            
-//            
-//            commentAuthor.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
-//            
-//            float widthIs =
-//            [commentAuthor.text
-//             boundingRectWithSize:commentAuthor.frame.size
-//             options:NSStringDrawingUsesLineFragmentOrigin
-//             attributes:@{ NSFontAttributeName:commentAuthor.font }
-//             context:nil]
-//            .size.width;
-//            commentAuthor.frame = CGRectMake(20, c*23, widthIs, 20);
-//            
-//            UILabel * t = [[UILabel alloc] initWithFrame:CGRectMake(commentAuthor.frame.size.width+25, c*23, self.view.frame.size.width*0.6, 20)];
-//            t.textColor = [UIColor whiteColor];
-//            t.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
-//            t.numberOfLines = 1;
-//            t.lineBreakMode = NSLineBreakByWordWrapping;
-//            t.text = [comment objectForKey:@"text"];
-//            [cell.commentsScrollView addSubview:commentAuthor];
-//            [cell.commentsScrollView addSubview:t];
-//            c++;
-//        }
-//    
-//    [cell.postPannelWrapper addSubview:cell.commentsScrollView];
-//    
-//        if([commentsArray count] > 3){
-//        
-//            CGPoint bottomOffset = CGPointMake(0, cell.commentsScrollView.contentSize.height - cell.commentsScrollView.bounds.size.height);
-//            [cell.commentsScrollView setContentOffset:bottomOffset animated:NO];
-//        
-//        } else {
-//        
-//            cell.commentsScrollView.scrollEnabled = NO;
-//        
-//        }
-//    
-//    
-//        
-//        cell.loaded = YES;
-//    
+    cell.tableView = self.tableView;
+
+    long long userID = [[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
+
+        NSMutableArray * commentsArray = [[NSMutableArray alloc] init];
+        commentsArray = [[[tempDict objectAtIndex:0] objectForKey:@"comments"] objectForKey:@"data"];
+    
+    
+    cell.photoId = [[tempDict objectAtIndex:0] objectForKey:@"id"];
+    
+    
+    cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
+    cell.abortCommentButton.tag = indexPath.row;
+        cell.glanceDownButton.tag = indexPath.row;
+        cell.glanceUpButton.tag = indexPath.row;
+        
+        cell.feed3DotsButton.tag = indexPath.row;
+        
+    [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
+    cell.postForwardButton.tag = indexPath.row;
+        
+        
+        
+    cell.profileImageView.tag = userID;
+    cell.userName.tag = userID;
+    
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
+    singleTap.numberOfTapsRequired = 1;
+//    singleTap
+    [cell.glanceUpButton addGestureRecognizer:singleTap];
+    
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
+    doubleTap.numberOfTapsRequired = 1;
+    [cell.glanceDownButton addGestureRecognizer:doubleTap];
+        
+        UITapGestureRecognizer *showActionSheetGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showActionSheets:)];
+        showActionSheetGest.numberOfTapsRequired = 1;
+//        showActionSheetGest.view.tag = indexPath.row;
+        //    singleTap
+        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
+        
+        UITapGestureRecognizer *showUserProfileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile:)];
+        UITapGestureRecognizer *showUserProfileTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile2:)];
+        
+        cell.profileImageView.userInteractionEnabled = YES;
+        cell.userName.userInteractionEnabled = YES;
+        [cell.profileImageView addGestureRecognizer:showUserProfileTap];
+        [cell.userName addGestureRecognizer:showUserProfileTap2];
+        //    singleTap
+        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
+    
+    
+    
+    cell.commentTextField.delegate = self;
+    //    cell.commentTextField
+    cell.commentTextField.tag = indexPath.row;
+    
+    [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.postPannelWrapper bringSubviewToFront:cell.abortCommentButton];
+
+    
+    [cell.commentsScrollView removeFromSuperview];
+    
+    cell.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, [[UIScreen mainScreen] bounds].size.width, 69)];
+        cell.commentsScrollView.alpha = 1;
+    cell.commentsScrollView.pagingEnabled = YES;
+    cell.commentsScrollView.backgroundColor = [UIColor clearColor];
+    cell.commentsScrollView.contentSize = CGSizeMake(self.view.frame.size.width, [commentsArray count]*23);
+    
+    
+        
+    
+    
+    
+        
+        int c = 0;
+        
+        for(NSDictionary * comment in commentsArray){
+//            NSLog(@"%@",[comment objectForKey:@"text"]);
+            
+            
+            
+            UILabel * commentAuthor = [[UILabel alloc] initWithFrame:CGRectMake(20, c*23, self.view.frame.size.width/3, 20)];
+            commentAuthor.numberOfLines = 1;
+            commentAuthor.textColor = [UIColor whiteColor];
+            
+            
+            NSArray *tagschemes = [NSArray arrayWithObjects:NSLinguisticTagSchemeLanguage, nil];
+            NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:tagschemes options:0];
+            [tagger setString:[[comment objectForKey:@"from"] objectForKey:@"full_name"]];
+            NSString *language = [tagger tagAtIndex:0 scheme:NSLinguisticTagSchemeLanguage tokenRange:NULL sentenceRange:NULL];
+            if ([language rangeOfString:@"he"].location != NSNotFound || [language rangeOfString:@"ar"].location != NSNotFound) {
+                commentAuthor.text = [@": " stringByAppendingString:[[comment objectForKey:@"from"] objectForKey:@"full_name"]];
+            } else {
+                commentAuthor.text = [[[comment objectForKey:@"from"] objectForKey:@"full_name"] stringByAppendingString:@":"];
+            }
+            
+            
+            commentAuthor.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
+            
+            float widthIs =
+            [commentAuthor.text
+             boundingRectWithSize:commentAuthor.frame.size
+             options:NSStringDrawingUsesLineFragmentOrigin
+             attributes:@{ NSFontAttributeName:commentAuthor.font }
+             context:nil]
+            .size.width;
+            commentAuthor.frame = CGRectMake(20, c*23, widthIs, 20);
+            
+            UILabel * t = [[UILabel alloc] initWithFrame:CGRectMake(commentAuthor.frame.size.width+25, c*23, self.view.frame.size.width*0.6, 20)];
+            t.textColor = [UIColor whiteColor];
+            t.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
+            t.numberOfLines = 1;
+            t.lineBreakMode = NSLineBreakByWordWrapping;
+            t.text = [comment objectForKey:@"text"];
+            [cell.commentsScrollView addSubview:commentAuthor];
+            [cell.commentsScrollView addSubview:t];
+            c++;
+        }
+    
+    [cell.postPannelWrapper addSubview:cell.commentsScrollView];
+    
+        if([commentsArray count] > 3){
+        
+            CGPoint bottomOffset = CGPointMake(0, cell.commentsScrollView.contentSize.height - cell.commentsScrollView.bounds.size.height);
+            [cell.commentsScrollView setContentOffset:bottomOffset animated:NO];
+        
+        } else {
+        
+            cell.commentsScrollView.scrollEnabled = NO;
+        
+        }
+    
+    
+        
+        cell.loaded = YES;
+    }
+    
     
     return  cell;
 }
@@ -1596,7 +1609,7 @@
 //                } withSuccess:YES withFailure:YES successText:@"" failureText:@"" showLoadingText:YES loadingText:@""];
                 
                 
-                
+//                [KVNProgress showWithStatus:@"Deleting.."];
                 [ShotVibeAPITask runTask:self withAction:^id{
 //                    [MBProgressHUD showHUDAddedTo:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
                     //                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -1614,18 +1627,28 @@
                     //                dispatch_async(dispatch_get_main_queue(), ^{
 //                    [MBProgressHUD hideHUDForView:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
                     //                });
-//                    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+//                    [KVNProgress showSuccessWithStatus:@"Deleted"];
+                    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
                     
-                }];
+                    
+                } onTaskFailure:^(id success) {
+                    [KVNProgress showErrorWithStatus:@"Somthing wenet wrong..." completion:^{
+                        
+                    }];
+                } withLoaderIndicator:NO];
 
                 
             } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete failed"
-                                                                message:@"You can't delete a photo that dosn't belong to you.."
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"Ok"
-                                                      otherButtonTitles:nil];
-                [alert show];
+                
+                [KVNProgress showErrorWithStatus:@"Hi! That's not your's to delete!" onView:self.view completion:^{
+                    NSLog(@"");
+                }];
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete failed"
+//                                                                message:@"You can't delete a photo that dosn't belong to you.."
+//                                                               delegate:nil
+//                                                      cancelButtonTitle:@"Ok"
+//                                                      otherButtonTitles:nil];
+//                [alert show];
                 
             }
             
@@ -1663,6 +1686,7 @@
 //    GLProfileViewController * st = [[GLProfileViewController alloc] init];
 //    [self.navigationController pushViewController:st animated:YES];
     
+//    [KVNProgress showWithStatus:@"Glancing Up"];
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:gest.view.tag inSection:0]];
     
     
@@ -1680,10 +1704,14 @@
             
         } completion:^(BOOL finished) {
             
-            
+//            [KVNProgress showSuccessWithStatus:@"Glanced!"];
     
         }];
-    }];
+    } onTaskFailure:^(id success) {
+        
+        [KVNProgress showErrorWithStatus:@"Somthing went wrong.."];
+        
+    } withLoaderIndicator:NO];
 
     
     [UIView animateWithDuration:0.2 animations:^{
@@ -1713,7 +1741,7 @@
     
     
     
-
+//    [KVNProgress showWithStatus:@"Glancing Down"];
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:gest.view.tag inSection:0]];
     
     [ShotVibeAPITask runTask:self withAction:^id{
@@ -1730,10 +1758,14 @@
             
         } completion:^(BOOL finished) {
             
-            
+//            [KVNProgress showSuccessWithStatus:@"UnGlanced!"];
             
         }];
-    }];
+    } onTaskFailure:^(id success) {
+        
+        [KVNProgress showErrorWithStatus:@"Somthing went wrong..."];
+        
+    } withLoaderIndicator:NO];
     
     [UIView animateWithDuration:0.2 animations:^{
         cell.glanceDownButton.transform = CGAffineTransformScale(cell.glancesIcon.transform, 2.5, 2.5);
@@ -1849,9 +1881,7 @@
         
          membersOpened = !membersOpened;
         
-        [self.menuContainerViewController toggleRightSideMenuCompletion:^{
-           
-        }];
+        [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
     
     }
 
@@ -1869,9 +1899,7 @@
 
     membersOpened = !membersOpened;
     
-    [self.menuContainerViewController toggleRightSideMenuCompletion:^{
-        
-    }];
+    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -1879,27 +1907,31 @@
     
     if([textField.text isEqualToString:@""]){
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:@"Comment cannot be empty!"
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
+
+        [KVNProgress showErrorWithStatus:@"Comment can't be empty" completion:^{
+            
+        }];
         
         
     } else {
+        
+//        [KVNProgress showWithStatus:@"Posting your comment"];
+        
         long long milliseconds = (long long)([[NSDate date] timeIntervalSince1970] * 1000.0);
         GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:textField.tag inSection:0]];
+        
+        
         [cell.commentTextField resignFirstResponder];
 //        [self.tableView reloadData];
         [ShotVibeAPITask runTask:self withAction:^id{
+            
             [[albumManager_ getShotVibeAPI]postPhotoCommentWithNSString:cell.photoId withNSString:textField.text withLong:milliseconds];
             return nil;
         } onTaskComplete:^(id dummy) {
             
             
             [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
-            [self.tableView setUserInteractionEnabled:YES];
+//            [self.tableView setUserInteractionEnabled:YES];
             
             
             [UIView animateWithDuration:0.2 animations:^{
@@ -1916,9 +1948,16 @@
             } completion:^(BOOL finished) {
                 commentingNow = NO;
                 
+//                [KVNProgress showSuccessWithStatus:@"Comment Posted"];
+                
 //                textField.text = @"";
             }];
-        }];
+        } onTaskFailure:
+         ^(id failure) {
+             
+             [KVNProgress showErrorWithStatus:@"Somthing went wrong"];
+             
+         }  withLoaderIndicator:NO];
         
     }
     
@@ -1939,6 +1978,7 @@
         //                commentsDialog.alpha = 0;
         cell.abortCommentButton.alpha = 0;
         cell.addCommentButton.alpha = 1;
+        cell.feed3DotsButton.alpha = 1;
 //        cell.glancesIcon.alpha = 1;
         cell.commentTextField.text = @"";
         cell.commentTextField.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+10,cell.glancesCounter.frame.origin.y+2, 0,35);
@@ -1948,12 +1988,15 @@
         
     } completion:^(BOOL finished) {
         commentingNow = NO;
-        
-        //                textField.text = @"";
     }];
     
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSLog(@"%d",textField.text.length);
+    if(textField.text.length > 10){
+    
+    }
     
 //    NSLog(@"%lu",(unsigned long)[string length]);
     if (!(([string isEqualToString:@""]))) {//not a backspace, else `characterAtIndex` will crash.
@@ -2007,6 +2050,9 @@
         cell.commentTextField.frame = CGRectMake(cell.commentTextField.frame.origin.x, cell.commentTextField.frame.origin.y, self.view.frame.size.width*0.60, cell.commentTextField.frame.size.height);
         
         cell.glancesCounter.frame = CGRectMake(cell.commentTextField.frame.origin.x+cell.commentTextField.frame.size.width, cell.glancesCounter.frame.origin.y, cell.glancesCounter.frame.size.width, cell.glancesCounter.frame.size.height);
+        
+        cell.feed3DotsButton.alpha = 0;
+        
     } completion:^(BOOL finished) {
         PMCustomKeyboard *customKeyboard = [[PMCustomKeyboard alloc] init];
 
@@ -2016,69 +2062,50 @@
     
 }
 
+//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+//    
+//    CGRect frame = self.tableView.frame;
+//    frame.origin.y -=
+//    [UIView animateWithDuration:0.2 animations:^{
+//       
+//        
+//        
+//    }];
+//    
+//    return YES;
+//}
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    self.tableView.scrollEnabled = NO;
+    
+    CGRect frame = self.tableView.frame;
+    CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    frame.origin.y -= keyboardRect.size.height;
+
+    [UIView animateWithDuration:0.2
+                     animations:^{
+                         self.tableView.frame = frame;
+                     }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    self.tableView.scrollEnabled = YES;
+    CGRect frame = self.tableView.frame;
+    CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    frame.origin.y += keyboardRect.size.height;
+    
+    [UIView animateWithDuration:0.2
+                     animations:^{
+                         self.tableView.frame = frame;
+                     }];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [[UIScreen mainScreen] bounds].size.height*0.883;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Table view delegate
-
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"Nib name" bundle:nil];
-    
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

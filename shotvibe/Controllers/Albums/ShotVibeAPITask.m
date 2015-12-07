@@ -127,6 +127,58 @@
 
 + (void)runTask:(UIViewController *)viewController withAction:(id (^)())run onTaskComplete:(void (^)(id))onTaskComplete
 {
+    //    [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
+    
+    
+    
+    
+    //
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //        //        self.basicConfiguration.tapBlock = nil;
+    //
+    //    });
+    
+    //    [viewController.view.window setUserInteractionEnabled:NO];
+    [KVNProgress show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        id result;
+        @try {
+            result = run();
+        } @catch (SLAPIException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //                [viewController.view.window setUserInteractionEnabled:YES];
+                //                [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+                [KVNProgress dismiss];
+                
+                TaskErrorDialogDelegate *delegate = [[TaskErrorDialogDelegate alloc] initWith:viewController
+                                                                                   withAction:run
+                                                                               onTaskComplete:onTaskComplete];
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Internet Connection Error"
+                                                                message:[exception getUserFriendlyMessage]
+                                                               delegate:delegate
+                                                      cancelButtonTitle:@"Cancel"
+                                                      otherButtonTitles:@"Retry", nil];
+                [alert show];
+            });
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            //            [KVNProgress showSuccess];
+            //            [viewController.view.window setUserInteractionEnabled:YES];
+            //            [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+            [KVNProgress dismiss];
+            //            [KVNProgress showSuccessWithStatus:@"Success"];
+            onTaskComplete(result);
+            [KVNProgress dismiss];
+        });
+    });
+}
+
++ (void)runTask:(UIViewController *)viewController withAction:(id (^)())run onTaskComplete:(void (^)(id))onTaskComplete onTaskFailure:(void (^)(id))onTaskFailure withLoaderIndicator:(BOOL)withLoader
+{
 //    [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
     
     
@@ -139,7 +191,9 @@
 //    });
     
 //    [viewController.view.window setUserInteractionEnabled:NO];
-    [KVNProgress show];
+    if(withLoader){
+        [KVNProgress show];
+    }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         id result;
         @try {
@@ -148,18 +202,21 @@
             dispatch_async(dispatch_get_main_queue(), ^{
 //                [viewController.view.window setUserInteractionEnabled:YES];
 //                [MBProgressHUD hideHUDForView:viewController.view animated:YES];
-                [KVNProgress dismiss]; 
+                if(withLoader){
+                    [KVNProgress dismiss];
+                }
+                
+                onTaskFailure(NO);
+//                TaskErrorDialogDelegate *delegate = [[TaskErrorDialogDelegate alloc] initWith:viewController
+//                                                                                   withAction:run
+//                                                                               onTaskComplete:onTaskComplete];
 
-                TaskErrorDialogDelegate *delegate = [[TaskErrorDialogDelegate alloc] initWith:viewController
-                                                                                   withAction:run
-                                                                               onTaskComplete:onTaskComplete];
-
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Internet Connection Error"
-                                                                message:[exception getUserFriendlyMessage]
-                                                               delegate:delegate
-                                                      cancelButtonTitle:@"Cancel"
-                                                      otherButtonTitles:@"Retry", nil];
-                [alert show];
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Internet Connection Error"
+//                                                                message:[exception getUserFriendlyMessage]
+//                                                               delegate:delegate
+//                                                      cancelButtonTitle:@"Cancel"
+//                                                      otherButtonTitles:@"Retry", nil];
+//                [alert show];
             });
             return;
         }
@@ -169,10 +226,14 @@
 //            [KVNProgress showSuccess];
 //            [viewController.view.window setUserInteractionEnabled:YES];
 //            [MBProgressHUD hideHUDForView:viewController.view animated:YES];
-            [KVNProgress dismiss];
+            if(withLoader){
+                [KVNProgress dismiss];
+            }
 //            [KVNProgress showSuccessWithStatus:@"Success"];
             onTaskComplete(result);
-            [KVNProgress dismiss];
+            if(withLoader){
+                [KVNProgress dismiss];
+            }
         });
     });
 }

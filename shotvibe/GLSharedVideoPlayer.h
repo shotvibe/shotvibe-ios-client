@@ -8,15 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "UIImage+ImageEffects.h"
 
-@interface GLSharedVideoPlayer : NSObject
+@interface GLSharedVideoPlayer : NSObject 
 
 
 + (GLSharedVideoPlayer *)sharedInstance;
 - (void)resetPlayer;
 - (BOOL)isAttachedTo:(NSString *)targetPhotoId;
-- (void)attachToView:(UIView *)parentView withPhotoId:(NSString *)targetPhotoId withVideoUrl:(NSString *)videoUrl;
+- (void)attachToView:(UIView *)parentView withPhotoId:(NSString *)targetPhotoId withVideoUrl:(NSString *)videoUrl videoThumbNail:(UIImage*)thumbNail;
 - (void)pause;
 - (void)play;
+- (void)stop;
 
 @end

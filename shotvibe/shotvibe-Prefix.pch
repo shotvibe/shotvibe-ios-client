@@ -33,7 +33,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <KZPropertyMapper/KZPropertyMapper.h>
-
+#import "KVNProgress.h"
 #import "STXDynamicTableView.h"
 //#import <>
 

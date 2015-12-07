@@ -115,8 +115,12 @@
 {
     [self cancelPrevious];
 
-    imageView_.alpha = 1.0f;
+    imageView_.alpha = 0.0f;
     [imageView_ setImage:image];
+    [UIView animateWithDuration:0.2 animations:^{
+        imageView_.alpha = 1.0;
+    }];
+    
 
     if (fullControls_) {
         [activityIndicatorView_ stopAnimating];
@@ -134,8 +138,12 @@
     }
     else {
         if (bmp.state == PhotoBitmapLoaded) {
-            imageView_.alpha = 1.0f;
+            imageView_.alpha = 0.0f;
             [imageView_ setImage:bmp.bmp];
+            [UIView animateWithDuration:0.2 animations:^{
+                imageView_.alpha = 1.0;
+            }];
+            
 			if ([self.delegate respondsToSelector:@selector(onPhotoLoadComplete)]) {
 				[self.delegate performSelector:@selector(onPhotoLoadComplete) withObject:nil];
 			}
