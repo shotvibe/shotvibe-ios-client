@@ -39,6 +39,7 @@
 #import "UserSettings.h"
 
 #import "AlbumMember.h"
+#import "SL/AlbumServerVideo.h"
 
 #import "SVMultiplePicturesViewController.h"
 #import "SVNonRotatingNavigationControllerViewController.h"
@@ -1128,12 +1129,37 @@ CGFloat kResizeThumbSize = 45.0f;
         cell.networkImageView.layer.cornerRadius = cell.networkImageView.frame.size.width/2;
         SLAlbumPhoto *latestPhoto = [[album getLatestPhotos].array objectAtIndex:0];
         if ([latestPhoto getServerPhoto]) {
+            
             cell.author.text = [NSString stringWithFormat:NSLocalizedString(@"Last added by %@", nil), [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
 
-            [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId]
+            
+            if([[latestPhoto getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
+                
+               
+//                SDWebImageManager *manager = [SDWebImageManager sharedManager];
+//                [manager downloadImageWithURL:[NSURL URLWithString:[[[latestPhoto getServerPhoto] getVideo] getVideoThumbnailUrl]] options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {} completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
+//                 {
+//                     
+//                     if (image) {
+//                          cell.networkImageView.image = image;
+//                         
+//                         //                [self.contentView bringSubviewToFront:self.moviePlayer.view];
+//                         //                [self.moviePlayer.view setAlpha:1];
+//                     }
+//                     
+//                 }];
+                
+                [cell.networkImageView.imageView_ sd_setImageWithURL:[NSURL URLWithString:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl]] placeholderImage:[UIImage imageNamed:@""]];
+                
+//                [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId] photoUrl:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl] photoSize:[PhotoSize Thumb75] manager:photoFilesManager_];
+                
+            } else {
+                [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId]
                                    photoUrl:[[latestPhoto getServerPhoto] getUrl]
                                   photoSize:[PhotoSize Thumb75]
                                     manager:photoFilesManager_];
+            }
+            
             [cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];
             cell.timestamp.hidden = NO;
         }

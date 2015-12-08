@@ -81,7 +81,8 @@
     BOOL snapIsScrolling;
     BOOL scrollToCellDisabled;
     BOOL tableIsScrolling;
-    
+    BOOL viewDidInitialed;
+    CGFloat pageNumber;
 //    YALSunnyRefreshControl *sunnyRefreshControl;
 }
 //@property(nonatomic, retain) MPMoviePlayerController *moviePlayerController;
@@ -89,6 +90,30 @@
 
 @implementation GLFeedViewController
 
+
+
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+
+
+    NSLog(@"TEST %ld",indexPath.row);
+//    if(indexPath.row == 0 && !viewDidInitialed){
+//        
+////        GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+////        
+////        NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
+////        SLAlbumPhoto *photo = [data objectAtIndex:1];
+////        
+////
+////        if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
+////            [cell.activityIndicator startAnimating];
+////            [[GLSharedVideoPlayer sharedInstance] play];
+////        }
+//
+//        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//    }
+    
+
+}
 
 
 //- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(GLFeedTableCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -166,6 +191,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    viewDidInitialed = NO;
+    pageNumber = 0;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -319,22 +347,16 @@
 ////    } else {
 ////        snapIsScrolling = NO;
 //        NSLog(@"is scrolling : %d",tableIsScrolling);
-        NSLog(@"im ready to play the fucking video ! ");
+//        NSLog(@"im ready to play the fucking video ! ");
     
-    NSLog(@"contentOffSetIs : %ld",(long)scrollView.contentOffset.y);
-    NSLog(@"the page is: %f",floorf(scrollView.contentOffset.y/self.tableView.frame.size.height));
+//    NSLog(@"contentOffSetIs : %ld",(long)scrollView.contentOffset.y);
+    NSLog(@"the page is: %f",(roundf(scrollView.contentOffset.y/[self.tableView.visibleCells firstObject].contentView.frame.size.height)*100000)/100000);
     
 
-//    int dir = 0;
-//
-//    
-//    if(self.feedScrollDirection == 0){
-//        dir = -1;
-//    } else if(self.feedScrollDirection == 1) {
-//        dir = 0;
-//    }
+    pageNumber = (roundf(scrollView.contentOffset.y/[self.tableView.visibleCells firstObject].contentView.frame.size.height)*100000)/100000;
     
-    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:floorf(scrollView.contentOffset.y/self.tableView.frame.size.height) inSection:0]];
+    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:pageNumber inSection:0]];
+    
     NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
     SLAlbumPhoto *photo = [data objectAtIndex:1];
 
@@ -621,11 +643,19 @@
     //    [self loadFeed];
     [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
     
+    
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    if(viewDidInitialed == NO){
+        viewDidInitialed = YES;
+    
+    }
+    
     
     
     GLSharedCamera * camera = [GLSharedCamera sharedInstance];
@@ -696,9 +726,36 @@
                 c++;
             }
         
+    } else {
+        
+        GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:pageNumber inSection:0]];
+        
+        NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
+        SLAlbumPhoto *photo = [data objectAtIndex:1];
+        
+        
+        //    CGRect cellRect = [scrollView convertRect:cell.frame toView:scrollView.superview];
+        //    if (CGRectContainsRect(scrollView.frame, cellRect)){
+        //        NSLog(@"visible");
+        //    } else {
+        //        NSLog(@"unvisible");
+        //    }
+        
+        //    NSLog(@"%d",);
+        
+        if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
+            [cell.activityIndicator startAnimating];
+            [[GLSharedVideoPlayer sharedInstance] play];
+        }
+        
+        
     }
     
+    
+    
 }
+
+
 
 - (void)clearNewPhotoBadges:(SLAlbumContents *)album
 {
@@ -1284,7 +1341,7 @@
         
                 cell.userName.text = [NSString stringWithFormat:@"Uploading - %.f%% ",[[photo getUploadingPhoto] getUploadProgress] * 100];//@"Uploading";
         
-                if([[photo getUploadingPhoto] getUploadProgress] * 100 == 100){
+                if([[photo getUploadingPhoto] getUploadProgress] * 100.f == 99.9f){
                     scrollToCellDisabled = NO;
                     NSString *path = [NSString stringWithFormat:@"%@%@", [[NSBundle mainBundle] resourcePath], @"/dropsound.wav"];
                     //
@@ -2077,6 +2134,8 @@
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
+    
+    if([[GLSharedCamera sharedInstance] cameraIsShown] == NO){
     self.tableView.scrollEnabled = NO;
     
     CGRect frame = self.tableView.frame;
@@ -2087,10 +2146,13 @@
                      animations:^{
                          self.tableView.frame = frame;
                      }];
+    }
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
+    
+    if([[GLSharedCamera sharedInstance] cameraIsShown] == NO){
     self.tableView.scrollEnabled = YES;
     CGRect frame = self.tableView.frame;
     CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
@@ -2100,6 +2162,7 @@
                      animations:^{
                          self.tableView.frame = frame;
                      }];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

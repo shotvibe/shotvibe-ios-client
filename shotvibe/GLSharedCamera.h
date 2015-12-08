@@ -108,6 +108,7 @@ typedef enum ScrollDirection {
 
 @property(nonatomic) BOOL isInFeedMode;
 @property(nonatomic) BOOL afterLogin;
+@property (nonatomic) BOOL cameraIsShown;
 
 -(void)flipCamera;
 -(void)captureTapped;

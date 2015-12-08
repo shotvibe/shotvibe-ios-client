@@ -18,6 +18,7 @@
 #import "ShotVibeAPI.h"
 
 #import "GLProfilePageViewController.h"
+#import "GLSharedVideoPlayer.h"
 
 
 // GradientView.h
@@ -161,6 +162,8 @@
         lastPage = 0;
         self.afterLogin = NO;
         self.captureStoppedByTimer = NO;
+        
+        self.cameraIsShown = NO;
 //        [buttonStealer startStealingVolumeButtonEvents];
 //        buttonStealer.upBlock = ^{
 //            NSLog(@"vol up");
@@ -463,7 +466,7 @@
         
         
         
-        ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+//        ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
         
         
         
@@ -1015,6 +1018,8 @@
                 }
                 
                 NSLog(@"animation completed1");
+                self.cameraIsShown = YES;
+                [[GLSharedVideoPlayer sharedInstance] play];
 //                [UIView animateWithDuration:0.2 animations:^{
 //                    if(!self.isInFeedMode){
 //                        dmut.transform = CGAffineTransformIdentity;
@@ -1076,8 +1081,10 @@
 //                    dmut.transform = CGAffineTransformScale(dmut.transform, 0.6, 0.6);
                 }];
                 NSLog(@"animation completed2");
+                [[GLSharedVideoPlayer sharedInstance] pause];
                 [[ContainerViewController sharedInstance] lockScrolling:YES];
                 [self toggleCamera:NO];
+                self.cameraIsShown = YES;
                 self.dmut.userInteractionEnabled = YES;
             }];
             
@@ -1438,7 +1445,7 @@
     //    [self.resizeAbleView addGestureRecognizer:resizepan];
     
     self.editTextViewObj = [[RJTextView alloc] initWithFrame:self.resizeAbleView.bounds
-                                                 defaultText:@"Hello"
+                                                 defaultText:@"Hi"
                                                         font:[UIFont systemFontOfSize:14.f]//[UIFont fontWithName:@"GothamRounded-Book" size:34]
                                                        color:[UIColor whiteColor]
                                                      minSize:CGSizeMake(minWidth, minHeight)];

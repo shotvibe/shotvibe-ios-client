@@ -16,6 +16,7 @@
 @interface PhotoView : UIView
 
 @property (nonatomic, retain) id delegate;
+@property(nonatomic,retain) UIImageView *imageView_;
 
 - (id)initWithFrame:(CGRect)frame withFullControls:(BOOL)fullControls;
 
