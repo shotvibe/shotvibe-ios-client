@@ -20,5 +20,5 @@
 - (void)pause;
 - (void)play;
 - (void)stop;
-
+@property(nonatomic, retain) NSString *photoId;
 @end

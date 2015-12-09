@@ -35,6 +35,7 @@
 #import "SL/DateTime.h"
 #import "SL/ShotVibeAPI.h"
 #import "SL/APIException.h"
+#import "SL/MediaType.h"
 #import "ShotVibeAppDelegate.h"
 #import "UserSettings.h"
 
@@ -45,7 +46,7 @@
 #import "SVNonRotatingNavigationControllerViewController.h"
 
 //#import "MainCameraViewController.h"
-#import "ShotVibeAppDelegate.h"
+//#import "ShotVibeAppDelegate.h"
 #import "GLSharedCamera.h"
 
 #import "STXFeedViewController.h"
@@ -1133,7 +1134,7 @@ CGFloat kResizeThumbSize = 45.0f;
             cell.author.text = [NSString stringWithFormat:NSLocalizedString(@"Last added by %@", nil), [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
 
             
-            if([[latestPhoto getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
+            if([[latestPhoto getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
                 
                
 //                SDWebImageManager *manager = [SDWebImageManager sharedManager];

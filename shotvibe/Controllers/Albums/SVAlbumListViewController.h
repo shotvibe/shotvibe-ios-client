@@ -13,6 +13,7 @@
 #import "SVAlbumGridViewController.h"
 #import "SL/NetworkStatusManager.h"
 #import "SVNotificationHandler.h"
+#import "ShotVibeAppDelegate.h"
 //#import "SVAddFriendsViewController.h"
 
 

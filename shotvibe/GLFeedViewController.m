@@ -63,7 +63,9 @@
 #import "PMCustomKeyboard.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "SL/AlbumServerVideo.h"
+#import "SL/MediaType.h"
 #import "GLSharedVideoPlayer.h"
+#import "GLFeedTableCellUploading.H"
 
 @interface GLFeedViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
     
@@ -299,7 +301,73 @@
 //    [cell notifyCellVisibleWithIsCompletelyVisible:completelyVisible];
 //}
 
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+-(void)scrollViewDidScroll:(UIScrollView *)sender
+{
+    [self checkWhichVideoToEnable];
+}
+
+-(void)checkWhichVideoToEnable
+{
+    for(GLFeedTableCell *cell in [self.tableView visibleCells])
+    {
+        if([cell isKindOfClass:[GLFeedTableCell class]])
+        {
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+            CGRect cellRect = [self.tableView rectForRowAtIndexPath:indexPath];
+            UIView *superview = self.tableView.superview;
+            
+            CGRect convertedRect=[self.tableView convertRect:cellRect toView:superview];
+            CGRect intersect = CGRectIntersection(self.tableView.frame, convertedRect);
+            float visibleHeight = CGRectGetHeight(intersect);
+            
+            NSArray * data = [self.posts objectAtIndex:indexPath.row];
+            SLAlbumPhoto *photo = [data objectAtIndex:1];
+            
+            if(visibleHeight>cell.frame.size.height*0.51) // only if 51% of the cell is visible
+            {
+                // unmute the video if we can see at least half of the cell
+//                [((VideoMessageCell*)cell) muteVideo:!btnMuteVideos.selected];
+                NSLog(@"im gone play on this red cell cus more then 51 is visible");
+                
+                if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
+                    
+                    NSString * videoUrl = [[[photo getServerPhoto] getVideo] getVideoUrl];
+                    [[GLSharedVideoPlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl videoThumbNail:cell.postImage.image];
+                    
+                    [cell.activityIndicator startAnimating];
+                    
+                    
+                    
+//                    [[GLSharedVideoPlayer sharedInstance] play];
+                }
+//                    [[GLSharedVideoPlayer sharedInstance] pause];
+                
+//                cell.backgroundColor = [UIColor redColor];
+            }
+            else
+            {
+//                [[GLSharedVideoPlayer sharedInstance] pause];
+                // mute the other video cells that are not visible
+//                [((VideoMessageCell*)cell) muteVideo:YES];
+                NSLog(@"im gone pause on this blue cell cus less then 51 is visible");
+//                [cell.activityIndicator stopAnimating];
+                
+                if([[[GLSharedVideoPlayer sharedInstance] photoId] isEqual:[[photo getServerPhoto] getId]]){
+                    [[GLSharedVideoPlayer sharedInstance] pause];
+                    
+//                    cell.backgroundColor = [UIColor blueColor];
+                }
+                
+            }
+        }
+    }
+}
+
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    
+//    NSLog(@"scroll content offset - y = %f",scrollView.contentOffset.y);
+//    
+//}
 //{
 //    
 //    if (self.lastContentOffset > scrollView.contentOffset.y)
@@ -350,15 +418,15 @@
 //        NSLog(@"im ready to play the fucking video ! ");
     
 //    NSLog(@"contentOffSetIs : %ld",(long)scrollView.contentOffset.y);
-    NSLog(@"the page is: %f",(roundf(scrollView.contentOffset.y/[self.tableView.visibleCells firstObject].contentView.frame.size.height)*100000)/100000);
-    
-
-    pageNumber = (roundf(scrollView.contentOffset.y/[self.tableView.visibleCells firstObject].contentView.frame.size.height)*100000)/100000;
-    
-    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:pageNumber inSection:0]];
-    
-    NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
-    SLAlbumPhoto *photo = [data objectAtIndex:1];
+//    NSLog(@"the page is: %f",(roundf(scrollView.contentOffset.y/[self.tableView.visibleCells firstObject].contentView.frame.size.height)*100000)/100000);
+//    
+//
+//    pageNumber = (roundf(scrollView.contentOffset.y/[self.tableView.visibleCells firstObject].contentView.frame.size.height)*100000)/100000;
+//    
+//    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:pageNumber inSection:0]];
+//    
+//    NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
+//    SLAlbumPhoto *photo = [data objectAtIndex:1];
 
     
 //    CGRect cellRect = [scrollView convertRect:cell.frame toView:scrollView.superview];
@@ -370,12 +438,12 @@
     
 //    NSLog(@"%d",);
     
-     if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
-         [cell.activityIndicator startAnimating];
-         [[GLSharedVideoPlayer sharedInstance] play];
-     } else {
-         [[GLSharedVideoPlayer sharedInstance] pause];
-     }
+//     if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
+//         [cell.activityIndicator startAnimating];
+//         [[GLSharedVideoPlayer sharedInstance] play];
+//     } else {
+//         [[GLSharedVideoPlayer sharedInstance] pause];
+//     }
     
     
 //
@@ -496,7 +564,7 @@
     
     
 }
-
+//
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     // if decelerating, let scrollViewDidEndDecelerating: handle it
     if (decelerate == NO) {
@@ -728,6 +796,8 @@
         
     } else {
         
+        if([self.posts count]>0){
+            
         GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:pageNumber inSection:0]];
         
         NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
@@ -743,9 +813,11 @@
         
         //    NSLog(@"%d",);
         
-        if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
+        if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
             [cell.activityIndicator startAnimating];
             [[GLSharedVideoPlayer sharedInstance] play];
+        }
+            
         }
         
         
@@ -802,6 +874,7 @@
     
     [albumManager_ removeAlbumContentsListenerWithLong:self.albumId withSLAlbumManager_AlbumContentsListener:self];
 }
+
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
     [self dismissViewControllerAnimated:YES completion:^{
@@ -1318,243 +1391,419 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    static NSString *CellIdentifier = @"GLFeedCell";
-    GLFeedTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if(cell==nil){
-        
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"GLFeedTableCell" owner:self options:nil];
-        cell = [nib objectAtIndex:0];
-        
-        
-    }
-    
     NSArray * tempDict = [self.posts objectAtIndex:indexPath.row];
     
     SLAlbumPhoto * photo = [tempDict objectAtIndex:1];
     
-    if ([photo getUploadingPhoto]) {
+    static NSString * CellIdentifier = @"GLFeedCell";
+    static NSString * CellIdentifierNibName = @"GLFeedTableCell";
+    static NSString * CellIdentifierUploading = @"GLFeedCellUploading";
+    static NSString * CellIdentifierUploadingNibName = @"GLFeedTableCellUploading";
+
+    
+    if ([photo getUploadingMedia]) {
         
-        cell.videoBadge.alpha = 0;
+        GLFeedTableCellUploading *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierUploading];
         
-                NSLog(@"aaa");
-                [cell.profileImageView setImage:[UIImage imageNamed:@"CaptureButton"]];
+        if(cell==nil){
+            
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifierUploadingNibName owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
         
-                cell.userName.text = [NSString stringWithFormat:@"Uploading - %.f%% ",[[photo getUploadingPhoto] getUploadProgress] * 100];//@"Uploading";
-        
-                if([[photo getUploadingPhoto] getUploadProgress] * 100.f == 99.9f){
-                    scrollToCellDisabled = NO;
-                    NSString *path = [NSString stringWithFormat:@"%@%@", [[NSBundle mainBundle] resourcePath], @"/dropsound.wav"];
-                    //
-                    SystemSoundID soundID;
-                    //
-                    NSURL *filePath = [NSURL fileURLWithPath:path isDirectory:NO];
-                    //
-                    //        //Use audio sevices to create the sound
-                    //
-                    AudioServicesCreateSystemSoundID((__bridge CFURLRef)filePath, &soundID);
-        
-                    //Use audio services to play the sound
-        
-                    AudioServicesPlaySystemSound(soundID);
-                }
-        
-                cell.postedTime.text = @"now";
-        
-                [cell.postImage setImage:uploadingImage];
-                //        [UIView animateWithDuration:0.5 animations:^{
-                //            cell.postImage.alpha = [[photo getUploadingPhoto] getUploadProgress];
-                //        }];
+        [cell updateUploadingStatus:[photo getUploadingMedia]];
         
         
-        
-                cell.glancesCounter.text = [[tempDict objectAtIndex:0] objectForKey:@"likes"];
-        
-        
-                cell.photoId = [[tempDict objectAtIndex:0] objectForKey:@"id"];
+        return  cell;
         
         
-                cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
-                cell.abortCommentButton.tag = indexPath.row;
+    } else {
+    
+        GLFeedTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if(cell==nil){
+            
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifierNibName owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        
+        [cell loadCellWithData:tempDict photoFilesManager:photoFilesManager_];
+        cell.tableView = self.tableView;
+        
+        long long userID = [[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
+        
+                NSMutableArray * commentsArray = [[NSMutableArray alloc] init];
+                commentsArray = [[[tempDict objectAtIndex:0] objectForKey:@"comments"] objectForKey:@"data"];
+        
+        
+            cell.photoId = [[tempDict objectAtIndex:0] objectForKey:@"id"];
+        
+        
+            cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
+            cell.abortCommentButton.tag = indexPath.row;
                 cell.glanceDownButton.tag = indexPath.row;
                 cell.glanceUpButton.tag = indexPath.row;
         
+                cell.feed3DotsButton.tag = indexPath.row;
         
-                //        cell.glancesIcon.tag = indexPath.row;
+            [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
+            cell.postForwardButton.tag = indexPath.row;
         
-                [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
-                cell.postForwardButton.tag = indexPath.row;
         
-                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
-                singleTap.numberOfTapsRequired = 1;
+        
+            cell.profileImageView.tag = userID;
+            cell.userName.tag = userID;
+        
+            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
+            singleTap.numberOfTapsRequired = 1;
+        //    singleTap
+            [cell.glanceUpButton addGestureRecognizer:singleTap];
+        
+            UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
+            doubleTap.numberOfTapsRequired = 1;
+            [cell.glanceDownButton addGestureRecognizer:doubleTap];
+        
+                UITapGestureRecognizer *showActionSheetGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showActionSheets:)];
+                showActionSheetGest.numberOfTapsRequired = 1;
+        //        showActionSheetGest.view.tag = indexPath.row;
                 //    singleTap
-                [cell.glanceUpButton addGestureRecognizer:singleTap];
+                [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
         
-                UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
-                doubleTap.numberOfTapsRequired = 1;
-                [cell.glanceDownButton addGestureRecognizer:doubleTap];
+                UITapGestureRecognizer *showUserProfileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile:)];
+                UITapGestureRecognizer *showUserProfileTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile2:)];
         
-                //        [singleTap requireGestureRecognizerToFail:doubleTap];
+                cell.profileImageView.userInteractionEnabled = YES;
+                cell.userName.userInteractionEnabled = YES;
+                [cell.profileImageView addGestureRecognizer:showUserProfileTap];
+                [cell.userName addGestureRecognizer:showUserProfileTap2];
+                //    singleTap
+                [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
         
-                //    [cell.glancesIcon addGestureRecognizer:<#(nonnull UIGestureRecognizer *)#>];
+        
+        
+            cell.commentTextField.delegate = self;
+            //    cell.commentTextField
+            cell.commentTextField.tag = indexPath.row;
+        
+            [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
+            [cell.postPannelWrapper bringSubviewToFront:cell.abortCommentButton];
+        
+        
+            [cell.commentsScrollView removeFromSuperview];
+        
+            cell.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, [[UIScreen mainScreen] bounds].size.width, 69)];
+                cell.commentsScrollView.alpha = 1;
+            cell.commentsScrollView.pagingEnabled = YES;
+            cell.commentsScrollView.backgroundColor = [UIColor clearColor];
+            cell.commentsScrollView.contentSize = CGSizeMake(self.view.frame.size.width, [commentsArray count]*23);
+        
+        
+        
+        
+        
+        
+        
+                int c = 0;
+        
+                for(NSDictionary * comment in commentsArray){
+        //            NSLog(@"%@",[comment objectForKey:@"text"]);
+        
+        
+        
+                    UILabel * commentAuthor = [[UILabel alloc] initWithFrame:CGRectMake(20, c*23, self.view.frame.size.width/3, 20)];
+                    commentAuthor.numberOfLines = 1;
+                    commentAuthor.textColor = [UIColor whiteColor];
+        
+        
+                    NSArray *tagschemes = [NSArray arrayWithObjects:NSLinguisticTagSchemeLanguage, nil];
+                    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:tagschemes options:0];
+                    [tagger setString:[[comment objectForKey:@"from"] objectForKey:@"full_name"]];
+                    NSString *language = [tagger tagAtIndex:0 scheme:NSLinguisticTagSchemeLanguage tokenRange:NULL sentenceRange:NULL];
+                    if ([language rangeOfString:@"he"].location != NSNotFound || [language rangeOfString:@"ar"].location != NSNotFound) {
+                        commentAuthor.text = [@": " stringByAppendingString:[[comment objectForKey:@"from"] objectForKey:@"full_name"]];
+                    } else {
+                        commentAuthor.text = [[[comment objectForKey:@"from"] objectForKey:@"full_name"] stringByAppendingString:@":"];
+                    }
+        
+        
+                    commentAuthor.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
+        
+                    float widthIs =
+                    [commentAuthor.text
+                     boundingRectWithSize:commentAuthor.frame.size
+                     options:NSStringDrawingUsesLineFragmentOrigin
+                     attributes:@{ NSFontAttributeName:commentAuthor.font }
+                     context:nil]
+                    .size.width;
+                    commentAuthor.frame = CGRectMake(20, c*23, widthIs, 20);
+        
+                    UILabel * t = [[UILabel alloc] initWithFrame:CGRectMake(commentAuthor.frame.size.width+25, c*23, self.view.frame.size.width*0.6, 20)];
+                    t.textColor = [UIColor whiteColor];
+                    t.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
+                    t.numberOfLines = 1;
+                    t.lineBreakMode = NSLineBreakByWordWrapping;
+                    t.text = [comment objectForKey:@"text"];
+                    [cell.commentsScrollView addSubview:commentAuthor];
+                    [cell.commentsScrollView addSubview:t];
+                    c++;
+                }
+            
+            [cell.postPannelWrapper addSubview:cell.commentsScrollView];
+            
+                if([commentsArray count] > 3){
                 
+                    CGPoint bottomOffset = CGPointMake(0, cell.commentsScrollView.contentSize.height - cell.commentsScrollView.bounds.size.height);
+                    [cell.commentsScrollView setContentOffset:bottomOffset animated:NO];
                 
-                cell.commentTextField.delegate = self;
-                //    cell.commentTextField
-                cell.commentTextField.tag = indexPath.row;
+                } else {
                 
-                //        [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
+                    cell.commentsScrollView.scrollEnabled = NO;
                 
+                }
+            
+            
                 
-                cell.commentsScrollView.alpha = 0;
-                
-                
-                
-            } else {
-    
-    
-    
-    [cell loadCellWithData:tempDict photoFilesManager:photoFilesManager_];
-    cell.tableView = self.tableView;
-
-    long long userID = [[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
-
-        NSMutableArray * commentsArray = [[NSMutableArray alloc] init];
-        commentsArray = [[[tempDict objectAtIndex:0] objectForKey:@"comments"] objectForKey:@"data"];
-    
-    
-    cell.photoId = [[tempDict objectAtIndex:0] objectForKey:@"id"];
-    
-    
-    cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
-    cell.abortCommentButton.tag = indexPath.row;
-        cell.glanceDownButton.tag = indexPath.row;
-        cell.glanceUpButton.tag = indexPath.row;
-        
-        cell.feed3DotsButton.tag = indexPath.row;
-        
-    [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
-    cell.postForwardButton.tag = indexPath.row;
+                cell.loaded = YES;
         
         
+        return  cell;
         
-    cell.profileImageView.tag = userID;
-    cell.userName.tag = userID;
-    
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
-    singleTap.numberOfTapsRequired = 1;
-//    singleTap
-    [cell.glanceUpButton addGestureRecognizer:singleTap];
-    
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
-    doubleTap.numberOfTapsRequired = 1;
-    [cell.glanceDownButton addGestureRecognizer:doubleTap];
-        
-        UITapGestureRecognizer *showActionSheetGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showActionSheets:)];
-        showActionSheetGest.numberOfTapsRequired = 1;
-//        showActionSheetGest.view.tag = indexPath.row;
-        //    singleTap
-        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
-        
-        UITapGestureRecognizer *showUserProfileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile:)];
-        UITapGestureRecognizer *showUserProfileTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile2:)];
-        
-        cell.profileImageView.userInteractionEnabled = YES;
-        cell.userName.userInteractionEnabled = YES;
-        [cell.profileImageView addGestureRecognizer:showUserProfileTap];
-        [cell.userName addGestureRecognizer:showUserProfileTap2];
-        //    singleTap
-        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
-    
-    
-    
-    cell.commentTextField.delegate = self;
-    //    cell.commentTextField
-    cell.commentTextField.tag = indexPath.row;
-    
-    [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.postPannelWrapper bringSubviewToFront:cell.abortCommentButton];
-
-    
-    [cell.commentsScrollView removeFromSuperview];
-    
-    cell.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, [[UIScreen mainScreen] bounds].size.width, 69)];
-        cell.commentsScrollView.alpha = 1;
-    cell.commentsScrollView.pagingEnabled = YES;
-    cell.commentsScrollView.backgroundColor = [UIColor clearColor];
-    cell.commentsScrollView.contentSize = CGSizeMake(self.view.frame.size.width, [commentsArray count]*23);
-    
-    
-        
-    
-    
-    
-        
-        int c = 0;
-        
-        for(NSDictionary * comment in commentsArray){
-//            NSLog(@"%@",[comment objectForKey:@"text"]);
-            
-            
-            
-            UILabel * commentAuthor = [[UILabel alloc] initWithFrame:CGRectMake(20, c*23, self.view.frame.size.width/3, 20)];
-            commentAuthor.numberOfLines = 1;
-            commentAuthor.textColor = [UIColor whiteColor];
-            
-            
-            NSArray *tagschemes = [NSArray arrayWithObjects:NSLinguisticTagSchemeLanguage, nil];
-            NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:tagschemes options:0];
-            [tagger setString:[[comment objectForKey:@"from"] objectForKey:@"full_name"]];
-            NSString *language = [tagger tagAtIndex:0 scheme:NSLinguisticTagSchemeLanguage tokenRange:NULL sentenceRange:NULL];
-            if ([language rangeOfString:@"he"].location != NSNotFound || [language rangeOfString:@"ar"].location != NSNotFound) {
-                commentAuthor.text = [@": " stringByAppendingString:[[comment objectForKey:@"from"] objectForKey:@"full_name"]];
-            } else {
-                commentAuthor.text = [[[comment objectForKey:@"from"] objectForKey:@"full_name"] stringByAppendingString:@":"];
-            }
-            
-            
-            commentAuthor.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
-            
-            float widthIs =
-            [commentAuthor.text
-             boundingRectWithSize:commentAuthor.frame.size
-             options:NSStringDrawingUsesLineFragmentOrigin
-             attributes:@{ NSFontAttributeName:commentAuthor.font }
-             context:nil]
-            .size.width;
-            commentAuthor.frame = CGRectMake(20, c*23, widthIs, 20);
-            
-            UILabel * t = [[UILabel alloc] initWithFrame:CGRectMake(commentAuthor.frame.size.width+25, c*23, self.view.frame.size.width*0.6, 20)];
-            t.textColor = [UIColor whiteColor];
-            t.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
-            t.numberOfLines = 1;
-            t.lineBreakMode = NSLineBreakByWordWrapping;
-            t.text = [comment objectForKey:@"text"];
-            [cell.commentsScrollView addSubview:commentAuthor];
-            [cell.commentsScrollView addSubview:t];
-            c++;
-        }
-    
-    [cell.postPannelWrapper addSubview:cell.commentsScrollView];
-    
-        if([commentsArray count] > 3){
-        
-            CGPoint bottomOffset = CGPointMake(0, cell.commentsScrollView.contentSize.height - cell.commentsScrollView.bounds.size.height);
-            [cell.commentsScrollView setContentOffset:bottomOffset animated:NO];
-        
-        } else {
-        
-            cell.commentsScrollView.scrollEnabled = NO;
-        
-        }
-    
-    
-        
-        cell.loaded = YES;
     }
     
     
-    return  cell;
+    
+    
+    
+   
+//    
+//    if ([photo getUploadingPhoto]) {
+//        [];
+//    } else {
+//        
+//    }
+//
+//        cell.videoBadge.alpha = 0;
+//        
+//                NSLog(@"aaa");
+//                [cell.profileImageView setImage:[UIImage imageNamed:@"CaptureButton"]];
+//        
+//                cell.userName.text = [NSString stringWithFormat:@"Uploading - %.f%% ",[[photo getUploadingPhoto] getUploadProgress] * 100];//@"Uploading";
+//        
+//                if([[photo getUploadingPhoto] getUploadProgress] * 100.f == 99.9f){
+//                    scrollToCellDisabled = NO;
+//                    NSString *path = [NSString stringWithFormat:@"%@%@", [[NSBundle mainBundle] resourcePath], @"/dropsound.wav"];
+//                    //
+//                    SystemSoundID soundID;
+//                    //
+//                    NSURL *filePath = [NSURL fileURLWithPath:path isDirectory:NO];
+//                    //
+//                    //        //Use audio sevices to create the sound
+//                    //
+//                    AudioServicesCreateSystemSoundID((__bridge CFURLRef)filePath, &soundID);
+//        
+//                    //Use audio services to play the sound
+//        
+//                    AudioServicesPlaySystemSound(soundID);
+//                }
+//        
+//                cell.postedTime.text = @"now";
+//        
+//                [cell.postImage setImage:uploadingImage];
+//                //        [UIView animateWithDuration:0.5 animations:^{
+//                //            cell.postImage.alpha = [[photo getUploadingPhoto] getUploadProgress];
+//                //        }];
+//        
+//        
+//        
+//                cell.glancesCounter.text = [[tempDict objectAtIndex:0] objectForKey:@"likes"];
+//        
+//        
+//                cell.photoId = [[tempDict objectAtIndex:0] objectForKey:@"id"];
+//        
+//        
+//                cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
+//                cell.abortCommentButton.tag = indexPath.row;
+//                cell.glanceDownButton.tag = indexPath.row;
+//                cell.glanceUpButton.tag = indexPath.row;
+//        
+//        
+//                //        cell.glancesIcon.tag = indexPath.row;
+//        
+//                [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
+//                cell.postForwardButton.tag = indexPath.row;
+//        
+//                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
+//                singleTap.numberOfTapsRequired = 1;
+//                //    singleTap
+//                [cell.glanceUpButton addGestureRecognizer:singleTap];
+//        
+//                UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
+//                doubleTap.numberOfTapsRequired = 1;
+//                [cell.glanceDownButton addGestureRecognizer:doubleTap];
+//        
+//                //        [singleTap requireGestureRecognizerToFail:doubleTap];
+//        
+//                //    [cell.glancesIcon addGestureRecognizer:<#(nonnull UIGestureRecognizer *)#>];
+//                
+//                
+//                cell.commentTextField.delegate = self;
+//                //    cell.commentTextField
+//                cell.commentTextField.tag = indexPath.row;
+//                
+//                //        [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
+//                
+//                
+//                cell.commentsScrollView.alpha = 0;
+//                
+//                
+//                
+//            } else {
+//    
+//    
+//    
+//    [cell loadCellWithData:tempDict photoFilesManager:photoFilesManager_];
+//    cell.tableView = self.tableView;
+//
+//    long long userID = [[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
+//
+//        NSMutableArray * commentsArray = [[NSMutableArray alloc] init];
+//        commentsArray = [[[tempDict objectAtIndex:0] objectForKey:@"comments"] objectForKey:@"data"];
+//    
+//    
+//    cell.photoId = [[tempDict objectAtIndex:0] objectForKey:@"id"];
+//    
+//    
+//    cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
+//    cell.abortCommentButton.tag = indexPath.row;
+//        cell.glanceDownButton.tag = indexPath.row;
+//        cell.glanceUpButton.tag = indexPath.row;
+//        
+//        cell.feed3DotsButton.tag = indexPath.row;
+//        
+//    [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    cell.postForwardButton.tag = indexPath.row;
+//        
+//        
+//        
+//    cell.profileImageView.tag = userID;
+//    cell.userName.tag = userID;
+//    
+//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
+//    singleTap.numberOfTapsRequired = 1;
+////    singleTap
+//    [cell.glanceUpButton addGestureRecognizer:singleTap];
+//    
+//    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
+//    doubleTap.numberOfTapsRequired = 1;
+//    [cell.glanceDownButton addGestureRecognizer:doubleTap];
+//        
+//        UITapGestureRecognizer *showActionSheetGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showActionSheets:)];
+//        showActionSheetGest.numberOfTapsRequired = 1;
+////        showActionSheetGest.view.tag = indexPath.row;
+//        //    singleTap
+//        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
+//        
+//        UITapGestureRecognizer *showUserProfileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile:)];
+//        UITapGestureRecognizer *showUserProfileTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile2:)];
+//        
+//        cell.profileImageView.userInteractionEnabled = YES;
+//        cell.userName.userInteractionEnabled = YES;
+//        [cell.profileImageView addGestureRecognizer:showUserProfileTap];
+//        [cell.userName addGestureRecognizer:showUserProfileTap2];
+//        //    singleTap
+//        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
+//    
+//    
+//    
+//    cell.commentTextField.delegate = self;
+//    //    cell.commentTextField
+//    cell.commentTextField.tag = indexPath.row;
+//    
+//    [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    [cell.postPannelWrapper bringSubviewToFront:cell.abortCommentButton];
+//
+//    
+//    [cell.commentsScrollView removeFromSuperview];
+//    
+//    cell.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, [[UIScreen mainScreen] bounds].size.width, 69)];
+//        cell.commentsScrollView.alpha = 1;
+//    cell.commentsScrollView.pagingEnabled = YES;
+//    cell.commentsScrollView.backgroundColor = [UIColor clearColor];
+//    cell.commentsScrollView.contentSize = CGSizeMake(self.view.frame.size.width, [commentsArray count]*23);
+//    
+//    
+//        
+//    
+//    
+//    
+//        
+//        int c = 0;
+//        
+//        for(NSDictionary * comment in commentsArray){
+////            NSLog(@"%@",[comment objectForKey:@"text"]);
+//            
+//            
+//            
+//            UILabel * commentAuthor = [[UILabel alloc] initWithFrame:CGRectMake(20, c*23, self.view.frame.size.width/3, 20)];
+//            commentAuthor.numberOfLines = 1;
+//            commentAuthor.textColor = [UIColor whiteColor];
+//            
+//            
+//            NSArray *tagschemes = [NSArray arrayWithObjects:NSLinguisticTagSchemeLanguage, nil];
+//            NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:tagschemes options:0];
+//            [tagger setString:[[comment objectForKey:@"from"] objectForKey:@"full_name"]];
+//            NSString *language = [tagger tagAtIndex:0 scheme:NSLinguisticTagSchemeLanguage tokenRange:NULL sentenceRange:NULL];
+//            if ([language rangeOfString:@"he"].location != NSNotFound || [language rangeOfString:@"ar"].location != NSNotFound) {
+//                commentAuthor.text = [@": " stringByAppendingString:[[comment objectForKey:@"from"] objectForKey:@"full_name"]];
+//            } else {
+//                commentAuthor.text = [[[comment objectForKey:@"from"] objectForKey:@"full_name"] stringByAppendingString:@":"];
+//            }
+//            
+//            
+//            commentAuthor.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
+//            
+//            float widthIs =
+//            [commentAuthor.text
+//             boundingRectWithSize:commentAuthor.frame.size
+//             options:NSStringDrawingUsesLineFragmentOrigin
+//             attributes:@{ NSFontAttributeName:commentAuthor.font }
+//             context:nil]
+//            .size.width;
+//            commentAuthor.frame = CGRectMake(20, c*23, widthIs, 20);
+//            
+//            UILabel * t = [[UILabel alloc] initWithFrame:CGRectMake(commentAuthor.frame.size.width+25, c*23, self.view.frame.size.width*0.6, 20)];
+//            t.textColor = [UIColor whiteColor];
+//            t.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
+//            t.numberOfLines = 1;
+//            t.lineBreakMode = NSLineBreakByWordWrapping;
+//            t.text = [comment objectForKey:@"text"];
+//            [cell.commentsScrollView addSubview:commentAuthor];
+//            [cell.commentsScrollView addSubview:t];
+//            c++;
+//        }
+//    
+//    [cell.postPannelWrapper addSubview:cell.commentsScrollView];
+//    
+//        if([commentsArray count] > 3){
+//        
+//            CGPoint bottomOffset = CGPointMake(0, cell.commentsScrollView.contentSize.height - cell.commentsScrollView.bounds.size.height);
+//            [cell.commentsScrollView setContentOffset:bottomOffset animated:NO];
+//        
+//        } else {
+//        
+//            cell.commentsScrollView.scrollEnabled = NO;
+//        
+//        }
+//    
+//    
+//        
+//        cell.loaded = YES;
+//    }
+    
+    
+    
 }
 
 -(void)showUserProfileWithId:(long long)userId {

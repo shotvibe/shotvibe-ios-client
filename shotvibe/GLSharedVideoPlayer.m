@@ -16,7 +16,7 @@
 
 @implementation GLSharedVideoPlayer
 {
-    NSString *photoId;
+    
     MPMoviePlayerController *moviePlayer;
     BOOL playBackStarted;
     NSTimer * videoStartedTimer;
@@ -35,7 +35,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        photoId = nil;
+        self.photoId = nil;
         [self initMoviePlayer];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -94,20 +94,21 @@
 
 - (BOOL)isAttachedTo:(NSString *)targetPhotoId
 {
-    if (!photoId) {
+    if (!self.photoId) {
         return NO;
     }
 
-    return [photoId isEqualToString:targetPhotoId];
+    return [self.photoId isEqualToString:targetPhotoId];
 }
 
 - (void)attachToView:(UIView *)parentView withPhotoId:(NSString *)targetPhotoId withVideoUrl:(NSString *)videoUrl videoThumbNail:(UIImage*)thumbNail
 {
-    if (![targetPhotoId isEqualToString:photoId]) {
+    if (![targetPhotoId isEqualToString:self.photoId]) {
         [self resetPlayer];
     }
 
     if (moviePlayer.view.superview == parentView) {
+        [moviePlayer play];
         return;
     }
     
@@ -118,13 +119,18 @@
     NSLog(@"GLSharedVideoPlayer URL: %@", videoUrl);
     [moviePlayer setContentURL:[NSURL URLWithString:videoUrl]];
     
-    photoId = targetPhotoId;
+    [moviePlayer play];
+    
+    self.photoId = targetPhotoId;
 }
 
 - (void)play
 {
-    NSLog(@"GLSharedVideoPlayer play");
-    [moviePlayer play];
+//    NSLog(@"GLSharedVideoPlayer play");
+//    if(moviePlayer.playbackState == MPMoviePlaybackStateStopped || moviePlayer.playbackState ==  MPMoviePlaybackStatePaused){
+//        [moviePlayer play];
+//    }
+    
 }
 
 - (void)pause
@@ -137,7 +143,7 @@
     [moviePlayer stop];
     [moviePlayer.view removeFromSuperview];
 
-    photoId = nil;
+    self.photoId = nil;
     [self initMoviePlayer];
 }
 

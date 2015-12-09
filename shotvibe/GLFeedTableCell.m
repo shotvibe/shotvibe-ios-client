@@ -11,6 +11,7 @@
 #import "AlbumPhoto.h"
 #import "AlbumServerPhoto.h"
 #import "SL/AlbumServerVideo.h"
+#import "SL/MediaType.h"
 #import "UIImageView+Masking.h"
 #import "SDWebImageManager.h"
 #import "NSDate+Formatting.h"
@@ -303,14 +304,14 @@
     
     self.glancesCounter.text = [[data objectAtIndex:0] objectForKey:@"likes"];
     
-    if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
+    if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
         
         self.videoBadge.alpha = 1;
         
         self.moviePlayer.hidden = NO;
 
-        NSString * videoUrl = [[[photo getServerPhoto] getVideo] getVideoUrl];
-        [[GLSharedVideoPlayer sharedInstance] attachToView:self.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl videoThumbNail:self.postImage.image];
+//        NSString * videoUrl = [[[photo getServerPhoto] getVideo] getVideoUrl];
+//        [[GLSharedVideoPlayer sharedInstance] attachToView:self.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl videoThumbNail:self.postImage.image];
 //        [self.activityIndicator startAnimating];
 //        SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
 
