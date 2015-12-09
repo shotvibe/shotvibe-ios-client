@@ -756,6 +756,11 @@ static ContainerViewController *sharedInstance;
 
 }
 
+- (void)videoSelected {
+    GLFeedViewController * feed = (GLFeedViewController*)self.navigationController.visibleViewController;
+    [feed videoSelected];
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
 //    if (!isPageToBounce) {

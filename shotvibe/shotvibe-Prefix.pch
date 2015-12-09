@@ -35,6 +35,7 @@
 #import <KZPropertyMapper/KZPropertyMapper.h>
 #import "KVNProgress.h"
 #import "STXDynamicTableView.h"
+#import "YYWebImage.h"
 //#import <>
 
 //    #import <UALogger/UALogger.h>

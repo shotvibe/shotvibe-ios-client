@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 //#import "GLCamera.h"
 #import "iCarousel.h"
 #import "RJTextView.h"
@@ -48,6 +49,7 @@ typedef enum ScrollDirection {
 @protocol GLSharedCameraDelegatte <NSObject>
 
 @optional
+- (void)videoSelected;
 - (void)imageSelected:(UIImage*)image;
 - (void)openAppleImagePicker;
 - (void)backPressed;
@@ -62,7 +64,7 @@ typedef enum ScrollDirection {
 @interface GLSharedCamera : NSObject <iCarouselDataSource, iCarouselDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, RJTextViewDelegate,GLResizeableViewDelegate,GLFilterViewDelegate, UINavigationControllerDelegate>
 
 + (GLSharedCamera *)sharedInstance;
-
+-(void)createMainScrollView;
 -(void) backToCameraFromEditPallette:(id)sender;
 -(void)showCamera;
 -(void)hideCamera;
@@ -77,7 +79,7 @@ typedef enum ScrollDirection {
 -(void)hideForPicker:(BOOL)no;
 -(void)hideGlCameraView;
 -(void)showGlCameraView;
-
+-(void)approveTextTapped;
 - (void)setCameraInFeed;
 - (void)setCameraInMain;
 
@@ -127,6 +129,9 @@ typedef enum ScrollDirection {
 @property (nonatomic, retain) UIImageView * dmut;
 @property (nonatomic) BOOL captureStoppedByTimer;
 @property (nonatomic, retain) UIView * captureTimeLineWrapper;
+@property (nonatomic, retain) MPMoviePlayerController * previewPlayer;
+@property (nonatomic, retain) UIButton * videoPreviewCloseButton;
+@property (nonatomic) BOOL goneUploadAmovie;
 //@property (nonatomic,retain) GradientView * captureMeterView;
 
 @end

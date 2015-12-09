@@ -32,5 +32,6 @@ typedef enum FeedScrollDirection {
 
 -(void)imageSelected:(UIImage*)image;
 -(void)backPressed;
+-(void)videoSelected;
 
 @end

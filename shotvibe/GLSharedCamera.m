@@ -162,8 +162,12 @@
         lastPage = 0;
         self.afterLogin = NO;
         self.captureStoppedByTimer = NO;
-        
+        self.captureTimeLineWrapper.alpha = 0;
         self.cameraIsShown = NO;
+        self.goneUploadAmovie = NO;
+        
+        
+        
 //        [buttonStealer startStealingVolumeButtonEvents];
 //        buttonStealer.upBlock = ^{
 //            NSLog(@"vol up");
@@ -657,11 +661,45 @@
         
         
         
+        
+        
+        
+        
     }
     return self;
 }
 
+-(void)backFromVideoTapped {
+    [self.videoCamera startCameraCapture];
+    [self.previewPlayer stop];
+    [self.previewPlayer.view removeFromSuperview];
+    self.goneUploadAmovie = NO;
+    [UIView animateWithDuration:0.2 animations:^{
+        //            self.carousel.frame = CGRectMake(self.carousel.frame.origin.x, self.carousel.frame.origin.y+self.carousel.frame.size.height, self.carousel.frame.size.width, self.carousel.frame.size.height);
+        self.animatedView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.shadowAnimation stop];
+    }];
+    [UIView animateWithDuration:0.2 animations:^{
+        flashButton.alpha = 1;
+        flipCameraButton.alpha = 1;
+        captureButton.alpha = 1;
+        for(GLFilterView * filterView in self.arrayOfFilters){
+            filterView.title.alpha = 1;
+        }
+    }];
+
+
+}
+
 -(void)completeCapturing {
+    
+    [self.videoCamera stopCameraCapture];
+    
+    self.captureTimeLineWrapper.alpha = 0;
+    self.captureTimeLineWrapper.frame = CGRectMake(0, 0, 0, 20);
+    
+
     
     NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"];
     
@@ -684,13 +722,52 @@
         
         
 //        self.movieWriter = nil;
-        NSLog(@"Movie completed");
+        
+        
         
         // Wait a little bit since it seems that it takes some time for the file to be fully written to disk
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            NSLog(@"movie capture finised and ready to upload %@", pathToMovie);
-            long long publicFeedId = 5331;
-//            [[ShotVibeAppDelegate sharedDelegate].uploadManager addUploadVideoJob:pathToMovie withAlbumId:publicFeedId];
+            
+            NSLog(@"Movie completed and written to disk im ready to start upload but before that we neeed to display the priview of tht movie");
+            
+//            BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:pathToMovie];
+            
+            self.goneUploadAmovie = YES;
+            [UIView animateWithDuration:0.2 animations:^{
+                //            self.carousel.frame = CGRectMake(self.carousel.frame.origin.x, self.carousel.frame.origin.y+self.carousel.frame.size.height, self.carousel.frame.size.width, self.carousel.frame.size.height);
+                self.animatedView.alpha = 1;
+            } completion:^(BOOL finished) {
+                [self.shadowAnimation start];
+            }];
+            
+            [UIView animateWithDuration:0.2 animations:^{
+                captureButton.alpha = 0;
+            }];
+            
+            self.previewPlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:pathToMovie]];
+            [self.previewPlayer.view setFrame:mainOutPutFrame.frame];
+            [mainOutPutFrame addSubview:self.previewPlayer.view];
+            
+            self.videoPreviewCloseButton = [[UIButton alloc] initWithFrame:backToCameraButton.frame];
+            [self.videoPreviewCloseButton setImage:backToCameraButton.imageView.image forState:UIControlStateNormal];
+            [self.videoPreviewCloseButton addTarget:self action:@selector(backFromVideoTapped) forControlEvents:UIControlEventTouchUpInside];
+            [self.previewPlayer.view addSubview:self.videoPreviewCloseButton];
+            
+            [self.previewPlayer prepareToPlay];
+            self.previewPlayer.view.clipsToBounds = YES;
+            self.previewPlayer.movieSourceType = MPMovieSourceTypeFile;
+            self.previewPlayer.scalingMode = MPMovieScalingModeAspectFill;
+            self.previewPlayer.controlStyle = MPMovieControlStyleNone;
+            self.previewPlayer.shouldAutoplay = YES;
+            self.previewPlayer.repeatMode = MPMovieRepeatModeOne;
+            self.previewPlayer.controlStyle = MPMovieControlStyleEmbedded;
+            
+            
+//            [self.previewPlayer setContentURL:[NSURL URLWithString:@"http://idesignet.co.il/movie.mp4"]];
+            [self.previewPlayer play];
+//            NSLog(@"movie capture finised and ready to upload %@", pathToMovie);
+//            long long publicFeedId = 5331;
+////            [[ShotVibeAppDelegate sharedDelegate].uploadManager addUploadVideoJob:pathToMovie withAlbumId:publicFeedId];
         });
         
     }];
@@ -709,6 +786,14 @@
 
 -(void)startCapturingVideo {
 
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        flashButton.alpha = 0;
+        flipCameraButton.alpha = 0;
+        for(GLFilterView * filterView in self.arrayOfFilters){
+            filterView.title.alpha = 0;
+        }
+    }];
     
     self.captureStoppedByTimer = NO;
     
@@ -749,12 +834,19 @@
             NSLog(@"Error locking for configuration: %@", error);
         }
     
+
     if(flashState == 0){
-        [self.videoCamera.inputCamera setTorchMode:AVCaptureTorchModeOn];
+        if([self.videoCamera.inputCamera isTorchModeSupported:AVCaptureTorchModeOn]){
+            [self.videoCamera.inputCamera setTorchMode:AVCaptureTorchModeOn];
+        }
     } else if(flashState == 1){
-        [self.videoCamera.inputCamera setTorchMode:AVCaptureTorchModeOff];
+        if([self.videoCamera.inputCamera isTorchModeSupported:AVCaptureTorchModeOff]){
+            [self.videoCamera.inputCamera setTorchMode:AVCaptureTorchModeOff];
+        }
     } else if (flashState == 2){
-        [self.videoCamera.inputCamera setTorchMode:AVCaptureTorchModeAuto];
+        if([self.videoCamera.inputCamera isTorchModeSupported:AVCaptureTorchModeAuto]){
+            [self.videoCamera.inputCamera setTorchMode:AVCaptureTorchModeAuto];
+        }
     }
     
     
@@ -811,14 +903,17 @@
 //        gradView.frame = CGRectMake(0, 0, 0, 20);
         
 //        [UIView commitAnimations];
-        
+        self.captureTimeLineWrapper.frame = CGRectMake(0, 0, 0, 20);
+        self.captureTimeLineWrapper.alpha = 1;
         [UIView animateWithDuration:10.0 animations:^{
             self.captureTimeLineWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, 20);
-            
         } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.3 animations:^{
+//            [UIView animateWithDuration:0.3 animations:^{
+            if(self.captureTimeLineWrapper.alpha == 1){
                 self.captureTimeLineWrapper.alpha = 0;
-            }];
+                self.captureTimeLineWrapper.frame = CGRectMake(0, 0, 0, 20);
+            }
+//            }];
         }];
 //        CAGradientLayer *gradient = [CAGradientLayer layer];
 //        gradient.frame = self.captureMeterView.bounds;
@@ -839,7 +934,7 @@
         NSLog(@"Hold Began");
         // Construct URL to sound file
         
-//        [self startCapturingVideo];
+        [self startCapturingVideo];
         
         
         
@@ -856,7 +951,7 @@
         if(!self.captureStoppedByTimer){
             NSLog(@"Hold Ended");
         
-//            [self completeCapturing];
+            [self completeCapturing];
         }
 //            self.recordCompleted = NO;
 //        }
@@ -2848,16 +2943,96 @@
 //    [self hideCamera];
 //    if(self.isInFeedMode){
     
-    if(imageSource == ImageSourceNone){
+    if(self.goneUploadAmovie == YES){
+        [self.previewPlayer stop];
+        [self performSelector:@selector(backFromVideoTapped)];
         
-//        [self hideCamera];
+//        if(!self.isInFeedMode){
+//            
+//            self.dmut.transform = dmutScaleOriginal;
+//            [self toggleCamera:YES];
+//            //            [self setCameraViewInEditMode:NO];
+//            //            [self backToCameraFromEditPallette:@"afterSend"];
+//            [UIView animateWithDuration:0.2 animations:^{
+//                self.picYourGroup.alpha = 1;
+//                glanceLogo.alpha = 1;
+//                scoreBg.alpha = 1;
+//                flipCameraButton.alpha = 0;
+//                flashButton.alpha = 0;
+//                //                self.backButton.alpha=1;
+//                //                self.membersButton.alpha=1;
+//            }];
+//            [[ContainerViewController sharedInstance] lockScrolling:YES];
+//            [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
+//            [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
+//                [[ContainerViewController sharedInstance] setFriendsFromMain];
+//                
+//            }];
         
-    } else {
+        
+//        }
         
         if(!self.isInFeedMode){
             
             self.dmut.transform = dmutScaleOriginal;
             [self toggleCamera:YES];
+            //            [self setCameraViewInEditMode:NO];
+            //            [self backToCameraFromEditPallette:@"afterSend"];
+            [UIView animateWithDuration:0.2 animations:^{
+                self.picYourGroup.alpha = 1;
+                glanceLogo.alpha = 1;
+                scoreBg.alpha = 1;
+                flipCameraButton.alpha = 0;
+                flashButton.alpha = 0;
+                //                self.backButton.alpha=1;
+                //                self.membersButton.alpha=1;
+            }];
+            
+            [[ContainerViewController sharedInstance] lockScrolling:YES];
+            [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
+            [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
+                [[ContainerViewController sharedInstance] setFriendsFromMain];
+                
+            }];
+            
+        }
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            
+            //            if(self.isInFeedMode){
+            if(!self.afterLogin){
+                [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
+                [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
+                self.dmut.center = CGPointMake(firstX, 60);
+                
+                effectView.alpha = 1;
+                self.backButton.alpha = 1;
+                self.membersButton.alpha = 1;
+            } else {
+                
+                
+            }
+            
+            
+            
+        }];
+            
+        
+        NSLog(@"ok this is the time to start the upload we the movie that we prepared");
+        [self.delegate videoSelected];
+    
+    } else {
+    
+        if(imageSource == ImageSourceNone){
+        
+//        [self hideCamera];
+        
+        } else {
+        
+            if(!self.isInFeedMode){
+            
+                self.dmut.transform = dmutScaleOriginal;
+                [self toggleCamera:YES];
 //            [self setCameraViewInEditMode:NO];
 //            [self backToCameraFromEditPallette:@"afterSend"];
             [UIView animateWithDuration:0.2 animations:^{
@@ -2988,6 +3163,7 @@
         
         
         
+        }
     }
     
     

@@ -17,12 +17,44 @@
 #import "NSDate+Formatting.h"
 #import "UIImageView+WebCache.h"
 #import "GLSharedVideoPlayer.h"
+#import "UIView+YYAdd.h"
+#import "CALayer+YYAdd.h"
+#import "UIGestureRecognizer+YYAdd.h"
 
 @implementation GLFeedTableCell
+
+
 
 //-(void)
 - (void)awakeFromNib {
     
+    
+    
+//    self.webImageView = [YYAnimatedImageView new];
+//    self.webImageView.size = self.contentView.frame.size;
+//    self.webImageView.clipsToBounds = YES;
+//    self.webImageView.contentMode = UIViewContentModeScaleAspectFill;
+//    self.webImageView.backgroundColor = [UIColor whiteColor];
+//    [self.contentView addSubview:_webImageView];
+    
+    self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.indicator.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+    self.indicator.hidden = YES;
+    
+    
+    CGFloat lineHeight = 4;
+    _progressLayer = [CAShapeLayer layer];
+    _progressLayer.size = CGSizeMake(self.postImage.width, lineHeight);
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0, _progressLayer.height / 2)];
+    [path addLineToPoint:CGPointMake(self.postImage.width, _progressLayer.height / 2)];
+    _progressLayer.lineWidth = lineHeight;
+    _progressLayer.path = path.CGPath;
+    _progressLayer.strokeColor = [UIColor colorWithRed:0.000 green:0.640 blue:1.000 alpha:0.720].CGColor;
+    _progressLayer.lineCap = kCALineCapButt;
+    _progressLayer.strokeStart = 0;
+    _progressLayer.strokeEnd = 0;
+    [self.postImage.layer addSublayer:_progressLayer];
     
 //    [self addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
     // Initialization code
@@ -45,7 +77,7 @@
     
     [self.contentView addSubview:self.postedTime];
     
-    self.postImage = [[PhotoView alloc] initWithFrame:CGRectMake(0, 89, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
+    self.postImage = [[YYAnimatedImageView alloc] initWithFrame:CGRectMake(0, 89, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
     
     self.postImage.contentMode = UIViewContentModeScaleAspectFill;
     self.postImage.clipsToBounds = YES;
@@ -188,6 +220,41 @@
     
     
 
+}
+
+
+- (void)setImageURL:(NSURL *)url {
+    _label.hidden = YES;
+    _indicator.hidden = NO;
+    [_indicator startAnimating];
+    __weak typeof(self) _self = self;
+    
+    [CATransaction begin];
+    [CATransaction setDisableActions: YES];
+    self.progressLayer.hidden = YES;
+    self.progressLayer.strokeEnd = 0;
+    [CATransaction commit];
+    
+    [self.postImage yy_setImageWithURL:url
+                          placeholder:nil
+                              options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation
+                             progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                 if (expectedSize > 0 && receivedSize > 0) {
+                                     CGFloat progress = (CGFloat)receivedSize / expectedSize;
+                                     progress = progress < 0 ? 0 : progress > 1 ? 1 : progress;
+                                     if (_self.progressLayer.hidden) _self.progressLayer.hidden = NO;
+                                     _self.progressLayer.strokeEnd = progress;
+                                 }
+                             }
+                            transform:nil
+                           completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+                               if (stage == YYWebImageStageFinished) {
+                                   _self.progressLayer.hidden = YES;
+                                   [_self.indicator stopAnimating];
+                                   _self.indicator.hidden = YES;
+                                   if (!image) _self.label.hidden = NO;
+                               }
+                           }];
 }
 
 /*
@@ -359,7 +426,9 @@
 //        [self.moviePlayer.view setHidden:YES];
 //        self.moviePlayer = nil;
         
-        [self.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
+//        [self.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
+        
+        [self setImageURL:[NSURL URLWithString:[[photo getServerPhoto] getUrl]]];
         
         
 

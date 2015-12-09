@@ -363,6 +363,16 @@
     }
 }
 
+-(void)videoSelected {
+
+    NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"];
+    [KVNProgress showSuccessWithStatus:@"Yhaa !im ready!" completion:^{
+        [[ShotVibeAppDelegate sharedDelegate].uploadManager addUploadVideoJob:pathToMovie withAlbumId:self.albumId];
+    }];
+//    long long publicFeedId = 5331;
+
+}
+
 //- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 //    
 //    NSLog(@"scroll content offset - y = %f",scrollView.contentOffset.y);

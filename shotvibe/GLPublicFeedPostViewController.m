@@ -1047,7 +1047,11 @@
         SLAlbumPhoto * photo = [tempDict objectAtIndex:1];
 //        cell.postImage
 //        if(cell.postImage.image != uploadingImage){
-        [cell.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
+        
+        
+//        [cell.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
+        
+//        cell.postImage
         
 //        __block UIActivityIndicatorView *activityIndicator;
 //        __weak UIImageView *weakImageView = cell.postImage;

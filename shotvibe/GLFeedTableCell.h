@@ -30,7 +30,7 @@
 @property(nonatomic,retain) UIImageView * profileImageView;
 @property(nonatomic,retain) UILabel * userName;
 @property(nonatomic,retain) UILabel * postedTime;
-@property(nonatomic,retain) PhotoView * postImage;
+@property(nonatomic,retain) YYAnimatedImageView * postImage;
 @property(nonatomic,retain) UIScrollView * commentsScrollView;
 @property(nonatomic,retain) UITextField * commentTextField;
 @property(nonatomic,retain) UILabel * glancesCounter;
@@ -50,6 +50,11 @@
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSTimer * playBackStartedTester;
 @property (nonatomic, strong) UIActivityIndicatorView * activityIndicator;
+
+@property (nonatomic, strong) YYAnimatedImageView *webImageView;
+@property (nonatomic, strong) UIActivityIndicatorView *indicator;
+@property (nonatomic, strong) CAShapeLayer *progressLayer;
+@property (nonatomic, strong) UILabel *label;
 
 
 @end
