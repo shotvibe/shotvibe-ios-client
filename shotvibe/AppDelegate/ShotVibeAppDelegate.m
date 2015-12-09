@@ -422,10 +422,15 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
                                                                         withSLBitmapProcessor:bitmapProcessor
                                                                   withSLBackgroundTaskManager:backgroundTaskManager];
 
+    long long userId = [[shotVibeAPI getAuthData] getUserId];
+    ShotVibeCredentialsProvider *credentials = [[ShotVibeCredentialsProvider alloc] initWithShotVibeAPI:shotVibeAPI];
+    self.uploadManager = [[UploadManager alloc] initWithAWSCredentialsProvider:credentials withUserId:userId];
+
     _albumManager = [[SLAlbumManager alloc] initWithSLShotVibeAPI:shotVibeAPI
                                                  withSLShotVibeDB:shotVibeDB
                                        withSLPhotoDownloadManager:_photoFilesManager
-                                              withSLUploadManager:[uploadSystemDirector getUploadManager]];
+                                              withSLUploadManager:[uploadSystemDirector getUploadManager]
+                                              withSLMediaUploader:self.uploadManager];
 
     id <SLDevicePhoneContactsLib> devicePhoneContactsLib = [[IosDevicePhoneContactsLib alloc] init];
 
@@ -434,11 +439,6 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
                                                                             withSLShotVibeDB:shotVibeDB];
 
     [pushNotificationsManager setup];
-    
-
-    long long userId = [[shotVibeAPI getAuthData] getUserId];
-    ShotVibeCredentialsProvider *credentials = [[ShotVibeCredentialsProvider alloc] initWithShotVibeAPI:shotVibeAPI];
-    self.uploadManager = [[UploadManager alloc] initWithAWSCredentialsProvider:credentials withUserId:userId];
 }
 
 

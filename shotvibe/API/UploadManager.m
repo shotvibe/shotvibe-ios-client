@@ -8,7 +8,11 @@
 
 #import "UploadManager.h"
 
+#import "SL/ArrayList.h"
 #import "SL/AwsToken.h"
+#import "SL/AlbumUploadingMedia.h"
+#import "SL/AlbumUploadingVideo.h"
+#import "SL/MediaType.h"
 #import "ShotVibeCredentialsProvider.h"
 
 #import <AWSS3/AWSS3.h>
@@ -25,6 +29,9 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
 - (NSString *)getFilePath;
 - (NSString *)getUniqueName;
 - (long long)getAlbumId;
+- (SLAlbumUploadingMedia *)getAlbumUploadingMedia;
+
+- (void)setProgress:(float)progress;
 
 + (NSString *)generateUniqueName;
 
@@ -35,6 +42,8 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
     NSString *filePath_;
     long long albumId_;
     NSString *uniqueName_;
+
+    SLAlbumUploadingMedia *uploadingMediaObj_;
 }
 
 - (id)initVideoUploadWithFile:(NSString *)filePath withAlbumId:(long long)albumId
@@ -44,6 +53,9 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
         filePath_ = filePath;
         albumId_ = albumId;
         uniqueName_ = [UploadJob generateUniqueName];
+
+        SLAlbumUploadingVideo *uploadingVideo = [[SLAlbumUploadingVideo alloc] init];
+        uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum  VIDEO] withSLAlbumUploadingVideo:uploadingVideo withFloat:0.0f];
     }
     return self;
 }
@@ -88,6 +100,16 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
     return albumId_;
 }
 
+- (SLAlbumUploadingMedia *)getAlbumUploadingMedia
+{
+    return uploadingMediaObj_;
+}
+
+- (void)setProgress:(float)progress
+{
+    [uploadingMediaObj_ setProgressWithFloat:progress];
+}
+
 
 @end
 
@@ -104,7 +126,9 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
 {
     long long userId_;
     AWSS3TransferManager *transferManager_;
-    
+
+    id <SLMediaUploader_Listener> listener_;
+
     NSMutableArray *uploadQueue_;
 }
 
@@ -119,6 +143,9 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
         [AWSS3TransferManager registerS3TransferManagerWithConfiguration:config forKey:S3_TRANSFER_MANAGER_KEY];
 
         transferManager_ = [AWSS3TransferManager S3TransferManagerForKey:S3_TRANSFER_MANAGER_KEY];
+
+        listener_ = nil;
+
         uploadQueue_ = [[NSMutableArray alloc] init];
     }
     return self;
@@ -138,10 +165,11 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 {
     NSLog(@"Upload Job Completed");
 
-    // TODO Update listener...
-    
+    UploadJob *completedJob = [uploadQueue_ objectAtIndex:0];
     [uploadQueue_ removeObjectAtIndex:0];
     
+    [listener_ onMediaUploadObjectsChangedWithLong:[completedJob getAlbumId]];
+
     [self processNextJob];
 }
 
@@ -154,7 +182,12 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 
 - (void)jobProgressWithProgress:(float)progress
 {
-    // TODO ...
+    UploadJob *currentJob = [uploadQueue_ objectAtIndex:0];
+    [currentJob setProgress:progress];
+
+    long long albumId = [currentJob getAlbumId];
+
+    [listener_ onMediaUploadProgressWithLong:albumId];
 }
 
 - (void)processNextJob
@@ -214,6 +247,29 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
     if (uploadQueue_.count == 1) {
         [self processNextJob];
     }
+
+    [listener_ onMediaUploadObjectsChangedWithLong:albumId];
+}
+
+
+- (id<JavaUtilList>)getUploadingMediaWithLong:(long long int)albumId
+{
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+
+    // isCurrentJob is the first object (the first iteration of the loop)
+    for (UploadJob *job in uploadQueue_) {
+        if ([job getAlbumId] == albumId) {
+            [results addObject:[job getAlbumUploadingMedia]];
+        }
+    }
+
+    return [[SLArrayList alloc] initWithInitialArray:results];
+}
+
+
+- (void)setListenerWithSLMediaUploader_Listener:(id<SLMediaUploader_Listener>)listener
+{
+    listener_ = listener;
 }
 
 

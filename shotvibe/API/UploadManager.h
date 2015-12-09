@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SL/MediaUploader.h"
+
 #import <AWSS3/AWSS3.h>
 
-@interface UploadManager : NSObject
+@interface UploadManager : NSObject <SLMediaUploader>
 
 -(id)initWithAWSCredentialsProvider:(id<AWSCredentialsProvider>)awsCredentialsProvider  withUserId:(long long)userId;
 
