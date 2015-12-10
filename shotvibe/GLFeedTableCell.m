@@ -12,7 +12,7 @@
 #import "AlbumServerPhoto.h"
 #import "SL/AlbumServerVideo.h"
 #import "SL/MediaType.h"
-#import "UIImageView+Masking.h"
+//#import "UIImageView+Masking.h"
 #import "SDWebImageManager.h"
 #import "NSDate+Formatting.h"
 #import "UIImageView+WebCache.h"
@@ -364,7 +364,7 @@
     
     long long userID = [[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
     
-    [self.profileImageView setCircleImageWithURL:[NSURL URLWithString:[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholderImage:[UIImage imageNamed:@"ProfilePlaceholder"] borderWidth:2];
+//    [self.profileImageView setCircleImageWithURL:[NSURL URLWithString:[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholderImage:[UIImage imageNamed:@"ProfilePlaceholder"] borderWidth:2];
     
         self.userName.text = [[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"username"];
         self.postedTime.text = [NSString stringWithFormat:@"%@ ago",[[[NSDate alloc] initWithTimeIntervalSince1970:[[[data objectAtIndex:0] objectForKey:@"created_time"] longLongValue]] distanceOfTimeInWords:[NSDate date] shortStyle:YES]];

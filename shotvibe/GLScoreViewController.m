@@ -10,6 +10,7 @@
 #import "ShotVibeAPI.h"
 #import "GLSharedCamera.h"
 #import "SVSettingsViewController.h"
+#import "ShotVibeAppDelegate.h"
 @interface GLScoreViewController ()
 
 @end

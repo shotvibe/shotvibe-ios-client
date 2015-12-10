@@ -314,27 +314,6 @@
 		04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D6173032B200973BC0 /* phoneNumberContainer.png */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
-		0F07576A1BD2735000F22F69 /* STXButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F07573E1BD2735000F22F69 /* STXButton.m */; };
-		0F07576B1BD2735000F22F69 /* NSString+Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757411BD2735000F22F69 /* NSString+Emoji.m */; };
-		0F07576C1BD2735000F22F69 /* UIButton+STXButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757431BD2735000F22F69 /* UIButton+STXButton.m */; };
-		0F07576D1BD2735000F22F69 /* UIImage+STXImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757451BD2735000F22F69 /* UIImage+STXImage.m */; };
-		0F07576E1BD2735000F22F69 /* UIImageView+Masking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757471BD2735000F22F69 /* UIImageView+Masking.m */; };
-		0F07576F1BD2735000F22F69 /* UIViewController+Indicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757491BD2735000F22F69 /* UIViewController+Indicator.m */; };
-		0F0757701BD2735000F22F69 /* UIViewController+Sharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F07574B1BD2735000F22F69 /* UIViewController+Sharing.m */; };
-		0F0757711BD2735000F22F69 /* STXCaptionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F07574E1BD2735000F22F69 /* STXCaptionCell.m */; };
-		0F0757721BD2735000F22F69 /* STXCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757501BD2735000F22F69 /* STXCommentCell.m */; };
-		0F0757731BD2735000F22F69 /* STXFeedPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757521BD2735000F22F69 /* STXFeedPhotoCell.m */; };
-		0F0757741BD2735000F22F69 /* STXFeedPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F0757531BD2735000F22F69 /* STXFeedPhotoCell.xib */; };
-		0F0757751BD2735000F22F69 /* STXLikesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757551BD2735000F22F69 /* STXLikesCell.m */; };
-		0F0757761BD2735000F22F69 /* STXUserActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757571BD2735000F22F69 /* STXUserActionCell.m */; };
-		0F0757771BD2735000F22F69 /* STXUserActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F0757581BD2735000F22F69 /* STXUserActionCell.xib */; };
-		0F0757781BD2735000F22F69 /* STXAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F07575F1BD2735000F22F69 /* STXAttributedLabel.m */; };
-		0F0757791BD2735000F22F69 /* STXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757611BD2735000F22F69 /* STXLabel.m */; };
-		0F07577A1BD2735000F22F69 /* STXFeedTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757641BD2735000F22F69 /* STXFeedTableViewDataSource.m */; };
-		0F07577B1BD2735000F22F69 /* STXFeedTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757661BD2735000F22F69 /* STXFeedTableViewDelegate.m */; };
-		0F0757841BD273F600F22F69 /* STXComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F07577F1BD273F600F22F69 /* STXComment.m */; };
-		0F0757851BD273F600F22F69 /* STXPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757811BD273F600F22F69 /* STXPost.m */; };
-		0F0757861BD273F600F22F69 /* STXUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0757831BD273F600F22F69 /* STXUser.m */; };
 		0F18170F1C05E128002EDFA3 /* GLPublicFeedPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */; };
 		0F1817101C05E128002EDFA3 /* GLPublicFeedPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */; };
 		0F1C06ED1BEB4FBD00F82FBB /* GLWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1C06EB1BEB4FBD00F82FBB /* GLWelcomeViewController.m */; };
@@ -385,7 +364,6 @@
 		0F244ABA1BCC343900D7761E /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F244AB81BCC343900D7761E /* CameraViewController.xib */; };
 		0F2480A01C196C2E00E4136F /* AMTumblrHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F24809F1C196C2E00E4136F /* AMTumblrHud.m */; };
 		0F2480A21C196D9B00E4136F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2480A11C196D9B00E4136F /* CoreFoundation.framework */; };
-		0F39098B1BF3DF1A003FAF59 /* MMMWhatsAppActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F39098A1BF3DF1A003FAF59 /* MMMWhatsAppActivity.m */; };
 		0F3909911BF4B7A0003FAF59 /* FXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F39098E1BF4B7A0003FAF59 /* FXImageView.m */; };
 		0F3909921BF4B7A0003FAF59 /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3909901BF4B7A0003FAF59 /* UIImage+FX.m */; };
 		0F4177891BE6537F00FFC6A2 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4177871BE6537F00FFC6A2 /* ContainerViewController.m */; };
@@ -487,7 +465,6 @@
 		0F5511DD1BEFA9FD00E98C64 /* Margarita.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511D11BEFA9FD00E98C64 /* Margarita.png */; };
 		0F5511DE1BEFA9FD00E98C64 /* Martini.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511D21BEFA9FD00E98C64 /* Martini.png */; };
 		0F5511DF1BEFA9FD00E98C64 /* Mojito.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F5511D31BEFA9FD00E98C64 /* Mojito.png */; };
-		0F5511E21BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5511E11BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
 		0F66629B1C15B59300ED17EF /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F66629A1C15B59300ED17EF /* Fabric.framework */; };
 		0F781FB51C070C8800688168 /* KVNProgressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F781FB41C070C8700688168 /* KVNProgressView.xib */; };
 		0F781FBA1C070C8F00688168 /* KVNProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F781FB71C070C8F00688168 /* KVNProgress.m */; };
@@ -508,12 +485,8 @@
 		0F781FDF1C072A3E00688168 /* return@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F781FD11C072A3E00688168 /* return@2x.png */; };
 		0F781FE01C072A3E00688168 /* PMCustomKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F781FD31C072A3E00688168 /* PMCustomKeyboard.m */; };
 		0F781FE11C072A3E00688168 /* PMCustomKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F781FD41C072A3E00688168 /* PMCustomKeyboard.xib */; };
-		0F7A55FB1BD2782B002C0989 /* instagram_media_popular.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F7A55FA1BD2782B002C0989 /* instagram_media_popular.json */; };
 		0FAB9F2E1C1093A700E52718 /* GLSharedVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */; };
 		0FACEB6D1BCFC9A400DF67AB /* GLSharedCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */; };
-		0FBC6C581BD27DC400D989B6 /* STXFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FBC6C571BD27DC400D989B6 /* STXFeedViewController.xib */; };
-		0FBC6C601BD27EFA00D989B6 /* STXFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBC6C5F1BD27EFA00D989B6 /* STXFeedViewController.m */; };
-		0FBC6C671BD4F41700D989B6 /* dropsound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FBC6C661BD4F41700D989B6 /* dropsound.wav */; };
 		0FD59E3F1BD62B10002CDCCD /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD59E3E1BD62B10002CDCCD /* NewRelicAgent.framework */; };
 		0FD59E491BD7DAB3002CDCCD /* PullableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD59E461BD7DAB3002CDCCD /* PullableView.m */; };
 		0FD59E4A1BD7DAB3002CDCCD /* StyledPullableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD59E481BD7DAB3002CDCCD /* StyledPullableView.m */; };
@@ -1361,50 +1334,6 @@
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
 		0D570D9648C13694C44E127E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		0F07573D1BD2735000F22F69 /* STXButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXButton.h; sourceTree = "<group>"; };
-		0F07573E1BD2735000F22F69 /* STXButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXButton.m; sourceTree = "<group>"; };
-		0F0757401BD2735000F22F69 /* NSString+Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Emoji.h"; sourceTree = "<group>"; };
-		0F0757411BD2735000F22F69 /* NSString+Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Emoji.m"; sourceTree = "<group>"; };
-		0F0757421BD2735000F22F69 /* UIButton+STXButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+STXButton.h"; sourceTree = "<group>"; };
-		0F0757431BD2735000F22F69 /* UIButton+STXButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+STXButton.m"; sourceTree = "<group>"; };
-		0F0757441BD2735000F22F69 /* UIImage+STXImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+STXImage.h"; sourceTree = "<group>"; };
-		0F0757451BD2735000F22F69 /* UIImage+STXImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+STXImage.m"; sourceTree = "<group>"; };
-		0F0757461BD2735000F22F69 /* UIImageView+Masking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Masking.h"; sourceTree = "<group>"; };
-		0F0757471BD2735000F22F69 /* UIImageView+Masking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Masking.m"; sourceTree = "<group>"; };
-		0F0757481BD2735000F22F69 /* UIViewController+Indicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Indicator.h"; sourceTree = "<group>"; };
-		0F0757491BD2735000F22F69 /* UIViewController+Indicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Indicator.m"; sourceTree = "<group>"; };
-		0F07574A1BD2735000F22F69 /* UIViewController+Sharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Sharing.h"; sourceTree = "<group>"; };
-		0F07574B1BD2735000F22F69 /* UIViewController+Sharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Sharing.m"; sourceTree = "<group>"; };
-		0F07574D1BD2735000F22F69 /* STXCaptionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXCaptionCell.h; sourceTree = "<group>"; };
-		0F07574E1BD2735000F22F69 /* STXCaptionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXCaptionCell.m; sourceTree = "<group>"; };
-		0F07574F1BD2735000F22F69 /* STXCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXCommentCell.h; sourceTree = "<group>"; };
-		0F0757501BD2735000F22F69 /* STXCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXCommentCell.m; sourceTree = "<group>"; };
-		0F0757511BD2735000F22F69 /* STXFeedPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXFeedPhotoCell.h; sourceTree = "<group>"; };
-		0F0757521BD2735000F22F69 /* STXFeedPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXFeedPhotoCell.m; sourceTree = "<group>"; };
-		0F0757531BD2735000F22F69 /* STXFeedPhotoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STXFeedPhotoCell.xib; sourceTree = "<group>"; };
-		0F0757541BD2735000F22F69 /* STXLikesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXLikesCell.h; sourceTree = "<group>"; };
-		0F0757551BD2735000F22F69 /* STXLikesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXLikesCell.m; sourceTree = "<group>"; };
-		0F0757561BD2735000F22F69 /* STXUserActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXUserActionCell.h; sourceTree = "<group>"; };
-		0F0757571BD2735000F22F69 /* STXUserActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXUserActionCell.m; sourceTree = "<group>"; };
-		0F0757581BD2735000F22F69 /* STXUserActionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STXUserActionCell.xib; sourceTree = "<group>"; };
-		0F07575A1BD2735000F22F69 /* STXCommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXCommentItem.h; sourceTree = "<group>"; };
-		0F07575B1BD2735000F22F69 /* STXPostItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXPostItem.h; sourceTree = "<group>"; };
-		0F07575C1BD2735000F22F69 /* STXUserItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXUserItem.h; sourceTree = "<group>"; };
-		0F07575E1BD2735000F22F69 /* STXAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXAttributedLabel.h; sourceTree = "<group>"; };
-		0F07575F1BD2735000F22F69 /* STXAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXAttributedLabel.m; sourceTree = "<group>"; };
-		0F0757601BD2735000F22F69 /* STXLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXLabel.h; sourceTree = "<group>"; };
-		0F0757611BD2735000F22F69 /* STXLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXLabel.m; sourceTree = "<group>"; };
-		0F0757631BD2735000F22F69 /* STXFeedTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXFeedTableViewDataSource.h; sourceTree = "<group>"; };
-		0F0757641BD2735000F22F69 /* STXFeedTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXFeedTableViewDataSource.m; sourceTree = "<group>"; };
-		0F0757651BD2735000F22F69 /* STXFeedTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXFeedTableViewDelegate.h; sourceTree = "<group>"; };
-		0F0757661BD2735000F22F69 /* STXFeedTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXFeedTableViewDelegate.m; sourceTree = "<group>"; };
-		0F0757671BD2735000F22F69 /* STXDynamicTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXDynamicTableView.h; sourceTree = "<group>"; };
-		0F07577E1BD273F600F22F69 /* STXComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXComment.h; sourceTree = "<group>"; };
-		0F07577F1BD273F600F22F69 /* STXComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXComment.m; sourceTree = "<group>"; };
-		0F0757801BD273F600F22F69 /* STXPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXPost.h; sourceTree = "<group>"; };
-		0F0757811BD273F600F22F69 /* STXPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXPost.m; sourceTree = "<group>"; };
-		0F0757821BD273F600F22F69 /* STXUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXUser.h; sourceTree = "<group>"; };
-		0F0757831BD273F600F22F69 /* STXUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXUser.m; sourceTree = "<group>"; };
 		0F18170C1C05E128002EDFA3 /* GLPublicFeedPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLPublicFeedPostViewController.h; sourceTree = "<group>"; };
 		0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLPublicFeedPostViewController.m; sourceTree = "<group>"; };
 		0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLPublicFeedPostViewController.xib; sourceTree = "<group>"; };
@@ -1460,8 +1389,6 @@
 		0F24809E1C196C2E00E4136F /* AMTumblrHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMTumblrHud.h; sourceTree = "<group>"; };
 		0F24809F1C196C2E00E4136F /* AMTumblrHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMTumblrHud.m; sourceTree = "<group>"; };
 		0F2480A11C196D9B00E4136F /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		0F3909891BF3DF1A003FAF59 /* MMMWhatsAppActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMMWhatsAppActivity.h; sourceTree = "<group>"; };
-		0F39098A1BF3DF1A003FAF59 /* MMMWhatsAppActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMMWhatsAppActivity.m; sourceTree = "<group>"; };
 		0F39098D1BF4B7A0003FAF59 /* FXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXImageView.h; sourceTree = "<group>"; };
 		0F39098E1BF4B7A0003FAF59 /* FXImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXImageView.m; sourceTree = "<group>"; };
 		0F39098F1BF4B7A0003FAF59 /* UIImage+FX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FX.h"; sourceTree = "<group>"; };
@@ -1592,8 +1519,6 @@
 		0F5511D11BEFA9FD00E98C64 /* Margarita.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Margarita.png; sourceTree = "<group>"; };
 		0F5511D21BEFA9FD00E98C64 /* Martini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Martini.png; sourceTree = "<group>"; };
 		0F5511D31BEFA9FD00E98C64 /* Mojito.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mojito.png; sourceTree = "<group>"; };
-		0F5511E01BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+UIActivityIndicatorForSDWebImage.h"; sourceTree = "<group>"; };
-		0F5511E11BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+UIActivityIndicatorForSDWebImage.m"; sourceTree = "<group>"; };
 		0F66629A1C15B59300ED17EF /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		0F781FB41C070C8700688168 /* KVNProgressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KVNProgressView.xib; sourceTree = "<group>"; };
 		0F781FB61C070C8F00688168 /* KVNProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVNProgress.h; sourceTree = "<group>"; };
@@ -1620,15 +1545,10 @@
 		0F781FD21C072A3E00688168 /* PMCustomKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMCustomKeyboard.h; sourceTree = "<group>"; };
 		0F781FD31C072A3E00688168 /* PMCustomKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMCustomKeyboard.m; sourceTree = "<group>"; };
 		0F781FD41C072A3E00688168 /* PMCustomKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PMCustomKeyboard.xib; sourceTree = "<group>"; };
-		0F7A55FA1BD2782B002C0989 /* instagram_media_popular.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = instagram_media_popular.json; sourceTree = "<group>"; };
 		0FAB9F2C1C1093A700E52718 /* GLSharedVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedVideoPlayer.h; sourceTree = "<group>"; };
 		0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedVideoPlayer.m; sourceTree = "<group>"; };
 		0FACEB6B1BCFC9A400DF67AB /* GLSharedCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedCamera.h; sourceTree = "<group>"; };
 		0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedCamera.m; sourceTree = "<group>"; };
-		0FBC6C571BD27DC400D989B6 /* STXFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STXFeedViewController.xib; sourceTree = "<group>"; };
-		0FBC6C5E1BD27EFA00D989B6 /* STXFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXFeedViewController.h; sourceTree = "<group>"; };
-		0FBC6C5F1BD27EFA00D989B6 /* STXFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXFeedViewController.m; sourceTree = "<group>"; };
-		0FBC6C661BD4F41700D989B6 /* dropsound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dropsound.wav; sourceTree = "<group>"; };
 		0FD59E3E1BD62B10002CDCCD /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = Pods/NewRelicAgent/NewRelic_iOS_Agent_5.3.1/NewRelicAgent.framework; sourceTree = "<group>"; };
 		0FD59E451BD7DAB3002CDCCD /* PullableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullableView.h; sourceTree = "<group>"; };
 		0FD59E461BD7DAB3002CDCCD /* PullableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullableView.m; sourceTree = "<group>"; };
@@ -2909,131 +2829,6 @@
 				66278C701867C2AD00D23F34 /* SVRegistrationViewController.m */,
 			);
 			name = Registration;
-			sourceTree = "<group>";
-		};
-		0F0757351BD2715F00F22F69 /* GLFeedView */ = {
-			isa = PBXGroup;
-			children = (
-				0F07573B1BD2735000F22F69 /* STXDynamicTableView */,
-				0F7A55FA1BD2782B002C0989 /* instagram_media_popular.json */,
-				0FBC6C661BD4F41700D989B6 /* dropsound.wav */,
-				0F5511E01BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.h */,
-				0F3909891BF3DF1A003FAF59 /* MMMWhatsAppActivity.h */,
-				0F39098A1BF3DF1A003FAF59 /* MMMWhatsAppActivity.m */,
-				0F5511E11BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m */,
-				0FBC6C571BD27DC400D989B6 /* STXFeedViewController.xib */,
-				0FBC6C5E1BD27EFA00D989B6 /* STXFeedViewController.h */,
-				0FBC6C5F1BD27EFA00D989B6 /* STXFeedViewController.m */,
-			);
-			name = GLFeedView;
-			sourceTree = "<group>";
-		};
-		0F07573B1BD2735000F22F69 /* STXDynamicTableView */ = {
-			isa = PBXGroup;
-			children = (
-				0F07577D1BD273F600F22F69 /* Models */,
-				0F07573C1BD2735000F22F69 /* Buttons */,
-				0F07573F1BD2735000F22F69 /* Categories */,
-				0F07574C1BD2735000F22F69 /* Cells */,
-				0F0757591BD2735000F22F69 /* Items */,
-				0F07575D1BD2735000F22F69 /* Labels */,
-				0F0757621BD2735000F22F69 /* Protocols */,
-				0F0757671BD2735000F22F69 /* STXDynamicTableView.h */,
-			);
-			name = STXDynamicTableView;
-			path = GLFeedView/STXDynamicTableView;
-			sourceTree = "<group>";
-		};
-		0F07573C1BD2735000F22F69 /* Buttons */ = {
-			isa = PBXGroup;
-			children = (
-				0F07573D1BD2735000F22F69 /* STXButton.h */,
-				0F07573E1BD2735000F22F69 /* STXButton.m */,
-			);
-			path = Buttons;
-			sourceTree = "<group>";
-		};
-		0F07573F1BD2735000F22F69 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				0F0757401BD2735000F22F69 /* NSString+Emoji.h */,
-				0F0757411BD2735000F22F69 /* NSString+Emoji.m */,
-				0F0757421BD2735000F22F69 /* UIButton+STXButton.h */,
-				0F0757431BD2735000F22F69 /* UIButton+STXButton.m */,
-				0F0757441BD2735000F22F69 /* UIImage+STXImage.h */,
-				0F0757451BD2735000F22F69 /* UIImage+STXImage.m */,
-				0F0757461BD2735000F22F69 /* UIImageView+Masking.h */,
-				0F0757471BD2735000F22F69 /* UIImageView+Masking.m */,
-				0F0757481BD2735000F22F69 /* UIViewController+Indicator.h */,
-				0F0757491BD2735000F22F69 /* UIViewController+Indicator.m */,
-				0F07574A1BD2735000F22F69 /* UIViewController+Sharing.h */,
-				0F07574B1BD2735000F22F69 /* UIViewController+Sharing.m */,
-			);
-			path = Categories;
-			sourceTree = "<group>";
-		};
-		0F07574C1BD2735000F22F69 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				0F07574D1BD2735000F22F69 /* STXCaptionCell.h */,
-				0F07574E1BD2735000F22F69 /* STXCaptionCell.m */,
-				0F07574F1BD2735000F22F69 /* STXCommentCell.h */,
-				0F0757501BD2735000F22F69 /* STXCommentCell.m */,
-				0F0757511BD2735000F22F69 /* STXFeedPhotoCell.h */,
-				0F0757521BD2735000F22F69 /* STXFeedPhotoCell.m */,
-				0F0757531BD2735000F22F69 /* STXFeedPhotoCell.xib */,
-				0F0757541BD2735000F22F69 /* STXLikesCell.h */,
-				0F0757551BD2735000F22F69 /* STXLikesCell.m */,
-				0F0757561BD2735000F22F69 /* STXUserActionCell.h */,
-				0F0757571BD2735000F22F69 /* STXUserActionCell.m */,
-				0F0757581BD2735000F22F69 /* STXUserActionCell.xib */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		0F0757591BD2735000F22F69 /* Items */ = {
-			isa = PBXGroup;
-			children = (
-				0F07575A1BD2735000F22F69 /* STXCommentItem.h */,
-				0F07575B1BD2735000F22F69 /* STXPostItem.h */,
-				0F07575C1BD2735000F22F69 /* STXUserItem.h */,
-			);
-			path = Items;
-			sourceTree = "<group>";
-		};
-		0F07575D1BD2735000F22F69 /* Labels */ = {
-			isa = PBXGroup;
-			children = (
-				0F07575E1BD2735000F22F69 /* STXAttributedLabel.h */,
-				0F07575F1BD2735000F22F69 /* STXAttributedLabel.m */,
-				0F0757601BD2735000F22F69 /* STXLabel.h */,
-				0F0757611BD2735000F22F69 /* STXLabel.m */,
-			);
-			path = Labels;
-			sourceTree = "<group>";
-		};
-		0F0757621BD2735000F22F69 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				0F0757631BD2735000F22F69 /* STXFeedTableViewDataSource.h */,
-				0F0757641BD2735000F22F69 /* STXFeedTableViewDataSource.m */,
-				0F0757651BD2735000F22F69 /* STXFeedTableViewDelegate.h */,
-				0F0757661BD2735000F22F69 /* STXFeedTableViewDelegate.m */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		0F07577D1BD273F600F22F69 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				0F07577E1BD273F600F22F69 /* STXComment.h */,
-				0F07577F1BD273F600F22F69 /* STXComment.m */,
-				0F0757801BD273F600F22F69 /* STXPost.h */,
-				0F0757811BD273F600F22F69 /* STXPost.m */,
-				0F0757821BD273F600F22F69 /* STXUser.h */,
-				0F0757831BD273F600F22F69 /* STXUser.m */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		0F18170B1C05DFB9002EDFA3 /* GLPublicFeedPostViewController */ = {
@@ -4685,7 +4480,6 @@
 				0F49479A1BE281CA00FEDC12 /* PushView */,
 				0FE43EAE1BDF93620088D93F /* FONTS */,
 				0FE43E9F1BDE90AE0088D93F /* Feed2 */,
-				0F0757351BD2715F00F22F69 /* GLFeedView */,
 				DD3A8BAB1BC9A003002DF2C9 /* GLCamera */,
 				0FF7E6F51BFA70590032F2C2 /* UILabel+AnimatedTransition.h */,
 				0FF7E6F61BFA70590032F2C2 /* UILabel+AnimatedTransition.m */,
@@ -4963,7 +4757,6 @@
 				04C406311730303600973BC0 /* CF.png in Resources */,
 				3E36D4F618D83F2A003A1D3A /* TutorialBtn.png in Resources */,
 				04C406331730303600973BC0 /* CG.png in Resources */,
-				0F7A55FB1BD2782B002C0989 /* instagram_media_popular.json in Resources */,
 				04C406351730303600973BC0 /* CH.png in Resources */,
 				3E0CC9CD18B63DEC00F6089A /* frame_selected.png in Resources */,
 				04C406371730303600973BC0 /* CI.png in Resources */,
@@ -5058,7 +4851,6 @@
 				04C406A91730303600973BC0 /* ID.png in Resources */,
 				0F781FD51C072A3E00688168 /* delete.png in Resources */,
 				04C406AB1730303600973BC0 /* IE.png in Resources */,
-				0FBC6C581BD27DC400D989B6 /* STXFeedViewController.xib in Resources */,
 				04C406AD1730303600973BC0 /* IL.png in Resources */,
 				3E36D4F518D83F2A003A1D3A /* tutorial7@2x.png in Resources */,
 				3E47246D18D06E5400FF6105 /* Icon-Small.png in Resources */,
@@ -5118,7 +4910,6 @@
 				04C406EF1730303600973BC0 /* LY.png in Resources */,
 				0F1C078D1BEB5E3A00F82FBB /* seq38.png in Resources */,
 				0F1C07851BEB5E3A00F82FBB /* seq30.png in Resources */,
-				0F0757741BD2735000F22F69 /* STXFeedPhotoCell.xib in Resources */,
 				04C406F11730303600973BC0 /* MA.png in Resources */,
 				04C406F31730303600973BC0 /* MC.png in Resources */,
 				0F5511BE1BEF8C0300E98C64 /* GothamXNarrow-UltraItalic.otf in Resources */,
@@ -5159,7 +4950,6 @@
 				04C4071B1730303600973BC0 /* MY.png in Resources */,
 				04C4071D1730303600973BC0 /* MZ.png in Resources */,
 				66278CB01867C4D400D23F34 /* SVCameraOverlay.xib in Resources */,
-				0F0757771BD2735000F22F69 /* STXUserActionCell.xib in Resources */,
 				04C4071F1730303600973BC0 /* NA.png in Resources */,
 				04C407211730303600973BC0 /* NC.png in Resources */,
 				3E47246518D06E5400FF6105 /* Icon-60.png in Resources */,
@@ -5350,7 +5140,6 @@
 				3E47246618D06E5400FF6105 /* Icon-60@2x.png in Resources */,
 				108CDF6418846B9000757E36 /* MPArrowLeft.png in Resources */,
 				28CFCC8717A32CF4001511EF /* SettingsDisclosure.png in Resources */,
-				0FBC6C671BD4F41700D989B6 /* dropsound.wav in Resources */,
 				28CFCC8817A32CF4001511EF /* SettingsDisclosure@2x.png in Resources */,
 				6666EC3B19360F3C00557CB1 /* easyweb_ribbon_overlay@2x.png in Resources */,
 				0F1C076A1BEB5E3A00F82FBB /* seq3.png in Resources */,
@@ -5675,13 +5464,10 @@
 				108CDF7618846B9000757E36 /* UIView+MPSnapshotImage.m in Sources */,
 				66013228187F4E670042047B /* IOSBooleanArray.m in Sources */,
 				0F4947AE1BE281D600FEDC12 /* LNNotificationBannerView.m in Sources */,
-				0F07577A1BD2735000F22F69 /* STXFeedTableViewDataSource.m in Sources */,
-				0F07576D1BD2735000F22F69 /* UIImage+STXImage.m in Sources */,
 				0F2480A01C196C2E00E4136F /* AMTumblrHud.m in Sources */,
 				DD3A8BC11BC9A04A002DF2C9 /* GLResizeableView.m in Sources */,
 				66278C9D1867C44600D23F34 /* CameraRollSection.m in Sources */,
 				0F3909911BF4B7A0003FAF59 /* FXImageView.m in Sources */,
-				0F5511E21BF0B36200E98C64 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				66013244187F4E670042047B /* Float.m in Sources */,
 				66013255187F4E670042047B /* JavaLangThrowable.m in Sources */,
 				3E0CC9E218B63E1F00F6089A /* SVPickerController.m in Sources */,
@@ -5690,7 +5476,6 @@
 				0F4947831BE231F900FEDC12 /* GPUImageFoggyNightFilter.m in Sources */,
 				0FF7E6ED1BF8ACC60032F2C2 /* GLProfilePictureController.m in Sources */,
 				0FFAF9F41C1713EE00DA849C /* GLFeedTableCellUploading.m in Sources */,
-				0F0757761BD2735000F22F69 /* STXUserActionCell.m in Sources */,
 				108CDF10188417AE00757E36 /* Util.m in Sources */,
 				66278C9F1867C44600D23F34 /* SVImagePickerListViewController.m in Sources */,
 				669058C719D4D65C00E233D7 /* IosBackgroundUploadSession.m in Sources */,
@@ -5712,7 +5497,6 @@
 				66F3E97219D5F68A00E36207 /* TmpFilePhotoUploadRequest.m in Sources */,
 				108CDF6318846B9000757E36 /* Mixpanel.m in Sources */,
 				66278C641867C17800D23F34 /* SVSidebarAlbumSection.m in Sources */,
-				0F07576B1BD2735000F22F69 /* NSString+Emoji.m in Sources */,
 				0FE43EB81BE0BFBB0088D93F /* YALSunnyRefreshControl.m in Sources */,
 				66278C4B1867B23800D23F34 /* FileUtils.m in Sources */,
 				04AB0AB21708114800C5300B /* NSDate+Formatting.m in Sources */,
@@ -5742,7 +5526,6 @@
 				66278C711867C2AD00D23F34 /* SVConfirmationCodeViewController.m in Sources */,
 				0F4947841BE231F900FEDC12 /* GPUImageSoftElegance2Filter.m in Sources */,
 				6601323B187F4E670042047B /* Byte.m in Sources */,
-				0F0757861BD273F600F22F69 /* STXUser.m in Sources */,
 				66278CE61867C62300D23F34 /* SVMailActivity.m in Sources */,
 				6601324C187F4E670042047B /* NullPointerException.m in Sources */,
 				66013238187F4E670042047B /* ArrayStoreException.m in Sources */,
@@ -5751,14 +5534,12 @@
 				0F781FBB1C070C8F00688168 /* KVNProgressConfiguration.m in Sources */,
 				66278D081867C94900D23F34 /* PhotoFilesManager.m in Sources */,
 				0F781FC21C070C9500688168 /* UIColor+KVNContrast.m in Sources */,
-				0F07576C1BD2735000F22F69 /* UIButton+STXButton.m in Sources */,
 				6601324D187F4E670042047B /* GenericDeclaration.m in Sources */,
 				108CDF6E18846B9000757E36 /* MPSurvey.m in Sources */,
 				66D5833F1867D66B00EAC842 /* RCScrollView.m in Sources */,
 				66013256187F4E670042047B /* JavaMetadata.m in Sources */,
 				66278C911867C38300D23F34 /* SVAlbumListViewController.m in Sources */,
 				66278CC31867C57300D23F34 /* SVProfilePicViewController.m in Sources */,
-				0F0757751BD2735000F22F69 /* STXLikesCell.m in Sources */,
 				66278D091867C94900D23F34 /* PhotoSize.m in Sources */,
 				66013246187F4E670042047B /* IllegalMonitorStateException.m in Sources */,
 				66013234187F4E670042047B /* IOSProtocolClass.m in Sources */,
@@ -5792,7 +5573,6 @@
 				66013258187F4E670042047B /* JreEmulation.m in Sources */,
 				0F4177891BE6537F00FFC6A2 /* ContainerViewController.m in Sources */,
 				3BE0B11417C2BFE60058CAAD /* FMDatabasePool.m in Sources */,
-				0F0757841BD273F600F22F69 /* STXComment.m in Sources */,
 				0F4947BD1BE56D1300FEDC12 /* ParallaxHeaderView.m in Sources */,
 				66013232187F4E670042047B /* IOSObjectArray.m in Sources */,
 				66013233187F4E670042047B /* IOSPrimitiveClass.m in Sources */,
@@ -5800,7 +5580,6 @@
 				6601324B187F4E670042047B /* Long.m in Sources */,
 				66E788A21887377A0037ACF3 /* IosSQLConnection.m in Sources */,
 				66278CAF1867C4D400D23F34 /* SVCameraOverlay.m in Sources */,
-				0F07577B1BD2735000F22F69 /* STXFeedTableViewDelegate.m in Sources */,
 				66013240187F4E670042047B /* Double.m in Sources */,
 				66278C4C1867B23800D23F34 /* SVInitialization.m in Sources */,
 				66278D141867CA1400D23F34 /* SVAssets.m in Sources */,
@@ -5813,7 +5592,6 @@
 				6601322B187F4E670042047B /* IOSClass.m in Sources */,
 				0F244AB91BCC343900D7761E /* CameraViewController.m in Sources */,
 				66013251187F4E670042047B /* Short.m in Sources */,
-				0F0757701BD2735000F22F69 /* UIViewController+Sharing.m in Sources */,
 				66278CE71867C62300D23F34 /* SVMoveActivity.m in Sources */,
 				66013250187F4E670042047B /* RuntimeException.m in Sources */,
 				0F4947B01BE281D600FEDC12 /* LNNotificationCenter.m in Sources */,
@@ -5825,7 +5603,6 @@
 				66013235187F4E670042047B /* IOSReflection.m in Sources */,
 				108CDF7018846B9000757E36 /* MPSurveyNavigationController.m in Sources */,
 				66E788B51889EB870037ACF3 /* List.m in Sources */,
-				0F39098B1BF3DF1A003FAF59 /* MMMWhatsAppActivity.m in Sources */,
 				66013247187F4E670042047B /* IllegalStateException.m in Sources */,
 				0F1C07951BEB9F0600F82FBB /* JTSlideShadowAnimation.m in Sources */,
 				66278CE81867C62300D23F34 /* SVProfilePicActivity.m in Sources */,
@@ -5840,24 +5617,17 @@
 				DD3A8BC71BC9A04A002DF2C9 /* UIView+Transform.m in Sources */,
 				66278CE51867C62300D23F34 /* SVLinkActivity.m in Sources */,
 				66D5833D1867D66B00EAC842 /* RCLog.m in Sources */,
-				0F07576F1BD2735000F22F69 /* UIViewController+Indicator.m in Sources */,
 				0F781FC31C070C9500688168 /* UIImage+KVNEmpty.m in Sources */,
 				66278D071867C94900D23F34 /* PhotoBitmap.m in Sources */,
-				0FBC6C601BD27EFA00D989B6 /* STXFeedViewController.m in Sources */,
 				66278C901867C38300D23F34 /* SVAlbumListViewCell.m in Sources */,
 				66278C601867C17800D23F34 /* SVSidebarAlbumManagementActivityCell.m in Sources */,
-				0F07576E1BD2735000F22F69 /* UIImageView+Masking.m in Sources */,
-				0F0757781BD2735000F22F69 /* STXAttributedLabel.m in Sources */,
 				66278CB11867C4D400D23F34 /* SVCameraPickerController.m in Sources */,
 				0F41778E1BE6539200FFC6A2 /* ViewController.m in Sources */,
-				0F0757721BD2735000F22F69 /* STXCommentCell.m in Sources */,
-				0F0757851BD273F600F22F69 /* STXPost.m in Sources */,
 				66278C8C1867C38300D23F34 /* PhotoView.m in Sources */,
 				66E7889D188736470037ACF3 /* JavaLangIterable.m in Sources */,
 				0F5511D91BEFA9FD00E98C64 /* GPUImageFizzFilter.m in Sources */,
 				6601325D187F4E670042047B /* objc-sync.m in Sources */,
 				66278C931867C38300D23F34 /* SVPhotoViewerController.m in Sources */,
-				0F0757791BD2735000F22F69 /* STXLabel.m in Sources */,
 				66069BD51A1CF5DD00BE2D32 /* MediaHelper.m in Sources */,
 				0F3909921BF4B7A0003FAF59 /* UIImage+FX.m in Sources */,
 				66278CC61867C57300D23F34 /* SVSettingsViewController.m in Sources */,
@@ -5893,16 +5663,13 @@
 				108CDF7218846B9000757E36 /* MPSurveyQuestionViewController.m in Sources */,
 				0F4947AD1BE281D600FEDC12 /* LNNotificationAppSettings.m in Sources */,
 				28F877B517D1BB4B0051F528 /* MFSideMenuContainerViewController.m in Sources */,
-				0F0757731BD2735000F22F69 /* STXFeedPhotoCell.m in Sources */,
 				66267BBD19412FB800D7B4A9 /* ShotVibeAPITask.m in Sources */,
 				66452E1219CAD83100F0EF76 /* DatabaseOpener.m in Sources */,
-				0F07576A1BD2735000F22F69 /* STXButton.m in Sources */,
 				28F877B617D1BB4B0051F528 /* MFSideMenuShadow.m in Sources */,
 				3E0CC9DE18B63E1F00F6089A /* SVAlbumCell.m in Sources */,
 				0FD59E4A1BD7DAB3002CDCCD /* StyledPullableView.m in Sources */,
 				6601322D187F4E670042047B /* IOSDoubleArray.m in Sources */,
 				6601323D187F4E670042047B /* ClassCastException.m in Sources */,
-				0F0757711BD2735000F22F69 /* STXCaptionCell.m in Sources */,
 				66278CE41867C62300D23F34 /* SVFacebookActivity.m in Sources */,
 				0F4947B11BE281D600FEDC12 /* LNNotificationsAppSettingsController.m in Sources */,
 				28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */,
@@ -6053,6 +5820,8 @@
 					"$(PROJECT_DIR)/Pods/NewRelicAgent/NewRelic_iOS_Agent_5.3.1",
 					"$(PROJECT_DIR)/shotvibe/Vendor/aws-ios-sdk-2.3.0/frameworks",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/shotvibe",
+					"\"$(SRCROOT)/Pods\"/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -6062,6 +5831,7 @@
 					"\"$(SRCROOT)/shotvibelib/build\"",
 				);
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/**",
@@ -6186,6 +5956,8 @@
 					"$(PROJECT_DIR)/Pods/NewRelicAgent/NewRelic_iOS_Agent_5.3.1",
 					"$(PROJECT_DIR)/shotvibe/Vendor/aws-ios-sdk-2.3.0/frameworks",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/shotvibe",
+					"\"$(SRCROOT)/Pods\"/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -6198,6 +5970,7 @@
 					"\"$(SRCROOT)/shotvibelib/build\"",
 				);
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/**",
@@ -6234,6 +6007,8 @@
 					"$(PROJECT_DIR)/Pods/NewRelicAgent/NewRelic_iOS_Agent_5.3.1",
 					"$(PROJECT_DIR)/shotvibe/Vendor/aws-ios-sdk-2.3.0/frameworks",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/shotvibe",
+					"\"$(SRCROOT)/Pods\"/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shotvibe/shotvibe-Prefix.pch";
@@ -6243,6 +6018,7 @@
 					"\"$(SRCROOT)/shotvibelib/build\"",
 				);
 				INFOPLIST_FILE = "shotvibe/shotvibe-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/**",

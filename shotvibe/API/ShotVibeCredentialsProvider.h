@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import <AWSS3/AWSS3.h>
+#import "SL/ShotVibeAPI.h"
 
 @interface ShotVibeCredentialsProvider : NSObject <AWSCredentialsProvider>
 

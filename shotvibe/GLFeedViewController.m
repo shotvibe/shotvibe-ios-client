@@ -44,7 +44,7 @@
 #import "SL/AlbumPhotoComment.h"
 #import "SL/AlbumPhoto.h"
 
-#import "UIImageView+Masking.h"
+//#import "UIImageView+Masking.h"
 #import "SDWebImageManager.h"
 
 #import "UIImageView+WebCache.h"

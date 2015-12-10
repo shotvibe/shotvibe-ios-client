@@ -15,6 +15,7 @@
 #import "SL/MediaType.h"
 #import "ShotVibeCredentialsProvider.h"
 
+#import "ShotVibeAppDelegate.h"
 #import <AWSS3/AWSS3.h>
 
 typedef NS_ENUM(NSInteger, UploadJobType) {

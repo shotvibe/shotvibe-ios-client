@@ -13,6 +13,7 @@
 #import "SL/AwsToken.h"
 #import "SL/DateTime.h"
 #import "SL/ShotVibeAPI.h"
+#import "SL/APIException.h"
 
 @implementation ShotVibeCredentialsProvider
 {

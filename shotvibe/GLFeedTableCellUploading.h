@@ -17,7 +17,7 @@
 //#import "AlbumVideo.h"
 #import "AlbumServerPhoto.h"
 #import "SL/AlbumServerVideo.h"
-#import "UIImageView+Masking.h"
+//#import "UIImageView+Masking.h"
 #import "SDWebImageManager.h"
 #import "NSDate+Formatting.h"
 #import "UIImageView+WebCache.h"

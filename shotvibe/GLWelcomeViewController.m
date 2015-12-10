@@ -9,6 +9,7 @@
 #import "GLWelcomeViewController.h"
 #import "SVRegistrationViewController.h"
 #import "GLSharedCamera.h"
+#import "ShotVIbeAppDelegate.h"
 
 @interface GLWelcomeViewController (){
     UIImageView *animationImageView;

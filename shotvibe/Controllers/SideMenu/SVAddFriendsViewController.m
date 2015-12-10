@@ -37,7 +37,7 @@
 #import "ShotVibeAppDelegate.h"
 #import "UserSettings.h"
 
-#import "UIImageView+Masking.h"
+//#import "UIImageView+Masking.h"
 #import "SDWebImageManager.h"
 #import "ShotVibeAPITask.h"
 #import "ContainerViewController.h"
@@ -474,7 +474,7 @@
                 
                 NSString * st = [[[latestPhoto getServerPhoto] getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
                 
-                [cell.contactIcon setCircleImageWithURL:[NSURL URLWithString:st] placeholderImage:[UIImage imageNamed:@"CaptureButton"] borderWidth:2];
+//                [cell.contactIcon setCircleImageWithURL:[NSURL URLWithString:st] placeholderImage:[UIImage imageNamed:@"CaptureButton"] borderWidth:2];
                 
             }
         }

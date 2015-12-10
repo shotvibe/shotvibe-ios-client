@@ -49,7 +49,7 @@
 //#import "ShotVibeAppDelegate.h"
 #import "GLSharedCamera.h"
 
-#import "STXFeedViewController.h"
+//#import "STXFeedViewController.h"
 #import <CoreData/CoreData.h>
 
 
