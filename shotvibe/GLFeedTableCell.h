@@ -13,10 +13,10 @@
 #import "PhotoView.h"
 
 //#import "YYImage.h"
-//#import "UIView+YYAdd.h"
-//#import "CALayer+YYAdd.h"
-//#import "UIGestureRecognizer+YYAdd.h"
-//#import "YYWebImage.h"
+#import "UIView+YYAdd.h"
+#import "CALayer+YYAdd.h"
+#import "UIGestureRecognizer+YYAdd.h"
+#import "YYWebImage.h"
 
 
 @interface GLFeedTableCell : UITableViewCell<MPMediaPlayback> {
@@ -36,7 +36,7 @@
 @property(nonatomic,retain) UIImageView * profileImageView;
 @property(nonatomic,retain) UILabel * userName;
 @property(nonatomic,retain) UILabel * postedTime;
-@property(nonatomic,retain) UIImageView * postImage;
+@property(nonatomic,retain) YYAnimatedImageView * postImage;
 @property(nonatomic,retain) UIScrollView * commentsScrollView;
 @property(nonatomic,retain) UITextField * commentTextField;
 @property(nonatomic,retain) UILabel * glancesCounter;
