@@ -24,12 +24,14 @@
 #import "GLSharedVideoPlayer.h"
 #import "SL/AlbumUploadingPhoto.h"
 #import "SL/AlbumUploadingMedia.h"
+#import "SL/AlbumPhoto.h"
 
 @interface GLFeedTableCellUploading : UITableViewCell
 
 
 
 - (void)updateUploadingStatus:(SLAlbumUploadingMedia*)photo;
+- (void)updateProccesingStatus:(SLAlbumPhoto *)photo;
 
 @property(nonatomic,retain) UIImageView * profileImageView;
 @property(nonatomic,retain) UILabel * userName;

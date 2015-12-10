@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CircleShapeLayer.h"
 
 @interface CircleProgressView : UIControl
 
@@ -15,6 +16,10 @@
 @property (nonatomic) NSTimeInterval timeLimit;
 
 @property (nonatomic, retain) NSString *status;
+
+@property (nonatomic, strong) CircleShapeLayer *progressLayer;
+
+@property (strong, nonatomic) UILabel *progressLabel;
 
 @property (assign, nonatomic, readonly) double percent;
 

@@ -763,6 +763,13 @@
             self.previewPlayer.controlStyle = MPMovieControlStyleEmbedded;
             
             
+            UIImage *screenShot =  [self.previewPlayer thumbnailImageAtTime:0.5 timeOption:MPMovieTimeOptionExact];
+            
+            
+            
+//            self.previewPlayer thumbnailImageAtTime:0.0 timeOption:<#(MPMovieTimeOption)#>
+            
+            
 //            [self.previewPlayer setContentURL:[NSURL URLWithString:@"http://idesignet.co.il/movie.mp4"]];
             [self.previewPlayer play];
 //            NSLog(@"movie capture finised and ready to upload %@", pathToMovie);

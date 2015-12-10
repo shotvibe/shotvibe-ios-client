@@ -12,6 +12,12 @@
 #import "PhotoFilesManager.h"
 #import "PhotoView.h"
 
+//#import "YYImage.h"
+//#import "UIView+YYAdd.h"
+//#import "CALayer+YYAdd.h"
+//#import "UIGestureRecognizer+YYAdd.h"
+//#import "YYWebImage.h"
+
 
 @interface GLFeedTableCell : UITableViewCell<MPMediaPlayback> {
     
@@ -30,7 +36,7 @@
 @property(nonatomic,retain) UIImageView * profileImageView;
 @property(nonatomic,retain) UILabel * userName;
 @property(nonatomic,retain) UILabel * postedTime;
-@property(nonatomic,retain) YYAnimatedImageView * postImage;
+@property(nonatomic,retain) UIImageView * postImage;
 @property(nonatomic,retain) UIScrollView * commentsScrollView;
 @property(nonatomic,retain) UITextField * commentTextField;
 @property(nonatomic,retain) UILabel * glancesCounter;
@@ -51,7 +57,7 @@
 @property (nonatomic, strong) NSTimer * playBackStartedTester;
 @property (nonatomic, strong) UIActivityIndicatorView * activityIndicator;
 
-@property (nonatomic, strong) YYAnimatedImageView *webImageView;
+@property (nonatomic, strong) UIImageView *webImageView;
 @property (nonatomic, strong) UIActivityIndicatorView *indicator;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;

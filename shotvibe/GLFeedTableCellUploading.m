@@ -7,7 +7,7 @@
 //
 
 #import "GLFeedTableCellUploading.h"
-
+#import "AMTumblrHud.h"
 
 
 @implementation GLFeedTableCellUploading
@@ -51,9 +51,9 @@
     
     [self.contentView addSubview:self.postImage];
     
-    self.circleProgressView = [[CircleProgressView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width/1.5, self.frame.size.width/1.5)];
+    self.circleProgressView = [[CircleProgressView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width/5, self.frame.size.width/5)];
     self.circleProgressView.timeLimit = 100;
-    self.circleProgressView.tintColor = [UIColor redColor];
+    self.circleProgressView.tintColor = UIColorFromRGB(0x3eb4b6);
     //    self.circleProgressView.
     self.circleProgressView.elapsedTime = 0;
     [self.contentView addSubview:self.circleProgressView];
@@ -101,10 +101,28 @@
 
 }
 
+- (void)updateProccesingStatus:(SLAlbumPhoto *)photo {
+
+    self.circleProgressView.progressLabel.alpha = 0;
+    self.circleProgressView.alpha = 0;
+    
+    AMTumblrHud *tumblrHUD = [[AMTumblrHud alloc] initWithFrame:CGRectMake((CGFloat) ((self.contentView.frame.size.width - 55) * 0.5),
+                                                                           (CGFloat) ((self.contentView.frame.size.height - 20) * 0.5), 55, 20)];
+    tumblrHUD.hudColor = UIColorFromRGB(0x3eb4b6);
+    [self.contentView addSubview:tumblrHUD];
+    
+    [tumblrHUD showAnimated:YES];
+    
+
+
+}
+
 - (void)updateUploadingStatus:(SLAlbumUploadingMedia*)albumMedia {
     
 //    slalbum
-
+    
+    [albumMedia getMediaType];
+    
     float progress = [albumMedia getProgress];
     self.circleProgressView.elapsedTime = progress*100;
     

@@ -646,6 +646,26 @@
         
         
         [UIImageJPEGRepresentation(image, 1.0) writeToFile:filePath atomically:YES];
+        
+        CFURLRef url = CFURLCreateWithString(NULL, (CFStringRef)[NSString stringWithFormat:@"file://%@", filePath], NULL);
+        CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypeJPEG, 1, NULL);
+        CFRelease(url);
+        
+        NSDictionary *jfifProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        (__bridge id)kCFBooleanTrue, kCGImagePropertyJFIFIsProgressive,
+                                        nil];
+        
+        NSDictionary *properties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithFloat:.7], kCGImageDestinationLossyCompressionQuality,
+                                    jfifProperties, kCGImagePropertyJFIFDictionary,
+                                    nil];
+        
+        CGImageDestinationAddImage(destination, ((UIImage*)image).CGImage, (__bridge CFDictionaryRef)properties);
+        CGImageDestinationFinalize(destination);
+        CFRelease(destination);
+        
+        
+        
         CGSize newSize = CGSizeMake(200, 200);
         float oldWidth = image.size.width;
         float scaleFactor = newSize.width / oldWidth;
@@ -823,10 +843,10 @@
         
         //    NSLog(@"%d",);
         
-        if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
-            [cell.activityIndicator startAnimating];
-            [[GLSharedVideoPlayer sharedInstance] play];
-        }
+//        if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
+//            [cell.activityIndicator startAnimating];
+//            [[GLSharedVideoPlayer sharedInstance] play];
+//        }
             
         }
         
@@ -868,6 +888,20 @@
     
     [[GLSharedVideoPlayer sharedInstance] resetPlayer];
 }
+
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    cell.alpha = 0;
+//    
+//}
+//
+//- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell {
+//
+//    [UIView animateWithDuration:0.3 animations:^{
+//        cell.alpha = 1;
+//    }];
+//    
+//}
 
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -1413,6 +1447,19 @@
     
     if ([photo getUploadingMedia]) {
         
+//        NSArray *deleteIndexPaths = [[NSArray alloc] initWithObjects:
+//                                     [NSIndexPath indexPathForRow:10 inSection:0],
+//                                     nil];
+//        NSArray *insertIndexPaths = [[NSArray alloc] initWithObjects:
+//                                     [NSIndexPath indexPathForRow:0 inSection:0],
+//                                     nil];
+//        
+//        
+//        [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+//        [self.tableView deleteRowsAtIndexPaths:deleteIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+//        [self.tableView endUpdates];
+        
+        
         GLFeedTableCellUploading *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierUploading];
         
         if(cell==nil){
@@ -1429,6 +1476,46 @@
         
     } else {
     
+        if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO] && [[[photo getServerPhoto] getVideo] getStatus] == [SLAlbumServerVideo_StatusEnum PROCESSING] ){
+            
+            NSLog(@"proccing now");
+            
+//            [self.tableView beginUpdates];
+            
+//            NSArray *insertIndexPaths = [[NSArray alloc] initWithObjects:
+//                                         [NSIndexPath indexPathForRow:0 inSection:0],
+//                                         nil];
+
+            
+//            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            
+////            [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+//            
+//
+//            [self.tableView endUpdates];
+            
+            GLFeedTableCellUploading *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierUploading];
+            
+            
+            
+            if(cell==nil){
+                
+                NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifierUploadingNibName owner:self options:nil];
+                cell = [nib objectAtIndex:0];
+            }
+            
+//            [cell updateUploadingStatus:[photo getUploadingMedia]];
+            [cell updateProccesingStatus:photo];
+            
+            
+            return  cell;
+            
+              
+            
+            
+        } else {
+        
         GLFeedTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if(cell==nil){
@@ -1575,9 +1662,9 @@
             
                 
                 cell.loaded = YES;
-        
-        
-        return  cell;
+            return  cell;
+        }
+    
         
     }
     
@@ -1815,6 +1902,10 @@
     
     
 }
+
+
+
+
 
 -(void)showUserProfileWithId:(long long)userId {
 
@@ -2101,6 +2192,7 @@
     
 
 }
+
 
 
 -(void)sharePostPressed:(UIButton*)sender {

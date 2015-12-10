@@ -169,6 +169,7 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
     [uploadQueue_ removeObjectAtIndex:0];
     
     [listener_ onMediaUploadObjectsChangedWithLong:[completedJob getAlbumId]];
+    [[ShotVibeAppDelegate sharedDelegate].albumManager refreshAlbumContentsWithLong:[completedJob getAlbumId] withBoolean:NO];
 
     [self processNextJob];
 }
