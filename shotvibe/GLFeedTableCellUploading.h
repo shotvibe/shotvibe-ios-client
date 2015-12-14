@@ -24,6 +24,7 @@
 #import "GLSharedVideoPlayer.h"
 #import "SL/AlbumUploadingPhoto.h"
 #import "SL/AlbumUploadingMedia.h"
+#import "SL/AlbumUploadingVideo.h"
 #import "SL/AlbumPhoto.h"
 
 @interface GLFeedTableCellUploading : UITableViewCell

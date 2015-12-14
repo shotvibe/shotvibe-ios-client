@@ -124,12 +124,14 @@
     [albumMedia getMediaType];
     
     float progress = [albumMedia getProgress];
+    
+    NSString *previewImageFile = [[albumMedia getVideo] getPreviewImageFile];
     self.circleProgressView.elapsedTime = progress*100;
     
 //    [[albumMedia getVideo] getThumbNailFile];
     
     __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", 0]];
-    [self.postImage.imageView_ sd_setImageWithURL:[NSURL URLWithString:filePath]];
+    [self.postImage.imageView_ sd_setImageWithURL:[NSURL fileURLWithPath:filePath]];
     
 }
 

@@ -367,7 +367,10 @@
 
     NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"];
     [KVNProgress showSuccessWithStatus:@"Yhaa !im ready!" completion:^{
-        [[ShotVibeAppDelegate sharedDelegate].uploadManager addUploadVideoJob:pathToMovie withAlbumId:self.albumId];
+        
+        [[[ShotVibeAppDelegate sharedDelegate] uploadManager] addUploadVideoJob:pathToMovie withImageFilePath:@"" withAlbumId:self.albumId];
+        
+//        [[ShotVibeAppDelegate sharedDelegate].uploadManager addUploadVideoJob:pathToMovie withAlbumId:self.albumId];
     }];
 //    long long publicFeedId = 5331;
 
@@ -955,6 +958,11 @@
             [self imageSelected:glcamera.imageForOutSideUpload];
             glcamera.imageForOutSideUpload = nil;
         }
+        
+//        if(glcamera.goneUploadAmovie) {
+//            [self videoSelected];
+//            glcamera.goneUploadAmovie = NO;
+//        }
     }
     
     //    albumContents

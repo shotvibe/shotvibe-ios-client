@@ -77,6 +77,9 @@ static ContainerViewController *sharedInstance;
     return self;
 }
 
+- (void)startVideoUploadAfterSourceSelect:(long long int)albumId withAlbumContents:(SLAlbumContents*)album {
+    [albumlistvc goToAlbumId:albumId startImidiatly:YES addAlbumContents:album isVideo:YES];
+}
 
 - (void)startUploadAfterSourceSelect:(long long int)albumId withAlbumContents:(SLAlbumContents*)album {
     [albumlistvc goToAlbumId:albumId startImidiatly:YES addAlbumContents:album];
@@ -109,6 +112,11 @@ static ContainerViewController *sharedInstance;
 -(void)setFriendsFromMainWithPicture {
     freindsVc.friendsFromMainWithPicture = YES;
     freindsVc.state = SVAddFriendsMainWithImage;
+}
+
+-(void)setFriendsFromMainWithVideo {
+    freindsVc.friendsFromMainWithVideo = YES;
+    freindsVc.state = SVAddFriendsMainWithVideo;
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {

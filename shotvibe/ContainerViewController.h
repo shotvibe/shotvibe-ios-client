@@ -30,7 +30,7 @@ typedef void(^pageTransitionCompleted)();
 
 - (void)transitToAlbumList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction withAlbumId:(long long int)albumId completion:(pageTransitionCompleted)completion;
 - (void)transitToFriendsList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction completion:(pageTransitionCompleted)completion;
-
+- (void)startVideoUploadAfterSourceSelect:(long long int)albumId withAlbumContents:(SLAlbumContents*)album;
 -(void)lockScrolling:(BOOL)lock;
 - (void)resetFriendsView;
 - (void)startUploadAfterSourceSelect:(long long int)albumId withAlbumContents:(SLAlbumContents*)album;

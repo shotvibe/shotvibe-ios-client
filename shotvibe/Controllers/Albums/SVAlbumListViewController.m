@@ -57,6 +57,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "ContainerViewController.h"
 #import "Common.h"
+#import "YYWebImage.h"
 //#import "MPMoviePlayerController.h"
 
 CGFloat kResizeThumbSize = 45.0f;
@@ -402,6 +403,28 @@ CGFloat kResizeThumbSize = 45.0f;
 
 
 -(void)uploadImageAfterTransitionFromFriends {
+
+}
+
+- (void)goToAlbumId:(long long int)num startImidiatly:(BOOL)start addAlbumContents:(SLAlbumContents*)album isVideo:(BOOL)isVideo {
+
+    [[GLSharedCamera sharedInstance] setCameraInFeed];
+    //    [[GLSharedCamera sharedInstance] setInFeedMode:YES dmutNeedTransform:NO];
+    
+    [self.navigationController setNavigationBarHidden:YES];
+    
+    GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+    if(album != nil){
+        feed.contentsFromOutside = album;
+    }
+    feed.albumId = num;
+    if(start){
+        feed.startImidiatlyVideoUpload = YES;
+    } else {
+        feed.startImidiatlyVideoUpload = NO;
+    }
+    //    feed.
+    [self.navigationController pushViewController:feed animated:YES];
 
 }
 
@@ -1150,15 +1173,27 @@ CGFloat kResizeThumbSize = 45.0f;
 //                     
 //                 }];
                 
-                [cell.networkImageView.imageView_ sd_setImageWithURL:[NSURL URLWithString:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl]] placeholderImage:[UIImage imageNamed:@""]];
+//                [cell.networkImageView.imageView_ sd_setImageWithURL:[NSURL URLWithString:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl]] placeholderImage:[UIImage imageNamed:@""]];
+//                [cell.networkImageView.imageView_ yy_setImageWithURL:[NSURL URLWithString:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""]];
+                
+                [cell.networkImageView.imageView_ yy_setImageWithURL:[NSURL URLWithString:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+                    
+                }];
                 
 //                [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId] photoUrl:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl] photoSize:[PhotoSize Thumb75] manager:photoFilesManager_];
                 
             } else {
-                [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId]
-                                   photoUrl:[[latestPhoto getServerPhoto] getUrl]
-                                  photoSize:[PhotoSize Thumb75]
-                                    manager:photoFilesManager_];
+                [cell.networkImageView.imageView_ yy_setImageWithURL:[NSURL URLWithString:[[latestPhoto getServerPhoto] getUrl]] placeholder:[UIImage imageNamed:@""]];
+                
+                
+                [cell.networkImageView.imageView_ yy_setImageWithURL:[NSURL URLWithString:[[latestPhoto getServerPhoto] getUrl]] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+                    
+                }];
+                
+//                [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId]
+//                                   photoUrl:[[latestPhoto getServerPhoto] getUrl]
+//                                  photoSize:[PhotoSize Thumb75]
+//                                    manager:photoFilesManager_];
             }
             
             [cell.timestamp setTitle:distanceOfTimeInWords forState:UIControlStateNormal];

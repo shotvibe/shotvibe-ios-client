@@ -799,7 +799,7 @@
             
             
             
-            if(self.friendsFromMainWithPicture){
+            if(self.friendsFromMainWithPicture || self.friendsFromMainWithVideo){
                 albumId = 0;
             }
             
@@ -810,6 +810,11 @@
                     [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
                     
                     self.friendsFromMainWithPicture = NO;
+                } else if (self.friendsFromMainWithVideo){
+                    
+                    [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
+                    self.friendsFromMainWithVideo = NO;
+                    
                 }
             }];
         }];

@@ -60,6 +60,13 @@
 #import "ContainerViewController.h"
 #import "GLProfilePageViewController.h"
 
+#import "YYWebImage.h"
+
+#import "SL/MediaType.h"
+#import "SL/AlbumServerVideo.h"
+#import "GLSharedVideoPlayer.h"
+#import "PMCustomKeyboard.h"
+
 @interface GLPublicFeedPostViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
     
     SLAlbumManager *albumManager_;
@@ -82,6 +89,8 @@
 @implementation GLPublicFeedPostViewController
 
 -(void)closePressed {
+    
+    [[GLSharedVideoPlayer sharedInstance] resetPlayer];
 
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -90,6 +99,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     UIImage * glanceLogo = [UIImage imageNamed:@"welcomeGlanceLogo"];
     UIImageView * glanceLogoView = [[UIImageView alloc] initWithImage:glanceLogo];
@@ -900,194 +912,52 @@
     
     long long userID = [[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
     
-    if ([photo getUploadingPhoto]) {
+    
+    if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
         
+        SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
         
+//        [cell.postImage yy_setImageWithURL:[NSURL URLWithString:[video getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""]];
         
-        NSLog(@"aaa");
-        [cell.profileImageView setImage:[UIImage imageNamed:@"CaptureButton"]];
-        
-        cell.userName.text = [NSString stringWithFormat:@"Uploading - %.f%% ",[[photo getUploadingPhoto] getUploadProgress] * 100];//@"Uploading";
-        
-        if([[photo getUploadingPhoto] getUploadProgress] * 100 == 100){
-            scrollToCellDisabled = NO;
-            NSString *path = [NSString stringWithFormat:@"%@%@", [[NSBundle mainBundle] resourcePath], @"/dropsound.wav"];
-            //
-            SystemSoundID soundID;
-            //
-            NSURL *filePath = [NSURL fileURLWithPath:path isDirectory:NO];
-            //
-            //        //Use audio sevices to create the sound
-            //
-            AudioServicesCreateSystemSoundID((__bridge CFURLRef)filePath, &soundID);
+        [cell.postImage yy_setImageWithURL:[NSURL URLWithString:[video getVideoThumbnailUrl]]  placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
             
-            //Use audio services to play the sound
-            
-            AudioServicesPlaySystemSound(soundID);
-        }
+        }];
         
-        cell.postedTime.text = @"now";
-
-        [cell.postImage setImage:uploadingImage];
-//        [UIView animateWithDuration:0.5 animations:^{
-//            cell.postImage.alpha = [[photo getUploadingPhoto] getUploadProgress];
-//        }];
+        
+        cell.videoBadge.alpha = 1;
+        
+        [[GLSharedVideoPlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto]getId] withVideoUrl:[video getVideoUrl] videoThumbNail:cell.postImage.image];
+        [cell.activityIndicator startAnimating];
         
         
         
-        cell.glancesCounter.text = [[tempDict objectAtIndex:0] objectForKey:@"likes"];
-        
-        
-        cell.photoId = [[tempDict objectAtIndex:0] objectForKey:@"id"];
-        
-        
-        cell.addCommentButton.tag = indexPath.row;//[[tempDict objectForKey:@"id"] longLongValue];
-        cell.abortCommentButton.tag = indexPath.row;
-        cell.glanceDownButton.tag = indexPath.row;
-        cell.glanceUpButton.tag = indexPath.row;
-        
-        cell.feed3DotsButton.tag = indexPath.row;
-        
-        long long userID = [[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
-        
-        cell.profileImageView.tag = userID;
-        cell.userName.tag = userID;
-
-        
-//        cell.glancesIcon.tag = indexPath.row;
-        
-        [cell.postForwardButton addTarget:self action:@selector(sharePostPressed:) forControlEvents:UIControlEventTouchUpInside];
-        cell.postForwardButton.tag = indexPath.row;
-        
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
-        singleTap.numberOfTapsRequired = 1;
-        //    singleTap
-        [cell.glanceUpButton addGestureRecognizer:singleTap];
-        
-        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
-        doubleTap.numberOfTapsRequired = 1;
-        [cell.glanceDownButton addGestureRecognizer:doubleTap];
-        
-        
-        
-        UITapGestureRecognizer *showActionSheetGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showActionSheets:)];
-//        showActionSheetGest.view.tag = indexPath.row;
-//        showActionSheetGest
-        showActionSheetGest.numberOfTapsRequired = 1;
-        
-        
-        UITapGestureRecognizer *showUserProfileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile:)];
-        UITapGestureRecognizer *showUserProfileTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserProfile2:)];
-        
-        cell.profileImageView.tag =
-        
-        cell.profileImageView.userInteractionEnabled = YES;
-        cell.userName.userInteractionEnabled = YES;
-        [cell.profileImageView addGestureRecognizer:showUserProfileTap];
-        [cell.userName addGestureRecognizer:showUserProfileTap2];
-        //    singleTap
-        [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
-        
-//        [singleTap requireGestureRecognizerToFail:doubleTap];
-        
-        //    [cell.glancesIcon addGestureRecognizer:<#(nonnull UIGestureRecognizer *)#>];
-        
-        
-        cell.commentTextField.delegate = self;
-        //    cell.commentTextField
-        cell.commentTextField.tag = indexPath.row;
-        
-//        [cell.addCommentButton addTarget:self action:@selector(addCommentTapped:) forControlEvents:UIControlEventTouchUpInside];
-        
-        
-        cell.commentsScrollView.alpha = 0;
-        
-        
-        
-        cell.profileImageView.tag = userID;
-
     } else {
 
-//    [cell.profileImageView setCircleImageWithURL:[NSURL URLWithString:[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholderImage:[UIImage imageNamed:@"ProfilePlaceholder"] borderWidth:2];
+
+//        [cell.postImage yy_setImageWithURL:[NSURL URLWithString:[[[[tempDict objectAtIndex:0] objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]] placeholder:[UIImage imageNamed:@""]];
+        
+        [cell.postImage yy_setImageWithURL:[NSURL URLWithString:[[[[tempDict objectAtIndex:0] objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]]  placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+            
+        }];
+        
+        
+    }
+    
+//    [cell.profileImageView yy_setImageWithURL:[NSURL URLWithString:[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholder:[UIImage imageNamed:@""]];
+    cell.profileImageView.clipsToBounds = YES;
+//    cell.profileImageView.backgroundColor = [UIColor whiteColor];
+    [cell.profileImageView yy_setImageWithURL:[NSURL URLWithString:[[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]]  placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+        
+    }];
 
     cell.userName.text = [[[tempDict objectAtIndex:0] objectForKey:@"user"] objectForKey:@"username"];
     cell.postedTime.text = [NSString stringWithFormat:@"%@ ago",[[[NSDate alloc] initWithTimeIntervalSince1970:[[[tempDict objectAtIndex:0] objectForKey:@"created_time"] longLongValue]] distanceOfTimeInWords:[NSDate date] shortStyle:YES]];
         
-       
+    
+        
+    
 
-//        if(!cell.loaded){
-//        if(indexPath.row > 0 && uploadingImage == nil){
-        
-        
-//        UIImage * tempImage;
-//        if(indexPath.row ==0){
-//            if(!uploadingImage){
-//                tempImage = [UIImage imageNamed:@"postIsUploadingPh"];
-//            } else {
-//                tempImage = [uploadingImage copy];
-////                uploadingImage = nil;
-//            }
-//            
-//            
-//        } else{
-//            tempImage = [UIImage imageNamed:@"postIsUploadingPh"];
-//        }
-        
-//        
-//            [cell.postImage sd_setImageWithURL:[NSURL URLWithString:[[[[tempDict objectAtIndex:0] objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]]
-//                              placeholderImage:uploadingImage options:SDWebImageHighPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                                  [UIView animateWithDuration:0.2 animations:^{
-//                                      cell.postImage.alpha = 1;
-//                                  }];
-//                              }];
-        
-        
-//        }
-        
-        SLAlbumPhoto * photo = [tempDict objectAtIndex:1];
-//        cell.postImage
-//        if(cell.postImage.image != uploadingImage){
-        
-        
-//        [cell.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
-        
-//        cell.postImage
-        
-//        __block UIActivityIndicatorView *activityIndicator;
-//        __weak UIImageView *weakImageView = cell.postImage;
-//        [cell.postImage sd_setImageWithURL:[NSURL URLWithString:[[photo getServerPhoto] getUrl]]
-//                          placeholderImage:nil
-//                                   options:SDWebImageProgressiveDownload
-//                                  progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-//                                      if (!activityIndicator) {
-//                                          [weakImageView addSubview:activityIndicator = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]];
-//                                          activityIndicator.center = weakImageView.center;
-//                                          [activityIndicator startAnimating];
-//                                      }
-//                                  }
-//                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                                     [activityIndicator removeFromSuperview];
-//                                     activityIndicator = nil;
-//                                 }];
-        
-//        }
-            //
-        
-        
-        
-//        int score = [[photo getServerPhoto] getMyGlanceScoreDelta];
-//        if(score < 0){
-//            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconUnGlanced"];
-//        } else if(score == 0){
-//            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconRegular"];
-//        } else {
-//            cell.glancesIcon.image = [UIImage imageNamed:@"glancesIconGlanced"];
-//        }
-//        [cell.postImage setPhoto:<#(NSString *)#> photoUrl: objectForKey:@"url"]] photoSize:[PhotoSize FeedSize] manager:albumManager_]
     
-//        }
-    
-        
     cell.glancesCounter.text = [[tempDict objectAtIndex:0] objectForKey:@"likes"];
     
     
@@ -1144,12 +1014,7 @@
         //    singleTap
         [cell.feed3DotsButton addGestureRecognizer:showActionSheetGest];
     
-//    [singleTap requireGestureRecognizerToFail:doubleTap];
-        
-        
-    
-//    [cell.glancesIcon addGestureRecognizer:<#(nonnull UIGestureRecognizer *)#>];
-    
+
     
     cell.commentTextField.delegate = self;
     //    cell.commentTextField
@@ -1238,16 +1103,16 @@
     
     
     
-    if (indexPath.row == 4) {
-        NSLog(@"need to reload more now");
-    }
-    }
+
     
     return cell;
 }
 
 -(void)showUserProfileWithId:(long long)userId {
 
+    
+    [KVNProgress showWithStatus:@"Loading Profile.." onView:[[ShotVibeAppDelegate sharedDelegate] window]];
+    
 //    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:cellRow inSection:0]];
     
 //    [ShotVibeAPITask runTask:self withAction:^id{
@@ -1261,42 +1126,62 @@
 //        return nil;
 //    } onTaskComplete:^(id dummy) {
     
-    if([[[albumManager_ getShotVibeAPI] getUserProfileWithLong:[[[albumManager_ getShotVibeAPI] getAuthData] getUserId]] getMemberId] != userId){
+//    if([[[albumManager_ getShotVibeAPI] getUserProfileWithLong:[[[albumManager_ getShotVibeAPI] getAuthData] getUserId]] getMemberId] != userId){
+    
         
-        
-        [MBProgressHUD showHUDAddedTo:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
-        
-        [[[GLSharedCamera sharedInstance] membersButton] setAlpha:0];
-        [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:NO];
-        
+//        [MBProgressHUD showHUDAddedTo:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
+    
+//        [[[GLSharedCamera sharedInstance] membersButton] setAlpha:0];
+//        [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:NO];
+    
+//    KVNProgress
         GLProfilePageViewController * profilePage = [[GLProfilePageViewController alloc] init];
         profilePage.albumId = self.albumId;
         profilePage.userId = userId;
         
         
-        for(SLAlbumMember * member in [albumContents getMembers].array){
-            
-            if([[member getUser] getMemberId] == [[[albumManager_ getShotVibeAPI] getAuthData] getUserId]){
-                
-                if([member getAlbumAdmin]){
-                    
-                    profilePage.imAdmin = YES;
-                    
-                }
-                
-            }
-            
-        }
-        
-        
-        [self.navigationController pushViewController:profilePage animated:YES];
-        
-    } else {
-        
-    }
+//        for(SLAlbumMember * member in [albumContents getMembers].array){
+//            
+//            if([[member getUser] getMemberId] == [[[albumManager_ getShotVibeAPI] getAuthData] getUserId]){
+//                
+//                if([member getAlbumAdmin]){
+//                    
+//                    profilePage.imAdmin = YES;
+//                    
+//                }
+//                
+//            }
+//            
+//        }
+    profilePage.fromPublicFeed = YES;
+    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:profilePage];
+    
+    profilePage.title = @"User Profile";
+    profilePage.navigationItem.leftBarButtonItem =
+    [[UIBarButtonItem alloc] initWithTitle:@"< Back"
+                                     style:UIBarButtonItemStylePlain
+                                    target:self
+                                    action:@selector(hideProfilePage)];
+    
+//    nav.navigationBar.backItem = []
+    
+        [self presentViewController:nav animated:YES completion:^{
+            [KVNProgress dismiss];
+//
+        }];
+//        [self.navigationController pushViewController:profilePage animated:YES];
+    
+//    } else {
+//        
+//    }
     
     
     
+}
+-(void) hideProfilePage {
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 -(void)showUserProfile2:(UITapGestureRecognizer*)gest {
@@ -1318,7 +1203,18 @@
 
 //    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:gest.view.tag inSection:0]];
 //    NSString *actionSheetTitle = @"Action Sheet Demo"; //Action Sheet Title
-    NSString *destructiveTitle = @"Delete Photo"; //Action Sheet Button Titles
+//    if(){}
+    
+    SLAlbumPhoto * photo = [[self.posts objectAtIndex:0] objectAtIndex:1];
+
+    NSString *destructiveTitle = @"";
+    
+    if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
+//    if([[self.tableView visibleCells] firstObject]){}
+      destructiveTitle = @"Delete Video"; //Action Sheet Button Titles
+    } else {
+      destructiveTitle = @"Delete Photo";
+    }
     NSString *other1 = @"Share";
 //    NSString *other2 = @"Other Button 2";
 //    NSString *other3 = @"Other Button 3";
@@ -1731,47 +1627,9 @@
 //    
 }
 
-- (void)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated {
-    
-}
 
--(void)backPressed {
-    
-//    self.de
-//    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"NO" forKey:@"lockScroll"];
-//    [[NSNotificationCenter defaultCenter] postNotificationName: @"LockScrollingInContainerPages" object:nil userInfo:userInfo];
 
-    [[ContainerViewController sharedInstance] lockScrolling:NO];
-    
-    if(membersOpened){
-        
-        
-         membersOpened = !membersOpened;
-        
-        [self.menuContainerViewController toggleRightSideMenuCompletion:^{
-           
-        }];
-    
-    }
 
-    [[GLSharedCamera sharedInstance] setCameraInMain];
-//    [UIView animateWithDuration:0.2 animations:^{
-//        [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
-//        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
-//    }];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    
-    
-}
-
--(void)membersPressed {
-
-    membersOpened = !membersOpened;
-    
-    [self.menuContainerViewController toggleRightSideMenuCompletion:^{
-        
-    }];
-}
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     
@@ -1907,6 +1765,10 @@
         
         cell.glancesCounter.frame = CGRectMake(cell.commentTextField.frame.origin.x+cell.commentTextField.frame.size.width, cell.glancesCounter.frame.origin.y, cell.glancesCounter.frame.size.width, cell.glancesCounter.frame.size.height);
     } completion:^(BOOL finished) {
+//        [cell.commentTextField becomeFirstResponder];
+        PMCustomKeyboard *customKeyboard = [[PMCustomKeyboard alloc] init];
+        
+        [customKeyboard setTextView:cell.commentTextField];
         [cell.commentTextField becomeFirstResponder];
     }];
     
@@ -1917,64 +1779,39 @@
     return [[UIScreen mainScreen] bounds].size.height*0.88;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Table view delegate
-
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"Nib name" bundle:nil];
+- (void)keyboardWillShow:(NSNotification *)notification
+{
     
-    // Pass the selected object to the new view controller.
+    if([[GLSharedCamera sharedInstance] cameraIsShown] == NO){
+        self.tableView.scrollEnabled = NO;
+        
+        CGRect frame = self.tableView.frame;
+        CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        frame.origin.y -= keyboardRect.size.height;
+        
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.tableView.frame = frame;
+                         }];
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
     
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    if([[GLSharedCamera sharedInstance] cameraIsShown] == NO){
+        self.tableView.scrollEnabled = YES;
+        CGRect frame = self.tableView.frame;
+        CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        frame.origin.y += keyboardRect.size.height;
+        
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.tableView.frame = frame;
+                         }];
+    }
 }
-*/
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

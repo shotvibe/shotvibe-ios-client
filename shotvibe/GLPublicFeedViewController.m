@@ -16,7 +16,10 @@
 #import "AlbumServerPhoto.h"
 #import "ContainerViewController.h"
 #import "ArrayList.h"
-
+#import "YYWebImage.h"
+#import "SL/AlbumServerVideo.h"
+//#import "SL/AlbumVideo.h"
+#import "SL/MediaType.h"
 @interface GLPublicFeedViewController ()
 
 @end
@@ -124,6 +127,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger) section {
     
     GLPublicFeedPostViewController * singlePostVc = [[GLPublicFeedPostViewController alloc] init];
     singlePostVc.albumId = 0;
+    
 //    singlePostVc.modalPresentationStyle= uimodalpres
 //    CATransition* transition = [CATransition animation];
 //    transition.duration = 0.3;
@@ -190,16 +194,47 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger) section {
 //        [backgroundView release];
     }
     
+    
+    
+//    [cell.cellImage sd_setImageWithURL:[NSURL URLWithString:new] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//        
+//    }];
     SLAlbumPhoto * photo = [self.photosArray objectAtIndex:indexPath.row];
-    cell.cellSlPhoto = photo;
     
-    NSString * thumUrl = [[photo getServerPhoto] getUrl];
     
-    NSString *new = [thumUrl stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
     
-    [cell.cellImage sd_setImageWithURL:[NSURL URLWithString:new] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
+        SLAlbumServerVideo * video = [[photo getServerPhoto] getVideo];
         
-    }];
+        cell.cellSlPhoto = photo;
+        
+//        [cell.cellImage yy_setImageWithURL:[NSURL URLWithString:[video getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""]];
+        
+        [cell.cellImage yy_setImageWithURL:[NSURL URLWithString:[video getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+            
+        }];
+        
+        cell.videoBadge.alpha = 1;
+    } else {
+        SLAlbumPhoto * photo = [self.photosArray objectAtIndex:indexPath.row];
+        cell.cellSlPhoto = photo;
+        cell.videoBadge.alpha = 0;
+        NSString * thumUrl = [[photo getServerPhoto] getUrl];
+        
+        NSString *new = [thumUrl stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
+        
+        
+//        [cell.cellImage yy_setImageWithURL:[NSURL URLWithString:new] placeholder:[UIImage imageNamed:@""]];
+        
+        
+        [cell.cellImage yy_setImageWithURL:[NSURL URLWithString:new] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+            
+        }];
+        
+        
+        
+    }
+    
     
 //    cell.textLabel.text = @"test";//[_objects objectAtIndex:indexPath.row];
     

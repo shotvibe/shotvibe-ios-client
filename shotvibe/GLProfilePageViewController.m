@@ -22,6 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    
+    
     SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
     
 //    int64_t userId = (long)self.userId;//[[shotvibeAPI getAuthData] getUserId];
@@ -33,6 +36,12 @@
     } else {
 //        self.reinviteButton.enabled = YES;
         self.removeButton.enabled = YES;
+    }
+    
+    
+    if(self.fromPublicFeed){
+        self.removeButton.hidden = YES;
+        self.reinviteButton.hidden = YES;
     }
 //    self.userScore.text = [NSString stringWithFormat:@"%04ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]];
     

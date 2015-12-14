@@ -13,4 +13,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cellImage;
 @property (retain, nonatomic) IBOutlet UILabel * textLabel;
 @property (nonatomic, retain) SLAlbumPhoto * cellSlPhoto;
+@property (nonatomic, retain) UIImageView * videoBadge;
 @end

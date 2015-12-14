@@ -14,9 +14,17 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
         // Initialization code
     }
     return self;
+}
+
+-(void)awakeFromNib {
+    self.videoBadge = [[UIImageView alloc]initWithFrame:CGRectMake(7, 7, 20, 20)];
+    self.videoBadge.alpha = 0;
+    self.videoBadge.image = [UIImage imageNamed:@"glanceVideoIcon"];
+    [self.cellImage addSubview:self.videoBadge];
 }
 
 /*

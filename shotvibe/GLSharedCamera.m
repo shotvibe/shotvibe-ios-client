@@ -673,7 +673,7 @@
     [self.videoCamera startCameraCapture];
     [self.previewPlayer stop];
     [self.previewPlayer.view removeFromSuperview];
-    self.goneUploadAmovie = NO;
+//    self.goneUploadAmovie = NO;
     [UIView animateWithDuration:0.2 animations:^{
         //            self.carousel.frame = CGRectMake(self.carousel.frame.origin.x, self.carousel.frame.origin.y+self.carousel.frame.size.height, self.carousel.frame.size.width, self.carousel.frame.size.height);
         self.animatedView.alpha = 0;
@@ -3026,7 +3026,11 @@
             
         
         NSLog(@"ok this is the time to start the upload we the movie that we prepared");
-        [self.delegate videoSelected];
+        if(self.isInFeedMode){
+            [self.delegate videoSelected];
+        } else {
+            self.videoToUploadPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"];
+        }
     
     } else {
     

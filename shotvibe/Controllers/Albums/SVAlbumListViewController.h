@@ -41,6 +41,8 @@
 + (NSString *)getAlbumOrg:(SLAlbumBase *)album;
 - (void)transitToAlbumWithId:(long long int)num animated:(BOOL)animated dmutScale:(BOOL)scale;
 - (void)goToAlbumId:(long long int)num startImidiatly:(BOOL)start addAlbumContents:(SLAlbumContents*)album;
+- (void)goToAlbumId:(long long int)num startImidiatly:(BOOL)start addAlbumContents:(SLAlbumContents*)album isVideo:(BOOL)isVideo;
+
 @property (nonatomic, assign) id<AlbumListDelegate> delegate;
 //@property (assign, nonatomic) NSInteger indexNumber;
 

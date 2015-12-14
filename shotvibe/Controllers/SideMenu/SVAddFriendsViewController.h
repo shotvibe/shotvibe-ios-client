@@ -17,7 +17,8 @@ typedef enum SVAddFriendsState {
     SVAddFriendsMainWithoutIamge,
     SVAddFriendsMainWithImage,
     SVAddFriendsFromAddFriendButton,
-    SVAddFriendsFromMove
+    SVAddFriendsFromMove,
+    SVAddFriendsMainWithVideo
 } SVAddFriendsState;
 
 @protocol AddFriendsDelegate <NSObject>
@@ -50,6 +51,7 @@ typedef enum SVAddFriendsState {
 @property (nonatomic) BOOL showGroupsSegment;
 @property(nonatomic) BOOL friendsFromMainWithPicture;
 @property(nonatomic) BOOL fromMove;
+@property(nonatomic) BOOL friendsFromMainWithVideo;
 
 @property (weak, nonatomic) IBOutlet UIButton *contactsSourceButton;
 @property (assign, nonatomic) NSString * photoToMoveId;

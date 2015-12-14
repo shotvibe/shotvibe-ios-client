@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
 
 @interface UploadJob : NSObject
 
-- (id)initVideoUploadWithFile:(NSString *)filePath withAlbumId:(long long)albumId;
+- (id)initVideoUploadWithFile:(NSString *)filePath withPreviewImageFile:(NSString *)imageFile withAlbumId:(long long)albumId;
 
 - (NSString *)getFilePath;
 - (NSString *)getUniqueName;
@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
     SLAlbumUploadingMedia *uploadingMediaObj_;
 }
 
-- (id)initVideoUploadWithFile:(NSString *)filePath withAlbumId:(long long)albumId
+- (id)initVideoUploadWithFile:(NSString *)filePath withPreviewImageFile:(NSString *)imageFile withAlbumId:(long long)albumId
 {
     self = [super init];
     if (self) {
@@ -55,7 +55,7 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
         albumId_ = albumId;
         uniqueName_ = [UploadJob generateUniqueName];
 
-        SLAlbumUploadingVideo *uploadingVideo = [[SLAlbumUploadingVideo alloc] init];
+        SLAlbumUploadingVideo *uploadingVideo = [[SLAlbumUploadingVideo alloc] initWithNSString:imageFile];
         uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum  VIDEO] withSLAlbumUploadingVideo:uploadingVideo withFloat:0.0f];
     }
     return self;
@@ -239,9 +239,9 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
     };
 }
 
--(void)addUploadVideoJob:(NSString *)videoFilePath withAlbumId:(long long)albumId
+-(void)addUploadVideoJob:(NSString *)videoFilePath withImageFilePath:(NSString *)imageFile withAlbumId:(long long)albumId
 {
-    UploadJob *newJob = [[UploadJob alloc] initVideoUploadWithFile:videoFilePath withAlbumId:albumId];
+    UploadJob *newJob = [[UploadJob alloc] initVideoUploadWithFile:videoFilePath withPreviewImageFile:imageFile withAlbumId:albumId];
 
     [uploadQueue_ addObject:newJob];
     

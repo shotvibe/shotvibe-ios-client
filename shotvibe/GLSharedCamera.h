@@ -132,6 +132,7 @@ typedef enum ScrollDirection {
 @property (nonatomic, retain) MPMoviePlayerController * previewPlayer;
 @property (nonatomic, retain) UIButton * videoPreviewCloseButton;
 @property (nonatomic) BOOL goneUploadAmovie;
+@property (nonatomic, retain) NSString * videoToUploadPath;
 //@property (nonatomic,retain) GradientView * captureMeterView;
 
 @end

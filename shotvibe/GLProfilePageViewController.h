@@ -21,4 +21,7 @@
 - (IBAction)reinvitePressed:(id)sender;
 
 
+@property (nonatomic) BOOL fromPublicFeed;
+
+
 @end

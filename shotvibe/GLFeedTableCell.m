@@ -50,6 +50,7 @@
 //    NSLog(@"testtest");
     self.profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 60, 60)];
     [self.contentView addSubview:self.profileImageView];
+    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
     
     self.userName = [[UILabel alloc] initWithFrame:CGRectMake(80, 15, [[UIScreen mainScreen] bounds].size.width*0.5, 60)];
     self.userName.backgroundColor = [UIColor whiteColor];
@@ -207,19 +208,19 @@
 //    self.moviePlayer.view.backgroundColor = [UIColor redColor];
     
     
-//    CGFloat lineHeight = 4;
-//    _progressLayer = [CAShapeLayer layer];
-//    _progressLayer.size = CGSizeMake(self.postImage.width, lineHeight);
-//    UIBezierPath *path = [UIBezierPath bezierPath];
-//    [path moveToPoint:CGPointMake(0, _progressLayer.height / 2)];
-//    [path addLineToPoint:CGPointMake(self.postImage.width, _progressLayer.height / 2)];
-//    _progressLayer.lineWidth = lineHeight;
-//    _progressLayer.path = path.CGPath;
-//    _progressLayer.strokeColor = [UIColor colorWithRed:0.000 green:0.640 blue:1.000 alpha:0.720].CGColor;
-//    _progressLayer.lineCap = kCALineCapButt;
-//    _progressLayer.strokeStart = 0;
-//    _progressLayer.strokeEnd = 0;
-//    [self.postImage.layer addSublayer:_progressLayer];
+    CGFloat lineHeight = 4;
+    _progressLayer = [CAShapeLayer layer];
+    _progressLayer.size = CGSizeMake(self.postImage.width, lineHeight);
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0, _progressLayer.height / 2)];
+    [path addLineToPoint:CGPointMake(self.postImage.width, _progressLayer.height / 2)];
+    _progressLayer.lineWidth = lineHeight;
+    _progressLayer.path = path.CGPath;
+    _progressLayer.strokeColor = UIColorFromRGB(0x36A7A6).CGColor;
+    _progressLayer.lineCap = kCALineCapButt;
+    _progressLayer.strokeStart = 0;
+    _progressLayer.strokeEnd = 0;
+    [self.postImage.layer addSublayer:_progressLayer];
 
 }
 
@@ -366,6 +367,12 @@
     
 //    [self.profileImageView setCircleImageWithURL:[NSURL URLWithString:[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholderImage:[UIImage imageNamed:@"ProfilePlaceholder"] borderWidth:2];
     
+//    [self.profileImageView yy_setImageWithURL:[NSURL URLWithString:[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholder:[UIImage imageNamed:@"ProfilePlaceholder"]];
+    
+    [self.profileImageView yy_setImageWithURL:[NSURL URLWithString:[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholder:[UIImage imageNamed:@"ProfilePlaceholder"] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+        
+    }];
+    
         self.userName.text = [[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"username"];
         self.postedTime.text = [NSString stringWithFormat:@"%@ ago",[[[NSDate alloc] initWithTimeIntervalSince1970:[[[data objectAtIndex:0] objectForKey:@"created_time"] longLongValue]] distanceOfTimeInWords:[NSDate date] shortStyle:YES]];
     
@@ -390,18 +397,24 @@
 //                            [self.moviePlayerController play];
         
         
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        [manager downloadImageWithURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {} completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
-        {
+//        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+//        [manager downloadImageWithURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {} completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
+//        {
+//            
+//            if (image) {
+//                self.postImage.image = image;
+//                
+////                [self.contentView bringSubviewToFront:self.moviePlayer.view];
+////                [self.moviePlayer.view setAlpha:1];
+//            }
+//            
+//         }];
+        
+//        [self.postImage yy_setImageWithURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""]];
+        
+        [self.postImage yy_setImageWithURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
             
-            if (image) {
-                self.postImage.image = image;
-                
-//                [self.contentView bringSubviewToFront:self.moviePlayer.view];
-//                [self.moviePlayer.view setAlpha:1];
-            }
-            
-         }];
+        }];
         
 //        [[MPMusicPlayerController applicationMusicPlayer] setVolume:0];
 //        [self.moviePlayer setUseApplicationAudioSession:NO];
