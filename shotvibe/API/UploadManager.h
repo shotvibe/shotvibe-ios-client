@@ -17,5 +17,6 @@
 -(id)initWithAWSCredentialsProvider:(id<AWSCredentialsProvider>)awsCredentialsProvider  withUserId:(long long)userId;
 
 -(void)addUploadVideoJob:(NSString *)videoFilePath withImageFilePath:(NSString *)imageFile withAlbumId:(long long)albumId;
+-(void)addUploadPhotoJob:(NSString *)photoFilePath withAlbumId:(long long)albumId;
 
 @end

@@ -11,6 +11,7 @@
 #import "SL/ArrayList.h"
 #import "SL/AwsToken.h"
 #import "SL/AlbumUploadingMedia.h"
+#import "SL/AlbumUploadingMediaPhoto.h"
 #import "SL/AlbumUploadingVideo.h"
 #import "SL/MediaType.h"
 #import "ShotVibeCredentialsProvider.h"
@@ -27,6 +28,10 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
 
 - (id)initVideoUploadWithFile:(NSString *)filePath withPreviewImageFile:(NSString *)imageFile withAlbumId:(long long)albumId;
 
+- (id)initPhotoUploadWithFile:(NSString *)filePath withAlbumId:(long long)albumId;
+
+- (SLMediaTypeEnum *)getMediaType;
+
 - (NSString *)getFilePath;
 - (NSString *)getUniqueName;
 - (long long)getAlbumId;
@@ -40,6 +45,8 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
 
 @implementation UploadJob
 {
+    SLMediaTypeEnum *mediaType_;
+
     NSString *filePath_;
     long long albumId_;
     NSString *uniqueName_;
@@ -51,14 +58,37 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
 {
     self = [super init];
     if (self) {
+        mediaType_ = [SLMediaTypeEnum VIDEO];
+
         filePath_ = filePath;
         albumId_ = albumId;
         uniqueName_ = [UploadJob generateUniqueName];
 
         SLAlbumUploadingVideo *uploadingVideo = [[SLAlbumUploadingVideo alloc] initWithNSString:imageFile];
-        uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum  VIDEO] withSLAlbumUploadingVideo:uploadingVideo withFloat:0.0f];
+        uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum VIDEO] withSLAlbumUploadingVideo:uploadingVideo withSLAlbumUploadingMediaPhoto:nil withFloat:0.0f];
     }
     return self;
+}
+
+- (id)initPhotoUploadWithFile:(NSString *)filePath withAlbumId:(long long)albumId
+{
+    self = [super init];
+    if (self) {
+        mediaType_ = [SLMediaTypeEnum PHOTO];
+
+        filePath_ = filePath;
+        albumId_ = albumId;
+        uniqueName_ = [UploadJob generateUniqueName];
+
+        SLAlbumUploadingMediaPhoto *uploadingPhoto = [[SLAlbumUploadingMediaPhoto alloc] initWithNSString:filePath];
+        uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum PHOTO] withSLAlbumUploadingVideo:nil withSLAlbumUploadingMediaPhoto:uploadingPhoto withFloat:0.0f];
+    }
+    return self;
+}
+
+- (SLMediaTypeEnum *)getMediaType
+{
+    return mediaType_;
 }
 
 + (NSString *)generateUniqueName
@@ -117,8 +147,10 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
 @interface UploadManager ()
 
 - (void)processNextJob;
+- (void)addUploadJob:(UploadJob *)job withAlbumId:(long long)albumId;
 
 + (NSString *)bucketKeyForVideoUploadWithUserId:(long long)userId withAlbumId:(long long)albumId withFilename:(NSString *)filename;
++ (NSString *)bucketKeyForPhotoUploadWithUserId:(long long)userId withAlbumId:(long long)albumId withFilename:(NSString *)filename;
 
 @end
 
@@ -162,6 +194,11 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
     return [NSString stringWithFormat:@"videos/%lld/%lld/%@.mp4", userId, albumId, filename];
 }
 
++ (NSString *)bucketKeyForPhotoUploadWithUserId:(long long)userId withAlbumId:(long long)albumId withFilename:(NSString *)filename
+{
+    return [NSString stringWithFormat:@"photos/%lld/%lld/%@.mp4", userId, albumId, filename];
+}
+
 - (void)jobCompleted
 {
     NSLog(@"Upload Job Completed");
@@ -202,7 +239,18 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 
     AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
     uploadRequest.bucket = GLANCE_UPLOAD_BUCKET;
-    uploadRequest.key = [UploadManager bucketKeyForVideoUploadWithUserId:userId_ withAlbumId:[job getAlbumId] withFilename:[job getUniqueName]];
+
+    NSString *uploadKey;
+    if ([job getMediaType] == [SLMediaTypeEnum VIDEO]) {
+        uploadKey = [UploadManager bucketKeyForVideoUploadWithUserId:userId_ withAlbumId:[job getAlbumId] withFilename:[job getUniqueName]];
+    } else if ([job getMediaType] == [SLMediaTypeEnum PHOTO]) {
+        uploadKey = [UploadManager bucketKeyForPhotoUploadWithUserId:userId_ withAlbumId:[job getAlbumId] withFilename:[job getUniqueName]];
+    } else {
+        NSAssert(false, @"Unknown mediaType");
+    }
+
+    uploadRequest.key = uploadKey;
+
     uploadRequest.body = [NSURL fileURLWithPath:[job getFilePath]];
 
     NSLog(@"Starting upload");
@@ -239,11 +287,9 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
     };
 }
 
--(void)addUploadVideoJob:(NSString *)videoFilePath withImageFilePath:(NSString *)imageFile withAlbumId:(long long)albumId
+- (void)addUploadJob:(UploadJob *)job withAlbumId:(long long)albumId
 {
-    UploadJob *newJob = [[UploadJob alloc] initVideoUploadWithFile:videoFilePath withPreviewImageFile:imageFile withAlbumId:albumId];
-
-    [uploadQueue_ addObject:newJob];
+    [uploadQueue_ addObject:job];
     
     // If the queue was empty then we need to initiate the job. Otherwise, it will automatically run when the currently executing jobs complete
     if (uploadQueue_.count == 1) {
@@ -251,6 +297,19 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
     }
 
     [listener_ onMediaUploadObjectsChangedWithLong:albumId];
+}
+
+-(void)addUploadVideoJob:(NSString *)videoFilePath withImageFilePath:(NSString *)imageFile withAlbumId:(long long)albumId
+{
+    UploadJob *newJob = [[UploadJob alloc] initVideoUploadWithFile:videoFilePath withPreviewImageFile:imageFile withAlbumId:albumId];
+    [self addUploadJob:newJob withAlbumId:albumId];
+}
+
+
+-(void)addUploadPhotoJob:(NSString *)photoFilePath withAlbumId:(long long)albumId
+{
+    UploadJob *newJob = [[UploadJob alloc] initPhotoUploadWithFile:photoFilePath withAlbumId:albumId];
+    [self addUploadJob:newJob withAlbumId:albumId];
 }
 
 
