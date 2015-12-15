@@ -14,7 +14,7 @@
 #import "CircleProgressView.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "AlbumPhoto.h"
-//#import "AlbumVideo.h"
+//#import "SL/AlbumVideo.h"
 #import "AlbumServerPhoto.h"
 #import "SL/AlbumServerVideo.h"
 //#import "UIImageView+Masking.h"
@@ -26,6 +26,8 @@
 #import "SL/AlbumUploadingMedia.h"
 #import "SL/AlbumUploadingVideo.h"
 #import "SL/AlbumPhoto.h"
+//#import "SL/AlbumServerVideo.h"
+#import "SL/MediaType.h"
 
 @interface GLFeedTableCellUploading : UITableViewCell
 

@@ -8,6 +8,8 @@
 
 #import "GLFeedTableCellUploading.h"
 #import "AMTumblrHud.h"
+#import "SL/AlbumUploadingMediaPhoto.h"
+
 
 
 @implementation GLFeedTableCellUploading
@@ -121,17 +123,34 @@
     
 //    slalbum
     
-    [albumMedia getMediaType];
+//    SLMediaTypeEnum * type = [albumMedia getMediaType];
     
     float progress = [albumMedia getProgress];
     
-    NSString *previewImageFile = [[albumMedia getVideo] getPreviewImageFile];
+    
+    
+    if([albumMedia getMediaType] == [SLMediaTypeEnum VIDEO]){
+        NSString *previewImageFile = [[albumMedia getVideo] getPreviewImageFile];
+        [self.postImage.imageView_ sd_setImageWithURL:[NSURL fileURLWithPath:previewImageFile]];
+    } else {
+        
+        SLAlbumUploadingMediaPhoto * photo =[albumMedia getPhoto];
+       
+//        t c
+//        SLAlbumUploadingMediaPhoto * photo = ;
+//        [[albumMedia getPhoto] getPreviewImageFile];
+//        photo.;
+        NSString *previewImageFile = [photo getPreviewImageFile];
+        [self.postImage.imageView_ sd_setImageWithURL:[NSURL fileURLWithPath:previewImageFile]];
+    }
+    
+    
     self.circleProgressView.elapsedTime = progress*100;
     
 //    [[albumMedia getVideo] getThumbNailFile];
     
-    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", 0]];
-    [self.postImage.imageView_ sd_setImageWithURL:[NSURL fileURLWithPath:filePath]];
+//    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", 0]];
+    
     
 }
 

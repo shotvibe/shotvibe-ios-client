@@ -115,7 +115,8 @@
     
     PHFetchResult *fetchResult;
     
-    
+    UILabel * testLabel;
+    UITextField * dummyTextField;
     
     BOOL yes;
     
@@ -662,11 +663,56 @@
         
         
         
-        
-        
-        
     }
     return self;
+}
+
+- (void)colorDidSelected:(UITapGestureRecognizer *)tapGesture {
+    
+    CGPoint touchPoint = [tapGesture locationInView: self.colors];
+    NSLog(@"the x is: %f",(touchPoint.x/40));
+    
+    int tIndex = floor(touchPoint.x/40);
+    
+    int tempColor = (int)[self.colorArray objectAtIndex:tIndex];
+    
+    UIView * selectedColorView = [self.colorViewsArray objectAtIndex:tIndex];
+    
+    for(UIView * colorV in self.colorViewsArray){
+        if(colorV == selectedColorView){
+            colorV.clipsToBounds = YES;
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                
+                colorV.transform = CGAffineTransformScale(colorV.transform, 0.3, 0.3);
+                
+            } completion:^(BOOL finished){
+                [UIView animateWithDuration:0.3 animations:^{
+                    colorV.transform = CGAffineTransformScale(colorV.transform, 2, 2);
+                }];
+                
+            }];
+            
+        } else {
+            if(colorV.clipsToBounds){
+                colorV.clipsToBounds = NO;
+                [UIView animateWithDuration:0.3 animations:^{
+                    colorV.transform = CGAffineTransformScale(colorV.transform, 1.6, 1.6);
+                }];
+            }
+        }
+    }
+    
+    
+    [UIView transitionWithView:testLabel duration:0.20 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        [testLabel setTextColor:UIColorFromRGB(tempColor)];
+        testLabel.transform = CGAffineTransformScale(testLabel.transform, 1.20f, 1.20f);
+    } completion:^(BOOL finished) {
+        [UIView transitionWithView:testLabel duration:0.20 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+            testLabel.transform = CGAffineTransformIdentity;
+        } completion:nil];
+    }];
+    
 }
 
 -(void)backFromVideoTapped {
@@ -1511,6 +1557,41 @@
     
 }
 
+
+- (void) sizeLabel: (UILabel *) label toRect: (CGRect) labelRect  {
+    
+    // Set the frame of the label to the targeted rectangle
+    label.frame = labelRect;
+    
+    // Try all font sizes from largest to smallest font size
+    int fontSize = 300;
+    int minFontSize = 5;
+    
+    // Fit label width wize
+    CGSize constraintSize = CGSizeMake(label.frame.size.width, MAXFLOAT);
+    
+    do {
+        // Set current font size
+        label.font = [UIFont fontWithName:label.font.fontName size:fontSize];
+        
+        // Find label size for current font size
+        CGRect textRect = [[label text] boundingRectWithSize:constraintSize
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName:label.font}
+                                                     context:nil];
+        
+        CGSize labelSize = textRect.size;
+        
+        // Done, if created label is within target size
+        if( labelSize.height <= label.frame.size.height )
+            break;
+        
+        // Decrease the font size and try again
+        fontSize -= 2;
+        
+    } while (fontSize > minFontSize);
+}
+
 -(void)createResizableTextView {
 
     CGRect screenRect = kScreenBounds;
@@ -1537,21 +1618,52 @@
     
     
     
-    NSArray * quates = [[NSArray alloc] init];
-    quates = @[ @"You will find a bushel of money",@"It could be better, but it’s good enough",@"Don’t panic",@"You will find a thing. It may be important",@"Your reality check about to bounce",@"Two days from now, tomorrow will be yesterday",@"Stop eating now. Food poisoning no fun",@"You are cleverly disguised as responsible adult",@"Drive like hell, you will get there",@"Okay to look at past and future. Just don’t stare",@"Soup was secret family recipe made from toad",@"You will soon have an out of money experience",@"He who dies with most toys, still dies",@"Person who rests on laurels gets thorn in backside",@"Two can live as cheaply as one, for half as long",@"Life is a sexually transmitted condition",@"Person who argues with idiot is taken for fool",@"Look before you leap. Or wear a parachute",@"The end is near, might as well have dessert",@"Make love, not bugs",@"Don’t eat any Chinese food today or you’ll be sick",@"You will be hungry again in one hour",@"You will die alone and poorly dressed",@"If you can read this, you are literate. Congratulations"];
-    
-    NSUInteger lowerBound = 0;
-    NSUInteger upperBound = quates.count;
-    NSUInteger rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
+//    NSArray * quates = [[NSArray alloc] init];
+//    quates = @[ @"You will find a bushel of money",@"It could be better, but it’s good enough",@"Don’t panic",@"You will find a thing. It may be important",@"Your reality check about to bounce",@"Two days from now, tomorrow will be yesterday",@"Stop eating now. Food poisoning no fun",@"You are cleverly disguised as responsible adult",@"Drive like hell, you will get there",@"Okay to look at past and future. Just don’t stare",@"Soup was secret family recipe made from toad",@"You will soon have an out of money experience",@"He who dies with most toys, still dies",@"Person who rests on laurels gets thorn in backside",@"Two can live as cheaply as one, for half as long",@"Life is a sexually transmitted condition",@"Person who argues with idiot is taken for fool",@"Look before you leap. Or wear a parachute",@"The end is near, might as well have dessert",@"Make love, not bugs",@"Don’t eat any Chinese food today or you’ll be sick",@"You will be hungry again in one hour",@"You will die alone and poorly dressed",@"If you can read this, you are literate. Congratulations"];
+//    
+//    NSUInteger lowerBound = 0;
+//    NSUInteger upperBound = quates.count;
+//    NSUInteger rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
 //    [self.resizeAbleView addGestureRecognizer:tapOnWindow];
     //    [self.resizeAbleView addGestureRecognizer:resizepan];
     
     self.editTextViewObj = [[RJTextView alloc] initWithFrame:self.resizeAbleView.bounds
                                                  defaultText:@"Hi"
-                                                        font:[UIFont systemFontOfSize:14.f]//[UIFont fontWithName:@"GothamRounded-Book" size:34]
+                                                        font:[UIFont fontWithName:@"GothamRounded-Book" size:34]
                                                        color:[UIColor whiteColor]
                                                      minSize:CGSizeMake(minWidth, minHeight)];
-    self.editTextViewObj.transform = CGAffineTransformMakeScale(0.9, 0.9);
+    
+    
+    
+    testLabel = [[UILabel alloc] initWithFrame:CGRectMake(-self.resizeAbleView.frame.size.width, -self.resizeAbleView.frame.size.height, self.resizeAbleView.frame.size.width, self.resizeAbleView.frame.size.height)];
+    testLabel.center = self.resizeAbleView.center;
+    testLabel.text = @"Hi :)";
+    testLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:300];
+    testLabel.textAlignment = NSTextAlignmentCenter;
+    testLabel.numberOfLines = 6;
+    testLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    testLabel.textColor = [UIColor whiteColor];
+    
+    
+    dummyTextField = [[UITextField alloc] initWithFrame:gripFrame];
+    dummyTextField.alpha = 0;
+    dummyTextField.delegate = self;
+    [self.view addSubview:dummyTextField];
+    
+    dummyTextField.returnKeyType = UIReturnKeyDone;
+    dummyTextField.keyboardAppearance = UIKeyboardAppearanceAlert;
+    dummyTextField.textAlignment = NSTextAlignmentCenter;
+    dummyTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+//    dummyTextField.
+    
+    [dummyTextField addTarget:self
+                    action:@selector(textFieldDidChange)
+          forControlEvents:UIControlEventEditingChanged];
+    
+    dummyTextField.text = testLabel.text;
+    
+    
+//    self.editTextViewObj.transform = CGAffineTransformMakeScale(0.9, 0.9);
     
 //    self.editTextViewObj.text = @"Some long string that will be in the UITextView";
 //    self.editTextViewObj.textView.font = [UIFont fontWithName:@"GothamRounded-Bold" size:34];
@@ -1567,21 +1679,76 @@
     
 //    [self editTextViewObj scaletextviewbyframe];
     self.editTextViewObj.userInteractionEnabled = NO;
+    
+    testLabel.userInteractionEnabled = NO;
+    
     self.editTextViewObj.delegate = self;
     self.editTextViewObj.parentView = self.view;
 //    [self.resizeAbleView addSubview:self.editTextViewObj];
     
-    [self.resizeAbleView addSubview:self.editTextViewObj];
+    [self.resizeAbleView addSubview:testLabel];
+    [self sizeLabel:testLabel toRect:self.resizeAbleView.contentView.frame];
     
     
     [mainOutPutFrame addSubview:self.resizeAbleView];
     
     //    self.editPallette.hidden = YES;
     self.editPallette.alpha = 0;
+    
+    
+    self.colorArray = [[NSMutableArray alloc] init];
+    self.colorArray = @[ @0x000000, @0x262626, @0x4d4d4d, @0x666666, @0x808080, @0x990000, @0xcc0000, @0xfe0000, @0xff5757, @0xffabab, @0xffabab, @0xffa757, @0xff7900, @0xcc6100, @0x994900, @0x996f00, @0xcc9400, @0xffb900, @0xffd157, @0xffe8ab, @0xfff4ab, @0xffe957, @0xffde00, @0xccb200, @0x998500, @0x979900, @0xcacc00, @0xfcff00, @0xfdff57, @0xfeffab, @0xf0ffab, @0xd2ff00, @0xa8cc00, @0x7e9900, @0x038001, @0x04a101, @0x05c001, @0x44bf41, @0x81bf80, @0x81c0b8, @0x41c0af, @0x00c0a7, @0x00a18c, @0x00806f, @0x040099, @0x0500cc, @0x0600ff, @0x5b57ff, @0xadabff, @0xd8abff, @0xb157ff, @0x6700bf, @0x5700a1, @0x450080, @0x630080, @0x7d00a1, @0x9500c0, @0xa341bf, @0xb180bf, @0xbf80b2, @0xbf41a6, @0xbf0199, @0xa10181, @0x800166, @0x999999, @0xb3b3b3, @0xcccccc, @0xe6e6e6, @0xffffff];
+    
+    int numOfColors = 69;
+    
+    
+    
+    self.colors = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    self.colors.backgroundColor = [UIColor clearColor];
+    self.colors.delegate = self;
+    
+    UITapGestureRecognizer *colorSelectedGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(colorDidSelected:)];
+    [colorSelectedGest setDelegate:self];
+    
+    [self.colors addGestureRecognizer:colorSelectedGest];
+    
+    self.colorViewsArray = [[NSMutableArray alloc] init];
+    
+    for(int x = 0; x < numOfColors;x++){
+        
+        
+        UIView * colorView = [[UIView alloc] initWithFrame:CGRectMake(x*40, 4, 33, 33)];
+        colorView.clipsToBounds = NO;
+        colorView.layer.cornerRadius = 16.5;
+        int c = (int)[self.colorArray objectAtIndex:x];
+        colorView.backgroundColor = UIColorFromRGB(c);
+        [self.colorViewsArray addObject:colorView];
+        [self.colors addSubview:colorView];
+        
+    }
+    
+    self.colors.contentSize = CGSizeMake(numOfColors*40,50);
+    
+    
+    UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 37)];
+    numberToolbar.barStyle = UIBarStyleBlackTranslucent;
+    [numberToolbar addSubview:self.colors];
+    
+    dummyTextField.inputAccessoryView = numberToolbar;
+
 
     
 
 }
+
+-(void)textFieldDidChange {
+    
+    testLabel.text = dummyTextField.text;
+    [self sizeLabel:testLabel toRect:self.resizeAbleView.contentView.frame];
+    
+    
+}
+
 
 - (void)createFiltersViews {
     
@@ -2590,7 +2757,8 @@
 -(void)resizeableTapped:(UITapGestureRecognizer*)tap {
     
     //    NSLog(@"test");
-    [self.editTextViewObj.textView becomeFirstResponder];
+    [dummyTextField becomeFirstResponder];
+    [self addTextToImageTapped];
     //    [self.resizeAbleView showEditingHandles];
     
 }
@@ -2606,7 +2774,9 @@
 - (void)userResizableViewDidEndEditing:(GLResizeableView *)userResizableView {
     //    [self.resizeAbleView hideEditingHandles];
 //    if(isEditing == NO){
+    if(!isEditing){
         [self.resizeAbleView hideEditingHandles];
+    }
 //    }
     
     //    [self.editTextViewObj setFrame:CGRectMake(userResizableView.bounds.origin.x, userResizableView.bounds.origin.y, userResizableView.bounds.size.width, userResizableView.bounds.size.height)];
@@ -2615,7 +2785,10 @@
 }
 
 -(void)viewIsResizing:(CGRect)frame {
-    [self.editTextViewObj scaleTextViewByFrame:frame];
+    [self sizeLabel:testLabel toRect:frame];
+    [self sizeLabel:testLabel toRect:frame];
+    
+//    [self.editTextViewObj scaleTextViewByFrame:frame];
 //    [self.editTextViewObj.textView sizeThatFits:CGSizeMake(frame.size.width, frame.size.height)];
     
 //    [self.editTextViewObj sizeToFit]; //added
@@ -2629,16 +2802,30 @@
     return YES;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [dummyTextField resignFirstResponder];
+    [self.resizeAbleView hideEditingHandles];
+    isEditing = NO;
+    return NO;
+}
+
 - (void)keyboardDidShow: (NSNotification *) notif{
     // Do something here
-//    isEditing = YES;
-    //    [self.resizeAbleView showEditingHandles];
+    isEditing = YES;
+        [self.resizeAbleView showEditingHandles];
+//    UIView * carret = [[UIView alloc] initWithFrame:<#(CGRect)#>];
+//    self.resizeAbleView.layer.borderWidth = 1;
+//    self.resizeAbleView.layer.borderColor = [UIColor blueColor].CGColor;
 }
 
 - (void)keyboardDidHide: (NSNotification *) notif{
     // Do something here
 //    isEditing = NO;
-    [self.resizeAbleView hideEditingHandles];
+    if(!isEditing){
+        [self.resizeAbleView hideEditingHandles];
+    }
+    isEditing = NO;
+//    self.resizeAbleView.layer.borderWidth = 0;
 }
 //- (void)viewIsResizing:(CGRect)bounds gesture:(UIPanGestureRecognizer*)gesture {
 ////    [self.editTextViewObj setFrame:CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height)];
@@ -2699,7 +2886,7 @@
 }
 
 -(void)dismissKeyboard {
-    [self.editTextViewObj endEditing:TRUE];
+    [dummyTextField endEditing:YES];
 }
 
 - (UIImage *)imageToFitSize:(CGSize)fitSize method:(MGImageResizingMethod)resizeMethod image:(UIImage*) imageToResize
@@ -3231,8 +3418,8 @@
     
     if (addText) {
         
-        UIImage * textAsView = [self imageWithText:self.editTextViewObj.textView];
-        CGRect frame = [mainOutPutFrame convertRect:self.editTextViewObj.textView.frame fromView:self.editTextViewObj.textView];
+        UIImage * textAsView = [self imageWithText:testLabel];
+        CGRect frame = [mainOutPutFrame convertRect:testLabel.frame fromView:testLabel];
         UIImage * resizedTextAsImage = [self resizeLabelImage:textAsView size:filteredImage.size location:CGPointZero];
         UIImage * imageWithText = [self drawText:@"test" inImage:filteredImage atPoint:CGPointMake(frame.origin.x, frame.origin.y) viewToPast:resizedTextAsImage];
         
@@ -3391,7 +3578,8 @@
 
 -(void) approveTextTapped {
     
-    [self.editTextViewObj endEditing:YES];
+    [dummyTextField endEditing:YES];
+    [self.resizeAbleView hideEditingHandles];
     [UIView animateWithDuration:0.5 animations:^{
         //        resizeableView.alpha = 0;
         //        resizeableView.topLeft.alpha = 0;
@@ -3714,6 +3902,7 @@
 -(void) trashTheText {
     
     addText = NO;
+    [dummyTextField resignFirstResponder];
     [UIView animateWithDuration:0.5 animations:^{
         
         self.resizeAbleView.alpha = 0;
@@ -3754,23 +3943,7 @@
     }];
 }
 
--(void) sendImageToEdit:(UIImage *)image {
-    
-    
-//    self.editPalletteImageView.image = image;
-//    [UIView animateWithDuration:0.5 animations:^{
-//        self.editPallette.alpha = 1;
-//        flipCameraButton.alpha = 0;
-//        backToCameraButton.alpha = 1;
-//        flashButton.alpha = 0;
-//        addTextButton.alpha = 1;
-//        captureButton.alpha = 0;
-//        
-//        
-//    }];
-    
-    
-}
+
 
 -(void) backToCameraFromEditPallette:(id)sender {
     [self.editTextViewObj endEditing:YES];

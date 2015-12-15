@@ -700,12 +700,14 @@
                     
                     // Upload the taken photos
                     
-                    TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:filePath];
-                    //            [photoUploadRequests addObject:photoUploadRequest];
+//                    TmpFilePhotoUploadRequest *photoUploadRequest = [[TmpFilePhotoUploadRequest alloc] initWithTmpFile:filePath];
+//                    //            [photoUploadRequests addObject:photoUploadRequest];
+//                    
+//                    [albumManager_ uploadPhotosWithLong:self.albumId
+//                                       withJavaUtilList:[[SLArrayList alloc]
+//                                                         initWithInitialArray:[NSMutableArray arrayWithObject:photoUploadRequest]]];
                     
-                    [albumManager_ uploadPhotosWithLong:self.albumId
-                                       withJavaUtilList:[[SLArrayList alloc]
-                                                         initWithInitialArray:[NSMutableArray arrayWithObject:photoUploadRequest]]];
+                    [[[ShotVibeAppDelegate sharedDelegate] uploadManager] addUploadPhotoJob:filePath withAlbumId:self.albumId];
                     
                     if(self.startImidiatly){
                         self.startImidiatly = NO;

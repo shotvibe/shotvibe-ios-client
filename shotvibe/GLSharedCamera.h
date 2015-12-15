@@ -61,7 +61,7 @@ typedef enum ScrollDirection {
 
 
 
-@interface GLSharedCamera : NSObject <iCarouselDataSource, iCarouselDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, RJTextViewDelegate,GLResizeableViewDelegate,GLFilterViewDelegate, UINavigationControllerDelegate>
+@interface GLSharedCamera : NSObject <UITextFieldDelegate,iCarouselDataSource, iCarouselDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, RJTextViewDelegate,GLResizeableViewDelegate,GLFilterViewDelegate, UINavigationControllerDelegate>
 
 + (GLSharedCamera *)sharedInstance;
 -(void)createMainScrollView;
@@ -133,6 +133,10 @@ typedef enum ScrollDirection {
 @property (nonatomic, retain) UIButton * videoPreviewCloseButton;
 @property (nonatomic) BOOL goneUploadAmovie;
 @property (nonatomic, retain) NSString * videoToUploadPath;
+
+@property (nonatomic, retain) UIScrollView * colors;
+@property (nonatomic, retain) NSArray * colorArray;
+@property (nonatomic, strong) NSMutableArray * colorViewsArray;
 //@property (nonatomic,retain) GradientView * captureMeterView;
 
 @end
