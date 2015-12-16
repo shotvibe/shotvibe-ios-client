@@ -9,7 +9,7 @@
 #import "GLFeedTableCellUploading.h"
 #import "AMTumblrHud.h"
 #import "SL/AlbumUploadingMediaPhoto.h"
-
+#import "YYWebImage.h"
 
 
 @implementation GLFeedTableCellUploading
@@ -48,21 +48,69 @@
 //    
     self.postImage = [[PhotoView alloc] initWithFrame:CGRectMake(0, 89, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
     
+    
+    
     self.postImage.contentMode = UIViewContentModeScaleAspectFill;
     self.postImage.clipsToBounds = YES;
     
     [self.contentView addSubview:self.postImage];
     
+    
+    self.postTempImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 89, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
+    
+    self.postTempImage.contentMode = UIViewContentModeScaleAspectFill;
+    self.postTempImage.clipsToBounds = YES;
+    
+    [self.contentView addSubview:self.postTempImage];
+    
+    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", 0]];
+    
+    
+    
+//    [self.postTempImage yy_setImageWithURL:[NSURL fileURLWithPath:filePath] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation];
+    
+//    [self.postTempImage sd_setImageWithURL:[NSURL fileURLWithPath:filePath] placeholderImage:[UIImage imageNamed:@""] options:SDWebImageRefreshCached];
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+    self.postTempImage.image = [UIImage imageWithContentsOfFile:filePath];
+//    BOOL success = [fileManager removeItemAtPath:filePath error:nil];
+    
     self.circleProgressView = [[CircleProgressView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width/5, self.frame.size.width/5)];
+    self.circleProgressView.progressLabel.alpha = 0 ;
+    self.circleProgressView.center = self.postImage.center;
     self.circleProgressView.timeLimit = 100;
     self.circleProgressView.tintColor = UIColorFromRGB(0x3eb4b6);
+    
     //    self.circleProgressView.
     self.circleProgressView.elapsedTime = 0;
+    
+    [UIView animateWithDuration:1 animations:^{
+        self.circleProgressView.alpha = 1;
+    }];
+//    self.circleProgressView.alpha = 1;
     [self.contentView addSubview:self.circleProgressView];
     
     
     
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, self.frame.size.width, 60)];
+    title.text = @"Uploading";
+    title.font = [UIFont fontWithName:@"GothamRounded-Bold" size:34];
+    title.textAlignment = NSTextAlignmentCenter;
+//    [self.contentView addSubview:title];
+  
     
+    self.profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 60, 60)];
+    [self.contentView addSubview:self.profileImageView];
+    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
+    
+    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(80, 15, [[UIScreen mainScreen] bounds].size.width*0.5, 60)];
+    self.userName.backgroundColor = [UIColor whiteColor];
+    self.userName.textColor = UIColorFromRGB(0x626262);
+    self.userName.font = [UIFont fontWithName:@"GothamRounded-Book" size:16];
+    [self.contentView addSubview:self.userName];
+    [self.contentView addSubview:self.profileImageView];
+    self.userName.text = @"Uploading..";
+    
+    [self.profileImageView setImage:[UIImage imageNamed:@"CaptureButton"]];
 //
 //
 //    
@@ -146,6 +194,11 @@
     
     
     self.circleProgressView.elapsedTime = progress*100;
+    if (progress == 1) {
+        [UIView animateWithDuration:1 animations:^{
+            self.circleProgressView.alpha = 0;
+        }];
+    }
     
 //    [[albumMedia getVideo] getThumbNailFile];
     

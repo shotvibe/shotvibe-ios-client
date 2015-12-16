@@ -37,6 +37,7 @@
 - (void)updateProccesingStatus:(SLAlbumPhoto *)photo;
 
 @property(nonatomic,retain) UIImageView * profileImageView;
+@property(nonatomic,retain) UIImageView * postTempImage;
 @property(nonatomic,retain) UILabel * userName;
 @property(nonatomic,retain) UILabel * postedTime;
 @property(nonatomic,retain) PhotoView * postImage;
