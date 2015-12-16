@@ -1027,6 +1027,8 @@
 		DD3A8BC71BC9A04A002DF2C9 /* UIView+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BBD1BC9A04A002DF2C9 /* UIView+Transform.m */; };
 		DD3A8BC91BC9A229002DF2C9 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3A8BC81BC9A229002DF2C9 /* Photos.framework */; };
 		DD3A8BCD1BC9A4A1002DF2C9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3A8BCC1BC9A4A1002DF2C9 /* Images.xcassets */; };
+		ED71A88E1C21819700444589 /* UploadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = ED71A88D1C21819700444589 /* UploadQueue.m */; };
+		ED71A8911C21829B00444589 /* UploadJob.m in Sources */ = {isa = PBXBuildFile; fileRef = ED71A8901C21829B00444589 /* UploadJob.m */; };
 		ED9589021C0DECA00020E8C6 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9589011C0DECA00020E8C6 /* AWSS3.framework */; };
 		ED9589051C0DEDA60020E8C6 /* UploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9589041C0DEDA60020E8C6 /* UploadManager.m */; };
 		ED9589071C0DEE680020E8C6 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9589061C0DEE680020E8C6 /* AWSCore.framework */; };
@@ -2468,6 +2470,10 @@
 		DD3A8BBD1BC9A04A002DF2C9 /* UIView+Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Transform.m"; sourceTree = "<group>"; };
 		DD3A8BC81BC9A229002DF2C9 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		DD3A8BCC1BC9A4A1002DF2C9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		ED71A88C1C21819700444589 /* UploadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadQueue.h; path = shotvibe/API/UploadQueue.h; sourceTree = SOURCE_ROOT; };
+		ED71A88D1C21819700444589 /* UploadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadQueue.m; path = shotvibe/API/UploadQueue.m; sourceTree = SOURCE_ROOT; };
+		ED71A88F1C21829B00444589 /* UploadJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadJob.h; path = shotvibe/API/UploadJob.h; sourceTree = SOURCE_ROOT; };
+		ED71A8901C21829B00444589 /* UploadJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadJob.m; path = shotvibe/API/UploadJob.m; sourceTree = SOURCE_ROOT; };
 		ED9589011C0DECA00020E8C6 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = "shotvibe/Vendor/aws-ios-sdk-2.3.0/frameworks/AWSS3.framework"; sourceTree = "<group>"; };
 		ED9589031C0DEDA60020E8C6 /* UploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadManager.h; path = shotvibe/API/UploadManager.h; sourceTree = SOURCE_ROOT; };
 		ED9589041C0DEDA60020E8C6 /* UploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadManager.m; path = shotvibe/API/UploadManager.m; sourceTree = SOURCE_ROOT; };
@@ -4491,6 +4497,10 @@
 				66F3E97119D5F68A00E36207 /* TmpFilePhotoUploadRequest.m */,
 				ED9589081C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.h */,
 				ED9589091C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.m */,
+				ED71A88C1C21819700444589 /* UploadQueue.h */,
+				ED71A88D1C21819700444589 /* UploadQueue.m */,
+				ED71A88F1C21829B00444589 /* UploadJob.h */,
+				ED71A8901C21829B00444589 /* UploadJob.m */,
 			);
 			name = API;
 			path = Delegates;
@@ -5779,6 +5789,7 @@
 				0F4947C61BE56E5F00FEDC12 /* StoryViewController.m in Sources */,
 				DD3A8BC51BC9A04A002DF2C9 /* RJTextView.m in Sources */,
 				0F781FC41C070C9500688168 /* UIImage+KVNImageEffects.m in Sources */,
+				ED71A88E1C21819700444589 /* UploadQueue.m in Sources */,
 				0FFC61BA1C198E29006D9525 /* YYWebImageOperation.m in Sources */,
 				66278CE01867C62300D23F34 /* SVActivityButton.m in Sources */,
 				66013227187F4E670042047B /* IOSArrayClass.m in Sources */,
@@ -5822,6 +5833,7 @@
 				3E0CC9DF18B63E1F00F6089A /* SVMultiplePicturesViewController.m in Sources */,
 				66013259187F4E670042047B /* JreMemDebug.m in Sources */,
 				0F5511D81BEFA9FD00E98C64 /* GPUImageDaquiriFilter.m in Sources */,
+				ED71A8911C21829B00444589 /* UploadJob.m in Sources */,
 				66013229187F4E670042047B /* IOSByteArray.m in Sources */,
 				2884ED131830F4B40069E202 /* SVNavigationController.m in Sources */,
 				66278C9E1867C44600D23F34 /* PhotosQuickView.m in Sources */,

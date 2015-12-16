@@ -15,134 +15,11 @@
 #import "SL/AlbumUploadingVideo.h"
 #import "SL/MediaType.h"
 #import "ShotVibeCredentialsProvider.h"
+#import "UploadQueue.h"
+#import "UploadJob.h"
 
 #import "ShotVibeAppDelegate.h"
 #import <AWSS3/AWSS3.h>
-
-typedef NS_ENUM(NSInteger, UploadJobType) {
-    UploadJobTypePhoto,
-    UploadJobTypeVideo
-};
-
-@interface UploadJob : NSObject
-
-- (id)initVideoUploadWithFile:(NSString *)filePath withPreviewImageFile:(NSString *)imageFile withAlbumId:(long long)albumId;
-
-- (id)initPhotoUploadWithFile:(NSString *)filePath withAlbumId:(long long)albumId;
-
-- (SLMediaTypeEnum *)getMediaType;
-
-- (NSString *)getFilePath;
-- (NSString *)getUniqueName;
-- (long long)getAlbumId;
-- (SLAlbumUploadingMedia *)getAlbumUploadingMedia;
-
-- (void)setProgress:(float)progress;
-
-+ (NSString *)generateUniqueName;
-
-@end
-
-@implementation UploadJob
-{
-    SLMediaTypeEnum *mediaType_;
-
-    NSString *filePath_;
-    long long albumId_;
-    NSString *uniqueName_;
-
-    SLAlbumUploadingMedia *uploadingMediaObj_;
-}
-
-- (id)initVideoUploadWithFile:(NSString *)filePath withPreviewImageFile:(NSString *)imageFile withAlbumId:(long long)albumId
-{
-    self = [super init];
-    if (self) {
-        mediaType_ = [SLMediaTypeEnum VIDEO];
-
-        filePath_ = filePath;
-        albumId_ = albumId;
-        uniqueName_ = [UploadJob generateUniqueName];
-
-        SLAlbumUploadingVideo *uploadingVideo = [[SLAlbumUploadingVideo alloc] initWithNSString:imageFile];
-        uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum VIDEO] withSLAlbumUploadingVideo:uploadingVideo withSLAlbumUploadingMediaPhoto:nil withFloat:0.0f];
-    }
-    return self;
-}
-
-- (id)initPhotoUploadWithFile:(NSString *)filePath withAlbumId:(long long)albumId
-{
-    self = [super init];
-    if (self) {
-        mediaType_ = [SLMediaTypeEnum PHOTO];
-
-        filePath_ = filePath;
-        albumId_ = albumId;
-        uniqueName_ = [UploadJob generateUniqueName];
-
-        SLAlbumUploadingMediaPhoto *uploadingPhoto = [[SLAlbumUploadingMediaPhoto alloc] initWithNSString:filePath];
-        uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum PHOTO] withSLAlbumUploadingVideo:nil withSLAlbumUploadingMediaPhoto:uploadingPhoto withFloat:0.0f];
-    }
-    return self;
-}
-
-- (SLMediaTypeEnum *)getMediaType
-{
-    return mediaType_;
-}
-
-+ (NSString *)generateUniqueName
-{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    [formatter setLocale:locale];
-    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
-
-    [formatter setDateFormat:@"yyyyMMddHHmmssSSS"];
-
-    NSDate *now = [NSDate date];
-    NSString *dateStr = [formatter stringFromDate:now];
-
-    NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
-    NSUInteger randomStrLen = 16;
-    NSMutableString *randomStr = [NSMutableString stringWithCapacity:randomStrLen];
-    for (NSUInteger i = 0U; i < randomStrLen; i++) {
-        u_int32_t r = arc4random() % [alphabet length];
-        unichar c = [alphabet characterAtIndex:r];
-        [randomStr appendFormat:@"%C", c];
-    }
-
-    return [NSString stringWithFormat:@"%@$%@", dateStr, randomStr];
-}
-
-
-- (NSString *)getFilePath
-{
-    return filePath_;
-}
-
-- (NSString *)getUniqueName
-{
-    return uniqueName_;
-}
-
-- (long long)getAlbumId
-{
-    return albumId_;
-}
-
-- (SLAlbumUploadingMedia *)getAlbumUploadingMedia
-{
-    return uploadingMediaObj_;
-}
-
-- (void)setProgress:(float)progress
-{
-    [uploadingMediaObj_ setProgressWithFloat:progress];
-}
-
-
-@end
 
 @interface UploadManager ()
 
@@ -162,7 +39,7 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
 
     id <SLMediaUploader_Listener> listener_;
 
-    NSMutableArray *uploadQueue_;
+    UploadQueue *uploadQueue_;
 }
 
 -(id)initWithAWSCredentialsProvider:(id<AWSCredentialsProvider>)awsCredentialsProvider withUserId:(long long)userId
@@ -179,7 +56,7 @@ typedef NS_ENUM(NSInteger, UploadJobType) {
 
         listener_ = nil;
 
-        uploadQueue_ = [[NSMutableArray alloc] init];
+        uploadQueue_ = [[UploadQueue alloc] init];
     }
     return self;
 }
@@ -203,8 +80,7 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 {
     NSLog(@"Upload Job Completed");
 
-    UploadJob *completedJob = [uploadQueue_ objectAtIndex:0];
-    [uploadQueue_ removeObjectAtIndex:0];
+    UploadJob *completedJob = [uploadQueue_ popCurrentJob];
     
     [listener_ onMediaUploadObjectsChangedWithLong:[completedJob getAlbumId]];
     [[ShotVibeAppDelegate sharedDelegate].albumManager refreshAlbumContentsWithLong:[completedJob getAlbumId] withBoolean:NO];
@@ -221,7 +97,7 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 
 - (void)jobProgressWithProgress:(float)progress
 {
-    UploadJob *currentJob = [uploadQueue_ objectAtIndex:0];
+    UploadJob *currentJob = [uploadQueue_ currentJob];
     [currentJob setProgress:progress];
 
     long long albumId = [currentJob getAlbumId];
@@ -231,11 +107,11 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 
 - (void)processNextJob
 {
-    if ([uploadQueue_ count] == 0) {
+    if ([uploadQueue_ numActiveJobs] == 0) {
         return;
     }
     
-    UploadJob *job = [uploadQueue_ objectAtIndex:0];
+    UploadJob *job = [uploadQueue_ currentJob];
 
     AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
     uploadRequest.bucket = GLANCE_UPLOAD_BUCKET;
@@ -289,10 +165,10 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 
 - (void)addUploadJob:(UploadJob *)job withAlbumId:(long long)albumId
 {
-    [uploadQueue_ addObject:job];
+    [uploadQueue_ addJob:job];
     
     // If the queue was empty then we need to initiate the job. Otherwise, it will automatically run when the currently executing jobs complete
-    if (uploadQueue_.count == 1) {
+    if ([uploadQueue_ numActiveJobs] == 1) {
         [self processNextJob];
     }
 
@@ -318,7 +194,7 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
     NSMutableArray *results = [[NSMutableArray alloc] init];
 
     // isCurrentJob is the first object (the first iteration of the loop)
-    for (UploadJob *job in uploadQueue_) {
+    for (UploadJob *job in [uploadQueue_ allJobs]) {
         if ([job getAlbumId] == albumId) {
             [results addObject:[job getAlbumUploadingMedia]];
         }
