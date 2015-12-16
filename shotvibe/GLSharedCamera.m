@@ -1114,9 +1114,7 @@
             [UIView animateWithDuration:0.3 animations:^(){
                 
                 
-                self.picYourGroup.alpha = 1;
-                glanceLogo.alpha = 1;
-                scoreBg.alpha = 1;
+                
                 
                 if(self.isInFeedMode){
                 
@@ -1127,9 +1125,15 @@
                     [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
                     self.backButton.alpha=1;
                     self.membersButton.alpha=1;
+                    self.picYourGroup.alpha = 0;
+                    glanceLogo.alpha = 0;
+                    scoreBg.alpha = 0;
                     
                 } else {
                     
+                    self.picYourGroup.alpha = 1;
+                    glanceLogo.alpha = 1;
+                    scoreBg.alpha = 1;
                     
 //                    [[self videoCamera] startCameraCapture];
                     [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, self.view.frame.size.height/3)];
@@ -1169,12 +1173,16 @@
                 self.cameraIsShown = YES;
                 [[GLSharedVideoPlayer sharedInstance] play];
 //                [UIView animateWithDuration:0.2 animations:^{
-//                    if(!self.isInFeedMode){
+                    if(self.isInFeedMode){
 //                        dmut.transform = CGAffineTransformIdentity;
-//                    }
+                        self.score.alpha = 0;
+                        scoreBg.alpha = 0 ;
+                    }
                 }];
                 [self toggleCamera:YES];
+            if(!self.isInFeedMode){
                 [[ContainerViewController sharedInstance] lockScrolling:NO];
+            }
                 self.dmut.userInteractionEnabled = YES;
                 
 //            }];
@@ -1189,6 +1197,7 @@
                 self.picYourGroup.alpha = 0;
                 glanceLogo.alpha = 0;
                 scoreBg.alpha = 0;
+                self.score.alpha = 0;
                 
                 [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, self.view.frame.size.height)];
                 
@@ -1229,6 +1238,8 @@
 //                    dmut.transform = CGAffineTransformScale(dmut.transform, 0.6, 0.6);
                 }];
                 NSLog(@"animation completed2");
+//                self.score.alpha = 0;
+//                scoreBg.alpha = 0;
                 [[GLSharedVideoPlayer sharedInstance] pause];
                 [[ContainerViewController sharedInstance] lockScrolling:YES];
                 [self toggleCamera:NO];
@@ -1253,6 +1264,7 @@
     flashButton.alpha = 0;
     glanceLogo.alpha = 1;
     scoreBg.alpha = 0;
+    self.score.alpha = 0;
     self.picYourGroup.alpha = 1;
     [self toggleCamera:YES];
     
@@ -1279,6 +1291,7 @@
                             self.backButton.alpha = 1;
                             self.membersButton.alpha = 1;
         scoreBg.alpha = 0;
+        self.score.alpha = 0;
         
         
         self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
@@ -1470,6 +1483,7 @@
             flipCameraButton.alpha = 0;
             flashButton.alpha = 0;
             scoreBg.alpha = 1;
+            self.score.alpha = 1;
         } else {
             for(GLFilterView * filterView in self.arrayOfFilters){
                 filterView.title.alpha = 1;
@@ -1477,6 +1491,7 @@
             flipCameraButton.alpha = 1;
             flashButton.alpha = 1;
             scoreBg.alpha = 0;
+            self.score.alpha = 0;
         }
         
     }];
@@ -1716,7 +1731,6 @@
     
     for(int x = 0; x < numOfColors;x++){
         
-        
         UIView * colorView = [[UIView alloc] initWithFrame:CGRectMake(x*40, 4, 33, 33)];
         colorView.clipsToBounds = NO;
         colorView.layer.cornerRadius = 16.5;
@@ -1728,16 +1742,13 @@
     }
     
     self.colors.contentSize = CGSizeMake(numOfColors*40,50);
-    
+    self.colors.tag = ScrollerTypeColorsScroller;
     
     UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 37)];
     numberToolbar.barStyle = UIBarStyleBlackTranslucent;
     [numberToolbar addSubview:self.colors];
     
     dummyTextField.inputAccessoryView = numberToolbar;
-
-
-    
 
 }
 
@@ -1947,7 +1958,7 @@
     
     
     
-    if(scrollView.tag == ScrollerTypeFontsScroller){
+    if(scrollView.tag == ScrollerTypeFontsScroller || scrollView.tag == ScrollerTypeColorsScroller){
         
     }
     
@@ -2064,79 +2075,26 @@
 //        
         
     }
-//    static NSInteger previousPage = 0;
-//    CGFloat pageHeight = scrollView.frame.size.height;
-//    float fractionalPage = scrollView.contentOffset.y / pageHeight;
-//    NSInteger page = lround(fractionalPage);
-//    NSLog(@"%d",page);
-////    if (previousPage != page) {
-////        previousPage = page;
-//
-//        if(scrollDirection == ScrollDirectionDown){
-//            //
-//            if(page >= 2){
-//                GLFilterView * prevFilter = [self.arrayOfFilters objectAtIndex:page-2];
-//                if(prevFilter.filterType != GPUIMAGE_NOFILTER){
-//                    [self.videoCamera removeTarget:prevFilter.filter];
-//                }
-//            }
-//            
-//            if(page < [self.arrayOfFilters count]-2){
-//                GLFilterView * nextFilter = [self.arrayOfFilters objectAtIndex:page+2];
-//                if(nextFilter.filterType != GPUIMAGE_NOFILTER){
-//                    [self.videoCamera addTarget:nextFilter.filter];
-//                }
-//                
-//                //            if(stateEdit){
-//                //                [[self.arrayOfFilters objectAtIndex:currentFilterIndex+1] setImageCapturedUnderFilter:cleanImageFromCamera];
-//                //
-//                //            }
-//            }
-//            
-//            
-//            
-//            
-//        } else if(scrollDirection == ScrollDirectionUp){
-//            
-//            if(page >= 2){
-//                GLFilterView * prevFilter = [self.arrayOfFilters objectAtIndex:page-2];
-//                if(prevFilter.filterType != GPUIMAGE_NOFILTER){
-//                    [self.videoCamera addTarget:prevFilter.filter];
-//                }
-//            }
-//            
-//            if(page < [self.arrayOfFilters count]-2){
-//                
-//                GLFilterView * nextFilter = [self.arrayOfFilters objectAtIndex:page+2];
-//                if(nextFilter.filterType != GPUIMAGE_NOFILTER){
-//                    [self.videoCamera removeTarget:nextFilter.filter];
-//                }
-//                
-//            }
-//            
-//        }
-//        
-//        previousPage = page;
-//        currentFilterIndex = page;
-//        
-//        
-//        /* Page did change */
-//    }
+
     
 }
 
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self stoppedScrolling];
+    if(scrollView.tag == ScrollerTypeFilterScroller){
+        [self stoppedScrolling];
+    }
     
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
                   willDecelerate:(BOOL)decelerate
 {
+    if(scrollView.tag == ScrollerTypeFilterScroller){
     if (!decelerate) {
         [self stoppedScrolling];
+    }
     }
 }
 
@@ -2186,265 +2144,21 @@
         }
     }
     
-//    if(scrollDirection == ScrollDirectionDown){
-//        
-//        NSLog(@"down");
-//        
-//                if(page > 1){
-//                    GLFilterView * prevFilter = [self.arrayOfFilters objectAtIndex:page-2];
-//                    if(prevFilter.filterType != GPUIMAGE_NOFILTER){
-//                        [self.videoCamera removeTarget:prevFilter.filter];
-////                        NSLog(@"OFF - %d",page-2);
-//                    }
-//                }
-//        
-//                if(page < [self.arrayOfFilters count]-1){
-//                    GLFilterView * nextFilter = [self.arrayOfFilters objectAtIndex:page+2];
-//                    if(nextFilter.filterType != GPUIMAGE_NOFILTER){
-//                        [self.videoCamera addTarget:nextFilter.filter];
-////                        NSLog(@"ON - %d",page+2);
-//                    }
-//                }
-//        
-//        
-//    } else if(scrollDirection == ScrollDirectionUp){
-//        
-//        NSLog(@"up");
-//        
-//                if(page > 1){
-//                    GLFilterView * prevFilter = [self.arrayOfFilters objectAtIndex:page-2];
-//                    if(prevFilter.filterType != GPUIMAGE_NOFILTER){
-//                        [self.videoCamera addTarget:prevFilter.filter];
-////                        NSLog(@"ON - %d",page-2);
-//                    }
-//                }
-//        
-//                if(page < [self.arrayOfFilters count]-1){
-//        
-//                    GLFilterView * nextFilter = [self.arrayOfFilters objectAtIndex:page+2];
-//                    if(nextFilter.filterType != GPUIMAGE_NOFILTER){
-//                        [self.videoCamera removeTarget:nextFilter.filter];
-////                        NSLog(@"OFF - %d",page+2);
-//                    }
-//                    
-//                }
-//                
-//    }
+
 
     
 }
 
 
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    
-//    
-//    
-////    static NSInteger previousPage = 0;
-////    CGFloat pageHeight = scrollView.frame.size.height;
-////    float fractionalPage = scrollView.contentOffset.y / pageHeight;
-////    NSInteger page = lround(fractionalPage);
-////   
-////        if (previousPage != page) {
-////            previousPage = page;
-////            
-////            currentFilterIndex = page;
-////            
-////            
-////            NSLog(@"page - %d    currentFilterIndex - %d",page,currentFilterIndex);
-////            
-////            
-////            if(scrollView.tag == ScrollerTypeFilterScroller){
-////                //
-//////                            int page = scrollView.contentOffset.y / scrollView.frame.size.height;
-//////                            currentFilterIndex = page;
-//////                            NSLog(@"%d - %d",page,currentFilterIndex);
-//////                
-//////                
-////                            if(scrollDirection == ScrollDirectionDown){
-////                
-////                                if(page >= 2){
-////                                    GLFilterView * prevFilter = [self.arrayOfFilters objectAtIndex:page-2];
-////                                    if(prevFilter.filterType != GPUIMAGE_NOFILTER){
-////                                        [self.videoCamera removeTarget:prevFilter.filter];
-////                                    }
-////                                }
-////                
-////                                if(page < [self.arrayOfFilters count]-2){
-////                                    GLFilterView * nextFilter = [self.arrayOfFilters objectAtIndex:page+2];
-////                                    if(nextFilter.filterType != GPUIMAGE_NOFILTER){
-////                                        [self.videoCamera addTarget:nextFilter.filter];
-////                                    }
-////                                }
-////                
-////                
-////                
-////                
-////                            } else if(scrollDirection == ScrollDirectionUp){
-////                
-////                                if(page >= 2){
-////                                    GLFilterView * prevFilter = [self.arrayOfFilters objectAtIndex:page-2];
-////                                    if(prevFilter.filterType != GPUIMAGE_NOFILTER){
-////                                        [self.videoCamera addTarget:prevFilter.filter];
-////                                    }
-////                                }
-////                    
-////                                if(page < [self.arrayOfFilters count]-2){
-////                    
-////                                    GLFilterView * nextFilter = [self.arrayOfFilters objectAtIndex:page+2];
-////                                    if(nextFilter.filterType != GPUIMAGE_NOFILTER){
-////                                        [self.videoCamera removeTarget:nextFilter.filter];
-////                                    }
-////                    
-////                                }
-////                    
-////                            }
-////                //            NSLog(@"%d",page);
-////                        }
-////        }
-//    
-//    
-//    scrollView.userInteractionEnabled = YES;
-//    
-//    
-////        if(scrollView.tag == ScrollerTypeFilterScroller){
-////    
-////            int page = scrollView.contentOffset.y / scrollView.frame.size.height;
-////            currentFilterIndex = page;
-////            NSLog(@"%d - %d",page,currentFilterIndex);
-////    
-////    
-////            if(scrollDirection == ScrollDirectionDown){
-////    
-////                if(page >= 2){
-////                    GLFilterView * prevFilter = [self.arrayOfFilters objectAtIndex:page-2];
-////                    if(prevFilter.filterType != GPUIMAGE_NOFILTER){
-////                        [self.videoCamera removeTarget:prevFilter.filter];
-////                    }
-////                }
-////    
-////                if(page < [self.arrayOfFilters count]-2){
-////                    GLFilterView * nextFilter = [self.arrayOfFilters objectAtIndex:page+2];
-////                    if(nextFilter.filterType != GPUIMAGE_NOFILTER){
-////                        [self.videoCamera addTarget:nextFilter.filter];
-////                    }
-////    
-////                    //            if(stateEdit){
-////                    //                [[self.arrayOfFilters objectAtIndex:currentFilterIndex+1] setImageCapturedUnderFilter:cleanImageFromCamera];
-////                    //
-////                    //            }
-////                }
-////    
-////    
-////    
-////    
-////            } else if(scrollDirection == ScrollDirectionUp){
-////    
-////                if(page >= 2){
-////                    GLFilterView * prevFilter = [self.arrayOfFilters objectAtIndex:page-2];
-////                    if(prevFilter.filterType != GPUIMAGE_NOFILTER){
-////                        [self.videoCamera addTarget:prevFilter.filter];
-////                    }
-////                }
-////    
-////                if(page < [self.arrayOfFilters count]-2){
-////    
-////                    GLFilterView * nextFilter = [self.arrayOfFilters objectAtIndex:page+2];
-////                    if(nextFilter.filterType != GPUIMAGE_NOFILTER){
-////                        [self.videoCamera removeTarget:nextFilter.filter];
-////                    }
-////    
-////                }
-////    
-////            }
-//////            NSLog(@"%d",page);
-////        }
-//    
-//    
-//    
-//    
-//}
+
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
     
+    if(scrollView.tag == ScrollerTypeFilterScroller){
+        scrollView.userInteractionEnabled = NO;
+    }
     
-    scrollView.userInteractionEnabled = NO;
-    
-//    int page = scrollView.contentOffset.y / scrollView.frame.size.height;
-//    
-//    NSLog(@"%d",page);
-//    currentFilterIndex = page+1;
-//    
-//    if(scrollDirection == ScrollDirectionDown){
-//        
-//        if(page >= 2){
-//            GLFilterView * prevFilter = [self.arrayOfFilters objectAtIndex:page-2];
-//            if(prevFilter.filterType != GPUIMAGE_NOFILTER){
-//                [self.videoCamera removeTarget:prevFilter.filter];
-//            }
-//        }
-//        
-//        if(page < [self.arrayOfFilters count]-2){
-//            GLFilterView * nextFilter = [self.arrayOfFilters objectAtIndex:page+2];
-//            if(nextFilter.filterType != GPUIMAGE_NOFILTER){
-//                [self.videoCamera addTarget:nextFilter.filter];
-//            }
-//        }
-//        
-//        
-//    } else if(scrollDirection == ScrollDirectionUp){
-//        
-//        if(page >= 2){
-//            GLFilterView * prevFilter = [self.arrayOfFilters objectAtIndex:page-2];
-//            if(prevFilter.filterType != GPUIMAGE_NOFILTER){
-//                [self.videoCamera addTarget:prevFilter.filter];
-//            }
-//        }
-//        
-//        if(page < [self.arrayOfFilters count]-2){
-//            
-//            GLFilterView * nextFilter = [self.arrayOfFilters objectAtIndex:page+2];
-//            if(nextFilter.filterType != GPUIMAGE_NOFILTER){
-//                [self.videoCamera removeTarget:nextFilter.filter];
-//            }
-//            
-//        }
-//        
-//    }
-    
-    //    int page = scrollView.contentOffset.y / scrollView.frame.size.height;
-    
-    //    if(currentFilterIndex < [self.arrayOfFilters count]-1){
-    
-    //    }
-    
-    
-    //    if(currentFilterIndex > [self.arrayOfFilters count]-1){
-    //        NSLog(@"im bigger and im gone crash");
-    //        currentFilterIndex = page-1;
-    //    }
-    
-    //    NSLog(@"%d - %d",page,currentFilterIndex);
-    //
-    //
-    //    if(scrollView.tag == ScrollerTypeFontsScroller){
-    //
-    //    }
-    //
-    //
-    //    if(scrollView.tag == ScrollerTypeFilterScroller){
-    //
-    ////        if(scrollView.tag == ScrollerTypeFilterScroller){
-    ////            currentFilterIndex = page;
-    //
-    ////        }
-    //
-    //
-    //
-    //
-    //
-    //    }
-    
-    
+
 }
 
 -(void)hideForPicker:(BOOL)no {
@@ -3176,6 +2890,7 @@
                 self.picYourGroup.alpha = 1;
                 glanceLogo.alpha = 1;
                 scoreBg.alpha = 1;
+                self.score.alpha = 1;
                 flipCameraButton.alpha = 0;
                 flashButton.alpha = 0;
                 //                self.backButton.alpha=1;
@@ -3237,6 +2952,7 @@
                 self.picYourGroup.alpha = 1;
                 glanceLogo.alpha = 1;
                 scoreBg.alpha = 1;
+                self.score.alpha = 1;
                 flipCameraButton.alpha = 0;
                 flashButton.alpha = 0;
                 //                self.backButton.alpha=1;
@@ -3348,6 +3064,7 @@
                 self.picYourGroup.alpha = 1;
                 glanceLogo.alpha = 1;
                 scoreBg.alpha = 1;
+                self.score.alpha = 1;
                 flipCameraButton.alpha = 0;
                 flashButton.alpha = 0;
                 

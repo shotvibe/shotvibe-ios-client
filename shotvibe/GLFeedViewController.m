@@ -303,7 +303,11 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)sender
 {
-    [self checkWhichVideoToEnable];
+    if (sender.contentOffset.y<=0 || sender.contentOffset.y >= sender.contentSize.height) {
+//        scrollView.contentOffset = CGPointZero;
+    } else {
+        [self checkWhichVideoToEnable];
+    }
 }
 
 -(void)checkWhichVideoToEnable
@@ -580,13 +584,22 @@
 //
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     // if decelerating, let scrollViewDidEndDecelerating: handle it
+    if (scrollView.contentOffset.y<=0 || scrollView.contentOffset.y >= scrollView.contentSize.height) {
+        //        scrollView.contentOffset = CGPointZero;
+    } else {
     if (decelerate == NO) {
         [self centerTable];
+    }
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSLog(@"%f - %f",scrollView.contentOffset.y,scrollView.contentSize.height);
+//    if (scrollView.contentOffset.y < scrollView.contentSize.height) {
+        //        scrollView.contentOffset = CGPointZero;
+//    } else {
     [self centerTable];
+//    }
 }
 
 - (void)centerTable {

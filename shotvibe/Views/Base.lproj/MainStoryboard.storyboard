@@ -26,6 +26,21 @@
             <string>GothamRounded-Bold</string>
             <string>GothamRounded-Bold</string>
         </mutableArray>
+        <mutableArray key="GothamRnd-Book.otf">
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+        </mutableArray>
+        <mutableArray key="GothamRnd-Light.otf">
+            <string>GothamRounded-Light</string>
+            <string>GothamRounded-Light</string>
+        </mutableArray>
         <mutableArray key="GothamRnd-MedIta.otf">
             <string>GothamRounded-MediumItalic</string>
             <string>GothamRounded-MediumItalic</string>
@@ -35,21 +50,6 @@
         <mutableArray key="GothamRnd-Medium.otf">
             <string>GothamRounded-Medium</string>
             <string>GothamRounded-Medium</string>
-        </mutableArray>
-        <mutableArray key="Gotham_Rounded_Book.otf">
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-        </mutableArray>
-        <mutableArray key="Gotham_Rounded_Light.otf">
-            <string>GothamRounded-Light</string>
-            <string>GothamRounded-Light</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -1619,10 +1619,10 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FiF-95-PZF">
-                                <rect key="frame" x="94" y="65" width="115" height="40"/>
+                                <rect key="frame" x="108" y="48" width="169" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="18"/>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="27"/>
                                 <color key="tintColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                 <size key="titleShadowOffset" width="0.0" height="1"/>
                                 <state key="normal" title="Add Friends">
@@ -1659,7 +1659,7 @@
                                 <color key="backgroundColor" red="0.21176470588235294" green="0.65490196078431373" blue="0.65098039215686276" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addFriendsBg" id="8BN-aT-zVo">
-                                <rect key="frame" x="19" y="73" width="22" height="22"/>
+                                <rect key="frame" x="16" y="61" width="39" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                             </imageView>

@@ -303,6 +303,16 @@
             
         }];
         
+    } else if(self.state == SVAddFriendsMainWithImage){
+    
+//        [[GLSharedCamera sharedInstance] setCameraInMain]
+        
+//        [[ContainerViewController sharedInstance] transitToAlbumList:NO direction:UIPageViewControllerNavigationDirectionForward withAlbumId:0 completion:^{
+//            [[ContainerViewController sharedInstance] resetFriendsView];
+//            //            self.fromCameraMainScreen = NO;
+//            
+//        }];
+        
     } else {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
