@@ -60,6 +60,7 @@ static void showNotificationBanner(NSString *message)
 
 - (void)HandleWithSLNotificationMessage_AlbumSync:(SLNotificationMessage_AlbumSync *)msg
 {
+    NSLog(@"AlbumSync %lld", [msg getAlbumId]);
     [albumManager_ reportAlbumUpdateWithLong:[msg getAlbumId]];
 }
 

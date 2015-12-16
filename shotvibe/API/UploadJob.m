@@ -31,6 +31,7 @@
         filePath_ = filePath;
         albumId_ = albumId;
         uniqueName_ = [UploadJob generateUniqueName];
+        uniqueName_ = [uniqueName_ stringByAppendingString:@".mp4"];
         
         SLAlbumUploadingVideo *uploadingVideo = [[SLAlbumUploadingVideo alloc] initWithNSString:imageFile];
         uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum VIDEO] withSLAlbumUploadingVideo:uploadingVideo withSLAlbumUploadingMediaPhoto:nil withFloat:0.0f];
@@ -47,6 +48,7 @@
         filePath_ = filePath;
         albumId_ = albumId;
         uniqueName_ = [UploadJob generateUniqueName];
+        uniqueName_ = [uniqueName_ stringByAppendingString:@".jpg"];
         
         SLAlbumUploadingMediaPhoto *uploadingPhoto = [[SLAlbumUploadingMediaPhoto alloc] initWithNSString:filePath];
         uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum PHOTO] withSLAlbumUploadingVideo:nil withSLAlbumUploadingMediaPhoto:uploadingPhoto withFloat:0.0f];

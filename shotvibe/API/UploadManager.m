@@ -68,12 +68,12 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 
 + (NSString *)bucketKeyForVideoUploadWithUserId:(long long)userId withAlbumId:(long long)albumId withFilename:(NSString *)filename
 {
-    return [NSString stringWithFormat:@"videos/%lld/%lld/%@.mp4", userId, albumId, filename];
+    return [NSString stringWithFormat:@"videos/%lld/%lld/%@", userId, albumId, filename];
 }
 
 + (NSString *)bucketKeyForPhotoUploadWithUserId:(long long)userId withAlbumId:(long long)albumId withFilename:(NSString *)filename
 {
-    return [NSString stringWithFormat:@"photos/%lld/%lld/%@.mp4", userId, albumId, filename];
+    return [NSString stringWithFormat:@"photos/%lld/%lld/%@", userId, albumId, filename];
 }
 
 - (void)jobCompleted
@@ -209,5 +209,9 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
     listener_ = listener;
 }
 
+- (void)cleanCompletedUploadsWithSLArrayList:(SLArrayList *)photos
+{
+    [uploadQueue_ cleanCompletedUploads:photos.array];
+}
 
 @end

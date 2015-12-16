@@ -23,4 +23,6 @@
 
 - (NSArray *)allJobs;
 
+- (void)cleanCompletedUploads:(NSArray *)photos;
+
 @end
