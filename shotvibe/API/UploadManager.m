@@ -103,9 +103,14 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
     NSLog(@"Upload Job Completed");
 
     UploadJob *completedJob = [uploadQueue_ popCurrentJob];
+
+    // Progress of 1.0f means the job has actually completed
+    [completedJob setProgress:1.0f];
     
-    [listener_ onMediaUploadObjectsChangedWithLong:[completedJob getAlbumId]];
-    [[ShotVibeAppDelegate sharedDelegate].albumManager refreshAlbumContentsWithLong:[completedJob getAlbumId] withBoolean:NO];
+    long long albumId = [completedJob getAlbumId];
+    [listener_ onMediaUploadProgressWithLong:albumId];
+
+    [listener_ onMediaUploadObjectsChangedWithLong:albumId];
 
     [self processNextJob];
 }
@@ -120,6 +125,12 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 - (void)jobProgressWithProgress:(float)progress
 {
     UploadJob *currentJob = [uploadQueue_ currentJob];
+
+    // Clip the progress below 1.0f.
+    // 1.0f means that the upload has actually finished
+    if (progress > 0.99f) {
+        progress = 0.99f;
+    }
     [currentJob setProgress:progress];
 
     long long albumId = [currentJob getAlbumId];
