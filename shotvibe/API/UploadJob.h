@@ -13,9 +13,9 @@
 
 @interface UploadJob : NSObject
 
-- (id)initVideoUploadWithFile:(NSString *)filePath withPreviewImageFile:(NSString *)imageFile withAlbumId:(long long)albumId;
+- (id)initVideoUploadWithUploadDir:(NSString *)uploadDir withFile:(NSString *)filePath withPreviewImageFile:(NSString *)imageFile withAlbumId:(long long)albumId;
 
-- (id)initPhotoUploadWithFile:(NSString *)filePath withAlbumId:(long long)albumId;
+- (id)initPhotoUploadWithUploadDir:(NSString *)uploadDir withFile:(NSString *)filePath withAlbumId:(long long)albumId;
 
 - (SLMediaTypeEnum *)getMediaType;
 

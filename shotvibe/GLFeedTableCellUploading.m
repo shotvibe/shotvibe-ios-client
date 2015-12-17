@@ -63,15 +63,12 @@
     
     [self.contentView addSubview:self.postTempImage];
     
-    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", 0]];
-    
-    
-    
+
 //    [self.postTempImage yy_setImageWithURL:[NSURL fileURLWithPath:filePath] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation];
     
 //    [self.postTempImage sd_setImageWithURL:[NSURL fileURLWithPath:filePath] placeholderImage:[UIImage imageNamed:@""] options:SDWebImageRefreshCached];
 //    NSFileManager *fileManager = [NSFileManager defaultManager];
-    self.postTempImage.image = [UIImage imageWithContentsOfFile:filePath];
+    self.postTempImage.image = [[UIImage alloc] init];
 //    BOOL success = [fileManager removeItemAtPath:filePath error:nil];
     
     self.circleProgressView = [[CircleProgressView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width/5, self.frame.size.width/5)];

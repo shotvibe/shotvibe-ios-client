@@ -17,6 +17,7 @@
 #import "ShotVibeCredentialsProvider.h"
 #import "UploadQueue.h"
 #import "UploadJob.h"
+#import "FileUtils.h"
 
 #import "ShotVibeAppDelegate.h"
 #import <AWSS3/AWSS3.h>
@@ -34,6 +35,7 @@
 
 @implementation UploadManager
 {
+    NSString *uploadsDir_;
     long long userId_;
     AWSS3TransferManager *transferManager_;
 
@@ -42,10 +44,30 @@
     UploadQueue *uploadQueue_;
 }
 
+NSString *initUploadsDir()
+{
+    NSString *applicationSupportDirectory = [FileUtils getApplicationSupportDirectory];
+
+    NSString *dirName = @"uploading_media";
+    NSString *dir = [applicationSupportDirectory stringByAppendingPathComponent:dirName];
+
+    // Create the directory if it doesn't exist:
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:dir]) {
+        NSError *error;
+        if (![manager createDirectoryAtPath:dir withIntermediateDirectories:NO attributes:nil error:&error]) {
+            NSCAssert(NO, @"Error creating directory %@: %@", dir, [error localizedDescription]);
+        }
+    }
+
+    return dir;
+}
+
 -(id)initWithAWSCredentialsProvider:(id<AWSCredentialsProvider>)awsCredentialsProvider withUserId:(long long)userId
 {
     self = [super init];
     if (self) {
+        uploadsDir_ = initUploadsDir();
         userId_ = userId;
         AWSServiceConfiguration *config = [[AWSServiceConfiguration alloc] initWithRegion:AWS_REGION
                                                                       credentialsProvider:awsCredentialsProvider];
@@ -110,7 +132,6 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
     if ([uploadQueue_ numActiveJobs] == 0) {
         return;
     }
-    
     UploadJob *job = [uploadQueue_ currentJob];
 
     AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
@@ -177,14 +198,14 @@ AWSRegionType AWS_REGION = AWSRegionUSEast1;
 
 -(void)addUploadVideoJob:(NSString *)videoFilePath withImageFilePath:(NSString *)imageFile withAlbumId:(long long)albumId
 {
-    UploadJob *newJob = [[UploadJob alloc] initVideoUploadWithFile:videoFilePath withPreviewImageFile:imageFile withAlbumId:albumId];
+    UploadJob *newJob = [[UploadJob alloc] initVideoUploadWithUploadDir:uploadsDir_ withFile:videoFilePath withPreviewImageFile:imageFile withAlbumId:albumId];
     [self addUploadJob:newJob withAlbumId:albumId];
 }
 
 
 -(void)addUploadPhotoJob:(NSString *)photoFilePath withAlbumId:(long long)albumId
 {
-    UploadJob *newJob = [[UploadJob alloc] initPhotoUploadWithFile:photoFilePath withAlbumId:albumId];
+    UploadJob *newJob = [[UploadJob alloc] initPhotoUploadWithUploadDir:uploadsDir_ withFile:photoFilePath withAlbumId:albumId];
     [self addUploadJob:newJob withAlbumId:albumId];
 }
 

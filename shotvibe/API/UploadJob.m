@@ -10,6 +10,7 @@
 #import "SL/AlbumUploadingMedia.h"
 #import "SL/AlbumUploadingMediaPhoto.h"
 #import "SL/AlbumUploadingVideo.h"
+#import "FileUtils.h"
 
 @implementation UploadJob
 {
@@ -22,35 +23,56 @@
     SLAlbumUploadingMedia *uploadingMediaObj_;
 }
 
-- (id)initVideoUploadWithFile:(NSString *)filePath withPreviewImageFile:(NSString *)imageFile withAlbumId:(long long)albumId
+NSString * moveFile(NSString* source, NSString *target) {
+    NSError *error;
+    if (![[NSFileManager defaultManager] moveItemAtPath:source toPath:target error:&error]) {
+        NSCAssert(NO, @"Error moving file %@ to %@: %@", source, target, [error localizedDescription]);
+    }
+
+    return target;
+}
+
+- (id)initVideoUploadWithUploadDir:(NSString *)uploadDir withFile:(NSString *)filePath withPreviewImageFile:(NSString *)imageFile withAlbumId:(long long)albumId
 {
     self = [super init];
     if (self) {
         mediaType_ = [SLMediaTypeEnum VIDEO];
         
-        filePath_ = filePath;
-        albumId_ = albumId;
         uniqueName_ = [UploadJob generateUniqueName];
         uniqueName_ = [uniqueName_ stringByAppendingString:@".mp4"];
+
+        filePath_ = moveFile(filePath, [[uploadDir stringByAppendingString:@"/"] stringByAppendingString:uniqueName_]);
+        [FileUtils addSkipBackupAttributeToItemAtURL:filePath_];
         
-        SLAlbumUploadingVideo *uploadingVideo = [[SLAlbumUploadingVideo alloc] initWithNSString:imageFile];
+        NSString *movedImageFile = @"";
+
+        if (imageFile && imageFile.length > 0) {
+            movedImageFile = moveFile(imageFile, [[[uploadDir stringByAppendingString:@"/"] stringByAppendingString:uniqueName_] stringByAppendingString:@".jpg"]);
+            [FileUtils addSkipBackupAttributeToItemAtURL:movedImageFile];
+        }
+
+        albumId_ = albumId;
+
+        SLAlbumUploadingVideo *uploadingVideo = [[SLAlbumUploadingVideo alloc] initWithNSString:movedImageFile];
         uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum VIDEO] withSLAlbumUploadingVideo:uploadingVideo withSLAlbumUploadingMediaPhoto:nil withFloat:0.0f];
     }
     return self;
 }
 
-- (id)initPhotoUploadWithFile:(NSString *)filePath withAlbumId:(long long)albumId
+- (id)initPhotoUploadWithUploadDir:(NSString *)uploadDir withFile:(NSString *)filePath withAlbumId:(long long)albumId
 {
     self = [super init];
     if (self) {
         mediaType_ = [SLMediaTypeEnum PHOTO];
         
-        filePath_ = filePath;
-        albumId_ = albumId;
         uniqueName_ = [UploadJob generateUniqueName];
         uniqueName_ = [uniqueName_ stringByAppendingString:@".jpg"];
+
+        filePath_ = moveFile(filePath, [[uploadDir stringByAppendingString:@"/"] stringByAppendingString:uniqueName_]);
+        [FileUtils addSkipBackupAttributeToItemAtURL:filePath_];
+        albumId_ = albumId;
         
-        SLAlbumUploadingMediaPhoto *uploadingPhoto = [[SLAlbumUploadingMediaPhoto alloc] initWithNSString:filePath];
+        SLAlbumUploadingMediaPhoto *uploadingPhoto = [[SLAlbumUploadingMediaPhoto alloc] initWithNSString:filePath_];
         uploadingMediaObj_ = [[SLAlbumUploadingMedia alloc] initWithSLMediaTypeEnum:[SLMediaTypeEnum PHOTO] withSLAlbumUploadingVideo:nil withSLAlbumUploadingMediaPhoto:uploadingPhoto withFloat:0.0f];
     }
     return self;
