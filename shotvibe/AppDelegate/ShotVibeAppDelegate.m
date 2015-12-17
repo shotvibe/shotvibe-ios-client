@@ -156,6 +156,15 @@
     
     [GLSharedCamera sharedInstance];
     
+    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+        if (granted) {
+            // Microphone enabled code
+        }
+        else {
+            // Microphone disabled code
+        }
+    }];
+    
     
     [self initSDKs];
 

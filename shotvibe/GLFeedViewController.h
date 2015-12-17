@@ -31,6 +31,13 @@ typedef enum FeedScrollDirection {
 @property (nonatomic, retain) UITableView * tableView;
 @property(nonatomic) BOOL startImidiatlyVideoUpload;
 
+@property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, assign) NSInteger totalPages;
+@property (nonatomic, assign) NSInteger totalItems;
+
+
+@property (retain, nonatomic) NSMutableArray *feedItems;
+
 -(void)imageSelected:(UIImage*)image;
 -(void)backPressed;
 -(void)videoSelected;

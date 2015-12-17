@@ -442,7 +442,11 @@
         
 //        [self.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
         
-        [self setImageURL:[NSURL URLWithString:[[photo getServerPhoto] getUrl]]];
+        NSString * thumUrl = [[photo getServerPhoto] getUrl];
+        
+        NSString *new = [thumUrl stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_fhd.jpg"];
+        
+        [self setImageURL:[NSURL URLWithString:new]];
         
         
 

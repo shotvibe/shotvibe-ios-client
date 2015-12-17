@@ -20,11 +20,35 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-//     [[[GLSharedCamera sharedInstance] score] setText:]];
+
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(defaultsChanged:)
+                   name:NSUserDefaultsDidChangeNotification
+                 object:nil];
+
+//    self.userScore.text = [NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]]];
+    self.userScore.text = [[[[GLSharedCamera sharedInstance] userScore] userScoreLabel] text];
     
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self];
+//    [center addObserver:self
+//               selector:@selector(defaultsChanged:)
+//                   name:NSUserDefaultsDidChangeNotification
+//                 object:nil];
+}
+
+- (void)defaultsChanged:(NSNotification *)notification {
+    // Get the user defaults
+    NSUserDefaults *defaults = (NSUserDefaults *)[notification object];
     
-    self.userScore.text = [NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]]];
-    
+    // Do something with it
+    self.userScore.text = [NSString stringWithFormat:@"%ld",(long)[defaults integerForKey:@"kUserScore"]];
+//    NSLog(@"%@", [defaults objectForKey:@"kUserScore"]);
 }
 
 - (void)didReceiveMemoryWarning {

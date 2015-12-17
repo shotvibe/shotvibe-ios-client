@@ -370,6 +370,7 @@
 		0F41778A1BE6537F00FFC6A2 /* ContainerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F4177881BE6537F00FFC6A2 /* ContainerViewController.xib */; };
 		0F41778E1BE6539200FFC6A2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F41778C1BE6539100FFC6A2 /* ViewController.m */; };
 		0F41778F1BE6539200FFC6A2 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F41778D1BE6539200FFC6A2 /* ViewController.xib */; };
+		0F4390E31C22F96400C83C45 /* GLUserScore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4390E21C22F96400C83C45 /* GLUserScore.m */; };
 		0F49476C1BE227E200FEDC12 /* folter.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0F49476B1BE227E200FEDC12 /* folter.jpg */; };
 		0F49477F1BE231F900FEDC12 /* lookup_soft_elegance_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4947761BE231F900FEDC12 /* lookup_soft_elegance_2.png */; };
 		0F4947811BE231F900FEDC12 /* GPUImageLateSunsetFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4947791BE231F900FEDC12 /* GPUImageLateSunsetFilter.m */; };
@@ -1422,6 +1423,8 @@
 		0F41778B1BE6539100FFC6A2 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		0F41778C1BE6539100FFC6A2 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		0F41778D1BE6539200FFC6A2 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		0F4390E11C22F96400C83C45 /* GLUserScore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLUserScore.h; sourceTree = "<group>"; };
+		0F4390E21C22F96400C83C45 /* GLUserScore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLUserScore.m; sourceTree = "<group>"; };
 		0F49476B1BE227E200FEDC12 /* folter.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = folter.jpg; sourceTree = "<group>"; };
 		0F4947761BE231F900FEDC12 /* lookup_soft_elegance_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lookup_soft_elegance_2.png; sourceTree = "<group>"; };
 		0F4947781BE231F900FEDC12 /* GPUImageFoggyNightFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageFoggyNightFilter.h; sourceTree = "<group>"; };
@@ -3030,6 +3033,23 @@
 			name = GLAppContainer;
 			sourceTree = "<group>";
 		};
+		0F4390DF1C22F93200C83C45 /* V2Additions */ = {
+			isa = PBXGroup;
+			children = (
+				0F4390E01C22F93E00C83C45 /* GLUserScore */,
+			);
+			name = V2Additions;
+			sourceTree = "<group>";
+		};
+		0F4390E01C22F93E00C83C45 /* GLUserScore */ = {
+			isa = PBXGroup;
+			children = (
+				0F4390E11C22F96400C83C45 /* GLUserScore.h */,
+				0F4390E21C22F96400C83C45 /* GLUserScore.m */,
+			);
+			name = GLUserScore;
+			sourceTree = "<group>";
+		};
 		0F4947751BE231E500FEDC12 /* Filters */ = {
 			isa = PBXGroup;
 			children = (
@@ -4307,6 +4327,7 @@
 		AA58FAEE16C224E800C49E02 = {
 			isa = PBXGroup;
 			children = (
+				0F4390DF1C22F93200C83C45 /* V2Additions */,
 				0FFC61801C198E29006D9525 /* YYWebImage */,
 				AA58FAF916C224E800C49E02 /* Frameworks */,
 				AA58FAF816C224E800C49E02 /* Products */,
@@ -5836,6 +5857,7 @@
 				ED71A8911C21829B00444589 /* UploadJob.m in Sources */,
 				66013229187F4E670042047B /* IOSByteArray.m in Sources */,
 				2884ED131830F4B40069E202 /* SVNavigationController.m in Sources */,
+				0F4390E31C22F96400C83C45 /* GLUserScore.m in Sources */,
 				66278C9E1867C44600D23F34 /* PhotosQuickView.m in Sources */,
 				660B027E19D0F247008E25EE /* GalleryPhotoUploadRequest.m in Sources */,
 				66278C8D1867C38300D23F34 /* SVAlbumGridSection.m in Sources */,

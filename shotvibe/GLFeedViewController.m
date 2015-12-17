@@ -85,6 +85,7 @@
     BOOL tableIsScrolling;
     BOOL viewDidInitialed;
     CGFloat pageNumber;
+    BOOL feedLoadedOnce;
 //    YALSunnyRefreshControl *sunnyRefreshControl;
 }
 //@property(nonatomic, retain) MPMoviePlayerController *moviePlayerController;
@@ -193,6 +194,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    feedLoadedOnce = NO;
+    
+    self.feedItems = [[NSMutableArray alloc] init];
     
     
     __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", 0]];
@@ -271,6 +275,28 @@
 
 }
 
+
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (indexPath.row == [self.feedItems count] - 3 ) {
+//        [self loadPhotos:++self.currentPage];
+//    }
+//}
+
+//- (void)loadPhotos:(NSInteger)page {
+//    
+//    NSLog(@"need to load page %ld",(long)page);
+//    [self.feedItems addObject:[self.posts objectAtIndex:5]];
+//        [self.feedItems addObject:[self.posts objectAtIndex:6]];
+//        [self.feedItems addObject:[self.posts objectAtIndex:7]];
+//        [self.feedItems addObject:[self.posts objectAtIndex:8]];
+//        [self.feedItems addObject:[self.posts objectAtIndex:9]];
+//    [self.tableView setNeedsDisplay];
+//    [self.tableView reloadData];
+////        [self.feedItems addObject:[self.posts objectAtIndex:5]];
+////    [self loadFeed];
+////    for(int x = 0;x < ){}
+//}
+
 //-(void)tableView:(UITableView *)tableView willDisplayCell:(GLFeedTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 //
 //    NSLog(@"will display cell invoked for index path %ld",(long)indexPath.row);
@@ -340,7 +366,7 @@
             {
                 // unmute the video if we can see at least half of the cell
 //                [((VideoMessageCell*)cell) muteVideo:!btnMuteVideos.selected];
-                NSLog(@"im gone play on this red cell cus more then 51 is visible");
+//                NSLog(@"im gone play on this red cell cus more then 51 is visible");
                 
                 if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
                     
@@ -362,7 +388,7 @@
 //                [[GLSharedVideoPlayer sharedInstance] pause];
                 // mute the other video cells that are not visible
 //                [((VideoMessageCell*)cell) muteVideo:YES];
-                NSLog(@"im gone pause on this blue cell cus less then 51 is visible");
+//                NSLog(@"im gone pause on this blue cell cus less then 51 is visible");
 //                [cell.activityIndicator stopAnimating];
                 
                 if([[[GLSharedVideoPlayer sharedInstance] photoId] isEqual:[[photo getServerPhoto] getId]]){
@@ -494,7 +520,7 @@
 -(void)startUploadFromOutSide:(NSNotification*)not {
 
 
-    NSLog(@"im gone start upload");
+//    NSLog(@"im gone start upload");
 
 
 }
@@ -597,17 +623,17 @@
         //        scrollView.contentOffset = CGPointZero;
     } else {
     if (decelerate == NO) {
-        [self centerTable];
+//        [self centerTable];
     }
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    NSLog(@"%f - %f",scrollView.contentOffset.y,scrollView.contentSize.height);
+//    NSLog(@"%f - %f",scrollView.contentOffset.y,scrollView.contentSize.height);
 //    if (scrollView.contentOffset.y < scrollView.contentSize.height) {
         //        scrollView.contentOffset = CGPointZero;
 //    } else {
-    [self centerTable];
+//    [self centerTable];
 //    }
 }
 
@@ -1059,10 +1085,30 @@
     
     int counter = 0;
     
+    self.feedItems = [[NSMutableArray alloc] init];
+//    @property (nonatomic, assign) NSInteger currentPage;
+//    @property (nonatomic, assign) NSInteger totalPages;
+//    @property (nonatomic, assign) NSInteger totalItems;
+    
+    if(albumContents != nil){
+        
+    int pagingCount = 5;
+    self.currentPage = 0;
+    self.totalItems = [[albumContents getPhotos].array count];
+    self.totalPages = ceil(self.totalItems/pagingCount);
+    
+    if((self.totalPages * pagingCount) <= self.totalItems){
+        self.totalPages++;
+    }
+    
+    
+    
+    
     self.posts = [[NSMutableArray alloc] init];
     
     
     for (SLAlbumPhoto *photo in [albumContents getPhotos].array) {
+        
         
 //        SDWebImageManager *manager = [SDWebImageManager sharedManager];
 //        [manager downloadImageWithURL:[NSURL URLWithString:[[photo getServerPhoto] getUrl]]
@@ -1146,6 +1192,13 @@
 //        post.slPhoto = photo;
         [self.posts addObject:arr];
         
+//        if(counter < pagingCount){
+//            [self.feedItems addObject:arr];
+//        }
+//        
+//        feedLoadedOnce = YES;
+//        counter++;
+        
         //            if(counter == 20){
         //                break;
         //            }
@@ -1169,6 +1222,8 @@
     self.posts = [reversedArray copy];
 
     [self.tableView reloadData];
+        
+    }
     
     
 //            [sunnyRefreshControl endRefreshing];
@@ -1191,6 +1246,16 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //#warning Incomplete implementation, return the number of rows
     return [self.posts count];
+    
+//    if (self.currentPage == self.totalPages
+//        || self.totalItems == self.feedItems.count) {
+//        return self.feedItems.count;
+//    }
+//    return self.feedItems.count -1;
+    
+    
+    
+//    return 8;
 }
 
 
@@ -1485,6 +1550,30 @@
     static NSString * CellIdentifierUploading = @"GLFeedCellUploading";
     static NSString * CellIdentifierUploadingNibName = @"GLFeedTableCellUploading";
 
+    if (indexPath.row == 99999999999) {
+        
+        GLFeedTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierUploading];
+        
+        if(cell==nil){
+            
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifierUploadingNibName owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        
+        cell.backgroundColor = [UIColor greenColor];
+        CGRect frame = cell.frame;
+        frame.size.height = 60;
+        cell.frame = frame;
+        
+        
+        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        activityIndicator.center = cell.center;
+        [cell.contentView addSubview:activityIndicator];
+        [activityIndicator startAnimating];
+        
+        return cell;
+        
+    } else {
     
     if ([photo getUploadingMedia]) {
         
@@ -1941,6 +2030,7 @@
 //    }
     
     
+    }
     
 }
 

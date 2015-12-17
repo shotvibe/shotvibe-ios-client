@@ -1176,6 +1176,8 @@ CGFloat kResizeThumbSize = 45.0f;
 //                [cell.networkImageView.imageView_ sd_setImageWithURL:[NSURL URLWithString:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl]] placeholderImage:[UIImage imageNamed:@""]];
 //                [cell.networkImageView.imageView_ yy_setImageWithURL:[NSURL URLWithString:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""]];
                 
+                
+                
                 [cell.networkImageView.imageView_ yy_setImageWithURL:[NSURL URLWithString:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
                     
                 }];
@@ -1183,10 +1185,13 @@ CGFloat kResizeThumbSize = 45.0f;
 //                [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId] photoUrl:[[[latestPhoto getServerPhoto] getVideo]getVideoThumbnailUrl] photoSize:[PhotoSize Thumb75] manager:photoFilesManager_];
                 
             } else {
-                [cell.networkImageView.imageView_ yy_setImageWithURL:[NSURL URLWithString:[[latestPhoto getServerPhoto] getUrl]] placeholder:[UIImage imageNamed:@""]];
+//                [cell.networkImageView.imageView_ yy_setImageWithURL:[NSURL URLWithString:[[latestPhoto getServerPhoto] getUrl]] placeholder:[UIImage imageNamed:@""]];
                 
+                NSString * thumUrl = [[latestPhoto getServerPhoto] getUrl];
                 
-                [cell.networkImageView.imageView_ yy_setImageWithURL:[NSURL URLWithString:[[latestPhoto getServerPhoto] getUrl]] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+                NSString *new = [thumUrl stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
+                
+                [cell.networkImageView.imageView_ yy_setImageWithURL:[NSURL URLWithString:new] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
                     
                 }];
                 

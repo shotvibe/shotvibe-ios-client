@@ -294,6 +294,12 @@ static void showNotificationBanner(NSString *message)
     
 }
 
+- (void)HandleWithSLNotificationMessage_UserGlanceScoreUpdate:(SLNotificationMessage_UserGlanceScoreUpdate *)msg {
+
+     int score = [msg getUserGlanceScore];
+    [[[GLSharedCamera sharedInstance] userScore] updateScoreFromPush:score];
+}
+
 
 - (void)HandleWithSLNotificationMessage_PhotoGlance:(SLNotificationMessage_PhotoGlance *)msg
 {

@@ -18,6 +18,7 @@
 #import "GLFilterView.h"
 #import <Photos/Photos.h>
 #import "JTSlideShadowAnimation.h"
+#import "GLUserScore.h"
 //#import "JPSVolumeButtonHandler.h"
 
 
@@ -137,6 +138,7 @@ typedef enum ScrollDirection {
 @property (nonatomic, retain) UIScrollView * colors;
 @property (nonatomic, retain) NSArray * colorArray;
 @property (nonatomic, strong) NSMutableArray * colorViewsArray;
+@property (nonatomic, retain) GLUserScore * userScore;
 //@property (nonatomic,retain) GradientView * captureMeterView;
 
 @end
