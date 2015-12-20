@@ -64,6 +64,7 @@ enum {
     self.charchtersCounter = 0;
     
 //    self.recentsEmoji = [[NSMutableArray alloc] init];
+//    self.recentsEmoji = @[ @"😄", @"😃", @"😀", @"😊", @"☺️", @"😉", @"😍", @"😘", @"😚", @"😗", @"😙", @"😜", @"😝", @"😛", @"😳", @"😁", @"😔", @"😌", @"😒", @"😞", @"😣", @"😢", @"😂", @"😭", @"😪", @"😥", @"😰", @"😅", @"😓", @"😩"];
     
     
     
@@ -147,20 +148,23 @@ enum {
 
     
     NSMutableDictionary * recentsEmojisDict = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"RecentsEmojies"]];
-    self.recentsEmoji = [[[recentsEmojisDict keysSortedByValueUsingComparator: ^(id obj1, id obj2) {
-        
-        if ([obj1 integerValue] > [obj2 integerValue]) {
+    if([recentsEmojisDict count] > 0){
+        self.recentsEmoji = @[ @"😄", @"😃", @"😀", @"😊", @"☺️", @"😉", @"😍", @"😘", @"😚", @"😗", @"😙", @"😜", @"😝", @"😛", @"😳", @"😁", @"😔", @"😌", @"😒", @"😞", @"😣", @"😢", @"😂", @"😭", @"😪", @"😥", @"😰", @"😅", @"😓", @"😩"];
+    } else {
+        self.recentsEmoji = [[[recentsEmojisDict keysSortedByValueUsingComparator: ^(id obj1, id obj2) {
             
-            return (NSComparisonResult)NSOrderedDescending;
-        }
-        if ([obj1 integerValue] < [obj2 integerValue]) {
+            if ([obj1 integerValue] > [obj2 integerValue]) {
+                
+                return (NSComparisonResult)NSOrderedDescending;
+            }
+            if ([obj1 integerValue] < [obj2 integerValue]) {
+                
+                return (NSComparisonResult)NSOrderedAscending;
+            }
             
-            return (NSComparisonResult)NSOrderedAscending;
-        }
-        
-        return (NSComparisonResult)NSOrderedSame;
-    }] reverseObjectEnumerator] allObjects];
-    
+            return (NSComparisonResult)NSOrderedSame;
+        }] reverseObjectEnumerator] allObjects];
+    }
     
     
     NSLog(@"");
@@ -315,10 +319,13 @@ enum {
 	if (self.isShifted)
 //		[self unShift];
 	
-	if ([self.textView isKindOfClass:[UITextView class]])
-		[[NSNotificationCenter defaultCenter] postNotificationName:UITextViewTextDidChangeNotification object:self.textView];
-	else if ([self.textView isKindOfClass:[UITextField class]])
-		[[NSNotificationCenter defaultCenter] postNotificationName:UITextFieldTextDidChangeNotification object:self.textView];
+        if ([self.textView isKindOfClass:[UITextView class]]){
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:UITextViewTextDidChangeNotification object:self.textView];
+            
+        } else if ([self.textView isKindOfClass:[UITextField class]]){
+            [[NSNotificationCenter defaultCenter] postNotificationName:UITextFieldTextDidChangeNotification object:self.textView];
+        }
 }
 
 - (IBAction)altPressed:(id)sender {
@@ -428,7 +435,7 @@ enum {
     
     [self updateRecentsWithCharchter:character];
     [self loadRecentsFromNsDefaults];
-    [self loadCharactersWithArray:self.recentsEmoji];
+//    [self loadCharactersWithArray:self.recentsEmoji];
 	
 	
 	[self.textView insertText:character];

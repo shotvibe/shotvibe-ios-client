@@ -9,7 +9,9 @@
 #import "GLFeedTableCellUploading.h"
 #import "AMTumblrHud.h"
 #import "SL/AlbumUploadingMediaPhoto.h"
+//#import "SL/AlbumUploadingMediaVideo.h"
 #import "YYWebImage.h"
+#import "UIImage+ImageEffects.h"
 
 
 @implementation GLFeedTableCellUploading
@@ -108,6 +110,10 @@
     self.userName.text = @"Uploading..";
     
     [self.profileImageView setImage:[UIImage imageNamed:@"CaptureButton"]];
+    
+    self.postTempImage = [[UIImageView alloc] initWithFrame:self.postImage.frame];
+    [self.contentView addSubview:self.postTempImage];
+    
 //
 //
 //    
@@ -140,8 +146,14 @@
 //    [self.postImage addSubview:self.videoBadge];
     
     
-    
-   
+    self.postImage.alpha = 1;
+    self.postTempImage.alpha =1;
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionFade;
+    animation.duration = 0.1;
+    [self.postTempImage.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    [self.postImage.layer addAnimation:animation forKey:@"kCATransitionFade"];
 
     
     
@@ -171,123 +183,66 @@
 //    SLMediaTypeEnum * type = [albumMedia getMediaType];
     
     float progress = [albumMedia getProgress];
+    NSLog(@"progress is :%f",progress);
     
     
+//    if([albumMedia getMediaType] == [SLMediaTypeEnum VIDEO]){
+//        NSString *previewImageFile = [[albumMedia getVideo] getPreviewImageFile];
+//        [self.postImage.imageView_ sd_setImageWithURL:[NSURL fileURLWithPath:previewImageFile]];
+//    } else {
     
-    if([albumMedia getMediaType] == [SLMediaTypeEnum VIDEO]){
-        NSString *previewImageFile = [[albumMedia getVideo] getPreviewImageFile];
-        [self.postImage.imageView_ sd_setImageWithURL:[NSURL fileURLWithPath:previewImageFile]];
-    } else {
         
-        SLAlbumUploadingMediaPhoto * photo =[albumMedia getPhoto];
-       
-//        t c
-//        SLAlbumUploadingMediaPhoto * photo = ;
-//        [[albumMedia getPhoto] getPreviewImageFile];
-//        photo.;
-        NSString *previewImageFile = [photo getPreviewImageFile];
-        [self.postImage.imageView_ sd_setImageWithURL:[NSURL fileURLWithPath:previewImageFile]];
-    }
+        
+        if(progress == 0.000000){
+//            [self awakeFromNib];
+//            SLAlbumUploadingMediaPhoto * photo;
+//            SLAlbumUploadingMediaVideo * video;
+            NSString * previewImageFile;
+            
+            if([albumMedia getMediaType] == [SLMediaTypeEnum VIDEO]){
+//                photo = [albumMedia getVideo];
+                previewImageFile = [[albumMedia getVideo] getPreviewImageFile];
+                
+            } else {
+//                photo =[albumMedia getPhoto];
+                previewImageFile = [[albumMedia getPhoto] getPreviewImageFile];
+            }
+            
+//           self.postImage.alpha = 0;
+            self.postImage.imageView_.image = [UIImage imageWithContentsOfFile:previewImageFile];
+            
+            self.circleProgressView.alpha = 1;
+            self.circleProgressView.elapsedTime = 0;
+//            self.ci
+            
+            self.postTempImage.alpha = 1;
+            self.postTempImage.image = [[UIImage imageWithContentsOfFile:previewImageFile] applyBlurWithRadius:30 tintColor:[UIColor colorWithWhite:0.6 alpha:0.2] saturationDeltaFactor:1.0 maskImage:nil];
+            
+//             __weak typeof(self) weakSelf = self;
+//            dispatch_async(dispatch_get_main_queue(), ^{
+            
+                
+//            });
+            
+            
+            
+            
+
     
-    
+        }
+//    }
+
+    self.postTempImage.alpha = 1-progress;
     self.circleProgressView.elapsedTime = progress*100;
     if (progress == 1) {
+        
         [UIView animateWithDuration:1 animations:^{
             self.circleProgressView.alpha = 0;
         }];
     }
     
-//    [[albumMedia getVideo] getThumbNailFile];
-    
-//    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Photo%i.jpg", 0]];
-    
-    
+
 }
-
-
-
-//- (void)loadCellWithData:(NSArray*)data photoFilesManager:(PhotoFilesManager*)photoFilesManager_ {
-//
-//
-//    SLAlbumPhoto *photo = [data objectAtIndex:1];
-//    
-//    
-//    __weak typeof(self) weakSelf = self;
-//    
-//    [self.postImage.imageView_ sd_setImageWithURL:[NSURL URLWithString:@"http://weknowyourdreams.com/images/space/space-09.jpg"] placeholderImage:[UIImage imageNamed:@""] options:SDWebImageCacheMemoryOnly progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-//        
-//            CGFloat progresses = ((CGFloat)receivedSize / (CGFloat)expectedSize);
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            weakSelf.circleProgressView.elapsedTime = progresses*100;
-//        });
-//        
-////        if(progress){
-////            progress();
-////        }
-////        NSLog(@"progress %f",progress);
-//        
-//        
-//    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//        
-//    }];
-//    
-//    
-////    long long userID = [[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"id"] longLongValue];
-////    
-////    [self.profileImageView setCircleImageWithURL:[NSURL URLWithString:[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholderImage:[UIImage imageNamed:@"ProfilePlaceholder"] borderWidth:2];
-////    
-////        self.userName.text = [[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"username"];
-////        self.postedTime.text = [NSString stringWithFormat:@"%@ ago",[[[NSDate alloc] initWithTimeIntervalSince1970:[[[data objectAtIndex:0] objectForKey:@"created_time"] longLongValue]] distanceOfTimeInWords:[NSDate date] shortStyle:YES]];
-////    
-////    
-////
-////    
-////    if([[photo getServerPhoto] getMediaType] == [SLAlbumServerPhoto_MediaTypeEnum VIDEO]){
-////        
-////        self.videoBadge.alpha = 1;
-////        
-////
-////
-////        NSString * videoUrl = [[[photo getServerPhoto] getVideo] getVideoUrl];
-//////        [[GLSharedVideoPlayer sharedInstance] attachToView:self.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl videoThumbNail:self.postImage.image];
-////
-////        
-////        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-////        [manager downloadImageWithURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {} completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
-////        {
-////            
-////            if (image) {
-////                self.postImage.image = image;
-////                
-//////                [self.contentView bringSubviewToFront:self.moviePlayer.view];
-//////                [self.moviePlayer.view setAlpha:1];
-////            }
-////            
-////         }];
-////        
-////
-////        
-////        
-////
-////        
-////    } else {
-////        
-////        self.videoBadge.alpha = 0;
-////        
-////
-////        [self.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
-////        
-////  
-////        
-////        
-////    }
-////    
-//    
-//
-//
-//
-//}
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

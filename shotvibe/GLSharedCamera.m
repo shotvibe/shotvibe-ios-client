@@ -545,7 +545,7 @@
 
 -(void)completeCapturing {
     
-    [self.videoCamera stopCameraCapture];
+//    [self.videoCamera stopCameraCapture];
     
     self.captureTimeLineWrapper.alpha = 0;
     self.captureTimeLineWrapper.frame = CGRectMake(0, 0, 0, 20);
@@ -567,9 +567,10 @@
     
     [self.movieWriter finishRecordingWithCompletionHandler:^{
         
+        [self.videoCamera stopCameraCapture];
         
         // Wait a little bit since it seems that it takes some time for the file to be fully written to disk
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             NSLog(@"Movie completed and written to disk im ready to start upload but before that we neeed to display the priview of tht movie");
             
@@ -602,12 +603,17 @@
             self.previewPlayer.controlStyle = MPMovieControlStyleNone;
             self.previewPlayer.shouldAutoplay = YES;
             self.previewPlayer.repeatMode = MPMovieRepeatModeOne;
-            self.previewPlayer.controlStyle = MPMovieControlStyleEmbedded;
+//            self.previewPlayer.controlStyle = MPMovieControlStyleEmbedded;
             
             
-            UIImage *screenShot =  [self.previewPlayer thumbnailImageAtTime:0.5 timeOption:MPMovieTimeOptionExact];
+            UIImage *screenShot =  [self.previewPlayer thumbnailImageAtTime:1 timeOption:MPMovieTimeOptionExact];
+            
+            [self saveVideoThumbToFile:screenShot];
+            
+            
             
             [self.previewPlayer play];
+            self.movieWriter = nil;
             
         });
         
@@ -619,6 +625,71 @@
     
     
 }
+
+-(void)saveVideoThumbToFile:(UIImage*)image {
+
+
+    __block NSString *filePath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Library/Caches/Video_Photo%i.jpg", 0]];
+    
+    
+    // Save large image
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+    dispatch_async(queue, ^(void) {
+        
+        
+        
+        
+        [UIImageJPEGRepresentation(image, 1.0) writeToFile:filePath atomically:YES];
+        
+        CFURLRef url = CFURLCreateWithString(NULL, (CFStringRef)[NSString stringWithFormat:@"file://%@", filePath], NULL);
+        CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypeJPEG, 1, NULL);
+        CFRelease(url);
+        
+        NSDictionary *jfifProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        (__bridge id)kCFBooleanTrue, kCGImagePropertyJFIFIsProgressive,
+                                        nil];
+        
+        NSDictionary *properties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithFloat:.7], kCGImageDestinationLossyCompressionQuality,
+                                    jfifProperties, kCGImagePropertyJFIFDictionary,
+                                    nil];
+        
+        CGImageDestinationAddImage(destination, ((UIImage*)image).CGImage, (__bridge CFDictionaryRef)properties);
+        CGImageDestinationFinalize(destination);
+        CFRelease(destination);
+        
+        
+        
+        
+        
+        
+        NSLog(@"FINISH to SAVE NO MAIN QUE with path %@",filePath);
+        
+        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+        
+        if(fileExists){
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"FINISH to write image");
+
+                
+            });
+            
+            
+        } else {
+            
+            NSLog(@"file wasnt saved correctly !!! isnt found on path!");
+            
+        }
+        
+        
+        
+        
+    });
+
+
+}
+
 
 -(void)captureReachedMaxTime {
     self.captureStoppedByTimer = YES;
@@ -648,26 +719,29 @@
     
     GLFilterView * filter = [self.arrayOfFilters objectAtIndex:currentFilterIndex];
     NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"];
+    
     unlink([pathToMovie UTF8String]);
     NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
-    self.movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480.0, 640.0)];
-    self.movieWriter.encodingLiveVideo = YES;
+    [[NSFileManager defaultManager] removeItemAtURL:movieURL error:nil];
     
-    [filter.filter addTarget:self.movieWriter];
+//    if(self.movieWriter == nil){
+        self.movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480.0, 640.0)];
+        self.movieWriter.encodingLiveVideo = YES;
+        self.videoCamera.audioEncodingTarget = self.movieWriter;
+//    }
+        [filter.filter addTarget:self.movieWriter];
+        
+        
+        
+        
+        NSLog(@"Start recording");
+        
+        
     
+//    }
     
+//    [self.movieWriter st]
     
-    
-    NSLog(@"Start recording");
-    
-    
-    self.videoCamera.audioEncodingTarget = self.movieWriter;
-    [self.movieWriter startRecording];
-    self.videoCaptureTimer = [NSTimer scheduledTimerWithTimeInterval:10.0
-                                                              target:self
-                                                            selector:@selector(captureReachedMaxTime)
-                                                            userInfo:nil
-                                                             repeats:NO];
     
     NSError *error = nil;
     if (![self.videoCamera.inputCamera lockForConfiguration:&error])
@@ -693,7 +767,18 @@
     
     [self.videoCamera.inputCamera unlockForConfiguration];
     
+    [self.movieWriter startRecording];
+    self.videoCaptureTimer = [NSTimer scheduledTimerWithTimeInterval:10.0
+                                                              target:self
+                                                            selector:@selector(captureReachedMaxTime)
+                                                            userInfo:nil
+                                                             repeats:NO];
     
+//    [self.movieWriter setCompletionBlock:^{
+//        
+//        [filter.filter removeTarget:self.movieWriter];
+////        [self.movieWriter finishRecording];
+//    }];
     
 }
 
@@ -984,6 +1069,13 @@
                 NSLog(@"vol up");
                 [weakSelf captureTapped];
             };
+    
+    
+//    if(self.isInFeedMode){
+//    
+//    }
+    [[self videoCamera] startCameraCapture];
+    [[GLSharedVideoPlayer sharedInstance] pause];
 //            buttonStealer.downBlock = ^{
 //                NSLog(@"vol down");
 //            };
@@ -1004,6 +1096,12 @@
     [[ContainerViewController sharedInstance] lockScrolling:NO];
     
     [buttonStealer stopStealingVolumeButtonEvents];
+    
+    if(self.isInFeedMode){
+        [[self videoCamera] stopCameraCapture];
+        [[GLSharedVideoPlayer sharedInstance] play];
+    }
+    
 
 }
 
@@ -2036,6 +2134,9 @@
     
     if(self.goneUploadAmovie == YES){
         [self.previewPlayer stop];
+        if(self.isInFeedMode){
+            [self.videoCamera stopCameraCapture];
+        }
         [self performSelector:@selector(backFromVideoTapped)];
         
         

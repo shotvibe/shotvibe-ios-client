@@ -28,15 +28,7 @@
 
 //-(void)
 - (void)awakeFromNib {
-    
-    
-    
-//    self.webImageView = [YYAnimatedImageView new];
-//    self.webImageView.size = self.contentView.frame.size;
-//    self.webImageView.clipsToBounds = YES;
-//    self.webImageView.contentMode = UIViewContentModeScaleAspectFill;
-//    self.webImageView.backgroundColor = [UIColor whiteColor];
-//    [self.contentView addSubview:_webImageView];
+
     
     self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.indicator.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
@@ -175,23 +167,13 @@
     CGRect viewBounds = self.postImage.bounds;
     viewBounds.size.height = viewBounds.size.height/1.5;
     self.activityIndicator.center = CGPointMake(CGRectGetMidX(viewBounds), CGRectGetMidY(viewBounds));
-//    self.activityIndicator.hidesWhenStopped = YES;
     
+    [self.postImage addSubview:self.activityIndicator];
+
     
-    
-//    self.moviePlayer.view.alpha =0;
-//    [self.moviePlayer prepareToPlay];
-    
-    
-    
-//    self.
-//    self.moviePlayer.view.hidden = YES;
-    
-    
-    [self.postPannelWrapper addSubview:self.commentScrollBgView];
     [self.contentView addSubview:self.postPannelWrapper];
+    [self.postPannelWrapper addSubview:self.commentScrollBgView];
     [self.postPannelWrapper addSubview:self.commentsScrollView];
-    
     [self.postPannelWrapper addSubview:self.glancesCounter];
     [self.postPannelWrapper addSubview:self.postForwardButton];
     [self.postPannelWrapper addSubview:self.addCommentButton];
@@ -201,7 +183,7 @@
     [self.postPannelWrapper addSubview:self.feed3DotsButton];
     [self.postPannelWrapper addSubview:self.commentTextField];
     
-    [self.postImage addSubview:self.activityIndicator];
+   
     
     
 //    [self.contentView bringSubviewToFront:self.moviePlayer.view];
@@ -412,9 +394,15 @@
         
 //        [self.postImage yy_setImageWithURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""]];
         
-        [self.postImage yy_setImageWithURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
-            
-        }];
+//        [self.postImage yy_setImageWithURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+//            
+//        }];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [self setImageURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]]];
+        });
+        
+//        };
         
 //        [[MPMusicPlayerController applicationMusicPlayer] setVolume:0];
 //        [self.moviePlayer setUseApplicationAudioSession:NO];

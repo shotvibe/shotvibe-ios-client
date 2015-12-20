@@ -61,7 +61,7 @@
     moviePlayer.repeatMode = MPMovieRepeatModeOne;
     
     // TODO Temporary:
-    moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
+//    moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
     
     moviePlayer.view.alpha = 0;
     

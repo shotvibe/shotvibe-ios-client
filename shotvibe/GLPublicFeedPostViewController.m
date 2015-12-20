@@ -823,10 +823,11 @@
         
         //            [album]
         
-        NSString *new = [[[photo getServerPhoto]getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
+        NSString *new = [[[photo getServerPhoto]getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_fhd.jpg"];
         
         
-        //        NSString * commentsDataString = [NSString stringWithFormat:<#(nonnull NSString *), ...#>];
+        //     NSString * commentsDataString = [NSString stringWithFormat:(nonnull NSString *), ...];
+    
         NSString * commetnsString = [NSString stringWithFormat:@"\"count\": %f,\"data\": [%@]",commentsCount,commentsFullString];
         
         NSData *objectData = [[NSString stringWithFormat:@"{\"attribution\":null,\"tags\":[],\"type\":\"image\",\"location\":null,\"comments\":{%@},\"filter\":\"Normal\",\"created_time\":\"%lld\",\"link\":\"http://instagram.com/p/xtfQ81gK0E/\",\"likes\":\"%d\",\"images\":{\"low_resolution\":{\"url\":\"http://scontent-b.cdninstagram.com/hphotos-xfa1/t51.2885-15/10932341_1042561312426099_2095600846_a.jpg\",\"width\":306,\"height\":306},\"thumbnail\":{\"url\":\"http://scontent-b.cdninstagram.com/hphotos-xfa1/t51.2885-15/10932341_1042561312426099_2095600846_s.jpg\",\"width\":150,\"height\":150},\"standard_resolution\":{\"url\":\"%@\",\"width\":480,\"height\":320}},\"users_in_photo\":[  ],\"caption\":{\"created_time\":\"%lld\"},\"user_has_liked\":false,\"id\":\"%@\",\"user\":{%@}}",commetnsString,seconds,[[photo getServerPhoto] getGlobalGlanceScore],new,seconds,[[photo getServerPhoto]getId],userData] dataUsingEncoding:NSUTF8StringEncoding];
@@ -901,6 +902,40 @@
 }
 
 
+- (void)setImageURL:(NSURL *)url cell:(GLFeedTableCell*)cell {
+    cell.label.hidden = YES;
+    cell.indicator.hidden = NO;
+    [cell.indicator startAnimating];
+    __weak typeof(cell) _self = cell;
+    
+    [CATransaction begin];
+    [CATransaction setDisableActions: YES];
+    cell.progressLayer.hidden = YES;
+    cell.progressLayer.strokeEnd = 0;
+    [CATransaction commit];
+    
+    [cell.postImage yy_setImageWithURL:url
+                           placeholder:nil
+                               options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation
+                              progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                  if (expectedSize > 0 && receivedSize > 0) {
+                                      CGFloat progress = (CGFloat)receivedSize / expectedSize;
+                                      progress = progress < 0 ? 0 : progress > 1 ? 1 : progress;
+                                      if (_self.progressLayer.hidden) _self.progressLayer.hidden = NO;
+                                      _self.progressLayer.strokeEnd = progress;
+                                  }
+                              }
+                             transform:nil
+                            completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+                                if (stage == YYWebImageStageFinished) {
+                                    _self.progressLayer.hidden = YES;
+                                    [_self.indicator stopAnimating];
+                                    _self.indicator.hidden = YES;
+                                    if (!image) _self.label.hidden = NO;
+                                }
+                            }];
+}
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -919,10 +954,11 @@
         
 //        [cell.postImage yy_setImageWithURL:[NSURL URLWithString:[video getVideoThumbnailUrl]] placeholder:[UIImage imageNamed:@""]];
         
-        [cell.postImage yy_setImageWithURL:[NSURL URLWithString:[video getVideoThumbnailUrl]]  placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
-            
-        }];
+//        [cell.postImage yy_setImageWithURL:[NSURL URLWithString:[video getVideoThumbnailUrl]]  placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+//            
+//        }];
         
+        [self setImageURL:[NSURL URLWithString:[video getVideoThumbnailUrl]] cell:cell];
         
         cell.videoBadge.alpha = 1;
         
@@ -935,10 +971,15 @@
 
 
 //        [cell.postImage yy_setImageWithURL:[NSURL URLWithString:[[[[tempDict objectAtIndex:0] objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]] placeholder:[UIImage imageNamed:@""]];
+//        
+//        [cell.postImage yy_setImageWithURL:[NSURL URLWithString:[[[[tempDict objectAtIndex:0] objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]]  placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+//            
+//        }];
         
-        [cell.postImage yy_setImageWithURL:[NSURL URLWithString:[[[[tempDict objectAtIndex:0] objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]]  placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
-            
-        }];
+        [self setImageURL:[NSURL URLWithString:[[[[tempDict objectAtIndex:0] objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]]  cell:cell];
+        
+        
+//        self setim
         
         
     }
