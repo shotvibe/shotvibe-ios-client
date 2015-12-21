@@ -488,7 +488,6 @@
 		0F781FE11C072A3E00688168 /* PMCustomKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F781FD41C072A3E00688168 /* PMCustomKeyboard.xib */; };
 		0FAB9F2E1C1093A700E52718 /* GLSharedVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */; };
 		0FACEB6D1BCFC9A400DF67AB /* GLSharedCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */; };
-		0FB0A1761C282F49005CFD2F /* dropsound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0A1751C282F49005CFD2F /* dropsound.wav */; };
 		0FBC86F31C1991D000C0CF34 /* CALayer+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBC86F21C1991D000C0CF34 /* CALayer+YYAdd.m */; };
 		0FD59E3F1BD62B10002CDCCD /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD59E3E1BD62B10002CDCCD /* NewRelicAgent.framework */; };
 		0FD59E491BD7DAB3002CDCCD /* PullableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD59E461BD7DAB3002CDCCD /* PullableView.m */; };
@@ -1031,6 +1030,7 @@
 		DD3A8BCD1BC9A4A1002DF2C9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3A8BCC1BC9A4A1002DF2C9 /* Images.xcassets */; };
 		ED71A88E1C21819700444589 /* UploadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = ED71A88D1C21819700444589 /* UploadQueue.m */; };
 		ED71A8911C21829B00444589 /* UploadJob.m in Sources */ = {isa = PBXBuildFile; fileRef = ED71A8901C21829B00444589 /* UploadJob.m */; };
+		ED8B555C1C286FBA001588E6 /* dropsound.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED8B555B1C286FBA001588E6 /* dropsound.wav */; };
 		ED9589021C0DECA00020E8C6 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9589011C0DECA00020E8C6 /* AWSS3.framework */; };
 		ED9589051C0DEDA60020E8C6 /* UploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9589041C0DEDA60020E8C6 /* UploadManager.m */; };
 		ED9589071C0DEE680020E8C6 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9589061C0DEE680020E8C6 /* AWSCore.framework */; };
@@ -1576,7 +1576,6 @@
 		0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedVideoPlayer.m; sourceTree = "<group>"; };
 		0FACEB6B1BCFC9A400DF67AB /* GLSharedCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedCamera.h; sourceTree = "<group>"; };
 		0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedCamera.m; sourceTree = "<group>"; };
-		0FB0A1751C282F49005CFD2F /* dropsound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = dropsound.wav; path = "../../shotvibe-ios-client 2/shotvibe/dropsound.wav"; sourceTree = "<group>"; };
 		0FBC86F11C1991D000C0CF34 /* CALayer+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+YYAdd.h"; sourceTree = "<group>"; };
 		0FBC86F21C1991D000C0CF34 /* CALayer+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+YYAdd.m"; sourceTree = "<group>"; };
 		0FD59E3E1BD62B10002CDCCD /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = Pods/NewRelicAgent/NewRelic_iOS_Agent_5.3.1/NewRelicAgent.framework; sourceTree = "<group>"; };
@@ -2479,6 +2478,7 @@
 		ED71A88D1C21819700444589 /* UploadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadQueue.m; path = shotvibe/API/UploadQueue.m; sourceTree = SOURCE_ROOT; };
 		ED71A88F1C21829B00444589 /* UploadJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadJob.h; path = shotvibe/API/UploadJob.h; sourceTree = SOURCE_ROOT; };
 		ED71A8901C21829B00444589 /* UploadJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadJob.m; path = shotvibe/API/UploadJob.m; sourceTree = SOURCE_ROOT; };
+		ED8B555B1C286FBA001588E6 /* dropsound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dropsound.wav; sourceTree = "<group>"; };
 		ED9589011C0DECA00020E8C6 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = "shotvibe/Vendor/aws-ios-sdk-2.3.0/frameworks/AWSS3.framework"; sourceTree = "<group>"; };
 		ED9589031C0DEDA60020E8C6 /* UploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadManager.h; path = shotvibe/API/UploadManager.h; sourceTree = SOURCE_ROOT; };
 		ED9589041C0DEDA60020E8C6 /* UploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadManager.m; path = shotvibe/API/UploadManager.m; sourceTree = SOURCE_ROOT; };
@@ -4643,7 +4643,7 @@
 		DD3A8BAA1BC99FFD002DF2C9 /* V2 */ = {
 			isa = PBXGroup;
 			children = (
-				0FB0A1751C282F49005CFD2F /* dropsound.wav */,
+				ED8B555B1C286FBA001588E6 /* dropsound.wav */,
 				0F24809D1C196C2E00E4136F /* AMTumblrHud */,
 				0FFAF9F61C171ADC00DA849C /* CircularProgressView */,
 				0FAB9F2B1C10939400E52718 /* GLShareVideoPLayer */,
@@ -5175,6 +5175,7 @@
 				04C407531730303600973BC0 /* PY.png in Resources */,
 				0F55119E1BEF8C0300E98C64 /* GothamNarrow-BookItalic.otf in Resources */,
 				04C407551730303600973BC0 /* QA.png in Resources */,
+				ED8B555C1C286FBA001588E6 /* dropsound.wav in Resources */,
 				3E39C2E718D9F82200F98CBF /* FriendsButton.png in Resources */,
 				04C407571730303600973BC0 /* RE.png in Resources */,
 				0FE43EB41BDF93620088D93F /* Gotham_Rounded_Light.otf in Resources */,
@@ -5341,7 +5342,6 @@
 				0F4947B71BE2A7FD00FEDC12 /* push.mp3 in Resources */,
 				28E94C2F17C2C4AE00874BDE /* IconCopy.png in Resources */,
 				28E94C3017C2C4AE00874BDE /* IconCopy@2x.png in Resources */,
-				0FB0A1761C282F49005CFD2F /* dropsound.wav in Resources */,
 				28E94C3117C2C4AE00874BDE /* IconLink.png in Resources */,
 				28E94C3217C2C4AE00874BDE /* IconLink@2x.png in Resources */,
 				108CDF6F18846B9000757E36 /* MPSurvey.storyboard in Resources */,
