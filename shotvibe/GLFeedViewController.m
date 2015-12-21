@@ -85,6 +85,8 @@
     BOOL viewDidInitialed;
     CGFloat pageNumber;
     BOOL feedLoadedOnce;
+    int lockContentsStackDepth_;
+    SLAlbumContents *lockContentsSavedValue_;
 }
 @end
 
@@ -191,6 +193,8 @@
                                                  name:@"ImageCapturedOnMainScreen"
                                                object:nil];
     
+    lockContentsStackDepth_ = 0;
+    lockContentsSavedValue_ = nil;
 }
 
 
@@ -808,8 +812,31 @@
     [self.tableView reloadData];
 }
 
+- (void)lockAlbumContents
+{
+    lockContentsStackDepth_++;
+}
+
+- (void)unlockAlbumContents
+{
+    NSAssert(lockContentsStackDepth_ > 0, @"unlockAlbumContents matches lockAlbumContents call");
+    lockContentsStackDepth_--;
+    if (lockContentsStackDepth_ == 0) {
+        if (lockContentsSavedValue_) {
+            SLAlbumContents *savedValue = lockContentsSavedValue_;
+            lockContentsSavedValue_ = nil;
+            [self setAlbumContents:savedValue];
+        }
+    }
+}
+
 - (void)setAlbumContents:(SLAlbumContents *)album
 {
+    if (lockContentsStackDepth_ > 0) {
+        lockContentsSavedValue_ = album;
+        return;
+    }
+
     albumContents = album;
     if(albumContents != nil){
         GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
