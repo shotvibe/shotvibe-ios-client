@@ -556,8 +556,6 @@
 {
     [super viewDidAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     
     GLSharedCamera * camera = [GLSharedCamera sharedInstance];
 //    camera.picYourGroup.alpha = 1;
@@ -674,6 +672,10 @@
     
 //    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
 //    glcamera.delegate = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
     
@@ -1789,6 +1791,8 @@
 //    [self.tableView setUserInteractionEnabled:NO];
     commentingNow = YES;
     NSLog(@"the photo id is %lld",(long long)sender.tag);
+//    self.cuur
+//    self.cur
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
     
     cell.commentTextField.delegate = self;

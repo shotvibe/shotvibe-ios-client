@@ -2147,7 +2147,7 @@
             [self.videoCamera stopCameraCapture];
         }
         [self performSelector:@selector(backFromVideoTapped)];
-        
+        self.goneUploadAmovie = NO;
         
         if(!self.isInFeedMode){
             self.dmut.transform = dmutScaleOriginal;

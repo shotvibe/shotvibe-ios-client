@@ -488,6 +488,7 @@
 		0F781FE11C072A3E00688168 /* PMCustomKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F781FD41C072A3E00688168 /* PMCustomKeyboard.xib */; };
 		0FAB9F2E1C1093A700E52718 /* GLSharedVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */; };
 		0FACEB6D1BCFC9A400DF67AB /* GLSharedCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */; };
+		0FB0A1761C282F49005CFD2F /* dropsound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0A1751C282F49005CFD2F /* dropsound.wav */; };
 		0FBC86F31C1991D000C0CF34 /* CALayer+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBC86F21C1991D000C0CF34 /* CALayer+YYAdd.m */; };
 		0FD59E3F1BD62B10002CDCCD /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD59E3E1BD62B10002CDCCD /* NewRelicAgent.framework */; };
 		0FD59E491BD7DAB3002CDCCD /* PullableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD59E461BD7DAB3002CDCCD /* PullableView.m */; };
@@ -1575,6 +1576,7 @@
 		0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedVideoPlayer.m; sourceTree = "<group>"; };
 		0FACEB6B1BCFC9A400DF67AB /* GLSharedCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedCamera.h; sourceTree = "<group>"; };
 		0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedCamera.m; sourceTree = "<group>"; };
+		0FB0A1751C282F49005CFD2F /* dropsound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = dropsound.wav; path = "../../shotvibe-ios-client 2/shotvibe/dropsound.wav"; sourceTree = "<group>"; };
 		0FBC86F11C1991D000C0CF34 /* CALayer+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+YYAdd.h"; sourceTree = "<group>"; };
 		0FBC86F21C1991D000C0CF34 /* CALayer+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+YYAdd.m"; sourceTree = "<group>"; };
 		0FD59E3E1BD62B10002CDCCD /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = Pods/NewRelicAgent/NewRelic_iOS_Agent_5.3.1/NewRelicAgent.framework; sourceTree = "<group>"; };
@@ -4641,6 +4643,7 @@
 		DD3A8BAA1BC99FFD002DF2C9 /* V2 */ = {
 			isa = PBXGroup;
 			children = (
+				0FB0A1751C282F49005CFD2F /* dropsound.wav */,
 				0F24809D1C196C2E00E4136F /* AMTumblrHud */,
 				0FFAF9F61C171ADC00DA849C /* CircularProgressView */,
 				0FAB9F2B1C10939400E52718 /* GLShareVideoPLayer */,
@@ -5338,6 +5341,7 @@
 				0F4947B71BE2A7FD00FEDC12 /* push.mp3 in Resources */,
 				28E94C2F17C2C4AE00874BDE /* IconCopy.png in Resources */,
 				28E94C3017C2C4AE00874BDE /* IconCopy@2x.png in Resources */,
+				0FB0A1761C282F49005CFD2F /* dropsound.wav in Resources */,
 				28E94C3117C2C4AE00874BDE /* IconLink.png in Resources */,
 				28E94C3217C2C4AE00874BDE /* IconLink@2x.png in Resources */,
 				108CDF6F18846B9000757E36 /* MPSurvey.storyboard in Resources */,

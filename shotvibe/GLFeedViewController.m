@@ -504,7 +504,7 @@
         
         // Save large image
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-//        dispatch_async(queue, ^(void) {
+        dispatch_async(queue, ^(void) {
         
             
             
@@ -556,7 +556,7 @@
             
             if(fileExists){
                 
-//                dispatch_async(dispatch_get_main_queue(), ^{
+                dispatch_async(dispatch_get_main_queue(), ^{
                     NSLog(@"FINISH to write image");
                     //                [self dismissViewControllerAnimated:YES completion:^{
                     
@@ -584,19 +584,15 @@
                     
                     //                }];
                     
-//                });
-                
+                });
+            
                 
             } else {
                 
                 NSLog(@"file wasnt saved correctly !!! isnt found on path!");
                 
             }
-            
-            
-            
-            
-//        });
+        });
     }
 }
 
@@ -622,8 +618,7 @@
     
 
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    
     
     [self.tableView.delegate scrollViewDidScroll:self.tableView];
     
@@ -777,7 +772,8 @@
     //    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
     //    glcamera.delegate = nil;
     
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
     
@@ -2430,8 +2426,12 @@
     } completion:^(BOOL finished) {
         PMCustomKeyboard *customKeyboard = [[PMCustomKeyboard alloc] init];
         
+        
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        
+        
         [customKeyboard setTextView:cell.commentTextField];
-//        [cell.commentTextField becomeFirstResponder];
+        [cell.commentTextField becomeFirstResponder];
     }];
     
 }
@@ -2451,6 +2451,8 @@
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
+    
+
     
     if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
         self.tableView.scrollEnabled = NO;

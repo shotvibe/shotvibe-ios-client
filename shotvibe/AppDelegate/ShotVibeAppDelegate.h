@@ -5,7 +5,7 @@
 //  Created by Fredrick Gabelmann on 2/5/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
-
+#import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 #import "SL/AlbumManager.h"
 #import "SL/NetworkStatusManager.h"
@@ -30,7 +30,7 @@
 @property (nonatomic) long long int pushAlbumId;
 @property (nonatomic, retain) NSString * photoIdFromPush;
 @property (nonatomic) int userScore;
-
+@property (nonatomic, retain) AVAudioPlayer * theAudio;
 @property (copy) void (^ uploadSessionCompletionHandler)(); //stored by handleEventsForBackgroundURLSession for later use
 
 - (BOOL)isLoggedIn;

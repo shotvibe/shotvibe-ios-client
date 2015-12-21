@@ -579,6 +579,18 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 - (void) receiveUploadCompleteNotification:(NSNotification *)notification
 {
     NSLog(@"ShotVibeAppDelegate receiveUploadCompleteNotification");
+    
+    NSString *path = [NSString stringWithFormat:@"%@/dropsound.wav", [[NSBundle mainBundle] resourcePath]];
+    NSURL *soundUrl = [NSURL fileURLWithPath:path];
+    
+    [self.theAudio stop];
+    // Create audio player object and initialize with URL to sound
+    self.theAudio = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
+    [self.theAudio play];
+    
+    
+    
+    
     // TODO ...
 }
 
