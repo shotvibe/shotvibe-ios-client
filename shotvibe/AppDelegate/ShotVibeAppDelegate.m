@@ -447,6 +447,8 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
                                               withSLUploadManager:[uploadSystemDirector getUploadManager]
                                               withSLMediaUploader:self.uploadManager];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveUploadCompleteNotification:) name:@"GLUploadComplete" object:nil];
+
     id <SLDevicePhoneContactsLib> devicePhoneContactsLib = [[IosDevicePhoneContactsLib alloc] init];
 
     _phoneContactsManager = [[SLPhoneContactsManager alloc] initWithSLDevicePhoneContactsLib:devicePhoneContactsLib
@@ -566,6 +568,12 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 	
+}
+
+- (void) receiveUploadCompleteNotification:(NSNotification *)notification
+{
+    NSLog(@"ShotVibeAppDelegate receiveUploadCompleteNotification");
+    // TODO ...
 }
 
 
