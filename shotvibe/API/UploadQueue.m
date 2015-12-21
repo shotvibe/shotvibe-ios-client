@@ -63,6 +63,8 @@
             currentIndex_--;
 
             [job injectIntoCacheAndDeleteWithServerPhotoUrl:serverPhotoUrl];
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"GLUploadComplete" object:nil];
             return;
         }
     }
