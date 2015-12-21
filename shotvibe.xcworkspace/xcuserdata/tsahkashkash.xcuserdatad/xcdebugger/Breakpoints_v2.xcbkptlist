@@ -3070,16 +3070,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLFeedViewController.m"
-            timestampString = "472399911.798208"
+            timestampString = "472414039.031587"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2457"
-            endingLineNumber = "2457"
-            landmarkName = "-keyboardWillShow:"
+            startingLineNumber = "2465"
+            endingLineNumber = "2465"
+            landmarkName = "-addCommentTapped:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3090,12 +3090,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLFeedViewController.m"
-            timestampString = "472398521.762224"
+            timestampString = "472414039.031587"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2268"
-            endingLineNumber = "2268"
-            landmarkName = "-membersPressed"
+            startingLineNumber = "2276"
+            endingLineNumber = "2276"
+            landmarkName = "-backPressed"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3106,12 +3106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLFeedViewController.m"
-            timestampString = "472398521.762224"
+            timestampString = "472414039.031587"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2270"
-            endingLineNumber = "2270"
-            landmarkName = "-membersPressed"
+            startingLineNumber = "2278"
+            endingLineNumber = "2278"
+            landmarkName = "-backPressed"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3170,11 +3170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLFeedViewController.m"
-            timestampString = "472393511.350711"
+            timestampString = "472414039.031587"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "506"
-            endingLineNumber = "506"
+            startingLineNumber = "508"
+            endingLineNumber = "508"
             landmarkName = "-imageSelected:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3186,11 +3186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLFeedViewController.m"
-            timestampString = "472393666.607225"
+            timestampString = "472414039.031587"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "555"
-            endingLineNumber = "555"
+            startingLineNumber = "557"
+            endingLineNumber = "557"
             landmarkName = "-imageSelected:"
             landmarkType = "5">
             <Locations>
@@ -3202,11 +3202,11 @@
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/shotvibe/GLFeedViewController.m"
-                  timestampString = "472399571.615138"
+                  timestampString = "472413453.117262"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "596"
-                  endingLineNumber = "596"
+                  startingLineNumber = "600"
+                  endingLineNumber = "600"
                   offsetFromSymbolStart = "988">
                </Location>
                <Location
@@ -3217,11 +3217,11 @@
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/shotvibe/GLFeedViewController.m"
-                  timestampString = "472399571.615319"
+                  timestampString = "472413453.117677"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "596"
-                  endingLineNumber = "596"
+                  startingLineNumber = "600"
+                  endingLineNumber = "600"
                   offsetFromSymbolStart = "1096">
                </Location>
             </Locations>
@@ -3246,7 +3246,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/API/UploadJob.m"
@@ -3256,6 +3256,54 @@
             startingLineNumber = "74"
             endingLineNumber = "74"
             landmarkName = "-initPhotoUploadWithUploadDir:withFile:withAlbumId:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLFeedViewController.m"
+            timestampString = "472414039.031587"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2530"
+            endingLineNumber = "2530"
+            landmarkName = "-keyboardWillHide:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLFeedViewController.m"
+            timestampString = "472414039.031587"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "843"
+            endingLineNumber = "843"
+            landmarkName = "-setAlbumContents:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLFeedViewController.m"
+            timestampString = "472414039.031587"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "848"
+            endingLineNumber = "848"
+            landmarkName = "-setAlbumContents:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

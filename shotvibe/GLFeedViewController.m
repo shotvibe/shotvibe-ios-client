@@ -133,6 +133,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    
     tableIsScrolling = NO;
     
     self.feedScrollDirection = FeedScrollDirectionDown;
@@ -826,6 +828,9 @@
             SLAlbumContents *savedValue = lockContentsSavedValue_;
             lockContentsSavedValue_ = nil;
             [self setAlbumContents:savedValue];
+            
+            [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows]
+                             withRowAnimation:UITableViewRowAnimationNone];
         }
     }
 }
@@ -2390,7 +2395,7 @@
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
-    NSLog(@"%d",textField.text.length);
+    NSLog(@"%lu",textField.text.length);
     if(textField.text.length > 10){
         
     }
@@ -2482,6 +2487,10 @@
 
     
     if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
+        
+        
+        [self lockAlbumContents];
+        
         self.tableView.scrollEnabled = NO;
         
         CGRect frame = self.tableView.frame;
@@ -2503,10 +2512,20 @@
     
 }
 
+-(void)keyboardDidHide:(NSNotification *)note {
+    
+    [self unlockAlbumContents];
+    
+    
+}
+
 - (void)keyboardWillHide:(NSNotification *)notification
 {
     
     if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
+        
+//        [self unlockAlbumContents];
+        
         self.tableView.scrollEnabled = YES;
         CGRect frame = self.tableView.frame;
         CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
