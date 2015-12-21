@@ -207,6 +207,12 @@ static ContainerViewController *sharedInstance;
     
 }
 
+-(BOOL)membersOpen {
+    
+    return membersOpened;
+    
+}
+
 -(void)membersPressed {
 
     NSLog(@"test");
@@ -684,7 +690,9 @@ static ContainerViewController *sharedInstance;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    RCLog(@"%@ did receive memory warning", NSStringFromClass([self class]));
+//    [thumbnailCache removeAllObjects];
+    
 }
 
 -(void)gotoPage:(int)index{

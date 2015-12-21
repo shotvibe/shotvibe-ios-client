@@ -20,6 +20,8 @@
 #import "GPUImageMojitoFilter.h"
 #import "GPUImageMartiniFilter.h"
 
+//#import "GLSharedCamera.h"
+
 typedef enum {
     GPUIMAGE_NOFILTER,
     GPUIMAGE_SATURATION,

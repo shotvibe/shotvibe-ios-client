@@ -1392,5 +1392,12 @@ static inline NSString * albumFirstLetter(SLAlbumSummary *album)
     [self.tableView reloadData];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    RCLog(@"%@ did receive memory warning", NSStringFromClass([self class]));
+    //    [thumbnailCache removeAllObjects];
+    
+}
 
 @end

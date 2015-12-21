@@ -679,11 +679,11 @@ CGFloat kResizeThumbSize = 45.0f;
 
 #pragma mark - Memory Management
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    [thumbnailCache removeAllObjects];
-}
+//- (void)didReceiveMemoryWarning
+//{
+//    [super didReceiveMemoryWarning];
+//    [thumbnailCache removeAllObjects];
+//}
 
 
 #pragma mark - Misc
@@ -1231,6 +1231,14 @@ CGFloat kResizeThumbSize = 45.0f;
 //        cell.title.textColor = [UIColor whiteColor];
 //    }
     return cell;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    RCLog(@"%@ did receive memory warning", NSStringFromClass([self class]));
+    [thumbnailCache removeAllObjects];
+    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

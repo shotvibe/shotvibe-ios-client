@@ -148,8 +148,25 @@ enum {
 
     
     NSMutableDictionary * recentsEmojisDict = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"RecentsEmojies"]];
-    if([recentsEmojisDict count] > 0){
-        self.recentsEmoji = @[ @"😄", @"😃", @"😀", @"😊", @"☺️", @"😉", @"😍", @"😘", @"😚", @"😗", @"😙", @"😜", @"😝", @"😛", @"😳", @"😁", @"😔", @"😌", @"😒", @"😞", @"😣", @"😢", @"😂", @"😭", @"😪", @"😥", @"😰", @"😅", @"😓", @"😩"];
+    if([recentsEmojisDict count] == 0){
+        recentsEmojisDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"1",@"😄",@"1", @"😃",@"1", @"😀",@"1", @"😊",@"1", @"☺️",@"1", @"😉",@"1", @"😍",@"1", @"😘",@"1", @"😚",@"1", @"😗",@"1", @"😙",@"1", @"😜",@"1", @"😝",@"1", @"😛",@"1", @"😳",@"1", @"😁",@"1", @"😔",@"1", @"😌", @"1",@"😒",@"1", @"😞",@"1", @"😣",@"1", @"😢",@"1", @"😂",@"1", @"😭",@"1", @"😪",@"1", @"😥",@"1", @"😰",@"1", @"😅",@"1", @"😓",@"1", @"😩", nil];
+        
+        self.recentsEmoji = [[[recentsEmojisDict keysSortedByValueUsingComparator: ^(id obj1, id obj2) {
+            
+            if ([obj1 integerValue] > [obj2 integerValue]) {
+                
+                return (NSComparisonResult)NSOrderedDescending;
+            }
+            if ([obj1 integerValue] < [obj2 integerValue]) {
+                
+                return (NSComparisonResult)NSOrderedAscending;
+            }
+            
+            return (NSComparisonResult)NSOrderedSame;
+        }] reverseObjectEnumerator] allObjects];
+        
+        
+        //@[ @"😄", @"😃", @"😀", @"😊", @"☺️", @"😉", @"😍", @"😘", @"😚", @"😗", @"😙", @"😜", @"😝", @"😛", @"😳", @"😁", @"😔", @"😌", @"😒", @"😞", @"😣", @"😢", @"😂", @"😭", @"😪", @"😥", @"😰", @"😅", @"😓", @"😩"];
     } else {
         self.recentsEmoji = [[[recentsEmojisDict keysSortedByValueUsingComparator: ^(id obj1, id obj2) {
             

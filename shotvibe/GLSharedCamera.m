@@ -1024,14 +1024,16 @@
 
 - (void)hideCameraButtons {
     
+    
+    for(GLFilterView * filterView in self.arrayOfFilters){
+        filterView.title.alpha = 0;
+    }
     [UIView animateWithDuration:0.25
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          
-                         for(GLFilterView * filterView in self.arrayOfFilters){
-                             filterView.title.alpha = 0;
-                         }
+                         
                          flipCameraButton.alpha = 0;
                          flashButton.alpha = 0;
                          
@@ -1107,12 +1109,14 @@
 
 -(void)setCameraInMain {
     self.isInFeedMode = NO;
-    flipCameraButton.alpha = 0;
-    flashButton.alpha = 0;
-    glanceLogo.alpha = 1;
-    scoreBg.alpha = 0;
-    self.score.alpha = 0;
-    self.picYourGroup.alpha = 1;
+    [self.userScore showUserScore];
+    [self hideCameraButtons];
+//    flipCameraButton.alpha = 0;
+//    flashButton.alpha = 0;
+//    glanceLogo.alpha = 1;
+//    scoreBg.alpha = 0;
+//    self.score.alpha = 0;
+//    self.picYourGroup.alpha = 1;
 //    [self toggleCamera:YES];
     
     
@@ -1200,7 +1204,8 @@
 
 -(void)backButtonPressed {
     
-    
+//    [self.userScore showUserScore];
+//    [self hideCameraButtons];
     
     [self.delegate backPressed];
     
@@ -1897,6 +1902,10 @@
     isEditing = NO;
 }
 
+
+
+//-(BOOL)rec
+
 #pragma mark - TextField Delegate methods
 
 - (void)focusOnTextField {
@@ -2142,15 +2151,20 @@
         
         if(!self.isInFeedMode){
             self.dmut.transform = dmutScaleOriginal;
+            
+            
+            [self.userScore showUserScore];
+            [self hideCameraButtons];
+            
 //            [self toggleCamera:YES];
-            [UIView animateWithDuration:0.2 animations:^{
-                self.picYourGroup.alpha = 1;
-                glanceLogo.alpha = 1;
-                scoreBg.alpha = 1;
-                self.score.alpha = 1;
-                flipCameraButton.alpha = 0;
-                flashButton.alpha = 0;
-            }];
+//            [UIView animateWithDuration:0.2 animations:^{
+//                self.picYourGroup.alpha = 1;
+//                glanceLogo.alpha = 1;
+//                scoreBg.alpha = 1;
+//                self.score.alpha = 1;
+//                flipCameraButton.alpha = 0;
+//                flashButton.alpha = 0;
+//            }];
             
             [[ContainerViewController sharedInstance] lockScrolling:YES];
             [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
@@ -2196,15 +2210,19 @@
             if(!self.isInFeedMode){
                 
                 self.dmut.transform = dmutScaleOriginal;
+                
+                [self.userScore showUserScore];
+                [self hideCameraButtons];
+                
 //                [self toggleCamera:YES];
-                [UIView animateWithDuration:0.2 animations:^{
-                    self.picYourGroup.alpha = 1;
-                    glanceLogo.alpha = 1;
-                    scoreBg.alpha = 1;
-                    self.score.alpha = 1;
-                    flipCameraButton.alpha = 0;
-                    flashButton.alpha = 0;
-                }];
+//                [UIView animateWithDuration:0.2 animations:^{
+//                    self.picYourGroup.alpha = 1;
+//                    glanceLogo.alpha = 1;
+//                    scoreBg.alpha = 1;
+//                    self.score.alpha = 1;
+//                    flipCameraButton.alpha = 0;
+//                    flashButton.alpha = 0;
+//                }];
                 [[ContainerViewController sharedInstance] lockScrolling:YES];
                 [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
                 [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
@@ -2269,12 +2287,15 @@
                 
                 if(self.afterLogin){
                     
-                    self.picYourGroup.alpha = 1;
-                    glanceLogo.alpha = 1;
-                    scoreBg.alpha = 1;
-                    self.score.alpha = 1;
-                    flipCameraButton.alpha = 0;
-                    flashButton.alpha = 0;
+//                    self.picYourGroup.alpha = 1;
+//                    glanceLogo.alpha = 1;
+//                    scoreBg.alpha = 1;
+//                    self.score.alpha = 1;
+//                    flipCameraButton.alpha = 0;
+//                    flashButton.alpha = 0;
+                    
+                    [self.userScore showUserScore];
+                    [self hideCameraButtons];
                     
                 }
             }];

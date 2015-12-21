@@ -34,6 +34,7 @@ typedef void(^pageTransitionCompleted)();
 -(void)lockScrolling:(BOOL)lock;
 - (void)resetFriendsView;
 - (void)startUploadAfterSourceSelect:(long long int)albumId withAlbumContents:(SLAlbumContents*)album;
+-(BOOL)membersOpen ;
 - (void)setFriendsFromMain;
 - (void)setFriendsFromMainWithPicture;
 - (void)setFriendsForMove:(NSString*)photoId;

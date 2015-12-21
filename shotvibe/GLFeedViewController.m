@@ -504,8 +504,8 @@
         
         // Save large image
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-        dispatch_async(queue, ^(void) {
-            
+//        dispatch_async(queue, ^(void) {
+        
             
             
             
@@ -547,11 +547,16 @@
             
             NSLog(@"FINISH to SAVE NO MAIN QUE with path %@",filePath);
             
+            UIImage * reallyFinalImageBeforeUpload = [UIImage imageWithContentsOfFile:filePath];
+//            NSData *imgData = UIImageJPEGRepresentation(image, 1); //1 it represents the quality of the image.
+            NSData * imgData = [NSData dataWithContentsOfFile:filePath];
+            NSLog(@"Size of Image(bytes):%lu",(unsigned long)[imgData length]);
+            
             BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
             
             if(fileExists){
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
+//                dispatch_async(dispatch_get_main_queue(), ^{
                     NSLog(@"FINISH to write image");
                     //                [self dismissViewControllerAnimated:YES completion:^{
                     
@@ -579,7 +584,7 @@
                     
                     //                }];
                     
-                });
+//                });
                 
                 
             } else {
@@ -591,7 +596,7 @@
             
             
             
-        });
+//        });
     }
 }
 
@@ -614,6 +619,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     
     [self.tableView.delegate scrollViewDidScroll:self.tableView];
     
@@ -1024,10 +1034,10 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+//- (void)didReceiveMemoryWarning {
+//    [super didReceiveMemoryWarning];
+//    // Dispose of any resources that can be recreated.
+//}
 
 #pragma mark - Table view data source
 
@@ -2421,7 +2431,7 @@
         PMCustomKeyboard *customKeyboard = [[PMCustomKeyboard alloc] init];
         
         [customKeyboard setTextView:cell.commentTextField];
-        [cell.commentTextField becomeFirstResponder];
+//        [cell.commentTextField becomeFirstResponder];
     }];
     
 }
@@ -2442,7 +2452,7 @@
 - (void)keyboardWillShow:(NSNotification *)notification
 {
     
-    if([[GLSharedCamera sharedInstance] cameraIsShown] == NO){
+    if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
         self.tableView.scrollEnabled = NO;
         
         CGRect frame = self.tableView.frame;
@@ -2456,10 +2466,18 @@
     }
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    RCLog(@"%@ did receive memory warning", NSStringFromClass([self class]));
+//    [thumbnailCache removeAllObjects];
+    
+}
+
 - (void)keyboardWillHide:(NSNotification *)notification
 {
     
-    if([[GLSharedCamera sharedInstance] cameraIsShown] == NO){
+    if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
         self.tableView.scrollEnabled = YES;
         CGRect frame = self.tableView.frame;
         CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];

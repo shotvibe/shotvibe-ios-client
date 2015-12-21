@@ -15,13 +15,15 @@
 
 
 
-@implementation GLFilterView {
+
+@implementation GLFilterView  {
     CGPoint startLocation;
     float sineVolXY;
     float sinePitchXY;
     UIView * touchPointCircle;
    
 }
+
 //@synthesize filter,filterType;
 
 -(void)dealloc {
