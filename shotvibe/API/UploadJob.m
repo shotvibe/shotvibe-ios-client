@@ -12,6 +12,9 @@
 #import "SL/AlbumUploadingVideo.h"
 #import "FileUtils.h"
 
+#import "YYImageCache.h"
+#import "YYImageCoder.h"
+
 @implementation UploadJob
 {
     SLMediaTypeEnum *mediaType_;
@@ -131,6 +134,25 @@ NSString * moveFile(NSString* source, NSString *target) {
 - (void)setProgress:(float)progress
 {
     [uploadingMediaObj_ setProgressWithFloat:progress];
+}
+
+- (void)injectIntoCacheAndDeleteWithServerPhotoUrl:(NSString *)serverPhotoUrl
+{
+    // Only work with photos
+    // (TODO Still should delete uploaded file for videos!)
+    if ([self getMediaType] != [SLMediaTypeEnum PHOTO]) {
+        return;
+    }
+
+    NSData *fileContents = [[NSFileManager defaultManager] contentsAtPath:[self getFilePath]];
+    YYImageDecoder *decoder = [YYImageDecoder decoderWithData:fileContents scale:2.0];
+    UIImage *image = [decoder frameAtIndex:0 decodeForDisplay:YES].image;
+
+    NSString *cacheKey = [serverPhotoUrl stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_fhd.jpg"];
+
+    [[YYImageCache sharedCache] setImage:image imageData:fileContents forKey:cacheKey withType:YYImageCacheTypeAll];
+
+    // TODO Delete uploaded file
 }
 
 

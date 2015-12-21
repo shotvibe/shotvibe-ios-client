@@ -28,4 +28,6 @@
 
 + (NSString *)generateUniqueName;
 
+- (void)injectIntoCacheAndDeleteWithServerPhotoUrl:(NSString *)serverPhotoUrl;
+
 @end

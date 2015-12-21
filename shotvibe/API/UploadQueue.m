@@ -54,13 +54,15 @@
     return queue_;
 }
 
-- (void)removeCompletedClientUploadId:(NSString *)clientUploadId
+- (void)removeCompletedWjthClientUploadId:(NSString *)clientUploadId withServerPhotoUrl:(NSString *)serverPhotoUrl
 {
     for (NSInteger i = 0; i < currentIndex_; ++i) {
         UploadJob *job = [queue_ objectAtIndex:i];
         if ([[job getUniqueName] isEqualToString:clientUploadId]) {
             [queue_ removeObjectAtIndex:i];
             currentIndex_--;
+
+            [job injectIntoCacheAndDeleteWithServerPhotoUrl:serverPhotoUrl];
             return;
         }
     }
@@ -77,7 +79,7 @@
         if (serverPhoto) {
             NSString *clientUploadId = [serverPhoto getClientUploadId];
             if (clientUploadId && clientUploadId.length > 0) {
-                [self removeCompletedClientUploadId:clientUploadId];
+                [self removeCompletedWjthClientUploadId:clientUploadId withServerPhotoUrl:[serverPhoto getUrl]];
             }
         }
     }
