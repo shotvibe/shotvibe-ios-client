@@ -501,6 +501,8 @@
 		0FE43EB41BDF93620088D93F /* Gotham_Rounded_Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EB11BDF93620088D93F /* Gotham_Rounded_Light.otf */; };
 		0FE43EB81BE0BFBB0088D93F /* YALSunnyRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE43EB61BE0BFBB0088D93F /* YALSunnyRefreshControl.m */; };
 		0FE43EB91BE0BFBB0088D93F /* YALSunnyRefreshControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EB71BE0BFBB0088D93F /* YALSunnyRefreshControl.xib */; };
+		0FED6C8A1C2B535D00BEA211 /* PubNub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FED6C891C2B535D00BEA211 /* PubNub.framework */; };
+		0FED6C8D1C2BF5A300BEA211 /* GLPubNubManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FED6C8C1C2BF5A300BEA211 /* GLPubNubManager.m */; };
 		0FF4000E1BDE4A3B00C9168F /* RBVolumeButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF4000D1BDE4A3B00C9168F /* RBVolumeButtons.m */; };
 		0FF400101BDE4AC500C9168F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF4000F1BDE4AC500C9168F /* MediaPlayer.framework */; };
 		0FF400121BDE4ACC00C9168F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF400111BDE4ACC00C9168F /* AudioToolbox.framework */; };
@@ -1595,6 +1597,9 @@
 		0FE43EB51BE0BFBB0088D93F /* YALSunnyRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YALSunnyRefreshControl.h; sourceTree = "<group>"; };
 		0FE43EB61BE0BFBB0088D93F /* YALSunnyRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YALSunnyRefreshControl.m; sourceTree = "<group>"; };
 		0FE43EB71BE0BFBB0088D93F /* YALSunnyRefreshControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YALSunnyRefreshControl.xib; sourceTree = "<group>"; };
+		0FED6C891C2B535D00BEA211 /* PubNub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PubNub.framework; sourceTree = "<group>"; };
+		0FED6C8B1C2BF5A300BEA211 /* GLPubNubManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLPubNubManager.h; sourceTree = "<group>"; };
+		0FED6C8C1C2BF5A300BEA211 /* GLPubNubManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLPubNubManager.m; sourceTree = "<group>"; };
 		0FF4000C1BDE4A3B00C9168F /* RBVolumeButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBVolumeButtons.h; sourceTree = "<group>"; };
 		0FF4000D1BDE4A3B00C9168F /* RBVolumeButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBVolumeButtons.m; sourceTree = "<group>"; };
 		0FF4000F1BDE4AC500C9168F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -2530,6 +2535,7 @@
 				AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */,
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
 				172BE3D3C9E224053C15D25D /* libPods.a in Frameworks */,
+				0FED6C8A1C2B535D00BEA211 /* PubNub.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3038,6 +3044,7 @@
 		0F4390DF1C22F93200C83C45 /* V2Additions */ = {
 			isa = PBXGroup;
 			children = (
+				0FED6C8E1C2BF5B000BEA211 /* GLPubNubManager */,
 				0F4390E01C22F93E00C83C45 /* GLUserScore */,
 			);
 			name = V2Additions;
@@ -3320,6 +3327,15 @@
 				0FE43EB11BDF93620088D93F /* Gotham_Rounded_Light.otf */,
 			);
 			path = FONTS;
+			sourceTree = "<group>";
+		};
+		0FED6C8E1C2BF5B000BEA211 /* GLPubNubManager */ = {
+			isa = PBXGroup;
+			children = (
+				0FED6C8B1C2BF5A300BEA211 /* GLPubNubManager.h */,
+				0FED6C8C1C2BF5A300BEA211 /* GLPubNubManager.m */,
+			);
+			name = GLPubNubManager;
 			sourceTree = "<group>";
 		};
 		0FF7E6EA1BF8ACB60032F2C2 /* GLProfilePictureController */ = {
@@ -4351,6 +4367,7 @@
 		AA58FAF916C224E800C49E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FED6C891C2B535D00BEA211 /* PubNub.framework */,
 				0F2480A11C196D9B00E4136F /* CoreFoundation.framework */,
 				ED9589061C0DEE680020E8C6 /* AWSCore.framework */,
 				ED9589011C0DECA00020E8C6 /* AWSS3.framework */,
@@ -5574,7 +5591,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n    ./Crashlytics.framework/run 7f25f8f82f6578b40464674ed500ef0c60435027 0f62485c6120d77bc2984624f2d11eac766fbe2869c56f58d76246c13c161bf3\nfi";
+			shellScript = "./Fabric.framework/run f8ea8d878fa45159d89cfc40d8628f0da2fd9482 5acccfb54cd7adee937dc99beb4808f96cfaf978490da46bef0a81a45e028bc4";
 		};
 		45B9BAAEFEC92FBE739AF10A /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5866,6 +5883,7 @@
 				660B027E19D0F247008E25EE /* GalleryPhotoUploadRequest.m in Sources */,
 				66278C8D1867C38300D23F34 /* SVAlbumGridSection.m in Sources */,
 				66013230187F4E670042047B /* IOSLongArray.m in Sources */,
+				0FED6C8D1C2BF5A300BEA211 /* GLPubNubManager.m in Sources */,
 				66013243187F4E670042047B /* Exception.m in Sources */,
 				3B0A3CEF17CB7EBC0058B620 /* MBProgressHUD.m in Sources */,
 				0F781FE01C072A3E00688168 /* PMCustomKeyboard.m in Sources */,
@@ -5986,8 +6004,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				BUNDLE_DISPLAY_NAME_SUFFIX = " [ß]";
-				BUNDLE_ID_SUFFIX = .adhoc;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -6055,7 +6071,7 @@
 					"-all_load",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.shotvibe.shotvibe.debug;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shotvibe.glance;
 				PRODUCT_NAME = Glance;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -6085,8 +6101,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				BUNDLE_DISPLAY_NAME_SUFFIX = " [D]";
-				BUNDLE_ID_SUFFIX = .debug;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -6125,8 +6139,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				BUNDLE_DISPLAY_NAME_SUFFIX = "";
-				BUNDLE_ID_SUFFIX = "";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -6197,7 +6209,7 @@
 					"-all_load",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.shotvibe.shotvibe.debug;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shotvibe.glance;
 				PRODUCT_NAME = Glance;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -6246,7 +6258,7 @@
 					"-all_load",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.shotvibe.shotvibe.debug;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shotvibe.glance;
 				PRODUCT_NAME = Glance;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

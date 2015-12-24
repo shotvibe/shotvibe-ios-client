@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>${PRODUCT_NAME}${BUNDLE_DISPLAY_NAME_SUFFIX}</string>
+	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIcons~ipad</key>
@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3</string>
+	<string>1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -38,11 +38,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>849</string>
+	<string>3</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
-		<string>7f25f8f82f6578b40464674ed500ef0c60435027</string>
+		<string>f8ea8d878fa45159d89cfc40d8628f0da2fd9482</string>
 		<key>Kits</key>
 		<array>
 			<dict>
@@ -50,6 +50,19 @@
 				<dict/>
 				<key>KitName</key>
 				<string>Crashlytics</string>
+			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>publish-key</key>
+					<string>pub-c-fac181cd-3a33-4f76-af72-5d447077c0c6</string>
+					<key>secret-key</key>
+					<string>sec-c-ZDIyYjQ5ZjAtYjA3Mi00MjMwLWEzMzMtYWIyZjFiMDM3MzAy</string>
+					<key>subscribe-key</key>
+					<string>sub-c-97ae8d80-a9c0-11e5-8d24-0619f8945a4f</string>
+				</dict>
+				<key>KitName</key>
+				<string>PubNub</string>
 			</dict>
 		</array>
 	</dict>

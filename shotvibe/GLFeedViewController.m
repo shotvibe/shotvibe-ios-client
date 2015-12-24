@@ -134,6 +134,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    
     
     tableIsScrolling = NO;
     
@@ -778,8 +780,8 @@
     //    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
     //    glcamera.delegate = nil;
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
     
@@ -869,14 +871,14 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         // First set all the fullscreen photos to download at high priority
-        for (SLAlbumPhoto *p in [albumContents getPhotos].array) {
-            if ([p getServerPhoto]) {
-                [photoFilesManager_ queuePhotoDownload:[[p getServerPhoto] getId]
-                                              photoUrl:[[p getServerPhoto] getUrl]
-                                             photoSize:[PhotoSize FeedSize]
-                                          highPriority:YES];
-            }
-        }
+//        for (SLAlbumPhoto *p in [albumContents getPhotos].array) {
+//            if ([p getServerPhoto]) {
+//                [photoFilesManager_ queuePhotoDownload:[[p getServerPhoto] getId]
+//                                              photoUrl:[[p getServerPhoto] getUrl]
+//                                             photoSize:[PhotoSize FeedSize]
+//                  /                        highPriority:YES];
+//            }
+//        }
         
         // Now set all the thumbnails to download at high priority, these will now be pushed to download before all of the previously queued fullscreen photos
         //        for (SLAlbumPhoto *p in [albumContents getPhotos].array) {
@@ -941,6 +943,26 @@
         
         
         for (SLAlbumPhoto *photo in [albumContents getPhotos].array) {
+            
+//            counter++;
+//            
+//            
+//            
+//            NSString * thumUrl2 = [[photo getServerPhoto] getUrl];
+//            
+//            NSString *new2 = [thumUrl2 stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_fhd.jpg"];
+//            
+//            [[YYWebImageManager sharedManager] requestImageWithURL:[NSURL URLWithString:new2] options:YYWebImageOptionAllowBackgroundTask progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//                
+//            } transform:^UIImage *(UIImage *image, NSURL *url) {
+//
+//                
+//                return image;
+//                
+//                
+//            } completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+//                
+//            }];
             
             
             //        SDWebImageManager *manager = [SDWebImageManager sharedManager];
@@ -2481,6 +2503,13 @@
 //    return YES;
 //}
 
+-(void)keyboardDidShow:(NSNotification *)notification {
+    
+    if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
+        [self lockAlbumContents];
+    }
+}
+
 - (void)keyboardWillShow:(NSNotification *)notification
 {
     
@@ -2489,7 +2518,7 @@
     if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
         
         
-        [self lockAlbumContents];
+//        [self lockAlbumContents];
         
         self.tableView.scrollEnabled = NO;
         
@@ -2514,7 +2543,9 @@
 
 -(void)keyboardDidHide:(NSNotification *)note {
     
-    [self unlockAlbumContents];
+    if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
+        [self unlockAlbumContents];
+    }
     
     
 }

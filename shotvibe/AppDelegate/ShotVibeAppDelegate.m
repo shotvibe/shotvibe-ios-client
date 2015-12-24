@@ -6,8 +6,15 @@
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
 
+//#import <Crashlytics/Crashlytics.h>
+
+
+
+//#import <Appsee/Appsee.h>
+#import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import <Appsee/Appsee.h>
+#import <PubNub/PubNub.h>
+
 #import "ShotVibeAppDelegate.h"
 #import "SVInitialization.h"
 #import "SVPushNotificationsManager.h"
@@ -51,10 +58,15 @@
 #import "GLWelcomeViewController.h"
 #import "GLProfilePictureController.h"
 
+#import "GLPubNubManager.h"
+
 @interface ShotVibeAppDelegate ()
+
+
 @property (nonatomic, strong) SVSidebarMemberController *sidebarRight;
 @property (nonatomic, strong) SVSidebarManagementController *sidebarLeft;
 @property (nonatomic, strong) MFSideMenuContainerViewController *sideMenu;
+
 @end
 
 
@@ -77,16 +89,71 @@
 }
 
 
+
+
+
+
 #pragma mark - SDK Methods
 
 - (void)initSDKs
 {
     //[NewRelicAgent startWithApplicationToken:@"AAea0623ed205b8e4119889914a4605318944a6535"];
-    [Appsee start:@"215369473db946c39b7ae4276adf3e5b"];
+//    [Appsee start:@"215369473db946c39b7ae4276adf3e5b"];
 
-#if !CONFIGURATION_Debug
-    [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
-#endif
+//    [Fabric with:@[[Crashlytics class]]];
+    
+    [Fabric with:@[[Crashlytics class], [PubNub class]]];
+    GLPubNubManager * glPubManager =[[GLPubNubManager sharedInstance] init];
+    
+   
+//    [self.pubNubCLient setState:@{@"state":@"online"} forUUID:[NSString stringWithFormat:@"%lld",[[UserSettings getAuthData] getUserId]] onChannel:@"Channel-ylnvwg0uh"
+//                 withCompletion:^(PNClientStateUpdateStatus *status) {
+//                     
+//                     // Check whether request successfully completed or not.
+//                     if (!status.isError) {
+//                         
+//                         // Client state successfully modified on specified channel.
+//                     }
+//                     // Request processing failed.
+//                     else {
+//                         
+//                         // Handle client state modification error. Check 'category' property to find out possible
+//                         // issue because of which request did fail.
+//                         //
+//                         // Request can be resent using: [status retry];
+//                     }
+//                 }];
+    
+    
+//    self.pubNubCLient 
+//    [[PubNub superclass] superclass];
+
+    
+    
+    
+//    [self.client publish:@{@"announcement": @"Welcome to PubNub!"}
+//               toChannel:@"announcements" withCompletion:^(PNPublishStatus *status) {
+//                   
+//                   // Check whether request successfully completed or not.
+//                   if (!status.isError) {
+//                       
+//                       // Message successfully published to specified channel.
+//                   }
+//                   // Request processing failed.
+//                   else {
+//                       
+//                       // Handle message publish error. Check 'category' property to find out possible issue
+//                       // because of which request did fail.
+//                       //
+//                       // Request can be resent using: [status retry];
+//                   }
+//               }];
+
+    
+    
+//#if !CONFIGURATION_Debug
+//    [Crashlytics startWithAPIKey:@"7f25f8f82f6578b40464674ed500ef0c60435027"];
+//#endif
 
 #if CONFIGURATION_Release
     [Mixpanel sharedInstanceWithToken:@"0ff5e52a6784417a3c1621ebcc27222c"];
@@ -104,9 +171,13 @@
 {
     NSString *user_id_str = [NSString stringWithFormat:@"%lld", [authData getUserId]];
 
-#if !CONFIGURATION_Debug
-    [Crashlytics setUserIdentifier:user_id_str];
-#endif
+//#if !CONFIGURATION_Debug
+    NSString * userName = [[NSUserDefaults standardUserDefaults] objectForKey:@"kUserNickName"];
+    
+    [[Crashlytics sharedInstance] setUserIdentifier:user_id_str];
+    [[Crashlytics sharedInstance] setUserName:userName];
+    
+//#endif
 
     if (![[Mixpanel sharedInstance].distinctId isEqualToString:user_id_str]) {
         [[Mixpanel sharedInstance] createAlias:user_id_str
@@ -168,6 +239,8 @@
     
     [self initSDKs];
 
+    
+    
     _albumManager = nil;
 
     self.networkStatusManager = [[SLNetworkStatusManager alloc] init];
@@ -532,11 +605,12 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+        [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
-    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
+
+//    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
 //    [gpu]
 }
 
@@ -545,8 +619,10 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+//    [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
 	RCLog(@"applicationDidEnterBackground fin");
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+//    [self.pubNubCLient unsubscribeFromAll];
 }
 
 
@@ -573,6 +649,7 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
 	
 }
 

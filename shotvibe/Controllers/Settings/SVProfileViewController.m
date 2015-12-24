@@ -5,6 +5,10 @@
 //  Created by John Gabelmann on 4/16/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
+
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 #import "ContainerViewController.h"
 #import "SVProfileViewController.h"
 #import "SVDefines.h"
@@ -101,6 +105,12 @@
             }
             else {
                 self.nicknameField.text = [userProfile getMemberNickname];
+                
+                [[NSUserDefaults standardUserDefaults] setObject:[userProfile getMemberNickname] forKey:@"kUserNickName"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                
+                
                 [self.userPhoto setImageWithURL:[NSURL URLWithString:[userProfile getMemberAvatarUrl]]];
                 if (self.shouldPrompt) { // If we're prompting, focus on the name after it has been set
 //                    [self.nicknameField becomeFirstResponder];

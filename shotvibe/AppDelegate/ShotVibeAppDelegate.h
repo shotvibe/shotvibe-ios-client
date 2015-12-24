@@ -15,6 +15,7 @@
 #import "SVPushNotificationsManager.h"
 #import "UploadManager.h"
 
+
 @interface ShotVibeAppDelegate : UIResponder <UIApplicationDelegate>
 
 #pragma mark - Properties
@@ -32,6 +33,9 @@
 @property (nonatomic) int userScore;
 @property (nonatomic, retain) AVAudioPlayer * theAudio;
 @property (copy) void (^ uploadSessionCompletionHandler)(); //stored by handleEventsForBackgroundURLSession for later use
+
+
+
 
 - (BOOL)isLoggedIn;
 - (void)setAuthData:(SLAuthData *)authData;
