@@ -492,6 +492,15 @@
 		0FD59E3F1BD62B10002CDCCD /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD59E3E1BD62B10002CDCCD /* NewRelicAgent.framework */; };
 		0FD59E491BD7DAB3002CDCCD /* PullableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD59E461BD7DAB3002CDCCD /* PullableView.m */; };
 		0FD59E4A1BD7DAB3002CDCCD /* StyledPullableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD59E481BD7DAB3002CDCCD /* StyledPullableView.m */; };
+		0FD8B07C1C301BBE009D7CFA /* PECropRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD8B0731C301BBE009D7CFA /* PECropRectView.m */; };
+		0FD8B07D1C301BBE009D7CFA /* PECropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD8B0751C301BBE009D7CFA /* PECropView.m */; };
+		0FD8B07E1C301BBE009D7CFA /* PECropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD8B0771C301BBE009D7CFA /* PECropViewController.m */; };
+		0FD8B07F1C301BBE009D7CFA /* PEResizeControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD8B0791C301BBE009D7CFA /* PEResizeControl.m */; };
+		0FD8B0801C301BBE009D7CFA /* UIImage+PECrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD8B07B1C301BBE009D7CFA /* UIImage+PECrop.m */; };
+		0FD8B0821C301BC5009D7CFA /* PEPhotoCropEditor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FD8B0811C301BC5009D7CFA /* PEPhotoCropEditor.bundle */; };
+		0FD8B0871C315553009D7CFA /* GLContainersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD8B0851C315553009D7CFA /* GLContainersViewController.m */; };
+		0FD8B0881C315554009D7CFA /* GLContainersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FD8B0861C315553009D7CFA /* GLContainersViewController.xib */; };
+		0FD8B08E1C315C2B009D7CFA /* UIViewController+index.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD8B08D1C315C2B009D7CFA /* UIViewController+index.m */; };
 		0FE43EA31BDE90DF0088D93F /* GLFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE43EA11BDE90DF0088D93F /* GLFeedViewController.m */; };
 		0FE43EA41BDE90DF0088D93F /* GLFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EA21BDE90DF0088D93F /* GLFeedViewController.xib */; };
 		0FE43EAA1BDE91800088D93F /* GLFeedTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE43EA81BDE91800088D93F /* GLFeedTableCell.m */; };
@@ -1585,6 +1594,22 @@
 		0FD59E461BD7DAB3002CDCCD /* PullableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullableView.m; sourceTree = "<group>"; };
 		0FD59E471BD7DAB3002CDCCD /* StyledPullableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyledPullableView.h; sourceTree = "<group>"; };
 		0FD59E481BD7DAB3002CDCCD /* StyledPullableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyledPullableView.m; sourceTree = "<group>"; };
+		0FD8B0721C301BBE009D7CFA /* PECropRectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropRectView.h; sourceTree = "<group>"; };
+		0FD8B0731C301BBE009D7CFA /* PECropRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropRectView.m; sourceTree = "<group>"; };
+		0FD8B0741C301BBE009D7CFA /* PECropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropView.h; sourceTree = "<group>"; };
+		0FD8B0751C301BBE009D7CFA /* PECropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropView.m; sourceTree = "<group>"; };
+		0FD8B0761C301BBE009D7CFA /* PECropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropViewController.h; sourceTree = "<group>"; };
+		0FD8B0771C301BBE009D7CFA /* PECropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropViewController.m; sourceTree = "<group>"; };
+		0FD8B0781C301BBE009D7CFA /* PEResizeControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEResizeControl.h; sourceTree = "<group>"; };
+		0FD8B0791C301BBE009D7CFA /* PEResizeControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEResizeControl.m; sourceTree = "<group>"; };
+		0FD8B07A1C301BBE009D7CFA /* UIImage+PECrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PECrop.h"; sourceTree = "<group>"; };
+		0FD8B07B1C301BBE009D7CFA /* UIImage+PECrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PECrop.m"; sourceTree = "<group>"; };
+		0FD8B0811C301BC5009D7CFA /* PEPhotoCropEditor.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PEPhotoCropEditor.bundle; sourceTree = "<group>"; };
+		0FD8B0841C315553009D7CFA /* GLContainersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLContainersViewController.h; path = shotvibe/GLContainersViewController.h; sourceTree = "<group>"; };
+		0FD8B0851C315553009D7CFA /* GLContainersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GLContainersViewController.m; path = shotvibe/GLContainersViewController.m; sourceTree = "<group>"; };
+		0FD8B0861C315553009D7CFA /* GLContainersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GLContainersViewController.xib; path = shotvibe/GLContainersViewController.xib; sourceTree = "<group>"; };
+		0FD8B08C1C315C2B009D7CFA /* UIViewController+index.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+index.h"; sourceTree = "<group>"; };
+		0FD8B08D1C315C2B009D7CFA /* UIViewController+index.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+index.m"; sourceTree = "<group>"; };
 		0FE43EA01BDE90DF0088D93F /* GLFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLFeedViewController.h; sourceTree = "<group>"; };
 		0FE43EA11BDE90DF0088D93F /* GLFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLFeedViewController.m; sourceTree = "<group>"; };
 		0FE43EA21BDE90DF0088D93F /* GLFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLFeedViewController.xib; sourceTree = "<group>"; };
@@ -3044,8 +3069,12 @@
 		0F4390DF1C22F93200C83C45 /* V2Additions */ = {
 			isa = PBXGroup;
 			children = (
+				0FD8B0831C315528009D7CFA /* GLContainersViewController */,
+				0FD8B0711C301BAF009D7CFA /* GLCropView */,
 				0FED6C8E1C2BF5B000BEA211 /* GLPubNubManager */,
 				0F4390E01C22F93E00C83C45 /* GLUserScore */,
+				0FD8B08C1C315C2B009D7CFA /* UIViewController+index.h */,
+				0FD8B08D1C315C2B009D7CFA /* UIViewController+index.m */,
 			);
 			name = V2Additions;
 			sourceTree = "<group>";
@@ -3297,6 +3326,34 @@
 				0FD59E481BD7DAB3002CDCCD /* StyledPullableView.m */,
 			);
 			name = PullableView;
+			sourceTree = "<group>";
+		};
+		0FD8B0711C301BAF009D7CFA /* GLCropView */ = {
+			isa = PBXGroup;
+			children = (
+				0FD8B0721C301BBE009D7CFA /* PECropRectView.h */,
+				0FD8B0731C301BBE009D7CFA /* PECropRectView.m */,
+				0FD8B0741C301BBE009D7CFA /* PECropView.h */,
+				0FD8B0751C301BBE009D7CFA /* PECropView.m */,
+				0FD8B0761C301BBE009D7CFA /* PECropViewController.h */,
+				0FD8B0771C301BBE009D7CFA /* PECropViewController.m */,
+				0FD8B0781C301BBE009D7CFA /* PEResizeControl.h */,
+				0FD8B0811C301BC5009D7CFA /* PEPhotoCropEditor.bundle */,
+				0FD8B0791C301BBE009D7CFA /* PEResizeControl.m */,
+				0FD8B07A1C301BBE009D7CFA /* UIImage+PECrop.h */,
+				0FD8B07B1C301BBE009D7CFA /* UIImage+PECrop.m */,
+			);
+			name = GLCropView;
+			sourceTree = "<group>";
+		};
+		0FD8B0831C315528009D7CFA /* GLContainersViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0FD8B0841C315553009D7CFA /* GLContainersViewController.h */,
+				0FD8B0851C315553009D7CFA /* GLContainersViewController.m */,
+				0FD8B0861C315553009D7CFA /* GLContainersViewController.xib */,
+			);
+			name = GLContainersViewController;
 			sourceTree = "<group>";
 		};
 		0FE43E9F1BDE90AE0088D93F /* Feed2 */ = {
@@ -5035,6 +5092,7 @@
 				04C406911730303600973BC0 /* GR.png in Resources */,
 				04C406931730303600973BC0 /* GS.png in Resources */,
 				0F1C076E1BEB5E3A00F82FBB /* seq7.png in Resources */,
+				0FD8B0821C301BC5009D7CFA /* PEPhotoCropEditor.bundle in Resources */,
 				04C406951730303600973BC0 /* GT.png in Resources */,
 				3E39C2E918D9F82200F98CBF /* MoreButton.png in Resources */,
 				04C406971730303600973BC0 /* GU.png in Resources */,
@@ -5233,6 +5291,7 @@
 				04C407851730303600973BC0 /* SZ.png in Resources */,
 				04C407871730303600973BC0 /* TC.png in Resources */,
 				0FF7E70B1C04BE760032F2C2 /* LDCollectionViewCell.xib in Resources */,
+				0FD8B0881C315554009D7CFA /* GLContainersViewController.xib in Resources */,
 				3E36D50318D862B6003A1D3A /* PageControlDotUnselected.png in Resources */,
 				0F1C078A1BEB5E3A00F82FBB /* seq35.png in Resources */,
 				04C407891730303600973BC0 /* TD.png in Resources */,
@@ -5657,6 +5716,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FD8B0801C301BBE009D7CFA /* UIImage+PECrop.m in Sources */,
 				0FFC61B11C198E29006D9525 /* UIImage+YYWebImage.m in Sources */,
 				0F4947CF1BE56FA700FEDC12 /* GLProfileViewController.m in Sources */,
 				0FFC61B31C198E29006D9525 /* YYAnimatedImageView.m in Sources */,
@@ -5675,6 +5735,7 @@
 				66278C9D1867C44600D23F34 /* CameraRollSection.m in Sources */,
 				0F3909911BF4B7A0003FAF59 /* FXImageView.m in Sources */,
 				66013244187F4E670042047B /* Float.m in Sources */,
+				0FD8B0871C315553009D7CFA /* GLContainersViewController.m in Sources */,
 				66013255187F4E670042047B /* JavaLangThrowable.m in Sources */,
 				3E0CC9E218B63E1F00F6089A /* SVPickerController.m in Sources */,
 				668681A41A0A5AFB00A7BFB7 /* IosFileSystemManager.m in Sources */,
@@ -5780,6 +5841,7 @@
 				3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */,
 				6601322C187F4E670042047B /* IOSConcreteClass.m in Sources */,
 				66013236187F4E670042047B /* IOSShortArray.m in Sources */,
+				0FD8B07D1C301BBE009D7CFA /* PECropView.m in Sources */,
 				0F4947811BE231F900FEDC12 /* GPUImageLateSunsetFilter.m in Sources */,
 				6601325B187F4E670042047B /* NSObject+JavaObject.m in Sources */,
 				106C344918C4C27A006A5603 /* Notification.m in Sources */,
@@ -5826,6 +5888,7 @@
 				66013247187F4E670042047B /* IllegalStateException.m in Sources */,
 				0F1C07951BEB9F0600F82FBB /* JTSlideShadowAnimation.m in Sources */,
 				0FFC61B71C198E29006D9525 /* YYSpriteSheetImage.m in Sources */,
+				0FD8B07F1C301BBE009D7CFA /* PEResizeControl.m in Sources */,
 				66278CE81867C62300D23F34 /* SVProfilePicActivity.m in Sources */,
 				66013253187F4E670042047B /* StringIndexOutOfBoundsException.m in Sources */,
 				0F4947C61BE56E5F00FEDC12 /* StoryViewController.m in Sources */,
@@ -5833,6 +5896,7 @@
 				0F781FC41C070C9500688168 /* UIImage+KVNImageEffects.m in Sources */,
 				ED71A88E1C21819700444589 /* UploadQueue.m in Sources */,
 				0FFC61BA1C198E29006D9525 /* YYWebImageOperation.m in Sources */,
+				0FD8B07E1C301BBE009D7CFA /* PECropViewController.m in Sources */,
 				66278CE01867C62300D23F34 /* SVActivityButton.m in Sources */,
 				66013227187F4E670042047B /* IOSArrayClass.m in Sources */,
 				0FFC61A91C198E29006D9525 /* YYCache.m in Sources */,
@@ -5853,6 +5917,7 @@
 				0F5511D91BEFA9FD00E98C64 /* GPUImageFizzFilter.m in Sources */,
 				6601325D187F4E670042047B /* objc-sync.m in Sources */,
 				66278C931867C38300D23F34 /* SVPhotoViewerController.m in Sources */,
+				0FD8B08E1C315C2B009D7CFA /* UIViewController+index.m in Sources */,
 				66069BD51A1CF5DD00BE2D32 /* MediaHelper.m in Sources */,
 				0F3909921BF4B7A0003FAF59 /* UIImage+FX.m in Sources */,
 				66278CC61867C57300D23F34 /* SVSettingsViewController.m in Sources */,
@@ -5901,6 +5966,7 @@
 				66278CE41867C62300D23F34 /* SVFacebookActivity.m in Sources */,
 				0F4947B11BE281D600FEDC12 /* LNNotificationsAppSettingsController.m in Sources */,
 				28F877B717D1BB4B0051F528 /* UIViewController+MFSideMenuAdditions.m in Sources */,
+				0FD8B07C1C301BBE009D7CFA /* PECropRectView.m in Sources */,
 				66278C8F1867C38300D23F34 /* SVAlbumGridViewController.m in Sources */,
 				66E788B61889EB870037ACF3 /* ListIterator.m in Sources */,
 				66278CC11867C57300D23F34 /* SVImageCropViewController.m in Sources */,

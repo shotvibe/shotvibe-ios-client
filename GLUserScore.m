@@ -137,27 +137,27 @@
 
     
     
-//    [UIView animateWithDuration:0.25
-//                          delay:0.0
-//                        options:UIViewAnimationOptionCurveEaseIn
-//                     animations:^{
-//                         
-//                         self.view.transform = CGAffineTransformScale(self.view.transform, 1.5, 1.5);
-//                         self.view.alpha = 0;
-//                         
-//                     } completion:^(BOOL succeded){
-//                     
-//                         ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
-//                         GLScoreViewController * scoreView = [[GLScoreViewController alloc] init];
-//                         UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:scoreView];
-//                         nav.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-//                         [nav setNavigationBarHidden:YES animated:NO];
-//                         [appDelegate.window.rootViewController presentViewController:nav animated:YES completion:^{
-//                             self.view.transform = CGAffineTransformIdentity;
-//                             self.view.alpha = 1;
-//                         }];
-//                         
-//                     }];
+    [UIView animateWithDuration:0.25
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         
+                         self.view.transform = CGAffineTransformScale(self.view.transform, 1.5, 1.5);
+                         self.view.alpha = 0;
+                         
+                     } completion:^(BOOL succeded){
+                     
+                         ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+                         GLScoreViewController * scoreView = [[GLScoreViewController alloc] init];
+                         UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:scoreView];
+                         nav.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                         [nav setNavigationBarHidden:YES animated:NO];
+                         [appDelegate.window.rootViewController presentViewController:nav animated:YES completion:^{
+                             self.view.transform = CGAffineTransformIdentity;
+                             self.view.alpha = 1;
+                         }];
+                         
+                     }];
 
     
 }

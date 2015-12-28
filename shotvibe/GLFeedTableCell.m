@@ -12,11 +12,13 @@
 #import "AlbumServerPhoto.h"
 #import "SL/AlbumServerVideo.h"
 #import "SL/MediaType.h"
+#import "SL/AlbumUser.h"
 //#import "UIImageView+Masking.h"
 #import "SDWebImageManager.h"
 #import "NSDate+Formatting.h"
 #import "UIImageView+WebCache.h"
 #import "GLSharedVideoPlayer.h"
+#import "GLPubNubManager.h"
 //#import "UIView+YYAdd.h"
 //#import "CALayer+YYAdd.h"
 //#import "UIGestureRecognizer+YYAdd.h"
@@ -42,6 +44,7 @@
 //    NSLog(@"testtest");
     self.profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 60, 60)];
     [self.contentView addSubview:self.profileImageView];
+    self.profileImageView.layer.masksToBounds = YES;
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
     
     self.userName = [[UILabel alloc] initWithFrame:CGRectMake(80, 15, [[UIScreen mainScreen] bounds].size.width*0.5, 60)];
@@ -351,6 +354,8 @@
     
 //    [self.profileImageView yy_setImageWithURL:[NSURL URLWithString:[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholder:[UIImage imageNamed:@"ProfilePlaceholder"]];
     
+    
+    
     [self.profileImageView yy_setImageWithURL:[NSURL URLWithString:[[[data objectAtIndex:0] objectForKey:@"user"] objectForKey:@"profile_picture"]] placeholder:[UIImage imageNamed:@"ProfilePlaceholder"] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
         
     }];
@@ -398,6 +403,21 @@
 //            
 //        }];
         
+        if([[GLPubNubManager sharedInstance] statusForId:[NSString stringWithFormat:@"%lld",[[[photo getServerPhoto] getAuthor]getMemberId]]]){
+            
+            self.profileImageView.layer.borderColor = UIColorFromRGB(0x40b4b5).CGColor;
+            self.profileImageView.layer.borderWidth = 3;
+            self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
+            
+            
+        } else {
+            
+            self.profileImageView.layer.borderColor = UIColorFromRGB(0xf07480).CGColor;
+            self.profileImageView.layer.borderWidth = 3;
+            self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
+            
+        }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
              [self setImageURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]]];
         });
@@ -429,6 +449,23 @@
 //        self.moviePlayer = nil;
         
 //        [self.postImage setPhoto:[[photo getServerPhoto] getId] photoUrl:[[photo getServerPhoto] getUrl] photoSize:[PhotoSize FeedSize] manager:photoFilesManager_];
+        
+
+        if([[GLPubNubManager sharedInstance] statusForId:[NSString stringWithFormat:@"%lld",[[[photo getServerPhoto] getAuthor]getMemberId]]]){
+        
+            self.profileImageView.layer.borderColor = UIColorFromRGB(0x40b4b5).CGColor;
+            self.profileImageView.layer.borderWidth = 3;
+            self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
+            
+        
+        } else {
+            
+            self.profileImageView.layer.borderColor = UIColorFromRGB(0xf07480).CGColor;
+            self.profileImageView.layer.borderWidth = 3;
+            self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
+            
+        }
+        
         
         NSString * thumUrl = [[photo getServerPhoto] getUrl];
         

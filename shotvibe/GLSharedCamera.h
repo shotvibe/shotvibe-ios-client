@@ -19,6 +19,8 @@
 #import <Photos/Photos.h>
 #import "JTSlideShadowAnimation.h"
 #import "GLUserScore.h"
+
+#import "PECropViewController.h"
 //#import "JPSVolumeButtonHandler.h"
 
 
@@ -62,7 +64,7 @@ typedef enum ScrollDirection {
 
 
 
-@interface GLSharedCamera : NSObject <UITextFieldDelegate,iCarouselDataSource, iCarouselDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, RJTextViewDelegate,GLResizeableViewDelegate,GLFilterViewDelegate, UINavigationControllerDelegate>
+@interface GLSharedCamera : NSObject <UITextFieldDelegate,iCarouselDataSource, iCarouselDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, RJTextViewDelegate,GLResizeableViewDelegate,GLFilterViewDelegate, UINavigationControllerDelegate,PECropViewControllerDelegate>
 
 + (GLSharedCamera *)sharedInstance;
 -(void)createMainScrollView;

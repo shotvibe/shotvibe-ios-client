@@ -11,9 +11,21 @@
 #import <PubNub/PubNub.h>
 #import "UserSettings.h"
 
-@interface GLPubNubManager : NSObject
 
+@protocol GLPubNubDelegate <NSObject>
+
+@optional
+- (void)pubNubRefreshTableView;
+@end
+
+
+
+@interface GLPubNubManager : NSObject
+@property (nonatomic, assign) id<GLPubNubDelegate> delegate;
 + (GLPubNubManager *)sharedInstance;
 @property (nonatomic) PubNub *pubNubCLient;
+@property (nonatomic,weak) UITableView * tableViewToRefresh;
+-(BOOL)statusForId:(NSString*)id;
+-(void)reSubscribeToChannel;
 //- (instancetype)initWithLisitiner:(ShotVibeAppDelegate*)listener;
 @end

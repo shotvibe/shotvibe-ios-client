@@ -934,12 +934,5 @@ static ContainerViewController *sharedInstance;
     
 }
 
-//- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
-//    return 3;
-//}
-
-//- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
-//    return 1;
-//}
 
 @end

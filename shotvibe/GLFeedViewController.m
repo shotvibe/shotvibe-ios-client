@@ -64,7 +64,8 @@
 #import "SL/AlbumServerVideo.h"
 #import "SL/MediaType.h"
 #import "GLSharedVideoPlayer.h"
-#import "GLFeedTableCellUploading.H"
+#import "GLFeedTableCellUploading.h"
+
 
 @interface GLFeedViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
     
@@ -85,6 +86,7 @@
     BOOL viewDidInitialed;
     CGFloat pageNumber;
     BOOL feedLoadedOnce;
+    BOOL cameBackFromBg;
     int lockContentsStackDepth_;
     SLAlbumContents *lockContentsSavedValue_;
 }
@@ -92,7 +94,9 @@
 
 @implementation GLFeedViewController
 
-
+-(void)pubNubRefreshTableView {
+    [self.tableView reloadData];
+}
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(GLFeedTableCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     
@@ -115,6 +119,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    cameBackFromBg = NO;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appBg:)
+                                                 name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
+    
+//    [[GLPubNubManager sharedInstance]setTableViewToRefresh:self.tableView];
+    
     feedLoadedOnce = YES;
     
     self.feedItems = [[NSMutableArray alloc] init];
@@ -130,11 +148,11 @@
     viewDidInitialed = NO;
     pageNumber = 0;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     
     
     tableIsScrolling = NO;
@@ -160,6 +178,11 @@
     [self.view addSubview:self.tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    GLPubNubManager * pubManager = [GLPubNubManager sharedInstance];
+    pubManager.tableViewToRefresh = self.tableView;
+    
+    
     needCommentHl = NO;
     postsAsSLPhotos = [[NSMutableArray alloc] init];
     self.tableView.scrollsToTop = YES;
@@ -201,6 +224,39 @@
     lockContentsSavedValue_ = nil;
 }
 
+-(void)appActive:(NSNotification*)not {
+    
+//    cameBackFromBg = NO;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+
+}
+
+-(void)appBg:(NSNotification*)not {
+    
+    cameBackFromBg = YES;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    
+}
+
+
+//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+//    
+//    if(!cameBackFromBg){
+//        return NO;
+//    }
+//    return YES;
+//    cameBackFromBg = NO;
+//    
+//}
 
 //- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 //    if (indexPath.row == [self.feedItems count] - 3 ) {
@@ -611,6 +667,12 @@
     NSLog(@"SVAlbumGridViewController %@: viewWillAppear: %d", self, animated);
     //
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    
     SLAlbumContents *contents = [albumManager_ addAlbumContentsListenerWithLong:self.albumId withSLAlbumManager_AlbumContentsListener:self];
     [self setAlbumContents:contents];
     //    [self loadFeed];
@@ -764,11 +826,23 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     
+    [[GLPubNubManager sharedInstance]setTableViewToRefresh:nil];
+    
     
     GLFeedTableCell * cell = [self.tableView.visibleCells objectAtIndex:0];
     
     
     [[GLSharedVideoPlayer sharedInstance] resetPlayer];
+    
+    
+    
+    
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    
 }
 
 
@@ -2490,31 +2564,32 @@
     
 }
 
-//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-//
-//    CGRect frame = self.tableView.frame;
-//    frame.origin.y -=
-//    [UIView animateWithDuration:0.2 animations:^{
-//
-//
-//
-//    }];
-//
-//    return YES;
-//}
+
 
 -(void)keyboardDidShow:(NSNotification *)notification {
     
-    if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
-        [self lockAlbumContents];
-    }
+    
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+//    if (state == UIApplicationStateActive)
+//    {
+        //Do checking here.
+        if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
+            [self lockAlbumContents];
+        }
+        
+        
+//    }
+    
+    
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
     
 
-    
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+//    if (state == UIApplicationStateActive)
+//    {
     if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
         
         
@@ -2531,6 +2606,7 @@
                              self.tableView.frame = frame;
                          }];
     }
+//    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -2543,30 +2619,39 @@
 
 -(void)keyboardDidHide:(NSNotification *)note {
     
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+//    if (state == UIApplicationStateActive)
+//    {
     if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
         [self unlockAlbumContents];
     }
+//    }
     
     
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
-    
-    if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
-        
-//        [self unlockAlbumContents];
-        
-        self.tableView.scrollEnabled = YES;
-        CGRect frame = self.tableView.frame;
-        CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        frame.origin.y += keyboardRect.size.height;
-        
-        [UIView animateWithDuration:0.2
-                         animations:^{
-                             self.tableView.frame = frame;
-                         }];
-    }
+//    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+//    if (state == UIApplicationStateActive)
+//    {
+        if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
+            
+            //        [self unlockAlbumContents];
+            
+            self.tableView.scrollEnabled = YES;
+            CGRect frame = self.tableView.frame;
+            CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+            frame.origin.y += keyboardRect.size.height;
+            
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 self.tableView.frame = frame;
+                             }];
+            
+            
+        }
+//    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

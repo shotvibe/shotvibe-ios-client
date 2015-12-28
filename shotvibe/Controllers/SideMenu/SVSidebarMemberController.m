@@ -56,6 +56,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+//    self addObserver:<#(nonnull NSObject *)#> forKeyPath:<#(nonnull NSString *)#> options:<#(NSKeyValueObservingOptions)#> context:<#(nullable void *)#>
+    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"kUpdateUsersStatus" object:nil];
 
     // IOS7
     if (IS_IOS7) {
@@ -129,6 +134,34 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated {
+
+    [super viewWillDisappear:animated];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(registerUserList:)
+//                                                 name:@"kUpdateUsersStatus" object:nil];
+    
+    
+
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(registerUserList:)
+                                                 name:@"kUpdateUsersStatus" object:nil];
+    
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"kUpdateUsersStatus" object:nil];
+//    [[NSNotificationCenter defaultCenter]removeObserver:self forKeyPath:@"kUpdateUsersStatus"];
+}
+
 
 #pragma mark - Actions
 
@@ -143,6 +176,13 @@
     alert.tag = 35;
     [alert show];
 }
+
+
+- (void)registerUserList:(NSNotification *)notification {
+    
+    [self.tableView reloadData];
+}
+
 
 
 - (void)navigateToAddFriends:(id)sender
@@ -352,7 +392,22 @@
         }
 	}
 	//RCLog(@"%lld == %lld member.avatarUrl %@", shotvibeAPI.authData.userId, member.memberId, member.avatarUrl);
+    cell.profileImageView.layer.masksToBounds = YES;
     
+    if([[GLPubNubManager sharedInstance] statusForId:[NSString stringWithFormat:@"%lld",[[member getUser] getMemberId]]]){
+        
+        cell.profileImageView.layer.borderColor = UIColorFromRGB(0x40b4b5).CGColor;
+        cell.profileImageView.layer.borderWidth = 3;
+        cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.size.width/2;
+        
+        
+    } else {
+        
+        cell.profileImageView.layer.borderColor = UIColorFromRGB(0xf07480).CGColor;
+        cell.profileImageView.layer.borderWidth = 3;
+        cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.size.width/2;
+        
+    }
     
     
     return cell;

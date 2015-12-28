@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GLFeedViewController.h"
+#import "GLPubNubManager.h"
 
 @class SVAlbumGridViewController;
 

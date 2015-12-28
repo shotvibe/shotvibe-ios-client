@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SVNotificationHandler.h"
+#import "GLPubNubManager.h"
 
 typedef enum FeedScrollDirection {
     FeedScrollDirectionUp,
@@ -16,7 +17,7 @@ typedef enum FeedScrollDirection {
 
 //#import ""
 //#import ""
-@interface GLFeedViewController : UIViewController <NotificationManagerDelegate,UIScrollViewDelegate,UITextFieldDelegate,UIActionSheetDelegate>
+@interface GLFeedViewController : UIViewController <NotificationManagerDelegate,UIScrollViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,GLPubNubDelegate>
 
 @property(nonatomic) long long int albumId;
 @property(nonatomic) long long int prevAlbumId;

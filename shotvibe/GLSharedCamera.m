@@ -21,6 +21,8 @@
 #import "GLSharedVideoPlayer.h"
 
 
+
+
 // GradientView.h
 
 @interface GradientView : UIView
@@ -1853,7 +1855,57 @@
     imageFromPicker = [self imageCroppedToFitSize:CGSizeMake(480, 640) image:image];
     
     
+    PECropViewController *controller = [[PECropViewController alloc] init];
+    controller.delegate = self;
+    
+    
+    controller.image = [[self normalizedImage:image] imageScaledToFitSize:CGSizeMake(480, 640)];
+    //    controller.isRotationEnabled = NO;
+
+//    UIImage *image = image;
+//    CGFloat width = [[UIScreen mainScreen] bounds].size.width;
+//    CGFloat height = [[UIScreen mainScreen] bounds].size.height*0.75;
+//    CGFloat length = MIN(width, height);
+//    controller.imageCropRect = CGRectMake(0,
+//                                          0,
+//                                          0,
+//                                          0);
+    //    controller.imageCropRect = CGRectMake((width - length) / 2,
+    //                                          (height - length) / 2,
+    //                                          length,
+    //                                          length);
+    
+//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+//    
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+//        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+//    }
+    
+    
+    /*Calling the addChildViewController: method also calls
+     the child’s willMoveToParentViewController: method automatically */
+    controller.view.frame = mainOutPutFrame.frame;//CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75);
+    [[[ContainerViewController sharedInstance] navigationController] addChildViewController:controller];
+    [controller didMoveToParentViewController:[[ContainerViewController sharedInstance] navigationController]];
+    [controller setKeepingCropAspectRatio:NO];
+    [controller setRotationEnabled:NO];
+//    [controller setCropAspectRatio:2.0f / 3.0f];
+    [mainOutPutFrame addSubview:controller.view];
+    
+//    controller setim
+    
+    mainOutPutFrame.clipsToBounds = YES;
+    
+    
 }
+
+
+- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage {
+
+    NSLog(@"Now need to create again the same but in a real image. and send it to filter surface.");
+    
+}
+
 
 -(void)resizeableTapped:(UITapGestureRecognizer*)tap {
     [dummyTextField becomeFirstResponder];
@@ -2140,6 +2192,8 @@
 
 -(void)finalProcessTapped {
     NSLog(@"final did tapped");
+    
+    
     
     if(self.goneUploadAmovie == YES){
         [self.previewPlayer stop];

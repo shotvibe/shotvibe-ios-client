@@ -170,6 +170,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	
     [super viewWillDisappear:animated];
+    
+    
 	
     self.navigationController.navigationBar.translucent = NO;
 	if (!IS_IOS7) {

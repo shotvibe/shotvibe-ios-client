@@ -612,6 +612,9 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 
 //    [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
 //    [gpu]
+    
+    
+        [[[GLPubNubManager sharedInstance] pubNubCLient]unsubscribeFromAll];
 }
 
 
@@ -622,7 +625,7 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 //    [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
 	RCLog(@"applicationDidEnterBackground fin");
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-//    [self.pubNubCLient unsubscribeFromAll];
+
 }
 
 
@@ -641,6 +644,8 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
     if(![[GLSharedCamera sharedInstance] isInFeedMode] ){
         [[[GLSharedCamera sharedInstance] videoCamera] startCameraCapture];
     }
+    
+    [[GLPubNubManager sharedInstance] reSubscribeToChannel];
 	
 }
 
@@ -649,7 +654,7 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    
+//    [[[GLPubNubManager sharedInstance] pubNubCLient]unsubscribeFromAll];
 	
 }
 

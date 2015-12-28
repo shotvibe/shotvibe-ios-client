@@ -9,7 +9,7 @@
 #import "GLPubNubManager.h"
 @interface GLPubNubManager() <PNObjectEventListener>
 
-@property(nonatomic,retain) NSDictionary * usersArray;
+@property(nonatomic,retain) NSMutableDictionary * usersArray;
 
 @end
 
@@ -28,53 +28,115 @@
     self = [super init];
     if (self) {
         
-//        PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"pub-c-fac181cd-3a33-4f76-af72-5d447077c0c6" subscribeKey:@"sub-c-97ae8d80-a9c0-11e5-8d24-0619f8945a4f"];
-//        //    [PNConfiguration confi]
-//        
-//        
-//        
-//        configuration.uuid = [NSString stringWithFormat:@"%lld",[[UserSettings getAuthData] getUserId]];
-//        //    configuration
-//        
-//        self.pubNubCLient = [PubNub clientWithConfiguration:configuration];
-//        
-//        [self.pubNubCLient addListener:self];
-//        //    [self.pubNubCLient subscr];
-//        [self.pubNubCLient subscribeToChannels:@[@"Channel-ylnvwg0uh"] withPresence:YES];
-//        
-//        
+        PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"pub-c-fac181cd-3a33-4f76-af72-5d447077c0c6" subscribeKey:@"sub-c-97ae8d80-a9c0-11e5-8d24-0619f8945a4f"];
+        //    [PNConfiguration confi]
+        
+        
+        
+        configuration.uuid = [NSString stringWithFormat:@"%lld",[[UserSettings getAuthData] getUserId]];
+        //    configuration
+        
+        self.usersArray = [[NSMutableDictionary alloc] init];
+        
+        self.pubNubCLient = [PubNub clientWithConfiguration:configuration];
+        
+        [self.pubNubCLient addListener:self];
+        //    [self.pubNubCLient subscr];
+        [self.pubNubCLient subscribeToChannels:@[@"UseGlanceAppChannel"] withPresence:YES];
+//
+        
+        [self checkWhosHereNow];
 //        self.usersArray = [self getUsersArray];
         
     }
     return self;
 }
 
-- (NSMutableDictionary*)getUsersArray {
-    
-    NSMutableDictionary * usersDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"kPubNubUsersDict"]];
-    return usersDict;
+
+-(void)reSubscribeToChannel {
+    [self.pubNubCLient subscribeToChannels:@[@"UseGlanceAppChannel"] withPresence:YES];
 }
 
--(void)updateUsersDictionaryWithUserAndStatus:(NSDictionary*)dict {
+-(void)checkWhosHereNow {
+
+    [self.pubNubCLient hereNowForChannel: @"UseGlanceAppChannel" withVerbosity:PNHereNowUUID
+                        completion:^(PNPresenceChannelHereNowResult *result,
+                                     PNErrorStatus *status) {
+                            
+                            // Check whether request successfully completed or not.
+                            if (!status.isError) {
+                                
+                                for(NSString * string in [[result data] uuids]){
+//                                    NSLog(@"%@",string);
+                                    [self updateUsersDictionaryWithUserAndStatus:@[string,@"join"]];
+                                }
+                                
+                                // Handle downloaded presence information using:
+                                //   result.data.uuids - list of uuids.
+                                //   result.data.occupancy - total number of active subscribers.
+                            }
+                            // Request processing failed.
+                            else {
+                                
+                                // Handle presence audit error. Check 'category' property to find
+                                // out possible issue because of which request did fail.
+                                //
+                                // Request can be resent using: [status retry];
+                            }
+                        }];
+
+}
+
+//- (NSMutableDictionary*)getUsersArray {
+//    
+//    NSMutableDictionary * usersDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"kPubNubUsersDict"]];
+//    return usersDict;
+//}
+//
+
+
+-(BOOL)statusForId:(NSString*)id {
     
-//    [[self getUsersArray] setValue:[dict valueForKey:@"user_status"] forKey:@"user_id"];
-//    
-//    [[NSUserDefaults standardUserDefaults] setObject:[self getUsersArray] forKey:@"kPubNubUsersDict"];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
-//    
-//    self.usersArray = [self getUsersArray];
-//    self.pubNubCLient pre
+    if ([[self.usersArray objectForKey:id] isEqualToString:@"join"]) {
+        return YES;
+    } else {
+        return NO;
+    }
     
 }
+
+-(void)updateUsersDictionaryWithUserAndStatus:(NSArray*)dict {
+ 
+//    [self.usersArray setValue:@"" forKey:@""];
+//    self.usersArray setva
+    [self.usersArray setValue:[dict objectAtIndex:1] forKey:[dict objectAtIndex:0]];
+    if(self.tableViewToRefresh){
+        [self.tableViewToRefresh reloadData];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kUpdateUsersStatus" object:nil];
+    NSLog(@"");
+}
+//
+////
+////    [[NSUserDefaults standardUserDefaults] setObject:[self getUsersArray] forKey:@"kPubNubUsersDict"];
+////    [[NSUserDefaults standardUserDefaults] synchronize];
+////    
+////    self.usersArray = [self getUsersArray];
+////    self.pubNubCLient pre
+//    
+//}
 
 - (void)client:(PubNub *)client didReceivePresenceEvent:(PNPresenceEventResult *)event {
     
     
 //    NSLog(@"");
 //    NSArray * t = [self.pubNubCLient presenceChannels];
-//    [self updateUsersDictionaryWithUserAndStatus:@{[[[event data] presence] uuid] :[[event data] presenceEvent]}];
+    [self updateUsersDictionaryWithUserAndStatus:@[[[[event data] presence] uuid],[[event data] presenceEvent]]];
+    
+//    [[[event data] presence] uuid]
+    
 //    [KVNProgress showSuccessWithStatus:[NSString stringWithFormat:@"%@ - %@",[[[event data] presence] uuid],[[event data] presenceEvent]]];
-//    NSLog(@"");    
+    NSLog(@"");    
 }
 
 - (void)client:(PubNub *)client didReceiveStatus:(PNStatus *)status {
