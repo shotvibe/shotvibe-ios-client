@@ -18,5 +18,5 @@
 @property (nonatomic, retain) SLAlbumContents * albumContents;
 @property (nonatomic, retain) NSMutableArray * photosArray;
 @property (weak, nonatomic) IBOutlet UIImageView *glanceLogo;
-@property (nonatomic) NSUInteger indexNumber;
+@property (nonatomic) int indexNumber;
 @end

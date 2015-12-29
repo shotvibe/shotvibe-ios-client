@@ -79,7 +79,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL menuSlideAnimationEnabled __deprecated;
 @property (nonatomic, assign) CGFloat menuSlideAnimationFactor __deprecated; // higher = less menu movement on animation
 
-@property (assign, nonatomic) NSInteger indexNumber;
+@property (assign, nonatomic) int indexNumber;
 
 - (void)toggleLeftSideMenuCompletion:(void (^)(void))completion;
 - (void)toggleRightSideMenuCompletion:(void (^)(void))completion;
