@@ -1021,6 +1021,7 @@
 		AA78D2CA17172C67006E1240 /* dropDownField@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C317172C67006E1240 /* dropDownField@2x.png */; };
 		AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
 		AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E616C457F000BAC7E1 /* Security.framework */; };
+		B4374711393F939E7B9BECE3 /* libPods-shotvibe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D7AF70234353C0956255F3 /* libPods-shotvibe.a */; };
 		DD3A8BBE1BC9A04A002DF2C9 /* camera-shutter-click-01.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD3A8BAC1BC9A04A002DF2C9 /* camera-shutter-click-01.wav */; };
 		DD3A8BBF1BC9A04A002DF2C9 /* GLCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BAE1BC9A04A002DF2C9 /* GLCamera.m */; };
 		DD3A8BC01BC9A04A002DF2C9 /* GLFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BB01BC9A04A002DF2C9 /* GLFilterView.m */; };
@@ -2106,6 +2107,7 @@
 		3EF4160518E09ECD0077DC22 /* sortType3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sortType3@2x.png"; sourceTree = "<group>"; };
 		3EF4160C18E0A56B0077DC22 /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
 		3EF4160D18E0A56B0077DC22 /* triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle@2x.png"; sourceTree = "<group>"; };
+		65D7AF70234353C0956255F3 /* libPods-shotvibe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shotvibe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		660131AE187F4E670042047B /* IOSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArray.h; sourceTree = "<group>"; };
 		660131AF187F4E670042047B /* IOSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSArray.m; sourceTree = "<group>"; };
 		660131B0187F4E670042047B /* IOSArrayClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArrayClass.h; sourceTree = "<group>"; };
@@ -2540,6 +2542,7 @@
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
 				172BE3D3C9E224053C15D25D /* libPods.a in Frameworks */,
 				0FED6C8A1C2B535D00BEA211 /* PubNub.framework in Frameworks */,
+				B4374711393F939E7B9BECE3 /* libPods-shotvibe.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4434,6 +4437,7 @@
 				AA58FB8816C2315100C49E02 /* SystemConfiguration.framework */,
 				AA58FAFA16C224E800C49E02 /* UIKit.framework */,
 				0D570D9648C13694C44E127E /* libPods.a */,
+				65D7AF70234353C0956255F3 /* libPods-shotvibe.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -5557,7 +5561,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-shotvibe/Pods-shotvibe-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		10D366C41879EF8200E6FF4C /* Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h */ = {
@@ -5629,7 +5633,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-shotvibe/Pods-shotvibe-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
