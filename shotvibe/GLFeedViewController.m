@@ -829,7 +829,7 @@
     [[GLPubNubManager sharedInstance]setTableViewToRefresh:nil];
     
     
-    GLFeedTableCell * cell = [self.tableView.visibleCells objectAtIndex:0];
+//    GLFeedTableCell * cell = [self.tableView.visibleCells objectAtIndex:0];
     
     
     [[GLSharedVideoPlayer sharedInstance] resetPlayer];

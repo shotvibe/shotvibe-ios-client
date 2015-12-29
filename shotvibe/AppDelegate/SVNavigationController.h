@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SVNavigationController : UINavigationController
-@property (assign, nonatomic) NSInteger indexNumber;
+@property (assign, nonatomic) int indexNumber;
 @end

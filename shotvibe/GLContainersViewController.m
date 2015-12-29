@@ -8,7 +8,9 @@
 
 #import "GLContainersViewController.h"
 
-@interface GLContainersViewController ()
+@interface GLContainersViewController () {
+    int currentPageIndex;
+}
 
 @end
 
@@ -22,6 +24,7 @@
     self.pageController.dataSource = self;
     self.pageController.delegate = self;
     [[self.pageController view] setFrame:[[self view] bounds]];
+//    self.pageController.pag
     
     
     [self addChildViewController:self.pageController];
@@ -32,20 +35,27 @@
     
     
     UIStoryboard * storyBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    ////    SVAddFriendsViewController * friendsvc = [sb instantiateViewControllerWithIdentifier:@"InviteFriendsView"];
-    ////    SVAlbumListViewController * albumlistvc = [sb instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
     
-    self.albumListViewController = [storyBoard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];//[[SVAlbumListViewController alloc] init];
-//    self.albumListViewController.view.frame = [[self view] bounds];
+    self.publicFeedViewController = [[GLPublicFeedViewController alloc] init];
+    self.publicFeedViewController.indexNumber = 2;
+    self.albumListViewController = [storyBoard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
     
-//    self.navigationController = [[SVNavigationController alloc] initWithRootViewController:self.albumListViewController];
     
-    [self.pageController setViewControllers:@[self.albumListViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
-        
+    self.navigationController = [[SVNavigationController alloc] initWithRootViewController:self.albumListViewController];
+    self.navigationController.indexNumber = 1;
+    [self.navigationController setNavigationBarHidden:YES];
+    [self.pageController setViewControllers:@[self.navigationController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
     }];
+//    currentPageIndex = 1;
+//    [self.pageController setViewControllers:@[self.albumListViewController]
+//                                  direction:UIPageViewControllerNavigationDirectionForward
+//                                   animated:NO
+//                                 completion:^(BOOL done){
+////                                     completion();
+//                                 }];
     
     
-    
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,6 +64,55 @@
 }
 
 #pragma  - UIPageViewController Methods
+#define MAX_PAGES 3
+
+// Factory method
+- (UIViewController *)viewControllerAtIndex:(int)i {
+    // Asking for a page that is out of bounds??
+    if (i<0) {
+        return nil;
+    }
+    if (i>=MAX_PAGES) {
+        return nil;
+    }
+
+    if(i == 0){
+        NSLog(@"requested page 0");
+        return self.friendsViewController;
+    } else if(i == 1){
+        NSLog(@"requested page 1");
+        return self.navigationController;
+    } else if (i == 2){
+        NSLog(@"requested page 2");
+        return self.publicFeedViewController;
+    } else if (i == 3){
+        NSLog(@"requested page 3");
+    }
+    
+    
+    // Assuming you have SomePageViewController.xib
+//    SomePageViewController *newController = [[SomePageViewController alloc] initWithNibName:@"SomePageViewController" bundle:nil];
+//    newController.idx = i;
+//    return [self viewControllerAtIndex:<#(int)#>];
+}
+
+
+//- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
+////    SomePageViewController *p = (SomePageViewController *)viewController;
+//    int index = [viewController indexNumber];
+//    
+//    return [self viewControllerAtIndex:index-1];
+////    return [self viewControllerAtIndex:(p.idx - 1)];
+//}
+//
+//- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
+////    SomePageViewController *p = (SomePageViewController *)viewController;
+////    return [self viewControllerAtIndex:(p.idx + 1)];
+//    int index = [viewController indexNumber];
+//    return [self viewControllerAtIndex:index];
+//}
+
+
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     
 //        if([viewController isKindOfClass:[SVAddFriendsViewController class]]){
@@ -63,13 +122,14 @@
 //        if([viewController isKindOfClass:[MFSideMenuContainerViewController class]]){
 //            return freindsVc;
 //        }
-    NSUInteger index = [(UIViewController *)viewController indexNumber];
+    int index = [(UIViewController *)viewController indexNumber];
     
     if (index == 0 || index == 1) {
         return nil;
     }
-    
-    index--;
+//    if (index > 0){
+        index--;
+//    }
     
     return [self viewControllerAtIndex:index];
     
@@ -77,7 +137,7 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     
-    NSUInteger index = [(UIViewController *)viewController indexNumber];
+    int index = [viewController indexNumber];
     
     
     index++;
@@ -89,27 +149,29 @@
     return [self viewControllerAtIndex:index];
     
 }
-
-- (UIViewController *)viewControllerAtIndex:(NSUInteger)index {
-    
-    
-    if(index == 0){
-        //        freindsVc.indexNumber = index;
-        
-    } else if(index == 1){
-        return self.albumListViewController;
-        //        self.sideMenu.indexNumber = 1;
-        //        childViewController.indexNumber = index;
-        
-        //        return self.sideMenu;
-    } else if(index == 2){
-//        return  self.sideMenu;
-    } else if(index == 3){
-//        return self.publicFeed;
-    }
-    
-    
-}
+//
+//- (UIViewController *)viewControllerAtIndex:(NSUInteger)index {
+//    
+//    
+//    if(index == 0){
+//        //        freindsVc.indexNumber = index;
+//        return self.friendsViewController;
+//        
+//    } else if(index == 1){
+//        return self.albumListViewController;
+//        //        self.sideMenu.indexNumber = 1;
+//        //        childViewController.indexNumber = index;
+//        
+//        //        return self.sideMenu;
+//    } else if(index == 2){
+//        return self.publicFeedViewController;
+////        return  self.sideMenu;
+//    } else if(index == 3){
+////        return self.publicFeed;
+//    }
+//    
+//    
+//}
 
 /*
 #pragma mark - Navigation

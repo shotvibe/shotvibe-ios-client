@@ -44,6 +44,7 @@
 - (void)goToAlbumId:(long long int)num startImidiatly:(BOOL)start addAlbumContents:(SLAlbumContents*)album isVideo:(BOOL)isVideo;
 
 @property (nonatomic, assign) id<AlbumListDelegate> delegate;
+@property (assign, nonatomic) int indexNumber;
 //@property (assign, nonatomic) NSInteger indexNumber;
 
 @end

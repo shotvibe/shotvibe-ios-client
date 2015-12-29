@@ -10,5 +10,5 @@
 
 @interface ViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *screenLabel;
-@property (assign, nonatomic) NSInteger indexNumber;
+@property (assign, nonatomic) int indexNumber;
 @end
