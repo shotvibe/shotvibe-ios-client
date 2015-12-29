@@ -46,7 +46,7 @@ typedef enum SVAddFriendsState {
 @property (weak, nonatomic) IBOutlet UIView *contactSourceButtonsView;
 @property (nonatomic, assign) id<AddFriendsDelegate> delegate;
 @property (nonatomic, assign) int64_t albumId;
-@property (assign, nonatomic) int indexNumber;
+@property (assign, nonatomic) NSInteger indexNumber;
 @property (nonatomic) BOOL fromCameraMainScreen;
 @property (nonatomic) BOOL showGroupsSegment;
 @property(nonatomic) BOOL friendsFromMainWithPicture;

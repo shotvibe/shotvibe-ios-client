@@ -22,7 +22,7 @@ typedef void (^CompletionBlock3)(id);
 @property(nonatomic, retain) SLAlbumContents * contentsFromOutside;
 @property(nonatomic) BOOL scrollToComment;
 @property(nonatomic, retain) NSString * photoToScrollToCommentsId;
-@property (assign, nonatomic) int indexNumber;
+@property (assign, nonatomic) NSInteger indexNumber;
 @property (retain, nonatomic) SLAlbumPhoto * singleAlbumPhoto;
 
 @property (readwrite, copy) CompletionBlock3 onClose;

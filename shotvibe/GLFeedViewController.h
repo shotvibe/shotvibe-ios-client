@@ -28,7 +28,7 @@ typedef enum FeedScrollDirection {
 @property(nonatomic, retain) SLAlbumContents * contentsFromOutside;
 @property(nonatomic) BOOL scrollToComment;
 @property(nonatomic, retain) NSString * photoToScrollToCommentsId;
-@property (assign, nonatomic) int indexNumber;
+@property (assign, nonatomic) NSInteger indexNumber;
 @property (nonatomic, retain) UITableView * tableView;
 @property(nonatomic) BOOL startImidiatlyVideoUpload;
 

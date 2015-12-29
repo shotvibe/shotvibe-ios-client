@@ -1,6 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
-link_with ‘shotvibe’
+platform :ios, '7.0'
   pod 'GPUImage'
   pod 'AFNetworking'
+  pod 'NewRelicAgent'
   pod 'SDWebImage'

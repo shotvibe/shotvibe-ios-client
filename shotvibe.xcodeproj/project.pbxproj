@@ -553,6 +553,7 @@
 		0FFC61C31C1990D1006D9525 /* UIGestureRecognizer+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFC61BF1C1990D1006D9525 /* UIGestureRecognizer+YYAdd.m */; };
 		0FFC61C41C1990D1006D9525 /* UIView+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFC61C11C1990D1006D9525 /* UIView+YYAdd.m */; };
 		106C344918C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
+		106C344A18C4C27A006A5603 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 106C344818C4C27A006A5603 /* Notification.m */; };
 		108CDF081884085D00757E36 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108CDF071884085D00757E36 /* CoreTelephony.framework */; };
 		108CDF10188417AE00757E36 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF0F188417AE00757E36 /* Util.m */; };
 		108CDF6318846B9000757E36 /* Mixpanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 108CDF4718846B8F00757E36 /* Mixpanel.m */; };
@@ -1010,6 +1011,11 @@
 		AA58FB0D16C224E800C49E02 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB0C16C224E800C49E02 /* Default.png */; };
 		AA58FB0F16C224E800C49E02 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB0E16C224E800C49E02 /* Default@2x.png */; };
 		AA58FB1116C224E800C49E02 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB1016C224E800C49E02 /* Default-568h@2x.png */; };
+		AA58FB1F16C224E800C49E02 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB1E16C224E800C49E02 /* SenTestingKit.framework */; };
+		AA58FB2016C224E800C49E02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFA16C224E800C49E02 /* UIKit.framework */; };
+		AA58FB2116C224E800C49E02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FAFC16C224E800C49E02 /* Foundation.framework */; };
+		AA58FB2916C224E800C49E02 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA58FB2716C224E800C49E02 /* InfoPlist.strings */; };
+		AA58FB2C16C224E800C49E02 /* shotvibeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB2B16C224E800C49E02 /* shotvibeTests.m */; };
 		AA58FB7616C22B0400C49E02 /* ShotVibeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58FB6616C22B0400C49E02 /* ShotVibeAppDelegate.m */; };
 		AA58FB8716C2314500C49E02 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB8616C2314500C49E02 /* QuartzCore.framework */; };
 		AA58FB8916C2315100C49E02 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA58FB8816C2315100C49E02 /* SystemConfiguration.framework */; };
@@ -1041,6 +1047,16 @@
 		ED9589071C0DEE680020E8C6 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9589061C0DEE680020E8C6 /* AWSCore.framework */; };
 		ED95890A1C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9589091C0E0EB90020E8C6 /* ShotVibeCredentialsProvider.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AA58FB2216C224E800C49E02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA58FAEF16C224E800C49E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA58FAF616C224E800C49E02;
+			remoteInfo = shotvibe;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		040BACD01717453C00D90C63 /* navBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarBg.png; sourceTree = "<group>"; };
@@ -2366,9 +2382,14 @@
 		664F4702188DBB76009F4776 /* IosHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosHTTPResponse.m; path = shotvibe/API/IosHTTPResponse.m; sourceTree = SOURCE_ROOT; };
 		664F4704189568B1009F4776 /* IosDevicePhoneContactsLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosDevicePhoneContactsLib.h; sourceTree = "<group>"; };
 		664F4705189568B1009F4776 /* IosDevicePhoneContactsLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IosDevicePhoneContactsLib.m; sourceTree = "<group>"; };
+		664F756A1958BF1C0027E77A /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		664F756B1958BF1C0027E77A /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		664F756D1958BF4F0027E77A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		664F756F1958BF610027E77A /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		664F757B1958CDB20027E77A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		664F757D1958CDE60027E77A /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/MainStoryboard.strings; sourceTree = "<group>"; };
 		664F75841958F7A80027E77A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TutorialViewController.xib; sourceTree = "<group>"; };
+		664F75871958F7B50027E77A /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/TutorialViewController.strings; sourceTree = "<group>"; };
 		66634A1518D01E9100D2FF6C /* Void.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Void.m; sourceTree = "<group>"; };
 		66634A1618D01E9100D2FF6C /* Void.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Void.h; sourceTree = "<group>"; };
 		6666EC2819360C1900557CB1 /* walla_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = walla_new.png; path = partner_branding/walla_new.png; sourceTree = "<group>"; };
@@ -2442,6 +2463,7 @@
 		AA58FB0C16C224E800C49E02 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		AA58FB0E16C224E800C49E02 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		AA58FB1016C224E800C49E02 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		AA58FB1D16C224E800C49E02 /* shotvibeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shotvibeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA58FB1E16C224E800C49E02 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		AA58FB2616C224E800C49E02 /* shotvibeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "shotvibeTests-Info.plist"; sourceTree = "<group>"; };
 		AA58FB2816C224E800C49E02 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2539,6 +2561,16 @@
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
 				172BE3D3C9E224053C15D25D /* libPods.a in Frameworks */,
 				0FED6C8A1C2B535D00BEA211 /* PubNub.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA58FB1916C224E800C49E02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB1F16C224E800C49E02 /* SenTestingKit.framework in Frameworks */,
+				AA58FB2016C224E800C49E02 /* UIKit.framework in Frameworks */,
+				AA58FB2116C224E800C49E02 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4384,6 +4416,7 @@
 			isa = PBXGroup;
 			children = (
 				AA58FAF716C224E800C49E02 /* Glance.app */,
+				AA58FB1D16C224E800C49E02 /* shotvibeTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4782,6 +4815,25 @@
 			productReference = AA58FAF716C224E800C49E02 /* Glance.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AA58FB1C16C224E800C49E02 /* shotvibeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA58FB3216C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibeTests" */;
+			buildPhases = (
+				AA58FB1816C224E800C49E02 /* Sources */,
+				AA58FB1916C224E800C49E02 /* Frameworks */,
+				AA58FB1A16C224E800C49E02 /* Resources */,
+				AA58FB1B16C224E800C49E02 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA58FB2316C224E800C49E02 /* PBXTargetDependency */,
+			);
+			name = shotvibeTests;
+			productName = shotvibeTests;
+			productReference = AA58FB1D16C224E800C49E02 /* shotvibeTests.octest */;
+			productType = "com.apple.product-type.bundle.ocunit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -4795,6 +4847,9 @@
 					AA58FAF616C224E800C49E02 = {
 						DevelopmentTeam = LMLPCK6MZG;
 					};
+					AA58FB1C16C224E800C49E02 = {
+						TestTargetID = AA58FAF616C224E800C49E02;
+					};
 				};
 			};
 			buildConfigurationList = AA58FAF216C224E800C49E02 /* Build configuration list for PBXProject "shotvibe" */;
@@ -4803,6 +4858,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
+				he,
 				Base,
 			);
 			mainGroup = AA58FAEE16C224E800C49E02;
@@ -4811,6 +4868,7 @@
 			projectRoot = "";
 			targets = (
 				AA58FAF616C224E800C49E02 /* shotvibe */,
+				AA58FB1C16C224E800C49E02 /* shotvibeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -5540,6 +5598,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA58FB1A16C224E800C49E02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB2916C224E800C49E02 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -5614,6 +5680,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd shotvibelib\n./xcodeJ2objcWrapper.sh ./build_xcode.py shotvibelib/";
+		};
+		AA58FB1B16C224E800C49E02 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
 		C42587A6D75D856521A81989 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5917,13 +5996,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA58FB1816C224E800C49E02 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58FB2C16C224E800C49E02 /* shotvibeTests.m in Sources */,
+				106C344A18C4C27A006A5603 /* Notification.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AA58FB2316C224E800C49E02 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA58FAF616C224E800C49E02 /* shotvibe */;
+			targetProxy = AA58FB2216C224E800C49E02 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		664F756E1958BF4F0027E77A /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				664F756D1958BF4F0027E77A /* en */,
+				664F756F1958BF610027E77A /* he */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5932,6 +6029,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				664F757B1958CDB20027E77A /* Base */,
+				664F757D1958CDE60027E77A /* he */,
 			);
 			name = MainStoryboard.storyboard;
 			path = Views;
@@ -5941,6 +6039,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				664F75841958F7A80027E77A /* Base */,
+				664F75871958F7B50027E77A /* he */,
 			);
 			name = TutorialViewController.xib;
 			sourceTree = "<group>";
@@ -5949,6 +6048,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				AA58FB0416C224E800C49E02 /* en */,
+				664F756A1958BF1C0027E77A /* he */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5957,6 +6057,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				AA58FB2816C224E800C49E02 /* en */,
+				664F756B1958BF1C0027E77A /* he */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -6041,6 +6142,23 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
+			};
+			name = AdHoc;
+		};
+		3B23863517AD4FAF00D5BA8D /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "shotvibeTests/shotvibeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Glance.app/Glance";
+				WRAPPER_EXTENSION = octest;
 			};
 			name = AdHoc;
 		};
@@ -6214,6 +6332,40 @@
 			};
 			name = Release;
 		};
+		AA58FB3316C224E800C49E02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "shotvibeTests/shotvibeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Glance.app/Glance";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		AA58FB3416C224E800C49E02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "shotvibe/shotvibe-Prefix.pch";
+				INFOPLIST_FILE = "shotvibeTests/shotvibeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Glance.app/Glance";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -6233,6 +6385,16 @@
 				AA58FB3016C224E800C49E02 /* Debug */,
 				AA58FB3116C224E800C49E02 /* Release */,
 				3B23863317AD4FAF00D5BA8D /* AdHoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA58FB3216C224E800C49E02 /* Build configuration list for PBXNativeTarget "shotvibeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA58FB3316C224E800C49E02 /* Debug */,
+				AA58FB3416C224E800C49E02 /* Release */,
+				3B23863517AD4FAF00D5BA8D /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

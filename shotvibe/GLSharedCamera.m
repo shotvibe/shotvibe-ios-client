@@ -1066,13 +1066,13 @@
     [self.userScore hideUserScore];
     [self showCameraButtons];
     
-//    __block GLSharedCamera * weakSelf = self;
-//            buttonStealer = [[RBVolumeButtons alloc] init];
-//            [buttonStealer startStealingVolumeButtonEvents];
-//            buttonStealer.upBlock = ^{
-//                NSLog(@"vol up");
-//                [weakSelf captureTapped];
-//            };
+    __block GLSharedCamera * weakSelf = self;
+            buttonStealer = [[RBVolumeButtons alloc] init];
+            [buttonStealer startStealingVolumeButtonEvents];
+            buttonStealer.upBlock = ^{
+                NSLog(@"vol up");
+                [weakSelf captureTapped];
+            };
     
     
 //    if(self.isInFeedMode){
@@ -1099,7 +1099,7 @@
     self.dmut.userInteractionEnabled = YES;
     [[ContainerViewController sharedInstance] lockScrolling:NO];
     
-//    [buttonStealer stopStealingVolumeButtonEvents];
+    [buttonStealer stopStealingVolumeButtonEvents];
     
     if(self.isInFeedMode){
         [[self videoCamera] stopCameraCapture];

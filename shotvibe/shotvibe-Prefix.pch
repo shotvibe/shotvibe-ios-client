@@ -34,7 +34,6 @@
 #import <AFNetworking/UIImageView+AFNetworking.h>
 //#import <KZPropertyMapper/KZPropertyMapper.h>
 #import "KVNProgress.h"
-#import "UIViewController+index.h"
 //#import "STXDynamicTableView.h"
 //#import "YYWebImage.h"
 //#import <>
