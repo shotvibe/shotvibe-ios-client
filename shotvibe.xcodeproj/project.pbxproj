@@ -1021,7 +1021,6 @@
 		AA78D2CA17172C67006E1240 /* dropDownField@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA78D2C317172C67006E1240 /* dropDownField@2x.png */; };
 		AACB11E516C457DC00BAC7E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E416C457DC00BAC7E1 /* CoreData.framework */; };
 		AACB11E716C457F000BAC7E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACB11E616C457F000BAC7E1 /* Security.framework */; };
-		B4374711393F939E7B9BECE3 /* libPods-shotvibe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D7AF70234353C0956255F3 /* libPods-shotvibe.a */; };
 		DD3A8BBE1BC9A04A002DF2C9 /* camera-shutter-click-01.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD3A8BAC1BC9A04A002DF2C9 /* camera-shutter-click-01.wav */; };
 		DD3A8BBF1BC9A04A002DF2C9 /* GLCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BAE1BC9A04A002DF2C9 /* GLCamera.m */; };
 		DD3A8BC01BC9A04A002DF2C9 /* GLFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3A8BB01BC9A04A002DF2C9 /* GLFilterView.m */; };
@@ -1835,7 +1834,6 @@
 		10F1A2D5188540410051E267 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		10F1A2D7188540B40051E267 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		10F1A2D91885411E0051E267 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		18D2EF8E5F579E899FFC24E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		280475CF17EB9DAB00EA84A4 /* albumEmptyLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = albumEmptyLarge.png; sourceTree = "<group>"; };
 		280475D017EB9DAB00EA84A4 /* albumEmptyLarge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "albumEmptyLarge@2x.png"; sourceTree = "<group>"; };
 		2849A74D17D7111A0076AFBA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -2107,6 +2105,7 @@
 		3EF4160518E09ECD0077DC22 /* sortType3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sortType3@2x.png"; sourceTree = "<group>"; };
 		3EF4160C18E0A56B0077DC22 /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
 		3EF4160D18E0A56B0077DC22 /* triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle@2x.png"; sourceTree = "<group>"; };
+		4D07200CAA8F51DFDDCC0FBF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		65D7AF70234353C0956255F3 /* libPods-shotvibe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shotvibe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		660131AE187F4E670042047B /* IOSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSArray.h; sourceTree = "<group>"; };
 		660131AF187F4E670042047B /* IOSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSArray.m; sourceTree = "<group>"; };
@@ -2432,6 +2431,8 @@
 		66E788B21889EB870037ACF3 /* Set.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Set.m; sourceTree = "<group>"; };
 		66F3E97019D5F68A00E36207 /* TmpFilePhotoUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TmpFilePhotoUploadRequest.h; path = shotvibe/API/TmpFilePhotoUploadRequest.h; sourceTree = SOURCE_ROOT; };
 		66F3E97119D5F68A00E36207 /* TmpFilePhotoUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TmpFilePhotoUploadRequest.m; path = shotvibe/API/TmpFilePhotoUploadRequest.m; sourceTree = SOURCE_ROOT; };
+		6ADD209C7F3884DA8C18F5C3 /* Pods.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.adhoc.xcconfig; path = "Pods/Target Support Files/Pods/Pods.adhoc.xcconfig"; sourceTree = "<group>"; };
+		88773092F999B45AB85F26AF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		AA4115BC177C0451009F400F /* NSFileManager+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Helper.h"; sourceTree = "<group>"; };
 		AA4115BD177C0451009F400F /* NSFileManager+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Helper.m"; sourceTree = "<group>"; };
 		AA58FAF716C224E800C49E02 /* Glance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glance.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2463,8 +2464,6 @@
 		AACB11E416C457DC00BAC7E1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AACB11E616C457F000BAC7E1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AAEB9CDD171648A000439939 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		BAAA31B10EA296D53DABE7A8 /* Pods.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.adhoc.xcconfig; path = "Pods/Target Support Files/Pods/Pods.adhoc.xcconfig"; sourceTree = "<group>"; };
-		D12AC25FD6CE156FCD971BCA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DD3A8BAC1BC9A04A002DF2C9 /* camera-shutter-click-01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "camera-shutter-click-01.wav"; sourceTree = "<group>"; };
 		DD3A8BAD1BC9A04A002DF2C9 /* GLCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLCamera.h; sourceTree = "<group>"; };
 		DD3A8BAE1BC9A04A002DF2C9 /* GLCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLCamera.m; sourceTree = "<group>"; };
@@ -2542,7 +2541,6 @@
 				AA58FAFB16C224E800C49E02 /* UIKit.framework in Frameworks */,
 				172BE3D3C9E224053C15D25D /* libPods.a in Frameworks */,
 				0FED6C8A1C2B535D00BEA211 /* PubNub.framework in Frameworks */,
-				B4374711393F939E7B9BECE3 /* libPods-shotvibe.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4755,9 +4753,9 @@
 		FCF5B58CF1E7F696953F6711 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D12AC25FD6CE156FCD971BCA /* Pods.debug.xcconfig */,
-				18D2EF8E5F579E899FFC24E2 /* Pods.release.xcconfig */,
-				BAAA31B10EA296D53DABE7A8 /* Pods.adhoc.xcconfig */,
+				88773092F999B45AB85F26AF /* Pods.debug.xcconfig */,
+				4D07200CAA8F51DFDDCC0FBF /* Pods.release.xcconfig */,
+				6ADD209C7F3884DA8C18F5C3 /* Pods.adhoc.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -5561,7 +5559,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-shotvibe/Pods-shotvibe-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		10D366C41879EF8200E6FF4C /* Run Script: tools/generateGitInfo.sh to create GeneratedGitInfo.h */ = {
@@ -6004,7 +6002,7 @@
 		};
 		3B23863317AD4FAF00D5BA8D /* AdHoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BAAA31B10EA296D53DABE7A8 /* Pods.adhoc.xcconfig */;
+			baseConfigurationReference = 6ADD209C7F3884DA8C18F5C3 /* Pods.adhoc.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -6122,7 +6120,7 @@
 		};
 		AA58FB3016C224E800C49E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D12AC25FD6CE156FCD971BCA /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 88773092F999B45AB85F26AF /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -6174,7 +6172,7 @@
 		};
 		AA58FB3116C224E800C49E02 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 18D2EF8E5F579E899FFC24E2 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 4D07200CAA8F51DFDDCC0FBF /* Pods.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
