@@ -21,7 +21,7 @@
 #import "SL/PhoneContact.h"
 #import "SL/PhoneContactDisplayData.h"
 
-#import "GLSharedCamera.h"
+//#import "GLSharedCamera.h"
 #import "ShotVibeAppDelegate.h"
 
 #import "SL/AlbumMember.h"

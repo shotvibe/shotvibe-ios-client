@@ -18,6 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     // Do any additional setup after loading the view from its nib.
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     
@@ -34,11 +36,11 @@
 //    [self.view addSubview:self.pageController.view];
     
     
-    UIStoryboard * storyBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+//    UIStoryboard * storyBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
     
     self.publicFeedViewController = [[GLPublicFeedViewController alloc] init];
     self.publicFeedViewController.indexNumber = 2;
-    self.albumListViewController = [storyBoard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
+    self.albumListViewController = [[SVAlbumListViewController alloc] init];
     
     
     self.navigationController = [[SVNavigationController alloc] initWithRootViewController:self.albumListViewController];
@@ -46,6 +48,10 @@
     [self.navigationController setNavigationBarHidden:YES];
     [self.pageController setViewControllers:@[self.navigationController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
     }];
+    
+    
+//    [[[GLSharedCamera sharedInstance] cameraViewBackground]removeFromSuperview];
+    
 //    currentPageIndex = 1;
 //    [self.pageController setViewControllers:@[self.albumListViewController]
 //                                  direction:UIPageViewControllerNavigationDirectionForward

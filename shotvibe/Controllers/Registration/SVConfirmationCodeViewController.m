@@ -22,7 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	//[self.codeField1 becomeFirstResponder];
+	[self.codeField1 becomeFirstResponder];
 
     self.butSubmit.layer.cornerRadius = self.butSubmit.frame.size.width/2;
     
@@ -35,6 +35,8 @@
 //    self.codeField2
 //    self.codeField3
 //    self
+    
+//    [self.codeField1 resignFirstResponder];
     
     [[Mixpanel sharedInstance] track:@"Activation Screen Viewed"];
 }
@@ -53,12 +55,18 @@
 	[self validateRegistrationCode:regCode];
 }
 
+- (IBAction)backPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)validateRegistrationCode:(NSString *)registrationCode
 {
 	RCLog(@"validateRegistrationCode - code:  %@", registrationCode);
 
-    [[Mixpanel sharedInstance] track:@"Activation Code Submitted"];
-
+//    [self handleSuccessfulLogin:YES];
+    
+//    [[Mixpanel sharedInstance] track:@"Activation Code Submitted"];
+//
     id<SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
 
     [ShotVibeAPITask runTask:self
@@ -76,15 +84,23 @@
      ^(SLAuthData *authData) {
         if (authData) {
             [[ShotVibeAppDelegate sharedDelegate] setAuthData:authData];
+            
+            
             [self handleSuccessfulLogin:YES];
+            [KVNProgress dismiss];
         } else {
             [[Mixpanel sharedInstance] track:@"Activation Code Submitted Incorrect"];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incorrect Code"
-                                                            message:@"Please enter the code that was sent to you, or go back to check your phone number"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
+            
+            
+            [KVNProgress showErrorWithStatus:@"Please enter the code that was sent to you, or go back to check your phone number" completion:^{
+                [self.codeField1 becomeFirstResponder];
+            }];
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incorrect Code"
+//                                                            message:@"Please enter the code that was sent to you, or go back to check your phone number"
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil];
+//            [alert show];
         }
     }];
 }
@@ -129,38 +145,46 @@
     [[Mixpanel sharedInstance] track:@"User Registered"];
     [[Mixpanel sharedInstance] track:@"User Registered (Manual)"];
 
+    
+    
+    
+    
     //[[SVDownloadSyncEngine sharedEngine] startSync];
 
     // Grab the storyboard
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+//
+    [[ShotVibeAppDelegate sharedDelegate] setAfterActivation:YES];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kUserLoggedIn"];
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kUserSettedPicture"];
-    
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    // Grab the deal and make it our root view controller from the storyboard for this navigation controller
-    SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
-
-    GLProfilePictureController *profilePictureController = [storyboard instantiateViewControllerWithIdentifier:@"GLProfilePictureController"];
-    
-    SVProfileViewController *profileController = [storyboard instantiateViewControllerWithIdentifier:@"SVProfileViewController"];
-    profileController.shouldPrompt = YES;
-
-    UIView *v = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    v.backgroundColor = [UIColor whiteColor];
-    [self.navigationController.view addSubview:v];
-    
-    
-//    [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
+//
+//    // Grab the deal and make it our root view controller from the storyboard for this navigation controller
+//    SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
+//
+//    GLProfilePictureController *profilePictureController = [storyboard instantiateViewControllerWithIdentifier:@"GLProfilePictureController"];
+//    
+//    SVProfileViewController *profileController = [storyboard instantiateViewControllerWithIdentifier:@"SVProfileViewController"];
+//    profileController.shouldPrompt = YES;
+//
+//    UIView *v = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    v.backgroundColor = [UIColor whiteColor];
+//    [self.navigationController.view addSubview:v];
+//    
+//    
+////    [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
     [[GLSharedCamera sharedInstance] hideGlCameraView];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.navigationController setViewControllers:@[rootView, profilePictureController] animated:NO];
-        [v removeFromSuperview];
-//        [[[GLSharedCamera sharedInstance] cameraViewBackground] setAlpha:0];
-
-    });
+    
+    GLProfilePictureController * profilePicViewController = [[GLProfilePictureController alloc] init];
+    [[[ShotVibeAppDelegate sharedDelegate]navigationController]pushViewController:profilePicViewController animated:YES];
+//
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self.navigationController setViewControllers:@[rootView, profilePictureController] animated:NO];
+//        [v removeFromSuperview];
+////        [[[GLSharedCamera sharedInstance] cameraViewBackground] setAlpha:0];
+//
+//    });
 }
 
 

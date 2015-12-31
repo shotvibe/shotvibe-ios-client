@@ -23,7 +23,7 @@
 
 @end
 
-@interface SVAlbumListViewController : UITableViewController <UITableViewDataSource,
+@interface SVAlbumListViewController : UIViewController <UITableViewDataSource,
                                                                 NotificationManagerDelegate,
 																UITableViewDelegate,
 																UITextFieldDelegate,
@@ -42,7 +42,7 @@
 - (void)transitToAlbumWithId:(long long int)num animated:(BOOL)animated dmutScale:(BOOL)scale;
 - (void)goToAlbumId:(long long int)num startImidiatly:(BOOL)start addAlbumContents:(SLAlbumContents*)album;
 - (void)goToAlbumId:(long long int)num startImidiatly:(BOOL)start addAlbumContents:(SLAlbumContents*)album isVideo:(BOOL)isVideo;
-
+@property(nonatomic, retain) UITableView * tableView;
 @property (nonatomic, assign) id<AlbumListDelegate> delegate;
 @property (assign, nonatomic) int indexNumber;
 //@property (assign, nonatomic) NSInteger indexNumber;

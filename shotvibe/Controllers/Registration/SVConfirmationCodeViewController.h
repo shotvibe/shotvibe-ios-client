@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIView *tf4;
 @property (weak, nonatomic) IBOutlet UIView *tf3;
 @property (weak, nonatomic) IBOutlet UIView *tf2;
+- (IBAction)backPressed:(id)sender;
 
 - (void)validateRegistrationCode:(NSString *)registrationCode;
 - (void)handleSuccessfulLogin:(BOOL)animated;

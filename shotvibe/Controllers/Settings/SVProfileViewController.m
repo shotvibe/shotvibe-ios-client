@@ -19,6 +19,8 @@
 #import "SL/AlbumUser.h"
 #import "GLProfilePictureController.h"
 #import "ShotVibeAppDelegate.h"
+#import "GLContainersViewController.h"
+#import "GLSharedCamera.h"
 
 @interface SVProfileViewController ()
 
@@ -134,27 +136,20 @@
         
         
     }
+    [[GLSharedCamera sharedInstance] fixAfterLogin];
 }
 
-//-(void)viewWillLayoutSubviews {
-
-
-//}
 
 -(void)editPhoto {
     
     
     [[GLSharedCamera sharedInstance] hideGlCameraView];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    GLProfilePictureController *glprof = [storyboard instantiateViewControllerWithIdentifier:@"GLProfilePictureController"];
+    GLProfilePictureController *glprof = [[GLProfilePictureController alloc] init];
     if(self.fromSettings){
         [self.navigationController setNavigationBarHidden:YES animated:YES];
         glprof.fromSettings = YES;
     }
     [self.navigationController pushViewController:glprof animated:NO];
-//    [self.navigationController popToViewController:glprof animated:YES];
-    
-
 
 }
 
@@ -232,12 +227,38 @@
 //        
 //    }];
     
+    
+    
     if(self.fromSettings){
         [self.navigationController popViewControllerAnimated:YES];
     } else {
-        ContainerViewController * container = [[ContainerViewController alloc] init];
-        [[GLSharedCamera sharedInstance] setDelegate:container];
-        [self.navigationController pushViewController:container animated:YES];
+        
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        
+            [[NSUserDefaults standardUserDefaults] setInteger:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAuthData] getUserId]] forKey:@"kUserScore"];
+        
+        
+        
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+        
+            [[[GLSharedCamera sharedInstance] userScore] updateScoreFromPush:(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]];
+            
+//            [[[GLSharedCamera sharedInstance] userScore] showUserScore];
+            
+//            [[[[GLSharedCamera sharedInstance] userScore] userScoreLabel] setHidden:NO];
+//            [[[[GLSharedCamera sharedInstance] userScore] userScoreLabel] setAlpha:1];
+            //            GLSharedCamera share
+            
+        });
+    
+        GLContainersViewController * containersViewControllers = [[GLContainersViewController alloc] init];
+        
+//        [self.navigationController.view addSubview:[[GLSharedCamera sharedInstance] cameraViewBackground]];
+        [self.navigationController pushViewController:containersViewControllers animated:YES];
+//        ContainerViewController * container = [[ContainerViewController alloc] init];
+//        [[GLSharedCamera sharedInstance] setDelegate:container];
+//        [self.navigationController pushViewController:container animated:YES];
     }
 //    [self presentViewController:container animated:YES completion:^{}];
 //    [self.navigationController popViewControllerAnimated:YES];
@@ -246,19 +267,19 @@
 }
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-	
-	if ([segue.identifier isEqualToString:@"ProfilePicSegue"]) {
-		
-		SVProfilePicViewController *destination = segue.destinationViewController;
-        destination.image = self.userPhoto.image;
-        destination.delegate = self;
-
-		// Set the text of the back button of the next screen
-		UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle: @"Back" style: UIBarButtonItemStyleBordered target: nil action: nil];
-		[self.navigationItem setBackBarButtonItem:newBackButton];
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//	
+//	if ([segue.identifier isEqualToString:@"ProfilePicSegue"]) {
+//		
+//		SVProfilePicViewController *destination = segue.destinationViewController;
+//        destination.image = self.userPhoto.image;
+//        destination.delegate = self;
+//
+//		// Set the text of the back button of the next screen
+//		UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle: @"Back" style: UIBarButtonItemStyleBordered target: nil action: nil];
+//		[self.navigationItem setBackBarButtonItem:newBackButton];
+//    }
+//}
 
 
 #pragma mark ImageCrop Delegate

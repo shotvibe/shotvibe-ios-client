@@ -47,7 +47,7 @@
 
 //#import "MainCameraViewController.h"
 //#import "ShotVibeAppDelegate.h"
-#import "GLSharedCamera.h"
+//#import "GLSharedCamera.h"
 
 //#import "STXFeedViewController.h"
 #import <CoreData/CoreData.h>
@@ -131,6 +131,14 @@ CGFloat kResizeThumbSize = 45.0f;
 
 #pragma mark - Controller lifecycle
 
+
+// Objective-C version
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    
+    // remove bottom extra 20px space.
+    return CGFLOAT_MIN;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -139,8 +147,12 @@ CGFloat kResizeThumbSize = 45.0f;
 //    self.view.la.userInteractionEnabled = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     cameraShown = NO;
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
+    [self.view addSubview:self.tableView];
 
     photoFilesManager_ = [ShotVibeAppDelegate sharedDelegate].photoFilesManager;
 
@@ -193,35 +205,35 @@ CGFloat kResizeThumbSize = 45.0f;
 //    refreshWrapper.backgroundColor = [UIColor redColor];
     
 
-    self.refreshControl = [[UIRefreshControl alloc] init];
+//    self.refreshControl = [[UIRefreshControl alloc] init];
     
     
-    // Setup the loading view, which will hold the moving graphics
-    self.refreshLoadingView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
-    self.refreshLoadingView.backgroundColor = [UIColor clearColor];
-    
-    // Setup the color view, which will display the rainbowed background
-    self.refreshColorView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
-    self.refreshColorView.backgroundColor = [UIColor clearColor];
-    self.refreshColorView.alpha = 0.30;
-    
-    // Create the graphic image views
-    self.compass_background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"compass_background.png"]];
-    self.compass_spinner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"compass_spinner.png"]];
-    
-    // Add the graphics to the loading view
-    [self.refreshLoadingView addSubview:self.compass_background];
-    [self.refreshLoadingView addSubview:self.compass_spinner];
-    
-    // Clip so the graphics don't stick out
-    self.refreshLoadingView.clipsToBounds = YES;
+//    // Setup the loading view, which will hold the moving graphics
+//    self.refreshLoadingView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
+//    self.refreshLoadingView.backgroundColor = [UIColor clearColor];
+//    
+//    // Setup the color view, which will display the rainbowed background
+//    self.refreshColorView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
+//    self.refreshColorView.backgroundColor = [UIColor clearColor];
+//    self.refreshColorView.alpha = 0.30;
+//    
+//    // Create the graphic image views
+//    self.compass_background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"compass_background.png"]];
+//    self.compass_spinner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"compass_spinner.png"]];
+//    
+//    // Add the graphics to the loading view
+//    [self.refreshLoadingView addSubview:self.compass_background];
+//    [self.refreshLoadingView addSubview:self.compass_spinner];
+//    
+//    // Clip so the graphics don't stick out
+//    self.refreshLoadingView.clipsToBounds = YES;
     
     // Hide the original spinner icon
-    self.refreshControl.tintColor = [UIColor clearColor];
+//    self.refreshControl.tintColor = [UIColor clearColor];
     
     // Add the loading and colors views to our refresh control
-    [self.refreshControl addSubview:self.refreshColorView];
-    [self.refreshControl addSubview:self.refreshLoadingView];
+//    [self.refreshControl addSubview:self.refreshColorView];
+//    [self.refreshControl addSubview:self.refreshLoadingView];
     
     // Initalize flags
     self.isRefreshIconsOverlap = NO;
@@ -233,31 +245,31 @@ CGFloat kResizeThumbSize = 45.0f;
     
 //
     if (!IS_IOS7) {
-        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+//        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     }
-    [self.refreshControl addTarget:self action:@selector(onUserRefreshed) forControlEvents:UIControlEventValueChanged];
+//    [self.refreshControl addTarget:self action:@selector(onUserRefreshed) forControlEvents:UIControlEventValueChanged];
 
     [self updateEmptyState];
 
     // Set required taps and number of touches
-    UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];
-    [touchOnView setNumberOfTapsRequired:1];
-    [touchOnView setNumberOfTouchesRequired:1];
-    [self.tableOverlayView addGestureRecognizer:touchOnView];
+//    UITapGestureRecognizer *touchOnView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseOverlay)];
+//    [touchOnView setNumberOfTapsRequired:1];
+//    [touchOnView setNumberOfTouchesRequired:1];
+//    [self.tableOverlayView addGestureRecognizer:touchOnView];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(somethingChangedInAlbumwithId:)
                                                  name:NOTIFICATIONCENTER_ALBUM_CHANGED
                                                object:nil];
 
-    ShotVibeAppDelegate *app = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
-    networkOnline_ = [app.networkStatusManager registerListenerWithSLNetworkStatusManager_Listener:self];
-    [self updateNetworkStatusNavBar];
+//    ShotVibeAppDelegate *app = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+//    networkOnline_ = [app.networkStatusManager registerListenerWithSLNetworkStatusManager_Listener:self];
+//    [self updateNetworkStatusNavBar];
 
     RCLogTimestamp();
 
     if (IS_IOS7) {
-        [self setNeedsStatusBarAppearanceUpdate];
+//        [self setNeedsStatusBarAppearanceUpdate];
     }
     
     
@@ -281,6 +293,41 @@ CGFloat kResizeThumbSize = 45.0f;
 
 
     
+    self.navigationController.automaticallyAdjustsScrollViewInsets = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    
+    if([[ShotVibeAppDelegate sharedDelegate] afterActivation]){
+    
+        [UIView animateWithDuration:0.3 animations:^{
+            [[[GLSharedCamera sharedInstance]cameraViewBackground]setAlpha:0];
+        } completion:^(BOOL finished) {
+            
+            [self.navigationController.view addSubview:[[GLSharedCamera sharedInstance] cameraViewBackground]];
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                [[[GLSharedCamera sharedInstance]cameraViewBackground]setAlpha:1];
+                
+            } completion:^(BOOL finished) {
+                
+                [UIView animateWithDuration:0.3 animations:^{
+                    [[[[GLSharedCamera sharedInstance] userScore] view] setHidden:NO];
+                    [[[GLSharedCamera sharedInstance] videoCamera] startCameraCapture];[[[GLSharedCamera sharedInstance] videoCamera] rotateCamera];
+                }];
+                [[ShotVibeAppDelegate sharedDelegate] setAfterActivation:NO];
+                
+            }];
+            
+        }];
+        
+    } else {
+        
+        GLSharedCamera * camera = [GLSharedCamera sharedInstance];
+        [self.navigationController.view addSubview:[camera cameraViewBackground]];
+        
+    }
+    
+    
     
     
 }
@@ -289,115 +336,115 @@ CGFloat kResizeThumbSize = 45.0f;
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
 
-    // Get the current size of the refresh controller
-    CGRect refreshBounds = self.refreshControl.bounds;
-    
-    // Distance the table has been pulled >= 0
-    CGFloat pullDistance = MAX(0.0, -self.refreshControl.frame.origin.y);
-    
-    // Half the width of the table
-    CGFloat midX = self.tableView.frame.size.width / 2.0;
-    
-    // Calculate the width and height of our graphics
-    CGFloat compassHeight = self.compass_background.bounds.size.height;
-    CGFloat compassHeightHalf = compassHeight / 2.0;
-    
-    CGFloat compassWidth = self.compass_background.bounds.size.width;
-    CGFloat compassWidthHalf = compassWidth / 2.0;
-    
-    CGFloat spinnerHeight = self.compass_spinner.bounds.size.height;
-    CGFloat spinnerHeightHalf = spinnerHeight / 2.0;
-    
-    CGFloat spinnerWidth = self.compass_spinner.bounds.size.width;
-    CGFloat spinnerWidthHalf = spinnerWidth / 2.0;
-    
-    // Calculate the pull ratio, between 0.0-1.0
-    CGFloat pullRatio = MIN( MAX(pullDistance, 0.0), 100.0) / 100.0;
-    
-    // Set the Y coord of the graphics, based on pull distance
-    CGFloat compassY = pullDistance / 2.0 - compassHeightHalf;
-    CGFloat spinnerY = pullDistance / 2.0 - spinnerHeightHalf;
-    
-    // Calculate the X coord of the graphics, adjust based on pull ratio
-    CGFloat compassX = (midX + compassWidthHalf) - (compassWidth * pullRatio);
-    CGFloat spinnerX = (midX - spinnerWidth - spinnerWidthHalf) + (spinnerWidth * pullRatio);
-    
-    // When the compass and spinner overlap, keep them together
-    if (fabsf(compassX - spinnerX) < 1.0) {
-        self.isRefreshIconsOverlap = YES;
-    }
-    
-    // If the graphics have overlapped or we are refreshing, keep them together
-    if (self.isRefreshIconsOverlap || self.refreshControl.isRefreshing) {
-        compassX = midX - compassWidthHalf;
-        spinnerX = midX - spinnerWidthHalf;
-    }
-    
-    // Set the graphic's frames
-    CGRect compassFrame = self.compass_background.frame;
-    compassFrame.origin.x = compassX;
-    compassFrame.origin.y = compassY;
-    
-    CGRect spinnerFrame = self.compass_spinner.frame;
-    spinnerFrame.origin.x = spinnerX;
-    spinnerFrame.origin.y = spinnerY;
-    
-    self.compass_background.frame = compassFrame;
-    self.compass_spinner.frame = spinnerFrame;
-    
-    // Set the encompassing view's frames
-    refreshBounds.size.height = pullDistance;
-    
-    self.refreshColorView.frame = refreshBounds;
-    self.refreshLoadingView.frame = refreshBounds;
+//    // Get the current size of the refresh controller
+//    CGRect refreshBounds = self.refreshControl.bounds;
+//    
+//    // Distance the table has been pulled >= 0
+//    CGFloat pullDistance = MAX(0.0, -self.refreshControl.frame.origin.y);
+//    
+//    // Half the width of the table
+//    CGFloat midX = self.tableView.frame.size.width / 2.0;
+//    
+//    // Calculate the width and height of our graphics
+//    CGFloat compassHeight = self.compass_background.bounds.size.height;
+//    CGFloat compassHeightHalf = compassHeight / 2.0;
+//    
+//    CGFloat compassWidth = self.compass_background.bounds.size.width;
+//    CGFloat compassWidthHalf = compassWidth / 2.0;
+//    
+//    CGFloat spinnerHeight = self.compass_spinner.bounds.size.height;
+//    CGFloat spinnerHeightHalf = spinnerHeight / 2.0;
+//    
+//    CGFloat spinnerWidth = self.compass_spinner.bounds.size.width;
+//    CGFloat spinnerWidthHalf = spinnerWidth / 2.0;
+//    
+//    // Calculate the pull ratio, between 0.0-1.0
+//    CGFloat pullRatio = MIN( MAX(pullDistance, 0.0), 100.0) / 100.0;
+//    
+//    // Set the Y coord of the graphics, based on pull distance
+//    CGFloat compassY = pullDistance / 2.0 - compassHeightHalf;
+//    CGFloat spinnerY = pullDistance / 2.0 - spinnerHeightHalf;
+//    
+//    // Calculate the X coord of the graphics, adjust based on pull ratio
+//    CGFloat compassX = (midX + compassWidthHalf) - (compassWidth * pullRatio);
+//    CGFloat spinnerX = (midX - spinnerWidth - spinnerWidthHalf) + (spinnerWidth * pullRatio);
+//    
+//    // When the compass and spinner overlap, keep them together
+//    if (fabsf(compassX - spinnerX) < 1.0) {
+//        self.isRefreshIconsOverlap = YES;
+//    }
+//    
+//    // If the graphics have overlapped or we are refreshing, keep them together
+//    if (self.isRefreshIconsOverlap || self.refreshControl.isRefreshing) {
+//        compassX = midX - compassWidthHalf;
+//        spinnerX = midX - spinnerWidthHalf;
+//    }
+//    
+//    // Set the graphic's frames
+//    CGRect compassFrame = self.compass_background.frame;
+//    compassFrame.origin.x = compassX;
+//    compassFrame.origin.y = compassY;
+//    
+//    CGRect spinnerFrame = self.compass_spinner.frame;
+//    spinnerFrame.origin.x = spinnerX;
+//    spinnerFrame.origin.y = spinnerY;
+//    
+//    self.compass_background.frame = compassFrame;
+//    self.compass_spinner.frame = spinnerFrame;
+//    
+//    // Set the encompassing view's frames
+//    refreshBounds.size.height = pullDistance;
+//    
+//    self.refreshColorView.frame = refreshBounds;
+//    self.refreshLoadingView.frame = refreshBounds;
     
     // If we're refreshing and the animation is not playing, then play the animation
-    if (self.refreshControl.isRefreshing && !self.isRefreshAnimating) {
-        [self animateRefreshView];
-    }
+//    if (self.refreshControl.isRefreshing && !self.isRefreshAnimating) {
+//        [self animateRefreshView];
+//    }
     
-    DLog(@"pullDistance: %.1f, pullRatio: %.1f, midX: %.1f, isRefreshing: %i", pullDistance, pullRatio, midX, self.refreshControl.isRefreshing);
+//    DLog(@"pullDistance: %.1f, pullRatio: %.1f, midX: %.1f, isRefreshing: %i", pullDistance, pullRatio, midX, self.refreshControl.isRefreshing);
 }
 
 
 
-- (void)animateRefreshView
-{
-    // Background color to loop through for our color view
-    NSArray *colorArray = @[[UIColor redColor],[UIColor blueColor],[UIColor purpleColor],[UIColor cyanColor],[UIColor orangeColor],[UIColor magentaColor]];
-    static int colorIndex = 0;
-    
-    // Flag that we are animating
-    self.isRefreshAnimating = YES;
-    
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         // Rotate the spinner by M_PI_2 = PI/2 = 90 degrees
-                         [self.compass_spinner setTransform:CGAffineTransformRotate(self.compass_spinner.transform, M_PI_2)];
-                         
-                         // Change the background color
-                         self.refreshColorView.backgroundColor = [colorArray objectAtIndex:colorIndex];
-                         colorIndex = (colorIndex + 1) % colorArray.count;
-                     }
-                     completion:^(BOOL finished) {
-                         // If still refreshing, keep spinning, else reset
-                         if (self.refreshControl.isRefreshing) {
-                             [self animateRefreshView];
-                         }else{
-                             [self resetAnimation];
-                         }
-                     }];
-}
+//- (void)animateRefreshView
+//{
+//    // Background color to loop through for our color view
+//    NSArray *colorArray = @[[UIColor redColor],[UIColor blueColor],[UIColor purpleColor],[UIColor cyanColor],[UIColor orangeColor],[UIColor magentaColor]];
+//    static int colorIndex = 0;
+//    
+//    // Flag that we are animating
+//    self.isRefreshAnimating = YES;
+//    
+//    [UIView animateWithDuration:0.3
+//                          delay:0
+//                        options:UIViewAnimationOptionCurveLinear
+//                     animations:^{
+//                         // Rotate the spinner by M_PI_2 = PI/2 = 90 degrees
+//                         [self.compass_spinner setTransform:CGAffineTransformRotate(self.compass_spinner.transform, M_PI_2)];
+//                         
+//                         // Change the background color
+//                         self.refreshColorView.backgroundColor = [colorArray objectAtIndex:colorIndex];
+//                         colorIndex = (colorIndex + 1) % colorArray.count;
+//                     }
+//                     completion:^(BOOL finished) {
+//                         // If still refreshing, keep spinning, else reset
+//                         if (self.refreshControl.isRefreshing) {
+//                             [self animateRefreshView];
+//                         }else{
+//                             [self resetAnimation];
+//                         }
+//                     }];
+//}
 
-- (void)resetAnimation
-{
-    // Reset our flags and background color
-    self.isRefreshAnimating = NO;
-    self.isRefreshIconsOverlap = NO;
-    self.refreshColorView.backgroundColor = [UIColor clearColor];
-}
+//- (void)resetAnimation
+//{
+//    // Reset our flags and background color
+//    self.isRefreshAnimating = NO;
+//    self.isRefreshIconsOverlap = NO;
+//    self.refreshColorView.backgroundColor = [UIColor clearColor];
+//}
 
 
 
@@ -553,7 +600,7 @@ CGFloat kResizeThumbSize = 45.0f;
     UIImageView * background = [[UIImageView alloc] initWithFrame:CGRectMake(0, 202, self.view.frame.size.width, 130)];
     background.image = [UIImage imageNamed:@"refrehBg"];
     self.tableView.backgroundColor = [UIColor clearColor];
-    [self.refreshControl addSubview:background];
+//    [self.refreshControl addSubview:background];
 //    [self.view bringSubviewToFront:self.tableView];
 //    [[self.refreshControl.subviews objectAtIndex:0] setFrame:CGRectMake(30, 400, 20, 50)];
 //    self.refreshControl.bounds = CGRectMake(self.refreshControl.bounds.origin.x,
@@ -582,10 +629,12 @@ CGFloat kResizeThumbSize = 45.0f;
 	
 	[super viewDidAppear:animated];
 	
+    
+    
 	self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
 	cameraNavController = nil;
 
-    [self promptNickChange];
+//    [self promptNickChange];
     [albumManager_ refreshAlbumListWithBoolean:NO];
     
 //    [self.refreshControl setFrame:CGRectMake(0, 400, 50, 50)];
@@ -841,33 +890,33 @@ CGFloat kResizeThumbSize = 45.0f;
 
 #pragma mark Segue
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"AlbumGridViewSegue"]) {
-        // Get the selected Album
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
-
-        // Get the destination controller
-        SVAlbumGridViewController *destinationController = segue.destinationViewController;
-        destinationController.albumId = [album getId];
-    } else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
-        SVSettingsViewController *destinationController = segue.destinationViewController;
-    } else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
-        SVProfileViewController *destinationController = segue.destinationViewController;
-    } else if ([segue.identifier isEqualToString:@"PromptNickChangeSegue"]) {
-        SVProfileViewController *destinationController = segue.destinationViewController;
-        destinationController.shouldPrompt = YES;
-    } else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
-		
-        SLAlbumSummary *album = (SLAlbumSummary *)sender;
-		
-        SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
-        SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
-        destination.albumId = [album getId];
-        destination.nav = self.navigationController;
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([segue.identifier isEqualToString:@"AlbumGridViewSegue"]) {
+//        // Get the selected Album
+//        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+//        SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
+//
+//        // Get the destination controller
+//        SVAlbumGridViewController *destinationController = segue.destinationViewController;
+//        destinationController.albumId = [album getId];
+//    } else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {
+//        SVSettingsViewController *destinationController = segue.destinationViewController;
+//    } else if ([segue.identifier isEqualToString:@"ProfileSegue"]) {
+//        SVProfileViewController *destinationController = segue.destinationViewController;
+//    } else if ([segue.identifier isEqualToString:@"PromptNickChangeSegue"]) {
+//        SVProfileViewController *destinationController = segue.destinationViewController;
+//        destinationController.shouldPrompt = YES;
+//    } else if ([segue.identifier isEqualToString:@"AlbumsToImagePickerSegue"]) {
+//		
+//        SLAlbumSummary *album = (SLAlbumSummary *)sender;
+//		
+//        SVNavigationController *destinationNavigationController = (SVNavigationController *)segue.destinationViewController;
+//        SVImagePickerListViewController *destination = [destinationNavigationController.viewControllers objectAtIndex:0];
+//        destination.albumId = [album getId];
+//        destination.nav = self.navigationController;
+//    }
+//}
 
 
 #pragma mark AlbumGrid delegate
@@ -1086,11 +1135,11 @@ CGFloat kResizeThumbSize = 45.0f;
     return 1;
 }
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	self.sectionHeader.frame = CGRectMake(0, 0, self.view.frame.size.width, ([UIScreen mainScreen].bounds.size.height/3)-20);
+	self.sectionHeader.frame = CGRectMake(0, 0, self.view.frame.size.width, ([UIScreen mainScreen].bounds.size.height/3));
 	return self.sectionHeader;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return ([UIScreen mainScreen].bounds.size.height/3)-20;
+	return ([UIScreen mainScreen].bounds.size.height/3);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -1111,6 +1160,14 @@ CGFloat kResizeThumbSize = 45.0f;
     
     
     SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
+    
+    
+    if(cell==nil){
+        
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SVAlbumListCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
+    }
+    
 //	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.delegate = self;
 	cell.parentTableView = self.tableView;
@@ -1516,9 +1573,9 @@ CGFloat kResizeThumbSize = 45.0f;
 
 - (void)showRefreshSpinner
 {
-    [self.refreshControl beginRefreshing];
+//    [self.refreshControl beginRefreshing];
     if (!IS_IOS7) {
-        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
+//        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing albums..."];
     }
     // Need to call this whenever we scroll our table view programmatically
     [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:self.tableView];
@@ -1527,8 +1584,8 @@ CGFloat kResizeThumbSize = 45.0f;
 
 - (void)hideRefreshSpinner
 {
-	[self.refreshControl endRefreshing];
-	if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+//	[self.refreshControl endRefreshing];
+//	if (!IS_IOS7) self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	//[self.tableView setContentOffset:CGPointMake(0,44) animated:YES];
 }
 
@@ -1560,7 +1617,7 @@ CGFloat kResizeThumbSize = 45.0f;
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     // Need to do this to keep the view in a consistent state (layoutSubviews in the cell expects itself to be "closed")
-    [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:self.tableView];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:self.tableView];
 }
 
 
@@ -1568,7 +1625,7 @@ CGFloat kResizeThumbSize = 45.0f;
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:scrollView];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:scrollView];
 }
 
 #pragma SLNetworkStatusManager_Listener Methods

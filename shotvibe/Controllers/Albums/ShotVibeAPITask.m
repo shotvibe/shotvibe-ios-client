@@ -169,10 +169,10 @@
             //            [KVNProgress showSuccess];
             //            [viewController.view.window setUserInteractionEnabled:YES];
             //            [MBProgressHUD hideHUDForView:viewController.view animated:YES];
-            [KVNProgress dismiss];
+//            [KVNProgress dismiss];
             //            [KVNProgress showSuccessWithStatus:@"Success"];
             onTaskComplete(result);
-            [KVNProgress dismiss];
+//            [KVNProgress dismiss];
         });
     });
 }

@@ -29,7 +29,7 @@
 -(void)dealloc {
     
     NSString *strClass = NSStringFromClass([self class]);
-    NSLog(@"%@ deallocated",strClass);
+//    NSLog(@"%@ deallocated",strClass);
     [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
 }
 
@@ -39,7 +39,7 @@
     if(self){
         
         NSString *strClass = NSStringFromClass([self class]);
-        NSLog(@"%@ inited",strClass);
+//        NSLog(@"%@ inited",strClass);
         
         self.filterType = typeIs;
         

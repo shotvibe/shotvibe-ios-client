@@ -13,11 +13,18 @@
 #import "SL/AlbumManager.h"
 #import "SL/ShotVibeAPI.h"
 #import "SL/HTTPLib.h"
+#import "SL/HTTPException.h"
+#import "SL/JSONException.h"
+#import "SL/HashMap.h"
+#import "SL/JSONObject.h"
+#import "SL/HTTPResponse.h"
 #import "IosHTTPLib.h"
 #import "ShotVibeAPITask.h"
+#import "SVCountriesViewController.h"
+#import "GLUserScore.h"
 
-#import "GLSharedCamera.h"
-@interface SVRegistrationViewController () < UIAlertViewDelegate >
+//#import "GLSharedCamera.h"
+@interface SVRegistrationViewController () < UIAlertViewDelegate ,UIWebViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UIButton *butContinue;
 @property (nonatomic, strong) IBOutlet UIView *phoneNumberPhaseContainer;
@@ -43,12 +50,34 @@
 
 #pragma mark - View Lifecycle
 
+
+//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+//    return YES;
+//}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-
-//    self.view.alpha = 0;
+    
+    
+    id<SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
+    id<JavaUtilMap> utilmap = [[SLHashMap alloc] init];
+    
+    @try {
+        SLHTTPResponse * res = [httpLib sendRequestWithNSString:@"GET" withNSString:@"http://ip-api.com/json" withJavaUtilMap:utilmap withNSString:@""];
+        SLJSONObject * json = [res bodyAsJSONObject];
+        selectedCountryCode = [json getStringWithNSString:@"countryCode"];
+    } @catch (SLHTTPException *exception) {
+        selectedCountryCode = nil;
+    } @catch (SLJSONException * jsonexception) {
+        selectedCountryCode = nil;
+    }
+    
     [self hideInviteOverlay];
     
     
@@ -76,8 +105,10 @@
     ShotVibeAppDelegate * appDelegate = [ShotVibeAppDelegate sharedDelegate];
     GLSharedCamera * camera = [GLSharedCamera sharedInstance];
     camera.picYourGroup.alpha = 0;
+    [[[[GLSharedCamera sharedInstance] userScore] view] setHidden:YES];
     camera.cameraViewBackground.userInteractionEnabled = NO;
     [appDelegate.window addSubview:camera.cameraViewBackground];
+    [self.phoneNumberField becomeFirstResponder];
 }
 
 
@@ -203,24 +234,24 @@
 //		self.navigationController.navigationBar.translucent = YES;
 //	}
 //}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
-		
-		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
-        destination.delegate = self;
-		destination.regionCode = selectedCountryCode;
-		countries = destination;
-    }
-	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
-		
-		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
-        destination.selectedCountryCode = selectedCountryCode;
-        destination.smsConfirmationToken = smsConfirmationToken_;
-		destination.phoneNumber = self.phoneNumberField.text;
-	}
-}
+//
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
+//		
+//		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
+//        destination.delegate = self;
+//		destination.regionCode = selectedCountryCode;
+//		countries = destination;
+//    }
+//	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
+//		
+//		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
+//        destination.selectedCountryCode = selectedCountryCode;
+//        destination.smsConfirmationToken = smsConfirmationToken_;
+//		destination.phoneNumber = self.phoneNumberField.text;
+//	}
+//}
 
 #pragma mark - Actions
 
@@ -234,8 +265,11 @@
     RCLog(@"phoneNumber:'%@' defaultCountry:'%@'", phoneNumber, defaultCountry);
 
     [[Mixpanel sharedInstance] track:@"Phone Number Submitted"];
-	
+
+    
+    
     id<SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
+    
     [ShotVibeAPITask runTask:self
 
                   withAction:
@@ -256,15 +290,28 @@
             
 //            [[GLSharedCamera sharedInstance] showGlCameraView];
             smsConfirmationToken_ = smsConfirmationToken;
-            [self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
+//            [self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
+            
+//
+            [KVNProgress dismiss];
+                SVConfirmationCodeViewController *confirmationViewController = [[SVConfirmationCodeViewController alloc] init];
+    confirmationViewController.selectedCountryCode = selectedCountryCode;
+    confirmationViewController.smsConfirmationToken = smsConfirmationToken_;
+    confirmationViewController.phoneNumber = self.phoneNumberField.text;
+    [[[ShotVibeAppDelegate sharedDelegate] navigationController] pushViewController:confirmationViewController animated:YES];
+//            
+//            
         } else {
             [[Mixpanel sharedInstance] track:@"Phone Number Submitted Invalid"];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Number"
-                                                            message:@"Check that you have entered your correct phone number"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
+//
+//            [KVNProgress dismiss];
+              [KVNProgress showErrorWithStatus:@"Check that you have entered your correct phone number"];
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Number"
+//                                                            message:@"Check that you have entered your correct phone number"
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil];
+//            [alert show];
         }
     }];
 }
@@ -273,7 +320,13 @@
 {
 	// showCountryPicker
 	[self.phoneNumberField resignFirstResponder];
-    [self performSegueWithIdentifier:@"ChoseCountrySegue" sender:nil];
+    
+    countries = [[SVCountriesViewController alloc] init];
+    countries.delegate = self;
+    [self presentViewController:countries animated:YES completion:^{
+//        [SVCountriesViewController ];
+    }];
+    
 }
 
 
@@ -285,6 +338,10 @@
 {
 	selectedCountryCode = regionCode;
     self.countryFlagView.image = [UIImage imageNamed:regionCode];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    
 }
 
 

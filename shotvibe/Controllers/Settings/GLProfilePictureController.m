@@ -17,7 +17,7 @@
 #import "ShotVibeAppDelegate.h"
 #import "ShotVibeAPITask.h"
 #import "SVProfileViewController.h"
-
+#import "GLContainersViewController.h"
 @interface GLProfilePictureController ()
 
 @property (nonatomic, strong) IBOutlet UITextField *nicknameField;
@@ -52,7 +52,7 @@
     self.originalPictureView.clipsToBounds = YES;
     self.originalPictureView.alpha = 1;
     self.originalPictureView.layer.cornerRadius = self.originalPictureView.frame.size.width/2;
-    self.goButton.alpha = 0;
+    self.goButton.alpha = 1;
     
     
     UITapGestureRecognizer * selfPictureTapped = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfPicTapped)];
@@ -86,6 +86,18 @@
 			
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
+            
+            [[GLSharedCamera sharedInstance] flipCamera];
+            
+            
+            CGRect frame = [[[GLSharedCamera sharedInstance] mainScrollView] frame];
+            frame.origin.x -= (self.view.frame.size.width - self.userPhoto.frame.size.width)/2;
+            frame.origin.y -= self.userPhoto.frame.origin.y/2;
+            UIView * camWrapper = [[UIView alloc] initWithFrame:frame];
+            //                camWrapper.backgroundColor = [UIColor purpleColor];
+            [camWrapper addSubview:[[GLSharedCamera sharedInstance] mainScrollView]];
+            [self.userPhoto addSubview:camWrapper];
+            
 			if (!userProfile) {
                 // TODO Better error dialog with Retry option
 				//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -97,16 +109,7 @@
             }
             else {
                 
-                [[GLSharedCamera sharedInstance] flipCamera];
                 
-                
-                CGRect frame = [[[GLSharedCamera sharedInstance] mainScrollView] frame];
-                frame.origin.x -= (self.view.frame.size.width - self.userPhoto.frame.size.width)/2;
-                frame.origin.y -= self.userPhoto.frame.origin.y/2;
-                UIView * camWrapper = [[UIView alloc] initWithFrame:frame];
-//                camWrapper.backgroundColor = [UIColor purpleColor];
-                [camWrapper addSubview:[[GLSharedCamera sharedInstance] mainScrollView]];
-                [self.userPhoto addSubview:camWrapper];
                 
 //                [UIView animateWithDuration:0.3 animations:^{
 //                    self.originalPictureView.alpha = 0;
@@ -185,6 +188,7 @@
 {
 	[super viewWillAppear:animated];
 
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
     if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
      
@@ -226,6 +230,8 @@
 - (void) viewWillDisappear:(BOOL)animated {
 	
 	[super viewWillDisappear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 	
 	if (IS_IOS7) {
 		self.navigationController.navigationBar.translucent = YES;
@@ -550,16 +556,22 @@
             [self.navigationController popViewControllerAnimated:YES];
             
         } else {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-        SVProfileViewController *profileController = [storyboard instantiateViewControllerWithIdentifier:@"SVProfileViewController"];
-        SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+//        SVProfileViewController *profileController = [storyboard instantiateViewControllerWithIdentifier:@"SVProfileViewController"];
+//        SVAlbumListViewController *rootView = [storyboard instantiateViewControllerWithIdentifier:@"SVAlbumListViewController"];
         
         //         [[GLSharedCamera sharedInstance] setInFeedMode:YES dmutNeedTransform:NO];
+            SVProfileViewController * profileViewController = [[SVProfileViewController alloc] init];
+//            GLContainersViewController * albumListViewController = [[GLContainersViewController alloc] init];
         GLSharedCamera * cam = [GLSharedCamera sharedInstance];
         cam.isInFeedMode = NO;
         [[GLSharedCamera sharedInstance] showGlCameraView];
-        [self.navigationController setViewControllers:@[rootView, profileController] animated:YES];
+            
+            [self.navigationController pushViewController:profileViewController animated:YES];
+            
+//        [self.navigationController setViewControllers:@[rootView, profileController] animated:YES];
         //         [self performSegueWithIdentifier:@"GLProfilePictureController" sender:self];
+            
         
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kUserSettedPicture"];
         

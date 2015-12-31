@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GLSharedCamera.h"
+//#import "GLSharedCamera.h"
 #import "SVAddFriendsViewController.h"
 #import "SVAlbumListViewController.h"
 #import "SVNavigationController.h"

@@ -91,7 +91,7 @@
 -(void)dealloc {
     
     NSString *strClass = NSStringFromClass([self class]);
-    NSLog(@"%@ deallocated",strClass);
+//    NSLog(@"%@ deallocated",strClass);
     
 //    [mainOutPutFrame removeFromSuperview];
 //        [self.mainScrollView removeFromSuperview];

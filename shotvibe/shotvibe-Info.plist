@@ -38,7 +38,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>11</string>
+	<string>106</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -141,8 +141,6 @@
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
-	<key>UIMainStoryboardFile</key>
-	<string>MainStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

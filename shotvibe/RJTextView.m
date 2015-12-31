@@ -67,7 +67,7 @@
 {
 //    [self stopAnimation];
     NSString *strClass = NSStringFromClass([self class]);
-    NSLog(@"%@ deallocated",strClass);
+//    NSLog(@"%@ deallocated",strClass);
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -82,7 +82,7 @@
 //        self.textView.adjustsFontSizeToFitWidth = YES;
         
         NSString *strClass = NSStringFromClass([self class]);
-        NSLog(@"%@ inited",strClass);
+//        NSLog(@"%@ inited",strClass);
         // Custom initialization
         BOOL sExtend = frame.size.height <=0 || frame.size.width <=0;
         BOOL oExtend = frame.origin.x    < 0 || frame.origin.y   < 0;

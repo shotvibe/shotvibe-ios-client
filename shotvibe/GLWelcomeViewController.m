@@ -8,7 +8,7 @@
 
 #import "GLWelcomeViewController.h"
 #import "SVRegistrationViewController.h"
-#import "GLSharedCamera.h"
+//#import "GLSharedCamera.h"
 #import "ShotVIbeAppDelegate.h"
 
 @interface GLWelcomeViewController (){
@@ -102,15 +102,39 @@
     }
 }
 
+- (void)dealloc {
+
+    NSLog(@"Welcome Deallocated");
+
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+}
+
 -(void)signInTapped {
-
-
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-        SVRegistrationViewController *registrationViewController = [storyboard instantiateViewControllerWithIdentifier:@"SVRegistrationViewController"];
-    registrationViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:registrationViewController animated:YES completion:^{
-//        [[[GLSharedCamera sharedInstance] cameraViewBackground] setHidden:NO];
-    }];
+    SVRegistrationViewController * registratonVc = [[SVRegistrationViewController alloc] init];
+    
+    
+    
+//    [UIView  beginAnimations:nil context:NULL];
+//    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+//    [UIView setAnimationDuration:0.75];
+    [[[ShotVibeAppDelegate sharedDelegate] navigationController] pushViewController:registratonVc animated:NO];
+//    [UIView setAnimationTransition:UIViewAnimationTransitio forView:self.navigationController.view cache:NO];
+//    [UIView commitAnimations];
+    
+    
+    
+    
+//    [UIView animateWithDuration:0.5 animations:^{
+//        self.view.alpha = 0;
+//    } completion:^(BOOL finished) {
+//        
+    
+        
+//        [[[ShotVibeAppDelegate sharedDelegate] window] setRootViewController:[[ShotVibeAppDelegate sharedDelegate] navigationController]];
+//    }];
 
 }
 

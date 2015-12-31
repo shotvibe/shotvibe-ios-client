@@ -105,6 +105,19 @@
     [self.userScoreLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
     
     [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"kUserScore"];
+    if(score < 10){
+        self.userScoreLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:26];
+    } else if(score < 100){
+        self.userScoreLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:24];
+    } else if(score < 999 && score >= 100){
+        self.userScoreLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:20];
+    } else if (score < 9999 && score > 999) {
+        self.userScoreLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:14];
+    } else if (score < 99999 && score > 9999) {
+        self.userScoreLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:12];
+    } else if (score > 99999) {
+        self.userScoreLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:11];
+    }
     self.userScoreLabel.text = [NSString stringWithFormat:@"%d",score];
     
 }

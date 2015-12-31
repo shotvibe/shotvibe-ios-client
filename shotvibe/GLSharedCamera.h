@@ -118,6 +118,7 @@ typedef enum ScrollDirection {
 -(void)flipCamera;
 -(void)captureTapped;
 -(void)finalProcessTapped;
+- (void)fixAfterLogin;
 -(void)setInFeedMode:(BOOL)feed dmutNeedTransform:(BOOL)needTransform;
 @property(nonatomic, retain) UIButton * backButton;
 @property(nonatomic, retain) UIButton * membersButton;

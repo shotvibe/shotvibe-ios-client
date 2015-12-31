@@ -365,6 +365,14 @@
 		0F244ABA1BCC343900D7761E /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F244AB81BCC343900D7761E /* CameraViewController.xib */; };
 		0F2480A01C196C2E00E4136F /* AMTumblrHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F24809F1C196C2E00E4136F /* AMTumblrHud.m */; };
 		0F2480A21C196D9B00E4136F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2480A11C196D9B00E4136F /* CoreFoundation.framework */; };
+		0F35FB2A1C3443D100E63D24 /* SVRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB291C3443D100E63D24 /* SVRegistrationViewController.xib */; };
+		0F35FB2C1C34543100E63D24 /* SVCountriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB2B1C34543100E63D24 /* SVCountriesViewController.xib */; };
+		0F35FB2E1C34552D00E63D24 /* SVCountryViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB2D1C34552D00E63D24 /* SVCountryViewCell.xib */; };
+		0F35FB301C3548E900E63D24 /* SVConfirmationCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB2F1C3548E900E63D24 /* SVConfirmationCodeViewController.xib */; };
+		0F35FB321C354C9200E63D24 /* GLProfilePictureController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB311C354C9200E63D24 /* GLProfilePictureController.xib */; };
+		0F35FB341C35530A00E63D24 /* SVProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB331C35530A00E63D24 /* SVProfileViewController.xib */; };
+		0F35FB361C35620100E63D24 /* SVAlbumListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB351C35620100E63D24 /* SVAlbumListViewController.xib */; };
+		0F35FB381C35628500E63D24 /* SVAlbumListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB371C35628500E63D24 /* SVAlbumListCell.xib */; };
 		0F3909911BF4B7A0003FAF59 /* FXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F39098E1BF4B7A0003FAF59 /* FXImageView.m */; };
 		0F3909921BF4B7A0003FAF59 /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3909901BF4B7A0003FAF59 /* UIImage+FX.m */; };
 		0F4177891BE6537F00FFC6A2 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4177871BE6537F00FFC6A2 /* ContainerViewController.m */; };
@@ -959,7 +967,6 @@
 		664F4703188DBB76009F4776 /* IosHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 664F4702188DBB76009F4776 /* IosHTTPResponse.m */; };
 		664F4706189568B1009F4776 /* IosDevicePhoneContactsLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 664F4705189568B1009F4776 /* IosDevicePhoneContactsLib.m */; };
 		664F756C1958BF4F0027E77A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 664F756E1958BF4F0027E77A /* Localizable.strings */; };
-		664F75781958CDA70027E77A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 664F757A1958CDA70027E77A /* MainStoryboard.storyboard */; };
 		664F75831958F7A80027E77A /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 664F75851958F7A80027E77A /* TutorialViewController.xib */; };
 		66634A1718D01E9100D2FF6C /* Void.m in Sources */ = {isa = PBXBuildFile; fileRef = 66634A1518D01E9100D2FF6C /* Void.m */; };
 		6666EC2C19360C1900557CB1 /* walla_new.png in Resources */ = {isa = PBXBuildFile; fileRef = 6666EC2819360C1900557CB1 /* walla_new.png */; };
@@ -1410,6 +1417,14 @@
 		0F24809E1C196C2E00E4136F /* AMTumblrHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMTumblrHud.h; sourceTree = "<group>"; };
 		0F24809F1C196C2E00E4136F /* AMTumblrHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMTumblrHud.m; sourceTree = "<group>"; };
 		0F2480A11C196D9B00E4136F /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		0F35FB291C3443D100E63D24 /* SVRegistrationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVRegistrationViewController.xib; sourceTree = "<group>"; };
+		0F35FB2B1C34543100E63D24 /* SVCountriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVCountriesViewController.xib; sourceTree = "<group>"; };
+		0F35FB2D1C34552D00E63D24 /* SVCountryViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVCountryViewCell.xib; sourceTree = "<group>"; };
+		0F35FB2F1C3548E900E63D24 /* SVConfirmationCodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVConfirmationCodeViewController.xib; sourceTree = "<group>"; };
+		0F35FB311C354C9200E63D24 /* GLProfilePictureController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLProfilePictureController.xib; sourceTree = "<group>"; };
+		0F35FB331C35530A00E63D24 /* SVProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVProfileViewController.xib; sourceTree = "<group>"; };
+		0F35FB351C35620100E63D24 /* SVAlbumListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVAlbumListViewController.xib; sourceTree = "<group>"; };
+		0F35FB371C35628500E63D24 /* SVAlbumListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVAlbumListCell.xib; sourceTree = "<group>"; };
 		0F39098D1BF4B7A0003FAF59 /* FXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXImageView.h; sourceTree = "<group>"; };
 		0F39098E1BF4B7A0003FAF59 /* FXImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXImageView.m; sourceTree = "<group>"; };
 		0F39098F1BF4B7A0003FAF59 /* UIImage+FX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FX.h"; sourceTree = "<group>"; };
@@ -2369,7 +2384,6 @@
 		664F4704189568B1009F4776 /* IosDevicePhoneContactsLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosDevicePhoneContactsLib.h; sourceTree = "<group>"; };
 		664F4705189568B1009F4776 /* IosDevicePhoneContactsLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IosDevicePhoneContactsLib.m; sourceTree = "<group>"; };
 		664F756D1958BF4F0027E77A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		664F757B1958CDB20027E77A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		664F75841958F7A80027E77A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TutorialViewController.xib; sourceTree = "<group>"; };
 		66634A1518D01E9100D2FF6C /* Void.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Void.m; sourceTree = "<group>"; };
 		66634A1618D01E9100D2FF6C /* Void.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Void.h; sourceTree = "<group>"; };
@@ -2905,6 +2919,10 @@
 				66278C6C1867C2AD00D23F34 /* SVCountryViewCell.m */,
 				66278C6F1867C2AD00D23F34 /* SVRegistrationViewController.h */,
 				66278C701867C2AD00D23F34 /* SVRegistrationViewController.m */,
+				0F35FB291C3443D100E63D24 /* SVRegistrationViewController.xib */,
+				0F35FB2B1C34543100E63D24 /* SVCountriesViewController.xib */,
+				0F35FB2D1C34552D00E63D24 /* SVCountryViewCell.xib */,
+				0F35FB2F1C3548E900E63D24 /* SVConfirmationCodeViewController.xib */,
 			);
 			name = Registration;
 			sourceTree = "<group>";
@@ -4365,6 +4383,8 @@
 				66278C891867C38300D23F34 /* SVPhotoViewerController.m */,
 				66267BBB19412FB800D7B4A9 /* ShotVibeAPITask.h */,
 				66267BBC19412FB800D7B4A9 /* ShotVibeAPITask.m */,
+				0F35FB351C35620100E63D24 /* SVAlbumListViewController.xib */,
+				0F35FB371C35628500E63D24 /* SVAlbumListCell.xib */,
 			);
 			name = Albums;
 			sourceTree = "<group>";
@@ -4501,7 +4521,6 @@
 			children = (
 				106C344718C4C27A006A5603 /* Notification.h */,
 				106C344818C4C27A006A5603 /* Notification.m */,
-				664F757A1958CDA70027E77A /* MainStoryboard.storyboard */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -4638,6 +4657,8 @@
 				66278CBE1867C57300D23F34 /* SVSettingsViewController.m */,
 				66278CBF1867C57300D23F34 /* SVWebViewController.h */,
 				66278CC01867C57300D23F34 /* SVWebViewController.m */,
+				0F35FB311C354C9200E63D24 /* GLProfilePictureController.xib */,
+				0F35FB331C35530A00E63D24 /* SVProfileViewController.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -5033,6 +5054,7 @@
 				04C406891730303600973BC0 /* GM.png in Resources */,
 				04C4068B1730303600973BC0 /* GN.png in Resources */,
 				3E47246818D06E5400FF6105 /* Icon-72@2x.png in Resources */,
+				0F35FB2E1C34552D00E63D24 /* SVCountryViewCell.xib in Resources */,
 				04C4068D1730303600973BC0 /* GP.png in Resources */,
 				04C4068F1730303600973BC0 /* GQ.png in Resources */,
 				04C406911730303600973BC0 /* GR.png in Resources */,
@@ -5117,6 +5139,7 @@
 				0F1C078D1BEB5E3A00F82FBB /* seq38.png in Resources */,
 				0F1C07851BEB5E3A00F82FBB /* seq30.png in Resources */,
 				04C406F11730303600973BC0 /* MA.png in Resources */,
+				0F35FB381C35628500E63D24 /* SVAlbumListCell.xib in Resources */,
 				04C406F31730303600973BC0 /* MC.png in Resources */,
 				0F5511BE1BEF8C0300E98C64 /* GothamXNarrow-UltraItalic.otf in Resources */,
 				0F1C076D1BEB5E3A00F82FBB /* seq6.png in Resources */,
@@ -5245,6 +5268,7 @@
 				04C4078D1730303600973BC0 /* TG.png in Resources */,
 				0F5511D41BEFA9FD00E98C64 /* Cosmopolitan.png in Resources */,
 				0F1C076C1BEB5E3A00F82FBB /* seq5.png in Resources */,
+				0F35FB2A1C3443D100E63D24 /* SVRegistrationViewController.xib in Resources */,
 				0F5511861BEF8C0300E98C64 /* Gotham-BlackItalic.otf in Resources */,
 				04C4078F1730303600973BC0 /* TH.png in Resources */,
 				04C407911730303600973BC0 /* TJ.png in Resources */,
@@ -5320,6 +5344,7 @@
 				2897382F17A17456003B18D3 /* SegmentButton.png in Resources */,
 				2897383017A17456003B18D3 /* SegmentButton@2x.png in Resources */,
 				66278CA11867C44600D23F34 /* SVImagePickerSelector.xib in Resources */,
+				0F35FB321C354C9200E63D24 /* GLProfilePictureController.xib in Resources */,
 				2897383B17A1C2C5003B18D3 /* albumVideoIconSmall.png in Resources */,
 				2897383C17A1C2C5003B18D3 /* albumVideoIconSmall@2x.png in Resources */,
 				3EEBE7D618D9FD98005AB7FC /* backButton.png in Resources */,
@@ -5337,6 +5362,7 @@
 				28CFCC8017A2C247001511EF /* SegmentSeparator@2x.png in Resources */,
 				0F5511B21BEF8C0300E98C64 /* GothamXNarrow-BlackItalic.otf in Resources */,
 				28CFCC8317A30BA2001511EF /* albumEmptyCameraButton.png in Resources */,
+				0F35FB2C1C34543100E63D24 /* SVCountriesViewController.xib in Resources */,
 				0F5511BB1BEF8C0300E98C64 /* GothamXNarrow-Thin.otf in Resources */,
 				0F1C07751BEB5E3A00F82FBB /* seq14.png in Resources */,
 				28CFCC8417A30BA2001511EF /* albumEmptyCameraButton@2x.png in Resources */,
@@ -5391,11 +5417,11 @@
 				3ED9A9D418C772890045207D /* SafariForward.png in Resources */,
 				0F55118D1BEF8C0300E98C64 /* Gotham-Medium.otf in Resources */,
 				2849A79C17D9AA580076AFBA /* cameraCaptureButton.png in Resources */,
+				0F35FB361C35620100E63D24 /* SVAlbumListViewController.xib in Resources */,
 				66278CE21867C62300D23F34 /* SVActivityViewController.xib in Resources */,
 				2849A79D17D9AA580076AFBA /* cameraCaptureButton@2x.png in Resources */,
 				2849A79E17D9AA580076AFBA /* cameraFlashAuto.png in Resources */,
 				0F5511A51BEF8C0300E98C64 /* GothamNarrow-Ultra.otf in Resources */,
-				664F75781958CDA70027E77A /* MainStoryboard.storyboard in Resources */,
 				2849A79F17D9AA580076AFBA /* cameraFlashAuto@2x.png in Resources */,
 				2849A7A017D9AA580076AFBA /* cameraFlashOff.png in Resources */,
 				3E0CC9CA18B63DEC00F6089A /* close@2x.png in Resources */,
@@ -5415,6 +5441,7 @@
 				2849A7A817D9AA580076AFBA /* cameraOptions.png in Resources */,
 				2849A7A917D9AA580076AFBA /* cameraOptions@2x.png in Resources */,
 				0F1C07881BEB5E3A00F82FBB /* seq33.png in Resources */,
+				0F35FB301C3548E900E63D24 /* SVConfirmationCodeViewController.xib in Resources */,
 				2849A7AA17D9AA580076AFBA /* cameraRollIcon.png in Resources */,
 				2849A7AB17D9AA580076AFBA /* cameraRollIcon@2x.png in Resources */,
 				2849A7AC17D9AA580076AFBA /* CameraTakeAnotherPicture.png in Resources */,
@@ -5521,6 +5548,7 @@
 				28FC2C2F17FAF8F600AE24C3 /* Pencil.png in Resources */,
 				28FC2C3017FAF8F600AE24C3 /* Pencil@2x.png in Resources */,
 				28FC2C3317FAFA5700AE24C3 /* PencilWhite.png in Resources */,
+				0F35FB341C35530A00E63D24 /* SVProfileViewController.xib in Resources */,
 				0F5511DF1BEFA9FD00E98C64 /* Mojito.png in Resources */,
 				28FC2C3417FAFA5700AE24C3 /* PencilWhite@2x.png in Resources */,
 				0F1C077B1BEB5E3A00F82FBB /* seq20.png in Resources */,
@@ -5930,15 +5958,6 @@
 				664F756D1958BF4F0027E77A /* en */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		664F757A1958CDA70027E77A /* MainStoryboard.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				664F757B1958CDB20027E77A /* Base */,
-			);
-			name = MainStoryboard.storyboard;
-			path = Views;
 			sourceTree = "<group>";
 		};
 		664F75851958F7A80027E77A /* TutorialViewController.xib */ = {

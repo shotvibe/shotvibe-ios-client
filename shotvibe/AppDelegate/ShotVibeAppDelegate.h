@@ -14,6 +14,8 @@
 #import "PhotoFilesManager.h"
 #import "SVPushNotificationsManager.h"
 #import "UploadManager.h"
+#import "SVNavigationController.h"
+
 
 
 @interface ShotVibeAppDelegate : UIResponder <UIApplicationDelegate>
@@ -21,6 +23,7 @@
 #pragma mark - Properties
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) SVNavigationController * navigationController;
 @property (nonatomic, readonly, strong) SLAlbumManager *albumManager;
 @property (nonatomic, strong) UploadManager *uploadManager;
 @property (strong, nonatomic) SLNetworkStatusManager *networkStatusManager;
@@ -33,11 +36,13 @@
 @property (nonatomic) int userScore;
 @property (nonatomic, retain) AVAudioPlayer * theAudio;
 @property (copy) void (^ uploadSessionCompletionHandler)(); //stored by handleEventsForBackgroundURLSession for later use
+@property (nonatomic) BOOL afterActivation;
 
 
 
 
 - (BOOL)isLoggedIn;
+
 - (void)setAuthData:(SLAuthData *)authData;
 
 - (BOOL) platformTypeIsIphone5;

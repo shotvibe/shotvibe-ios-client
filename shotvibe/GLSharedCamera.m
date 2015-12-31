@@ -6,7 +6,7 @@
 //  Copyright © 2015 PicsOnAir Ltd. All rights reserved.
 //
 
-#import "GLSharedCamera.h"
+//#import "GLSharedCamera.h"
 #import "RBVolumeButtons.h"
 #import "SVAddFriendsViewController.h"
 #import "ContainerViewController.h"
@@ -183,7 +183,7 @@
         
         
         
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
         
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         CGFloat width = screenRect.size.width;
@@ -382,7 +382,8 @@
         // add effect to an effect view
         effectView = [[UIVisualEffectView alloc]initWithEffect:blur];
         effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
-        effectView.alpha = 0;
+//        effectView.alpha = 0;
+        effectView.hidden = YES;
         
         
         self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 20, 40, 70)];
@@ -934,7 +935,8 @@
                     
                     //                    [[self videoCamera] stopCameraCapture];
                     [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
-                    effectView.alpha = 1;
+//                    effectView.alpha = 1;
+                    effectView.hidden = NO;
                     self.dmut.center = CGPointMake(firstX, 60);
                     [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
                     self.backButton.alpha=1;
@@ -996,7 +998,8 @@
                 if(self.isInFeedMode){
                     self.backButton.alpha=0;
                     self.membersButton.alpha=0;
-                    effectView.alpha = 0;
+//                    effectView.alpha = 0;
+                    effectView.hidden = YES;
                     self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
                 } else {
                     self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
@@ -1125,7 +1128,8 @@
     [[self videoCamera] startCameraCapture];
     [UIView animateWithDuration:0.2 animations:^{
         self.dmut.transform = CGAffineTransformIdentity;
-        effectView.alpha = 0;
+//        effectView.alpha = 0;
+        effectView.hidden = YES;
         
         self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
         cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
@@ -1140,7 +1144,8 @@
     [[self videoCamera] stopCameraCapture];
     [UIView animateWithDuration:0.2 animations:^{
         
-        effectView.alpha = 1;
+//        effectView.alpha = 1;
+        effectView.hidden = NO;
         self.backButton.alpha = 1;
         self.membersButton.alpha = 1;
         scoreBg.alpha = 0;
@@ -1148,7 +1153,8 @@
         
         
         self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
-        effectView.alpha = 1;
+//        effectView.alpha = 1;
+        effectView.hidden = NO;
         [self.cameraViewBackground bringSubviewToFront:effectView];
         
         self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
@@ -1172,7 +1178,8 @@
         [UIView animateWithDuration:0.2 animations:^{
             
             self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
-            effectView.alpha = 1;
+//            effectView.alpha = 1;
+            effectView.hidden = NO;
             self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
             self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
             
@@ -1186,7 +1193,8 @@
         [[self videoCamera] startCameraCapture];
         [UIView animateWithDuration:0.2 animations:^{
             self.dmut.transform = CGAffineTransformIdentity;
-            effectView.alpha = 0;
+//            effectView.alpha = 0;
+            effectView.hidden = YES;
             
             self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
             cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
@@ -1243,6 +1251,15 @@
 
 -(void)abortUploadButtonTapped {
     [self hideCamera];
+}
+
+- (void)fixAfterLogin {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self createMainScrollView];
+    });
+//    [mainOutPutFrame addSubview:self.mainScrollView];
+//    [self.mainScrollView setAlpha:1];
+//    [self.videoCamera startCameraCapture];
 }
 
 - (void)setupVideoCamera {
@@ -2237,7 +2254,8 @@
                 [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
                 self.dmut.center = CGPointMake(firstX, 60);
                 
-                effectView.alpha = 1;
+//                effectView.alpha = 1;
+                effectView.hidden = NO;
                 self.backButton.alpha = 1;
                 self.membersButton.alpha = 1;
             } else {
@@ -2296,7 +2314,8 @@
                     [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
                     self.dmut.center = CGPointMake(firstX, 60);
                     
-                    effectView.alpha = 1;
+//                    effectView.alpha = 1;
+                    effectView.hidden = NO;
                     self.backButton.alpha = 1;
                     self.membersButton.alpha = 1;
                 } else {

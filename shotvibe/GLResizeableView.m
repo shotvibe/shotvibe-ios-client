@@ -34,7 +34,7 @@ static GLResizeableViewAnchorPoint SPUserResizableViewLowerMiddleAnchorPoint = {
 -(void)dealloc {
     
     NSString *strClass = NSStringFromClass([self class]);
-    NSLog(@"%@ deallocated",strClass);
+//    NSLog(@"%@ deallocated",strClass);
     
 }
 
@@ -42,7 +42,7 @@ static GLResizeableViewAnchorPoint SPUserResizableViewLowerMiddleAnchorPoint = {
     if ((self = [super initWithFrame:frame])) {
         NSString *strClass = NSStringFromClass([self class]);
 
-        NSLog(@"%@ inited",strClass);
+//        NSLog(@"%@ inited",strClass);
         // Clear background to ensure the content view shows through.
         self.backgroundColor = [UIColor clearColor];
     }
@@ -250,7 +250,7 @@ static GLResizeableViewAnchorPoint SPUserResizableViewLowerMiddleAnchorPoint = {
 -(void)dealloc {
     
     NSString *strClass = NSStringFromClass([self class]);
-    NSLog(@"%@ deallocated",strClass);
+//    NSLog(@"%@ deallocated",strClass);
     
 }
 
@@ -258,7 +258,7 @@ static GLResizeableViewAnchorPoint SPUserResizableViewLowerMiddleAnchorPoint = {
     if ((self = [super initWithFrame:frame])) {
         
         NSString *strClass = NSStringFromClass([self class]);
-        NSLog(@"%@ deallocated",strClass);
+//        NSLog(@"%@ deallocated",strClass);
         
         [self setupDefaultAttributes];
          self.clipsToBounds = NO;

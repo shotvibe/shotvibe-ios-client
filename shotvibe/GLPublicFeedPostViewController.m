@@ -50,7 +50,7 @@
 #import "UIImageView+WebCache.h"
 
 #import "PhotoImageView.h"
-#import "GLSharedCamera.h"
+//#import "GLSharedCamera.h"
 
 #import "YALSunnyRefreshControl.h"
 #import "LNNotificationsUI.h"
