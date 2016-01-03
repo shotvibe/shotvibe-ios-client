@@ -75,11 +75,12 @@ typedef enum {
 // > 0 & < 1 = ratio of movement to menu width
 // 1 = full menu movement
 
+@property(nonatomic) int indexNumber;
 
 @property (nonatomic, assign) BOOL menuSlideAnimationEnabled __deprecated;
 @property (nonatomic, assign) CGFloat menuSlideAnimationFactor __deprecated; // higher = less menu movement on animation
 
-@property (assign, nonatomic) int indexNumber;
+//@property (assign, nonatomic) int indexNumber;
 
 - (void)toggleLeftSideMenuCompletion:(void (^)(void))completion;
 - (void)toggleRightSideMenuCompletion:(void (^)(void))completion;

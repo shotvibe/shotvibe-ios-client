@@ -13,7 +13,7 @@
 #import "SVSidebarAlbumMemberCell.h"
 #import "SVSidebarMemberController.h"
 #import "SVAddFriendsViewController.h"
-#import "UIImageView+WebCache.h"
+//#import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
 #import "ShotVibeAppDelegate.h"
 #import "SL/AuthData.h"
@@ -23,8 +23,10 @@
 #import "SL/ArrayList.h"
 #import "SL/AlbumUser.h"
 #import "MBProgressHUD.h"
-#import "ContainerViewController.h"
+//#import "ContainerViewController.h"
 #import "ShotVibeAPITask.h"
+#import "GLContainersViewController.h"
+#import "YYWebImage.h"
 
 @interface SVSidebarMemberController () {
     SLShotVibeAPI *shotvibeAPI;
@@ -57,26 +59,28 @@
 {
     [super viewDidLoad];
     
+
+    
     
 //    self addObserver:<#(nonnull NSObject *)#> forKeyPath:<#(nonnull NSString *)#> options:<#(NSKeyValueObservingOptions)#> context:<#(nullable void *)#>
     
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"kUpdateUsersStatus" object:nil];
 
     // IOS7
-    if (IS_IOS7) {
-        self.sidebarNav.tintColor = [UIColor blackColor];
-        self.sidebarNav.barTintColor = BLUE;
-
-        UIView *background = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 568, 20)];
-        background.backgroundColor = BLUE;
-        [self.view addSubview:background];
-    } else {
+//    if (IS_IOS7) {
+//        self.sidebarNav.tintColor = [UIColor blackColor];
+//        self.sidebarNav.barTintColor = BLUE;
+//
+//        UIView *background = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 568, 20)];
+//        background.backgroundColor = BLUE;
+//        [self.view addSubview:background];
+//    } else {
         self.wantsFullScreenLayout = NO;
         UIImage *baseImage = [UIImage imageNamed:@"sidebarMenuNavbar.png"];
         UIEdgeInsets insets = UIEdgeInsetsMake(5, 20, 0, 20);
         UIImage *resizableImage = [baseImage resizableImageWithCapInsets:insets];
         [self.sidebarNav setBackgroundImage:resizableImage forBarMetrics:UIBarMetricsDefault];
-    }
+//    }
 
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.tableView setAllowsSelection:YES];
@@ -132,6 +136,9 @@
     self.groupTitle.userInteractionEnabled = YES;
     [self.groupTitle addGestureRecognizer:changeNameGestTap];
     
+    
+//    self.view.frame = CGRectMake(0,0,200,400);
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -185,8 +192,51 @@
 
 
 
+- (void) sizeLabel: (UILabel *) label toRect: (CGRect) labelRect  {
+    
+    // Set the frame of the label to the targeted rectangle
+    label.frame = labelRect;
+    
+    // Try all font sizes from largest to smallest font size
+    int fontSize = 300;
+    int minFontSize = 5;
+    
+    // Fit label width wize
+    CGSize constraintSize = CGSizeMake(label.frame.size.width, MAXFLOAT);
+    
+    do {
+        // Set current font size
+        label.font = [UIFont fontWithName:label.font.fontName size:fontSize];
+        
+        // Find label size for current font size
+        CGRect textRect = [[label text] boundingRectWithSize:constraintSize
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName:label.font}
+                                                     context:nil];
+        
+        CGSize labelSize = textRect.size;
+        
+        // Done, if created label is within target size
+        if( labelSize.height <= label.frame.size.height )
+            break;
+        
+        // Decrease the font size and try again
+        fontSize -= 2;
+        
+    } while (fontSize > minFontSize);
+}
+
 - (void)navigateToAddFriends:(id)sender
 {
+  [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeAddingMembers:NO albumId:self.albumId];
+//    self.parentController
+//    __block SVSidebarMemberController * weakSelf = self;
+//    [self.parentController.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:^{
+//        
+//    }];
+//    [self.parentController.menuContainerViewController toggleRightSideMenuCompletion:^{
+    
+//    }];
     // prepareForSegue is called in parentController SVAlbumGridViewController
 //    [self.parentController performSegueWithIdentifier:@"AddFriendsSegue" sender:sender];
     
@@ -201,17 +251,20 @@
     
     
     
-    UIStoryboard * sb = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    SVAddFriendsViewController * vc = [sb instantiateViewControllerWithIdentifier:@"InviteFriendsView"];
-    vc.albumId = self.albumId;
-    vc.state = SVAddFriendsFromAddFriendButton;
+//    UIStoryboard * sb = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+//    SVAddFriendsViewController * vc = [[SVAddFriendsViewController alloc] init];
+//    vc.albumId = self.albumId;
+//    vc.state = SVAddFriendsFromAddFriendButton;
 //    nav = [[UINavigationController alloc] initWithRootViewController:vc];
 //    [nav setNavigationBarHidden:YES];
 //    vc.navigationController = nav;
-    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:vc animated:YES completion:^{
+//    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    self.sideself.na
+
+
+//    [self presentViewController:vc animated:YES completion:^{
 //        [[GLSharedCamera sharedInstance] hideGlCameraView];
-    }];
+//    }];
     
 //    [self.navigationController pushViewController:destination animated:YES];
 //    destination.albumId = self.albumId;
@@ -293,6 +346,7 @@
     _albumContents = albumContents;
     
     self.groupTitle.text = [_albumContents getName];
+    [self sizeLabel:self.groupTitle toRect:self.groupTitle.frame];
     
     
 
@@ -350,26 +404,35 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     SVSidebarAlbumMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumMemberCell"];
+    if(cell==nil){
+        
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SVSidebarAlbumMemberCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
+    }
+
 
     SLAlbumMember *member = [members objectAtIndex:indexPath.row];
 	
-    
-    
-    [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
+    [cell.profileImageView yy_setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation];
+//[cell.profileImageView yy_setImageWithURL:[[member getUser] getMemberAvatarUrl]] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation ];
+//    [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
     [cell.memberLabel setText:[[member getUser] getMemberNickname]];
 
-//    cell.
+
     
     if ([[shotvibeAPI getAuthData] getUserId] == [[member getUser] getMemberId]) {
 		
 		cell.statusImageView.image = [UIImage imageNamed:@"AlbumInfoLeaveIcon.png"];
 		cell.statusLabel.text = NSLocalizedString(@"Leave", nil);
-//        cell.memberLabel.textColor = UIColorFromRGB(0x3eb4b6);
+        cell.memberLabel.textColor = UIColorFromRGB(0x3eb4b6);
+        cell.statusLabel.textColor = UIColorFromRGB(0xf07480);
 //        cell.memberLabel.font =[UIFont fontWithName:cell.memberLabel.font.fontName size:<#(CGFloat)#>];
         CGSize size = [cell.statusLabel.text sizeWithFont:cell.statusLabel.font];
         cell.statusImageView.frame = CGRectMake(cell.statusLabel.frame.origin.x + cell.statusLabel.frame.size.width - size.width - 4 - cell.statusImageView.frame.size.width, cell.statusImageView.frame.origin.y, 13, 13);
 	}
 	else {
+        cell.statusLabel.textColor = UIColorFromRGB(0x3eb4b6);
+        cell.memberLabel.textColor = UIColorFromRGB(0x747575);
         if (![member getInviteStatus]) {
             cell.statusImageView.image = nil;
             cell.statusLabel.text = @"";
@@ -409,7 +472,7 @@
         
     }
     
-    
+//        cell.contentView.backgroundColor = [UIColor purpleColor];
     return cell;
 }
 

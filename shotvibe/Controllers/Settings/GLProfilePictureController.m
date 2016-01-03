@@ -5,7 +5,7 @@
 //  Created by John Gabelmann on 4/16/13.
 //  Copyright (c) 2013 PicsOnAir Ltd. All rights reserved.
 //
-#import "ContainerViewController.h"
+//#import "ContainerViewController.h"
 #import "UIImage+Scale.h"
 #import "GLProfilePictureController.h"
 #import "SVDefines.h"
@@ -258,8 +258,8 @@
 //    [self dismissViewControllerAnimated:YES completion:^{
 //        
 //    }];
-    ContainerViewController * container = [[ContainerViewController alloc] init];
-    [self.navigationController pushViewController:container animated:YES];
+//    ContainerViewController * container = [[ContainerViewController alloc] init];
+//    [self.navigationController pushViewController:container animated:YES];
 //    [self presentViewController:container animated:YES completion:^{}];
 //    [self.navigationController popViewControllerAnimated:YES];
     

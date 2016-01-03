@@ -56,7 +56,7 @@
 
 //#import "ParallaxHeaderView.h"
 #import "GLProfileViewController.h"
-#import "ContainerViewController.h"
+//#import "ContainerViewController.h"
 #import "GLProfilePageViewController.h"
 
 #import "PMCustomKeyboard.h"
@@ -65,6 +65,8 @@
 #import "SL/MediaType.h"
 #import "GLSharedVideoPlayer.h"
 #import "GLFeedTableCellUploading.h"
+#import "GLContainersViewController.h"
+
 
 
 @interface GLFeedViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
@@ -206,7 +208,7 @@
     [self loadFeed];
     
     
-    ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).parentController = self;
+//    ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).parentController = self;
     ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).parentController = self;
     ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).albumId = self.albumId;
     
@@ -548,6 +550,8 @@
 
 -(void)imageSelected:(UIImage*)image {
     
+    
+    
     if(image != nil){
         if([self.posts count] > 0){
             scrollToCellDisabled = YES;
@@ -686,6 +690,7 @@
 {
     [super viewDidAppear:animated];
     
+    [[GLContainersViewController sharedInstance] lockScrollingPages];
 
     
     
@@ -703,7 +708,7 @@
     GLSharedCamera * camera = [GLSharedCamera sharedInstance];
     //    camera.picYourGroup.alpha = 1;
     //    camera.cameraViewBackground.userInteractionEnabled = YES;
-    camera.delegate = [ContainerViewController sharedInstance];
+//    camera.delegate = [ContainerViewController sharedInstance];
     
     
     if([[ShotVibeAppDelegate sharedDelegate] appOpenedFromPush]){
@@ -2288,9 +2293,11 @@
 -(void)sharePostPressed:(UIButton*)sender {
     
     
+    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
+    [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:NO photoId:cell.photoId];
     
     //    [self backPressed];
-    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
+//
     
     //    [self.navigationController popViewControllerAnimated:YES];
     
@@ -2299,10 +2306,10 @@
     
     //
     
-    [[ContainerViewController sharedInstance] setFriendsForMove:cell.photoId];
-    [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionForward completion:^{
-        
-    }];
+//    [[ContainerViewController sharedInstance] setFriendsForMove:cell.photoId];
+//    [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionForward completion:^{
+//        
+//    }];
     
     //    SVAddFriendsViewController * addFriendsVc =  [[SVAddFriendsViewController alloc] init];
     //    addFriendsVc.fromCameraMainScreen = NO;
@@ -2372,16 +2379,18 @@
     //    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"NO" forKey:@"lockScroll"];
     //    [[NSNotificationCenter defaultCenter] postNotificationName: @"LockScrollingInContainerPages" object:nil userInfo:userInfo];
     
-    [[ContainerViewController sharedInstance] lockScrolling:NO];
+//    [[ContainerViewController sharedInstance] lockScrolling:NO];
     
-    if(membersOpened){
-        
-        
-        membersOpened = !membersOpened;
-        
-        [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
-        
-    }
+//    if(membersOpened){
+//        
+//        
+//        membersOpened = !membersOpened;
+//        
+//        [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
+//        
+//    }
+    
+    [[GLContainersViewController sharedInstance] unlockScrollingPages];
     
     [[GLSharedCamera sharedInstance] setCameraInMain];
     //    [UIView animateWithDuration:0.2 animations:^{
@@ -2573,10 +2582,10 @@
 //    if (state == UIApplicationStateActive)
 //    {
         //Do checking here.
-        if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
-            [self lockAlbumContents];
-        }
-        
+//        if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
+//            [self lockAlbumContents];
+//        }
+    
         
 //    }
     
@@ -2590,22 +2599,22 @@
     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
 //    if (state == UIApplicationStateActive)
 //    {
-    if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
-        
-        
-//        [self lockAlbumContents];
-        
-        self.tableView.scrollEnabled = NO;
-        
-        CGRect frame = self.tableView.frame;
-        CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        frame.origin.y -= keyboardRect.size.height;
-        
-        [UIView animateWithDuration:0.2
-                         animations:^{
-                             self.tableView.frame = frame;
-                         }];
-    }
+//    if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
+//        
+//        
+////        [self lockAlbumContents];
+//        
+//        self.tableView.scrollEnabled = NO;
+//        
+//        CGRect frame = self.tableView.frame;
+//        CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//        frame.origin.y -= keyboardRect.size.height;
+//        
+//        [UIView animateWithDuration:0.2
+//                         animations:^{
+//                             self.tableView.frame = frame;
+//                         }];
+//    }
 //    }
 }
 
@@ -2622,9 +2631,9 @@
     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
 //    if (state == UIApplicationStateActive)
 //    {
-    if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
-        [self unlockAlbumContents];
-    }
+//    if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
+//        [self unlockAlbumContents];
+//    }
 //    }
     
     
@@ -2635,22 +2644,22 @@
 //    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
 //    if (state == UIApplicationStateActive)
 //    {
-        if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
-            
-            //        [self unlockAlbumContents];
-            
-            self.tableView.scrollEnabled = YES;
-            CGRect frame = self.tableView.frame;
-            CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-            frame.origin.y += keyboardRect.size.height;
-            
-            [UIView animateWithDuration:0.2
-                             animations:^{
-                                 self.tableView.frame = frame;
-                             }];
-            
-            
-        }
+//        if(![[GLSharedCamera sharedInstance] cameraIsShown] && ![[ContainerViewController sharedInstance] membersOpen]){
+//            
+//            //        [self unlockAlbumContents];
+//            
+//            self.tableView.scrollEnabled = YES;
+//            CGRect frame = self.tableView.frame;
+//            CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//            frame.origin.y += keyboardRect.size.height;
+//            
+//            [UIView animateWithDuration:0.2
+//                             animations:^{
+//                                 self.tableView.frame = frame;
+//                             }];
+//            
+//            
+//        }
 //    }
 }
 

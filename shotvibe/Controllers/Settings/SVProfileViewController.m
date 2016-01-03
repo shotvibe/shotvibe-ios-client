@@ -240,9 +240,14 @@
         
         
         
-//            [[NSUserDefaults standardUserDefaults] synchronize];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+               [[[GLSharedCamera sharedInstance] userScore] updateScoreFromPush:(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]];
+            });
         
-            [[[GLSharedCamera sharedInstance] userScore] updateScoreFromPush:(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]];
+            
             
 //            [[[GLSharedCamera sharedInstance] userScore] showUserScore];
             

@@ -172,7 +172,7 @@ static ContainerViewController *sharedInstance;
 
 }
 
-- (void)transitToAlbumList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction withAlbumId:(long long int)albumId completion:(pageTransitionCompleted)completion {
+- (void)transitToAlbumList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction withAlbumId:(long long int)albumId completion:(pageTransitionCompleted2)completion {
 
     
     if(albumId != 0){
@@ -194,7 +194,7 @@ static ContainerViewController *sharedInstance;
     
 }
 
-- (void)transitToFriendsList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction completion:(pageTransitionCompleted)completion {
+- (void)transitToFriendsList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction completion:(pageTransitionCompleted2)completion {
     
     
     [self.pageController setViewControllers:@[freindsVc]

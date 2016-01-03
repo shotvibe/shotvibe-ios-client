@@ -373,6 +373,10 @@
 		0F35FB341C35530A00E63D24 /* SVProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB331C35530A00E63D24 /* SVProfileViewController.xib */; };
 		0F35FB361C35620100E63D24 /* SVAlbumListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB351C35620100E63D24 /* SVAlbumListViewController.xib */; };
 		0F35FB381C35628500E63D24 /* SVAlbumListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB371C35628500E63D24 /* SVAlbumListCell.xib */; };
+		0F35FB3A1C36E7D500E63D24 /* SVAddFriendsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB391C36E7D500E63D24 /* SVAddFriendsViewController.xib */; };
+		0F35FB3C1C36EBA100E63D24 /* SVContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB3B1C36EBA100E63D24 /* SVContactCell.xib */; };
+		0F35FB3E1C36F3E500E63D24 /* SVSidebarMemberController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB3D1C36F3E500E63D24 /* SVSidebarMemberController.xib */; };
+		0F35FB401C36F41800E63D24 /* SVSidebarAlbumMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F35FB3F1C36F41800E63D24 /* SVSidebarAlbumMemberCell.xib */; };
 		0F3909911BF4B7A0003FAF59 /* FXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F39098E1BF4B7A0003FAF59 /* FXImageView.m */; };
 		0F3909921BF4B7A0003FAF59 /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3909901BF4B7A0003FAF59 /* UIImage+FX.m */; };
 		0F4177891BE6537F00FFC6A2 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4177871BE6537F00FFC6A2 /* ContainerViewController.m */; };
@@ -1425,6 +1429,10 @@
 		0F35FB331C35530A00E63D24 /* SVProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVProfileViewController.xib; sourceTree = "<group>"; };
 		0F35FB351C35620100E63D24 /* SVAlbumListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVAlbumListViewController.xib; sourceTree = "<group>"; };
 		0F35FB371C35628500E63D24 /* SVAlbumListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVAlbumListCell.xib; sourceTree = "<group>"; };
+		0F35FB391C36E7D500E63D24 /* SVAddFriendsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVAddFriendsViewController.xib; sourceTree = "<group>"; };
+		0F35FB3B1C36EBA100E63D24 /* SVContactCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVContactCell.xib; sourceTree = "<group>"; };
+		0F35FB3D1C36F3E500E63D24 /* SVSidebarMemberController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVSidebarMemberController.xib; sourceTree = "<group>"; };
+		0F35FB3F1C36F41800E63D24 /* SVSidebarAlbumMemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVSidebarAlbumMemberCell.xib; sourceTree = "<group>"; };
 		0F39098D1BF4B7A0003FAF59 /* FXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXImageView.h; sourceTree = "<group>"; };
 		0F39098E1BF4B7A0003FAF59 /* FXImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXImageView.m; sourceTree = "<group>"; };
 		0F39098F1BF4B7A0003FAF59 /* UIImage+FX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FX.h"; sourceTree = "<group>"; };
@@ -4023,6 +4031,10 @@
 				66278C5B1867C17800D23F34 /* SVSidebarManagementController.m */,
 				66278C5C1867C17800D23F34 /* SVSidebarMemberController.h */,
 				66278C5D1867C17800D23F34 /* SVSidebarMemberController.m */,
+				0F35FB391C36E7D500E63D24 /* SVAddFriendsViewController.xib */,
+				0F35FB3B1C36EBA100E63D24 /* SVContactCell.xib */,
+				0F35FB3D1C36F3E500E63D24 /* SVSidebarMemberController.xib */,
+				0F35FB3F1C36F41800E63D24 /* SVSidebarAlbumMemberCell.xib */,
 			);
 			name = SideMenu;
 			sourceTree = "<group>";
@@ -4860,6 +4872,7 @@
 				043473FA1705F49600CFE564 /* placeholderImage@2x.png in Resources */,
 				04AB0A701707D80100C5300B /* exportIcon.png in Resources */,
 				0F781FE11C072A3E00688168 /* PMCustomKeyboard.xib in Resources */,
+				0F35FB3C1C36EBA100E63D24 /* SVContactCell.xib in Resources */,
 				04AB0A721707D80100C5300B /* exportIcon@2x.png in Resources */,
 				04AB0A761707D80600C5300B /* trashIcon@2x.png in Resources */,
 				04AB0A781707D80600C5300B /* trashIcon.png in Resources */,
@@ -5119,6 +5132,7 @@
 				04C406D31730303600973BC0 /* KR.png in Resources */,
 				04C406D51730303600973BC0 /* KW.png in Resources */,
 				0F1C07701BEB5E3A00F82FBB /* seq9.png in Resources */,
+				0F35FB3A1C36E7D500E63D24 /* SVAddFriendsViewController.xib in Resources */,
 				04C406D71730303600973BC0 /* KY.png in Resources */,
 				04C406D91730303600973BC0 /* KZ.png in Resources */,
 				04C406DB1730303600973BC0 /* LA.png in Resources */,
@@ -5155,6 +5169,7 @@
 				04C406FD1730303600973BC0 /* MH.png in Resources */,
 				0F1C07721BEB5E3A00F82FBB /* seq11.png in Resources */,
 				04C406FF1730303600973BC0 /* MK.png in Resources */,
+				0F35FB401C36F41800E63D24 /* SVSidebarAlbumMemberCell.xib in Resources */,
 				04C407011730303600973BC0 /* ML.png in Resources */,
 				04C407031730303600973BC0 /* MM.png in Resources */,
 				04C407051730303600973BC0 /* MN.png in Resources */,
@@ -5162,6 +5177,7 @@
 				3E47246B18D06E5400FF6105 /* Icon-Small-50.png in Resources */,
 				0F5511BC1BEF8C0300E98C64 /* GothamXNarrow-ThinItalic.otf in Resources */,
 				0F55119C1BEF8C0300E98C64 /* GothamNarrow-BoldItalic.otf in Resources */,
+				0F35FB3E1C36F3E500E63D24 /* SVSidebarMemberController.xib in Resources */,
 				04C407091730303600973BC0 /* MP.png in Resources */,
 				0F5511921BEF8C0300E98C64 /* Gotham-UltraItalic.otf in Resources */,
 				04C4070B1730303600973BC0 /* MQ.png in Resources */,

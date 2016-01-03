@@ -55,7 +55,7 @@
 
 #import "GLFeedViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
-#import "ContainerViewController.h"
+//#import "ContainerViewController.h"
 #import "Common.h"
 #import "YYWebImage.h"
 //#import "MPMoviePlayerController.h"
@@ -621,7 +621,7 @@ CGFloat kResizeThumbSize = 45.0f;
     GLSharedCamera * camera = [GLSharedCamera sharedInstance];
     camera.picYourGroup.alpha = 1;
     camera.cameraViewBackground.userInteractionEnabled = YES;
-    camera.delegate = [ContainerViewController sharedInstance];
+//    camera.delegate = [ContainerViewController sharedInstance];
     
 }
 
@@ -702,10 +702,10 @@ CGFloat kResizeThumbSize = 45.0f;
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleDefault;
-}
+//- (UIStatusBarStyle)preferredStatusBarStyle
+//{
+//    return UIStatusBarStyleDefault;
+//}
 
 
 - (BOOL)shouldAutorotate
@@ -1000,7 +1000,7 @@ CGFloat kResizeThumbSize = 45.0f;
         GLFeedViewController * feed = [[GLFeedViewController alloc] init];
         feed.albumId = albumId;
         [self.navigationController pushViewController:feed animated:animated];
-        [[ContainerViewController sharedInstance] lockScrolling:YES];
+//        [[ContainerViewController sharedInstance] lockScrolling:YES];
     }
 }
 

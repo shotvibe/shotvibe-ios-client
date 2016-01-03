@@ -9,7 +9,7 @@
 //#import "GLSharedCamera.h"
 #import "RBVolumeButtons.h"
 #import "SVAddFriendsViewController.h"
-#import "ContainerViewController.h"
+//#import "ContainerViewController.h"
 #import "UIImage+ImageEffects.h"
 
 #import "UIImage+FX.h"
@@ -19,7 +19,7 @@
 
 #import "GLProfilePageViewController.h"
 #import "GLSharedVideoPlayer.h"
-
+#import "GLContainersViewController.h"
 
 
 
@@ -377,13 +377,13 @@
         
         
         
-        UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        
         
         // add effect to an effect view
-        effectView = [[UIVisualEffectView alloc]initWithEffect:blur];
+        effectView = [[UIVisualEffectView alloc] init];
         effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
-//        effectView.alpha = 0;
-        effectView.hidden = YES;
+        effectView.alpha = 0;
+//        effectView.hidden = NO;
         
         
         self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 20, 40, 70)];
@@ -935,8 +935,9 @@
                     
                     //                    [[self videoCamera] stopCameraCapture];
                     [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
-//                    effectView.alpha = 1;
-                    effectView.hidden = NO;
+                    effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+                    effectView.alpha = 1;
+//                    effectView.hidden = NO;
                     self.dmut.center = CGPointMake(firstX, 60);
                     [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
                     self.backButton.alpha=1;
@@ -976,7 +977,8 @@
             }];
 //            [self toggleCamera:YES];
             if(!self.isInFeedMode){
-                [[ContainerViewController sharedInstance] lockScrolling:NO];
+                [[GLContainersViewController sharedInstance] unlockScrollingPages];
+//                [[ContainerViewController sharedInstance] lockScrolling:NO];
             }
             self.dmut.userInteractionEnabled = YES;
             
@@ -998,8 +1000,12 @@
                 if(self.isInFeedMode){
                     self.backButton.alpha=0;
                     self.membersButton.alpha=0;
+                    
+                    effectView.effect = nil;
+                    effectView.alpha = 0;
+                    
 //                    effectView.alpha = 0;
-                    effectView.hidden = YES;
+//                    effectView.hidden = YES;
                     self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
                 } else {
                     self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
@@ -1015,7 +1021,7 @@
                     
                 }
             } completion:^(BOOL finished) {
-                
+                [[GLContainersViewController sharedInstance] lockScrollingPages];
                 NSLog(@"camera open");
                 [self cameraFinishedSlidingOpen];
                 
@@ -1064,7 +1070,7 @@
 
 - (void)cameraFinishedSlidingOpen {
     
-    [[ContainerViewController sharedInstance] lockScrolling:YES];
+//    [[ContainerViewController sharedInstance] lockScrolling:YES];
     self.dmut.userInteractionEnabled = YES;
     [self.userScore hideUserScore];
     [self showCameraButtons];
@@ -1100,7 +1106,7 @@
     [self hideCameraButtons];
     [self.userScore showUserScore];
     self.dmut.userInteractionEnabled = YES;
-    [[ContainerViewController sharedInstance] lockScrolling:NO];
+//    [[ContainerViewController sharedInstance] lockScrolling:NO];
     
 //    [buttonStealer stopStealingVolumeButtonEvents];
     
@@ -1129,7 +1135,9 @@
     [UIView animateWithDuration:0.2 animations:^{
         self.dmut.transform = CGAffineTransformIdentity;
 //        effectView.alpha = 0;
-        effectView.hidden = YES;
+//        effectView.hidden = YES;
+        effectView.effect = nil;
+        effectView.alpha = 0;
         
         self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
         cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
@@ -1145,7 +1153,9 @@
     [UIView animateWithDuration:0.2 animations:^{
         
 //        effectView.alpha = 1;
-        effectView.hidden = NO;
+//        effectView.hidden = NO;
+        effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        effectView.alpha = 1;
         self.backButton.alpha = 1;
         self.membersButton.alpha = 1;
         scoreBg.alpha = 0;
@@ -1154,7 +1164,9 @@
         
         self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
 //        effectView.alpha = 1;
-        effectView.hidden = NO;
+//        effectView.hidden = NO;
+        effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        effectView.alpha = 1;
         [self.cameraViewBackground bringSubviewToFront:effectView];
         
         self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
@@ -1179,7 +1191,9 @@
             
             self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
 //            effectView.alpha = 1;
-            effectView.hidden = NO;
+//            effectView.hidden = NO;
+            effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+            effectView.alpha = 1;
             self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
             self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
             
@@ -1194,7 +1208,9 @@
         [UIView animateWithDuration:0.2 animations:^{
             self.dmut.transform = CGAffineTransformIdentity;
 //            effectView.alpha = 0;
-            effectView.hidden = YES;
+//            effectView.hidden = YES;
+            effectView.effect = nil;
+            effectView.alpha = 0;
             
             self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
             cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
@@ -1209,7 +1225,6 @@
 -(void)membersButtonPressed {
     
     [self.delegate membersPressed];
-    
 }
 
 -(void)backButtonPressed {
@@ -1902,8 +1917,8 @@
     /*Calling the addChildViewController: method also calls
      the child’s willMoveToParentViewController: method automatically */
     controller.view.frame = mainOutPutFrame.frame;//CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75);
-    [[[ContainerViewController sharedInstance] navigationController] addChildViewController:controller];
-    [controller didMoveToParentViewController:[[ContainerViewController sharedInstance] navigationController]];
+//    [[[ContainerViewController sharedInstance] navigationController] addChildViewController:controller];
+//    [controller didMoveToParentViewController:[[ContainerViewController sharedInstance] navigationController]];
     [controller setKeepingCropAspectRatio:NO];
     [controller setRotationEnabled:NO];
 //    [controller setCropAspectRatio:2.0f / 3.0f];
@@ -2211,6 +2226,12 @@
     NSLog(@"final did tapped");
     
     
+//    if(self.isInFeedMode){
+//    
+//    } else {
+//        
+//    }
+    
     
     if(self.goneUploadAmovie == YES){
         [self.previewPlayer stop];
@@ -2227,6 +2248,11 @@
             [self.userScore showUserScore];
             [self hideCameraButtons];
             
+           
+            
+//            [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:<#(BOOL)#> photoId:<#(NSString *)#>];
+            
+//            [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:nil];
 //            [self toggleCamera:YES];
 //            [UIView animateWithDuration:0.2 animations:^{
 //                self.picYourGroup.alpha = 1;
@@ -2237,12 +2263,12 @@
 //                flashButton.alpha = 0;
 //            }];
             
-            [[ContainerViewController sharedInstance] lockScrolling:YES];
-            [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
-            [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
-                [[ContainerViewController sharedInstance] setFriendsFromMain];
-                
-            }];
+//            [[ContainerViewController sharedInstance] lockScrolling:YES];
+//            [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
+//            [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
+//                [[ContainerViewController sharedInstance] setFriendsFromMain];
+//                
+//            }];
             
         }
         
@@ -2255,7 +2281,9 @@
                 self.dmut.center = CGPointMake(firstX, 60);
                 
 //                effectView.alpha = 1;
-                effectView.hidden = NO;
+//                effectView.hidden = NO;
+                effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+                effectView.alpha = 1;
                 self.backButton.alpha = 1;
                 self.membersButton.alpha = 1;
             } else {
@@ -2281,10 +2309,17 @@
             
             if(!self.isInFeedMode){
                 
+                [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeUploadingPhoto:NO completed:^{
+                    
+                }];
+                
                 self.dmut.transform = dmutScaleOriginal;
                 
                 [self.userScore showUserScore];
                 [self hideCameraButtons];
+                
+                
+//                [[GLContainersViewController sharedInstance] ];
                 
 //                [self toggleCamera:YES];
 //                [UIView animateWithDuration:0.2 animations:^{
@@ -2295,12 +2330,12 @@
 //                    flipCameraButton.alpha = 0;
 //                    flashButton.alpha = 0;
 //                }];
-                [[ContainerViewController sharedInstance] lockScrolling:YES];
-                [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
-                [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
-                    [[ContainerViewController sharedInstance] setFriendsFromMain];
-                    
-                }];
+//                [[ContainerViewController sharedInstance] lockScrolling:YES];
+//                [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
+//                [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
+//                    [[ContainerViewController sharedInstance] setFriendsFromMain];
+//                    
+//                }];
             }
             
             PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
@@ -2315,15 +2350,12 @@
                     self.dmut.center = CGPointMake(firstX, 60);
                     
 //                    effectView.alpha = 1;
-                    effectView.hidden = NO;
+//                    effectView.hidden = NO;
+                    effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+                    effectView.alpha = 1;
                     self.backButton.alpha = 1;
                     self.membersButton.alpha = 1;
-                } else {
-                    
-                    
                 }
-                
-                
                 
             } completion:^(BOOL finished) {
                 
@@ -2420,6 +2452,10 @@
     
     
     
+}
+
+-(void)resetCameraAfterBack {
+    self.imageForOutSideUpload = nil;
 }
 
 -(void)imageCapturedOnMainScreen:(UIImage*)finalImage {

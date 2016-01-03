@@ -57,7 +57,7 @@
 
 //#import "ParallaxHeaderView.h"
 #import "GLProfileViewController.h"
-#import "ContainerViewController.h"
+//#import "ContainerViewController.h"
 #import "GLProfilePageViewController.h"
 
 #import "YYWebImage.h"
@@ -66,6 +66,8 @@
 #import "SL/AlbumServerVideo.h"
 #import "GLSharedVideoPlayer.h"
 #import "PMCustomKeyboard.h"
+
+#import "GLContainersViewController.h"
 
 @interface GLPublicFeedPostViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
     
@@ -542,6 +544,8 @@
 {
     [super viewWillAppear:animated];
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    
     NSLog(@"SVAlbumGridViewController %@: viewWillAppear: %d", self, animated);
     //
     
@@ -560,7 +564,7 @@
     GLSharedCamera * camera = [GLSharedCamera sharedInstance];
 //    camera.picYourGroup.alpha = 1;
 //    camera.cameraViewBackground.userInteractionEnabled = YES;
-    camera.delegate = [ContainerViewController sharedInstance];
+//    camera.delegate = [ContainerViewController sharedInstance];
     
     
     if([[ShotVibeAppDelegate sharedDelegate] appOpenedFromPush]){
@@ -1601,7 +1605,11 @@
     
 //    [self backPressed];
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
-
+    [self closePressed];
+    [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:YES photoId:[[self.singleAlbumPhoto getServerPhoto] getId]];
+    
+    
+    
 //    [self.navigationController popViewControllerAnimated:YES];
     
 //    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:cell.photoId forKey:@"photoToMoveId"];
@@ -1609,11 +1617,11 @@
 
 //
     
-    [[ContainerViewController sharedInstance] setFriendsForMove:cell.photoId];
-    [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionForward completion:^{
-        
-    }];
-    
+//    [[ContainerViewController sharedInstance] setFriendsForMove:cell.photoId];
+//    [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionForward completion:^{
+//        
+//    }];
+//    
 //    SVAddFriendsViewController * addFriendsVc =  [[SVAddFriendsViewController alloc] init];
 //    addFriendsVc.fromCameraMainScreen = NO;
 //    [self presentViewController:addFriendsVc animated:YES completion:^{

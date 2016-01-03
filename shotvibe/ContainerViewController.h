@@ -12,7 +12,7 @@
 #import "SVAlbumListViewController.h"
 #import "SVNavigationController.h"
 
-typedef void(^pageTransitionCompleted)();
+typedef void(^pageTransitionCompleted2)();
 
 //typedef enum ScrollDirection {
 //    ScrollDirectionNone,
@@ -28,8 +28,8 @@ typedef void(^pageTransitionCompleted)();
 @interface ContainerViewController : UIViewController<UIPageViewControllerDataSource,UIScrollViewDelegate,UIPageViewControllerDelegate,GLSharedCameraDelegatte,AddFriendsDelegate,AlbumListDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 + (ContainerViewController *)sharedInstance;
 
-- (void)transitToAlbumList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction withAlbumId:(long long int)albumId completion:(pageTransitionCompleted)completion;
-- (void)transitToFriendsList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction completion:(pageTransitionCompleted)completion;
+- (void)transitToAlbumList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction withAlbumId:(long long int)albumId completion:(pageTransitionCompleted2)completion;
+- (void)transitToFriendsList:(BOOL)animated direction:(UIPageViewControllerNavigationDirection)direction completion:(pageTransitionCompleted2)completion;
 - (void)startVideoUploadAfterSourceSelect:(long long int)albumId withAlbumContents:(SLAlbumContents*)album;
 -(void)lockScrolling:(BOOL)lock;
 - (void)resetFriendsView;
