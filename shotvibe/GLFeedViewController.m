@@ -122,7 +122,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     cameBackFromBg = NO;
+    
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(menuStateEventOccurred:)
+//                                                 name:MFSideMenuStateNotificationEvent
+//                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appActive:)
@@ -224,7 +231,95 @@
     
     lockContentsStackDepth_ = 0;
     lockContentsSavedValue_ = nil;
+    
+    
+    
+    
+    if(self.posts.count == 0){
+    
+        
+        NSString * nos = @"No";
+        float spacing = -9.0f;
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:nos];
+        
+        [attributedString addAttribute:NSKernAttributeName
+                                 value:@(spacing)
+                                 range:NSMakeRange(0, [nos length])];
+        
+        UILabel * no = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/4, self.view.frame.size.width, self.view.frame.size.height/8)];
+        no.attributedText = attributedString;
+        
+        no.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
+        no.textColor = UIColorFromRGB(0x45B4B5);
+        
+        
+        NSString *  photoss = @"Photos";
+        NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:photoss];
+        
+        [attributedString2 addAttribute:NSKernAttributeName
+                                  value:@(spacing)
+                                  range:NSMakeRange(0, [photoss length])];
+        
+        UILabel * photos = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/4+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
+        photos.attributedText = attributedString2;
+        photos.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
+        photos.textColor = UIColorFromRGB(0xFED84B);
+        
+        
+        NSString *  yets = @"Yet";
+        NSMutableAttributedString *attributedString3 = [[NSMutableAttributedString alloc] initWithString:yets];
+        
+        [attributedString3 addAttribute:NSKernAttributeName
+                                  value:@(spacing)
+                                  range:NSMakeRange(0, [yets length])];
+        
+        UILabel * yet = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/4+self.view.frame.size.height/9+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
+        yet.attributedText = attributedString3;
+        yet.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
+        yet.textColor = UIColorFromRGB(0xEE7482);
+        
+        
+        
+        
+        UILabel * letsGetsStarted = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height-self.view.frame.size.height/7, 275, self.view.frame.size.height/10)];
+//            letsGetsStarted.backgroundColor = [UIColor orangeColor];
+        letsGetsStarted.text = @"Pull Mr. Glance down and Let's get this party started.";
+        letsGetsStarted.textColor = UIColorFromRGB(0x979494);
+        letsGetsStarted.font = [UIFont fontWithName:@"GothamRounded-Bold" size:18];
+        letsGetsStarted.textAlignment = NSTextAlignmentCenter;
+    letsGetsStarted.lineBreakMode = NSLineBreakByWordWrapping;
+    letsGetsStarted.numberOfLines=2;
+    
+        
+        [self.tableView setUserInteractionEnabled:NO];
+        
+        [self.tableView addSubview:no];
+        [self.tableView addSubview:photos];
+        [self.tableView addSubview:yet];
+        [self.tableView addSubview:letsGetsStarted];
+    
+    
+    
+    UIImageView * dmutArrow = [[UIImageView alloc] initWithFrame:CGRectMake(140, 95, 150, 175)];
+    dmutArrow.image = [UIImage imageNamed:@"dmutArrow"];
+    [self.view addSubview:dmutArrow];
+        
+        
+    }
 }
+
+//- (void)menuStateEventOccurred:(NSNotification *)notification {
+//    MFSideMenuStateEvent event = [[[notification userInfo] objectForKey:@"eventType"] intValue];
+//    if(event == MFSideMenuStateEventMenuDidOpen){
+//        NSLog(@"menu opened");
+//        [[GLSharedVideoPlayer sharedInstance] pause];
+//    } else if(event == MFSideMenuStateEventMenuDidClose){
+//        NSLog(@"menu closed");
+//        [[GLSharedVideoPlayer sharedInstance] play];
+//    }
+//    MFSideMenuContainerViewController *containerViewController = notification.object;
+//    // ...
+//}
 
 -(void)appActive:(NSNotification*)not {
     
@@ -942,8 +1037,11 @@
     //    SLArrayList * membersList = [albumContents getMembers];
     
     
-    ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
+//    ((SVSidebarManagementController *)self.menuContainerViewController.leftMenuViewController).albumContents = albumContents;
     ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
+    
+    
+    self.menuContainerViewController.panMode = MFSideMenuPanModeDefault;
     
     self.title = [albumContents getName];
     //    [albumContents];
@@ -1000,12 +1098,7 @@
     int counter = 0;
     
     self.feedItems = [[NSMutableArray alloc] init];
-    //    @property (nonatomic, assign) NSInteger currentPage;
-    //    @property (nonatomic, assign) NSInteger totalPages;
-    //    @property (nonatomic, assign) NSInteger totalItems;
-    
     if(albumContents != nil){
-        
         int pagingCount = 5;
         self.currentPage = 0;
         self.totalItems = [[albumContents getPhotos].array count];
@@ -1014,13 +1107,8 @@
         if((self.totalPages * pagingCount) <= self.totalItems){
             self.totalPages++;
         }
-        
-        
-        
-        
+    
         self.posts = [[NSMutableArray alloc] init];
-        
-        
         for (SLAlbumPhoto *photo in [albumContents getPhotos].array) {
             
 //            counter++;
@@ -1079,52 +1167,29 @@
                 if(comment != [photoComments lastObject]){
                     [commentsFullString appendString:@","];
                 }
-                
-                
-                //            commentItem appendString:<#(nonnull NSString *)#>
+            
                 
             }
             
-            
-            //        if ([photo getServerPhoto]) {
-            
-            
+
             NSString * userData = [NSString stringWithFormat:@"\"username\":\"%@\",\"website\":\"\",\"profile_picture\":\"%@\",\"full_name\":\"%@\",\"bio\":\"\",\"id\":\"%lld\"",[[[photo getServerPhoto] getAuthor] getMemberNickname],[[[photo getServerPhoto] getAuthor] getMemberAvatarUrl],[[[photo getServerPhoto] getAuthor] getMemberNickname],[[[photo getServerPhoto] getAuthor] getMemberId]];
             
             long long seconds = [[[photo getServerPhoto] getDateAdded] getTimeStamp] / 1000000LL;
-            //            NSDate *photoDateAdded = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
-            
-            //            [album]
-            
             NSString *new = [[[photo getServerPhoto]getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
             
-            
-            //        NSString * commentsDataString = [NSString stringWithFormat:<#(nonnull NSString *), ...#>];
             NSString * commetnsString = [NSString stringWithFormat:@"\"count\": %f,\"data\": [%@]",commentsCount,commentsFullString];
             
-            NSData *objectData = [[NSString stringWithFormat:@"{\"attribution\":null,\"tags\":[],\"type\":\"image\",\"location\":null,\"comments\":{%@},\"filter\":\"Normal\",\"created_time\":\"%lld\",\"link\":\"http://instagram.com/p/xtfQ81gK0E/\",\"likes\":\"%d\",\"images\":{\"low_resolution\":{\"url\":\"http://scontent-b.cdninstagram.com/hphotos-xfa1/t51.2885-15/10932341_1042561312426099_2095600846_a.jpg\",\"width\":306,\"height\":306},\"thumbnail\":{\"url\":\"http://scontent-b.cdninstagram.com/hphotos-xfa1/t51.2885-15/10932341_1042561312426099_2095600846_s.jpg\",\"width\":150,\"height\":150},\"standard_resolution\":{\"url\":\"%@\",\"width\":480,\"height\":320}},\"users_in_photo\":[  ],\"caption\":{\"created_time\":\"%lld\"},\"user_has_liked\":false,\"id\":\"%@\",\"user\":{%@}}",commetnsString,seconds,[[photo getServerPhoto] getGlobalGlanceScore],new,seconds,[[photo getServerPhoto]getId],userData] dataUsingEncoding:NSUTF8StringEncoding];
-            
-            //            UIImageView * t = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-            //            [t.networkImageView setPhoto:[[photo getServerPhoto] getId]
-            //                                   photoUrl:[[photo getServerPhoto] getUrl]
-            //                                  photoSize:[PhotoSize Thumb75]
-            //                                    manager:photoFilesManager_];
+            NSData *objectData = [[NSString stringWithFormat:@"{\"type\":\"image\",\"location\":null,\"comments\":{%@},\"created_time\":\"%lld\",\"likes\":\"%d\",\"images\":{\"standard_resolution\":{\"url\":\"%@\"}},\"caption\":{\"created_time\":\"%lld\"},\"id\":\"%@\",\"user\":{%@}}",commetnsString,seconds,[[photo getServerPhoto] getGlobalGlanceScore],new,seconds,[[photo getServerPhoto]getId],userData] dataUsingEncoding:NSUTF8StringEncoding];
             
             NSMutableArray * arr = [[NSMutableArray alloc] init];
             NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:objectData options:kNilOptions error:nil];
             
+            if(dictionary){
+                [arr addObject:dictionary];
+                [arr addObject:photo];
+                [self.posts addObject:arr];
+            }
             
-            [arr addObject:dictionary];
-            [arr addObject:photo];
-            
-            //        NSMutableArray * arr = [[NSMutableArray alloc] initwith];
-            
-            //        [dictionary setValue:photo forKey:@"slPhoto"];
-            //        [dictionary]
-            
-            //        STXPost *post = [[STXPost alloc] initWithDictionary:dictionary];
-            //        post.slPhoto = photo;
-            [self.posts addObject:arr];
             
             //        if(counter < pagingCount){
             //            [self.feedItems addObject:arr];
@@ -1178,16 +1243,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //#warning Incomplete implementation, return the number of rows
     return [self.posts count];
-    
-    //    if (self.currentPage == self.totalPages
-    //        || self.totalItems == self.feedItems.count) {
-    //        return self.feedItems.count;
-    //    }
-    //    return self.feedItems.count -1;
-    
-    
-    
-    //    return 8;
 }
 
 

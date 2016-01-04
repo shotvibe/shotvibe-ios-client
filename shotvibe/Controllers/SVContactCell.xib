@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="GothamRnd-Book.otf">
@@ -22,40 +22,32 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="imageUnselected.png" translatesAutoresizingMaskIntoConstraints="NO" id="UXy-lV-OU4">
                         <rect key="frame" x="10" y="18" width="18" height="18"/>
-                        <animations/>
-                    </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fSh-mS-bna">
-                        <rect key="frame" x="38" y="6" width="42" height="42"/>
-                        <animations/>
-                        <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="deviceRGB"/>
                     </imageView>
                     <activityIndicatorView opaque="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="PgQ-Up-6pX">
                         <rect key="frame" x="2" y="9" width="37" height="37"/>
-                        <animations/>
                         <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </activityIndicatorView>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="glanceFriend" translatesAutoresizingMaskIntoConstraints="NO" id="KjY-lH-QR8">
                         <rect key="frame" x="330" y="10.5" width="30" height="30"/>
-                        <animations/>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVl-hY-Rp2">
                         <rect key="frame" x="88" y="3" width="180" height="21"/>
-                        <animations/>
                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                         <color key="textColor" red="0.23921568630000001" green="0.29803921570000003" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnO-1b-ap0">
                         <rect key="frame" x="88" y="23" width="180" height="21"/>
-                        <animations/>
                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="12"/>
                         <color key="textColor" red="0.49019607840000001" green="0.54117647059999996" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fSh-mS-bna">
+                        <rect key="frame" x="38" y="6" width="42" height="42"/>
+                        <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="deviceRGB"/>
+                    </imageView>
                 </subviews>
-                <animations/>
             </tableViewCellContentView>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="checkmarkImage" destination="UXy-lV-OU4" id="7Gi-i0-oxe"/>

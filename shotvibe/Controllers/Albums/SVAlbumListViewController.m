@@ -329,6 +329,78 @@ CGFloat kResizeThumbSize = 45.0f;
     
     
     
+    if(albumList.count == 0){
+    
+        
+        NSString * nos = @"No";
+        float spacing = -9.0f;
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:nos];
+        
+        [attributedString addAttribute:NSKernAttributeName
+                                 value:@(spacing)
+                                 range:NSMakeRange(0, [nos length])];
+        
+        UILabel * no = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2.4, self.view.frame.size.width, self.view.frame.size.height/8)];
+        no.attributedText = attributedString;
+        
+        no.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
+        no.textColor = UIColorFromRGB(0x45B4B5);
+        
+        
+        NSString *  photoss = @"Groups";
+        NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:photoss];
+        
+        [attributedString2 addAttribute:NSKernAttributeName
+                                  value:@(spacing)
+                                  range:NSMakeRange(0, [photoss length])];
+        
+        UILabel * photos = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2.4+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
+        photos.attributedText = attributedString2;
+        photos.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
+        photos.textColor = UIColorFromRGB(0xFED84B);
+        
+        
+        NSString *  yets = @"Yet";
+        NSMutableAttributedString *attributedString3 = [[NSMutableAttributedString alloc] initWithString:yets];
+        
+        [attributedString3 addAttribute:NSKernAttributeName
+                                  value:@(spacing)
+                                  range:NSMakeRange(0, [yets length])];
+        
+        UILabel * yet = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2.4+self.view.frame.size.height/9+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
+        yet.attributedText = attributedString3;
+        yet.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
+        yet.textColor = UIColorFromRGB(0xEE7482);
+        
+        
+        
+        
+        UILabel * letsGetsStarted = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-self.view.frame.size.height/10, self.view.frame.size.width, self.view.frame.size.height/10)];
+        //    letsGetsStarted.backgroundColor = [UIColor orangeColor];
+        letsGetsStarted.text = @"(Let's get this party started.)";
+        letsGetsStarted.textColor = UIColorFromRGB(0x979494);
+        letsGetsStarted.font = [UIFont fontWithName:@"GothamRounded-Bold" size:18];
+        letsGetsStarted.textAlignment = NSTextAlignmentCenter;
+        
+        
+        [self.tableView setUserInteractionEnabled:NO];
+        
+        [self.view addSubview:no];
+        [self.view addSubview:photos];
+        [self.view addSubview:yet];
+        [self.view addSubview:letsGetsStarted];
+        
+        
+    }
+    
+//    self.view.backgroundColor = [UIColor blackColor];
+    
+//
+//    @"no"
+//    @"photos"
+//    @"yes"
+//    
+    
     
 }
 

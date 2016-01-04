@@ -27,6 +27,7 @@ static GLContainersViewController *sharedInstance;
 -(void)resetFriendsView {
     self.friendsViewController = nil;
     self.friendsViewController = [[SVAddFriendsViewController alloc] init];
+//    self.friendsViewController.view.frame = CGRectMake(20, 100, 400, 400);
     self.friendsViewController.indexNumber = 0;
 }
 
@@ -34,6 +35,7 @@ static GLContainersViewController *sharedInstance;
 - (void)goBackToFeedAfterAddingMembersAnimated:(BOOL)animated {
     [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:animated completion:^(BOOL finished) {
 //        completed();
+//        [self resetFriendsView];
         //        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
     }];
 }
@@ -72,8 +74,10 @@ static GLContainersViewController *sharedInstance;
 - (void)goToAlbumListViewController:(BOOL)animated {
     
     [self unlockScrollingPages];
+    
+    __block GLContainersViewController * weakSelf = self;
     [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:animated completion:^(BOOL finished) {
-        
+//        [weakSelf resetFriendsView];
     }];
     
 }
@@ -163,62 +167,65 @@ static GLContainersViewController *sharedInstance;
     self.publicFeedViewController = [[GLPublicFeedViewController alloc] init];
     self.albumListViewController = [[SVAlbumListViewController alloc] init];
     self.friendsViewController = [[SVAddFriendsViewController alloc] init];
-//    self.friendsViewController.delegate = self;
     self.membersViewController = [[SVSidebarMemberController alloc] init];
     self.membersSideMenu = [[MFSideMenuContainerViewController alloc] init];
-    
-    self.membersSideMenu.panMode = MFSideMenuPanModeNone;
-    
-    
     self.navigationController = [[SVNavigationController alloc] initWithRootViewController:self.albumListViewController];
+    self.membersSideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:self.navigationController
+                                                                         leftMenuViewController:nil
+                                                                        rightMenuViewController:self.membersViewController];
+    
     self.friendsViewController.indexNumber = 0;
     self.navigationController.indexNumber = 1;
     self.publicFeedViewController.indexNumber = 2;
     [self.navigationController setNavigationBarHidden:YES];
-    
-    
-    
-    self.membersSideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:self.navigationController
-                                                                  leftMenuViewController:nil
-                                                                 rightMenuViewController:self.membersViewController];
     self.membersSideMenu.view.clipsToBounds = YES;
     self.membersSideMenu.indexNumber = 1;
+    self.membersSideMenu.panMode = MFSideMenuPanModeDefault;    
+
     
     
-    [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
-    }];
+//    [self.pageController setViewControllers:@[self.friendsViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:^(BOOL finished) {
+    
+        [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
+        }];
+        
+//    }];
     
     
     
-    SLAlbumManager * al = [ShotVibeAppDelegate sharedDelegate].albumManager;
     
-    [ShotVibeAPITask runTask:self withAction:^id{
-        //        [[al getShotVibeAPI] getPublic];
-        return [[al getShotVibeAPI] getPublicAlbumContents];
-    } onTaskComplete:^(SLAlbumContents *album) {
-        //        NSLog(@"Public feed name: %@", [album getName]);
-        
-        //        self.publicFeed = [[GLPublicFeedViewController alloc] init];
-        NSMutableArray * photosArray = [[NSMutableArray alloc] init];
-        
-        for(SLAlbumPhoto * photo in [album getPhotos]){
-            [photosArray addObject:photo];
-        }
-        
-        NSArray* reversedArray = [[photosArray reverseObjectEnumerator] allObjects];
-        
-        self.publicFeedViewController.photosArray = [reversedArray copy];
-        [self.publicFeedViewController.collectionView reloadData];
-        
-        //        self.publicFeed.albumId = [[al getShotVibeAPI] getPublicAlbumId];
-        // TODO ...
-    } onTaskFailure:^(id success) {
-        
-        //        [];
-        
-    } withLoaderIndicator:NO];
+    
+//    SLAlbumManager * al = [ShotVibeAppDelegate sharedDelegate].albumManager;
+//    
+//    [ShotVibeAPITask runTask:self withAction:^id{
+//        //        [[al getShotVibeAPI] getPublic];
+//        return [[al getShotVibeAPI] getPublicAlbumContents];
+//    } onTaskComplete:^(SLAlbumContents *album) {
+//        //        NSLog(@"Public feed name: %@", [album getName]);
+//        
+//        //        self.publicFeed = [[GLPublicFeedViewController alloc] init];
+//        NSMutableArray * photosArray = [[NSMutableArray alloc] init];
+//        
+//        for(SLAlbumPhoto * photo in [album getPhotos]){
+//            [photosArray addObject:photo];
+//        }
+//        
+//        NSArray* reversedArray = [[photosArray reverseObjectEnumerator] allObjects];
+//        
+//        self.publicFeedViewController.photosArray = [reversedArray copy];
+//        [self.publicFeedViewController.collectionView reloadData];
+//        
+//        //        self.publicFeed.albumId = [[al getShotVibeAPI] getPublicAlbumId];
+//        // TODO ...
+//    } onTaskFailure:^(id success) {
+//        
+//        //        [];
+//        
+//    } withLoaderIndicator:NO];
 
 }
+
+
 
 - (void)lockScrollingPages {
     for (UIScrollView *view in self.pageController.view.subviews) {
@@ -271,6 +278,7 @@ static GLContainersViewController *sharedInstance;
         
         return self.publicFeedViewController;
     }
+//    self.pageController setpa
     
 }
 

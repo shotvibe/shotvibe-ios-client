@@ -20,5 +20,6 @@
 @property (strong, nonatomic) GLFeedViewController *parentController;
 @property (nonatomic, strong) SLAlbumContents *albumContents;
 @property (nonatomic) long long int albumId;
+@property (weak, nonatomic) IBOutlet UIImageView *addPlusButton;
 
 @end

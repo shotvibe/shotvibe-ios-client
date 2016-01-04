@@ -15,6 +15,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SVSidebarMemberController">
             <connections>
+                <outlet property="addPlusButton" destination="728-Oa-XTM" id="Ioo-GH-ud3"/>
                 <outlet property="butAddFriends" destination="j00-ld-nbi" id="TgU-Qs-kdb"/>
                 <outlet property="butOwner" destination="Pqb-mm-DyX" id="9yE-go-pZW"/>
                 <outlet property="groupTitle" destination="oFI-Ee-LCv" id="G35-p9-pRB"/>

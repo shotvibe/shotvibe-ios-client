@@ -21,6 +21,7 @@
     BOOL playBackStarted;
     NSTimer * videoStartedTimer;
     UIImageView * tempBluredVideoFrame;
+    BOOL putOnHold;
 }
 
 + (instancetype)sharedInstance {
@@ -36,7 +37,14 @@
     self = [super init];
     if (self) {
         self.photoId = nil;
+        
         [self initMoviePlayer];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(menuStateEventOccurred:)
+                                                     name:MFSideMenuStateNotificationEvent
+                                                   object:nil];
+        
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(playbackStateChanged:)
@@ -48,11 +56,26 @@
     return  self;
 }
 
+- (void)menuStateEventOccurred:(NSNotification *)notification {
+    MFSideMenuStateEvent event = [[[notification userInfo] objectForKey:@"eventType"] intValue];
+    if(event == MFSideMenuStateEventMenuDidOpen){
+        
+        putOnHold = YES;
+        
+
+    } else if(event == MFSideMenuStateEventMenuDidClose){
+
+        putOnHold = NO;
+        [moviePlayer play];
+        
+    }
+}
+
 - (void)initMoviePlayer
 {
     
     playBackStarted = NO;
-    
+    putOnHold = NO;
     moviePlayer = [[MPMoviePlayerController alloc] init];
     moviePlayer.view.clipsToBounds = YES;
     moviePlayer.scalingMode = MPMovieScalingModeAspectFill;
@@ -108,7 +131,7 @@
     }
 
     if (moviePlayer.view.superview == parentView) {
-        [moviePlayer play];
+        [self play];
         return;
     }
     
@@ -117,18 +140,22 @@
     [parentView addSubview:moviePlayer.view];
     
     NSLog(@"GLSharedVideoPlayer URL: %@", videoUrl);
+    
     [moviePlayer setContentURL:[NSURL URLWithString:videoUrl]];
     
-    [moviePlayer play];
+    [self play];
     
     self.photoId = targetPhotoId;
 }
 
 - (void)play
 {
-//    NSLog(@"GLSharedVideoPlayer play");
+    NSLog(@"GLSharedVideoPlayer play");
 //    if(moviePlayer.playbackState == MPMoviePlaybackStateStopped || moviePlayer.playbackState ==  MPMoviePlaybackStatePaused){
-//        [moviePlayer play];
+    
+    if(!putOnHold){
+        [moviePlayer play];
+    }
 //    }
     
 }

@@ -137,6 +137,13 @@
     [self.groupTitle addGestureRecognizer:changeNameGestTap];
     
     
+    UITapGestureRecognizer * addPlusTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addPlusTapped:)];
+    self.addPlusButton.userInteractionEnabled = YES;
+    [self.addPlusButton addGestureRecognizer:addPlusTap];
+    
+    
+    
+    
 //    self.view.frame = CGRectMake(0,0,200,400);
     
 }
@@ -182,6 +189,12 @@
     [alert textFieldAtIndex:0].text = [[_albumContents getName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     alert.tag = 35;
     [alert show];
+}
+
+- (void)addPlusTapped:(UITapGestureRecognizer*)gest {
+    
+    [self addFriendsButtonPressed:nil];
+    
 }
 
 
@@ -418,7 +431,7 @@
 //    [cell.profileImageView setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]]];
     [cell.memberLabel setText:[[member getUser] getMemberNickname]];
 
-
+//    cell.statusLabel.text = @"test";
     
     if ([[shotvibeAPI getAuthData] getUserId] == [[member getUser] getMemberId]) {
 		

@@ -15,7 +15,7 @@
 #import "SL/ArrayList.h"
 #import "SL/ShotVibeAPI.h"
 #import "MBProgressHUD.h"
-#import "UIImageView+WebCache.h"
+//#import "UIImageView+WebCache.h"
 #import "SL/ArrayList.h"
 #import "SL/PhoneContactsManager.h"
 #import "SL/PhoneContact.h"
@@ -42,6 +42,7 @@
 #import "ShotVibeAPITask.h"
 //#import "ContainerViewController.h"
 #import "GLContainersViewController.h"
+#import "YYWebImage.h"
 
 @interface SVAddFriendsViewController ()
 
@@ -118,6 +119,7 @@
     
     if(self.state == SVAddFriendsFromAddFriendButton){
         self.pageTitle.text = @"Pick friends to group:";
+        self.contactsSourceSelector.selectedSegmentIndex = 0;
         self.backBut.alpha = 1;
         
         self.groupsSourceButton.alpha = 0;
@@ -131,6 +133,7 @@
     } else if(self.state == SVAddFriendsMainWithImage){
         self.pageTitle.text = @"Choose some friends to share with or create a new group:";
         self.backBut.alpha = 1;
+        self.contactsSourceSelector.selectedSegmentIndex = 2;
     } else if(self.state == SVAddFriendsFromMove){
         self.pageTitle.text = @"Choose group to share image with:";
         //            self.pageTitle
@@ -178,6 +181,8 @@
     
     
     //    [self.tableView deselectRowAtIndexPath:0 animated:YES];
+    
+    
     
 }
 
@@ -238,7 +243,7 @@
     
     self.contactsSourceView.hidden = NO;
     self.contactsSourceSelector.frame = CGRectMake(5, 7, self.view.frame.size.width-10, 30);
-    self.contactsSourceSelector.selectedSegmentIndex = 1;
+    self.contactsSourceSelector.selectedSegmentIndex = 0;
     
     BOOL permissionGranted = YES;
     if (!permissionGranted) {
@@ -475,6 +480,7 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SVContactCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
+    cell.contactIcon.layer.cornerRadius = cell.contactIcon.frame.size.width/2;
     if(showGroups){
         
         
@@ -581,7 +587,7 @@
         
         cell.subtitleLabel.text = [[phoneContactDisplayData getPhoneContact] getPhoneNumber];
         
-        [cell.contactIcon cancelCurrentImageLoad];
+        [cell.contactIcon yy_cancelCurrentImageRequest];
         
         if ([phoneContactDisplayData isLoading]) {
             [cell.loadingSpinner startAnimating];
@@ -590,7 +596,8 @@
         } else {
             [cell.loadingSpinner stopAnimating];
             cell.contactIcon.hidden = NO;
-            [cell.contactIcon setImageWithURL:[[NSURL alloc] initWithString:[phoneContactDisplayData getAvatarUrl]]];
+            [cell.contactIcon yy_setImageWithURL:[NSURL URLWithString:[phoneContactDisplayData getAvatarUrl]] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation];
+//            [cell.contactIcon setImageWithURL:[[NSURL alloc] initWithString:[phoneContactDisplayData getAvatarUrl]]];
             cell.isMemberImage.hidden = [phoneContactDisplayData getUserId] == nil;
         }
         
