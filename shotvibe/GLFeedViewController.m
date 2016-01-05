@@ -91,6 +91,13 @@
     BOOL cameBackFromBg;
     int lockContentsStackDepth_;
     SLAlbumContents *lockContentsSavedValue_;
+    
+    UILabel * letsGetsStarted;
+    UILabel * yet;
+    UILabel * photos;
+    UILabel * no;
+    UIImageView * dmutArrow;
+    BOOL placeHolderIsShown;
 }
 @end
 
@@ -108,12 +115,14 @@
     if(indexPath.row == 0){
         
         if([cell class] == [GLFeedTableCell class]){
+            if(self.posts.count > 0){
             SLAlbumPhoto * photo = [[self.posts objectAtIndex:indexPath.row] objectAtIndex:1];
             if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO] && [[[photo getServerPhoto] getVideo] getStatus] != [SLAlbumServerVideo_StatusEnum PROCESSING]){
                 [self checkWhichVideoToEnable];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [cell.activityIndicator startAnimating];
                 });
+            }
             }
         }
     }
@@ -124,7 +133,7 @@
     
     
     cameBackFromBg = NO;
-    
+    placeHolderIsShown = NO;
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self
 //                                             selector:@selector(menuStateEventOccurred:)
@@ -235,9 +244,13 @@
     
     
     
-    if(self.posts.count == 0){
     
-        
+}
+
+-(void)showNoPhotosPlaceHolder {
+
+
+    if(placeHolderIsShown == NO){
         NSString * nos = @"No";
         float spacing = -9.0f;
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:nos];
@@ -246,7 +259,7 @@
                                  value:@(spacing)
                                  range:NSMakeRange(0, [nos length])];
         
-        UILabel * no = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/4, self.view.frame.size.width, self.view.frame.size.height/8)];
+        no = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/4, self.view.frame.size.width, self.view.frame.size.height/8)];
         no.attributedText = attributedString;
         
         no.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
@@ -260,7 +273,7 @@
                                   value:@(spacing)
                                   range:NSMakeRange(0, [photoss length])];
         
-        UILabel * photos = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/4+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
+        photos = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/4+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
         photos.attributedText = attributedString2;
         photos.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
         photos.textColor = UIColorFromRGB(0xFED84B);
@@ -273,7 +286,7 @@
                                   value:@(spacing)
                                   range:NSMakeRange(0, [yets length])];
         
-        UILabel * yet = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/4+self.view.frame.size.height/9+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
+        yet = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/4+self.view.frame.size.height/9+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
         yet.attributedText = attributedString3;
         yet.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
         yet.textColor = UIColorFromRGB(0xEE7482);
@@ -281,31 +294,49 @@
         
         
         
-        UILabel * letsGetsStarted = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height-self.view.frame.size.height/7, 275, self.view.frame.size.height/10)];
-//            letsGetsStarted.backgroundColor = [UIColor orangeColor];
+        letsGetsStarted = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height-self.view.frame.size.height/7, 275, self.view.frame.size.height/10)];
+        //            letsGetsStarted.backgroundColor = [UIColor orangeColor];
         letsGetsStarted.text = @"Pull Mr. Glance down and Let's get this party started.";
         letsGetsStarted.textColor = UIColorFromRGB(0x979494);
         letsGetsStarted.font = [UIFont fontWithName:@"GothamRounded-Bold" size:18];
         letsGetsStarted.textAlignment = NSTextAlignmentCenter;
-    letsGetsStarted.lineBreakMode = NSLineBreakByWordWrapping;
-    letsGetsStarted.numberOfLines=2;
-    
+        letsGetsStarted.lineBreakMode = NSLineBreakByWordWrapping;
+        letsGetsStarted.numberOfLines=2;
         
-        [self.tableView setUserInteractionEnabled:NO];
+        dmutArrow = [[UIImageView alloc] initWithFrame:CGRectMake(140, 95, 150, 175)];
+        dmutArrow.image = [UIImage imageNamed:@"dmutArrow"];
         
+        [self.view addSubview:dmutArrow];
         [self.tableView addSubview:no];
         [self.tableView addSubview:photos];
         [self.tableView addSubview:yet];
-        [self.tableView addSubview:letsGetsStarted];
-    
-    
-    
-    UIImageView * dmutArrow = [[UIImageView alloc] initWithFrame:CGRectMake(140, 95, 150, 175)];
-    dmutArrow.image = [UIImage imageNamed:@"dmutArrow"];
-    [self.view addSubview:dmutArrow];
+        [self.view addSubview:letsGetsStarted];
+        [self.tableView setUserInteractionEnabled:NO];
         
         
+        placeHolderIsShown = YES;
     }
+    
+}
+
+-(void)hideNoPhotosPlaceHolder {
+    [no removeFromSuperview];
+    no = nil;
+    
+    [photos removeFromSuperview];
+    photos = nil;
+    
+    [yet removeFromSuperview];
+    yet = nil;
+    
+    [letsGetsStarted removeFromSuperview];
+    letsGetsStarted = nil;
+    
+    [dmutArrow removeFromSuperview];
+    dmutArrow = nil;
+    
+    [self.tableView setUserInteractionEnabled:YES];
+    placeHolderIsShown = NO;
 }
 
 //- (void)menuStateEventOccurred:(NSNotification *)notification {
@@ -1020,6 +1051,13 @@
 
     albumContents = album;
     if(albumContents != nil){
+        
+        if([[album getPhotos].array count] == 0){
+            [self showNoPhotosPlaceHolder];
+        } else {
+            [self hideNoPhotosPlaceHolder];
+        }
+        
         GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
         if(glcamera.imageForOutSideUpload){
             
