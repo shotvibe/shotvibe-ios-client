@@ -10,7 +10,8 @@
 #import "ShotVibeAPI.h"
 #import "ShotVibeAppDelegate.h"
 #import "AlbumUser.h"
-#import "UIImageView+WebCache.h"
+//#import "UIImageView+WebCache.h"
+#import "YYWebImage.h"
 #import "MBProgressHUD.h"
 
 @interface GLProfilePageViewController ()
@@ -25,10 +26,10 @@
     
     
     
-    SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
+//    SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
     
 //    int64_t userId = (long)self.userId;//[[shotvibeAPI getAuthData] getUserId];
-    SLAlbumUser * user = [shotvibeAPI getUserProfileWithLong:self.userId];
+    SLAlbumUser * user = [self.slMemberObject getUser];
     
     if(self.imAdmin){
 //        self.reinviteButton.enabled = NO;
@@ -45,6 +46,8 @@
     }
 //    self.userScore.text = [NSString stringWithFormat:@"%04ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]];
     
+//    self.userScore.text = [NSString stringWithFormat:@"%04ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]];
+    
     self.userScore.text = [NSString stringWithFormat:@"%04d",[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:self.userId]];
     
     
@@ -57,7 +60,8 @@
 
     
     self.userNickName.text = [user getMemberNickname];
-    [self.userProfileImage sd_setImageWithURL:[NSURL URLWithString:[user getMemberAvatarUrl]]];
+    [self.userProfileImage yy_setImageWithURL:[NSURL URLWithString:[user getMemberAvatarUrl]] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation];
+//    [self.userProfileImage sd_setImageWithURL:[NSURL URLWithString:[user getMemberAvatarUrl]]];
     
     self.userProfileImage.layer.cornerRadius = self.userProfileImage.frame.size.width/2;
     self.userProfileImage.clipsToBounds = YES;
@@ -93,7 +97,7 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [MBProgressHUD hideHUDForView:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
+//    [MBProgressHUD hideHUDForView:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
 //    [MBProgressHUD hideHUDAddedTo: animated:YES];
 }
 

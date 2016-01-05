@@ -27,5 +27,6 @@
 @property (nonatomic,weak) UITableView * tableViewToRefresh;
 -(BOOL)statusForId:(NSString*)id;
 -(void)reSubscribeToChannel;
+-(NSNumber*)disconnectTimeForId:(NSString*)id;
 //- (instancetype)initWithLisitiner:(ShotVibeAppDelegate*)listener;
 @end

@@ -10,6 +10,7 @@
 @interface GLPubNubManager() <PNObjectEventListener>
 
 @property(nonatomic,retain) NSMutableDictionary * usersArray;
+@property(nonatomic,retain) NSMutableDictionary * usersDisconnects;
 
 @end
 
@@ -37,6 +38,7 @@
         //    configuration
         
         self.usersArray = [[NSMutableDictionary alloc] init];
+        self.usersDisconnects = [[NSMutableDictionary alloc] init];
         
         self.pubNubCLient = [PubNub clientWithConfiguration:configuration];
         
@@ -68,7 +70,7 @@
                                 
                                 for(NSString * string in [[result data] uuids]){
 //                                    NSLog(@"%@",string);
-                                    [self updateUsersDictionaryWithUserAndStatus:@[string,@"join"]];
+                                    [self updateUsersDictionaryWithUserAndStatus:@[string,@"join"] timeStampUserLeft:nil];
                                 }
                                 
                                 // Handle downloaded presence information using:
@@ -97,23 +99,34 @@
 
 -(BOOL)statusForId:(NSString*)id {
     
-    if ([[self.usersArray objectForKey:id] isEqualToString:@"join"]) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return [[self.usersArray objectForKey:id] isEqualToString:@"join"];
     
 }
+-(NSNumber*)disconnectTimeForId:(NSString*)id {
 
--(void)updateUsersDictionaryWithUserAndStatus:(NSArray*)dict {
+    return [self.usersDisconnects objectForKey:id];
+}
+
+-(void)updateUsersDictionaryWithUserAndStatus:(NSArray*)dict timeStampUserLeft:(NSNumber*)timeSince1970 {
  
 //    [self.usersArray setValue:@"" forKey:@""];
 //    self.usersArray setva
     [self.usersArray setValue:[dict objectAtIndex:1] forKey:[dict objectAtIndex:0]];
+    [self.usersDisconnects setValue:timeSince1970 forKey:[dict objectAtIndex:0]];
     if(self.tableViewToRefresh){
         [self.tableViewToRefresh reloadData];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kUpdateUsersStatus" object:nil];
+    
+    if(timeSince1970 == nil){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"kUpdateUsersStatus" object:nil];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"kUpdateUsersStatus" object:nil userInfo:@{@"eventTime":timeSince1970,@"eventType":[dict objectAtIndex:1]}];
+    }
+    
+    
+    
+    
+    
     NSLog(@"");
 }
 //
@@ -131,7 +144,7 @@
     
 //    NSLog(@"");
 //    NSArray * t = [self.pubNubCLient presenceChannels];
-    [self updateUsersDictionaryWithUserAndStatus:@[[[[event data] presence] uuid],[[event data] presenceEvent]]];
+    [self updateUsersDictionaryWithUserAndStatus:@[[[[event data] presence] uuid],[[event data] presenceEvent]] timeStampUserLeft:[[[event data] presence] timetoken]];
     
 //    [[[event data] presence] uuid]
     

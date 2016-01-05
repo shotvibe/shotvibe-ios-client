@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SL/AlbumMember.h"
 
 @interface GLProfilePageViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIImageView *userProfileImage;
@@ -14,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *userScore;
 @property (weak, nonatomic) IBOutlet UIButton *removeButton;
 @property (weak, nonatomic) IBOutlet UIButton *reinviteButton;
+@property(nonatomic,retain) SLAlbumMember * slMemberObject;
 @property (nonatomic) long long int albumId;
 @property (nonatomic) long long userId;
 @property (nonatomic) BOOL imAdmin;

@@ -2077,10 +2077,10 @@
     //        return nil;
     //    } onTaskComplete:^(id dummy) {
     
-    if([[[albumManager_ getShotVibeAPI] getUserProfileWithLong:[[[albumManager_ getShotVibeAPI] getAuthData] getUserId]] getMemberId] != userId){
+//    if([[[albumManager_ getShotVibeAPI] getUserProfileWithLong:[[[albumManager_ getShotVibeAPI] getAuthData] getUserId]] getMemberId] != userId){
+    
         
-        
-        [MBProgressHUD showHUDAddedTo:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
+//        [MBProgressHUD showHUDAddedTo:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
         
         [[[GLSharedCamera sharedInstance] membersButton] setAlpha:0];
         [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:NO];
@@ -2098,18 +2098,24 @@
                     
                     profilePage.imAdmin = YES;
                     
+                    
                 }
+                
                 
             }
             
+            if([[member getUser] getMemberId] == userId){
+                profilePage.slMemberObject = member;
+            }
+            
         }
-        
+    
         
         [self.navigationController pushViewController:profilePage animated:YES];
         
-    } else {
-        
-    }
+//    } else {
+//        
+//    }
     
     
     
@@ -2485,12 +2491,19 @@
     
     [[GLContainersViewController sharedInstance] unlockScrollingPages];
     
-    [[GLSharedCamera sharedInstance] setCameraInMain];
-    //    [UIView animateWithDuration:0.2 animations:^{
-    //        [[[GLSharedCamera sharedInstance]backButton]setAlpha:0];
-    //        [[[GLSharedCamera sharedInstance]membersButton]setAlpha:0];
-    //    }];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+//    [GLContainersViewController ];
+    if(![[[self.navigationController viewControllers]lastObject] isKindOfClass:[GLProfilePageViewController class]]){
+        [[GLSharedCamera sharedInstance] setCameraInMain];
+    } else {
+            [UIView animateWithDuration:0.2 animations:^{
+                [[[GLSharedCamera sharedInstance]membersButton]setAlpha:1];
+                [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:YES];
+            }];
+    }
+    
+    
+    [self.navigationController popViewControllerAnimated:YES];
     
     
 }
