@@ -58,35 +58,37 @@
 //#import "ContainerViewController.h"
 #import "Common.h"
 #import "YYWebImage.h"
+#import "GLContainersViewController.h"
 //#import "MPMoviePlayerController.h"
 
 CGFloat kResizeThumbSize = 45.0f;
 
 @interface SVAlbumListViewController ()
 {
+    
     BOOL searchShowing;
     BOOL creatingAlbum;
     BOOL refreshManualy;
-    NSMutableArray *albumList;
-    NSArray *allAlbums;
-    NSMutableDictionary *thumbnailCache;
+    
     UIView *sectionView;
+    NSArray *allAlbums;
     NSIndexPath *tappedCell;
+    NSMutableArray *albumList;
+    NSMutableDictionary *thumbnailCache;
     SVCameraNavController *cameraNavController;
+    
     int table_content_offset_y;
     int total_header_h;
     int status_bar_h;
     int dropdown_origin_y;
     
     BOOL networkOnline_;
-    
     BOOL cameraShown;
-    
-    
     BOOL isResizingLR;
     BOOL isResizingUL;
     BOOL isResizingUR;
     BOOL isResizingLL;
+    
     CGPoint touchStart;
     
     UILabel * no;
@@ -95,8 +97,7 @@ CGFloat kResizeThumbSize = 45.0f;
     UILabel * letsGetsStarted;
     UIImageView * dmutArrow;
     UIImageView * friendsArrow;
-    
-    
+
 }
 
 @property(nonatomic) BOOL groupPlaceHolderIsShown;
@@ -153,7 +154,6 @@ CGFloat kResizeThumbSize = 45.0f;
     [super viewDidLoad];
     
     
-    //    self.view.la.userInteractionEnabled = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     cameraShown = NO;
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -281,27 +281,7 @@ CGFloat kResizeThumbSize = 45.0f;
         //        [self setNeedsStatusBarAppearanceUpdate];
     }
     
-    
-    //    [[ShotVibeAppDelegate sharedDelegate] setUserScore:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAuthData] getUserId]]];
-    
-    
-    //    int score = [[albumManager_ getShotVibeAPI] getUserGlanceScoreWithLong:[[[albumManager_ getShotVibeAPI] getAuthData] getUserId]];
-    
-    
-    //    NSString  *fileNamePath = [[NSBundle mainBundle] pathForResource:@"welcome" ofType:@"mov"];
-    //    _asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:fileNamePath]];
-    //    _playerItem =[[AVPlayerItem alloc]initWithAsset:_asset];
-    //    _player = [[AVPlayer alloc]initWithPlayerItem:_playerItem];
-    //    _playerLayer =[AVPlayerLayer playerLayerWithPlayer:_player];
-    //    [_playerLayer setFrame:CGRectMake(0, 0, app.window.frame.size.width, app.window.frame.size.height)];
-    //    [_playerLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    //    [app.window.layer addSublayer:_playerLayer];
-    //    [_player seekToTime:kCMTimeZero];
-    //    [_player play];
-    //    self.de
-    
-    
-    
+
     self.navigationController.automaticallyAdjustsScrollViewInsets = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -335,12 +315,7 @@ CGFloat kResizeThumbSize = 45.0f;
         [self.navigationController.view addSubview:[camera cameraViewBackground]];
         
     }
-    
-//    self.groupPlaceHolderIsShown = NO;
-    
-    
-    
-    
+ 
     
     
 }
@@ -416,13 +391,7 @@ CGFloat kResizeThumbSize = 45.0f;
         friendsArrow.image = [UIImage imageNamed:@"straightArrowPh"];
         friendsArrow.transform = CGAffineTransformMakeRotation(degrees * M_PI/180);
         
-//        dmutArrow.transform = CGAffineTransformMakeRotation(.34906585);
-        
-        
-        
-        
         [self.tableView setUserInteractionEnabled:NO];
-        
         [self.view addSubview:friendsArrow];
         [self.view addSubview:dmutArrow];
         [self.tableView addSubview:no];
@@ -473,78 +442,10 @@ CGFloat kResizeThumbSize = 45.0f;
 }
 
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-    
-    //    // Get the current size of the refresh controller
-    //    CGRect refreshBounds = self.refreshControl.bounds;
-    //
-    //    // Distance the table has been pulled >= 0
-    //    CGFloat pullDistance = MAX(0.0, -self.refreshControl.frame.origin.y);
-    //
-    //    // Half the width of the table
-    //    CGFloat midX = self.tableView.frame.size.width / 2.0;
-    //
-    //    // Calculate the width and height of our graphics
-    //    CGFloat compassHeight = self.compass_background.bounds.size.height;
-    //    CGFloat compassHeightHalf = compassHeight / 2.0;
-    //
-    //    CGFloat compassWidth = self.compass_background.bounds.size.width;
-    //    CGFloat compassWidthHalf = compassWidth / 2.0;
-    //
-    //    CGFloat spinnerHeight = self.compass_spinner.bounds.size.height;
-    //    CGFloat spinnerHeightHalf = spinnerHeight / 2.0;
-    //
-    //    CGFloat spinnerWidth = self.compass_spinner.bounds.size.width;
-    //    CGFloat spinnerWidthHalf = spinnerWidth / 2.0;
-    //
-    //    // Calculate the pull ratio, between 0.0-1.0
-    //    CGFloat pullRatio = MIN( MAX(pullDistance, 0.0), 100.0) / 100.0;
-    //
-    //    // Set the Y coord of the graphics, based on pull distance
-    //    CGFloat compassY = pullDistance / 2.0 - compassHeightHalf;
-    //    CGFloat spinnerY = pullDistance / 2.0 - spinnerHeightHalf;
-    //
-    //    // Calculate the X coord of the graphics, adjust based on pull ratio
-    //    CGFloat compassX = (midX + compassWidthHalf) - (compassWidth * pullRatio);
-    //    CGFloat spinnerX = (midX - spinnerWidth - spinnerWidthHalf) + (spinnerWidth * pullRatio);
-    //
-    //    // When the compass and spinner overlap, keep them together
-    //    if (fabsf(compassX - spinnerX) < 1.0) {
-    //        self.isRefreshIconsOverlap = YES;
-    //    }
-    //
-    //    // If the graphics have overlapped or we are refreshing, keep them together
-    //    if (self.isRefreshIconsOverlap || self.refreshControl.isRefreshing) {
-    //        compassX = midX - compassWidthHalf;
-    //        spinnerX = midX - spinnerWidthHalf;
-    //    }
-    //
-    //    // Set the graphic's frames
-    //    CGRect compassFrame = self.compass_background.frame;
-    //    compassFrame.origin.x = compassX;
-    //    compassFrame.origin.y = compassY;
-    //
-    //    CGRect spinnerFrame = self.compass_spinner.frame;
-    //    spinnerFrame.origin.x = spinnerX;
-    //    spinnerFrame.origin.y = spinnerY;
-    //
-    //    self.compass_background.frame = compassFrame;
-    //    self.compass_spinner.frame = spinnerFrame;
-    //
-    //    // Set the encompassing view's frames
-    //    refreshBounds.size.height = pullDistance;
-    //
-    //    self.refreshColorView.frame = refreshBounds;
-    //    self.refreshLoadingView.frame = refreshBounds;
-    
-    // If we're refreshing and the animation is not playing, then play the animation
-    //    if (self.refreshControl.isRefreshing && !self.isRefreshAnimating) {
-    //        [self animateRefreshView];
-    //    }
-    
-    //    DLog(@"pullDistance: %.1f, pullRatio: %.1f, midX: %.1f, isRefreshing: %i", pullDistance, pullRatio, midX, self.refreshControl.isRefreshing);
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    
+//    
+//}
 
 
 
@@ -1187,7 +1088,11 @@ CGFloat kResizeThumbSize = 45.0f;
             
             SLAlbumSummary *album = [albumList objectAtIndex:indexPath.row];
             
-            [self transitToAlbumWithId:[album getId] animated:YES dmutScale:YES];
+//            [self transitToAlbumWithId:[album getId] animated:YES dmutScale:YES];
+            [[GLSharedCamera sharedInstance] setCameraInFeedAfterGroupOpenedWithoutImage];
+            [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:[album getId] completed:^{
+                
+            }];
             self.tableView.userInteractionEnabled = YES;
         }];
         

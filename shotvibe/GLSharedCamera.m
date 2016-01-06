@@ -1106,6 +1106,9 @@
     [self hideCameraButtons];
     [self.userScore showUserScore];
     self.dmut.userInteractionEnabled = YES;
+    [self backToCameraFromEditPallette:nil];
+    [self hideCameraButtons];
+    
 //    [[ContainerViewController sharedInstance] lockScrolling:NO];
     
 //    [buttonStealer stopStealingVolumeButtonEvents];
@@ -1113,6 +1116,8 @@
     if(self.isInFeedMode){
         [[self videoCamera] stopCameraCapture];
         [[GLSharedVideoPlayer sharedInstance] play];
+    } else {
+        [[self videoCamera] startCameraCapture];
     }
     
 
@@ -1146,14 +1151,15 @@
     
 }
 
-- (void)setCameraInFeed {
+
+- (void)setCameraInFeedAfterGroupOpenedWithoutImage {
     
     self.isInFeedMode = YES;
     [[self videoCamera] stopCameraCapture];
     [UIView animateWithDuration:0.2 animations:^{
         
-//        effectView.alpha = 1;
-//        effectView.hidden = NO;
+        //        effectView.alpha = 1;
+        //        effectView.hidden = NO;
         effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         effectView.alpha = 1;
         self.backButton.alpha = 1;
@@ -1163,8 +1169,8 @@
         
         
         self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
-//        effectView.alpha = 1;
-//        effectView.hidden = NO;
+        //        effectView.alpha = 1;
+        //        effectView.hidden = NO;
         effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         effectView.alpha = 1;
         [self.cameraViewBackground bringSubviewToFront:effectView];
@@ -1178,6 +1184,41 @@
         
         [self.cameraViewBackground bringSubviewToFront:self.dmut];
     }];
+    
+}
+
+- (void)setCameraInFeed {
+    
+    self.isInFeedMode = YES;
+    [[self videoCamera] stopCameraCapture];
+//    [UIView animateWithDuration:0.2 animations:^{
+//        
+////        effectView.alpha = 1;
+////        effectView.hidden = NO;
+//        effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+//        effectView.alpha = 1;
+//        self.backButton.alpha = 1;
+//        self.membersButton.alpha = 1;
+//        scoreBg.alpha = 0;
+//        self.score.alpha = 0;
+//        
+//        
+//        self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
+////        effectView.alpha = 1;
+////        effectView.hidden = NO;
+//        effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+//        effectView.alpha = 1;
+//        [self.cameraViewBackground bringSubviewToFront:effectView];
+//        
+//        self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
+//        self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
+//        
+//        cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80);
+//        self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80);
+    
+        
+        [self.cameraViewBackground bringSubviewToFront:self.dmut];
+//    }];
     
 }
 
@@ -2222,190 +2263,266 @@
     }
 }
 
+-(void)closeCameraViewWithSlideFromFeed {
+    [UIView animateWithDuration:0.2 animations:^{
+        [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
+        [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
+        self.dmut.center = CGPointMake(firstX, 60);
+        effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        effectView.alpha = 1;
+        self.backButton.alpha = 1;
+        self.membersButton.alpha = 1;
+    }];
+    [self backToCameraFromEditPallette:nil];
+}
+
+-(void)closeCameraViewWithSlideFromMain {
+    [[self videoCamera] startCameraCapture];
+    [UIView animateWithDuration:0.2 animations:^{
+        self.dmut.transform = CGAffineTransformIdentity;
+        effectView.effect = nil;
+        effectView.alpha = 0;
+        
+        self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
+        cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
+        self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
+    }];
+    
+    [self.userScore showUserScore];
+    [self backToCameraFromEditPallette:nil];
+    [self hideCameraButtons];
+}
+
 -(void)finalProcessTapped {
     NSLog(@"final did tapped");
     
     
-//    if(self.isInFeedMode){
-//    
-//    } else {
-//        
-//    }
-    
-    
-    if(self.goneUploadAmovie == YES){
-        [self.previewPlayer stop];
-        if(self.isInFeedMode){
-            [self.videoCamera stopCameraCapture];
-        }
-        [self performSelector:@selector(backFromVideoTapped)];
-        self.goneUploadAmovie = NO;
-        
-        if(!self.isInFeedMode){
-            self.dmut.transform = dmutScaleOriginal;
-            
-            
-            [self.userScore showUserScore];
-            [self hideCameraButtons];
-            
-           
-            
-//            [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:<#(BOOL)#> photoId:<#(NSString *)#>];
-            
-//            [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:nil];
-//            [self toggleCamera:YES];
-//            [UIView animateWithDuration:0.2 animations:^{
-//                self.picYourGroup.alpha = 1;
-//                glanceLogo.alpha = 1;
-//                scoreBg.alpha = 1;
-//                self.score.alpha = 1;
-//                flipCameraButton.alpha = 0;
-//                flashButton.alpha = 0;
-//            }];
-            
-//            [[ContainerViewController sharedInstance] lockScrolling:YES];
-//            [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
-//            [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
-//                [[ContainerViewController sharedInstance] setFriendsFromMain];
-//                
-//            }];
-            
-        }
-        
-        [UIView animateWithDuration:0.2 animations:^{
-            
-            //            if(self.isInFeedMode){
-            if(!self.afterLogin){
-                [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
-                [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
-                self.dmut.center = CGPointMake(firstX, 60);
-                
-//                effectView.alpha = 1;
-//                effectView.hidden = NO;
-                effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-                effectView.alpha = 1;
-                self.backButton.alpha = 1;
-                self.membersButton.alpha = 1;
-            } else {
-                
-                
-            }
-            
-            
-            
-        }];
-        
-        
-        NSLog(@"ok this is the time to start the upload we the movie that we prepared");
-        if(self.isInFeedMode){
-            [self.delegate videoSelected];
-        } else {
-            self.videoToUploadPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"];
-        }
-        
+//    if(){}
+    if(self.isInFeedMode){
+        [self closeCameraViewWithSlideFromFeed];
     } else {
         
-        if(imageSource != ImageSourceNone){
+        
+        [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeUploadingPhoto:NO completed:^{
+            //
             
-            if(!self.isInFeedMode){
-                
-                [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeUploadingPhoto:NO completed:^{
-                    
-                }];
-                
-                self.dmut.transform = dmutScaleOriginal;
-                
-                [self.userScore showUserScore];
-                [self hideCameraButtons];
-                
-                
-//                [[GLContainersViewController sharedInstance] ];
-                
-//                [self toggleCamera:YES];
-//                [UIView animateWithDuration:0.2 animations:^{
-//                    self.picYourGroup.alpha = 1;
-//                    glanceLogo.alpha = 1;
-//                    scoreBg.alpha = 1;
-//                    self.score.alpha = 1;
-//                    flipCameraButton.alpha = 0;
-//                    flashButton.alpha = 0;
-//                }];
-//                [[ContainerViewController sharedInstance] lockScrolling:YES];
-//                [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
-//                [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
-//                    [[ContainerViewController sharedInstance] setFriendsFromMain];
+            
+        } executeWhenFriendsDone:^{
+            [self closeCameraViewWithSlideFromFeed];
+            [self setCameraInFeed];
+            NSLog(@"tralallalaallaalalala");
+//            [KVNProgress showSuccessWithStatus:@"now start uplaod should be invoked"];
+        }];
+        
+//        [self closeCameraViewWithSlideFromMain];
+    }
+    
+
+    
+    
+//    if(self.goneUploadAmovie == YES){
+//        [self.previewPlayer stop];
+//        if(self.isInFeedMode){
+//            [self.videoCamera stopCameraCapture];
+//        }
+//        [self performSelector:@selector(backFromVideoTapped)];
+//        self.goneUploadAmovie = NO;
+//        
+//        if(!self.isInFeedMode){
+//            self.dmut.transform = dmutScaleOriginal;
+//            
+//            
+//            [self.userScore showUserScore];
+//            [self hideCameraButtons];
+//            
+//           
+//            
+////            [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:<#(BOOL)#> photoId:<#(NSString *)#>];
+//            
+////            [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:nil];
+////            [self toggleCamera:YES];
+////            [UIView animateWithDuration:0.2 animations:^{
+////                self.picYourGroup.alpha = 1;
+////                glanceLogo.alpha = 1;
+////                scoreBg.alpha = 1;
+////                self.score.alpha = 1;
+////                flipCameraButton.alpha = 0;
+////                flashButton.alpha = 0;
+////            }];
+//            
+////            [[ContainerViewController sharedInstance] lockScrolling:YES];
+////            [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
+////            [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
+////                [[ContainerViewController sharedInstance] setFriendsFromMain];
+////                
+////            }];
+//            
+//        }
+//        
+//        [UIView animateWithDuration:0.2 animations:^{
+//            
+//            //            if(self.isInFeedMode){
+//            if(!self.afterLogin){
+//                [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
+//                [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
+//                self.dmut.center = CGPointMake(firstX, 60);
+//                
+////                effectView.alpha = 1;
+////                effectView.hidden = NO;
+//                effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+//                effectView.alpha = 1;
+//                self.backButton.alpha = 1;
+//                self.membersButton.alpha = 1;
+//            } else {
+//                
+//                
+//            }
+//            
+//            
+//            
+//        }];
+//        
+//        
+//        NSLog(@"ok this is the time to start the upload we the movie that we prepared");
+//        if(self.isInFeedMode){
+//            [self.delegate videoSelected];
+//        } else {
+//            self.videoToUploadPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"];
+//        }
+//        
+//    } else {
+//        
+//        if(imageSource != ImageSourceNone){
+//            
+//            if(!self.isInFeedMode){
+//                
+//                [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeUploadingPhoto:NO completed:^{
 //                    
 //                }];
-            }
+//                
+//
+//                
+//                [[GLSharedCamera sharedInstance] setCameraInMain];
+//                [[GLSharedCamera sharedInstance] resetCameraAfterBack];
+//                self.dmut.transform = dmutScaleOriginal;
+//                
+////                [[GLContainersViewController sharedInstance] ];
+//                
+////                [self toggleCamera:YES];
+////                [UIView animateWithDuration:0.2 animations:^{
+////                    self.picYourGroup.alpha = 1;
+////                    glanceLogo.alpha = 1;
+////                    scoreBg.alpha = 1;
+////                    self.score.alpha = 1;
+////                    flipCameraButton.alpha = 0;
+////                    flashButton.alpha = 0;
+////                }];
+////                [[ContainerViewController sharedInstance] lockScrolling:YES];
+////                [[ContainerViewController sharedInstance] setFriendsFromMainWithPicture];
+////                [[ContainerViewController sharedInstance] transitToFriendsList:NO direction:UIPageViewControllerNavigationDirectionReverse completion:^{
+////                    [[ContainerViewController sharedInstance] setFriendsFromMain];
+////                    
+////                }];
+//            } else {
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//            }
+//            
+//            [self.userScore showUserScore];
+//            [self hideCameraButtons];
+//            
+//            
+//            
+//            [UIView animateWithDuration:0.2 animations:^{
+//                if(!self.afterLogin && self.isInFeedMode){
+//                    [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
+//                    [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
+//                    self.dmut.center = CGPointMake(firstX, 60);
+//                    
+////                    effectView.alpha = 1;
+////                    effectView.hidden = NO;
+//                    effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+//                    effectView.alpha = 1;
+//                    self.backButton.alpha = 1;
+//                    self.membersButton.alpha = 1;
+//                }
+//                
+//            } completion:^(BOOL finished) {
+//                
+//                [self processImageBySourceAndPrepareWithTextandSizes];
+//                
+//                
+//                if(self.isInFeedMode){
+//                    [self createResizableTextView];
+//                    [self backToCameraFromEditPallette:@"afterSend"];
+//                } else {
+//                    [self imageCapturedOnMainScreen:nil];
+//                }
+//                
+//                if(self.afterLogin){
+//                    
+////                    self.picYourGroup.alpha = 1;
+////                    glanceLogo.alpha = 1;
+////                    scoreBg.alpha = 1;
+////                    self.score.alpha = 1;
+////                    flipCameraButton.alpha = 0;
+////                    flashButton.alpha = 0;
+//                    
+//                    [self.userScore showUserScore];
+////                    if(self.isInFeedMode){
+//                        [self hideCameraButtons];
+////                    }
+//                    
+//                }
+//            }];
+//        }
+//    }
+}
+
+-(void)processImageBySourceAndPrepareWithTextandSizes {
+
+
+    switch (imageSource) {
+        case ImageSourceCamera:
+        {
+            [self processSelectedImageWithFilterTextAndSize:cleanImageFromCamera];
             
+        };
+            break;
+            
+        case ImageSourceRecents:
+        {
             PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
             options.synchronous  = YES;
             options.resizeMode = PHImageRequestOptionsResizeModeFast;
             options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-            
-            [UIView animateWithDuration:0.2 animations:^{
-                if(!self.afterLogin){
-                    [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
-                    [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
-                    self.dmut.center = CGPointMake(firstX, 60);
-                    
-//                    effectView.alpha = 1;
-//                    effectView.hidden = NO;
-                    effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-                    effectView.alpha = 1;
-                    self.backButton.alpha = 1;
-                    self.membersButton.alpha = 1;
-                }
+            [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(960, 1280) contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *image, NSDictionary *info){
                 
-            } completion:^(BOOL finished) {
-                
-                switch (imageSource) {
-                    case ImageSourceCamera:
-                    {
-                        [self processSelectedImageWithFilterTextAndSize:cleanImageFromCamera];
-                        
-                    };
-                        break;
-                        
-                    case ImageSourceRecents:
-                    {
-                        [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(960, 1280) contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *image, NSDictionary *info){
-                            
-                            [self processSelectedImageWithFilterTextAndSize:[self unrotateImage:[image imageCroppedAndScaledToSize:CGSizeMake(960, 1280) contentMode:UIViewContentModeScaleAspectFill padToFit:NO]]];
-                        }];
-                    };
-                        break;
-                        
-                    case ImageSourceGallery:
-                    {
-                        [self processSelectedImageWithFilterTextAndSize:imageFromPicker];
-                    };
-                        break;
-                        
-                    default:
-                        break;
-                }
-                
-                
-                [self createResizableTextView];
-                [self backToCameraFromEditPallette:@"afterSend"];
-                
-                if(self.afterLogin){
-                    
-//                    self.picYourGroup.alpha = 1;
-//                    glanceLogo.alpha = 1;
-//                    scoreBg.alpha = 1;
-//                    self.score.alpha = 1;
-//                    flipCameraButton.alpha = 0;
-//                    flashButton.alpha = 0;
-                    
-                    [self.userScore showUserScore];
-                    [self hideCameraButtons];
-                    
-                }
+                [self processSelectedImageWithFilterTextAndSize:[self unrotateImage:[image imageCroppedAndScaledToSize:CGSizeMake(960, 1280) contentMode:UIViewContentModeScaleAspectFill padToFit:NO]]];
             }];
-        }
+        };
+            break;
+            
+        case ImageSourceGallery:
+        {
+            [self processSelectedImageWithFilterTextAndSize:imageFromPicker];
+        };
+            break;
+            
+        default:
+            break;
     }
+
+}
+
+-(void)resetCameraAfterUploadingFromMain {
+    
 }
 
 

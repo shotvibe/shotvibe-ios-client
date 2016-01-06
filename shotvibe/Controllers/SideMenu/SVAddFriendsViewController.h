@@ -12,6 +12,7 @@
 #import "SL/AlbumManager.h"
 #import "SVAlbumListViewController.h"
 
+typedef void(^BlockToExecuteWhenDone)();
 
 typedef enum SVAddFriendsState {
     SVAddFriendsMainWithoutIamge,
@@ -56,5 +57,6 @@ typedef enum SVAddFriendsState {
 @property (weak, nonatomic) IBOutlet UIButton *contactsSourceButton;
 @property (assign, nonatomic) NSString * photoToMoveId;
 @property (weak, nonatomic) IBOutlet UIButton *groupsSourceButton;
+@property (nonatomic,copy) BlockToExecuteWhenDone friendsDoneBlock;
 
 @end

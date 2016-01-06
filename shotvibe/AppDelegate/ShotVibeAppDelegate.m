@@ -575,8 +575,19 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
     
-        [[NSUserDefaults standardUserDefaults] setInteger:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[authData getUserId]] forKey:@"kUserScore"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        //TODO surround with try and catch to avoid crash.
+        
+        
+        @try {
+            [[NSUserDefaults standardUserDefaults] setInteger:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[authData getUserId]] forKey:@"kUserScore"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        @catch (SLAPIException *e) {
+            [KVNProgress showErrorWithStatus:@"Score retrieve has failed"];
+        }
+        
+        
         
     });
 }

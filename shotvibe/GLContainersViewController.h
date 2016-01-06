@@ -35,7 +35,7 @@ typedef void(^pageTransitionCompleted)();
 @property (nonatomic, strong) SVSidebarMemberController * membersViewController;
 
 + (GLContainersViewController *)sharedInstance;
-- (void)goToFriendsListViewAnimatedBeforeUploadingPhoto:(BOOL)animated completed:(pageTransitionCompleted)completed;
+- (void)goToFriendsListViewAnimatedBeforeUploadingPhoto:(BOOL)animated completed:(pageTransitionCompleted)completed executeWhenFriendsDone:(BlockToExecuteWhenDone)friendsDoneBlock;
 - (void)goToFeedViewAnimated:(BOOL)animated withAlbumId:(long long int)albumId;
 - (void)goToFeedViewAnimated:(BOOL)animated withAlbumId:(long long int)albumId completed:(pageTransitionCompleted)completed;
 - (void)goToFriendsListViewAnimatedBeforeAddingMembers:(BOOL)animated albumId:(long long int)albumId;

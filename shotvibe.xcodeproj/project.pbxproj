@@ -513,6 +513,8 @@
 		0FD8B0871C315553009D7CFA /* GLContainersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD8B0851C315553009D7CFA /* GLContainersViewController.m */; };
 		0FD8B0881C315554009D7CFA /* GLContainersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FD8B0861C315553009D7CFA /* GLContainersViewController.xib */; };
 		0FD8B08E1C315C2B009D7CFA /* UIViewController+index.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD8B08D1C315C2B009D7CFA /* UIViewController+index.m */; };
+		0FDC00B51C3D332600DA96F2 /* JPSVolumeButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDC00B41C3D332600DA96F2 /* JPSVolumeButtonHandler.m */; };
+		0FDC00B91C3DA77800DA96F2 /* GLEmojiKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDC00B81C3DA77700DA96F2 /* GLEmojiKeyboard.m */; };
 		0FE43EA31BDE90DF0088D93F /* GLFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE43EA11BDE90DF0088D93F /* GLFeedViewController.m */; };
 		0FE43EA41BDE90DF0088D93F /* GLFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FE43EA21BDE90DF0088D93F /* GLFeedViewController.xib */; };
 		0FE43EAA1BDE91800088D93F /* GLFeedTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE43EA81BDE91800088D93F /* GLFeedTableCell.m */; };
@@ -1618,6 +1620,10 @@
 		0FD8B0861C315553009D7CFA /* GLContainersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GLContainersViewController.xib; path = shotvibe/GLContainersViewController.xib; sourceTree = "<group>"; };
 		0FD8B08C1C315C2B009D7CFA /* UIViewController+index.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+index.h"; sourceTree = "<group>"; };
 		0FD8B08D1C315C2B009D7CFA /* UIViewController+index.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+index.m"; sourceTree = "<group>"; };
+		0FDC00B31C3D332600DA96F2 /* JPSVolumeButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSVolumeButtonHandler.h; sourceTree = "<group>"; };
+		0FDC00B41C3D332600DA96F2 /* JPSVolumeButtonHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSVolumeButtonHandler.m; sourceTree = "<group>"; };
+		0FDC00B71C3DA77700DA96F2 /* GLEmojiKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLEmojiKeyboard.h; sourceTree = "<group>"; };
+		0FDC00B81C3DA77700DA96F2 /* GLEmojiKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLEmojiKeyboard.m; sourceTree = "<group>"; };
 		0FE43EA01BDE90DF0088D93F /* GLFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLFeedViewController.h; sourceTree = "<group>"; };
 		0FE43EA11BDE90DF0088D93F /* GLFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLFeedViewController.m; sourceTree = "<group>"; };
 		0FE43EA21BDE90DF0088D93F /* GLFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLFeedViewController.xib; sourceTree = "<group>"; };
@@ -3065,6 +3071,8 @@
 		0F4390DF1C22F93200C83C45 /* V2Additions */ = {
 			isa = PBXGroup;
 			children = (
+				0FDC00B61C3DA75400DA96F2 /* GLEmojiKeyboard */,
+				0FDC00B21C3D332600DA96F2 /* JPSVolumeButtonHandler */,
 				0FD8B0831C315528009D7CFA /* GLContainersViewController */,
 				0FD8B0711C301BAF009D7CFA /* GLCropView */,
 				0FED6C8E1C2BF5B000BEA211 /* GLPubNubManager */,
@@ -3350,6 +3358,24 @@
 				0FD8B0861C315553009D7CFA /* GLContainersViewController.xib */,
 			);
 			name = GLContainersViewController;
+			sourceTree = "<group>";
+		};
+		0FDC00B21C3D332600DA96F2 /* JPSVolumeButtonHandler */ = {
+			isa = PBXGroup;
+			children = (
+				0FDC00B31C3D332600DA96F2 /* JPSVolumeButtonHandler.h */,
+				0FDC00B41C3D332600DA96F2 /* JPSVolumeButtonHandler.m */,
+			);
+			path = JPSVolumeButtonHandler;
+			sourceTree = "<group>";
+		};
+		0FDC00B61C3DA75400DA96F2 /* GLEmojiKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				0FDC00B71C3DA77700DA96F2 /* GLEmojiKeyboard.h */,
+				0FDC00B81C3DA77700DA96F2 /* GLEmojiKeyboard.m */,
+			);
+			name = GLEmojiKeyboard;
 			sourceTree = "<group>";
 		};
 		0FE43E9F1BDE90AE0088D93F /* Feed2 */ = {
@@ -5809,6 +5835,7 @@
 				0FFC61B61C198E29006D9525 /* YYImageCoder.m in Sources */,
 				3BE0B11117C2BFA20058CAAD /* FMResultSet.m in Sources */,
 				6601322C187F4E670042047B /* IOSConcreteClass.m in Sources */,
+				0FDC00B51C3D332600DA96F2 /* JPSVolumeButtonHandler.m in Sources */,
 				66013236187F4E670042047B /* IOSShortArray.m in Sources */,
 				0FD8B07D1C301BBE009D7CFA /* PECropView.m in Sources */,
 				0F4947811BE231F900FEDC12 /* GPUImageLateSunsetFilter.m in Sources */,
@@ -5902,6 +5929,7 @@
 				66296A1B1A30B89E008DA0D0 /* SVNotificationHandler.m in Sources */,
 				0F4947C01BE56DFC00FEDC12 /* UIImage+ImageEffects.m in Sources */,
 				0F4947B21BE281D600FEDC12 /* LNNotificationSettingsController.m in Sources */,
+				0FDC00B91C3DA77800DA96F2 /* GLEmojiKeyboard.m in Sources */,
 				6601324A187F4E670042047B /* InternalError.m in Sources */,
 				66452E1519CB2A0800F0EF76 /* IosBitmapProcessor.m in Sources */,
 				3E36D4D618D83D83003A1D3A /* TutorialChildViewController.m in Sources */,

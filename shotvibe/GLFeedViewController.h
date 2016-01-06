@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SVNotificationHandler.h"
 #import "GLPubNubManager.h"
+#import "JPSVolumeButtonHandler.h"
 
 typedef enum FeedScrollDirection {
     FeedScrollDirectionUp,
@@ -39,8 +40,10 @@ typedef enum FeedScrollDirection {
 
 @property (retain, nonatomic) NSMutableArray *feedItems;
 
+@property (retain, nonatomic) JPSVolumeButtonHandler * volumeButtonHandler;
+
 -(void)imageSelected:(UIImage*)image;
 -(void)backPressed;
 -(void)videoSelected;
-
+-(void)showUserProfileWithId:(long long)userId ;
 @end

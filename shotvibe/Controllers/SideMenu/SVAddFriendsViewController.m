@@ -331,8 +331,7 @@
         //        }];
         
     } else if(self.state == SVAddFriendsMainWithImage){
-        [[GLSharedCamera sharedInstance] setCameraInMain];
-        [[GLSharedCamera sharedInstance] resetCameraAfterBack];
+        
         [[GLContainersViewController sharedInstance] resetFriendsView];
         [[GLContainersViewController sharedInstance] goToAlbumListViewController:NO];
         
@@ -724,8 +723,17 @@
                 //            [alert show];
     
     
+                
+                
+//                [[GLSharedCamera sharedInstance] resetCameraAfterUploadingFromMain];
+                
+                
+                
                 SLAlbumContents * album = [self getAlbumForIndexPath:indexPath];
-                [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:[album getId]];
+                [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:[album getId] completed:^{
+                    self.friendsDoneBlock();
+                }];
+
 //                [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
 //                [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:0 completion:^{
 //                    [[ContainerViewController sharedInstance] resetFriendsView];
@@ -811,71 +819,85 @@
 
 -(void)openGroupFromMembers {
     
-    //    BOOL allowProceed = NO;
-    //
-    //    if(self.state == SVAddFriendsFromAddFriendButton || self.state ==
-    //       SVAddFriendsFromMove){
-    //        allowProceed = YES;
-    //    } else {
-    //        if([contactsButtons count] >= 3){
-    //            allowProceed = YES;
-    //        } else {
-    //            allowProceed = NO;
-    //        }
-    //    }
-    //
-    //    if(allowProceed){
-    //        NSLog(@"%@",checkedContactsList_);
-    //
-    //        __block long long int albumId;
-    //        __block SLAlbumContents * album;
-    //
-    //        [ShotVibeAPITask runTask:self withAction:^id{
-    //            SLAlbumContents * newAlbum = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:@""];
-    //
-    //            NSMutableArray *memberAddRequests = [[NSMutableArray alloc] init];
-    //
-    //            for (SLPhoneContact *phoneContact in checkedContactsList_) {
-    //                SLShotVibeAPI_MemberAddRequest *request = [[SLShotVibeAPI_MemberAddRequest alloc] initWithNSString:[phoneContact getFullName]
-    //                                                                                                      withNSString:[phoneContact getPhoneNumber]];
-    //
-    //                [memberAddRequests addObject:request];
-    //            }
-    //
-    //            NSString *defaultCountryCode = [[[albumManager_ getShotVibeAPI] getAuthData] getDefaultCountryCode];
-    //
-    //            albumId = [newAlbum getId];
-    //            [[albumManager_ getShotVibeAPI] albumAddMembersWithLong:[newAlbum getId]
-    //                                                   withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:memberAddRequests]
-    //                                                       withNSString:defaultCountryCode];
-    //            album = newAlbum;
-    //            return nil;
-    //        } onTaskComplete:^(id dummy) {
-    //
-    //
-    //
-    //            if(self.friendsFromMainWithPicture || self.friendsFromMainWithVideo){
-    //                albumId = 0;
-    //            }
-    //
-    //            [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:albumId completion:^{
-    //                [[ContainerViewController sharedInstance] resetFriendsView];
-    //                if(self.friendsFromMainWithPicture){
-    //
-    //                    [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
-    //
-    //                    self.friendsFromMainWithPicture = NO;
-    //                } else if (self.friendsFromMainWithVideo){
-    //
-    //                    [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
-    //                    self.friendsFromMainWithVideo = NO;
-    //
-    //                }
-    //            }];
-    //        }];
-    //    } else {
-    //        [KVNProgress showErrorWithStatus:@"Group is a minimum of 4"];
-    //    }
+        BOOL allowProceed = NO;
+    
+        if(self.state == SVAddFriendsFromAddFriendButton || self.state ==
+           SVAddFriendsFromMove){
+            allowProceed = YES;
+        } else {
+            if([contactsButtons count] >= 3){
+                allowProceed = YES;
+            } else {
+                allowProceed = NO;
+            }
+        }
+    
+        if(allowProceed){
+            NSLog(@"%@",checkedContactsList_);
+    
+            __block long long int albumId;
+            __block SLAlbumContents * album;
+    
+            [ShotVibeAPITask runTask:self withAction:^id{
+                SLAlbumContents * newAlbum = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:@""];
+    
+                NSMutableArray *memberAddRequests = [[NSMutableArray alloc] init];
+    
+                for (SLPhoneContact *phoneContact in checkedContactsList_) {
+                    SLShotVibeAPI_MemberAddRequest *request = [[SLShotVibeAPI_MemberAddRequest alloc] initWithNSString:[phoneContact getFullName]
+                                                                                                          withNSString:[phoneContact getPhoneNumber]];
+    
+                    [memberAddRequests addObject:request];
+                }
+    
+                NSString *defaultCountryCode = [[[albumManager_ getShotVibeAPI] getAuthData] getDefaultCountryCode];
+    
+                albumId = [newAlbum getId];
+                [[albumManager_ getShotVibeAPI] albumAddMembersWithLong:[newAlbum getId]
+                                                       withJavaUtilList:[[SLArrayList alloc] initWithInitialArray:memberAddRequests]
+                                                           withNSString:defaultCountryCode];
+                album = newAlbum;
+                return nil;
+            } onTaskComplete:^(id dummy) {
+    
+                [KVNProgress dismiss];
+    
+                if(self.friendsFromMainWithPicture || self.friendsFromMainWithVideo){
+                    albumId = 0;
+                }
+                
+                
+                
+//                [KVNProgress showSuccessWithStatus:@"group is opened and now we need to transit to it"];
+    
+                
+                [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:[album getId]  completed:^{
+                    if(self.friendsDoneBlock){
+                        self.friendsDoneBlock();
+                    } else {
+                        [[GLSharedCamera sharedInstance] setCameraInFeedAfterGroupOpenedWithoutImage];
+//                        [[GLSharedCamera sharedInstance] setCameraInFeed];
+                    }
+                }];
+                
+//                [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:albumId completion:^{
+//                    [[ContainerViewController sharedInstance] resetFriendsView];
+//                    if(self.friendsFromMainWithPicture){
+//    
+//                        [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
+//    
+//                        self.friendsFromMainWithPicture = NO;
+//                    } else if (self.friendsFromMainWithVideo){
+//    
+//                        [[ContainerViewController sharedInstance] startUploadAfterSourceSelect:[album getId] withAlbumContents:nil];
+//                        self.friendsFromMainWithVideo = NO;
+//    
+//                    }
+//                }];
+            }];
+        } else {
+            [KVNProgress showErrorWithStatus:@"Group is a minimum of 4"];
+        }
     
 }
 

@@ -10,6 +10,7 @@
 #import "SL/AlbumMember.h"
 
 @interface GLProfilePageViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *userProfileImage;
 @property (weak, nonatomic) IBOutlet UILabel *userNickName;
 @property (weak, nonatomic) IBOutlet UILabel *userScore;

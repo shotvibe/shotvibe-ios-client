@@ -559,6 +559,18 @@
     if ([[shotvibeAPI getAuthData] getUserId] == [[member getUser] getMemberId]) {
         
         [self ownerButtonPressed:nil];
+    } else {
+        
+        GLFeedViewController * currentFeed = [[[[GLContainersViewController sharedInstance] navigationController] viewControllers] lastObject];
+        
+        [[[GLContainersViewController sharedInstance] membersSideMenu] toggleRightSideMenuCompletion:^{
+            [currentFeed showUserProfileWithId:[[member getUser]getMemberId]];
+        }];
+        
+
+        
+//        [self.navigationController popViewControllerAnimated:YES];
+        
     }
 }
 

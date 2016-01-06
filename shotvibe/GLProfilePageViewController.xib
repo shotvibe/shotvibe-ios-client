@@ -20,6 +20,7 @@
             <connections>
                 <outlet property="reinviteButton" destination="hrB-ed-OXJ" id="ugJ-OF-Jnm"/>
                 <outlet property="removeButton" destination="8rD-T9-Z5E" id="zTo-F2-Bae"/>
+                <outlet property="scoreLabel" destination="iP7-JJ-FhU" id="MOL-JA-god"/>
                 <outlet property="userNickName" destination="Hus-Em-IvC" id="ewk-qm-nMR"/>
                 <outlet property="userProfileImage" destination="s84-jN-01U" id="lrM-xC-Ynf"/>
                 <outlet property="userScore" destination="tMn-cc-c78" id="gna-ya-IQD"/>

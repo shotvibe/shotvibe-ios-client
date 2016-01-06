@@ -43,7 +43,7 @@ static GLContainersViewController *sharedInstance;
 - (void)goToFeedViewAnimated:(BOOL)animated withAlbumId:(long long int)albumId completed:(pageTransitionCompleted)completed {
     
     [self lockScrollingPages];
-    [[GLSharedCamera sharedInstance] setCameraInFeed];
+//    [[GLSharedCamera sharedInstance] setCameraInFeed];
     GLFeedViewController * feed = [[GLFeedViewController alloc] init];
     feed.albumId = albumId;
     [self.navigationController pushViewController:feed animated:animated];
@@ -56,10 +56,10 @@ static GLContainersViewController *sharedInstance;
     
 }
 
-- (void)goToFeedViewAnimated:(BOOL)animated withAlbumId:(long long int)albumId {
+- (void)goToFeedViewAnimated:(BOOL)animated withAlbumId:(long long int)albumId  {
     
     [self lockScrollingPages];
-    [[GLSharedCamera sharedInstance] setCameraInFeed];
+//    [[GLSharedCamera sharedInstance] setCameraInFeed];
     GLFeedViewController * feed = [[GLFeedViewController alloc] init];
     feed.albumId = albumId;
     [self.navigationController pushViewController:feed animated:animated];
@@ -96,13 +96,16 @@ static GLContainersViewController *sharedInstance;
     
 }
 
-- (void)goToFriendsListViewAnimatedBeforeUploadingPhoto:(BOOL)animated completed:(pageTransitionCompleted)completed {
+- (void)goToFriendsListViewAnimatedBeforeUploadingPhoto:(BOOL)animated completed:(pageTransitionCompleted)completed executeWhenFriendsDone:(BlockToExecuteWhenDone)friendsDoneBlock {
     
     self.friendsViewController.state = SVAddFriendsMainWithImage;
     self.friendsViewController.friendsFromMainWithPicture = YES;
+    self.friendsViewController.friendsDoneBlock = friendsDoneBlock;
     
     [self.pageController setViewControllers:@[self.friendsViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:animated completion:^(BOOL finished) {
         completed();
+        
+        
         
     }];
     

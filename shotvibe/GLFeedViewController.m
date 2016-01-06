@@ -67,6 +67,8 @@
 #import "GLFeedTableCellUploading.h"
 #import "GLContainersViewController.h"
 
+#import "GLEmojiKeyboard.h"
+
 
 
 @interface GLFeedViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
@@ -98,6 +100,8 @@
     UILabel * no;
     UIImageView * dmutArrow;
     BOOL placeHolderIsShown;
+    
+    NSInteger currentPostIndex;
 }
 @end
 
@@ -128,8 +132,34 @@
     }
 }
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    
+    
+    currentPostIndex = 0;
+    
+    self.volumeButtonHandler = [JPSVolumeButtonHandler volumeButtonHandlerWithUpBlock:^{
+        
+        float num = self.tableView.contentOffset.y/self.tableView.frame.size.height;
+        if(num > 0 && tableIsScrolling == NO){
+            NSLog(@"current down %f",floorf(num+0.5));
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:floorf(num+0.5)-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        }
+        
+    } downBlock:^{
+        
+        float num = self.tableView.contentOffset.y/self.tableView.frame.size.height;
+        if(num < self.posts.count-1 && tableIsScrolling == NO){
+            NSLog(@"current down %f",floorf(num+0.5));
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:floorf(num+0.5)+1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        }
+
+    }];
+    
     
     
     cameBackFromBg = NO;
@@ -440,7 +470,7 @@
                 // unmute the video if we can see at least half of the cell
                 //                [((VideoMessageCell*)cell) muteVideo:!btnMuteVideos.selected];
                 //                NSLog(@"im gone play on this red cell cus more then 51 is visible");
-                
+
                 if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
                     
                     NSString * videoUrl = [[[photo getServerPhoto] getVideo] getVideoUrl];
@@ -457,9 +487,13 @@
                 //                    [[GLSharedVideoPlayer sharedInstance] pause];
                 
                 //                cell.backgroundColor = [UIColor redColor];
+//                currentPostIndex++;
+//                NSLog(@"down index is :%ld",(long)currentPostIndex);
             }
             else
             {
+//                currentPostIndex++;
+//                NSLog(@"down index is :%ld",(long)currentPostIndex);
                 //                [[GLSharedVideoPlayer sharedInstance] pause];
                 // mute the other video cells that are not visible
                 //                [((VideoMessageCell*)cell) muteVideo:YES];
@@ -502,26 +536,26 @@
     
     tableIsScrolling = NO;
     
-    if(!scrollToCellDisabled && !commentingNow){
-        NSLog(@"im done and ready to highlight comment");
-        
-        
-        NSArray *cells = [self.tableView visibleCells];
-        
-        GLFeedTableCell *cell = nil;
-        NSIndexPath *path = [NSIndexPath indexPathForRow:cellToHighLightIndex inSection:0];
-        for (GLFeedTableCell *aCell in cells) {
-            NSIndexPath *aPath = [self.tableView indexPathForCell:aCell];
-            
-            if ([aPath isEqual:path]) {
-                cell = aCell;
-            }
-        }
-        
-        [cell highLightLastCommentInPost];
-        self.view.userInteractionEnabled = YES;
-        
-    }
+//    if(!scrollToCellDisabled && !commentingNow){
+//        NSLog(@"im done and ready to highlight comment");
+//        
+//        
+//        NSArray *cells = [self.tableView visibleCells];
+//        
+//        GLFeedTableCell *cell = nil;
+//        NSIndexPath *path = [NSIndexPath indexPathForRow:cellToHighLightIndex inSection:0];
+//        for (GLFeedTableCell *aCell in cells) {
+//            NSIndexPath *aPath = [self.tableView indexPathForCell:aCell];
+//            
+//            if ([aPath isEqual:path]) {
+//                cell = aCell;
+//            }
+//        }
+//        
+//        [cell highLightLastCommentInPost];
+//        self.view.userInteractionEnabled = YES;
+//        
+//    }
     
 }
 
@@ -619,7 +653,7 @@
         //        scrollView.contentOffset = CGPointZero;
     } else {
         if (decelerate == NO) {
-            //        [self centerTable];
+                    [self centerTable];
         }
     }
 }
@@ -629,7 +663,7 @@
     //    if (scrollView.contentOffset.y < scrollView.contentSize.height) {
     //        scrollView.contentOffset = CGPointZero;
     //    } else {
-    //    [self centerTable];
+        [self centerTable];
     //    }
 }
 
@@ -1578,6 +1612,7 @@
     if (indexPath.row == 99999999999) {
         
         GLFeedTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierUploading];
+        cell.tag = indexPath.row;
         
         if(cell==nil){
             
@@ -2490,12 +2525,12 @@
 //    }
     
     [[GLContainersViewController sharedInstance] unlockScrollingPages];
-    
-    
-//    [GLContainersViewController ];
+ 
     if(![[[self.navigationController viewControllers]lastObject] isKindOfClass:[GLProfilePageViewController class]]){
         [[GLSharedCamera sharedInstance] setCameraInMain];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     } else {
+        [self.navigationController popViewControllerAnimated:YES];
             [UIView animateWithDuration:0.2 animations:^{
                 [[[GLSharedCamera sharedInstance]membersButton]setAlpha:1];
                 [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:YES];
@@ -2503,7 +2538,7 @@
     }
     
     
-    [self.navigationController popViewControllerAnimated:YES];
+    
     
     
 }
@@ -2643,6 +2678,8 @@
     
     
     //    [self.tableView setUserInteractionEnabled:NO];
+    
+    
     commentingNow = YES;
     NSLog(@"the photo id is %lld",(long long)sender.tag);
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
@@ -2674,7 +2711,9 @@
         
         
         [customKeyboard setTextView:cell.commentTextField];
-        [cell.commentTextField becomeFirstResponder];
+//        [cell.commentTextField becomeFirstResponder];
+        GLEmojiKeyboard * key = [[GLEmojiKeyboard alloc] init];
+        [key slideKeyBoardIn];
     }];
     
 }
