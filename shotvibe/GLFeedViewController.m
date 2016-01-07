@@ -1113,7 +1113,7 @@
     ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
     
     
-    self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
+    self.menuContainerViewController.panMode = MFSideMenuPanModeDefault;
     
     self.title = [albumContents getName];
     //    [albumContents];
@@ -2650,7 +2650,7 @@
 -(void)addCommentTapped:(UIButton*)sender {
     
     
-    self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
+//    self.menuContainerViewController.panMode = MFSideMenuPanModedef;
     
     //    [NSString stringWithFormat:@"%@ commented on a photo @ %@",[msg getCommentAuthorNickname],[msg getAlbumName]]
     //    LNNotification* notification = [LNNotification notificationWithMessage:@"Omer has commented @ The best friends"];
