@@ -1113,7 +1113,7 @@
     ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).albumContents = albumContents;
     
     
-    self.menuContainerViewController.panMode = MFSideMenuPanModeDefault;
+    self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
     
     self.title = [albumContents getName];
     //    [albumContents];
@@ -1729,6 +1729,7 @@
                 cell.abortCommentButton.tag = indexPath.row;
                 cell.glanceDownButton.tag = indexPath.row;
                 cell.glanceUpButton.tag = indexPath.row;
+                cell.submitCommentButton.tag = indexPath.row;
                 
                 cell.feed3DotsButton.tag = indexPath.row;
                 
@@ -2619,24 +2620,8 @@
     
     
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
-    //    [cell.abortCommentButton addTarget:self action:@selector(abortCommentPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.commentTextField resignFirstResponder];
-    [UIView animateWithDuration:0.2 animations:^{
-        //                commentsDialog.alpha = 0;
-        cell.abortCommentButton.alpha = 0;
-        cell.addCommentButton.alpha = 1;
-        cell.feed3DotsButton.alpha = 1;
-        //        cell.glancesIcon.alpha = 1;
-        cell.commentTextField.text = @"";
-        cell.commentTextField.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+10,cell.glancesCounter.frame.origin.y+2, 0,35);
-        
-        cell.glancesCounter.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+32, 26, 45, 35);
-        
-        
-    } completion:^(BOOL finished) {
-        commentingNow = NO;
-    }];
+    commentingNow = NO;
+    [cell abortCommentDidPressed];
     
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -2664,6 +2649,9 @@
 
 -(void)addCommentTapped:(UIButton*)sender {
     
+    
+    self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
+    
     //    [NSString stringWithFormat:@"%@ commented on a photo @ %@",[msg getCommentAuthorNickname],[msg getAlbumName]]
     //    LNNotification* notification = [LNNotification notificationWithMessage:@"Omer has commented @ The best friends"];
     //    notification.title = @"Omer has just Cmmented";
@@ -2687,38 +2675,94 @@
     cell.commentTextField.delegate = self;
     //    [cell bringSubviewToFront:cell.commentTextField];
     [cell.abortCommentButton addTarget:self action:@selector(abortCommentPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.backSpaceKeyBoardButton addTarget:self action:@selector(keyBoardBackSpacePressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.submitCommentButton addTarget:self action:@selector(commentSubmitPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    
+    
+    [cell showCommentAreaAndKeyBoard];
     //    [cell.abortCommentButton addTarget:self action:@selector(abortCommentPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     //    [cell.postPannelWrapper addSubview:abortCommentButton];
     
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        cell.addCommentButton.alpha = 0;
-        cell.abortCommentButton.alpha = 1;
-        //        cell.glancesIcon.alpha = 0;
-        
-        cell.commentTextField.frame = CGRectMake(cell.commentTextField.frame.origin.x, cell.commentTextField.frame.origin.y, self.view.frame.size.width*0.60, cell.commentTextField.frame.size.height);
-        
-        cell.glancesCounter.frame = CGRectMake(cell.commentTextField.frame.origin.x+cell.commentTextField.frame.size.width, cell.glancesCounter.frame.origin.y, cell.glancesCounter.frame.size.width, cell.glancesCounter.frame.size.height);
-        
-        cell.feed3DotsButton.alpha = 0;
-        
-    } completion:^(BOOL finished) {
-        PMCustomKeyboard *customKeyboard = [[PMCustomKeyboard alloc] init];
-        
-        
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-        
-        
-        [customKeyboard setTextView:cell.commentTextField];
-//        [cell.commentTextField becomeFirstResponder];
-        GLEmojiKeyboard * key = [[GLEmojiKeyboard alloc] init];
-        [key slideKeyBoardIn];
-    }];
+    
     
 }
 
+-(void)keyBoardBackSpacePressed:(UIButton*)sender {
+    GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
+    [[cell keyboard] backSpacePressed];
+}
 
+-(void)commentSubmitPressed:(UIButton *)sender {
+
+        GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
+    
+    if([cell.keyboard.textField.text isEqualToString:@""]){
+        
+        
+        [KVNProgress showErrorWithStatus:@"Comment can't be empty" completion:^{
+            
+        }];
+        
+        
+    } else {
+        
+        //        [KVNProgress showWithStatus:@"Posting your comment"];
+        
+        long long milliseconds = (long long)([[NSDate date] timeIntervalSince1970] * 1000.0);
+//        GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
+        
+        
+//        [cell.commentTextField resignFirstResponder];
+        //        [self.tableView reloadData];
+        NSString * stringForComment = cell.keyboard.textField.text;
+        [cell abortCommentDidPressed];
+        [ShotVibeAPITask runTask:self withAction:^id{
+            
+            [[albumManager_ getShotVibeAPI]postPhotoCommentWithNSString:cell.photoId withNSString:stringForComment withLong:milliseconds];
+            return nil;
+        } onTaskComplete:^(id dummy) {
+            
+            
+            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+            //            [self.tableView setUserInteractionEnabled:YES];
+            
+            
+            
+//            [UIView animateWithDuration:0.2 animations:^{
+                //                commentsDialog.alpha = 0;
+//                cell.abortCommentButton.alpha = 0;
+//                cell.addCommentButton.alpha = 1;
+//                //                cell.glancesIcon.alpha = 1;
+//                cell.commentTextField.text = @"";
+//                cell.commentTextField.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+10,cell.glancesCounter.frame.origin.y+2, 0,35);
+//                
+//                cell.glancesCounter.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+32, 26, 45, 35);
+            
+                
+//            } completion:^(BOOL finished) {
+                commentingNow = NO;
+                
+                //                [KVNProgress showSuccessWithStatus:@"Comment Posted"];
+                
+                //                textField.text = @"";
+//            }];
+        } onTaskFailure:
+         ^(id failure) {
+             
+             [KVNProgress showErrorWithStatus:@"Somthing went wrong"];
+             
+         }  withLoaderIndicator:NO];
+        
+    }
+    
+
+
+}
 
 -(void)keyboardDidShow:(NSNotification *)notification {
     

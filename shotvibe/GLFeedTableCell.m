@@ -135,6 +135,18 @@
     self.feed3DotsButton = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width-40, 25, 25, 25)];
     [self.feed3DotsButton setBackgroundImage:[UIImage imageNamed:@"feed3Dots"] forState:UIControlStateNormal];
     
+
+    
+    self.submitCommentButton = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width-40, 32.5, 30, 25)];
+    [self.submitCommentButton setBackgroundImage:[UIImage imageNamed:@"approveTextIcon"] forState:UIControlStateNormal];
+    self.submitCommentButton.alpha = 0;
+    
+    self.backSpaceKeyBoardButton = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width-80, 32, 30, 30)];
+    [self.backSpaceKeyBoardButton setBackgroundImage:[UIImage imageNamed:@"backSpaceIcon"] forState:UIControlStateNormal];
+    self.backSpaceKeyBoardButton.alpha = 0;
+    
+
+    
     
     
     
@@ -185,6 +197,8 @@
     [self.postPannelWrapper addSubview:self.glanceUpButton];
     [self.postPannelWrapper addSubview:self.feed3DotsButton];
     [self.postPannelWrapper addSubview:self.commentTextField];
+    [self.postPannelWrapper addSubview:self.backSpaceKeyBoardButton];
+    [self.postPannelWrapper addSubview:self.submitCommentButton];
     
    
     
@@ -206,6 +220,74 @@
     _progressLayer.strokeStart = 0;
     _progressLayer.strokeEnd = 0;
     [self.postImage.layer addSublayer:_progressLayer];
+
+}
+
+-(void)abortCommentDidPressed {
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        //                commentsDialog.alpha = 0;
+        self.abortCommentButton.alpha = 0;
+        self.addCommentButton.alpha = 1;
+        self.feed3DotsButton.alpha = 1;
+        //        cell.glancesIcon.alpha = 1;
+        self.commentTextField.text = @"";
+        self.commentTextField.frame = CGRectMake(self.addCommentButton.frame.origin.x+self.addCommentButton.frame.size.width+10,self.glancesCounter.frame.origin.y+2, 0,35);
+        
+        self.glancesCounter.alpha = 1;
+        
+        self.submitCommentButton.alpha = 0;
+        self.backSpaceKeyBoardButton.alpha = 0;
+        
+//        self.glancesCounter.frame = CGRectMake(cell.addCommentButton.frame.origin.x+cell.addCommentButton.frame.size.width+32, 26, 45, 35);
+        
+        
+    } completion:^(BOOL finished) {
+        [self hideKeyBoard];
+    }];
+    
+}
+
+-(void)showCommentAreaAndKeyBoard {
+
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        self.addCommentButton.alpha = 0;
+        self.abortCommentButton.alpha = 1;
+        self.backSpaceKeyBoardButton.alpha = 1;
+        self.submitCommentButton.alpha = 1;
+        //        cell.glancesIcon.alpha = 0;
+        
+        self.commentTextField.frame = CGRectMake(self.commentTextField.frame.origin.x, self.commentTextField.frame.origin.y, self.frame.size.width*0.60, self.commentTextField.frame.size.height);
+        self.glancesCounter.alpha = 0;
+//        cell.glancesCounter.frame = CGRectMake(cell.commentTextField.frame.origin.x+cell.commentTextField.frame.size.width, cell.glancesCounter.frame.origin.y, cell.glancesCounter.frame.size.width, cell.glancesCounter.frame.size.height);
+        
+        self.feed3DotsButton.alpha = 0;
+        
+    } completion:^(BOOL finished) {
+//        PMCustomKeyboard *customKeyboard = [[PMCustomKeyboard alloc] init];
+        
+        
+//        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        
+        
+//        [customKeyboard setTextView:cell.commentTextField];
+        //        [cell.commentTextField becomeFirstResponder];
+        [self showKeyBoard];
+        //        GLEmojiKeyboard * key = [[GLEmojiKeyboard alloc] init];
+        //        [key slideKeyBoardIn];
+    }];
+    
+}
+
+-(void)hideKeyBoard {
+    [self.keyboard slideKeyBoardOut];
+}
+
+-(void)showKeyBoard {
+
+    self.keyboard = [[GLEmojiKeyboard alloc] initWithView:self.postImage];
+    self.keyboard.textField = self.commentTextField;
 
 }
 

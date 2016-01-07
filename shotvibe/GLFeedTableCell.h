@@ -17,7 +17,7 @@
 #import "CALayer+YYAdd.h"
 #import "UIGestureRecognizer+YYAdd.h"
 #import "YYWebImage.h"
-
+#import "GLEmojiKeyboard.h"
 
 @interface GLFeedTableCell : UITableViewCell<MPMediaPlayback> {
     
@@ -32,7 +32,9 @@
 - (void)loadCellWithData:(NSArray*)data photoFilesManager:(PhotoFilesManager*)photoFilesManager_;
 - (void)notifyCompletelyVisible;
 - (void)notifyNotCompletelyVisible;
-
+- (void)showKeyBoard;
+-(void)abortCommentDidPressed;
+- (void)showCommentAreaAndKeyBoard;
 @property(nonatomic,retain) UIImageView * profileImageView;
 @property(nonatomic,retain) UILabel * userName;
 @property(nonatomic,retain) UILabel * postedTime;
@@ -56,11 +58,11 @@
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSTimer * playBackStartedTester;
 @property (nonatomic, strong) UIActivityIndicatorView * activityIndicator;
-
 @property (nonatomic, strong) UIImageView *webImageView;
 @property (nonatomic, strong) UIActivityIndicatorView *indicator;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
-
-
+@property(nonatomic, retain) UIButton * backSpaceKeyBoardButton;
+@property(nonatomic, retain) UIButton * submitCommentButton;
+@property(nonatomic, retain) GLEmojiKeyboard * keyboard;
 @end

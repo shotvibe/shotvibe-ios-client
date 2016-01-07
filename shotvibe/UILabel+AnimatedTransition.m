@@ -12,11 +12,11 @@
 
 -(void)willMoveToSuperview:(UIView *)newSuperview {
     
-    CATransition *animation = [CATransition animation];
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    animation.type = kCATransitionFade;
-    animation.duration = 2.75;
-    [self.layer addAnimation:animation forKey:@"kCATransitionFade"];
+//    CATransition *animation = [CATransition animation];
+//    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//    animation.type = kCATransitionFade;
+//    animation.duration = 2.75;
+//    [self.layer addAnimation:animation forKey:@"kCATransitionFade"];
     
 }
 
