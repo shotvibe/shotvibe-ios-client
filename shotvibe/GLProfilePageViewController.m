@@ -14,6 +14,7 @@
 #import "UIImage+ImageEffects.h"
 #import "YYWebImage.h"
 #import "MBProgressHUD.h"
+#import "GLContainersViewController.h"
 
 @interface GLProfilePageViewController (){
     UIImageView * bg;
@@ -100,6 +101,8 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
 
+    
+    [[GLContainersViewController sharedInstance] enableSideMembers];
     [super viewWillDisappear:animated];
     self.view.alpha = 0;
     
@@ -263,22 +266,43 @@
  // Pass the selected object to the new view controller.
  }
  */
+//-(void)viewWillDisappear:(BOOL)animated {
+//    [super viewWillDisappear:animated];
+//    [[GLContainersViewController sharedInstance] enableSideMembers];
+//}
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[GLContainersViewController sharedInstance] disableSideMembers];
     //    [MBProgressHUD hideHUDForView:[[ShotVibeAppDelegate sharedDelegate] window] animated:YES];
     //    [MBProgressHUD hideHUDAddedTo: animated:YES];
 }
 
+
+
+
 - (IBAction)removePressed:(id)sender {
+    
+    //Remove User
+//    put in task
+//    [[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] albumRemoveMemberWithLong:@"album id" withLong:@"user id"];
+    
     
     
     
 }
 
 - (IBAction)reinvitePressed:(id)sender {
+    //Re Invite User to group
+    //Only if you originally invited the user to the group;
+
+    //Run In Task;
+    
+//    SLShotVibeAPI_AlbumMemberPhoneNumber * result = [[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAlbumMemberPhoneNumberWithLong:@"albumid" withLong:@"userid"];
     
     
+    //TODO send to i message with text .
+//    [result getPhoneNumber];
     
 }
 @end

@@ -10,8 +10,9 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "UIImage+ImageEffects.h"
 #import "MFSideMenu.h"
+#import "ShotVibeAppDelegate.h"
 
-@interface GLSharedVideoPlayer : NSObject 
+@interface GLSharedVideoPlayer : NSObject <UIGestureRecognizerDelegate>
 
 
 + (GLSharedVideoPlayer *)sharedInstance;

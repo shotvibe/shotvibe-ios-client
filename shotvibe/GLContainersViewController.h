@@ -45,4 +45,6 @@ typedef void(^pageTransitionCompleted)();
 - (void)lockScrollingPages ;
 - (void)unlockScrollingPages;
 - (void)goBackToFeedAfterAddingMembersAnimated:(BOOL)animated;
+- (void)disableSideMembers;
+- (void)enableSideMembers;
 @end

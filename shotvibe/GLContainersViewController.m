@@ -24,6 +24,14 @@ static GLContainersViewController *sharedInstance;
     return sharedInstance;
 }
 
+- (void)enableSideMembers {
+    self.membersSideMenu.panMode = MFSideMenuPanModeDefault;
+}
+
+- (void)disableSideMembers {
+    self.membersSideMenu.panMode = MFSideMenuPanModeNone;
+}
+
 -(void)resetFriendsView {
     self.friendsViewController = nil;
     self.friendsViewController = [[SVAddFriendsViewController alloc] init];
@@ -152,7 +160,19 @@ static GLContainersViewController *sharedInstance;
     [super viewDidLoad];
     
     
-    
+//    MPVolumeView * volumeView = [[MPVolumeView alloc]initWithFrame:CGRectZero];
+//    [volumeView setShowsVolumeSlider:YES];
+//    [volumeView setShowsRouteButton:NO];
+//    
+//    // control must be VISIBLE if you want to prevent default OS volume display
+//    // from appearing when you change the volume level
+//    [volumeView setHidden:NO];
+//    volumeView.alpha = 0.1f;
+//    volumeView.userInteractionEnabled = NO;
+//    
+//    // to hide from view just insert behind all other views
+//    [self.view insertSubview:volumeView atIndex:0];
+//    [[MPMusicPlayerController applicationMusicPlayer] setVolume:0.0];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     // Do any additional setup after loading the view from its nib.

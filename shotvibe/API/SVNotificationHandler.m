@@ -9,7 +9,7 @@
 #import "SVNotificationHandler.h"
 #import "SDWebImageManager.h"
 #import "GLFeedViewController.h"
-#import "ContainerViewController.h"
+//#import "ContainerViewController.h"
 #import "SVAlbumListViewController.h"
 #import "ShotVibeAppDelegate.h"
 
@@ -101,25 +101,25 @@ static void showNotificationBanner(NSString *message)
             //Handle default action
             NSLog(@"test");
             
-            NSUInteger childViewControllersCount = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] count];
+//            NSUInteger childViewControllersCount = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] count];
             
             //        childViewControllersCount
             
-            if(childViewControllersCount == 1){
-                
+//            if(childViewControllersCount == 1){
+            
                 NSLog(@"im on main what to do now???");
                 
-                [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:[msg getAlbumId] completion:^{
-                    
-                }];
+//                [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:[msg getAlbumId] completion:^{
+//                    
+//                }];
                 
-            } else if (childViewControllersCount == 2){
+//            } else if (childViewControllersCount == 2){
+            
+//                GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
+//                self.delegate = glfeed;
+//                [self.delegate addPhotoPushPressed:msg];
                 
-                GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
-                self.delegate = glfeed;
-                [self.delegate addPhotoPushPressed:msg];
-                
-            }
+//            }
             
             
         }];
@@ -197,31 +197,31 @@ static void showNotificationBanner(NSString *message)
                                     
                                     
                                     
-                                    NSUInteger childViewControllersCount = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] count];
+//                                    NSUInteger childViewControllersCount = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] count];
                                     
                                     
-                                    if(childViewControllersCount == 1){
-                                        
-                                        [[GLSharedCamera sharedInstance] setCameraInFeed];
-
-                                        GLFeedViewController * feedView = [[GLFeedViewController alloc] init];
-                                        feedView.albumId = [msg getAlbumId];
-                                        feedView.scrollToComment = YES;
-                                        feedView.photoToScrollToCommentsId = [msg getPhotoId];
-                                        feedView.prevAlbumId = [msg getAlbumId];
-                                        feedView.startImidiatly = NO;
-                                        GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
-                                        glcamera.imageForOutSideUpload = nil;
-                                        [[[ContainerViewController sharedInstance] navigationController] pushViewController:feedView animated:YES];
-                                        [[ContainerViewController sharedInstance] lockScrolling:YES];
-                                        
-                                    } else if (childViewControllersCount == 2){
-                                        
-                                        GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
-                                        self.delegate = glfeed;
-                                        [self.delegate commentPushPressed:msg];
-                                        
-                                    }
+//                                    if(childViewControllersCount == 1){
+//                                    
+//                                        [[GLSharedCamera sharedInstance] setCameraInFeed];
+//
+//                                        GLFeedViewController * feedView = [[GLFeedViewController alloc] init];
+//                                        feedView.albumId = [msg getAlbumId];
+//                                        feedView.scrollToComment = YES;
+//                                        feedView.photoToScrollToCommentsId = [msg getPhotoId];
+//                                        feedView.prevAlbumId = [msg getAlbumId];
+//                                        feedView.startImidiatly = NO;
+//                                        GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+//                                        glcamera.imageForOutSideUpload = nil;
+//                                        [[[ContainerViewController sharedInstance] navigationController] pushViewController:feedView animated:YES];
+//                                        [[ContainerViewController sharedInstance] lockScrolling:YES];
+//                                        
+//                                    } else if (childViewControllersCount == 2){
+//                                        
+//                                        GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
+//                                        self.delegate = glfeed;
+//                                        [self.delegate commentPushPressed:msg];
+//                                        
+//                                    }
                                     
 //                                    GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
 //                                    self.delegate = glfeed;

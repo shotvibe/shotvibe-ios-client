@@ -82,6 +82,8 @@
     moviePlayer.controlStyle = MPMovieControlStyleNone;
     moviePlayer.shouldAutoplay = NO;
     moviePlayer.repeatMode = MPMovieRepeatModeOne;
+    moviePlayer.useApplicationAudioSession = NO;
+//    moviePlayer.t
     
     // TODO Temporary:
 //    moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
@@ -90,6 +92,9 @@
     
     
     tempBluredVideoFrame = [UIImageView alloc];
+    
+    
+    
     
     
     
@@ -139,13 +144,78 @@
     [moviePlayer.view setFrame:parentView.bounds];
     [parentView addSubview:moviePlayer.view];
     
+    UITapGestureRecognizer * videoTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(videoDidTapped:)];
+    videoTapped.delegate = self;
+    moviePlayer.view.userInteractionEnabled = YES;
+    [moviePlayer.view addGestureRecognizer:videoTapped];
+    
     NSLog(@"GLSharedVideoPlayer URL: %@", videoUrl);
     
     [moviePlayer setContentURL:[NSURL URLWithString:videoUrl]];
     
+//    AVURLAsset * asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:videoUrl] options:nil];
+//    NSArray *audioTracks = [asset tracksWithMediaType:AVMediaTypeAudio];
+//    
+//    // Mute all the audio tracks
+//    NSMutableArray * allAudioParams = [NSMutableArray array];
+//    for (AVAssetTrack *track in audioTracks) {
+//        AVMutableAudioMixInputParameters *audioInputParams =[AVMutableAudioMixInputParameters audioMixInputParameters];
+//        [audioInputParams setVolume:0.0 atTime:kCMTimeZero ];
+//        [audioInputParams setTrackID:[track trackID]];
+//        [allAudioParams addObject:audioInputParams];
+//    }
+//    AVMutableAudioMix * audioZeroMix = [AVMutableAudioMix audioMix];
+//    [audioZeroMix setInputParameters:allAudioParams];
+//    
+//    // Create a player item
+//    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
+//    [playerItem setAudioMix:audioZeroMix]; // Mute the player item
+//    
+//    // Create a new Player, and set the player to use the player item
+//    // with the muted audio mix
+//    AVPlayer *player = [AVPlayer playerWithPlayerItem:playerItem];
+//    
+//    AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:_player];    layer.frame = self.frame;    layer.backgroundColor = [UIColor clearColor].CGColor;    [layer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+//    
+    
+    
     [self play];
     
     self.photoId = targetPhotoId;
+    
+    
+    
+    
+    
+//    self.mPlayer = player;
+    
+//    [mPlayer play];
+    
+    
+    
+}
+
+-(void)videoDidTapped:(UITapGestureRecognizer*)recognizer {
+
+//    [[ShotVibeAppDelegate sharedDelegate] removeVolumeViewAndSetVolume];
+//    [KVNProgress showSuccessWithStatus:@"vido tapped now need to allow volume control and stuff" completion:^{
+
+//    }];
+//    [[[ShotVibeAppDelegate sharedDelegate] volumeView] setHidden:YES];
+//    [[[ShotVibeAppDelegate sharedDelegate] volumeView] removeFromSuperview];
+//    [[MPMusicPlayerController applicationMusicPlayer] setVolume:0.75];
+
+
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return true;
+    
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return true;
+    
 }
 
 - (void)play
@@ -182,6 +252,7 @@
         [videoStartedTimer invalidate];
     }
     if(moviePlayer.playbackState == MPMoviePlaybackStatePlaying){
+        
         NSLog(@"MPMoviePlaybackStatePlaying");
         if(playBackStarted){//Means it continues to play after buffering we should remove the indicator blur view
             

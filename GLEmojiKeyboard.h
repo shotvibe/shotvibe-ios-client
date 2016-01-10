@@ -20,7 +20,7 @@
 -(void)slideKeyBoardIn;
 -(void)backSpacePressed;
 -(void)slideKeyBoardOut;
-- (instancetype)initWithView:(UIView*)view;
+- (instancetype)initWithView:(UIView*)view frame:(CGRect)withRect;
 @property(nonatomic,retain) UIDynamicAnimator * animator;
 @property(nonatomic) int numberOfClicks;
 

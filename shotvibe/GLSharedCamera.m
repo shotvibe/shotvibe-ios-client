@@ -967,6 +967,8 @@
 //                
                 NSLog(@"camera closed");
                 [self cameraFinishedSlidingClose];
+                
+                [[GLContainersViewController sharedInstance] enableSideMembers];
 //                self.cameraIsShown = YES;
 //                [[GLSharedVideoPlayer sharedInstance] play];
 //                
@@ -1023,6 +1025,8 @@
             } completion:^(BOOL finished) {
                 [[GLContainersViewController sharedInstance] lockScrollingPages];
                 NSLog(@"camera open");
+//                self.menuContainerViewController.panMode = MFSideMenuPanModeDefault;
+                [[GLContainersViewController sharedInstance] disableSideMembers];
                 [self cameraFinishedSlidingOpen];
                 
             }];
@@ -2273,7 +2277,7 @@
         self.backButton.alpha = 1;
         self.membersButton.alpha = 1;
     }];
-    [self backToCameraFromEditPallette:nil];
+    [self backToCameraFromEditPallette:0];
 }
 
 -(void)closeCameraViewWithSlideFromMain {
@@ -2293,13 +2297,39 @@
     [self hideCameraButtons];
 }
 
+- (void)startUploadingVideo {
+    if(self.isInFeedMode){
+        [self.delegate videoSelected];
+        self.goneUploadAmovie = NO;
+    }
+}
+
+- (void)startUploadingAsset:(UIImage*)image {
+    NSLog(@"gone start upload asset now");
+    if(self.isInFeedMode){
+        [self.delegate imageSelected:image];
+    }
+}
+
+
 -(void)finalProcessTapped {
     NSLog(@"final did tapped");
     
     
 //    if(){}
+    if(self.goneUploadAmovie == YES){
+        [self.previewPlayer stop];
+    }
     if(self.isInFeedMode){
         [self closeCameraViewWithSlideFromFeed];
+        if(self.goneUploadAmovie == YES){
+            [self backFromVideoTapped];
+            [self startUploadingVideo];
+        } else {
+            UIImage * finalProccedImage = [self processImageBySourceAndPrepareWithTextandSizes];
+            [self startUploadingAsset:finalProccedImage];
+        }
+        
     } else {
         
         
@@ -2307,10 +2337,20 @@
             //
             
             
+            
         } executeWhenFriendsDone:^{
+            
             [self closeCameraViewWithSlideFromFeed];
             [self setCameraInFeed];
-            NSLog(@"tralallalaallaalalala");
+            if(self.goneUploadAmovie == YES){
+                [self backFromVideoTapped];
+                [self startUploadingVideo];
+            } else {
+                UIImage * finalProccedImage = [self processImageBySourceAndPrepareWithTextandSizes];
+                [self startUploadingAsset:finalProccedImage];
+            }
+            
+            
 //            [KVNProgress showSuccessWithStatus:@"now start uplaod should be invoked"];
         }];
         
@@ -2318,6 +2358,8 @@
     }
     
 
+    
+    
     
     
 //    if(self.goneUploadAmovie == YES){
@@ -2485,13 +2527,13 @@
 //    }
 }
 
--(void)processImageBySourceAndPrepareWithTextandSizes {
+-(UIImage*)processImageBySourceAndPrepareWithTextandSizes {
 
-
+    __block UIImage * finalImage;
     switch (imageSource) {
         case ImageSourceCamera:
         {
-            [self processSelectedImageWithFilterTextAndSize:cleanImageFromCamera];
+            finalImage =[self processSelectedImageWithFilterTextAndSize:cleanImageFromCamera];
             
         };
             break;
@@ -2504,21 +2546,21 @@
             options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
             [[PHImageManager defaultManager]requestImageForAsset:[self.latestImagesArray objectAtIndex:indexOfImageFromCarousel] targetSize:CGSizeMake(960, 1280) contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage *image, NSDictionary *info){
                 
-                [self processSelectedImageWithFilterTextAndSize:[self unrotateImage:[image imageCroppedAndScaledToSize:CGSizeMake(960, 1280) contentMode:UIViewContentModeScaleAspectFill padToFit:NO]]];
+                finalImage = [self processSelectedImageWithFilterTextAndSize:[self unrotateImage:[image imageCroppedAndScaledToSize:CGSizeMake(960, 1280) contentMode:UIViewContentModeScaleAspectFill padToFit:NO]]];
             }];
         };
             break;
             
         case ImageSourceGallery:
         {
-            [self processSelectedImageWithFilterTextAndSize:imageFromPicker];
+            finalImage = [self processSelectedImageWithFilterTextAndSize:imageFromPicker];
         };
             break;
             
         default:
             break;
     }
-
+    return finalImage;
 }
 
 -(void)resetCameraAfterUploadingFromMain {
@@ -2527,7 +2569,8 @@
 
 
 
--(void)processSelectedImageWithFilterTextAndSize:(UIImage*)imageToFinal {
+-(UIImage *)processSelectedImageWithFilterTextAndSize:(UIImage*)imageToFinal {
+    UIImage * finalImage;
     UIImage * filteredImage = [self addFilterToImage:imageToFinal];
     if (addText) {
         UIImage * textAsView = [self imageWithText:testLabel];
@@ -2543,30 +2586,30 @@
         filteredImage = nil;
         textAsView = nil;
         resizedTextAsImage = nil;
-        
-        if(self.isInFeedMode){
-            [self.delegate imageSelected:imageWithText];
-        } else {
-            
-            [self imageCapturedOnMainScreen:imageWithText];
-            
-        }
+        finalImage = imageWithText;
+//        if(self.isInFeedMode){
+//            [self.delegate imageSelected:imageWithText];
+//        } else {
+//            
+//            [self imageCapturedOnMainScreen:imageWithText];
+//            
+//        }
         imageWithText = nil;
         [self.resizeAbleView removeFromSuperview];
     } else {
-        
+        finalImage = filteredImage;
         imageToFinal = nil;
         imageFromPicker = nil;
         cleanImageFromCamera = nil;
-        if(self.isInFeedMode){
-            [self.delegate imageSelected:filteredImage];
-        } else {
-            [self imageCapturedOnMainScreen:filteredImage];
-        }
+//        if(self.isInFeedMode){
+//            [self.delegate imageSelected:filteredImage];
+//        } else {
+//            [self imageCapturedOnMainScreen:filteredImage];
+//        }
         filteredImage = nil;
     }
     addText = NO;
-    
+    return finalImage;
     
     
 }
@@ -2769,7 +2812,9 @@
 
 -(void) backToCameraFromEditPallette:(id)sender {
     [self.editTextViewObj endEditing:YES];
-    imageSource = ImageSourceNone;
+    if(sender != 0){
+        imageSource = ImageSourceNone;
+    }
     
     for(GLFilterView * filterView in self.arrayOfFilters){
         [filterView backToCamera];

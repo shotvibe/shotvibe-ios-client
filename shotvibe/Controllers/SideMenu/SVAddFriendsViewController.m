@@ -769,9 +769,10 @@
     
                         //                        for(UIViewController * vc in [[[ContainerViewController sharedInstance] navigationController] childViewControllers]){
                         [[GLContainersViewController sharedInstance] resetFriendsView];
-                        [[GLSharedCamera sharedInstance] setCameraInMain];
+//                        [[GLSharedCamera sharedInstance] setCameraInMain];
                         [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:[album getId] completed:^{
                             [KVNProgress dismiss];
+                            [[GLSharedCamera sharedInstance] setCameraInFeed];
                             
                         }];
                         

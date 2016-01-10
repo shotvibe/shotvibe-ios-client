@@ -35,13 +35,8 @@
     self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.indicator.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
     self.indicator.hidden = YES;
+    self.contentView.clipsToBounds = YES;
     
-    
-    
-    
-//    [self addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
-    // Initialization code
-//    NSLog(@"testtest");
     self.profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 60, 60)];
     [self.contentView addSubview:self.profileImageView];
     self.profileImageView.layer.masksToBounds = YES;
@@ -250,6 +245,7 @@
 
 -(void)showCommentAreaAndKeyBoard {
 
+    [self showKeyBoard];
     [UIView animateWithDuration:0.3 animations:^{
         
         self.addCommentButton.alpha = 0;
@@ -273,7 +269,7 @@
         
 //        [customKeyboard setTextView:cell.commentTextField];
         //        [cell.commentTextField becomeFirstResponder];
-        [self showKeyBoard];
+        
         //        GLEmojiKeyboard * key = [[GLEmojiKeyboard alloc] init];
         //        [key slideKeyBoardIn];
     }];
@@ -286,8 +282,10 @@
 
 -(void)showKeyBoard {
 
-    self.keyboard = [[GLEmojiKeyboard alloc] initWithView:self.postImage];
+    self.keyboard = [[GLEmojiKeyboard alloc] initWithView:self.contentView frame:self.postImage.frame];
     self.keyboard.textField = self.commentTextField;
+//        [self.contentView bringSubviewToFront:self.postedTime];
+//    [self.contentView bringSubviewToFront:self.keyboard.view];
 
 }
 
