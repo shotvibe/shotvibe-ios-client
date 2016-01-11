@@ -322,6 +322,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     GLFeedTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GLFeedCell" forIndexPath:indexPath];
+    if(cell==nil){
+        
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"GLFeedTableCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
+    }
+    
+    
+    
     cell.tag = indexPath.row;
     NSArray * tempDict = [self.posts objectAtIndex:indexPath.row];
     

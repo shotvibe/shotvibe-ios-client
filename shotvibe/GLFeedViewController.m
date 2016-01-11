@@ -1133,9 +1133,31 @@
     //#warning Incomplete implementation, return the number of rows
     return [self.posts count];
 }
-
+//short GetSharpness(char* data, unsigned int width, unsigned int height)
+//{
+//    // assumes that your image is already in planner yuv or 8 bit greyscale
+//    IplImage* in = cvCreateImage(cvSize(width,height),IPL_DEPTH_8U,1);
+//    IplImage* out = cvCreateImage(cvSize(width,height),IPL_DEPTH_16S,1);
+//    memcpy(in->imageData,data,width*height);
+//    
+//    // aperture size of 1 corresponds to the correct matrix
+//    cvLaplace(in, out, 1);
+//    
+//    short maxLap = -32767;
+//    short* imgData = (short*)out->imageData;
+//    for(int i =0;i<(out->imageSize/2);i++)
+//    {
+//        if(imgData[i] > maxLap) maxLap = imgData[i];
+//    }
+//    
+//    cvReleaseImage(&in);
+//    cvReleaseImage(&out);
+//    return maxLap;
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    
     
     
     NSArray * tempDict = [self.posts objectAtIndex:indexPath.row];
@@ -1459,13 +1481,14 @@
             if(uid == authorIdFromPhoto){
                 
                 [ShotVibeAPITask runTask:self withAction:^id{
+                    [KVNProgress show];
                     NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
                     [photosToDelete addObject:[[photo getServerPhoto] getId]];
                     [[albumManager_ getShotVibeAPI] deletePhotosWithJavaLangIterable:[[SLArrayList alloc] initWithInitialArray:photosToDelete]];
                     return nil;
                 } onTaskComplete:^(id dummy) {
                     [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
-                    
+                    [KVNProgress dismiss];
                 } onTaskFailure:^(id success) {
                     [KVNProgress showErrorWithStatus:@"Somthing wenet wrong..." completion:^{
                         

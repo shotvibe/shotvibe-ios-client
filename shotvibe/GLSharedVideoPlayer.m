@@ -84,21 +84,10 @@
     moviePlayer.shouldAutoplay = NO;
     moviePlayer.repeatMode = MPMovieRepeatModeOne;
     moviePlayer.useApplicationAudioSession = NO;
-//    moviePlayer.t
-    
-    // TODO Temporary:
-//    moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
-    
+    self.currentCell = nil;
     moviePlayer.view.alpha = 0;
-    
-    
     tempBluredVideoFrame = [UIImageView alloc];
-    
-    
-    
-    
-    
-    
+
 }
 
 - (void)videoDidStartedPlaying {
@@ -176,24 +165,10 @@
     longPressRecognizer.minimumPressDuration = 0.25f;
     longPressRecognizer.numberOfTouchesRequired = 1;
     
-//    [longPressRecognizer setCell:cell];
     self.currentCell = cell;
-//    longPressRecognizer.cell = cell;
-    
-//    GLFeedTableCell * cellcontentview = [parentView superview];
-//    GLFeedTableCell * cell = [cellcontentview superview];
-//    UIView * blackLine = cellcontentview.;
-    
-    
-    
-//    UITapGestureRecognizer * videoTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(videoDidTapped:)];
     longPressRecognizer.delegate = self;
     moviePlayer.view.userInteractionEnabled = YES;
-//    [moviePlayer.view addGestureRecognizer:videoTapped];
     [moviePlayer.view addGestureRecognizer:longPressRecognizer];
-    
-    
-    
     NSLog(@"GLSharedVideoPlayer URL: %@", videoUrl);
     
     [moviePlayer setContentURL:[NSURL URLWithString:videoUrl]];
@@ -228,30 +203,8 @@
     
     self.photoId = targetPhotoId;
     
-    
-    
-    
-    
-//    self.mPlayer = player;
-    
-//    [mPlayer play];
-    
-    
-    
 }
 
--(void)videoDidTapped:(UITapGestureRecognizer*)recognizer {
-
-//    [[ShotVibeAppDelegate sharedDelegate] removeVolumeViewAndSetVolume];
-//    [KVNProgress showSuccessWithStatus:@"vido tapped now need to allow volume control and stuff" completion:^{
-
-//    }];
-//    [[[ShotVibeAppDelegate sharedDelegate] volumeView] setHidden:YES];
-//    [[[ShotVibeAppDelegate sharedDelegate] volumeView] removeFromSuperview];
-//    [[MPMusicPlayerController applicationMusicPlayer] setVolume:0.75];
-
-
-}
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     return true;
@@ -372,8 +325,7 @@
     [UIView animateWithDuration:0.2 animations:^{
         tempBluredVideoFrame.alpha = 1;
     }];
-    
-    
+        
 //    self.bluredImageView.image = screenShot;
 }
 
