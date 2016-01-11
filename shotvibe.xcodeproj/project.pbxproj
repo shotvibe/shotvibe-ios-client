@@ -314,6 +314,9 @@
 		04C407DF173032B200973BC0 /* phoneNumberContainer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407D6173032B200973BC0 /* phoneNumberContainer.png */; };
 		04C407EC17304E8400973BC0 /* registrationCodeFieldBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */; };
 		04C407EE17304E8400973BC0 /* registrationCodeFieldBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */; };
+		0F0F543B1C43A0B300B21751 /* SVSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F543A1C43A0B300B21751 /* SVSettingsViewController.xib */; };
+		0F0F543D1C43B02100B21751 /* SVWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F543C1C43B02100B21751 /* SVWebViewController.xib */; };
+		0F0F543F1C43CF6800B21751 /* SVSettingsAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F543E1C43CF6800B21751 /* SVSettingsAboutViewController.xib */; };
 		0F110A271C330E1A001A74A0 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F110A261C330E1A001A74A0 /* libc++.tbd */; };
 		0F18170F1C05E128002EDFA3 /* GLPublicFeedPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */; };
 		0F1817101C05E128002EDFA3 /* GLPublicFeedPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */; };
@@ -1367,6 +1370,9 @@
 		04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "registrationCodeFieldBg@2x.png"; sourceTree = "<group>"; };
 		04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = registrationCodeFieldBg.png; sourceTree = "<group>"; };
 		0D570D9648C13694C44E127E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F0F543A1C43A0B300B21751 /* SVSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVSettingsViewController.xib; sourceTree = "<group>"; };
+		0F0F543C1C43B02100B21751 /* SVWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVWebViewController.xib; sourceTree = "<group>"; };
+		0F0F543E1C43CF6800B21751 /* SVSettingsAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVSettingsAboutViewController.xib; sourceTree = "<group>"; };
 		0F110A261C330E1A001A74A0 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0F18170C1C05E128002EDFA3 /* GLPublicFeedPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLPublicFeedPostViewController.h; sourceTree = "<group>"; };
 		0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLPublicFeedPostViewController.m; sourceTree = "<group>"; };
@@ -4697,6 +4703,9 @@
 				66278CC01867C57300D23F34 /* SVWebViewController.m */,
 				0F35FB311C354C9200E63D24 /* GLProfilePictureController.xib */,
 				0F35FB331C35530A00E63D24 /* SVProfileViewController.xib */,
+				0F0F543A1C43A0B300B21751 /* SVSettingsViewController.xib */,
+				0F0F543C1C43B02100B21751 /* SVWebViewController.xib */,
+				0F0F543E1C43CF6800B21751 /* SVSettingsAboutViewController.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -5453,12 +5462,14 @@
 				2849A79817D9AA580076AFBA /* cameraCancelButton.png in Resources */,
 				2849A79917D9AA580076AFBA /* cameraCancelButton@2x.png in Resources */,
 				0F1C076F1BEB5E3A00F82FBB /* seq8.png in Resources */,
+				0F0F543F1C43CF6800B21751 /* SVSettingsAboutViewController.xib in Resources */,
 				2849A79A17D9AA580076AFBA /* cameraCaptureButton-Vertical.png in Resources */,
 				2849A79B17D9AA580076AFBA /* cameraCaptureButton-Vertical@2x.png in Resources */,
 				0F1C078F1BEB5E3A00F82FBB /* seq40.png in Resources */,
 				3ED9A9D418C772890045207D /* SafariForward.png in Resources */,
 				0F55118D1BEF8C0300E98C64 /* Gotham-Medium.otf in Resources */,
 				2849A79C17D9AA580076AFBA /* cameraCaptureButton.png in Resources */,
+				0F0F543D1C43B02100B21751 /* SVWebViewController.xib in Resources */,
 				0F35FB361C35620100E63D24 /* SVAlbumListViewController.xib in Resources */,
 				66278CE21867C62300D23F34 /* SVActivityViewController.xib in Resources */,
 				2849A79D17D9AA580076AFBA /* cameraCaptureButton@2x.png in Resources */,
@@ -5486,6 +5497,7 @@
 				0F35FB301C3548E900E63D24 /* SVConfirmationCodeViewController.xib in Resources */,
 				2849A7AA17D9AA580076AFBA /* cameraRollIcon.png in Resources */,
 				2849A7AB17D9AA580076AFBA /* cameraRollIcon@2x.png in Resources */,
+				0F0F543B1C43A0B300B21751 /* SVSettingsViewController.xib in Resources */,
 				2849A7AC17D9AA580076AFBA /* CameraTakeAnotherPicture.png in Resources */,
 				2849A7AD17D9AA580076AFBA /* CameraTakeAnotherPicture@2x.png in Resources */,
 				2849A7AE17D9AA580076AFBA /* notificationBubble.png in Resources */,

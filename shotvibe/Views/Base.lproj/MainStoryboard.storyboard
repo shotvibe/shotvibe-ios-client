@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TFb-8t-Kdm">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="GothamRnd-Book.otf">
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-            <string>GothamRounded-Book</string>
-        </mutableArray>
-        <mutableArray key="GothamRnd-Light.otf">
-            <string>GothamRounded-Light</string>
-            <string>GothamRounded-Light</string>
+        <mutableArray key="GothamRnd-Bold.otf">
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
         </mutableArray>
         <mutableArray key="GothamRnd-MedIta.otf">
             <string>GothamRounded-MediumItalic</string>
@@ -29,26 +35,20 @@
             <string>GothamRounded-Medium</string>
             <string>GothamRounded-Medium</string>
         </mutableArray>
-        <mutableArray key="Gotham_Rounded_Bold2.otf">
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
+        <mutableArray key="Gotham_Rounded_Book.otf">
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+        </mutableArray>
+        <mutableArray key="Gotham_Rounded_Light.otf">
+            <string>GothamRounded-Light</string>
+            <string>GothamRounded-Light</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -59,7 +59,6 @@
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="1" sectionFooterHeight="22" id="h0G-2X-To2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" red="0.94509803921568625" green="0.94901960784313721" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
@@ -81,13 +80,11 @@
                                                         <imageView userInteractionEnabled="NO" contentMode="center" image="SwipeCamera.png" id="303-YF-szZ">
                                                             <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                             <color key="backgroundColor" red="1" green="0.4392156862745098" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0H8-Jx-kGc">
                                                             <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <state key="normal">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -99,13 +96,11 @@
                                                         <imageView userInteractionEnabled="NO" contentMode="center" image="SwipePicker.png" id="fbm-Wi-j14">
                                                             <rect key="frame" x="80" y="0.0" width="80" height="100"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                             <color key="backgroundColor" red="0.63137254901960782" green="0.85098039215686272" blue="0.070588235294117646" alpha="1" colorSpace="calibratedRGB"/>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Fnh-O8-qKJ">
                                                             <rect key="frame" x="80" y="0.0" width="80" height="100"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <state key="normal">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -115,7 +110,6 @@
                                                             </connections>
                                                         </button>
                                                     </subviews>
-                                                    <animations/>
                                                 </view>
                                                 <view contentMode="scaleToFill" id="t4e-X8-o6c">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="101"/>
@@ -124,22 +118,18 @@
                                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="bMe-Ho-h9s">
                                                             <rect key="frame" x="10" y="14" width="68" height="3"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                         </imageView>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="edK-Ep-za9" customClass="PhotoView">
                                                             <rect key="frame" x="10" y="10" width="55" height="55"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                         </imageView>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="walla_ribbon_overlay.png" id="3PM-vf-QxG">
                                                             <rect key="frame" x="10" y="16" width="68" height="68"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mpj-bZ-eJI">
                                                             <rect key="frame" x="96" y="14" width="215" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                             <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="14"/>
                                                             <color key="textColor" red="0.22352941179999999" green="0.23921568630000001" blue="0.2784313725" alpha="1" colorSpace="deviceRGB"/>
                                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -147,7 +137,6 @@
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last added by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d8J-CL-mAU">
                                                             <rect key="frame" x="96" y="27" width="215" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                             <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="11"/>
                                                             <color key="textColor" red="0.52156862749999999" green="0.54117647059999996" blue="0.59215686270000001" alpha="1" colorSpace="deviceRGB"/>
                                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -155,7 +144,6 @@
                                                         <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6fU-xz-I04">
                                                             <rect key="frame" x="96" y="44" width="215" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                             <fontDescription key="fontDescription" name="GothamRounded-Light" family="Gotham Rounded" pointSize="11"/>
                                                             <inset key="titleEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="2"/>
                                                             <state key="normal" title="x time ago" image="clockIcon.png">
@@ -169,18 +157,15 @@
                                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SafariForward.png" id="ELm-Me-AaL">
                                                             <rect key="frame" x="299" y="66" width="11" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                         </imageView>
                                                         <view hidden="YES" contentMode="scaleToFill" id="SpS-IB-uCZ">
                                                             <rect key="frame" x="10" y="100" width="355" height="1"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                            <animations/>
                                                             <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
                                                         <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SVE-6G-iDc">
                                                             <rect key="frame" x="331" y="23" width="28" height="24.5"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                             <accessibility key="accessibilityConfiguration">
                                                                 <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
                                                             </accessibility>
@@ -194,19 +179,15 @@
                                                             </state>
                                                         </button>
                                                     </subviews>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                             <connections>
                                                 <outlet property="delegate" destination="iJo-z3-suy" id="1lK-IB-bSE"/>
                                             </connections>
                                         </scrollView>
                                     </subviews>
-                                    <animations/>
                                 </tableViewCellContentView>
-                                <animations/>
                                 <connections>
                                     <outlet property="albumOrgOverlay" destination="3PM-vf-QxG" id="wl8-fP-QpJ"/>
                                     <outlet property="author" destination="d8J-CL-mAU" id="gJn-BU-SD7"/>
@@ -252,12 +233,10 @@
                         <imageView userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleToFill" image="albumEmptyLarge.png" id="oEJ-F2-9P7">
                             <rect key="frame" x="67" y="49" width="185" height="138"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="To create a new album tap on the button on the upper left corner." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="crq-NT-YD0">
                             <rect key="frame" x="20" y="240" width="280" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                             <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
@@ -265,13 +244,11 @@
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Welcome!!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="x9c-cC-24Z">
                             <rect key="frame" x="0.0" y="200" width="320" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
                             <color key="textColor" red="0.4823529412" green="0.49803921569999998" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" red="0.92941176469999998" green="0.93333333330000001" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" id="9dY-ZJ-sBW" userLabel="header">
@@ -281,18 +258,15 @@
                         <imageView userInteractionEnabled="NO" contentMode="center" image="delimiter.png" id="KWt-P2-Tae">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <animations/>
                         </imageView>
                         <view contentMode="scaleToFill" id="eMC-zb-Dca" userLabel="separator">
                             <rect key="frame" x="0.0" y="44" width="320" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            <animations/>
                             <color key="backgroundColor" red="0.79607843140000001" green="0.80784313730000001" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LWV-EA-XUH" userLabel="New Album Button">
                             <rect key="frame" x="0.0" y="0.0" width="160" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="24" maxY="0.0"/>
                             <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -312,7 +286,6 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="T4H-zi-gWL" userLabel="Take Picture Button">
                             <rect key="frame" x="160" y="0.0" width="160" height="45"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                             <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -330,7 +303,6 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" id="rA8-oA-eN4" userLabel="Overlay">
@@ -340,7 +312,6 @@
                         <searchBar hidden="YES" contentMode="redraw" id="3hQ-ZC-m4d">
                             <rect key="frame" x="0.0" y="270" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
                                 <outlet property="delegate" destination="xK5-VS-ObD" id="ol1-4E-kh4"/>
@@ -353,12 +324,10 @@
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="dropDownField.png" id="4I9-JY-qwn">
                                     <rect key="frame" x="0.0" y="0.0" width="305" height="130"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <animations/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZtJ-tt-fHV">
                                     <rect key="frame" x="0.0" y="84" width="153" height="42"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                     <size key="titleShadowOffset" width="0.0" height="1"/>
                                     <state key="normal" title="Cancel">
@@ -376,7 +345,6 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cOl-EP-SxT">
                                     <rect key="frame" x="151" y="84" width="154" height="42"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                    <animations/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                     <size key="titleShadowOffset" width="0.0" height="1"/>
                                     <state key="normal" title="Done">
@@ -394,7 +362,6 @@
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Album Name" minimumFontSize="17" clearButtonMode="whileEditing" id="TFh-w4-fDb">
                                     <rect key="frame" x="20" y="36" width="265" height="37"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <animations/>
                                     <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="deviceRGB"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
@@ -403,11 +370,9 @@
                                     </connections>
                                 </textField>
                             </subviews>
-                            <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                 </view>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bLW-Db-pDX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -425,7 +390,6 @@
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="ryf-6v-gdi">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -447,13 +411,11 @@
                                                                 <imageView userInteractionEnabled="NO" contentMode="center" image="SwipeCamera.png" id="LAi-aV-Myo">
                                                                     <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <color key="backgroundColor" red="1" green="0.43921568630000002" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </imageView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7hH-ff-07b">
                                                                     <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -465,13 +427,11 @@
                                                                 <imageView userInteractionEnabled="NO" contentMode="center" image="SwipePicker.png" id="KNc-e5-lpi">
                                                                     <rect key="frame" x="80" y="0.0" width="80" height="100"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <color key="backgroundColor" red="0.63137254899999995" green="0.85098039219999999" blue="0.070588235289999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </imageView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ob1-Y4-gga">
                                                                     <rect key="frame" x="80" y="0.0" width="80" height="100"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -481,7 +441,6 @@
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
-                                                            <animations/>
                                                         </view>
                                                         <view contentMode="scaleToFill" id="kCN-fx-5O9">
                                                             <rect key="frame" x="0.0" y="0.0" width="287" height="101"/>
@@ -490,17 +449,14 @@
                                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="Fp1-yu-vKs">
                                                                     <rect key="frame" x="9" y="10" width="82" height="79"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                 </imageView>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="NewAlbum.png" id="E4t-Pk-NTl" customClass="PhotoView">
                                                                     <rect key="frame" x="19" y="20" width="62" height="60"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                 </imageView>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OCq-t2-DIa">
                                                                     <rect key="frame" x="96" y="25" width="127" height="21"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                                     <color key="textColor" red="0.22352941179999999" green="0.23921568630000001" blue="0.2784313725" alpha="1" colorSpace="deviceRGB"/>
                                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -508,7 +464,6 @@
                                                                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last added by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lFk-2J-zAS">
                                                                     <rect key="frame" x="96" y="43" width="127" height="21"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                                                     <color key="textColor" red="0.52156862749999999" green="0.54117647059999996" blue="0.59215686270000001" alpha="1" colorSpace="deviceRGB"/>
                                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -516,7 +471,6 @@
                                                                 <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vU0-PG-aMp">
                                                                     <rect key="frame" x="96" y="63" width="127" height="15"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                                                     <inset key="titleEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                     <state key="normal" title="x time ago" image="clockIcon.png">
@@ -530,7 +484,6 @@
                                                                 <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="y61-6d-Nf4">
                                                                     <rect key="frame" x="283" y="41" width="28" height="18"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <accessibility key="accessibilityConfiguration">
                                                                         <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
                                                                     </accessibility>
@@ -546,23 +499,18 @@
                                                                 <view contentMode="scaleToFill" id="IM5-C2-O8z">
                                                                     <rect key="frame" x="10" y="100" width="300" height="1"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    <animations/>
                                                                     <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </view>
                                                             </subviews>
-                                                            <animations/>
                                                             <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
                                                     </subviews>
-                                                    <animations/>
                                                     <connections>
                                                         <outlet property="delegate" destination="CAD-P8-aPC" id="Y0n-Nd-bFj"/>
                                                     </connections>
                                                 </scrollView>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <connections>
                                             <outlet property="author" destination="lFk-2J-zAS" id="1ic-Hl-dCT"/>
                                             <outlet property="backImageView" destination="LAi-aV-Myo" id="1J2-Zl-sTa"/>
@@ -594,13 +542,11 @@
                                                                 <imageView userInteractionEnabled="NO" contentMode="center" image="SwipeCamera.png" id="hZK-bL-t9C">
                                                                     <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <color key="backgroundColor" red="1" green="0.43921568630000002" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </imageView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oyY-8O-J6E">
                                                                     <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -612,13 +558,11 @@
                                                                 <imageView userInteractionEnabled="NO" contentMode="center" image="SwipePicker.png" id="X8m-oN-DAd">
                                                                     <rect key="frame" x="80" y="0.0" width="80" height="100"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <color key="backgroundColor" red="0.63137254899999995" green="0.85098039219999999" blue="0.070588235289999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </imageView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WHg-H3-EVD">
                                                                     <rect key="frame" x="80" y="0.0" width="80" height="100"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <state key="normal">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -628,7 +572,6 @@
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
-                                                            <animations/>
                                                         </view>
                                                         <view contentMode="scaleToFill" id="wDq-sh-2E5">
                                                             <rect key="frame" x="0.0" y="0.0" width="353" height="101"/>
@@ -637,17 +580,14 @@
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="jxs-50-UXy">
                                                                     <rect key="frame" x="9" y="14" width="68" height="3"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                 </imageView>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="8Qw-3D-bH8" customClass="PhotoView">
                                                                     <rect key="frame" x="9" y="16" width="68" height="68"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                 </imageView>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qmz-su-kgF">
                                                                     <rect key="frame" x="96" y="25" width="193" height="21"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                                     <color key="textColor" red="0.22352941179999999" green="0.23921568630000001" blue="0.2784313725" alpha="1" colorSpace="deviceRGB"/>
                                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -655,7 +595,6 @@
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last added by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rDE-2M-ctm">
                                                                     <rect key="frame" x="96" y="43" width="193" height="21"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                                                     <color key="textColor" red="0.52156862749999999" green="0.54117647059999996" blue="0.59215686270000001" alpha="1" colorSpace="deviceRGB"/>
                                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -663,7 +602,6 @@
                                                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Hq6-uX-CKe">
                                                                     <rect key="frame" x="96" y="63" width="193" height="15"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                                                     <inset key="titleEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                     <state key="normal" title="x time ago" image="clockIcon.png">
@@ -677,7 +615,6 @@
                                                                 <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Dbu-T5-boh">
                                                                     <rect key="frame" x="283" y="41" width="28" height="18"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <accessibility key="accessibilityConfiguration">
                                                                         <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
                                                                     </accessibility>
@@ -693,23 +630,18 @@
                                                                 <view contentMode="scaleToFill" id="b1G-bZ-vgg">
                                                                     <rect key="frame" x="10" y="100" width="300" height="1"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    <animations/>
                                                                     <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </view>
                                                             </subviews>
-                                                            <animations/>
                                                             <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
                                                     </subviews>
-                                                    <animations/>
                                                     <connections>
                                                         <outlet property="delegate" destination="9K4-uS-3vZ" id="Be5-gT-MrE"/>
                                                     </connections>
                                                 </scrollView>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <connections>
                                             <outlet property="author" destination="rDE-2M-ctm" id="qeC-dz-5Be"/>
                                             <outlet property="backImageView" destination="hZK-bL-t9C" id="ES4-Pj-hJd"/>
@@ -740,12 +672,10 @@
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="dropDownField.png" id="LAa-Tw-iE9">
                                                 <rect key="frame" x="0.0" y="0.0" width="310" height="130"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <animations/>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="L0L-3c-dbW">
                                                 <rect key="frame" x="0.0" y="84" width="155" height="42"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <animations/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                                 <size key="titleShadowOffset" width="0.0" height="1"/>
                                                 <state key="normal" title="Cancel">
@@ -763,7 +693,6 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HjF-ci-Rrw">
                                                 <rect key="frame" x="155" y="84" width="155" height="42"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                <animations/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                                 <size key="titleShadowOffset" width="0.0" height="1"/>
                                                 <state key="normal" title="Done">
@@ -781,7 +710,6 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Album Name" minimumFontSize="17" clearButtonMode="whileEditing" id="1ro-XK-MDC">
                                                 <rect key="frame" x="20" y="36" width="270" height="37"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                <animations/>
                                                 <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="deviceRGB"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
@@ -790,14 +718,11 @@
                                                 </connections>
                                             </textField>
                                         </subviews>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
-                                <animations/>
                             </view>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
@@ -825,7 +750,6 @@
                                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="D2i-UJ-1Pr">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="558"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="6" minimumInteritemSpacing="6" id="j06-Ta-80L">
                                             <size key="itemSize" width="99" height="98"/>
@@ -844,7 +768,6 @@
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="C9q-ds-YvT" customClass="PhotoView">
                                                             <rect key="frame" x="1" y="1" width="300" height="300"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                         </imageView>
                                                         <view hidden="YES" contentMode="scaleToFill" id="JmT-ek-vdD">
                                                             <rect key="frame" x="59" y="5" width="35" height="16"/>
@@ -853,13 +776,11 @@
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="NEW" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kt1-Gj-Vew">
                                                                     <rect key="frame" x="0.0" y="0.0" width="35" height="16"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="10"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
-                                                            <animations/>
                                                             <color key="backgroundColor" red="0.53333333333333333" green="0.68235294117647061" blue="0.37647058823529411" alpha="1" colorSpace="calibratedRGB"/>
                                                             <accessibility key="accessibilityConfiguration">
                                                                 <accessibilityTraits key="traits" notEnabled="YES"/>
@@ -868,30 +789,24 @@
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="walla_new.png" id="7Zh-Ne-jEQ">
                                                             <rect key="frame" x="34" y="1" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                         </imageView>
                                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="white" id="Kac-ol-efE">
                                                             <rect key="frame" x="41" y="38" width="20" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                             <color key="color" red="0.53333333329999999" green="0.68235294120000001" blue="0.37647058820000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         </activityIndicatorView>
                                                         <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" progressViewStyle="bar" id="pJA-aq-0Bp">
                                                             <rect key="frame" x="15" y="12" width="73" height="3"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                         </progressView>
                                                         <view alpha="0.34999999999999964" contentMode="scaleToFill" id="7LT-K7-6Bt">
                                                             <rect key="frame" x="90" y="6" width="4" height="4"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <animations/>
                                                             <color key="backgroundColor" red="1" green="0.79327713820000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
                                                     </subviews>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <animations/>
                                                 <connections>
                                                     <outlet property="activityView" destination="Kac-ol-efE" id="zdn-pX-0nD"/>
                                                     <outlet property="albumOrgNewOverlay" destination="7Zh-Ne-jEQ" id="n6U-tw-9BH"/>
@@ -906,7 +821,6 @@
                                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlbumGridReusableView" id="lUL-st-CjN">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <animations/>
                                         </collectionReusableView>
                                         <connections>
                                             <outlet property="dataSource" destination="blj-nY-Sj7" id="D3q-A4-iPL"/>
@@ -914,7 +828,6 @@
                                         </connections>
                                     </collectionView>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="UWU-wO-74L" userLabel="album empty">
@@ -924,12 +837,10 @@
                                     <imageView userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="scaleToFill" image="albumEmpty.png" id="HUc-Vi-beF">
                                         <rect key="frame" x="131" y="49" width="59" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7Fn-bF-IVB">
                                         <rect key="frame" x="66" y="233" width="189" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -948,7 +859,6 @@
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YTw-sa-ycx">
                                         <rect key="frame" x="66" y="282" width="189" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -967,7 +877,6 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="There are no photos or videos in the album" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8Fm-yk-lwF">
                                         <rect key="frame" x="58" y="150" width="205" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
@@ -975,13 +884,11 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album empty" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yTu-Xg-zqo">
                                         <rect key="frame" x="0.0" y="113" width="320" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                         <color key="textColor" red="0.4823529412" green="0.49803921569999998" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="hDY-dt-Yxw" userLabel="HeaderView">
@@ -991,7 +898,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="6Xh-QU-6j5" userLabel="Camera Button">
                                         <rect key="frame" x="0.0" y="0.0" width="215" height="45"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                         <inset key="contentEdgeInsets" minX="-4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -1009,7 +915,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="U0j-LJ-AMC" userLabel="Camera Button">
                                         <rect key="frame" x="187.5" y="0.0" width="187.5" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                         <inset key="contentEdgeInsets" minX="-4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -1027,20 +932,16 @@
                                     <imageView userInteractionEnabled="NO" contentMode="center" image="delimiter.png" id="qdU-wU-zZc">
                                         <rect key="frame" x="159" y="0.0" width="56" height="45"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                     </imageView>
                                     <view contentMode="scaleToFill" id="7cL-Iu-rTt" userLabel="separator">
                                         <rect key="frame" x="0.0" y="44" width="375" height="1"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" red="0.79607843140000001" green="0.80784313730000001" blue="0.84705882349999995" alpha="1" colorSpace="deviceRGB"/>
                                     </view>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -1068,7 +969,6 @@
                     <navigationItem key="navigationItem" id="ga3-94-e9G"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SBv-g1-uJf">
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <connections>
                         <segue destination="Pcu-I1-edh" kind="relationship" relationship="rootViewController" id="mQI-TQ-joi"/>
@@ -1097,7 +997,6 @@
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="101" sectionHeaderHeight="22" sectionFooterHeight="22" id="mmw-Rt-9T4">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="669"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <animations/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <prototypes>
                                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SVAlbumListCell" id="gKy-nC-Fsg" customClass="SVAlbumListViewCell">
@@ -1110,17 +1009,14 @@
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumImageFrame.png" id="kxs-T0-7Ne">
                                                                     <rect key="frame" x="9" y="14" width="68" height="3"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                 </imageView>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9rg-Er-UUl">
                                                                     <rect key="frame" x="9" y="16" width="68" height="68"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                 </imageView>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mR0-vI-T43">
                                                                     <rect key="frame" x="99" y="39" width="233" height="21"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                                     <color key="textColor" red="0.2156862745" green="0.23921568630000001" blue="0.27450980390000002" alpha="1" colorSpace="deviceRGB"/>
                                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1128,7 +1024,6 @@
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cD5-HP-z47">
                                                                     <rect key="frame" x="340" y="40" width="27" height="18"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                                                     <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                     <state key="normal" title="0" backgroundImage="newPhotosIndicator.png">
@@ -1142,12 +1037,9 @@
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="cellDivider.png" id="G6x-FC-Rzt">
                                                                     <rect key="frame" x="0.0" y="101" width="375" height="1"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <animations/>
                                                                 </imageView>
                                                             </subviews>
-                                                            <animations/>
                                                         </tableViewCellContentView>
-                                                        <animations/>
                                                         <connections>
                                                             <outlet property="networkImageView" destination="9rg-Er-UUl" id="bLF-Vz-QL3"/>
                                                             <outlet property="numberNotViewedIndicator" destination="cD5-HP-z47" id="09X-mZ-Juh"/>
@@ -1161,15 +1053,12 @@
                                                 </connections>
                                             </tableView>
                                         </subviews>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Groups" id="jBM-0w-UgQ">
@@ -1194,7 +1083,6 @@
                 <navigationController definesPresentationContext="YES" id="TFb-8t-Kdm" customClass="SVNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Iog-LR-hvt">
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                         <color key="barTintColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="deviceRGB"/>
                     </navigationBar>
                     <connections>
@@ -1220,12 +1108,10 @@
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="phoneNumberContainer.png" id="h3q-zf-gy1">
                                         <rect key="frame" x="25" y="349" width="325" height="53"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <animations/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A validation code will be sent to you via SMS" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aF0-pJ-yZt">
                                         <rect key="frame" x="25" y="396" width="120" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Medium" family="Gotham Rounded" pointSize="10"/>
                                         <color key="textColor" red="0.94117647058823528" green="0.45490196078431372" blue="0.50196078431372548" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1233,12 +1119,10 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="US.png" id="vZa-qx-MCh">
                                         <rect key="frame" x="30" y="364" width="24" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GDf-Lq-8B3">
                                         <rect key="frame" x="15" y="348" width="58" height="56"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1254,12 +1138,10 @@
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" id="qUE-7J-Ebk">
                                         <rect key="frame" x="171" y="508" width="20" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                     </activityIndicatorView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Feel the Vibrations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NW5-hq-d4D">
                                         <rect key="frame" x="25" y="293" width="240" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="24"/>
                                         <color key="textColor" red="0.24313725490196078" green="0.70588235294117641" blue="0.71372549019607845" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1267,7 +1149,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MWj-Gf-2pl">
                                         <rect key="frame" x="270" y="383" width="80" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <animations/>
                                         <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="20"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -1285,7 +1166,6 @@
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" minimumFontSize="17" id="Md0-iZ-whQ">
                                         <rect key="frame" x="72" y="353" width="264" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <animations/>
                                         <color key="textColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Medium" family="Gotham Rounded" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
@@ -1294,11 +1174,9 @@
                                         </connections>
                                     </textField>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -1332,7 +1210,6 @@
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ETc-Lm-hY8">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -1349,7 +1226,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="csy-C0-mSe">
                                                     <rect key="frame" x="44" y="0.0" width="296" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="15"/>
                                                     <color key="textColor" red="0.2627450980392157" green="0.29019607843137252" blue="0.31764705882352939" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1357,18 +1233,14 @@
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="helpIcon.png" id="XK8-ec-Iq9">
                                                     <rect key="frame" x="15" y="15" width="14" height="14"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="Ll5-K3-yOe" userLabel="Separator">
                                                     <rect key="frame" x="20" y="43" width="300" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <segue destination="Y3e-6A-img" kind="push" identifier="SettingsHelpSegue" id="hc8-VF-LIN"/>
@@ -1384,7 +1256,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ji2-oY-tiu">
                                                     <rect key="frame" x="44" y="0.0" width="296" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1392,18 +1263,14 @@
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profileIcon.png" id="n45-Aa-ecN">
                                                     <rect key="frame" x="15" y="15" width="14" height="14"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="eBH-rK-CXM" userLabel="Separator">
                                                     <rect key="frame" x="20" y="43" width="300" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <segue destination="K2n-3B-CQ0" kind="push" identifier="SettingsProfileSegue" id="wnh-dc-9HX"/>
@@ -1419,7 +1286,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="About" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M1e-TR-5rv">
                                                     <rect key="frame" x="49" y="0.0" width="291" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1427,18 +1293,14 @@
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="aboutIcon.png" id="ymW-eZ-yZi">
                                                     <rect key="frame" x="15" y="15" width="14" height="13"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="Ouo-TU-6sz" userLabel="Separator">
                                                     <rect key="frame" x="20" y="43" width="300" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <connections>
                                             <segue destination="CPg-IN-zDw" kind="push" identifier="AboutSegue" id="N3C-3z-g2S"/>
                                         </connections>
@@ -1453,7 +1315,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Contact Support" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VMY-GF-lhp">
                                                     <rect key="frame" x="49" y="0.0" width="291" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1461,18 +1322,14 @@
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="emailIcon.png" id="UTK-SB-CtV">
                                                     <rect key="frame" x="15" y="16" width="14" height="11"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="TSM-hj-pVc" userLabel="Separator">
                                                     <rect key="frame" x="0.0" y="43" width="320" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" rowHeight="124" id="Djo-yw-9Ml">
                                         <rect key="frame" x="0.0" y="176" width="375" height="124"/>
@@ -1484,7 +1341,6 @@
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dGi-df-srC">
                                                     <rect key="frame" x="39" y="42" width="243" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <state key="normal" title="Log Out" backgroundImage="butLogout.png">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1495,10 +1351,8 @@
                                                     </connections>
                                                 </button>
                                             </subviews>
-                                            <animations/>
                                             <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1532,12 +1386,10 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="NoMembers.png" id="thA-x4-oPA">
                                         <rect key="frame" x="39" y="11" width="155" height="78"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <animations/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="There is no one in the album yet, Invite some friends in, so they can give it a glance." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s91-Ju-ikV">
                                         <rect key="frame" x="0.0" y="103" width="240" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                                         <color key="textColor" red="0.43921568630000002" green="0.49019607840000001" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -1546,13 +1398,11 @@
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="75" sectionHeaderHeight="22" sectionFooterHeight="22" id="zzl-Ln-e03">
                                 <rect key="frame" x="0.0" y="102" width="320" height="466"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1566,12 +1416,10 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="Kak-Tk-iE2">
                                                     <rect key="frame" x="20" y="15" width="45" height="45"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rafael Angeline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" id="NQV-e8-xms">
                                                     <rect key="frame" x="73" y="8" width="100" height="41"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                                     <color key="textColor" red="0.45490196078431372" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1581,18 +1429,15 @@
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="9jU-GG-RIc">
                                                     <rect key="frame" x="299" y="31" width="13" height="13"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="gha-3Q-4Jw">
                                                     <rect key="frame" x="20" y="74" width="280" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                    <animations/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Invited" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BcQ-GI-kmc">
                                                     <rect key="frame" x="125" y="25" width="70" height="41"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="13"/>
                                                     <color key="textColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1600,10 +1445,8 @@
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                             </subviews>
-                                            <animations/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <connections>
                                             <outlet property="memberLabel" destination="NQV-e8-xms" id="mfl-gx-lgM"/>
                                             <outlet property="profileImageView" destination="Kak-Tk-iE2" id="Ihy-xb-JAR"/>
@@ -1620,7 +1463,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FiF-95-PZF">
                                 <rect key="frame" x="108" y="48" width="169" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="27"/>
                                 <color key="tintColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                 <size key="titleShadowOffset" width="0.0" height="1"/>
@@ -1638,7 +1480,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BvW-hz-75b">
                                 <rect key="frame" x="0.0" y="43" width="320" height="42"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1654,18 +1495,15 @@
                             <view contentMode="scaleToFill" id="pBb-la-Vkg">
                                 <rect key="frame" x="0.0" y="-20" width="320" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" red="0.21176470588235294" green="0.65490196078431373" blue="0.65098039215686276" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addFriendsBg" id="8BN-aT-zVo">
                                 <rect key="frame" x="16" y="61" width="39" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Album Members" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Szv-rJ-HZ3">
                                 <rect key="frame" x="78" y="5" width="207" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="20"/>
                                 <color key="textColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1673,7 +1511,6 @@
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -1701,7 +1538,6 @@
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EyW-XE-MFg">
                                 <rect key="frame" x="26" y="176" width="323" height="323"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1717,17 +1553,14 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="zf1-CS-394">
                                 <rect key="frame" x="26" y="176" width="323" height="323"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeGlanceLogo" id="4ys-fr-a3S">
                                 <rect key="frame" x="257" y="20" width="92" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SET UR PROFILE PIC" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3FM-Ku-ccE">
                                 <rect key="frame" x="26" y="78" width="177" height="59"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="26"/>
                                 <color key="textColor" red="0.24313725489999999" green="0.70588235290000001" blue="0.71372549019999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1735,7 +1568,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wYl-dk-LnY">
                                 <rect key="frame" x="20" y="587" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <state key="normal" title="Button" image="profilePicCaptureButton"/>
                                 <connections>
                                     <action selector="captureSelfie:" destination="NNK-GZ-vjo" eventType="touchUpInside" id="Mw7-9u-QTq"/>
@@ -1744,7 +1576,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eT3-ey-MAQ">
                                 <rect key="frame" x="295" y="587" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <state key="normal" title="Button" image="GiCon"/>
                                 <connections>
                                     <action selector="libraryProfilePick:" destination="NNK-GZ-vjo" eventType="touchUpInside" id="UlV-Fc-PeI"/>
@@ -1753,7 +1584,6 @@
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3Kn-OO-YPj">
                                 <rect key="frame" x="316" y="78" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="32"/>
                                 <state key="normal" title="x">
                                     <color key="titleColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -1765,7 +1595,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cpb-tb-tQg">
                                 <rect key="frame" x="137" y="558" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="30"/>
                                 <state key="normal" title="GO">
@@ -1778,10 +1607,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="09S-fb-ekt">
                                 <rect key="frame" x="120" y="524" width="134" height="134"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                             </imageView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -1804,7 +1631,6 @@
                 <navigationController definesPresentationContext="YES" id="ziD-RB-hWf" customClass="SVNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kJb-YN-xnr">
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <connections>
                         <segue destination="hue-j9-5bn" kind="relationship" relationship="rootViewController" id="mgm-ee-1Qc"/>
@@ -1829,7 +1655,6 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="In order to invite people we need access to your contacts list" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AB3-EQ-yf7">
                                         <rect key="frame" x="20" y="146" width="280" height="55"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" red="0.81395487879999995" green="0.1219720593" blue="0.21948429080000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="highlightedColor" red="0.81395487879999995" green="0.1219720593" blue="0.21948429080000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -1837,13 +1662,11 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="To enable it go to Settings/Privacy/Contacts" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AFX-5U-UKe">
                                         <rect key="frame" x="20" y="197" width="280" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="oru-dQ-Y8C">
@@ -1853,17 +1676,14 @@
                                     <view contentMode="scaleToFill" id="mcB-hV-GoX">
                                         <rect key="frame" x="0.0" y="74" width="375" height="1"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsVerticalScrollIndicator="NO" id="dAJ-mE-XY5">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="73"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </scrollView>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="Knx-Y4-c7V">
@@ -1873,7 +1693,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="I3u-fD-wmj">
                                         <rect key="frame" x="0.0" y="0.0" width="125" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="18"/>
                                         <state key="normal" title="Friends">
                                             <color key="titleColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -1885,7 +1704,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rta-he-XMB">
                                         <rect key="frame" x="125" y="0.0" width="125" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="18"/>
                                         <state key="normal" title="Contacts">
                                             <color key="titleColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -1897,13 +1715,11 @@
                                     <view contentMode="scaleToFill" id="uE6-JH-EUq">
                                         <rect key="frame" x="0.0" y="34" width="375" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="i0W-Uz-jfZ">
                                         <rect key="frame" x="250" y="0.0" width="125" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="18"/>
                                         <state key="normal" title="Groups">
                                             <color key="titleColor" red="0.45490196078431372" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
@@ -1913,7 +1729,6 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" id="VBv-9m-HFs">
@@ -1923,13 +1738,11 @@
                                     <view contentMode="scaleToFill" id="rB6-88-CJh">
                                         <rect key="frame" x="0.0" y="43" width="375" height="1"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="u9V-tV-akp">
                                         <rect key="frame" x="20" y="0.0" width="280" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <segments>
                                             <segment title="Glance"/>
                                             <segment title="Phone"/>
@@ -1941,13 +1754,11 @@
                                         </connections>
                                     </segmentedControl>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" red="0.84705882352941175" green="0.85098039215686272" blue="0.87058823529411766" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="Csh-Y9-cyY">
                                 <rect key="frame" x="0.0" y="213" width="375" height="415"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.20784313725490197" green="0.65490196078431373" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -1961,29 +1772,24 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="imageUnselected.png" id="ank-Ot-Lh7">
                                                     <rect key="frame" x="10" y="18" width="18" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="tvS-Qp-UZM">
                                                     <rect key="frame" x="38" y="6" width="42" height="42"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.95686274510000002" alpha="1" colorSpace="deviceRGB"/>
                                                 </imageView>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" id="SE1-eQ-yLn">
                                                     <rect key="frame" x="2" y="9" width="37" height="37"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 </activityIndicatorView>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="glanceFriend" id="CHs-Ve-5u5">
                                                     <rect key="frame" x="330" y="10.5" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WUz-Je-4mt">
                                                     <rect key="frame" x="88" y="3" width="180" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
                                                     <color key="textColor" red="0.23921568627450979" green="0.29803921568627451" blue="0.34509803921568627" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1991,15 +1797,12 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bjj-kd-8nE">
                                                     <rect key="frame" x="88" y="23" width="180" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="12"/>
                                                     <color key="textColor" red="0.49019607843137253" green="0.54117647058823526" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="checkmarkImage" destination="ank-Ot-Lh7" id="sAb-Mj-Kk4"/>
@@ -2019,7 +1822,6 @@
                             <searchBar contentMode="redraw" placeholder="Search" id="xWL-42-6Js">
                                 <rect key="frame" x="5" y="20" width="217" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <color key="barTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -2029,7 +1831,6 @@
                             <button opaque="NO" alpha="0.20000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4tK-m6-U31">
                                 <rect key="frame" x="0.0" y="162" width="375" height="505"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal">
@@ -2042,7 +1843,6 @@
                             <button opaque="NO" alpha="0.94999999999999996" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Cv4-9t-gkI">
                                 <rect key="frame" x="0.0" y="627" width="375" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="36"/>
                                 <state key="normal" title="&gt;&gt;"/>
@@ -2056,7 +1856,6 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a group with:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1bw-gE-xZO">
                                 <rect key="frame" x="52" y="88" width="277" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="25"/>
                                 <color key="textColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -2064,12 +1863,10 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glanceFriendsLogo" id="Hmr-9e-1hq">
                                 <rect key="frame" x="257" y="23" width="105" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wFG-vJ-UCi">
                                 <rect key="frame" x="5" y="95" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="26"/>
                                 <state key="normal" title="&lt;">
                                     <color key="titleColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -2079,7 +1876,6 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="-64" maxX="0.0" maxY="64"/>
                     </view>
@@ -2129,7 +1925,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="v0A-fx-VGk">
                                 <rect key="frame" x="0.0" y="44" width="320" height="457"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.13333333333333333" green="0.15686274509803921" blue="0.1764705882352941" alpha="0.73999999999999999" colorSpace="calibratedRGB"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="8ZJ-QK-cgw">
@@ -2139,7 +1934,6 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8jO-tE-e3j">
                                             <rect key="frame" x="20" y="20" width="280" height="41"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                             <inset key="contentEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -2158,7 +1952,6 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="m0e-Ch-amL">
                                             <rect key="frame" x="20" y="73" width="280" height="41"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                             <inset key="contentEdgeInsets" minX="12" minY="0.0" maxX="-3" maxY="0.0"/>
@@ -2177,7 +1970,6 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9ff-GS-Ayc">
                                             <rect key="frame" x="20" y="127" width="280" height="41"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                             <inset key="contentEdgeInsets" minX="12" minY="0.0" maxX="-3" maxY="0.0"/>
@@ -2194,7 +1986,6 @@
                                             </connections>
                                         </button>
                                     </subviews>
-                                    <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
@@ -2208,17 +1999,14 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="albumMemberProfileFrame.png" id="4sm-LH-dCg">
                                                     <rect key="frame" x="9" y="4" width="35" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="n7R-xn-INC">
                                                     <rect key="frame" x="11" y="5" width="31" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rafael Angeline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LIp-f1-aLO">
                                                     <rect key="frame" x="50" y="0.0" width="250" height="41"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2228,12 +2016,9 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="center" id="BKH-WG-3X0">
                                                     <rect key="frame" x="220" y="6" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                 </imageView>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <connections>
                                             <outlet property="icon" destination="BKH-WG-3X0" id="sEk-a5-w8G"/>
                                             <outlet property="memberLabel" destination="LIp-f1-aLO" id="ps3-YR-Zf5"/>
@@ -2249,7 +2034,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vAd-El-oTI">
                                 <rect key="frame" x="20" y="509" width="280" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                 <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="-3" maxY="0.0"/>
@@ -2268,13 +2052,11 @@
                             <navigationBar contentMode="scaleToFill" id="Rsg-kE-7AI">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <items>
                                     <navigationItem id="ZoY-be-G41"/>
                                 </items>
                             </navigationBar>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="0.1764705882352941" green="0.20392156862745098" blue="0.22745098039215686" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
@@ -2293,7 +2075,6 @@
                     <webView key="view" contentMode="scaleToFill" id="Obu-FX-hhg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" red="0.14901960784313725" green="0.40000000000000002" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
                             <outlet property="delegate" destination="Y3e-6A-img" id="BwI-Oo-0eT"/>
@@ -2322,17 +2103,14 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="7aN-v7-Fda">
                                 <rect key="frame" x="61" y="291" width="254" height="254"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                             </imageView>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="yGs-aT-XbE">
                                 <rect key="frame" x="59" y="291" width="254" height="254"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                             </imageView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WAv-Pp-6Bk">
                                 <rect key="frame" x="61" y="291" width="252" height="245"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -2348,13 +2126,11 @@
                             <view contentMode="scaleToFill" id="6zt-Kf-ZnC">
                                 <rect key="frame" x="0.0" y="558" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your Name" minimumFontSize="10" id="vFh-LO-IyP">
                                 <rect key="frame" x="20" y="558" width="295" height="48"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <color key="textColor" red="0.25490197539999998" green="0.29019609089999998" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Light" family="Gotham Rounded" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
@@ -2365,7 +2141,6 @@
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Your Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="djQ-k3-b55">
                                 <rect key="frame" x="124" y="238" width="129" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="23"/>
                                 <color key="textColor" red="0.24313725490196078" green="0.70588235294117641" blue="0.71372549019607845" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -2373,7 +2148,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="EAj-u6-lVS">
                                 <rect key="frame" x="322" y="578" width="46" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="&gt;">
                                     <color key="titleColor" red="0.24313725490196078" green="0.70588235294117641" blue="0.71372549019607845" alpha="1" colorSpace="calibratedRGB"/>
@@ -2385,15 +2159,12 @@
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="seq1.png" id="piQ-RO-gmD">
                                 <rect key="frame" x="93" y="578" width="188" height="133"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                             </imageView>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeGlanceLogo" id="Sxz-2d-Rpz">
                                 <rect key="frame" x="100" y="477" width="175" height="71"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
                             </imageView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="-64" maxX="0.0" maxY="64"/>
                     </view>
@@ -2424,10 +2195,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="Mvq-yl-Fyz">
                                 <rect key="frame" x="27.5" y="173.5" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <animations/>
                             </imageView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="tOK-qr-hTK"/>
@@ -2448,21 +2217,19 @@
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DTG-CH-qgU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" red="0.87058823529999996" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="deviceRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="8mo-5p-uWH">
                             <rect key="frame" x="0.0" y="240" width="375" height="137"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <sections>
                             <tableViewSection id="K5n-vQ-FiY">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="iEb-R6-eLo" style="IBUITableViewCellStyleDefault" id="KyB-X8-TBS">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KyB-X8-TBS" id="i6P-pL-ypF">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -2471,7 +2238,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="version" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iEb-R6-eLo">
                                                     <rect key="frame" x="20" y="0.0" width="340" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -2479,7 +2245,6 @@
                                                 <label hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="git:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nWq-6z-Qat">
                                                     <rect key="frame" x="16" y="31" width="278" height="11"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="8"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -2487,16 +2252,13 @@
                                                 <view contentMode="scaleToFill" id="m8f-Uc-nHa" userLabel="Separator">
                                                     <rect key="frame" x="0.0" y="43" width="353" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="541-yf-u2C" imageView="8uv-SL-vE6" style="IBUITableViewCellStyleDefault" id="qZs-M3-pmn">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="108" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qZs-M3-pmn" id="yc1-dC-9Y6">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
@@ -2505,7 +2267,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Terms of Service" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="541-yf-u2C">
                                                     <rect key="frame" x="49" y="0.0" width="291" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -2513,24 +2274,20 @@
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="helpIcon.png" id="8uv-SL-vE6">
                                                     <rect key="frame" x="15" y="15" width="14" height="14"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="CFE-wA-TGC" userLabel="Separator">
                                                     <rect key="frame" x="0.0" y="43" width="320" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <connections>
                                             <segue destination="Y3e-6A-img" kind="push" identifier="SettingsTermsSegue" id="vb9-kV-1Jh"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="D5k-Uo-AnI" imageView="6vL-Cp-auZ" style="IBUITableViewCellStyleDefault" id="fXY-Pm-woh">
-                                        <rect key="frame" x="0.0" y="88" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="152" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fXY-Pm-woh" id="kes-e4-5ge">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
@@ -2539,7 +2296,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Privacy Policy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D5k-Uo-AnI">
                                                     <rect key="frame" x="49" y="0.0" width="291" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -2547,24 +2303,20 @@
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profileIcon.png" id="6vL-Cp-auZ">
                                                     <rect key="frame" x="15" y="15" width="14" height="14"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="nnz-GD-JS3" userLabel="Separator">
                                                     <rect key="frame" x="0.0" y="43" width="320" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <connections>
                                             <segue destination="Y3e-6A-img" kind="push" identifier="SettingsPrivacySegue" id="sFS-LY-DS0"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="5" textLabel="I2f-D1-7hT" imageView="WVb-FU-clG" style="IBUITableViewCellStyleDefault" id="vIc-Zx-tm8">
-                                        <rect key="frame" x="0.0" y="132" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="196" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vIc-Zx-tm8" id="ZV4-yL-hFQ">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
@@ -2573,7 +2325,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Open Source Attributions" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="I2f-D1-7hT">
                                                     <rect key="frame" x="49" y="0.0" width="291" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.26274509800000001" green="0.2901960784" blue="0.31764705879999999" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -2581,18 +2332,14 @@
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="aboutIcon.png" id="WVb-FU-clG">
                                                     <rect key="frame" x="15" y="15" width="14" height="13"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="H4L-vz-jbL" userLabel="Separator">
                                                     <rect key="frame" x="0.0" y="43" width="320" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.83473996350000002" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <connections>
                                             <segue destination="Y3e-6A-img" kind="push" identifier="SettingsAttributionsSegue" id="itz-1F-TDT"/>
                                         </connections>
@@ -2615,7 +2362,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CR7-dc-E2E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="630" y="998"/>
+            <point key="canvasLocation" x="674.5" y="997.5"/>
         </scene>
         <!--Countries View Controller-->
         <scene sceneID="GL4-9l-LlP">
@@ -2628,7 +2375,6 @@
                             <searchBar contentMode="redraw" placeholder="Search country" id="ro7-6i-An9">
                                 <rect key="frame" x="0.0" y="223" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <animations/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="jY5-rW-NAc" id="Win-Hk-YKO"/>
@@ -2637,7 +2383,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="45" sectionHeaderHeight="22" sectionFooterHeight="22" id="a0J-nf-cH4">
                                 <rect key="frame" x="0.0" y="267" width="375" height="400"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <animations/>
                                 <color key="backgroundColor" red="0.96078431369999995" green="0.96470588239999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -2651,20 +2396,16 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="A9A-qD-5Nc">
                                                     <rect key="frame" x="20" y="10" width="24" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Country" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ijU-bV-hIf">
                                                     <rect key="frame" x="61" y="10" width="294" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                                     <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.4549019608" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
-                                            <animations/>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="countryImage" destination="A9A-qD-5Nc" id="Pcg-Ce-2eo"/>
@@ -2678,7 +2419,6 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -2707,7 +2447,6 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pg0-vg-4KX">
                                         <rect key="frame" x="27" y="284.5" width="320" height="61.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <string key="text">To complete your phone number
 verification, please enter the 4-digit
 activation code.</string>
@@ -2718,7 +2457,6 @@ activation code.</string>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8S3-Lt-2Gf">
                                         <rect key="frame" x="27" y="244" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <string key="text">We have sent you an SMS with a
 code to the number above</string>
                                         <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="15"/>
@@ -2728,7 +2466,6 @@ code to the number above</string>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="l0m-jo-UKY">
                                         <rect key="frame" x="110" y="352" width="29" height="54"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="textColor" red="0.94117647058823528" green="0.45098039215686275" blue="0.50196078431372548" alpha="1" colorSpace="deviceRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -2739,7 +2476,6 @@ code to the number above</string>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="BAd-iE-ZCV">
                                         <rect key="frame" x="140" y="352" width="29" height="54"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="textColor" red="0.94117647058823528" green="0.45098039215686275" blue="0.50196078431372548" alpha="1" colorSpace="deviceRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -2750,7 +2486,6 @@ code to the number above</string>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="oB8-rA-i0T">
                                         <rect key="frame" x="170" y="352" width="29" height="54"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="textColor" red="0.94117647058823528" green="0.45098039215686275" blue="0.50196078431372548" alpha="1" colorSpace="deviceRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -2761,7 +2496,6 @@ code to the number above</string>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NPU-6a-aVT">
                                         <rect key="frame" x="240" y="346" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="20"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -2779,31 +2513,26 @@ code to the number above</string>
                                     <view contentMode="scaleToFill" id="mJ0-H9-iYR">
                                         <rect key="frame" x="83" y="396" width="20" height="4"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" id="fFa-ZX-fp1">
                                         <rect key="frame" x="174" y="396" width="20" height="4"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" id="MZ5-Tc-pgP">
                                         <rect key="frame" x="143" y="396" width="20" height="4"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" id="9wu-Gr-8b6">
                                         <rect key="frame" x="113" y="396" width="20" height="4"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                                     </view>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="vVH-zc-omB">
                                         <rect key="frame" x="79" y="352" width="29" height="54"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <animations/>
                                         <color key="textColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                                         <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -2812,11 +2541,9 @@ code to the number above</string>
                                         </connections>
                                     </textField>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -2885,9 +2612,9 @@ code to the number above</string>
         <image name="welcomeGlanceLogo" width="605" height="264"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="i8y-Zz-QXE"/>
         <segue reference="FFK-OC-3pt"/>
-        <segue reference="sO9-n0-6uB"/>
-        <segue reference="hc8-VF-LIN"/>
+        <segue reference="i8y-Zz-QXE"/>
+        <segue reference="wnh-dc-9HX"/>
+        <segue reference="vb9-kV-1Jh"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -622,6 +622,7 @@ CGFloat kResizeThumbSize = 45.0f;
 
 - (void)viewWillAppear:(BOOL)animated {
     
+    [[GLContainersViewController sharedInstance] disableSideMembers];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [[NSUserDefaults standardUserDefaults] setInteger:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAuthData] getUserId]] forKey:@"kUserScore"];

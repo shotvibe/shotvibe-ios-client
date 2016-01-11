@@ -61,6 +61,15 @@
     }
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+//    [UIView animateWithDuration:0.2 animations:^{
+//        CGRect tFrame = self.view.frame;
+//        tFrame.origin.y -= 200;
+//        self.view.frame = tFrame;
+//    }];
+}
+
 - (void)viewDidLoad {
 	
     [super viewDidLoad];
@@ -82,7 +91,8 @@
     SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
     int64_t userId = [[shotvibeAPI getAuthData] getUserId];
 	
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [KVNProgress show];
 	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         SLAlbumUser *userProfile = nil;
@@ -93,8 +103,8 @@
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-			
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+			[KVNProgress dismiss];
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
             
 			if (!userProfile) {
                 // TODO Better error dialog with Retry option
@@ -124,13 +134,11 @@
     
     if(self.fromSettings){
     
-        for(UIView * v in self.view.subviews){
+//        for(UIView * v in self.view.subviews){
         
-            CGRect tFrame = v.frame;
-            tFrame.origin.y -= 200;
-            v.frame = tFrame;
+        
             
-        }
+//        }
         
     } else {
         

@@ -17,6 +17,41 @@
 
 @implementation GLScoreViewController
 
+
+- (void) sizeLabel: (UILabel *) label toRect: (CGRect) labelRect  {
+    
+    // Set the frame of the label to the targeted rectangle
+    label.frame = labelRect;
+    
+    // Try all font sizes from largest to smallest font size
+    int fontSize = 300;
+    int minFontSize = 5;
+    
+    // Fit label width wize
+    CGSize constraintSize = CGSizeMake(label.frame.size.width, MAXFLOAT);
+    
+    do {
+        // Set current font size
+        label.font = [UIFont fontWithName:label.font.fontName size:fontSize];
+        
+        // Find label size for current font size
+        CGRect textRect = [[label text] boundingRectWithSize:constraintSize
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName:label.font}
+                                                     context:nil];
+        
+        CGSize labelSize = textRect.size;
+        
+        // Done, if created label is within target size
+        if( labelSize.height <= label.frame.size.height )
+            break;
+        
+        // Decrease the font size and try again
+        fontSize -= 2;
+        
+    } while (fontSize > minFontSize);
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -26,6 +61,7 @@
                    name:NSUserDefaultsDidChangeNotification
                  object:nil];
     self.userScore.text = [[[[GLSharedCamera sharedInstance] userScore] userScoreLabel] text];
+    [self sizeLabel:self.userScore toRect:self.userScore.frame];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -62,10 +98,13 @@
 }
 - (IBAction)showSettings:(id)sender {
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    SVSettingsViewController *settings = [storyboard instantiateViewControllerWithIdentifier:@"SVSettingsViewController"];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self.navigationController pushViewController:settings animated:YES];
+    
+    SVSettingsViewController * settingsViewController = [[SVSettingsViewController alloc] init];
+    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+//    SVSettingsViewController *settings = [storyboard instantiateViewControllerWithIdentifier:@"SVSettingsViewController"];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController pushViewController:settingsViewController animated:YES];
     
 }
 @end

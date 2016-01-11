@@ -25,21 +25,50 @@
 
 #pragma mark - View Lifecycle
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"SettingsHelpSegue"]) {
-        SVWebViewController *destination = (SVWebViewController *)segue.destinationViewController;
-        
-        destination.title = @"Help";
-		destination.url = @"https://m.shotvibe.com/help.html";
-    } else if([segue.identifier isEqualToString:@"SettingsProfileSegue"]){
-        
-        SVProfileViewController *destination = (SVProfileViewController *)segue.destinationViewController;
-        destination.fromSettings = YES;
+
+-(void)viewDidLoad {
+    [super viewDidLoad];
     
-    }
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self.tableView setContentInset:UIEdgeInsetsMake(60,0,0,0)];
+    UIView * topHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
+    UIVisualEffectView * effectView = [[UIVisualEffectView alloc] init];
+    effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
+    effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    [topHeader addSubview:effectView];
+    
+    UIImageView * dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60, 7, 256, 104)];
+    dmut.image = [UIImage imageNamed:@"Dmut"];
+    dmut.transform = CGAffineTransformScale(dmut.transform, 0.6, 0.6);
+    self.tableView.scrollEnabled = NO;
+    [self.navigationController.view addSubview:topHeader];
+    [topHeader addSubview:dmut];
+//    
+//    UIImageView * bricks = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/5)];
+//    bricks.image = [UIImage imageNamed:@"Bricks"];
+//    
+//    self.tableView.tableFooterView = bricks;
+    
+    UIButton * backButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 20, 40, 70)];
+    [backButton setImage:[UIImage imageNamed:@"feedBackIcon"] forState:UIControlStateNormal];
+    backButton.imageEdgeInsets = UIEdgeInsetsMake(10, 15, 25, 0);
+    [backButton addTarget:self action:@selector(backButtonPressed:)
+              forControlEvents:UIControlEventTouchUpInside];
+    [topHeader addSubview:backButton];
 }
 
+
+
+-(void)backButtonPressed:(UIButton*)sender {
+    
+    
+    if([[[self.navigationController viewControllers] lastObject] isKindOfClass:[self class]]){
+        [UIView animateWithDuration:0.2 animations:^{
+            [sender.superview removeFromSuperview];
+        }];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - Table view delegate
 
@@ -47,7 +76,21 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.row == 3) {
+    if(indexPath.row == 0){
+        SVProfileViewController * profileViewController = [[SVProfileViewController alloc] init];
+        profileViewController.fromSettings = YES;
+        [self.navigationController pushViewController:profileViewController animated:YES];
+    }
+    
+    if(indexPath.row == 1){
+    
+        SVWebViewController * webView = [[SVWebViewController alloc] init];
+        webView.url = @"http://useglance.com";
+        [self.navigationController pushViewController:webView animated:YES];
+    
+    }
+    
+    if (indexPath.row == 2) {
         // We've selected the email item
         if ([MFMailComposeViewController canSendMail]) {
             MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
@@ -61,6 +104,11 @@
             
             [self presentViewController:mailController animated:YES completion:NULL];
         }
+    }
+    
+    if(indexPath.row == 3){
+        SVSettingsAboutViewController * settingsAbout = [[SVSettingsAboutViewController alloc] init];
+        [self.navigationController pushViewController:settingsAbout animated:YES];
     }
 }
 
@@ -130,5 +178,51 @@
 	}
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+ 
+    NSArray * menuItems = @[@"Profile",@"About",@"Contact Support",@"More..."];
+    
+    UITableViewCell * cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingsCell"];
+    
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(18, 0, self.tableView.frame.size.width, [[UIScreen mainScreen] bounds].size.height/9)];
+    title.text = [menuItems objectAtIndex:indexPath.row];
+    title.font = [UIFont fontWithName:@"GothamRounded-Book" size:26];
+    title.textColor = UIColorFromRGB(0x747575);
+    [cell.contentView addSubview:title];
+//    title.backgroundColor = [UIColor redColor];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    return cell;
+    
+}
+
+//- (NSInteger)hei
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    //#warning Incomplete implementation, return the number of sections
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    //#warning Incomplete implementation, return the number of rows
+    return 4;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[UIScreen mainScreen] bounds].size.height/9;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+}
+//-(void)viewWillDisAppear:(BOOL)animated {
+//    [super viewWillDisAppear:animated];
+//
+//}
 
 @end

@@ -148,9 +148,70 @@ static void showNotificationBanner(NSString *message)
 {
     [albumManager_ reportAlbumUpdateWithLong:[msg getAlbumId]];
 
-    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"NOTIFICATION_ADDED_TO_ALBUM", nil), [msg getAdderName], [msg getAlbumName]];
+    NSString *message = [NSString stringWithFormat:@"%@ added you to %@", [msg getAdderName], [msg getAlbumName]];
 
-    showNotificationBanner(message);
+//    showNotificationBanner(message);
+    
+//    [msg getAdderName];
+    LNNotification* notification = [LNNotification notificationWithMessage:message];
+    notification.title = [NSString stringWithFormat:@"You've been added!"];
+    notification.soundName = @"push.mp3";
+    
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    [manager downloadImageWithURL:[NSURL URLWithString:[msg getAdderAvatarUrl]]
+                          options:0
+                         progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                             // progression tracking code
+                         }
+                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                            if (image) {
+                                
+                                notification.icon = image;
+                                notification.defaultAction = [LNNotificationAction actionWithTitle:@"Default Action" handler:^(LNNotificationAction *action) {
+                                    //Handle default action
+                                    NSLog(@"test");
+                                    
+                                    
+                                    
+                                    //                                    NSUInteger childViewControllersCount = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] count];
+                                    
+                                    
+                                    //                                    if(childViewControllersCount == 1){
+                                    //
+                                    //                                        [[GLSharedCamera sharedInstance] setCameraInFeed];
+                                    //
+                                    //                                        GLFeedViewController * feedView = [[GLFeedViewController alloc] init];
+                                    //                                        feedView.albumId = [msg getAlbumId];
+                                    //                                        feedView.scrollToComment = YES;
+                                    //                                        feedView.photoToScrollToCommentsId = [msg getPhotoId];
+                                    //                                        feedView.prevAlbumId = [msg getAlbumId];
+                                    //                                        feedView.startImidiatly = NO;
+                                    //                                        GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+                                    //                                        glcamera.imageForOutSideUpload = nil;
+                                    //                                        [[[ContainerViewController sharedInstance] navigationController] pushViewController:feedView animated:YES];
+                                    //                                        [[ContainerViewController sharedInstance] lockScrolling:YES];
+                                    //
+                                    //                                    } else if (childViewControllersCount == 2){
+                                    //
+                                    //                                        GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
+                                    //                                        self.delegate = glfeed;
+                                    //                                        [self.delegate commentPushPressed:msg];
+                                    //
+                                    //                                    }
+                                    
+                                    //                                    GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
+                                    //                                    self.delegate = glfeed;
+                                    //                                    [self.delegate commentPushPressed:msg];
+                                    
+                                }];
+                                
+                                [[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"glance_app"];
+                                
+                                // do something with image
+                            }
+                        }];
+    
+    
 }
 
 - (void)HandleWithSLNotificationMessage_PhotoComment:(SLNotificationMessage_PhotoComment *)msg {
@@ -177,8 +238,10 @@ static void showNotificationBanner(NSString *message)
         
     } else {
     
+        NSString * firstName = [[[msg getCommentAuthorNickname] componentsSeparatedByString:@" "] objectAtIndex:0];
+        
     LNNotification* notification = [LNNotification notificationWithMessage:[NSString stringWithFormat:@"%@ commented on a photo @ %@",[msg getCommentAuthorNickname],[msg getAlbumName]]];
-    notification.title = @"test title";
+    notification.title = [NSString stringWithFormat:@"%@: %@",firstName,[msg getCommentText]];
     notification.soundName = @"push.mp3";
     
     SDWebImageManager *manager = [SDWebImageManager sharedManager];

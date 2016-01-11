@@ -138,7 +138,7 @@
     [super viewDidLoad];
     
     
-    
+//    [[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] albumRemoveMemberWithLong:<#(long long)#> withLong:<#(long long)#>]
     
     currentPostIndex = 0;
     
