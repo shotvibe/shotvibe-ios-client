@@ -344,7 +344,7 @@
         
         cell.videoBadge.alpha = 1;
         
-        [[GLSharedVideoPlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto]getId] withVideoUrl:[video getVideoUrl] videoThumbNail:cell.postImage.image];
+        [[GLSharedVideoPlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto]getId] withVideoUrl:[video getVideoUrl] videoThumbNail:cell.postImage.image tableCell:cell];
         [cell.activityIndicator startAnimating];
         
         

@@ -1709,21 +1709,7 @@
     
     
     
-    fromImagePicker = NO;
-    CGRect screenRect = kScreenBounds;
-    CGFloat screenWidth = screenRect.size.width;
     
-    for(GLFilterView * filterView in self.arrayOfFilters){
-        [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth*1.3333) image:image]];
-    }
-    [self setCameraViewInEditMode:YES];
-    
-    [UIView animateWithDuration:0.2 animations:^{
-        self.mainScrollView.alpha = 1;
-    } completion:^(BOOL finished) {
-    }];
-    imageSource = ImageSourceGallery;
-    imageFromPicker = [self imageCroppedToFitSize:CGSizeMake(480, 640) image:image];
     
     
     PECropViewController *controller = [[PECropViewController alloc] init];
@@ -1756,12 +1742,22 @@
     /*Calling the addChildViewController: method also calls
      the child’s willMoveToParentViewController: method automatically */
     controller.view.frame = mainOutPutFrame.frame;//CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75);
-//    [[[ContainerViewController sharedInstance] navigationController] addChildViewController:controller];
-//    [controller didMoveToParentViewController:[[ContainerViewController sharedInstance] navigationController]];
+    [[[GLContainersViewController sharedInstance] navigationController] addChildViewController:controller];
+    [controller didMoveToParentViewController:[[GLContainersViewController sharedInstance] navigationController]];
     [controller setKeepingCropAspectRatio:NO];
     [controller setRotationEnabled:NO];
 //    [controller setCropAspectRatio:2.0f / 3.0f];
+    
+    
+    
+    
+    
+    
+    
+    
+    
     [mainOutPutFrame addSubview:controller.view];
+    
     
 //    controller setim
     
@@ -1773,6 +1769,45 @@
 
 - (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage {
 
+    controller.completeCropButton.alpha = 0;
+    
+    
+    UIGraphicsBeginImageContextWithOptions(controller.view.bounds.size, NO, 0);
+    [controller.view drawViewHierarchyInRect:controller.view.bounds afterScreenUpdates:YES];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+//    image = [self imageByCroppingImage:<#(UIImage *)#> toSize:<#(CGSize)#>];
+    
+    fromImagePicker = NO;
+    CGRect screenRect = kScreenBounds;
+    CGFloat screenWidth = screenRect.size.width;
+    
+    for(GLFilterView * filterView in self.arrayOfFilters){
+//        [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth*1.3333) image:image]];
+        
+        [filterView setImageCapturedUnderFilter:image];
+        
+    }
+    [self setCameraViewInEditMode:YES];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.mainScrollView.alpha = 1;
+    } completion:^(BOOL finished) {
+    }];
+    imageSource = ImageSourceGallery;
+    imageFromPicker = image;
+    
+    [controller.view removeFromSuperview];
+    
+//    controller.
+//    UIGraphicsBeginImageContextWithOptions(controller.view.bounds.size, controller.view.opaque, 0.0);
+//    [controller.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+//    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+    
+    
+    
     NSLog(@"Now need to create again the same but in a real image. and send it to filter surface.");
     
 }

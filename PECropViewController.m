@@ -76,13 +76,14 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     self.cropView.backgroundColor = [UIColor greenColor];
     [contentView addSubview:self.cropView];
     
-    self.completeCropButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    self.completeCropButton.backgroundColor = [UIColor redColor];
+    self.completeCropButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 50, 50, 50)];
+    self.completeCropButton.backgroundColor = [UIColor blueColor];
     [self.completeCropButton addTarget:self action:@selector(completeCropButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     self.completeCropButton.userInteractionEnabled = YES;
 //    [self.view addSubview:self.completeCropButton];
     
     [self.cropView addSubview:self.completeCropButton];
+    [self.cropView bringSubviewToFront:self.completeCropButton];
     
     
     
@@ -91,9 +92,13 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 
 -(void)completeCropButtonTapped:(UIButton*)sender {
     if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCroppingImage:transform:cropRect:)]) {
+        
         [self.delegate cropViewController:self didFinishCroppingImage:self.cropView.croppedImage transform: self.cropView.rotation cropRect: self.cropView.zoomedCropRect];
+        
     } else if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCroppingImage:)]) {
+        
         [self.delegate cropViewController:self didFinishCroppingImage:self.cropView.croppedImage];
+        
     }
 }
 

@@ -317,6 +317,7 @@
 		0F0F543B1C43A0B300B21751 /* SVSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F543A1C43A0B300B21751 /* SVSettingsViewController.xib */; };
 		0F0F543D1C43B02100B21751 /* SVWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F543C1C43B02100B21751 /* SVWebViewController.xib */; };
 		0F0F543F1C43CF6800B21751 /* SVSettingsAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F543E1C43CF6800B21751 /* SVSettingsAboutViewController.xib */; };
+		0F0F54421C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0F54411C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m */; };
 		0F110A271C330E1A001A74A0 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F110A261C330E1A001A74A0 /* libc++.tbd */; };
 		0F18170F1C05E128002EDFA3 /* GLPublicFeedPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */; };
 		0F1817101C05E128002EDFA3 /* GLPublicFeedPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */; };
@@ -1373,6 +1374,8 @@
 		0F0F543A1C43A0B300B21751 /* SVSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVSettingsViewController.xib; sourceTree = "<group>"; };
 		0F0F543C1C43B02100B21751 /* SVWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVWebViewController.xib; sourceTree = "<group>"; };
 		0F0F543E1C43CF6800B21751 /* SVSettingsAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVSettingsAboutViewController.xib; sourceTree = "<group>"; };
+		0F0F54401C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.h"; sourceTree = "<group>"; };
+		0F0F54411C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m"; sourceTree = "<group>"; };
 		0F110A261C330E1A001A74A0 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0F18170C1C05E128002EDFA3 /* GLPublicFeedPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLPublicFeedPostViewController.h; sourceTree = "<group>"; };
 		0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLPublicFeedPostViewController.m; sourceTree = "<group>"; };
@@ -3085,6 +3088,8 @@
 				0F4390E01C22F93E00C83C45 /* GLUserScore */,
 				0FD8B08C1C315C2B009D7CFA /* UIViewController+index.h */,
 				0FD8B08D1C315C2B009D7CFA /* UIViewController+index.m */,
+				0F0F54401C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.h */,
+				0F0F54411C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m */,
 			);
 			name = V2Additions;
 			sourceTree = "<group>";
@@ -5998,6 +6003,7 @@
 				66013237187F4E670042047B /* ArrayIndexOutOfBoundsException.m in Sources */,
 				66278C751867C2AD00D23F34 /* SVRegistrationViewController.m in Sources */,
 				108CDF7318846B9000757E36 /* NSData+MPBase64.m in Sources */,
+				0F0F54421C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m in Sources */,
 				66278D0E1867C94900D23F34 /* UserSettings.m in Sources */,
 				66B0183719E188720037C955 /* IosBackgroundTaskManager.m in Sources */,
 				ED9589051C0DEDA60020E8C6 /* UploadManager.m in Sources */,

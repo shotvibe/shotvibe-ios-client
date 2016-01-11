@@ -35,7 +35,7 @@
         self.backgroundColor = [UIColor clearColor];
         self.contentMode = UIViewContentModeRedraw;
         
-        self.showsGridMajor = YES;
+        self.showsGridMajor = NO;
         self.showsGridMinor = NO;
         
 //        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectInset(self.bounds, 0.0f, 0.0f)];

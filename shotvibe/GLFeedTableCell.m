@@ -28,6 +28,29 @@
 
 
 
+- (void)longPressDetected:(UILongPressGestureRecognizer*)gest {
+
+
+    if(gest.state == UIGestureRecognizerStateBegan){
+    
+        NSLog(@"hold on post image began");
+        [UIView animateWithDuration:0.2 animations:^{
+            self.postPannelWrapper.alpha = 0;
+        }];
+        
+    }
+    
+    if(gest.state == UIGestureRecognizerStateEnded){
+                NSLog(@"hold on post image ended");
+        [UIView animateWithDuration:0.2 animations:^{
+            self.postPannelWrapper.alpha = 1;
+        }];
+    }
+    
+
+
+}
+
 //-(void)
 - (void)awakeFromNib {
 
@@ -59,31 +82,29 @@
     
     self.postImage = [[YYAnimatedImageView alloc] initWithFrame:CGRectMake(0, 89, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
     
+    
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    longPressRecognizer.cancelsTouchesInView = NO;
+    longPressRecognizer.minimumPressDuration = 0.25f;
+    longPressRecognizer.numberOfTouchesRequired = 1;
+    [self.postImage addGestureRecognizer:longPressRecognizer];
+    
+    self.postImage.userInteractionEnabled = YES;
+    
     self.postImage.contentMode = UIViewContentModeScaleAspectFill;
     self.postImage.clipsToBounds = YES;
     
     self.moviePlayer = [[UIView alloc] initWithFrame:self.postImage.frame];
-    
-    
-//    [self.moviePlayer.view setFrame:self.postImage.frame];
-    
-    
-    
     self.postedTime.contentMode = UIViewContentModeScaleAspectFit;
     self.postImage.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.postImage];
-    
     [self.contentView addSubview:self.moviePlayer];
-    
     
     self.postPannelWrapper = [[UIView alloc] initWithFrame:CGRectMake(0, (self.postImage.frame.origin.y+self.postImage.frame.size.height)-self.postImage.frame.size.height*0.3, [[UIScreen mainScreen] bounds].size.width, self.postImage.frame.size.height*0.3)];
     
     self.commentScrollBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, self.postImage.frame.size.height*0.3)];
     self.commentScrollBgView.backgroundColor = [UIColor blackColor];
     self.commentScrollBgView.alpha = 0.5;
-    
-    
-    
     
     self.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, [[UIScreen mainScreen] bounds].size.width, 69)];
     self.commentsScrollView.pagingEnabled = YES;
@@ -92,7 +113,6 @@
     
     self.addCommentButton = [[UIButton alloc] initWithFrame:CGRectMake(26, 28, 24, 32)];
     [self.addCommentButton setBackgroundImage:[UIImage imageNamed:@"feedCommentIcon"] forState:UIControlStateNormal];
-    
     
     self.abortCommentButton = [[UIButton alloc] initWithFrame:CGRectMake(26, 32.5, 24, 26)];
     [self.abortCommentButton setBackgroundImage:[UIImage imageNamed:@"backToCameraIcon"] forState:UIControlStateNormal];
@@ -104,7 +124,6 @@
     [self.glanceDownButton setImage:[UIImage imageNamed:@"glanceDownIcon"] forState:UIControlStateNormal];
 //    self.glanceDownButton.imageView.frame = CGRectMake(0, 0, 14, 8);
     [self.glanceDownButton setImageEdgeInsets:UIEdgeInsetsMake(11, 10.5, 11, 10.5)];
-    
     
     self.glancesCounter = [[UILabel alloc] initWithFrame:CGRectMake(self.addCommentButton.frame.origin.x+self.addCommentButton.frame.size.width+32, 26, 45, 35)];
     self.glancesCounter.backgroundColor = [UIColor clearColor];
@@ -323,63 +342,6 @@
                                }
                            }];
 }
-
-/*
--(void)videoDidStartedPlaying {
-    
-    [self.activityIndicator startAnimating];
-    
-    if([self.moviePlayer currentPlaybackTime] > 0.0){
-        
-        [self.moviePlayer.view setHidden:NO];
-        [UIView animateWithDuration:0.2 animations:^{
-            [self.activityIndicator stopAnimating];
-            self.postImage.alpha = 0;
-            //            [self.contentView bringSubviewToFront:self.moviePlayer.view];
-        } completion:^(BOOL finished) {
-            [self.playBackStartedTester invalidate];
-        }];
-        
-    }
-    
-}
- */
-
-//- (void)willMoveToSuperview:(UIView *)newSuperview {
-//    [super willMoveToSuperview:newSuperview];
-//    if(!newSuperview) {
-//        
-//        [self.moviePlayer stop];
-//        self.moviePlayer= nil;
-//        
-//    }
-//}
-
-/*
-- (void)playVideo:(SLAlbumServerVideo *)video {
-
-    if(self.moviePlayer.playbackState != MPMoviePlaybackStatePlaying)
-    {
-        // is not Playing
-        self.playBackStartedTester = [NSTimer scheduledTimerWithTimeInterval:0.1
-                                                                      target:self
-                                                                    selector:@selector(videoDidStartedPlaying)
-                                                                    userInfo:nil
-                                                                     repeats:YES];
-        
-        NSURL * videoUrl = [NSURL URLWithString:[video getVideoUrl]];
-        [self.moviePlayer setContentURL:videoUrl];
-        [self.moviePlayer prepareToPlay];
-        [self.moviePlayer play];
-    }
-
-    
-//
-//    }
-
-
-}
- */
 
 - (void)notifyCellVisibleWithIsCompletelyVisible:(BOOL)completlyVisible {
 

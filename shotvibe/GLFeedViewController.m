@@ -115,23 +115,7 @@
     
     currentPostIndex = 0;
     
-    self.volumeButtonHandler = [JPSVolumeButtonHandler volumeButtonHandlerWithUpBlock:^{
-        
-        float num = self.tableView.contentOffset.y/self.tableView.frame.size.height;
-        if(num > 0 && tableIsScrolling == NO){
-            NSLog(@"current down %f",floorf(num+0.5));
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:floorf(num+0.5)-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-        }
-        
-    } downBlock:^{
-        
-        float num = self.tableView.contentOffset.y/self.tableView.frame.size.height;
-        if(num < self.posts.count-1 && tableIsScrolling == NO){
-            NSLog(@"current down %f",floorf(num+0.5));
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:floorf(num+0.5)+1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-        }
-        
-    }];
+    
     
     
     
@@ -356,7 +340,7 @@
                     //                    self.volumeButtonHandler
                     
                     NSString * videoUrl = [[[photo getServerPhoto] getVideo] getVideoUrl];
-                    [[GLSharedVideoPlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl videoThumbNail:cell.postImage.image];
+                    [[GLSharedVideoPlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl videoThumbNail:cell.postImage.image tableCell:cell];
                     //                    cell.activityIndicator.backgroundColor = [UIColor redColor];
                     //                    cell.activityIndicator.hidesWhenStopped = NO;
                     //                    [cell bringSubviewToFront:cell.activityIndicator];
@@ -419,27 +403,27 @@
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     
     tableIsScrolling = NO;
-    
-    if(!scrollToCellDisabled && !commentingNow){
-        NSLog(@"im done and ready to highlight comment");
-        
-        
-        NSArray *cells = [self.tableView visibleCells];
-        
-        GLFeedTableCell *cell = nil;
-        NSIndexPath *path = [NSIndexPath indexPathForRow:cellToHighLightIndex inSection:0];
-        for (GLFeedTableCell *aCell in cells) {
-            NSIndexPath *aPath = [self.tableView indexPathForCell:aCell];
-            
-            if ([aPath isEqual:path]) {
-                cell = aCell;
-            }
-        }
-        
-        [cell highLightLastCommentInPost];
-        self.view.userInteractionEnabled = YES;
-        
-    }
+//    
+//    if(!scrollToCellDisabled && !commentingNow){
+//        NSLog(@"im done and ready to highlight comment");
+//        
+//        
+//        NSArray *cells = [self.tableView visibleCells];
+//        
+//        GLFeedTableCell *cell = nil;
+//        NSIndexPath *path = [NSIndexPath indexPathForRow:cellToHighLightIndex inSection:0];
+//        for (GLFeedTableCell *aCell in cells) {
+//            NSIndexPath *aPath = [self.tableView indexPathForCell:aCell];
+//            
+//            if ([aPath isEqual:path]) {
+//                cell = aCell;
+//            }
+//        }
+//        
+//        [cell highLightLastCommentInPost];
+//        self.view.userInteractionEnabled = YES;
+//        
+//    }
     
 }
 
@@ -801,6 +785,24 @@
         
     }
     
+    
+    self.volumeButtonHandler = [JPSVolumeButtonHandler volumeButtonHandlerWithUpBlock:^{
+        
+        float num = self.tableView.contentOffset.y/self.tableView.frame.size.height;
+        if(num > 0 && tableIsScrolling == NO){
+            NSLog(@"current down %f",floorf(num+0.5));
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:floorf(num+0.5)-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        }
+        
+    } downBlock:^{
+        
+        float num = self.tableView.contentOffset.y/self.tableView.frame.size.height;
+        if(num < self.posts.count-1 && tableIsScrolling == NO){
+            NSLog(@"current down %f",floorf(num+0.5));
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:floorf(num+0.5)+1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        }
+        
+    }];
     
     
 }

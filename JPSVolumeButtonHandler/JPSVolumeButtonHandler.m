@@ -119,13 +119,13 @@ static CGFloat minVolume                    = 0.00001f;
     
 - (void)setInitialVolume {
     self.initialVolume = self.session.outputVolume;
-//    if (self.initialVolume > maxVolume) {
-//        self.initialVolume = maxVolume;
-//        [self setSystemVolume:self.initialVolume];
-//    } else if (self.initialVolume < minVolume) {
-//        self.initialVolume = minVolume;
-//        [self setSystemVolume:self.initialVolume];
-//    }
+    if (self.initialVolume > maxVolume) {
+        self.initialVolume = maxVolume;
+        [self setSystemVolume:self.initialVolume];
+    } else if (self.initialVolume < minVolume) {
+        self.initialVolume = minVolume;
+        [self setSystemVolume:self.initialVolume];
+    }
 }
 
 - (void)applicationDidChangeActive:(NSNotification *)notification {

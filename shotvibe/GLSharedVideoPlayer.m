@@ -8,6 +8,7 @@
 
 #import "GLSharedVideoPlayer.h"
 
+
 @interface GLSharedVideoPlayer ()
 
 - (void)initMoviePlayer;
@@ -129,7 +130,31 @@
     return [self.photoId isEqualToString:targetPhotoId];
 }
 
-- (void)attachToView:(UIView *)parentView withPhotoId:(NSString *)targetPhotoId withVideoUrl:(NSString *)videoUrl videoThumbNail:(UIImage*)thumbNail
+
+- (void)longPressDetected:(UILongPressGestureRecognizer*)gest {
+    
+    
+    if(gest.state == UIGestureRecognizerStateBegan){
+        
+        NSLog(@"hold on post image began");
+        [UIView animateWithDuration:0.2 animations:^{
+            self.currentCell.postPannelWrapper.alpha = 0;
+        }];
+        
+    }
+    
+    if(gest.state == UIGestureRecognizerStateEnded){
+        NSLog(@"hold on post image ended");
+        [UIView animateWithDuration:0.2 animations:^{
+            self.currentCell.postPannelWrapper.alpha = 1;
+        }];
+    }
+    
+    
+    
+}
+
+- (void)attachToView:(UIView *)parentView withPhotoId:(NSString *)targetPhotoId withVideoUrl:(NSString *)videoUrl videoThumbNail:(UIImage*)thumbNail tableCell:(GLFeedTableCell*)cell
 {
     if (![targetPhotoId isEqualToString:self.photoId]) {
         [self resetPlayer];
@@ -144,10 +169,30 @@
     [moviePlayer.view setFrame:parentView.bounds];
     [parentView addSubview:moviePlayer.view];
     
-    UITapGestureRecognizer * videoTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(videoDidTapped:)];
-    videoTapped.delegate = self;
+    
+    
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    longPressRecognizer.cancelsTouchesInView = NO;
+    longPressRecognizer.minimumPressDuration = 0.25f;
+    longPressRecognizer.numberOfTouchesRequired = 1;
+    
+//    [longPressRecognizer setCell:cell];
+    self.currentCell = cell;
+//    longPressRecognizer.cell = cell;
+    
+//    GLFeedTableCell * cellcontentview = [parentView superview];
+//    GLFeedTableCell * cell = [cellcontentview superview];
+//    UIView * blackLine = cellcontentview.;
+    
+    
+    
+//    UITapGestureRecognizer * videoTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(videoDidTapped:)];
+    longPressRecognizer.delegate = self;
     moviePlayer.view.userInteractionEnabled = YES;
-    [moviePlayer.view addGestureRecognizer:videoTapped];
+//    [moviePlayer.view addGestureRecognizer:videoTapped];
+    [moviePlayer.view addGestureRecognizer:longPressRecognizer];
+    
+    
     
     NSLog(@"GLSharedVideoPlayer URL: %@", videoUrl);
     

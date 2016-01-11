@@ -11,6 +11,8 @@
 #import "UIImage+ImageEffects.h"
 #import "MFSideMenu.h"
 #import "ShotVibeAppDelegate.h"
+#import "GLFeedTableCell.h"
+#import "UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.h"
 
 @interface GLSharedVideoPlayer : NSObject <UIGestureRecognizerDelegate>
 
@@ -18,9 +20,11 @@
 + (GLSharedVideoPlayer *)sharedInstance;
 - (void)resetPlayer;
 - (BOOL)isAttachedTo:(NSString *)targetPhotoId;
-- (void)attachToView:(UIView *)parentView withPhotoId:(NSString *)targetPhotoId withVideoUrl:(NSString *)videoUrl videoThumbNail:(UIImage*)thumbNail;
+- (void)attachToView:(UIView *)parentView withPhotoId:(NSString *)targetPhotoId withVideoUrl:(NSString *)videoUrl videoThumbNail:(UIImage*)thumbNail tableCell:(GLFeedTableCell*)cell;
+
 - (void)pause;
 - (void)play;
 - (void)stop;
 @property(nonatomic, retain) NSString *photoId;
+@property(nonatomic, retain) GLFeedTableCell *currentCell;
 @end
