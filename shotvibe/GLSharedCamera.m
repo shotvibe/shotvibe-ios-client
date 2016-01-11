@@ -9,29 +9,20 @@
 //#import "GLSharedCamera.h"
 #import "RBVolumeButtons.h"
 #import "SVAddFriendsViewController.h"
-//#import "ContainerViewController.h"
 #import "UIImage+ImageEffects.h"
-
 #import "UIImage+FX.h"
 #import "GLScoreViewController.h"
 #import "FXImageView.h"
 #import "ShotVibeAPI.h"
-
 #import "GLProfilePageViewController.h"
 #import "GLSharedVideoPlayer.h"
 #import "GLContainersViewController.h"
-
-
-
-// GradientView.h
 
 @interface GradientView : UIView
 
 @property (nonatomic, strong, readonly) CAGradientLayer *layer;
 
 @end
-
-// GradientView.m
 
 @implementation GradientView
 
@@ -57,7 +48,10 @@
     BOOL flashIsOn;
     BOOL firstTime;
     BOOL addText;
-    
+    BOOL cameraVisble;
+    BOOL yes;
+    UIView * cameraWrapper;
+    UIView * scoreBg;
     UIView * mainOutPutFrame;
     UIView * touchPointCircle;
     UIImage * imageFromPicker;
@@ -71,79 +65,36 @@
     UIButton * trashTextButton;
     UIButton * approveTextButton;
     UIButton * abortUploadButton;
-    
-    
     GLFilterView * defaultFilter;
     GLFilterView * amatorkaFilter;
     GLFilterView * softEleganceFilter;
     GLFilterView * missEtikateFilter;
-    
     GLFilterView * softElegance2Filter;
     GLFilterView * lateSunsetFilter;
     GLFilterView * foggyNightFilter;
-    
-    
-    
     GLFilterView * grayScaleFilter;
     GLFilterView * sepiaFIlter;
     GLFilterView * exposureFilter;
     GLFilterView * saturationFilter;
     GLFilterView * selectiveBlurFilter;
     GLFilterView * vignetteFilter;
-    
     GLFilterView * cosmopolitanFilter;
     GLFilterView * daquiriFilter;
     GLFilterView * fizzFilter;
     GLFilterView * margaritaFilter;
     GLFilterView * martiniFilter;
     GLFilterView * mojitoFilter;
-    //
-    //    GLFilterView * contrastFilter;
-    //    GLFilterView * brightnessFilter;
-    //    GLFilterView * levelsFilter;
-    //
-    //    GLFilterView * rgbFilter;
-    //    GLFilterView * whiteBalance;
-    //    GLFilterView * sharpenFilter;
-    //    GLFilterView * unsharpFilter;
-    //    GLFilterView * gammaFilter;
-    //    GLFilterView * hazeFilter;
-    //    GLFilterView * polkaDotFIlter;
-    //    GLFilterView * sketchFilter;
-    //    GLFilterView * posterizeFilter;
-    //    GLFilterView * embossFilter;
-    //    GLFilterView * toonFilter;
-    
-    
     PHFetchResult *fetchResult;
-    
     UILabel * testLabel;
     UITextField * dummyTextField;
-    
-    BOOL yes;
-    
-    
-    UIView * cameraWrapper;
-    
     CGFloat cameraSlideTopLimit;
-    
     CGFloat firstX;
     CGFloat firstY;
-    
-    BOOL cameraVisble;
-    
     UIVisualEffectView *effectView;
-    
     CGAffineTransform dmutScaleOriginal;
-    UIView * scoreBg;
-    //    JPSVolumeButtonHandler * volumeButtonHandler;
     RBVolumeButtons *buttonStealer;
-    
     CGFloat draggedLength;
-    
-    
     UIImageView * glanceLogo;
-    
     GradientView * gradView;
 }
 
@@ -606,15 +557,10 @@
             self.previewPlayer.controlStyle = MPMovieControlStyleNone;
             self.previewPlayer.shouldAutoplay = YES;
             self.previewPlayer.repeatMode = MPMovieRepeatModeOne;
-//            self.previewPlayer.controlStyle = MPMovieControlStyleEmbedded;
-            
+
             
             UIImage *screenShot =  [self.previewPlayer thumbnailImageAtTime:1 timeOption:MPMovieTimeOptionExact];
-            
             [self saveVideoThumbToFile:screenShot];
-            
-            
-            
             [self.previewPlayer play];
             self.movieWriter = nil;
             
@@ -661,36 +607,17 @@
         CGImageDestinationFinalize(destination);
         CFRelease(destination);
         
-        
-        
-        
-        
-        
+
         NSLog(@"FINISH to SAVE NO MAIN QUE with path %@",filePath);
-        
         BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
-        
         if(fileExists){
-            
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"FINISH to write image");
-
-                
             });
-            
-            
         } else {
-            
             NSLog(@"file wasnt saved correctly !!! isnt found on path!");
-            
         }
-        
-        
-        
-        
     });
-
-
 }
 
 
@@ -727,24 +654,14 @@
     NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
     [[NSFileManager defaultManager] removeItemAtURL:movieURL error:nil];
     
-//    if(self.movieWriter == nil){
+
         self.movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480.0, 640.0)];
         self.movieWriter.encodingLiveVideo = YES;
         self.videoCamera.audioEncodingTarget = self.movieWriter;
-//    }
+
         [filter.filter addTarget:self.movieWriter];
-        
-        
-        
-        
+
         NSLog(@"Start recording");
-        
-        
-    
-//    }
-    
-//    [self.movieWriter st]
-    
     
     NSError *error = nil;
     if (![self.videoCamera.inputCamera lockForConfiguration:&error])
@@ -776,19 +693,12 @@
                                                             selector:@selector(captureReachedMaxTime)
                                                             userInfo:nil
                                                              repeats:NO];
-    
-//    [self.movieWriter setCompletionBlock:^{
-//        
-//        [filter.filter removeTarget:self.movieWriter];
-////        [self.movieWriter finishRecording];
-//    }];
-    
+
 }
 
 - (void)drawGradientOverContainer:(UIView *)container
 {
-    //    UIColor *transBgColor = [UIColor colorWithWhite:1.0 alpha:0.0];
-    //    UIColor *black = [UIColor blackColor];
+
     
     UIColor * yellow = UIColorFromRGB(0xfcd22e);
     UIColor * green = UIColorFromRGB(0x36a6a5);
@@ -1074,34 +984,13 @@
 
 - (void)cameraFinishedSlidingOpen {
     
-//    [[ContainerViewController sharedInstance] lockScrolling:YES];
+
     self.dmut.userInteractionEnabled = YES;
     [self.userScore hideUserScore];
     [self showCameraButtons];
     
-//    __block GLSharedCamera * weakSelf = self;
-//            buttonStealer = [[RBVolumeButtons alloc] init];
-//            [buttonStealer startStealingVolumeButtonEvents];
-//            buttonStealer.upBlock = ^{
-//                NSLog(@"vol up");
-//                [weakSelf captureTapped];
-//            };
-    
-    
-//    if(self.isInFeedMode){
-//    
-//    }
     [[self videoCamera] startCameraCapture];
     [[GLSharedVideoPlayer sharedInstance] pause];
-//            buttonStealer.downBlock = ^{
-//                NSLog(@"vol down");
-//            };
-//    [[self videoCamera] startCameraCapture];
-//    [[GLSharedVideoPlayer sharedInstance] pause];
-    
-//    [self toggleCamera:NO];
-//    self.cameraIsShown = YES;
-//
 
 }
 
@@ -1112,11 +1001,7 @@
     self.dmut.userInteractionEnabled = YES;
     [self backToCameraFromEditPallette:nil];
     [self hideCameraButtons];
-    
-//    [[ContainerViewController sharedInstance] lockScrolling:NO];
-    
-//    [buttonStealer stopStealingVolumeButtonEvents];
-    
+
     if(self.isInFeedMode){
         [[self videoCamera] stopCameraCapture];
         [[GLSharedVideoPlayer sharedInstance] play];
@@ -1131,30 +1016,16 @@
     self.isInFeedMode = NO;
     [self.userScore showUserScore];
     [self hideCameraButtons];
-//    flipCameraButton.alpha = 0;
-//    flashButton.alpha = 0;
-//    glanceLogo.alpha = 1;
-//    scoreBg.alpha = 0;
-//    self.score.alpha = 0;
-//    self.picYourGroup.alpha = 1;
-//    [self toggleCamera:YES];
-    
-    
     [[self videoCamera] startCameraCapture];
     [UIView animateWithDuration:0.2 animations:^{
         self.dmut.transform = CGAffineTransformIdentity;
-//        effectView.alpha = 0;
-//        effectView.hidden = YES;
         effectView.effect = nil;
         effectView.alpha = 0;
-        
         self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
         cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
         self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
     }];
-    
 }
-
 
 - (void)setCameraInFeedAfterGroupOpenedWithoutImage {
     
@@ -1162,19 +1033,14 @@
     [[self videoCamera] stopCameraCapture];
     [UIView animateWithDuration:0.2 animations:^{
         
-        //        effectView.alpha = 1;
-        //        effectView.hidden = NO;
         effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         effectView.alpha = 1;
         self.backButton.alpha = 1;
         self.membersButton.alpha = 1;
         scoreBg.alpha = 0;
         self.score.alpha = 0;
-        
-        
         self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
-        //        effectView.alpha = 1;
-        //        effectView.hidden = NO;
+
         effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         effectView.alpha = 1;
         [self.cameraViewBackground bringSubviewToFront:effectView];
@@ -1195,34 +1061,8 @@
     
     self.isInFeedMode = YES;
     [[self videoCamera] stopCameraCapture];
-//    [UIView animateWithDuration:0.2 animations:^{
-//        
-////        effectView.alpha = 1;
-////        effectView.hidden = NO;
-//        effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-//        effectView.alpha = 1;
-//        self.backButton.alpha = 1;
-//        self.membersButton.alpha = 1;
-//        scoreBg.alpha = 0;
-//        self.score.alpha = 0;
-//        
-//        
-//        self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
-////        effectView.alpha = 1;
-////        effectView.hidden = NO;
-//        effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-//        effectView.alpha = 1;
-//        [self.cameraViewBackground bringSubviewToFront:effectView];
-//        
-//        self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
-//        self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
-//        
-//        cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80);
-//        self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80);
-    
-        
         [self.cameraViewBackground bringSubviewToFront:self.dmut];
-//    }];
+
     
 }
 
@@ -1235,8 +1075,6 @@
         [UIView animateWithDuration:0.2 animations:^{
             
             self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
-//            effectView.alpha = 1;
-//            effectView.hidden = NO;
             effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
             effectView.alpha = 1;
             self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
@@ -1252,11 +1090,8 @@
         [[self videoCamera] startCameraCapture];
         [UIView animateWithDuration:0.2 animations:^{
             self.dmut.transform = CGAffineTransformIdentity;
-//            effectView.alpha = 0;
-//            effectView.hidden = YES;
             effectView.effect = nil;
             effectView.alpha = 0;
-            
             self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
             cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
             self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
@@ -1273,42 +1108,8 @@
 }
 
 -(void)backButtonPressed {
-    
-//    [self.userScore showUserScore];
-//    [self hideCameraButtons];
-    
     [self.delegate backPressed];
-    
 }
-
-//-(void)toggleCamera:(BOOL)on {
-//    
-//    [UIView animateWithDuration:0.2 animations:^{
-//        
-//        if(on){
-//            for(GLFilterView * filterView in self.arrayOfFilters){
-//                filterView.title.alpha = 0;
-//            }
-//            flipCameraButton.alpha = 0;
-//            flashButton.alpha = 0;
-//            scoreBg.alpha = 1;
-//            self.score.alpha = 1;
-//        } else {
-//            for(GLFilterView * filterView in self.arrayOfFilters){
-//                filterView.title.alpha = 1;
-//            }
-//            flipCameraButton.alpha = 1;
-//            flashButton.alpha = 1;
-//            scoreBg.alpha = 0;
-//            self.score.alpha = 0;
-//        }
-//        
-//    }];
-//    
-//    
-//    //    cameraVisble = !cameraVisble;
-//}
-
 -(void)abortUploadButtonTapped {
     [self hideCamera];
 }
@@ -1317,9 +1118,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self createMainScrollView];
     });
-//    [mainOutPutFrame addSubview:self.mainScrollView];
-//    [self.mainScrollView setAlpha:1];
-//    [self.videoCamera startCameraCapture];
 }
 
 - (void)setupVideoCamera {
@@ -1328,13 +1126,9 @@
     self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
     self.videoCamera.horizontallyMirrorRearFacingCamera = NO;
-    
     [self createFiltersViews];
     [self createMainScrollView];
     [self.videoCamera startCameraCapture];
-    
-    
-    
 }
 
 -(void)focusCameraToPoint:(UITapGestureRecognizer *)tgr location:(CGPoint)location {
@@ -2032,9 +1826,6 @@
 }
 
 
-
-//-(BOOL)rec
-
 #pragma mark - TextField Delegate methods
 
 - (void)focusOnTextField {
@@ -2334,10 +2125,7 @@
         
         
         [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeUploadingPhoto:NO completed:^{
-            //
-            
-            
-            
+
         } executeWhenFriendsDone:^{
             
             [self closeCameraViewWithSlideFromFeed];
@@ -2350,11 +2138,8 @@
                 [self startUploadingAsset:finalProccedImage];
             }
             
-            
-//            [KVNProgress showSuccessWithStatus:@"now start uplaod should be invoked"];
         }];
         
-//        [self closeCameraViewWithSlideFromMain];
     }
     
 

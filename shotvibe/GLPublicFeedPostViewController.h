@@ -11,10 +11,7 @@
 #import "AlbumPhoto.h"
 
 typedef void (^CompletionBlock3)(id);
-//#import ""
-//#import ""
 @interface GLPublicFeedPostViewController : UITableViewController <NotificationManagerDelegate,UIScrollViewDelegate,UITextFieldDelegate,UIActionSheetDelegate>
-
 @property(nonatomic) long long int albumId;
 @property(nonatomic) long long int prevAlbumId;
 @property (retain, nonatomic) NSMutableArray *posts;
@@ -24,10 +21,7 @@ typedef void (^CompletionBlock3)(id);
 @property(nonatomic, retain) NSString * photoToScrollToCommentsId;
 @property (assign, nonatomic) int indexNumber;
 @property (retain, nonatomic) SLAlbumPhoto * singleAlbumPhoto;
-
 @property (readwrite, copy) CompletionBlock3 onClose;
-
 -(void)imageSelected:(UIImage*)image;
 -(void)backPressed;
-
 @end
