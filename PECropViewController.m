@@ -69,21 +69,25 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 {
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
 //    contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    contentView.backgroundColor = [UIColor redColor];
+    contentView.backgroundColor = [UIColor clearColor];
     self.view = contentView;
     
     self.cropView = [[PECropView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
-    self.cropView.backgroundColor = [UIColor greenColor];
+    self.cropView.backgroundColor = [UIColor clearColor];
     [contentView addSubview:self.cropView];
     
-    self.completeCropButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 50, 50, 50)];
-    self.completeCropButton.backgroundColor = [UIColor blueColor];
+    self.completeCropButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 25, 33.5, 30)];
+    self.completeCropButton.backgroundColor = [UIColor clearColor];
     [self.completeCropButton addTarget:self action:@selector(completeCropButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [self.completeCropButton setBackgroundImage:[UIImage imageNamed:@"approveTextIcon"] forState:UIControlStateNormal];
+    
     self.completeCropButton.userInteractionEnabled = YES;
 //    [self.view addSubview:self.completeCropButton];
     
-    [self.cropView addSubview:self.completeCropButton];
-    [self.cropView bringSubviewToFront:self.completeCropButton];
+    [self.view addSubview:self.completeCropButton];
+    [self.view bringSubviewToFront:self.completeCropButton];
     
     
     
@@ -163,6 +167,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 {
     _image = image;
     self.cropView.image = image;
+    self.cropView.userInteractionEnabled = YES;
 }
 
 - (void)setKeepingCropAspectRatio:(BOOL)keepingCropAspectRatio

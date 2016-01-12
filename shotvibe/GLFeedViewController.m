@@ -1382,22 +1382,11 @@
             
         }
         
-        
-        
-        
-        
-        
-        
     }
     
 }
 
-
-
-
-
--(void)showUserProfileWithId:(long long)userId {
-    
+- (void)showUserProfileWithId:(long long)userId {
     
     [[[GLSharedCamera sharedInstance] membersButton] setAlpha:0];
     [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:NO];
@@ -1406,30 +1395,17 @@
     profilePage.albumId = self.albumId;
     profilePage.userId = userId;
     
-    
     for(SLAlbumMember * member in [albumContents getMembers].array){
-        
         if([[member getUser] getMemberId] == [[[albumManager_ getShotVibeAPI] getAuthData] getUserId]){
-            
             if([member getAlbumAdmin]){
-                
                 profilePage.imAdmin = YES;
-                
-                
             }
-            
-            
         }
-        
         if([[member getUser] getMemberId] == userId){
             profilePage.slMemberObject = member;
         }
-        
     }
-    
-    
     [self.navigationController pushViewController:profilePage animated:YES];
-    
 }
 
 -(void)showUserProfile2:(UITapGestureRecognizer*)gest {

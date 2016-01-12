@@ -23,7 +23,7 @@
 
 typedef void(^pageTransitionCompleted)();
 
-@interface GLContainersViewController : UIViewController <UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+@interface GLContainersViewController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIPageViewControllerDataSource,UIPageViewControllerDelegate>
 
 @property (strong, nonatomic) UIPageViewController *pageController;
 @property (strong, nonatomic) GLFeedViewController *feedViewController;
@@ -47,4 +47,5 @@ typedef void(^pageTransitionCompleted)();
 - (void)goBackToFeedAfterAddingMembersAnimated:(BOOL)animated;
 - (void)disableSideMembers;
 - (void)enableSideMembers;
+- (void)openAppleImagePicker;
 @end

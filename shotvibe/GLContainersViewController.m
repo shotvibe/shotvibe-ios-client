@@ -324,4 +324,25 @@ static GLContainersViewController *sharedInstance;
 }
 
 
+
+- (void)openAppleImagePicker {
+    
+    GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController:picker animated:YES completion:^{
+        
+    }];
+    
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    [[[GLSharedCamera sharedInstance] videoCamera] stopCameraCapture];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[GLSharedCamera sharedInstance] retrievePhotoFromPicker:info[UIImagePickerControllerOriginalImage]];
+    }];
+}
+
+
 @end

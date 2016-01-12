@@ -139,4 +139,6 @@ typedef enum ScrollDirection {
 @property (nonatomic, retain) GLResizeableView * resizeAbleView;
 @property (nonatomic, strong) JTSlideShadowAnimation *shadowAnimation;
 
+@property (nonatomic, strong) PECropViewController * cropViewController;
+
 @end
