@@ -1514,14 +1514,22 @@
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:gest.view.tag inSection:0]];
     SLAlbumPhoto * photo = [[self.posts objectAtIndex:gest.view.tag] objectAtIndex:1];
     int glanceScoreDelta = [[photo getServerPhoto]  getMyGlanceScoreDelta];
-    if(glanceScoreDelta <= 0){
-        
-        if([cell.glancesCounter.text intValue] >= -1){
-            cell.glancesCounter.text = [NSString stringWithFormat:@"%d",[cell.glancesCounter.text intValue]+2];
-        } else {
-            cell.glancesCounter.text = [NSString stringWithFormat:@"%d",[cell.glancesCounter.text intValue]+1];
-        }
-        
+    int globalGlanceScore = [[photo getServerPhoto] getGlobalGlanceScore];
+    
+    int newPredictedPhotoGlanceScore = globalGlanceScore - glanceScoreDelta + 1;
+    
+    cell.glancesCounter.text = [NSString stringWithFormat:@"%d", newPredictedPhotoGlanceScore];
+    if (glanceScoreDelta == 1) {
+        return;
+    }
+//    if(glanceScoreDelta <= 0){
+//    
+//        if([cell.glancesCounter.text intValue] >= -1){
+//            cell.glancesCounter.text = [NSString stringWithFormat:@"%d",[cell.glancesCounter.text intValue]+2];
+//        } else {
+//            cell.glancesCounter.text = [NSString stringWithFormat:@"%d",[cell.glancesCounter.text intValue]+1];
+//        }
+    
         [ShotVibeAPITask runTask:self withAction:^id{
             [[albumManager_ getShotVibeAPI] setPhotoMyGlanceScoreDeltaWithNSString:cell.photoId withInt:1];
             return nil;
@@ -1538,7 +1546,7 @@
             [KVNProgress showErrorWithStatus:@"Somthing went wrong.."];
             
         } withLoaderIndicator:NO];
-    }
+//    }
     
     
     
@@ -1562,21 +1570,27 @@
 }
 
 -(void)doDoubleTap:(UITapGestureRecognizer*)gest {
-    
-    
-    
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:gest.view.tag inSection:0]];
     
     SLAlbumPhoto * photo = [[self.posts objectAtIndex:gest.view.tag] objectAtIndex:1];
     int glanceScoreDelta = [[photo getServerPhoto]  getMyGlanceScoreDelta];
-    if(glanceScoreDelta >= 0){
-        
-        if([cell.glancesCounter.text intValue] >= 1){
-            cell.glancesCounter.text = [NSString stringWithFormat:@"%d",[cell.glancesCounter.text intValue]-2];
-        } else {
-            cell.glancesCounter.text = [NSString stringWithFormat:@"%d",[cell.glancesCounter.text intValue]-1];
-        }
-        
+    int globalGlanceScore = [[photo getServerPhoto] getGlobalGlanceScore];
+    
+    int newPredictedPhotoGlanceScore = globalGlanceScore - glanceScoreDelta - 1;
+    
+    if (glanceScoreDelta == -1) {
+        return;
+    }
+    
+    cell.glancesCounter.text = [NSString stringWithFormat:@"%d", newPredictedPhotoGlanceScore];
+//    if(glanceScoreDelta >= 0){
+    
+//        if([cell.glancesCounter.text intValue] >= 1){
+//            cell.glancesCounter.text = [NSString stringWithFormat:@"%d",[cell.glancesCounter.text intValue]-2];
+//        } else {
+//            cell.glancesCounter.text = [NSString stringWithFormat:@"%d",[cell.glancesCounter.text intValue]-1];
+//        }
+    
         [ShotVibeAPITask runTask:self withAction:^id{
             [[albumManager_ getShotVibeAPI] setPhotoMyGlanceScoreDeltaWithNSString:cell.photoId withInt:-1];
             
@@ -1594,7 +1608,7 @@
             
         } withLoaderIndicator:NO];
         
-    }
+//    }
     
     
     [UIView animateWithDuration:0.2 animations:^{

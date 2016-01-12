@@ -132,6 +132,8 @@
     self.glancesCounter.textColor = [UIColor whiteColor];
     self.glancesCounter.font = [UIFont fontWithName:@"GothamRounded-Book" size:42];
     
+    
+    
     self.glanceUpButton = [[UIButton alloc] initWithFrame:CGRectMake(self.addCommentButton.frame.origin.x+self.addCommentButton.frame.size.width+20+45, 25, 35, 30)];
 //    self.glanceUpButton.backgroundColor = [UIColor redColor];
     [self.glanceUpButton setImage:[UIImage imageNamed:@"glanceUpIcon"] forState:UIControlStateNormal];
@@ -407,6 +409,15 @@
     
     
     self.glancesCounter.text = [[data objectAtIndex:0] objectForKey:@"likes"];
+    
+    int currentGlance = [[photo getServerPhoto] getMyGlanceScoreDelta];
+    if(currentGlance == -1){
+        self.glancesCounter.textColor = UIColorFromRGB(0xf07480);
+    } else if(currentGlance == 1) {
+        self.glancesCounter.textColor = UIColorFromRGB(0x40b4b5);
+    } else {
+        self.glancesCounter.textColor = UIColorFromRGB(0xFFFFFF);
+    }
     
     if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
         

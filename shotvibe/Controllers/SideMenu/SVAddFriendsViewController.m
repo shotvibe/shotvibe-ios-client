@@ -840,7 +840,7 @@
             __block SLAlbumContents * album;
     
             [ShotVibeAPITask runTask:self withAction:^id{
-                SLAlbumContents * newAlbum = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:@""];
+                SLAlbumContents * newAlbum = [albumManager_ createNewBlankAlbumWithNSString:@""];
     
                 NSMutableArray *memberAddRequests = [[NSMutableArray alloc] init];
     

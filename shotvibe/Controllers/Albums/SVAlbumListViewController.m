@@ -1542,7 +1542,7 @@ CGFloat kResizeThumbSize = 45.0f;
         SLAlbumContents *albumContents = nil;
         SLAPIException *apiException = nil;
         @try {
-            albumContents = [[albumManager_ getShotVibeAPI] createNewBlankAlbumWithNSString:title];
+            albumContents = [albumManager_ createNewBlankAlbumWithNSString:title];
         } @catch (SLAPIException *exception) {
             apiException = exception;
         }
