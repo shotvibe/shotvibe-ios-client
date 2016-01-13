@@ -15,15 +15,11 @@
 #import "SL/ArrayList.h"
 #import "SL/ShotVibeAPI.h"
 #import "MBProgressHUD.h"
-//#import "UIImageView+WebCache.h"
 #import "SL/ArrayList.h"
 #import "SL/PhoneContactsManager.h"
 #import "SL/PhoneContact.h"
 #import "SL/PhoneContactDisplayData.h"
-
-//#import "GLSharedCamera.h"
 #import "ShotVibeAppDelegate.h"
-
 #import "SL/AlbumMember.h"
 #import "SL/AlbumUser.h"
 #import "SL/AlbumSummary.h"
@@ -36,11 +32,8 @@
 #import "SL/APIException.h"
 #import "ShotVibeAppDelegate.h"
 #import "UserSettings.h"
-
-//#import "UIImageView+Masking.h"
 #import "SDWebImageManager.h"
 #import "ShotVibeAPITask.h"
-//#import "ContainerViewController.h"
 #import "GLContainersViewController.h"
 #import "YYWebImage.h"
 
@@ -117,43 +110,6 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     [phoneContactsManager_ setListenerWithSLPhoneContactsManager_Listener:self];
     
-    if(self.state == SVAddFriendsFromAddFriendButton){
-        self.pageTitle.text = @"Pick friends to group:";
-        self.contactsSourceSelector.selectedSegmentIndex = 0;
-        self.backBut.alpha = 1;
-        
-        self.groupsSourceButton.alpha = 0;
-        
-        self.friendsSourceButton.frame = CGRectMake(self.friendsSourceButton.frame.origin.x, self.friendsSourceButton.frame.origin.y, self.view.frame.size.width/2, self.friendsSourceButton.frame.size.height);
-        self.contactsSourceButton.frame = CGRectMake(self.view.frame.size.width/2, self.contactsSourceButton.frame.origin.y, self.view.frame.size.width/2, self.contactsSourceButton.frame.size.height);
-        
-        contactTypeSelectedLine.frame = CGRectMake(self.view.frame.size.width/2, contactTypeSelectedLine.frame.origin.y, self.view.frame.size.width/2, contactTypeSelectedLine.frame.size.height);
-        
-        
-    } else if(self.state == SVAddFriendsMainWithImage){
-        self.pageTitle.text = @"Choose some friends to share with or create a new group:";
-        self.backBut.alpha = 1;
-        self.contactsSourceSelector.selectedSegmentIndex = 2;
-    } else if(self.state == SVAddFriendsFromMove){
-        self.pageTitle.text = @"Choose group to share image with:";
-        //            self.pageTitle
-        self.backBut.alpha = 1;
-        
-        self.friendsSourceButton.alpha = 0;
-        self.contactsSourceButton.alpha = 0;
-        
-        
-        self.groupsSourceButton.frame = CGRectMake(0, self.groupsSourceButton.frame.origin.y, self.view.frame.size.width, self.groupsSourceButton.frame.size.height);
-        
-        contactTypeSelectedLine.frame = CGRectMake(0, contactTypeSelectedLine.frame.origin.y, self.view.frame.size.width, contactTypeSelectedLine.frame.size.height);
-        
-        self.contactsSourceSelector.selectedSegmentIndex = 2;
-        //        [UIView animateWithDuration:0.3 animations:^{
-        //            contactTypeSelectedLine.frame = CGRectMake((self.view.frame.size.width/3)*2, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/3, 8);
-        //        }];
-        [self contactsSourceChanged:self.contactsSourceSelector];
-        self.tableView.frame = CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height+self.proceedButton.frame.size.height);
-    }
     //    else if(self.state == SVAddFriendsMainWithoutIamge) {
     //
     ////        self.state = SVAddFriendsMainWithoutIamge;
@@ -299,13 +255,64 @@
     
     
     
-    contactTypeSelectedLine = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/3, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/3, 8)];
+    contactTypeSelectedLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/3, 8)];
     contactTypeSelectedLine.backgroundColor = UIColorFromRGB(0x3eb4b6);
     
     [self.contactSourceButtonsView addSubview:contactTypeSelectedLine];
     
     self.backBut.alpha = 0;
     
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.state == SVAddFriendsFromAddFriendButton){
+            self.pageTitle.text = @"Pick friends to group:";
+            self.contactsSourceSelector.selectedSegmentIndex = 0;
+            self.backBut.alpha = 1;
+            
+            self.groupsSourceButton.alpha = 0;
+            
+            
+            
+            self.friendsSourceButton.frame = CGRectMake(self.friendsSourceButton.frame.origin.x, self.friendsSourceButton.frame.origin.y, self.view.frame.size.width/2, self.friendsSourceButton.frame.size.height);
+            //            self.friendsSourceButton.backgroundColor = [UIColor redColor];
+            
+            self.contactsSourceButton.frame = CGRectMake(self.view.frame.size.width/2, self.contactsSourceButton.frame.origin.y, self.view.frame.size.width/2, self.contactsSourceButton.frame.size.height);
+            //            self.contactsSourceButton.backgroundColor = [UIColor greenColor];
+            //        });
+            
+            //
+            //
+            
+            contactTypeSelectedLine.frame = CGRectMake(0, contactTypeSelectedLine.frame.origin.y, self.view.frame.size.width/2, contactTypeSelectedLine.frame.size.height);
+            
+            
+        } else if(self.state == SVAddFriendsMainWithImage){
+            self.pageTitle.text = @"Choose some friends to share with or create a new group:";
+            self.backBut.alpha = 1;
+            self.contactsSourceSelector.selectedSegmentIndex = 2;
+        } else if(self.state == SVAddFriendsFromMove){
+            self.pageTitle.text = @"Choose group to share image with:";
+            //            self.pageTitle
+            self.backBut.alpha = 1;
+            
+            self.friendsSourceButton.alpha = 0;
+            self.contactsSourceButton.alpha = 0;
+            
+            
+            self.groupsSourceButton.frame = CGRectMake(0, self.groupsSourceButton.frame.origin.y, self.view.frame.size.width, self.groupsSourceButton.frame.size.height);
+            
+            contactTypeSelectedLine.frame = CGRectMake(0, contactTypeSelectedLine.frame.origin.y, self.view.frame.size.width, contactTypeSelectedLine.frame.size.height);
+            
+            self.contactsSourceSelector.selectedSegmentIndex = 2;
+            //        [UIView animateWithDuration:0.3 animations:^{
+            //            contactTypeSelectedLine.frame = CGRectMake((self.view.frame.size.width/3)*2, self.contactSourceButtonsView.frame.size.height-1, self.view.frame.size.width/3, 8);
+            //        }];
+            [self contactsSourceChanged:self.contactsSourceSelector];
+            self.tableView.frame = CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height+self.proceedButton.frame.size.height);
+        }
+        
+    });
     
     
 }
@@ -791,6 +798,10 @@
 //                        }];
     
                     }];
+                } else if(self.state == SVAddFriendsMainWithoutIamge){
+//                    [[GLSharedCamera sharedInstance] setCameraInFeed];
+//                    [[GLSharedCamera sharedInstance] setInFeedMode:YES dmutNeedTransform:YES];
+//                    [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:[album getId]];
                 }
 //                } else {
 //    

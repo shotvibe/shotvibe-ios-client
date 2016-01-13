@@ -888,7 +888,9 @@
                     
                     [self cameraFinishedSlidingClose];
                     
-                    [[GLContainersViewController sharedInstance] enableSideMembers];
+                    if(self.isInFeedMode){
+                        [[GLContainersViewController sharedInstance] enableSideMembers];
+                    }
                     
                     NSLog(@"camera closed");
                     //                    if(cameraIsOpen == YES){

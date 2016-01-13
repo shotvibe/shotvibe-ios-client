@@ -265,7 +265,7 @@
             
         });
     
-        GLContainersViewController * containersViewControllers = [[GLContainersViewController alloc] init];
+        GLContainersViewController * containersViewControllers = [GLContainersViewController sharedInstance];
         
 //        [self.navigationController.view addSubview:[[GLSharedCamera sharedInstance] cameraViewBackground]];
         [self.navigationController pushViewController:containersViewControllers animated:YES];

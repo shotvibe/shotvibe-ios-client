@@ -1636,6 +1636,8 @@
 -(void)backPressed {
     [[GLContainersViewController sharedInstance] unlockScrollingPages];
     if(![[[self.navigationController viewControllers]lastObject] isKindOfClass:[GLProfilePageViewController class]]){
+        
+//        [[GLContainersViewController sharedInstance] resetFriendsView];
         [[GLSharedCamera sharedInstance] setCameraInMain];
         self.volumeButtonHandler = nil;
         [self.navigationController popToRootViewControllerAnimated:YES];
