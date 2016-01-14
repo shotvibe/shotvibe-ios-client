@@ -13,7 +13,6 @@
 #import "SVSidebarAlbumMemberCell.h"
 #import "SVSidebarMemberController.h"
 #import "SVAddFriendsViewController.h"
-//#import "UIImageView+WebCache.h"
 #import "MFSideMenu.h"
 #import "ShotVibeAppDelegate.h"
 #import "SL/DateTime.h"
@@ -24,7 +23,6 @@
 #import "SL/ArrayList.h"
 #import "SL/AlbumUser.h"
 #import "MBProgressHUD.h"
-//#import "ContainerViewController.h"
 #import "ShotVibeAPITask.h"
 #import "GLContainersViewController.h"
 #import "YYWebImage.h"
@@ -182,7 +180,7 @@
 #pragma mark - Actions
 
 - (void)changeNameTapped:(UITapGestureRecognizer*)gest {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Album Name"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Group Name"
                                                     message:nil
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
@@ -344,8 +342,8 @@
     //	if ([self.searchBar isFirstResponder])
     //		[self.searchBar resignFirstResponder];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Leave album", @"")
-                                                    message:NSLocalizedString(@"Are you sure you want to leave this album?", @"")
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Leave group", @"")
+                                                    message:NSLocalizedString(@"Are you sure you want to leave this Group?", @"")
                                                    delegate:nil
                                           cancelButtonTitle:NSLocalizedString(@"No", @"")
                                           otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
@@ -595,12 +593,17 @@
               onTaskComplete:^(id result) {
                   NSNumber *success = result;
                   if (![success boolValue]) {
-                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't Change Album Name"
-                                                                      message:@"This album was not created by you"
+                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't Change Group Name"
+                                                                      message:@"This group was not created by you"
                                                                      delegate:nil
                                                             cancelButtonTitle:@"Ok"
                                                             otherButtonTitles:nil];
                       [alert show];
+                      
+//                          dispatch_async(dispatch_get_main_queue(), ^{
+//                      [KVNProgress showErrorWithStatus:@"This group was not created by you"];
+//                          });
+                      
                   }
               }];
     

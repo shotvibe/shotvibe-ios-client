@@ -253,6 +253,11 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                [[[GLSharedCamera sharedInstance] userScore] updateScoreFromPush:(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]];
+                
+                GLContainersViewController * containersViewControllers = [GLContainersViewController sharedInstance];
+                [self.navigationController pushViewController:containersViewControllers animated:YES];
+                
+                
             });
         
             
@@ -265,10 +270,11 @@
             
         });
     
-        GLContainersViewController * containersViewControllers = [GLContainersViewController sharedInstance];
+//        dispatch_async(dispatch_get_main_queue(), ^{
         
 //        [self.navigationController.view addSubview:[[GLSharedCamera sharedInstance] cameraViewBackground]];
-        [self.navigationController pushViewController:containersViewControllers animated:YES];
+        
+//        });
 //        ContainerViewController * container = [[ContainerViewController alloc] init];
 //        [[GLSharedCamera sharedInstance] setDelegate:container];
 //        [self.navigationController pushViewController:container animated:YES];

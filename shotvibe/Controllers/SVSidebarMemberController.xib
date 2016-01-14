@@ -5,11 +5,14 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="GothamRnd-Book.otf">
+        <mutableArray key="GothamRnd-Bold.otf">
+            <string>GothamRounded-Bold</string>
+        </mutableArray>
+        <mutableArray key="Gotham_Rounded_Book.otf">
             <string>GothamRounded-Book</string>
         </mutableArray>
-        <mutableArray key="Gotham_Rounded_Bold2.otf">
-            <string>GothamRounded-Bold</string>
+        <mutableArray key="Gotham_Rounded_Light.otf">
+            <string>GothamRounded-Light</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -101,6 +104,12 @@
                         <action selector="addFriendsButtonPressed:" destination="-1" eventType="touchUpInside" id="G7W-l9-lQo"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tap group name to change it" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wv6-dr-gig">
+                    <rect key="frame" x="54" y="43" width="219" height="21"/>
+                    <fontDescription key="fontDescription" name="GothamRounded-Light" family="Gotham Rounded" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>

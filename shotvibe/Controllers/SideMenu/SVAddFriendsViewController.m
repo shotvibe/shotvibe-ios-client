@@ -81,6 +81,13 @@
     BOOL showGroups;
     UIView * contactTypeSelectedLine;
     UIButton * openGroupFromMembersButton;
+    
+    UILabel * no;
+    UILabel * photos;
+    UILabel * yet;
+    UILabel * letsGetsStarted;
+    UIImageView * dmutArrow;
+    UIImageView * friendsArrow;
 }
 
 
@@ -92,6 +99,10 @@
     [super viewWillDisappear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     [phoneContactsManager_ unsetListener];
+    
+    [no removeFromSuperview];
+    [photos removeFromSuperview];
+    [yet removeFromSuperview];
     
     
     
@@ -521,72 +532,60 @@
         //        if([album ]){}
         NSLog(@"album member arra %@",[album getMembers]);
         
-        //        NSString * groupMembers = [[NSString alloc] init];
+//        if([album getMembers].array.count  > 0){
         
-        //        NSArray *stringArray = [myString componentsSeparatedByString:@":"];
-        NSMutableArray * membersArr = [[NSMutableArray alloc] init];
-        
-        for(SLAlbumMember * member in [album getMembers].array){
             
-            [membersArr addObject:[[member getUser] getMemberNickname]];
+            //        NSString * groupMembers = [[NSString alloc] init];
             
-        }
-        
-        NSString * result = [membersArr componentsJoinedByString:@", "];
-        
-        //        for(SLAlbumMember * member in [album getMembers].array){
-        ////            [groupMembers stringByAppendingFormat:@"%@, ",[[member getUser] getMemberNickname]];
-        //            [groupMembers stringByAppendingString:[NSString stringWithFormat:@"%@ ,",[[member getUser] getMemberNickname]]];
-        //        }
-        //        cell.checkmarkImage = nil;
-        cell.isMemberImage = nil;
-        cell.contactIcon.image = [UIImage imageNamed:@"CaptureButton"];
-        if((unsigned long)[album getPhotos].array.count > 0){
-            SLAlbumPhoto *latestPhoto = [[album getPhotos].array objectAtIndex:0];
-            if ([latestPhoto getServerPhoto]) {
+            //        NSArray *stringArray = [myString componentsSeparatedByString:@":"];
+            NSMutableArray * membersArr = [[NSMutableArray alloc] init];
+            
+            for(SLAlbumMember * member in [album getMembers].array){
                 
-                cell.contactIcon.hidden = NO;
-                
-                NSString * st = [[[latestPhoto getServerPhoto] getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
-                
-                //                [cell.contactIcon setCircleImageWithURL:[NSURL URLWithString:st] placeholderImage:[UIImage imageNamed:@"CaptureButton"] borderWidth:2];
+                [membersArr addObject:[[member getUser] getMemberNickname]];
                 
             }
-        }
+            
+            NSString * result = [membersArr componentsJoinedByString:@", "];
+            
+            //        for(SLAlbumMember * member in [album getMembers].array){
+            ////            [groupMembers stringByAppendingFormat:@"%@, ",[[member getUser] getMemberNickname]];
+            //            [groupMembers stringByAppendingString:[NSString stringWithFormat:@"%@ ,",[[member getUser] getMemberNickname]]];
+            //        }
+            //        cell.checkmarkImage = nil;
+            cell.isMemberImage = nil;
+            cell.contactIcon.image = [UIImage imageNamed:@"CaptureButton"];
+            if((unsigned long)[album getPhotos].array.count > 0){
+                SLAlbumPhoto *latestPhoto = [[album getPhotos].array objectAtIndex:0];
+                if ([latestPhoto getServerPhoto]) {
+                    
+                    cell.contactIcon.hidden = NO;
+                    
+                    NSString * st = [[[latestPhoto getServerPhoto] getUrl] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_thumb75.jpg"];
+                    
+                    //                [cell.contactIcon setCircleImageWithURL:[NSURL URLWithString:st] placeholderImage:[UIImage imageNamed:@"CaptureButton"] borderWidth:2];
+                    
+                }
+            }
+            
+            
+            //            cell.author.text = [NSString stringWithFormat:NSLocalizedString(@"Last added by %@", nil), [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
+            //
+            //            [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId]
+            //                                   photoUrl:[[latestPhoto getServerPhoto] getUrl]
+            
+            
+            cell.titleLabel.text = [album getName];
+            cell.subtitleLabel.text = result;
+//        } else {
+//            
+//            
+//            [KVNProgress showErrorWithStatus:@"no groups yet"];
+//            
+//            
+//        }
         
         
-        //            cell.author.text = [NSString stringWithFormat:NSLocalizedString(@"Last added by %@", nil), [[[latestPhoto getServerPhoto] getAuthor] getMemberNickname]];
-        //
-        //            [cell.networkImageView setPhoto:[[latestPhoto getServerPhoto] getId]
-        //                                   photoUrl:[[latestPhoto getServerPhoto] getUrl]
-        
-        
-        cell.titleLabel.text = [album getName];
-        cell.subtitleLabel.text = result;
-        
-        //        [album get]
-        //        SLAlbumContents * albumContents = [self getAlbumForIndexPath:indexPath];
-        //        for (SLAlbumPhoto *photo in [albumContents getPhotos].array) {
-        //
-        //        }
-        
-        //        cell.subtitleLabel = ;
-        
-        //        cell.titleLabel.attributedText = attributedName;
-        
-        //        cell.subtitleLabel.text = [[phoneContactDisplayData getPhoneContact] getPhoneNumber];
-        
-        //        [cell.contactIcon cancelCurrentImageLoad];
-        
-        //        if ([phoneContactDisplayData isLoading]) {
-        //            [cell.loadingSpinner startAnimating];
-        //            cell.contactIcon.hidden = YES;
-        //            cell.isMemberImage.hidden = YES;
-        //        } else {
-        
-        
-        
-        //        }
         
         
     } else {
@@ -1225,7 +1224,7 @@
     
     if (phoneContacts.array.count > 0) {
         [[Mixpanel sharedInstance] track:@"zzz phoneContactsUpdated contacts received"
-                              properties:@{ @"num_contacts" : [NSString stringWithFormat:@"%d", phoneContacts.array.count] }];
+                              properties:@{ @"num_contacts" : [NSString stringWithFormat:@"%lu", (unsigned long)phoneContacts.array.count] }];
     } else {
         [[Mixpanel sharedInstance] track:@"zzz phoneContactsUpdated no contacts"];
     }
@@ -1387,42 +1386,135 @@ static inline NSString * albumFirstLetter(SLAlbumSummary *album)
     int k = 0;
     
     if(showGroups){
-        //        numSections_ = 1;
+        [no removeFromSuperview];
+        [photos removeFromSuperview];
+        [yet removeFromSuperview];
         
-        NSUInteger initialCapacity = [allAlbums count]; // Enough for the alphabet
-        NSMutableArray *sectionTitles = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
-        
-        NSMutableArray *sectionRowCounts = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
-        NSMutableArray *sectionStartIndexes = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
-        
-        for (SLAlbumSummary *p in allAlbums) {
-            NSString *firstLetter = [[[p getName] substringToIndex:1] uppercaseString];//albumFirstLetter([p getName]);
-            if (i == 0 || ![firstLetter isEqualToString:[sectionTitles objectAtIndex:sectionTitles.count - 1]]) {
-                [sectionStartIndexes addObject:[[NSNumber alloc] initWithInteger:i]];
-                [sectionTitles addObject:firstLetter];
-                
-                if (i != 0) {
-                    [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
-                    k = 0;
+        if(allAlbums.count < 1){
+//            [KVNProgress showErrorWithStatus:@"no groups yet blah blah"];
+            
+            NSString * nos = @"No";
+            float spacing = -9.0f;
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:nos];
+            
+            [attributedString addAttribute:NSKernAttributeName
+                                     value:@(spacing)
+                                     range:NSMakeRange(0, [nos length])];
+            
+            no = [[UILabel alloc] initWithFrame:CGRectMake(50, 60, self.view.frame.size.width, self.view.frame.size.height/8)];
+            no.attributedText = attributedString;
+            
+            no.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
+            no.textColor = UIColorFromRGB(0x45B4B5);
+            
+            
+            NSString *  photoss = @"Groups";
+            NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:photoss];
+            
+            [attributedString2 addAttribute:NSKernAttributeName
+                                      value:@(spacing)
+                                      range:NSMakeRange(0, [photoss length])];
+            
+            photos = [[UILabel alloc] initWithFrame:CGRectMake(50, 60+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
+            photos.attributedText = attributedString2;
+            photos.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
+            photos.textColor = UIColorFromRGB(0xFED84B);
+            
+            
+            NSString *  yets = @"Yet.";
+            NSMutableAttributedString *attributedString3 = [[NSMutableAttributedString alloc] initWithString:yets];
+            
+            [attributedString3 addAttribute:NSKernAttributeName
+                                      value:@(spacing)
+                                      range:NSMakeRange(0, [yets length])];
+            
+            yet = [[UILabel alloc] initWithFrame:CGRectMake(50, 60+self.view.frame.size.height/9+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
+            yet.attributedText = attributedString3;
+            yet.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
+            yet.textColor = UIColorFromRGB(0xEE7482);
+            
+            
+            
+            
+            letsGetsStarted = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height-self.view.frame.size.height/10, self.view.frame.size.width-100, self.view.frame.size.height/10)];
+            //    letsGetsStarted.backgroundColor = [UIColor orangeColor];
+            letsGetsStarted.text = @"Pull Mr. Glance down or swipe Right and Let's get this party started.";
+            letsGetsStarted.lineBreakMode = NSLineBreakByTruncatingMiddle;
+            letsGetsStarted.numberOfLines = 2;
+            letsGetsStarted.textColor = UIColorFromRGB(0x979494);
+            letsGetsStarted.font = [UIFont fontWithName:@"GothamRounded-Bold" size:18];
+            letsGetsStarted.textAlignment = NSTextAlignmentCenter;
+            
+            dmutArrow = [[UIImageView alloc] initWithFrame:CGRectMake(170, 215, 150, 175)];
+            dmutArrow.image = [UIImage imageNamed:@"dmutArrow"];
+            
+            
+            
+            float degrees = -20; //the value in degrees
+            dmutArrow.transform = CGAffineTransformMakeRotation(degrees * M_PI/180);
+            
+            
+            
+            
+//            [self.tableView setUserInteractionEnabled:NO];
+            [no removeFromSuperview];
+            [photos removeFromSuperview];
+            [yet removeFromSuperview];
+            
+            [self.tableView addSubview:no];
+            [self.tableView addSubview:photos];
+            [self.tableView addSubview:yet];
+//            [self.tableView addSubview:letsGetsStarted];
+            
+            
+        } else {
+            [no removeFromSuperview];
+            [photos removeFromSuperview];
+            [yet removeFromSuperview];
+            
+        }
+            //        numSections_ = 1;
+            
+            NSUInteger initialCapacity = [allAlbums count]; // Enough for the alphabet
+            NSMutableArray *sectionTitles = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+            
+            NSMutableArray *sectionRowCounts = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+            NSMutableArray *sectionStartIndexes = [[NSMutableArray alloc] initWithCapacity:initialCapacity];
+            
+            for (SLAlbumSummary *p in allAlbums) {
+                NSString *firstLetter = [[[p getName] substringToIndex:1] uppercaseString];//albumFirstLetter([p getName]);
+                if (i == 0 || ![firstLetter isEqualToString:[sectionTitles objectAtIndex:sectionTitles.count - 1]]) {
+                    [sectionStartIndexes addObject:[[NSNumber alloc] initWithInteger:i]];
+                    [sectionTitles addObject:firstLetter];
+                    
+                    if (i != 0) {
+                        [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
+                        k = 0;
+                    }
                 }
+                
+                k++;
+                i++;
             }
             
-            k++;
-            i++;
-        }
+            [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
+            
+            sectionRowCounts_ = sectionRowCounts;
+            
+            sectionIndexTitles_ = sectionTitles;
+            
+            numSections_ = sectionIndexTitles_.count;
+            
+            
+            sectionStartIndexes_ = sectionStartIndexes;
         
-        [sectionRowCounts addObject:[[NSNumber alloc] initWithInteger:k]];
-        
-        sectionRowCounts_ = sectionRowCounts;
-        
-        sectionIndexTitles_ = sectionTitles;
-        
-        numSections_ = sectionIndexTitles_.count;
-        
-        sectionStartIndexes_ = sectionStartIndexes;
         
         
     } else {
+        
+        [no removeFromSuperview];
+        [photos removeFromSuperview];
+        [yet removeFromSuperview];
         
         NSUInteger initialCapacity = 32; // Enough for the alphabet
         NSMutableArray *sectionTitles = [[NSMutableArray alloc] initWithCapacity:initialCapacity];

@@ -1376,8 +1376,10 @@
                 
                 
                 cell.loaded = YES;
+//                cell.indicator
                 return  cell;
             }
+            
             
             
         }

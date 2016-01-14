@@ -58,7 +58,8 @@
     
     //    self.userScore.text = [NSString stringWithFormat:@"%04ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]];
     
-    self.userScore.text = [NSString stringWithFormat:@"%04d",[user getUserGlanceScore]];
+//    self.userScore.text = [NSString stringWithFormat:@"%04d",[user getUserGlanceScore]];
+        self.userScore.text = [NSString stringWithFormat:@"%d",[user getUserGlanceScore]];
     
     
     //    CGSize stringsize = [self.userScore.text sizeWithAttributes:@{}];

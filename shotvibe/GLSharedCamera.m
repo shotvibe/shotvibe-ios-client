@@ -2755,6 +2755,7 @@
 
 -(void)backToCameraFromEditPallette:(id)sender {
     [self.editTextViewObj endEditing:YES];
+    self.goneUploadAmovie = NO;
     if(sender != 0){
         imageSource = ImageSourceNone;
     }

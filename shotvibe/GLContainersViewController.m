@@ -95,14 +95,17 @@ static GLContainersViewController *sharedInstance;
     [self lockScrollingPages];
     
     [[GLContainersViewController sharedInstance] resetFriendsView];
-    
+    __block GLContainersViewController * weakSelf = self;
     if(albumId){
         self.friendsViewController.albumId = albumId;
     }
     self.friendsViewController.state = SVAddFriendsFromAddFriendButton;
+    self.friendsViewController.friendsDoneBlock = ^{
+//        [[GLContainersViewController sharedInstance] resetFriendsView];
+    };
     
     [self.pageController setViewControllers:@[self.friendsViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:animated completion:^(BOOL finished) {
-        
+//        weakSelf.friendsViewController.friendsDoneBlock();
     }];
     
 }
