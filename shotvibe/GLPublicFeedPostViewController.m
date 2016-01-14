@@ -669,7 +669,13 @@
     
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
     [self closePressed];
-    [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:YES photoId:[[self.singleAlbumPhoto getServerPhoto] getId]];
+    [[GLContainersViewController sharedInstance] resetFriendsView];
+    
+    [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:NO photoId:cell.photoId completed:nil];
+//    [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:YES photoId:[[self.singleAlbumPhoto getServerPhoto] getId] completed:^{
+//        [[GLSharedCamera sharedInstance] setCameraInFeed];
+//        [[GLSharedCamera sharedInstance] setInFeedMode:YES dmutNeedTransform:YES];
+//    }];
 }
 
 -(void)abortCommentPressed:(UIButton*)sender {

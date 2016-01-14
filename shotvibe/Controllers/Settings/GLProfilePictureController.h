@@ -14,6 +14,7 @@
 
 
 @interface GLProfilePictureController : UIViewController <UITextFieldDelegate,GLSharedCameraDelegatte,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *pageTitle;
 
 
 

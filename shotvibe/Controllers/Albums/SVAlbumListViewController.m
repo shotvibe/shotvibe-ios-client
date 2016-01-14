@@ -185,7 +185,7 @@ CGFloat kResizeThumbSize = 45.0f;
     }
     
     thumbnailCache = [[NSMutableDictionary alloc] init];
-    self.searchbar.placeholder = NSLocalizedString(@"Search album", nil);
+    self.searchbar.placeholder = NSLocalizedString(@"Search Group", nil);
     self.dropDownContainer.frame = CGRectMake(8, -134, self.dropDownContainer.frame.size.width, 134);
     
     // Setup titleview
@@ -1322,7 +1322,7 @@ CGFloat kResizeThumbSize = 45.0f;
     }
     else {
         [cell.networkImageView setImage:[UIImage imageNamed:@"placeholderImage"]];
-        cell.author.text = NSLocalizedString(@"Empty album", nil);
+        cell.author.text = NSLocalizedString(@"No Photos Yet", nil);
     }
     
     NSString *org = [SVAlbumListViewController getAlbumOrg:album];
@@ -1549,7 +1549,7 @@ CGFloat kResizeThumbSize = 45.0f;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (apiException) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Creating Album"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Creating Group"
                                                                 message:apiException.description
                                                                delegate:nil
                                                       cancelButtonTitle:@"OK"

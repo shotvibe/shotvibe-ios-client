@@ -40,6 +40,7 @@ typedef void(^pageTransitionCompleted)();
 - (void)goToFeedViewAnimated:(BOOL)animated withAlbumId:(long long int)albumId completed:(pageTransitionCompleted)completed;
 - (void)goToFriendsListViewAnimatedBeforeAddingMembers:(BOOL)animated albumId:(long long int)albumId;
 - (void)goToFriendsListViewAnimatedBeforeMovingPhoto:(BOOL)animated photoId:(NSString*)photoId;
+- (void)goToFriendsListViewAnimatedBeforeMovingPhoto:(BOOL)animated photoId:(NSString*)photoId completed:(pageTransitionCompleted)completed;
 - (void)goToAlbumListViewController:(BOOL)animated;
 - (void)resetFriendsView;
 - (void)lockScrollingPages ;

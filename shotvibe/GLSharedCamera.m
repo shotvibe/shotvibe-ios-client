@@ -538,6 +538,13 @@
             [UIView animateWithDuration:0.2 animations:^{
                 
                 self.animatedView.alpha = 1;
+//                [UIView animateWithDuration:0.2 animations:^{
+//                    self.animatedView.transform = CGAffineTransformScale(self.animatedView.transform, 1.5, 1.5);
+//                } completion:^(BOOL finished) {
+//                    
+//                }];
+                
+                
             } completion:^(BOOL finished) {
                 [self.shadowAnimation start];
             }];
@@ -1114,8 +1121,11 @@
             self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
             effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
             effectView.alpha = 1;
-            self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
-            self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
+            if(needTransform != NO){
+                self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
+                self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
+            }
+            
             
             cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80);
             self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80);
@@ -1753,6 +1763,48 @@
 
 #pragma mark - otherDelegateMethods
 
+
+
+-(void)retrievePhotoFromLoginPicker:(UIImage *)image {
+    
+    
+    
+    fromImagePicker = NO;
+    CGRect screenRect = kScreenBounds;
+    CGFloat screenWidth = screenRect.size.width;
+    
+    //    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    //    [self sendImageToEdit:chosenImage];
+    //   ;
+    
+    
+    for(GLFilterView * filterView in self.arrayOfFilters){
+        [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth*1.3333) image:image]];
+        //        [filterView.filter ]
+    }
+    [self setCameraViewInEditMode:YES];
+    
+    
+    //    [self updateFiltersWithSelectedImage:[self imageCroppedToFitSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.width*1.333) image:image]];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        
+        self.mainScrollView.alpha = 1;
+        
+    } completion:^(BOOL finished) {
+        
+    }];
+    //    self.imageView.image = chosenImage;
+    
+    //
+    //    [picker dismissViewControllerAnimated:YES completion:NULL];
+    imageSource = ImageSourceGallery;
+    imageFromPicker = [self imageCroppedToFitSize:CGSizeMake(480, 640) image:image];
+    
+    
+}
+
+
 -(void)retrievePhotoFromPicker:(UIImage *)image {
     
     
@@ -2220,6 +2272,7 @@
             UIImage * finalProccedImage = [self processImageBySourceAndPrepareWithTextandSizes];
             [self startUploadingAsset:finalProccedImage];
         }
+        cameraIsOpen = NO;
         
     } else {
         
@@ -2242,6 +2295,7 @@
                 UIImage * finalProccedImage = [self processImageBySourceAndPrepareWithTextandSizes];
                 [self startUploadingAsset:finalProccedImage];
             }
+            cameraIsOpen = NO;
             
         }];
         
@@ -2685,10 +2739,10 @@
     }];
 }
 
-
--(void) addTextToImageTapped {
+-(void)addTextToImageTapped {
     
     addText = YES;
+    
     [UIView animateWithDuration:0.5 animations:^{
         addTextButton.alpha = 0;
         backToCameraButton.alpha = 0;
@@ -2696,11 +2750,10 @@
         approveTextButton.alpha = 1;
         self.resizeAbleView.alpha = 1;
     }];
+    
 }
 
-
-
--(void) backToCameraFromEditPallette:(id)sender {
+-(void)backToCameraFromEditPallette:(id)sender {
     [self.editTextViewObj endEditing:YES];
     if(sender != 0){
         imageSource = ImageSourceNone;
@@ -2718,6 +2771,10 @@
         self.resizeAbleView.alpha = 0;
     }];
     
+}
+
+- (void)setCameraIsBackView:(BOOL)isBackView {
+    cameraIsBackView = isBackView;
 }
 
 
@@ -2748,7 +2805,7 @@
     
     self.mainScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, filterViewWidth, screenHeigth*0.75)];
     
-    self.mainScrollView.backgroundColor = [UIColor orangeColor];
+    self.mainScrollView.backgroundColor = [UIColor blackColor];
     self.mainScrollView.tag = ScrollerTypeFilterScroller;
     self.mainScrollView.delegate = self;
     self.mainScrollView.bounces = NO;

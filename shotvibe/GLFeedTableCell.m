@@ -13,15 +13,11 @@
 #import "SL/AlbumServerVideo.h"
 #import "SL/MediaType.h"
 #import "SL/AlbumUser.h"
-//#import "UIImageView+Masking.h"
 #import "SDWebImageManager.h"
 #import "NSDate+Formatting.h"
 #import "UIImageView+WebCache.h"
 #import "GLSharedVideoPlayer.h"
 #import "GLPubNubManager.h"
-//#import "UIView+YYAdd.h"
-//#import "CALayer+YYAdd.h"
-//#import "UIGestureRecognizer+YYAdd.h"
 
 
 @implementation GLFeedTableCell

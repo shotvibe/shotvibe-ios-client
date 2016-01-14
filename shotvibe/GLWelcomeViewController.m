@@ -79,6 +79,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 //    CGRect frame = self.signInButton.frame;
 //    frame.origin.x = (self.view.frame.size.width/2)-(self.signInButton.frame.size.width/2);
 //    self.signInButton.frame = frame;
@@ -113,6 +114,7 @@
 }
 
 -(void)signInTapped {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     SVRegistrationViewController * registratonVc = [[SVRegistrationViewController alloc] init];
     
     

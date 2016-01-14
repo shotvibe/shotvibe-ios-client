@@ -457,12 +457,18 @@ typedef struct CGPointGLResizeableViewAnchorPointPair {
             newCenter.x = midPointX;
         }
         CGFloat midPointY = CGRectGetMidY(self.bounds);
-        if (newCenter.y > self.superview.bounds.size.height - midPointY) {
-            newCenter.y = self.superview.bounds.size.height - midPointY;
+        if (newCenter.y > (self.superview.bounds.size.height*0.83) - midPointY) {
+            newCenter.y = (self.superview.bounds.size.height*0.83) - midPointY;
         }
-        if (newCenter.y < midPointY) {
-            newCenter.y = midPointY;
+        if (newCenter.y < midPointY+60) {
+            newCenter.y = midPointY+60;
         }
+        
+//        NSLog(@"new center y %f",newCenter.y);
+//        NSLog(@"current height %f",self.frame.size.height);
+//        if(newCenter.y > ([[UIScreen mainScreen] bounds].size.height * 0.45)+self.frame.size.height/2){
+//            newCenter.y = ([[UIScreen mainScreen] bounds].size.height * 0.45)+self.frame.size.height/2;
+//        }
     }
     self.center = newCenter;
 }

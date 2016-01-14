@@ -36,7 +36,7 @@ typedef enum SVAddFriendsState {
 - (IBAction)nvBackTapped:(id)sender;
 - (IBAction)contactsButtonTapped:(id)sender;
 - (IBAction)groupsButtonTapped:(id)sender;
-@property (weak, nonatomic) IBOutlet UIButton *friendsSourceButton;
+@property (retain, nonatomic) UIButton *friendsSourceButton;
 @property (weak, nonatomic) IBOutlet UIButton *proceedButton;
 - (IBAction)proceedTapped:(id)sender;
 
@@ -44,7 +44,7 @@ typedef enum SVAddFriendsState {
 @property (weak, nonatomic) IBOutlet UIButton *backBut;
 @property (weak, nonatomic) IBOutlet UILabel *pageTitle;
 @property (nonatomic) SVAddFriendsState state;
-@property (weak, nonatomic) IBOutlet UIView *contactSourceButtonsView;
+@property (retain, nonatomic) UIView *contactSourceButtonsView;
 @property (nonatomic, assign) id<AddFriendsDelegate> delegate;
 @property (nonatomic, assign) int64_t albumId;
 @property (assign, nonatomic) int indexNumber;
@@ -53,10 +53,10 @@ typedef enum SVAddFriendsState {
 @property(nonatomic) BOOL friendsFromMainWithPicture;
 @property(nonatomic) BOOL fromMove;
 @property(nonatomic) BOOL friendsFromMainWithVideo;
-
-@property (weak, nonatomic) IBOutlet UIButton *contactsSourceButton;
+@property(nonatomic) BOOL fromPublicFeed;
+@property (retain, nonatomic)  UIButton *contactsSourceButton;
 @property (assign, nonatomic) NSString * photoToMoveId;
-@property (weak, nonatomic) IBOutlet UIButton *groupsSourceButton;
+@property (retain, nonatomic)  UIButton *groupsSourceButton;
 @property (nonatomic,copy) BlockToExecuteWhenDone friendsDoneBlock;
 
 @end

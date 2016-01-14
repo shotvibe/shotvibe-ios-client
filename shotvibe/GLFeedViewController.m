@@ -1456,8 +1456,9 @@
             
             if(uid == authorIdFromPhoto){
                 
+                [KVNProgress show];
                 [ShotVibeAPITask runTask:self withAction:^id{
-                    [KVNProgress show];
+                    
                     NSMutableArray *photosToDelete = [[NSMutableArray alloc] init];
                     [photosToDelete addObject:[[photo getServerPhoto] getId]];
                     [[albumManager_ getShotVibeAPI] deletePhotosWithJavaLangIterable:[[SLArrayList alloc] initWithInitialArray:photosToDelete]];
@@ -1466,7 +1467,7 @@
                     [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
                     [KVNProgress dismiss];
                 } onTaskFailure:^(id success) {
-                    [KVNProgress showErrorWithStatus:@"Somthing wenet wrong..." completion:^{
+                    [KVNProgress showErrorWithStatus:@"Somthing went wrong..." completion:^{
                         
                     }];
                 } withLoaderIndicator:NO];
@@ -1625,13 +1626,10 @@
     
 }
 
-
-
 -(void)sharePostPressed:(UIButton*)sender {
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
     [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:NO photoId:cell.photoId];
 }
-
 
 -(void)backPressed {
     [[GLContainersViewController sharedInstance] unlockScrollingPages];

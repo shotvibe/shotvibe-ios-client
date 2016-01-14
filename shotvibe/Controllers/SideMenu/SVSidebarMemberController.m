@@ -243,6 +243,8 @@
 
 - (void)navigateToAddFriends:(id)sender
 {
+    
+    
     [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeAddingMembers:NO albumId:self.albumId];
     //    self.parentController
     //    __block SVSidebarMemberController * weakSelf = self;

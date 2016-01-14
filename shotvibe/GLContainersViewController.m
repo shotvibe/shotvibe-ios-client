@@ -93,6 +93,9 @@ static GLContainersViewController *sharedInstance;
 - (void)goToFriendsListViewAnimatedBeforeAddingMembers:(BOOL)animated albumId:(long long int)albumId {
 
     [self lockScrollingPages];
+    
+    [[GLContainersViewController sharedInstance] resetFriendsView];
+    
     if(albumId){
         self.friendsViewController.albumId = albumId;
     }
@@ -129,9 +132,33 @@ static GLContainersViewController *sharedInstance;
     }
     self.friendsViewController.fromMove = YES;
     self.friendsViewController.state = SVAddFriendsFromMove;
+    self.friendsViewController.fromPublicFeed = NO;
 
     [self.pageController setViewControllers:@[self.friendsViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:animated completion:^(BOOL finished) {
         
+    }];
+    
+}
+
+- (void)goToFriendsListViewAnimatedBeforeMovingPhoto:(BOOL)animated photoId:(NSString*)photoId completed:(pageTransitionCompleted)completed {
+    //    self.pageController tra
+    
+    [self lockScrollingPages];
+    
+    if(photoId != nil){
+        self.friendsViewController.photoToMoveId = photoId;
+    }
+    self.friendsViewController.fromMove = YES;
+    self.friendsViewController.state = SVAddFriendsFromMove;
+    self.friendsViewController.fromPublicFeed = YES;
+    
+//    __weak GLContainersViewController * weakSelf = self;
+    [self.pageController setViewControllers:@[self.friendsViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:animated completion:^(BOOL finished) {
+//        if(completed){
+//            weakSelf.friendsViewController.friendsDoneBlock = ^{
+//                completed();
+//            };
+//        }
     }];
     
 }

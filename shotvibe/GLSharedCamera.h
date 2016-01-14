@@ -61,11 +61,13 @@ typedef enum ScrollDirection {
 - (UIImage *) resizeLabelImage:(UIImage*)image location:(CGPoint)location;
 - (UIImage *)imageByCroppingImage:(UIImage *)image toSize:(CGSize)size;
 - (void)retrievePhotoFromPicker:(UIImage*)image;
+- (void)retrievePhotoFromLoginPicker:(UIImage *)image;
 - (void)hideForPicker:(BOOL)no;
 - (void) backToCameraFromEditPallette:(id)sender;
 - (void)setInFeedMode:(BOOL)feed dmutNeedTransform:(BOOL)needTransform;
 - (void)createMainScrollView;
 - (void)showCamera;
+- (void)setCameraIsBackView:(BOOL)isBackView;
 - (void)hideCamera;
 - (void) playCaptureSound;
 - (void)toggleFlash;
