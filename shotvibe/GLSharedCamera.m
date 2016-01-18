@@ -17,6 +17,8 @@
 #import "GLProfilePageViewController.h"
 #import "GLSharedVideoPlayer.h"
 #import "GLContainersViewController.h"
+#import "M13ProgressViewPie.h"
+
 
 @interface GradientView : UIView
 
@@ -216,7 +218,7 @@
         self.animatedView = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-50, 0, 100, 50)];
         [self.animatedView addTarget:self action:@selector(finalProcessTapped) forControlEvents:UIControlEventTouchUpInside];
         self.animatedView.titleLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:55];
-        [self.animatedView setTitle:@">>" forState:UIControlStateNormal];
+        [self.animatedView setTitle:@"Go" forState:UIControlStateNormal];
         [self.animatedView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.shadowAnimation = [JTSlideShadowAnimation new];
         self.shadowAnimation.animatedView = self.animatedView;
@@ -547,6 +549,10 @@
                 
             } completion:^(BOOL finished) {
                 [self.shadowAnimation start];
+                
+                
+                
+                
             }];
             
             [UIView animateWithDuration:0.2 animations:^{
@@ -1660,19 +1666,38 @@
         }
     } else {
         
-        
+        [self.videoCamera stopCameraCapture];
         if(self.cropViewController != nil){
             [self.cropViewController.view removeFromSuperview];
             [self.cropViewController removeFromParentViewController];
             self.cropViewController = nil;
         }
         
-        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
-        options.synchronous  = YES;
-        options.resizeMode = PHImageRequestOptionsResizeModeExact;
-        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+//        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
+//        options.synchronous  = YES;
+//        options.resizeMode = PHImageRequestOptionsResizeModeExact;
+//        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+
         
-        [self.videoCamera stopCameraCapture];
+        __block M13ProgressViewPie * progressView = [[M13ProgressViewPie alloc] initWithFrame:CGRectMake(0, 0, [[self.carousel itemViewAtIndex:index] frame].size.height/4, [[self.carousel itemViewAtIndex:index] frame].size.height/4)];
+        progressView.center = [[self.carousel itemViewAtIndex:index] center];
+        [[self.carousel itemViewAtIndex:index] addSubview:progressView];
+        [progressView setPrimaryColor:[UIColor whiteColor]];
+        [progressView setSecondaryColor:[UIColor whiteColor]];
+        [progressView setProgress:0.0 animated:NO];
+//        progressView
+//        progressView.hidden = YES;
+        
+        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+        options.resizeMode = PHImageRequestOptionsResizeModeExact;
+        options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat; //I only want the highest possible quality
+        options.synchronous = NO;
+        options.networkAccessAllowed = YES;
+        options.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+            NSLog(@"loading image progress - %f", progress); //follow progress + update progress bar
+            [progressView setProgress:progress animated:YES];
+            
+        };
         
         CGRect screenRect = kScreenBounds;
         CGFloat screenWidth = screenRect.size.width;
@@ -1689,6 +1714,24 @@
             [self setCameraViewInEditMode:YES];
             
             imageSource = ImageSourceRecents;
+            [progressView setProgress:1.0 animated:YES];
+            [progressView performAction:M13ProgressViewActionSuccess animated:YES];
+            
+            [UIView animateWithDuration:0.25
+                                  delay:0.5
+                                options:0
+                             animations:^(void){
+                                 [progressView setAlpha:0];
+                                 
+//                                 controller.layer.backgroundColor = [UIColor blueColor].CGColor;
+                             }
+                             completion:^(BOOL done){
+                                 [progressView removeFromSuperview];
+                                 progressView = nil;
+                             }];
+            
+//            [progressView setHidden:YES];
+            
             
         }];
     }
@@ -2170,6 +2213,17 @@
             self.animatedView.alpha = 1;
         } completion:^(BOOL finished) {
             [self.shadowAnimation start];
+
+            
+            CABasicAnimation *theAnimation;
+            theAnimation=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
+            theAnimation.duration=0.5;
+            theAnimation.repeatCount=HUGE_VALF;
+            theAnimation.autoreverses=YES;
+            theAnimation.fromValue=[NSNumber numberWithFloat:1.0];
+            theAnimation.toValue=[NSNumber numberWithFloat:0.7];
+            theAnimation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+            [self.shadowAnimation.animatedView.layer addAnimation:theAnimation forKey:@"animateOpacity"];
         }];
         
         [UIView animateWithDuration:0.5 animations:^{
@@ -2264,7 +2318,7 @@
             self.cropViewController = nil;
         }
         
-        [self closeCameraViewWithSlideFromFeed];
+        
         if(self.goneUploadAmovie == YES){
             [self backFromVideoTapped];
             [self startUploadingVideo];
@@ -2272,6 +2326,8 @@
             UIImage * finalProccedImage = [self processImageBySourceAndPrepareWithTextandSizes];
             [self startUploadingAsset:finalProccedImage];
         }
+        [self closeCameraViewWithSlideFromFeed];
+        [self createResizableTextView];
         cameraIsOpen = NO;
         
     } else {
@@ -2281,7 +2337,7 @@
             
         } executeWhenFriendsDone:^{
             
-            [self closeCameraViewWithSlideFromFeed];
+            
             if(self.cropViewController != nil){
                 [self.cropViewController.view removeFromSuperview];
                 [self.cropViewController removeFromParentViewController];
@@ -2295,6 +2351,8 @@
                 UIImage * finalProccedImage = [self processImageBySourceAndPrepareWithTextandSizes];
                 [self startUploadingAsset:finalProccedImage];
             }
+            [self closeCameraViewWithSlideFromFeed];
+            [self createResizableTextView];
             cameraIsOpen = NO;
             
         }];
@@ -2682,40 +2740,71 @@
     [self.videoCamera capturePhotoAsImageProcessedUpToFilter:[[self.arrayOfFilters objectAtIndex:0] filter] withCompletionHandler:^(UIImage *processedImage, NSError *error) {
         
         [self.videoCamera stopCameraCapture];
-        [self setCameraViewInEditMode:YES];
-        @autoreleasepool {
-            
-            int width = 960;
-            int height = 1280;
-            
-            CGImageRef imageRef = [processedImage CGImage];
-            CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(imageRef);
-            
-            //if (alphaInfo == kCGImageAlphaNone)
-            alphaInfo = kCGImageAlphaNoneSkipLast;
-            
-            CGContextRef bitmap = CGBitmapContextCreate(NULL, width, height, CGImageGetBitsPerComponent(imageRef), 4 * width, CGImageGetColorSpace(imageRef), alphaInfo);
-            CGContextDrawImage(bitmap, CGRectMake(0, 0, width, height), imageRef);
-            CGImageRef ref = CGBitmapContextCreateImage(bitmap);
-            cleanImageFromCamera = [UIImage imageWithCGImage:ref];
-            
-            CGContextRelease(bitmap);
-            CGImageRelease(ref);
-            bitmap = nil;
-            ref = nil;
-            alphaInfo = nil;
-            imageRef = nil;
-            
-        }
+        
+        
+        
+        
+//
+        
         
         [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
         
-        for(GLFilterView * filterView in self.arrayOfFilters){
+        
+        if (processedImage.imageOrientation == UIImageOrientationUp) {
+            
+            
             @autoreleasepool {
-                [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth*1.3333) image:processedImage]];
+                
+                int width = 960;
+                int height = 1280;
+                
+                CGImageRef imageRef = [processedImage CGImage];
+                CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(imageRef);
+                
+                //if (alphaInfo == kCGImageAlphaNone)
+                alphaInfo = kCGImageAlphaNoneSkipLast;
+                
+                CGContextRef bitmap = CGBitmapContextCreate(NULL, width, height, CGImageGetBitsPerComponent(imageRef), 4 * width, CGImageGetColorSpace(imageRef), alphaInfo);
+                CGContextDrawImage(bitmap, CGRectMake(0, 0, width, height), imageRef);
+                CGImageRef ref = CGBitmapContextCreateImage(bitmap);
+                cleanImageFromCamera = [UIImage imageWithCGImage:ref];
+                //            cleanImageFromCamera.imag
+                
+                CGContextRelease(bitmap);
+                CGImageRelease(ref);
+                bitmap = nil;
+                ref = nil;
+                alphaInfo = nil;
+                imageRef = nil;
+                
             }
             
+            
+            NSLog(@"portrait");
+            [self setCameraViewInEditMode:YES];
+            for(GLFilterView * filterView in self.arrayOfFilters){
+                @autoreleasepool {
+                    [filterView setImageCapturedUnderFilter:[self imageCroppedToFitSize:CGSizeMake(screenWidth, screenWidth*1.3333) image:processedImage]];
+                }
+                
+            }
+            
+        } else if (processedImage.imageOrientation == UIImageOrientationLeft || processedImage.imageOrientation == UIImageOrientationRight) {
+            NSLog(@"landscape");
+            
+            
+//            UIImage *imageToDisplay =
+//            [UIImage imageWithCGImage:[originalImage CGImage]
+//                                scale:1.0
+//                          orientation: UIImageOrientationUp];
+            
+            UIImage * unrotatedImage = [self unrotateImage:processedImage];
+//            UIImage * normalized = [self normalizedImage:processedImage];
+            [self retrievePhotoFromPicker:[self unrotateImage:processedImage]];
         }
+        
+        
+        
     }];
     
     imageSource = ImageSourceCamera;
@@ -2737,6 +2826,7 @@
         approveTextButton.alpha = 0;
         backToCameraButton.alpha = 1;
     }];
+    [self createResizableTextView];
 }
 
 -(void)addTextToImageTapped {

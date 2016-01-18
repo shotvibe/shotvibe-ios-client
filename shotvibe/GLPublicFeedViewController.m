@@ -90,33 +90,33 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    SLAlbumManager * al = [ShotVibeAppDelegate sharedDelegate].albumManager;
-    
-    [ShotVibeAPITask runTask:self withAction:^id{
-        //        [[al getShotVibeAPI] getPublic];
-        return [[al getShotVibeAPI] getPublicAlbumContents];
-    } onTaskComplete:^(SLAlbumContents *album) {
-        //        NSLog(@"Public feed name: %@", [album getName]);
-        
-        //        self.publicFeed = [[GLPublicFeedViewController alloc] init];
-        NSMutableArray * photosArray = [[NSMutableArray alloc] init];
-        
-        for(SLAlbumPhoto * photo in [album getPhotos]){
-            [photosArray addObject:photo];
-        }
-        
-        NSArray* reversedArray = [[photosArray reverseObjectEnumerator] allObjects];
-        
-        self.photosArray = [reversedArray copy];
-//        [self.collectionView reloadData];
-        
-        //        self.publicFeed.albumId = [[al getShotVibeAPI] getPublicAlbumId];
-        // TODO ...
-    } onTaskFailure:^(id success) {
-        
-        //        [];
-        
-    } withLoaderIndicator:NO];
+//    SLAlbumManager * al = [ShotVibeAppDelegate sharedDelegate].albumManager;
+//    
+//    [ShotVibeAPITask runTask:self withAction:^id{
+//        //        [[al getShotVibeAPI] getPublic];
+//        return [[al getShotVibeAPI] getPublicAlbumContents];
+//    } onTaskComplete:^(SLAlbumContents *album) {
+//        //        NSLog(@"Public feed name: %@", [album getName]);
+//        
+//        //        self.publicFeed = [[GLPublicFeedViewController alloc] init];
+//        NSMutableArray * photosArray = [[NSMutableArray alloc] init];
+//        
+//        for(SLAlbumPhoto * photo in [album getPhotos]){
+//            [photosArray addObject:photo];
+//        }
+//        
+//        NSArray* reversedArray = [[photosArray reverseObjectEnumerator] allObjects];
+//        
+//        self.photosArray = [reversedArray copy];
+////        [self.collectionView reloadData];
+//        
+//        //        self.publicFeed.albumId = [[al getShotVibeAPI] getPublicAlbumId];
+//        // TODO ...
+//    } onTaskFailure:^(id success) {
+//        
+//        //        [];
+//        
+//    } withLoaderIndicator:NO];
     
 }
 

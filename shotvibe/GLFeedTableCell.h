@@ -43,6 +43,7 @@
 @property(nonatomic,retain) UITextField * commentTextField;
 @property(nonatomic,retain) UILabel * glancesCounter;
 @property(nonatomic) BOOL loaded;
+@property(nonatomic) BOOL isVisible;
 @property(nonatomic, retain) NSString * photoId;
 @property(nonatomic, retain) UIImageView * glancesIcon;
 @property(nonatomic, retain) UIButton * addCommentButton;

@@ -333,7 +333,7 @@
                 // unmute the video if we can see at least half of the cell
                 //                [((VideoMessageCell*)cell) muteVideo:!btnMuteVideos.selected];
                 //                NSLog(@"im gone play on this red cell cus more then 51 is visible");
-                
+                cell.isVisible = YES;
                 if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
                     
                     //                    self.volumeButtonHandler = nil;
@@ -358,6 +358,7 @@
             }
             else
             {
+                cell.isVisible = NO;
                 //                currentPostIndex++;
                 //                NSLog(@"down index is :%ld",(long)currentPostIndex);
                 //                [[GLSharedVideoPlayer sharedInstance] pause];
@@ -1728,6 +1729,7 @@
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
     commentingNow = NO;
     [cell abortCommentDidPressed];
+    [[GLContainersViewController sharedInstance] enableSideMembers];
     
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -1754,6 +1756,8 @@
 }
 
 -(void)addCommentTapped:(UIButton*)sender {
+    
+    [[GLContainersViewController sharedInstance] disableSideMembers];
     
     commentingNow = YES;
     NSLog(@"the photo id is %lld",(long long)sender.tag);
@@ -1805,6 +1809,7 @@
             [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
             
             commentingNow = NO;
+            [[GLContainersViewController sharedInstance] enableSideMembers];
             
         } onTaskFailure:
          ^(id failure) {

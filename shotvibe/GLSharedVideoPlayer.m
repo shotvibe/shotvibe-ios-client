@@ -62,8 +62,8 @@
     if(event == MFSideMenuStateEventMenuDidOpen){
         
         putOnHold = YES;
+        [moviePlayer pause];
         
-
     } else if(event == MFSideMenuStateEventMenuDidClose){
 
         putOnHold = NO;
@@ -173,6 +173,9 @@
     
     [moviePlayer setContentURL:[NSURL URLWithString:videoUrl]];
     
+    
+//    cell.isVisible;
+    
 //    AVURLAsset * asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:videoUrl] options:nil];
 //    NSArray *audioTracks = [asset tracksWithMediaType:AVMediaTypeAudio];
 //    
@@ -221,7 +224,7 @@
     NSLog(@"GLSharedVideoPlayer play");
 //    if(moviePlayer.playbackState == MPMoviePlaybackStateStopped || moviePlayer.playbackState ==  MPMoviePlaybackStatePaused){
     
-    if(!putOnHold){
+    if(!putOnHold && ![[GLSharedCamera sharedInstance] cameraIsShown] && self.currentCell.isVisible){
         [moviePlayer play];
     }
 //    }

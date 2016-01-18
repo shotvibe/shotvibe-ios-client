@@ -12,6 +12,7 @@
 #import "MFSideMenu.h"
 #import "ShotVibeAppDelegate.h"
 #import "GLFeedTableCell.h"
+#import "GLSharedCamera.h"
 #import "UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.h"
 
 @interface GLSharedVideoPlayer : NSObject <UIGestureRecognizerDelegate>

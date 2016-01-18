@@ -318,6 +318,8 @@
 		0F0F543D1C43B02100B21751 /* SVWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F543C1C43B02100B21751 /* SVWebViewController.xib */; };
 		0F0F543F1C43CF6800B21751 /* SVSettingsAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F543E1C43CF6800B21751 /* SVSettingsAboutViewController.xib */; };
 		0F0F54421C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0F54411C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m */; };
+		0F0F544D1C4CEBD700B21751 /* M13ProgressViewPie.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0F544C1C4CEBD700B21751 /* M13ProgressViewPie.m */; };
+		0F0F54501C4CED0400B21751 /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0F544F1C4CED0400B21751 /* M13ProgressView.m */; };
 		0F110A271C330E1A001A74A0 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F110A261C330E1A001A74A0 /* libc++.tbd */; };
 		0F18170F1C05E128002EDFA3 /* GLPublicFeedPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */; };
 		0F1817101C05E128002EDFA3 /* GLPublicFeedPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */; };
@@ -1376,6 +1378,10 @@
 		0F0F543E1C43CF6800B21751 /* SVSettingsAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVSettingsAboutViewController.xib; sourceTree = "<group>"; };
 		0F0F54401C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.h"; sourceTree = "<group>"; };
 		0F0F54411C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m"; sourceTree = "<group>"; };
+		0F0F544B1C4CEBD700B21751 /* M13ProgressViewPie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressViewPie.h; sourceTree = "<group>"; };
+		0F0F544C1C4CEBD700B21751 /* M13ProgressViewPie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressViewPie.m; sourceTree = "<group>"; };
+		0F0F544E1C4CED0400B21751 /* M13ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressView.h; sourceTree = "<group>"; };
+		0F0F544F1C4CED0400B21751 /* M13ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressView.m; sourceTree = "<group>"; };
 		0F110A261C330E1A001A74A0 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0F18170C1C05E128002EDFA3 /* GLPublicFeedPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLPublicFeedPostViewController.h; sourceTree = "<group>"; };
 		0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLPublicFeedPostViewController.m; sourceTree = "<group>"; };
@@ -2950,6 +2956,17 @@
 			name = Registration;
 			sourceTree = "<group>";
 		};
+		0F0F544A1C4CEBB500B21751 /* M13ProgressPie */ = {
+			isa = PBXGroup;
+			children = (
+				0F0F544B1C4CEBD700B21751 /* M13ProgressViewPie.h */,
+				0F0F544E1C4CED0400B21751 /* M13ProgressView.h */,
+				0F0F544F1C4CED0400B21751 /* M13ProgressView.m */,
+				0F0F544C1C4CEBD700B21751 /* M13ProgressViewPie.m */,
+			);
+			name = M13ProgressPie;
+			sourceTree = "<group>";
+		};
 		0F18170B1C05DFB9002EDFA3 /* GLPublicFeedPostViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3080,6 +3097,7 @@
 		0F4390DF1C22F93200C83C45 /* V2Additions */ = {
 			isa = PBXGroup;
 			children = (
+				0F0F544A1C4CEBB500B21751 /* M13ProgressPie */,
 				0FDC00B61C3DA75400DA96F2 /* GLEmojiKeyboard */,
 				0FDC00B21C3D332600DA96F2 /* JPSVolumeButtonHandler */,
 				0FD8B0831C315528009D7CFA /* GLContainersViewController */,
@@ -5760,6 +5778,7 @@
 				669058C719D4D65C00E233D7 /* IosBackgroundUploadSession.m in Sources */,
 				DD3A8BBF1BC9A04A002DF2C9 /* GLCamera.m in Sources */,
 				DD3A8BC61BC9A04A002DF2C9 /* UIView+ColorUiView.m in Sources */,
+				0F0F544D1C4CEBD700B21751 /* M13ProgressViewPie.m in Sources */,
 				6601322E187F4E670042047B /* IOSFloatArray.m in Sources */,
 				0F4947AC1BE281D600FEDC12 /* LNNotification.m in Sources */,
 				108CDF7118846B9000757E36 /* MPSurveyQuestion.m in Sources */,
@@ -5834,6 +5853,7 @@
 				66013252187F4E670042047B /* StackTraceElement.m in Sources */,
 				66E788B71889EB870037ACF3 /* Map.m in Sources */,
 				0F4947AF1BE281D600FEDC12 /* LNNotificationBannerWindow.m in Sources */,
+				0F0F54501C4CED0400B21751 /* M13ProgressView.m in Sources */,
 				3BE0B10E17C2BA3E0058CAAD /* FMDatabase.m in Sources */,
 				0FD59E491BD7DAB3002CDCCD /* PullableView.m in Sources */,
 				6601323E187F4E670042047B /* ClassNotFoundException.m in Sources */,
