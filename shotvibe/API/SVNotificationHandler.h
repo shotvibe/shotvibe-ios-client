@@ -19,7 +19,7 @@
 @optional
 - (void)commentPushPressed:(SLNotificationMessage_PhotoComment *)msg;
 - (void)addPhotoPushPressed:(SLNotificationMessage_PhotosAdded *)msg;
-
+- (void)youGotGlanced:(SLNotificationMessage_PhotoGlanceScoreDelta *)msg;
 @end
 
 

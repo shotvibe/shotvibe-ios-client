@@ -558,6 +558,8 @@
     
     NSMutableArray * arr = [[NSMutableArray alloc] init];
     
+    
+    if(arr.count > 0){
     int count = 0;
     
     for(int r=0;r < self.commentsScrollView.subviews.count;r++){
@@ -572,6 +574,8 @@
 
     [self shakeAnimation:lastAuthor];
     [self shakeAnimation:lstCommentText];
+        
+    }
 //    [self shakeAnimation:lastAuthor];
 //    [self shakeAnimation:lstCommentText];
 //    [self shakeAnimation:lastAuthor];
@@ -650,7 +654,7 @@
 //            
 //        }];
 //    }];
-    NSLog(@"last comment  is :%@ %@",lastAuthor.text, lstCommentText.text);
+//    NSLog(@"last comment  is :%@ %@",lastAuthor.text, lstCommentText.text);
     
 //    UILabel * lastComment = [self.commentsScrollView.subviews lastObject];
 //    NSLog(@"lastComment : %@",lastComment.text);

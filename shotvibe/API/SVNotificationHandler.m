@@ -98,28 +98,11 @@ static void showNotificationBanner(NSString *message)
         notification.title = @"New Photo";
         notification.soundName = @"push.mp3";
         notification.defaultAction = [LNNotificationAction actionWithTitle:@"Default Action" handler:^(LNNotificationAction *action) {
-            //Handle default action
-            NSLog(@"test");
+
             
-//            NSUInteger childViewControllersCount = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] count];
-            
-            //        childViewControllersCount
-            
-//            if(childViewControllersCount == 1){
-            
-                NSLog(@"im on main what to do now???");
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"pushWasPressed" object:self userInfo:@{@"msg":msg}];
                 
-//                [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:[msg getAlbumId] completion:^{
-//                    
-//                }];
-                
-//            } else if (childViewControllersCount == 2){
-            
-//                GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
-//                self.delegate = glfeed;
-//                [self.delegate addPhotoPushPressed:msg];
-                
-//            }
+
             
             
         }];
@@ -128,19 +111,7 @@ static void showNotificationBanner(NSString *message)
         
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//
-//    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"NOTIFICATION_PHOTOS_ADDED", nil), [msg getAuthorName], [NSString stringWithFormat:@"%d", [msg getNumPhotos]], [msg getAlbumName]];
-//
-//    showNotificationBanner(message);
+
 }
 
 
@@ -171,6 +142,9 @@ static void showNotificationBanner(NSString *message)
                                     //Handle default action
                                     NSLog(@"test");
                                     
+                                    
+                                    
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pushWasPressed" object:self userInfo:@{@"msg":msg}];
                                     
                                     
                                     //                                    NSUInteger childViewControllersCount = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] count];
@@ -244,6 +218,8 @@ static void showNotificationBanner(NSString *message)
     notification.title = [NSString stringWithFormat:@"%@: %@",firstName,[msg getCommentText]];
     notification.soundName = @"push.mp3";
     
+//        [[YYWebImageManager sharedManager] ]
+        
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     [manager downloadImageWithURL:[NSURL URLWithString:[msg getCommentAuthorAvatarUrl]]
                           options:0
@@ -255,40 +231,11 @@ static void showNotificationBanner(NSString *message)
                                 
                                 notification.icon = image;
                                 notification.defaultAction = [LNNotificationAction actionWithTitle:@"Default Action" handler:^(LNNotificationAction *action) {
-                                    //Handle default action
-                                    NSLog(@"test");
+
                                     
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pushWasPressed" object:self userInfo:@{@"msg":msg}];
                                     
-                                    
-//                                    NSUInteger childViewControllersCount = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] count];
-                                    
-                                    
-//                                    if(childViewControllersCount == 1){
-//                                    
-//                                        [[GLSharedCamera sharedInstance] setCameraInFeed];
-//
-//                                        GLFeedViewController * feedView = [[GLFeedViewController alloc] init];
-//                                        feedView.albumId = [msg getAlbumId];
-//                                        feedView.scrollToComment = YES;
-//                                        feedView.photoToScrollToCommentsId = [msg getPhotoId];
-//                                        feedView.prevAlbumId = [msg getAlbumId];
-//                                        feedView.startImidiatly = NO;
-//                                        GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
-//                                        glcamera.imageForOutSideUpload = nil;
-//                                        [[[ContainerViewController sharedInstance] navigationController] pushViewController:feedView animated:YES];
-//                                        [[ContainerViewController sharedInstance] lockScrolling:YES];
-//                                        
-//                                    } else if (childViewControllersCount == 2){
-//                                        
-//                                        GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
-//                                        self.delegate = glfeed;
-//                                        [self.delegate commentPushPressed:msg];
-//                                        
-//                                    }
-                                    
-//                                    GLFeedViewController * glfeed = [[[[ContainerViewController sharedInstance] navigationController] childViewControllers] objectAtIndex:1];
-//                                    self.delegate = glfeed;
-//                                    [self.delegate commentPushPressed:msg];
+
                                     
                                 }];
                                 
@@ -343,8 +290,10 @@ static void showNotificationBanner(NSString *message)
                                     NSLog(@"test");
                                     
                                     
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pushWasPressed" object:self userInfo:@{@"msg":msg}];
                                     
-//                                    [self.delegate commentPushPressed:msg];
+//                                    [self.delegate youGotGlanced:msg];
+//                                    [self.delegate commentPushPressed:nil];
                                     
                                 }];
                                 

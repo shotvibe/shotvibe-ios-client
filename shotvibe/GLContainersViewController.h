@@ -20,6 +20,7 @@
 #import "UIViewController+index.h"
 #import "MFSideMenuContainerViewController.h"
 #import "SVSidebarMemberController.h"
+#import "SVNotificationHandler.h"
 
 typedef void(^pageTransitionCompleted)();
 

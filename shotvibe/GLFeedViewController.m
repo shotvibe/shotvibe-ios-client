@@ -189,8 +189,8 @@
     ((SVSidebarMemberController *)self.menuContainerViewController.rightMenuViewController).albumId = self.albumId;
     
     
-    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.pushNotificationsManager.notificationHandler_.delegate = self;
+//    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+//    appDelegate.pushNotificationsManager.notificationHandler_.delegate = self;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -200,6 +200,44 @@
     
     lockContentsStackDepth_ = 0;
     lockContentsSavedValue_ = nil;
+    
+}
+
+-(GLFeedTableCell*)ShowSpecificCell:(NSString*)photoId {
+//    [KVNProgress showWithStatus:photoId];
+    
+    
+    NSLog(@"comment retrieved");
+    int c = 0;
+    int position = 0;
+    for(NSArray * post in self.posts){
+        if([[[post objectAtIndex:0] objectForKey:@"id"] isEqualToString:photoId]){
+            position = c;
+            
+            
+            
+            
+            NSLog(@"i found the commented image in the table at %d",c);
+            cellToHighLightIndex = c;
+            
+            
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:c inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+//            needCommentHl = YES;
+//            [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+            
+//            self.view.userInteractionEnabled = NO;
+            
+            GLFeedTableCell * cell = (GLFeedTableCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:c inSection:0]];
+            return cell;
+//                        [cell highLightLastCommentInPost];
+            
+            
+            break;
+        }
+        c++;
+    }
+    
+    
     
 }
 
@@ -716,100 +754,107 @@
         
     }
     
-    
-    GLSharedCamera * camera = [GLSharedCamera sharedInstance];
-    
-    
-    if([[ShotVibeAppDelegate sharedDelegate] appOpenedFromPush]){
-        self.photoToScrollToCommentsId = [[ShotVibeAppDelegate sharedDelegate] photoIdFromPush];
-        self.scrollToComment = YES;
-        //
-        
-        
-        int c = 0;
-        int position = 0;
-        for(NSArray * post in self.posts){
-            if([[[post objectAtIndex:0] objectForKey:@"id"] isEqualToString:self.photoToScrollToCommentsId]){
-                position = c;
-                
-                
-                
-                
-                NSLog(@"i found the commented image in the table at %d",c);
-                cellToHighLightIndex = c;
-                needCommentHl = YES;
-                [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
-                
-                self.view.userInteractionEnabled = NO;
-                
-                //            GLFeedTableCell * cell = (GLFeedTableCell*)[super tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:c inSection:0]];
-                //            [cell highLightLastCommentInPost];
-                
-                [[ShotVibeAppDelegate sharedDelegate] setAppOpenedFromPush:NO];
-                break;
-            }
-            c++;
-        }
-        
+    if (self.feedDidAppearBlock) {
+        __block GLFeedViewController *blocksafeSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            blocksafeSelf.feedDidAppearBlock(self);
+        });
     }
     
     
-    if(self.scrollToComment){
-        
-        NSLog(@"comment retrieved");
-        int c = 0;
-        int position = 0;
-        for(NSArray * post in self.posts){
-            if([[[post objectAtIndex:0] objectForKey:@"id"] isEqualToString:self.photoToScrollToCommentsId]){
-                position = c;
-                
-                
-                
-                
-                NSLog(@"i found the commented image in the table at %d",c);
-                cellToHighLightIndex = c;
-                needCommentHl = YES;
-                [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
-                
-                self.view.userInteractionEnabled = NO;
-                
-                //            GLFeedTableCell * cell = (GLFeedTableCell*)[super tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:c inSection:0]];
-                //            [cell highLightLastCommentInPost];
-                
-                
-                break;
-            }
-            c++;
-        }
-        
-    } else {
-        
-        if([self.posts count]>0){
-            
-            GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:pageNumber inSection:0]];
-            
-            NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
-            SLAlbumPhoto *photo = [data objectAtIndex:1];
-            
-            
-            //    CGRect cellRect = [scrollView convertRect:cell.frame toView:scrollView.superview];
-            //    if (CGRectContainsRect(scrollView.frame, cellRect)){
-            //        NSLog(@"visible");
-            //    } else {
-            //        NSLog(@"unvisible");
-            //    }
-            
-            //    NSLog(@"%d",);
-            
-            //        if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
-            //            [cell.activityIndicator startAnimating];
-            //            [[GLSharedVideoPlayer sharedInstance] play];
-            //        }
-            
-        }
-        
-        
-    }
+//    GLSharedCamera * camera = [GLSharedCamera sharedInstance];
+//    
+//    
+//    if([[ShotVibeAppDelegate sharedDelegate] appOpenedFromPush]){
+//        self.photoToScrollToCommentsId = [[ShotVibeAppDelegate sharedDelegate] photoIdFromPush];
+//        self.scrollToComment = YES;
+//        //
+//        
+//        
+//        int c = 0;
+//        int position = 0;
+//        for(NSArray * post in self.posts){
+//            if([[[post objectAtIndex:0] objectForKey:@"id"] isEqualToString:self.photoToScrollToCommentsId]){
+//                position = c;
+//                
+//                
+//                
+//                
+//                NSLog(@"i found the commented image in the table at %d",c);
+//                cellToHighLightIndex = c;
+//                needCommentHl = YES;
+//                [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+//                
+//                self.view.userInteractionEnabled = NO;
+//                
+//                //            GLFeedTableCell * cell = (GLFeedTableCell*)[super tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:c inSection:0]];
+//                //            [cell highLightLastCommentInPost];
+//                
+//                [[ShotVibeAppDelegate sharedDelegate] setAppOpenedFromPush:NO];
+//                break;
+//            }
+//            c++;
+//        }
+//        
+//    }
+//    
+//    
+//    if(self.scrollToComment){
+//        
+//        NSLog(@"comment retrieved");
+//        int c = 0;
+//        int position = 0;
+//        for(NSArray * post in self.posts){
+//            if([[[post objectAtIndex:0] objectForKey:@"id"] isEqualToString:self.photoToScrollToCommentsId]){
+//                position = c;
+//                
+//                
+//                
+//                
+//                NSLog(@"i found the commented image in the table at %d",c);
+//                cellToHighLightIndex = c;
+//                needCommentHl = YES;
+//                [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+//                
+//                self.view.userInteractionEnabled = NO;
+//                
+//                //            GLFeedTableCell * cell = (GLFeedTableCell*)[super tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:c inSection:0]];
+//                //            [cell highLightLastCommentInPost];
+//                
+//                
+//                break;
+//            }
+//            c++;
+//        }
+//        
+//    } else {
+//        
+//        if([self.posts count]>0){
+//            
+//            GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:pageNumber inSection:0]];
+//            
+//            NSArray * data = [self.posts objectAtIndex:[self.tableView indexPathForCell:cell].row];
+//            SLAlbumPhoto *photo = [data objectAtIndex:1];
+//            
+//            
+//            //    CGRect cellRect = [scrollView convertRect:cell.frame toView:scrollView.superview];
+//            //    if (CGRectContainsRect(scrollView.frame, cellRect)){
+//            //        NSLog(@"visible");
+//            //    } else {
+//            //        NSLog(@"unvisible");
+//            //    }
+//            
+//            //    NSLog(@"%d",);
+//            
+//            //        if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
+//            //            [cell.activityIndicator startAnimating];
+//            //            [[GLSharedVideoPlayer sharedInstance] play];
+//            //        }
+//            
+//        }
+//        
+//        
+//    }
     
     
     self.volumeButtonHandler = [JPSVolumeButtonHandler volumeButtonHandlerWithUpBlock:^{

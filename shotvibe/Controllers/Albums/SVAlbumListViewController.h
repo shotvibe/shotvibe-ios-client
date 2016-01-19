@@ -24,7 +24,7 @@
 @end
 
 @interface SVAlbumListViewController : UIViewController <UITableViewDataSource,
-                                                                NotificationManagerDelegate,
+
 																UITableViewDelegate,
 																UITextFieldDelegate,
 																UISearchBarDelegate,

@@ -241,7 +241,9 @@ static GLContainersViewController *sharedInstance;
     
         [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
         }];
-        
+    
+//    [[[[ShotVibeAppDelegate sharedDelegate] pushNotificationsManager] notificationHandler_] setDelegate:self];
+    
 //    }];
     
     
@@ -275,9 +277,171 @@ static GLContainersViewController *sharedInstance;
 //        //        [];
 //        
 //    } withLoaderIndicator:NO];
+//    
+//    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
+//    appDelegate.pushNotificationsManager.notificationHandler_.delegate = self;
 
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(pushNotficationDidPressed:)
+                                                 name:@"pushWasPressed"
+                                               object:nil];
+    
 }
 
+-(BOOL)inFeed {
+    return [[self.navigationController.viewControllers lastObject] isKindOfClass:[GLFeedViewController class]];
+}
+
+- (void)pushNotficationDidPressed:(NSNotification*)notification {
+
+
+    if([[notification.userInfo valueForKey:@"msg"] isKindOfClass:[SLNotificationMessage_PhotoGlanceScoreDelta class]]){
+        [self handleGlancedPushPressed:[notification.userInfo valueForKey:@"msg"]];
+    }
+    
+    if([[notification.userInfo valueForKey:@"msg"] isKindOfClass:[SLNotificationMessage_PhotoComment class]]){
+        [self handleCommentedPushPressed:[notification.userInfo valueForKey:@"msg"]];
+    }
+    
+    
+    
+    if([[notification.userInfo valueForKey:@"msg"] isKindOfClass:[SLNotificationMessage_AddedToAlbum class]]){
+        [self handleAddedToGroupPushPressed:[notification.userInfo valueForKey:@"msg"]];
+    }
+    
+    if([[notification.userInfo valueForKey:@"msg"] isKindOfClass:[SLNotificationMessage_PhotosAdded class]]){
+        [self handleAddedPhotosPushPressed:[notification.userInfo valueForKey:@"msg"]];
+    }
+    
+    
+    
+    
+    
+    
+}
+
+- (void)handleAddedPhotosPushPressed:(SLNotificationMessage_PhotosAdded *)data {
+    
+    if([self inFeed]){
+        
+        GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+        feed.albumId = [data getAlbumId];
+        [self.navigationController pushViewController:feed animated:NO];
+        
+        
+    } else {
+        
+        [[GLSharedCamera sharedInstance] setCameraInFeedAfterGroupOpenedWithoutImage];
+        [self lockScrollingPages];
+        GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+        feed.albumId = [data getAlbumId];
+        [self.navigationController pushViewController:feed animated:NO];
+        [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    }
+    
+}
+
+- (void)handleAddedToGroupPushPressed:(SLNotificationMessage_AddedToAlbum *)data {
+
+    if([self inFeed]){
+        
+            GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+            feed.albumId = [data getAlbumId];
+            [self.navigationController pushViewController:feed animated:NO];
+        
+        
+    } else {
+        
+        [[GLSharedCamera sharedInstance] setCameraInFeedAfterGroupOpenedWithoutImage];
+        [self lockScrollingPages];
+        GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+        feed.albumId = [data getAlbumId];
+        [self.navigationController pushViewController:feed animated:NO];
+        [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    }
+}
+
+- (void)handleCommentedPushPressed:(SLNotificationMessage_PhotoComment*)data {
+    
+    if([self inFeed]){
+        
+        GLFeedViewController * currentFeed = [self.navigationController.viewControllers lastObject];
+        if(currentFeed.albumId == [data getAlbumId]){
+            GLFeedTableCell * cell = [currentFeed ShowSpecificCell:[data getPhotoId]];
+            [cell highLightLastCommentInPost];
+        } else {
+            
+            GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+            feed.albumId = [data getAlbumId];
+            [self.navigationController pushViewController:feed animated:NO];
+//            [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+            feed.feedDidAppearBlock = ^(GLFeedViewController * feedInstance){
+                GLFeedTableCell * cell = [feedInstance ShowSpecificCell:[data getPhotoId]];
+                [cell highLightLastCommentInPost];
+            };
+
+            
+        }
+        
+        
+        
+    } else {
+        
+        [[GLSharedCamera sharedInstance] setCameraInFeedAfterGroupOpenedWithoutImage];
+        [self lockScrollingPages];
+        GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+        feed.albumId = [data getAlbumId];
+        [self.navigationController pushViewController:feed animated:NO];
+        [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+        feed.feedDidAppearBlock = ^(GLFeedViewController * feedInstance){
+            GLFeedTableCell * cell = [feedInstance ShowSpecificCell:[data getPhotoId]];
+            [cell highLightLastCommentInPost];
+        };
+        
+    }
+    
+}
+
+
+- (void)handleGlancedPushPressed:(SLNotificationMessage_PhotoGlanceScoreDelta*)data {
+    
+    if([self inFeed]){
+        
+        GLFeedViewController * currentFeed = [self.navigationController.viewControllers lastObject];
+        if(currentFeed.albumId == [data getAlbumId]){
+            GLFeedTableCell * cell = [currentFeed ShowSpecificCell:[data getPhotoId]];
+//            [cell highLightLastCommentInPost];
+        } else {
+            
+            GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+            feed.albumId = [data getAlbumId];
+            [self.navigationController pushViewController:feed animated:NO];
+            //            [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+            feed.feedDidAppearBlock = ^(GLFeedViewController * feedInstance){
+                GLFeedTableCell * cell = [feedInstance ShowSpecificCell:[data getPhotoId]];
+//                [cell highLightLastCommentInPost];
+            };
+            
+            
+        }
+        
+    } else {
+        
+        [[GLSharedCamera sharedInstance] setCameraInFeedAfterGroupOpenedWithoutImage];
+        [self lockScrollingPages];
+        GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+        feed.albumId = [data getAlbumId];
+            [self.navigationController pushViewController:feed animated:NO];
+            [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+        feed.feedDidAppearBlock = ^(GLFeedViewController * feedInstance){
+            GLFeedTableCell * cell = [feedInstance ShowSpecificCell:[data getPhotoId]];
+//            [cell highLightLastCommentInPost];
+        };
+        
+    }
+    
+}
 
 
 - (void)lockScrollingPages {
@@ -372,6 +536,13 @@ static GLContainersViewController *sharedInstance;
     [self dismissViewControllerAnimated:YES completion:^{
         [[GLSharedCamera sharedInstance] retrievePhotoFromPicker:info[UIImagePickerControllerOriginalImage]];
     }];
+}
+
+
+- (void)youGotGlanced:(SLNotificationMessage_PhotoGlanceScoreDelta *)msg {
+
+    NSLog(@"");
+
 }
 
 

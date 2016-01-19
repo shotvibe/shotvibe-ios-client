@@ -11,7 +11,7 @@
 #import "AlbumPhoto.h"
 
 typedef void (^CompletionBlock3)(id);
-@interface GLPublicFeedPostViewController : UITableViewController <NotificationManagerDelegate,UIScrollViewDelegate,UITextFieldDelegate,UIActionSheetDelegate>
+@interface GLPublicFeedPostViewController : UITableViewController <UIScrollViewDelegate,UITextFieldDelegate,UIActionSheetDelegate>
 @property(nonatomic) long long int albumId;
 @property(nonatomic) long long int prevAlbumId;
 @property (retain, nonatomic) NSMutableArray *posts;

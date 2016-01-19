@@ -99,7 +99,7 @@
     
     //    [Fabric with:@[[Crashlytics class]]];
     
-    [Fabric with:@[[Crashlytics class], [PubNub class]]];
+    [Fabric with:@[[Crashlytics class], [PubNub class], [Answers ]]];
     GLPubNubManager * glPubManager =[[GLPubNubManager sharedInstance] init];
     
     

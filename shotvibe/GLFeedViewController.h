@@ -10,6 +10,10 @@
 #import "SVNotificationHandler.h"
 #import "GLPubNubManager.h"
 #import "JPSVolumeButtonHandler.h"
+#import "GLFeedTableCell.h"
+
+
+typedef void (^FeedDidAppearBlock)(id);
 
 typedef enum FeedScrollDirection {
     FeedScrollDirectionUp,
@@ -32,18 +36,17 @@ typedef enum FeedScrollDirection {
 @property (assign, nonatomic) int indexNumber;
 @property (nonatomic, retain) UITableView * tableView;
 @property(nonatomic) BOOL startImidiatlyVideoUpload;
-
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, assign) NSInteger totalPages;
 @property (nonatomic, assign) NSInteger totalItems;
-
-
 @property (retain, nonatomic) NSMutableArray *feedItems;
-
 @property (retain, nonatomic) JPSVolumeButtonHandler * volumeButtonHandler;
+
+@property (readwrite, copy) FeedDidAppearBlock feedDidAppearBlock;
 
 -(void)imageSelected:(UIImage*)image;
 -(void)backPressed;
 -(void)videoSelected;
 -(void)showUserProfileWithId:(long long)userId ;
+-(GLFeedTableCell*)ShowSpecificCell:(NSString*)photoId;
 @end
