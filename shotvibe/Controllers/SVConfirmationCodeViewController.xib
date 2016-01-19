@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <customFonts key="customFonts">
+        <mutableArray key="GothamRnd-Bold.otf">
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+        </mutableArray>
         <mutableArray key="GothamRnd-MedIta.otf">
             <string>GothamRounded-MediumItalic</string>
             <string>GothamRounded-MediumItalic</string>
             <string>GothamRounded-MediumItalic</string>
             <string>GothamRounded-MediumItalic</string>
         </mutableArray>
-        <mutableArray key="Gotham_Rounded_Bold2.otf">
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-            <string>GothamRounded-Bold</string>
-        </mutableArray>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SVConfirmationCodeViewController">
             <connections>
+                <outlet property="backButton" destination="eUb-J5-egK" id="wDy-AN-Gbb"/>
                 <outlet property="butSubmit" destination="zQy-3t-GAi" id="iuW-81-Uy7"/>
                 <outlet property="codeField1" destination="bmc-Eg-gJL" id="tr6-pR-uAB"/>
                 <outlet property="codeField2" destination="1jN-BH-n0G" id="Nix-gS-gmA"/>
                 <outlet property="codeField3" destination="Lu7-bH-nLx" id="Mz2-sB-qik"/>
                 <outlet property="codeField4" destination="2lF-W7-Ndw" id="QCt-fv-6R8"/>
+                <outlet property="line1" destination="cY7-UL-yw3" id="yfa-0g-Dqi"/>
+                <outlet property="line2" destination="Rxr-kR-rm7" id="fCX-RM-Ye6"/>
                 <outlet property="tf1" destination="OVC-tw-MBZ" id="klO-PK-S77"/>
                 <outlet property="tf2" destination="5aZ-Vz-1qg" id="QED-tX-Dvk"/>
                 <outlet property="tf3" destination="yIx-1Y-btR" id="vPg-7g-SDZ"/>
@@ -38,12 +41,13 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DBp-DU-Dez" userLabel="Reg Code Container">
+                <view contentMode="scaleToFill" id="DBp-DU-Dez" userLabel="Reg Code Container">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cY7-UL-yw3">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cY7-UL-yw3">
                             <rect key="frame" x="27" y="284.5" width="320" height="61.5"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <string key="text">To complete your phone number
 verification, please enter the 4-digit
 activation code.</string>
@@ -51,18 +55,18 @@ activation code.</string>
                             <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rxr-kR-rm7">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Rxr-kR-rm7">
                             <rect key="frame" x="27" y="244" width="320" height="40"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <string key="text">We have sent you an SMS with a
 code to the number above</string>
                             <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="15"/>
                             <color key="textColor" red="0.58823529409999997" green="0.61568627450000002" blue="0.63529411759999999" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1jN-BH-n0G">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="1jN-BH-n0G">
                             <rect key="frame" x="110" y="352" width="29" height="54"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="textColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                             <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -70,9 +74,9 @@ code to the number above</string>
                                 <outlet property="delegate" destination="-1" id="oYI-ah-27i"/>
                             </connections>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lu7-bH-nLx">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="Lu7-bH-nLx">
                             <rect key="frame" x="140" y="352" width="29" height="54"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="textColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                             <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -80,9 +84,9 @@ code to the number above</string>
                                 <outlet property="delegate" destination="-1" id="vv8-rR-GAf"/>
                             </connections>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2lF-W7-Ndw">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="2lF-W7-Ndw">
                             <rect key="frame" x="170" y="352" width="29" height="54"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="textColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                             <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -90,9 +94,9 @@ code to the number above</string>
                                 <outlet property="delegate" destination="-1" id="lST-jN-5aK"/>
                             </connections>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQy-3t-GAi">
+                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zQy-3t-GAi">
                             <rect key="frame" x="240" y="346" width="60" height="60"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="20"/>
                             <size key="titleShadowOffset" width="0.0" height="-1"/>
@@ -107,29 +111,29 @@ code to the number above</string>
                                 <action selector="confirmButtonPressed:" destination="-1" eventType="touchUpInside" id="gr8-bW-Lbw"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OVC-tw-MBZ">
+                        <view contentMode="scaleToFill" id="OVC-tw-MBZ">
                             <rect key="frame" x="83" y="396" width="20" height="4"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                         </view>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pvz-9U-Rb8">
+                        <view contentMode="scaleToFill" id="pvz-9U-Rb8">
                             <rect key="frame" x="174" y="396" width="20" height="4"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                         </view>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yIx-1Y-btR">
+                        <view contentMode="scaleToFill" id="yIx-1Y-btR">
                             <rect key="frame" x="143" y="396" width="20" height="4"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                         </view>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5aZ-Vz-1qg">
+                        <view contentMode="scaleToFill" id="5aZ-Vz-1qg">
                             <rect key="frame" x="113" y="396" width="20" height="4"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                         </view>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bmc-Eg-gJL">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="bmc-Eg-gJL">
                             <rect key="frame" x="79" y="352" width="29" height="54"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="textColor" red="0.94117647059999998" green="0.45098039220000002" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
                             <fontDescription key="fontDescription" name="GothamRounded-MediumItalic" family="Gotham Rounded" pointSize="38"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -137,9 +141,9 @@ code to the number above</string>
                                 <outlet property="delegate" destination="-1" id="RDB-w8-A8Z"/>
                             </connections>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eUb-J5-egK">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eUb-J5-egK">
                             <rect key="frame" x="8" y="246" width="46" height="30"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="30"/>
                             <state key="normal" title="&lt;">
                                 <color key="titleColor" red="0.52156862749999999" green="0.50980392159999999" blue="0.50980392159999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -149,13 +153,12 @@ code to the number above</string>
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <point key="canvasLocation" x="275.5" y="255.5"/>
         </view>
     </objects>
 </document>

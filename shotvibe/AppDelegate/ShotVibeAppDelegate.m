@@ -781,6 +781,22 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
     return [NSString stringWithFormat:@"%@ (%@ %@)", [currentDevice model], [currentDevice systemName], [currentDevice systemVersion]];
 }
 
+
+- (BOOL) platformTypeIsIphone6plus
+{
+    size_t size;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char *machine = malloc(size);
+    sysctlbyname("hw.machine", machine, &size, NULL, 0);
+    NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
+    if ([platform isEqualToString:@"x86_64"])    return YES;
+    if ([platform isEqualToString:@"iPhone7,1"])    return YES;
+    if ([platform isEqualToString:@"iPhone8,2"])    return YES;
+    free(machine);
+    
+    return NO;
+}
+
 - (BOOL) platformTypeIsIphone5
 {
 

@@ -44,6 +44,7 @@
 #import "GLFeedTableCellUploading.h"
 #import "GLContainersViewController.h"
 #import "GLEmojiKeyboard.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 @interface GLFeedViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
     
@@ -391,7 +392,31 @@
     
     //        -(void)addUploadVideoJob:(NSString *)videoFilePath withImageFilePath:(NSString *)imageFile withAlbumId:(long long)albumId
     
+//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+//    dispatch_async(queue, ^(void) {
+//        
+        
+//            //        if(error){
+//            //            [KVNProgress showErrorWithStatus:[error localizedDescription]];
+//            //        } else {
+//            //                    [KVNProgress showSuccessWithStatus:@"Image saved succesfully to custom album"];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+            
+//            });
+    
+            
+            //        }
+        
     [[[ShotVibeAppDelegate sharedDelegate] uploadManager] addUploadVideoJob:pathToMovie withImageFilePath:filePathToThumb withAlbumId:self.albumId];
+    
+        
+        
+        
+//    });
+    
+    
+    
+    
     
     //        [[ShotVibeAppDelegate sharedDelegate].uploadManager addUploadVideoJob:pathToMovie withAlbumId:self.albumId];
     //    }];

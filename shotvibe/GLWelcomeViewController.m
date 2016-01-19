@@ -30,8 +30,11 @@
     
     if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
         frame.origin.x = (self.view.frame.size.width/1.30/2)-((self.signInButton.frame.size.width/1.30)/2);
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]) {
+        frame.origin.x = (self.view.frame.size.width/2)-(self.signInButton.frame.size.width/2)+20;
+        frame.origin.y += 25;
     } else {
-        frame.origin.x = frame.origin.x = (self.view.frame.size.width/1/2)-((self.signInButton.frame.size.width/1)/2);
+        frame.origin.x = (self.view.frame.size.width/1/2)-((self.signInButton.frame.size.width/1)/2);
     }
     
 //    self.signInButton.frame = frame;
@@ -58,6 +61,8 @@
     CGRect r;
     if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
         r = CGRectMake(self.dmut.frame.origin.x/1.171, self.dmut.frame.origin.y/1.171, self.dmut.frame.size.width/1.171, self.dmut.frame.size.height/1.171);
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        r = CGRectMake(self.dmut.frame.origin.x*1.103, self.dmut.frame.origin.y*1.103, self.dmut.frame.size.width*1.103, self.dmut.frame.size.height*1.103);
     } else {
         r = self.dmut.frame;
     }

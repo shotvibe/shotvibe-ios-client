@@ -100,8 +100,18 @@
             
             
             CGRect frame = [[[GLSharedCamera sharedInstance] mainScrollView] frame];
-            frame.origin.x -= (self.view.frame.size.width - self.userPhoto.frame.size.width)/2;
-            frame.origin.y -= self.userPhoto.frame.origin.y/2;
+            
+            if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+                frame.origin.x -= ((self.view.frame.size.width - self.userPhoto.frame.size.width)/2)*1.103;
+                frame.origin.y -= (self.userPhoto.frame.origin.y/2)*1.103;
+                frame.size.width = frame.size.width*1.103;
+                frame.size.height = frame.size.height*1.103;
+            } else {
+                frame.origin.x -= (self.view.frame.size.width - self.userPhoto.frame.size.width)/2;
+                frame.origin.y -= self.userPhoto.frame.origin.y/2;
+            }
+            
+            
             UIView * camWrapper = [[UIView alloc] initWithFrame:frame];
             //                camWrapper.backgroundColor = [UIColor purpleColor];
             [camWrapper addSubview:[[GLSharedCamera sharedInstance] mainScrollView]];
@@ -140,6 +150,29 @@
             }
         });
     });
+    
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        
+        [self resizeViewToIphone5:self.xButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.goPressed width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.originalPictureView width:YES height:YES cornerRadius:YES];
+        [self resizeViewToIphone5:self.capButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.galButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.goButton width:YES height:YES cornerRadius:NO];
+        
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        [self resizeViewToIphone6plus:self.xButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.goPressed width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.originalPictureView width:YES height:YES cornerRadius:YES];
+        [self resizeViewToIphone6plus:self.capButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.galButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.goButton width:YES height:YES cornerRadius:YES];
+        [self resizeViewToIphone6plus:self.userPhoto width:YES height:YES cornerRadius:YES];
+        [self resizeViewToIphone6plus:self.pageTitle width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.originalLogo width:YES height:YES cornerRadius:NO];
+        
+    }
 }
 
 
@@ -193,22 +226,28 @@
     }
 }
 
+-(void)resizeViewToIphone6plus:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x*1.103;
+    f.origin.y = f.origin.y*1.103;
+    if(width){
+        f.size.width = f.size.width*1.103;
+    }
+    if(height){
+        f.size.height = f.size.height*1.103;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius*1.103;
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-    
-    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
-        
-        [self resizeViewToIphone5:self.xButton width:YES height:YES cornerRadius:NO];
-        [self resizeViewToIphone5:self.goPressed width:YES height:YES cornerRadius:NO];
-        [self resizeViewToIphone5:self.originalPictureView width:YES height:YES cornerRadius:NO];
-        [self resizeViewToIphone5:self.capButton width:YES height:YES cornerRadius:NO];
-        [self resizeViewToIphone5:self.galButton width:YES height:YES cornerRadius:NO];
-        [self resizeViewToIphone5:self.goButton width:YES height:YES cornerRadius:NO];
-        
-    }
     
     if (IS_IOS7) {
         self.navigationController.navigationBar.translucent = NO;
@@ -240,6 +279,8 @@
     //            self.pageTitle.frame = titleframe;
     //        });
     //    }
+    
+    
     
     
     

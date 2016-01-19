@@ -224,9 +224,44 @@
         [self resizeViewToIphone5:self.codeField3 width:YES height:YES cornerRadius:NO];
         [self resizeViewToIphone5:self.codeField4 width:YES height:YES cornerRadius:NO];
     
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+//        for(UIView * view in self.view.subviews){
+//            [self resizeViewToIphone6plus:view width:YES height:YES cornerRadius:view.layer.cornerRadius > 0 ? YES : NO];
+//        }
+        
+        [self resizeViewToIphone6plus:self.butSubmit width:YES height:YES cornerRadius:YES];
+//        [self resizeViewToIphone6plus:self.line1 width:YES height:YES cornerRadius:NO];
+//        [self resizeViewToIphone6plus:self.line2 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.tf1 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.tf2 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.tf3 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.tf4 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.codeField1 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.codeField2 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.codeField3 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.codeField4 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.backButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.line1 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.line2 width:YES height:YES cornerRadius:NO];
     }
 }
 
+-(void)resizeViewToIphone6plus:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x*1.103;
+    f.origin.y = f.origin.y*1.103;
+    if(width){
+        f.size.width = f.size.width*1.103;
+    }
+    if(height){
+        f.size.height = f.size.height*1.103;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius*1.103;
+    }
+}
 
 - (BOOL)shouldAutorotate
 {

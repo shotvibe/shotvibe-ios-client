@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSString *selectedCountryCode;
 @property (nonatomic, strong) SLShotVibeAPI_SMSConfirmationToken *smsConfirmationToken;
 
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (nonatomic, strong) IBOutlet UITextField *codeField1;
 @property (nonatomic, strong) IBOutlet UITextField *codeField2;
 @property (nonatomic, strong) IBOutlet UITextField *codeField3;

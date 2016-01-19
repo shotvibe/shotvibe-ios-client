@@ -19,6 +19,9 @@
 #import "GLUserScore.h"
 #import "PECropViewController.h"
 
+
+typedef void(^SaveImageCompletion)(NSError* error);
+
 typedef enum {
     MGImageResizeCrop,	// analogous to UIViewContentModeScaleAspectFill, i.e. "best fit" with no space around.
     MGImageResizeCropStart,
@@ -142,5 +145,8 @@ typedef enum ScrollDirection {
 @property (nonatomic, strong) JTSlideShadowAnimation *shadowAnimation;
 
 @property (nonatomic, strong) PECropViewController * cropViewController;
+
+
+@property (strong, atomic) ALAssetsLibrary* library;
 
 @end

@@ -18,6 +18,7 @@
 #import "GLSharedVideoPlayer.h"
 #import "GLContainersViewController.h"
 #import "M13ProgressViewPie.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 
 @interface GradientView : UIView
@@ -533,6 +534,11 @@
         // Wait a little bit since it seems that it takes some time for the file to be fully written to disk
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
+            self.library = [[ALAssetsLibrary alloc] init];
+            NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"];
+            [self.library saveVideoWithPath:pathToMovie toAlbum:@"Glance" withCompletionBlock:^(NSError *error) {
+            }];
+            
             NSLog(@"Movie completed and written to disk im ready to start upload but before that we neeed to display the priview of tht movie");
             
             
@@ -582,6 +588,10 @@
             [self.previewPlayer play];
             self.movieWriter = nil;
             
+            
+            
+            
+            
         });
         
     }];
@@ -592,6 +602,9 @@
     
     
 }
+
+
+
 
 -(void)saveVideoThumbToFile:(UIImage*)image {
     
@@ -2288,14 +2301,30 @@
 }
 
 - (void)startUploadingVideo {
+    
+    
+    
     if(self.isInFeedMode){
-        [self.delegate videoSelected];
-        self.goneUploadAmovie = NO;
+        
+            [self.delegate videoSelected];
+            self.goneUploadAmovie = NO;
+        
+        
     }
 }
 
 - (void)startUploadingAsset:(UIImage*)image {
     NSLog(@"gone start upload asset now");
+    self.library = [[ALAssetsLibrary alloc] init];
+    [self.library saveImage:image toAlbum:@"Glance" withCompletionBlock:^(NSError *error) {
+        if(error){
+                [KVNProgress showErrorWithStatus:@"Image failed to saved"];
+        } else {
+//                    [KVNProgress showSuccessWithStatus:@"Image saved succesfully to custom album"];
+        }
+
+    }];
+    
     if(self.isInFeedMode){
         [self.delegate imageSelected:image];
     }

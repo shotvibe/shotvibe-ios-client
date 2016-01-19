@@ -22,6 +22,7 @@
 - (IBAction)captureSelfie:(id)sender;
 - (IBAction)libraryProfilePick:(id)sender;
 - (IBAction)backToCamBut:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *originalLogo;
 
 @property (weak, nonatomic) IBOutlet UIButton *xButton;
 @property (weak, nonatomic) IBOutlet UIButton *goPressed;

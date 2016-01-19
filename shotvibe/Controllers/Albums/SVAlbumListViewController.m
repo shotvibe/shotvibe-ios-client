@@ -624,14 +624,51 @@ CGFloat kResizeThumbSize = 45.0f;
     
     [[GLContainersViewController sharedInstance] disableSideMembers];
     
+    
+    
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [[NSUserDefaults standardUserDefaults] setInteger:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAuthData] getUserId]] forKey:@"kUserScore"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        creatingAlbum = NO;
+        SLAlbumContents *albumContents = nil;
+        SLAPIException *apiException = nil;
+        @try {
+//            albumContents = [albumManager_ createNewBlankAlbumWithNSString:title];
+            [[NSUserDefaults standardUserDefaults] setInteger:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAuthData] getUserId]] forKey:@"kUserScore"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        } @catch (SLAPIException *exception) {
+            apiException = exception;
+        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[[GLSharedCamera sharedInstance] score] setText:[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]]];
+            if (apiException) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Getting Data"
+                                                                message:apiException.description
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            else {
+                
+                
+                [[[GLSharedCamera sharedInstance] score] setText:[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]]];
+                
+            }
         });
     });
+
+    
+    
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//        [[NSUserDefaults standardUserDefaults] setInteger:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAuthData] getUserId]] forKey:@"kUserScore"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [[[GLSharedCamera sharedInstance] score] setText:[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]]];
+//        });
+//    });
     
     
     

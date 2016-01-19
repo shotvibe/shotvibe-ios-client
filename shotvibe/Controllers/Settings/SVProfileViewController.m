@@ -144,9 +144,49 @@
         
         
     }
+    
     [[GLSharedCamera sharedInstance] fixAfterLogin];
+    
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        
+        [self resizeViewToIphone5:self.nicknameField width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.promptLabel width:NO height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.userPhoto width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.goButton width:YES height:YES cornerRadius:NO];
+        
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        [self resizeViewToIphone6plus:self.nicknameField width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.promptLabel width:NO height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.userPhoto width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.goButton width:YES height:YES cornerRadius:NO];
+        
+        [self resizeViewToIphone6plus:self.textFieldWrapper width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.image1 width:NO height:YES cornerRadius:YES];
+        [self resizeViewToIphone6plus:self.openProfilePicEditorButton width:YES height:YES cornerRadius:YES];
+
+    }
+    
+    
+    
 }
 
+-(void)resizeViewToIphone6plus:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x*1.103;
+    f.origin.y = f.origin.y*1.103;
+    if(width){
+        f.size.width = f.size.width*1.103;
+    }
+    if(height){
+        f.size.height = f.size.height*1.103;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius*1.103;
+    }
+}
 
 -(void)editPhoto {
     
@@ -167,14 +207,7 @@
 	[super viewWillAppear:animated];
     
     
-    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
-        
-        [self resizeViewToIphone5:self.nicknameField width:YES height:YES cornerRadius:NO];
-        [self resizeViewToIphone5:self.promptLabel width:NO height:YES cornerRadius:NO];
-        [self resizeViewToIphone5:self.userPhoto width:YES height:YES cornerRadius:NO];
-        [self resizeViewToIphone5:self.goButton width:YES height:YES cornerRadius:NO];
-        
-    }
+    
     
     
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];

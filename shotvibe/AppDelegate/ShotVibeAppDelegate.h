@@ -43,7 +43,7 @@
 
 
 
-
+- (BOOL) platformTypeIsIphone6plus;
 - (BOOL)isLoggedIn;
 
 - (void)setAuthData:(SLAuthData *)authData;

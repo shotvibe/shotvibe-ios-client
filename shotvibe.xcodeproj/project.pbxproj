@@ -321,6 +321,7 @@
 		0F0F544D1C4CEBD700B21751 /* M13ProgressViewPie.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0F544C1C4CEBD700B21751 /* M13ProgressViewPie.m */; };
 		0F0F54501C4CED0400B21751 /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0F544F1C4CED0400B21751 /* M13ProgressView.m */; };
 		0F110A271C330E1A001A74A0 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F110A261C330E1A001A74A0 /* libc++.tbd */; };
+		0F15E8E21C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F15E8E11C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		0F18170F1C05E128002EDFA3 /* GLPublicFeedPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */; };
 		0F1817101C05E128002EDFA3 /* GLPublicFeedPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */; };
 		0F1C06ED1BEB4FBD00F82FBB /* GLWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1C06EB1BEB4FBD00F82FBB /* GLWelcomeViewController.m */; };
@@ -1383,6 +1384,8 @@
 		0F0F544E1C4CED0400B21751 /* M13ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressView.h; sourceTree = "<group>"; };
 		0F0F544F1C4CED0400B21751 /* M13ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressView.m; sourceTree = "<group>"; };
 		0F110A261C330E1A001A74A0 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		0F15E8E01C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
+		0F15E8E11C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
 		0F18170C1C05E128002EDFA3 /* GLPublicFeedPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLPublicFeedPostViewController.h; sourceTree = "<group>"; };
 		0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLPublicFeedPostViewController.m; sourceTree = "<group>"; };
 		0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLPublicFeedPostViewController.xib; sourceTree = "<group>"; };
@@ -3106,6 +3109,8 @@
 				0F4390E01C22F93E00C83C45 /* GLUserScore */,
 				0FD8B08C1C315C2B009D7CFA /* UIViewController+index.h */,
 				0FD8B08D1C315C2B009D7CFA /* UIViewController+index.m */,
+				0F15E8E01C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.h */,
+				0F15E8E11C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.m */,
 				0F0F54401C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.h */,
 				0F0F54411C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m */,
 			);
@@ -5798,6 +5803,7 @@
 				66278C641867C17800D23F34 /* SVSidebarAlbumSection.m in Sources */,
 				0FE43EB81BE0BFBB0088D93F /* YALSunnyRefreshControl.m in Sources */,
 				66278C4B1867B23800D23F34 /* FileUtils.m in Sources */,
+				0F15E8E21C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				04AB0AB21708114800C5300B /* NSDate+Formatting.m in Sources */,
 				6601325A187F4E670042047B /* JreMemDebugStrongReference.m in Sources */,
 				66E788B81889EB870037ACF3 /* Set.m in Sources */,

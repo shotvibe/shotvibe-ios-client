@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -27,7 +27,6 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeDmut" translatesAutoresizingMaskIntoConstraints="NO" id="EUa-Yq-oiv">
                     <rect key="frame" x="9" y="437" width="356.5" height="234"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="234" id="mZV-Cg-BAv"/>
                     </constraints>
@@ -39,7 +38,6 @@
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeGlanceLogo" translatesAutoresizingMaskIntoConstraints="NO" id="3vr-f3-MYI">
                     <rect key="frame" x="29" y="59" width="317" height="133.5"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="135" id="8LV-1d-nah"/>
                     </constraints>
@@ -51,7 +49,6 @@
                 </imageView>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUq-02-Mc2">
                     <rect key="frame" x="76" y="273.5" width="107" height="39"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="39" id="2u7-WW-y6Q"/>
                     </constraints>
@@ -62,7 +59,6 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="laU-Xl-JeR">
                     <rect key="frame" x="0.0" y="219" width="150" height="48"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="5xA-oW-Wig"/>
                         <constraint firstAttribute="width" constant="150" id="cuM-R4-kcE"/>
@@ -78,7 +74,6 @@
                     </variation>
                 </button>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="laU-Xl-JeR" firstAttribute="centerX" secondItem="3vr-f3-MYI" secondAttribute="centerX" id="10n-gJ-6dP"/>
