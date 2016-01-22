@@ -322,6 +322,7 @@
 		0F0F54501C4CED0400B21751 /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0F544F1C4CED0400B21751 /* M13ProgressView.m */; };
 		0F110A271C330E1A001A74A0 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F110A261C330E1A001A74A0 /* libc++.tbd */; };
 		0F15E8E21C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F15E8E11C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
+		0F15E8E91C4FEEEC00F442CE /* GLCameraGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F15E8E81C4FEEEC00F442CE /* GLCameraGradientView.m */; };
 		0F18170F1C05E128002EDFA3 /* GLPublicFeedPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */; };
 		0F1817101C05E128002EDFA3 /* GLPublicFeedPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */; };
 		0F1C06ED1BEB4FBD00F82FBB /* GLWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1C06EB1BEB4FBD00F82FBB /* GLWelcomeViewController.m */; };
@@ -1386,6 +1387,8 @@
 		0F110A261C330E1A001A74A0 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0F15E8E01C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
 		0F15E8E11C4E4F7900F442CE /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
+		0F15E8E71C4FEEEC00F442CE /* GLCameraGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLCameraGradientView.h; sourceTree = "<group>"; };
+		0F15E8E81C4FEEEC00F442CE /* GLCameraGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLCameraGradientView.m; sourceTree = "<group>"; };
 		0F18170C1C05E128002EDFA3 /* GLPublicFeedPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLPublicFeedPostViewController.h; sourceTree = "<group>"; };
 		0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLPublicFeedPostViewController.m; sourceTree = "<group>"; };
 		0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLPublicFeedPostViewController.xib; sourceTree = "<group>"; };
@@ -2970,6 +2973,15 @@
 			name = M13ProgressPie;
 			sourceTree = "<group>";
 		};
+		0F15E8E31C4FED6A00F442CE /* GLCameraGradientView */ = {
+			isa = PBXGroup;
+			children = (
+				0F15E8E71C4FEEEC00F442CE /* GLCameraGradientView.h */,
+				0F15E8E81C4FEEEC00F442CE /* GLCameraGradientView.m */,
+			);
+			name = GLCameraGradientView;
+			sourceTree = "<group>";
+		};
 		0F18170B1C05DFB9002EDFA3 /* GLPublicFeedPostViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3100,6 +3112,7 @@
 		0F4390DF1C22F93200C83C45 /* V2Additions */ = {
 			isa = PBXGroup;
 			children = (
+				0F15E8E31C4FED6A00F442CE /* GLCameraGradientView */,
 				0F0F544A1C4CEBB500B21751 /* M13ProgressPie */,
 				0FDC00B61C3DA75400DA96F2 /* GLEmojiKeyboard */,
 				0FDC00B21C3D332600DA96F2 /* JPSVolumeButtonHandler */,
@@ -5813,6 +5826,7 @@
 				66278C611867C17800D23F34 /* SVSidebarAlbumManagementSection.m in Sources */,
 				66278CDF1867C62300D23F34 /* SVActivity.m in Sources */,
 				66278C651867C17800D23F34 /* SVSidebarManagementController.m in Sources */,
+				0F15E8E91C4FEEEC00F442CE /* GLCameraGradientView.m in Sources */,
 				66278C5F1867C17800D23F34 /* SVContactCell.m in Sources */,
 				66278C631867C17800D23F34 /* SVSidebarAlbumMemberCell.m in Sources */,
 				66278C8E1867C38300D23F34 /* SVAlbumGridViewCell.m in Sources */,

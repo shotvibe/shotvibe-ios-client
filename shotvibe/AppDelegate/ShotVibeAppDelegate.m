@@ -99,7 +99,7 @@
     
     //    [Fabric with:@[[Crashlytics class]]];
     
-    [Fabric with:@[[Crashlytics class], [PubNub class], [Answers ]]];
+    [Fabric with:@[[Crashlytics class], [PubNub class], [Answers class]]];
     GLPubNubManager * glPubManager =[[GLPubNubManager sharedInstance] init];
     
     
@@ -255,6 +255,14 @@
     self.window.rootViewController = self.navigationController;
     [[LNNotificationCenter defaultCenter] registerApplicationWithIdentifier:@"glance_app" name:@"Glance" icon:[UIImage imageNamed:@"CaptureButton"] defaultSettings:LNNotificationDefaultAppSettings];
     [self.window makeKeyAndVisible];
+    
+    
+//    [Answers logCustomEventWithName:@"Did Finished Launch"
+//                   customAttributes:@{
+//                                      @"User Name" : @"Omer Klein",
+//                                      @"User Id" : @22112312312328}];
+    
+    
     return YES;
     
     
@@ -716,6 +724,11 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+//    [Answers logCustomEventWithName:@"Did Finished Closed"
+//                   customAttributes:@{
+//                                      @"User Name" : @"Omer Klein",
+//                                      @"User Id" : @22112312312328}];
+    
     //    [[[GLPubNubManager sharedInstance] pubNubCLient]unsubscribeFromAll];
     
 }

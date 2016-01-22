@@ -202,13 +202,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1668"
-            endingLineNumber = "1668"
-            landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
-            landmarkType = "5">
+            startingLineNumber = "2021"
+            endingLineNumber = "2021"
+            landmarkName = "@implementation GLSharedCamera"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/Albums/SVAlbumListViewController.m"
-            timestampString = "474893613.677681"
+            timestampString = "474976438.717071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "726"
-            endingLineNumber = "726"
+            startingLineNumber = "734"
+            endingLineNumber = "734"
             landmarkName = "-openAppleImagePicker"
             landmarkType = "5">
          </BreakpointContent>
@@ -234,27 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1647"
-            endingLineNumber = "1647"
-            landmarkName = "-scrollViewWillBeginDecelerating:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1815"
-            endingLineNumber = "1815"
+            startingLineNumber = "2168"
+            endingLineNumber = "2168"
             landmarkName = "-carousel:valueForOption:withDefault:"
             landmarkType = "5">
          </BreakpointContent>
@@ -266,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1714"
-            endingLineNumber = "1714"
+            startingLineNumber = "2067"
+            endingLineNumber = "2067"
             landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -298,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "964"
-            endingLineNumber = "964"
+            startingLineNumber = "1276"
+            endingLineNumber = "1276"
             landmarkName = "-dmutDragged:"
             landmarkType = "5">
          </BreakpointContent>
@@ -314,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/Albums/SVAlbumListViewController.m"
-            timestampString = "474893613.677681"
+            timestampString = "474976438.717071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1255"
-            endingLineNumber = "1255"
+            startingLineNumber = "1263"
+            endingLineNumber = "1263"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -442,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2708"
-            endingLineNumber = "2708"
+            startingLineNumber = "3093"
+            endingLineNumber = "3093"
             landmarkName = "-addFilterToImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -458,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2705"
-            endingLineNumber = "2705"
+            startingLineNumber = "3090"
+            endingLineNumber = "3090"
             landmarkName = "-addFilterToImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -570,11 +554,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2661"
-            endingLineNumber = "2661"
+            startingLineNumber = "3046"
+            endingLineNumber = "3046"
             landmarkName = "-imageWithText:"
             landmarkType = "5">
          </BreakpointContent>
@@ -586,11 +570,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2702"
-            endingLineNumber = "2702"
+            startingLineNumber = "3087"
+            endingLineNumber = "3087"
             landmarkName = "-addFilterToImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -634,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1164"
-            endingLineNumber = "1164"
+            startingLineNumber = "1161"
+            endingLineNumber = "1161"
             landmarkName = "-donePressed:"
             landmarkType = "5">
          </BreakpointContent>
@@ -650,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1087"
-            endingLineNumber = "1087"
+            startingLineNumber = "1084"
+            endingLineNumber = "1084"
             landmarkName = "-contactButtonPressed:"
             landmarkType = "5">
          </BreakpointContent>
@@ -666,11 +650,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1298"
-            endingLineNumber = "1298"
+            startingLineNumber = "1295"
+            endingLineNumber = "1295"
             landmarkName = "-setAlbumList:"
             landmarkType = "5">
          </BreakpointContent>
@@ -698,11 +682,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474894400.826758"
+            timestampString = "475082985.75142"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "-init"
             landmarkType = "5">
          </BreakpointContent>
@@ -714,11 +698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "297"
-            endingLineNumber = "297"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -954,11 +938,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/Albums/SVAlbumListViewController.m"
-            timestampString = "474893613.677681"
+            timestampString = "474976438.717071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1276"
-            endingLineNumber = "1276"
+            startingLineNumber = "1284"
+            endingLineNumber = "1284"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1066,11 +1050,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/Albums/SVAlbumListViewController.m"
-            timestampString = "474893613.677681"
+            timestampString = "474976438.717071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1082"
-            endingLineNumber = "1082"
+            startingLineNumber = "1090"
+            endingLineNumber = "1090"
             landmarkName = "-transitToAlbumWithId:animated:dmutScale:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1082,11 +1066,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "979"
-            endingLineNumber = "979"
+            startingLineNumber = "1291"
+            endingLineNumber = "1291"
             landmarkName = "-dmutDragged:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1114,11 +1098,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3009"
-            endingLineNumber = "3009"
+            startingLineNumber = "3425"
+            endingLineNumber = "3425"
             landmarkName = "-resizeLabelImage:size:location:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1130,11 +1114,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2703"
-            endingLineNumber = "2703"
+            startingLineNumber = "3088"
+            endingLineNumber = "3088"
             landmarkName = "-addFilterToImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1178,11 +1162,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1078"
-            endingLineNumber = "1078"
+            startingLineNumber = "1390"
+            endingLineNumber = "1390"
             landmarkName = "-setCameraInMain"
             landmarkType = "5">
          </BreakpointContent>
@@ -1194,11 +1178,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "402"
-            endingLineNumber = "402"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
             landmarkName = "-contactsButtonTapped:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1210,11 +1194,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "457"
-            endingLineNumber = "457"
+            startingLineNumber = "454"
+            endingLineNumber = "454"
             landmarkName = "-friendsButtonTapped:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1226,11 +1210,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "954"
-            endingLineNumber = "954"
+            startingLineNumber = "951"
+            endingLineNumber = "951"
             landmarkName = "-searchBarTextDidBeginEditing:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1242,11 +1226,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
             landmarkName = "-nvBackTapped:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1258,11 +1242,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "328"
-            endingLineNumber = "328"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -1290,11 +1274,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "442"
-            endingLineNumber = "442"
+            startingLineNumber = "439"
+            endingLineNumber = "439"
             landmarkName = "-proceedTapped:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1338,11 +1322,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/Albums/SVAlbumListViewController.m"
-            timestampString = "474893613.677681"
+            timestampString = "474976438.717071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "690"
-            endingLineNumber = "690"
+            startingLineNumber = "698"
+            endingLineNumber = "698"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1370,11 +1354,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1794"
-            endingLineNumber = "1794"
+            startingLineNumber = "2147"
+            endingLineNumber = "2147"
             landmarkName = "-carousel:viewForItemAtIndex:reusingView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1482,11 +1466,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "798"
-            endingLineNumber = "798"
+            startingLineNumber = "1110"
+            endingLineNumber = "1110"
             landmarkName = "-showGlCameraView"
             landmarkType = "5">
             <Locations>
@@ -1530,11 +1514,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "791"
-            endingLineNumber = "791"
+            startingLineNumber = "1103"
+            endingLineNumber = "1103"
             landmarkName = "-handleBtnLongPressgesture:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1748,11 +1732,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1135"
-            endingLineNumber = "1135"
+            startingLineNumber = "1132"
+            endingLineNumber = "1132"
             landmarkName = "-donePressed:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1764,11 +1748,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1067"
-            endingLineNumber = "1067"
+            startingLineNumber = "1064"
+            endingLineNumber = "1064"
             landmarkName = "-contactButtonPressed:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1780,11 +1764,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1010"
-            endingLineNumber = "1010"
+            startingLineNumber = "1007"
+            endingLineNumber = "1007"
             landmarkName = "-addButtonToContactsList:withIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1860,11 +1844,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "675"
-            endingLineNumber = "675"
+            startingLineNumber = "987"
+            endingLineNumber = "987"
             landmarkName = "-startCapturingVideo"
             landmarkType = "5">
          </BreakpointContent>
@@ -1876,11 +1860,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474894400.826758"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "517"
-            endingLineNumber = "517"
+            startingLineNumber = "829"
+            endingLineNumber = "829"
             landmarkName = "-completeCapturing"
             landmarkType = "5">
          </BreakpointContent>
@@ -1892,11 +1876,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "568"
-            endingLineNumber = "568"
+            startingLineNumber = "880"
+            endingLineNumber = "880"
             landmarkName = "-completeCapturing"
             landmarkType = "5">
             <Locations>
@@ -1955,11 +1939,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2392"
-            endingLineNumber = "2392"
+            startingLineNumber = "2777"
+            endingLineNumber = "2777"
             landmarkName = "-finalProcessTapped"
             landmarkType = "5">
          </BreakpointContent>
@@ -2051,11 +2035,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1395"
-            endingLineNumber = "1395"
+            startingLineNumber = "1706"
+            endingLineNumber = "1706"
             landmarkName = "-createResizableTextView"
             landmarkType = "5">
          </BreakpointContent>
@@ -2067,11 +2051,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2056"
-            endingLineNumber = "2056"
+            startingLineNumber = "2425"
+            endingLineNumber = "2425"
             landmarkName = "-focusOutTextField"
             landmarkType = "5">
          </BreakpointContent>
@@ -2083,11 +2067,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1195"
-            endingLineNumber = "1195"
+            startingLineNumber = "1192"
+            endingLineNumber = "1192"
             landmarkName = "-cancelPressed:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2179,11 +2163,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/Albums/SVAlbumListViewController.m"
-            timestampString = "474893613.677681"
+            timestampString = "474976438.717071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1331"
-            endingLineNumber = "1331"
+            startingLineNumber = "1339"
+            endingLineNumber = "1339"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
             <Locations>
@@ -2243,11 +2227,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "541"
-            endingLineNumber = "541"
+            startingLineNumber = "853"
+            endingLineNumber = "853"
             landmarkName = "-completeCapturing"
             landmarkType = "5">
             <Locations>
@@ -2306,11 +2290,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474894400.826758"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "530"
-            endingLineNumber = "530"
+            startingLineNumber = "842"
+            endingLineNumber = "842"
             landmarkName = "-completeCapturing"
             landmarkType = "5">
             <Locations>
@@ -2482,11 +2466,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1173"
-            endingLineNumber = "1173"
+            startingLineNumber = "1485"
+            endingLineNumber = "1485"
             landmarkName = "-membersButtonPressed"
             landmarkType = "5">
          </BreakpointContent>
@@ -2498,11 +2482,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1171"
-            endingLineNumber = "1171"
+            startingLineNumber = "1483"
+            endingLineNumber = "1483"
             landmarkName = "-membersButtonPressed"
             landmarkType = "5">
          </BreakpointContent>
@@ -2802,11 +2786,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1977"
-            endingLineNumber = "1977"
+            startingLineNumber = "2330"
+            endingLineNumber = "2330"
             landmarkName = "-cropViewController:didFinishCroppingImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3106,11 +3090,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "787"
-            endingLineNumber = "787"
+            startingLineNumber = "784"
+            endingLineNumber = "784"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3202,11 +3186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -3234,11 +3218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/Albums/SVAlbumListViewController.m"
-            timestampString = "474893613.677681"
+            timestampString = "474976438.717071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1005"
-            endingLineNumber = "1005"
+            startingLineNumber = "1013"
+            endingLineNumber = "1013"
             landmarkName = "-somethingChangedInAlbumwithId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3250,11 +3234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/Albums/SVAlbumListViewController.m"
-            timestampString = "474893613.677681"
+            timestampString = "474976438.717071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1630"
-            endingLineNumber = "1630"
+            startingLineNumber = "1638"
+            endingLineNumber = "1638"
             landmarkName = "-setAlbumList:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3436,11 +3420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2386"
-            endingLineNumber = "2386"
+            startingLineNumber = "2770"
+            endingLineNumber = "2770"
             landmarkName = "-finalProcessTapped"
             landmarkType = "5">
             <Locations>
@@ -3499,11 +3483,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2564"
-            endingLineNumber = "2564"
+            startingLineNumber = "2949"
+            endingLineNumber = "2949"
             landmarkName = "-processImageBySourceAndPrepareWithTextandSizes"
             landmarkType = "5">
          </BreakpointContent>
@@ -3515,11 +3499,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2605"
-            endingLineNumber = "2605"
+            startingLineNumber = "2990"
+            endingLineNumber = "2990"
             landmarkName = "-processSelectedImageWithFilterTextAndSize:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3531,11 +3515,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2879"
-            endingLineNumber = "2879"
+            startingLineNumber = "3275"
+            endingLineNumber = "3275"
             landmarkName = "-backToCameraFromEditPallette:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3547,11 +3531,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2308"
-            endingLineNumber = "2308"
+            startingLineNumber = "2680"
+            endingLineNumber = "2680"
             landmarkName = "-startUploadingVideo"
             landmarkType = "5">
          </BreakpointContent>
@@ -3579,11 +3563,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2339"
-            endingLineNumber = "2339"
+            startingLineNumber = "2711"
+            endingLineNumber = "2711"
             landmarkName = "-finalProcessTapped"
             landmarkType = "5">
          </BreakpointContent>
@@ -3819,11 +3803,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1673"
-            endingLineNumber = "1673"
+            startingLineNumber = "2026"
+            endingLineNumber = "2026"
             landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3835,11 +3819,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1868"
-            endingLineNumber = "1868"
+            startingLineNumber = "2221"
+            endingLineNumber = "2221"
             landmarkName = "-retrievePhotoFromPicker:"
             landmarkType = "5">
             <Locations>
@@ -3851,11 +3835,11 @@
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/shotvibe/GLSharedCamera.m"
-                  timestampString = "474908074.045142"
+                  timestampString = "475158118.946055"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1868"
-                  endingLineNumber = "1868"
+                  startingLineNumber = "2223"
+                  endingLineNumber = "2223"
                   offsetFromSymbolStart = "48">
                </Location>
                <Location
@@ -3866,11 +3850,11 @@
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/shotvibe/GLSharedCamera.m"
-                  timestampString = "474908074.045284"
+                  timestampString = "475158118.946176"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1868"
-                  endingLineNumber = "1868"
+                  startingLineNumber = "2223"
+                  endingLineNumber = "2223"
                   offsetFromSymbolStart = "36">
                </Location>
             </Locations>
@@ -3883,11 +3867,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1880"
-            endingLineNumber = "1880"
+            startingLineNumber = "2233"
+            endingLineNumber = "2233"
             landmarkName = "-retrievePhotoFromPicker:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3899,11 +3883,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1949"
-            endingLineNumber = "1949"
+            startingLineNumber = "2302"
+            endingLineNumber = "2302"
             landmarkName = "-cropViewController:didFinishCroppingImage:"
             landmarkType = "5">
             <Locations>
@@ -3963,7 +3947,7 @@
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/shotvibe/GLFeedTableCell.m"
-                  timestampString = "474908074.046109"
+                  timestampString = "475158118.947159"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "33"
@@ -3978,7 +3962,7 @@
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/shotvibe/GLFeedTableCell.m"
-                  timestampString = "474908074.046221"
+                  timestampString = "475158118.947324"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "33"
@@ -4043,11 +4027,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "911"
-            endingLineNumber = "911"
+            startingLineNumber = "1223"
+            endingLineNumber = "1223"
             landmarkName = "-dmutDragged:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4059,11 +4043,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1683"
-            endingLineNumber = "1683"
+            startingLineNumber = "2036"
+            endingLineNumber = "2036"
             landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4107,11 +4091,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "749"
-            endingLineNumber = "749"
+            startingLineNumber = "746"
+            endingLineNumber = "746"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4203,11 +4187,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2904"
-            endingLineNumber = "2904"
+            startingLineNumber = "3307"
+            endingLineNumber = "3307"
             landmarkName = "-flipCamera"
             landmarkType = "5">
          </BreakpointContent>
@@ -4219,11 +4203,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "991"
-            endingLineNumber = "991"
+            startingLineNumber = "1303"
+            endingLineNumber = "1303"
             landmarkName = "-dmutDragged:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4235,11 +4219,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "810"
-            endingLineNumber = "810"
+            startingLineNumber = "807"
+            endingLineNumber = "807"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4331,11 +4315,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "540"
-            endingLineNumber = "540"
+            startingLineNumber = "537"
+            endingLineNumber = "537"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4347,11 +4331,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "528"
-            endingLineNumber = "528"
+            startingLineNumber = "525"
+            endingLineNumber = "525"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4363,11 +4347,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1336"
-            endingLineNumber = "1336"
+            startingLineNumber = "1333"
+            endingLineNumber = "1333"
             landmarkName = "-filterContactsBySearch"
             landmarkType = "5">
          </BreakpointContent>
@@ -4379,11 +4363,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1487"
-            endingLineNumber = "1487"
+            startingLineNumber = "1484"
+            endingLineNumber = "1484"
             landmarkName = "-computeSections"
             landmarkType = "5">
          </BreakpointContent>
@@ -4395,11 +4379,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/Controllers/SideMenu/SVAddFriendsViewController.m"
-            timestampString = "474818101.519668"
+            timestampString = "474976320.430637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1398"
-            endingLineNumber = "1398"
+            startingLineNumber = "1395"
+            endingLineNumber = "1395"
             landmarkName = "-computeSections"
             landmarkType = "5">
          </BreakpointContent>
@@ -4411,11 +4395,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1718"
-            endingLineNumber = "1718"
+            startingLineNumber = "2071"
+            endingLineNumber = "2071"
+            landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2083"
+            endingLineNumber = "2083"
+            landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2073"
+            endingLineNumber = "2073"
             landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
             landmarkType = "5">
             <Locations>
@@ -4427,26 +4443,26 @@
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/shotvibe/GLSharedCamera.m"
-                  timestampString = "474908074.049955"
+                  timestampString = "475158118.954514"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1718"
-                  endingLineNumber = "1718"
+                  startingLineNumber = "2073"
+                  endingLineNumber = "2073"
                   offsetFromSymbolStart = "2188">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__63-[GLSharedCamera carousel:didSelectItemAtIndex:locationInView:]_block_invoke842"
+                  symbolName = "__63-[GLSharedCamera carousel:didSelectItemAtIndex:locationInView:]_block_invoke889"
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/shotvibe/GLSharedCamera.m"
-                  timestampString = "474908074.05006"
+                  timestampString = "475158118.95464"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1718"
-                  endingLineNumber = "1718"
+                  startingLineNumber = "2073"
+                  endingLineNumber = "2073"
                   offsetFromSymbolStart = "96">
                </Location>
             </Locations>
@@ -4459,43 +4475,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1730"
-            endingLineNumber = "1730"
-            landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1720"
-            endingLineNumber = "1720"
-            landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1723"
-            endingLineNumber = "1723"
+            startingLineNumber = "2076"
+            endingLineNumber = "2076"
             landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
             landmarkType = "5">
             <Locations>
@@ -4503,30 +4487,30 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__63-[GLSharedCamera carousel:didSelectItemAtIndex:locationInView:]_block_invoke842"
+                  symbolName = "__63-[GLSharedCamera carousel:didSelectItemAtIndex:locationInView:]_block_invoke889"
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/shotvibe/GLSharedCamera.m"
-                  timestampString = "474908074.051934"
+                  timestampString = "475158118.955527"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1723"
-                  endingLineNumber = "1723"
+                  startingLineNumber = "2078"
+                  endingLineNumber = "2078"
                   offsetFromSymbolStart = "260">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__63-[GLSharedCamera carousel:didSelectItemAtIndex:locationInView:]_block_invoke842"
+                  symbolName = "__63-[GLSharedCamera carousel:didSelectItemAtIndex:locationInView:]_block_invoke889"
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/shotvibe/GLSharedCamera.m"
-                  timestampString = "474908074.052042"
+                  timestampString = "475158118.955655"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1723"
-                  endingLineNumber = "1723"
+                  startingLineNumber = "2078"
+                  endingLineNumber = "2078"
                   offsetFromSymbolStart = "276">
                </Location>
             </Locations>
@@ -4539,11 +4523,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1710"
-            endingLineNumber = "1710"
+            startingLineNumber = "2063"
+            endingLineNumber = "2063"
             landmarkName = "-carousel:didSelectItemAtIndex:locationInView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4555,11 +4539,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2376"
-            endingLineNumber = "2376"
+            startingLineNumber = "2760"
+            endingLineNumber = "2760"
             landmarkName = "-finalProcessTapped"
             landmarkType = "5">
          </BreakpointContent>
@@ -4571,11 +4555,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2351"
-            endingLineNumber = "2351"
+            startingLineNumber = "2735"
+            endingLineNumber = "2735"
             landmarkName = "-finalProcessTapped"
             landmarkType = "5">
          </BreakpointContent>
@@ -4667,11 +4651,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2772"
-            endingLineNumber = "2772"
+            startingLineNumber = "3147"
+            endingLineNumber = "3147"
             landmarkName = "-captureTapped"
             landmarkType = "5">
          </BreakpointContent>
@@ -4683,11 +4667,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475158118.583899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2832"
-            endingLineNumber = "2832"
+            startingLineNumber = "3207"
+            endingLineNumber = "3207"
             landmarkName = "-captureTapped"
             landmarkType = "5">
          </BreakpointContent>
@@ -4731,11 +4715,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/AppDelegate/ShotVibeAppDelegate.m"
-            timestampString = "474882419.846095"
+            timestampString = "474909732.42284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "793"
-            endingLineNumber = "793"
+            startingLineNumber = "806"
+            endingLineNumber = "806"
             landmarkName = "-platformTypeIsIphone6plus"
             landmarkType = "5">
          </BreakpointContent>
@@ -4747,11 +4731,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shotvibe/GLSharedCamera.m"
-            timestampString = "474897446.07206"
+            timestampString = "475157468.502138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2320"
-            endingLineNumber = "2320"
+            startingLineNumber = "2692"
+            endingLineNumber = "2692"
             landmarkName = "-startUploadingAsset:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4811,7 +4795,7 @@
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/ALAssetsLibrary+CustomPhotoAlbum.m"
-                  timestampString = "474908074.056287"
+                  timestampString = "475158118.961313"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "35"
@@ -4826,7 +4810,7 @@
                   moduleName = "Glance"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tsahkashkash/Dev/shotvibe-ios-client/ALAssetsLibrary+CustomPhotoAlbum.m"
-                  timestampString = "474908074.05642"
+                  timestampString = "475158118.961477"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "35"
@@ -5056,6 +5040,310 @@
             startingLineNumber = "438"
             endingLineNumber = "438"
             landmarkName = "-handleGlancedPushPressed:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GLCameraGradientView.m"
+            timestampString = "475153335.945514"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "-initGradientLayerWithHex:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
+            landmarkName = "-init"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GLCameraGradientView.m"
+            timestampString = "475153335.945514"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "-initGradientLayerWithHex:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1814"
+            endingLineNumber = "1814"
+            landmarkName = "-scrollViewDidScroll:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1921"
+            endingLineNumber = "1921"
+            landmarkName = "-scrollViewDidEndDecelerating:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1935"
+            endingLineNumber = "1935"
+            landmarkName = "-scrollViewDidEndDragging:willDecelerate:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1936"
+            endingLineNumber = "1936"
+            landmarkName = "-scrollViewDidEndDragging:willDecelerate:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1993"
+            endingLineNumber = "1993"
+            landmarkName = "-scrollViewWillBeginDragging:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1999"
+            endingLineNumber = "1999"
+            landmarkName = "-scrollViewWillBeginDecelerating:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2366"
+            endingLineNumber = "2366"
+            landmarkName = "-gestureRecognizer:shouldReceiveTouch:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "621"
+            endingLineNumber = "621"
+            landmarkName = "-createGradientBackgroundVIew"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "670"
+            endingLineNumber = "670"
+            landmarkName = "-gradientColorDidSelected:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "670"
+            endingLineNumber = "670"
+            landmarkName = "-gradientColorDidSelected:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "669"
+            endingLineNumber = "669"
+            landmarkName = "-gradientColorDidSelected:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2387"
+            endingLineNumber = "2387"
+            landmarkName = "-keyboardDidShow:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2374"
+            endingLineNumber = "2374"
+            landmarkName = "-textFieldShouldReturn:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1809"
+            endingLineNumber = "1809"
+            landmarkName = "-scrollViewDidScroll:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475158118.583899"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2722"
+            endingLineNumber = "2722"
+            landmarkName = "-finalProcessTapped"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shotvibe/GLSharedCamera.m"
+            timestampString = "475157468.502138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
+            landmarkName = "-init"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

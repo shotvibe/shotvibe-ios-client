@@ -20,6 +20,8 @@
 #import "PECropViewController.h"
 
 
+
+
 typedef void(^SaveImageCompletion)(NSError* error);
 
 typedef enum {
@@ -142,6 +144,7 @@ typedef enum ScrollDirection {
 @property (nonatomic, strong) RJTextView *editTextViewObj;
 @property (nonatomic, strong) IBOutlet iCarousel *carousel;
 @property (nonatomic, retain) GLResizeableView * resizeAbleView;
+@property (nonatomic, retain) GLResizeableView * gradientResizeAbleView;
 @property (nonatomic, strong) JTSlideShadowAnimation *shadowAnimation;
 
 @property (nonatomic, strong) PECropViewController * cropViewController;

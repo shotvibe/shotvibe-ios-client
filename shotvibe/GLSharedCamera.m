@@ -19,6 +19,9 @@
 #import "GLContainersViewController.h"
 #import "M13ProgressViewPie.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "GLCameraGradientView.h"
+
+
 
 
 @interface GradientView : UIView
@@ -100,6 +103,18 @@
     UIImageView * glanceLogo;
     GradientView * gradView;
     BOOL cameraIsOpen;
+    
+    UIView * gradBackgroundViewWrapper;
+    GLCameraGradientView * gradBackgroundView;
+    
+    NSMutableArray * gradientColorViewsArray;
+    UIScrollView * gradientColorsScroller;
+    UIVisualEffectView *gradientBlurredBgEffectView;
+    BOOL doingGeadientBg;
+    
+    UIButton * addGrdientButton;
+    
+    UIScrollView * cameraFeaturesScroller;
 }
 
 + (instancetype)sharedInstance {
@@ -116,7 +131,7 @@
     if (self) {
         
         cameraIsOpen = NO;
-        
+        doingGeadientBg = NO;
         flashState = 0;
         lastPage = 0;
         self.afterLogin = NO;
@@ -136,6 +151,9 @@
         cameraIsBackView = YES;
         
         
+        
+        self.colorArray = [[NSMutableArray alloc] init];
+        self.colorArray = @[ @0x000000, @0x262626, @0x4d4d4d, @0x666666, @0x808080, @0x990000, @0xcc0000, @0xfe0000, @0xff5757, @0xffabab, @0xffabab, @0xffa757, @0xff7900, @0xcc6100, @0x994900, @0x996f00, @0xcc9400, @0xffb900, @0xffd157, @0xffe8ab, @0xfff4ab, @0xffe957, @0xffde00, @0xccb200, @0x998500, @0x979900, @0xcacc00, @0xfcff00, @0xfdff57, @0xfeffab, @0xf0ffab, @0xd2ff00, @0xa8cc00, @0x7e9900, @0x038001, @0x04a101, @0x05c001, @0x44bf41, @0x81bf80, @0x81c0b8, @0x41c0af, @0x00c0a7, @0x00a18c, @0x00806f, @0x040099, @0x0500cc, @0x0600ff, @0x5b57ff, @0xadabff, @0xd8abff, @0xb157ff, @0x6700bf, @0x5700a1, @0x450080, @0x630080, @0x7d00a1, @0x9500c0, @0xa341bf, @0xb180bf, @0xbf80b2, @0xbf41a6, @0xbf0199, @0xa10181, @0x800166, @0x999999, @0xb3b3b3, @0xcccccc, @0xe6e6e6, @0xffffff];
         
         
         
@@ -158,7 +176,7 @@
         
         mainOutPutFrame = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight*0.75)];
         mainOutPutFrame.backgroundColor = [UIColor blackColor];
-        [self.view addSubview:mainOutPutFrame];
+//        [self.view addSubview:mainOutPutFrame];
         
         self.arrayOfFilters = [[NSMutableArray alloc] init];
         self.latestImagesArray =[[NSMutableArray alloc] init];
@@ -218,8 +236,8 @@
         
         self.animatedView = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-50, 0, 100, 50)];
         [self.animatedView addTarget:self action:@selector(finalProcessTapped) forControlEvents:UIControlEventTouchUpInside];
-        self.animatedView.titleLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:55];
-        [self.animatedView setTitle:@"Go" forState:UIControlStateNormal];
+        self.animatedView.titleLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:85];
+        [self.animatedView setTitle:@"⇢" forState:UIControlStateNormal];
         [self.animatedView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.shadowAnimation = [JTSlideShadowAnimation new];
         self.shadowAnimation.animatedView = self.animatedView;
@@ -227,7 +245,7 @@
         self.animatedView.alpha = 0;
         [bottomLine addSubview:self.animatedView];
         
-        [self createResizableTextView];
+        
         
         captureButton = [[UIButton alloc] initWithFrame:CGRectMake(10,self.mainScrollView.frame.size.height-80, 70, 70)];
         UIImage *btnImage3 = [UIImage imageNamed:@"CaptureButton"];
@@ -241,7 +259,7 @@
         UIPanGestureRecognizer * capturePan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(captureDragged:)];
         
         [captureButton addGestureRecognizer:capturePan];
-        [self.view addSubview:captureButton];
+        [mainOutPutFrame addSubview:captureButton];
         
         
         
@@ -328,7 +346,7 @@
         
         cameraSlideTopLimit = [self.dmut center].y;
         
-        self.userScore = [[GLUserScore alloc] initWithView:self.view];
+        
         
         
         
@@ -342,14 +360,14 @@
         //        effectView.hidden = NO;
         
         
-//        self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 20, 40, 70)];
+        //        self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 20, 40, 70)];
         self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 23, 27, 45)];
         
         self.backButton.alpha = 0;
-//        self.backButton.backgroundColor = [UIColor redColor];
+        //        self.backButton.backgroundColor = [UIColor redColor];
         [self.backButton setBackgroundImage:[UIImage imageNamed:@"feedBackIcon"] forState:UIControlStateNormal];
-//        [self.backButton setImage:[UIImage imageNamed:@"feedBackIcon"] forState:UIControlStateNormal];
-//        self.backButton.imageEdgeInsets = UIEdgeInsetsMake(-10, -15, -25, 0);
+        //        [self.backButton setImage:[UIImage imageNamed:@"feedBackIcon"] forState:UIControlStateNormal];
+        //        self.backButton.imageEdgeInsets = UIEdgeInsetsMake(-10, -15, -25, 0);
         
         
         [self.backButton addTarget:self action:@selector(backButtonPressed)
@@ -391,10 +409,304 @@
         
         
         
+
+        
+        cameraFeaturesScroller = [[UIScrollView alloc] initWithFrame:self.mainScrollView.frame];
+        cameraFeaturesScroller.contentSize = CGSizeMake(self.mainScrollView.frame.size.width*2, self.mainScrollView.frame.size.height);
+        cameraFeaturesScroller.pagingEnabled = YES;
+        cameraFeaturesScroller.bounces = NO;
+        cameraFeaturesScroller.delegate = self;
+        cameraFeaturesScroller.tag = ScrollerTypeCameraFeaturesScroller;
+        [cameraFeaturesScroller addSubview:mainOutPutFrame];
+        
+        
+//        UIView * testv = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, mainOutPutFrame.frame.size.width, mainOutPutFrame.frame.size.height)];
+//        testv.backgroundColor = [UIColor purpleColor];
+//        
+//        [cameraFeaturesScroller addSubview:testv];
+//        [self createGradientBackgroundVIew];
+        
+        gradBackgroundView = [[GLCameraGradientView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) colorsArrayInHex:@[@"0xf07480",@"0x40b4b5"]];
+        gradBackgroundView.backgroundColor = [UIColor purpleColor];
+        
+        gradBackgroundViewWrapper = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height)];
+//        gradBackgroundViewWrapper.backgroundColor = [UIColor redColor];
+        
+        
+        
+        [gradBackgroundViewWrapper addSubview:gradBackgroundView];
+        [cameraFeaturesScroller addSubview:gradBackgroundViewWrapper];
+        
+        [self createGradientBackgroundVIew];
+        
+        [self.view addSubview:cameraFeaturesScroller];
+        
+        [self createResizableTextView];
+        
+        self.userScore = [[GLUserScore alloc] initWithView:self.view];
+        
+//        UISwipeGestureRecognizer*   swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+//        swipeGesture.delegate = self;
+//        [mainOutPutFrame addGestureRecognizer:swipeGesture];
+        
+        
+        
+        
+        
         
         
     }
     return self;
+}
+
+//-(void)createResizableTextViewForGradient {
+//    
+//    CGRect screenRect = kScreenBounds;
+//    CGFloat screenWidth = screenRect.size.width;
+//    //    CGFloat screenHeight = screenRect.size.height;
+//    
+//    
+////    gradientResizeAbleView
+//    
+//    CGRect gripFrame = CGRectMake(screenWidth/4, screenWidth/3, screenWidth/2, screenWidth/1.5);
+//    self.resizeAbleView = [[GLResizeableView alloc] initWithFrame:gripFrame];
+//    UIView *contentView = [[UIView alloc] initWithFrame:gripFrame];
+//    [contentView setBackgroundColor:[UIColor clearColor]];
+//    self.resizeAbleView.contentView = contentView;
+//    self.resizeAbleView.delegate = self;
+//    self.resizeAbleView.parentView = self.view;
+//    //    [self.resizeAbleView hideEditingHandles];
+//    
+////    self.resizeAbleView.alpha = 0;
+//    
+//    
+//    CGFloat minWidth  = 100;
+//    CGFloat minHeight = 50;
+//    
+//    UITapGestureRecognizer * tapOnWindow = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resizeableTapped:)];
+//    [self.resizeAbleView addGestureRecognizer:tapOnWindow];
+//    
+//    
+//    
+//    
+//    testLabel = [[UILabel alloc] initWithFrame:CGRectMake(-self.resizeAbleView.frame.size.width, -self.resizeAbleView.frame.size.height, self.resizeAbleView.frame.size.width, self.resizeAbleView.frame.size.height)];
+//    testLabel.center = self.resizeAbleView.center;
+//    testLabel.text = @"Hi :)";
+//    testLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:300];
+//    testLabel.textAlignment = NSTextAlignmentCenter;
+//    testLabel.numberOfLines = 6;
+//    testLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+//    testLabel.textColor = [UIColor whiteColor];
+//    
+//    
+//    dummyTextField = [[UITextField alloc] initWithFrame:gripFrame];
+//    dummyTextField.alpha = 0;
+//    dummyTextField.delegate = self;
+//    [self.view addSubview:dummyTextField];
+//    
+//    dummyTextField.returnKeyType = UIReturnKeyDone;
+//    dummyTextField.keyboardAppearance = UIKeyboardAppearanceAlert;
+//    dummyTextField.textAlignment = NSTextAlignmentCenter;
+//    dummyTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+//    //    dummyTextField.
+//    
+//    [dummyTextField addTarget:self
+//                       action:@selector(textFieldDidChange)
+//             forControlEvents:UIControlEventEditingChanged];
+//    
+//    dummyTextField.text = testLabel.text;
+//    
+//    
+//    self.editTextViewObj.userInteractionEnabled = NO;
+//    
+//    testLabel.userInteractionEnabled = NO;
+//    
+//    self.editTextViewObj.delegate = self;
+//    self.editTextViewObj.parentView = self.view;
+//    
+//    
+//    [self.resizeAbleView addSubview:testLabel];
+//    [self sizeLabel:testLabel toRect:self.resizeAbleView.contentView.frame];
+//    
+//    
+////    [mainOutPutFrame addSubview:self.resizeAbleView];
+//    
+//    self.editPallette.alpha = 0;
+//    
+//    
+//    self.colorArray = [[NSMutableArray alloc] init];
+//    self.colorArray = @[ @0x000000, @0x262626, @0x4d4d4d, @0x666666, @0x808080, @0x990000, @0xcc0000, @0xfe0000, @0xff5757, @0xffabab, @0xffabab, @0xffa757, @0xff7900, @0xcc6100, @0x994900, @0x996f00, @0xcc9400, @0xffb900, @0xffd157, @0xffe8ab, @0xfff4ab, @0xffe957, @0xffde00, @0xccb200, @0x998500, @0x979900, @0xcacc00, @0xfcff00, @0xfdff57, @0xfeffab, @0xf0ffab, @0xd2ff00, @0xa8cc00, @0x7e9900, @0x038001, @0x04a101, @0x05c001, @0x44bf41, @0x81bf80, @0x81c0b8, @0x41c0af, @0x00c0a7, @0x00a18c, @0x00806f, @0x040099, @0x0500cc, @0x0600ff, @0x5b57ff, @0xadabff, @0xd8abff, @0xb157ff, @0x6700bf, @0x5700a1, @0x450080, @0x630080, @0x7d00a1, @0x9500c0, @0xa341bf, @0xb180bf, @0xbf80b2, @0xbf41a6, @0xbf0199, @0xa10181, @0x800166, @0x999999, @0xb3b3b3, @0xcccccc, @0xe6e6e6, @0xffffff];
+//    
+//    int numOfColors = 69;
+//    
+//    
+//    
+//    self.colors = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+//    self.colors.backgroundColor = [UIColor clearColor];
+//    self.colors.delegate = self;
+//    
+//    UITapGestureRecognizer *colorSelectedGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(colorDidSelected:)];
+//    [colorSelectedGest setDelegate:self];
+//    
+//    [self.colors addGestureRecognizer:colorSelectedGest];
+//    
+//    self.colorViewsArray = [[NSMutableArray alloc] init];
+//    
+//    for(int x = 0; x < numOfColors;x++){
+//        
+//        UIView * colorView = [[UIView alloc] initWithFrame:CGRectMake(x*40, 4, 33, 33)];
+//        colorView.clipsToBounds = NO;
+//        colorView.layer.cornerRadius = 16.5;
+//        int c = (int)[self.colorArray objectAtIndex:x];
+//        colorView.backgroundColor = UIColorFromRGB(c);
+//        [self.colorViewsArray addObject:colorView];
+//        [self.colors addSubview:colorView];
+//        
+//    }
+//    
+//    self.colors.contentSize = CGSizeMake(numOfColors*40,50);
+//    self.colors.tag = ScrollerTypeColorsScroller;
+//    
+//    UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 37)];
+//    numberToolbar.barStyle = UIBarStyleBlackTranslucent;
+//    [numberToolbar addSubview:self.colors];
+//    
+//    dummyTextField.inputAccessoryView = numberToolbar;
+//    
+//}
+
+//- (void)toggleGradView {
+//    
+//    [self.videoCamera pauseCameraCapture];
+//    [self createGradientBackgroundVIew];
+//    doingGeadientBg = YES;
+//    [dummyTextField becomeFirstResponder];
+//    [self presentTheGradientScroller];
+//}
+
+- (void)createGradientBackgroundVIew {
+    
+    
+//    GLCameraGradientView * gradBackgroundView = [[GLCameraGradientView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*2, 0, self.view.frame.size.width, self.view.frame.size.width) colorsArrayInHex:@[@"0xf07480",@"0x40b4b5"]];
+//    [cameraFeaturesScroller addSubview:gradBackgroundView];
+    
+//    [self addTextToImageTapped];
+//    [mainOutPutFrame bringSubviewToFront:self.resizeAbleView];
+    
+    
+    
+    gradientColorsScroller = [[UIScrollView alloc] initWithFrame:CGRectMake(5, 20, self.view.frame.size.width-5, 50)];
+    gradientColorsScroller.backgroundColor = [UIColor clearColor];
+    gradientColorsScroller.delegate = self;
+    
+    UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    
+    gradientBlurredBgEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    
+    gradientBlurredBgEffectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 65);
+    [gradientBlurredBgEffectView addSubview:gradientColorsScroller];
+    
+    
+    [gradBackgroundViewWrapper addSubview:gradientBlurredBgEffectView];
+//    
+    UITapGestureRecognizer * gradientColorSelected = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gradientColorDidSelected:)];
+    [gradientColorSelected setDelegate:self];
+    
+    [gradientColorsScroller addGestureRecognizer:gradientColorSelected];
+    
+    gradientColorViewsArray = [[NSMutableArray alloc] init];
+    
+    for(int x = 0; x < self.colorArray.count;x++){
+        
+        UIView * colorView = [[UIView alloc] initWithFrame:CGRectMake(x*40, 4, 33, 33)];
+        colorView.clipsToBounds = NO;
+        //        colorView.layer.cornerRadius = 16.5;
+        int c = (int)[self.colorArray objectAtIndex:x];
+        colorView.backgroundColor = UIColorFromRGB(c);
+        [gradientColorViewsArray addObject:colorView];
+        [gradientColorsScroller addSubview:colorView];
+        
+    }
+    
+    gradientColorsScroller.contentSize = CGSizeMake(self.colorArray.count*40,50);
+    gradientColorsScroller.tag = ScrollerTypeColorsScroller;
+    
+    
+    
+    
+    
+    //    [dummyTextField becomeFirstResponder];
+    
+    
+}
+
+-(void)presentTheGradientScroller {
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        gradientBlurredBgEffectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 65);
+        //        flashButton.alpha = 0;
+    }];
+    
+}
+
+-(void)hideTheGradientScroller {
+    [UIView animateWithDuration:0.3 animations:^{
+        gradientBlurredBgEffectView.frame = CGRectMake(0, -65, self.view.frame.size.width, 65);
+    }];
+}
+
+- (void)gradientColorDidSelected:(UITapGestureRecognizer *)tapGesture {
+    
+    CGPoint touchPoint = [tapGesture locationInView: gradientColorsScroller];
+    NSLog(@"the x is: %f",floor((touchPoint.x+0.5)/40));
+    
+    int tIndex = floor((touchPoint.x+0.5)/40);
+    
+    int tempColor = (int)[self.colorArray objectAtIndex:tIndex];
+    
+    UIColor * one = UIColorFromRGB(tempColor);
+    UIColor * two = UIColorFromRGB(tempColor);
+    
+    [gradBackgroundView updateGradientWithColors:@[one,two]];
+    
+    
+    UIView * selectedColorView = [gradientColorViewsArray objectAtIndex:tIndex];
+    
+    for(UIView * colorV in gradientColorViewsArray){
+        if(colorV == selectedColorView){
+            colorV.clipsToBounds = YES;
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                
+                colorV.transform = CGAffineTransformScale(colorV.transform, 0.3, 0.3);
+                
+            } completion:^(BOOL finished){
+                [UIView animateWithDuration:0.3 animations:^{
+                    colorV.transform = CGAffineTransformScale(colorV.transform, 2, 2);
+                }];
+                
+            }];
+            
+        } else {
+            if(colorV.clipsToBounds){
+                colorV.clipsToBounds = NO;
+                [UIView animateWithDuration:0.3 animations:^{
+                    colorV.transform = CGAffineTransformScale(colorV.transform, 1.6, 1.6);
+                }];
+            }
+        }
+    }
+    
+    
+    //    [UIView transitionWithView:testLabel duration:0.20 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+    //        [testLabel setTextColor:UIColorFromRGB(tempColor)];
+    //        testLabel.transform = CGAffineTransformScale(testLabel.transform, 1.20f, 1.20f);
+    //    } completion:^(BOOL finished) {
+    //        [UIView transitionWithView:testLabel duration:0.20 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+    //            testLabel.transform = CGAffineTransformIdentity;
+    //        } completion:nil];
+    //    }];
+    
 }
 
 - (void)colorDidSelected:(UITapGestureRecognizer *)tapGesture {
@@ -546,11 +858,11 @@
             [UIView animateWithDuration:0.2 animations:^{
                 
                 self.animatedView.alpha = 1;
-//                [UIView animateWithDuration:0.2 animations:^{
-//                    self.animatedView.transform = CGAffineTransformScale(self.animatedView.transform, 1.5, 1.5);
-//                } completion:^(BOOL finished) {
-//                    
-//                }];
+                //                [UIView animateWithDuration:0.2 animations:^{
+                //                    self.animatedView.transform = CGAffineTransformScale(self.animatedView.transform, 1.5, 1.5);
+                //                } completion:^(BOOL finished) {
+                //
+                //                }];
                 
                 
             } completion:^(BOOL finished) {
@@ -1301,7 +1613,7 @@
     self.resizeAbleView.parentView = self.view;
     //    [self.resizeAbleView hideEditingHandles];
     
-    self.resizeAbleView.alpha = 0;
+    self.resizeAbleView.alpha = 1;
     
     
     CGFloat minWidth  = 100;
@@ -1353,13 +1665,12 @@
     [self sizeLabel:testLabel toRect:self.resizeAbleView.contentView.frame];
     
     
-    [mainOutPutFrame addSubview:self.resizeAbleView];
+    [gradBackgroundView addSubview:self.resizeAbleView];
     
     self.editPallette.alpha = 0;
     
     
-    self.colorArray = [[NSMutableArray alloc] init];
-    self.colorArray = @[ @0x000000, @0x262626, @0x4d4d4d, @0x666666, @0x808080, @0x990000, @0xcc0000, @0xfe0000, @0xff5757, @0xffabab, @0xffabab, @0xffa757, @0xff7900, @0xcc6100, @0x994900, @0x996f00, @0xcc9400, @0xffb900, @0xffd157, @0xffe8ab, @0xfff4ab, @0xffe957, @0xffde00, @0xccb200, @0x998500, @0x979900, @0xcacc00, @0xfcff00, @0xfdff57, @0xfeffab, @0xf0ffab, @0xd2ff00, @0xa8cc00, @0x7e9900, @0x038001, @0x04a101, @0x05c001, @0x44bf41, @0x81bf80, @0x81c0b8, @0x41c0af, @0x00c0a7, @0x00a18c, @0x00806f, @0x040099, @0x0500cc, @0x0600ff, @0x5b57ff, @0xadabff, @0xd8abff, @0xb157ff, @0x6700bf, @0x5700a1, @0x450080, @0x630080, @0x7d00a1, @0x9500c0, @0xa341bf, @0xb180bf, @0xbf80b2, @0xbf41a6, @0xbf0199, @0xa10181, @0x800166, @0x999999, @0xb3b3b3, @0xcccccc, @0xe6e6e6, @0xffffff];
+    
     
     int numOfColors = 69;
     
@@ -1398,6 +1709,7 @@
     dummyTextField.inputAccessoryView = numberToolbar;
     
 }
+
 
 -(void)textFieldDidChange {
     
@@ -1494,6 +1806,10 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
+    NSLog(@"%f",scrollView.contentOffset.x);
+//    if(scrollView.contentOffset.x){
+//    self.mainScrollView.userInteractionEnabled = NO;
+//    }
     
     if (self.lastContentOffset > scrollView.contentOffset.y)
         scrollDirection = ScrollDirectionUp;
@@ -1578,22 +1894,55 @@
     
 }
 
+-(void) featuresScrollerEndScrolling {
+
+
+    NSLog(@"end scrolling");
+    
+    int page = cameraFeaturesScroller.contentOffset.x / cameraFeaturesScroller.frame.size.width;
+    
+    NSLog(@"page: %D",page);
+    
+    if(page == 1){
+    
+    
+        doingGeadientBg = YES;
+    }
+
+}
+
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+//    scrollView.
     if(scrollView.tag == ScrollerTypeFilterScroller){
+//        NSLog(@"",scrollView);
+//        self.mainScrollView.userInteractionEnabled = NO;
         [self stoppedScrolling];
     }
     
+    if(scrollView.tag == ScrollerTypeCameraFeaturesScroller){
+        [self featuresScrollerEndScrolling];
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
                   willDecelerate:(BOOL)decelerate
 {
     if(scrollView.tag == ScrollerTypeFilterScroller){
+        
+//        self.mainScrollView.userInteractionEnabled = NO;
         if (!decelerate) {
+         
             [self stoppedScrolling];
         }
+    }
+    
+    if(scrollView.tag == ScrollerTypeCameraFeaturesScroller){
+        if (!decelerate) {
+            [self featuresScrollerEndScrolling];
+        }
+        
     }
 }
 
@@ -1638,6 +1987,12 @@
 }
 
 
+
+- (void)scrollViewWillBeginDragging:(UIScrollView*)scrollView {
+    
+    NSLog(@"%f",scrollView.contentOffset.x);
+    
+}
 
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
@@ -1686,11 +2041,11 @@
             self.cropViewController = nil;
         }
         
-//        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
-//        options.synchronous  = YES;
-//        options.resizeMode = PHImageRequestOptionsResizeModeExact;
-//        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-
+        //        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
+        //        options.synchronous  = YES;
+        //        options.resizeMode = PHImageRequestOptionsResizeModeExact;
+        //        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+        
         
         __block M13ProgressViewPie * progressView = [[M13ProgressViewPie alloc] initWithFrame:CGRectMake(0, 0, [[self.carousel itemViewAtIndex:index] frame].size.height/4, [[self.carousel itemViewAtIndex:index] frame].size.height/4)];
         progressView.center = [[self.carousel itemViewAtIndex:index] center];
@@ -1698,8 +2053,8 @@
         [progressView setPrimaryColor:[UIColor whiteColor]];
         [progressView setSecondaryColor:[UIColor whiteColor]];
         [progressView setProgress:0.0 animated:NO];
-//        progressView
-//        progressView.hidden = YES;
+        //        progressView
+        //        progressView.hidden = YES;
         
         PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
         options.resizeMode = PHImageRequestOptionsResizeModeExact;
@@ -1736,14 +2091,14 @@
                              animations:^(void){
                                  [progressView setAlpha:0];
                                  
-//                                 controller.layer.backgroundColor = [UIColor blueColor].CGColor;
+                                 //                                 controller.layer.backgroundColor = [UIColor blueColor].CGColor;
                              }
                              completion:^(BOOL done){
                                  [progressView removeFromSuperview];
                                  progressView = nil;
                              }];
             
-//            [progressView setHidden:YES];
+            //            [progressView setHidden:YES];
             
             
         }];
@@ -1980,18 +2335,25 @@
 
 
 -(void)resizeableTapped:(UITapGestureRecognizer*)tap {
+//    if(doingGeadientBg){
+//        [self presentTheGradientScroller];
+//    }
+    
     [dummyTextField becomeFirstResponder];
-    [self addTextToImageTapped];
+    cameraFeaturesScroller.scrollEnabled = NO;
+//    [self addTextToImageTapped];
 }
 
 
 - (void)userResizableViewDidBeginEditing:(GLResizeableView *)userResizableView {
     [self.resizeAbleView showEditingHandles];
+    cameraFeaturesScroller.scrollEnabled = NO;
 }
 
 - (void)userResizableViewDidEndEditing:(GLResizeableView *)userResizableView {
     if(!isEditing){
         [self.resizeAbleView hideEditingHandles];
+    cameraFeaturesScroller.scrollEnabled = YES;
     }
 }
 
@@ -2004,13 +2366,20 @@
     if ([self.resizeAbleView hitTest:[touch locationInView:self.resizeAbleView] withEvent:nil]) {
         return NO;
     }
+//    self.mainScrollView.scrollEnabled = NO;
     return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [dummyTextField resignFirstResponder];
+//    if(doingGeadientBg){
+//        [self hideTheGradientScroller];
+//    }
     [self.resizeAbleView hideEditingHandles];
     isEditing = NO;
+    
+    [self setCameraViewInEditMode:YES];
+    
     return NO;
 }
 
@@ -2020,9 +2389,11 @@
 }
 
 - (void)keyboardDidHide: (NSNotification *) notif{
-    if(!isEditing){
+    if(isEditing){
         [self.resizeAbleView hideEditingHandles];
+        cameraFeaturesScroller.scrollEnabled = YES;
     }
+
     isEditing = NO;
 }
 
@@ -2061,6 +2432,9 @@
 
 -(void)dismissKeyboard {
     [dummyTextField endEditing:YES];
+    if(doingGeadientBg){
+        [self hideTheGradientScroller];
+    }
 }
 
 - (UIImage *)imageToFitSize:(CGSize)fitSize method:(MGImageResizingMethod)resizeMethod image:(UIImage*) imageToResize
@@ -2226,7 +2600,7 @@
             self.animatedView.alpha = 1;
         } completion:^(BOOL finished) {
             [self.shadowAnimation start];
-
+            
             
             CABasicAnimation *theAnimation;
             theAnimation=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
@@ -2306,8 +2680,8 @@
     
     if(self.isInFeedMode){
         
-            [self.delegate videoSelected];
-            self.goneUploadAmovie = NO;
+        [self.delegate videoSelected];
+        self.goneUploadAmovie = NO;
         
         
     }
@@ -2318,11 +2692,11 @@
     self.library = [[ALAssetsLibrary alloc] init];
     [self.library saveImage:image toAlbum:@"Glance" withCompletionBlock:^(NSError *error) {
         if(error){
-                [KVNProgress showErrorWithStatus:@"Image failed to saved"];
+            [KVNProgress showErrorWithStatus:@"Image failed to saved"];
         } else {
-//                    [KVNProgress showSuccessWithStatus:@"Image saved succesfully to custom album"];
+            //                    [KVNProgress showSuccessWithStatus:@"Image saved succesfully to custom album"];
         }
-
+        
     }];
     
     if(self.isInFeedMode){
@@ -2336,43 +2710,30 @@
     
     
     //    if(){}
-    if(self.goneUploadAmovie == YES){
-        [self.previewPlayer stop];
-    }
-    if(self.isInFeedMode){
-        
-        if(self.cropViewController != nil){
-            [self.cropViewController.view removeFromSuperview];
-            [self.cropViewController removeFromParentViewController];
-            self.cropViewController = nil;
-        }
+    
+    
+    if(doingGeadientBg){
         
         
-        if(self.goneUploadAmovie == YES){
-            [self backFromVideoTapped];
-            [self startUploadingVideo];
-        } else {
-            UIImage * finalProccedImage = [self processImageBySourceAndPrepareWithTextandSizes];
-            [self startUploadingAsset:finalProccedImage];
-        }
-        [self closeCameraViewWithSlideFromFeed];
-        [self createResizableTextView];
-        cameraIsOpen = NO;
+
+       UIImage * image = [self imageWithView:gradBackgroundView];
+        image = [self imageToFitSize:CGSizeMake(image.size.width, image.size.height*0.75) method:MGImageResizeCropStart image:image];
+//        image = [self imageCroppedToFitSize:CGSizeMake(image.size.width, image.size.height*0.75) image:image];
+        [self.delegate imageSelected:image];
         
     } else {
-        
-        
-        [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeUploadingPhoto:NO completed:^{
-            
-        } executeWhenFriendsDone:^{
-            
+        if(self.goneUploadAmovie == YES){
+            [self.previewPlayer stop];
+        }
+        if(self.isInFeedMode){
             
             if(self.cropViewController != nil){
                 [self.cropViewController.view removeFromSuperview];
                 [self.cropViewController removeFromParentViewController];
                 self.cropViewController = nil;
             }
-            [self setCameraInFeed];
+            
+            
             if(self.goneUploadAmovie == YES){
                 [self backFromVideoTapped];
                 [self startUploadingVideo];
@@ -2384,8 +2745,34 @@
             [self createResizableTextView];
             cameraIsOpen = NO;
             
-        }];
-        
+        } else {
+            
+            
+            [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeUploadingPhoto:NO completed:^{
+                
+            } executeWhenFriendsDone:^{
+                
+                
+                if(self.cropViewController != nil){
+                    [self.cropViewController.view removeFromSuperview];
+                    [self.cropViewController removeFromParentViewController];
+                    self.cropViewController = nil;
+                }
+                [self setCameraInFeed];
+                if(self.goneUploadAmovie == YES){
+                    [self backFromVideoTapped];
+                    [self startUploadingVideo];
+                } else {
+                    UIImage * finalProccedImage = [self processImageBySourceAndPrepareWithTextandSizes];
+                    [self startUploadingAsset:finalProccedImage];
+                }
+                [self closeCameraViewWithSlideFromFeed];
+                [self createResizableTextView];
+                cameraIsOpen = NO;
+                
+            }];
+            
+        }
     }
     
     
@@ -2717,17 +3104,7 @@
 
 #pragma mark - Camera Actions
 
--(void) approveTextTapped {
-    
-    [dummyTextField endEditing:YES];
-    [self.resizeAbleView hideEditingHandles];
-    [UIView animateWithDuration:0.5 animations:^{
-        trashTextButton.alpha = 0;
-        approveTextButton.alpha = 0;
-        backToCameraButton.alpha = 1;
-        addTextButton.alpha = 1;
-    }];
-}
+
 
 -(void) updateFiltersWithSelectedImage:(UIImage *)image {
     
@@ -2773,7 +3150,7 @@
         
         
         
-//
+        //
         
         
         [[GPUImageContext sharedFramebufferCache] purgeAllUnassignedFramebuffers];
@@ -2822,13 +3199,13 @@
             NSLog(@"landscape");
             
             
-//            UIImage *imageToDisplay =
-//            [UIImage imageWithCGImage:[originalImage CGImage]
-//                                scale:1.0
-//                          orientation: UIImageOrientationUp];
+            //            UIImage *imageToDisplay =
+            //            [UIImage imageWithCGImage:[originalImage CGImage]
+            //                                scale:1.0
+            //                          orientation: UIImageOrientationUp];
             
             UIImage * unrotatedImage = [self unrotateImage:processedImage];
-//            UIImage * normalized = [self normalizedImage:processedImage];
+            //            UIImage * normalized = [self normalizedImage:processedImage];
             [self retrievePhotoFromPicker:[self unrotateImage:processedImage]];
         }
         
@@ -2840,14 +3217,26 @@
     
 }
 
--(void)savedone {
-    
+- (void) approveTextTapped {
+  
+    cameraFeaturesScroller.scrollEnabled = YES;
+    [dummyTextField endEditing:YES];
+    [self.resizeAbleView hideEditingHandles];
+    [UIView animateWithDuration:0.5 animations:^{
+        trashTextButton.alpha = 0;
+        approveTextButton.alpha = 0;
+        backToCameraButton.alpha = 1;
+        addTextButton.alpha = 1;
+    }];
 }
 
 -(void) trashTheText {
     
     addText = NO;
+    
+    
     [dummyTextField resignFirstResponder];
+    [self hideTheGradientScroller];
     [UIView animateWithDuration:0.5 animations:^{
         self.resizeAbleView.alpha = 0;
         addTextButton.alpha = 1;
@@ -2855,12 +3244,21 @@
         approveTextButton.alpha = 0;
         backToCameraButton.alpha = 1;
     }];
+    
+    
+    [self.resizeAbleView removeFromSuperview];
+//    [mainOutPutFrame addSubview:self.resizeAbleView];
+    cameraFeaturesScroller.scrollEnabled = YES;
+    
     [self createResizableTextView];
 }
 
 -(void)addTextToImageTapped {
     
     addText = YES;
+    [self.resizeAbleView removeFromSuperview];
+    [mainOutPutFrame addSubview:self.resizeAbleView];
+    cameraFeaturesScroller.scrollEnabled = NO;
     
     [UIView animateWithDuration:0.5 animations:^{
         addTextButton.alpha = 0;
@@ -2887,8 +3285,15 @@
     if([sender isKindOfClass:[UIButton class]]){
         [self.videoCamera startCameraCapture];
     }
-    [UIView animateWithDuration:0.5 animations:^{
+    
+    
+
+    
+    [UIView animateWithDuration:0.25 animations:^{
         self.resizeAbleView.alpha = 0;
+    } completion:^(BOOL finished) {
+            [self.resizeAbleView removeFromSuperview];
+        [self createResizableTextView];
     }];
     
 }
@@ -2925,6 +3330,7 @@
     
     self.mainScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, filterViewWidth, screenHeigth*0.75)];
     
+//    self.mainScrollView.directionalLockEnabled = YES;
     self.mainScrollView.backgroundColor = [UIColor blackColor];
     self.mainScrollView.tag = ScrollerTypeFilterScroller;
     self.mainScrollView.delegate = self;
@@ -2943,6 +3349,8 @@
     self.mainScrollView.contentSize = CGSizeMake(filterViewWidth, ((screenHeigth*0.75)* numberOfViews));
     
     [mainOutPutFrame addSubview:self.mainScrollView];
+    
+//    self.mainScrollView.scrollEnabled = NO;
     
     UIView * buttonBg1 = [[UIView alloc] initWithFrame:CGRectMake(10, 0, 60, 60)];
     buttonBg1.backgroundColor = [UIColor blackColor];
@@ -2963,11 +3371,21 @@
     UIImage *btnImage2 = [UIImage imageNamed:@"flashAutoIcon"];
     [flashButton addTarget:self action:@selector(toggleFlash) forControlEvents:UIControlEventTouchUpInside];
     [flashButton setImage:btnImage2 forState:UIControlStateNormal];
-    [self.view addSubview:flashButton];
+    [mainOutPutFrame addSubview:flashButton];
     
     flashButton.alpha = 0;
     
     flashIsOn = NO;
+    
+    
+    
+//    addGrdientButton = [[UIButton alloc] initWithFrame:CGRectMake(filterViewWidth - 48, 70, 33, 33)];
+//    UIImage *btnImage3 = [UIImage imageNamed:@"gradientBgButtonCamera"];
+//    [addGrdientButton addTarget:self action:@selector(toggleGradView) forControlEvents:UIControlEventTouchUpInside];
+//    [addGrdientButton setImage:btnImage3 forState:UIControlStateNormal];
+//    [mainOutPutFrame addSubview:addGrdientButton];
+    
+    
     
 }
 

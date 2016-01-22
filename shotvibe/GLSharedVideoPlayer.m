@@ -62,12 +62,12 @@
     if(event == MFSideMenuStateEventMenuDidOpen){
         
         putOnHold = YES;
-        [moviePlayer pause];
+        [self pause];
         
     } else if(event == MFSideMenuStateEventMenuDidClose){
 
         putOnHold = NO;
-        [moviePlayer play];
+        [self play];
         
     }
 }

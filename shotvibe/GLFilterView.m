@@ -81,17 +81,17 @@
         
         self.sliderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 50)];
 //        self.sliderView.backgroundColor = [UIColor redColor];
-        [self.container addSubview:self.sliderView];
+//        [self.container addSubview:self.sliderView];
         
         UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(sineXYPad:)];
             pan.delegate = self;
-            [self.container addGestureRecognizer:pan];
+//            [self.container addGestureRecognizer:pan];
         
         self.filterSettingsSlider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 200, 50)];
         self.filterSettingsSlider.continuous = YES;
         [self.filterSettingsSlider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         [self.filterSettingsSlider setHidden:YES];
-        [self.container addSubview:self.filterSettingsSlider];
+//        [self.container addSubview:self.filterSettingsSlider];
         
         
         

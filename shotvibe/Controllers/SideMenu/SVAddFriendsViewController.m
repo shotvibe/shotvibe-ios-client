@@ -169,10 +169,7 @@
         [self contactsSourceChanged:self.contactsSourceSelector];
         self.tableView.frame = CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height+self.proceedButton.frame.size.height);
         
-        UIImageView * tableBg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 400, self.view.frame.size.width, 200)];
-        tableBg.image = [UIImage imageNamed:@"refrehBg"];
         
-        self.tableView.backgroundView = tableBg;
     }
     
     //    else if(self.state == SVAddFriendsMainWithoutIamge) {

@@ -676,9 +676,17 @@ CGFloat kResizeThumbSize = 45.0f;
     //    [[[GLSharedCamera sharedInstance]cameraViewBackground]setAlpha:0];
     [super viewWillAppear:animated];
     
-    UIImageView * background = [[UIImageView alloc] initWithFrame:CGRectMake(0, 202, self.view.frame.size.width, 130)];
-    background.image = [UIImage imageNamed:@"refrehBg"];
+//    UIImageView * background = [[UIImageView alloc] initWithFrame:CGRectMake(0, 202, self.view.frame.size.width, 130)];
+//    background.image = [UIImage imageNamed:@"refrehBg"];
     self.tableView.backgroundColor = [UIColor clearColor];
+    
+
+    
+//    UIImageView * tableBg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 400, self.view.frame.size.width, 200)];
+//    tableBg.image = [UIImage imageNamed:@"refrehBg"];
+//    
+//    self.tableView.backgroundView = tableBg;
+    
     //    [self.refreshControl addSubview:background];
     //    [self.view bringSubviewToFront:self.tableView];
     //    [[self.refreshControl.subviews objectAtIndex:0] setFrame:CGRectMake(30, 400, 20, 50)];

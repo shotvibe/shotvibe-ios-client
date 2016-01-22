@@ -12,7 +12,8 @@ typedef enum ScrollerType {
     ScrollerTypeFilterScroller,
     ScrollerTypeRecentsPhotosScroller,
     ScrollerTypeFontsScroller,
-    ScrollerTypeColorsScroller
+    ScrollerTypeColorsScroller,
+    ScrollerTypeCameraFeaturesScroller
 } ScrollerType;
 
 
