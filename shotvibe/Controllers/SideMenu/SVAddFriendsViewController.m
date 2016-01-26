@@ -909,6 +909,7 @@
     
                 
                 [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:[album getId]  completed:^{
+                    [[GLContainersViewController sharedInstance] resetFriendsView];
                     if(self.friendsDoneBlock){
                         self.friendsDoneBlock();
                     } else {

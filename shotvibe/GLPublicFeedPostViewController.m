@@ -352,7 +352,9 @@
         
         cell.videoBadge.alpha = 1;
         
-        [[GLSharedVideoPlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto]getId] withVideoUrl:[video getVideoUrl] videoThumbNail:cell.postImage.image tableCell:cell];
+        [[GLSharedVideoPlayer sharedInstance] setIsFromPublic:YES];
+        [[GLSharedVideoPlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto]getId] withVideoUrl:[video getVideoUrl] videoThumbNail:cell.postImage.image tableCell:cell postsArray:self.posts];
+        
         [cell.activityIndicator startAnimating];
         
         

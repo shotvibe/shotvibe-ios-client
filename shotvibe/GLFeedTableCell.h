@@ -66,4 +66,5 @@
 @property(nonatomic, retain) UIButton * backSpaceKeyBoardButton;
 @property(nonatomic, retain) UIButton * submitCommentButton;
 @property(nonatomic, retain) GLEmojiKeyboard * keyboard;
+@property(nonatomic) BOOL isVideo;
 @end

@@ -99,9 +99,9 @@
                 SLAlbumPhoto * photo = [[self.posts objectAtIndex:indexPath.row] objectAtIndex:1];
                 if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO] && [[[photo getServerPhoto] getVideo] getStatus] != [SLAlbumServerVideo_StatusEnum PROCESSING]){
                     [self checkWhichVideoToEnable];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [cell.activityIndicator startAnimating];
-                    });
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        [cell.activityIndicator startAnimating];
+//                    });
                 }
             }
         }
@@ -377,17 +377,22 @@
                     
                     //                    self.volumeButtonHandler = nil;
                     //                    self.volumeButtonHandler
-                    
+                    cell.isVideo  = YES;
                     NSString * videoUrl = [[[photo getServerPhoto] getVideo] getVideoUrl];
-                    [[GLSharedVideoPlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl videoThumbNail:cell.postImage.image tableCell:cell];
+                    
+                    
+                    
+                    [[GLSharedVideoPlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withVideoUrl:videoUrl videoThumbNail:cell.postImage.image tableCell:cell postsArray:self.posts];
                     //                    cell.activityIndicator.backgroundColor = [UIColor redColor];
                     //                    cell.activityIndicator.hidesWhenStopped = NO;
                     //                    [cell bringSubviewToFront:cell.activityIndicator];
                     [cell.activityIndicator startAnimating];
-                    
+                    break;
                     
                     
                     //                    [[GLSharedVideoPlayer sharedInstance] play];
+                } else {
+                    cell.isVideo  = NO;
                 }
                 //                    [[GLSharedVideoPlayer sharedInstance] pause];
                 
@@ -409,11 +414,11 @@
                 [cell abortCommentDidPressed];
                 if([[[GLSharedVideoPlayer sharedInstance] photoId] isEqual:[[photo getServerPhoto] getId]]){
                     [[GLSharedVideoPlayer sharedInstance] pause];
-                    
+                    break;
                     
                     //                    cell.backgroundColor = [UIColor blueColor];
                 }
-                
+            
             }
         }
     }
@@ -1065,48 +1070,14 @@
         self.posts = [[NSMutableArray alloc] init];
         for (SLAlbumPhoto *photo in [albumContents getPhotos].array) {
             
-            //            counter++;
-            //
-            //
-            //
-            //            NSString * thumUrl2 = [[photo getServerPhoto] getUrl];
-            //
-            //            NSString *new2 = [thumUrl2 stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_fhd.jpg"];
-            //
-            //            [[YYWebImageManager sharedManager] requestImageWithURL:[NSURL URLWithString:new2] options:YYWebImageOptionAllowBackgroundTask progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-            //
-            //            } transform:^UIImage *(UIImage *image, NSURL *url) {
-            //
-            //
-            //                return image;
-            //
-            //
-            //            } completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
-            //
-            //            }];
+        
+//            NSArray *mutableRetrievedArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"kHiddenPosts"];
+//            if(mutableRetrievedArray){
+//                if([mutableRetrievedArray containsObject:[[photo getServerPhoto]getId]]){
+//                    continue;
+//                }
+//            }
             
-            
-            //        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            //        [manager downloadImageWithURL:[NSURL URLWithString:[[photo getServerPhoto] getUrl]]
-            //                              options:SDWebImageHighPriority
-            //                             progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-            //                                 // progression tracking code
-            //                             }
-            //                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-            //                                if (image) {
-            //                                    // do something with image
-            //                                    [[SDImageCache sharedImageCache] storeImage:image forKey:[[photo getServerPhoto] getUrl]];
-            //
-            //                                }
-            //                            }];
-            
-            
-            
-            
-            
-            //        (SLAlbumServerPhoto_MediaTypeEnum *)VIDEO;
-            
-            //        [postsAsSLPhotos addObject:photo];
             
             NSArray * photoComments = [[photo getServerPhoto]getComments].array;
             float commentsCount = [photoComments count];
@@ -1502,6 +1473,7 @@
     //    NSString *actionSheetTitle = @"Action Sheet Demo"; //Action Sheet Title
     NSString *destructiveTitle = @"Delete Photo"; //Action Sheet Button Titles
     NSString *other1 = @"Share";
+    NSString * hideOption = @"Delete Photo";
     //    NSString *other2 = @"Other Button 2";
     //    NSString *other3 = @"Other Button 3";
     NSString *cancelTitle = @"Close";
@@ -1523,6 +1495,8 @@
     switch (buttonIndex) {
         case 0://Delete Photo
         {
+            [[GLSharedVideoPlayer sharedInstance] pause];
+            
             SLAlbumPhoto *photo = [[self.posts objectAtIndex:popup.tag] objectAtIndex:1];
             long long int uid = [[[albumManager_ getShotVibeAPI] getAuthData] getUserId];
             long long int authorIdFromPhoto = [[[photo getServerPhoto] getAuthor] getMemberId];
@@ -1539,6 +1513,8 @@
                 } onTaskComplete:^(id dummy) {
                     [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
                     [KVNProgress dismiss];
+                    [[GLSharedVideoPlayer sharedInstance] pause];
+                    [[GLSharedVideoPlayer sharedInstance] resetPlayer];
                 } onTaskFailure:^(id success) {
                     [KVNProgress showErrorWithStatus:@"Somthing went wrong..." completion:^{
                         
@@ -1547,6 +1523,22 @@
                 
                 
             } else {
+//                NSString * photoIdToHide = [[photo getServerPhoto] getId];
+                
+                
+//                NSDictionary *retrievedDictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"DicKey"];
+//                NSMutableArray *mutableRetrievedArray = [[[NSUserDefaults standardUserDefaults] objectForKey:@"kHiddenPosts"] mutableCopy];
+//                if(mutableRetrievedArray == nil){
+//                    mutableRetrievedArray = [[NSMutableArray alloc] init];
+//                }
+////                if(mutableRetrievedArray){
+//                    [mutableRetrievedArray addObject:photoIdToHide];
+//                    [[NSUserDefaults standardUserDefaults] setObject:mutableRetrievedArray forKey:@"kHiddenPosts"];
+//                    [[NSUserDefaults standardUserDefaults] synchronize];
+//                    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+////                }
+//
+//                
                 
                 [KVNProgress showErrorWithStatus:@"Hi! That's not your's to delete!" onView:self.view completion:^{
                     NSLog(@"");
@@ -1701,7 +1693,9 @@
 
 -(void)sharePostPressed:(UIButton*)sender {
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
-    [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:NO photoId:cell.photoId];
+    [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:NO photoId:cell.photoId completed:^{
+        [[GLContainersViewController sharedInstance] resetFriendsView];
+    }];
 }
 
 -(void)backPressed {

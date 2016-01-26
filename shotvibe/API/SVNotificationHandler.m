@@ -68,7 +68,7 @@ static void showNotificationBanner(NSString *message)
 - (void)HandleWithSLNotificationMessage_PhotosAdded:(SLNotificationMessage_PhotosAdded *)msg
 {
     [albumManager_ reportAlbumUpdateWithLong:[msg getAlbumId]];
-    
+//    msg get
     
 //    NSString * pushType = [[userInfo objectForKey:@"d"] objectForKey:@"type"];
 //    long long int albumId = [[userInfo objectForKey:@"d"] objectForKey:@"album_id"];

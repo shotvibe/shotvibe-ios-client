@@ -7,6 +7,8 @@
 //
 
 #import "GLSharedVideoPlayer.h"
+#import "SL/AlbumPhoto.h"
+#import "SL/MediaType.h"
 
 
 @interface GLSharedVideoPlayer ()
@@ -68,6 +70,7 @@
 
         putOnHold = NO;
         [self play];
+//        [[GLSharedCamera sharedInstance] check]
         
     }
 }
@@ -75,6 +78,7 @@
 - (void)initMoviePlayer
 {
     
+//    self.isFromPublic = NO;
     playBackStarted = NO;
     putOnHold = NO;
     moviePlayer = [[MPMoviePlayerController alloc] init];
@@ -143,7 +147,7 @@
     
 }
 
-- (void)attachToView:(UIView *)parentView withPhotoId:(NSString *)targetPhotoId withVideoUrl:(NSString *)videoUrl videoThumbNail:(UIImage*)thumbNail tableCell:(GLFeedTableCell*)cell
+- (void)attachToView:(UIView *)parentView withPhotoId:(NSString *)targetPhotoId withVideoUrl:(NSString *)videoUrl videoThumbNail:(UIImage*)thumbNail tableCell:(GLFeedTableCell*)cell postsArray:(NSArray *)posts
 {
     if (![targetPhotoId isEqualToString:self.photoId]) {
         [self resetPlayer];
@@ -164,7 +168,7 @@
     longPressRecognizer.cancelsTouchesInView = NO;
     longPressRecognizer.minimumPressDuration = 0.25f;
     longPressRecognizer.numberOfTouchesRequired = 1;
-    
+    self.postsArray = [NSArray arrayWithArray:posts];
     self.currentCell = cell;
     longPressRecognizer.delegate = self;
     moviePlayer.view.userInteractionEnabled = YES;
@@ -201,10 +205,10 @@
 //    AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:_player];    layer.frame = self.frame;    layer.backgroundColor = [UIColor clearColor].CGColor;    [layer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
 //    
     
-    
+    self.photoId = targetPhotoId;
     [self play];
     
-    self.photoId = targetPhotoId;
+    
     
 }
 
@@ -224,8 +228,35 @@
     NSLog(@"GLSharedVideoPlayer play");
 //    if(moviePlayer.playbackState == MPMoviePlaybackStateStopped || moviePlayer.playbackState ==  MPMoviePlaybackStatePaused){
     
-    if(!putOnHold && ![[GLSharedCamera sharedInstance] cameraIsShown] && self.currentCell.isVisible){
+//    NSLog(@"%f",self.currentCell.frame.origin.y);
+    
+//    NSLog(@"the current cell index by pixels is %f",self.currentCell.frame.origin.y/self.currentCell.frame.size.height);
+    UITableView * tableview = self.currentCell.tableView;
+    
+//    NSLog(@"the table current page is: %f",floorf(tableview.contentOffset.y/self.currentCell.frame.size.height));
+    
+    CGFloat cellPage = self.currentCell.frame.origin.y/self.currentCell.frame.size.height;
+    CGFloat tablePage = tableview.contentOffset.y/self.currentCell.bounds.size.height;
+    
+    NSLog(@"%f - %f",cellPage,tablePage);
+//    [tableview indexPathForCell:self.currentCell];
+//    NSIndexPath * path = [nsind]
+    SLAlbumPhoto *photo;
+    NSArray * data;
+    if(self.postsArray.count > 0){
+        data = [self.postsArray objectAtIndex:floor(tablePage+0.5)];
+
+    } else {
+        data = [self.postsArray objectAtIndex:0];
+    }
+        photo = [data objectAtIndex:1];
+//    if(){
+    if(!putOnHold && ![[GLSharedCamera sharedInstance] cameraIsShown] && self.currentCell.isVisible && ([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO])  /*&& self.currentCell.photoId == self.photoId*/){
         [moviePlayer play];
+        
+    } else if(self.isFromPublic){
+        [moviePlayer play];
+        self.isFromPublic = NO;
     }
 //    }
     

@@ -287,6 +287,8 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                [[[GLSharedCamera sharedInstance] userScore] updateScoreFromPush:(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]];
                 
+//                [self.navigationController.viewControllers objectAtIndex:0];
+                NSLog(@"%@",self.navigationController.viewControllers);
                 GLContainersViewController * containersViewControllers = [GLContainersViewController sharedInstance];
                 [self.navigationController pushViewController:containersViewControllers animated:YES];
                 
@@ -431,7 +433,7 @@
                 else {
                     //self.navigationItem.rightBarButtonItem = nil;
                     //nameChanged = NO;
-                    [self handleContinueButtonPressed:nil];
+//                    [self handleContinueButtonPressed:nil];
                 }
             });
         });

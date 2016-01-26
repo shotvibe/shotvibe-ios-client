@@ -115,6 +115,8 @@
     UIButton * addGrdientButton;
     
     UIScrollView * cameraFeaturesScroller;
+    
+    NSArray * gradientColorsArray;
 }
 
 + (instancetype)sharedInstance {
@@ -149,7 +151,6 @@
         stateEdit = NO;
         fromImagePicker = NO;
         cameraIsBackView = YES;
-        
         
         
         self.colorArray = [[NSMutableArray alloc] init];
@@ -343,15 +344,8 @@
         UIPanGestureRecognizer * gest = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dmutDragged:)];
         
         [self.dmut addGestureRecognizer:gest];
-        
+
         cameraSlideTopLimit = [self.dmut center].y;
-        
-        
-        
-        
-        
-        
-        
         
         // add effect to an effect view
         effectView = [[UIVisualEffectView alloc] init];
@@ -393,6 +387,7 @@
                 [device lockForConfiguration:nil];
                 [device setFlashMode:AVCaptureFlashModeAuto];
                 [device unlockForConfiguration];
+                
             }
         }
         
@@ -616,19 +611,21 @@
     
     gradientColorViewsArray = [[NSMutableArray alloc] init];
     
-    for(int x = 0; x < self.colorArray.count;x++){
+    gradientColorsArray = @[@0xffd1dc,@0xd1fff4,@0xffd1f3,@0xffd1dc,@0xffddd1,@0xd1f3ff,@0xd1ffdd,@0xd1dcff, @0xdcffd1,@0xf4d1ff,@0xdcffd1,@0xd1fff4,@0xff85a2,@0xff9eb5,@0xffb8c9,@0xffd1dc, @0xffebef, @0xfdfd96,@0x9696fd,@0xfdca96,@0xfdfd96,@0xcafd96,@0xff6961,@0xff6181, @0xff6173,@0xff6166,@0xff6961,@0xff7661,@0x77dd77,@0xffb347];
+    
+    for(int x = 0; x < gradientColorsArray.count;x++){
         
         UIView * colorView = [[UIView alloc] initWithFrame:CGRectMake(x*40, 4, 33, 33)];
         colorView.clipsToBounds = NO;
         //        colorView.layer.cornerRadius = 16.5;
-        int c = (int)[self.colorArray objectAtIndex:x];
+        int c = (int)[gradientColorsArray objectAtIndex:x];
         colorView.backgroundColor = UIColorFromRGB(c);
         [gradientColorViewsArray addObject:colorView];
         [gradientColorsScroller addSubview:colorView];
         
     }
     
-    gradientColorsScroller.contentSize = CGSizeMake(self.colorArray.count*40,50);
+    gradientColorsScroller.contentSize = CGSizeMake(gradientColorsArray.count*40,50);
     gradientColorsScroller.tag = ScrollerTypeColorsScroller;
     
     
@@ -662,7 +659,7 @@
     
     int tIndex = floor((touchPoint.x+0.5)/40);
     
-    int tempColor = (int)[self.colorArray objectAtIndex:tIndex];
+    int tempColor = (int)[gradientColorsArray objectAtIndex:tIndex];
     
     UIColor * one = UIColorFromRGB(tempColor);
     UIColor * two = UIColorFromRGB(tempColor);
@@ -1231,6 +1228,7 @@
                     }
                     
                     NSLog(@"camera closed");
+                    [self resetFeaturesScroller];
                     //                    if(cameraIsOpen == YES){
                     if(!self.isInFeedMode){
                         [[GLContainersViewController sharedInstance] unlockScrollingPages];
@@ -1903,10 +1901,27 @@
     
     NSLog(@"page: %D",page);
     
+    [[GLContainersViewController sharedInstance] disableSideMembers];
+    
     if(page == 1){
-    
-    
+        self.colors.alpha = 0;
+        [dummyTextField becomeFirstResponder];
+        cameraFeaturesScroller.scrollEnabled = NO;
         doingGeadientBg = YES;
+    } else {
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.animatedView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self.shadowAnimation stop];
+        
+        }];
+
+        
+                cameraFeaturesScroller.scrollEnabled = YES;
+        self.colors.alpha = 1;
+        [dummyTextField resignFirstResponder];
+        doingGeadientBg = NO;
     }
 
 }
@@ -2024,6 +2039,9 @@
     
     indexOfImageFromCarousel = (int)index;
     
+    if(doingGeadientBg){
+        [self resetFeaturesScroller];
+    }
     
     if(index == [self.latestImagesArray count]){ // Set the last item in carousel to a button which opens image picker.
         self.picYourGroup.hidden = YES;
@@ -2353,7 +2371,11 @@
 - (void)userResizableViewDidEndEditing:(GLResizeableView *)userResizableView {
     if(!isEditing){
         [self.resizeAbleView hideEditingHandles];
-    cameraFeaturesScroller.scrollEnabled = YES;
+        if(doingGeadientBg){
+            cameraFeaturesScroller.scrollEnabled = YES;
+        } else {
+            cameraFeaturesScroller.scrollEnabled = NO;
+        }
     }
 }
 
@@ -2372,13 +2394,36 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [dummyTextField resignFirstResponder];
-//    if(doingGeadientBg){
-//        [self hideTheGradientScroller];
-//    }
+
+    if(doingGeadientBg){
+        cameraFeaturesScroller.scrollEnabled = YES;
+    } else {
+        cameraFeaturesScroller.scrollEnabled = NO;
+    }
     [self.resizeAbleView hideEditingHandles];
     isEditing = NO;
-    
-    [self setCameraViewInEditMode:YES];
+    if(doingGeadientBg){
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.animatedView.alpha = 1;
+        } completion:^(BOOL finished) {
+            [self.shadowAnimation start];
+            
+            
+            CABasicAnimation *theAnimation;
+            theAnimation=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
+            theAnimation.duration=0.5;
+            theAnimation.repeatCount=HUGE_VALF;
+            theAnimation.autoreverses=YES;
+            theAnimation.fromValue=[NSNumber numberWithFloat:1.0];
+            theAnimation.toValue=[NSNumber numberWithFloat:0.7];
+            theAnimation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+            [self.shadowAnimation.animatedView.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+        }];
+
+        
+//        [self setCameraViewInEditMode:YES];
+    }
     
     return NO;
 }
@@ -2389,9 +2434,38 @@
 }
 
 - (void)keyboardDidHide: (NSNotification *) notif{
+    
+    cameraFeaturesScroller.scrollEnabled = NO;
+    
     if(isEditing){
         [self.resizeAbleView hideEditingHandles];
-        cameraFeaturesScroller.scrollEnabled = YES;
+        
+        if(doingGeadientBg){
+            
+        [UIView animateWithDuration:0.2 animations:^{
+            self.animatedView.alpha = 1;
+        } completion:^(BOOL finished) {
+            [self.shadowAnimation start];
+            
+            
+            CABasicAnimation *theAnimation;
+            theAnimation=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
+            theAnimation.duration=0.5;
+            theAnimation.repeatCount=HUGE_VALF;
+            theAnimation.autoreverses=YES;
+            theAnimation.fromValue=[NSNumber numberWithFloat:1.0];
+            theAnimation.toValue=[NSNumber numberWithFloat:0.7];
+            theAnimation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+            [self.shadowAnimation.animatedView.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+        }];
+            
+            
+            cameraFeaturesScroller.scrollEnabled = YES;
+        } else {
+            cameraFeaturesScroller.scrollEnabled = NO;
+        }
+        
+        
     }
 
     isEditing = NO;
@@ -2432,9 +2506,9 @@
 
 -(void)dismissKeyboard {
     [dummyTextField endEditing:YES];
-    if(doingGeadientBg){
-        [self hideTheGradientScroller];
-    }
+//    if(doingGeadientBg){
+//        [self hideTheGradientScroller];
+//    }
 }
 
 - (UIImage *)imageToFitSize:(CGSize)fitSize method:(MGImageResizingMethod)resizeMethod image:(UIImage*) imageToResize
@@ -2596,6 +2670,7 @@
     
     isEditing = edit;
     if(edit){// YES
+        cameraFeaturesScroller.scrollEnabled = NO;
         [UIView animateWithDuration:0.2 animations:^{
             self.animatedView.alpha = 1;
         } completion:^(BOOL finished) {
@@ -2624,6 +2699,8 @@
         }];
         
     } else {
+        
+                cameraFeaturesScroller.scrollEnabled = YES;
         
         [UIView animateWithDuration:0.2 animations:^{
             self.animatedView.alpha = 0;
@@ -2704,6 +2781,10 @@
     }
 }
 
+-(void)resetFeaturesScroller {
+    doingGeadientBg = NO;
+    [cameraFeaturesScroller setContentOffset:CGPointMake(0, 0) animated:YES];
+}
 
 -(void)finalProcessTapped {
     NSLog(@"final did tapped");
@@ -2719,7 +2800,27 @@
        UIImage * image = [self imageWithView:gradBackgroundView];
         image = [self imageToFitSize:CGSizeMake(image.size.width, image.size.height*0.75) method:MGImageResizeCropStart image:image];
 //        image = [self imageCroppedToFitSize:CGSizeMake(image.size.width, image.size.height*0.75) image:image];
-        [self.delegate imageSelected:image];
+        
+        doingGeadientBg = NO;
+        if(self.isInFeedMode){
+            [self.delegate imageSelected:image];
+            [self closeCameraViewWithSlideFromFeed];
+        } else {
+            
+            [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeUploadingPhoto:NO completed:^{
+                
+            } executeWhenFriendsDone:^{
+                [self.delegate imageSelected:image];
+                [self setCameraInFeed];
+//                [self.cameraViewBackground bringSubviewToFront:self.dmut];
+                [self closeCameraViewWithSlideFromFeed];
+                
+            }];
+            
+//            [self closeCameraViewWithSlideFromMain];
+        }
+            [self resetFeaturesScroller];
+        
         
     } else {
         if(self.goneUploadAmovie == YES){
@@ -2774,6 +2875,7 @@
             
         }
     }
+    [[GLSharedVideoPlayer sharedInstance] pause];
     
     
     
@@ -3236,7 +3338,7 @@
     
     
     [dummyTextField resignFirstResponder];
-    [self hideTheGradientScroller];
+//    [self hideTheGradientScroller];
     [UIView animateWithDuration:0.5 animations:^{
         self.resizeAbleView.alpha = 0;
         addTextButton.alpha = 1;
@@ -3254,6 +3356,8 @@
 }
 
 -(void)addTextToImageTapped {
+    
+    [dummyTextField becomeFirstResponder];
     
     addText = YES;
     [self.resizeAbleView removeFromSuperview];

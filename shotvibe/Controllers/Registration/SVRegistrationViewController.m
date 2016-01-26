@@ -73,9 +73,9 @@
         SLJSONObject * json = [res bodyAsJSONObject];
         selectedCountryCode = [json getStringWithNSString:@"countryCode"];
     } @catch (SLHTTPException *exception) {
-        selectedCountryCode = nil;
+        selectedCountryCode = @"US";
     } @catch (SLJSONException * jsonexception) {
-        selectedCountryCode = nil;
+        selectedCountryCode = @"US";
     }
     
     [self hideInviteOverlay];
