@@ -288,9 +288,11 @@
                [[[GLSharedCamera sharedInstance] userScore] updateScoreFromPush:(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"]];
                 
 //                [self.navigationController.viewControllers objectAtIndex:0];
-                NSLog(@"%@",self.navigationController.viewControllers);
+//                NSLog(@"%@",self.navigationController.viewControllers);
                 GLContainersViewController * containersViewControllers = [GLContainersViewController sharedInstance];
                 [self.navigationController pushViewController:containersViewControllers animated:YES];
+                [[GLSharedCamera sharedInstance] fixAfterProfileScreenAndActivitaion];
+//                [[GLSharedCamera sharedInstance] ];
                 
                 
             });

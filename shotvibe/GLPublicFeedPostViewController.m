@@ -673,7 +673,7 @@
     [self closePressed];
     [[GLContainersViewController sharedInstance] resetFriendsView];
     
-    [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:NO photoId:cell.photoId completed:nil];
+    [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:NO photoId:cell.photoId completed:nil fromPublic:YES];
 //    [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:YES photoId:[[self.singleAlbumPhoto getServerPhoto] getId] completed:^{
 //        [[GLSharedCamera sharedInstance] setCameraInFeed];
 //        [[GLSharedCamera sharedInstance] setInFeedMode:YES dmutNeedTransform:YES];

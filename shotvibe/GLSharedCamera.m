@@ -2800,11 +2800,12 @@
        UIImage * image = [self imageWithView:gradBackgroundView];
         image = [self imageToFitSize:CGSizeMake(image.size.width, image.size.height*0.75) method:MGImageResizeCropStart image:image];
 //        image = [self imageCroppedToFitSize:CGSizeMake(image.size.width, image.size.height*0.75) image:image];
-        
+        cameraIsOpen = NO;
         doingGeadientBg = NO;
         if(self.isInFeedMode){
             [self.delegate imageSelected:image];
             [self closeCameraViewWithSlideFromFeed];
+            
         } else {
             
             [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeUploadingPhoto:NO completed:^{
@@ -3406,6 +3407,24 @@
     cameraIsBackView = isBackView;
 }
 
+
+-(void)fixAfterProfileScreenAndActivitaion {
+    [self.videoCamera rotateCamera];
+    [mainOutPutFrame bringSubviewToFront:captureButton];
+    captureButton.alpha = 1;
+    captureButton.hidden = NO;
+    [flashButton setAlpha:0];
+    [mainOutPutFrame bringSubviewToFront:self.captureTimeLineWrapper];
+    [mainOutPutFrame bringSubviewToFront:flipCameraButton];
+    [mainOutPutFrame bringSubviewToFront:backToCameraButton];
+    [mainOutPutFrame bringSubviewToFront:flashButton];
+    [mainOutPutFrame bringSubviewToFront:addTextButton];
+    [mainOutPutFrame bringSubviewToFront:captureButton];
+    [mainOutPutFrame bringSubviewToFront:finalProcessButton];
+    [mainOutPutFrame bringSubviewToFront:abortUploadButton];
+    [mainOutPutFrame bringSubviewToFront:touchPointCircle];
+
+}
 
 -(void)flipCamera {
     

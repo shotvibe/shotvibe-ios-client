@@ -14,6 +14,7 @@
 #import "SL/NetworkStatusManager.h"
 #import "SVNotificationHandler.h"
 #import "ShotVibeAppDelegate.h"
+#import "YALSunnyRefreshControl.h"
 //#import "SVAddFriendsViewController.h"
 
 
@@ -24,17 +25,17 @@
 @end
 
 @interface SVAlbumListViewController : UIViewController <UITableViewDataSource,
-
-																UITableViewDelegate,
-																UITextFieldDelegate,
-																UISearchBarDelegate,
-                                                              SLAlbumManager_AlbumListListener,
-																SVCameraPickerDelegate,
-                                                              SVAlbumListViewCellDelegate,
-                                                              SLNetworkStatusManager_Listener,
-                                                                GLSharedCameraDelegatte,
-                                                                UIImagePickerControllerDelegate,
-                                                                UINavigationControllerDelegate>
+UIScrollViewDelegate,
+UITableViewDelegate,
+UITextFieldDelegate,
+UISearchBarDelegate,
+SLAlbumManager_AlbumListListener,
+SVCameraPickerDelegate,
+SVAlbumListViewCellDelegate,
+SLNetworkStatusManager_Listener,
+GLSharedCameraDelegatte,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate>
 
 // This function is a temporary hack
 // Returns nil if not an org
@@ -45,6 +46,7 @@
 @property(nonatomic, retain) UITableView * tableView;
 @property (nonatomic, assign) id<AlbumListDelegate> delegate;
 @property (assign, nonatomic) int indexNumber;
+@property (nonatomic,strong) YALSunnyRefreshControl *sunnyRefreshControl;
 //@property (assign, nonatomic) NSInteger indexNumber;
 
 @end

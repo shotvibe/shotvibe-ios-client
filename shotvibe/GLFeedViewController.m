@@ -508,13 +508,14 @@
         glcamera.imageForOutSideUpload = nil;
         [self.navigationController pushViewController:feedView animated:YES];
         [self removeFromParentViewController];
+        [[GLSharedVideoPlayer sharedInstance] pause];
     }
     
 }
 
 -(void)commentPushPressed:(SLNotificationMessage_PhotoComment *)msg {
     
-    
+    [[GLSharedVideoPlayer sharedInstance] pause];
     if(self.albumId != [msg getAlbumId]){
         
         GLFeedViewController * feedView = [[GLFeedViewController alloc] init];
@@ -1695,7 +1696,7 @@
     GLFeedTableCell * cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:sender.tag inSection:0]];
     [[GLContainersViewController sharedInstance] goToFriendsListViewAnimatedBeforeMovingPhoto:NO photoId:cell.photoId completed:^{
         [[GLContainersViewController sharedInstance] resetFriendsView];
-    }];
+    } fromPublic:NO];
 }
 
 -(void)backPressed {

@@ -350,6 +350,16 @@
 //    });
     
     
+//    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TableViewBackground.png"]];
+//    [tempImageView setFrame:self.tableView.frame];
+    UIActivityIndicatorView * indi = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indi.frame = CGRectMake(0, 0, 150, 150);
+    indi.center = self.tableView.center;
+    
+    self.tableView.backgroundView = indi;
+//    indi.backgroundColor = [UIColor purpleColor];
+    [indi startAnimating];
+    
 }
 
 - (IBAction)nvBackTapped:(id)sender {
@@ -663,7 +673,8 @@
     [v addSubview:l];
     l.font = [UIFont fontWithName:@"GothamRounded-Bold" size:18.0];
     l.textColor = [UIColor grayColor];
-    l.backgroundColor = [UIColor clearColor];
+    l.backgroundColor = [UIColor whiteColor];
+    v.backgroundColor = [UIColor whiteColor];
     
     l.text = [sectionIndexTitles_ objectAtIndex:section];
     

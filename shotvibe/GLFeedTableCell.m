@@ -183,9 +183,10 @@
     
 //    self.postImage.image = image;
     
-    self.videoBadge = [[UIImageView alloc]initWithFrame:CGRectMake(13, 13, 30, 30)];
+    self.videoBadge = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 50, 50)];
     self.videoBadge.alpha = 0;
-    self.videoBadge.image = [UIImage imageNamed:@"glanceVideoIcon"];
+    self.videoBadge.image = [UIImage imageNamed:@"moviePLayButton"];//moviePLayButton//glanceVideoIcon
+//    self.videoBadge.center = self.contentView.center;
     [self.postImage addSubview:self.videoBadge];
     
     

@@ -100,7 +100,7 @@ static const CGFloat DefaultScreenWidth = 320.f;
 -(void)calculateShift{
 
     [self setFrame:CGRectMake(0.f,
-                              80.f,
+                              0.f,
                               self.scrollView.frame.size.width,
                               self.scrollView.contentOffset.y)];
     
@@ -145,9 +145,12 @@ static const CGFloat DefaultScreenWidth = 320.f;
           initialSpringVelocity:AnimationVelosity
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-                         [self.scrollView setContentInset:UIEdgeInsetsMake(0, 0.f, 0.f, 0.f)];
+//                         [self.scrollView setContentInset:UIEdgeInsetsMake(0, 0.f, 0.f, 0.f)];
+    
+                         [self.scrollView setContentOffset:CGPointMake(0.f, 0.f) animated:YES];
+    
                      } completion:^(BOOL finished) {
-                         
+    
                          self.forbidSunSet = NO;
                          [self stopSunRotating];
                      }];

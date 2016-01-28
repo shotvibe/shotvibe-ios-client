@@ -143,7 +143,7 @@ static GLContainersViewController *sharedInstance;
     
 }
 
-- (void)goToFriendsListViewAnimatedBeforeMovingPhoto:(BOOL)animated photoId:(NSString*)photoId completed:(pageTransitionCompleted)completed {
+- (void)goToFriendsListViewAnimatedBeforeMovingPhoto:(BOOL)animated photoId:(NSString*)photoId completed:(pageTransitionCompleted)completed fromPublic:(BOOL)fromPublic {
     //    self.pageController tra
     
     [self lockScrollingPages];
@@ -153,7 +153,7 @@ static GLContainersViewController *sharedInstance;
     }
     self.friendsViewController.fromMove = YES;
     self.friendsViewController.state = SVAddFriendsFromMove;
-    self.friendsViewController.fromPublicFeed = YES;
+    self.friendsViewController.fromPublicFeed = fromPublic;
     
 //    __weak GLContainersViewController * weakSelf = self;
     [self.pageController setViewControllers:@[self.friendsViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:animated completion:^(BOOL finished) {

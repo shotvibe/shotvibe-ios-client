@@ -90,6 +90,7 @@ typedef enum ScrollDirection {
 - (void)finalProcessTapped;
 - (void)fixAfterLogin;
 - (void)resetCameraAfterBack;
+- (void)fixAfterProfileScreenAndActivitaion;
 
 @property (nonatomic) BOOL flashIsOn;
 @property (nonatomic) BOOL inEditMode;

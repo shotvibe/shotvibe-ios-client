@@ -89,6 +89,8 @@ CGFloat kResizeThumbSize = 45.0f;
     BOOL isResizingUR;
     BOOL isResizingLL;
     
+    BOOL userRefreshed;
+    
     CGPoint touchStart;
     
     UILabel * no;
@@ -97,6 +99,10 @@ CGFloat kResizeThumbSize = 45.0f;
     UILabel * letsGetsStarted;
     UIImageView * dmutArrow;
     UIImageView * friendsArrow;
+    
+    UIRefreshControl * refreshControl;
+    
+    NSTimer * pullToRefreshTimer;
 
 }
 
@@ -153,10 +159,11 @@ CGFloat kResizeThumbSize = 45.0f;
 {
     [super viewDidLoad];
     
+    userRefreshed = NO;
     
     self.view.backgroundColor = [UIColor whiteColor];
     cameraShown = NO;
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height/3, self.view.frame.size.width, self.view.frame.size.height-([UIScreen mainScreen].bounds.size.height/3))];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -315,10 +322,71 @@ CGFloat kResizeThumbSize = 45.0f;
         [self.navigationController.view addSubview:[camera cameraViewBackground]];
         
     }
+    
+    
+    
+    
+//    self.tableView setref
+    
+//    refreshControl = [[UIRefreshControl alloc] init];
+//    refreshControl.backgroundColor = [UIColor clearColor];
+//    refreshControl.tintColor = [UIColor clearColor];
+//     refreshControl.clipsToBounds = YES;
+////    refreshControl.
+////    refreshControl
+////    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/3)];
+////    imageView.image = [UIImage imageNamed:@"referehBg"];
+//    
+//    
+//    
+////    [refreshControl addSubview:imageView];
+//    
+////    [refreshControl sendSubviewToBack:imageView];
+////    refreshControl.clipsToBounds = YES;
+//    
+////    [self.tableView addSubview:refreshControl];
+//    
+//    
+//    
+//    [refreshControl addTarget:self
+//                            action:@selector(onUserRefreshed)
+//                  forControlEvents:UIControlEventValueChanged];
+    
+    
+    
+//    [[GLSharedCamera sharedInstance] hideGlCameraView];
+//    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0 , -self.tableView.frame.size.height/3, self.tableView.frame.size.width, self.tableView.frame.size.height/3)];
+//        imageView.image = [UIImage imageNamed:@"refrehBg"];
+    
+    
+
+    
+//    [self.tableView addSubview:imageView];
+//    [refreshControl insertSubview:imageView atIndex:0];
+   
+//        [self.tableView addSubview:imageView];
+//    [self.tableView setContentInset:UIEdgeInsetsMake((-self.tableView.frame.size.height/3)-1, 0, 0, 0)];
+//    [self.tableView setContentOffset:CGPointMake(0,(-self.tableView.frame.size.height/3)-1)];
+//        self.tableView.backgroundView = imageView;
  
     
+    self.sunnyRefreshControl = [YALSunnyRefreshControl attachToScrollView:self.tableView
+                                                                   target:self
+                                                            refreshAction:@selector(sunnyControlDidStartAnimation)];
     
 }
+
+-(void)sunnyControlDidStartAnimation{
+    
+    // start loading something
+    
+    [self onUserRefreshed];
+}
+
+//-(IBAction)endAnimationHandle{
+////    
+//    [self.sunnyRefreshControl endRefreshing];
+//}
 
 
 -(void)showNoGroupsPlaceHolder {
@@ -442,10 +510,22 @@ CGFloat kResizeThumbSize = 45.0f;
 }
 
 
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    
-//    
-//}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+//    NSLog(@"%f",scrollView.contentOffset.y);
+//    if(scrollView.contentOffset.y < -120){
+////        self.tableView.contentOffset = CGPointMake(0, -100);
+//        self.tableView.scrollEnabled = NO;
+//        [self.tableView setContentOffset:CGPointMake(0, -120) animated:NO];
+////        [self.tableView setContentOffset:CGPointMake(0, -135) animated:YES];
+////        self.from
+//        userRefreshed = YES;
+//         [self onUserRefreshed];
+////        NSTimer * timer = [[NSTimer alloc] init];
+//    }
+    
+}
+
 
 
 
@@ -1230,12 +1310,16 @@ CGFloat kResizeThumbSize = 45.0f;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
-- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    self.sectionHeader.frame = CGRectMake(0, 0, self.view.frame.size.width, ([UIScreen mainScreen].bounds.size.height/3));
-    return self.sectionHeader;
-}
+//- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    self.sectionHeader.frame = CGRectMake(0, 0, self.view.frame.size.width, ([UIScreen mainScreen].bounds.size.height/3));
+//    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/3)];
+//    imageView.image = [UIImage imageNamed:@"refrehBg"];
+//    [self.sectionHeader addSubview:imageView];
+////    self.tableView.backgroundView = imageView;
+//    return self.sectionHeader;
+//}
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return ([UIScreen mainScreen].bounds.size.height/3);
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -1635,6 +1719,16 @@ CGFloat kResizeThumbSize = 45.0f;
     
     allAlbums = albums;
     
+    
+    if(userRefreshed){
+        [self.sunnyRefreshControl endRefreshing];
+        userRefreshed = NO;
+    }
+    
+//    [];
+    
+//    [refreshControl endRefreshing];
+    
     if(allAlbums.count > 0){
         [self hideNoGroupsPlaceHolder];
     } else {
@@ -1678,8 +1772,25 @@ CGFloat kResizeThumbSize = 45.0f;
 
 - (void)onUserRefreshed
 {
+    
+    
+//    pullToRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:2.0
+//                                                         target:self
+//                                                       selector:@selector(pullToRefreshDidntFinshedByHimSelf)
+//                                                       userInfo:nil
+//                                                        repeats:YES];
+    userRefreshed = YES;
     [albumManager_ refreshAlbumListWithBoolean:YES];
 }
+
+//-(void)pullToRefreshDidntFinshedByHimSelf {
+//    
+//    [pullToRefreshTimer invalidate];
+//    pullToRefreshTimer = nil;
+//    self.tableView.scrollEnabled = YES;
+////    [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+//
+//}
 
 
 - (void)showRefreshSpinner
@@ -1710,6 +1821,16 @@ CGFloat kResizeThumbSize = 45.0f;
 - (void)onAlbumListNewContentWithSLArrayList:(SLArrayList *)albums
 {
     NSLog(@"onAlbumListNewContents: size:%d", [albums size]);
+//    
+//    if(userRefreshed){
+////        self.tableView.scrollEnabled = YES;
+//        [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+//        userRefreshed = NO;
+//    }
+    
+    
+    
+    
     creatingAlbum = NO;
     [self setAlbumList:albums.array];
     [self updateEmptyState];
@@ -1734,10 +1855,10 @@ CGFloat kResizeThumbSize = 45.0f;
 
 #pragma UIScrollViewDelegate Methods
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    //    [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:scrollView];
-}
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+//{
+//        [[NSNotificationCenter defaultCenter] postNotificationName:SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification object:scrollView];
+//}
 
 #pragma SLNetworkStatusManager_Listener Methods
 
