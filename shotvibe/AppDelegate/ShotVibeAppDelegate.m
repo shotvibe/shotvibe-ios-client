@@ -305,7 +305,7 @@
     //        [self loadAlbumManager:authData];
     //    }
     //
-    
+//    [[_albumManager getShotVibeAPI] albumRemoveMemberWithLong:<#(long long)#> withLong:<#(long long)#>];
     //    [[LNNotificationCenter defaultCenter] setNotificationsBannerStyle:LNNotificationBannerStyleLight];
     //    [LNNotificationCenter defaultCenter].notificationsBannerStyle = LNNotificationBannerStyleLight;
     //

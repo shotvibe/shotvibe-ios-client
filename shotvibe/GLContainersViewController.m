@@ -516,7 +516,7 @@ static GLContainersViewController *sharedInstance;
 
     return [self viewControllerAtIndex:index];
 }
-
+//[];
 
 
 - (void)openAppleImagePicker {
@@ -524,7 +524,10 @@ static GLContainersViewController *sharedInstance;
     GLSharedCamera * glcamera = [GLSharedCamera sharedInstance];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
+//    picker.allowsEditing = YES;
+//    picker.disa
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//    picker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage, nil];
     [self presentViewController:picker animated:YES completion:^{
         
     }];

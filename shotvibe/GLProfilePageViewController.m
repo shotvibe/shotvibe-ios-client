@@ -43,10 +43,10 @@
     
     if(self.imAdmin){
         //        self.reinviteButton.enabled = NO;
-        self.removeButton.enabled = NO;
+        self.removeButton.enabled = YES;
     } else {
         //        self.reinviteButton.enabled = YES;
-        self.removeButton.enabled = YES;
+        self.removeButton.enabled = NO;
     }
     
     
@@ -284,10 +284,25 @@
 
 - (IBAction)removePressed:(id)sender {
     
+//    SLAlbumUser * user = [[ShotVibeAppDelegate sharedDelegate] ];
     //Remove User
 //    put in task
-//    [[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] albumRemoveMemberWithLong:@"album id" withLong:@"user id"];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        
+        
+        //TODO surround with try and catch to avoid crash.
+        
+        
+        @try {
+            [[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] albumRemoveMemberWithLong:self.albumId withLong:self.userId];
+        }
+        @catch (SLAPIException *e) {
+            [KVNProgress showErrorWithStatus:@"Error"];
+        }
+        
+    
+    });
     
     
     

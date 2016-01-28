@@ -35,6 +35,12 @@
     headerView.headerImage = [UIImage imageNamed:@"HeaderImage"];
     
     [self.mainTableView setTableHeaderView:headerView];
+    
+    
+    
+//    if(self.imAdmin){
+//    
+//    }
 //    [self.mainTableView reloadData];
     
     // Uncomment the following line to preserve selection between presentations.

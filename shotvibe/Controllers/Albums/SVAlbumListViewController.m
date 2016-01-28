@@ -401,7 +401,7 @@ CGFloat kResizeThumbSize = 45.0f;
                                  value:@(spacing)
                                  range:NSMakeRange(0, [nos length])];
         
-        no = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2.4, self.view.frame.size.width, self.view.frame.size.height/8)];
+        no = [[UILabel alloc] initWithFrame:CGRectMake(50, self.tableView.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
         no.attributedText = attributedString;
         
         no.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
@@ -415,7 +415,7 @@ CGFloat kResizeThumbSize = 45.0f;
                                   value:@(spacing)
                                   range:NSMakeRange(0, [photoss length])];
         
-        photos = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2.4+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
+        photos = [[UILabel alloc] initWithFrame:CGRectMake(50, self.tableView.frame.size.height/9+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
         photos.attributedText = attributedString2;
         photos.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
         photos.textColor = UIColorFromRGB(0xFED84B);
@@ -428,7 +428,7 @@ CGFloat kResizeThumbSize = 45.0f;
                                   value:@(spacing)
                                   range:NSMakeRange(0, [yets length])];
         
-        yet = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2.4+self.view.frame.size.height/9+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
+        yet = [[UILabel alloc] initWithFrame:CGRectMake(50, self.tableView.frame.size.height/9+self.view.frame.size.height/9+self.view.frame.size.height/9, self.view.frame.size.width, self.view.frame.size.height/8)];
         yet.attributedText = attributedString3;
         yet.font = [UIFont fontWithName:@"GothamRounded-Bold" size:90];
         yet.textColor = UIColorFromRGB(0xEE7482);
@@ -436,7 +436,7 @@ CGFloat kResizeThumbSize = 45.0f;
         
         
         
-        letsGetsStarted = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height-self.view.frame.size.height/10, self.view.frame.size.width-100, self.view.frame.size.height/10)];
+        letsGetsStarted = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-self.view.frame.size.height/10, self.view.frame.size.width, self.view.frame.size.height/10)];
         //    letsGetsStarted.backgroundColor = [UIColor orangeColor];
         letsGetsStarted.text = @"Pull Mr. Glance down or swipe Right and Let's get this party started.";
         letsGetsStarted.lineBreakMode = NSLineBreakByTruncatingMiddle;
@@ -465,7 +465,7 @@ CGFloat kResizeThumbSize = 45.0f;
         [self.tableView addSubview:no];
         [self.tableView addSubview:photos];
         [self.tableView addSubview:yet];
-        [self.tableView addSubview:letsGetsStarted];
+        [self.view addSubview:letsGetsStarted];
         self.groupPlaceHolderIsShown = YES;
     }
     
@@ -1734,7 +1734,7 @@ CGFloat kResizeThumbSize = 45.0f;
     } else {
         [self showNoGroupsPlaceHolder];
     }
-    
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         // Set all the album thumbnails to download at high priority
         for (SLAlbumSummary *a in albums) {
