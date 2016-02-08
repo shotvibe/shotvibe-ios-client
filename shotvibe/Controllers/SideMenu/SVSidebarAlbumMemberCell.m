@@ -12,6 +12,11 @@
 
 -(void)awakeFromNib {
 //    self.backgroundColor = [UIColor greenColor];
+    
+    self.adminBadge = [[UIImageView alloc] initWithFrame:CGRectMake(self.contentView.frame.size.width-85, 18, 25, 25)];
+    self.adminBadge.image = [UIImage imageNamed:@"adminBadge"];
+    self.adminBadge.alpha = 0;
+    [self.contentView addSubview:self.adminBadge];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -30,6 +35,7 @@
     self.memberLabel.text = nil;
     self.statusImageView.image = nil;
     self.statusLabel.text = nil;
+//    self.adminBadge.image = nil;
 //    self.backgroundColor = [UIColor redColor];
 }
 

@@ -325,9 +325,24 @@ static GLContainersViewController *sharedInstance;
     
     if([self inFeed]){
         
-        GLFeedViewController * feed = [[GLFeedViewController alloc] init];
-        feed.albumId = [data getAlbumId];
-        [self.navigationController pushViewController:feed animated:NO];
+        GLFeedViewController * currentFeed = [self.navigationController.viewControllers lastObject];
+        if(currentFeed.albumId == [data getAlbumId]){
+            GLFeedTableCell * cell = [currentFeed ShowSpecificCell:[data getPhotoId]];
+            [cell highLightLastCommentInPost];
+        } else {
+            
+            GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+            feed.albumId = [data getAlbumId];
+            [self.navigationController pushViewController:feed animated:NO];
+            //            [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+            feed.feedDidAppearBlock = ^(GLFeedViewController * feedInstance){
+//                GLFeedTableCell * cell = [feedInstance ShowSpecificCell:[data getPhotoId]];
+//                [cell highLightLastCommentInPost];
+            };
+            
+            
+        }
+        
         
         
     } else {
@@ -338,9 +353,38 @@ static GLContainersViewController *sharedInstance;
         feed.albumId = [data getAlbumId];
         [self.navigationController pushViewController:feed animated:NO];
         [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+        feed.feedDidAppearBlock = ^(GLFeedViewController * feedInstance){
+//            GLFeedTableCell * cell = [feedInstance ShowSpecificCell:[data getPhotoId]];
+//            [cell highLightLastCommentInPost];
+        };
+        
     }
     
 }
+
+//- (void)handleAddedPhotosPushPressed:(SLNotificationMessage_PhotosAdded *)data {
+//    
+//    
+//    NSString * photoId = [data getPhotoId];
+//    
+//    if([self inFeed]){
+//        
+//        GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+//        feed.albumId = [data getAlbumId];
+//        [self.navigationController pushViewController:feed animated:NO];
+//        
+//        
+//    } else {
+//        
+//        [[GLSharedCamera sharedInstance] setCameraInFeedAfterGroupOpenedWithoutImage];
+//        [self lockScrollingPages];
+//        GLFeedViewController * feed = [[GLFeedViewController alloc] init];
+//        feed.albumId = [data getAlbumId];
+//        [self.navigationController pushViewController:feed animated:NO];
+//        [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+//    }
+//    
+//}
 
 - (void)handleAddedToGroupPushPressed:(SLNotificationMessage_AddedToAlbum *)data {
 

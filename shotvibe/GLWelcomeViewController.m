@@ -90,6 +90,11 @@
 //    self.signInButton.frame = frame;
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+//    [KVNProgress showWithStatus:[NSString stringWithFormat:@"%f",self.view.frame.size.width]];
+}
+
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     

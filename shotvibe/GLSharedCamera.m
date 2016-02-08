@@ -117,6 +117,8 @@
     UIScrollView * cameraFeaturesScroller;
     
     NSArray * gradientColorsArray;
+    
+    UIView * effeectViewWrapper;
 }
 
 + (instancetype)sharedInstance {
@@ -348,6 +350,11 @@
         cameraSlideTopLimit = [self.dmut center].y;
         
         // add effect to an effect view
+        
+        effeectViewWrapper = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
+//        effeectViewWrapper.backgroundColor = [UIColor purpleColor];
+        effeectViewWrapper.hidden = YES;
+        
         effectView = [[UIVisualEffectView alloc] init];
         effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
         effectView.alpha = 0;
@@ -374,9 +381,12 @@
         
         [self.membersButton setBackgroundImage:[UIImage imageNamed:@"feedMembersIcon"] forState:UIControlStateNormal];
         
-        [effectView addSubview:self.backButton];
-        [effectView addSubview:self.membersButton];
-        [self.cameraViewBackground addSubview:effectView];
+        
+        [effeectViewWrapper addSubview:effectView];
+        
+        [effeectViewWrapper addSubview:self.backButton];
+        [effeectViewWrapper addSubview:self.membersButton];
+        [self.cameraViewBackground addSubview:effeectViewWrapper];
         
         
         Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
@@ -440,6 +450,8 @@
         
         self.userScore = [[GLUserScore alloc] initWithView:self.view];
         
+        
+        [self.cameraViewBackground bringSubviewToFront:self.dmut];
 //        UISwipeGestureRecognizer*   swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
 //        swipeGesture.delegate = self;
 //        [mainOutPutFrame addGestureRecognizer:swipeGesture];
@@ -1187,6 +1199,9 @@
                     [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
                     effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
                     effectView.alpha = 1;
+                    effeectViewWrapper.hidden = NO;
+                    effeectViewWrapper.alpha = 1;
+
                     //                    effectView.hidden = NO;
                     self.dmut.center = CGPointMake(firstX, 60);
                     [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
@@ -1276,8 +1291,10 @@
                     self.backButton.alpha=0;
                     self.membersButton.alpha=0;
                     
+                    effeectViewWrapper.hidden = YES;
                     effectView.effect = nil;
                     effectView.alpha = 0;
+                    effeectViewWrapper.alpha = 0;
                     
                     //                    effectView.alpha = 0;
                     //                    effectView.hidden = YES;
@@ -1392,8 +1409,10 @@
     [[self videoCamera] startCameraCapture];
     [UIView animateWithDuration:0.2 animations:^{
         self.dmut.transform = CGAffineTransformIdentity;
+        effeectViewWrapper.hidden = YES;
         effectView.effect = nil;
         effectView.alpha = 0;
+        effeectViewWrapper.alpha = 0;
         self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
         cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
         self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
@@ -1406,8 +1425,10 @@
     [[self videoCamera] stopCameraCapture];
     [UIView animateWithDuration:0.2 animations:^{
         
+        effeectViewWrapper.hidden = NO;
         effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         effectView.alpha = 1;
+        effeectViewWrapper.alpha = 1;
         self.backButton.alpha = 1;
         self.membersButton.alpha = 1;
         scoreBg.alpha = 0;
@@ -1416,7 +1437,8 @@
         
         effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         effectView.alpha = 1;
-        [self.cameraViewBackground bringSubviewToFront:effectView];
+        effeectViewWrapper.alpha = 1;
+        [self.cameraViewBackground bringSubviewToFront:effeectViewWrapper];
         
         self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
         self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
@@ -1448,8 +1470,10 @@
         [UIView animateWithDuration:0.2 animations:^{
             
             self.dmut.frame = CGRectMake(self.dmut.frame.origin.x, 20, self.dmut.frame.size.width, self.dmut.frame.size.height);
+            effeectViewWrapper.hidden = NO;
             effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
             effectView.alpha = 1;
+            effeectViewWrapper.alpha = 1;
             if(needTransform != NO){
                 self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
                 self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
@@ -1466,8 +1490,10 @@
         [[self videoCamera] startCameraCapture];
         [UIView animateWithDuration:0.2 animations:^{
             self.dmut.transform = CGAffineTransformIdentity;
+            effeectViewWrapper.hidden = YES;
             effectView.effect = nil;
             effectView.alpha = 0;
+            effeectViewWrapper.alpha = 0;
             self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
             cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
             self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
@@ -2726,8 +2752,10 @@
         [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
         [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
         self.dmut.center = CGPointMake(firstX, 60);
+        effeectViewWrapper.hidden = NO;
         effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         effectView.alpha = 1;
+        effeectViewWrapper.alpha = 1;
         self.backButton.alpha = 1;
         self.membersButton.alpha = 1;
     }];
@@ -2738,9 +2766,10 @@
     [[self videoCamera] startCameraCapture];
     [UIView animateWithDuration:0.2 animations:^{
         self.dmut.transform = CGAffineTransformIdentity;
+        effeectViewWrapper.hidden = YES;
         effectView.effect = nil;
         effectView.alpha = 0;
-        
+        effeectViewWrapper.alpha = 0;
         self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
         cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
         self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);

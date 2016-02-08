@@ -34,6 +34,7 @@
     SLAlbumMember *owner;
     SVSidebarAlbumMemberCell *ownerCell;
     UINavigationController * nav;
+//    UIImageView * adminBadge;
 }
 
 @property (nonatomic, strong) IBOutlet UINavigationBar *sidebarNav;
@@ -426,6 +427,23 @@
     }
     
     SLAlbumMember *member = [members objectAtIndex:indexPath.row];
+//    adminBadge = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-35, 18, 25, 25)];
+//    adminBadge.image = [UIImage imageNamed:@"adminBadge"];
+//    adminBadge.alpha = 0;
+    if([member getAlbumAdmin]){
+        
+        
+    cell.adminBadge.alpha = 1;
+//        adminBadge.hidden = NO;
+//        [cell addSubview:adminBadge];
+    } else {
+//        adminBadge.hidden = YES;
+            cell.adminBadge.alpha = 0;
+//        [adminBadge removeFromSuperview];
+//        adminBadge.image = nil;
+//        adminBadge = nil;
+    }
+    
     
     
     SLDateTime * lastSeenInTime = [[member getUser] getLastOnline];
@@ -438,7 +456,7 @@
         timeInWordssAgo = [NSString stringWithFormat:@"%@ ago",[lastSeenDate distanceOfTimeInWords:[NSDate date] shortStyle:YES]];
     }
     [cell.profileImageView yy_setImageWithURL:[NSURL URLWithString:[[member getUser] getMemberAvatarUrl]] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation];
-
+    
     [cell.memberLabel setText:[[member getUser] getMemberNickname]];
     
     
@@ -538,6 +556,8 @@
         
         
         
+        
+        
     }
     
     //        cell.contentView.backgroundColor = [UIColor purpleColor];
@@ -567,9 +587,9 @@
             [currentFeed showUserProfileWithId:[[member getUser]getMemberId]];
         }];
         
-
         
-//        [self.navigationController popViewControllerAnimated:YES];
+        
+        //        [self.navigationController popViewControllerAnimated:YES];
         
     }
 }
@@ -600,9 +620,9 @@
                                                             otherButtonTitles:nil];
                       [alert show];
                       
-//                          dispatch_async(dispatch_get_main_queue(), ^{
-//                      [KVNProgress showErrorWithStatus:@"This group was not created by you"];
-//                          });
+                      //                          dispatch_async(dispatch_get_main_queue(), ^{
+                      //                      [KVNProgress showErrorWithStatus:@"This group was not created by you"];
+                      //                          });
                       
                   }
               }];

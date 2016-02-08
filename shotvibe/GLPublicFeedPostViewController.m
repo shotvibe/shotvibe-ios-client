@@ -189,8 +189,8 @@
     }
     
     
-    self.title = [albumContents getName];
-    [self loadFeed];
+//    self.title = [albumContents getName];
+//    [self loadFeed];
 }
 
 - (void)onAlbumContentsBeginUserRefreshWithLong:(long long int)albumId
@@ -458,21 +458,43 @@
 }
 
 -(void)showUserProfileWithId:(long long)userId {
-    [KVNProgress showWithStatus:@"Loading Profile.." onView:[[ShotVibeAppDelegate sharedDelegate] window]];    GLProfilePageViewController * profilePage = [[GLProfilePageViewController alloc] init];
+    
+
+    
+    
+//    [KVNProgress showWithStatus:@"Loading Profile.." onView:[[ShotVibeAppDelegate sharedDelegate] window]];
+    GLProfilePageViewController * profilePage = [[GLProfilePageViewController alloc] init];
     profilePage.albumId = self.albumId;
+    for(SLAlbumMember * member in [self.albumContentsTwo getMembers].array){
+        //        if([[member getUser] getMemberId] == [[[albumManager_ getShotVibeAPI] getAuthData] getUserId]){
+        
+        //        }
+        if([[member getUser] getMemberId] == userId){
+            profilePage.slMemberObject = member;
+        }
+    }
     profilePage.userId = userId;
        profilePage.fromPublicFeed = YES;
     UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:profilePage];
+    [nav setNavigationBarHidden:YES];
     
-    profilePage.title = @"User Profile";
-    profilePage.navigationItem.leftBarButtonItem =
-    [[UIBarButtonItem alloc] initWithTitle:@"< Back"
-                                     style:UIBarButtonItemStylePlain
-                                    target:self
-                                    action:@selector(hideProfilePage)];
+    
+    
+    
+    
+    
+    
+//    profilePage.title = @"User Profile";
+//    profilePage.navigationItem.leftBarButtonItem =
+//    [[UIBarButtonItem alloc] initWithTitle:@"< Back"
+//                                     style:UIBarButtonItemStylePlain
+//                                    target:self
+//                                    action:@selector(hideProfilePage)];
     
     [self presentViewController:nav animated:YES completion:^{
-        [KVNProgress dismiss];
+//        [KVNProgress dismiss];
+//        [[GLSharedCamera sharedInstance] setInFeedMode:YES dmutNeedTransform:NO];
+//        [[GLSharedCamera sharedInstance] showGlCameraView];
         //
     }];
 }

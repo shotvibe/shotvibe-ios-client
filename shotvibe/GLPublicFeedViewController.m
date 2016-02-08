@@ -90,33 +90,38 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-//    SLAlbumManager * al = [ShotVibeAppDelegate sharedDelegate].albumManager;
-//    
-//    [ShotVibeAPITask runTask:self withAction:^id{
-//        //        [[al getShotVibeAPI] getPublic];
-//        return [[al getShotVibeAPI] getPublicAlbumContents];
-//    } onTaskComplete:^(SLAlbumContents *album) {
-//        //        NSLog(@"Public feed name: %@", [album getName]);
-//        
-//        //        self.publicFeed = [[GLPublicFeedViewController alloc] init];
-//        NSMutableArray * photosArray = [[NSMutableArray alloc] init];
-//        
-//        for(SLAlbumPhoto * photo in [album getPhotos]){
-//            [photosArray addObject:photo];
-//        }
-//        
-//        NSArray* reversedArray = [[photosArray reverseObjectEnumerator] allObjects];
-//        
-//        self.photosArray = [reversedArray copy];
-////        [self.collectionView reloadData];
-//        
-//        //        self.publicFeed.albumId = [[al getShotVibeAPI] getPublicAlbumId];
-//        // TODO ...
-//    } onTaskFailure:^(id success) {
-//        
-//        //        [];
-//        
-//    } withLoaderIndicator:NO];
+    
+    SLAlbumManager * al = [ShotVibeAppDelegate sharedDelegate].albumManager;
+    
+    [ShotVibeAPITask runTask:self withAction:^id{
+        //        [[al getShotVibeAPI] getPublic];
+        return [[al getShotVibeAPI] getPublicAlbumContents];
+    } onTaskComplete:^(SLAlbumContents *album) {
+        
+        
+        self.albumContents = album;
+        
+        //        NSLog(@"Public feed name: %@", [album getName]);
+        
+        //        self.publicFeed = [[GLPublicFeedViewController alloc] init];
+        NSMutableArray * photosArray = [[NSMutableArray alloc] init];
+        
+        for(SLAlbumPhoto * photo in [album getPhotos]){
+            [photosArray addObject:photo];
+        }
+        
+        NSArray* reversedArray = [[photosArray reverseObjectEnumerator] allObjects];
+        
+        self.photosArray = [reversedArray copy];
+//        [self.collectionView reloadData];
+        
+        //        self.publicFeed.albumId = [[al getShotVibeAPI] getPublicAlbumId];
+        // TODO ...
+    } onTaskFailure:^(id success) {
+        
+        //        [];
+        
+    } withLoaderIndicator:NO];
     
 }
 
@@ -163,6 +168,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger) section {
     GLPublicFeedPostViewController * singlePostVc = [[GLPublicFeedPostViewController alloc] init];
     singlePostVc.albumId = 0;
     singlePostVc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    singlePostVc.albumContentsTwo = self.albumContents;
     
     LDCollectionViewCell * cell = (LDCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
     singlePostVc.singleAlbumPhoto = cell.cellSlPhoto;
@@ -215,6 +221,8 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger) section {
         [cell.cellImage yy_setImageWithURL:[NSURL URLWithString:new] placeholder:[UIImage imageNamed:@""] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
             
         }];
+        
+//        cell.album
         
     }
     

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SVNotificationHandler.h"
 #import "AlbumPhoto.h"
+#import "SL/AlbumContents.h"
 
 typedef void (^CompletionBlock3)(id);
 @interface GLPublicFeedPostViewController : UITableViewController <UIScrollViewDelegate,UITextFieldDelegate,UIActionSheetDelegate>
@@ -22,6 +23,7 @@ typedef void (^CompletionBlock3)(id);
 @property (assign, nonatomic) int indexNumber;
 @property (retain, nonatomic) SLAlbumPhoto * singleAlbumPhoto;
 @property (readwrite, copy) CompletionBlock3 onClose;
+@property (retain, nonatomic) SLAlbumContents * albumContentsTwo;
 -(void)imageSelected:(UIImage*)image;
 -(void)backPressed;
 @end

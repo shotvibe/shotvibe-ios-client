@@ -68,6 +68,9 @@ static void showNotificationBanner(NSString *message)
 - (void)HandleWithSLNotificationMessage_PhotosAdded:(SLNotificationMessage_PhotosAdded *)msg
 {
     [albumManager_ reportAlbumUpdateWithLong:[msg getAlbumId]];
+    
+    
+//    NSLog(@"%@",photoId);
 //    msg get
     
 //    NSString * pushType = [[userInfo objectForKey:@"d"] objectForKey:@"type"];
@@ -115,12 +118,14 @@ static void showNotificationBanner(NSString *message)
 }
 
 
-- (void)HandleWithSLNotificationMessage_AddedToAlbum:(SLNotificationMessage_AddedToAlbum *)msg
+- (void)HandleWithSLNotificationMessage_AddedToAlbum:(SLNotificationMessage_AddedToAlbum *) msg
 {
     [albumManager_ reportAlbumUpdateWithLong:[msg getAlbumId]];
 
     NSString *message = [NSString stringWithFormat:@"%@ added you to %@", [msg getAdderName], [msg getAlbumName]];
 
+    
+    
 //    showNotificationBanner(message);
     
 //    [msg getAdderName];

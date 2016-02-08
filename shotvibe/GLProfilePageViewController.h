@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 #import "SL/AlbumMember.h"
 
-@interface GLProfilePageViewController : UIViewController
+@interface GLProfilePageViewController : UIViewController <UIAlertViewDelegate, MFMessageComposeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *userProfileImage;
 @property (weak, nonatomic) IBOutlet UILabel *userNickName;
