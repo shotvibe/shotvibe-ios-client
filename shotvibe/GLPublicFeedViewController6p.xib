@@ -6,7 +6,7 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="Gotham_Rounded_Bold2.otf">
+        <mutableArray key="GothamRnd-Bold.otf">
             <string>GothamRounded-Bold</string>
         </mutableArray>
     </customFonts>
@@ -20,11 +20,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="xHZ-kH-kpo" customClass="ADLivelyCollectionView">
-                    <rect key="frame" x="0.0" y="120" width="375" height="547"/>
+                    <rect key="frame" x="0.0" y="132" width="414" height="603.5"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ByN-AH-wty">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -37,16 +37,16 @@
                     </connections>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZLE-AE-MtS">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="112"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="124.5"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeGlanceLogo" translatesAutoresizingMaskIntoConstraints="NO" id="9Wz-mu-lHi">
-                            <rect key="frame" x="268" y="27" width="94" height="40"/>
+                            <rect key="frame" x="295" y="27" width="109" height="52.5"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="94" id="wfM-FZ-b7U"/>
+                                <constraint firstAttribute="width" constant="109" id="wfM-FZ-b7U"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Glances" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l4w-Mi-vlc">
-                            <rect key="frame" x="24" y="77" width="158" height="35"/>
+                            <rect key="frame" x="24" y="89" width="158" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="158" id="phL-VR-wka"/>
                             </constraints>
@@ -55,7 +55,7 @@
                             <color key="highlightedColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                         </label>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="frn-Yn-Hcm">
-                            <rect key="frame" x="24" y="22" width="23" height="30"/>
+                            <rect key="frame" x="24" y="22" width="23" height="42.5"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="23" id="pHZ-if-fMa"/>
                             </constraints>
@@ -73,7 +73,7 @@
                         <constraint firstItem="frn-Yn-Hcm" firstAttribute="top" secondItem="ZLE-AE-MtS" secondAttribute="top" constant="22" id="Qk1-cd-Yp7"/>
                         <constraint firstItem="9Wz-mu-lHi" firstAttribute="top" secondItem="ZLE-AE-MtS" secondAttribute="top" constant="27" id="hJ6-DO-TOA"/>
                         <constraint firstAttribute="bottom" secondItem="9Wz-mu-lHi" secondAttribute="bottom" constant="45" id="nNO-oi-TcY"/>
-                        <constraint firstAttribute="trailing" secondItem="9Wz-mu-lHi" secondAttribute="trailing" constant="13" id="oq8-OS-BpW"/>
+                        <constraint firstAttribute="trailing" secondItem="9Wz-mu-lHi" secondAttribute="trailing" constant="10" id="oq8-OS-BpW"/>
                         <constraint firstItem="frn-Yn-Hcm" firstAttribute="leading" secondItem="l4w-Mi-vlc" secondAttribute="leading" id="qrT-Ov-OzW"/>
                         <constraint firstItem="9Wz-mu-lHi" firstAttribute="centerY" secondItem="frn-Yn-Hcm" secondAttribute="centerY" constant="10" id="tl7-JN-uKt"/>
                     </constraints>
@@ -90,7 +90,7 @@
                 <constraint firstItem="xHZ-kH-kpo" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.82" id="lK6-MQ-Q87"/>
                 <constraint firstItem="ZLE-AE-MtS" firstAttribute="trailing" secondItem="xHZ-kH-kpo" secondAttribute="trailing" id="nBJ-NY-HYy"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
             <point key="canvasLocation" x="256.5" y="236.5"/>
         </view>
     </objects>

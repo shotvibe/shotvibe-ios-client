@@ -16,8 +16,11 @@
     if(self){
     
         self.isShown = NO;
-        
-        self.glanceLogo = [[UIImageView alloc] initWithFrame:CGRectMake((view.frame.size.width)-view.frame.size.width*0.3, 35, view.frame.size.width*0.25, 40)];
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            self.glanceLogo = [[UIImageView alloc] initWithFrame:CGRectMake((view.frame.size.width)-view.frame.size.width*0.3, 35, view.frame.size.width*0.25, 40/1.17)];
+        } else {
+            self.glanceLogo = [[UIImageView alloc] initWithFrame:CGRectMake((view.frame.size.width)-view.frame.size.width*0.3, 35, view.frame.size.width*0.25, 40)];
+        }
         self.glanceLogo.image = [UIImage imageNamed:@"glanceMainLogo"];
         
         long currentUserScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"kUserScore"];
@@ -161,7 +164,16 @@
                      } completion:^(BOOL succeded){
                      
                          ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
-                         GLScoreViewController * scoreView = [[GLScoreViewController alloc] init];
+                         
+                         GLScoreViewController * scoreView;
+                         if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                             scoreView = [[GLScoreViewController alloc] initWithNibName:@"GLScoreViewController5" bundle:[NSBundle mainBundle]];
+                         } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+                             scoreView = [[GLScoreViewController alloc] initWithNibName:@"GLScoreViewController6p" bundle:[NSBundle mainBundle]];
+                         } else {
+                             scoreView = [[GLScoreViewController alloc] initWithNibName:@"GLScoreViewController" bundle:[NSBundle mainBundle]];
+                         }
+                         
                          UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:scoreView];
                          nav.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
                          [nav setNavigationBarHidden:YES animated:NO];

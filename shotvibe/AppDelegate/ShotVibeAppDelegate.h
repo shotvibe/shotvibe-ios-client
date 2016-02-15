@@ -38,6 +38,7 @@
 @property (copy) void (^ uploadSessionCompletionHandler)(); //stored by handleEventsForBackgroundURLSession for later use
 @property (nonatomic) BOOL afterActivation;
 @property (nonatomic,retain) NSArray * allEmojisArray;
+@property (nonatomic,retain) NSArray * currentPushMsg;
 
 
 

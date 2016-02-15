@@ -325,6 +325,13 @@
 		0F15E8E91C4FEEEC00F442CE /* GLCameraGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F15E8E81C4FEEEC00F442CE /* GLCameraGradientView.m */; };
 		0F18170F1C05E128002EDFA3 /* GLPublicFeedPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */; };
 		0F1817101C05E128002EDFA3 /* GLPublicFeedPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */; };
+		0F1820FC1C6B8C9500A0EF12 /* SVAlbumListCell5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F1820FB1C6B8C9500A0EF12 /* SVAlbumListCell5.xib */; };
+		0F1820FE1C6C98D000A0EF12 /* GLScoreViewController5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F1820FD1C6C98D000A0EF12 /* GLScoreViewController5.xib */; };
+		0F1821001C6C9AE100A0EF12 /* GLPublicFeedViewController5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F1820FF1C6C9AE100A0EF12 /* GLPublicFeedViewController5.xib */; };
+		0F1821021C6C9CD900A0EF12 /* GLProfilePageViewController5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F1821011C6C9CD900A0EF12 /* GLProfilePageViewController5.xib */; };
+		0F1821041C6C9F2200A0EF12 /* SVWebViewController5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F1821031C6C9F2200A0EF12 /* SVWebViewController5.xib */; };
+		0F1821061C6CC6FC00A0EF12 /* SVAddFriendsViewController5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F1821051C6CC6FC00A0EF12 /* SVAddFriendsViewController5.xib */; };
+		0F1821081C6CCA2900A0EF12 /* SVSidebarMemberController5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F1821071C6CCA2900A0EF12 /* SVSidebarMemberController5.xib */; };
 		0F1C06ED1BEB4FBD00F82FBB /* GLWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1C06EB1BEB4FBD00F82FBB /* GLWelcomeViewController.m */; };
 		0F1C06EE1BEB4FBD00F82FBB /* GLWelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F1C06EC1BEB4FBD00F82FBB /* GLWelcomeViewController.xib */; };
 		0F1C07681BEB5E3A00F82FBB /* seq1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F1C07401BEB5E3A00F82FBB /* seq1.png */; };
@@ -507,6 +514,13 @@
 		0F781FDF1C072A3E00688168 /* return@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F781FD11C072A3E00688168 /* return@2x.png */; };
 		0F781FE01C072A3E00688168 /* PMCustomKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F781FD31C072A3E00688168 /* PMCustomKeyboard.m */; };
 		0F781FE11C072A3E00688168 /* PMCustomKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F781FD41C072A3E00688168 /* PMCustomKeyboard.xib */; };
+		0F9134211C70B7F700889DB9 /* SVAlbumListCell6p.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F9134201C70B7F700889DB9 /* SVAlbumListCell6p.xib */; };
+		0F9134231C70BD9E00889DB9 /* GLScoreViewController6p.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F9134221C70BD9E00889DB9 /* GLScoreViewController6p.xib */; };
+		0F9134251C70BFBA00889DB9 /* SVWebViewController6p.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F9134241C70BFBA00889DB9 /* SVWebViewController6p.xib */; };
+		0F9134271C70EB6500889DB9 /* SVAddFriendsViewController6p.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F9134261C70EB6500889DB9 /* SVAddFriendsViewController6p.xib */; };
+		0F9134291C71003B00889DB9 /* SVSidebarMemberController6p.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F9134281C71003B00889DB9 /* SVSidebarMemberController6p.xib */; };
+		0F91342B1C7100E100889DB9 /* GLPublicFeedViewController6p.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F91342A1C7100E100889DB9 /* GLPublicFeedViewController6p.xib */; };
+		0F91342D1C7101A400889DB9 /* GLProfilePageViewController6p.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F91342C1C7101A400889DB9 /* GLProfilePageViewController6p.xib */; };
 		0FAB9F2E1C1093A700E52718 /* GLSharedVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */; };
 		0FACEB6D1BCFC9A400DF67AB /* GLSharedCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */; };
 		0FBC86F31C1991D000C0CF34 /* CALayer+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBC86F21C1991D000C0CF34 /* CALayer+YYAdd.m */; };
@@ -1392,6 +1406,13 @@
 		0F18170C1C05E128002EDFA3 /* GLPublicFeedPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLPublicFeedPostViewController.h; sourceTree = "<group>"; };
 		0F18170D1C05E128002EDFA3 /* GLPublicFeedPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLPublicFeedPostViewController.m; sourceTree = "<group>"; };
 		0F18170E1C05E128002EDFA3 /* GLPublicFeedPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLPublicFeedPostViewController.xib; sourceTree = "<group>"; };
+		0F1820FB1C6B8C9500A0EF12 /* SVAlbumListCell5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVAlbumListCell5.xib; sourceTree = "<group>"; };
+		0F1820FD1C6C98D000A0EF12 /* GLScoreViewController5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLScoreViewController5.xib; sourceTree = "<group>"; };
+		0F1820FF1C6C9AE100A0EF12 /* GLPublicFeedViewController5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLPublicFeedViewController5.xib; sourceTree = "<group>"; };
+		0F1821011C6C9CD900A0EF12 /* GLProfilePageViewController5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLProfilePageViewController5.xib; sourceTree = "<group>"; };
+		0F1821031C6C9F2200A0EF12 /* SVWebViewController5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVWebViewController5.xib; sourceTree = "<group>"; };
+		0F1821051C6CC6FC00A0EF12 /* SVAddFriendsViewController5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVAddFriendsViewController5.xib; sourceTree = "<group>"; };
+		0F1821071C6CCA2900A0EF12 /* SVSidebarMemberController5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVSidebarMemberController5.xib; sourceTree = "<group>"; };
 		0F1C06EA1BEB4FBD00F82FBB /* GLWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLWelcomeViewController.h; sourceTree = "<group>"; };
 		0F1C06EB1BEB4FBD00F82FBB /* GLWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLWelcomeViewController.m; sourceTree = "<group>"; };
 		0F1C06EC1BEB4FBD00F82FBB /* GLWelcomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLWelcomeViewController.xib; sourceTree = "<group>"; };
@@ -1614,6 +1635,13 @@
 		0F781FD21C072A3E00688168 /* PMCustomKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMCustomKeyboard.h; sourceTree = "<group>"; };
 		0F781FD31C072A3E00688168 /* PMCustomKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMCustomKeyboard.m; sourceTree = "<group>"; };
 		0F781FD41C072A3E00688168 /* PMCustomKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PMCustomKeyboard.xib; sourceTree = "<group>"; };
+		0F9134201C70B7F700889DB9 /* SVAlbumListCell6p.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVAlbumListCell6p.xib; sourceTree = "<group>"; };
+		0F9134221C70BD9E00889DB9 /* GLScoreViewController6p.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLScoreViewController6p.xib; sourceTree = "<group>"; };
+		0F9134241C70BFBA00889DB9 /* SVWebViewController6p.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVWebViewController6p.xib; sourceTree = "<group>"; };
+		0F9134261C70EB6500889DB9 /* SVAddFriendsViewController6p.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVAddFriendsViewController6p.xib; sourceTree = "<group>"; };
+		0F9134281C71003B00889DB9 /* SVSidebarMemberController6p.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVSidebarMemberController6p.xib; sourceTree = "<group>"; };
+		0F91342A1C7100E100889DB9 /* GLPublicFeedViewController6p.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLPublicFeedViewController6p.xib; sourceTree = "<group>"; };
+		0F91342C1C7101A400889DB9 /* GLProfilePageViewController6p.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLProfilePageViewController6p.xib; sourceTree = "<group>"; };
 		0FAB9F2C1C1093A700E52718 /* GLSharedVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedVideoPlayer.h; sourceTree = "<group>"; };
 		0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedVideoPlayer.m; sourceTree = "<group>"; };
 		0FACEB6B1BCFC9A400DF67AB /* GLSharedCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedCamera.h; sourceTree = "<group>"; };
@@ -3477,6 +3505,8 @@
 			isa = PBXGroup;
 			children = (
 				0FF7E6F01BF8E0A60032F2C2 /* GLScoreViewController.h */,
+				0F9134221C70BD9E00889DB9 /* GLScoreViewController6p.xib */,
+				0F1820FD1C6C98D000A0EF12 /* GLScoreViewController5.xib */,
 				0FF7E6F11BF8E0A60032F2C2 /* GLScoreViewController.m */,
 				0FF7E6F21BF8E0A60032F2C2 /* GLScoreViewController.xib */,
 			);
@@ -3488,6 +3518,8 @@
 			children = (
 				0FF7E6F91BFA71640032F2C2 /* GLProfilePageViewController.h */,
 				0FF7E6FA1BFA71640032F2C2 /* GLProfilePageViewController.m */,
+				0F1821011C6C9CD900A0EF12 /* GLProfilePageViewController5.xib */,
+				0F91342C1C7101A400889DB9 /* GLProfilePageViewController6p.xib */,
 				0FF7E6FB1BFA71640032F2C2 /* GLProfilePageViewController.xib */,
 			);
 			name = GLProifliePageViewController;
@@ -3503,6 +3535,8 @@
 				0FF7E7051C04BC2F0032F2C2 /* ADLivelyCollectionView.m */,
 				0FF7E6FF1C04BB4E0032F2C2 /* GLPublicFeedViewController.h */,
 				0FF7E7001C04BB4E0032F2C2 /* GLPublicFeedViewController.m */,
+				0F1820FF1C6C9AE100A0EF12 /* GLPublicFeedViewController5.xib */,
+				0F91342A1C7100E100889DB9 /* GLPublicFeedViewController6p.xib */,
 				0FF7E7011C04BB4E0032F2C2 /* GLPublicFeedViewController.xib */,
 			);
 			name = GLPublicFeedViewController;
@@ -4091,6 +4125,9 @@
 				66278C4E1867C17800D23F34 /* SVAddFriendsViewController.m */,
 				66278C4F1867C17800D23F34 /* SVContactCell.h */,
 				66278C501867C17800D23F34 /* SVContactCell.m */,
+				0F1821051C6CC6FC00A0EF12 /* SVAddFriendsViewController5.xib */,
+				0F9134281C71003B00889DB9 /* SVSidebarMemberController6p.xib */,
+				0F9134261C70EB6500889DB9 /* SVAddFriendsViewController6p.xib */,
 				66278C511867C17800D23F34 /* SVSidebarAlbumManagementActivityCell.h */,
 				66278C521867C17800D23F34 /* SVSidebarAlbumManagementActivityCell.m */,
 				66278C531867C17800D23F34 /* SVSidebarAlbumManagementSection.h */,
@@ -4102,6 +4139,7 @@
 				66278C591867C17800D23F34 /* SVSidebarAlbumSection.m */,
 				66278C5A1867C17800D23F34 /* SVSidebarManagementController.h */,
 				66278C5B1867C17800D23F34 /* SVSidebarManagementController.m */,
+				0F1821071C6CCA2900A0EF12 /* SVSidebarMemberController5.xib */,
 				66278C5C1867C17800D23F34 /* SVSidebarMemberController.h */,
 				66278C5D1867C17800D23F34 /* SVSidebarMemberController.m */,
 				0F35FB391C36E7D500E63D24 /* SVAddFriendsViewController.xib */,
@@ -4452,6 +4490,7 @@
 				66278C791867C38300D23F34 /* PhotoScrollView.m */,
 				66278C7A1867C38300D23F34 /* PhotoView.h */,
 				66278C7B1867C38300D23F34 /* PhotoView.m */,
+				0F1820FB1C6B8C9500A0EF12 /* SVAlbumListCell5.xib */,
 				66278C7C1867C38300D23F34 /* SVAlbumGridSection.h */,
 				66278C7D1867C38300D23F34 /* SVAlbumGridSection.m */,
 				66278C7E1867C38300D23F34 /* SVAlbumGridViewCell.h */,
@@ -4459,6 +4498,7 @@
 				66278C801867C38300D23F34 /* SVAlbumGridViewController.h */,
 				66278C811867C38300D23F34 /* SVAlbumGridViewController.m */,
 				66278C821867C38300D23F34 /* SVAlbumListViewCell.h */,
+				0F9134201C70B7F700889DB9 /* SVAlbumListCell6p.xib */,
 				66278C831867C38300D23F34 /* SVAlbumListViewCell.m */,
 				66278C841867C38300D23F34 /* SVAlbumListViewController.h */,
 				66278C851867C38300D23F34 /* SVAlbumListViewController.m */,
@@ -4733,6 +4773,7 @@
 				66278CB51867C57300D23F34 /* SVImageCropViewController.m */,
 				66278CB61867C57300D23F34 /* SVImageCropViewController.xib */,
 				66278CB71867C57300D23F34 /* SVProfilePicViewController.h */,
+				0F9134241C70BFBA00889DB9 /* SVWebViewController6p.xib */,
 				66278CB81867C57300D23F34 /* SVProfilePicViewController.m */,
 				66278CB91867C57300D23F34 /* SVProfileViewController.h */,
 				66278CBA1867C57300D23F34 /* SVProfileViewController.m */,
@@ -4744,6 +4785,7 @@
 				66278CC01867C57300D23F34 /* SVWebViewController.m */,
 				0F35FB311C354C9200E63D24 /* GLProfilePictureController.xib */,
 				0F35FB331C35530A00E63D24 /* SVProfileViewController.xib */,
+				0F1821031C6C9F2200A0EF12 /* SVWebViewController5.xib */,
 				0F0F543A1C43A0B300B21751 /* SVSettingsViewController.xib */,
 				0F0F543C1C43B02100B21751 /* SVWebViewController.xib */,
 				0F0F543E1C43CF6800B21751 /* SVSettingsAboutViewController.xib */,
@@ -5061,6 +5103,8 @@
 				04C406211730303600973BC0 /* BT.png in Resources */,
 				04C406231730303600973BC0 /* BV.png in Resources */,
 				04C406251730303600973BC0 /* BW.png in Resources */,
+				0F1821061C6CC6FC00A0EF12 /* SVAddFriendsViewController5.xib in Resources */,
+				0F1820FE1C6C98D000A0EF12 /* GLScoreViewController5.xib in Resources */,
 				04C406271730303600973BC0 /* BY.png in Resources */,
 				3E0CC9CE18B63DEC00F6089A /* frame_selected@2x.png in Resources */,
 				04C406291730303600973BC0 /* BZ.png in Resources */,
@@ -5098,6 +5142,7 @@
 				04C406511730303600973BC0 /* DJ.png in Resources */,
 				0F1C07811BEB5E3A00F82FBB /* seq26.png in Resources */,
 				3E36D4F318D83F2A003A1D3A /* tutorial6@2x.png in Resources */,
+				0F1821021C6C9CD900A0EF12 /* GLProfilePageViewController5.xib in Resources */,
 				04C406531730303600973BC0 /* DK.png in Resources */,
 				0FF7E6F41BF8E0A60032F2C2 /* GLScoreViewController.xib in Resources */,
 				3EF4160F18E0A56B0077DC22 /* triangle@2x.png in Resources */,
@@ -5138,6 +5183,7 @@
 				04C406811730303600973BC0 /* GG.png in Resources */,
 				04C406831730303600973BC0 /* GH.png in Resources */,
 				04C406851730303600973BC0 /* GI.png in Resources */,
+				0F9134271C70EB6500889DB9 /* SVAddFriendsViewController6p.xib in Resources */,
 				0F5511A11BEF8C0300E98C64 /* GothamNarrow-Medium.otf in Resources */,
 				04C406871730303600973BC0 /* GL.png in Resources */,
 				04C406891730303600973BC0 /* GM.png in Resources */,
@@ -5169,6 +5215,7 @@
 				0F781FD51C072A3E00688168 /* delete.png in Resources */,
 				04C406AB1730303600973BC0 /* IE.png in Resources */,
 				04C406AD1730303600973BC0 /* IL.png in Resources */,
+				0F9134211C70B7F700889DB9 /* SVAlbumListCell6p.xib in Resources */,
 				3E36D4F518D83F2A003A1D3A /* tutorial7@2x.png in Resources */,
 				3E47246D18D06E5400FF6105 /* Icon-Small.png in Resources */,
 				04C406AF1730303600973BC0 /* IM.png in Resources */,
@@ -5179,6 +5226,7 @@
 				04C406B91730303600973BC0 /* IS.png in Resources */,
 				DD3A8BBE1BC9A04A002DF2C9 /* camera-shutter-click-01.wav in Resources */,
 				04C406BB1730303600973BC0 /* IT.png in Resources */,
+				0F1821081C6CCA2900A0EF12 /* SVSidebarMemberController5.xib in Resources */,
 				04C406BD1730303600973BC0 /* JE.png in Resources */,
 				3E36D4EF18D83F2A003A1D3A /* tutorial4@2x.png in Resources */,
 				04C406BF1730303600973BC0 /* JM.png in Resources */,
@@ -5236,6 +5284,7 @@
 				04C406F51730303600973BC0 /* MD.png in Resources */,
 				04C406F71730303600973BC0 /* ME.png in Resources */,
 				3E47246718D06E5400FF6105 /* Icon-72.png in Resources */,
+				0F9134231C70BD9E00889DB9 /* GLScoreViewController6p.xib in Resources */,
 				0F1C07891BEB5E3A00F82FBB /* seq34.png in Resources */,
 				04C406F91730303600973BC0 /* MF.png in Resources */,
 				0F781FDA1C072A3E00688168 /* iOS7_Keyboard.png in Resources */,
@@ -5275,6 +5324,7 @@
 				04C407211730303600973BC0 /* NC.png in Resources */,
 				3E47246518D06E5400FF6105 /* Icon-60.png in Resources */,
 				04C407231730303600973BC0 /* NE.png in Resources */,
+				0F9134251C70BFBA00889DB9 /* SVWebViewController6p.xib in Resources */,
 				04C407251730303600973BC0 /* NF.png in Resources */,
 				3E36D4F118D83F2A003A1D3A /* tutorial5@2x.png in Resources */,
 				04C407271730303600973BC0 /* NG.png in Resources */,
@@ -5292,6 +5342,7 @@
 				04C407391730303600973BC0 /* PA.png in Resources */,
 				04C4073B1730303600973BC0 /* PE.png in Resources */,
 				3EF4160818E09ECD0077DC22 /* sortType2.png in Resources */,
+				0F9134291C71003B00889DB9 /* SVSidebarMemberController6p.xib in Resources */,
 				04C4073D1730303600973BC0 /* PF.png in Resources */,
 				04C4073F1730303600973BC0 /* PG.png in Resources */,
 				04C407411730303600973BC0 /* PH.png in Resources */,
@@ -5320,6 +5371,7 @@
 				3E0CC9CF18B63DEC00F6089A /* NewAlbum.png in Resources */,
 				04C4075B1730303600973BC0 /* RS.png in Resources */,
 				04C4075D1730303600973BC0 /* RU.png in Resources */,
+				0F1821001C6C9AE100A0EF12 /* GLPublicFeedViewController5.xib in Resources */,
 				0F4947821BE231F900FEDC12 /* lateSunset.png in Resources */,
 				66278CC21867C57300D23F34 /* SVImageCropViewController.xib in Resources */,
 				108CDF6C18846B9000757E36 /* MPLogo.png in Resources */,
@@ -5515,6 +5567,7 @@
 				66278CE21867C62300D23F34 /* SVActivityViewController.xib in Resources */,
 				2849A79D17D9AA580076AFBA /* cameraCaptureButton@2x.png in Resources */,
 				2849A79E17D9AA580076AFBA /* cameraFlashAuto.png in Resources */,
+				0F91342B1C7100E100889DB9 /* GLPublicFeedViewController6p.xib in Resources */,
 				0F5511A51BEF8C0300E98C64 /* GothamNarrow-Ultra.otf in Resources */,
 				2849A79F17D9AA580076AFBA /* cameraFlashAuto@2x.png in Resources */,
 				2849A7A017D9AA580076AFBA /* cameraFlashOff.png in Resources */,
@@ -5542,6 +5595,8 @@
 				2849A7AC17D9AA580076AFBA /* CameraTakeAnotherPicture.png in Resources */,
 				2849A7AD17D9AA580076AFBA /* CameraTakeAnotherPicture@2x.png in Resources */,
 				2849A7AE17D9AA580076AFBA /* notificationBubble.png in Resources */,
+				0F91342D1C7101A400889DB9 /* GLProfilePageViewController6p.xib in Resources */,
+				0F1821041C6C9F2200A0EF12 /* SVWebViewController5.xib in Resources */,
 				3E36D50118D862B6003A1D3A /* PageControlDotSelected.png in Resources */,
 				108CDF6A18846B9000757E36 /* MPDismissKeyboard.png in Resources */,
 				0F5511891BEF8C0300E98C64 /* Gotham-Book.otf in Resources */,
@@ -5661,6 +5716,7 @@
 				0FE43EB31BDF93620088D93F /* Gotham_Rounded_Book.otf in Resources */,
 				2884A80B181D53EF006462BE /* IconUser@2x.png in Resources */,
 				2884A811181D7D7F006462BE /* searchFieldDarkBg.png in Resources */,
+				0F1820FC1C6B8C9500A0EF12 /* SVAlbumListCell5.xib in Resources */,
 				2884A812181D7D7F006462BE /* searchFieldDarkBg@2x.png in Resources */,
 				2865F602182923BE007E5933 /* NoMembers.png in Resources */,
 				2865F603182923BE007E5933 /* NoMembers@2x.png in Resources */,

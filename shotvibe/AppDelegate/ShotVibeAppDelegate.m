@@ -263,227 +263,70 @@
 //                                      @"User Id" : @22112312312328}];
     
     
-    return YES;
-    
-    
-    
-    //    BOOL background = application.applicationState == UIApplicationStateBackground;
-    //    NSLog(@"App Start");
-    //
-    //    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    //
-    ////    NSThread *testBackgroundThread = [[NSThread alloc] initWithTarget:self selector:@selector(testBackgroundThread:) object:nil];
-    ////    [testBackgroundThread start];
-    //
-    //
-    //    [GLSharedCamera sharedInstance];
-    //
-    //    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
-    //        if (granted) {
-    //            // Microphone enabled code
-    //        }
-    //        else {
-    //            // Microphone disabled code
-    //        }
-    //    }];
-    //
-    //
-    //    [self initSDKs];
-    //
-    //
-    //
-    //    _albumManager = nil;
-    //
-    //    self.networkStatusManager = [[SLNetworkStatusManager alloc] init];
-    //
-    //    _photoFilesManager = [[PhotoFilesManager alloc] init];
-    //
-    //    pushNotificationsManager = [[SVPushNotificationsManager alloc] init];
-    //
-    //    SLAuthData *authData = [UserSettings getAuthData];
-    //    if (authData) {
-    //        [self loadAlbumManager:authData];
-    //    }
-    //
-//    [[_albumManager getShotVibeAPI] albumRemoveMemberWithLong:<#(long long)#> withLong:<#(long long)#>];
-    //    [[LNNotificationCenter defaultCenter] setNotificationsBannerStyle:LNNotificationBannerStyleLight];
-    //    [LNNotificationCenter defaultCenter].notificationsBannerStyle = LNNotificationBannerStyleLight;
-    //
-    //
-    //    // The following casts will work because of the way the MainStoryboard is set up.
-    //
-    ////    NSAssert([self.window.rootViewController isKindOfClass:[SVNavigationController class]], @"Error: rootViewController is not UINavigationController");
-    //    SVNavigationController *navigationController = (SVNavigationController *)self.window.rootViewController;
-    ////
-    //    [navigationController setNavigationBarHidden:YES];
-    ////
-    ////    NSAssert([navigationController.visibleViewController isKindOfClass:[SVRegistrationViewController class]], @"Error: visibleViewController is not SVRegistrationViewController");
-    //
-    ////    GLWelcomeViewController * welcome = [[GLWelcomeViewController alloc] init];
-    ////    ContainerViewController *registrationViewController = (ContainerViewController *)navigationController.visibleViewController;
-    //    GLWelcomeViewController * welcome = [[GLWelcomeViewController alloc] init];
-    //
-    //
-    //
-    //    self.window.backgroundColor = [UIColor whiteColor];
-    //
-    //
-    ////    welcome = (GLWelcomeViewController *)navigationController.visibleViewController;
-    ////
-    ////
-    //////    UIPageViewController * pagesViewController = [[UIPageViewController alloc] init];
-    //////    pagesViewController.ch
-    ////
-    //////    // Initialize the sidebar menu
-    ////    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
-    //////    GLProfilePictureController *glprof = [storyboard instantiateViewControllerWithIdentifier:@"GLProfilePictureController"];
-    ////
-    ////    self.sidebarRight = [storyboard instantiateViewControllerWithIdentifier:@"SidebarMembersView"];
-    ////    self.sidebarLeft = [storyboard instantiateViewControllerWithIdentifier:@"SidebarManagementView"];
-    ////    self.sideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:navigationController
-    ////                                                                  leftMenuViewController:nil
-    ////                                                                 rightMenuViewController:self.sidebarRight];
-    ////    self.sideMenu.panMode = MFSideMenuPanModeNone;
-    ////
-    ////
-    ////
-    ////    self.window.rootViewController = self.sideMenu;
-    //
-    //
-    ////    self.window.rootViewController.wantsFullScreenLayout = YES;
-    //
-    //
-    ////    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    //    // Override point for customization after application launch.
-    ////    self.window.backgroundColor = [UIColor whiteColor];
-    ////    [self.window makeKeyAndVisible];
-    //
-    ////    self.window.rootViewController = container;
-    ////    return YES;
-    //
-    //
-    //    self.appOpenedFromPush = NO;
-    //    SVInitialization *worker = [[SVInitialization alloc] init];
-    //    [worker configureAppearanceProxies];
-    //    [worker initializeLocalSettingsDefaults];
-    //
-    //
-    ////    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kUserSettedPicture"];
-    //
-    ////    [[NSUserDefaults standardUserDefaults] synchronize];
-    //
-    //    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"kUserLoggedIn"]) {
-    ////        TutorialViewController *t = [[TutorialViewController alloc] init];
-    ////        t.onClose = ^(id responseObject) {
-    ////            self.window.rootViewController = navigationController;
-    ////
-    ////            if (![self isLoggedIn]) {
-    //////                [self processCountryCode:[UIApplication sharedApplication] registrationViewController:registrationViewController];
-    ////            } else {
-    ////                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
-    ////                [[NSUserDefaults standardUserDefaults] synchronize];
-    ////            }
-    ////        };
-    //
-    //
-    //        welcome.onClose = ^(id response){
-    ////            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kTutorialShown"];
-    ////            [[NSUserDefaults standardUserDefaults] synchronize];
-    ////            [navigationController setNavigationBarHidden:NO animated:YES];
-    //            self.window.rootViewController = navigationController;
-    //        };
-    //        self.window.rootViewController = welcome;
-    //
-    //
-    //
-    //    } else {
-    //        if (![self isLoggedIn]) {
-    ////            [self processCountryCode:application registrationViewController:registrationViewController];
-    //        }
-    //        ContainerViewController * cont = [ContainerViewController sharedInstance];
-    //        self.window.rootViewController = cont;
-    //
-    //        UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    //        if (notification) {
-    //            NSLog(@"app recieved notification from remote%@",notification);
-    //
-    //            self.appOpenedFromPush = YES;
-    //            [self application:application didReceiveRemoteNotification:(NSDictionary*)notification];
-    ////            self.window.alpha = 0;
-    //
-    //
-    ////            ContainerViewController * cont = [ContainerViewController sharedInstance];
-    //            //
-    //
-    ////            if([[NSUserDefaults standardUserDefaults] boolForKey:@"kUserLoggedIn"]){
-    ////                self.window.rootViewController = glprof;
-    ////            } else {
-    ////                self.window.rootViewController = cont;
-    ////            }
-    //
-    //
-    //
-    ////            NSString * pushType = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"type"];
-    //////            long long int albumId = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"album_id"];
-    ////            if([pushType isEqualToString:@"photo_comment"]){
-    ////
-    ////            } else if([pushType isEqualToString:@"photos_added"]){
-    ////
-    //////                [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:5045 completion:^{
-    //////
-    //////                }];
-    ////
-    ////            }
-    //
-    //
-    //
-    ////            UIAlertView* failureAlert = [[UIAlertView alloc] initWithTitle:pushType
-    ////                                                                   message:nil
-    ////                                                                  delegate:nil
-    ////                                                         cancelButtonTitle:@"OK"
-    ////                                                         otherButtonTitles:nil];
-    ////
-    ////            [failureAlert show];
-    //
-    //
-    ////            [[ContainerViewController sharedInstance] transitToAlbumList:YES direction:UIPageViewControllerNavigationDirectionForward withAlbumId:(long long) completion:^{
-    ////
-    ////            }];
-    //
-    //        }else{
-    ////            UIAlertView* failureAlert = [[UIAlertView alloc] initWithTitle:@"2"
-    ////                                                                   message:nil
-    ////                                                                  delegate:nil
-    ////                                                         cancelButtonTitle:@"OK"
-    ////                                                         otherButtonTitles:nil];
-    ////
-    ////            [failureAlert show];
-    ////            NSLog(@"app did not recieve notification");
-    //
-    ////            ContainerViewController * cont = [ContainerViewController sharedInstance];
-    //////            GLProfilePictureController * glp = [[GLProfilePictureController alloc] init];
-    ////            //
-    ////            self.window.rootViewController = glprof;
-    //        }
-    //
-    //
-    //    }
-    //
-    ////    long t = ;
-    //
-    //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-    //
-    //        [[NSUserDefaults standardUserDefaults] setInteger:[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getUserGlanceScoreWithLong:[[[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] getAuthData] getUserId]] forKey:@"kUserScore"];
-    //        [[NSUserDefaults standardUserDefaults] synchronize];
-    //
-    //    });
-    
-    
-    
-    //    [];
-    
-    //    sleep(3);
 //    return YES;
+
+            UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+            if (notification) {
+                NSLog(@"app recieved notification from remote%@",notification);
+    
+                self.appOpenedFromPush = YES;
+    
+    
+                NSString * pushType = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"type"];
+                
+//                long long int albumId = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"album_id"];
+                if([pushType isEqualToString:@"photos_added"]){
+                    
+                    long long int albumId = (long long int)[[[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"album_id"] longLongValue];
+                    NSString *mAuthorName_ = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"comment_author_nickname"];
+                    NSString *mAuthorAvatarUrl_ = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"comment_author_avatar_url"];
+                    NSString *mAlbumName_ = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"album_name"];
+                    int mNumPhotos_ = (int)[[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"num_photos"];
+                    NSString *mPhotoId_ = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"photo_id"];
+                    
+                    
+                    SLNotificationMessage_PhotosAdded * msg = [[SLNotificationMessage_PhotosAdded alloc] initWithLong:albumId withNSString:mAuthorName_ withNSString:mAuthorAvatarUrl_ withNSString:mAlbumName_ withInt:mNumPhotos_ withNSString:mPhotoId_];
+                    
+                    self.currentPushMsg = @[msg];
+                    
+                }
+                
+                if([pushType isEqualToString:@"photo_glance_score_delta"]){
+                    
+                    long long int albumId  = (long long int)[[[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"album_id"] longLongValue];
+                    NSString * photoId = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"photo_id"];
+                    NSString * albumName = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"album_name"];
+                    NSString * glanceAuthorNickname = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"comment_author_nickname"];
+                    NSString * glanceAuthorAvatarUrl = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"comment_author_avatar_url"];
+                    int scoreDelta = [[[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"score_delta"] intValue];
+                    
+                    SLNotificationMessage_PhotoGlanceScoreDelta * msg = [[SLNotificationMessage_PhotoGlanceScoreDelta alloc] initWithLong:albumId withNSString:photoId withNSString:albumName withNSString:glanceAuthorNickname withNSString:glanceAuthorAvatarUrl withInt:scoreDelta];
+                    
+                    self.currentPushMsg = @[msg];
+                    
+                    
+                }
+                
+                if([pushType isEqualToString:@"photo_comment"]){
+                    
+                    long long int albumId  = (long long int)[[[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"album_id"] longLongValue];
+                    NSString * photoId = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"photo_id"];
+                    NSString * albumName = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"album_name"];
+                    NSString * glanceAuthorNickname = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"comment_author_nickname"];
+                    NSString * glanceAuthorAvatarUrl = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"comment_author_avatar_url"];
+                    NSString * commentText = [[(NSDictionary*)notification objectForKey:@"d"] objectForKey:@"comment_text"];
+                    
+
+                    
+                    
+                    SLNotificationMessage_PhotoComment * msg = [[SLNotificationMessage_PhotoComment alloc] initWithLong:albumId withNSString:photoId withNSString:albumName withNSString:glanceAuthorNickname withNSString:glanceAuthorAvatarUrl withNSString:commentText];
+                    
+                    self.currentPushMsg = @[msg];
+                }
+
+            }
+
+    return YES;
 }
 
 
@@ -764,10 +607,13 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
     
     
     //    [userInfo];
-    //    if ( application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground  )
-    //    {
-    //        //opened from a push notification when the app was on background
-    //    }
+//        if ( application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground  )
+//        {
+//            //opened from a push notification when the app was on background
+////            [KVNProgress showSuccessWithStatus:@"app opened from push"];
+//            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:@"" delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
+//            [alert show];
+//        }
     
     
     [pushNotificationsManager handleNotification:userInfo];
@@ -802,7 +648,7 @@ static NSString *const UPLOADS_DIRECTORY = @"uploads";
     char *machine = malloc(size);
     sysctlbyname("hw.machine", machine, &size, NULL, 0);
     NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
-    if ([platform isEqualToString:@"x86_64"])    return YES;
+//    if ([platform isEqualToString:@"x86_64"])    return YES;
     if ([platform isEqualToString:@"iPhone7,1"])    return YES;
     if ([platform isEqualToString:@"iPhone8,2"])    return YES;
     free(machine);

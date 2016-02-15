@@ -7,6 +7,7 @@
 //
 
 #import "SVSettingsAboutViewController.h"
+#import "ShotVibeAppDelegate.h"
 
 @implementation SVSettingsAboutViewController
 
@@ -52,18 +53,26 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    SVWebViewController * webView;
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        webView = [[SVWebViewController alloc] initWithNibName:@"SVWebViewController5" bundle:[NSBundle mainBundle]];
+    } else {
+        webView = [[SVWebViewController alloc] initWithNibName:@"SVWebViewController" bundle:[NSBundle mainBundle]];
+    }
+    
+    
     if(indexPath.row == 0){
-        SVWebViewController * webView = [[SVWebViewController alloc] init];
+        
         webView.url = @"https://m.shotvibe.com/terms.html";
         [self.navigationController pushViewController:webView animated:YES];
     }
     if(indexPath.row == 1){
-        SVWebViewController * webView = [[SVWebViewController alloc] init];
+//        SVWebViewController * webView = [[SVWebViewController alloc] init];
         webView.url = @"https://m.shotvibe.com/privacy.html";
         [self.navigationController pushViewController:webView animated:YES];
     }
     if(indexPath.row == 2){
-        SVWebViewController * webView = [[SVWebViewController alloc] init];
+//        SVWebViewController * webView = [[SVWebViewController alloc] init];
         webView.url = @"http://www.useglance.com/licenses.html";
         [self.navigationController pushViewController:webView animated:YES];
 

@@ -67,7 +67,13 @@
     
     UIImage * glanceLogo = [UIImage imageNamed:@"welcomeGlanceLogo"];
     UIImageView * glanceLogoView = [[UIImageView alloc] initWithImage:glanceLogo];
-    glanceLogoView.frame = CGRectMake(268 ,-33 ,94 ,40);
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        glanceLogoView.frame = CGRectMake(268/1.17 ,-(33/1.17) ,94/1.17 ,40/1.17);
+    } else {
+        glanceLogoView.frame = CGRectMake(268 ,-33 ,94 ,40);
+    }
+    
     [self.view addSubview:glanceLogoView];
     UIImage * backButtonImage = [UIImage imageNamed:@"backToCameraIcon"];
     UIButton * closeButton = [[UIButton alloc] initWithFrame:CGRectMake(13, -27, 25, 25)];
@@ -463,7 +469,16 @@
     
     
 //    [KVNProgress showWithStatus:@"Loading Profile.." onView:[[ShotVibeAppDelegate sharedDelegate] window]];
-    GLProfilePageViewController * profilePage = [[GLProfilePageViewController alloc] init];
+    GLProfilePageViewController * profilePage;
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        profilePage = [[GLProfilePageViewController alloc] initWithNibName:@"GLProfilePageViewController5" bundle:[NSBundle mainBundle]];
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        profilePage = [[GLProfilePageViewController alloc] initWithNibName:@"GLProfilePageViewController6p" bundle:[NSBundle mainBundle]];
+    } else {
+        profilePage = [[GLProfilePageViewController alloc] initWithNibName:@"GLProfilePageViewController" bundle:[NSBundle mainBundle]];
+    }
+    
+//    GLProfilePageViewController * profilePage = [[GLProfilePageViewController alloc] init];
     profilePage.albumId = self.albumId;
     for(SLAlbumMember * member in [self.albumContentsTwo getMembers].array){
         //        if([[member getUser] getMemberId] == [[[albumManager_ getShotVibeAPI] getAuthData] getUserId]){

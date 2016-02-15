@@ -30,6 +30,7 @@
     
     if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
         frame.origin.x = (self.view.frame.size.width/1.30/2)-((self.signInButton.frame.size.width/1.30)/2);
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
     } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]) {
         frame.origin.x = (self.view.frame.size.width/2)-(self.signInButton.frame.size.width/2)+20;
         frame.origin.y += 25;

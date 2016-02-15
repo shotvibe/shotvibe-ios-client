@@ -18,6 +18,7 @@
 #import "YYWebImage.h"
 #import "SL/AlbumServerVideo.h"
 #import "SL/MediaType.h"
+#import "GLContainersViewController.h"
 @interface GLPublicFeedViewController ()
 
 @end
@@ -89,6 +90,13 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    
+//    [publicFeedAlertTimer invalidate];
+//    [[GLContainersViewController sharedInstance] goToPublicFeed:YES];
+    [[GLContainersViewController sharedInstance] disablePublicFeedPushAlerter];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kUserSawPulicFeed"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     
     SLAlbumManager * al = [ShotVibeAppDelegate sharedDelegate].albumManager;

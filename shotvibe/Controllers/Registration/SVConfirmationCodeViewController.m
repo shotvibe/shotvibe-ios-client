@@ -191,17 +191,17 @@
 -(void)resizeViewToIphone5:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
     
     CGRect f = view.frame;
-    f.origin.x = f.origin.x/1.17;
-    f.origin.y = f.origin.y/1.17;
+    f.origin.x = f.origin.x/1.15;
+    f.origin.y = f.origin.y/1.15;
     if(width){
-        f.size.width = f.size.width/1.17;
+        f.size.width = f.size.width/1.15;
     }
     if(height){
-        f.size.height = f.size.height/1.17;
+        f.size.height = f.size.height/1.15;
     }
     view.frame = f;
     if(cornerRadius){
-        view.layer.cornerRadius = view.layer.cornerRadius/1.17;
+        view.layer.cornerRadius = view.layer.cornerRadius/1.15;
     }
 }
 
@@ -223,6 +223,7 @@
         [self resizeViewToIphone5:self.codeField2 width:YES height:YES cornerRadius:NO];
         [self resizeViewToIphone5:self.codeField3 width:YES height:YES cornerRadius:NO];
         [self resizeViewToIphone5:self.codeField4 width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.backButton width:YES height:YES cornerRadius:NO];
     
     } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
 //        for(UIView * view in self.view.subviews){

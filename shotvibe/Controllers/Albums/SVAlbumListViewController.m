@@ -103,6 +103,7 @@ CGFloat kResizeThumbSize = 45.0f;
     UIRefreshControl * refreshControl;
     
     NSTimer * pullToRefreshTimer;
+    NSTimer * publicFeedAlertTimer;
 
 }
 
@@ -155,6 +156,23 @@ CGFloat kResizeThumbSize = 45.0f;
     return CGFLOAT_MIN;
 }
 
+-(void)resizeViewToIphone5:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x/1.17;
+    f.origin.y = f.origin.y/1.17;
+    if(width){
+        f.size.width = f.size.width/1.17;
+    }
+    if(height){
+        f.size.height = f.size.height/1.17;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius/1.17;
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -163,7 +181,14 @@ CGFloat kResizeThumbSize = 45.0f;
     
     self.view.backgroundColor = [UIColor whiteColor];
     cameraShown = NO;
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height/3, self.view.frame.size.width, self.view.frame.size.height-([UIScreen mainScreen].bounds.size.height/3))];
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, ([UIScreen mainScreen].bounds.size.height/3), self.view.frame.size.width*1.104, (self.view.frame.size.height*1.104)-(([UIScreen mainScreen].bounds.size.height)/3))];
+    } else {
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height/3, self.view.frame.size.width, self.view.frame.size.height-([UIScreen mainScreen].bounds.size.height/3))];
+    }
+    
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -374,7 +399,107 @@ CGFloat kResizeThumbSize = 45.0f;
                                                                    target:self
                                                             refreshAction:@selector(sunnyControlDidStartAnimation)];
     
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        
+        self.tableView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height/3, self.view.frame.size.width/1.17, (self.view.frame.size.height/1.17)-([UIScreen mainScreen].bounds.size.height/3));
+        
+//        [self resizeViewToIphone5:self.tableView width:YES height:YES cornerRadius:NO];
+//        [self resizeViewToIphone5:yet width:YES height:YES cornerRadius:NO];
+//        [self resizeViewToIphone5:yet width:YES height:YES cornerRadius:NO];
+        
+    }
+    
+    
+    [self handleLocalPublicFeedPush];
+    
+    if([[ShotVibeAppDelegate sharedDelegate] appOpenedFromPush]){
+        
+        
+        if([[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0] isKindOfClass:[SLNotificationMessage_PhotoGlanceScoreDelta class]]){
+            [[GLContainersViewController sharedInstance] handleGlancedPushPressed:[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]];
+        }
+        
+        if([[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0] isKindOfClass:[SLNotificationMessage_PhotoComment class]]){
+            [[GLContainersViewController sharedInstance] handleCommentedPushPressed:[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]];
+        }
+        
+        
+        
+        if([[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0] isKindOfClass:[SLNotificationMessage_AddedToAlbum class]]){
+            [[GLContainersViewController sharedInstance] handleAddedToGroupPushPressed:[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]];
+        }
+        
+        if([[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0] isKindOfClass:[SLNotificationMessage_PhotosAdded class]]){
+            
+            [[GLContainersViewController sharedInstance] handleAddedPhotosPushPressed:[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]];
+            
+        }
+        [[ShotVibeAppDelegate sharedDelegate] setAppOpenedFromPush:NO];
+        
+//        [[GLContainersViewController sharedInstance] handleAddedPhotosPushPressed:[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]];
+//        [[ShotVibeAppDelegate sharedDelegate] setAppOpenedFromPush:NO];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushWasPressed" object:self userInfo:@{@"msg":[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]}];
+        
+    }
+    
+    
 }
+
+-(void)handleLocalPublicFeedPush {
+
+    
+    
+    BOOL publicFeedDidShowed =[[NSUserDefaults standardUserDefaults] objectForKey:@"kUserSawPulicFeed"];
+    if(!publicFeedDidShowed){
+        publicFeedAlertTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(publicFeedAlertInvoked) userInfo:nil repeats:YES];
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //
+//    UILocalNotification *notification = [[UILocalNotification alloc] init];
+//    notification.fireDate = [[NSDate date] dateByAddingTimeInterval:20];//60*60*24];
+//    notification.alertBody = @"24 hours passed since last visit :(";
+//    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+    
+}
+
+-(void)disablePublicFeedAlerterTimer {
+    [publicFeedAlertTimer invalidate];
+}
+
+-(void)publicFeedAlertInvoked {
+
+    
+    LNNotification* notification = [LNNotification notificationWithMessage:@"Dont forget to check the public feed just swipe left !"];
+    notification.title = @"The Public Feed";
+    notification.soundName = @"push.mp3";
+    notification.icon = [UIImage imageNamed:@"ScoreViewBg"];
+    notification.defaultAction = [LNNotificationAction actionWithTitle:@"Default Action" handler:^(LNNotificationAction *action) {
+        
+        
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushWasPressed" object:self userInfo:@{}];
+        
+        [publicFeedAlertTimer invalidate];
+        [[GLContainersViewController sharedInstance] goToPublicFeed:YES];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kUserSawPulicFeed"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        
+        
+    }];
+    
+    [[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"glance_app"];
+    
+}
+
 
 -(void)sunnyControlDidStartAnimation{
     
@@ -459,6 +584,23 @@ CGFloat kResizeThumbSize = 45.0f;
         friendsArrow.image = [UIImage imageNamed:@"straightArrowPh"];
         friendsArrow.transform = CGAffineTransformMakeRotation(degrees * M_PI/180);
         
+            if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                
+//                float degrees = 0;
+                
+//                friendsArrow.transform = CGAffineTransformMakeRotation(-50 * M_PI/180);
+                friendsArrow.frame = CGRectMake(40/1.17, 483/1.17, 285/1.17, 133/1.17);
+                dmutArrow.frame = CGRectMake(170/1.17, 215/1.17, 150/1.17, 175/1.17);
+                dmutArrow.transform = CGAffineTransformMakeRotation(-50 * M_PI/180);
+                friendsArrow.transform = CGAffineTransformMakeRotation(-50 * M_PI/180);
+//                [self resizeViewToIphone5:friendsArrow width:YES height:YES cornerRadius:NO];
+//                [self resizeViewToIphone5:dmutArrow width:YES height:YES cornerRadius:NO];
+                [self resizeViewToIphone5:no width:YES height:YES cornerRadius:NO];
+                [self resizeViewToIphone5:photos width:YES height:YES cornerRadius:NO];
+                [self resizeViewToIphone5:yet width:YES height:YES cornerRadius:NO];
+                [self resizeViewToIphone5:letsGetsStarted width:YES height:YES cornerRadius:NO];
+            }
+        
         [self.tableView setUserInteractionEnabled:NO];
         [self.view addSubview:friendsArrow];
         [self.view addSubview:dmutArrow];
@@ -512,63 +654,8 @@ CGFloat kResizeThumbSize = 45.0f;
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-//    NSLog(@"%f",scrollView.contentOffset.y);
-//    if(scrollView.contentOffset.y < -120){
-////        self.tableView.contentOffset = CGPointMake(0, -100);
-//        self.tableView.scrollEnabled = NO;
-//        [self.tableView setContentOffset:CGPointMake(0, -120) animated:NO];
-////        [self.tableView setContentOffset:CGPointMake(0, -135) animated:YES];
-////        self.from
-//        userRefreshed = YES;
-//         [self onUserRefreshed];
-////        NSTimer * timer = [[NSTimer alloc] init];
-//    }
-    
+
 }
-
-
-
-
-//- (void)animateRefreshView
-//{
-//    // Background color to loop through for our color view
-//    NSArray *colorArray = @[[UIColor redColor],[UIColor blueColor],[UIColor purpleColor],[UIColor cyanColor],[UIColor orangeColor],[UIColor magentaColor]];
-//    static int colorIndex = 0;
-//
-//    // Flag that we are animating
-//    self.isRefreshAnimating = YES;
-//
-//    [UIView animateWithDuration:0.3
-//                          delay:0
-//                        options:UIViewAnimationOptionCurveLinear
-//                     animations:^{
-//                         // Rotate the spinner by M_PI_2 = PI/2 = 90 degrees
-//                         [self.compass_spinner setTransform:CGAffineTransformRotate(self.compass_spinner.transform, M_PI_2)];
-//
-//                         // Change the background color
-//                         self.refreshColorView.backgroundColor = [colorArray objectAtIndex:colorIndex];
-//                         colorIndex = (colorIndex + 1) % colorArray.count;
-//                     }
-//                     completion:^(BOOL finished) {
-//                         // If still refreshing, keep spinning, else reset
-//                         if (self.refreshControl.isRefreshing) {
-//                             [self animateRefreshView];
-//                         }else{
-//                             [self resetAnimation];
-//                         }
-//                     }];
-//}
-
-//- (void)resetAnimation
-//{
-//    // Reset our flags and background color
-//    self.isRefreshAnimating = NO;
-//    self.isRefreshIconsOverlap = NO;
-//    self.refreshColorView.backgroundColor = [UIColor clearColor];
-//}
-
-
-
 
 -(void)uploadImageAfterTransitionFromFriends {
     
@@ -1343,13 +1430,31 @@ CGFloat kResizeThumbSize = 45.0f;
     //    }
     
     
-    SVAlbumListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
+    SVAlbumListViewCell *cell;
     
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell5"];
+//        cell.networkImageView.frame = CGRectMake(cell.networkImageView.frame.origin.x, cell.networkImageView.frame.origin.y, cell.networkImageView.frame.size.width/1.17, cell.networkImageView.frame.size.height/1.17);
+//        cell.networkImageView.layer.cornerRadius = cell.networkImageView.layer.cornerRadius/1.17;
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell6p"];
+    } else {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"SVAlbumListCell"];
+    }
     
     if(cell==nil){
         
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SVAlbumListCell" owner:self options:nil];
+        NSArray *nib;
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            nib = [[NSBundle mainBundle] loadNibNamed:@"SVAlbumListCell5" owner:self options:nil];
+        } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+            nib = [[NSBundle mainBundle] loadNibNamed:@"SVAlbumListCell6p" owner:self options:nil];
+        } else {
+        
+            nib = [[NSBundle mainBundle] loadNibNamed:@"SVAlbumListCell" owner:self options:nil];
+        }
         cell = [nib objectAtIndex:0];
+        
     }
     
     //	cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -1474,6 +1579,9 @@ CGFloat kResizeThumbSize = 45.0f;
     //        [cell.timestamp setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //        cell.title.textColor = [UIColor whiteColor];
     //    }
+    
+    
+    
     return cell;
 }
 
@@ -1734,7 +1842,7 @@ CGFloat kResizeThumbSize = 45.0f;
     } else {
         [self showNoGroupsPlaceHolder];
     }
-
+//
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         // Set all the album thumbnails to download at high priority
         for (SLAlbumSummary *a in albums) {

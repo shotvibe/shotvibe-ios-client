@@ -50,7 +50,7 @@
     
     pickerIsOpen = NO;
     
-    self.goButton.layer.cornerRadius = self.goButton.frame.size.width/2;
+    
     //    self.userPhoto.alpha = 0;
     self.originalPictureView.backgroundColor = [UIColor whiteColor];
     self.originalPictureView.clipsToBounds = YES;
@@ -160,6 +160,15 @@
         [self resizeViewToIphone5:self.capButton width:YES height:YES cornerRadius:NO];
         [self resizeViewToIphone5:self.galButton width:YES height:YES cornerRadius:NO];
         [self resizeViewToIphone5:self.goButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.userPhoto width:YES height:YES cornerRadius:YES];
+        [self resizeViewToIphone5:self.pageTitle width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.originalLogo width:YES height:YES cornerRadius:NO];
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
+        [self.pageTitle setFont:[UIFont fontWithName:self.pageTitle.font.fontName size:26/1.17]];
+        
+        [self.view bringSubviewToFront:self.originalPictureView];
+        [self.originalPictureView setUserInteractionEnabled:YES];
         
     } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
         [self resizeViewToIphone6plus:self.xButton width:YES height:YES cornerRadius:NO];
@@ -173,6 +182,8 @@
         [self resizeViewToIphone6plus:self.originalLogo width:YES height:YES cornerRadius:NO];
         
     }
+    
+    self.goButton.layer.cornerRadius = self.goButton.frame.size.width/2;
 }
 
 

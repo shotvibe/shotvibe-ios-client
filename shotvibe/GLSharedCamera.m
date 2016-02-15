@@ -337,7 +337,13 @@
         [self.cameraViewBackground addSubview:cameraWrapper];
         
         
-        self.dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104)];
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            self.dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60/1.17, ([UIScreen mainScreen].bounds.size.height/3)-(86/1.17), 256/1.17, 104/1.17)];
+        } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+            self.dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60*1.104, ([UIScreen mainScreen].bounds.size.height/3)-(86*1.104), 256*1.104, 104*1.104)];
+        } else {
+            self.dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104)];
+        }
         self.dmut.userInteractionEnabled = YES;
         self.dmut.image = [UIImage imageNamed:@"Dmut"];
         [self.cameraViewBackground addSubview:self.dmut];
@@ -350,19 +356,38 @@
         cameraSlideTopLimit = [self.dmut center].y;
         
         // add effect to an effect view
-        
-        effeectViewWrapper = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            effeectViewWrapper = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80/1.17)];
+        } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+            effeectViewWrapper = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80*1.104)];
+        } else {
+            effeectViewWrapper = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
+        }
 //        effeectViewWrapper.backgroundColor = [UIColor purpleColor];
         effeectViewWrapper.hidden = YES;
         
         effectView = [[UIVisualEffectView alloc] init];
-        effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
+        
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80/1.17);
+        } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+            effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80*1.104);
+        } else {
+            effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
+        }
+        
         effectView.alpha = 0;
         //        effectView.hidden = NO;
         
         
         //        self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 20, 40, 70)];
-        self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 23, 27, 45)];
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(10/1.17, 23/1.17, 27/1.17, 45/1.17)];
+        } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+            self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 23, 27, 45)];
+        } else  {
+            self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 23, 27, 45)];
+        }
         
         self.backButton.alpha = 0;
         //        self.backButton.backgroundColor = [UIColor redColor];
@@ -466,141 +491,11 @@
     return self;
 }
 
-//-(void)createResizableTextViewForGradient {
-//    
-//    CGRect screenRect = kScreenBounds;
-//    CGFloat screenWidth = screenRect.size.width;
-//    //    CGFloat screenHeight = screenRect.size.height;
-//    
-//    
-////    gradientResizeAbleView
-//    
-//    CGRect gripFrame = CGRectMake(screenWidth/4, screenWidth/3, screenWidth/2, screenWidth/1.5);
-//    self.resizeAbleView = [[GLResizeableView alloc] initWithFrame:gripFrame];
-//    UIView *contentView = [[UIView alloc] initWithFrame:gripFrame];
-//    [contentView setBackgroundColor:[UIColor clearColor]];
-//    self.resizeAbleView.contentView = contentView;
-//    self.resizeAbleView.delegate = self;
-//    self.resizeAbleView.parentView = self.view;
-//    //    [self.resizeAbleView hideEditingHandles];
-//    
-////    self.resizeAbleView.alpha = 0;
-//    
-//    
-//    CGFloat minWidth  = 100;
-//    CGFloat minHeight = 50;
-//    
-//    UITapGestureRecognizer * tapOnWindow = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resizeableTapped:)];
-//    [self.resizeAbleView addGestureRecognizer:tapOnWindow];
-//    
-//    
-//    
-//    
-//    testLabel = [[UILabel alloc] initWithFrame:CGRectMake(-self.resizeAbleView.frame.size.width, -self.resizeAbleView.frame.size.height, self.resizeAbleView.frame.size.width, self.resizeAbleView.frame.size.height)];
-//    testLabel.center = self.resizeAbleView.center;
-//    testLabel.text = @"Hi :)";
-//    testLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:300];
-//    testLabel.textAlignment = NSTextAlignmentCenter;
-//    testLabel.numberOfLines = 6;
-//    testLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-//    testLabel.textColor = [UIColor whiteColor];
-//    
-//    
-//    dummyTextField = [[UITextField alloc] initWithFrame:gripFrame];
-//    dummyTextField.alpha = 0;
-//    dummyTextField.delegate = self;
-//    [self.view addSubview:dummyTextField];
-//    
-//    dummyTextField.returnKeyType = UIReturnKeyDone;
-//    dummyTextField.keyboardAppearance = UIKeyboardAppearanceAlert;
-//    dummyTextField.textAlignment = NSTextAlignmentCenter;
-//    dummyTextField.autocorrectionType = UITextAutocorrectionTypeNo;
-//    //    dummyTextField.
-//    
-//    [dummyTextField addTarget:self
-//                       action:@selector(textFieldDidChange)
-//             forControlEvents:UIControlEventEditingChanged];
-//    
-//    dummyTextField.text = testLabel.text;
-//    
-//    
-//    self.editTextViewObj.userInteractionEnabled = NO;
-//    
-//    testLabel.userInteractionEnabled = NO;
-//    
-//    self.editTextViewObj.delegate = self;
-//    self.editTextViewObj.parentView = self.view;
-//    
-//    
-//    [self.resizeAbleView addSubview:testLabel];
-//    [self sizeLabel:testLabel toRect:self.resizeAbleView.contentView.frame];
-//    
-//    
-////    [mainOutPutFrame addSubview:self.resizeAbleView];
-//    
-//    self.editPallette.alpha = 0;
-//    
-//    
-//    self.colorArray = [[NSMutableArray alloc] init];
-//    self.colorArray = @[ @0x000000, @0x262626, @0x4d4d4d, @0x666666, @0x808080, @0x990000, @0xcc0000, @0xfe0000, @0xff5757, @0xffabab, @0xffabab, @0xffa757, @0xff7900, @0xcc6100, @0x994900, @0x996f00, @0xcc9400, @0xffb900, @0xffd157, @0xffe8ab, @0xfff4ab, @0xffe957, @0xffde00, @0xccb200, @0x998500, @0x979900, @0xcacc00, @0xfcff00, @0xfdff57, @0xfeffab, @0xf0ffab, @0xd2ff00, @0xa8cc00, @0x7e9900, @0x038001, @0x04a101, @0x05c001, @0x44bf41, @0x81bf80, @0x81c0b8, @0x41c0af, @0x00c0a7, @0x00a18c, @0x00806f, @0x040099, @0x0500cc, @0x0600ff, @0x5b57ff, @0xadabff, @0xd8abff, @0xb157ff, @0x6700bf, @0x5700a1, @0x450080, @0x630080, @0x7d00a1, @0x9500c0, @0xa341bf, @0xb180bf, @0xbf80b2, @0xbf41a6, @0xbf0199, @0xa10181, @0x800166, @0x999999, @0xb3b3b3, @0xcccccc, @0xe6e6e6, @0xffffff];
-//    
-//    int numOfColors = 69;
-//    
-//    
-//    
-//    self.colors = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-//    self.colors.backgroundColor = [UIColor clearColor];
-//    self.colors.delegate = self;
-//    
-//    UITapGestureRecognizer *colorSelectedGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(colorDidSelected:)];
-//    [colorSelectedGest setDelegate:self];
-//    
-//    [self.colors addGestureRecognizer:colorSelectedGest];
-//    
-//    self.colorViewsArray = [[NSMutableArray alloc] init];
-//    
-//    for(int x = 0; x < numOfColors;x++){
-//        
-//        UIView * colorView = [[UIView alloc] initWithFrame:CGRectMake(x*40, 4, 33, 33)];
-//        colorView.clipsToBounds = NO;
-//        colorView.layer.cornerRadius = 16.5;
-//        int c = (int)[self.colorArray objectAtIndex:x];
-//        colorView.backgroundColor = UIColorFromRGB(c);
-//        [self.colorViewsArray addObject:colorView];
-//        [self.colors addSubview:colorView];
-//        
-//    }
-//    
-//    self.colors.contentSize = CGSizeMake(numOfColors*40,50);
-//    self.colors.tag = ScrollerTypeColorsScroller;
-//    
-//    UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 37)];
-//    numberToolbar.barStyle = UIBarStyleBlackTranslucent;
-//    [numberToolbar addSubview:self.colors];
-//    
-//    dummyTextField.inputAccessoryView = numberToolbar;
-//    
-//}
 
-//- (void)toggleGradView {
-//    
-//    [self.videoCamera pauseCameraCapture];
-//    [self createGradientBackgroundVIew];
-//    doingGeadientBg = YES;
-//    [dummyTextField becomeFirstResponder];
-//    [self presentTheGradientScroller];
-//}
 
 - (void)createGradientBackgroundVIew {
     
-    
-//    GLCameraGradientView * gradBackgroundView = [[GLCameraGradientView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*2, 0, self.view.frame.size.width, self.view.frame.size.width) colorsArrayInHex:@[@"0xf07480",@"0x40b4b5"]];
-//    [cameraFeaturesScroller addSubview:gradBackgroundView];
-    
-//    [self addTextToImageTapped];
-//    [mainOutPutFrame bringSubviewToFront:self.resizeAbleView];
-    
-    
+
     
     gradientColorsScroller = [[UIScrollView alloc] initWithFrame:CGRectMake(5, 20, self.view.frame.size.width-5, 50)];
     gradientColorsScroller.backgroundColor = [UIColor clearColor];
@@ -1196,15 +1091,34 @@
                 if(self.isInFeedMode){
                     
                     //                    [[self videoCamera] stopCameraCapture];
-                    [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
+                    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                        
+                        [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60/1.17)];
+                    
+                    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+                        [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60*1.104)];
+                    } else {
+                        [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
+                    }
+                    
                     effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
                     effectView.alpha = 1;
                     effeectViewWrapper.hidden = NO;
                     effeectViewWrapper.alpha = 1;
 
                     //                    effectView.hidden = NO;
-                    self.dmut.center = CGPointMake(firstX, 60);
-                    [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
+                    
+                    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                        self.dmut.center = CGPointMake(firstX, 60/1.17);
+                        [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60/1.17)];
+                    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+                        [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60*1.103)];
+                        self.dmut.center = CGPointMake(firstX, 60*1.103);
+                    } else {
+                        [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
+                        self.dmut.center = CGPointMake(firstX, 60);
+                    }
+                    
                     self.backButton.alpha=1;
                     self.membersButton.alpha=1;
                     self.picYourGroup.alpha = 0;
@@ -1298,11 +1212,17 @@
                     
                     //                    effectView.alpha = 0;
                     //                    effectView.hidden = YES;
-                    self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
+//                    self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
+                } else {
+                    
+                }
+                if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                    self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-160.256);
+                } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+                    self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-207);
                 } else {
                     self.dmut.center = CGPointMake(firstX, self.view.frame.size.height-187.5);
                 }
-                
                 
                 if(!self.isInFeedMode){
                     CGFloat xScale = self.dmut.transform.a;
@@ -1415,7 +1335,14 @@
         effeectViewWrapper.alpha = 0;
         self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
         cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
-        self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
+        
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            self.dmut.frame = CGRectMake(60/1.17, ([UIScreen mainScreen].bounds.size.height/3)-(86/1.17), 256/1.17, 104/1.17);
+        } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+            self.dmut.frame = CGRectMake(60*1.104, ([UIScreen mainScreen].bounds.size.height/3)-(86*1.104), 256*1.104, 104*1.104);
+        } else {
+            self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
+        }
     }];
 }
 
@@ -1443,8 +1370,17 @@
         self.dmut.transform = CGAffineTransformScale(self.dmut.transform, 0.60, 0.60);
         self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
         
-        cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80);
-        self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80);
+                    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                        cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80/1.17);
+                        self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80/1.17);
+                    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+                        cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80*1.104);
+                        self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80*1.104);
+                    } else {
+                        cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80);
+                        self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80);
+                    }
+
         
         
         [self.cameraViewBackground bringSubviewToFront:self.dmut];
@@ -1479,9 +1415,17 @@
                 self.dmut.center = CGPointMake(self.dmut.center.x, self.dmut.center.y-12.5);
             }
             
+            if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80/1.17);
+                self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80/1.17);
+            } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+                cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80*1.104);
+                self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80*1.104);
+            } else {
+                cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80);
+                self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80);
+            }
             
-            cameraWrapper.frame = CGRectMake(0, 0, cameraWrapper.frame.size.width, 80);
-            self.cameraViewBackground.frame = CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 80);
             [self.cameraViewBackground bringSubviewToFront:self.dmut];
         }];
         
@@ -1496,7 +1440,15 @@
             effeectViewWrapper.alpha = 0;
             self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
             cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
-            self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
+            
+            if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                self.dmut.frame = CGRectMake(60/1.17, ([UIScreen mainScreen].bounds.size.height/3)-(86/1.17), 256/1.17, 104/1.17);
+            } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+                self.dmut.frame = CGRectMake(60, (([UIScreen mainScreen].bounds.size.height*1.104)/3)-(86), 256*1.104, 104*1.104);
+            } else {
+                self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
+            }
+            
         }];
         
     }
@@ -2188,7 +2140,13 @@
     if(index == [self.latestImagesArray count]){
         
         UIImage * image = [UIImage imageNamed:@"GiCon"];
-        UIImageView * iv = [[UIImageView alloc] initWithFrame:CGRectMake(14, 45/2, 90.0f, 90.0f)];
+        UIImageView * iv;
+        if(![[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            iv = [[UIImageView alloc] initWithFrame:CGRectMake(14, 45/2, 90.0f, 90.0f)];
+        } else {
+            iv = [[UIImageView alloc] initWithFrame:CGRectMake(14/1.17, (45/1.17)/2, 90/1.17, 90/1.17)];
+        }
+        
         iv.image = image;
         
         [view addSubview:iv];
@@ -2749,9 +2707,20 @@
 
 -(void)closeCameraViewWithSlideFromFeed {
     [UIView animateWithDuration:0.2 animations:^{
-        [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
-        [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
-        self.dmut.center = CGPointMake(firstX, 60);
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60/1.17)];
+            [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60/1.17)];
+            self.dmut.center = CGPointMake(firstX, 60/1.17);
+        } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+            [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60*1.104)];
+            [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60*1.104)];
+            self.dmut.center = CGPointMake(firstX, 60*1.104);
+        } else {
+            [cameraWrapper setFrame:CGRectMake(0, 0, cameraWrapper.frame.size.width, 60)];
+            [self.cameraViewBackground setFrame:CGRectMake(0, 0, self.cameraViewBackground.frame.size.width, 60)];
+            self.dmut.center = CGPointMake(firstX, 60);
+        }
+        
         effeectViewWrapper.hidden = NO;
         effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         effectView.alpha = 1;
@@ -2772,7 +2741,11 @@
         effeectViewWrapper.alpha = 0;
         self.cameraViewBackground.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/3));
         cameraWrapper.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3);
-        self.dmut.frame = CGRectMake(60, ([UIScreen mainScreen].bounds.size.height/3)-86, 256, 104);
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            self.dmut.frame = CGRectMake((60/1.17), ([UIScreen mainScreen].bounds.size.height/3)-(86/1.17), 256/1.17, 104/1.17);
+        } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+            self.dmut.frame = CGRectMake((60/1.17), ([UIScreen mainScreen].bounds.size.height/3)-(86*1.104), 256*1.104, 104*1.104);
+        }
     }];
     
     [self.userScore showUserScore];

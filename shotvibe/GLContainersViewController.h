@@ -35,7 +35,10 @@ typedef void(^pageTransitionCompleted)();
 @property (nonatomic, strong) MFSideMenuContainerViewController *membersSideMenu;
 @property (nonatomic, strong) SVSidebarMemberController * membersViewController;
 
+
 + (GLContainersViewController *)sharedInstance;
+-(void)disablePublicFeedPushAlerter;
+- (void)goToPublicFeed:(BOOL)animated;
 - (void)goToFriendsListViewAnimatedBeforeUploadingPhoto:(BOOL)animated completed:(pageTransitionCompleted)completed executeWhenFriendsDone:(BlockToExecuteWhenDone)friendsDoneBlock;
 - (void)goToFeedViewAnimated:(BOOL)animated withAlbumId:(long long int)albumId;
 - (void)goToFeedViewAnimated:(BOOL)animated withAlbumId:(long long int)albumId completed:(pageTransitionCompleted)completed;
@@ -50,4 +53,9 @@ typedef void(^pageTransitionCompleted)();
 - (void)disableSideMembers;
 - (void)enableSideMembers;
 - (void)openAppleImagePicker;
+
+- (void)handleAddedPhotosPushPressed:(SLNotificationMessage_PhotosAdded *)data;
+- (void)handleAddedToGroupPushPressed:(SLNotificationMessage_AddedToAlbum *)data;
+- (void)handleCommentedPushPressed:(SLNotificationMessage_PhotoComment*)data;
+- (void)handleGlancedPushPressed:(SLNotificationMessage_PhotoGlanceScoreDelta*)data;
 @end

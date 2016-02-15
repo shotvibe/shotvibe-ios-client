@@ -158,7 +158,15 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     commentingNow = NO;
     membersOpened = NO;
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.883)];
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80/1.17, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.883)];
+        } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+            self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 86*1.104, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.883)];
+//            self.tableView.backgroundColor = [UIColor purpleColor];
+        } else {
+                self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.883)];
+        }
+    
     [self.view addSubview:self.tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -1346,11 +1354,21 @@
                 
                 [cell.commentsScrollView removeFromSuperview];
                 
-                cell.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, [[UIScreen mainScreen] bounds].size.width, 69)];
+                
+                if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                    cell.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65/1.17, [[UIScreen mainScreen] bounds].size.width, 69/1.17)];
+                    cell.commentsScrollView.contentSize = CGSizeMake(self.view.frame.size.width, [commentsArray count]*19);
+                } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+                    cell.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65*1.104, [[UIScreen mainScreen] bounds].size.width, 69*1.104)];
+                    cell.commentsScrollView.contentSize = CGSizeMake(self.view.frame.size.width, [commentsArray count]*23);
+                } else {
+                    cell.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, [[UIScreen mainScreen] bounds].size.width, 69)];
+                    cell.commentsScrollView.contentSize = CGSizeMake(self.view.frame.size.width, [commentsArray count]*23);
+                }
                 cell.commentsScrollView.alpha = 1;
                 cell.commentsScrollView.pagingEnabled = YES;
                 cell.commentsScrollView.backgroundColor = [UIColor clearColor];
-                cell.commentsScrollView.contentSize = CGSizeMake(self.view.frame.size.width, [commentsArray count]*23);
+                
                 
                 
                 
@@ -1363,9 +1381,14 @@
                 for(NSDictionary * comment in commentsArray){
                     //            NSLog(@"%@",[comment objectForKey:@"text"]);
                     
-                    
-                    
-                    UILabel * commentAuthor = [[UILabel alloc] initWithFrame:CGRectMake(20, c*23, self.view.frame.size.width/3, 20)];
+                    UILabel * commentAuthor;
+                    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                        commentAuthor = [[UILabel alloc] initWithFrame:CGRectMake(20/1.17, c*19, self.view.frame.size.width/3, 20/1.17)];
+                    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]) {
+                        commentAuthor = [[UILabel alloc] initWithFrame:CGRectMake(20*1.104, c*23, self.view.frame.size.width/3, 20*1.104)];
+                    } else {
+                        commentAuthor = [[UILabel alloc] initWithFrame:CGRectMake(20, c*23, self.view.frame.size.width/3, 20)];
+                    }
                     commentAuthor.numberOfLines = 1;
                     commentAuthor.textColor = [UIColor whiteColor];
                     
@@ -1380,8 +1403,12 @@
                         commentAuthor.text = [[[comment objectForKey:@"from"] objectForKey:@"full_name"] stringByAppendingString:@":"];
                     }
                     
+                    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                        commentAuthor.font = [UIFont fontWithName:@"GothamRounded-Book" size:12];
+                    } else {
+                            commentAuthor.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
+                    }
                     
-                    commentAuthor.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
                     
                     float widthIs =
                     [commentAuthor.text
@@ -1390,11 +1417,21 @@
                      attributes:@{ NSFontAttributeName:commentAuthor.font }
                      context:nil]
                     .size.width;
-                    commentAuthor.frame = CGRectMake(20, c*23, widthIs, 20);
+                    UILabel * t;
+                    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                        commentAuthor.frame = CGRectMake(20/1.17, c*19, widthIs, 20/1.17);
+                        t = [[UILabel alloc] initWithFrame:CGRectMake(commentAuthor.frame.size.width+21, c*19, self.view.frame.size.width*0.6, 17)];
+                        t.font = [UIFont fontWithName:@"GothamRounded-Book" size:12];
+                    } else {
+                            commentAuthor.frame = CGRectMake(20, c*23, widthIs, 20);
+                        t = [[UILabel alloc] initWithFrame:CGRectMake(commentAuthor.frame.size.width+25, c*23, self.view.frame.size.width*0.6, 20)];
+                        t.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
+                    }
                     
-                    UILabel * t = [[UILabel alloc] initWithFrame:CGRectMake(commentAuthor.frame.size.width+25, c*23, self.view.frame.size.width*0.6, 20)];
+                    
+                    
                     t.textColor = [UIColor whiteColor];
-                    t.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
+                    
                     t.numberOfLines = 1;
                     t.lineBreakMode = NSLineBreakByWordWrapping;
                     t.text = [comment objectForKey:@"text"];
@@ -1436,7 +1473,14 @@
     [[[GLSharedCamera sharedInstance] membersButton] setAlpha:0];
     [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:NO];
     
-    GLProfilePageViewController * profilePage = [[GLProfilePageViewController alloc] init];
+    GLProfilePageViewController * profilePage;
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        profilePage = [[GLProfilePageViewController alloc] initWithNibName:@"GLProfilePageViewController5" bundle:[NSBundle mainBundle]];
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        profilePage = [[GLProfilePageViewController alloc] initWithNibName:@"GLProfilePageViewController6p" bundle:[NSBundle mainBundle]];
+    } else {
+        profilePage = [[GLProfilePageViewController alloc] initWithNibName:@"GLProfilePageViewController" bundle:[NSBundle mainBundle]];
+    }
     profilePage.albumId = self.albumId;
     profilePage.userId = userId;
     

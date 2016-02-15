@@ -17,6 +17,7 @@
 #import "SVProfileViewController.h"
 #import "SVRegistrationViewController.h"
 #import "AuthData.h"
+#import "ShotVibeAppDelegate.h"
 
 
 @implementation SVSettingsViewController
@@ -30,14 +31,43 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.tableView setContentInset:UIEdgeInsetsMake(60,0,0,0)];
-    UIView * topHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
+    
+    UIView * topHeader;
     UIVisualEffectView * effectView = [[UIVisualEffectView alloc] init];
-    effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
+    UIImageView * dmut;
+    UIButton * backButton;
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        [self.tableView setContentInset:UIEdgeInsetsMake(60/1.17,0,0,0)];
+        topHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80/1.17)];
+        effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80/1.17);
+        dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60/1.17, 7/1.17, 256/1.17, 104/1.17)];
+        backButton = [[UIButton alloc] initWithFrame:CGRectMake(5/1.17, 20/1.17, 40/1.17, 70/1.17)];
+        backButton.imageEdgeInsets = UIEdgeInsetsMake(10/1.17, 15/1.17, 25/1.17, 0);
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        [self.tableView setContentInset:UIEdgeInsetsMake(60*1.104,0,0,0)];
+        topHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width*1.104, 80*1.104)];
+        effectView.frame = CGRectMake(0, 0, self.view.frame.size.width*1.104, 80*1.104);
+        dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60*1.104, 7*1.104, 256*1.104, 104*1.104)];
+        backButton = [[UIButton alloc] initWithFrame:CGRectMake(5*1.104, 20*1.104, 40*1.104, 70*1.104)];
+        backButton.imageEdgeInsets = UIEdgeInsetsMake(10*1.104, 15*1.104, 25*1.104, 0);
+    } else {
+        [self.tableView setContentInset:UIEdgeInsetsMake(60,0,0,0)];
+        topHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
+        effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
+        dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60, 7, 256, 104)];
+        backButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 20, 40, 70)];
+    }
+    
+    
+    
+    
+    
     effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     [topHeader addSubview:effectView];
     
-    UIImageView * dmut = [[UIImageView alloc] initWithFrame:CGRectMake(60, 7, 256, 104)];
+    
+    
+    
     dmut.image = [UIImage imageNamed:@"Dmut"];
     dmut.transform = CGAffineTransformScale(dmut.transform, 0.6, 0.6);
     self.tableView.scrollEnabled = NO;
@@ -49,9 +79,9 @@
 //    
 //    self.tableView.tableFooterView = bricks;
     
-    UIButton * backButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 20, 40, 70)];
+    
     [backButton setImage:[UIImage imageNamed:@"feedBackIcon"] forState:UIControlStateNormal];
-    backButton.imageEdgeInsets = UIEdgeInsetsMake(10, 15, 25, 0);
+    
     [backButton addTarget:self action:@selector(backButtonPressed:)
               forControlEvents:UIControlEventTouchUpInside];
     [topHeader addSubview:backButton];
@@ -84,7 +114,16 @@
     
     if(indexPath.row == 1){
     
-        SVWebViewController * webView = [[SVWebViewController alloc] init];
+        SVWebViewController * webView;
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+            webView = [[SVWebViewController alloc] initWithNibName:@"SVWebViewController5" bundle:[NSBundle mainBundle]];
+        } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+            webView = [[SVWebViewController alloc] initWithNibName:@"SVWebViewController6p" bundle:[NSBundle mainBundle]];
+        } else {
+            webView = [[SVWebViewController alloc] initWithNibName:@"SVWebViewController" bundle:[NSBundle mainBundle]];
+        }
+        
+//        SVWebViewController * webView = [[SVWebViewController alloc] init];
         webView.url = @"http://useglance.com";
         [self.navigationController pushViewController:webView animated:YES];
     

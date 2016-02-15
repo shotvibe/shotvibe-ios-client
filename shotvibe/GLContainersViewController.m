@@ -34,7 +34,16 @@ static GLContainersViewController *sharedInstance;
 
 -(void)resetFriendsView {
     self.friendsViewController = nil;
-    self.friendsViewController = [[SVAddFriendsViewController alloc] init];
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        self.friendsViewController = [[SVAddFriendsViewController alloc] initWithNibName:@"SVAddFriendsViewController5" bundle:[NSBundle mainBundle]];
+        
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        self.friendsViewController = [[SVAddFriendsViewController alloc] initWithNibName:@"SVAddFriendsViewController6p" bundle:[NSBundle mainBundle]];
+    } else {
+        self.friendsViewController = [[SVAddFriendsViewController alloc] initWithNibName:@"SVAddFriendsViewController" bundle:[NSBundle mainBundle]];
+    }
+//    self.friendsViewController = [[SVAddFriendsViewController alloc] init];
 //    self.friendsViewController.view.frame = CGRectMake(20, 100, 400, 400);
     self.friendsViewController.indexNumber = 0;
 }
@@ -76,6 +85,17 @@ static GLContainersViewController *sharedInstance;
     }];
     
     
+    
+}
+
+- (void)goToPublicFeed:(BOOL)animated {
+    
+//    [self unlockScrollingPages];
+    
+    __block GLContainersViewController * weakSelf = self;
+    [self.pageController setViewControllers:@[self.publicFeedViewController] direction:UIPageViewControllerNavigationDirectionForward animated:animated completion:^(BOOL finished) {
+        //        [weakSelf resetFriendsView];
+    }];
     
 }
 
@@ -217,10 +237,26 @@ static GLContainersViewController *sharedInstance;
     [[self view] addSubview:[self.pageController view]];
     [self.pageController didMoveToParentViewController:self];
     
-    self.publicFeedViewController = [[GLPublicFeedViewController alloc] init];
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        self.publicFeedViewController = [[GLPublicFeedViewController alloc] initWithNibName:@"GLPublicFeedViewController5" bundle:[NSBundle mainBundle]];
+        self.friendsViewController = [[SVAddFriendsViewController alloc] initWithNibName:@"SVAddFriendsViewController5" bundle:[NSBundle mainBundle]];
+        self.membersViewController = [[SVSidebarMemberController alloc] initWithNibName:@"SVSidebarMemberController5" bundle:[NSBundle mainBundle]];
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        self.membersViewController = [[SVSidebarMemberController alloc] initWithNibName:@"SVSidebarMemberController6p" bundle:[NSBundle mainBundle]];
+        self.publicFeedViewController = [[GLPublicFeedViewController alloc] initWithNibName:@"GLPublicFeedViewController6p" bundle:[NSBundle mainBundle]];
+        self.friendsViewController = [[SVAddFriendsViewController alloc] initWithNibName:@"SVAddFriendsViewController6p" bundle:[NSBundle mainBundle]];
+    } else {
+        
+        
+        self.membersViewController = [[SVSidebarMemberController alloc] initWithNibName:@"SVSidebarMemberController" bundle:[NSBundle mainBundle]];
+        self.publicFeedViewController = [[GLPublicFeedViewController alloc] initWithNibName:@"GLPublicFeedViewController" bundle:[NSBundle mainBundle]];
+        self.friendsViewController = [[SVAddFriendsViewController alloc] initWithNibName:@"SVAddFriendsViewController" bundle:[NSBundle mainBundle]];
+    }
+    
+    
     self.albumListViewController = [[SVAlbumListViewController alloc] init];
-    self.friendsViewController = [[SVAddFriendsViewController alloc] init];
-    self.membersViewController = [[SVSidebarMemberController alloc] init];
+    
+    
     self.membersSideMenu = [[MFSideMenuContainerViewController alloc] init];
     self.navigationController = [[SVNavigationController alloc] initWithRootViewController:self.albumListViewController];
     self.membersSideMenu = [MFSideMenuContainerViewController containerWithCenterViewController:self.navigationController
@@ -321,7 +357,12 @@ static GLContainersViewController *sharedInstance;
     
 }
 
+-(void)disablePublicFeedPushAlerter {
+    [self.albumListViewController disablePublicFeedAlerterTimer];
+}
+
 - (void)handleAddedPhotosPushPressed:(SLNotificationMessage_PhotosAdded *)data {
+    
     
     if([self inFeed]){
         
@@ -336,7 +377,7 @@ static GLContainersViewController *sharedInstance;
             [self.navigationController pushViewController:feed animated:NO];
             //            [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
             feed.feedDidAppearBlock = ^(GLFeedViewController * feedInstance){
-//                GLFeedTableCell * cell = [feedInstance ShowSpecificCell:[data getPhotoId]];
+                GLFeedTableCell * cell = [feedInstance ShowSpecificCell:[data getPhotoId]];
 //                [cell highLightLastCommentInPost];
             };
             
@@ -347,6 +388,11 @@ static GLContainersViewController *sharedInstance;
         
     } else {
         
+//        UIAlertView * al = [[UIAlertView alloc] initWithTitle:[data getAlbumName] message:[data getAuthorName] delegate:nil cancelButtonTitle:[data getAuthorAvatarUrl] otherButtonTitles:[data getPhotoId],[NSString stringWithFormat:@"%lld",[data getAlbumId]],[NSString stringWithFormat:@"%d",[data getNumPhotos]], nil];
+//        UIAlertView * al = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%lld",[data getAlbumId]] message:@"" delegate:nil cancelButtonTitle:@"" otherButtonTitles:@"", nil];
+//        
+//        [al show];
+        
         [[GLSharedCamera sharedInstance] setCameraInFeedAfterGroupOpenedWithoutImage];
         [self lockScrollingPages];
         GLFeedViewController * feed = [[GLFeedViewController alloc] init];
@@ -354,7 +400,7 @@ static GLContainersViewController *sharedInstance;
         [self.navigationController pushViewController:feed animated:NO];
         [self.pageController setViewControllers:@[self.membersSideMenu] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
         feed.feedDidAppearBlock = ^(GLFeedViewController * feedInstance){
-//            GLFeedTableCell * cell = [feedInstance ShowSpecificCell:[data getPhotoId]];
+            GLFeedTableCell * cell = [feedInstance ShowSpecificCell:[data getPhotoId]];
 //            [cell highLightLastCommentInPost];
         };
         

@@ -55,27 +55,53 @@
     self.indicator.hidden = YES;
     self.contentView.clipsToBounds = YES;
     
-    self.profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 60, 60)];
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        self.profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10/1.17, 15/1.17, 60/1.17, 60/1.17)];
+    } else {
+        self.profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 60, 60)];
+    }
     [self.contentView addSubview:self.profileImageView];
     self.profileImageView.layer.masksToBounds = YES;
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
     
-    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(80, 15, [[UIScreen mainScreen] bounds].size.width*0.5, 60)];
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        self.userName = [[UILabel alloc] initWithFrame:CGRectMake(80, 15/1.17, [[UIScreen mainScreen] bounds].size.width*0.5, 60)];
+        self.userName.font = [UIFont fontWithName:@"GothamRounded-Book" size:13];
+    } else {
+        self.userName = [[UILabel alloc] initWithFrame:CGRectMake(80, 15, [[UIScreen mainScreen] bounds].size.width*0.5, 60)];
+        self.userName.font = [UIFont fontWithName:@"GothamRounded-Book" size:16];
+    }
     self.userName.backgroundColor = [UIColor whiteColor];
     self.userName.textColor = UIColorFromRGB(0x626262);
-    self.userName.font = [UIFont fontWithName:@"GothamRounded-Book" size:16];
+    
     [self.contentView addSubview:self.userName];
     
-    self.postedTime = [[UILabel alloc] initWithFrame:CGRectMake(self.userName.frame.size.width+self.userName.frame.origin.x+10, 15, [[UIScreen mainScreen] bounds].size.width*0.22, 60)];
+    self.contentView.backgroundColor = [UIColor whiteColor];
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        self.postedTime = [[UILabel alloc] initWithFrame:CGRectMake(self.userName.frame.size.width+self.userName.frame.origin.x, 15/1.17, [[UIScreen mainScreen] bounds].size.width*0.18, 60)];
+        self.postedTime.font = [UIFont fontWithName:@"GothamRounded-Book" size:13];
+    } else {
+        self.postedTime = [[UILabel alloc] initWithFrame:CGRectMake(self.userName.frame.size.width+self.userName.frame.origin.x+10, 15, [[UIScreen mainScreen] bounds].size.width*0.22, 60)];
+        self.postedTime.font = [UIFont fontWithName:@"GothamRounded-Book" size:16];
+    }
     
     self.postedTime.backgroundColor = [UIColor whiteColor];
     self.postedTime.textAlignment = NSTextAlignmentRight;
-    self.postedTime.font = [UIFont fontWithName:@"GothamRounded-Book" size:16];
+    
     self.postedTime.textColor = UIColorFromRGB(0x626262);
     
     [self.contentView addSubview:self.postedTime];
     
-    self.postImage = [[YYAnimatedImageView alloc] initWithFrame:CGRectMake(0, 89, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
+        if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+                self.postImage = [[YYAnimatedImageView alloc] initWithFrame:CGRectMake(0, 89/1.17, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
+        } else {
+                    self.postImage = [[YYAnimatedImageView alloc] initWithFrame:CGRectMake(0, 89, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height*0.75)];
+            
+        }
+    
+
     
     
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
@@ -101,6 +127,12 @@
     self.commentScrollBgView.backgroundColor = [UIColor blackColor];
     self.commentScrollBgView.alpha = 0.5;
     
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        
+    } else {
+        
+    }
     self.commentsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, [[UIScreen mainScreen] bounds].size.width, 69)];
     self.commentsScrollView.pagingEnabled = YES;
     self.commentsScrollView.backgroundColor = [UIColor clearColor];
@@ -121,6 +153,7 @@
     [self.glanceDownButton setImageEdgeInsets:UIEdgeInsetsMake(11, 10.5, 11, 10.5)];
     
     self.glancesCounter = [[UILabel alloc] initWithFrame:CGRectMake(self.addCommentButton.frame.origin.x+self.addCommentButton.frame.size.width+32, 26, 45, 35)];
+    
     self.glancesCounter.backgroundColor = [UIColor clearColor];
     self.glancesCounter.text = @"5";
     self.glancesCounter.textAlignment = NSTextAlignmentCenter;
@@ -232,7 +265,49 @@
     _progressLayer.strokeStart = 0;
     _progressLayer.strokeEnd = 0;
     [self.postImage.layer addSublayer:_progressLayer];
+    
+    
+    
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+//        self.postImage.frame = CGRectMake(self.postImage.frame.origin.x, self.postImage.frame.origin.y/1.17, self.postImage.frame.size.width/1.17, self.postImage.frame.size.height/1.17);
+//            self resize
+//        [self resizeViewToIphone5:self.postPannelWrapper width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.commentsScrollView width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.glancesCounter width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.postForwardButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.addCommentButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.abortCommentButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.glanceDownButton width:YES height:YES cornerRadius:NO];
+//
+        [self resizeViewToIphone5:self.glanceUpButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.feed3DotsButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.commentTextField width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.backSpaceKeyBoardButton width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.submitCommentButton width:YES height:YES cornerRadius:NO];
+//        [self resizeViewToIphone5:self.postImage width:YES height:YES cornerRadius:NO];
+//        [self resizeViewToIphone5:self.activityIndicator width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.videoBadge width:YES height:YES cornerRadius:NO];
+//        [self resizeViewToIphone5:self.profileImageView width:YES height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.indicator width:YES height:YES cornerRadius:NO];
+    }
 
+}
+
+-(void)resizeViewToIphone5:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x/1.17;
+    f.origin.y = f.origin.y/1.17;
+    if(width){
+        f.size.width = f.size.width/1.17;
+    }
+    if(height){
+        f.size.height = f.size.height/1.17;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius/1.17;
+    }
 }
 
 -(void)abortCommentDidPressed {
@@ -383,6 +458,56 @@
 }
  */
 
+-(NSString *)abbreviateNumber:(int)num {
+    
+    NSString *abbrevNum;
+    float number = (float)num;
+    
+    //Prevent numbers smaller than 1000 to return NULL
+    if (num >= 1000) {
+        NSArray *abbrev = @[@"K", @"M", @"B"];
+        
+        for (int i = abbrev.count - 1; i >= 0; i--) {
+            
+            // Convert array index to "1000", "1000000", etc
+            int size = pow(10,(i+1)*3);
+            
+            if(size <= number) {
+                // Removed the round and dec to make sure small numbers are included like: 1.1K instead of 1K
+                number = number/size;
+                NSString *numberString = [self floatToString:number];
+                
+                // Add the letter for the abbreviation
+                abbrevNum = [NSString stringWithFormat:@"%@%@", numberString, [abbrev objectAtIndex:i]];
+            }
+            
+        }
+    } else {
+        
+        // Numbers like: 999 returns 999 instead of NULL
+        abbrevNum = [NSString stringWithFormat:@"%d", (int)number];
+    }
+    
+    return abbrevNum;
+}
+
+- (NSString *) floatToString:(float) val {
+    NSString *ret = [NSString stringWithFormat:@"%.1f", val];
+    unichar c = [ret characterAtIndex:[ret length] - 1];
+    
+    while (c == 48) { // 0
+        ret = [ret substringToIndex:[ret length] - 1];
+        c = [ret characterAtIndex:[ret length] - 1];
+        
+        //After finding the "." we know that everything left is the decimal number, so get a substring excluding the "."
+        if(c == 46) { // .
+            ret = [ret substringToIndex:[ret length] - 1];
+        }
+    }
+    
+    return ret;
+}
+
 - (void)loadCellWithData:(NSArray*)data photoFilesManager:(PhotoFilesManager*)photoFilesManager_ {
 
 
@@ -404,7 +529,28 @@
         self.postedTime.text = [NSString stringWithFormat:@"%@ ago",[[[NSDate alloc] initWithTimeIntervalSince1970:[[[data objectAtIndex:0] objectForKey:@"created_time"] longLongValue]] distanceOfTimeInWords:[NSDate date] shortStyle:YES]];
     
     
-    self.glancesCounter.text = [[data objectAtIndex:0] objectForKey:@"likes"];
+    int likes = [[[data objectAtIndex:0] objectForKey:@"likes"] intValue];
+//    self.glancesCounter.font = [UIFont fontWithName:@"GothamRounded-Book" size:42];
+    if(likes > 9 && likes <= 99){
+      self.glancesCounter.font = [UIFont fontWithName:@"GothamRounded-Book" size:30];
+    } else if(likes >99 && likes <= 999){
+        self.glancesCounter.font = [UIFont fontWithName:@"GothamRounded-Book" size:20];
+////    self.glancesCounter.font = [UIFont fontWithName:@"GothamRounded-Book" size:34];
+    } else if(likes > 999 && likes <= 9999){
+////    self.glancesCounter.font = [UIFont fontWithName:@"GothamRounded-Book" size:42];
+        self.glancesCounter.font = [UIFont fontWithName:@"GothamRounded-Book" size:14];
+    } else if(likes > 9999 && likes <= 99999){
+        self.glancesCounter.font = [UIFont fontWithName:@"GothamRounded-Book" size:10];
+//    } else if(likes > 99999){
+//    
+//    } else if(likes> 999999){
+//    
+    } else {
+        self.glancesCounter.font = [UIFont fontWithName:@"GothamRounded-Book" size:42];
+    }
+    
+    
+    self.glancesCounter.text = [self abbreviateNumber:likes];//[[data objectAtIndex:0] objectForKey:@"likes"];
     
     int currentGlance = [[photo getServerPhoto] getMyGlanceScoreDelta];
     if(currentGlance == -1){

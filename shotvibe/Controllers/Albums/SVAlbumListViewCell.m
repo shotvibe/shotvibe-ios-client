@@ -8,6 +8,7 @@
 
 #import "SVAlbumListViewCell.h"
 #import "SVDefines.h"
+#import "ShotVibeAppDelegate.h"
 
 NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification = @"SVSwipeForOptionsCellEnclosingTableViewDidScrollNotification";
 
@@ -66,6 +67,9 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
 
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.accessoryType = UITableViewCellAccessoryNone;
+    
+    
+    
 }
 
 
