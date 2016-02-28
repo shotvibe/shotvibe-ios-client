@@ -135,7 +135,7 @@
     NSError *err;
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     path = [path stringByAppendingString:@"/avatar.jpg"];
-    [UIImageJPEGRepresentation(scaledImage, 0.9) writeToFile:path options:NSAtomicWrite error:&err];
+    [UIImageJPEGRepresentation(scaledImage, 0.9) writeToFile:path options:YES error:&err];
 
     if (err) {
         RCLog(@"some error ocured while saving the avatar to disk");

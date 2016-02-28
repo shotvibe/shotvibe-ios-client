@@ -17,7 +17,7 @@
 
     BOOL fullControls_;
 
-    UIImageView *imageView_;
+    
     UIActivityIndicatorView *activityIndicatorView_;
     UIProgressView *progressView_;
 }
@@ -32,10 +32,10 @@
         photoId_ = nil;
         photoSize_ = nil;
 
-        imageView_ = [[UIImageView alloc] init];
-		imageView_.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-		imageView_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [self addSubview:imageView_];
+        self.imageView_ = [[UIImageView alloc] init];
+		self.imageView_.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+		self.imageView_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [self addSubview:self.imageView_];
 
         if (fullControls_) {
             activityIndicatorView_ = [[UIActivityIndicatorView alloc] init];
@@ -76,7 +76,7 @@
 {
     [super layoutSubviews];
 	
-	imageView_.contentMode = self.contentMode;
+	self.imageView_.contentMode = self.contentMode;
 	//imageView_.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 	
 	if (fullControls_) {
@@ -115,8 +115,8 @@
 {
     [self cancelPrevious];
 
-    imageView_.alpha = 1.0f;
-    [imageView_ setImage:image];
+    self.imageView_.alpha = 1.0f;
+    [self.imageView_ setImage:image];
 
     if (fullControls_) {
         [activityIndicatorView_ stopAnimating];
@@ -124,7 +124,7 @@
     }
 }
 - (UIImage*)image {
-	return imageView_.image;
+	return self.imageView_.image;
 }
 
 - (void)onPhotoLoadUpdate:(PhotoBitmap *)bmp
@@ -134,8 +134,8 @@
     }
     else {
         if (bmp.state == PhotoBitmapLoaded) {
-            imageView_.alpha = 1.0f;
-            [imageView_ setImage:bmp.bmp];
+            self.imageView_.alpha = 1.0f;
+            [self.imageView_ setImage:bmp.bmp];
 			if ([self.delegate respondsToSelector:@selector(onPhotoLoadComplete)]) {
 				[self.delegate performSelector:@selector(onPhotoLoadComplete) withObject:nil];
 			}
@@ -173,8 +173,8 @@
 
         case PhotoBitmapLoaded:
             //NSLog(@"photoLoadUpdate %@ loaded", photoId_);
-            imageView_.alpha = 1.0f;
-            [imageView_ setImage:bmp.bmp];
+            self.imageView_.alpha = 1.0f;
+            [self.imageView_ setImage:bmp.bmp];
             [activityIndicatorView_ stopAnimating];
             progressView_.hidden = YES;
 			if ([self.delegate respondsToSelector:@selector(onPhotoLoadComplete)]) {
@@ -191,8 +191,8 @@
 
 - (void)showLowQuality:(UIImage *)lowQualityImg
 {
-    imageView_.alpha = 0.5f;
-    [imageView_ setImage:lowQualityImg];
+    self.imageView_.alpha = 0.5f;
+    [self.imageView_ setImage:lowQualityImg];
 }
 
 @end

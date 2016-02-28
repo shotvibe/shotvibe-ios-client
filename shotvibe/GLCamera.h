@@ -25,7 +25,7 @@
 - (void) playCaptureSound;
 - (UIImage *) imageWithView:(UIView *)view;
 - (UIImage *) imageWithText:(UIView *)view;
-- (UIImage *) resizeLabelImage:(UIImage*)image;
+- (UIImage *) resizeLabelImage:(UIImage*)image location:(CGPoint)location;
 - (UIImage *)imageByCroppingImage:(UIImage *)image toSize:(CGSize)size;
 - (void)toggleFlash;
 @end

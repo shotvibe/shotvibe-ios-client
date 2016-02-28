@@ -29,7 +29,8 @@
 #import "java/lang/InternalError.h"
 #import "java/lang/NullPointerException.h"
 //#import "java/lang/Thread.h"
-#import "objc-sync.h"
+
+//@import ObjectiveC;
 
 // A category that adds Java Object-compatible methods to NSObject.
 @implementation NSObject (JavaObject)
@@ -66,29 +67,29 @@
 }
 
 - (void)notify {
-  int result = objc_sync_notify(self);
-  if (result == OBJC_SYNC_SUCCESS) {  // Test most likely outcome first.
-    return;
-  }
-  if (result == OBJC_SYNC_NOT_OWNING_THREAD_ERROR) {
-    @throw AUTORELEASE([[JavaLangIllegalMonitorStateException alloc] init]);
-  } else {
-    NSString *msg = [NSString stringWithFormat:@"system error %d", result];
-    @throw AUTORELEASE([[JavaLangInternalError alloc] initWithNSString:msg]);
-  }
+//  int result = objc_sync_notify(self);
+//  if (result == OBJC_SYNC_SUCCESS) {  // Test most likely outcome first.
+//    return;
+//  }
+//  if (result == OBJC_SYNC_NOT_OWNING_THREAD_ERROR) {
+//    @throw AUTORELEASE([[JavaLangIllegalMonitorStateException alloc] init]);
+//  } else {
+//    NSString *msg = [NSString stringWithFormat:@"system error %d", result];
+//    @throw AUTORELEASE([[JavaLangInternalError alloc] initWithNSString:msg]);
+//  }
 }
 
 - (void)notifyAll {
-  int result = objc_sync_notifyAll(self);
-  if (result == OBJC_SYNC_SUCCESS) {  // Test most likely outcome first.
-    return;
-  }
-  if (result == OBJC_SYNC_NOT_OWNING_THREAD_ERROR) {
-    @throw AUTORELEASE([[JavaLangIllegalMonitorStateException alloc] init]);
-  } else {
-    NSString *msg = [NSString stringWithFormat:@"system error %d", result];
-    @throw AUTORELEASE([[JavaLangInternalError alloc] initWithNSString:msg]);
-  }
+//  int result = objc_sync_notifyAll(self);
+//  if (result == OBJC_SYNC_SUCCESS) {  // Test most likely outcome first.
+//    return;
+//  }
+//  if (result == OBJC_SYNC_NOT_OWNING_THREAD_ERROR) {
+//    @throw AUTORELEASE([[JavaLangIllegalMonitorStateException alloc] init]);
+//  } else {
+//    NSString *msg = [NSString stringWithFormat:@"system error %d", result];
+//    @throw AUTORELEASE([[JavaLangInternalError alloc] initWithNSString:msg]);
+//  }
 }
 
 /*

@@ -266,7 +266,7 @@ static SyncData* id2data(id object, enum usage why)
 __private_extern__ __attribute__((noinline))
 int objc_sync_nil(void)
 {
-    return OBJC_SYNC_SUCCESS;  // something to foil the optimizer
+    return OBJC_SYNC_SUCCESS2;  // something to foil the optimizer
 }
 
 
@@ -275,11 +275,11 @@ int objc_sync_nil(void)
 // Returns OBJC_SYNC_SUCCESS once lock is acquired.  
 int objc_sync_enter(id obj)
 {
-    int result = OBJC_SYNC_SUCCESS;
+    int result = OBJC_SYNC_SUCCESS2;
 
     if (obj) {
         SyncData* data = id2data(obj, ACQUIRE);
-        require_action_string(data != NULL, done, result = OBJC_SYNC_NOT_INITIALIZED, "id2data failed");
+        require_action_string(data != NULL, done, result = OBJC_SYNC_NOT_INITIALIZED2, "id2data failed");
 	
         result = pthread_mutex_lock(&data->mutex);
         require_noerr_string(result, done, "pthread_mutex_lock failed");
@@ -300,11 +300,11 @@ done:
 // Returns OBJC_SYNC_SUCCESS or OBJC_SYNC_NOT_OWNING_THREAD_ERROR
 int objc_sync_exit(id obj)
 {
-    int result = OBJC_SYNC_SUCCESS;
+    int result = OBJC_SYNC_SUCCESS2;
     
     if (obj) {
         SyncData* data = id2data(obj, RELEASE); 
-        require_action_string(data != NULL, done, result = OBJC_SYNC_NOT_OWNING_THREAD_ERROR, "id2data failed");
+        require_action_string(data != NULL, done, result = OBJC_SYNC_NOT_OWNING_THREAD_ERROR2, "id2data failed");
         
         result = pthread_mutex_unlock(&data->mutex);
         require_noerr_string(result, done, "pthread_mutex_unlock failed");
@@ -314,7 +314,7 @@ int objc_sync_exit(id obj)
 	
 done:
     if ( result == EPERM )
-        result = OBJC_SYNC_NOT_OWNING_THREAD_ERROR;
+        result = OBJC_SYNC_NOT_OWNING_THREAD_ERROR2;
 
     return result;
 }
@@ -324,11 +324,11 @@ done:
 // Return OBJC_SYNC_SUCCESS, OBJC_SYNC_NOT_OWNING_THREAD_ERROR, OBJC_SYNC_TIMED_OUT, OBJC_SYNC_INTERRUPTED
 int objc_sync_wait(id obj, long long milliSecondsMaxWait)
 {
-    int result = OBJC_SYNC_SUCCESS;
+    int result = OBJC_SYNC_SUCCESS2;
             
     SyncData* data = id2data(obj, CHECK);
     if (!data) {
-      return OBJC_SYNC_NOT_OWNING_THREAD_ERROR;
+      return OBJC_SYNC_NOT_OWNING_THREAD_ERROR2;
     }
     
     
@@ -351,9 +351,9 @@ int objc_sync_wait(id obj, long long milliSecondsMaxWait)
 
 done:
     if ( result == EPERM )
-        result = OBJC_SYNC_NOT_OWNING_THREAD_ERROR;
+        result = OBJC_SYNC_NOT_OWNING_THREAD_ERROR2;
     else if ( result == ETIMEDOUT )
-        result = OBJC_SYNC_TIMED_OUT;
+        result = OBJC_SYNC_TIMED_OUT2;
     
     return result;
 }
@@ -363,11 +363,11 @@ done:
 // Return OBJC_SYNC_SUCCESS, OBJC_SYNC_NOT_OWNING_THREAD_ERROR
 int objc_sync_notify(id obj)
 {
-    int result = OBJC_SYNC_SUCCESS;
+    int result = OBJC_SYNC_SUCCESS2;
         
     SyncData* data = id2data(obj, CHECK);
     if (!data) {
-      return OBJC_SYNC_NOT_OWNING_THREAD_ERROR;
+      return OBJC_SYNC_NOT_OWNING_THREAD_ERROR2;
     }
 
     result = pthread_cond_signal(&data->conditionVariable);
@@ -375,7 +375,7 @@ int objc_sync_notify(id obj)
 
 done:
     if ( result == EPERM )
-        result = OBJC_SYNC_NOT_OWNING_THREAD_ERROR;
+        result = OBJC_SYNC_NOT_OWNING_THREAD_ERROR2;
     
     return result;
 }
@@ -385,11 +385,11 @@ done:
 // Return OBJC_SYNC_SUCCESS, OBJC_SYNC_NOT_OWNING_THREAD_ERROR
 int objc_sync_notifyAll(id obj)
 {
-    int result = OBJC_SYNC_SUCCESS;
+    int result = OBJC_SYNC_SUCCESS2;
         
     SyncData* data = id2data(obj, CHECK);
     if (!data) {
-      return OBJC_SYNC_NOT_OWNING_THREAD_ERROR;
+      return OBJC_SYNC_NOT_OWNING_THREAD_ERROR2;
     }
 
     result = pthread_cond_broadcast(&data->conditionVariable);
@@ -397,7 +397,7 @@ int objc_sync_notifyAll(id obj)
 
 done:
     if ( result == EPERM )
-        result = OBJC_SYNC_NOT_OWNING_THREAD_ERROR;
+        result = OBJC_SYNC_NOT_OWNING_THREAD_ERROR2;
     
     return result;
 }

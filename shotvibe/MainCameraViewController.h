@@ -14,25 +14,33 @@
 #include <AssetsLibrary/AssetsLibrary.h>
 //#import "ResizeableView.h"
 #import "GLResizeableView.h"
+#import "GLFilterView.h"
 //@import Photos;
 #import <Photos/Photos.h>
 
-
-typedef enum ImageSource {
-    ImageSourceNone,
-    ImageSourceCamera,
-    ImageSourceRecents,
-    ImageSourceGallery
-} ImageSource;
-
-typedef enum ScrollDirection {
-    ScrollDirectionNone,
-    ScrollDirectionRight,
-    ScrollDirectionLeft,
-    ScrollDirectionUp,
-    ScrollDirectionDown,
-    ScrollDirectionCrazy,
-} ScrollDirection;
+//typedef enum {
+//    MGImageResizeCrop,	// analogous to UIViewContentModeScaleAspectFill, i.e. "best fit" with no space around.
+//    MGImageResizeCropStart,
+//    MGImageResizeCropEnd,
+//    MGImageResizeScale	// analogous to UIViewContentModeScaleAspectFit, i.e. scale down to fit, leaving space around if necessary.
+//} MGImageResizingMethod;
+//
+//
+//typedef enum ImageSource {
+//    ImageSourceNone,
+//    ImageSourceCamera,
+//    ImageSourceRecents,
+//    ImageSourceGallery
+//} ImageSource;
+//
+//typedef enum ScrollDirection {
+//    ScrollDirectionNone,
+//    ScrollDirectionRight,
+//    ScrollDirectionLeft,
+//    ScrollDirectionUp,
+//    ScrollDirectionDown,
+//    ScrollDirectionCrazy,
+//} ScrollDirection;
 
 @protocol MainCameraViewControllerDelegate <NSObject>
 
@@ -43,7 +51,7 @@ typedef enum ScrollDirection {
 
 
 
-@interface MainCameraViewController : UIViewController <iCarouselDataSource, iCarouselDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, RJTextViewDelegate,GLResizeableViewDelegate>
+@interface MainCameraViewController : UIViewController <iCarouselDataSource, iCarouselDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, RJTextViewDelegate,GLResizeableViewDelegate,GLFilterViewDelegate>
 
 
 - (void)viewIsResizing:(CGRect)bounds gesture:(UIPanGestureRecognizer*)gesture;

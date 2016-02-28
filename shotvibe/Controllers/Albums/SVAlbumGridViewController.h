@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "SVCameraPickerDelegate.h"
 #import "SL/AlbumManager.h"
-#import "MainCameraViewController.h"
+//#import "MainCameraViewController.h"
 #import "SVPictureConfirmViewController.h"
+#import "GLSharedCamera.h"
+//#import "CameraViewController.h"
 
 typedef enum {
 	SortFeedAlike=0,
@@ -19,9 +21,19 @@ typedef enum {
 }SortType;
 
 
-@interface SVAlbumGridViewController : UIViewController <SLAlbumManager_AlbumContentsListener, SVCameraPickerDelegate, UIAlertViewDelegate,MainCameraViewControllerDelegate>
+@protocol SVAlbumGridViewControllerDelegate <NSObject>
+
+@optional
+- (void)pickerDone:(UIImage*)image;
+//- (void)openAppleImagePicker;
+
+@end
+
+@interface SVAlbumGridViewController : UIViewController <SLAlbumManager_AlbumContentsListener, SVCameraPickerDelegate, UIAlertViewDelegate,GLSharedCameraDelegatte,UIImagePickerControllerDelegate,UINavigationControllerDelegate>//CameraViewControllerDelegate>
 
 #pragma mark - Properties
+
+@property (nonatomic, assign) id<SVAlbumGridViewControllerDelegate> delegate;
 
 @property (nonatomic, assign) int64_t albumId;
 @property (nonatomic, assign) BOOL scrollToBottom;

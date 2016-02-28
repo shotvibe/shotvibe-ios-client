@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Gotham_Rounded_Bold2.otf">
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+        </mutableArray>
+        <mutableArray key="Gotham_Rounded_Book.otf">
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+            <string>GothamRounded-Book</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SVAddFriendsViewController">
+            <connections>
+                <outlet property="addedContactsScrollView" destination="aCS-0P-CaY" id="sXR-pH-jK1"/>
+                <outlet property="backBut" destination="cGZ-Eo-tNa" id="0ew-rB-F8H"/>
+                <outlet property="butOverlay" destination="vVC-7b-PnU" id="C6c-hY-AlJ"/>
+                <outlet property="contactSourceButtonsView" destination="Pcc-hC-tXn" id="tMp-A4-Rj0"/>
+                <outlet property="contactsSourceButton" destination="hLT-Uq-wV3" id="lyD-9j-RMB"/>
+                <outlet property="contactsSourceSelector" destination="o4T-wA-8rJ" id="T5C-z2-ie0"/>
+                <outlet property="contactsSourceView" destination="emZ-gF-oaN" id="RHi-id-uc5"/>
+                <outlet property="friendsSourceButton" destination="rJJ-ig-v63" id="yCm-h1-NSn"/>
+                <outlet property="groupsSourceButton" destination="pjV-8S-Mee" id="hsX-bg-et6"/>
+                <outlet property="membersView" destination="S9j-Kh-c3b" id="Ahg-9J-QhO"/>
+                <outlet property="noContactsView" destination="W9V-MW-j94" id="PQG-jx-EZG"/>
+                <outlet property="pageTitle" destination="gk8-oA-vn9" id="ye5-F8-xKz"/>
+                <outlet property="proceedButton" destination="7co-vE-vha" id="PVD-BS-qZw"/>
+                <outlet property="searchBar" destination="DQr-XA-VbA" id="WQX-t6-AuR"/>
+                <outlet property="tableView" destination="bhX-w4-oFk" id="oXR-9V-v5F"/>
+                <outlet property="view" destination="8Pj-16-EyU" id="3J9-HS-QFl"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="8Pj-16-EyU">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="W9V-MW-j94">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="In order to invite people we need access to your contacts list" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jFw-UM-TQD">
+                            <rect key="frame" x="17" y="124" width="239" height="47"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <color key="textColor" red="0.81395487879999995" green="0.1219720593" blue="0.21948429080000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="highlightedColor" red="0.81395487879999995" green="0.1219720593" blue="0.21948429080000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="To enable it go to Settings/Privacy/Contacts" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pP2-nZ-eCB">
+                            <rect key="frame" x="17" y="165" width="239" height="56"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                            <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="S9j-Kh-c3b">
+                    <rect key="frame" x="0.0" y="111" width="320" height="64"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="Brf-zv-xMP">
+                            <rect key="frame" x="0.0" y="63" width="320" height="1"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsVerticalScrollIndicator="NO" id="aCS-0P-CaY">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </scrollView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Pcc-hC-tXn">
+                    <rect key="frame" x="0.0" y="142" width="320" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rJJ-ig-v63">
+                            <rect key="frame" x="0.0" y="0.0" width="106" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                            <state key="normal" title="Friends">
+                                <color key="titleColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="friendsButtonTapped:" destination="-1" eventType="touchUpInside" id="ang-AP-h4P"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hLT-Uq-wV3">
+                            <rect key="frame" x="106" y="0.0" width="106" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                            <state key="normal" title="Contacts">
+                                <color key="titleColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="contactsButtonTapped:" destination="-1" eventType="touchUpInside" id="1FU-RS-O7Y"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pjV-8S-Mee">
+                            <rect key="frame" x="212" y="0.0" width="106" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="15"/>
+                            <state key="normal" title="Groups">
+                                <color key="titleColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="groupsButtonTapped:" destination="-1" eventType="touchUpInside" id="XsN-qa-wxr"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view hidden="YES" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" id="emZ-gF-oaN">
+                    <rect key="frame" x="0.0" y="138" width="320" height="37"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="ssl-KC-4OX">
+                            <rect key="frame" x="0.0" y="36" width="320" height="1"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="o4T-wA-8rJ">
+                            <rect key="frame" x="17" y="0.0" width="239" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Glance"/>
+                                <segment title="Phone"/>
+                                <segment title="Groups"/>
+                            </segments>
+                            <color key="tintColor" red="0.20784313730000001" green="0.65490196079999996" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="contactsSourceChanged:" destination="-1" eventType="valueChanged" id="DPY-fB-TXT"/>
+                            </connections>
+                        </segmentedControl>
+                    </subviews>
+                    <color key="backgroundColor" red="0.84705882349999995" green="0.85098039219999999" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="bhX-w4-oFk">
+                    <rect key="frame" x="0.0" y="182" width="320" height="354"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="tintColor" red="0.20784313730000001" green="0.65490196079999996" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="AjP-ew-1qT"/>
+                        <outlet property="delegate" destination="-1" id="RYR-qW-BNd"/>
+                    </connections>
+                </tableView>
+                <searchBar contentMode="redraw" placeholder="Search" id="DQr-XA-VbA">
+                    <rect key="frame" x="4" y="17" width="185" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="barTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="Odp-Aq-MUg"/>
+                    </connections>
+                </searchBar>
+                <button opaque="NO" alpha="0.20000000298023224" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vVC-7b-PnU">
+                    <rect key="frame" x="0.0" y="138" width="320" height="431"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="overlayPressed:" destination="-1" eventType="touchUpInside" id="hxK-k9-h27"/>
+                    </connections>
+                </button>
+                <button opaque="NO" alpha="0.94999998807907104" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7co-vE-vha">
+                    <rect key="frame" x="0.0" y="535" width="320" height="34"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="36"/>
+                    <state key="normal" title="&gt;&gt;"/>
+                    <state key="disabled">
+                        <color key="titleColor" red="0.88572190090000003" green="0.89534931279999996" blue="0.89534931279999996" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="proceedTapped:" destination="-1" eventType="touchUpInside" id="MBr-ik-ODI"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a group with:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gk8-oA-vn9">
+                    <rect key="frame" x="44" y="75" width="236" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="21"/>
+                    <color key="textColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glanceFriendsLogo" id="a8Y-bg-58a">
+                    <rect key="frame" x="219" y="19" width="89" height="39"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cGZ-Eo-tNa">
+                    <rect key="frame" x="4" y="84" width="39" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="26"/>
+                    <state key="normal" title="&lt;">
+                        <color key="titleColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="nvBackTapped:" destination="-1" eventType="touchUpInside" id="wIh-bq-5S6"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <inset key="insetFor6xAndEarlier" minX="0.0" minY="-64" maxX="0.0" maxY="64"/>
+            <point key="canvasLocation" x="275.5" y="254.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="glanceFriendsLogo" width="242" height="106"/>
+    </resources>
+</document>

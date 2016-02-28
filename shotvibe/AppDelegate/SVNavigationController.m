@@ -14,9 +14,29 @@
 
 @implementation SVNavigationController
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+
+}
+
+- (void)viewWillappear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+            
+
+//    [self.window makeKeyAndVisible];
+    
     if (IS_IOS7) {
 //        self.navigationBar.tintColor = [UIColor whiteColor];
 //        self.navigationBar.barTintColor = BLUE;
@@ -46,9 +66,9 @@
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
-}
+//- (UIStatusBarStyle)preferredStatusBarStyle {
+//    return UIStatusBarStyleDefault;
+//}
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
     return UIStatusBarAnimationFade;

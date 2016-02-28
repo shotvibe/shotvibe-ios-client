@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "SVPickerCell.h"
 #import "SL/AlbumManager.h"
-#import "AFPhotoEditorController.h"
+//#import <<#header#>>
+//#import "AFPhotoEditorController.h"
 
-@interface SVPictureConfirmViewController : UIViewController <AFPhotoEditorControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface SVPictureConfirmViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *images;
 @property (nonatomic) BOOL waitingForMostRecentImage;

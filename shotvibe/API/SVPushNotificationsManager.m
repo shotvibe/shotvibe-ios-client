@@ -20,21 +20,40 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 @implementation SVPushNotificationsManager
 {
     SLAlbumManager *albumManager_;
-    SVNotificationHandler *notificationHandler_;
+    
 }
 
 - (void)setup
 {
     albumManager_ = [ShotVibeAppDelegate sharedDelegate].albumManager;
 
-    notificationHandler_ = [[SVNotificationHandler alloc] initWithAlbumManager:albumManager_];
+    self.notificationHandler_ = [[SVNotificationHandler alloc] initWithAlbumManager:albumManager_];
 
     NSLog(@"Setting up push notifications with AlbumManager: %@", [albumManager_ description]);
-
+    
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+        // use registerUserNotificationSettings
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    } else {
+        // use registerForRemoteNotificationTypes:
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+         (UIRemoteNotificationTypeAlert
+          | UIRemoteNotificationTypeBadge
+          | UIRemoteNotificationTypeSound)];
+    }
+#else
+    // use registerForRemoteNotificationTypes:
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeAlert
       | UIRemoteNotificationTypeBadge
       | UIRemoteNotificationTypeSound)];
+#endif
+
+    
 }
 
 
@@ -95,7 +114,10 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
 {
     NSLog(@"handleNotification: %@", [userInfo description]);
 
+
+    
     NSMutableDictionary *dataDict = [userInfo objectForKey:@"d"];
+    //TODO ask benny to allow setting if the push is from outside or inside in the msg object.
 
     if (dataDict) {
         SLJSONObject *data = [[SLJSONObject alloc] initWithDictionary:dataDict];
@@ -103,7 +125,10 @@ static NSString * const APPLICATION_APNS_DEVICE_TOKEN = @"apns_device_token";
         @try {
             SLNotificationMessage *message = [SLNotificationMessage parseMessageWithSLJSONObject:data];
 
-            [message handleWithSLNotificationMessage_NotificationHandler:notificationHandler_];
+            
+            
+            
+            [message handleWithSLNotificationMessage_NotificationHandler:self.notificationHandler_];
         } @catch (SLNotificationMessage_ParseException *exception) {
             NSLog(@"Invalid notification: %@", [exception getLocalizedMessage]);
         }

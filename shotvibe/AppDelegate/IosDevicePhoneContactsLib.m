@@ -36,6 +36,33 @@
 {
     CFErrorRef error;
     addressBook_ = ABAddressBookCreateWithOptions(NULL, &error);
+    NSLog(@"%@",error);
+    
+//    ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, NULL);
+    
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
+        ABAddressBookRequestAccessWithCompletion(addressBook_, ^(bool granted, CFErrorRef error) {
+            if (granted) {
+                // First time access has been granted, add the contact
+//                [self _addContactToAddressBook];
+                NSLog(@"1");
+            } else {
+                // User denied access
+                // Display an alert telling user the contact could not be added
+                NSLog(@"2");
+            }
+        });
+    }
+    else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
+        // The user has previously given access, add the contact
+//        [self _addContactToAddressBook];
+        NSLog(@"3");
+    }
+    else {
+        // The user has previously denied access
+        // Send an alert telling user to change privacy setting in settings app
+        NSLog(@"4");
+    }
 }
 
 

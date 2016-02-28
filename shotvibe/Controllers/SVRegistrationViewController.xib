@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="GothamRnd-Bold.otf">
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+        </mutableArray>
+        <mutableArray key="GothamRnd-Medium.otf">
+            <string>GothamRounded-Medium</string>
+            <string>GothamRounded-Medium</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SVRegistrationViewController">
+            <connections>
+                <outlet property="aValidationCode" destination="6ee-Ph-65i" id="Tvh-76-MDv"/>
+                <outlet property="activityIndicator" destination="IKi-vj-ca8" id="bkJ-rD-WEu"/>
+                <outlet property="butContinue" destination="F1b-B0-kO7" id="Zgr-Fh-9th"/>
+                <outlet property="countryFlagView" destination="2TO-W2-e2W" id="YMa-HV-FT2"/>
+                <outlet property="countrySelectButton" destination="JE6-JH-1tk" id="cLh-37-3m4"/>
+                <outlet property="feelTheVibes" destination="zYJ-Ua-tjg" id="JWN-6t-nGZ"/>
+                <outlet property="phoneNumberField" destination="EkI-bF-Eyd" id="fIS-Tu-2Fk"/>
+                <outlet property="phoneNumberPhaseContainer" destination="ygS-wt-kBj" id="vu8-GJ-8tY"/>
+                <outlet property="view" destination="lIi-39-wHF" id="qYC-sl-ywx"/>
+                <outlet property="viewContainer" destination="ygS-wt-kBj" id="MZ1-zE-L3B"/>
+            </connections>
+        </placeholder>
+        <view contentMode="scaleToFill" id="lIi-39-wHF">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="ygS-wt-kBj" userLabel="Phone Number Container">
+                    <rect key="frame" x="0.0" y="-43" width="374" height="590"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="phoneNumberContainer.png" id="0fL-gt-xsh">
+                            <rect key="frame" x="25" y="349" width="325" height="53"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A validation code will be sent to you via SMS" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6ee-Ph-65i">
+                            <rect key="frame" x="25" y="396" width="120" height="64"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamRounded-Medium" family="Gotham Rounded" pointSize="10"/>
+                            <color key="textColor" red="0.94117647059999998" green="0.4549019608" blue="0.50196078430000002" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="US.png" id="2TO-W2-e2W">
+                            <rect key="frame" x="30" y="364" width="24" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JE6-JH-1tk">
+                            <rect key="frame" x="15" y="348" width="58" height="56"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="countrySelectButtonPressed:" destination="-1" eventType="touchUpInside" id="bOz-91-8Jc"/>
+                            </connections>
+                        </button>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" id="IKi-vj-ca8">
+                            <rect key="frame" x="171" y="508" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </activityIndicatorView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Feel the Vibrations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zYJ-Ua-tjg">
+                            <rect key="frame" x="25" y="293" width="240" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="24"/>
+                            <color key="textColor" red="0.24313725489999999" green="0.70588235290000001" blue="0.71372549019999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="F1b-B0-kO7">
+                            <rect key="frame" x="270" y="383" width="80" height="80"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="20"/>
+                            <size key="titleShadowOffset" width="0.0" height="-1"/>
+                            <state key="normal" title="Go">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="registerButtonPressed:" destination="-1" eventType="touchUpInside" id="k75-d8-O8J"/>
+                            </connections>
+                        </button>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" minimumFontSize="17" id="EkI-bF-Eyd">
+                            <rect key="frame" x="72" y="353" width="264" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="textColor" red="0.4549019608" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" name="GothamRounded-Medium" family="Gotham Rounded" pointSize="20"/>
+                            <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="fgG-Wg-WOU"/>
+                            </connections>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <point key="canvasLocation" x="275.5" y="255.5"/>
+        </view>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+    </objects>
+    <resources>
+        <image name="US.png" width="48" height="48"/>
+        <image name="phoneNumberContainer.png" width="270" height="44"/>
+    </resources>
+</document>

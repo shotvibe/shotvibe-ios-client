@@ -12,4 +12,6 @@
 
 + (void)runTask:(UIViewController *)viewController withAction:(id (^)())run onTaskComplete:(void (^)(id))onTaskComplete;
 
++ (void)runTask:(UIViewController *)viewController withAction:(id (^)())run onTaskComplete:(void (^)(id))onTaskComplete onTaskFailure:(void (^)(id))onTaskFailure withLoaderIndicator:(BOOL)withLoader;
++ (void)runTask:(UIViewController *)viewController withAction:(id (^)())run onTaskComplete:(void (^)(id))onTaskComplete withSuccess:(BOOL)withSuccess withFailure:(BOOL)withFailure successText:(NSString*)successText failureText:(NSString*)failureText showLoadingText:(BOOL)showLoadingText loadingText:(NSString*)loadingText;
 @end

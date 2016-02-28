@@ -25,6 +25,7 @@
 #define __OBJC_SNYC_H_
 
 #include <objc/objc.h>
+//@import ObjectiveC;
 
 // Begin synchronizing on 'obj'.  
 // Allocates recursive pthread_mutex associated with 'obj' if needed.
@@ -48,10 +49,10 @@ OBJC_EXPORT  int objc_sync_notify(id obj);
 OBJC_EXPORT  int objc_sync_notifyAll(id obj);
 
 enum {
-	OBJC_SYNC_SUCCESS                 = 0,
-	OBJC_SYNC_NOT_OWNING_THREAD_ERROR = -1,
-	OBJC_SYNC_TIMED_OUT               = -2,
-	OBJC_SYNC_NOT_INITIALIZED         = -3		
+	OBJC_SYNC_SUCCESS2                 = 0,
+	OBJC_SYNC_NOT_OWNING_THREAD_ERROR2 = -1,
+	OBJC_SYNC_TIMED_OUT2               = -2,
+	OBJC_SYNC_NOT_INITIALIZED2         = -3
 };
 
 // Returns true if an object has a pthread_mutux allocated for it on this thread.

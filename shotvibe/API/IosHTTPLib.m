@@ -54,6 +54,11 @@ static SLHTTPResponse * sendRequest(NSString *method, NSString *url, id<JavaUtil
     }
 
     int statusCode = [httpResponse statusCode];
+
+    NSLog(@"Request url: %@", url);
+    NSLog(@"Request status code: %d", statusCode);
+    NSLog(@"%@", [[NSString alloc] initWithData:httpResponseData encoding:NSUTF8StringEncoding]);
+    
     NSDictionary *headers = [httpResponse allHeaderFields];
     SLHTTPResponse *response = [[IosHTTPResponse alloc] initWithMethod:method
                                                                withUrl:url
@@ -166,6 +171,11 @@ static SLHTTPResponse * sendRequest(NSString *method, NSString *url, id<JavaUtil
     }
 
     int statusCode = [httpResponse statusCode];
+    
+    NSLog(@"Request url: %@", url);
+    NSLog(@"Request status code: %d", statusCode);
+    NSLog(@"%@", [[NSString alloc] initWithData:httpResponseData encoding:NSUTF8StringEncoding]);
+
     NSDictionary *headers = [httpResponse allHeaderFields];
     SLHTTPResponse *response = [[IosHTTPResponse alloc] initWithMethod:httpMethod
                                                                withUrl:url

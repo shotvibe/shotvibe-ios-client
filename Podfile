@@ -1,5 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '7.0'
-  pod 'PBJVision'
+platform :ios, '8.0'
+link_with ‘shotvibe’
   pod 'GPUImage'
-  pod 'AviarySDK'
+  pod 'AFNetworking'
+  pod 'SDWebImage'
+  pod "XCDYouTubeKit", "~> 2.5"

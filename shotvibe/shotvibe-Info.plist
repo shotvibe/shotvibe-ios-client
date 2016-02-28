@@ -7,21 +7,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>${PRODUCT_NAME}${BUNDLE_DISPLAY_NAME_SUFFIX}</string>
+	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>Icon</string>
-		<string>Icon-40</string>
-		<string>Icon-60</string>
-		<string>Icon-72</string>
-		<string>Icon-76</string>
-		<string>Icon-Small</string>
-		<string>Icon-Small-50</string>
-	</array>
+	<key>CFBundleIcons~ipad</key>
+	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>com.shotvibe.shotvibe${BUNDLE_ID_SUFFIX}</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -29,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.9</string>
+	<string>1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -46,13 +38,113 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>836</string>
+	<string>17</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>f8ea8d878fa45159d89cfc40d8628f0da2fd9482</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>publish-key</key>
+					<string>pub-c-fac181cd-3a33-4f76-af72-5d447077c0c6</string>
+					<key>secret-key</key>
+					<string>sec-c-ZDIyYjQ5ZjAtYjA3Mi00MjMwLWEzMzMtYWIyZjFiMDM3MzAy</string>
+					<key>subscribe-key</key>
+					<string>sub-c-97ae8d80-a9c0-11e5-8d24-0619f8945a4f</string>
+				</dict>
+				<key>KitName</key>
+				<string>PubNub</string>
+			</dict>
+		</array>
+	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Gotham-Black.otf</string>
+		<string>Gotham-BlackItalic.otf</string>
+		<string>Gotham-Bold.otf</string>
+		<string>Gotham-BoldItalic.otf</string>
+		<string>Gotham-Book.otf</string>
+		<string>Gotham-BookItalic.otf</string>
+		<string>Gotham-Light.otf</string>
+		<string>Gotham-LightItalic.otf</string>
+		<string>Gotham-Medium.otf</string>
+		<string>Gotham-MediumItalic.otf</string>
+		<string>Gotham-Thin.otf</string>
+		<string>Gotham-ThinItalic.otf</string>
+		<string>Gotham-Ultra.otf</string>
+		<string>Gotham-UltraItalic.otf</string>
+		<string>Gotham-XLight.otf</string>
+		<string>Gotham-XLightItalic.otf</string>
+		<string>GothamCondensed-Bold.otf</string>
+		<string>GothamCondensed-Book.otf</string>
+		<string>GothamCondensed-Light.otf</string>
+		<string>GothamCondensed-Medium.otf</string>
+		<string>GothamNarrow-Black.otf</string>
+		<string>GothamNarrow-BlackItalic.otf</string>
+		<string>GothamNarrow-Bold.otf</string>
+		<string>GothamNarrow-BoldItalic.otf</string>
+		<string>GothamNarrow-Book.otf</string>
+		<string>GothamNarrow-BookItalic.otf</string>
+		<string>GothamNarrow-Light.otf</string>
+		<string>GothamNarrow-LightItalic.otf</string>
+		<string>GothamNarrow-Medium.otf</string>
+		<string>GothamNarrow-MediumItalic.otf</string>
+		<string>GothamNarrow-Thin.otf</string>
+		<string>GothamNarrow-ThinItalic.otf</string>
+		<string>GothamNarrow-Ultra.otf</string>
+		<string>GothamNarrow-UltraItalic.otf</string>
+		<string>GothamNarrow-XLight.otf</string>
+		<string>GothamNarrow-XLightItalic.otf</string>
+		<string>GothamRnd-Bold.otf</string>
+		<string>GothamRnd-BoldIta.otf</string>
+		<string>GothamRnd-Book.otf</string>
+		<string>GothamRnd-BookIta.otf</string>
+		<string>GothamRnd-Light.otf</string>
+		<string>GothamRnd-LightIta.otf</string>
+		<string>GothamRnd-MedIta.otf</string>
+		<string>GothamRnd-Medium.otf</string>
+		<string>GothamXNarrow-Black.otf</string>
+		<string>GothamXNarrow-BlackItalic.otf</string>
+		<string>GothamXNarrow-Bold.otf</string>
+		<string>GothamXNarrow-BoldItalic.otf</string>
+		<string>GothamXNarrow-Book.otf</string>
+		<string>GothamXNarrow-BookItalic.otf</string>
+		<string>GothamXNarrow-Light.otf</string>
+		<string>GothamXNarrow-LightItalic.otf</string>
+		<string>GothamXNarrow-Medium.otf</string>
+		<string>GothamXNarrow-MediumItalic.otf</string>
+		<string>GothamXNarrow-Thin.otf</string>
+		<string>GothamXNarrow-ThinItalic.otf</string>
+		<string>GothamXNarrow-Ultra.otf</string>
+		<string>GothamXNarrow-UltraItalic.otf</string>
+		<string>GothamXNarrow-XLight.otf</string>
+		<string>GothamXNarrow-XLightItalic.otf</string>
+		<string>Gotham_Rounded_Light.otf</string>
+		<string>Gotham_Rounded_Book.otf</string>
+		<string>Gotham_Rounded_Bold.otf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
-	<key>UIMainStoryboardFile</key>
-	<string>MainStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -62,11 +154,8 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
+	<false/>
 </dict>
 </plist>

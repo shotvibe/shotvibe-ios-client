@@ -13,10 +13,18 @@
 #import "SL/AlbumManager.h"
 #import "SL/ShotVibeAPI.h"
 #import "SL/HTTPLib.h"
+#import "SL/HTTPException.h"
+#import "SL/JSONException.h"
+#import "SL/HashMap.h"
+#import "SL/JSONObject.h"
+#import "SL/HTTPResponse.h"
 #import "IosHTTPLib.h"
 #import "ShotVibeAPITask.h"
+#import "SVCountriesViewController.h"
+#import "GLUserScore.h"
 
-@interface SVRegistrationViewController () < UIAlertViewDelegate >
+//#import "GLSharedCamera.h"
+@interface SVRegistrationViewController () < UIAlertViewDelegate ,UIWebViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UIButton *butContinue;
 @property (nonatomic, strong) IBOutlet UIView *phoneNumberPhaseContainer;
@@ -42,11 +50,37 @@
 
 #pragma mark - View Lifecycle
 
+
+//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+//    return YES;
+//}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-
+    
+    
+    id<SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
+    id<JavaUtilMap> utilmap = [[SLHashMap alloc] init];
+    
+    @try {
+        SLHTTPResponse * res = [httpLib sendRequestWithNSString:@"GET" withNSString:@"http://ip-api.com/json" withJavaUtilMap:utilmap withNSString:@""];
+        SLJSONObject * json = [res bodyAsJSONObject];
+        selectedCountryCode = [json getStringWithNSString:@"countryCode"];
+    } @catch (SLHTTPException *exception) {
+        selectedCountryCode = @"US";
+    } @catch (SLJSONException * jsonexception) {
+        selectedCountryCode = @"US";
+    }
+    
+    [self hideInviteOverlay];
+    
+    
     self.haveInviteLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(haveInviteTapped)];
     [self.haveInviteLabel addGestureRecognizer:tapGesture];
@@ -65,6 +99,16 @@
     else {
         [self didSelectCountryWithName:selectedCountryCode regionCode:selectedCountryCode];
     }
+    
+    self.butContinue.layer.cornerRadius = self.butContinue.frame.size.width/2;
+    
+    ShotVibeAppDelegate * appDelegate = [ShotVibeAppDelegate sharedDelegate];
+    GLSharedCamera * camera = [GLSharedCamera sharedInstance];
+    camera.picYourGroup.alpha = 0;
+    [[[[GLSharedCamera sharedInstance] userScore] view] setHidden:YES];
+    camera.cameraViewBackground.userInteractionEnabled = NO;
+    [appDelegate.window addSubview:camera.cameraViewBackground];
+    [self.phoneNumberField becomeFirstResponder];
 }
 
 
@@ -107,18 +151,75 @@
 - (void)hideInviteOverlay
 {
     [self.inviteOverlay setHidden:YES];
-    [self.phoneNumberField becomeFirstResponder];
+//    [self.phoneNumberField becomeFirstResponder];
 }
 
+-(void)resizeViewToIphone6plus:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x*1.103;
+    f.origin.y = f.origin.y*1.103;
+    if(width){
+        f.size.width = f.size.width*1.103;
+    }
+    if(height){
+        f.size.height = f.size.height*1.103;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius*1.103;
+    }
+}
 
-//- (void) viewWillAppear:(BOOL)animated {
-//	
-//	[super viewWillAppear:animated];
-//	
+-(void)resizeViewToIphone5:(UIView *)view width:(BOOL)width height:(BOOL)height cornerRadius:(BOOL)cornerRadius {
+    
+    CGRect f = view.frame;
+    f.origin.x = f.origin.x/1.17;
+    f.origin.y = f.origin.y/1.17;
+    if(width){
+        f.size.width = f.size.width/1.17;
+    }
+    if(height){
+        f.size.height = f.size.height/1.17;
+    }
+    view.frame = f;
+    if(cornerRadius){
+        view.layer.cornerRadius = view.layer.cornerRadius/1.17;
+    }
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+	
+	[super viewWillAppear:animated];
+
+    if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone5]){
+        [self resizeViewToIphone5:self.feelTheVibes width:NO height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.phoneNumberField width:NO height:NO cornerRadius:NO];
+        [self resizeViewToIphone5:self.aValidationCode width:NO height:NO cornerRadius:NO];
+        [self resizeViewToIphone5:self.countryFlagView width:NO height:NO cornerRadius:NO];
+        [self resizeViewToIphone5:self.countrySelectButton width:NO height:YES cornerRadius:NO];
+        [self resizeViewToIphone5:self.butContinue width:YES height:YES cornerRadius:YES];
+    } else if([[ShotVibeAppDelegate sharedDelegate] platformTypeIsIphone6plus]){
+        
+//        CGRect frame = self.phoneNumberPhaseContainer.bounds;
+//        frame.origin.x = frame.origin.x*2.103;
+//        frame.origin.y = frame.origin.y*2.103;
+//        self.phoneNumberPhaseContainer.frame = frame;
+        [self resizeViewToIphone6plus:self.feelTheVibes width:NO height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.phoneNumberField width:NO height:NO cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.aValidationCode width:NO height:NO cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.countryFlagView width:NO height:NO cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.countrySelectButton width:NO height:YES cornerRadius:NO];
+        [self resizeViewToIphone6plus:self.butContinue width:YES height:YES cornerRadius:YES];
+    } else {
+        
+    }
+    
+    
 //	if (IS_IOS7) {
 //		self.navigationController.navigationBar.translucent = NO;
 //	}
-//}
+}
 //
 //- (void) viewWillDisappear:(BOOL)animated {
 //	
@@ -128,24 +229,24 @@
 //		self.navigationController.navigationBar.translucent = YES;
 //	}
 //}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
-		
-		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
-        destination.delegate = self;
-		destination.regionCode = selectedCountryCode;
-		countries = destination;
-    }
-	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
-		
-		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
-        destination.selectedCountryCode = selectedCountryCode;
-        destination.smsConfirmationToken = smsConfirmationToken_;
-		destination.phoneNumber = self.phoneNumberField.text;
-	}
-}
+//
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([segue.identifier isEqualToString:@"ChoseCountrySegue"]) {
+//		
+//		SVCountriesViewController *destination = (SVCountriesViewController *)segue.destinationViewController;
+//        destination.delegate = self;
+//		destination.regionCode = selectedCountryCode;
+//		countries = destination;
+//    }
+//	else if ([segue.identifier isEqualToString:@"ConfirmationCodeSegue"]) {
+//		
+//		SVConfirmationCodeViewController *destination = (SVConfirmationCodeViewController *)segue.destinationViewController;
+//        destination.selectedCountryCode = selectedCountryCode;
+//        destination.smsConfirmationToken = smsConfirmationToken_;
+//		destination.phoneNumber = self.phoneNumberField.text;
+//	}
+//}
 
 #pragma mark - Actions
 
@@ -159,8 +260,11 @@
     RCLog(@"phoneNumber:'%@' defaultCountry:'%@'", phoneNumber, defaultCountry);
 
     [[Mixpanel sharedInstance] track:@"Phone Number Submitted"];
-	
+
+    
+    
     id<SLHTTPLib> httpLib = [[IosHTTPLib alloc] init];
+    
     [ShotVibeAPITask runTask:self
 
                   withAction:
@@ -178,16 +282,31 @@
               onTaskComplete:
      ^(SLShotVibeAPI_SMSConfirmationToken *smsConfirmationToken) {
         if (smsConfirmationToken) {
+            
+//            [[GLSharedCamera sharedInstance] showGlCameraView];
             smsConfirmationToken_ = smsConfirmationToken;
-            [self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
+//            [self performSegueWithIdentifier:@"ConfirmationCodeSegue" sender:nil];
+            
+//
+            [KVNProgress dismiss];
+                SVConfirmationCodeViewController *confirmationViewController = [[SVConfirmationCodeViewController alloc] init];
+    confirmationViewController.selectedCountryCode = selectedCountryCode;
+    confirmationViewController.smsConfirmationToken = smsConfirmationToken_;
+    confirmationViewController.phoneNumber = self.phoneNumberField.text;
+    [[[ShotVibeAppDelegate sharedDelegate] navigationController] pushViewController:confirmationViewController animated:YES];
+//            
+//            
         } else {
             [[Mixpanel sharedInstance] track:@"Phone Number Submitted Invalid"];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Number"
-                                                            message:@"Check that you have entered your correct phone number"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
+//
+//            [KVNProgress dismiss];
+              [KVNProgress showErrorWithStatus:@"Check that you have entered your correct phone number"];
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Number"
+//                                                            message:@"Check that you have entered your correct phone number"
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil];
+//            [alert show];
         }
     }];
 }
@@ -196,7 +315,13 @@
 {
 	// showCountryPicker
 	[self.phoneNumberField resignFirstResponder];
-    [self performSegueWithIdentifier:@"ChoseCountrySegue" sender:nil];
+    
+    countries = [[SVCountriesViewController alloc] init];
+    countries.delegate = self;
+    [self presentViewController:countries animated:YES completion:^{
+//        [SVCountriesViewController ];
+    }];
+    
 }
 
 
@@ -208,6 +333,10 @@
 {
 	selectedCountryCode = regionCode;
     self.countryFlagView.image = [UIImage imageNamed:regionCode];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    
 }
 
 

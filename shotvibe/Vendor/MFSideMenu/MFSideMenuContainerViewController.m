@@ -88,6 +88,11 @@ typedef enum {
     self = [super init];
     if(self) {
         [self setDefaultSettings];
+//        UIImageView * splash = [[UIImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//        splash.backgroundColor = [UIColor greenColor];
+//        [splash setImage:[UIImage imageNamed:@"Launch"]];
+//        //    [self.view addSubview:splash];
+//        [[[[UIApplication sharedApplication] delegate] window] addSubview:splash];
     }
     return self;
 }
@@ -138,6 +143,7 @@ typedef enum {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    self.indexNumber = 2;
     [self setupMenuContainerView];
 }
 

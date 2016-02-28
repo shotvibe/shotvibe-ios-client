@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="GothamRnd-Bold.otf">
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GLWelcomeViewController">
+            <connections>
+                <outlet property="dmut" destination="EUa-Yq-oiv" id="hzU-iv-eNy"/>
+                <outlet property="orCreateAccountButton" destination="wUq-02-Mc2" id="gUR-hR-I9U"/>
+                <outlet property="signInButton" destination="laU-Xl-JeR" id="bpN-Ue-YTE"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeDmut" translatesAutoresizingMaskIntoConstraints="NO" id="EUa-Yq-oiv">
+                    <rect key="frame" x="9" y="437" width="356.5" height="234"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="234" id="mZV-Cg-BAv"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="mZV-Cg-BAv"/>
+                        </mask>
+                    </variation>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeGlanceLogo" translatesAutoresizingMaskIntoConstraints="NO" id="3vr-f3-MYI">
+                    <rect key="frame" x="29" y="59" width="317" height="133.5"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="135" id="8LV-1d-nah"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="8LV-1d-nah"/>
+                        </mask>
+                    </variation>
+                </imageView>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUq-02-Mc2">
+                    <rect key="frame" x="76" y="273.5" width="107" height="39"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="39" id="2u7-WW-y6Q"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="12"/>
+                    <state key="normal" title="or create account">
+                        <color key="titleColor" red="0.38431372549999998" green="0.38431372549999998" blue="0.38431372549999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="laU-Xl-JeR">
+                    <rect key="frame" x="0.0" y="219" width="150" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="5xA-oW-Wig"/>
+                        <constraint firstAttribute="width" constant="150" id="cuM-R4-kcE"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="24"/>
+                    <state key="normal" title="sign in">
+                        <color key="titleColor" red="0.3843137254901961" green="0.3843137254901961" blue="0.3843137254901961" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="cuM-R4-kcE"/>
+                        </mask>
+                    </variation>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="laU-Xl-JeR" firstAttribute="centerX" secondItem="3vr-f3-MYI" secondAttribute="centerX" id="10n-gJ-6dP"/>
+                <constraint firstItem="3vr-f3-MYI" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.2" id="14t-d0-2Zx"/>
+                <constraint firstItem="laU-Xl-JeR" firstAttribute="centerX" secondItem="3vr-f3-MYI" secondAttribute="centerX" id="3HD-f2-asq"/>
+                <constraint firstItem="wUq-02-Mc2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="76" id="AvM-SH-fp1"/>
+                <constraint firstItem="laU-Xl-JeR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="EXO-Cd-oAZ"/>
+                <constraint firstItem="wUq-02-Mc2" firstAttribute="top" secondItem="3vr-f3-MYI" secondAttribute="bottom" constant="81" id="Ehr-4v-IgH"/>
+                <constraint firstItem="laU-Xl-JeR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="GNo-k7-tfw"/>
+                <constraint firstItem="3vr-f3-MYI" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="GP3-C1-gfY"/>
+                <constraint firstItem="3vr-f3-MYI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="59" id="ImL-EB-MkX"/>
+                <constraint firstItem="laU-Xl-JeR" firstAttribute="centerX" secondItem="3vr-f3-MYI" secondAttribute="centerX" id="Ir7-Jt-gRc"/>
+                <constraint firstAttribute="bottom" secondItem="EUa-Yq-oiv" secondAttribute="bottom" constant="-4" id="NTH-H9-8js"/>
+                <constraint firstItem="laU-Xl-JeR" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Slk-yu-jm8"/>
+                <constraint firstItem="laU-Xl-JeR" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.4" id="aPe-Gr-JSQ"/>
+                <constraint firstItem="EUa-Yq-oiv" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.95" identifier="0.8" id="e9X-3e-7Rq"/>
+                <constraint firstItem="laU-Xl-JeR" firstAttribute="top" secondItem="3vr-f3-MYI" secondAttribute="bottom" constant="26.5" id="fxS-N1-6Eb"/>
+                <constraint firstItem="laU-Xl-JeR" firstAttribute="top" secondItem="3vr-f3-MYI" secondAttribute="bottom" constant="27" id="qr0-mG-mEe"/>
+                <constraint firstItem="EUa-Yq-oiv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="qy4-gg-HJm"/>
+                <constraint firstItem="3vr-f3-MYI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="29" id="uXQ-Fh-vez"/>
+                <constraint firstItem="EUa-Yq-oiv" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.35" id="zWW-b5-Rx7"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="10n-gJ-6dP"/>
+                    <exclude reference="3HD-f2-asq"/>
+                    <exclude reference="EXO-Cd-oAZ"/>
+                    <exclude reference="Ir7-Jt-gRc"/>
+                    <exclude reference="Slk-yu-jm8"/>
+                    <exclude reference="qr0-mG-mEe"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+    <resources>
+        <image name="welcomeDmut" width="614" height="460"/>
+        <image name="welcomeGlanceLogo" width="605" height="264"/>
+    </resources>
+</document>

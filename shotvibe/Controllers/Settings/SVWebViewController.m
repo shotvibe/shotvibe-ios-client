@@ -17,7 +17,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.url]];
+	
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.url]];
     [self.webView loadRequest:req];
 }
 

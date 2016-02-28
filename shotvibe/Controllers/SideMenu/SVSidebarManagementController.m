@@ -14,6 +14,8 @@
 #import "SVDefines.h"
 #import "MFSideMenu.h"
 
+
+
 @interface SVSidebarManagementController ()
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
@@ -150,7 +152,7 @@
     [self.tableView reloadData];
 }
 
-- (void)setParentController:(SVAlbumGridViewController *)parentController
+- (void)setParentController:(GLFeedViewController *)parentController
 {
 	_parentController = parentController;
 	[self.tableView reloadData];

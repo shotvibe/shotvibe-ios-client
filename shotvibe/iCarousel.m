@@ -150,6 +150,10 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
     
     _contentView = [[UIView alloc] initWithFrame:self.bounds];
     
+    self.clipsToBounds = YES;
+    
+    
+    
     
 #ifdef ICAROUSEL_IOS
     
@@ -200,6 +204,12 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
 
 #endif
 
+//-(void)dealloc {
+//    
+//    
+//    
+//}
+
 #ifdef ICAROUSEL_IOS
 
 - (id)initWithFrame:(CGRect)frame
@@ -213,6 +223,9 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
 {
     if ((self = [super initWithFrame:frame]))
     {
+        
+        NSString *strClass = NSStringFromClass([self class]);
+//        NSLog(@"%@ inited",strClass);
         [self setUp];
     }
     return self;
@@ -221,6 +234,8 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
 - (void)dealloc
 {   
     [self stopAnimation];
+    NSString *strClass = NSStringFromClass([self class]);
+    NSLog(@"%@ deallocated",strClass);
 }
 
 - (void)setDataSource:(id<iCarouselDataSource>)dataSource

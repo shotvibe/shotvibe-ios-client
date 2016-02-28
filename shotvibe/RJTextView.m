@@ -63,6 +63,13 @@
 
 @implementation RJTextView
 
+- (void)dealloc
+{
+//    [self stopAnimation];
+    NSString *strClass = NSStringFromClass([self class]);
+//    NSLog(@"%@ deallocated",strClass);
+}
+
 - (id)initWithFrame:(CGRect)frame
         defaultText:(NSString *)text
                font:(UIFont *)font
@@ -72,7 +79,10 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+//        self.textView.adjustsFontSizeToFitWidth = YES;
         
+        NSString *strClass = NSStringFromClass([self class]);
+//        NSLog(@"%@ inited",strClass);
         // Custom initialization
         BOOL sExtend = frame.size.height <=0 || frame.size.width <=0;
         BOOL oExtend = frame.origin.x    < 0 || frame.origin.y   < 0;
@@ -185,54 +195,73 @@
         
         self.colors.contentSize = CGSizeMake(numOfColors*40,50);
         
-        self.fonts = [[NSMutableArray alloc] init];
-        for (NSString* family in [UIFont familyNames])
-        {
-            for (NSString* name in [UIFont fontNamesForFamilyName: family])
-            {
-                
-                if ([name rangeOfString:@"Helvetica"].location == NSNotFound) {
-                    //                    NSLog(@"string does not contain bla");
-                } else {
-                    //                    NSLog(@"string contains bla!");
-                    NSLog(@"  %@", name);
-                    [self.fonts addObject:name];
-                }
-                
-            }
-        }
+//        self.fonts = [[NSMutableArray alloc] init];
+//        
+//        for (NSString* family in [UIFont familyNames])
+//        {
+////            NSLog(@"%@", family);
+//            
+////            NSString *mystring = @"This is a test message having more than 20 characters";
+//            if(family.length >= 6){
+//                NSString *newString = [family substringToIndex:6];
+//                
+//                if([newString isEqualToString:@"Gotham"]){
+//                    NSLog(@"found match full family name is: %@",family);
+//                    for (NSString* name in [UIFont fontNamesForFamilyName: family])
+//                    {
+//                        
+//                        
+//                        //                    if ([name rangeOfString:@"Gotham"].location == NSNotFound) {
+//                        //                    NSLog(@"string does not contain bla");
+//                        //                    } else {
+//                        //                    NSLog(@"string contains bla!");
+//                        //                                            NSLog(@"  %@", name);
+//                        [self.fonts addObject:name];
+//                        //                    }
+//                        
+//                    }
+//                    
+//                }
+//            }
+//            
+//            
+//            
+//            
+//        }
+        
 
-        self.fontsScroller  = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, width, 40)];
-        self.fontsScroller.tag = ScrollerTypeFontsScroller;
+
+//        self.fontsScroller  = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, width, 40)];
+//        self.fontsScroller.tag = ScrollerTypeFontsScroller;
+//        
+//        self.fontsScroller.backgroundColor = [UIColor clearColor];
+//        self.fontsScroller.delegate = self;
+//        
+//        for(int y = 0; y < self.fonts.count; y++){
+//            
+//            UIView * fontView = [[UIView alloc] initWithFrame:CGRectMake(y * 45, 0, 40, 40)];
+//            fontView.backgroundColor = [UIColor clearColor];
+//            
+//            UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+//            lab.textAlignment = NSTextAlignmentCenter;
+//            lab.text = @"T";
+//            lab.textColor = [UIColor whiteColor];
+//            
+//            [lab setFont:[UIFont fontWithName:[self.fonts objectAtIndex:y] size:18]];
+//            
+//            [fontView addSubview:lab];
+//            
+//            [self.fontsScroller addSubview:fontView];
+//            
+//        }
+//        self.fontsScroller.contentSize = CGSizeMake(self.fonts.count*45, 40);
+//        
+//        UITapGestureRecognizer *fontSelectedGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fontDidSelected:)];
+//        [self.fontsScroller setDelegate:self];
+//        [self.fontsScroller addGestureRecognizer:fontSelectedGest];
         
-        self.fontsScroller.backgroundColor = [UIColor clearColor];
-        self.fontsScroller.delegate = self;
         
-        for(int y = 0; y < 20; y++){
-            
-            UIView * fontView = [[UIView alloc] initWithFrame:CGRectMake(y * 45, 0, 40, 40)];
-            fontView.backgroundColor = [UIColor clearColor];
-            
-            UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-            lab.textAlignment = NSTextAlignmentCenter;
-            lab.text = @"T";
-            lab.textColor = [UIColor whiteColor];
-            
-            [lab setFont:[UIFont fontWithName:[self.fonts objectAtIndex:y] size:18]];
-            
-            [fontView addSubview:lab];
-            
-            [self.fontsScroller addSubview:fontView];
-            
-        }
-        self.fontsScroller.contentSize = CGSizeMake(20*45, 40);
-        
-        UITapGestureRecognizer *fontSelectedGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fontDidSelected:)];
-        [self.fontsScroller setDelegate:self];
-        [self.fontsScroller addGestureRecognizer:fontSelectedGest];
-        
-        
-        UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 80)];
+        UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 37)];
         numberToolbar.barStyle = UIBarStyleBlackTranslucent;
 //        numberToolbar.items = [NSArray arrayWithObjects:
 //                               [[UIBarButtonItem alloc]initWithTitle:@"Clear" style:UIBarButtonItemStyleBordered target:self action:@selector(clearNumberPad)],
@@ -241,15 +270,27 @@
 //                               nil];
 //        [numberToolbar sizeToFit];
         
-        UIView * t = [[UIView alloc] initWithFrame:CGRectMake(0, 0,  width, 50)];
-        t.backgroundColor = [UIColor redColor];
+//        UIView * t = [[UIView alloc] initWithFrame:CGRectMake(0, 0,  width, 50)];
+//        t.backgroundColor = [UIColor redColor];
         [numberToolbar addSubview:self.colors];
-        [numberToolbar addSubview:self.fontsScroller];
+//        [numberToolbar addSubview:self.fontsScroller];
         
         self.textView.inputAccessoryView = numberToolbar;
         
+//        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)] ;
+//        doubleTap.numberOfTapsRequired = 2;
+//        [self addGestureRecognizer:doubleTap];
+        
+//        [self.te requireGestureRecognizerToFail:doubleTap];
+        
     }
     return self;
+}
+-(void)doDoubleTap:(UITapGestureRecognizer*)gest {
+
+    
+    
+    
 }
 
 - (void)fontDidSelected:(UITapGestureRecognizer *)tapGesture {
@@ -263,7 +304,7 @@
         
         [self.textView setFont:[UIFont fontWithName:[self.fonts objectAtIndex:tIndex] size:self.textView.font.pointSize]];
         self.textView.transform = CGAffineTransformScale(self.textView.transform, 1.20f, 1.20f);
-        
+        self.curFont = [UIFont fontWithName:[self.fonts objectAtIndex:tIndex] size:self.textView.font.pointSize];
     } completion:^(BOOL finished) {
         [UIView transitionWithView:self.textView duration:0.20 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
             self.textView.transform = CGAffineTransformScale(self.textView.transform, 0.83f, 0.83f);
@@ -286,29 +327,13 @@
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     
+    __weak typeof(self) weakSelf = self;
     
-    
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [textView selectAll:self];
-//    });
-
-//    [textView setText:@""];
-//    [self.textView selectAll:nil];
-//    
-//    __weak typeof(self) weakSelf = self;
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        __strong __typeof(weakSelf) strongSelf = weakSelf;
-//        
-//    });
-    
-//    UITextRange *range = [textView textRangeFromPosition:textView.beginningOfDocument toPosition:textView.endOfDocument];
-//    [textView setSelectedTextRange:range];
-    
-    
-    
-//    [self.textView setSelectedTextRange:range];
-    
-//    [self.textView setSelectedTextRange:[self.textView textRangeFromPosition:self.textView.beginningOfDocument toPosition:self.textView.endOfDocument]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        UITextRange *range = [strongSelf.textView textRangeFromPosition:strongSelf.textView.beginningOfDocument toPosition:strongSelf.textView.endOfDocument];
+            [strongSelf.textView setSelectedTextRange:range];
+        });
     
     [self.delegate focusOnTextField];
     
@@ -818,6 +843,8 @@
     
     CGFloat pO = self.textView.textContainer.lineFragmentPadding * 2;
     CGFloat cW = self.textView.frame.size.width - pO;
+    
+    
     
     CGSize  tH = [text sizeWithFont:[self.curFont fontWithSize:font]
                   constrainedToSize:CGSizeMake(cW, MAXFLOAT)

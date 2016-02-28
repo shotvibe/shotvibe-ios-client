@@ -7,6 +7,7 @@
 //
 
 #import "SVCountriesViewController.h"
+#import "GLSharedCamera.h"
 
 
 @implementation SVCountriesViewController
@@ -49,6 +50,13 @@
 
 - (void)viewWillAppear:(BOOL)animated{
 	[super viewWillAppear:animated];
+    
+    
+    
+    [[[ShotVibeAppDelegate sharedDelegate] window] bringSubviewToFront:[[GLSharedCamera sharedInstance]cameraViewBackground]];
+    self.view.backgroundColor = [UIColor clearColor];
+    
+    
 	for (int i=0; i<countryCodes.count; i++) {
 		if ([[countryCodes objectAtIndex:i] isEqualToString:self.regionCode]) {
 			[countriesTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
@@ -59,6 +67,11 @@
 
 - (void)viewDidAppear:(BOOL)animated{
 	[super viewDidAppear:animated];
+    
+    [[[ShotVibeAppDelegate sharedDelegate] window] bringSubviewToFront:[[GLSharedCamera sharedInstance] view]];
+    
+    
+    
 }
 
 - (void)setRegionCode:(NSString *)regionCode {
@@ -87,6 +100,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SVCountryViewCell *cell = (SVCountryViewCell*)[tableView dequeueReusableCellWithIdentifier:@"SVCountryViewCell"];
+    
+    if(cell==nil){
+        
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SVCountryViewCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
+    }
+    
     
     cell.title.text = [countryNames objectAtIndex:indexPath.row];
     cell.code.text = @"";
@@ -126,6 +146,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [searchbar resignFirstResponder];
 	_regionCode = [countryCodes objectAtIndex:indexPath.row];
 	[[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
 	
@@ -143,7 +164,7 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
 	[self filterCountriesBy:searchBar.text];
-	countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-216-45-44-20);
+//	countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-216-45-44-20);
 }
 
 
@@ -157,7 +178,7 @@
 {
     [self filterCountriesBy:searchBar.text];
     [searchBar resignFirstResponder];
-	countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-45-44-20);
+//	countriesTable.frame = CGRectMake(0, 44, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height-45-44-20);
 }
 
 - (void) filterCountriesBy:(NSString*)term {

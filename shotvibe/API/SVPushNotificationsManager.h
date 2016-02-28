@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SL/AlbumManager.h"
+#import "SVNotificationHandler.h"
 
 @interface SVPushNotificationsManager : NSObject
 
@@ -17,5 +18,7 @@
 - (void)setAPNSDeviceToken:(NSData *)deviceToken;
 
 - (void)handleNotification:(NSDictionary *)userInfo;
+
+@property(nonatomic,retain) SVNotificationHandler *notificationHandler_;
 
 @end

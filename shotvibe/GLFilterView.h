@@ -9,6 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <GPUImage/GPUImage.h>
 
+#import "GPUImageFoggyNightFilter.h"
+#import "GPUImageLateSunsetFilter.h"
+#import "GPUImageSoftElegance2Filter.h"
+
+#import "GPUImageFizzFilter.h"
+#import "GPUImageCosmopolitanFilter.h"
+#import "GPUImageDaquiriFilter.h"
+#import "GPUImageMargaritaFilter.h"
+#import "GPUImageMojitoFilter.h"
+#import "GPUImageMartiniFilter.h"
+
+//#import "GLSharedCamera.h"
+
 typedef enum {
     GPUIMAGE_NOFILTER,
     GPUIMAGE_SATURATION,
@@ -129,9 +142,23 @@ typedef enum {
     GPUIMAGE_FILECONFIG,
     GPUIMAGE_FILTERGROUP,
     GPUIMAGE_FACES,
-    GPUIMAGE_NUMFILTERS
+    GPUIMAGE_NUMFILTERS,
+    GPUIMAGE_SOFTELEGANCE2,
+    GPUIMAGE_LATESUNSET,
+    GPUIMAGE_FOGGYNIGHT,
+    GPUIMAGE_MARTINI,
+    GPUIMAGE_FIZZ,
+    GPUIMAGE_COSMOPOLITAN,
+    GPUIMAGE_DAQUIRI,
+    GPUIMAGE_MARGARITA,
+    GPUIMAGE_MOJITO
 } GPUImageShowcaseFilterType;
 
+
+@protocol GLFilterViewDelegate <NSObject>
+
+-(void)focusCameraToPoint:(UITapGestureRecognizer *)tgr location:(CGPoint)location;
+@end
 
 
 @interface GLFilterView : NSObject <UIGestureRecognizerDelegate, UIScrollViewDelegate>
@@ -145,8 +172,10 @@ typedef enum {
 @property(nonatomic, strong) UIView * sliderView;
 @property(nonatomic, strong) UISlider * filterSettingsSlider;
 @property(nonatomic, strong) UIView * focusLayer;
-@property(nonatomic, strong) GPUImagePicture * sourcePicture;
+@property(nonatomic, retain) GPUImagePicture * sourcePicture;
 @property(nonatomic, strong) UILabel * title;
+
+@property (nonatomic, assign) id<GLFilterViewDelegate> delegate;
 
 //@property(nonatomic, strong) GPUImageView * outputViewAfterCapture;
 

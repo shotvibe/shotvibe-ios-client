@@ -8,6 +8,7 @@
 
 #import "SVAlbumListViewCell.h"
 #import "SVDefines.h"
+#import "ShotVibeAppDelegate.h"
 
 NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotification = @"SVSwipeForOptionsCellEnclosingTableViewDidScrollNotification";
 
@@ -51,7 +52,9 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
     // to select a cell;
     // We set the backview (camera/picture buttons) within the scrollView, and not behind, for the same reason,
     // it would have been untouchable
+    self.scrollView.scrollEnabled = NO;
 
+    self.networkImageView.layer.cornerRadius = self.networkImageView.frame.size.width/2;
     [self adjustScrollViewContentSize];
     self.scrollView.showsHorizontalScrollIndicator = NO;
 
@@ -64,6 +67,9 @@ NSString *const SVSwipeForOptionsCellEnclosingTableViewDidBeginScrollingNotifica
 
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.accessoryType = UITableViewCellAccessoryNone;
+    
+    
+    
 }
 
 

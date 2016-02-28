@@ -18,9 +18,13 @@
 
 + (PhotoSize *)Thumb75;
 
++ (PhotoSize *)FeedSize;
+
 + (NSArray *)iteratePhotoSizes:(PhotoSize *)maxSize;
 
 + (NSArray *)allPhotoSizes;
+
+- (id) initWithExtension:(NSString *)extension width:(int)width height:(int)height;
 
 - (BOOL)isWorseThan:(PhotoSize *)other;
 

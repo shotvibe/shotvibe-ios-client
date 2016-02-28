@@ -294,70 +294,70 @@
     UIImage *imageToEdit = [[UIImage alloc] initWithData:imageFileData];
     RCLogO(imageToEdit);
 
-    AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage:imageToEdit];
-    [editorController setDelegate:self];
-
-    [self presentViewController:editorController animated:YES completion:nil];
+//    AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage:imageToEdit];
+//    [editorController setDelegate:self];
+//
+//    [self presentViewController:editorController animated:YES completion:nil];
 }
 
 
-- (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
-{
-    // Save the image to disk
-    NSString *imagePath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto.jpg"];
-    NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto_thumb.jpg"];
-
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        if ([UIImageJPEGRepresentation(image, 0.9) writeToFile:imagePath atomically:YES]) {
-            CGSize newSize = CGSizeMake(200, 200);
-
-            float oldWidth = image.size.width;
-            float scaleFactor = newSize.width / oldWidth;
-
-            float newHeight = image.size.height * scaleFactor;
-            float newWidth = oldWidth * scaleFactor;
-
-            UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
-            [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-            UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-
-            [UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
-
-            [self.images replaceObjectAtIndex:self.currentPage - 1 withObject:imagePath];
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.collectionView reloadData];
-                [self populateScrollView];
-                [self fixTitle];
-            }
-
-
-                           );
-        }
-    }
-
-
-                   );
-
-
-    [editor dismissViewControllerAnimated:YES completion:^{
-        [editor setDelegate:nil];
-    }
-
-
-    ];
-}
-
-
-- (void)photoEditorCanceled:(AFPhotoEditorController *)editor
-{
-    [editor dismissViewControllerAnimated:YES completion:^{
-    }
-
-
-    ];
-}
+//- (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
+//{
+//    // Save the image to disk
+//    NSString *imagePath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto.jpg"];
+//    NSString *thumbPath = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/AviaryPhoto_thumb.jpg"];
+//
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        if ([UIImageJPEGRepresentation(image, 0.9) writeToFile:imagePath atomically:YES]) {
+//            CGSize newSize = CGSizeMake(200, 200);
+//
+//            float oldWidth = image.size.width;
+//            float scaleFactor = newSize.width / oldWidth;
+//
+//            float newHeight = image.size.height * scaleFactor;
+//            float newWidth = oldWidth * scaleFactor;
+//
+//            UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+//            [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+//            UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+//            UIGraphicsEndImageContext();
+//
+//            [UIImageJPEGRepresentation(thumbImage, 0.5) writeToFile:thumbPath atomically:YES];
+//
+//            [self.images replaceObjectAtIndex:self.currentPage - 1 withObject:imagePath];
+//
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self.collectionView reloadData];
+//                [self populateScrollView];
+//                [self fixTitle];
+//            }
+//
+//
+//                           );
+//        }
+//    }
+//
+//
+//                   );
+//
+//
+//    [editor dismissViewControllerAnimated:YES completion:^{
+//        [editor setDelegate:nil];
+//    }
+//
+//
+//    ];
+//}
+//
+//
+//- (void)photoEditorCanceled:(AFPhotoEditorController *)editor
+//{
+//    [editor dismissViewControllerAnimated:YES completion:^{
+//    }
+//
+//
+//    ];
+//}
 
 
 - (void)deletePicture:(id)sender

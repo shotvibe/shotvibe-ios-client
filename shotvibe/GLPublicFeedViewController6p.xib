@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="GothamRnd-Bold.otf">
+            <string>GothamRounded-Bold</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GLPublicFeedViewController">
+            <connections>
+                <outlet property="collectionView" destination="xHZ-kH-kpo" id="wI9-U2-gUi"/>
+                <outlet property="glanceLogo" destination="9Wz-mu-lHi" id="06U-MZ-Q1w"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="xHZ-kH-kpo" customClass="ADLivelyCollectionView">
+                    <rect key="frame" x="0.0" y="132" width="414" height="603.5"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ByN-AH-wty">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Qd6-do-jys"/>
+                        <outlet property="delegate" destination="-1" id="Jv7-ur-QZr"/>
+                    </connections>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZLE-AE-MtS">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="124.5"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeGlanceLogo" translatesAutoresizingMaskIntoConstraints="NO" id="9Wz-mu-lHi">
+                            <rect key="frame" x="295" y="27" width="109" height="52.5"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="109" id="wfM-FZ-b7U"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Glances" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l4w-Mi-vlc">
+                            <rect key="frame" x="24" y="89" width="158" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="158" id="phL-VR-wka"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="22"/>
+                            <color key="textColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="highlightedColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                        </label>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="frn-Yn-Hcm">
+                            <rect key="frame" x="24" y="22" width="23" height="42.5"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="23" id="pHZ-if-fMa"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                            <state key="normal" title="&lt;">
+                                <color key="titleColor" red="0.21176470589999999" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="frn-Yn-Hcm" firstAttribute="leading" secondItem="ZLE-AE-MtS" secondAttribute="leading" constant="24" id="6UT-Ju-pHf"/>
+                        <constraint firstAttribute="bottom" secondItem="l4w-Mi-vlc" secondAttribute="bottom" id="BLQ-MQ-yp2"/>
+                        <constraint firstItem="l4w-Mi-vlc" firstAttribute="top" secondItem="frn-Yn-Hcm" secondAttribute="bottom" constant="25" id="NKO-JZ-v1K"/>
+                        <constraint firstItem="frn-Yn-Hcm" firstAttribute="top" secondItem="ZLE-AE-MtS" secondAttribute="top" constant="22" id="Qk1-cd-Yp7"/>
+                        <constraint firstItem="9Wz-mu-lHi" firstAttribute="top" secondItem="ZLE-AE-MtS" secondAttribute="top" constant="27" id="hJ6-DO-TOA"/>
+                        <constraint firstAttribute="bottom" secondItem="9Wz-mu-lHi" secondAttribute="bottom" constant="45" id="nNO-oi-TcY"/>
+                        <constraint firstAttribute="trailing" secondItem="9Wz-mu-lHi" secondAttribute="trailing" constant="10" id="oq8-OS-BpW"/>
+                        <constraint firstItem="frn-Yn-Hcm" firstAttribute="leading" secondItem="l4w-Mi-vlc" secondAttribute="leading" id="qrT-Ov-OzW"/>
+                        <constraint firstItem="9Wz-mu-lHi" firstAttribute="centerY" secondItem="frn-Yn-Hcm" secondAttribute="centerY" constant="10" id="tl7-JN-uKt"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="xHZ-kH-kpo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7Sg-HU-u8P"/>
+                <constraint firstAttribute="trailing" secondItem="xHZ-kH-kpo" secondAttribute="trailing" id="JwL-VY-FXv"/>
+                <constraint firstItem="xHZ-kH-kpo" firstAttribute="top" secondItem="ZLE-AE-MtS" secondAttribute="bottom" constant="8" symbolic="YES" id="NeL-4v-vb2"/>
+                <constraint firstItem="ZLE-AE-MtS" firstAttribute="leading" secondItem="xHZ-kH-kpo" secondAttribute="leading" id="PTe-7o-fQG"/>
+                <constraint firstItem="ZLE-AE-MtS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Wbf-GS-IA6"/>
+                <constraint firstAttribute="bottom" secondItem="xHZ-kH-kpo" secondAttribute="bottom" id="f7g-hg-bVX"/>
+                <constraint firstItem="xHZ-kH-kpo" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.82" id="lK6-MQ-Q87"/>
+                <constraint firstItem="ZLE-AE-MtS" firstAttribute="trailing" secondItem="xHZ-kH-kpo" secondAttribute="trailing" id="nBJ-NY-HYy"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+            <point key="canvasLocation" x="256.5" y="236.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="welcomeGlanceLogo" width="605" height="264"/>
+    </resources>
+</document>

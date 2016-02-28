@@ -14,5 +14,5 @@
 @property (nonatomic, strong) IBOutlet UILabel *memberLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *statusImageView;
 @property (nonatomic, strong) IBOutlet UILabel *statusLabel;
-
+@property (nonatomic, strong) IBOutlet UIImageView *adminBadge;
 @end

@@ -12,19 +12,42 @@
 #import "SVAlbumListViewCell.h"
 #import "SVAlbumGridViewController.h"
 #import "SL/NetworkStatusManager.h"
+#import "SVNotificationHandler.h"
+#import "ShotVibeAppDelegate.h"
+#import "YALSunnyRefreshControl.h"
+//#import "SVAddFriendsViewController.h"
 
 
-@interface SVAlbumListViewController : UITableViewController <UITableViewDataSource,
-																UITableViewDelegate,
-																UITextFieldDelegate,
-																UISearchBarDelegate,
-                                                              SLAlbumManager_AlbumListListener,
-																SVCameraPickerDelegate,
-                                                              SVAlbumListViewCellDelegate,
-                                                              SLNetworkStatusManager_Listener>
+@protocol AlbumListDelegate <NSObject>
+
+//- (void)goToAlbumId:(long long int)num;
+
+@end
+
+@interface SVAlbumListViewController : UIViewController <UITableViewDataSource,
+UIScrollViewDelegate,
+UITableViewDelegate,
+UITextFieldDelegate,
+UISearchBarDelegate,
+SLAlbumManager_AlbumListListener,
+SVCameraPickerDelegate,
+SVAlbumListViewCellDelegate,
+SLNetworkStatusManager_Listener,
+GLSharedCameraDelegatte,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate>
 
 // This function is a temporary hack
 // Returns nil if not an org
 + (NSString *)getAlbumOrg:(SLAlbumBase *)album;
+- (void)transitToAlbumWithId:(long long int)num animated:(BOOL)animated dmutScale:(BOOL)scale;
+- (void)goToAlbumId:(long long int)num startImidiatly:(BOOL)start addAlbumContents:(SLAlbumContents*)album;
+- (void)goToAlbumId:(long long int)num startImidiatly:(BOOL)start addAlbumContents:(SLAlbumContents*)album isVideo:(BOOL)isVideo;
+-(void)disablePublicFeedAlerterTimer;
+@property(nonatomic, retain) UITableView * tableView;
+@property (nonatomic, assign) id<AlbumListDelegate> delegate;
+@property (assign, nonatomic) int indexNumber;
+@property (nonatomic,strong) YALSunnyRefreshControl *sunnyRefreshControl;
+//@property (assign, nonatomic) NSInteger indexNumber;
 
 @end
