@@ -42,7 +42,7 @@
     //    SLShotVibeAPI *shotvibeAPI = [[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI];
     
     //    int64_t userId = (long)self.userId;//[[shotvibeAPI getAuthData] getUserId];
-    SLAlbumUser * user = [self.slMemberObject getUser];
+    SLAlbumUser * user = self.slMemberObject;
     
     if(self.imAdmin){
         //        self.reinviteButton.enabled = NO;
@@ -357,7 +357,7 @@
     
 //    [KVNProgress showWithStatus:[NSString stringWithFormat:@"%ld",(long)buttonIndex]];
     if(buttonIndex == 1 && alertView.tag == 0){//User selected yes on removal
-        SLAlbumUser * user = [self.slMemberObject getUser];
+        SLAlbumUser * user = self.slMemberObject;
         [KVNProgress showWithStatus:[NSString stringWithFormat:@"Removing %@",[user getMemberNickname]]];
                 [ShotVibeAPITask runTask:self withAction:^id{
                     [[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] albumRemoveMemberWithLong:self.albumId withLong:self.userId];
@@ -366,6 +366,7 @@
         
 //                    [KVNProgress showSuccessWithStatus:[NSString stringWithFormat:@"%@ was removed",[user getMemberNickname]] completion:^{
                     [self.navigationController popViewControllerAnimated:YES];
+                    [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:YES];
 //                    }];
                     [KVNProgress showSuccessWithStatus:[NSString stringWithFormat:@"%@ was removed",[user getMemberNickname]]];
                     [[[GLSharedCamera sharedInstance] membersButton] setAlpha:1.0];
@@ -374,6 +375,7 @@
                     [KVNProgress showErrorWithStatus:@"Somthing went wrong..." completion:^{
                         
                     }];
+                    [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:YES];
                 } withLoaderIndicator:NO];
         
     }
@@ -390,7 +392,7 @@
     
         
         //TODO surround with try and catch to avoid crash.
-    SLAlbumUser * user = [self.slMemberObject getUser];
+    SLAlbumUser * user = self.slMemberObject;
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Remove %@?",[user getMemberNickname]] message:[NSString stringWithFormat:@"Are you sure you want to remove %@ from the group?",[user getMemberNickname]] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Sure", nil];
     alert.tag = 0;
     [alert show];
@@ -482,6 +484,7 @@
         [controller dismissViewControllerAnimated:YES completion:^{
             [[[GLContainersViewController sharedInstance] membersSideMenu] setMenuState:MFSideMenuStateRightMenuOpen];
             
+            
         }];
     } else if (MessageComposeResultSent){
         
@@ -503,6 +506,7 @@
             [[[GLContainersViewController sharedInstance] membersSideMenu] setMenuState:MFSideMenuStateRightMenuOpen];
         }];
     }
+    [[[GLSharedCamera sharedInstance] dmut] setUserInteractionEnabled:YES];
     
 
 }

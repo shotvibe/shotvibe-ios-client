@@ -88,6 +88,18 @@ static GLContainersViewController *sharedInstance;
     
 }
 
+- (void)goToPublicFeedFromFeed:(BOOL)animated {
+    
+    //    [self unlockScrollingPages];
+    [self unlockScrollingPages];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    __block GLContainersViewController * weakSelf = self;
+    [self.pageController setViewControllers:@[self.publicFeedViewController] direction:UIPageViewControllerNavigationDirectionForward animated:animated completion:^(BOOL finished) {
+        //        [weakSelf resetFriendsView];
+    }];
+    
+}
+
 - (void)goToPublicFeed:(BOOL)animated {
     
 //    [self unlockScrollingPages];

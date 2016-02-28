@@ -70,6 +70,7 @@ static void showNotificationBanner(NSString *message)
     [albumManager_ reportAlbumUpdateWithLong:[msg getAlbumId]];
     
     
+    
 //    NSLog(@"%@",photoId);
 //    msg get
     
@@ -97,8 +98,18 @@ static void showNotificationBanner(NSString *message)
         
     } else {
         
-        LNNotification* notification = [LNNotification notificationWithMessage:[NSString stringWithFormat:@"%@ just add a new photo to the group @ %@",[msg getAuthorName],[msg getAlbumName]]];
-        notification.title = @"New Photo";
+        
+        LNNotification* notification;
+        if([msg getNumPhotos] == 0){
+        
+            notification = [LNNotification notificationWithMessage:[NSString stringWithFormat:@"%@ just add a new video to the group @ %@",[msg getAuthorName],[msg getAlbumName]]];
+            notification.title = @"New Video";
+            
+        } else {
+            notification = [LNNotification notificationWithMessage:[NSString stringWithFormat:@"%@ just add a new photo to the group @ %@",[msg getAuthorName],[msg getAlbumName]]];
+            notification.title = @"New Photo";
+        }
+        
         notification.soundName = @"push.mp3";
         notification.defaultAction = [LNNotificationAction actionWithTitle:@"Default Action" handler:^(LNNotificationAction *action) {
 

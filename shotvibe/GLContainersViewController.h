@@ -39,6 +39,7 @@ typedef void(^pageTransitionCompleted)();
 + (GLContainersViewController *)sharedInstance;
 -(void)disablePublicFeedPushAlerter;
 - (void)goToPublicFeed:(BOOL)animated;
+- (void)goToPublicFeedFromFeed:(BOOL)animated;
 - (void)goToFriendsListViewAnimatedBeforeUploadingPhoto:(BOOL)animated completed:(pageTransitionCompleted)completed executeWhenFriendsDone:(BlockToExecuteWhenDone)friendsDoneBlock;
 - (void)goToFeedViewAnimated:(BOOL)animated withAlbumId:(long long int)albumId;
 - (void)goToFeedViewAnimated:(BOOL)animated withAlbumId:(long long int)albumId completed:(pageTransitionCompleted)completed;

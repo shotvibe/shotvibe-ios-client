@@ -383,6 +383,8 @@
 
 
 - (void)setImageURL:(NSURL *)url {
+    
+//    NSString * url2 = url2 
     _label.hidden = YES;
     _indicator.hidden = NO;
     [_indicator startAnimating];
@@ -561,7 +563,9 @@
         self.glancesCounter.textColor = UIColorFromRGB(0xFFFFFF);
     }
     
-    if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
+    
+    
+    if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO] || [[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum YOUTUBE]){
         
         self.videoBadge.alpha = 1;
         
@@ -614,7 +618,15 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-             [self setImageURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]]];
+            
+            if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum YOUTUBE]){
+                [self setImageURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://i.ytimg.com/vi/%@/maxresdefault.jpg",[[photo getServerPhoto]getYouTubeId]]]];
+            } else {
+                [self setImageURL:[NSURL URLWithString:[[[photo getServerPhoto] getVideo] getVideoThumbnailUrl]]];
+            }
+
+            
+            
         });
         
 //        };
@@ -665,8 +677,29 @@
         NSString * thumUrl = [[photo getServerPhoto] getUrl];
         
         NSString *new = [thumUrl stringByReplacingOccurrencesOfString:@".jpg" withString:@"_r_fhd.jpg"];
+       
         
-        [self setImageURL:[NSURL URLWithString:new]];
+//        if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum YOUTUBE]){
+//            [self setImageURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://img.youtube.com/vi/%@/0.jpg",new]]];
+//        } else {
+            [self setImageURL:[NSURL URLWithString:new]];
+//        }
+        
+            
+            
+            
+            
+            
+
+            
+            
+        
+//            NSLog(@"");
+//        } else {
+//            
+//        }
+        
+        
         
         
 

@@ -45,6 +45,9 @@
 #import "GLContainersViewController.h"
 #import "GLEmojiKeyboard.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import <XCDYouTubeKit/XCDYouTubeKit.h>
+#import "MPMoviePlayerController+BackgroundPlayback.h"
+#import "GLSharedYouTubePlayer.h"
 
 @interface GLFeedViewController () <SLAlbumManager_AlbumContentsListener,SLAlbumManager_AlbumContentsListener, UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate, GLSharedCameraDelegatte> {
     
@@ -78,6 +81,8 @@
     
     NSInteger currentPostIndex;
     NSUInteger postsPrevCount;
+    
+    XCDYouTubeVideoPlayerViewController * tp;
 }
 @end
 
@@ -97,11 +102,13 @@
         if([cell class] == [GLFeedTableCell class]){
             if(self.posts.count > 0){
                 SLAlbumPhoto * photo = [[self.posts objectAtIndex:indexPath.row] objectAtIndex:1];
-                if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO] && [[[photo getServerPhoto] getVideo] getStatus] != [SLAlbumServerVideo_StatusEnum PROCESSING]){
+//                if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO] && [[[photo getServerPhoto] getVideo] getStatus] != [SLAlbumServerVideo_StatusEnum PROCESSING]){
+                if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO] || [[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
                     [self checkWhichVideoToEnable];
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        [cell.activityIndicator startAnimating];
-//                    });
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [cell.activityIndicator startAnimating];
+                    });
                 }
             }
         }
@@ -381,12 +388,39 @@
                 //                [((VideoMessageCell*)cell) muteVideo:!btnMuteVideos.selected];
                 //                NSLog(@"im gone play on this red cell cus more then 51 is visible");
                 cell.isVisible = YES;
-                if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
+                
+                if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum YOUTUBE]){
+                    
+                    
+                    cell.isVideo = YES;
+                    
+                    NSString * youtubeId =[[photo getServerPhoto] getYouTubeId];
+////                    NSString *videoIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:@"VideoIdentifier"];
+//                    tp = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:youtubeId];
+//                    tp.moviePlayer.backgroundPlaybackEnabled = YES;
+////                    cell.videoPlayerViewController.moviePlayer.shouldAutoplay = NO;
+////                    
+//                    UIView * youtubeSurface = [[UIView alloc] initWithFrame:cell.postImage.bounds];
+//                    [cell.postImage addSubview:youtubeSurface];
+//                    [tp presentInView:youtubeSurface];
+//                    [tp.moviePlayer play];
+                    
+//                    
+                    [[GLSharedYouTubePlayer sharedInstance] attachToView:cell.moviePlayer withPhotoId:[[photo getServerPhoto] getId] withYouTubeId:youtubeId videoThumbNail:cell.postImage.image tableCell:cell postsArray:self.posts];
+                    [cell.activityIndicator startAnimating];
+                    break;
+//
+                    
+                } else if([[photo getServerPhoto] getMediaType] == [SLMediaTypeEnum VIDEO]){
                     
                     //                    self.volumeButtonHandler = nil;
                     //                    self.volumeButtonHandler
                     cell.isVideo  = YES;
                     NSString * videoUrl = [[[photo getServerPhoto] getVideo] getVideoUrl];
+                    
+                    
+                    
+                    
                     
                     
                     
@@ -423,8 +457,8 @@
                 if([[[GLSharedVideoPlayer sharedInstance] photoId] isEqual:[[photo getServerPhoto] getId]]){
                     [[GLSharedVideoPlayer sharedInstance] pause];
                     break;
-                    
-                    //                    cell.backgroundColor = [UIColor blueColor];
+//
+//                    //                    cell.backgroundColor = [UIColor blueColor];
                 }
             
             }
@@ -726,6 +760,15 @@
                         
                         [[[ShotVibeAppDelegate sharedDelegate] uploadManager] addUploadPhotoJob:filePath withAlbumId:self.albumId];
                         
+//                        final long albumId, final String youtube_id, final String randomString
+                        
+                        
+                        
+                        
+                        
+                        
+//                        [[ShotVibeAppDelegate ]  ]
+                        
                         if(self.startImidiatly){
                             self.startImidiatly = NO;
                             [[GLSharedCamera sharedInstance] setImageForOutSideUpload:nil];
@@ -742,6 +785,38 @@
                 
             }
         });
+    }
+}
+
+-(void)youtubeDidPressedWithId:(NSString *)youtubeId {
+    uint8_t randomBytes[16];
+    int result = SecRandomCopyBytes(kSecRandomDefault, 16, randomBytes);
+    if(result == 0) {
+        NSMutableString *uuidStringReplacement = [[NSMutableString alloc] initWithCapacity:16*2];
+        for(NSInteger index = 0; index < 16; index++)
+        {
+            [uuidStringReplacement appendFormat: @"%02x", randomBytes[index]];
+        }
+        
+        
+        
+        [ShotVibeAPITask runTask:self withAction:^id{
+            
+            [[[ShotVibeAppDelegate sharedDelegate].albumManager getShotVibeAPI] uploadYouTubePhotoWithLong:self.albumId withNSString:youtubeId withNSString:uuidStringReplacement];
+            return nil;
+        } onTaskComplete:^(id dummy) {
+           
+        } onTaskFailure:^(id success) {
+            [KVNProgress showErrorWithStatus:@"Somthing went wrong..." completion:^{
+                
+            }];
+        } withLoaderIndicator:NO];
+        
+        
+        
+        //                            NSLog(@"uuidStringReplacement is %@", uuidStringReplacement);
+    } else {
+        NSLog(@"SecRandomCopyBytes failed for some reason");
     }
 }
 
@@ -1518,6 +1593,7 @@
     //    NSString *actionSheetTitle = @"Action Sheet Demo"; //Action Sheet Title
     NSString *destructiveTitle = @"Delete Photo"; //Action Sheet Button Titles
     NSString *other1 = @"Share";
+    NSString *other2 = @"Hide";
     NSString * hideOption = @"Delete Photo";
     //    NSString *other2 = @"Other Button 2";
     //    NSString *other3 = @"Other Button 3";
@@ -1541,6 +1617,7 @@
         case 0://Delete Photo
         {
             [[GLSharedVideoPlayer sharedInstance] pause];
+            [[GLSharedYouTubePlayer sharedInstance] pause];
             
             SLAlbumPhoto *photo = [[self.posts objectAtIndex:popup.tag] objectAtIndex:1];
             long long int uid = [[[albumManager_ getShotVibeAPI] getAuthData] getUserId];
@@ -1558,7 +1635,9 @@
                 } onTaskComplete:^(id dummy) {
                     [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
                     [KVNProgress dismiss];
+                    [[GLSharedYouTubePlayer sharedInstance] pause];
                     [[GLSharedVideoPlayer sharedInstance] pause];
+                    [[GLSharedYouTubePlayer sharedInstance] resetPlayer];
                     [[GLSharedVideoPlayer sharedInstance] resetPlayer];
                 } onTaskFailure:^(id success) {
                     [KVNProgress showErrorWithStatus:@"Somthing went wrong..." completion:^{
@@ -1568,6 +1647,32 @@
                 
                 
             } else {
+                
+                [[GLSharedVideoPlayer sharedInstance] pause];
+                [[GLSharedYouTubePlayer sharedInstance] pause];
+                
+                SLAlbumPhoto *photo = [[self.posts objectAtIndex:popup.tag] objectAtIndex:1];
+
+                
+                [KVNProgress show];
+                [ShotVibeAPITask runTask:self withAction:^id{
+                    
+                    NSMutableArray *photosToHide = [[NSMutableArray alloc] init];
+                    [photosToHide addObject:[[photo getServerPhoto] getId]];
+                    [[albumManager_ getShotVibeAPI] hidePhotosWithJavaLangIterable:[[SLArrayList alloc] initWithInitialArray:photosToHide]];
+                    return nil;
+                } onTaskComplete:^(id dummy) {
+                    [albumManager_ refreshAlbumContentsWithLong:self.albumId withBoolean:NO];
+                    [KVNProgress dismiss];
+                    [[GLSharedYouTubePlayer sharedInstance] pause];
+                    [[GLSharedVideoPlayer sharedInstance] pause];
+                    [[GLSharedVideoPlayer sharedInstance] resetPlayer];
+                    [[GLSharedYouTubePlayer sharedInstance] resetPlayer];
+                } onTaskFailure:^(id success) {
+                    [KVNProgress showErrorWithStatus:@"Somthing went wrong..." completion:^{
+                        
+                    }];
+                } withLoaderIndicator:NO];
 //                NSString * photoIdToHide = [[photo getServerPhoto] getId];
                 
                 
@@ -1585,9 +1690,9 @@
 //
 //                
                 
-                [KVNProgress showErrorWithStatus:@"Hi! That's not your's to delete!" onView:self.view completion:^{
-                    NSLog(@"");
-                }];
+//                [KVNProgress showErrorWithStatus:@"Hi! That's not your's to delete!" onView:self.view completion:^{
+//                    NSLog(@"");
+//                }];
                 
             }
             
@@ -1612,7 +1717,10 @@
             
         }
             break;
+        case 2://Hide
+        {
             
+        }
         default:
             break;
     }
@@ -1744,6 +1852,8 @@
 }
 
 -(void)backPressed {
+    
+//    [self uploadYouTube];
     [[GLContainersViewController sharedInstance] unlockScrollingPages];
     if(![[[self.navigationController viewControllers]lastObject] isKindOfClass:[GLProfilePageViewController class]]){
         

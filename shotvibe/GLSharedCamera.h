@@ -55,6 +55,7 @@ typedef enum ScrollDirection {
 - (void)openAppleImagePicker;
 - (void)backPressed;
 - (void)membersPressed;
+- (void)youtubeDidPressedWithId:(NSString*)youtubeId;
 
 @end
 

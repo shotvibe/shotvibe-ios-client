@@ -4,3 +4,4 @@ link_with ‘shotvibe’
   pod 'GPUImage'
   pod 'AFNetworking'
   pod 'SDWebImage'
+  pod "XCDYouTubeKit", "~> 2.5"

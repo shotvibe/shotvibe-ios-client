@@ -408,67 +408,33 @@ CGFloat kResizeThumbSize = 45.0f;
 //        [self resizeViewToIphone5:yet width:YES height:YES cornerRadius:NO];
         
     }
-    
+//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"kUserSawPulicFeed"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
     
     [self handleLocalPublicFeedPush];
-    
     if([[ShotVibeAppDelegate sharedDelegate] appOpenedFromPush]){
-        
-        
         if([[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0] isKindOfClass:[SLNotificationMessage_PhotoGlanceScoreDelta class]]){
             [[GLContainersViewController sharedInstance] handleGlancedPushPressed:[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]];
         }
-        
         if([[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0] isKindOfClass:[SLNotificationMessage_PhotoComment class]]){
             [[GLContainersViewController sharedInstance] handleCommentedPushPressed:[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]];
         }
-        
-        
-        
         if([[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0] isKindOfClass:[SLNotificationMessage_AddedToAlbum class]]){
             [[GLContainersViewController sharedInstance] handleAddedToGroupPushPressed:[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]];
         }
-        
         if([[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0] isKindOfClass:[SLNotificationMessage_PhotosAdded class]]){
             
             [[GLContainersViewController sharedInstance] handleAddedPhotosPushPressed:[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]];
-            
         }
         [[ShotVibeAppDelegate sharedDelegate] setAppOpenedFromPush:NO];
-        
-//        [[GLContainersViewController sharedInstance] handleAddedPhotosPushPressed:[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]];
-//        [[ShotVibeAppDelegate sharedDelegate] setAppOpenedFromPush:NO];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushWasPressed" object:self userInfo:@{@"msg":[[[ShotVibeAppDelegate sharedDelegate] currentPushMsg] objectAtIndex:0]}];
-        
     }
-    
-    
 }
 
 -(void)handleLocalPublicFeedPush {
-
-    
-    
     BOOL publicFeedDidShowed =[[NSUserDefaults standardUserDefaults] objectForKey:@"kUserSawPulicFeed"];
     if(!publicFeedDidShowed){
         publicFeedAlertTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(publicFeedAlertInvoked) userInfo:nil repeats:YES];
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //
-//    UILocalNotification *notification = [[UILocalNotification alloc] init];
-//    notification.fireDate = [[NSDate date] dateByAddingTimeInterval:20];//60*60*24];
-//    notification.alertBody = @"24 hours passed since last visit :(";
-//    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-    
 }
 
 -(void)disablePublicFeedAlerterTimer {
@@ -477,42 +443,30 @@ CGFloat kResizeThumbSize = 45.0f;
 
 -(void)publicFeedAlertInvoked {
 
-    
     LNNotification* notification = [LNNotification notificationWithMessage:@"Dont forget to check the public feed just swipe left !"];
     notification.title = @"The Public Feed";
     notification.soundName = @"push.mp3";
     notification.icon = [UIImage imageNamed:@"ScoreViewBg"];
     notification.defaultAction = [LNNotificationAction actionWithTitle:@"Default Action" handler:^(LNNotificationAction *action) {
-        
-        
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushWasPressed" object:self userInfo:@{}];
-        
         [publicFeedAlertTimer invalidate];
-        [[GLContainersViewController sharedInstance] goToPublicFeed:YES];
+        if([[[[[GLContainersViewController sharedInstance] navigationController] viewControllers] lastObject] isKindOfClass:[SVAlbumListViewController class]]){
+            [[GLContainersViewController sharedInstance] goToPublicFeed:YES];
+        } else {
+            [[GLContainersViewController sharedInstance] goToPublicFeedFromFeed:YES];
+        }
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"kUserSawPulicFeed"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        
-        
     }];
     
-    [[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"glance_app"];
+    if([[[[[GLContainersViewController sharedInstance] navigationController] viewControllers] lastObject] isKindOfClass:[SVAlbumListViewController class]]){
+            [[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"glance_app"];
+    }
     
 }
-
 
 -(void)sunnyControlDidStartAnimation{
-    
-    // start loading something
-    
     [self onUserRefreshed];
 }
-
-//-(IBAction)endAnimationHandle{
-////    
-//    [self.sunnyRefreshControl endRefreshing];
-//}
-
 
 -(void)showNoGroupsPlaceHolder {
     
@@ -616,18 +570,6 @@ CGFloat kResizeThumbSize = 45.0f;
 -(void)hideNoGroupsPlaceHolder {
     
     
-    //    [no performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:NO];
-    //    [photos performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:NO];
-    //    [yet performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:NO];
-    //    [letsGetsStarted performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:NO];
-    
-    
-    //    if(){}
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    //    no.hidden = YES;
-    //    photos.hidden = YES;
-    //    yet.hidden = YES;
-    //    letsGetsStarted.hidden = YES;
     
     [dmutArrow removeFromSuperview];
     [friendsArrow removeFromSuperview];
@@ -641,10 +583,6 @@ CGFloat kResizeThumbSize = 45.0f;
     photos = nil;
     yet = nil;
     letsGetsStarted = nil;
-    //    });
-    
-    
-    //
     
     self.groupPlaceHolderIsShown = NO;
     [self.tableView setUserInteractionEnabled:YES];
@@ -706,45 +644,6 @@ CGFloat kResizeThumbSize = 45.0f;
     
     
 }
-
-
-
-//-(void)dmutTapped {
-//
-//    ShotVibeAppDelegate *appDelegate = (ShotVibeAppDelegate *)[[UIApplication sharedApplication] delegate];
-//
-//
-//    if(cameraShown){
-//
-//        [UIView animateWithDuration:0.25 animations:^{
-//
-//            //        [[[GLSharedCamera sharedInstance] view] setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-//            dmut.frame = CGRectMake(27, ([UIScreen mainScreen].bounds.size.height/3)-90
-//                                    , 320, 110);
-//            cameraWrapper.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height/3);
-//
-//        }];
-//
-//    } else {
-//
-//        [UIView animateWithDuration:0.25 animations:^{
-//
-//            //        [[[GLSharedCamera sharedInstance] view] setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-//            dmut.frame = CGRectMake(27, ([UIScreen mainScreen].bounds.size.height)-157, 320, 110);
-//            cameraWrapper.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-//
-//        }];
-//
-//    }
-//
-//
-//
-//
-//    cameraShown = !cameraShown;
-//
-//
-//}
-
 
 - (void)updateNetworkStatusNavBar
 {

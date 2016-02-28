@@ -521,6 +521,8 @@
 		0F9134291C71003B00889DB9 /* SVSidebarMemberController6p.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F9134281C71003B00889DB9 /* SVSidebarMemberController6p.xib */; };
 		0F91342B1C7100E100889DB9 /* GLPublicFeedViewController6p.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F91342A1C7100E100889DB9 /* GLPublicFeedViewController6p.xib */; };
 		0F91342D1C7101A400889DB9 /* GLProfilePageViewController6p.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F91342C1C7101A400889DB9 /* GLProfilePageViewController6p.xib */; };
+		0F9134311C74857800889DB9 /* MPMoviePlayerController+BackgroundPlayback.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F91342F1C74857800889DB9 /* MPMoviePlayerController+BackgroundPlayback.m */; };
+		0F9134341C748ECF00889DB9 /* GLSharedYouTubePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9134331C748ECF00889DB9 /* GLSharedYouTubePlayer.m */; };
 		0FAB9F2E1C1093A700E52718 /* GLSharedVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */; };
 		0FACEB6D1BCFC9A400DF67AB /* GLSharedCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FACEB6C1BCFC9A400DF67AB /* GLSharedCamera.m */; };
 		0FBC86F31C1991D000C0CF34 /* CALayer+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBC86F21C1991D000C0CF34 /* CALayer+YYAdd.m */; };
@@ -1642,6 +1644,10 @@
 		0F9134281C71003B00889DB9 /* SVSidebarMemberController6p.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVSidebarMemberController6p.xib; sourceTree = "<group>"; };
 		0F91342A1C7100E100889DB9 /* GLPublicFeedViewController6p.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLPublicFeedViewController6p.xib; sourceTree = "<group>"; };
 		0F91342C1C7101A400889DB9 /* GLProfilePageViewController6p.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GLProfilePageViewController6p.xib; sourceTree = "<group>"; };
+		0F91342F1C74857800889DB9 /* MPMoviePlayerController+BackgroundPlayback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MPMoviePlayerController+BackgroundPlayback.m"; sourceTree = "<group>"; };
+		0F9134301C74857800889DB9 /* MPMoviePlayerController+BackgroundPlayback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MPMoviePlayerController+BackgroundPlayback.h"; sourceTree = "<group>"; };
+		0F9134321C748ECF00889DB9 /* GLSharedYouTubePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSharedYouTubePlayer.h; path = shotvibe/GLSharedYouTubePlayer.h; sourceTree = "<group>"; };
+		0F9134331C748ECF00889DB9 /* GLSharedYouTubePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GLSharedYouTubePlayer.m; path = shotvibe/GLSharedYouTubePlayer.m; sourceTree = "<group>"; };
 		0FAB9F2C1C1093A700E52718 /* GLSharedVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedVideoPlayer.h; sourceTree = "<group>"; };
 		0FAB9F2D1C1093A700E52718 /* GLSharedVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSharedVideoPlayer.m; sourceTree = "<group>"; };
 		0FACEB6B1BCFC9A400DF67AB /* GLSharedCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSharedCamera.h; sourceTree = "<group>"; };
@@ -3140,6 +3146,7 @@
 		0F4390DF1C22F93200C83C45 /* V2Additions */ = {
 			isa = PBXGroup;
 			children = (
+				0F91342E1C74854A00889DB9 /* GLYouTubePlayer */,
 				0F15E8E31C4FED6A00F442CE /* GLCameraGradientView */,
 				0F0F544A1C4CEBB500B21751 /* M13ProgressPie */,
 				0FDC00B61C3DA75400DA96F2 /* GLEmojiKeyboard */,
@@ -3373,6 +3380,17 @@
 				0F781FD11C072A3E00688168 /* return@2x.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		0F91342E1C74854A00889DB9 /* GLYouTubePlayer */ = {
+			isa = PBXGroup;
+			children = (
+				0F9134321C748ECF00889DB9 /* GLSharedYouTubePlayer.h */,
+				0F9134331C748ECF00889DB9 /* GLSharedYouTubePlayer.m */,
+				0F91342F1C74857800889DB9 /* MPMoviePlayerController+BackgroundPlayback.m */,
+				0F9134301C74857800889DB9 /* MPMoviePlayerController+BackgroundPlayback.h */,
+			);
+			name = GLYouTubePlayer;
 			sourceTree = "<group>";
 		};
 		0FAB9F2B1C10939400E52718 /* GLShareVideoPLayer */ = {
@@ -5952,6 +5970,7 @@
 				66013236187F4E670042047B /* IOSShortArray.m in Sources */,
 				0FD8B07D1C301BBE009D7CFA /* PECropView.m in Sources */,
 				0F4947811BE231F900FEDC12 /* GPUImageLateSunsetFilter.m in Sources */,
+				0F9134311C74857800889DB9 /* MPMoviePlayerController+BackgroundPlayback.m in Sources */,
 				6601325B187F4E670042047B /* NSObject+JavaObject.m in Sources */,
 				106C344918C4C27A006A5603 /* Notification.m in Sources */,
 				66013242187F4E670042047B /* Error.m in Sources */,
@@ -6097,6 +6116,7 @@
 				66278C721867C2AD00D23F34 /* SVCountriesViewController.m in Sources */,
 				28FC2CAD17FE8F2600AE24C3 /* OBGradientView.m in Sources */,
 				66013237187F4E670042047B /* ArrayIndexOutOfBoundsException.m in Sources */,
+				0F9134341C748ECF00889DB9 /* GLSharedYouTubePlayer.m in Sources */,
 				66278C751867C2AD00D23F34 /* SVRegistrationViewController.m in Sources */,
 				108CDF7318846B9000757E36 /* NSData+MPBase64.m in Sources */,
 				0F0F54421C440E6E00B21751 /* UILongPressGestureRecognizer+LongPressWithGLFeedTableCell.m in Sources */,
@@ -6184,7 +6204,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -6302,7 +6322,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -6354,7 +6374,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;

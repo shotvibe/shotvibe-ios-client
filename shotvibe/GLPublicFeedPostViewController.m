@@ -478,16 +478,20 @@
         profilePage = [[GLProfilePageViewController alloc] initWithNibName:@"GLProfilePageViewController" bundle:[NSBundle mainBundle]];
     }
     
+//    SLAlbumPhoto * photo = ;
+//    [[self.singleAlbumPhoto] getser]
+    
 //    GLProfilePageViewController * profilePage = [[GLProfilePageViewController alloc] init];
-    profilePage.albumId = self.albumId;
-    for(SLAlbumMember * member in [self.albumContentsTwo getMembers].array){
+//    profilePage.albumId = self.albumId;
+//    for(SLAlbumMember * member in [self.albumContentsTwo getMembers].array){
         //        if([[member getUser] getMemberId] == [[[albumManager_ getShotVibeAPI] getAuthData] getUserId]){
         
         //        }
-        if([[member getUser] getMemberId] == userId){
-            profilePage.slMemberObject = member;
-        }
-    }
+//        if([[member getUser] getMemberId] == userId){
+    profilePage.slMemberObject = [[self.singleAlbumPhoto getServerPhoto] getAuthor];//member;
+    profilePage.albumId = [[[self.singleAlbumPhoto getServerPhoto] getAuthor] getMemberId];//[[member getUser] getMemberId];
+//        }
+//    }
     profilePage.userId = userId;
        profilePage.fromPublicFeed = YES;
     UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:profilePage];

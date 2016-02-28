@@ -20,6 +20,10 @@
 #import "M13ProgressViewPie.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "GLCameraGradientView.h"
+#import "GLSharedYouTubePlayer.h"
+
+#import <XCDYouTubeKit/XCDYouTubeKit.h>
+#import "MPMoviePlayerController+BackgroundPlayback.h"
 
 
 
@@ -119,6 +123,8 @@
     NSArray * gradientColorsArray;
     
     UIView * effeectViewWrapper;
+    
+    UITextField * yttf;
 }
 
 + (instancetype)sharedInstance {
@@ -463,10 +469,43 @@
 //        gradBackgroundViewWrapper.backgroundColor = [UIColor redColor];
         
         
+//        UIView * youTubeUploaderViewWrapper = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*2, 0, self.view.frame.size.width, self.view.frame.size.height)];
+//        youTubeUploaderViewWrapper.backgroundColor = [UIColor redColor];
+//        
+//        UIImageView * ytBg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"youtubeBg"]];
+//        ytBg.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*0.75);
+//
+//
+//        
+//        [youTubeUploaderViewWrapper addSubview:ytBg];
+//
+//        
+//        yttf = [[UITextField alloc] initWithFrame:CGRectMake((self.view.frame.size.width*0.3)/2, self.view.frame.size.height*0.3, self.view.frame.size.width*0.70, 30)];
+//        [youTubeUploaderViewWrapper addSubview:yttf];
+//        yttf.backgroundColor = [UIColor whiteColor];
+//        yttf.borderStyle = UITextBorderStyleRoundedRect;
+//        yttf.font = [UIFont systemFontOfSize:15];
+//        yttf.placeholder = @"Enter YouTube full link OR video id";
+//        yttf.keyboardType = UIKeyboardTypeDefault;
+//        yttf.returnKeyType = UIReturnKeyDone;
+//
+//        
+//        yttf.keyboardAppearance = UIKeyboardAppearanceDark;
+//        
+//        
+//        UIButton * button = [[UIButton alloc] initWithFrame:CGRectMake(50, 150, 200, 30)];
+////        button
+//        [button setTitle:@"Go" forState:UIControlStateNormal];
+//        [button addTarget:self action:@selector(uploadYouTubePressed) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        [youTubeUploaderViewWrapper addSubview:button];
+        
+        
+        
         
         [gradBackgroundViewWrapper addSubview:gradBackgroundView];
         [cameraFeaturesScroller addSubview:gradBackgroundViewWrapper];
-        
+//        [cameraFeaturesScroller addSubview:youTubeUploaderViewWrapper];
         [self createGradientBackgroundVIew];
         
         [self.view addSubview:cameraFeaturesScroller];
@@ -487,8 +526,25 @@
         
         
         
+        
+        
+        
     }
     return self;
+}
+
+- (void)uploadYouTubePressed {
+    
+    [[GLSharedYouTubePlayer sharedInstance] checkIfYouTubeExists:yttf.text];
+//    self yout
+    
+//    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+//    XCDYouTubeVideoPlayerViewController *moviePlayer = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:yttf.text];
+//    [defaultCenter addObserver:self selector:@selector(videoPlayerViewControllerDidReceiveVideo:) name:XCDYouTubeVideoPlayerViewControllerDidReceiveVideoNotification object:moviePlayer];
+    
+    
+//    [self.delegate youtubeDidPressedWithId:yttf.text];
+    
 }
 
 
@@ -1393,6 +1449,7 @@
     self.isInFeedMode = YES;
     [[self videoCamera] stopCameraCapture];
     [self.cameraViewBackground bringSubviewToFront:self.dmut];
+        
     
     
 }

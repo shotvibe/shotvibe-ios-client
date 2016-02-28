@@ -38,7 +38,7 @@
 #import "IosBitmapProcessor.h"
 #import "SL/UploadStateDB.h"
 #import "SL/UploadSystemDirector.h"
-//
+
 #import "RegistrationInfo.h"
 #import "UserSettings.h"
 #import "ShotVibeAPI.h"
@@ -52,9 +52,6 @@
 #import "IosDevicePhoneContactsLib.h"
 #import "UploadManager.h"
 #import "ShotVibeCredentialsProvider.h"
-
-//#import "GLSharedCamera.h"
-//#import "ContainerViewController.h"
 #import "GLWelcomeViewController.h"
 //#import "GLProfilePictureController.h"
 //

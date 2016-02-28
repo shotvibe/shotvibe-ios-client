@@ -18,6 +18,8 @@
 #import "UIGestureRecognizer+YYAdd.h"
 #import "YYWebImage.h"
 #import "GLEmojiKeyboard.h"
+#import <XCDYouTubeKit/XCDYouTubeKit.h>
+#import "MPMoviePlayerController+BackgroundPlayback.h"
 
 @interface GLFeedTableCell : UITableViewCell<MPMediaPlayback> {
     
@@ -67,4 +69,6 @@
 @property(nonatomic, retain) UIButton * submitCommentButton;
 @property(nonatomic, retain) GLEmojiKeyboard * keyboard;
 @property(nonatomic) BOOL isVideo;
+@property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
+
 @end

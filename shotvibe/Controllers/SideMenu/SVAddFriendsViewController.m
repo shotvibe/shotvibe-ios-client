@@ -835,9 +835,22 @@
     
                     }];
                 } else if(self.state == SVAddFriendsMainWithoutIamge){
-//                    [[GLSharedCamera sharedInstance] setCameraInFeed];
-//                    [[GLSharedCamera sharedInstance] setInFeedMode:YES dmutNeedTransform:YES];
-//                    [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:[album getId]];
+                    [[GLSharedCamera sharedInstance] setCameraInFeed];
+                    [[GLSharedCamera sharedInstance] setInFeedMode:YES dmutNeedTransform:YES];
+                    [[GLContainersViewController sharedInstance] goToFeedViewAnimated:YES withAlbumId:[album getId] completed:^{
+                        
+                        [[[GLSharedCamera sharedInstance] cameraViewBackground] bringSubviewToFront:[[GLSharedCamera sharedInstance] backButton]];
+                        [[[GLSharedCamera sharedInstance] cameraViewBackground] bringSubviewToFront:[[GLSharedCamera sharedInstance] membersButton]];
+                        
+                        [[[GLSharedCamera sharedInstance] backButton] setHidden:NO];
+                        [[[GLSharedCamera sharedInstance] membersButton] setHidden:NO];
+                        [[[GLSharedCamera sharedInstance] backButton] setAlpha:1];
+                        [[[GLSharedCamera sharedInstance] membersButton] setAlpha:1];
+                        [[GLContainersViewController sharedInstance] resetFriendsView];
+                        
+
+//                        [[[GLSharedCamera sharedInstance] view] bringSubviewToFront:[]
+                    }];
                 }
 //                } else {
 //    
