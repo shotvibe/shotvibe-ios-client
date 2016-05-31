@@ -758,7 +758,6 @@
 		6666EC3F19360F3C00557CB1 /* shvoong_ribbon_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6666EC3719360F3C00557CB1 /* shvoong_ribbon_overlay@2x.png */; };
 		667A616419D8C9E100D4A99C /* ImageDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 667A616319D8C9E100D4A99C /* ImageDiskCache.m */; };
 		668681A41A0A5AFB00A7BFB7 /* IosFileSystemManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 668681A31A0A5AFB00A7BFB7 /* IosFileSystemManager.m */; };
-		668D32EE1A0BCB8000E5AFB7 /* invite_overlay_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 668D32ED1A0BCB8000E5AFB7 /* invite_overlay_header.png */; };
 		669058C719D4D65C00E233D7 /* IosBackgroundUploadSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 669058C619D4D65C00E233D7 /* IosBackgroundUploadSession.m */; };
 		669058C919D5C62D00E233D7 /* create_shotvibe_main.sql in Resources */ = {isa = PBXBuildFile; fileRef = 669058C819D5C62D00E233D7 /* create_shotvibe_main.sql */; };
 		6691379019D3959400829286 /* create_shotvibe_upload_state.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6691378F19D3959400829286 /* create_shotvibe_upload_state.sql */; };
@@ -1892,7 +1891,6 @@
 		667A616319D8C9E100D4A99C /* ImageDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDiskCache.m; sourceTree = "<group>"; };
 		668681A21A0A5AFB00A7BFB7 /* IosFileSystemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosFileSystemManager.h; sourceTree = "<group>"; };
 		668681A31A0A5AFB00A7BFB7 /* IosFileSystemManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IosFileSystemManager.m; sourceTree = "<group>"; };
-		668D32ED1A0BCB8000E5AFB7 /* invite_overlay_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = invite_overlay_header.png; sourceTree = "<group>"; };
 		669058C519D4D65C00E233D7 /* IosBackgroundUploadSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosBackgroundUploadSession.h; path = shotvibe/API/IosBackgroundUploadSession.h; sourceTree = SOURCE_ROOT; };
 		669058C619D4D65C00E233D7 /* IosBackgroundUploadSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IosBackgroundUploadSession.m; path = shotvibe/API/IosBackgroundUploadSession.m; sourceTree = SOURCE_ROOT; };
 		669058C819D5C62D00E233D7 /* create_shotvibe_main.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = create_shotvibe_main.sql; path = shotvibelib/src/main/assets/create_shotvibe_main.sql; sourceTree = SOURCE_ROOT; };
@@ -2828,7 +2826,6 @@
 		2897383317A1C10D003B18D3 /* registration */ = {
 			isa = PBXGroup;
 			children = (
-				668D32ED1A0BCB8000E5AFB7 /* invite_overlay_header.png */,
 				04C407EA17304E8400973BC0 /* registrationCodeFieldBg@2x.png */,
 				04C407EB17304E8400973BC0 /* registrationCodeFieldBg.png */,
 				04C407D5173032B200973BC0 /* phoneNumberContainer@2x.png */,
@@ -3705,7 +3702,7 @@
 			name = shotvibeTests;
 			productName = shotvibeTests;
 			productReference = AA58FB1D16C224E800C49E02 /* shotvibeTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -3964,7 +3961,6 @@
 				04C406DB1730303600973BC0 /* LA.png in Resources */,
 				04C406DD1730303600973BC0 /* LB.png in Resources */,
 				04C406DF1730303600973BC0 /* LC.png in Resources */,
-				668D32EE1A0BCB8000E5AFB7 /* invite_overlay_header.png in Resources */,
 				04C406E11730303600973BC0 /* LI.png in Resources */,
 				04C406E31730303600973BC0 /* LK.png in Resources */,
 				04C406E51730303600973BC0 /* LR.png in Resources */,
